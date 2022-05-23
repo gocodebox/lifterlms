@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mailer = LLMS()->mailer();
+$mailer = llms()->mailer();
 
 $terms = false;
 if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms', 'no' ) ) {

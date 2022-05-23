@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 3.14.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -195,10 +195,11 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
+	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 *
 	 * @return string
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

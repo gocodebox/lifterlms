@@ -30,7 +30,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down test case
 	 *
-	 * Dequeue & Dereqister all assets that may have been enqueued during tests.
+	 * Dequeue & Deregister all assets that may have been enqueued during tests.
 	 *
 	 * @since 4.3.3
 	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
@@ -57,6 +57,60 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 			wp_dequeue_script( $handle );
 			wp_deregister_script( $handle );
 		}
+
+	}
+
+	/**
+	 * Test block_editor_assets()
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_block_editor_assets_for_certificates() {
+
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'Block editor is not supported for certificates on this version of WordPress.' );
+		}
+
+		$handle    = 'llms-admin-certificate-editor';
+		$inline_id = 'llms-admin-certificate-settings';
+
+		$reset = function() use ( $handle ) {
+			LLMS_Unit_Test_Util::set_private_property( llms()->assets, 'inline', array() );
+			wp_dequeue_script( $handle );
+		};
+		$reset();
+
+		// Wrong screen.
+		set_current_screen( 'fake' );
+		$this->main->block_editor_assets();
+		$this->assertAssetNotEnqueued( 'script', $handle );
+		$this->assertArrayNotHasKey(
+			$inline_id,
+			LLMS_Unit_Test_Util::get_private_property_value( llms()->assets, 'inline' ) );
+
+		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
+
+			$reset();
+
+			set_current_screen( $post_type );
+			global $current_screen;
+			$current_screen->is_block_editor = true;
+
+			$this->main->block_editor_assets();
+
+			$this->assertAssetIsEnqueued( 'script', $handle );
+
+			$this->assertArrayHasKey(
+				$inline_id,
+				LLMS_Unit_Test_Util::get_private_property_value( llms()->assets, 'inline' )
+			);
+
+		}
+
+		llms_tests_reset_current_screen();
+		$current_screen->is_block_editor = false;
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 3.17.6
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Certificate Earned
  *
  * @since 3.8.0
- * @since 3.17.6 Unknown.
  */
 class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
@@ -38,37 +37,38 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'certificate_earned';
 
-	private function get_mini_html( $title, $content ) {
-		$attrs   = array(
-			'class' => array(),
-			'id'    => array(),
-			'style' => array(),
-		);
-		$allowed = array(
-			'h1'     => $attrs,
-			'h2'     => $attrs,
-			'h3'     => $attrs,
-			'h4'     => $attrs,
-			'h5'     => $attrs,
-			'h6'     => $attrs,
-			'p'      => $attrs,
-			'ul'     => $attrs,
-			'ol'     => $attrs,
-			'li'     => $attrs,
-			'strong' => $attrs,
-			'em'     => $attrs,
-			'i'      => $attrs,
-			'b'      => $attrs,
-		);
+	/**
+	 * Get the HTML for the mini certificate preview.
+	 *
+	 * @since Unknown
+	 * @since 6.0.0 Removed `$content` parameter & updated HTML to display a placeholder.
+	 *
+	 * @param string $title The (merged) certificate title.
+	 * @return string
+	 */
+	private function get_mini_html( $title ) {
 		ob_start();
 		?>
 		<div class="llms-mini-cert">
+
 			<h2 class="llms-mini-cert-title"><?php echo $title; ?></h2>
-			<?php echo wp_kses( $content, $allowed ); ?>
+
+			<div class="llms-mini-cert--body ">
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+
+				<div class="llms-mini-cert--mock-dot"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+			</div>
+
 		</div>
 		<?php
 		return ob_get_clean();
@@ -76,22 +76,22 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup body content for output
+	 * Setup body content for output.
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		return '{{MINI_CERTIFICATE}}';
 	}
 
 	/**
-	 * Setup footer content for output
+	 * Setup footer content for output.
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{CERTIFICATE_URL}}' );
@@ -99,22 +99,22 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification icon for output.
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'positive' );
 	}
 
 	/**
-	 * Setup merge codes that can be used with the notification
+	 * Setup merge codes that can be used with the notification.
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -127,39 +127,20 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Replace merge codes with actual values
+	 * Replace merge codes with actual values.
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.16.6
+	 * @since 3.8.0
+	 * @since 3.16.6 Unknown.
+	 * @since 6.0.0 Refactor to give each merge code it's own method.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string The merged string or the original code for invalid merge codes.
 	 */
 	protected function set_merge_data( $code ) {
 
-		$cert = new LLMS_User_Certificate( $this->notification->post_id );
-
-		switch ( $code ) {
-
-			case '{{CERTIFICATE_CONTENT}}':
-				$code = $cert->get( 'content' );
-				break;
-
-			case '{{CERTIFICATE_TITLE}}':
-				$code = $cert->get( 'certificate_title' );
-				break;
-
-			case '{{CERTIFICATE_URL}}':
-				$code = get_permalink( $cert->get( 'id' ) );
-				break;
-
-			case '{{MINI_CERTIFICATE}}':
-				$code = $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ), $this->set_merge_data( '{{CERTIFICATE_CONTENT}}' ) );
-				break;
-
-			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
-				break;
-
+		if ( in_array( $code, array_keys( $this->set_merge_codes() ), true ) ) {
+			$method = 'set_merge_data_' . strtolower( str_replace( array( '{{', '}}' ), '', $code ) );
+			$code   = method_exists( $this, $method ) ? $this->$method( new LLMS_User_Certificate( $this->notification->post_id ) ) : $code;
 		}
 
 		return $code;
@@ -167,35 +148,93 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup notification subject for output
+	 * Get merge data for the {{CERTIFICATE_CONTENT}} merge code.
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 6.0.0
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_content( $cert ) {
+		return $cert->get( 'content' );
+	}
+
+	/**
+	 * Get merge data for the {{CERTIFICATE_TITLE}} merge code.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_title( $cert ) {
+		return $cert->get( 'title' );
+	}
+
+	/**
+	 * Get merge data for the {{CERTIFICATE_URL}} merge code.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_url( $cert ) {
+		return get_permalink( $cert->get( 'id' ) );
+	}
+
+	/**
+	 * Get merge data for the {{MINI_CERTIFICATE}} merge code.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_mini_certificate( $cert ) {
+		return $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ) );
+	}
+
+	/**
+	 * Get merge data for the {{STUDENT_NAME}} merge code.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_student_name( $cert ) {
+		return $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+	}
+
+	/**
+	 * Setup notification subject for output.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return '';
 	}
 
 	/**
-	 * Setup notification title for output
+	 * Setup notification title for output.
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return __( 'You\'ve earned a certificate!', 'lifterlms' );
 	}
 
 	/**
-	 * Define field support for the view
-	 * Extending classes can override this
-	 * 3rd parties should filter $this->get_supported_fields()
+	 * Defines field support for the view.
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_supported_fields() {
 		return array(

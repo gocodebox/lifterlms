@@ -369,7 +369,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_is_purchasable() {
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), 'no' );
 
 		$product = $this->get_product();

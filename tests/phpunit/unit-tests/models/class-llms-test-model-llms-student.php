@@ -6,8 +6,7 @@
  *
  * @since 3.33.0
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
- *
- * @version [vrsion]
+ * @version 3.36.2
  */
 class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 
@@ -79,6 +78,8 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Functional test for the unenroll() method.
 	 *
 	 * @since 3.33.0
+	 * @since 6.0.0 Changed use of the deprecated `llms_user_removed_from_membership_level` action hook to `llms_user_removed_from_membership`.
+	 *
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *
 	 * @return void
@@ -88,29 +89,29 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		// unenroll a non enrolled student
 		$this->assertFalse( $this->student->unenroll( $this->course_id ) );
 		$this->assertEquals( 0, did_action( 'llms_user_removed_from_course' ) );
-		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership_level' ) );
+		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership' ) );
 		$this->assertFalse( $this->student->unenroll( $this->memb_id ) );
 		$this->assertEquals( 0, did_action( 'llms_user_removed_from_course' ) );
-		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership_level' ) );
+		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership' ) );
 
 		// unenroll a student in a course
 		$this->student->enroll( $this->course_id );
 		$this->assertTrue( $this->student->unenroll( $this->course_id ) );
 		$this->assertEquals( 1, did_action( 'llms_user_removed_from_course' ) );
-		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership_level' ) );
+		$this->assertEquals( 0, did_action( 'llms_user_removed_from_membership' ) );
 
 		// unenroll a student in a membership
 		$this->student->enroll( $this->memb_id );
 		$this->assertTrue( $this->student->unenroll( $this->memb_id ) );
 		$this->assertEquals( 1, did_action( 'llms_user_removed_from_course' ) );
-		$this->assertEquals( 1, did_action( 'llms_user_removed_from_membership_level' ) );
+		$this->assertEquals( 1, did_action( 'llms_user_removed_from_membership' ) );
 
 		// try to unenroll a student with a different trigger
 		$this->student->enroll( $this->memb_id );
 		$res = $this->student->unenroll( $this->memb_id, $this->student->get_enrollment_trigger( $this->memb_id ) . '_test' );
 		$this->assertFalse( $res );
 		$this->assertEquals( 1, did_action( 'llms_user_removed_from_course' ) );
-		$this->assertEquals( 1, did_action( 'llms_user_removed_from_membership_level' ) );
+		$this->assertEquals( 1, did_action( 'llms_user_removed_from_membership' ) );
 
 	}
 

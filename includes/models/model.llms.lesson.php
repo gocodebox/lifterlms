@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,9 +214,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
-	 * An array of default arguments to pass to $this->create() when creating a new post
+	 * An array of default arguments to pass to $this->create() when creating a new post.
 	 *
 	 * @since 3.13.0
+	 * @since 6.3.0 Retrieve `comment_status` parameter value from the global discussion settings.
 	 *
 	 * @param array $args Optional. Args of data to be passed to `wp_insert_post()`. Default `null`.
 	 * @return array
@@ -235,17 +236,18 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			);
 		}
 
-		$args = wp_parse_args(
+		$post_type = $this->get( 'db_post_type' );
+		$args      = wp_parse_args(
 			$args,
 			array(
-				'comment_status' => 'closed',
+				'comment_status' => get_default_comment_status( $post_type ),
 				'ping_status'    => 'closed',
 				'post_author'    => get_current_user_id(),
 				'post_content'   => '',
 				'post_excerpt'   => '',
 				'post_status'    => 'publish',
 				'post_title'     => '',
-				'post_type'      => $this->get( 'db_post_type' ),
+				'post_type'      => $post_type,
 			)
 		);
 
@@ -259,7 +261,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		 * @param array       $args   Args of data to be passed to `wp_insert_post()`.
 		 * @param LLMS_Lesson $lesson Instance of the LLMS_Lesson.
 		 */
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
 
 	}
 

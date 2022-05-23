@@ -15,7 +15,7 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	 */
 	public function test_instance() {
 
-		$this->assertTrue( is_a( LLMS()->integrations(), 'LLMS_Integrations' ) );
+		$this->assertTrue( is_a( llms()->integrations(), 'LLMS_Integrations' ) );
 
 	}
 
@@ -29,7 +29,7 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	 */
 	public function test_init() {
 
-		$instance = LLMS()->integrations();
+		$instance = llms()->integrations();
 		$this->assertEquals( 2, count( $instance->integrations() ) );
 
 	}
@@ -42,7 +42,7 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	 */
 	public function test_get_available_integrations() {
 
-		$instance = LLMS()->integrations();
+		$instance = llms()->integrations();
 		$this->assertEquals( array(), $instance->get_available_integrations() );
 
 		// enable an integration
@@ -65,7 +65,7 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	 */
 	public function test_integrations() {
 
-		$instance = LLMS()->integrations();
+		$instance = llms()->integrations();
 		$this->assertEquals( 2, count( $instance->integrations() ) );
 
 	}

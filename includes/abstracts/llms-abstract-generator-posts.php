@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version 4.7.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * noted on these methods and their preexisting changelogs have been preserved.
  *
  * @since 4.7.0
+ * @since 6.0.0 Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
  */
 abstract class LLMS_Abstract_Generator_Posts {
 
@@ -861,21 +862,6 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		return $raw['id'];
 
-	}
-
-	/**
-	 * Increments a stat in the stats object
-	 *
-	 * @since 3.3.0
-	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
-	 * @since 4.7.0 Moved from `LLMS_Generator` (and deprecated) for backwards compatibility.
-	 * @deprecated 4.7.0 LLMS_Abstract_Generator_Posts::increment() is deprecated with no replacement.
-	 *
-	 * @param string $deprecated Deprecated.
-	 * @return void
-	 */
-	public function increment( $deprecated ) {
-		llms_deprecated_function( 'LLMS_Abstract_Generator_Posts::increment()', '4.7.0' );
 	}
 
 }

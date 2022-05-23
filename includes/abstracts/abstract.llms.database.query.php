@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 4.5.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.
  * @since 3.34.0 Sanitizes sort parameters.
  */
-abstract class LLMS_Database_Query {
+abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 	/**
 	 * Identify the extending query.
@@ -27,92 +27,23 @@ abstract class LLMS_Database_Query {
 	protected $id = 'database';
 
 	/**
-	 * Defines fields that can be sorted on via ORDER BY.
+	 * Retrieve query argument default values.
 	 *
-	 * @var array
+	 * @since 6.0.0
+	 *
+	 * @return array
 	 */
-	protected $allowed_sort_fields = null;
+	protected function default_arguments() {
 
-	/**
-	 * Arguments: original merged into defaults.
-	 *
-	 * @var array
-	 */
-	protected $arguments = array();
-
-	/**
-	 * Default arguments before merging with original.
-	 *
-	 * @var  array
-	 */
-	protected $arguments_default = array();
-
-	/**
-	 * Original arguments before merging with defaults.
-	 *
-	 * @var array
-	 */
-	protected $arguments_original = array();
-
-	/**
-	 * Total number of results matching query parameters.
-	 *
-	 * @var integer
-	 */
-	public $found_results = 0;
-
-	/**
-	 * Maximum number of pages of results based off per_page & found_results.
-	 *
-	 * @var integer
-	 */
-	public $max_pages = 0;
-
-	/**
-	 * Number of results on the current page.
-	 *
-	 * @var integer
-	 */
-	public $number_results = 0;
-
-	/**
-	 * Array of query variables.
-	 *
-	 * @var array
-	 */
-	public $query_vars = array();
-
-	/**
-	 * Array of results retrieved by the query.
-	 *
-	 * @var array
-	 */
-	public $results = array();
-
-	/**
-	 * The raw SQL query.
-	 *
-	 * @var string
-	 */
-	protected $sql = '';
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @param array $args Optional. Query arguments. Default empty array.
-	 *                    When not provided the default arguments will be used.
-	 * @return void
-	 */
-	public function __construct( $args = array() ) {
-
-		$this->arguments_original = $args;
-		$this->arguments_default  = $this->get_default_args();
-
-		$this->setup_args();
-
-		$this->query();
+		return wp_parse_args(
+			array(
+				'per_page' => 25,
+				'sort'     => array(
+					'id' => 'ASC',
+				),
+			),
+			parent::default_arguments()
+		);
 
 	}
 
@@ -120,30 +51,13 @@ abstract class LLMS_Database_Query {
 	 * Escape and add quotes to a string, useful for array mapping when building queries.
 	 *
 	 * @since 3.8.0
+	 * @since 6.0.0 Use {@see llms_esc_and_quote_str()}.
 	 *
 	 * @param mixed $input Input data.
 	 * @return string
 	 */
 	public function escape_and_quote_string( $input ) {
-		return "'" . esc_sql( $input ) . "'";
-	}
-
-	/**
-	 * Retrieve a query variable with an optional fallback / default.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @param string $key     Variable key.
-	 * @param mixed  $default Default value.
-	 * @return mixed
-	 */
-	public function get( $key, $default = '' ) {
-
-		if ( isset( $this->query_vars[ $key ] ) ) {
-			return $this->query_vars[ $key ];
-		}
-
-		return $default;
+		return llms_esc_and_quote_str( $input );
 	}
 
 	/**
@@ -151,34 +65,31 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Added new default arg `no_found_rows` set to false.
+	 * @since 6.0.0 Call parent method.
+	 *
+	 * @todo This should be removed in favor of the parent method only when the
+	 *       `llms_db_query_get_default_args` hook is removed.
 	 *
 	 * @return array
 	 */
 	protected function get_default_args() {
 
-		$args = array(
-			'page'             => 1,
-			'per_page'         => 25,
-			'search'           => '',
-			'sort'             => array(
-				'id' => 'ASC',
-			),
-			'suppress_filters' => false,
-			'no_found_rows'    => false,
-		);
-
 		if ( $this->get( 'suppress_filters' ) ) {
-			return $args;
+			return $this->default_arguments();
 		}
+
+		// Get them from the parent with the new replacement filter.
+		$args = parent::get_default_args();
 
 		/**
 		 * Filters the query default args.
 		 *
 		 * @since 3.8.0
+		 * @deprecated 6.0.0 Filter `llms_db_query_get_default_args` is deprecated in favor of `llms_{$this->id}_query_get_default_args`.
 		 *
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
-		return apply_filters( 'llms_db_query_get_default_args', $args );
+		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '[version]', "llms_{$this->id}_query_get_default_args" );
 
 	}
 
@@ -187,40 +98,13 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 *
-	 * @TODO Deprecate.
+	 * @todo Deprecate.
 	 *
 	 * @param string $filter Filter name.
 	 * @return string
 	 */
 	protected function get_filter( $filter ) {
 		return 'llms_' . $this->id . '_query_' . $filter;
-	}
-
-	/**
-	 * Retrieve an array of results for the given query.
-	 *
-	 * @since 3.8.0
-	 * @since 4.5.1 Drop use of `this->get_filter('get_results')` in favor of `"llms_{$this->id}_query_get_results"`.
-	 *
-	 * @return array
-	 */
-	public function get_results() {
-
-		if ( $this->get( 'suppress_filters' ) ) {
-			return $this->results;
-		}
-
-		/**
-		 * Filters the query results.
-		 *
-		 * The dynamic part of the filter `$this->id` identifies the extending query.
-		 *
-		 * @since 3.8.0
-		 *
-		 * @param array $results Array of results retrieved by the query.
-		 */
-		return apply_filters( "llms_{$this->id}_query_get_results", $this->results );
-
 	}
 
 	/**
@@ -235,158 +119,17 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Determine if the query has at least one result.
+	 * Performs the SQL query.
 	 *
-	 * @since 3.16.0
+	 * @since 6.0.0
 	 *
-	 * @return bool
+	 * @return array An integer-keyed array of row objects.
 	 */
-	public function has_results() {
-		return ( $this->number_results > 0 );
-	}
-
-	/**
-	 * Determine if we're on the first page of results.
-	 *
-	 * @since 3.8.0
-	 * @since 3.14.0 Unknown.
-	 *
-	 * @return boolean
-	 */
-	public function is_first_page() {
-		return ( 1 === absint( $this->get( 'page' ) ) );
-	}
-
-	/**
-	 * Determine if we're on the last page of results.
-	 *
-	 * @since 3.8.0
-	 * @since 3.30.3 Return true if there are no results.
-	 *
-	 * @return boolean
-	 */
-	public function is_last_page() {
-		return ! $this->has_results() || ( absint( $this->get( 'page' ) ) === $this->max_pages );
-	}
-
-	/**
-	 * Parse arguments needed for the query.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @return void
-	 */
-	abstract protected function parse_args();
-
-	/**
-	 * Prepare the SQL for the query.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @return string
-	 */
-	abstract protected function preprare_query();
-
-	/**
-	 * Execute a query.
-	 *
-	 * @since 3.8.0
-	 * @since 4.5.1 Drop use of `$this->get_filter('prepare_query')` in favor of `"llms_{$this->id}_query_prepare_query"`.
-	 *
-	 * @return void
-	 */
-	public function query() {
+	protected function perform_query() {
 
 		global $wpdb;
+		return $wpdb->get_results( $this->query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
-		$this->sql = $this->preprare_query();
-		if ( ! $this->get( 'suppress_filters' ) ) {
-			/**
-			 * Filters the query SQL.
-			 *
-			 * The dynamic part of the filter `$this->id` identifies the extending query.
-			 *
-			 * @since 3.8.0
-			 *
-			 * @param string              $sql      The SQL query.
-			 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
-			 */
-			$this->sql = apply_filters( "llms_{$this->id}_query_prepare_query", $this->sql, $this );
-		}
-
-		$this->results        = $wpdb->get_results( $this->sql ); // db call ok; no-cache ok.
-		$this->number_results = count( $this->results );
-
-		$this->set_found_results();
-
-	}
-
-	/**
-	 * Sanitize input to ensure an array of absints.
-	 *
-	 * @since 3.15.0
-	 * @since 3.24.0 Unknown.
-	 *
-	 * @param mixed $ids String/Int or array of strings/ints.
-	 * @return array
-	 */
-	protected function sanitize_id_array( $ids = array() ) {
-
-		if ( empty( $ids ) ) {
-			$ids = array();
-		}
-
-		// Allow numeric strings & ints to be passed instead of an array.
-		if ( ! is_array( $ids ) && is_numeric( $ids ) && $ids > 0 ) {
-			$ids = array( $ids );
-		}
-
-		foreach ( $ids as $key => &$id ) {
-			$id = absint( $id ); // Verify we have ints.
-			if ( $id <= 0 ) { // Remove anything negative or 0.
-				unset( $ids[ $key ] );
-			}
-		}
-
-		return $ids;
-
-	}
-
-	/**
-	 * Removes any invalid sort fields before preparing a query.
-	 *
-	 * @since 3.34.0
-	 *
-	 * @return void
-	 */
-	protected function sanitize_sort() {
-
-		if ( empty( $this->allowed_sort_fields ) ) {
-			return;
-		}
-
-		foreach ( (array) $this->get( 'sort' ) as $orderby => $order ) {
-
-			if ( ! in_array( $orderby, $this->allowed_sort_fields, true ) || ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
-
-				unset( $this->arguments['sort'][ $orderby ] );
-
-			}
-		}
-
-	}
-
-	/**
-	 * Sets a query variable.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @param string $key Variable key.
-	 * @param mixed  $val Variable value.
-	 * @return void
-	 */
-	public function set( $key, $val ) {
-		$this->query_vars[ $key ] = $val;
 	}
 
 	/**
@@ -394,61 +137,35 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
+	 * @deprecated 6.0.0 `LLMS_Database_Query::set_found_results()` is deprecated.
 	 *
 	 * @return void
 	 */
 	protected function set_found_results() {
 
-		global $wpdb;
+		_deprecated_function( 'LLMS_Database_Query::set_found_results()', '6.0.0' );
 
 		// If no results, or found rows not required, bail early b/c no reason to calculate anything.
 		if ( ! $this->number_results || $this->get( 'no_found_rows' ) ) {
 			return;
 		}
 
-		$this->found_results = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) ); // db call ok; no-cache ok.
+		$this->found_results = $this->found_results();
 		$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
 
 	}
 
 	/**
-	 * Setup arguments prior to a query.
+	 * Perform a SQL to retrieve the total number of found results for the given query.
 	 *
-	 * @since 3.8.0
-	 * @since 3.34.0 Sanitizes sort parameters.
-	 * @since 4.5.1 Added filter `"llms_{$this->id}_query_parse_args"`.
+	 * @since 6.0.0
 	 *
-	 * @return void
+	 * @return int
 	 */
-	protected function setup_args() {
+	protected function found_results() {
 
-		$this->arguments = wp_parse_args( $this->arguments_original, $this->arguments_default );
-
-		$this->parse_args();
-
-		if ( ! $this->get( 'suppress_filters' ) ) {
-			/**
-			 * Filters the parsed query arguments.
-			 *
-			 * The dynamic part of the filter `$this->id` identifies the extending query.
-			 *
-			 * @since 4.5.1
-			 *
-			 * @param array               $ars           The query parse arguments.
-			 * @param LLMS_Database_Query $db_query      The LLMS_Database_Query instance.
-			 * @param array               $original_args Original arguments before merging with defaults.
-			 * @param array               $default_args  Default arguments before merging with original.
-			 */
-			$this->arguments = apply_filters( "llms_{$this->id}_query_parse_args", $this->arguments, $this, $this->arguments_original, $this->arguments_default );
-		}
-
-		foreach ( $this->arguments as $arg => $val ) {
-
-			$this->set( $arg, $val );
-
-		}
-
-		$this->sanitize_sort();
+		global $wpdb;
+		return (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
 
 	}
 
@@ -554,6 +271,143 @@ abstract class LLMS_Database_Query {
 		 */
 		return apply_filters( "llms_{$this->id}_query_orderby", $sql, $this );
 
+	}
+
+	/**
+	 * Gets information about properties that used to be public and have been replaced with public getters.
+	 *
+	 * Used by `__get()` and `__set()` and will be removed when these are properly removed in the next
+	 * major release.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return array
+	 */
+	private function legacy_public_props() {
+
+		return array(
+			// Property      => $0 = alternative prop or method, $1 = has replacement.
+			'found_results'  => array( 'get_found_results', true ),
+			'max_pages'      => array( 'get_max_pages', true ),
+			'number_results' => array( 'get_number_results', true ),
+			'query_vars'     => array( 'query_vars', false ),
+			'results'        => array( 'get_results', true ),
+		);
+
+	}
+
+	/**
+	 * Throws a deprecation message when a formerly public property is accessed directly.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $prop Property name.
+	 * @return void
+	 */
+	private function public_prop_deprecation( $prop ) {
+
+		$legacy_props = $this->legacy_public_props();
+
+		list( $val, $has_replacement ) = $legacy_props[ $prop ];
+
+		$class     = get_called_class();
+		$is_method = method_exists( $this, $val );
+		$suffix    = $is_method ? '()' : '';
+		_deprecated_function( "Public access to property {$class}::{$prop}", '6.0.0', $has_replacement ? "{$class}::{$val}{$suffix}" : '' );
+
+	}
+
+	/**
+	 * Preserve backwards compat for read access to formerly public and removed class properties.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $key Property key name.
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+
+		// Handle formerly public properties.
+		$legacy_props = $this->legacy_public_props();
+		if ( array_key_exists( $key, $legacy_props ) ) {
+			$this->public_prop_deprecation( $key );
+			$val = $legacy_props[ $key ][0];
+			return method_exists( $this, $val ) ? $this->$val() : $this->$val;
+		} elseif ( 'sql' === $key ) {
+			$class = get_called_class();
+			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::get_query()" );
+			return $this->query;
+		}
+
+	}
+
+	/**
+	 * Preserve backwards compat for write access to formerly public and removed class properties.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $key Property name.
+	 * @param mixed  $val Property value.
+	 * @return void
+	 */
+	public function __set( $key, $val ) {
+
+		$legacy_props = $this->legacy_public_props();
+		if ( array_key_exists( $key, $legacy_props ) ) {
+			$this->public_prop_deprecation( $key );
+			$this->$key = $val;
+		} elseif ( 'sql' === $key ) {
+			$class = get_called_class();
+			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::query" );
+			$this->query = $val;
+		}
+
+	}
+
+	/**
+	 * Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $name Method name.
+	 * @param array  $args Arguments passed to the method.
+	 * @return void|string
+	 */
+	public function __call( $name, $args ) {
+		if ( 'preprare_query' === $name ) {
+			$class = get_called_class();
+			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
+			return $this->prepare_query();
+		}
+	}
+
+	/**
+	 * Prepare the query.
+	 *
+	 * Should return the query which will be used by `query()`.
+	 *
+	 * This *should* be an abstract method but is defined here for backwards compatibility
+	 * to preserve the previous method, `preprare_query()` (notice the misspelling).
+	 *
+	 * Once the `preprare_query()` method is fully removed in the next major release this
+	 * method can be removed in favor of the abstract from the parent class.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return mixed
+	 */
+	protected function prepare_query() {
+		if ( method_exists( $this, 'preprare_query' ) ) {
+			$class = get_called_class();
+			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
+			return $this->preprare_query();
+		} else {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ ),
+				'[version]'
+			);
+		}
 	}
 
 }

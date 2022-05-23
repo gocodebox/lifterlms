@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,19 +18,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 Integrations are now loaded based on their defined priority.
  * @since 3.33.2 Integration priority checks are backwards compatible to handle deprecated legacy integrations.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Integrations::$_instance` property.
  */
 class LLMS_Integrations {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Integrations
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Array of integrations, regardless of availability

@@ -9,233 +9,87 @@
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 5.4.0 Inform about deleted products.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
- * @version 5.9.0
+ * @since 6.0.0 Load sub-templates using hooks and template functions.
+ * @version 6.0.0
+ *
+ * @var LLMS_Order $order        Current order object.
+ * @var array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
+ * @var string     $layout_class The view's layout classname. Either `llms-stack-cols` or an empty string for the default side-by-side layout.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! $order ) {
-	return _e( 'Invalid Order.', 'lifterlms' );
-}
-
-$gateway      = $order->get_gateway();
-$order_status = $order->get( 'status' );
+$classes = array_filter(
+	array_map(
+		'esc_attr',
+		array( 'llms-sd-section', 'llms-view-order', $layout_class )
+	)
+);
 
 llms_print_notices();
 ?>
 
-<div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false, $order ) ? ' llms-stack-cols' : ''; ?>">
+<div class="<?php echo implode( ' ', $classes ); ?>">
 
 	<h2 class="order-title">
 		<?php printf( __( 'Order #%d', 'lifterlms' ), $order->get( 'id' ) ); ?>
-		<span class="llms-status <?php echo $order_status; ?>"><?php echo $order->get_status_name(); ?></span>
+		<span class="llms-status <?php echo esc_attr( $order->get( 'status' ) ); ?>"><?php echo $order->get_status_name(); ?></span>
 	</h2>
 
-	<?php do_action( 'lifterlms_before_view_order_table', $order ); ?>
+	<?php
+		/**
+		 * Action run prior to the display of order information.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order $order The order being displayed.
+		 */
+		do_action( 'lifterlms_before_view_order_table', $order );
 
-	<section class="order-primary">
+		/**
+		 * Displays information about the order.
+		 *
+		 * @hooked llms_template_view_order_information 10
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param LLMS_Order $order The order being displayed.
+		 */
+		do_action( 'llms_view_order_information', $order );
 
-		<table class="orders-table">
-			<tbody>
-				<tr>
-					<th><?php _e( 'Status', 'lifterlms' ); ?></th>
-					<td><?php echo $order->get_status_name(); ?></td>
-				</tr>
-
-				<tr>
-					<th><?php _e( 'Access Plan', 'lifterlms' ); ?></th>
-					<td><?php echo $order->get( 'plan_title' ); ?></td>
-				</tr>
-
-				<tr>
-					<th><?php _e( 'Product', 'lifterlms' ); ?></th>
-					<td>
-					<?php if ( llms_get_post( $order->get( 'product_id' ) ) ) : ?>
-						<a href="<?php echo get_permalink( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
-					<?php else : ?>
-						<?php echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' ); ?>
-					<?php endif; ?>
-					</td>
-				</tr>
-				<?php if ( $order->has_trial() ) : ?>
-					<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
-						<tr>
-							<th><?php _e( 'Original Total', 'lifterlms' ); ?></th>
-							<td><?php echo $order->get_price( 'trial_original_total' ); ?></td>
-						</tr>
-
-						<tr>
-							<th><?php _e( 'Coupon Discount', 'lifterlms' ); ?></th>
-							<td>
-								<?php echo $order->get_coupon_amount( 'trial' ); ?>
-								(<?php echo llms_price( $order->get_price( 'coupon_value_trial', array(), 'float' ) * - 1 ); ?>)
-								[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
-							</td>
-						</tr>
-					<?php endif; ?>
-
-					<tr>
-						<th><?php _e( 'Trial Total', 'lifterlms' ); ?></th>
-						<td>
-							<?php echo $order->get_price( 'trial_total' ); ?>
-							<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ); ?>
-						</td>
-					</tr>
-				<?php endif; ?>
-
-				<?php if ( $order->has_discount() ) : ?>
-					<tr>
-						<th><?php _e( 'Original Total', 'lifterlms' ); ?></th>
-						<td><?php echo $order->get_price( 'original_total' ); ?></td>
-					</tr>
-
-					<?php if ( $order->has_sale() ) : ?>
-						<tr>
-							<th><?php _e( 'Sale Discount', 'lifterlms' ); ?></th>
-							<td>
-								<?php echo $order->get_price( 'sale_price' ); ?>
-								(<?php echo llms_price( $order->get_price( 'sale_value', array(), 'float' ) * -1 ); ?>)
-							</td>
-						</tr>
-					<?php endif; ?>
-
-					<?php if ( $order->has_coupon() ) : ?>
-						<tr>
-							<th><?php _e( 'Coupon Discount', 'lifterlms' ); ?></th>
-							<td>
-								<?php echo $order->get_coupon_amount( 'regular' ); ?>
-								(<?php echo llms_price( $order->get_price( 'coupon_value', array(), 'float' ) * - 1 ); ?>)
-								[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
-							</td>
-						</tr>
-					<?php endif; ?>
-				<?php endif; ?>
-
-				<tr>
-					<th><?php _e( 'Total', 'lifterlms' ); ?></th>
-					<td>
-						<?php echo $order->get_price( 'total' ); ?>
-						<?php if ( $order->is_recurring() ) : ?>
-							<?php
-							// phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number in the singular so it throws a CS error but it's working as we want it to.
-							printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) );
-							// phpcs:enable WordPress.WP.I18n.MissingSingularPlaceholder
-							?>
-							<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
-								<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ); ?>
-							<?php endif; ?>
-						<?php else : ?>
-							<?php _e( 'One-time', 'lifterlms' ); ?>
-						<?php endif; ?>
-					</td>
-				</tr>
-
-				<tr>
-					<th><?php _e( 'Payment Method', 'lifterlms' ); ?></th>
-					<td>
-						<?php if ( is_wp_error( $gateway ) ) : ?>
-							<?php echo $order->get( 'payment_gateway' ); ?>
-						<?php else : ?>
-							<?php echo $gateway->get_title(); ?>
-						<?php endif; ?>
-						<?php do_action( 'lifterlms_view_order_after_payment_method', $order ); ?>
-					</td>
-				</tr>
-
-				<tr>
-					<th><?php _e( 'Start Date', 'lifterlms' ); ?></th>
-					<td><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
-				</tr>
-				<?php if ( $order->is_recurring() ) : ?>
-					<tr>
-						<th><?php _e( 'Last Payment Date', 'lifterlms' ); ?></th>
-						<td><?php echo $order->get_last_transaction_date( 'llms-txn-succeeded', 'any', 'F j, Y' ); ?></td>
-					</tr>
-
-					<?php if ( 'llms-pending-cancel' !== $order_status ) : ?>
-						<tr>
-							<th><?php _e( 'Next Payment Date', 'lifterlms' ); ?></th>
-							<td>
-								<?php if ( $order->has_scheduled_payment() ) : ?>
-									<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
-								<?php else : ?>
-									&ndash;
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endif; ?>
-				<?php endif; ?>
-
-				<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) || 'llms-pending-cancel' === $order_status ) : ?>
-				<tr>
-					<th><?php _e( 'Expiration Date', 'lifterlms' ); ?></th>
-					<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
-				</tr>
-				<?php endif; ?>
-
-				<?php do_action( 'lifterlms_view_order_table_body', $order ); ?>
-			</tbody>
-		</table>
-	</section>
-
-	<aside class="order-secondary">
-
-		<?php if ( $order->is_recurring() ) : ?>
-
-			<?php if ( isset( $_GET['confirm-switch'] ) || 'llms-active' === $order_status || $order->can_resubscribe() ) : ?>
-
-				<?php
-				llms_get_template(
-					'checkout/form-switch-source.php',
-					array(
-						'confirm' => llms_filter_input_sanitize_string( INPUT_GET, 'confirm-switch' ),
-						'order'   => $order,
-					)
-				);
-				?>
-
-			<?php endif; ?>
-
-			<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true, $order ) && in_array( $order_status, array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
-
-				<form action="" id="llms-cancel-subscription-form" method="POST">
-
-					<?php
-					llms_form_field(
-						array(
-							'columns'     => 12,
-							'classes'     => 'llms-button-secondary',
-							'id'          => 'llms_cancel_subscription',
-							'value'       => __( 'Cancel Subscription', 'lifterlms' ),
-							'last_column' => true,
-							'required'    => false,
-							'type'        => 'submit',
-						)
-					);
-					?>
-
-					<?php wp_nonce_field( 'llms_cancel_subscription', '_cancel_sub_nonce' ); ?>
-					<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
-
-				</form>
-
-			<?php endif; ?>
-
-		<?php endif; ?>
-
-	</aside>
+		/**
+		 * Displays user actions for the order.
+		 *
+		 * @hooked llms_template_view_order_information 10
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param LLMS_Order $order The order being displayed.
+		 */
+		do_action( 'llms_view_order_actions', $order );
+	?>
 
 	<div class="clear"></div>
 
 	<?php
-	llms_get_template(
-		'myaccount/view-order-transactions.php',
-		array(
-			'transactions' => $transactions,
-		)
-	);
-	?>
+		/**
+		 * Displays order transactions.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order $order        The order being displayed.
+		 * @param array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
+		 */
+		do_action( 'llms_view_order_transactions', $order, $transactions );
 
-	<?php do_action( 'lifterlms_after_view_order_table', $order ); ?>
+		/**
+		 * Action run after the display of order information.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order $order The order being displayed.
+		 */
+		do_action( 'lifterlms_after_view_order_table', $order );
+	?>
 
 </div>

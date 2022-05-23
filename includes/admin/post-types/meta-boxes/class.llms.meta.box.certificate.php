@@ -1,20 +1,19 @@
 <?php
 /**
- * Certificates meta box
+ * Certificates meta box.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificates meta box class
+ * Certificate template meta box class.
  *
  * @since 1.0.0
- * @since 3.17.4 Unknown.
  * @since 3.37.12 Allow the certificate title field to store text with quotes.
  */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
@@ -23,17 +22,23 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * Configure the metabox settings.
 	 *
 	 * @since 3.0.0
+	 * @since 6.0.0 Renamed from "Certificate Settings" to "Settings".
+	 *              Moved to the side context with default priority.
 	 *
 	 * @return void
 	 */
 	public function configure() {
 
-		$this->id       = 'lifterlms-certificate';
-		$this->title    = __( 'Certificate Settings', 'lifterlms' );
-		$this->screens  = array(
+		$this->id            = 'lifterlms-certificate';
+		$this->title         = __( 'Settings', 'lifterlms' );
+		$this->screens       = array(
 			'llms_certificate',
 		);
-		$this->priority = 'high';
+		$this->priority      = 'default';
+		$this->context       = 'side';
+		$this->callback_args = array(
+			'__back_compat_meta_box' => true,
+		);
 
 	}
 
@@ -46,39 +51,40 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
 	 * @since 3.37.12 Allow the certificate title field to store text with quotes.
+	 * @since 6.0.0 Remove the background image option (in favor of featured image metabox).
+	 *              Expose the "Next Sequential ID" option.
 	 *
 	 * @return array Array of metabox fields.
 	 */
 	public function get_fields() {
 
+		$next_id = llms_get_certificate_sequential_id( $this->post->ID );
+
+		$fields = array(
+			array(
+				'label'      => __( 'Certificate Title', 'lifterlms' ),
+				'id'         => $this->prefix . 'certificate_title',
+				'type'       => 'text',
+				'class'      => 'input-full',
+				'desc_class' => 'd-all',
+				'sanitize'   => 'no_encode_quotes',
+			),
+			array(
+				'label'      => __( 'Next Sequential ID', 'lifterlms' ),
+				'id'         => $this->prefix . 'sequential_id',
+				'type'       => 'number',
+				'class'      => 'input-full',
+				'desc_class' => 'd-all',
+				'value'      => $next_id,
+				'min'        => $next_id,
+				'step'       => 1,
+			),
+		);
+
 		return array(
 			array(
-				'title'  => 'General',
-				'fields' => array(
-					array(
-						'label'      => __( 'Certificate Title', 'lifterlms' ),
-						'desc'       => __( 'Enter a title for your certificate. EG: Certificate of Completion', 'lifterlms' ),
-						'id'         => $this->prefix . 'certificate_title',
-						'type'       => 'text',
-						'section'    => 'certificate_meta_box',
-						'class'      => 'code input-full',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
-						'sanitize'   => 'no_encode_quotes',
-					),
-					array(
-						'label'      => __( 'Background Image', 'lifterlms' ),
-						'desc'       => __( 'Select an Image to use for the certificate.', 'lifterlms' ),
-						'id'         => $this->prefix . 'certificate_image',
-						'type'       => 'image',
-						'section'    => 'certificate_meta_box',
-						'class'      => 'certificate',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
-					),
-				),
+				'title'  => __( 'General', 'lifterlms' ),
+				'fields' => $fields,
 			),
 		);
 	}

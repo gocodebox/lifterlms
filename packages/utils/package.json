@@ -1,0 +1,32 @@
+{
+  "name": "@lifterlms/utils",
+  "version": "1.0.1-alpha.0",
+  "description": "JS Utility library for LifterLMS.",
+  "author": "Team LifterLMS <dev@lifterlms.com>",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/gocodebox/lifterlms/tree/trunk/packages/utils",
+  "keywords": [
+    "lifterlms",
+    "wordpress",
+    "utils",
+    "ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "packages/utils"
+  },
+  "bugs": {
+    "url": "https://github.com/gocodebox/lifterlms/labels/package%3A%utils"
+  },
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "docgen": "docgen src/index.js --output README.md --to-token",
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./",
+    "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
+  }
+}

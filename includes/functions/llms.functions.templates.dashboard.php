@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,6 +161,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.14.0
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
+	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -243,7 +244,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			$query_args = apply_filters(
 				'llms_dashboard_courses_wp_query_args',
 				array(
-					'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+					'paged'          => llms_get_paged_query_var(),
 					'orderby'        => $orderby,
 					'order'          => $order,
 					'post__in'       => $courses['results'],
@@ -362,8 +363,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown.
+	 * @since 6.0.0 Don't output HTML when the endpoint is disabled.
 	 *
-	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @param bool $preview If `true`, outputs a short list of achievements to display on the dashboard
+	 *                      landing page. Otherwise displays all of the earned achievements for display
+	 *                      on the view-achievements endpoint.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -373,8 +377,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 			return;
 		}
 
+		$enabled = LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' );
+		if ( ! $enabled ) {
+			return;
+		}
+
 		$more = false;
-		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' ) ) {
+		if ( $preview ) {
 			$more = array(
 				'url'  => llms_get_endpoint_url( 'view-achievements', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Achievements', 'lifterlms' ),
@@ -383,8 +392,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 
 		ob_start();
 
-		$limit = $preview ? llms_get_achievement_loop_columns() : false;
-		lifterlms_template_achievements_loop( $student, $limit );
+		lifterlms_template_achievements_loop( $student, $preview ? llms_get_achievement_loop_columns() : false );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
@@ -407,8 +415,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown
+	 * @since 6.0.0 Output short list when `$preview` is `true`.
+	 *               Don't output any HTML when the endpoint is disabled.
 	 *
-	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @param bool $preview If `true`, outputs a short list of certificates to display on the dashboard
+	 *                      landing page. Otherwise displays all of the earned certificates for display
+	 *                      on the view-certificates endpoint.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -418,8 +430,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 			return;
 		}
 
+		$enabled = LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' );
+		if ( ! $enabled ) {
+			return;
+		}
+
 		$more = false;
-		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' ) ) {
+		if ( $preview ) {
 			$more = array(
 				'url'  => llms_get_endpoint_url( 'view-certificates', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Certificates', 'lifterlms' ),
@@ -427,7 +444,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 		}
 
 		ob_start();
-		lifterlms_template_certificates_loop( $student );
+		lifterlms_template_certificates_loop( $student, $preview ? llms_get_certificates_loop_columns() : false );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
@@ -490,13 +507,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 
 	/**
-	 * Output the "My Grades" template screen on the student dashboard
+	 * Output the "My Grades" template screen on the student dashboard.
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
-	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
+	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 *
+	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
+	 * @since 6.3.0 Prevent trying to access to a non existing index when retrieving the slug from the `$wp_query`.
+	 *              Fixed pagination not working when using plain permalinks.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_grades() {
@@ -507,7 +526,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		}
 
 		global $wp_query, $wp_rewrite;
-		$slug = $wp_query->query['my-grades'];
+		$slug = $wp_query->query['my-grades'] ?? '';
 
 		// List courses.
 		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
@@ -520,7 +539,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			 * @param int $per_page The number of courses per pages to be displayed. Default is `10`.
 			 */
 			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
-			$page     = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+			$page     = llms_get_paged_query_var();
 
 			$sort = llms_filter_input_sanitize_string( INPUT_GET, 'sort' );
 			if ( ! $sort ) {
@@ -567,15 +586,23 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
-			// Get the latest achievement for the course.
-			$achievements       = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
-			$latest_achievement = false;
-			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
-				if ( in_array( (string) $achievement->get( 'achievement_template' ), $achievements, true ) ) {
-					$latest_achievement = $achievement;
-					break;
-				}
-			}
+			// It's not stupid if it works unless it is stupid.
+			$post_ids = array_merge(
+				array( $course->get( 'id' ) ),
+				$course->get_sections( 'ids' ),
+				$course->get_lessons( 'ids' ),
+				$course->get_quizzes()
+			);
+
+			$achievements = $student->get_achievements(
+				array(
+					'related_posts' => $post_ids,
+					'per_page'      => 1,
+					'no_found_rows' => true,
+				)
+			)->get_awards();
+
+			$latest_achievement = $achievements ? $achievements[0] : false;
 
 			$last_activity = $student->get_events(
 				array(
@@ -692,6 +719,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.37.15 Use `in_array()`'s strict comparison.
 	 * @since 3.37.16 Fixed typo when comparing the current view.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *              Fix how the protected {@see LLMS_Notifications_Query::$max_pages} property is accessed.
+	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
 	 *
 	 * @return void
 	 */
@@ -714,7 +743,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 
 		if ( 'view' === $view ) {
 
-			$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+			$page = llms_get_paged_query_var();
 
 			$notifications = new LLMS_Notifications_Query(
 				array(
@@ -737,7 +766,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			);
 
 			$pagination = array(
-				'max'     => $notifications->max_pages,
+				'max'     => $notifications->get_max_pages(),
 				'current' => $page,
 			);
 
@@ -761,7 +790,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			$settings = array();
 			$student  = new LLMS_Student( get_current_user_id() );
 
-			foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
+			foreach ( llms()->notifications()->get_controllers() as $controller ) {
 
 				foreach ( $types as $type ) {
 
@@ -868,6 +897,7 @@ endif;
  *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
+ * @since 6.3.0 Fixed pagination when using plain permalinks.
  *
  * @param string $link Default link.
  * @return string
@@ -890,15 +920,23 @@ function llms_modify_dashboard_pagination_links( $link ) {
 
 	global $wp_rewrite;
 
-	$query = parse_url( $link, PHP_URL_QUERY );
+	$query = wp_parse_url( $link, PHP_URL_QUERY );
 
 	if ( $query ) {
 		$link = str_replace( '?' . $query, '', $link );
 	}
+	// No plain permalinks.
+	if ( get_option( 'permalink_structure' ) ) {
+		$parts = explode( '/', untrailingslashit( $link ) );
+		$page  = end( $parts );
+		$link  = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $wp_rewrite->pagination_base . '/' . $page . '/', llms_get_page_url( 'myaccount' ) );
+	} else { // With plain permalinks.
+		preg_match( '/paged?=([0-9]+)/', $link, $pages ); // Extract the 'page(d)' var.
+		$paged  = empty( $pages ) || count( $pages ) < 2 || $pages[1] < 2 ? '' : $pages[0]; // No pagination or page 1 nothing to add.
+		$query .= $paged ? '&' . $paged : '';
+		$link   = home_url();
+	}
 
-	$parts = explode( '/', untrailingslashit( $link ) );
-	$page  = end( $parts );
-	$link  = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $wp_rewrite->pagination_base . '/' . $page . '/', llms_get_page_url( 'myaccount' ) );
 	if ( $query ) {
 		$link .= '?' . $query;
 	}
@@ -919,6 +957,8 @@ function llms_modify_dashboard_pagination_links( $link ) {
  * @return void
  */
 function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
+
+	ob_start();
 
 	/**
 	 * Fires before the student dashboard my grades table cell content output
@@ -981,5 +1021,20 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
 	 */
 	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student, $restrictions );
+
+	$html = ob_get_clean();
+
+	/**
+	 * Filters the HTML returned by llms_sd_my_grades_table_content().
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string       $html         The cell HTML.
+	 * @param string       $id           Key of the table cell.
+	 * @param LLMS_Lesson  $lesson       LLMS_Lesson.
+	 * @param LLMS_Student $student      LLMS_Student.
+	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
+	 */
+	return apply_filters( 'llms_sd_my_grades_table_content', $html, $id, $lesson, $student, $restrictions );
 
 }

@@ -137,4 +137,40 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_shortcodes_initialized_early() {
+
+		global $wp_filter;
+
+		$shortcodes_init_is_found = false;
+		foreach ( $wp_filter['init'][10] as $idx => $callback ) {
+
+			// $idx is a unique ID that for static methods will be class_name . '::' . method_name.
+			if ( 'LLMS_Shortcodes::init' === $idx ) {
+				$shortcodes_init_is_found = true;
+				continue;
+			}
+
+			if ( is_array( $callback['function'] ) ) {
+				$class = is_object( $callback['function'][0] ) ? get_class( $callback['function'][0] ) : $callback['function'][0];
+				$function = "{$class}::{$callback['function'][1]}";
+			} else {
+				$function = $callback['function'];
+			}
+
+			if ( 0 === strpos( $function, 'LLMS_' ) ) {
+				$this->assertTrue(
+					$shortcodes_init_is_found,
+					"Should find LLMS_Shortcodes::init callback before $function."
+				);
+			}
+		}
+	}
+
 }

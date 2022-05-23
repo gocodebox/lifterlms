@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.8.0
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,14 +29,33 @@ class LLMS_Template_Loader {
 	 * @since 3.20.0 Unknown.
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 * @since 5.8.0 Handle block templates loading.
+	 * @since 6.2.0 Added 'llms_template_loader_priority' filter.
+	 * @since 6.4.0 Reverted back the priority of the `$this->template_loader()` callback
+	 *              (`template_include` hook's callback) from 100 to 10.
 	 */
 	public function __construct() {
 
 		// Template loading for FSE themes.
 		add_action( 'template_redirect', array( $this, 'hook_block_template_loader' ) );
 
-		// Do template loading.
-		add_filter( 'template_include', array( $this, 'template_loader' ) );
+		/**
+		* Filters the template loading priority.
+		*
+		* Callback for the WP core filter `template_include`.
+		*
+		* @since 6.2.0
+		*
+		* @param int $priority The filter callback priority.
+		*/
+		$template_loader_cb_priority = apply_filters( 'llms_template_loader_priority', 10 );
+		/**
+		 * Do template loading.
+		 *
+		 * The default priority is 10, so to allow theme builders, like Divi and Elementor (Pro),
+		 * to override our templates (except single content restricted).
+		 * see https://github.com/gocodebox/lifterlms/issues/2111
+		 */
+		add_filter( 'template_include', array( $this, 'template_loader' ), $template_loader_cb_priority );
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
@@ -436,6 +455,8 @@ class LLMS_Template_Loader {
 	 * Filter blocks templates.
 	 *
 	 * @since 5.8.0
+	 * @since 6.0.0 Remove LifterLMS 6.0 version check about the certificate template.
+	 *              Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
 	 *
 	 * @param WP_Block_Template[] $result        Array of found block templates.
 	 * @param array               $query {
@@ -449,8 +470,8 @@ class LLMS_Template_Loader {
 	 */
 	public function block_template_loader( $result, $query, $template_type ) {
 
-		// Bail it's not a block theme, or is being retrieved a non wp_template file.
-		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
+		// Bail if it's not a block theme, or is being retrieved a non wp_template file.
+		if ( ! llms_is_block_theme() || 'wp_template' !== $template_type ) {
 			return $result;
 		}
 
@@ -460,15 +481,15 @@ class LLMS_Template_Loader {
 		 * Since LifterLMS 6.0.0 certificates have their own PHP template that do no depend on the theme.
 		 * This means that we can use the PHP template loaded in the method `LLMS_Template_Loader::template_loader()` below.
 		 */
-		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) && version_compare( '6.0.0-alpha.1', llms()->version, '<=' ) ? '' : $template_name;
+		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ? '' : $template_name;
 
 		/**
 		 * Filters the block template to be loded forced.
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param string $template_slug The template slug to be loaded forced.
-		 * @param string $template      The template name to be loaded forced.
+		 * @param string $template_slug The template slug to be force loaded.
+		 * @param string $template      The name of template to be force loaded.
 		 */
 		$template_slug = apply_filters( 'llms_forced_block_template_slug', $template_name ? LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name : '', $template_name );
 
@@ -496,6 +517,7 @@ class LLMS_Template_Loader {
 	 * @since 3.37.2 Make sure to print notices on sales page redirect.
 	 * @since 4.10.1 Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
 	 * @since 5.8.0 Refactor: moved the template guessing in a specific method.
+	 * @since 6.4.0 Defer single content restricted template loading.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -538,12 +560,49 @@ class LLMS_Template_Loader {
 			}
 		}
 
+		$forced_template = $this->maybe_force_php_template( $template );
+
+		/**
+		 * When restricting single content use a lower priority so to always override
+		 * theme builders like Divi and Elementor (Pro).
+		 * see https://github.com/gocodebox/lifterlms/issues/2063.
+		 */
+		if ( llms_template_file_path( 'single-no-access.php' ) === $forced_template ) {
+
+			/**
+			 * Filters the template loading priority for single restricted content.
+			 *
+			 * @since 6.4.0
+			 *
+			 * @param int $priority The filter callback priority.
+			 */
+			$template_loader_restricted_cb_priority = apply_filters( 'llms_template_loader_restricted_priority', 100 );
+			add_filter( 'template_include', array( $this, 'maybe_force_php_template' ), $template_loader_restricted_cb_priority );
+
+		} else {
+			$template = $forced_template;
+		}
+
+		return $template;
+
+	}
+
+	/**
+	 * Force the PHP template to be loaded.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $template The original template to load.
+	 * @return string
+	 */
+	public function maybe_force_php_template( $template ) {
+
 		/**
 		 * Filters whether or not forcing a LifterLMS php template to be loaded.
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param bool $force Whether or not forcing a LifterLMS php template to be loaded.
+		 * @param bool $force Whether or not forcing a LifterLMS PHP template to be loaded.
 		 */
 		$forced_template = apply_filters( 'llms_force_php_template_loading', true ) ? $this->get_maybe_forced_template() : false;
 		return $forced_template ? llms_template_file_path( "{$forced_template}.php" ) : $template;

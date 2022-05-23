@@ -36,6 +36,7 @@ class LLMS_Query {
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
 	 * @since 4.5.0 Added action to serve 404s on unviewable certificates.
+	 * @since 6.0.0 Add callback to redirect old `llms_my_certificates` requests to the new url.
 	 */
 	public function __construct() {
 
@@ -46,6 +47,7 @@ class LLMS_Query {
 			add_filter( 'query_vars', array( $this, 'set_query_vars' ), 0 );
 			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
 			add_action( 'wp', array( $this, 'maybe_404_certificate' ), 50 );
+			add_action( 'wp', array( $this, 'maybe_redirect_certificate' ), 50 );
 
 		}
 
@@ -275,6 +277,36 @@ class LLMS_Query {
 				status_header( 404 );
 				nocache_headers();
 
+			}
+		}
+
+	}
+
+	/**
+	 * Redirect requests to old llms_my_certificate URLs to the new url.
+	 *
+	 * Redirects `/my_certificate/slug` to `/certificate/slug` maintaining
+	 * translations.
+	 *
+	 * This will only redirect if `$wp_query` detects a 404 and a certificate
+	 * exists with the parsed slug. This check is important to prevent against
+	 * collisions which are theoretically possible, though probably unlikely.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function maybe_redirect_certificate() {
+
+		global $wp, $wp_query;
+
+		$old  = sprintf( '/%s/', _x( 'my_certificate', 'slug', 'lifterlms' ) );
+		$path = wp_parse_url( home_url( $wp->request ), PHP_URL_PATH );
+		if ( $wp_query->is_404() && 0 === strpos( $path, $old ) ) {
+			$slug     = str_replace( $old, '', $path );
+			$new_post = get_page_by_path( $slug, 'OBJECT', 'llms_my_certificate' );
+			if ( $new_post ) {
+				llms_redirect_and_exit( get_permalink( $new_post->ID ) );
 			}
 		}
 

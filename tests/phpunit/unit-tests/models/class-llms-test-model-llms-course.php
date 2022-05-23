@@ -135,15 +135,24 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.4.0
 	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
+	 * @since 6.0.0 Mock oembed results to prevent rate limiting issues causing tests to fail.
 	 *
 	 * @return void
 	 */
 	public function test_get_embeds() {
 
+		$iframe = '<iframe src="%s"></iframe>';
+
+		$handler = function( $html, $url ) use ( $iframe ) {
+			return sprintf( $iframe, $url );
+		};
+
+		add_filter( 'pre_oembed_result', $handler, 10, 2 );
+
 		$course = new LLMS_Course( 'new', 'Course With Embeds' );
 
-		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
-		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
+		$audio_url = 'http://example.tld/audio_embed';
+		$video_url = 'http://example.tld/video_embed';
 
 		// Empty string when none set.
 		$this->assertEmpty( $course->get_audio() );
@@ -156,8 +165,10 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$video_embed = $course->get_video();
 
 		// Should be an iframe for valid embeds.
-		$this->assertSame( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertSame( 0, strpos( $video_embed, '<iframe' ) );
+		$this->assertEquals( sprintf( $iframe, $audio_url ),$audio_embed );
+		$this->assertEquals( sprintf( $iframe, $video_url ),$video_embed );
+
+		remove_filter( 'pre_oembed_result', $handler, 10, 2 );
 
 		// Fallbacks should be a link to the URL.
 		$not_embeddable_url = 'http://lifterlms.com/not/embeddable';
@@ -172,6 +183,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
+
 
 	}
 

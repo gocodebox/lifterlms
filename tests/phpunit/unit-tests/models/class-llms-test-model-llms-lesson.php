@@ -13,6 +13,7 @@
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
  * @since 4.4.2 Added additional navigation testing scenarios.
  * @since 4.11.0 Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
+ * @since 6.3.0 Added tests on comment_status reflecting default settings on lesson creation.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -203,15 +204,24 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.14.8
 	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
+	 * @since 6.0.0 Mock oembed results to prevent rate limiting issues causing tests to fail.
 	 *
 	 * @return void
 	 */
 	public function test_get_embeds() {
 
+		$iframe = '<iframe src="%s"></iframe>';
+
+		$handler = function( $html, $url ) use ( $iframe ) {
+			return sprintf( $iframe, $url );
+		};
+
+		add_filter( 'pre_oembed_result', $handler, 10, 2 );
+
 		$lesson = new LLMS_Lesson( 'new', 'Lesson With Embeds' );
 
-		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
-		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
+		$audio_url = 'http://example.tld/audio_embed';
+		$video_url = 'http://example.tld/video_embed';
 
 		// Empty string when none set.
 		$this->assertEmpty( $lesson->get_audio() );
@@ -224,8 +234,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$video_embed = $lesson->get_video();
 
 		// Should be an iframe for valid embeds.
-		$this->assertSame( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertSame( 0, strpos( $video_embed, '<iframe' ) );
+		$this->assertEquals( sprintf( $iframe, $audio_url ),$audio_embed );
+		$this->assertEquals( sprintf( $iframe, $video_url ),$video_embed );
+
+		remove_filter( 'pre_oembed_result', $handler, 10, 2 );
 
 		// Fallbacks should be a link to the URL.
 		$not_embeddable_url = 'http://lifterlms.com/not/embeddable';
@@ -311,6 +323,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test the is_available() method
 	 *
 	 * @since unknown
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
+	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *
 	 * @return void
 	 */
@@ -344,10 +359,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $lesson->is_available() );
 
 		// Now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 		$lesson->set( 'drip_method', 'start' );
 		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 
@@ -355,9 +370,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $lesson->is_available() );
 
 		// Now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 
 		$prereq_id = $lesson_id;
 		$student->mark_complete( $lesson_id, 'lesson' );
@@ -373,7 +388,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 		$this->assertFalse( $lesson->is_available() );
 
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 
 	}
@@ -593,6 +608,32 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			++$i;
 
 		}
+
+	}
+
+	/**
+	 * Test comment status on creation.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @return void
+	 */
+	public function test_comment_status_on_creation() {
+
+		$original_comments_status = get_default_comment_status( $this->post_type );
+		update_option( 'default_comment_status', 'open' );
+		$lesson = new LLMS_Lesson( 'new', 'Lesson with open comments' );
+		$this->assertEquals(
+			'open',
+			$lesson->get( 'comment_status' )
+		);
+		update_option( 'default_comment_status', 'closed' );
+		$lesson = new LLMS_Lesson( 'new', 'Lesson with closed comments' );
+		$this->assertEquals(
+			'closed',
+			$lesson->get( 'comment_status' )
+		);
+		update_option( 'default_comment_status', $original_comments_status );
 
 	}
 

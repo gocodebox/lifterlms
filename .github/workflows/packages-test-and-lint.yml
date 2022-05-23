@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Cache node_modules
         uses: actions/cache@v2
@@ -39,16 +39,6 @@ jobs:
         continue-on-error: true
         run: npm run pkg:lint:js
 
-      - name: Save linter output
-        continue-on-error: true
-        run: npm run pkg:lint:js -- --output-file eslint-report.json --format json
-
-      - name: Create annotations
-        uses: ataylorme/eslint-annotate-action@1.2.0
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint-report.json"
-
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -60,7 +50,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Cache node_modules
         uses: actions/cache@v2
@@ -74,8 +64,7 @@ jobs:
         run: npm ci
 
       - name: Run test suite
-        # uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
-        uses: gocodebox/jest-coverage-report-action@master
+        uses: artiomtr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install

@@ -7,6 +7,7 @@
  * @since 3.7.3
  * @since 3.16.0 Unknown.
  * @since 3.37.10 Added tests on sitewide membership restriction.
+ * @since 6.5.0 Added tests for drip restrictions on completed lessons.
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
@@ -27,6 +28,9 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * Test drip restrictions.
 	 *
 	 * @since 3.16.0
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
+	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *
 	 * @return void
 	 */
@@ -60,10 +64,10 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
 		// now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 		$lesson->set( 'drip_method', 'start' );
 		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 
@@ -71,8 +75,44 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
 		// now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+	}
+
+	/**
+	 * Test drip restriction for already completed lesson.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_is_post_restricted_by_drip_settings_completed_lesson() {
+
+		$course    = $this->factory->course->create_and_get();
+		$lesson    = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$student   = $this->get_mock_student();
+		wp_set_current_user( $student->get( 'id' ) );
+		$student->enroll( $course );
+
+		// No drip settings, lesson is currently available.
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// Add any drip settings, lesson available in the future.
+		$lesson->set( 'drip_method', 'date' );
+		$lesson->set( 'date_available', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// Mark the lesson complete.
+		$student->mark_complete( $lesson_id, 'lesson' );
+		// We expect the lesson to be not restricted by drip settings anymore.
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// Turn off the drip bypass filter: lesson drip.
+		add_filter( 'llms_lesson_drip_bypass_if_completed', '__return_false', 10 );
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+		remove_filter( 'llms_lesson_drip_bypass_if_completed', '__return_false', 10 );
 
 	}
 

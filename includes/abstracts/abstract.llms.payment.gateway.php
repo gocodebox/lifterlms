@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -570,6 +570,57 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
+	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
+	 *
+	 * This is the callback for the `llms_secure_strings` filter (called via `llms_log()`).
+	 *
+	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
+	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string[] $strings Array of secure strings.
+	 * @param string   $handle  The log handle.
+	 * @return string[]
+	 */
+	public function get_secure_strings( $strings, $handle ) {
+
+		// Don't add our strings to other log files.
+		if ( $this->id !== $handle ) {
+			return $strings;
+		}
+
+		$gateway_strings = array();
+		foreach ( $this->get_admin_settings_fields() as $field ) {
+
+			if ( empty( $field['id'] ) || empty( $field['secure_option'] ) ) {
+				continue;
+			}
+
+			$string = llms_get_secure_option( $field['secure_option'], '', $field['id'] );
+			if ( empty( $string ) ) {
+				continue;
+			}
+
+			$gateway_strings[] = $string;
+
+		}
+
+		/**
+		 * Filters the list of the gateway's secure strings.
+		 *
+		 * @since 6.4.0
+		 *
+		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
+		 * @param string    $id              The gateway ID.
+		 */
+		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
+
+		return array_merge( $strings, $gateway_strings );
+
+	}
+
+	/**
 	 * Gateways can override this to return a URL to a source permalink on the gateway's website
 	 *
 	 * If this is not defined, it will just return the supplied ID.
@@ -776,15 +827,24 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Log messages if logging is enabled
 	 *
 	 * @since 3.0.0
+	 * @since 6.4.0 Load the gateway's `secure_option` settings into `llms_secure_strings` hook when logging.
 	 *
 	 * @return void
 	 */
 	public function log() {
-		if ( 'yes' === $this->get_logging_enabled() ) {
-			foreach ( func_get_args() as $data ) {
-				llms_log( $data, $this->get_id() );
-			}
+
+		if ( ! llms_parse_bool( $this->get_logging_enabled() ) ) {
+			return;
 		}
+
+		add_filter( 'llms_secure_strings', array( $this, 'get_secure_strings' ), 10, 2 );
+
+		foreach ( func_get_args() as $data ) {
+			llms_log( $data, $this->get_id() );
+		}
+
+		remove_filter( 'llms_secure_strings', array( $this, 'get_secure_strings' ), 10, 2 );
+
 	}
 
 	/**

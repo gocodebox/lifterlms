@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.15.0
- * @version 4.3.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,17 +14,30 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_User_Postmeta model class
  *
  * @since 3.15.0
- * @since 4.3.0 Added `$type` propertly declaration.
+ * @since 4.3.0 Added `$type` property declaration.
  */
 class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 
+	/**
+	 * Created date column key.
+	 *
+	 * Disabled for this record type.
+	 *
+	 * @var null
+	 */
 	protected $date_created = null;
+
+	/**
+	 * Updated date column key.
+	 *
+	 * @var string
+	 */
 	protected $date_updated = 'updated_date';
 
 	/**
-	 * Array of table column name => format
+	 * Array of table column name => format.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $columns = array(
 		'user_id'      => '%d',
@@ -35,23 +48,23 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	);
 
 	/**
-	 * Primary Key column name => format
+	 * Primary Key column name => format.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $primary_key = array(
 		'meta_id' => '%d',
 	);
 
 	/**
-	 * Database Table Name
+	 * Database Table Name.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $table = 'user_postmeta';
 
 	/**
-	 * The record type
+	 * The record type.
 	 *
 	 * @var string
 	 */
@@ -60,10 +73,11 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	/**
 	 * Constructor
 	 *
-	 * @param    mixed $item     meta_id of a user postmeta item or an object with at least an "id"
-	 * @param    bool  $hydrate  if true, hydrates the object on instantiation (if an ID was found via $item)
-	 * @since    3.15.0
-	 * @version  3.21.0
+	 * @since 3.15.0
+	 * @since 3.21.0 Unknown.
+	 *
+	 * @param mixed   $item    Meta_id of a user postmeta item or an object with at least an "id".
+	 * @param boolean $hydrate If true, hydrates the object on instantiation (if an ID was found via $item).
 	 */
 	public function __construct( $item = null, $hydrate = true ) {
 
@@ -86,12 +100,12 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Get a string used to describe the postmeta item
+	 * Get a string used to describe the postmeta item.
 	 *
-	 * @param    string $context  display context [course|student]
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param string $context Display context either "course" or "student".
+	 * @return string
 	 */
 	public function get_description( $context = 'course' ) {
 
@@ -151,25 +165,22 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a link for the item on the admin panel
 	 *
-	 * @param    string $context  display context [course|student]
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since 6.0.0 Don't use deprecated achievement and certificate meta data.
+	 *               Combined redundant cases into a single case.
+	 *               Fixed return value.
+	 *
+	 * @param string $context Display context either "course" or "student".
+	 * @return string
 	 */
 	public function get_link( $context = 'course' ) {
+
+		$url = '';
 
 		switch ( $this->get( 'meta_key' ) ) {
 
 			case '_achievement_earned':
-				$achievement = new LLMS_User_Achievement( $this->get( 'meta_value' ) );
-				$url         = get_edit_post_link( $achievement->get( 'achievement_template' ) );
-				break;
-
 			case '_certificate_earned':
-				$certificate = new LLMS_User_Certificate( $this->get( 'meta_value' ) );
-				$url         = get_edit_post_link( $certificate->get( 'certificate_template' ) );
-				break;
-
 			case '_email_sent':
 				$url = get_edit_post_link( $this->get( 'meta_value' ) );
 				break;
@@ -201,16 +212,18 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 						)
 					);
 				}
-		}// End switch().
+		}
+
+		return $url;
 
 	}
 
 	/**
-	 * Retrieve a student obj for the meta item
+	 * Retrieve a student obj for the meta item.
 	 *
-	 * @return   LLMS_Student|false
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return LLMS_Student|false
 	 */
 	public function get_student() {
 		return llms_get_student( $this->get( 'user_id' ) );

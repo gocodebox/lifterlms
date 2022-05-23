@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 3.30.3
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -182,10 +182,12 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.25.0
+	 * @since 3.16.0
+	 * @since 3.25.0 Unknown.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
@@ -231,7 +233,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 		}
 
-		$this->max_pages    = $query->max_pages;
+		$this->max_pages    = $query->get_max_pages();
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_attempts();

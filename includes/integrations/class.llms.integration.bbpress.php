@@ -55,8 +55,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			// Custom engagements.
 			add_filter( 'lifterlms_engagement_triggers', array( $this, 'register_engagement_triggers' ) );
 
-			add_action( 'bbp_new_topic', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
-			add_action( 'bbp_new_reply', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 5 );
+			add_action( 'bbp_new_topic', array( llms()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
+			add_action( 'bbp_new_reply', array( llms()->engagements(), 'maybe_trigger_engagement' ), 10, 5 );
 
 			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
 

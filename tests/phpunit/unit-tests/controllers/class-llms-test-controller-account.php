@@ -67,18 +67,20 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.37.17 Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
 	 * @return void
 	 */
 	public function test_cancel_subscription() {
 
 		// form not submitted
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		$this->main->cancel_subscription();
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 
 		// form submitted but missing required fields
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 		) );
 		$this->main->cancel_subscription();
@@ -88,7 +90,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		llms_clear_notices();
 
 		// form submitted but invalid order id or the order id is invalid
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => 123,
 		) );
@@ -102,7 +104,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$order = $this->get_mock_order();
 
 		// form submitted but invalid order id or the order doesn't belong to the current user
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => $order->get( 'id' ),
 		) );
@@ -118,7 +120,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			// active order moves to pending cancel
 			$order->set_status( $status );
 
-			$this->setup_post( array(
+			$this->mockPostRequest( array(
 				'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 				'order_id' => $order->get( 'id' ),
 			) );

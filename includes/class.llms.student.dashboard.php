@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -137,9 +137,11 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Retrieve all dashboard tabs and related data
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.28.2
+	 * @since 3.0.0
+	 * @since 3.28.2 Unknown.
+	 * @since 6.0.0 Add pagination to the view-achievements and view-certificates tabs.
+	 *
+	 * @return array
 	 */
 	public static function get_tabs() {
 
@@ -176,12 +178,14 @@ class LLMS_Student_Dashboard {
 				'view-achievements' => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_achievements',
 					'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'view-achievements' ),
+					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Achievements', 'lifterlms' ),
 				),
 				'view-certificates' => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_certificates',
 					'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'view-certificates' ),
+					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Certificates', 'lifterlms' ),
 				),
@@ -336,9 +340,11 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Endpoint to output orders content
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since 6.0.0 Use `llms_template_view_order()` in favor of including the template file directly.
+	 *
+	 * @return void
 	 */
 	public static function output_orders_content() {
 
@@ -348,28 +354,8 @@ class LLMS_Student_Dashboard {
 
 		if ( ! empty( $wp->query_vars['orders'] ) ) {
 
-			$order = new LLMS_Order( $wp->query_vars['orders'] );
-
-			// Ensure people can't locate other peoples orders by dropping numbers into the url bar.
-			if ( get_current_user_id() !== $order->get( 'user_id' ) ) {
-				$order        = false;
-				$transactions = array();
-			} else {
-				$transactions = $order->get_transactions(
-					array(
-						'per_page' => apply_filters( 'llms_student_dashboard_transactions_per_page', 20 ),
-						'paged'    => isset( $_GET['txnpage'] ) ? absint( $_GET['txnpage'] ) : 1,
-					)
-				);
-			}
-
-			llms_get_template(
-				'myaccount/view-order.php',
-				array(
-					'order'        => $order,
-					'transactions' => $transactions,
-				)
-			);
+			$order = llms_get_post( $wp->query_vars['orders'] );
+			llms_template_view_order( $order );
 
 		} else {
 

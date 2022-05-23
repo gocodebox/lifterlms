@@ -5,7 +5,8 @@
  * @package  LifterLMS/Admin/Views
  *
  * @since 3.0.0
- * @version 3.29.0
+ * @since 6.0.0 Fix closing tag inside the `llms-no-plans-msg` div element.
+ * @version 6.0.0
  *
  * @var LLMS_Course $course
  * @var array $checkout_redirection_types checkout redirect setting options.
@@ -18,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<div class="llms-no-plans-msg">
-			<p><?php printf( __( 'Access plans define the payment options and access time-periods available for this %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></h3>
+			<p><?php printf( __( 'Access plans define the payment options and access time-periods available for this %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
 			<p><?php printf( __( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
 		</div>
 		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>

@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 5.2.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -268,7 +268,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$notification->set( 'post_id', $post_id );
 		$notification->set( 'trigger_id', $this->id );
 
-		return LLMS()->notifications()->get_view( $notification );
+		return llms()->notifications()->get_view( $notification );
 
 	}
 
@@ -440,6 +440,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Determine if the notification is a potential duplicate
 	 *
 	 * @since 3.11.0
+	 * @since 6.0.0 Fixed how the protected {@see LLMS_Notifications_Query::$found_results} property is accessed.
 	 *
 	 * @param string $type       Notification type id.
 	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...
@@ -457,7 +458,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			)
 		);
 
-		return $query->found_results ? true : false;
+		return $query->has_results();
 
 	}
 
@@ -554,12 +555,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		// If successful, push to the processor where processing is supported.
 		if ( $id ) {
 
-			$processor = LLMS()->notifications()->get_processor( $type );
+			$processor = llms()->notifications()->get_processor( $type );
 			if ( $processor ) {
 
 				$processor->log( sprintf( 'Queuing %1$s notification ID #%2$d', $type, $id ) );
 				$processor->push_to_queue( $id );
-				LLMS()->notifications()->schedule_processing( $type );
+				llms()->notifications()->schedule_processing( $type );
 
 			}
 		}

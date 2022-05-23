@@ -586,6 +586,7 @@ class LLMS_Block_Templates {
 	 * Add lifterlms blocks templates.
 	 *
 	 * @since 5.8.0
+	 * @since 6.0.0 Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
 	 * @param array               $query        {
@@ -600,7 +601,7 @@ class LLMS_Block_Templates {
 	public function add_llms_block_templates( $query_result, $query, $template_type = 'wp_template' ) {
 
 		// Bail it's not a block theme, or is being retrieved a non wp_template type requested.
-		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
+		if ( ! llms_is_block_theme() || 'wp_template' !== $template_type ) {
 			return $query_result;
 		}
 

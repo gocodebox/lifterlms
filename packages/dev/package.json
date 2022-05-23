@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/dev",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.4-alpha.1",
   "description": "Developer's CLI for managing, building, and deploying LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -39,6 +39,8 @@
     "yaml": "^1.10.2"
   },
   "scripts": {
-    "docgen": "llms-dev docgen"
+    "docgen": "npm run dev docgen",
+    "dev": "./src/index.js",
+    "test": "cd ../../ && wp-scripts test-unit-js ./packages/dev --config ./packages/scripts/config/jest-unit.config.js --verbose && cd packages/dev"
   }
 }

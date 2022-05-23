@@ -176,7 +176,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
 			$object_id = LLMS_Unit_Test_Util::call_method( $this->sessions, 'get_new_id', array( $user ) );
 			// Record session start.
-			$session_start = LLMS()->events()->record(
+			$session_start = llms()->events()->record(
 				array(
 					'actor_id'     => $user,
 					'object_type'  => 'session',
@@ -195,7 +195,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 				$time += MINUTE_IN_SECONDS;
 				llms_tests_mock_current_time( $time );
 				// Record session end.
-				LLMS()->events()->record(
+				llms()->events()->record(
 					array(
 						'actor_id'     => $user,
 						'object_type'  => 'session',

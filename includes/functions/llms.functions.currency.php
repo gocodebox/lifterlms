@@ -5,46 +5,10 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * Format Number as decimal
- *
- * @since Unknown
- * @since 3.24.0 Unknown.
- * @deprecated 5.0.0 Function `llms_format_decimal()` is deprecated with no replacement.
- *
- * @param int     $number     Price value.
- * @param boolean $dp         Decimal points.
- * @param boolean $trim_zeros Trim zeros.
- * @return string
- */
-function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
-
-	_deprecated_function( 'llms_format_decimal()', '5.0.0' );
-
-	// Remove locale from string.
-	if ( ! is_float( $number ) ) {
-		$locale   = localeconv();
-		$decimals = array( get_option( 'lifterlms_price_decimal_sep' ), $locale['decimal_point'], $locale['mon_decimal_point'] );
-		$number   = llms_clean( str_replace( $decimals, '.', $number ) );
-	}
-
-	// DP is false - don't use number format, just return a string in our format.
-	if ( false !== $dp ) {
-		$dp     = 2;     // = intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
-		$number = number_format( floatval( $number ), $dp, '.', ',' );
-	}
-
-	if ( $trim_zeros && strstr( $number, '.' ) ) {
-		$number = rtrim( rtrim( $number, '0' ), '.' );
-	}
-
-	return $number;
-}
 
 /**
  * Get the currency selected

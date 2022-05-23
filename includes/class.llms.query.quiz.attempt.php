@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 4.2.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -136,10 +136,11 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.16.0
+	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 *
 	 * @return string
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

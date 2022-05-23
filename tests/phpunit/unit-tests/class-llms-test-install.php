@@ -24,14 +24,14 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	public function test_check_version() {
 
 		// Ensure the database update runs.
-		update_option( 'lifterlms_current_version', (float) LLMS()->version - 1 );
-		update_option( 'lifterlms_db_version', LLMS()->version );
+		update_option( 'lifterlms_current_version', (float) llms()->version - 1 );
+		update_option( 'lifterlms_db_version', llms()->version );
 		LLMS_Install::check_version();
 		$this->assertTrue( did_action( 'lifterlms_updated' ) === 1 );
 
 		// Ensure that if both are equal the database doesn't run again.
-		update_option( 'lifterlms_current_version', LLMS()->version );
-		update_option( 'lifterlms_db_version', LLMS()->version );
+		update_option( 'lifterlms_current_version', llms()->version );
+		update_option( 'lifterlms_db_version', llms()->version );
 		LLMS_Install::check_version();
 		$this->assertTrue( did_action( 'lifterlms_updated' ) === 1 );
 
@@ -274,7 +274,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( '1', get_option( 'lifterlms_db_version' ) );
 
 		LLMS_Install::update_db_version();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_db_version' ) );
 
 		LLMS_Install::update_db_version( '1.2.3' );
 		$this->assertEquals( '1.2.3', get_option( 'lifterlms_db_version' ) );
@@ -294,7 +294,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( '1', get_option( 'lifterlms_current_version' ) );
 
 		LLMS_Install::update_llms_version();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_current_version' ) );
 
 		LLMS_Install::update_llms_version( '1.2.3' );
 		$this->assertEquals( '1.2.3', get_option( 'lifterlms_current_version' ) );
@@ -323,7 +323,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		wp_cache_flush();
 
 		LLMS_Install::install();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_current_version' ) );
 
 	}
 

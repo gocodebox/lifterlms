@@ -5,17 +5,26 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 5.6.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Custom Roles and Capabilities
+ * LifterLMS Custom Roles and Capabilities.
  *
  * @since 3.13.0
  */
 class LLMS_Roles {
+
+	/**
+	 * The capability name to manage earned engagament.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @var string
+	 */
+	const MANAGE_EARNED_ENGAGEMENT_CAP = 'manage_earned_engagement';
 
 	/**
 	 * Retrieve an array of all capabilities for a role
@@ -37,12 +46,13 @@ class LLMS_Roles {
 	}
 
 	/**
-	 * Get an array of registered core lifterlms caps
+	 * Get an array of registered core lifterlms caps.
 	 *
 	 * @since 3.13.0
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
 	 * @since 3.34.0 Added capabilities for student management.
 	 * @since 4.21.2 Added the `view_grades` capability.
+	 * @since 6.0.0 Added `manage_earned_engagement` capability.
 	 *
 	 * @link https://lifterlms.com/docs/roles-and-capabilities/
 	 *
@@ -62,6 +72,7 @@ class LLMS_Roles {
 			array(
 				'lifterlms_instructor',
 				'manage_lifterlms',
+				self::MANAGE_EARNED_ENGAGEMENT_CAP,
 				'view_lifterlms_reports',
 				'view_others_lifterlms_reports',
 				'enroll',
@@ -84,6 +95,7 @@ class LLMS_Roles {
 	 * @since 3.13.0
 	 * @since 3.34.0 Added student management capabilities.
 	 * @since 4.21.2 Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
+	 * @since 6.0.0 Added `manage_earned_engagement` to the list of instructor/assistant caps which are not automatically available.
 	 *
 	 * @param string $role Name of the role.
 	 * @return string[]
@@ -101,6 +113,7 @@ class LLMS_Roles {
 					$caps['enroll'],
 					$caps['unenroll'],
 					$caps['manage_lifterlms'],
+					$caps[ self::MANAGE_EARNED_ENGAGEMENT_CAP ],
 					$caps['view_others_lifterlms_reports'],
 					$caps['create_students'],
 					$caps['view_others_students'],
@@ -137,7 +150,7 @@ class LLMS_Roles {
 	}
 
 	/**
-	 * Retrieve the post type specific capabilities for a give role
+	 * Retrieve the post type specific capabilities for a give role.
 	 *
 	 * @since 3.13.0
 	 * @since 4.21.2 Use strict comparisons for `in_array()`.

@@ -1,24 +1,21 @@
 <?php
 /**
- * Custom filters & actions for LifterLMS Comments
- *
- * This class owes a great debt to WooCommerce.
+ * LLMS_Comments class file.
  *
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Comments class
+ * Custom filters & actions for LifterLMS comments.
+ *
+ * This class owes a great debt to WooCommerce.
  *
  * @since 3.0.0
- * @since 3.37.12 Use strict comparisons.
- *                Handle empty array from `wp_count_comments` filter.
- *                Properly exclude "llms_order_note" comment types from comment counts..
  */
 class LLMS_Comments {
 
@@ -33,6 +30,7 @@ class LLMS_Comments {
 	 * Constructor.
 	 *
 	 * @since 3.37.12
+	 * @since [version] Conditionally hook `wp_count_comments` filter.
 	 *
 	 * @return void
 	 */
@@ -43,12 +41,18 @@ class LLMS_Comments {
 		add_action( 'comment_feed_join', array( __CLASS__, 'exclude_order_comments_from_feed_join' ) );
 		add_action( 'comment_feed_where', array( __CLASS__, 'exclude_order_comments_from_feed_where' ) );
 
-		// Remove order notes when counting comments.
-		add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 999, 2 );
-
 		// Delete comments count cache whenever there is a new comment or a comment status changes.
 		add_action( 'wp_insert_comment', array( __CLASS__, 'delete_comments_count_cache' ) );
 		add_action( 'wp_set_comment_status', array( __CLASS__, 'delete_comments_count_cache' ) );
+
+		/**
+		 * Remove order notes when counting comments on WP versions earlier than 6.0.
+		 *
+		 * @todo This filter can be safely deprecated once support is dropped for WordPress 6.0.
+		 */
+		if ( self::should_modify_comment_counts() ) {
+			add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 999, 2 );
+		}
 
 	}
 
@@ -189,6 +193,8 @@ class LLMS_Comments {
 	 *
 	 * @since 3.37.12
 	 *
+	 * @todo This method can be safely deprecated once support is dropped for WordPress 6.0.
+	 *
 	 * @param  stdClass $stats Comment stats object. See the return of LLMS_Comments::wp_comment_counts() for object details.
 	 * @return stdClass See LLMS_Comments::wp_comment_counts() for return object details.
 	 */
@@ -217,6 +223,23 @@ class LLMS_Comments {
 	}
 
 	/**
+	 * Determines whether or not comment count modification is necessary.
+	 *
+	 * Since WordPress 6.0 the `get_comment_count()` function utilizes `get_comments()` whereas in earlier versions the counts
+	 * are retrieved by a direct SQL query. This change means that the filter in this class on `comments_clauses` ensures that
+	 * our comments we hide & don't count in the comments management UI are already excluded and we do not need to filter
+	 * `wp_count_comments` to subtract our comments.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean Returns `true` on WP earlier than 6.0 and `false` on 6.0 and later.
+	 */
+	private static function should_modify_comment_counts() {
+		global $wp_version;
+		return version_compare( $wp_version, '6.0-src', '<' );
+	}
+
+	/**
 	 * Remove order notes from the count when counting comments
 	 *
 	 * This method is hooked to `wp_count_comments`, called by `wp_count_comments()`.
@@ -235,6 +258,9 @@ class LLMS_Comments {
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Fix issue encountered when $stats is an empty array.
 	 *                Modify the stats generation method.
+	 * @since [version] Will throw `_doing_it_wrong()` when run on WP 6.0 or later and return the input `$stats` unchanged.
+	 *
+	 * @todo This method can be safely deprecated once support is dropped for WordPress 6.0.
 	 *
 	 * @param stdClass|array $stats   Empty array or a stdClass of stats from another plugin.
 	 * @param int            $post_id WP Post ID. `0` indicates comment stats for the entire site.
@@ -251,6 +277,12 @@ class LLMS_Comments {
 	 * }
 	 */
 	public static function wp_count_comments( $stats, $post_id ) {
+
+		// If someone calls this directly on 6.0 or later notify them and return early.
+		if ( ! self::should_modify_comment_counts() ) {
+			_doing_it_wrong( __METHOD__, 'This method should not be called on WordPress 6.0 or later.', '[version]' );
+			return $stats;
+		}
 
 		// Don't modify when querying for a specific post.
 		if ( 0 !== $post_id ) {

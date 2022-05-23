@@ -7,7 +7,7 @@
  * @package LifterLMS/Widgets/Classes
  *
  * @since 1.0.0
- * @version 3.12.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,6 +38,7 @@ class LLMS_Widgets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.12.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -52,18 +53,15 @@ class LLMS_Widgets {
 		);
 
 		if ( class_exists( 'bbPress' ) && 'yes' === get_option( 'llms_integration_bbpress_enabled', 'no' ) ) {
-			require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.bbp.widget.course.forums.list.php';
+
 			$widgets[] = 'LLMS_BBP_Widget_Course_Forums_List';
 		}
 
 		foreach ( $widgets as $widget ) {
 
 			register_widget( $widget );
-
 		}
-
 	}
-
 }
 
 return new LLMS_Widgets();
