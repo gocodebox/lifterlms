@@ -727,7 +727,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$use_template = apply_filters_deprecated(
 			'llms_certificate_use_legacy_template',
 			array( false, $this ),
-			'[version]',
+			'6.0.0',
 			'', // There is no direct replacement.
 			__( 'Loading custom HTML from the certificate template is deprecated. All HTML should be added to the certificate directly via the editor or applied via post content filters.', 'lifterlms' )
 		);

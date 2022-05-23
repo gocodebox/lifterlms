@@ -113,7 +113,7 @@ trait LLMS_Trait_Student_Awards {
 	/**
 	 * Retrieve certificates that the student has been awarded.
 	 *
-	 * The default behavior of this method is deprecated since version [version]. The previous behavior
+	 * The default behavior of this method is deprecated since version 6.0.0. The previous behavior
 	 * is retained for backwards compatibility but will be removed in the next major release.
 	 *
 	 * @since 2.4.0
