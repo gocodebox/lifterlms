@@ -88,7 +88,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	 * Test llms_get_certificate_content() with reusable blocks and merge codes.
 	 *
 	 * @since 6.4.0
-	 * @since [version] Remove layout filters for easier snapshots across WP versions.
+	 * @since 6.6.0 Remove layout filters for easier snapshots across WP versions.
 	 *
 	 * @return void
 	 */

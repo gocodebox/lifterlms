@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ class LLMS_Comments {
 	 * Constructor.
 	 *
 	 * @since 3.37.12
-	 * @since [version] Conditionally hook `wp_count_comments` filter.
+	 * @since 6.6.0 Conditionally hook `wp_count_comments` filter.
 	 *
 	 * @return void
 	 */
@@ -230,7 +230,7 @@ class LLMS_Comments {
 	 * our comments we hide & don't count in the comments management UI are already excluded and we do not need to filter
 	 * `wp_count_comments` to subtract our comments.
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return boolean Returns `true` on WP earlier than 6.0 and `false` on 6.0 and later.
 	 */
@@ -258,7 +258,7 @@ class LLMS_Comments {
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Fix issue encountered when $stats is an empty array.
 	 *                Modify the stats generation method.
-	 * @since [version] Will throw `_doing_it_wrong()` when run on WP 6.0 or later and return the input `$stats` unchanged.
+	 * @since 6.6.0 Will throw `_doing_it_wrong()` when run on WP 6.0 or later and return the input `$stats` unchanged.
 	 *
 	 * @todo This method can be safely deprecated once support is dropped for WordPress 6.0.
 	 *

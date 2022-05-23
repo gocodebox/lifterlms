@@ -1,7 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#1717"
-entry: Added automatic exclusion of "no cache" pages from the WP Engine server-side cache.
-  Note":" Caching is allowed if "Settings -> Permalinks" is "Plain", which prevent users
-  from being able to successfully use the "Lost your password?" feature.

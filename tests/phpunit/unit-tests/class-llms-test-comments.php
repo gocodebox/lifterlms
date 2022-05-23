@@ -13,7 +13,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	/**
 	 * Conditionally skips a test related to the `wp_count_comments()` method.
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @param boolean $should_count Whether the current version of WP should count comments.
 	 * @return void
@@ -30,7 +30,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	/**
 	 * Test wp_count_comments() throws `_doing_it_wrong()` and returns early when called on WP 6.0 or later.
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	 * Test wp_count_comments() when passing in a specific post id.
 	 *
 	 * @since 3.37.12
-	 * @since [version] Added mock input data to guard against false-positives.
+	 * @since 6.6.0 Added mock input data to guard against false-positives.
 	 *               Skip test on WP 6.0 or later.
 	 *
 	 * @return void
@@ -67,7 +67,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	 * Test wp_count_comments() when the transient already exists.
 	 *
 	 * @since 3.37.12
-	 * @since [version] Skip test on WP 6.0 or later.
+	 * @since 6.6.0 Skip test on WP 6.0 or later.
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	 * Test wp_count_comments() when a new stats object should be generated
 	 *
 	 * @since 3.37.12
-	 * @since [version] Skip test on WP 6.0 or later.
+	 * @since 6.6.0 Skip test on WP 6.0 or later.
 	 *
 	 * @return void
 	 */
@@ -126,7 +126,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	 * Test wp_count_comments() when another plugin has already created a stats object we want to modify
 	 *
 	 * @since 3.37.12
-	 * @since [version] Skip test on WP 6.0 or later.
+	 * @since 6.6.0 Skip test on WP 6.0 or later.
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	/**
 	 * Test should_modify_comment_counts().
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return void
 	 */
