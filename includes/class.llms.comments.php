@@ -280,7 +280,7 @@ class LLMS_Comments {
 
 		// If someone calls this directly on 6.0 or later notify them and return early.
 		if ( ! self::should_modify_comment_counts() ) {
-			_doing_it_wrong( __METHOD__, 'This method should not be called on WordPress 6.0 or later.', '[version]' );
+			_doing_it_wrong( __METHOD__, 'This method should not be called on WordPress 6.0 or later.', '6.6.0' );
 			return $stats;
 		}
 
