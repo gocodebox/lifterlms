@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Controllers/Classes
  *
- * @since 3.0.0
- * @version 5.9.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,7 +343,7 @@ class LLMS_Controller_Checkout {
 	}
 
 	/**
-	 * Retrieves the AJAX url for the requested action
+	 * Retrieves the AJAX url for the requested action.
 	 *
 	 * @since [version]
 	 *

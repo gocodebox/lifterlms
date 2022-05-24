@@ -57,7 +57,7 @@ class LLMS_Order_Generator {
 	 *
 	 * @var string
 	 */
-	const E_ORDER_NOT_CONFIRMABLE = 'llms-order-gent-order-not-confirmable';
+	const E_ORDER_NOT_CONFIRMABLE = 'llms-order-gen-order-not-confirmable';
 
 	/**
 	 * Error code: required plan ID not submitted.
@@ -74,7 +74,7 @@ class LLMS_Order_Generator {
 	const E_PLAN_NOT_FOUND = 'llms-order-gen-plan-not-found';
 
 	/**
-	 * Error code: invalid coupon code submitted.
+	 * Error code: site's terms not accepted.
 	 *
 	 * @var string
 	 */
@@ -180,6 +180,7 @@ class LLMS_Order_Generator {
 	 *     @type string  $llms_order_key       Optional. An `LLMS_Order` key used to modify an existing pending order rather than creating a new one.
 	 *     @type array   ...$user_data         All remaining data is passed to the user creation functions.
 	 * }
+	 * @return void
 	 */
 	public function __construct( $data ) {
 		$this->data = $data;
