@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/scripts",
-  "version": "3.1.0",
+  "version": "3.1.1-alpha.0",
   "description": "Test, build, and development scripts for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
