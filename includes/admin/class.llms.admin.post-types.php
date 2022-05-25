@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -92,6 +92,7 @@ class LLMS_Admin_Post_Types {
 	 * @since 3.35.0 Fix l10n calls.
 	 * @since 4.7.0 Added `publicly_queryable` check for permalink and preview.
 	 * @since 6.0.0 Handle `llms_my_certificate` and `llms_my_achievement` post types.
+	 * @since [version] Fixed too few arguments passed to sprintf, when building restore from revision message.
 	 *
 	 * @return array $messages Post updated messages.
 	 */
@@ -141,7 +142,14 @@ class LLMS_Admin_Post_Types {
 				2  => __( 'Custom field updated.', 'lifterlms' ),
 				3  => __( 'Custom field deleted.', 'lifterlms' ),
 				4  => sprintf( __( '%s updated.', 'lifterlms' ), $name ),
-				5  => isset( $_GET['revision'] ) ? sprintf( __( '%1$s restored to revision from %2$s.', 'lifterlms' ), wp_post_revision_title( llms_filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT ), false ) ) : false,
+				5  => isset( $_GET['revision'] ) ? // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No need to verify the nonce here.
+					sprintf(
+						__( '%1$s restored to revision from %2$s.', 'lifterlms' ),
+						$name,
+						wp_post_revision_title( llms_filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT ), false )
+					)
+					:
+					false,
 				6  => sprintf( __( '%s published.', 'lifterlms' ), $name ) . $permalink_html,
 				7  => sprintf( __( '%s saved.', 'lifterlms' ), $name ),
 				8  => sprintf( __( '%s submitted.', 'lifterlms' ), $name ) . $preview_link_html,
