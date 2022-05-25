@@ -39,51 +39,16 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 * @since 3.36.3 Added l10n function to membership restriction error message.
 	 * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
-	 * @since [version] Added checks for orphaned access plans and non-purchasable products.
+	 * @since [version] Moved verification logic and printing of notices to their own methods.
 	 *
-	 * @param array $atts {
-	 *     Shortcode attributes array.
-	 *
-	 *     @type int              $cols          The number of columns, 1 or 2, to display on the form.
-	 *     @type string           $form_fields   The rendered HTML of the form.
-	 *     @type string           $form_location Form location, one of: "checkout", "registration", or "account".
-	 *     @type string           $form_title    The title of the form.
-	 *     @type bool             $is_free       Should the free checkout process & interface be used for this access plan?
-	 *     @type LLMS_Access_Plan $plan          The access plan object.
-	 *     @type LLMS_Product     $product       The sellable product object.
-	 * }
+	 * @param array $atts An array of shortcode attributes. See ../../templates/checkout/form-checkout.php for elements.
 	 * @return void
 	 */
 	private static function checkout( $atts ) {
 
-		// Make sure the access plan's product exists.
-		if ( false === $atts['product']->exists() ) {
-			self::print_product_not_found_error();
-			return;
-		}
-
-		// If there are membership restrictions, check that the user is in at least one membership.
-		// This is to combat CHEATERS.
-		if ( false === $atts['plan']->is_available_to_user( self::$uid ) ) {
-			self::print_membership_required_error();
-			return;
-		}
-
-		// Is the product purchasable, e.g. is the course restricted because
-		// enrollment capacity has been reached or we're not in the enrollment period?
-		if ( self::does_product_not_purchasable_template_print_error_notices( $atts['product'] ) ) {
-			return;
-		}
-
 		if ( self::$uid ) {
-			// Ensure the user isn't already enrolled in the product being purchased.
-			if ( llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
-				self::print_is_enrolled_notice( $atts['product'] );
-				return;
-			}
 
-			$user = get_userdata( self::$uid );
-			self::print_logged_in_notice( $atts['plan'], $user );
+			self::print_logged_in_notice( $atts['plan'], self::$uid );
 
 		} else {
 			llms_get_login_form(
@@ -112,26 +77,6 @@ class LLMS_Shortcode_Checkout {
 
 		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
 
-	}
-
-	/**
-	 * Loads the 'product/not-purchasable.php' template and returns true if it printed an error notice,
-	 * else returns false.
-	 *
-	 * The default LifterLMS 'product/not-purchasable.php' template prints error notices if a related course
-	 * is restricted, e.g. if enrollment capacity has been reached or we're not in the enrollment period.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Product $product The product object.
-	 * @return bool
-	 */
-	private static function does_product_not_purchasable_template_print_error_notices( $product ) {
-
-		$action_count = did_action( 'lifterlms_after_error_notices' );
-		llms_template_product_not_purchasable( $product );
-
-		return did_action( 'lifterlms_after_error_notices' ) > $action_count;
 	}
 
 	/**
@@ -170,6 +115,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Prevented the display of the checkout form if the product is not purchasable.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -255,7 +201,9 @@ class LLMS_Shortcode_Checkout {
 				 */
 				$atts['cols'] = apply_filters( 'llms_checkout_columns', ( $atts['is_free'] || ! $atts['form_fields'] ) ? 1 : $atts['cols'], $atts['plan'], $atts['form_location'] );
 
-				self::checkout( $atts );
+				if ( self::verify_checkout_form_is_displayable( $atts['plan'], $atts['product'], self::$uid ) ) {
+					self::checkout( $atts );
+				}
 
 			} else {
 
@@ -299,9 +247,10 @@ class LLMS_Shortcode_Checkout {
 	 * @since [version]
 	 *
 	 * @param LLMS_Product $product The product object.
+	 * @param int          $user_id The user ID.
 	 * @return void
 	 */
-	private static function print_is_enrolled_notice( $product ) {
+	private static function print_is_enrolled_notice( $product, $user_id ) {
 		/**
 		 * Filter the displaying of the checkout form notice to students that are already enrolled
 		 * in the product being purchased.
@@ -329,12 +278,13 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Access_Plan $plan The access plan object.
-	 * @param WP_User          $user The user object.
+	 * @param LLMS_Access_Plan $plan    The access plan object.
+	 * @param int              $user_id The user ID.
 	 * @return void
 	 */
-	private static function print_logged_in_notice( $plan, $user ) {
+	private static function print_logged_in_notice( $plan, $user_id ) {
 
+		$user = get_userdata( $user_id );
 		llms_print_notice(
 			sprintf(
 				/* translators: %1$s: user email address, %2$s: logout URL with a redirect to the checkout URL */
@@ -399,6 +349,165 @@ class LLMS_Shortcode_Checkout {
 		$atts['form_fields']   = self::clean_form_fields( llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) ) );
 
 		return $atts;
+	}
+
+	/**
+	 * Verifies that the checkout form can be displayed and prints error notices if not.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan $plan    The access plan object.
+	 * @param LLMS_Product     $product The product object.
+	 * @param int              $user_id The user ID.
+	 * @return bool True if checkout form can be displayed, else false.
+	 */
+	public static function verify_checkout_form_is_displayable( $plan, $product, $user_id ) {
+
+		// Ensure the user isn't already enrolled in the product being purchased.
+		if ( ! self::verify_user_is_not_enrolled( $product, $user_id ) ) {
+			return false;
+		}
+
+		// Make sure the access plan's product exists.
+		if ( ! self::verify_product_exists( $product ) ) {
+			return false;
+		}
+
+		// If there are membership restrictions, check that the user is in at least one membership.
+		// This is to combat CHEATERS.
+		if ( ! self::verify_plan_is_available_to_user( $plan ) ) {
+			return false;
+		}
+
+		// Is the course restricted because enrollment capacity has been reached or we're not in the enrollment period?
+		if ( 'course' === $product->get( 'type' ) ) {
+
+			$course = new LLMS_Course( $product->get( 'id' ) );
+
+			if ( ! self::verify_course_enrollment_has_started( $course ) ) {
+				return false;
+			}
+			if ( ! self::verify_course_enrollment_has_not_ended( $course ) ) {
+				return false;
+			}
+			if ( ! self::verify_course_enrollment_has_capacity( $course ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the course enrollment has capacity,
+	 * else prints an error notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course The course object.
+	 * @return bool
+	 */
+	public static function verify_course_enrollment_has_capacity( $course ) {
+
+		if ( ! $course->has_capacity() ) {
+			llms_print_notice( $course->get( 'capacity_message' ), 'error' );
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the course enrollment end date has not passed or the course does not have an enrollment period,
+	 * else prints an error notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course The course object.
+	 * @return bool
+	 */
+	public static function verify_course_enrollment_has_not_ended( $course ) {
+
+		if ( $course->has_enrollment_period_ended() ) {
+			llms_print_notice( $course->get( 'enrollment_closed_message' ), 'error' );
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the course enrollment start date has passed or the course does not have an enrollment period,
+	 * else prints an error notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course The course object.
+	 * @return bool
+	 */
+	public static function verify_course_enrollment_has_started( $course ) {
+
+		if ( ! $course->has_enrollment_period_started() ) {
+			llms_print_notice( $course->get( 'enrollment_opens_message' ), 'error' );
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the access plan is available to the user, else prints an error notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan $plan The access plan object.
+	 * @return bool
+	 */
+	private static function verify_plan_is_available_to_user( $plan ) {
+
+		if ( ! $plan->is_available_to_user( self::$uid ) ) {
+			self::print_membership_required_notice( $plan );
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the product exists, else prints an error notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Product $product The product object.
+	 * @return bool
+	 */
+	private static function verify_product_exists( $product ) {
+
+		if ( ! $product->exists() ) {
+			self::print_product_not_found_notice( $product );
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the user is not enrolled in the product, else prints a notice and returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Product $product The product object.
+	 * @param int          $user_id The user ID.
+	 * @return bool
+	 */
+	private static function verify_user_is_not_enrolled( $product, $user_id ) {
+
+		if ( llms_is_user_enrolled( $user_id, $product->get( 'id' ) ) ) {
+			self::print_is_enrolled_notice( $product, $user_id );
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

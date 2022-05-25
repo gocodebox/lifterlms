@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added `$product` and `$user_id` parameters to the
+  `llms_display_checkout_form_enrolled_students_notice` filter hook.

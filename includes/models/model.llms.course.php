@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -596,6 +596,40 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		// Compare results.
 		return ( $this->get_student_count() < $capacity );
 
+	}
+
+	/**
+	 * Returns true if the enrollment end date has passed, the course does not have an enrollment period,
+	 * or the course does not have an enrollment end date.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_enrollment_period_ended() {
+
+		if ( 'no' === $this->get( 'enrollment_period' ) || empty( $this->get( 'enrollment_end_date' ) ) ) {
+			return false;
+		}
+
+		return $this->has_date_passed( 'enrollment_end_date' );
+	}
+
+	/**
+	 * Returns true if the enrollment period start date has passed, the course does not have an enrollment period,
+	 * or the enrollment start date is not set.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_enrollment_period_started() {
+
+		if ( 'no' === $this->get( 'enrollment_period' ) || empty( $this->get( 'enrollment_start_date' ) ) ) {
+			return true;
+		}
+
+		return $this->has_date_passed( 'enrollment_start_date' );
 	}
 
 	/**

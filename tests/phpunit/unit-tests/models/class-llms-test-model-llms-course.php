@@ -19,6 +19,11 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	protected $class_name = 'LLMS_Course';
 
 	/**
+	 * @var LLMS_Course
+	 */
+	protected $obj;
+
+	/**
 	 * db post type of the model being tested
 	 * @var  string
 	 */
@@ -476,6 +481,72 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'enable_capacity', 'no' );
 		$this->assertTrue( $this->obj->has_capacity() );
 
+	}
+
+	/**
+	 * Tests the has_enrollment_period_ended() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_enrollment_period_ended() {
+
+		$this->create();
+
+		// Enrollment period not set. Enrollment end date not set.
+		$this->assertFalse( $this->obj->has_enrollment_period_ended() );
+
+		// Configure testing matrix.
+		$tests = array();
+		foreach( array( 'no', 'yes' ) as $enrollment_period ) {
+			foreach( array( 'last week', 'next week' ) as $enrollment_end_date ) {
+				$tests[] = array(
+					'enrollment_period'   => $enrollment_period,
+					'enrollment_end_date' => $enrollment_end_date,
+					'expected'            => ( 'yes' === $enrollment_period && 'last week' === $enrollment_end_date ),
+				);
+			}
+		}
+
+		foreach ( $tests as $test ) {
+			$expected = array_pop( $test );
+			$this->obj->set( $test );
+			$this->assertEquals( $expected, $this->obj->has_enrollment_period_ended(), print_r( $test, true ) );
+		}
+	}
+
+	/**
+	 * Tests the has_enrollment_period_started() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_enrollment_period_started() {
+
+		$this->create();
+
+		// Enrollment period not set. Enrollment start date not set.
+		$this->assertTrue( $this->obj->has_enrollment_period_started() );
+
+		// Configure testing matrix.
+		$tests = array();
+		foreach( array( 'no', 'yes' ) as $enrollment_period ) {
+			foreach( array( 'last week', 'next week' ) as $enrollment_start_date ) {
+				$tests[] = array(
+					'enrollment_period'     => $enrollment_period,
+					'enrollment_start_date' => $enrollment_start_date,
+					'expected'              => ! ( 'yes' === $enrollment_period && 'next week' === $enrollment_start_date ),
+				);
+			}
+		}
+
+		foreach ( $tests as $test ) {
+			$expected = array_pop( $test );
+			$this->obj->set( $test );
+			$this->assertEquals( $expected, $this->obj->has_enrollment_period_started(), print_r( $test, true ) );
+		}
 	}
 
 	/**
