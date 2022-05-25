@@ -252,25 +252,28 @@ class LLMS_Shortcode_Checkout {
 	 */
 	private static function print_is_enrolled_notice( $product, $user_id ) {
 		/**
-		 * Filter the displaying of the checkout form notice to students that are already enrolled
-		 * in the product being purchased.
+		 * Filter if the "user already enrolled" checkout notice should be displayed.
 		 *
 		 * @since 4.2.0
+		 * @since [version] Added `$product` and `$user_id` parameters.
 		 *
-		 * @param bool $display_notice Whether or not to display the checkout form notice to students that
-		 *                             are already enrolled in the product being purchased.
+		 * @param bool         $display_notice Whether or not to display the notice.
+		 * @param LLMS_Product $product        The product object.
+		 * @param int          $user_id        The user ID.
 		 */
-		if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
-			llms_print_notice(
-				sprintf(
-					/* translators: %1$s: product permalink, %2$s: the product type (course/membership) */
-					__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
-					llms_get_page_url( 'myaccount' ),
-					$product->get_post_type_label()
-				),
-				'notice'
-			);
+		if ( ! apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true, $product, $user_id ) ) {
+			return;
 		}
+
+		llms_print_notice(
+			sprintf(
+				/* translators: %1$s: product permalink, %2$s: the product type (course/membership) */
+				__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
+				llms_get_page_url( 'myaccount' ),
+				$product->get_post_type_label()
+			),
+			'notice'
+		);
 	}
 
 	/**
