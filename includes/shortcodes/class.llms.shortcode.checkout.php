@@ -297,13 +297,26 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Prints an error that the user must be a member to purchase the plan.
+	 * Prints a notice that the user must be a member to purchase the plan.
 	 *
 	 * @since [version]
 	 *
+	 * @param LLMS_Access_Plan $plan The access plan object.
 	 * @return void
 	 */
-	private static function print_membership_required_error() {
+	private static function print_membership_required_notice( $plan ) {
+
+		/**
+		 * Filter if the "user must be a member" checkout notice should be displayed.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool             $display_notice Whether or not to display the notice.
+		 * @param LLMS_Access_Plan $plan           The access plan object.
+		 */
+		if ( ! apply_filters( 'llms_display_checkout_membership_required_notice', true, $plan ) ) {
+			return;
+		}
 
 		llms_print_notice(
 			__( 'You must be a member in order to purchase this access plan.', 'lifterlms' ),
@@ -312,13 +325,26 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Prints an error that the access plan's product was not found.
+	 * Prints a notice that the access plan's product was not found.
 	 *
 	 * @since [version]
 	 *
+	 * @param LLMS_Product $product The product object.
 	 * @return void
 	 */
-	private static function print_product_not_found_error() {
+	private static function print_product_not_found_notice( $product ) {
+
+		/**
+		 * Filter if the "product not found" checkout notice should be displayed.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool         $display_notice Whether or not to display the notice.
+		 * @param LLMS_Product $product        The product object.
+		 */
+		if ( ! apply_filters( 'llms_display_checkout_product_not_found_notice', true, $product ) ) {
+			return;
+		}
 
 		llms_print_notice(
 			__( 'The product that this access plan is for could not be found.', 'lifterlms' ),
