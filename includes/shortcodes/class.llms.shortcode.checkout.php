@@ -268,8 +268,8 @@ class LLMS_Shortcode_Checkout {
 		llms_print_notice(
 			sprintf(
 				/* translators: %1$s: product permalink, %2$s: the product type (course/membership) */
-				__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
-				llms_get_page_url( 'myaccount' ),
+				__( 'You already have access to this <a href="%1$s">%2$s</a>!', 'lifterlms' ),
+				get_permalink( $product->get( 'id' ) ),
 				$product->get_post_type_label()
 			),
 			'notice'

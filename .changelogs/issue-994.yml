@@ -1,0 +1,6 @@
+significance: patch
+type: changed
+links:
+  - "#994"
+entry: Changed the "You already have access" link from the dashboard to the
+  product (course/membership).
