@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -69,22 +69,35 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	);
 
 	/**
-	 * Determine if the transaction can be refunded
-	 * Status must not be "failed" and total refunded amount must be less than order amount
+	 * Determines if the transaction can be refunded.
+	 * 
+	 * Status must not be "failed" and total refunded amount must be less than order amount.
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Made the return value filterable via the `llms_transaction_can_be_refunded` hook.
+	 * 
+	 * @return boolean
 	 */
 	public function can_be_refunded() {
-		$status = $this->get( 'status' );
-		// Can't refund failed or pending transactions.
-		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
-			return false;
+
+		$can_be_refunded = true;
+
+		if ( in_array( $this->get( 'status' ), array( 'llms-txn-failed', 'llms-txn-pending' ), true ) ) {
+			$can_be_refunded = false;
 		} elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
-			return false;
+			$can_be_refunded = false;
 		}
-		return true;
+
+		/**
+		 * Filters whether or not a transaction can be refunded.
+		 * 
+		 * @since [version]
+		 *
+		 * @param boolean          $can_be_refunded Whether the transaction can be refunded.
+		 * @param LLMS_Transaction $transaction     The transaction object.
+		 */
+		return apply_filters( 'llms_transaction_can_be_refunded', $can_be_refunded, $this );
+
 	}
 
 	/**
@@ -297,6 +310,26 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			return new WP_Error( 'error', __( 'An unknown error occurred during refund processing', 'lifterlms' ) );
 
 		}
+
+	}
+
+	public function get_refunds() {
+		return $this->get_array( 'refund_data' );
+	}
+
+	public function add_refund( $data = array() ) {
+
+		$data = wp_parse_args( 
+			$data, 
+			array(
+				'amount' => 0.00,
+				'date'   => llms_current_time( 'mysql' ),
+				'id'     => '',
+				'method' => 'manual',
+			)
+		);
+
+		
 
 	}
 
