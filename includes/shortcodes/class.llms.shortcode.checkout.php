@@ -287,6 +287,19 @@ class LLMS_Shortcode_Checkout {
 	 */
 	private static function print_logged_in_notice( $plan, $user_id ) {
 
+		/**
+		 * Filter if the "user is logged in" checkout notice should be displayed.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool             $display_notice Whether or not to display the notice.
+		 * @param LLMS_Access_Plan $plan           The access plan object.
+		 * @param int              $user_id        The user ID.
+		 */
+		if ( ! apply_filters( 'llms_display_checkout_logged_in_notice', true, $plan, $user_id ) ) {
+			return;
+		}
+
 		$user = get_userdata( $user_id );
 		llms_print_notice(
 			sprintf(
