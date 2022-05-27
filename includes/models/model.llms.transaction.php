@@ -156,11 +156,10 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the amount of the transaction that can be refunded
+	 * Retrieves the amount of the transaction that can be refunded.
 	 *
-	 * @return   float
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @return float
 	 */
 	public function get_refundable_amount() {
 		$amount   = $this->get_price( 'amount', array(), 'float' );
@@ -169,8 +168,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * An array of default arguments to pass to $this->create()
-	 * when creating a new post
+	 * Retrieves the array of default arguments to pass to {@see LLMS_Transaction::create()} when creating a new post.
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.6 Add a default date information using `llms_current_time()`.
@@ -225,31 +223,40 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve an instance of LLMS_Order for the transaction's parent order
+	 * Retrieves an instance of LLMS_Order for the transaction's parent order.
 	 *
-	 * @return   obj
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return LLMS_Order
 	 */
 	public function get_order() {
 		return new LLMS_Order( $this->get( 'order_id' ) );
 	}
 
 	/**
-	 * Retrieve the payment gateway instance for the transactions payment gateway
+	 * Retrieves the payment gateway instance for the transactions payment gateway.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return LLMS_Payment_Gateway or WP_Error
+	 * @return LLMS_Payment_Gateway|WP_Error
 	 */
 	public function get_gateway() {
+
 		$gateways = llms()->payment_gateways();
 		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && $gateway->is_enabled() || is_admin() ) {
 			return $gateway;
-		} else {
-			return new WP_Error( 'error', sprintf( __( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ), $this->get( 'payment_gateway' ) ) );
 		}
+
+		// Translators: %s = The payment gateway ID.
+		return new WP_Error(
+			'error',
+			sprintf(
+				__( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ),
+				$this->get( 'payment_gateway' )
+			)
+		);
+
 	}
 
 	/**
@@ -369,6 +376,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			return new WP_Error(
 				'llms-txn-refund-amount-too-high',
 				sprintf(
+					// Translators: %1$s = The requested refund amount; %2$s = the available refundable amount.
 					__( 'Requested refund amount was %1$s, the maximum possible refund for this transaction is %2$s.', 'lifterlms' ),
 					llms_price( $amount ),
 					llms_price( $refundable )
@@ -456,8 +464,9 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		$orig_note = apply_filters( 'llms_transaction_refund_note', $note, $this, $amount, $method );
 
 		$note = sprintf(
+			// Translators: %1$s = The refund amount; %2$d the transaction ID; %3$s The refund method name; %4$s = the refund ID.
 			__( 'Refunded %1$s for transaction #%2$d via %3$s [Refund ID: %4$s]', 'lifterlms' ),
-			strip_tags( llms_price( $amount ) ),
+			wp_strip_tags( llms_price( $amount ) ),
 			$this->get( 'id' ),
 			$this->get_refund_method_title( $method ),
 			$refund_id
@@ -518,12 +527,12 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Wrapper for $this-get() which allows translation of the database value before outputting on screen
+	 * Translation wrapper for {@see LLMS_Transaction::get()` which enables l10n of database values.
 	 *
-	 * @param    string $key  key to retrieve
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $key Key to retrieve.
+	 * @return string
 	 */
 	public function translate( $key ) {
 
