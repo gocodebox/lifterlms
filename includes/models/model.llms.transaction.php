@@ -384,14 +384,14 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			);
 		}
 
-		$refund_id = $this->generate_refund_id( $method, $amount, $note );
-		if ( is_string( $refund_id ) ) {
-			$this->record_refund( $amount, $note, $refund_id, $method );
-		} elseif ( ! is_wp_error( $refund_id ) ) {
-			$refund_id = new WP_Error( 'llms-txn-refund-unknown-error', __( 'An unknown error occurred while processing the refund.', 'lifterlms' ) );
+		$id = $this->generate_refund_id( $method, $amount, $note );
+		if ( is_string( $id ) ) {
+			$this->record_refund( compact( 'amount', 'id', 'method' ), $note );
+		} elseif ( ! is_wp_error( $id ) ) {
+			$id = new WP_Error( 'llms-txn-refund-unknown-error', __( 'An unknown error occurred while processing the refund.', 'lifterlms' ) );
 		}
 
-		return $refund_id;
+		return $id;
 
 	}
 
@@ -443,13 +443,77 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * @since [version]
 	 *
-	 * @param float  $amount    The refund amount.
-	 * @param string $note      User-submitted refund note data to add to the order alongside the refund.
-	 * @param string $refund_id The generated refund ID.
-	 * @param string $method    The refund processing method ID.
+	 * @param array $args {
+	 *     Refund arguments.
+	 *
+	 *     @type float  $amount    The refund amount.
+	 *     @type string $refund_id The generated refund ID.
+	 *     @type string $method    The refund processing method ID.
+	 *     @type string $date      The refund date in MySQL date format. If not supplied, the current time is used.
+	 * }
+	 * @param string $note User-submitted refund note to add to the order alongside the refund.
 	 * @return void
 	 */
-	public function record_refund( $amount, $note, $refund_id, $method ) {
+	public function record_refund( $refund, $note = '' ) {
+
+		$refund = wp_parse_args( 
+			$refund,
+			array(
+				'amount' => 0.00,
+				'id'     => '',
+				'method' => '',
+				'date'   => llms_current_time( 'mysql' ),
+			)
+		);
+
+		// Record the note.
+		$this->record_refund_note( $note, $refund['amount'], $refund['id'], $refund['method'] );
+
+		// Update the refunded amount.
+		$refund_amount = $this->get( 'refund_amount' );
+		$new_amount    = ! $refund_amount ? $refund['amount'] : $refund_amount + $refund['amount'];
+		$this->set( 'refund_amount', $new_amount );
+
+		// Record refund metadata.
+		$refund_data = $this->get_refunds();
+
+		/**
+		 * Filters the stored refund data before saving it.
+		 *
+		 * @since Unknown
+		 *
+		 * @param array            $refund {
+		 *     An associative array of refund data.
+		 *
+		 *     @type float  $amount The refund amount.
+		 *     @type string $date   The refund date in MySQL date format: `Y-m-d H:i:s`.
+		 *     @type string $id     The refund ID.
+		 *     @type string $method The refund method ID.
+		 * }
+		 * @param LLMS_Transaction $transaction The transaction object.
+		 * @param float            $amount      The refund amount.
+		 * @param string           $method      The refund method ID
+		 */
+		$refund_data[ $refund['id'] ] = apply_filters( 'llms_transaction_refund_data', $refund, $this, $refund['amount'], $refund['method'] );
+		$this->set( 'refund_data', $refund_data );
+
+		// Update status.
+		$this->set( 'status', 'llms-txn-refunded' );
+
+	}
+
+	/**
+	 * Records an order note associated with a refund.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $note      User-submitted refund note data to add to the order alongside the refund.
+	 * @param float  $amount    The refund amount.
+	 * @param string $refund_id The generated refund ID.
+	 * @param string $method    The refund processing method ID.
+	 * @return int The WP_Comment ID of the recorded order note.
+	 */
+	private function record_refund_note( $note, $amount, $refund_id, $method ) {
 
 		/**
 		 * Filters user-submitted transaction refund order note.
@@ -480,49 +544,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		// Record the note.
-		$this->get_order()->add_note( $note, true );
-
-		// Update the refunded amount.
-		$refund_amount = $this->get( 'refund_amount' );
-		$new_amount    = ! $refund_amount ? $amount : $refund_amount + $amount;
-		$this->set( 'refund_amount', $new_amount );
-
-		// Record refund metadata.
-		$refund_data = $this->get_refunds();
-
-		/**
-		 * Filters the stored refund data before saving it.
-		 *
-		 * @since Unknown
-		 *
-		 * @param array            $refund_data {
-		 *     An associative array of refund data.
-		 *
-		 *     @type float  $amount The refund amount.
-		 *     @type string $date   The refund date in MySQL date format: `Y-m-d H:i:s`.
-		 *     @type string $id     The refund ID.
-		 *     @type string $method The refund method ID.
-		 * }
-		 * @param LLMS_Transaction $transaction The transaction object.
-		 * @param float            $amount      The refund amount.
-		 * @param string           $method      The refund method ID
-		 */
-		$refund_data[ $refund_id ] = apply_filters(
-			'llms_transaction_refund_data',
-			array(
-				'amount' => $amount,
-				'date'   => llms_current_time( 'mysql' ),
-				'id'     => $refund_id,
-				'method' => $method,
-			),
-			$this,
-			$amount,
-			$method
-		);
-		$this->set( 'refund_data', $refund_data );
-
-		// Update status.
-		$this->set( 'status', 'llms-txn-refunded' );
+		return $this->get_order()->add_note( $note, true );
 
 	}
 
