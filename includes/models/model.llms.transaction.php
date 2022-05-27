@@ -466,7 +466,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		$note = sprintf(
 			// Translators: %1$s = The refund amount; %2$d the transaction ID; %3$s The refund method name; %4$s = the refund ID.
 			__( 'Refunded %1$s for transaction #%2$d via %3$s [Refund ID: %4$s]', 'lifterlms' ),
-			wp_strip_tags( llms_price( $amount ) ),
+			wp_strip_all_tags( llms_price( $amount ) ),
 			$this->get( 'id' ),
 			$this->get_refund_method_title( $method ),
 			$refund_id
