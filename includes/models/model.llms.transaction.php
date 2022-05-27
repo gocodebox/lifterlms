@@ -443,8 +443,8 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args {
-	 *     Refund arguments.
+	 * @param array  $refund {
+	 *      Refund arguments.
 	 *
 	 *     @type float  $amount    The refund amount.
 	 *     @type string $refund_id The generated refund ID.
@@ -456,7 +456,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 */
 	public function record_refund( $refund, $note = '' ) {
 
-		$refund = wp_parse_args( 
+		$refund = wp_parse_args(
 			$refund,
 			array(
 				'amount' => 0.00,
