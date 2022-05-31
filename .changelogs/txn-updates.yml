@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added new filter `llms_transaction_can_be_refunded` enabling custom
+  refund restrictions to be applied to a transaction.
