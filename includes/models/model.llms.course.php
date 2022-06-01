@@ -260,7 +260,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 *
 		 * @param array       $instructors    Instructor data array.
 		 * @param LLMS_Course $course         Course object.
-		 * @param boolearn    $exclude_hidden If true, excludes hidden instructors from the return array.
+		 * @param boolean     $exclude_hidden If true, excludes hidden instructors from the return array.
 		 */
 		return apply_filters(
 			'llms_course_get_instructors',
@@ -599,8 +599,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	}
 
 	/**
-	 * Returns true if the enrollment end date has passed, the course does not have an enrollment period,
-	 * or the course does not have an enrollment end date.
+	 * Returns true if the course enrollment period is enabled and the enrollment end date is set and has passed,
+	 * else returns false.
 	 *
 	 * @since [version]
 	 *
@@ -616,8 +616,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	}
 
 	/**
-	 * Returns true if the enrollment period start date has passed, the course does not have an enrollment period,
-	 * or the enrollment start date is not set.
+	 * Returns true if the course enrollment period is disabled or the start date is empty or has passed,
+	 * else returns false.
 	 *
 	 * @since [version]
 	 *
