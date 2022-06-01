@@ -962,7 +962,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
 	 *
-	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
+	 * This method will load the values of any gateway options with a `secure_option` declaration. Additional
 	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter or via the
 	 * gateway's `add_secure_string()` method.
 	 *
