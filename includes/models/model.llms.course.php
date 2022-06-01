@@ -709,7 +709,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		$restricted_message = false;
 		if ( ! $this->has_enrollment_period_started() ) {
-			$restricted_message =  $this->get( 'enrollment_opens_message' );
+			$restricted_message = $this->get( 'enrollment_opens_message' );
 		}
 		if ( $this->has_enrollment_period_ended() ) {
 			$restricted_message = $this->get( 'enrollment_closed_message' );
@@ -728,7 +728,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 * @param LLMS_Course  $course             The course object.
 		 */
 		$restricted_message = apply_filters( 'llms_is_course_enrollment_restricted', $restricted_message, $this );
-
 
 		return $restricted_message;
 	}
