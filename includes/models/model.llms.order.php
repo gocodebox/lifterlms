@@ -1798,7 +1798,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'billing_last_name'  => 'last_name',
 			);
 
-			foreach ( $to_set as $order_key => &$val ) {
+			foreach ( array_keys( $to_set ) as $order_key ) {
 				$to_set[ $order_key ] = $user->get( $map[ $order_key ] ?? $order_key );
 			}
 		}
