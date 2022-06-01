@@ -261,15 +261,15 @@ class LLMS_Order_Generator {
 			'plan' => $this->plan,
 		);
 
-		$user = get_current_user_id() ?
+		$user_id = get_current_user_id() ?
 			llms_update_user( $this->data, 'checkout', $args ) :
 			llms_register_user( $this->data, 'checkout', true, $args );
 
-		if ( ! is_wp_error( $user ) ) {
-			$this->student = llms_get_student( $user );
+		if ( ! is_wp_error( $user_id ) ) {
+			$this->student = llms_get_student( $user_id );
 		}
 
-		return $user;
+		return $user_id;
 
 	}
 
@@ -300,7 +300,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Attempts to locate a user ID.
 	 *
-	 * Uses the logged in users information and falls back to a lookup by email address if available.
+	 * Uses the logged in user's information and falls back to a lookup by email address if available.
 	 *
 	 * @since [version]
 	 *
@@ -494,18 +494,18 @@ class LLMS_Order_Generator {
 	 * @since [version]
 	 *
 	 * @param boolean $validate_order Whether or not order data should be validated. This is `true` when running `confirm()` and `false` otherwise.
-	 * @return boolean|WP_Errors Returns `true` if all validations pass or an error object.
+	 * @return boolean|WP_Error Returns `true` if all validations pass or an error object.
 	 */
 	protected function validate( $validate_order = false ) {
 
 		/**
 		 * Allows 3rd party validation prior to generation of an order.
 		 *
-		 * This validation hooks runs prior to all default validation.
+		 * This validation hook runs prior to all default validation.
 		 *
 		 * @since [version]
 		 *
-		 * @param null|WP_Error $validation_errors Halts checkout and returns the supplied error.
+		 * @param null|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
 		$before_validation = apply_filters( 'llms_before_generate_order_validation', null );
 		if ( is_wp_error( $before_validation ) ) {
@@ -532,13 +532,13 @@ class LLMS_Order_Generator {
 		}
 
 		/**
-		 * Allows 3rd party prior to generation of an order.
+		 * Allows 3rd party validation prior to generation of an order.
 		 *
-		 * This validation hooks runs after to all default validation passes.
+		 * This validation hook runs after all default validation.
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean|WP_Error $validation_errors Halts checkout and returns the supplied error.
+		 * @param boolean|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
 		return apply_filters( 'llms_after_generate_order_validation', true );
 
