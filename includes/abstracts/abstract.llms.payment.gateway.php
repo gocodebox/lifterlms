@@ -198,7 +198,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * This should be called by AJAX-powered gateways after verify a transaction was completed successfully.
+	 * This should be called by AJAX-powered gateways after verifying that a transaction was completed successfully.
 	 *
 	 * @since [version]
 	 *
@@ -221,7 +221,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 			)
 		);
 
-		// Ensure notification processors get dispatched since shutdown wont be called.
+		// Ensure notification processors get dispatched since shutdown won't be called.
 		do_action( 'llms_dispatch_notification_processors' );
 
 		return $data;

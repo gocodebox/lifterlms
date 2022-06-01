@@ -305,7 +305,7 @@ class LLMS_Form_Handler {
 	 * @since 5.0.0
 	 * @since 5.1.0 Remove invisible fields from when loading the checkout form.
 	 * @since [version] Allow submission validation only (without actually submitting the fields) using the
-	 *               `validate_only` flag in the `$args` array.
+	 *              `validate_only` flag in the `$args` array.
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.
