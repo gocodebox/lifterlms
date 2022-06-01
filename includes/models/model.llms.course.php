@@ -698,6 +698,42 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	}
 
 	/**
+	 * Returns a message if the enrollment period has not started, the enrollment period has ended,
+	 * or there is no more enrollment capacity, else returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @return false|string
+	 */
+	public function is_enrollment_restricted() {
+
+		$restricted_message = false;
+		if ( ! $this->has_enrollment_period_started() ) {
+			$restricted_message =  $this->get( 'enrollment_opens_message' );
+		}
+		if ( $this->has_enrollment_period_ended() ) {
+			$restricted_message = $this->get( 'enrollment_closed_message' );
+		}
+		if ( ! $this->has_capacity() ) {
+			$restricted_message = $this->get( 'capacity_message' );
+		}
+
+		/**
+		 * Filters the course enrollment restricted message.
+		 *
+		 * @since [version]
+		 *
+		 * @param false|string $restricted_message The message explaining why enrollment is restricted
+		 *                                         or false if enrollment is not restricted.
+		 * @param LLMS_Course  $course             The course object.
+		 */
+		apply_filters( 'llms_is_course_enrollment_restricted', $restricted_message, $this );
+
+
+		return $restricted_message;
+	}
+
+	/**
 	 * Determine if students can access course content based on the current date
 	 *
 	 * Note that enrollment does not affect the outcome of this check as regardless
