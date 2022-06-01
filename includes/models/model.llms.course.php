@@ -608,11 +608,11 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 */
 	public function has_enrollment_period_ended() {
 
-		if ( 'no' === $this->get( 'enrollment_period' ) || empty( $this->get( 'enrollment_end_date' ) ) ) {
-			return false;
+		if ( llms_parse_bool( $this->get( 'enrollment_period' ) ) && $this->get( 'enrollment_end_date' ) ) {
+			return $this->has_date_passed( 'enrollment_end_date' );
 		}
 
-		return $this->has_date_passed( 'enrollment_end_date' );
+		return false;
 	}
 
 	/**
@@ -625,7 +625,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 */
 	public function has_enrollment_period_started() {
 
-		if ( 'no' === $this->get( 'enrollment_period' ) || empty( $this->get( 'enrollment_start_date' ) ) ) {
+		if ( ! llms_parse_bool( $this->get( 'enrollment_period' ) ) || ! $this->get( 'enrollment_start_date' ) ) {
 			return true;
 		}
 
