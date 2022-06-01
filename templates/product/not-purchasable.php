@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.38.0
- * @since [version] Moved verification logic and notice printing to the LLMS_Shortcode_Checkout class.
+ * @since [version] Moved course enrollment restriction logic to `LLMS_Course::is_enrollment_restricted()`.
  * @version [version]
  *
  * @var LLMS_Product $product Product object of the course or membership.
@@ -15,10 +15,11 @@ defined( 'ABSPATH' ) || exit;
 
 if ( 'course' === $product->get( 'type' ) ) {
 
-	$course = new LLMS_Course( $product->post );
+	$course             = new LLMS_Course( $product->post );
+	$restricted_message = $course->is_enrollment_restricted();
 
-	if ( LLMS_Shortcode_Checkout::verify_course_enrollment_has_started( $course ) ) {
-		LLMS_Shortcode_Checkout::verify_course_enrollment_has_not_ended( $course );
+	if ( $restricted_message ) {
+		llms_print_notice( $restricted_message, 'error' );
+		return;
 	}
-	LLMS_Shortcode_Checkout::verify_course_enrollment_has_capacity( $course );
 }
