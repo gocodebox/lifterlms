@@ -620,6 +620,16 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$course->set( 'capacity', 1 );
 		$student->enroll( $course->get( 'id' ) );
 		$this->assertEquals( 'No capacity.', $course->is_enrollment_restricted() );
+		$student->delete_enrollment( $course->get( 'id' ) );
+		$course->set( 'enrolled_students', 0 ); // Don't wait for LLMS_Processor_Course_Data::dispatch_calc() to run.
+
+		// Message has a shortcode.
+		$shortcode = '[lifterlms_course_info id="' . $course->get( 'id' ) . '" key="enrollment_end_date" date_format="Y-m-d H:i:s"]';
+		$course->set( 'enrollment_closed_message', "Enrollment closed on $shortcode." );
+		$course->set( 'enrollment_end_date', $yesterday );
+		$expected = "Enrollment closed on $yesterday.";
+		$this->assertEquals( $expected, $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_end_date', $tomorrow );
 	}
 
 	/**
