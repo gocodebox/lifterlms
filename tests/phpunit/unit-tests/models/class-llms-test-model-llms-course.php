@@ -583,6 +583,46 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Tests the is_enrollment_restricted() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_enrollment_restricted() {
+
+		// Set up.
+		$course    = $this->factory->course->create_and_get( array(
+			'enrollment_period'         => 'yes',
+			'enrollment_opens_message'  => 'Opens tomorrow.',
+			'enrollment_closed_message' => 'Closed yesterday.',
+			'enable_capacity'           => 'yes',
+			'capacity_message'          => 'No capacity.',
+		) );
+		$student   = $this->factory->student->create_and_get();
+		$yesterday = wp_date( 'Y-m-d H:i:s', strtotime( 'yesterday' ) );
+		$tomorrow  = wp_date( 'Y-m-d H:i:s', strtotime( 'tomorrow' ) );
+
+		// Not restricted.
+		$this->assertFalse( $course->is_enrollment_restricted() );
+
+		// Opens tomorrow.
+		$course->set( 'enrollment_start_date', $tomorrow );
+		$this->assertEquals( 'Opens tomorrow.', $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_start_date', $yesterday );
+
+		// Closed yesterday.
+		$course->set( 'enrollment_end_date', $yesterday );
+		$this->assertEquals( 'Closed yesterday.', $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_end_date', $tomorrow );
+
+		// No capacity.
+		$course->set( 'capacity', 1 );
+		$student->enroll( $course->get( 'id' ) );
+		$this->assertEquals( 'No capacity.', $course->is_enrollment_restricted() );
+	}
+
+	/**
 	 * Test to_array_extra_blocks()
 	 *
 	 * @since 4.7.0
