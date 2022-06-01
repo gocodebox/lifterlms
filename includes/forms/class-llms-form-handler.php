@@ -311,7 +311,7 @@ class LLMS_Form_Handler {
 	 * @param string $location    Form location ID.
 	 * @param array  $args        Additional arguments passed to the short-circuit filter.
 	 * @return integer|boolean|WP_Error On success returns the `WP_User` ID.
-	 *                                  If the `validate_only` argument is passed returns `true` on succes.
+	 *                                  If the `validate_only` argument is passed returns `true` on success.
 	 *                                  Returns an error object if any validation or processing errors are encountered.
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {

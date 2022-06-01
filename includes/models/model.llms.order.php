@@ -366,7 +366,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since [version]
 	 *
-	 * @return boolaen
+	 * @return boolean
 	 */
 	public function can_be_confirmed() {
 
@@ -1457,7 +1457,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Action triggered after a the order is initialized.
+		 * Action triggered after the order is initialized.
 		 *
 		 * @since Unknown.
 		 * @since [version] Added `$user_data` parameter.
@@ -1465,8 +1465,8 @@ class LLMS_Order extends LLMS_Post_Model {
 		 *                 if the method's input data is an array instead of an existing
 		 *                 user object.
 		 *
-		 * @param LLMS_Order   $order                           The order object.
-		 * @param LLMS_Student $student                         The student object. If an array of data is passed
+		 * @param LLMS_Order                         $order     The order object.
+		 * @param LLMS_Student                       $student   The student object. If an array of data is passed
 		 *                                                      to `LLMS_Order::init()` then an empty student object
 		 *                                                      will be passed.
 		 * @param array|LLMS_Student|WP_User|integer $user_data User data.
