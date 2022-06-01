@@ -727,7 +727,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 *                                         or false if enrollment is not restricted.
 		 * @param LLMS_Course  $course             The course object.
 		 */
-		apply_filters( 'llms_is_course_enrollment_restricted', $restricted_message, $this );
+		$restricted_message = apply_filters( 'llms_is_course_enrollment_restricted', $restricted_message, $this );
 
 
 		return $restricted_message;
