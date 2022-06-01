@@ -226,7 +226,7 @@ class LLMS_Shortcode_Checkout {
 
 		// If there are membership restrictions, check that the user is in at least one membership.
 		// This is to combat CHEATERS.
-		if ( ! $plan->is_available_to_user( self::$uid ) ) {
+		if ( ! $plan->is_available_to_user( $user_id ) ) {
 			self::add_membership_required_notice( $plan );
 			return false;
 		}
