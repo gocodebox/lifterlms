@@ -620,7 +620,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Adds the gateways registered secured strings to the default list of site-wide secure strings.
+	 * Adds the gateway's registered secured strings to the default list of site-wide secure strings.
 	 *
 	 * This is the callback for the `llms_secure_strings` filter (called via `llms_log()`).
 	 *

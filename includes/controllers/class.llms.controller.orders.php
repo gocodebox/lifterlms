@@ -739,7 +739,7 @@ class LLMS_Controller_Orders {
 	 * @return void
 	 */
 	public function confirm_pending_order() {
-		_deprecated_function( __METHOD__, '[verison]', 'LLMS_Controller_Checkout::confirm_pending_order' );
+		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::confirm_pending_order' );
 		LLMS_Controller_Checkout::instance()->confirm_pending_order();
 	}
 
@@ -767,7 +767,7 @@ class LLMS_Controller_Orders {
 	 * @return void
 	 */
 	public function create_pending_order() {
-		_deprecated_function( __METHOD__, '[verison]', 'LLMS_Controller_Checkout::create_pending_order' );
+		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::create_pending_order' );
 		LLMS_Controller_Checkout::instance()->create_pending_order();
 	}
 
