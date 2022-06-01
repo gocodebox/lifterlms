@@ -993,8 +993,8 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 *
 		 * @since 6.4.0
 		 *
-		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
-		 * @param string    $id              The gateway ID.
+		 * @param string[] $gateway_strings List of secure strings for the payment gateway.
+		 * @param string   $id              The gateway ID.
 		 */
 		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
 
