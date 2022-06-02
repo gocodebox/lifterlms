@@ -410,7 +410,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 		wp_set_current_user( $user->ID );
 
-		$args['first_name'] = 'NotKyle';
+		$data['first_name'] = 'NotKyle';
 
 		$this->assertTrue( llms_validate_user( $data , 'checkout' ) );
 
