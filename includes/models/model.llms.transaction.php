@@ -114,7 +114,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @param float  $amount The amount to refund.
 	 * @param string $note   Refund notes.
 	 * @return string|boolean|WP_Error Returns the generated refund ID string or an error object. If a falsy value
-	 *                                 is returned the refund processing with fail with a generic error message.
+	 *                                 is returned the refund processing will fail with a generic error message.
 	 */
 	protected function generate_refund_id( $method, $amount, $note = '' ) {
 
@@ -262,7 +262,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Retrieves the title of the refund method using during refund processing.
 	 *
-	 * This method is record the method used to process a refund in the refund order note.
+	 * This method records the method used to process a refund in the refund order note.
 	 *
 	 * @since [version]
 	 *
