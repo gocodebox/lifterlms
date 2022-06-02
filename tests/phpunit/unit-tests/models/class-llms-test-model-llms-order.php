@@ -1192,8 +1192,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-
-
 	/**
 	 * Test init() with a plan that has a trial.
 	 *
