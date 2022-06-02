@@ -152,7 +152,6 @@ class LLMS_Controller_Checkout {
 	 * Verifies the request, validates request data, creates/updates the user, and creates/updates
 	 * the order post.
 	 *
-	 *
 	 * If the order is created successfully the order, access plan, student, and coupon data
 	 * is passed to the payment gateway's `handle_pending_order()` method for further processing.
 	 *
