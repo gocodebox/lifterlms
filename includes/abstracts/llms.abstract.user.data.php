@@ -57,7 +57,7 @@ abstract class LLMS_Abstract_User_Data {
 	 */
 	public function __construct( $user = null, $autoload = true ) {
 
-		$user = ( $user || ( ! $user && $autoload ) ) ? $this->get_user_id( $user ) : false;
+		$user = ( $user || $autoload ) ? $this->get_user_id( $user ) : false;
 		if ( false !== $user ) {
 			$this->id   = $user;
 			$this->user = get_user_by( 'ID', $user );
