@@ -403,7 +403,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 		LLMS_Forms::instance()->install( true );
 
 		$data = $this->get_mock_user_data_array();
-		$user = $this->factory->user->create_and_get( array( 
+		$user = $this->factory->user->create_and_get( array(
 			'first_name' => 'Kyle',
 			'user_email' => $data['email_address'],
 		) );
