@@ -229,19 +229,25 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Confirm a Payment
+	 * Confirms a Payment.
 	 *
 	 * Called by {@see LLMS_Controller_Orders::confirm_pending_order} on confirm form submission.
 	 *
-	 * Some validation is performed before passing to this function, as it's not required
-	 * gateways will likely doing further validations as are needed.
+	 * Some validation is performed before passing to this function, gateways should do further validation
+	 * on their own.
 	 *
-	 * Not required if a confirmation isn't required by the gateway.
+	 * This stub is not necessary to implement if the gateway doesn't have a payment confirmation step.
 	 *
+	 * For gateways which implement AJAX order processing, this function should return either a WP_Error or
+	 * a success array from {@see LLMS_Payment_Gateway::complete_transaction_ajax()}.
+	 *
+	 * For gateways which implement synchronous order processing through form submission, this function should
+	 * not return and should instead perform a redirect and / or output notices using {@see llms_add_notice()}.
+	 * 
 	 * @since 3.0.0
 	 *
 	 * @param LLMS_Order $order Instance of the order being processed.
-	 * @return void
+	 * @return void|WP_Error|array
 	 */
 	public function confirm_pending_order( $order ) {}
 

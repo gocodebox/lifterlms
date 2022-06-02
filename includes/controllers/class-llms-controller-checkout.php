@@ -74,12 +74,14 @@ class LLMS_Controller_Checkout {
 	 *
 	 * Upon success, gateways should perform a redirect to the appropriate URL (course, membership, etc...).
 	 *
-	 * Note that this method is widely used by the AJAX equivalent, {@see LLMS_Controller_Checkout::confirm_pending_order_ajax()},
+	 * Note that this method is widely used but the AJAX equivalent, {@see LLMS_Controller_Checkout::confirm_pending_order_ajax()},
 	 * is preferred when implementing a new gateway.
 	 *
 	 * @since [version] Relocated from `LLMS_Controller_Orders`.
 	 *
-	 * @return void
+	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
+	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
+	 *                           the expected action. Otherwise there is no/void return.
 	 */
 	public function confirm_pending_order() {
 
@@ -117,8 +119,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * AJAX checkout confirm order controller.
 	 *
-	 * Verifies the AJAX request, passes `$_POST` data to the `LLMS_Order_Generator`, and returns
-	 * a JSON response.
+	 * Verifies the AJAX request, passes `$_POST` data to the `LLMS_Order_Generator`, and outputs a JSON response.
 	 *
 	 * Initiated via the confirm order form (via user form submission) or programmatically by payment gateways which
 	 * require an order confirmation step. PayPal is a two-step checkout that requires confirmation
@@ -126,7 +127,9 @@ class LLMS_Controller_Checkout {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
+	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
+	 *                           the expected action. Otherwise there is no return and a JSON response is output.
 	 */
 	public function confirm_pending_order_ajax() {
 
@@ -165,7 +168,9 @@ class LLMS_Controller_Checkout {
 	 *
 	 * @since [version] Moved from `LLMS_Controller_Orders.
 	 *
-	 * @return null|boolean|WP_Error
+	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
+	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
+	 *                           the expected action. Otherwise there is no/void return.
 	 */
 	public function create_pending_order() {
 
@@ -253,7 +258,9 @@ class LLMS_Controller_Checkout {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
+	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
+	 *                           the expected action. Otherwise there is no return and a JSON response is output.
 	 */
 	public function create_pending_order_ajax() {
 
