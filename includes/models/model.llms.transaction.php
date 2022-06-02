@@ -293,6 +293,9 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				 * @param string $method The method ID.
 				 */
 				$method_title = apply_filters_deprecated( "llms_{$method}_title", array( $method ), '[version]', "llms_{$method}_refund_title" );
+				if ( $method_title !== $method ) {
+					return $method_title;
+				}
 
 				/**
 				 * Filters the refund method title for custom refund methods.
