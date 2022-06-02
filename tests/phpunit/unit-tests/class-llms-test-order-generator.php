@@ -159,8 +159,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		// Update the user.
 		wp_set_current_user( $res );
 		$data['first_name'] = 'Albert';
-		$gen  = new LLMS_Order_Generator( $data );
-		$res  = LLMS_Unit_Test_Util::call_method( $gen, 'commit_user' );
+		$gen = new LLMS_Order_Generator( $data );
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'commit_user' );
 
 		$this->assertEquals( $student->get( 'id' ), $res );
 		$this->assertEquals( $data['email_address'], $student->get( 'user_email' ) );
@@ -196,13 +196,13 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$this->assertWPErrorMessageEquals( 'Mock Message', $res );
 		$this->assertWPErrorDataEquals(
 			array(
-				'coupon'      => 'coupon_value',
-				'data'        => $data,
-				'gateway'     => 'gateway_value',
-				'plan'        => 'plan_value',
-				'student'     => 'student_value',
-				'extra'       => 1,
-				'order'       => 'order_value',
+				'coupon'  => 'coupon_value',
+				'data'    => $data,
+				'gateway' => 'gateway_value',
+				'plan'    => 'plan_value',
+				'student' => 'student_value',
+				'extra'   => 1,
+				'order'   => 'order_value',
 			),
 			$res
 		);
