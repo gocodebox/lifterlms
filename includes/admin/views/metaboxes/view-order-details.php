@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$can_modify_recurring_payments = $order->can_modify_recurring_payments();
+$supports_modify_recurring_payments = $order->supports_modify_recurring_payments();
 ?>
 
 <div class="llms-metabox">
@@ -175,7 +175,7 @@ $can_modify_recurring_payments = $order->can_modify_recurring_payments();
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
 				<span id="llms-remaining-payments-view"><?php echo $remaining; ?></span>
-				<?php if ( $can_modify_recurring_payments ) : ?>
+				<?php if ( $supports_modify_recurring_payments ) : ?>
 					<?php add_thickbox(); ?>
 					<div id="llms-remaining-edit">
 						<div class="llms-remaining-edit--content">

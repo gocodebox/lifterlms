@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -100,6 +100,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 3.36.0 Date fields require array when sanitized.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null
@@ -135,6 +136,13 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			'_llms_date_next_payment',
 			'_llms_date_access_expires',
 		);
+
+		// Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
+		if ( ! $order->supports_modify_recurring_payments() ) {
+			$editable_dates = array(
+				'_llms_date_access_expires',
+			);
+		}
 
 		foreach ( $editable_dates as $id => $key ) {
 

@@ -1881,8 +1881,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @return bool
 	 */
-	public function can_modify_recurring_payments() {
+	public function supports_modify_recurring_payments() {
 		$gateway = $this->get_gateway();
-		return is_wp_error( $gateway ) ? false : $gateway->can_modify_recurring_payments( $this );
+		return is_wp_error( $gateway ) ? false : $gateway->supports_modify_recurring_payments( $this );
 	}
+
 }

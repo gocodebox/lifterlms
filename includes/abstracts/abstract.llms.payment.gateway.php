@@ -980,7 +980,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * @param LLMS_Order $order Instance of an LLMS_Order.
 	 * @return boolean
 	 */
-	public function can_modify_recurring_payments( $order = null ) {
+	public function supports_modify_recurring_payments( $order = null ) {
 		return $this->supports( 'modify_recurring_payments' );
 	}
 
