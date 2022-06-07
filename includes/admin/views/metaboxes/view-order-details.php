@@ -176,7 +176,7 @@ $can_modify_recurring_payments = $order->can_modify_recurring_payments();
 				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
 				<span id="llms-remaining-payments-view"><?php echo $remaining; ?></span>
 				<?php if ( $can_modify_recurring_payments ) : ?>
-				<?php add_thickbox(); ?>
+					<?php add_thickbox(); ?>
 					<div id="llms-remaining-edit">
 						<div class="llms-remaining-edit--content">
 							<h4><?php _e( 'Modify Remaining Payments', 'lifterlms' ); ?></h4>

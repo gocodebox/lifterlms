@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1873,7 +1873,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine wheter the recurring payment for this order can be modified.
+	 * Determine whether the recurring payment for this order can be modified.
 	 *
 	 * Depends on whether the order's gateway supports.
 	 *

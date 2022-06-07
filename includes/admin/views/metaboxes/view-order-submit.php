@@ -53,7 +53,7 @@ $can_modify_recurring_payments = $order->can_modify_recurring_payments();
 						<?php if ( ! $order->has_trial_ended() ) : ?>
 							<a class="llms-editable" data-fields="#llms-editable-trial-end-date" href="#"><span class="dashicons dashicons-edit"></span></a>
 						<?php endif; ?>
-					<?php else: ?>
+					<?php else : ?>
 						<span id="llms-trial-end-date"><?php echo $order->get_trial_end_date( $date_format ); ?></span>
 					<?php endif; ?>
 				</div>
