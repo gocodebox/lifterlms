@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,18 +94,19 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	protected $option_prefix = 'llms_gateway_';
 
 	/**
-	 * Array of supported gateway features
+	 * Array of supported gateway features.
 	 *
 	 * @var array
 	 */
 	public $supports = array(
-		'checkout_fields'    => false,
-		'cc_save'            => false,
-		'refunds'            => false,
-		'single_payments'    => false,
-		'recurring_payments' => false,
-		'recurring_retry'    => false,
-		'test_mode'          => false,
+		'checkout_fields'           => false,
+		'cc_save'                   => false,
+		'refunds'                   => false,
+		'single_payments'           => false,
+		'recurring_payments'        => false,
+		'recurring_retry'           => false,
+		'test_mode'                 => false,
+		'modify_recurring_payments' => null,
 	);
 
 	/**
@@ -651,13 +652,25 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Get an array of features the gateway supports
+	 * Get an array of features the gateway supports.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Handle `modify_recurring_payments` depending on `recurring_payments`.
 	 *
 	 * @return array
 	 */
 	public function get_supported_features() {
+
+		if ( ! empty( $this->supports['recurring_payments'] ) &&
+			(
+				( isset( $this->supports['modify_recurring_payments'] ) && is_null( $this->supports['modify_recurring_payments'] ) ) ||
+				! isset( $this->supports['modify_recurring_payments'] )
+			)
+		) {
+
+			$this->supports['modify_recurring_payments'] = true;
+		}
+
 		/**
 		 * Filters the gateway's supported features array
 		 *
@@ -957,6 +970,18 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 		return false;
 
+	}
+
+	/**
+	 * Determine if the feature `modify_recurring_payments` is supported by the gateway and optionally by the passed LLMS_Order.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Instance of an LLMS_Order.
+	 * @return boolean
+	 */
+	public function can_modify_recurring_payments( $order = null ) {
+		return $this->supports( 'modify_recurring_payments' );
 	}
 
 }
