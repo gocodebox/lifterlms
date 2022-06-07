@@ -95,16 +95,16 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	}
 
 	/**
-	 * Test save() when remaining payment data is updated
+	 * Test save() when remaining payment data is updated.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
 	public function test_save_success_remaining_payment_data() {
 
-		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
-		$order    = llms_get_post( $order_id );
+		$order = $this->get_mock_order();
 		$order->set( 'order_type', 'recurring' );
 		$order->set( 'billing_length', 5 );
 		$order->set( 'billing_period', 'day' );
@@ -114,7 +114,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 			'_llms_remaining_note'    => 'Mock note',
 		) ) );
 
-		$this->main->save( $order_id );
+		$this->main->save( $order->get( 'id' ) );
 
 		// Data.
 		$this->assertEquals( 3, $order->get( 'billing_length' ) );
@@ -137,13 +137,13 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 * Test save_remaining_payments() when no changes should occur.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
 	public function test_save_remaining_payments_no_changes() {
 
-		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
-		$order    = llms_get_post( $order_id );
+		$order = $this->get_mock_order();
 
 		// Single order.
 		$order->set( 'order_type', 'single' );
@@ -176,13 +176,14 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 * Test save_remaining_payments() when changes are made.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
 	public function test_save_remaining_payments_success() {
 
-		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
-		$order    = llms_get_post( $order_id );
+		$order = $this->get_mock_order();
+
 		$order->set( 'order_type', 'recurring' );
 		$order->set( 'billing_length', 5 );
 
