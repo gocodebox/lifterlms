@@ -956,11 +956,13 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Looks at the $this->supports and ensures the submitted feature exists and is true.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added `$order` param, to be used when the feature also depends on an order property.
 	 *
-	 * @param string $feature Name of the supported feature.
+	 * @param string     $feature Name of the supported feature.
+	 * @param LLMS_Order $order   Instance of an LLMS_Order.
 	 * @return boolean
 	 */
-	public function supports( $feature ) {
+	public function supports( $feature, $order = null ) {
 
 		$supports = $this->get_supported_features();
 
@@ -970,18 +972,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 		return false;
 
-	}
-
-	/**
-	 * Determine if the feature `modify_recurring_payments` is supported by the gateway and optionally by the passed LLMS_Order.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Order $order Instance of an LLMS_Order.
-	 * @return boolean
-	 */
-	public function supports_modify_recurring_payments( $order = null ) {
-		return $this->supports( 'modify_recurring_payments' );
 	}
 
 }
