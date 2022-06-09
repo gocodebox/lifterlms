@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 6.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -92,7 +92,7 @@ class LLMS_Admin_Post_Types {
 	 * @since 3.35.0 Fix l10n calls.
 	 * @since 4.7.0 Added `publicly_queryable` check for permalink and preview.
 	 * @since 6.0.0 Handle `llms_my_certificate` and `llms_my_achievement` post types.
-	 * @since [version] Fixed too few arguments passed to sprintf, when building restore from revision message.
+	 * @since 6.7.0 Fixed too few arguments passed to sprintf, when building restore from revision message.
 	 *
 	 * @return array $messages Post updated messages.
 	 */

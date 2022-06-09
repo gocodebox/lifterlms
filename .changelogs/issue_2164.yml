@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2164"
-entry: Fixed a fatal error on PHP 8+ when restoring a post type from revision.
