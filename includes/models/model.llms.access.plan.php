@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -111,6 +111,54 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function can_expire() {
 		return ( 'lifetime' !== $this->get( 'access_expiration' ) );
+	}
+
+	/**
+	 * Determines if the specified payment gateway can process transactions for the access plan.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|LLMS_Payment_Gateway $gateway_or_id The supplied gateway ID or gateway object.
+	 * @param boolean                     $wp_err        Determines the return type when the specified gateway cannot process transactions
+	 *                                                   for the access plan.
+	 * @return boolean|WP_Error Returns `true` if the gateway can process transactions for the plan. If the gateway cannot, `false` is returned
+	 *                          when `$wp_err` is `false` and an error object is returned when `$wp_err` is `true`.
+	 */
+	public function can_gateway_process( $gateway_or_id, $wp_err = false ) {
+
+		$can_process = true;
+
+		$gateway  = is_string( $gateway_or_id ) ? llms()->payment_gateways()->get_gateway_by_id( $gateway_or_id ) : $gateway_or_id;
+		$err_data = compact( 'gateway_or_id', 'gateway' );
+		if ( ! is_a( $gateway, 'LLMS_Payment_Gateway' ) ) {
+			$can_process = new WP_Error( 'llms-plan-can-gateway-process-invalid', __( 'Invalid payment gateway.', 'lifterlms' ), $err_data );
+		} elseif ( ! $gateway->is_enabled() ) {
+			$can_process = new WP_Error( 'llms-plan-can-gateway-process-not-enabled', __( 'The payment gateway is not available.', 'lifterlms' ), $err_data );
+		} elseif ( $this->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+			$can_process = new WP_Error( 'llms-plan-can-gateway-process-support-recurring', __( 'The payment gateway does not support recurring payments.', 'lifterlms' ), $err_data );
+		} else if ( ! $this->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+			$can_process = new WP_Error( 'llms-plan-can-gateway-process-support-single', __( 'The payment gateway does not support one-time payments.', 'lifterlms' ), $err_data );
+		}
+
+		/**
+		 * Filters whether or not the supplied payment gateway can process transactions for the access plan.
+		 * 
+		 * @since [version]
+		 *
+		 * @param boolean|WP_Error            $can_process   Whether or not the gateway can process transactions for the plan. This will be
+		 *                                                   `true` if the gateway can process otherwise it will be an error object detailing
+		 *                                                   the reasons it cannot process transactions.
+		 * @param bool|LLMS_Payment_Gateway   $gateway       The gateway object or `false` when the supplied gateway ID is invalid.
+		 * @param string|LLMS_Payment_Gateway $gateway_or_id The supplied gateway ID or gateway object.
+		 */
+		$can_process = apply_filters( 'llms_access_plan_can_gateway_process', $can_process, $gateway, $gateway_or_id );
+
+		if ( is_wp_error( $can_process ) && ! $wp_err ) {
+			$can_process = false;
+		}
+
+		return $can_process;
+
 	}
 
 	/**
