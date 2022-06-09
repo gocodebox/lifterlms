@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v6.7.0 - 2022-06-09
+-------------------
+
+##### Updates and Enhancements
+
++ Update LifterLMS Blocks to [v2.4.3](https://make.lifterlms.com/2022/06/09/lifterlms-blocks-version-2-4-3/).
++ Upgraded Action Scheduler to [v3.4.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.4.1).
++ Upgraded Action Scheduler to [v3.4.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.4.2).
+
+##### Bug Fixes
+
++ Fixed a fatal error on PHP 8+ when restoring a post type from revision. [#2164](https://github.com/gocodebox/lifterlms/issues/2164)
+
+
 v6.6.0 - 2022-05-23
 -------------------
 
