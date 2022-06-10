@@ -120,4 +120,32 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_checkout_urls().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_checkout_urls() {
+
+		// Regular page.
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( 'LLMS_Frontend_Assets', 'get_checkout_urls' ) );
+
+		// Checkout.
+		LLMS_Install::create_pages();
+		$this->go_to( llms_get_page_url( 'checkout' ) );
+		$this->assertEquals( 
+			array( 'createPendingOrder', 'confirmPendingOrder' ), 
+			array_keys( LLMS_Unit_Test_Util::call_method( 'LLMS_Frontend_Assets', 'get_checkout_urls' ) )
+		);
+
+		// Dashboard.
+		$this->go_to( llms_get_endpoint_url( 'orders', 123, llms_get_page_url( 'myaccount' ) ) );
+		$this->assertEquals( 
+			array( 'switchPaymentSource' ), 
+			array_keys( LLMS_Unit_Test_Util::call_method( 'LLMS_Frontend_Assets', 'get_checkout_urls' ) )
+		);
+	}
+
 }
