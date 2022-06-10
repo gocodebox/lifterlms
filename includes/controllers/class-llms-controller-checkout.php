@@ -495,7 +495,7 @@ class LLMS_Controller_Checkout {
 		}
 
 		$new_gateway = llms_filter_input_sanitize_string( INPUT_POST, 'llms_payment_gateway' );
-		if ( empty( $new_gateway ) {
+		if ( empty( $new_gateway ) ) {
 			return new WP_Error( 'switch-source-gateway-missing', __( 'Missing gateway information.', 'lifterlms' ), 'error' );
 		}
 
