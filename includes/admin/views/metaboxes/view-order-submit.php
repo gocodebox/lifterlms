@@ -11,9 +11,9 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$current_status                = $order->get( 'status' );
-$date_format                   = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-$statuses                      = llms_get_possible_order_statuses( $order );
+$current_status                     = $order->get( 'status' );
+$date_format                        = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+$statuses                           = llms_get_possible_order_statuses( $order );
 $supports_modify_recurring_payments = $order->supports_modify_recurring_payments();
 ?>
 

@@ -65,13 +65,13 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 		$this->assertEquals( $strings, $this->main->get_secure_strings( $strings, 'cash-now' ) );
 
 		add_filter( 'llms_get_gateway_settings_fields', array( $this, 'add_admin_settings' ), 10 );
-		
+
 		// Has an option but it isn't defined.
 		$this->assertEquals( $strings, $this->main->get_secure_strings( $strings, 'cash-now' ) );
 
 		// Has a defined option.
 		$this->main->set_option( 'secure_key', 'MY-KEY' );
-		$this->assertEquals( 
+		$this->assertEquals(
 			array( 'abcdefg', 'MY-KEY' ),
 			$this->main->get_secure_strings( $strings, 'cash-now' )
 		);
@@ -167,7 +167,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	public function test_log_secure_strings() {
 
 		$this->main->set_option( 'logging_enabled', 'yes' );
-		
+
 		add_filter( 'llms_get_gateway_settings_fields', array( $this, 'add_admin_settings' ), 10 );
 
 		$key = 'F@K3-$3CUR3-K3Y!';
@@ -192,6 +192,131 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 )', trim( $logs[1] ) );
 
 		remove_filter( 'llms_get_gateway_settings_fields', array( $this, 'add_admin_settings' ), 10 );
+
+	}
+
+	/**
+	 * Test get_supported_features() method, regarding to the `modify_recurring_payments` feature.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_supported_features_modify_recurring_payments() {
+
+		/**
+		 * By default the mock gateway doesn't specify to NOT support 'recurring_payments',
+		 * So it will inherit the default `false` value.
+		 * It doesn't specify whether or not it supports 'modify_recurring_payments', then
+		 * this feature will follow the `recurring_payments` one (true or false)
+		 */
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => false,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => false,
+			),
+			$this->main->get_supported_features()
+		);
+
+		// Turn the `recurring_payments` feature to `true`, reset `modify_recurring_payments`, it will follow.
+		$this->main->supports = array_merge(
+			$this->main->supports,
+			array(
+				'recurring_payments'        => true,
+				'modify_recurring_payments' => null,
+			)
+		);
+
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => true,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => true,
+			),
+			$this->main->get_supported_features()
+		);
+
+		unset( $this->main->supports['modify_recurring_payments'] );
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => true,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => true,
+			),
+			$this->main->get_supported_features()
+		);
+
+		// Turn the  `modify_recurring_payments` feature to `false`.
+		$this->main->supports['modify_recurring_payments'] = false;
+
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => true,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => false,
+			),
+			$this->main->get_supported_features()
+		);
+
+		// Turn the  `recurring_payments` feature to `false`, `modify_recurring_payments` is not going to follow.
+		$this->main->supports = array_merge(
+			$this->main->supports,
+			array(
+				'recurring_payments'        => false,
+				'modify_recurring_payments' => true,
+			)
+		);
+
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => false,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => true,
+			),
+			$this->main->get_supported_features()
+		);
+
+		$this->main->supports['modify_recurring_payments'] = false;
+
+		$this->assertEquals(
+			array(
+				'checkout_fields'           => false,
+				'cc_save'                   => false,
+				'refunds'                   => false,
+				'single_payments'           => false,
+				'recurring_payments'        => false,
+				'recurring_retry'           => false,
+				'test_mode'                 => false,
+				'modify_recurring_payments' => false,
+			),
+			$this->main->get_supported_features()
+		);
 
 	}
 

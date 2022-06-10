@@ -661,14 +661,8 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 */
 	public function get_supported_features() {
 
-		if ( ! empty( $this->supports['recurring_payments'] ) &&
-			(
-				( isset( $this->supports['modify_recurring_payments'] ) && is_null( $this->supports['modify_recurring_payments'] ) ) ||
-				! isset( $this->supports['modify_recurring_payments'] )
-			)
-		) {
-
-			$this->supports['modify_recurring_payments'] = true;
+		if ( ! isset( $this->supports['modify_recurring_payments'] ) || is_null( $this->supports['modify_recurring_payments'] ) ) {
+			$this->supports['modify_recurring_payments'] = $this->supports['recurring_payments'];
 		}
 
 		/**

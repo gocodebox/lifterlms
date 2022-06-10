@@ -134,6 +134,47 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	}
 
 	/**
+	 * Test save() when remaining payment data is updated but the order doesn't support recurring payment modifications.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_unsuccess_remaining_payment_data_when_order_does_not_support_recurring_payment_modifications() {
+
+		// The order's gateway is not set, so the order does not supports modifying recurring payments.
+		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
+		$order    = llms_get_post( $order_id );
+		$order->set( 'order_type', 'recurring' );
+		$order->set( 'billing_length', 5 );
+		$order->set( 'billing_period', 'day' );
+
+
+		$this->mockPostRequest( $this->add_nonce_to_array( array(
+			'_llms_remaining_payments' => 3,
+			'_llms_remaining_note'    => 'Mock note',
+		) ) );
+
+		$this->main->save( $order->get( 'id' ) );
+
+		// Data.
+		$this->assertEquals( 5, $order->get( 'billing_length' ) );
+		$this->assertEquals( 5, $order->get_remaining_payments() );
+
+		// Notes.
+		remove_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+		$notes = $order->get_notes();
+		add_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+
+		$user_note  = array_pop( $notes );
+
+		$this->assertNotEquals( 'Mock note', $user_note->comment_content );
+		$this->assertNotEquals( 'The billing length of the order has been modified from 5 days to 3 days.', $user_note->comment_content );
+		$this->assertEmpty( $notes );
+
+	}
+
+	/**
 	 * Test save_remaining_payments() when no changes should occur.
 	 *
 	 * @since 5.3.0
@@ -228,4 +269,63 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 
 	}
 
+	/**
+	 * Test save_remaining_payments() when changes are made but the order doesn't support recurring payment modifications.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_remaining_payments_unsucces_when_order_does_not_support_recurring_payment_modifications() {
+
+		// The order's gateway is not set, so the order does not supports modifying recurring payments.
+		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
+		$order    = llms_get_post( $order_id );
+
+		$order->set( 'order_type', 'recurring' );
+		$order->set( 'billing_length', 5 );
+
+		// Has one payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Try to reduce to one remaining payment.
+		$this->mockPostRequest( array(
+			'_llms_remaining_payments' => 1,
+		) );
+		$this->assertEquals( -1, LLMS_Unit_Test_Util::call_method( $this->main, 'save_remaining_payments', array( $order ) ) );
+		// Billing length unchanged.
+		$this->assertEquals( 5, $order->get( 'billing_length' ) );
+		// Remaining payments are 4 because a payment has been mande.
+		$this->assertEquals( 4, $order->get_remaining_payments() );
+
+		// Try to increase to 7 remaining.
+		$this->mockPostRequest( array(
+			'_llms_remaining_payments' => 7,
+		) );
+		$this->assertEquals( -1, LLMS_Unit_Test_Util::call_method( $this->main, 'save_remaining_payments', array( $order ) ) );
+		// Billing length unchanged.
+		$this->assertEquals( 5, $order->get( 'billing_length' ) );
+		// Remaining payments are still 4 because only one payment has been mande.
+		$this->assertEquals( 4, $order->get_remaining_payments() );
+
+		// Record another payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Decrease to 2 remaining.
+		$this->mockPostRequest( array(
+			'_llms_remaining_payments' => 2,
+		) );
+		$this->assertEquals( -1, LLMS_Unit_Test_Util::call_method( $this->main, 'save_remaining_payments', array( $order ) ) );
+		// Billing length unchanged.
+		$this->assertEquals( 5, $order->get( 'billing_length' ) );
+		// Remaining payments are 3 because two payments have been mande.
+		$this->assertEquals( 3, $order->get_remaining_payments() );
+
+	}
 }
