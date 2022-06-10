@@ -432,7 +432,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if an order can be resubscribed to
+	 * Determines if a user can resubscribe to an inactive recurring payment order.
 	 *
 	 * @since 3.19.0
 	 * @since 5.2.0 Use strict type comparison.
@@ -441,10 +441,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function can_resubscribe() {
 
-		$ret = false;
+		$can_resubscribe = false;
 
 		if ( $this->is_recurring() ) {
 
+			/**
+			 * Filters the order statuses from which an order can be reactivated.
+			 * 
+			 * @since [version]
+			 *
+			 * @param string[] $allowed_statuses The list of allowed order statuses.
+			 */
 			$allowed_statuses = apply_filters(
 				'llms_order_status_can_resubscribe_from',
 				array(
@@ -453,11 +460,19 @@ class LLMS_Order extends LLMS_Post_Model {
 					'llms-pending-cancel',
 				)
 			);
-			$ret              = in_array( $this->get( 'status' ), $allowed_statuses, true );
+			$can_resubscribe  = in_array( $this->get( 'status' ), $allowed_statuses, true );
 
 		}
 
-		return apply_filters( 'llms_order_can_resubscribe', $ret, $this );
+		/**
+		 * Determines whether or not a user can resubscribe to an inactive recurring payment order.
+		 * 
+		 * @since 3.19.0
+		 *
+		 * @param boolean    $can_resubscribe Whether or not a user can resubscribe.
+		 * @param LLMS_Order $order           The order object.
+		 */
+		return apply_filters( 'llms_order_can_resubscribe', $can_resubscribe, $this );
 
 	}
 
