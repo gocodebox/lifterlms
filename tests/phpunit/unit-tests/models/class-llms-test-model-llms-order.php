@@ -341,15 +341,15 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	public function test_can_resubscribe() {
 
 		$statuses = array(
-			'llms-completed' => false,
-			'llms-active' => false,
-			'llms-expired' => false,
-			'llms-on-hold' => true,
+			'llms-completed'      => false,
+			'llms-active'         => false,
+			'llms-expired'        => false,
+			'llms-on-hold'        => true,
 			'llms-pending-cancel' => true,
-			'llms-pending' => true,
-			'llms-cancelled' => false,
-			'llms-refunded' => false,
-			'llms-failed' => false,
+			'llms-pending'        => true,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
 		);
 
 		foreach ( $statuses as $status => $expect ) {
@@ -362,6 +362,38 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$this->obj->set_status( $status );
 			$this->assertEquals( $expect, $this->obj->can_resubscribe() );
 		}
+
+	}
+
+	/**
+	 * Test can_switch_source().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_can_switch_source() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		$statuses = array(
+			'llms-completed'      => false,
+			'llms-active'         => true,
+			'llms-expired'        => false,
+			'llms-on-hold'        => true,
+			'llms-pending-cancel' => true,
+			'llms-pending'        => true,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
+		);
+
+		foreach ( $statuses as $status => $expect ) {
+
+			$this->obj->set( 'status', $status );
+			$this->assertEquals( $expect, $this->obj->can_switch_source(), $status );
+		}
+
 
 	}
 
@@ -890,6 +922,38 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			'payment_type' => 'recurring',
 		) );
 		$this->assertEquals( 0, $this->obj->get_remaining_payments() );
+
+	}
+
+	/**
+	 * Test get_switch_source_action().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_switch_source_action() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		$tests = array(
+			'llms-completed'      => null,
+			'llms-active'         => 'switch',
+			'llms-expired'        => null,
+			'llms-on-hold'        => 'pay',
+			'llms-pending-cancel' => 'switch',
+			'llms-pending'        => 'pay',
+			'llms-cancelled'      => null,
+			'llms-refunded'       => null,
+			'llms-failed'         => null,
+		);
+
+		foreach ( $tests as $status => $expected ) {
+
+			$this->obj->set( 'status', $status );
+			$this->assertEquals( $expected, $this->obj->get_switch_source_action(), $status );
+
+		}	
 
 	}
 

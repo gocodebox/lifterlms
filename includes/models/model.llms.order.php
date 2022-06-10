@@ -435,7 +435,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if an order can be resubscribed to
 	 *
 	 * @since 3.19.0
-	 * @since 5.2.0 Use stric type comparison.
+	 * @since 5.2.0 Use strict type comparison.
 	 *
 	 * @return bool
 	 */
@@ -458,6 +458,29 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_order_can_resubscribe', $ret, $this );
+
+	}
+
+	/**
+	 * Determines if the order's payment source can be changed.
+	 * 
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function can_switch_source() {
+
+		$can_switch = 'llms-active' === $this->get( 'status' ) || $this->can_resubscribe();
+
+		/**
+		 * Filters whether or not the order's payment source can be changed.
+		 * 
+		 * @since [version]
+		 *
+		 * @param boolean    $can_switch Whether or not the order's source can be switched.
+		 * @param LLMS_Order $order      The order object.
+		 */
+		return apply_filters( 'llms_order_can_switch_source', $can_switch, $this );
 
 	}
 
@@ -1048,6 +1071,33 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = $this->get_date( 'date', $format );
 		}
 		return apply_filters( 'llms_order_get_start_date', $date, $this );
+	}
+
+	/**
+	 * Retrieves the user action required when changing the order's payment source.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|string Returns `switch` when the payment source can be switched and `pay` when payment on the new source
+	 *                     is required before switching. A `null` return indicates that the order's payment source cannot be switched.
+	 */
+	public function get_switch_source_action() {
+
+		$action = null;
+		if ( $this->can_switch_source() ) {
+			$action = in_array( $this->get( 'status' ), array( 'llms-active', 'llms-pending-cancel' ), true ) ? 'switch' : 'pay';
+		}
+
+		/**
+		 * Filters the required user action for the order when switching the order's payment source.
+		 * 
+		 * @since [version]
+		 *
+		 * @param null|string $action The switch action ID or `null` when the payment source cannot be switched.
+		 * @param LLMS_Order  $order  The order object.
+		 */
+		return apply_filters( 'llms_order_switch_source_action', $action, $this );
+
 	}
 
 	/**
