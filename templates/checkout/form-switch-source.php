@@ -1,13 +1,13 @@
 <?php
 /**
  * User form used to switch the payment source for recurring payment orders.
- * 
+ *
  * Included on single order view pages via Student Dashboard.
  *
  * @package LifterLMS/Templates
  *
  * @since 3.10.0
- * @since [version] Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value. 
+ * @since [version] Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
  * @version [version]
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.

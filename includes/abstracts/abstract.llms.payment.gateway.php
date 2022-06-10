@@ -243,7 +243,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * For gateways which implement synchronous order processing through form submission, this function should
 	 * not return and should instead perform a redirect and / or output notices using {@see llms_add_notice()}.
-	 * 
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param LLMS_Order $order Instance of the order being processed.

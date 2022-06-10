@@ -26,7 +26,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 
 	/**
 	 * Filters whether or not a gateway can be used for a given access plan.
-	 * 
+	 *
 	 * @since 3.29.0
 	 * @since [version] The filter now runs on all possible return values instead of running only when the gateway can be used.
 	 *
@@ -36,7 +36,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 	 * @param LLMS_Access_plan $plan        The access plan object.
 	 */
 	return apply_filters( 'llms_can_gateway_be_used_for_plan', $can_be_used, $gateway_id, $plan );
-	
+
 }
 
 /**
@@ -46,7 +46,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  *   + The gateway must exist.
  *   + The gateway must be enabled unless `$enabled_only` is `false`.
  *   + The gateway must support the order/plan's type (recurring or single).
- * 
+ *
  * @since [version]
  *
  * @param string                          $gateway_id    Payment gateway ID.
@@ -75,16 +75,15 @@ function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order
 		} elseif ( $enabled_only && ! $gateway->is_enabled() ) {
 			$can_use = new WP_Error( 'gateway-disabled', __( 'The selected payment gateway is not available.', 'lifterlms' ), $err_data );
 		} elseif ( $plan_or_order->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-			$can_use = new WP_Error( 'gateway-support-recurring', __( 'The selected payment gateway does not support recurring payments.', 'lifterlms' ), $err_data );	
+			$can_use = new WP_Error( 'gateway-support-recurring', __( 'The selected payment gateway does not support recurring payments.', 'lifterlms' ), $err_data );
 		} elseif ( ! $plan_or_order->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-			$can_use = new WP_Error( 'gateway-support-single', __( 'The selected payment gateway does not support one-time payments.', 'lifterlms' ), $err_data );	
+			$can_use = new WP_Error( 'gateway-support-single', __( 'The selected payment gateway does not support one-time payments.', 'lifterlms' ), $err_data );
 		}
-
 	}
 
 	/**
 	 * Filters whether or not a gateway can be used for a given plan or order.
-	 * 
+	 *
 	 * @since [version]
 	 *
 	 * @param boolean|WP_Error $can_be_used Whether or not the gateway can be used for the plan. This value will be `true`

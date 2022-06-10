@@ -280,7 +280,7 @@ class LLMS_Frontend_Assets {
 			$urls = array(
 				'createPendingOrder'  => $controller->get_url( $controller::ACTION_CREATE_PENDING_ORDER ),
 				'confirmPendingOrder' => $controller->get_url( $controller::ACTION_CONFIRM_PENDING_ORDER ),
-			);			
+			);
 		} elseif ( is_llms_account_page() && 'orders' === LLMS_Student_Dashboard::get_current_tab( 'slug' ) && is_numeric( get_query_var( 'orders', false ) ) ) {
 			$urls = array(
 				'switchPaymentSource' => $controller->get_url( $controller::ACTION_SWITCH_PAYMENT_SOURCE ),

@@ -392,7 +392,7 @@ class LLMS_Controller_Checkout {
 	 *
 	 * Secondly, this will remove the non-ajax action callback of the method's name ensuring that the non-ajax version doesn't
 	 * run immediately behind the ajax version.
-	 * 
+	 *
 	 * @since [version]
 	 *
 	 * @param string $method Name of the non-ajax method to remove.
@@ -494,12 +494,12 @@ class LLMS_Controller_Checkout {
 			return new WP_Error( 'switch-source-order-invalid', __( 'Invalid order.', 'lifterlms' ), 'error' );
 		}
 
-		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+		$new_gateway = llms_filter_input_sanitize_string( INPUT_POST, 'llms_payment_gateway' );
+		if ( empty( $new_gateway ) {
 			return new WP_Error( 'switch-source-gateway-missing', __( 'Missing gateway information.', 'lifterlms' ), 'error' );
 		}
 
-		$old_gateway = $order->get( 'payment_gateway' ); 
-		$new_gateway = llms_filter_input_sanitize_string( INPUT_POST, 'llms_payment_gateway' );
+		$old_gateway = $order->get( 'payment_gateway' );
 		$can_process = llms_can_gateway_be_used_for_plan_or_order( $new_gateway, $order, true );
 		if ( is_wp_error( $can_process ) ) {
 			return $can_process;
@@ -517,7 +517,7 @@ class LLMS_Controller_Checkout {
 
 	/**
 	 * Action run following a successful payment source switch.
-	 * 
+	 *
 	 * @since [version]
 	 *
 	 * @param array $args Payment switch arguments from {@see LLMS_Controller_Checkout::switch_payment_source_setup()}.
@@ -550,7 +550,7 @@ class LLMS_Controller_Checkout {
 
 		/**
 		 * Action run after an order's payment source is switched.
-		 * 
+		 *
 		 * @since [version]
 		 *
 		 * @param LLMS_Order $order       Order object.

@@ -447,7 +447,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			/**
 			 * Filters the order statuses from which an order can be reactivated.
-			 * 
+			 *
 			 * @since [version]
 			 *
 			 * @param string[] $allowed_statuses The list of allowed order statuses.
@@ -466,7 +466,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		/**
 		 * Determines whether or not a user can resubscribe to an inactive recurring payment order.
-		 * 
+		 *
 		 * @since 3.19.0
 		 *
 		 * @param boolean    $can_resubscribe Whether or not a user can resubscribe.
@@ -478,7 +478,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determines if the order's payment source can be changed.
-	 * 
+	 *
 	 * @since [version]
 	 *
 	 * @return boolean
@@ -489,7 +489,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		/**
 		 * Filters whether or not the order's payment source can be changed.
-		 * 
+		 *
 		 * @since [version]
 		 *
 		 * @param boolean    $can_switch Whether or not the order's source can be switched.
@@ -1105,7 +1105,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		/**
 		 * Filters the required user action for the order when switching the order's payment source.
-		 * 
+		 *
 		 * @since [version]
 		 *
 		 * @param null|string $action The switch action ID or `null` when the payment source cannot be switched.
