@@ -204,6 +204,8 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	 */
 	public function test_get_supported_features_modify_recurring_payments() {
 
+		$original_supports = $this->main->supports;
+
 		/**
 		 * By default the mock gateway doesn't specify to NOT support 'recurring_payments',
 		 * So it will inherit the default `false` value.
@@ -317,6 +319,8 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 			),
 			$this->main->get_supported_features()
 		);
+
+		$this->main->supports = $original_supports;
 
 	}
 

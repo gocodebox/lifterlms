@@ -336,7 +336,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_recurring_reaming_payments_editable() {
+	public function test_recurring_remaining_payments_editable() {
 
 		$order = $this->get_mock_order();
 		$order->set( 'order_type', 'recurring' );
@@ -373,7 +373,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_recurring_reaming_payments_not_editable() {
+	public function test_recurring_remaining_payments_not_editable() {
 
 		$order = $this->get_mock_order();
 		$order->set( 'order_type', 'recurring' );

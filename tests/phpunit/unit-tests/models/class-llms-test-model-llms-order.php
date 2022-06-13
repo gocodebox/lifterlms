@@ -1475,8 +1475,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		// Set the gateway to support 'modify_recurring_payments'.
 		$order->set( 'payment_gateway', 'manual' );
-		$order->get_gateway()->supports['recurring_payments'] = false;
-		$order->get_gateway()->supports['modify_recurring_payments'] = true;
+		$gateway = $order->get_gateway();
+		$gw_original_supports = $gateway->supports;
+		$gateway->supports['recurring_payments'] = false;
+		$gateway->supports['modify_recurring_payments'] = true;
 		$this->assertTrue($order->get_gateway()->supports( 'modify_recurring_payments' ) );
 		$this->assertTrue( $order->supports_modify_recurring_payments() );
 
@@ -1484,6 +1486,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->get_gateway()->supports['modify_recurring_payments'] = false;
 		$this->assertFalse( $order->supports_modify_recurring_payments() );
 
+		$gateway->supports = $gw_original_supports;
 	}
 
 }
