@@ -328,4 +328,81 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 		$this->assertEquals( 3, $order->get_remaining_payments() );
 
 	}
+
+	/**
+	 * Test meta box view contains editable recurring remaining payments.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_reaming_payments_editable() {
+
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'recurring' );
+		$order->set( 'billing_length', 5 );
+
+		// Setup the metabox post.
+		$_post = $this->main->post;
+		$this->main->post = get_post( $order->get( 'id' ) );
+
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		$metabox_view = $this->get_output( array( $this->main, 'output' ) );
+
+		$finds = array(
+			'<span id="llms-remaining-payments-view">5</span>'      => true,
+			'<input type="number" id="llms-num-remaining-payments"' => true,
+		);
+
+		// The above editable fields are present.
+		foreach ( $finds as $find => $bool ) {
+			$func = $bool ? 'assertStringContainsString' : 'assertStringNotContainsString';
+			$this->{$func}( $find, $metabox_view, "{$func}: {$find}" );
+		}
+
+		// Reset the metabox post.
+		$this->main->post = $_post;
+
+	}
+
+	/**
+	 * Test meta box view doesn't contain editable recurring remaining payments.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_reaming_payments_not_editable() {
+
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'recurring' );
+		$order->set( 'billing_length', 5 );
+
+		// The order's gateway is set to something which does not supports modifying recurring payments.
+		$order->set( 'payment_gateway', 'garbage' );
+
+		// Setup the metabox post.
+		$_post = $this->main->post;
+		$this->main->post = get_post( $order->get( 'id' ) );
+
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		$metabox_view = $this->get_output( array( $this->main, 'output' ) );
+
+		$finds = array(
+			'<span id="llms-remaining-payments-view">5</span>'      => true,
+			'<input type="number" id="llms-num-remaining-payments"' => false,
+		);
+
+		// The above editable fields are present.
+		foreach ( $finds as $find => $bool ) {
+			$func = $bool ? 'assertStringContainsString' : 'assertStringNotContainsString';
+			$this->{$func}( $find, $metabox_view, "{$func}: {$find}" );
+		}
+
+		// Reset the metabox post.
+		$this->main->post = $_post;
+
+	}
 }

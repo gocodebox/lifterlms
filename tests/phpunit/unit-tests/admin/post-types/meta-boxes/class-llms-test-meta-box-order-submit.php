@@ -202,7 +202,7 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 			'data-llms-editable="_llms_date_trial_end"',
 		);
 
-		// The above editable fields are present.
+		// The above editable fields are not present.
 		foreach ( $finds as $find ) {
 			$this->assertStringNotContainsString( $find, $metabox_view, $find );
 		}
