@@ -138,4 +138,78 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 		}
 
 	}
+
+	/**
+	 * Test meta box view contains editable recurring payment date fields.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_payments_dates_are_editable() {
+
+		$plan  = $this->get_mock_plan( 25.99, 3, 'lifetime', false, true );
+		// This order supports `modify_recurring_payments`.
+		$order = $this->get_mock_order( $plan );
+
+		// Setup the metabox post.
+		$_post = $this->main->post;
+		$this->main->post = get_post( $order->get( 'id' ) );
+
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		$metabox_view = $this->get_output( array( $this->main, 'output' ) );
+
+		$finds = array(
+			'data-llms-editable="_llms_date_next_payment"',
+			'data-llms-editable="_llms_date_trial_end"',
+		);
+
+		// The above editable fields are present.
+		foreach ( $finds as $find ) {
+			$this->assertStringContainsString( $find, $metabox_view, $find );
+		}
+
+		// Reset the metabox post.
+		$this->main->post = $_post;
+
+	}
+
+	/**
+	 * Test meta box view doesn't contain editable recurring payment date fields, for orders which do not support recurring payments.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_payments_dates_are_not_editable() {
+
+		$plan  = $this->get_mock_plan( 25.99, 3, 'lifetime', false, true );
+		$order = $this->get_mock_order( $plan );
+		// The order's gateway is set to something which does not supports modifying recurring payments.
+		$order->set( 'payment_gateway', 'garbage' );
+
+		// Setup the metabox post.
+		$_post = $this->main->post;
+		$this->main->post = get_post( $order->get( 'id' ) );
+
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		$metabox_view = $this->get_output( array( $this->main, 'output' ) );
+
+		$finds = array(
+			'data-llms-editable="_llms_date_next_payment"',
+			'data-llms-editable="_llms_date_trial_end"',
+		);
+
+		// The above editable fields are present.
+		foreach ( $finds as $find ) {
+			$this->assertStringNotContainsString( $find, $metabox_view, $find );
+		}
+
+		// Reset the metabox post.
+		$this->main->post = $_post;
+
+	}
+
 }
