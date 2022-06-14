@@ -126,22 +126,18 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			}
 		}
 
-		/**
-		 * Order is important -- if both trial and next payment are updated
-		 * they should be saved in that order since next payment date
-		 * is automatically recalculated by trial end date update.
-		 */
 		$editable_dates = array(
-			'_llms_date_trial_end',
-			'_llms_date_next_payment',
 			'_llms_date_access_expires',
 		);
 
-		// Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
-		if ( ! $order->supports_modify_recurring_payments() ) {
-			$editable_dates = array(
-				'_llms_date_access_expires',
-			);
+		// Save recurring payments related dates if order's gateway supports recurring payments modification.
+		if ( $order->supports_modify_recurring_payments() ) {
+			/**
+			 * Order is important -- if both trial and next payment are updated
+			 * they should be saved in that order since next payment date
+			 * is automatically recalculated by trial end date update.
+			 */
+			array_push( $editable_dates, '_llms_date_trial_end', '_llms_date_next_payment' );
 		}
 
 		foreach ( $editable_dates as $id => $key ) {
