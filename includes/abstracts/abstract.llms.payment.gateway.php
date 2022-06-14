@@ -94,18 +94,19 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	protected $option_prefix = 'llms_gateway_';
 
 	/**
-	 * Array of supported gateway features
+	 * Array of supported gateway features.
 	 *
 	 * @var array
 	 */
 	public $supports = array(
-		'checkout_fields'    => false,
-		'cc_save'            => false,
-		'refunds'            => false,
-		'single_payments'    => false,
-		'recurring_payments' => false,
-		'recurring_retry'    => false,
-		'test_mode'          => false,
+		'checkout_fields'           => false,
+		'cc_save'                   => false,
+		'refunds'                   => false,
+		'single_payments'           => false,
+		'recurring_payments'        => false,
+		'recurring_retry'           => false,
+		'test_mode'                 => false,
+		'modify_recurring_payments' => null,
 	);
 
 	/**
@@ -679,13 +680,19 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Get an array of features the gateway supports
+	 * Get an array of features the gateway supports.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Handle `modify_recurring_payments` depending on `recurring_payments`.
 	 *
 	 * @return array
 	 */
 	public function get_supported_features() {
+
+		if ( ! isset( $this->supports['modify_recurring_payments'] ) || is_null( $this->supports['modify_recurring_payments'] ) ) {
+			$this->supports['modify_recurring_payments'] = $this->supports['recurring_payments'];
+		}
+
 		/**
 		 * Filters the gateway's supported features array
 		 *
@@ -1014,11 +1021,13 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Looks at the $this->supports and ensures the submitted feature exists and is true.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added `$order` param, to be used when the feature also depends on an order property.
 	 *
-	 * @param string $feature Name of the supported feature.
+	 * @param string     $feature Name of the supported feature.
+	 * @param LLMS_Order $order   Instance of an LLMS_Order.
 	 * @return boolean
 	 */
-	public function supports( $feature ) {
+	public function supports( $feature, $order = null ) {
 
 		$supports = $this->get_supported_features();
 
