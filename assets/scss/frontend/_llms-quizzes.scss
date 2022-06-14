@@ -165,9 +165,6 @@
 			margin: 0;
 			padding: 0;
 			position: relative;
-			label {
-				display: block;
-			}
 
 			&:last-child {
 				border-bottom: none;
@@ -209,6 +206,7 @@
 			}
 
 			label {
+				display: block;
 				margin: 0;
 				padding: 10px 20px;
 				position: relative;
