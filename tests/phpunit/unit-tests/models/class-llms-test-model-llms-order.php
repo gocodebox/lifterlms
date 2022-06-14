@@ -1690,4 +1690,37 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test supports_modify_recurring_payments() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_support_modify_recurring_payments() {
+
+		// Default gateway: manual - supports recurring payments.
+		$order = $this->get_mock_order();
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		// Set gateway to something that, by default doesn't support recurring payments.
+		$order->set( 'payment_gateway', 'garbage' );
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		// Set the gateway to support 'modify_recurring_payments'.
+		$order->set( 'payment_gateway', 'manual' );
+		$gateway = $order->get_gateway();
+		$gw_original_supports = $gateway->supports;
+		$gateway->supports['recurring_payments'] = false;
+		$gateway->supports['modify_recurring_payments'] = true;
+		$this->assertTrue($order->get_gateway()->supports( 'modify_recurring_payments' ) );
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		// Set the gateway to not support 'modify_recurring_payments'.
+		$order->get_gateway()->supports['modify_recurring_payments'] = false;
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		$gateway->supports = $gw_original_supports;
+	}
+
 }

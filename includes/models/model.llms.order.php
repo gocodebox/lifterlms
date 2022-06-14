@@ -1986,4 +1986,18 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Determine whether the recurring payment for this order can be modified.
+	 *
+	 * Depends on whether the order's gateway supports.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function supports_modify_recurring_payments() {
+		$gateway = $this->get_gateway();
+		return is_wp_error( $gateway ) ? false : $gateway->supports( 'modify_recurring_payments', $this );
+	}
+
 }
