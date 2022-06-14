@@ -460,14 +460,14 @@ class LLMS_Controller_Checkout {
 		// Handoff to the gateway.
 		$gateway_res = llms()->payment_gateways()->get_gateway_by_id( $data['new_gateway'] )->handle_payment_source_switch( $data['order'], $_POST );
 
-		$next_action = is_wp_error( $gateway_res ) ? 
+		$next_action = is_wp_error( $gateway_res ) ?
 			false :
 			/**
 			 * Filters the next action when switching payment sources.
 			 *
 			 * Defaults to `COMPLETE` when gateways don't return a value via `next_action`
 			 * in the response array.
-			 * 
+			 *
 			 * The `COMPLETE` action records the switch, updates the payment method, and changes
 			 * `pending-cancel` to `active` status.
 			 *
@@ -476,7 +476,7 @@ class LLMS_Controller_Checkout {
 			 *
 			 * This is used by gateways such as PayPal that require a creation and approval step on PayPal as opposed
 			 * to a gateway like Stripe that doesn't require end-user approval on the Stripe platform.
-			 * 
+			 *
 			 * @since [version]
 			 *
 			 * @param type $arg Description.
@@ -485,7 +485,7 @@ class LLMS_Controller_Checkout {
 				'llms_switch_payment_source_next_action',
 				$gateway_res['next_action'] ?? 'COMPLETE',
 				$gateway_res,
-				$data,
+				$data
 			);
 
 		if ( 'COMPLETE' === $next_action ) {
