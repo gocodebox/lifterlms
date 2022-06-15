@@ -432,19 +432,26 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if an order can be resubscribed to
+	 * Determines if the order can be resubscribed to.
 	 *
 	 * @since 3.19.0
-	 * @since 5.2.0 Use stric type comparison.
+	 * @since 5.2.0 Use strict type comparison.
 	 *
 	 * @return bool
 	 */
 	public function can_resubscribe() {
 
-		$ret = false;
+		$can_resubscribe = false;
 
 		if ( $this->is_recurring() ) {
 
+			/**
+			 * Filters the order statuses from which an order can be reactivated.
+			 *
+			 * @since [version]
+			 *
+			 * @param string[] $allowed_statuses The list of allowed order statuses.
+			 */
 			$allowed_statuses = apply_filters(
 				'llms_order_status_can_resubscribe_from',
 				array(
@@ -453,11 +460,42 @@ class LLMS_Order extends LLMS_Post_Model {
 					'llms-pending-cancel',
 				)
 			);
-			$ret              = in_array( $this->get( 'status' ), $allowed_statuses, true );
+			$can_resubscribe  = in_array( $this->get( 'status' ), $allowed_statuses, true );
 
 		}
 
-		return apply_filters( 'llms_order_can_resubscribe', $ret, $this );
+		/**
+		 * Determines whether or not a user can resubscribe to an inactive recurring payment order.
+		 *
+		 * @since 3.19.0
+		 *
+		 * @param boolean    $can_resubscribe Whether or not a user can resubscribe.
+		 * @param LLMS_Order $order           The order object.
+		 */
+		return apply_filters( 'llms_order_can_resubscribe', $can_resubscribe, $this );
+
+	}
+
+	/**
+	 * Determines if the order's payment source can be changed.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function can_switch_source() {
+
+		$can_switch = 'llms-active' === $this->get( 'status' ) || $this->can_resubscribe();
+
+		/**
+		 * Filters whether or not the order's payment source can be changed.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean    $can_switch Whether or not the order's source can be switched.
+		 * @param LLMS_Order $order      The order object.
+		 */
+		return apply_filters( 'llms_order_can_switch_source', $can_switch, $this );
 
 	}
 
@@ -1048,6 +1086,33 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = $this->get_date( 'date', $format );
 		}
 		return apply_filters( 'llms_order_get_start_date', $date, $this );
+	}
+
+	/**
+	 * Retrieves the user action required when changing the order's payment source.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|string Returns `switch` when the payment source can be switched and `pay` when payment on the new source
+	 *                     is required before switching. A `null` return indicates that the order's payment source cannot be switched.
+	 */
+	public function get_switch_source_action() {
+
+		$action = null;
+		if ( $this->can_switch_source() ) {
+			$action = in_array( $this->get( 'status' ), array( 'llms-active', 'llms-pending-cancel' ), true ) ? 'switch' : 'pay';
+		}
+
+		/**
+		 * Filters the required user action for the order when switching the order's payment source.
+		 *
+		 * @since [version]
+		 *
+		 * @param null|string $action The switch action ID or `null` when the payment source cannot be switched.
+		 * @param LLMS_Order  $order  The order object.
+		 */
+		return apply_filters( 'llms_order_switch_source_action', $action, $this );
+
 	}
 
 	/**

@@ -784,7 +784,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		return llms_add_notice(
 			sprintf(
 				// Translatos: %s = the title of the payment gateway.
-				esc_html__( 'The selected payment Gateway "%s" does not support payment method switching.', 'lifterlms' ),
+				esc_html__( 'The selected payment gateway "%s" does not support payment method switching.', 'lifterlms' ),
 				$this->get_title()
 			),
 			'error'

@@ -5,9 +5,10 @@
  * @package LifterLMS/Templates
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @since [version] Use {@see LLMS_Order::can_switch_source()} to determine if the order's source can be switched.
+ * @version [version]
  *
- * @var LLMS_Order $order Current order object.
+ * @var LLMS_Order $order The order object.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php if ( $order->is_recurring() ) : ?>
 
-		<?php if ( isset( $_GET['confirm-switch'] ) || 'llms-active' === $order->get( 'status' ) || $order->can_resubscribe() ) : ?>
+		<?php if ( isset( $_GET['confirm-switch'] ) || $order->can_switch_source() ) : ?>
 
 			<?php
 			llms_get_template(

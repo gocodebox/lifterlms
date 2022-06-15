@@ -32,14 +32,11 @@ class LLMS_Controller_Orders {
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
-	 * @since [version] Remove action callbacks for order confirm and creation in favor of hooks in `LLMS_Controller_Checkout`.
+	 * @since [version] Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-
-		// Form actions.
-		add_action( 'init', array( $this, 'switch_payment_source' ) );
 
 		// This action adds our lifterlms specific actions when order & transaction statuses change.
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
@@ -490,50 +487,6 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order.
-	 *
-	 * @since 3.10.0
-	 * @since 3.19.0 Unknown.
-	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 *
-	 * @return void
-	 */
-	public function switch_payment_source() {
-
-		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
-			return;
-		} elseif ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
-			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
-		}
-
-		$order = llms_get_post( llms_filter_input( INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT ) );
-		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
-			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
-			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
-		}
-
-		$plan       = llms_get_post( $order->get( 'plan_id' ) );
-		$gateway_id = llms_filter_input_sanitize_string( INPUT_POST, 'llms_payment_gateway' );
-		$gateway    = $this->validate_selected_gateway( $gateway_id, $plan );
-
-		if ( is_wp_error( $gateway ) ) {
-			return llms_add_notice( $gateway->get_error_message(), 'error' );
-		}
-
-		// Handoff to the gateway.
-		$gateway->handle_payment_source_switch( $order, $_POST );
-
-		// If the order is pending cancel and there were no errors returned activate it.
-		if ( 'llms-pending-cancel' === $order->get( 'status' ) && ! llms_notice_count( 'error' ) ) {
-			$order->set_status( 'active' );
-		}
-
-	}
-
-	/**
 	 * When a transaction fails, update the parent order's status.
 	 *
 	 * @since 3.0.0
@@ -734,7 +687,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::confirm_pending_order}.
+	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::confirm_pending_order()}.
 	 *
 	 * @return void
 	 */
@@ -762,13 +715,30 @@ class LLMS_Controller_Orders {
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order}.
+	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order()}.
 	 *
 	 * @return void
 	 */
 	public function create_pending_order() {
 		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::create_pending_order' );
 		LLMS_Controller_Checkout::instance()->create_pending_order();
+	}
+
+
+	/**
+	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order.
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::switch_payment_source()}.
+	 *
+	 * @return void
+	 */
+	public function switch_payment_source() {
+		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::switch_payment_source' );
+		LLMS_Controller_Checkout::instance()->switch_payment_source();
 	}
 
 }

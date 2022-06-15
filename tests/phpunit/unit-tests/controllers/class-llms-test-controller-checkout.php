@@ -34,6 +34,8 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'create_pending_order'       => 10,
 			'confirm_pending_order_ajax' => 5,
 			'confirm_pending_order'      => 10,
+			'switch_payment_source_ajax' => 5,
+			'switch_payment_source'      => 10,
 		);
 
 		foreach ( $actions as $hook => $priority ) {
@@ -631,6 +633,706 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	public function test_get_url() {
 		$nonce = wp_create_nonce( 'action' );
 		$this->assertEquals( "http://example.org?llms-checkout={$nonce}", $this->main->get_url( 'action' ) );
+	}
+
+	/**
+	 * Test switch_payment_source() when the form isn't submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_not_submitted() {
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertNoticeCountEquals( 0, 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source() with an invalid nonce.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_invalid_nonce() {
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => 'fake',
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertNoticeCountEquals( 0, 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source() when the order_id is missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_missing_order_id() {
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Missing order information.', 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source() when an invalid order ID is supplied.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_invalid_order_id() {
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => 'NaN',
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Missing order information.', 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source() when the order ID isn't an order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_not_an_order() {
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $this->factory->post->create(),
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Invalid order.', 'error' );	
+
+	}
+
+	/**
+	 * Test switch_payment_source() when there's no logged in user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_mismatched_order() {
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', 123 );
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Invalid order.', 'error' );	
+
+	}
+
+	/**
+	 * Test switch_payment_source() when the gateway is missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_missing_gateway() {
+
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', $user_id );
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Missing gateway information.', 'error' );	
+
+	}
+
+	/**
+	 * Test switch_payment_source() when there's a gateway validation error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_gateway_validation_error() {
+
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', $user_id );
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+			'llms_payment_gateway' => 'FAKE',
+		) );
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'The selected payment gateway is not valid.', 'error' );	
+
+	}
+
+	/**
+	 * Test switch_payment_source() when the switch action is invalid, fake, or missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_invalid_switch_action() {
+
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway->set_option( 'enabled', 'yes' );
+
+		$actions = did_action( 'llms_order_payment_source_switched' );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'not-manual' );
+		$order->set_status( 'pending-cancel' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		foreach ( array( null, false, 'pay', 'fake ' ) as $action ) {
+
+			llms_clear_notices();
+			$this->mockPostRequest( array(
+				'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+				'order_id'             => $order->get( 'id' ),
+				'llms_payment_gateway' => 'manual',
+				'llms_switch_action'   => $action,
+			) );
+
+			$this->assertNull( $this->main->switch_payment_source() );
+			$this->assertHasNotice( 'Invalid action.', 'error' );
+
+		}
+
+	}
+
+	/**
+	 * Test switch_payment_source() when the gateway handler returns an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_gateway_error() {
+
+		// Setup a fake payment gateway.
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'mock-switch-source-err';
+			public $supports = array(
+				'recurring_payments' => true,
+			);
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+			public function handle_payment_source_switch( $order, $data = array() ) {
+				return llms_add_notice( 'Mock gateway error.', 'error' );
+			}
+		};
+		$this->load_payment_gateway( $gateway );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'manual' );
+		$order->set_status( 'on-hold' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+			'llms_payment_gateway' => 'mock-switch-source-err',
+			'llms_switch_action'   => 'pay'
+		) );
+
+		$this->assertNull( $this->main->switch_payment_source() );
+		$this->assertHasNotice( 'Mock gateway error.', 'error' );
+
+		// Re-initialized the order object.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		$this->assertSame( 0, did_action( 'llms_order_payment_source_switched' ) );
+		$this->assertEquals( 'manual', $order->get( 'payment_gateway' ) );
+		$this->assertEquals( 'llms-on-hold', $order->get( 'status' ) );
+
+		$this->unload_payment_gateway( 'mock-switch-source-err' );
+
+
+	}
+
+	/**
+	 * Test switch_payment_source() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_success() {
+
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway->set_option( 'enabled', 'yes' );
+
+		$actions = did_action( 'llms_order_payment_source_switched' );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'not-manual' );
+		$order->set_status( 'pending-cancel' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		$this->mockPostRequest( array(
+			'_switch_source_nonce' => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+			'llms_payment_gateway' => 'manual',
+			'llms_switch_action'   => 'switch',
+		) );
+
+		$this->assertNull( $this->main->switch_payment_source() );
+
+		// Re-initialized the order object.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		$this->assertEquals( ++$actions, did_action( 'llms_order_payment_source_switched' ) );
+		$this->assertEquals( 'manual', $order->get( 'payment_gateway' ) );
+		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
+
+		$gateway->set_option( 'enabled', 'no' );
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Test switch_payment_source_ajax() when the form isn't submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_not_submitted() {
+		$this->assertNull( $this->main->switch_payment_source_ajax() );
+		$this->assertNoticeCountEquals( 0, 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() with an invalid nonce.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_invalid_nonce() {
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => 'fake',
+		) );
+		$this->assertNull( $this->main->switch_payment_source_ajax() );
+		$this->assertNoticeCountEquals( 0, 'error' );
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when the order_id is missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_missing_order_id() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-order-missing', $res['errors'] );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when an invalid order ID is supplied.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_invalid_order_id() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => 'NaN',
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-order-missing', $res['errors'] );
+		
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when the order ID isn't an order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_not_an_order() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => $this->factory->post->create(),
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-order-invalid', $res['errors'] );
+		
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when there's no logged in user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_mismatched_order() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', 123 );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => $order->get( 'id' ),
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-order-invalid', $res['errors'] );
+		
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when the gateway is missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_missing_gateway() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', $user_id );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => $order->get( 'id' ),
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-gateway-missing', $res['errors'] );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when there's a gateway validation error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_gateway_validation_error() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+
+		$order = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_order' ) ) );
+		$order->set( 'user_id', $user_id );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => $order->get( 'id' ),
+			'llms_payment_gateway'   => 'FAKE',
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'gateway-invalid', $res['errors'] );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when the switch action is invalid, fake, or missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_invalid_switch_action() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway->set_option( 'enabled', 'yes' );
+
+		$actions = did_action( 'llms_order_payment_source_switched' );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'not-manual' );
+		$order->set_status( 'pending-cancel' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'               => $order->get( 'id' ),
+			'llms_payment_gateway'   => 'manual',
+			'llms_switch_action'     => 'fake',
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'switch-source-action-invalid', $res['errors'] );
+
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() when the gateway handler returns an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_gateway_error() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		// Setup a fake payment gateway.
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'mock-switch-source-err';
+			public $supports = array(
+				'recurring_payments' => true,
+			);
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+			public function handle_payment_source_switch( $order, $data = array() ) {
+				return new WP_Error( 'mock-gateway-error', 'ERR' );
+			}
+		};
+		$this->load_payment_gateway( $gateway );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'manual' );
+		$order->set_status( 'on-hold' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+			'llms_payment_gateway' => 'mock-switch-source-err',
+			'llms_switch_action'   => 'pay'
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertArrayHasKey( 'mock-gateway-error', $res['errors'] );
+
+		// Re-initialized the order object.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		$this->assertSame( 0, did_action( 'llms_order_payment_source_switched' ) );
+		$this->assertEquals( 'manual', $order->get( 'payment_gateway' ) );
+		$this->assertEquals( 'llms-on-hold', $order->get( 'status' ) );
+
+		$this->unload_payment_gateway( 'mock-switch-source-err' );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+	}
+
+	/**
+	 * Test switch_payment_source_ajax() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_switch_payment_source_ajax_success() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		// Setup a fake payment gateway.
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'mock-switch-source-success';
+			public $supports = array(
+				'recurring_payments' => true,
+			);
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+			public function handle_payment_source_switch( $order, $data = array() ) {
+				return array( 'yes' => true );
+			}
+		};
+		$this->load_payment_gateway( $gateway );
+
+		$actions = did_action( 'llms_order_payment_source_switched' );
+
+		$plan = llms_insert_access_plan( array(
+			'product_id' => $this->factory->course->create( array( 'sections' => 0 ) ),
+			'price'      => 25.00,
+			'frequency'  => 1,
+		) );
+		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
+		$order->set( 'payment_gateway', 'not-manual' );
+		$order->set_status( 'pending-cancel' );
+		wp_set_current_user( $order->get( 'user_id' ) );
+
+		$this->mockPostRequest( array(
+			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_SWITCH_PAYMENT_SOURCE ),
+			'order_id'             => $order->get( 'id' ),
+			'llms_payment_gateway' => 'mock-switch-source-success',
+			'llms_switch_action'   => 'switch',
+		) );
+
+		try {
+			ob_start();
+			$this->main->switch_payment_source_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$res = json_decode( ob_get_clean(), true );
+		$this->assertEquals( array( 'yes' => true ), $res );
+
+		// Re-initialized the order object.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Ensure order note is recorded.
+		remove_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+		$has_note = false;
+		foreach ( $order->get_notes() as $note ) {
+			if ( 'Payment source updated by customer. Payment gateway changed from "not-manual" to "mock-switch-source-success".' === $note->comment_content ) {
+				$has_note = true;
+				break;
+			}
+		}
+		add_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
+		$this->assertTrue( $has_note );
+
+		$this->assertEquals( ++$actions, did_action( 'llms_order_payment_source_switched' ) );
+		$this->assertEquals( 'mock-switch-source-success', $order->get( 'payment_gateway' ) );
+		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
+
+		$gateway->set_option( 'enabled', 'no' );
+
+		$this->unload_payment_gateway( 'mock-switch-source-success' );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
 	}
 
 }

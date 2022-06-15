@@ -687,7 +687,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_gateway' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( 'invalid-gateway', $res );
+		$this->assertWPErrorCodeEquals( 'gateway-invalid', $res );
 
 	}
 
