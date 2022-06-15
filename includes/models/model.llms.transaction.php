@@ -449,10 +449,10 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @param array  $refund {
 	 *      Refund arguments.
 	 *
-	 *     @type float  $amount    The refund amount.
-	 *     @type string $refund_id The generated refund ID.
-	 *     @type string $method    The refund processing method ID.
-	 *     @type string $date      The refund date in MySQL date format. If not supplied, the current time is used.
+	 *     @type float  $amount The refund amount.
+	 *     @type string $id     The generated refund ID.
+	 *     @type string $method The refund processing method ID.
+	 *     @type string $date   The refund date in MySQL date format. If not supplied, the current time is used.
 	 * }
 	 * @param string $note User-submitted refund note to add to the order alongside the refund.
 	 * @return void
