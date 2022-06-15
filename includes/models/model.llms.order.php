@@ -432,7 +432,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determines if a user can resubscribe to an inactive recurring payment order.
+	 * Determines if the order can be resubscribed to.
 	 *
 	 * @since 3.19.0
 	 * @since 5.2.0 Use strict type comparison.
