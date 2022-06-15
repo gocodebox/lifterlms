@@ -276,7 +276,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_save_remaining_payments_unsucces_when_order_does_not_support_recurring_payment_modifications() {
+	public function test_save_remaining_payments_unsuccess_when_order_does_not_support_recurring_payment_modifications() {
 
 		// The order's gateway is not set, so the order does not supports modifying recurring payments.
 		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
