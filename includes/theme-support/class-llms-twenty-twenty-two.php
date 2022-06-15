@@ -92,7 +92,7 @@ class LLMS_Twenty_Twenty_Two {
 			$styles[] = '.llms-form-field input, .llms-form-field textarea, .llms-form-field select { padding: 6px 10px }';
 
 			// Question layout.
-			$styles[] = '.llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-choice-text { width: calc( 100% - 110px); margin-top: 0; }';
+			$styles[] = '.llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-choice-text { margin-top: 0; }';
 
 			// Payment gateway stylized radio buttons.
 			$styles[] = LLMS_Theme_Support::get_css(
