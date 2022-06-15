@@ -1,12 +1,17 @@
 <?php
 /**
- * Recurring Payment Source Switching
- * Included on single order view pages via Student Dashboard
+ * User form used to switch the payment source for recurring payment orders.
+ *
+ * Included on single order view pages via Student Dashboard.
  *
  * @package LifterLMS/Templates
  *
  * @since 3.10.0
- * @version 3.19.0
+ * @since [version] Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
+ * @version [version]
+ *
+ * @var string     $confirm The ID of the payment gateway when confirming a switch.
+ * @var LLMS_Order $order   The order object.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -87,7 +92,7 @@ if ( 'llms-active' === $status ) {
 
 		<?php wp_nonce_field( 'llms_switch_order_source', '_switch_source_nonce' ); ?>
 		<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
-		<input name="llms_switch_action" type="hidden" value="<?php echo in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ? 'switch' : 'pay'; ?>">
+		<input name="llms_switch_action" type="hidden" value="<?php echo $order->get_switch_source_action(); ?>">
 
 		<?php
 		llms_form_field(
