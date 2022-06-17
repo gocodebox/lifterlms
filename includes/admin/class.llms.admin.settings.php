@@ -999,10 +999,9 @@ class LLMS_Admin_Settings {
 					break;
 
 				default:
-
 					/**
 					 * Action run for external field types.
-					 * 
+					 *
 					 * @since Unknown
 					 * @deprecated [version] Use `llms_update_option_{$type}` filter hook instead.
 					 *
@@ -1011,14 +1010,14 @@ class LLMS_Admin_Settings {
 					do_action_deprecated( "lifterlms_update_option_{$type}", array( $field ), '[version]' );
 
 			}
-			
+
 			/**
 			 * Filters the value of a settings field after it has been parsed and sanitized
 			 * and before it is saved to the database.
 			 *
 			 * The dynamic portion of this hook, `{$type}` refers to the setting field type:
 			 * email, text, checkbox, etc...
-			 * 
+			 *
 			 * @since [version]
 			 *
 			 * @param string|null $option_value The sanitized option value or `null`.
@@ -1059,7 +1058,7 @@ class LLMS_Admin_Settings {
 			 *
 			 * An update isn't guaranteed after this action if the method's logic can't
 			 * find a valid posted valued to persist to the database.
-			 * 
+			 *
 			 * @since Unknown
 			 *
 			 * @param array $field The admin setting field array to be updated.
@@ -1080,7 +1079,7 @@ class LLMS_Admin_Settings {
 	}
 
 	/**
-	 * Retrieves the posted value for an array type setting field. 
+	 * Retrieves the posted value for an array type setting field.
 	 *
 	 * @since [version]
 	 *
