@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -902,13 +902,14 @@ class LLMS_Admin_Settings {
 	/**
 	 * Save admin fields.
 	 *
-	 * Loops though the lifterlms options array and outputs each field.
+	 * Loops through a LifterLMS settings field options array and saves the values via `update_option()`.
 	 *
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Add handling for array fields for standard input types.
 	 *
 	 * @param array $settings Opens array to output
 	 * @return boolean
@@ -924,52 +925,45 @@ class LLMS_Admin_Settings {
 		$update_options = array();
 
 		// Loop options and get values to save.
-		foreach ( $settings as $value ) {
+		foreach ( $settings as $field ) {
 
-			if ( ! isset( $value['id'] ) ) {
-				continue; }
+			if ( ! isset( $field['id'] ) ) {
+				continue;
+			}
 
-			$type = isset( $value['type'] ) ? sanitize_title( $value['type'] ) : '';
+			$type = isset( $field['type'] ) ? sanitize_title( $field['type'] ) : '';
 
 			// Remove secure options from the database.
-			if ( isset( $value['secure_option'] ) && llms_get_secure_option( $value['secure_option'] ) ) {
-				delete_option( $value['id'] );
+			if ( isset( $field['secure_option'] ) && llms_get_secure_option( $field['secure_option'] ) ) {
+				delete_option( $field['id'] );
 				continue;
 			}
 
 			// Get the option name.
 			$option_value = null;
 
+			// Determines if the option value is an array.
+			$is_array_option = false !== strpos( $field['id'], '[' );
+
 			switch ( $type ) {
 
-				// Standard types.
 				case 'checkbox':
-					// Ooboi this is gross.
-					if ( strstr( $value['id'], '[' ) ) {
-						parse_str( $value['id'], $option_data );
-						$main_option_names = array_keys( $option_data );
-						$main_option_vals  = array_keys( $option_data[ $main_option_names[0] ] );
-						if ( isset( $_POST[ $main_option_names[0] ] ) && in_array( $main_option_vals[0], array_keys( $_POST[ $main_option_names[0] ] ) ) ) {
-							$option_value = 'yes';
-						} else {
-							$option_value = 'no';
-						}
-					} elseif ( isset( $_POST[ $value['id'] ] ) ) {
+					if ( $is_array_option ) {
+						$option_value = self::get_array_field_posted_value( $field['id'] ) ? 'yes' : 'no';
+					} elseif ( isset( $_POST[ $field['id'] ] ) ) {
 						$option_value = 'yes';
 					} else {
 						$option_value = 'no';
 					}
-
 					break;
 
 				case 'textarea':
 				case 'wpeditor':
-					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = wp_kses_post( trim( llms_filter_input( INPUT_POST, $value['id'], FILTER_DEFAULT ) ) );
+					if ( isset( $_POST[ $field['id'] ] ) ) {
+						$option_value = wp_kses_post( trim( llms_filter_input( INPUT_POST, $field['id'], FILTER_DEFAULT ) ) );
 					} else {
 						$option_value = '';
 					}
-
 					break;
 
 				case 'password':
@@ -982,74 +976,125 @@ class LLMS_Admin_Settings {
 				case 'radio':
 				case 'hidden':
 				case 'image':
-					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $value['id'] );
+					if ( $is_array_option ) {
+						$option_value = self::get_array_field_posted_value( $field['id'] );
+					} elseif ( isset( $_POST[ $field['id'] ] ) ) {
+						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $field['id'] );
 					} else {
 						$option_value = '';
 					}
 
-					if ( isset( $value['sanitize'] ) && 'slug' === $value['sanitize'] ) {
+					if ( isset( $field['sanitize'] ) && 'slug' === $field['sanitize'] ) {
 						$option_value = sanitize_title( $option_value );
 					}
 
 					break;
 
 				case 'multiselect':
-					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $value['id'], array( FILTER_REQUIRE_ARRAY ) );
+					if ( isset( $_POST[ $field['id'] ] ) ) {
+						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_REQUIRE_ARRAY ) );
 					} else {
 						$option_value = '';
 					}
 					break;
 
-				// Custom handling.
 				default:
-					do_action( 'lifterlms_update_option_' . $type, $value );
-
-					break;
+					/**
+					 * Action run for external field types.
+					 *
+					 * @since Unknown
+					 * @deprecated [version] Use `llms_update_option_{$type}` filter hook instead.
+					 *
+					 * @param type $arg Description.
+					 */
+					do_action_deprecated( "lifterlms_update_option_{$type}", array( $field ), '[version]' );
 
 			}
 
-			if ( ! is_null( $option_value ) ) {
-				// Check if option is an array.
-				if ( strstr( $value['id'], '[' ) ) {
+			/**
+			 * Filters the value of a settings field after it has been parsed and sanitized
+			 * and before it is saved to the database.
+			 *
+			 * The dynamic portion of this hook, `{$type}` refers to the setting field type:
+			 * email, text, checkbox, etc...
+			 *
+			 * @since [version]
+			 *
+			 * @param string|null $option_value The sanitized option value or `null`.
+			 * @param array       $field        The settings field array.
+			 */
+			$option_value = apply_filters( "llms_update_option_{$type}", $option_value, $field );
 
-					parse_str( $value['id'], $option_array );
+			if ( ! is_null( $option_value ) ) {
+
+				if ( $is_array_option ) {
+
+					parse_str( $field['id'], $option_array );
 
 					// Option name is first key.
 					$option_name = current( array_keys( $option_array ) );
 
 					// Get old option value.
 					if ( ! isset( $update_options[ $option_name ] ) ) {
-						 $update_options[ $option_name ] = get_option( $option_name, array() ); }
+						$update_options[ $option_name ] = get_option( $option_name, array() );
+					}
 
 					if ( ! is_array( $update_options[ $option_name ] ) ) {
-						$update_options[ $option_name ] = array(); }
+						$update_options[ $option_name ] = array();
+					}
 
 					// Set keys and value.
 					$key = key( $option_array[ $option_name ] );
 
 					$update_options[ $option_name ][ $key ] = $option_value;
 
-					// Single value.
 				} else {
-					$update_options[ $value['id'] ] = $option_value;
+					$update_options[ $field['id'] ] = $option_value;
 				}
 			}
 
-			// Custom handling.
-			do_action( 'lifterlms_update_option', $value );
+			/**
+			 * Action run prior to the update of a LifterLMS setting field option.
+			 *
+			 * An update isn't guaranteed after this action if the method's logic can't
+			 * find a valid posted valued to persist to the database.
+			 *
+			 * @since Unknown
+			 *
+			 * @param array $field The admin setting field array to be updated.
+			 */
+			do_action( 'lifterlms_update_option', $field );
+
 		}
+
 		// Now save the options.
 		foreach ( $update_options as $name => $value ) {
-
 			update_option( $name, $value );
-
 		}
 
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		return true;
+
+	}
+
+	/**
+	 * Retrieves the posted value for an array type setting field.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $id The field ID, eg: "my_setting[field_one]".
+	 * @return string Returns the (sanitized) posted value or an empty string if it wasn't posted.
+	 */
+	private static function get_array_field_posted_value( $id ) {
+
+		parse_str( $id, $parsed_id );
+		$opt_id  = key( $parsed_id );
+		$opt_key = key( $parsed_id[ $opt_id ] );
+		$posted  = llms_filter_input_sanitize_string( INPUT_POST, $opt_id, array( FILTER_REQUIRE_ARRAY ) );
+
+		return $posted[ $opt_key ] ?? '';
+
 	}
 
 }

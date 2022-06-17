@@ -1,0 +1,4 @@
+significance: minor
+type: deprecated
+entry: Deprecated the `lifterlms_update_option_{$type}` action in favor of the
+  `llms_update_option_{$type}` filter.
