@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added the `llms_display_checkout_membership_required_notice` filter hook.

@@ -19,6 +19,11 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	protected $class_name = 'LLMS_Course';
 
 	/**
+	 * @var LLMS_Course
+	 */
+	protected $obj;
+
+	/**
 	 * db post type of the model being tested
 	 * @var  string
 	 */
@@ -479,6 +484,72 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Tests the has_enrollment_period_ended() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_enrollment_period_ended() {
+
+		$this->create();
+
+		// Enrollment period not set. Enrollment end date not set.
+		$this->assertFalse( $this->obj->has_enrollment_period_ended() );
+
+		// Configure testing matrix.
+		$tests = array();
+		foreach( array( 'no', 'yes' ) as $enrollment_period ) {
+			foreach( array( 'last week', 'next week' ) as $enrollment_end_date ) {
+				$tests[] = array(
+					'enrollment_period'   => $enrollment_period,
+					'enrollment_end_date' => $enrollment_end_date,
+					'expected'            => ( 'yes' === $enrollment_period && 'last week' === $enrollment_end_date ),
+				);
+			}
+		}
+
+		foreach ( $tests as $test ) {
+			$expected = array_pop( $test );
+			$this->obj->set( $test );
+			$this->assertEquals( $expected, $this->obj->has_enrollment_period_ended(), print_r( $test, true ) );
+		}
+	}
+
+	/**
+	 * Tests the has_enrollment_period_started() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_enrollment_period_started() {
+
+		$this->create();
+
+		// Enrollment period not set. Enrollment start date not set.
+		$this->assertTrue( $this->obj->has_enrollment_period_started() );
+
+		// Configure testing matrix.
+		$tests = array();
+		foreach( array( 'no', 'yes' ) as $enrollment_period ) {
+			foreach( array( 'last week', 'next week' ) as $enrollment_start_date ) {
+				$tests[] = array(
+					'enrollment_period'     => $enrollment_period,
+					'enrollment_start_date' => $enrollment_start_date,
+					'expected'              => ! ( 'yes' === $enrollment_period && 'next week' === $enrollment_start_date ),
+				);
+			}
+		}
+
+		foreach ( $tests as $test ) {
+			$expected = array_pop( $test );
+			$this->obj->set( $test );
+			$this->assertEquals( $expected, $this->obj->has_enrollment_period_started(), print_r( $test, true ) );
+		}
+	}
+
+	/**
 	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0
@@ -509,6 +580,56 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$course->set( 'sales_page_content_page_id', $page_id );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
 
+	}
+
+	/**
+	 * Tests the is_enrollment_restricted() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_enrollment_restricted() {
+
+		// Set up.
+		$course    = $this->factory->course->create_and_get( array(
+			'enrollment_period'         => 'yes',
+			'enrollment_opens_message'  => 'Opens tomorrow.',
+			'enrollment_closed_message' => 'Closed yesterday.',
+			'enable_capacity'           => 'yes',
+			'capacity_message'          => 'No capacity.',
+		) );
+		$student   = $this->factory->student->create_and_get();
+		$yesterday = wp_date( 'Y-m-d H:i:s', strtotime( 'yesterday' ) );
+		$tomorrow  = wp_date( 'Y-m-d H:i:s', strtotime( 'tomorrow' ) );
+
+		// Not restricted.
+		$this->assertFalse( $course->is_enrollment_restricted() );
+
+		// Opens tomorrow.
+		$course->set( 'enrollment_start_date', $tomorrow );
+		$this->assertEquals( 'Opens tomorrow.', $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_start_date', $yesterday );
+
+		// Closed yesterday.
+		$course->set( 'enrollment_end_date', $yesterday );
+		$this->assertEquals( 'Closed yesterday.', $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_end_date', $tomorrow );
+
+		// No capacity.
+		$course->set( 'capacity', 1 );
+		$student->enroll( $course->get( 'id' ) );
+		$this->assertEquals( 'No capacity.', $course->is_enrollment_restricted() );
+		$student->delete_enrollment( $course->get( 'id' ) );
+		$course->set( 'enrolled_students', 0 ); // Don't wait for LLMS_Processor_Course_Data::dispatch_calc() to run.
+
+		// Message has a shortcode.
+		$shortcode = '[lifterlms_course_info id="' . $course->get( 'id' ) . '" key="enrollment_end_date" date_format="Y-m-d H:i:s"]';
+		$course->set( 'enrollment_closed_message', "Enrollment closed on $shortcode." );
+		$course->set( 'enrollment_end_date', $yesterday );
+		$expected = "Enrollment closed on $yesterday.";
+		$this->assertEquals( $expected, $course->is_enrollment_restricted() );
+		$course->set( 'enrollment_end_date', $tomorrow );
 	}
 
 	/**

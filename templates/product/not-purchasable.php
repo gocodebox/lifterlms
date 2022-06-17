@@ -5,29 +5,21 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.38.0
- * @version 3.38.0
+ * @since [version] Moved course enrollment restriction logic to `LLMS_Course::is_enrollment_restricted()`.
+ * @version [version]
  *
- * @property LLMS_Product $product Product object of the course or membership.
+ * @var LLMS_Product $product Product object of the course or membership.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-if ( 'course' === $product->get( 'type' ) ) :
-	$course = new LLMS_Course( $product->post ); ?>
+if ( 'course' === $product->get( 'type' ) ) {
 
-	<?php if ( 'yes' === $course->get( 'enrollment_period' ) ) : ?>
+	$course             = new LLMS_Course( $product->post );
+	$restricted_message = $course->is_enrollment_restricted();
 
-		<?php if ( $course->get( 'enrollment_start_date' ) && ! $course->has_date_passed( 'enrollment_start_date' ) ) : ?>
-			<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'error' ); ?>
-		<?php elseif ( $course->has_date_passed( 'enrollment_end_date' ) ) : ?>
-			<?php llms_print_notice( $course->get( 'enrollment_closed_message' ), 'error' ); ?>
-		<?php endif; ?>
-
-	<?php endif; ?>
-
-	<?php if ( ! $course->has_capacity() ) : ?>
-		<?php llms_print_notice( $course->get( 'capacity_message' ), 'error' ); ?>
-	<?php endif; ?>
-
-	<?php
-endif;
+	if ( $restricted_message ) {
+		llms_print_notice( $restricted_message, 'error' );
+		return;
+	}
+}

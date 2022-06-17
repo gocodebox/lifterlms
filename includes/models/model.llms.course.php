@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -260,7 +260,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 *
 		 * @param array       $instructors    Instructor data array.
 		 * @param LLMS_Course $course         Course object.
-		 * @param boolearn    $exclude_hidden If true, excludes hidden instructors from the return array.
+		 * @param boolean     $exclude_hidden If true, excludes hidden instructors from the return array.
 		 */
 		return apply_filters(
 			'llms_course_get_instructors',
@@ -599,6 +599,40 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	}
 
 	/**
+	 * Returns true if the course enrollment period is enabled and the enrollment end date is set and has passed,
+	 * else returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_enrollment_period_ended() {
+
+		if ( llms_parse_bool( $this->get( 'enrollment_period' ) ) && $this->get( 'enrollment_end_date' ) ) {
+			return $this->has_date_passed( 'enrollment_end_date' );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns true if the course enrollment period is disabled or the start date is empty or has passed,
+	 * else returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_enrollment_period_started() {
+
+		if ( ! llms_parse_bool( $this->get( 'enrollment_period' ) ) || ! $this->get( 'enrollment_start_date' ) ) {
+			return true;
+		}
+
+		return $this->has_date_passed( 'enrollment_start_date' );
+	}
+
+	/**
 	 * Determine if prerequisites are enabled and there are prereqs configured
 	 *
 	 * @since 3.0.0
@@ -661,6 +695,42 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 */
 		return apply_filters( 'llms_is_course_enrollment_open', $is_open, $this );
 
+	}
+
+	/**
+	 * Returns a message if the enrollment period has not started, the enrollment period has ended,
+	 * or there is no more enrollment capacity, else returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @return false|string
+	 */
+	public function is_enrollment_restricted() {
+
+		$restricted_message = false;
+		if ( ! $this->has_enrollment_period_started() ) {
+			$restricted_message = $this->get( 'enrollment_opens_message' );
+		}
+		if ( $this->has_enrollment_period_ended() ) {
+			$restricted_message = $this->get( 'enrollment_closed_message' );
+		}
+		if ( ! $this->has_capacity() ) {
+			$restricted_message = $this->get( 'capacity_message' );
+		}
+
+		/**
+		 * Filters the course enrollment restricted message.
+		 *
+		 * @since [version]
+		 *
+		 * @param false|string $restricted_message The message explaining why enrollment is restricted
+		 *                                         or false if enrollment is not restricted.
+		 * @param LLMS_Course  $course             The course object.
+		 */
+		$restricted_message = apply_filters( 'llms_is_course_enrollment_restricted', $restricted_message, $this );
+		$restricted_message = do_shortcode( $restricted_message );
+
+		return $restricted_message;
 	}
 
 	/**

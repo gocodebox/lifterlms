@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,6 +45,20 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @var string
 	 */
 	protected $model_post_type = 'product';
+
+	/**
+	 * Returns true if this product's post exists, else returns false.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function exists() {
+
+		$post = get_post( $this->get( 'id' ) );
+
+		return isset( $post );
+	}
 
 	/**
 	 * Retrieve the max number of access plans that can be created for this product.

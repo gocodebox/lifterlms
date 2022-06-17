@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - gocodebox/private-issues#8
+entry: Prevented display of the checkout form when the product is not purchasable.
