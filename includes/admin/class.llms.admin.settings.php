@@ -902,7 +902,7 @@ class LLMS_Admin_Settings {
 	/**
 	 * Save admin fields.
 	 *
-	 * Loops though a LifterLMS settings field options array and saves the values via `update_option()`.
+	 * Loops through a LifterLMS settings field options array and saves the values via `update_option()`.
 	 *
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
@@ -1089,7 +1089,7 @@ class LLMS_Admin_Settings {
 	private static function get_array_field_posted_value( $id ) {
 
 		parse_str( $id, $parsed_id );
-		$opt_id  = current( array_keys( $parsed_id ) );
+		$opt_id  = key( $parsed_id );
 		$opt_key = key( $parsed_id[ $opt_id ] );
 		$posted  = llms_filter_input_sanitize_string( INPUT_POST, $opt_id, array( FILTER_REQUIRE_ARRAY ) );
 

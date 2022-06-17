@@ -277,5 +277,4 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 
 	}
 
-
 }
