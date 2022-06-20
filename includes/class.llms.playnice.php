@@ -41,7 +41,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.1.3
 	 * @since 3.31.0 Add `plugins_loaded` hook.
-	 * @since [version] Account for BuddyBoss compatibility issue. @link
+	 * @since [version] Account for BuddyBoss compatibility issue.
 	 *
 	 * @return void
 	 */
@@ -53,8 +53,8 @@ class LLMS_PlayNice {
 		// WPEngine heartbeat fix.
 		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
 
-		// BuddyBoss compatiblity issue fix.
-		add_action( 'bp_init', array( $this, 'buddyboss_fix' ), 9 );
+		// BuddyBoss profile nav compatibility issue fix (the nav is set up at priority 6).
+		add_action( 'bp_init', array( $this, 'buddyboss_compatibilty' ), 5 );
 
 		// Load other playnice things based on the presence of other plugins.
 		add_action( 'init', array( $this, 'plugins_loaded' ), 11 );
@@ -62,19 +62,22 @@ class LLMS_PlayNice {
 	}
 
 	/**
-	 * Undocumented function
+	 * Compatibility for BuddyBoss.
 	 *
 	 * @since [version]
 	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/2142#issuecomment-1157924080.
+	 *
 	 * @return void
 	 */
-	public function buddyboss_fix() {
-		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'bp_is_my_profile' ) || ! bp_is_my_profile() ) {
+	public function buddyboss_compatibilty() {
+
+		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'bp_is_my_profile' ) || bp_is_my_profile() ) {
 			return;
 		}
 
-		if ( ( is_multisite() && is_plugin_active_for_network( 'buddyboss-platform/bp-loader.php' ) ) ||
-				is_plugin_active( 'buddyboss-platform/bp-loader.php' ) ) {
+		if ( is_plugin_active( 'buddyboss-platform/bp-loader.php' ) ||
+				( is_multisite() && is_plugin_active_for_network( 'buddyboss-platform/bp-loader.php' ) ) ) {
 			$plugin_data    = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . 'buddyboss-platform/bp-loader.php' );
 			$plugin_version = ! empty( $plugin_data['Version'] ) ? $plugin_data['Version'] : 0;
 			if ( $plugin_version && version_compare( $plugin_version, '2.0.3', '>=' ) ) {
@@ -83,6 +86,7 @@ class LLMS_PlayNice {
 			}
 		}
 
+		// Do not add our profile nav items when not in front-end (and not in "my profile"), to avoid.
 		$bp_integration = llms()->integrations()->get_integration( 'buddypress' );
 		remove_action( 'bp_setup_nav', array( $bp_integration, 'add_profile_nav_items' ) );
 

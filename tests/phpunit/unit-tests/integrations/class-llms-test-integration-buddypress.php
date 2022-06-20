@@ -260,6 +260,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 * Test add_profile_nav_items().
 	 *
 	 * @since 6.3.0
+	 * @since [version] Main nav item always shown.
 	 *
 	 * @return void
 	 */
@@ -269,8 +270,28 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		// User not logged in.
 		$this->_setup_members_nav();
+		$this->_set_bp_is_my_profile_false();
+
 		$this->main->add_profile_nav_items();
-		$this->assertEmpty( $bp->members->nav->nav );
+		$endpoints = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'endpoints' );
+
+		$this->assertNotEmpty(
+			$bp->members->nav->nav[0][ 'courses' ]
+		);
+
+		foreach ( $endpoints as $key => $endpoint ) {
+			$this->assertNotEmpty(
+				$bp->members->nav->nav[0][ 'courses/' . $endpoint['endpoint'] ]
+			);
+			$this->assertEquals(
+				$endpoint['title'],
+				$bp->members->nav->nav[0][ 'courses/' . $endpoint['endpoint'] ]->name
+			);
+			// No access to this.
+			$this->assertFalse(
+				$bp->members->nav->nav[0][ 'courses/' . $endpoint['endpoint'] ]->user_has_access
+			);
+		}
 
 		// Log in as admin.
 		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
@@ -278,13 +299,25 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		$this->loggedin_user_slug = 'admin';
 		$this->_set_loggedin_user_domain();
 
-		// Visit someone else profile.
+		// Visit someone else profile: cannot see other's courses related endpoints.
 		$this->_set_bp_is_my_profile_false();
 		$this->displayed_user_id = $admin_id + 1;
 		$this->_set_displayed_user_id();
 		$this->_setup_members_nav();
 		$this->main->add_profile_nav_items();
-		$this->assertEmpty( $bp->members->nav->nav[ $this->displayed_user_id ] );
+		foreach ( $endpoints as $key => $endpoint ) {
+			$this->assertNotEmpty(
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]
+			);
+			$this->assertEquals(
+				$endpoint['title'],
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]->name
+			);
+			// No access to the endpoint's content.
+			$this->assertFalse(
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]->user_has_access
+			);
+		}
 
 		// 'admin' visiting 'admin' profile.
 		$this->_set_bp_is_my_profile_true();
@@ -294,7 +327,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		$this->main->add_profile_nav_items();
 		$this->assertNotEmpty( $bp->members->nav->nav[ $this->displayed_user_id ] );
 
-		$endpoints = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'endpoints' );
 		$this->assertNotEmpty(
 			$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses' ]
 		);
@@ -307,6 +339,10 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			$this->assertEquals(
 				$endpoint['title'],
 				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]->name
+			);
+			// Can see the endpoint content.
+			$this->assertTrue(
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]->user_has_access
 			);
 		}
 
@@ -340,7 +376,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 				LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'current_endpoint_key' ),
 				$key
 			);
-
 
 			// BuddyPress tab content is the $endpoint['content'].
 			$this->assertEquals(
@@ -856,18 +891,19 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 * This is done in the BP_Core_Nav constructor.
 	 *
 	 * @since 6.3.0
+	 * @since [version] Setup nav also for not logged in users.
 	 *
 	 * @return void
 	 */
 	private function _setup_members_nav() {
+
 		$displayed_user_id = (int) bp_displayed_user_id();
-		if ( $displayed_user_id ) {
-			$bp = buddypress();
 
-			$bp->members->nav->object_id = $displayed_user_id;
-			$bp->members->nav->nav[ $displayed_user_id ] = array();
+		$bp = buddypress();
 
-		}
+		$bp->members->nav->object_id = $displayed_user_id;
+		$bp->members->nav->nav[ $displayed_user_id ] = array();
+
 	}
 
 }

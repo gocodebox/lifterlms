@@ -613,13 +613,14 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Get a list of custom endpoints to add to BuddyPress profile page.
 	 *
 	 * @since 6.3.0
+	 * @since [version] Remove redundant check on `is_null()`: `isset()` already implies it.
 	 *
 	 * @param bool $active_only If true, returns only active endpoints.
 	 * @return array
 	 */
 	public function get_profile_endpoints( $active_only = true ) {
 
-		if ( ! isset( $this->endpoints ) || is_null( $this->endpoints ) ) {
+		if ( ! isset( $this->endpoints ) ) {
 			$this->populate_profile_endpoints();
 		}
 
