@@ -88,7 +88,7 @@ class LLMS_PlayNice {
 			}
 		}
 
-		// Do not add our profile nav items when not in front-end (and not in "my profile"), to avoid.
+		// Do not add our profile nav items when not in front-end (and not in "my profile"), to avoid a fatal error.
 		$bp_integration = llms()->integrations()->get_integration( 'buddypress' );
 		remove_action( 'bp_setup_nav', array( $bp_integration, 'add_profile_nav_items' ) );
 
