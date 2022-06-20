@@ -54,7 +54,7 @@ class LLMS_PlayNice {
 		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
 
 		// BuddyBoss profile nav compatibility issue fix (the nav is set up at priority 6).
-		add_action( 'bp_init', array( $this, 'buddyboss_compatibilty' ), 5 );
+		add_action( 'bp_init', array( $this, 'buddyboss_compatibility' ), 5 );
 
 		// Load other playnice things based on the presence of other plugins.
 		add_action( 'init', array( $this, 'plugins_loaded' ), 11 );
