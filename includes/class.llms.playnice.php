@@ -70,14 +70,16 @@ class LLMS_PlayNice {
 	 *
 	 * @return void
 	 */
-	public function buddyboss_compatibilty() {
+	public function buddyboss_compatibility() {
 
 		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'bp_is_my_profile' ) || bp_is_my_profile() ) {
 			return;
 		}
 
-		if ( is_plugin_active( 'buddyboss-platform/bp-loader.php' ) ||
-				( is_multisite() && is_plugin_active_for_network( 'buddyboss-platform/bp-loader.php' ) ) ) {
+		if (
+			is_plugin_active( 'buddyboss-platform/bp-loader.php' ) ||
+			( is_multisite() && is_plugin_active_for_network( 'buddyboss-platform/bp-loader.php' ) )
+		) {
 			$plugin_data    = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . 'buddyboss-platform/bp-loader.php' );
 			$plugin_version = ! empty( $plugin_data['Version'] ) ? $plugin_data['Version'] : 0;
 			if ( $plugin_version && version_compare( $plugin_version, '2.0.3', '>=' ) ) {
