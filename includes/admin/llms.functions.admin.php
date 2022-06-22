@@ -135,6 +135,49 @@ function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
 }
 
 /**
+ * Retrieves HTML for a Dashicon wrapped in an anchor.
+ *
+ * A utility for adding links to external documentation.
+ *
+ * @since [version]
+ *
+ * @param string $url The URL of the anchor tag.
+ * @param array  $args {
+ *     An array of optional configuration options.
+ *
+ *     @type integer $size  The size of the icon. Default 18.
+ *     @type string  $title The title attribute of the anchor tag. Default: "More information".
+ *     @type string  $icon  The Dashicon icon to use, {@see @link https://developer.wordpress.org/resource/dashicons/}. Default: "external".
+ * }
+ * @return string 
+ */
+function llms_get_dashicon_link( $url, $args = array() ) {
+
+	$args = wp_parse_args( 
+		$args,
+		array(
+			'size'   => 18,
+			'title'  => esc_attr__( 'More information', 'lifterlms' ),
+			'icon'   => 'external',
+		)
+	);
+
+	$dashicon = sprintf(
+		'<span class="dashicons dashicons-%1$s" style="font-size:%2$dpx;width:%2$dpx;height:%2$dpx"></span>',
+		esc_attr( $args['icon'] ),
+		$args['size']
+	);
+
+	return sprintf(
+		'<a href="%1$s" style="text-decoration:none;" target="_blank" rel="noreferrer" title="%2$s">%3$s</a>',
+		esc_url( $url ),
+		esc_attr( $args['title'] ),
+		$dashicon
+	);
+
+}
+
+/**
  * Get an array of available course/membership sales page options
  *
  * @return   array
