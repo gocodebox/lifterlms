@@ -619,10 +619,24 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Get the value of the logging setting
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added the force filter, `llms_gateway_{$this->id}_logging_enabled`.
 	 *
 	 * @return string
 	 */
 	public function get_logging_enabled() {
+		/**
+		 * Enables forcing the logging status for the gateway on or off.
+		 *
+		 * The dynamic portion of this hook, `{$this->id}`, refers to the gateway's ID.
+		 * 
+		 * @since [version]
+		 *
+		 * @param null|bool $forced The forced status. If `null`, the default status derived from the gateway options will be used.
+		 */
+		$forced = apply_filters( "llms_gateway_{$this->id}_logging_enabled", null );
+		if ( ! is_null( $forced ) ) {
+			return $forced ? 'yes' : 'no';
+		}
 		return $this->get_option( 'logging_enabled' );
 	}
 

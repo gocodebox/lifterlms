@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will
+  allow force enabling/disabling of gateway logging functions.
