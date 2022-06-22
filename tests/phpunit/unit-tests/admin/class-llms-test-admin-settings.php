@@ -11,6 +11,35 @@
  */
 class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 
+	public function test_set_field_defaults() {
+
+		$expected = array(
+			'id'           => '',
+			'title'        => '',
+			'class'        => '',
+			'css'          => '',
+			'default'      => '',
+			'desc'         => '',
+			'desc_tooltip' => '',
+			'after_html'   => '',
+		);
+
+		$this->assertEquals( $expected, LLMS_Admin_Settings::set_field_defaults( array() ) );
+
+		// Test all default values will be set.
+		foreach ( array_keys( $expected ) as $key ) {
+			$expected[ $key ] = 'abc';
+			$this->assertEquals( $expected, LLMS_Admin_Settings::set_field_defaults( array( $key => 'abc' ) ) );
+			$expected[ $key ] = '';
+		}
+
+		// Title fallback to name.
+		$expected['name']  = 'abc';
+		$expected['title'] = 'abc';
+		$this->assertEquals( $expected, LLMS_Admin_Settings::set_field_defaults( array( 'name' => 'abc' ) ) );
+
+	}
+
 	/**
 	 * Test save_fields() with a single checkbox type field.
 	 *

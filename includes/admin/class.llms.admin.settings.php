@@ -217,8 +217,45 @@ class LLMS_Admin_Settings {
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
 	 * @since 5.0.2 Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
+	 * @since [version] Add `$after_html` to all field types.
 	 *
-	 * @param array $field Array of field settings.
+	 * @param array $field {
+	 *     Array of field settings.
+	 *
+	 *     @type string $id                The setting ID. Used as the from element's `name` and `id` attributes and
+	 *           						   automatically correspond to an option key using the WP options API.
+	 *     @type string $type              The field type. Accepts: 'title', 'table', 'subtitle', 'desc', 'custom-html',
+	 *           						   'custom-html-no-wrap', 'sectionstart', 'sectionend', 'button', 'hidden', 'keyval',
+	 *           						   'text', 'email', 'number', 'password', 'textarea', 'wpeditor', 'select', 'multiselect',
+	 *           						   'radio', 'checkbox', 'image', 'single_select_page', 'single_select_membership'.
+	 *     @type string $title             The title / name of the option as displayed to the user.
+	 *     @type string $name              For "button" fields only: used as HTML `name` attribute. If not supplied the default
+	 *           						   value "save" will be used. For other field types used as a fallback for `$title` if
+	 *           						   no value is supplied.
+	 *     @type string $class             A space-separated list of CSS class names to apply the setting form element (the
+	 *                                     `<input>`, `<select>` etc...).
+	 *     @type string $css               An inline CSS style string.
+	 *     @type string $default           The default value of the setting.
+	 *     @type string $desc              The setting's description.              
+	 *     @type boo    $desc_tooltip      If `true`, displays `$desc` in a hoverable tooltip.
+	 *     @type string $value             The value of the setting. If supplied this will override the automatic setting retrieval
+	 *           					       using `get_option( $id, $default )`.
+	 *     @type array  $custom_attributes An associative array of custom HTML attributes to be added to the form element (the
+	 *                                     `<input>`, `<select>` etc...).
+	 *     @type bool   $disabled          If `true` adds the `llms-disabled-field` class to the settings field wrapper.
+	 *     @type bool   $required          
+	 *     @type string $secure_option     The name of settings secure option equivalent. If specified, the fields value will be
+	 *                                     automatically removed from the database and the value will be masked when displayed on
+	 *                                     on screen. See {@see llms_get_secure_option()} for more information.
+	 *     @type string $sanitize          Automatically apply the specified sanitization to the value before storing and outputting
+	 *           						   the stored value. Supported filters:
+	 *           						     + "slug": Uses `sanitize_title()` on the value when storing and `urldecode()` when displaying.
+	 *     @type string $after_html        Additional HTML to add after the field's form element.
+	 *     @type array  $editor_settings   Used with "wpeditor" field type only. An array of options to pass to `wp_editor()` as the `$settings` argument.
+	 *     @type array  $options           For "select", "multiselect", and "radio" fields, an array of key/value pairs where the
+	 *           						   key is the setting value stored in database and the value is the setting label displayed
+	 *           						   on screen.
+	 * }
 	 * @return void
 	 */
 	public static function output_field( $field ) {
@@ -226,22 +263,17 @@ class LLMS_Admin_Settings {
 		// Set missing values with defaults.
 		$field = self::set_field_defaults( $field );
 
-		$custom_attributes_field = array_key_exists( 'custom_attributes', $field ) ? $field['custom_attributes'] : array();
 		// Setup custom attributes.
-			$custom_attributes = self::format_field_custom_attributes( $custom_attributes_field );
+		$custom_attributes = self::format_field_custom_attributes( $field['custom_attributes'] ?? array() );
 
 		// Setup field description and tooltip.
-		// This will return an associative array of with the keys "description" and "tooltip".
 		extract( self::set_field_descriptions( $field ) );
+		$description .= ' ' . $field['after_html'];
 
-		// Allow using value not retrieved via this class.
-		if ( isset( $field['value'] ) ) {
-			$option_value = $field['value'];
-		} else {
-			// Get the option value.
-			$option_value = self::get_option( $field['id'], $field['default'] );
-		}
+		// Get the field value.
+		$option_value = isset( $field['value'] ) ? $field['value'] : self::get_option( $field['id'], $field['default'] );
 
+		// Setup the disabled CSS class.
 		$disabled_class = ( isset( $field['disabled'] ) && true === $field['disabled'] ) ? 'llms-disabled-field' : '';
 
 		// Switch based on type.
@@ -250,14 +282,10 @@ class LLMS_Admin_Settings {
 			// Section Titles.
 			case 'title':
 				if ( ! empty( $field['title'] ) ) {
-
 					echo '<p class="llms-label">' . esc_html( $field['title'] ) . '</p>';
-
 				}
 				if ( ! empty( $field['desc'] ) ) {
-
 					echo '<p class="llms-description">' . wpautop( wptexturize( wp_kses_post( $field['desc'] ) ) ) . '</p>';
-
 				}
 
 				echo '<table class="form-table">' . "\n\n";
@@ -413,7 +441,7 @@ class LLMS_Admin_Settings {
 							<?php echo $secure_val ? 'disabled="disabled"' : ''; ?>
 							<?php echo implode( ' ', $custom_attributes ); ?>
 							<?php echo $required ? 'required="required"' : ''; ?>
-							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
+							/> <?php echo $description; ?>
 					</td>
 				</tr>
 				<?php
@@ -655,7 +683,7 @@ class LLMS_Admin_Settings {
 							value="<?php echo esc_attr( $option_value ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
-							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
+							/> <?php echo $description; ?>
 					</td>
 				</tr>
 				<?php
@@ -736,37 +764,31 @@ class LLMS_Admin_Settings {
 
 	}
 
-
-
 	/**
 	 * Add and set default values for a field when looping
 	 *
-	 * @param array $value   associative array of field data
-	 * @return array          associative array of field data
-	 *
 	 * @since 1.4.5
+	 * @since [version] Use `wp_parse_args()` to simplify method logic & add `after_html` default.
+	 * 
+	 * @param array $field Associative array of field data, {@see LLMS_Admin_Settings::output_field()} for a full description.
+	 * @return array
 	 */
-	public static function set_field_defaults( $value = array() ) {
+	public static function set_field_defaults( $field = array() ) {
 
-		if ( ! isset( $value['id'] ) ) {
-			$value['id'] = ''; }
-		if ( ! isset( $value['title'] ) ) {
-			$value['title'] = isset( $value['name'] ) ? $value['name'] : ''; }
-		if ( ! isset( $value['class'] ) ) {
-			$value['class'] = ''; }
-		if ( ! isset( $value['css'] ) ) {
-			$value['css'] = ''; }
-		if ( ! isset( $value['default'] ) ) {
-			$value['default'] = ''; }
-		if ( ! isset( $value['desc'] ) ) {
-			$value['desc'] = ''; }
-		if ( ! isset( $value['desc_tooltip'] ) ) {
-			$value['desc_tooltip'] = false; }
+		$field = wp_parse_args( $field, array(
+			'id'           => '',
+			'title'        => $field['name'] ?? '',
+			'class'        => '',
+			'css'          => '',
+			'default'      => '',
+			'desc'         => '',
+			'desc_tooltip' => '',
+			'after_html'   => '',
+		) );
 
-		return $value;
+		return $field;
 
 	}
-
 
 	/**
 	 * Setup a field's tooltip and description based on supplied values
