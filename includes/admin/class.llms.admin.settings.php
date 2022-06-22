@@ -223,38 +223,38 @@ class LLMS_Admin_Settings {
 	 *     Array of field settings.
 	 *
 	 *     @type string $id                The setting ID. Used as the from element's `name` and `id` attributes and
-	 *           						   automatically correspond to an option key using the WP options API.
+	 *                                     automatically correspond to an option key using the WP options API.
 	 *     @type string $type              The field type. Accepts: 'title', 'table', 'subtitle', 'desc', 'custom-html',
-	 *           						   'custom-html-no-wrap', 'sectionstart', 'sectionend', 'button', 'hidden', 'keyval',
-	 *           						   'text', 'email', 'number', 'password', 'textarea', 'wpeditor', 'select', 'multiselect',
-	 *           						   'radio', 'checkbox', 'image', 'single_select_page', 'single_select_membership'.
+	 *                                     'custom-html-no-wrap', 'sectionstart', 'sectionend', 'button', 'hidden', 'keyval',
+	 *                                     'text', 'email', 'number', 'password', 'textarea', 'wpeditor', 'select', 'multiselect',
+	 *                                     'radio', 'checkbox', 'image', 'single_select_page', 'single_select_membership'.
 	 *     @type string $title             The title / name of the option as displayed to the user.
 	 *     @type string $name              For "button" fields only: used as HTML `name` attribute. If not supplied the default
-	 *           						   value "save" will be used. For other field types used as a fallback for `$title` if
-	 *           						   no value is supplied.
+	 *                                     value "save" will be used. For other field types used as a fallback for `$title` if
+	 *                                     no value is supplied.
 	 *     @type string $class             A space-separated list of CSS class names to apply the setting form element (the
 	 *                                     `<input>`, `<select>` etc...).
 	 *     @type string $css               An inline CSS style string.
 	 *     @type string $default           The default value of the setting.
-	 *     @type string $desc              The setting's description.              
+	 *     @type string $desc              The setting's description.
 	 *     @type boo    $desc_tooltip      If `true`, displays `$desc` in a hoverable tooltip.
 	 *     @type string $value             The value of the setting. If supplied this will override the automatic setting retrieval
-	 *           					       using `get_option( $id, $default )`.
+	 *                                     using `get_option( $id, $default )`.
 	 *     @type array  $custom_attributes An associative array of custom HTML attributes to be added to the form element (the
 	 *                                     `<input>`, `<select>` etc...).
 	 *     @type bool   $disabled          If `true` adds the `llms-disabled-field` class to the settings field wrapper.
-	 *     @type bool   $required          
+	 *     @type bool   $required
 	 *     @type string $secure_option     The name of settings secure option equivalent. If specified, the fields value will be
 	 *                                     automatically removed from the database and the value will be masked when displayed on
 	 *                                     on screen. See {@see llms_get_secure_option()} for more information.
 	 *     @type string $sanitize          Automatically apply the specified sanitization to the value before storing and outputting
-	 *           						   the stored value. Supported filters:
-	 *           						     + "slug": Uses `sanitize_title()` on the value when storing and `urldecode()` when displaying.
+	 *                                     the stored value. Supported filters:
+	 *                                       + "slug": Uses `sanitize_title()` on the value when storing and `urldecode()` when displaying.
 	 *     @type string $after_html        Additional HTML to add after the field's form element.
 	 *     @type array  $editor_settings   Used with "wpeditor" field type only. An array of options to pass to `wp_editor()` as the `$settings` argument.
 	 *     @type array  $options           For "select", "multiselect", and "radio" fields, an array of key/value pairs where the
-	 *           						   key is the setting value stored in database and the value is the setting label displayed
-	 *           						   on screen.
+	 *                                     key is the setting value stored in database and the value is the setting label displayed
+	 *                                     on screen.
 	 * }
 	 * @return void
 	 */
@@ -769,22 +769,25 @@ class LLMS_Admin_Settings {
 	 *
 	 * @since 1.4.5
 	 * @since [version] Use `wp_parse_args()` to simplify method logic & add `after_html` default.
-	 * 
+	 *
 	 * @param array $field Associative array of field data, {@see LLMS_Admin_Settings::output_field()} for a full description.
 	 * @return array
 	 */
 	public static function set_field_defaults( $field = array() ) {
 
-		$field = wp_parse_args( $field, array(
-			'id'           => '',
-			'title'        => $field['name'] ?? '',
-			'class'        => '',
-			'css'          => '',
-			'default'      => '',
-			'desc'         => '',
-			'desc_tooltip' => '',
-			'after_html'   => '',
-		) );
+		$field = wp_parse_args(
+			$field,
+			array(
+				'id'           => '',
+				'title'        => $field['name'] ?? '',
+				'class'        => '',
+				'css'          => '',
+				'default'      => '',
+				'desc'         => '',
+				'desc_tooltip' => '',
+				'after_html'   => '',
+			)
+		);
 
 		return $field;
 

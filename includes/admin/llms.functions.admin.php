@@ -149,16 +149,16 @@ function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
  *     @type string  $title The title attribute of the anchor tag. Default: "More information".
  *     @type string  $icon  The Dashicon icon to use, {@see @link https://developer.wordpress.org/resource/dashicons/}. Default: "external".
  * }
- * @return string 
+ * @return string
  */
 function llms_get_dashicon_link( $url, $args = array() ) {
 
-	$args = wp_parse_args( 
+	$args = wp_parse_args(
 		$args,
 		array(
-			'size'   => 18,
-			'title'  => esc_attr__( 'More information', 'lifterlms' ),
-			'icon'   => 'external',
+			'size'  => 18,
+			'title' => esc_attr__( 'More information', 'lifterlms' ),
+			'icon'  => 'external',
 		)
 	);
 
