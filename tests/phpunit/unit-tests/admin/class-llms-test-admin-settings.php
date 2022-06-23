@@ -11,6 +11,13 @@
  */
 class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 
+	/**
+	 * Tests set_field_defaults().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_set_field_defaults() {
 
 		$expected = array(
