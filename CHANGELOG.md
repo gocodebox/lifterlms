@@ -1,6 +1,45 @@
 LifterLMS Changelog
 ===================
 
+v7.0.0-alpha.2 - 2022-06-23
+---------------------------
+
+##### New Features
+
++ Added handling for admin settings options that store their option values in a nested array.
++ Added new AJAX checkout and payment source switching endpoints for payment gateways to utilize instead of the preexisting synchronous form submission methods.
+
+##### Bug Fixes
+
++ Don't attempt to lookup the default payment gateway from user meta data.
++ Fixes Hello Theme's word-break and spacing for quiz answer options. Also fixes text/label alignment in Twenty-Twenty-Two Theme. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
+
+##### Deprecations
+
++ Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Deprecated the `lifterlms_update_option_{$type}` action in favor of the `llms_update_option_{$type}` filter.
++ Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::confirm_pending_order()`.
++ Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::create_pending_order()`.
++ Method `LLMS_Controller_Orders::switch_payment_source()` is deprecated in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Deprecated hook `llms_{$method}_title` in favor of `llms_{$method}_refund_title`.
+
+##### Developer Notes
+
++ Added admin settings helper function, `llms_get_dashicon_link()`, intended to enable the addition of external resource helper links to settings field descriptions.
++ The `LLMS_Student` object can be instantiated as an empty object and bypass current user autoloading. In the future this may affect integrations using the `lifterlms_new_pending_order` action hook which will receive an "empty" student object during order setup by gateways utilizing new AJAX-powered checkout endpoints.
++ Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will allow force enabling/disabling of gateway logging functions.
++ Improved payment gateway secure string logging by adding a method, `add_secure_string()` allowing developers to add secure strings during runtime without the necessity of registering the strings using filters.
++ Implemented new gateway feature: `modify_recurring_payments`. [#2176](https://github.com/gocodebox/lifterlms/issues/2176)
++ Admin settings fields now display `after_html` for additional field types which support `desc`.
++ Added new filter `llms_transaction_can_be_refunded` enabling custom refund restrictions to be applied to a transaction.
+
+##### Updated Templates
+
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.2/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.2/templates/checkout/form-switch-source.php)
++ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.2/templates/myaccount/view-order-actions.php)
+
+
 v7.0.0-alpha.1 - 2022-06-15
 ---------------------------
 

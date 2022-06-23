@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.0.0-alpha.1\n"
+"Project-Id-Version: LifterLMS 7.0.0-alpha.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-15T13:28:35-06:00\n"
+"POT-Creation-Date: 2022-06-23T14:02:01-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.5\n"
 "X-Domain: lifterlms\n"
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Debug Log"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:787
+#: includes/abstracts/abstract.llms.payment.gateway.php:801
 msgid "The selected payment gateway \"%s\" does not support payment method switching."
 msgstr ""
 
@@ -1092,16 +1092,16 @@ msgstr ""
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:645
+#: includes/admin/class.llms.admin.settings.php:673
 #: includes/admin/views/import.php:17
 msgid "Upload"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:685
+#: includes/admin/class.llms.admin.settings.php:713
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:712
+#: includes/admin/class.llms.admin.settings.php:740
 #: includes/class.llms.l10n.js.php:147
 #: includes/class.llms.l10n.js.php:343
 #: libraries/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
@@ -1229,66 +1229,70 @@ msgstr ""
 msgid "Successfully enrolled <em>%1$1s</em> into <em>%2$2s</em>."
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:148
+#: includes/admin/llms.functions.admin.php:160
+msgid "More information"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:191
 msgid "Display default course content"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:149
+#: includes/admin/llms.functions.admin.php:192
 msgid "Show custom content"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:150
+#: includes/admin/llms.functions.admin.php:193
 msgid "Redirect to WordPress Page"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:151
+#: includes/admin/llms.functions.admin.php:194
 msgid "Redirect to custom URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:167
+#: includes/admin/llms.functions.admin.php:210
 msgid "Course/Membership"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:172
+#: includes/admin/llms.functions.admin.php:215
 msgid "(Default) Return to %s"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:173
+#: includes/admin/llms.functions.admin.php:216
 msgid "Redirect to a WordPress Page"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:174
+#: includes/admin/llms.functions.admin.php:217
 msgid "Redirect to a custom URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:207
+#: includes/admin/llms.functions.admin.php:250
 msgid "Website Title"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:208
+#: includes/admin/llms.functions.admin.php:251
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:209
+#: includes/admin/llms.functions.admin.php:252
 msgid "Student Email Address"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:210
+#: includes/admin/llms.functions.admin.php:253
 #: includes/functions/llms.functions.certificate.php:205
 msgid "Student Username"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:211
+#: includes/admin/llms.functions.admin.php:254
 #: includes/functions/llms.functions.certificate.php:201
 msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:212
+#: includes/admin/llms.functions.admin.php:255
 #: includes/functions/llms.functions.certificate.php:202
 msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:213
+#: includes/admin/llms.functions.admin.php:256
 #: includes/functions/llms.functions.certificate.php:199
 msgid "Current Date"
 msgstr ""
