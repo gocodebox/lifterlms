@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -358,6 +358,37 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determines if an order can be confirmed.
+	 *
+	 * An order can be confirmed only when the order's status is pending.
+	 *
+	 * Additional requirements can be introduced via the filter `llms_order_can_be_confirmed`.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function can_be_confirmed() {
+
+		/**
+		 * Determine if the order can be confirmed.
+		 *
+		 * @since 3.34.4
+		 *
+		 * @param boolean    $can_be_confirmed Whether or not the order can be confirmed.
+		 * @param LLMS_Order $order            Order object.
+		 * @param string     $gateway_id       Payment gateway ID.
+		 */
+		return apply_filters(
+			'llms_order_can_be_confirmed',
+			( 'llms-pending' === $this->get( 'status' ) ),
+			$this,
+			$this->get( 'payment_gateway' )
+		);
+
+	}
+
+	/**
 	 * Determine if the order can be retried for recurring payments
 	 *
 	 * @since 3.10.0
@@ -401,19 +432,26 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if an order can be resubscribed to
+	 * Determines if the order can be resubscribed to.
 	 *
 	 * @since 3.19.0
-	 * @since 5.2.0 Use stric type comparison.
+	 * @since 5.2.0 Use strict type comparison.
 	 *
 	 * @return bool
 	 */
 	public function can_resubscribe() {
 
-		$ret = false;
+		$can_resubscribe = false;
 
 		if ( $this->is_recurring() ) {
 
+			/**
+			 * Filters the order statuses from which an order can be reactivated.
+			 *
+			 * @since [version]
+			 *
+			 * @param string[] $allowed_statuses The list of allowed order statuses.
+			 */
 			$allowed_statuses = apply_filters(
 				'llms_order_status_can_resubscribe_from',
 				array(
@@ -422,11 +460,42 @@ class LLMS_Order extends LLMS_Post_Model {
 					'llms-pending-cancel',
 				)
 			);
-			$ret              = in_array( $this->get( 'status' ), $allowed_statuses, true );
+			$can_resubscribe  = in_array( $this->get( 'status' ), $allowed_statuses, true );
 
 		}
 
-		return apply_filters( 'llms_order_can_resubscribe', $ret, $this );
+		/**
+		 * Determines whether or not a user can resubscribe to an inactive recurring payment order.
+		 *
+		 * @since 3.19.0
+		 *
+		 * @param boolean    $can_resubscribe Whether or not a user can resubscribe.
+		 * @param LLMS_Order $order           The order object.
+		 */
+		return apply_filters( 'llms_order_can_resubscribe', $can_resubscribe, $this );
+
+	}
+
+	/**
+	 * Determines if the order's payment source can be changed.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function can_switch_source() {
+
+		$can_switch = 'llms-active' === $this->get( 'status' ) || $this->can_resubscribe();
+
+		/**
+		 * Filters whether or not the order's payment source can be changed.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean    $can_switch Whether or not the order's source can be switched.
+		 * @param LLMS_Order $order      The order object.
+		 */
+		return apply_filters( 'llms_order_can_switch_source', $can_switch, $this );
 
 	}
 
@@ -1020,6 +1089,33 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieves the user action required when changing the order's payment source.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|string Returns `switch` when the payment source can be switched and `pay` when payment on the new source
+	 *                     is required before switching. A `null` return indicates that the order's payment source cannot be switched.
+	 */
+	public function get_switch_source_action() {
+
+		$action = null;
+		if ( $this->can_switch_source() ) {
+			$action = in_array( $this->get( 'status' ), array( 'llms-active', 'llms-pending-cancel' ), true ) ? 'switch' : 'pay';
+		}
+
+		/**
+		 * Filters the required user action for the order when switching the order's payment source.
+		 *
+		 * @since [version]
+		 *
+		 * @param null|string $action The switch action ID or `null` when the payment source cannot be switched.
+		 * @param LLMS_Order  $order  The order object.
+		 */
+		return apply_filters( 'llms_order_switch_source_action', $action, $this );
+
+	}
+
+	/**
 	 * Retrieve an array of transactions associated with the order according to supplied arguments
 	 *
 	 * @since 3.0.0
@@ -1318,36 +1414,25 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Initialize a pending order
+	 * Initializes a new order with user, plan, gateway, and coupon metadata.
 	 *
-	 * Used during checkout.
 	 * Assumes all data passed in has already been validated.
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.0 Don't set unused legacy property `date_billing_end`.
+	 * @since [version] Use `LLMS_Order::set_user_data()` to update user data.
 	 *
-	 * @param LLMS_Student         $person  The LLMS_Student placing the order.
-	 * @param LLMS_Access_Plan     $plan    The purchase LLMS_Access_Plan.
-	 * @param LLMS_Payment_Gateway $gateway The LLMS_Payment_Gateway used.
-	 * @param LLMS_Coupon          $coupon  LLMS_Coupon if a coupon was used or false.
+	 * @param array|LLMS_Student|WP_User|integer $user_data User info for the person placing the order. See
+	 *                                                      {@see LLMS_Order::set_user_data()} for more info.
+	 * @param LLMS_Access_Plan                   $plan      The purchase access plan.
+	 * @param LLMS_Payment_Gateway               $gateway   Gateway being used.
+	 * @param LLMS_Coupon                        $coupon    Coupon object or `false` if no coupon used.
 	 * @return LLMS_Order
 	 */
-	public function init( $person, $plan, $gateway, $coupon = false ) {
+	public function init( $user_data, $plan, $gateway, $coupon = false ) {
 
-		// User related information.
-		$this->set( 'user_id', $person->get_id() );
-		$this->set( 'user_ip_address', llms_get_ip_address() );
-		$this->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
-		$this->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
-		$this->set( 'billing_city', $person->get( 'billing_city' ) );
-		$this->set( 'billing_country', $person->get( 'billing_country' ) );
-		$this->set( 'billing_email', $person->get( 'user_email' ) );
-		$this->set( 'billing_first_name', $person->get( 'first_name' ) );
-		$this->set( 'billing_last_name', $person->get( 'last_name' ) );
-		$this->set( 'billing_state', $person->get( 'billing_state' ) );
-		$this->set( 'billing_zip', $person->get( 'billing_zip' ) );
-		$this->set( 'billing_phone', $person->get( 'phone' ) );
+		$this->set_user_data( $user_data );
 
 		// Access plan data.
 		$this->set( 'plan_id', $plan->get( 'id' ) );
@@ -1436,7 +1521,27 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'access_period', $plan->get( 'access_period' ) );
 		}
 
-		do_action( 'lifterlms_new_pending_order', $this, $person );
+		/**
+		 * Action triggered after the order is initialized.
+		 *
+		 * @since Unknown.
+		 * @since [version] Added `$user_data` parameter.
+		 *                 The `$student` parameter returns an "empty" student object
+		 *                 if the method's input data is an array instead of an existing
+		 *                 user object.
+		 *
+		 * @param LLMS_Order                         $order     The order object.
+		 * @param LLMS_Student                       $student   The student object. If an array of data is passed
+		 *                                                      to `LLMS_Order::init()` then an empty student object
+		 *                                                      will be passed.
+		 * @param array|LLMS_Student|WP_User|integer $user_data User data.
+		 */
+		do_action(
+			'lifterlms_new_pending_order',
+			$this,
+			is_array( $user_data ) ? new LLMS_Student( null, false ) : llms_get_student( $user_data ),
+			$user_data
+		);
 
 		return $this;
 
@@ -1704,6 +1809,80 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Sets user-related metadata for the order.
+	 *
+	 * @since [version]
+	 *
+	 * @param array|LLMS_Student|WP_User|integer $user_or_data Accepts a raw array user meta-data or
+	 *                                                         an input string accepted by `llms_get_student()`.
+	 *                                                         When passing an existing user the data will be pulled
+	 *                                                         from the user metadata and saved to the order.
+	 * @return array {
+	 *     Returns an associative array representing the user metadata that was stored on the order.
+	 *
+	 *     @type integer $user_id            User's WP_User id.
+	 *     @type string  $user_ip_address    User's ip address.
+	 *     @type string  $billing_email      User's email.
+	 *     @type string  $billing_first_name User's first name.
+	 *     @type string  $billing_last_name  User's last name.
+	 *     @type string  $billing_address_1  User's address line 1.
+	 *     @type string  $billing_address_2  User's address line 2.
+	 *     @type string  $billing_city       User's city.
+	 *     @type string  $billing_state      User's state.
+	 *     @type string  $billing_zip        User's zip.
+	 *     @type string  $billing_country    User's country.
+	 *     @type string  $billing_phone      User's phone.
+	 * }
+	 */
+	public function set_user_data( $user_or_data ) {
+
+		$to_set = array(
+			'user_id'            => '',
+			'billing_email'      => '',
+			'billing_first_name' => '',
+			'billing_last_name'  => '',
+			'billing_address_1'  => '',
+			'billing_address_2'  => '',
+			'billing_city'       => '',
+			'billing_state'      => '',
+			'billing_zip'        => '',
+			'billing_country'    => '',
+			'billing_phone'      => '',
+		);
+
+		$user = ! is_array( $user_or_data ) ? llms_get_student( $user_or_data ) : false;
+		if ( $user ) {
+
+			$user_or_data = array();
+
+			$map = array(
+				'user_id'            => 'id',
+				'billing_email'      => 'user_email',
+				'billing_phone'      => 'phone',
+				'billing_first_name' => 'first_name',
+				'billing_last_name'  => 'last_name',
+			);
+
+			foreach ( array_keys( $to_set ) as $order_key ) {
+				$to_set[ $order_key ] = $user->get( $map[ $order_key ] ?? $order_key );
+			}
+		}
+
+		// Only use the default IP address if it wasn't specified in the input array.
+		$to_set['user_ip_address'] = $user_or_data['user_ip_address'] ?? llms_get_ip_address();
+
+		// Merge the data and remove excess keys.
+		$to_set = array_intersect_key(
+			array_merge( $to_set, $user_or_data ),
+			$to_set
+		);
+
+		$this->set_bulk( $to_set );
+		return $to_set;
+
+	}
+
+	/**
 	 * Record the start date of the access plan and schedule expiration if expiration is required in the future
 	 *
 	 * @since 3.0.0
@@ -1870,6 +2049,20 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		return (int) $date;
 
+	}
+
+	/**
+	 * Determine whether the recurring payment for this order can be modified.
+	 *
+	 * Depends on whether the order's gateway supports.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function supports_modify_recurring_payments() {
+		$gateway = $this->get_gateway();
+		return is_wp_error( $gateway ) ? false : $gateway->supports( 'modify_recurring_payments', $this );
 	}
 
 }

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -127,6 +127,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 *
 	 * @since 5.3.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Return `-1` if the recurring payment cannot be modified (the gateway doesn't support this feature).
 	 *
 	 * @param LLMS_Order $order Order object
 	 * @return int Returns `-1` when there's for invalid order types, `0` when there's no changes to save, and
@@ -134,8 +135,8 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 */
 	protected function save_remaining_payments( $order ) {
 
-		// If it's not a payment plan don't proceed.
-		if ( ! $order->has_plan_expiration() ) {
+		// If it's not a payment plan or cannot modify recurring payment, don't proceed.
+		if ( ! $order->has_plan_expiration() || ! $order->supports_modify_recurring_payments() ) {
 			return -1;
 		}
 
