@@ -628,7 +628,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * Enables forcing the logging status for the gateway on or off.
 		 *
 		 * The dynamic portion of this hook, `{$this->id}`, refers to the gateway's ID.
-		 * 
+		 *
 		 * @since [version]
 		 *
 		 * @param null|bool $forced The forced status. If `null`, the default status derived from the gateway options will be used.
