@@ -1,0 +1,8 @@
+significance: patch
+type: fixed
+comment: Added block display and margin setting to quiz label and
+  twenty-twenty-two compatibility.
+links:
+  - "#2132"
+entry: Fixes Hello Theme's word-break and spacing for quiz answer options.
+  Also fixes text/label alignment in Twenty-Twenty-Two Theme.

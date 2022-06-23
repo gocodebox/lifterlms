@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Admin settings fields now display `after_html` for additional field types
+  which support `desc`.
