@@ -237,13 +237,13 @@ class LLMS_Admin_Settings {
 	 *     @type string $css               An inline CSS style string.
 	 *     @type string $default           The default value of the setting.
 	 *     @type string $desc              The setting's description.
-	 *     @type boo    $desc_tooltip      If `true`, displays `$desc` in a hoverable tooltip.
+	 *     @type bool   $desc_tooltip      If `true`, displays `$desc` in a hoverable tooltip.
 	 *     @type string $value             The value of the setting. If supplied this will override the automatic setting retrieval
 	 *                                     using `get_option( $id, $default )`.
 	 *     @type array  $custom_attributes An associative array of custom HTML attributes to be added to the form element (the
 	 *                                     `<input>`, `<select>` etc...).
 	 *     @type bool   $disabled          If `true` adds the `llms-disabled-field` class to the settings field wrapper.
-	 *     @type bool   $required
+	 *     @type bool   $required          If `true`, text, email, number, and password fields will require user input.
 	 *     @type string $secure_option     The name of settings secure option equivalent. If specified, the fields value will be
 	 *                                     automatically removed from the database and the value will be masked when displayed on
 	 *                                     on screen. See {@see llms_get_secure_option()} for more information.
