@@ -935,6 +935,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since [version] Add handling for array fields for standard input types.
+	 *               Account for the `maxlength` input text and textarea attribute.
 	 *
 	 * @param array $settings Opens array to output
 	 * @return boolean
@@ -1034,6 +1035,11 @@ class LLMS_Admin_Settings {
 					 */
 					do_action_deprecated( "lifterlms_update_option_{$type}", array( $field ), '[version]' );
 
+			}
+
+			// Special treatment for the 'maxlength' attribute.
+			if ( in_array( $type, array( 'text', 'textarea', true ) ) && isset( $field['custom_attributes']['maxlength'] ) ) {
+				$option_value = llms_trim_string( $option_value, (int) $field['custom_attributes']['maxlength'], '' );
 			}
 
 			/**
