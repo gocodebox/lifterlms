@@ -247,9 +247,11 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<label><?php _e( 'Buyer Name:', 'lifterlms' ); ?></label>
 			<?php if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) : ?>
 				<?php echo $order->get_customer_name(); ?>
-			<?php else : ?>
-				<a href="<?php echo get_edit_user_link( $order->get( 'user_id' ) ); ?>"><?php echo $order->get_customer_name(); ?></a>
-			<?php endif; ?>
+			<?php else :
+				$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+				echo ! $edit_user_link ? $order->get_customer_name() . '<br>' : '<a href="' . $edit_user_link . '">' . $order->get_customer_name() . '</a>';
+			endif;
+			?>
 		</div>
 
 		<div class="llms-metabox-field">
