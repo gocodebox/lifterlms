@@ -56,7 +56,7 @@ function llms_get_secure_option( $secure_name, $default = false, $db_name = '' )
 function llms_is_option_secure( $option_name ) {
 
 	// Sanity check for empty strings to prevent `getenv()` from returning ALL variables.
-	if ( empty( $option_name ) ) {
+	if ( '' === $option_name ) {
 		return false;
 	}
 
