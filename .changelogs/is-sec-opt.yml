@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Introduces new function `llms_is_option_secure()` for determining if an
+  "secured" option is defined in a "secure" manner.
