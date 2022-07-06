@@ -63,7 +63,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 				'id'   => $id,
 			)
 		);
-		
+
 		// Previous value should be overwritten.
 		update_option( $id, 'previous val' );
 
@@ -103,7 +103,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 				'id'   => $id . '[two]',
 			)
 		);
-		
+
 		// Previous value should be overwritten.
 		update_option( $id, 'previous val' );
 
@@ -148,7 +148,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 		);
 
 		foreach ( $types as $type ) {
-	
+
 			$id     = "mock_{$type}_field";
 			$val    = (string) time();
 			$fields = array(
@@ -157,7 +157,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 					'id'   => $id,
 				)
 			);
-			
+
 			// Previous value should be overwritten.
 			update_option( $id, 'previous val' );
 
@@ -208,13 +208,13 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 			),
 		) );
 		$res = LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertEquals( 
+		$this->assertEquals(
 			array(
 				'one' => $val,
 				'two' => '',
 			),
 			get_option( $id )
-		);	
+		);
 
 		// Post only one value.
 		$this->mockPostRequest( array(
@@ -223,13 +223,13 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 			),
 		) );
 		$res = LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertEquals( 
+		$this->assertEquals(
 			array(
 				'one' => '',
 				'two' => $val,
 			),
 			get_option( $id )
-		);	
+		);
 
 		// Post both values.
 		$this->mockPostRequest( array(
@@ -239,13 +239,13 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 			),
 		) );
 		$res = LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertEquals( 
+		$this->assertEquals(
 			array(
 				'one' => "{$val}_1",
 				'two' => "{$val}_2",
 			),
 			get_option( $id )
-		);	
+		);
 
 	}
 
@@ -276,7 +276,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 			$id => $val,
 		) );
 		$res = LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertEquals( $val, get_option( $id ) );	
+		$this->assertEquals( $val, get_option( $id ) );
 
 		// The secure value is defined so the DB value will be deleted.
 		putenv( "{$secure_id}=SECURE-VAL" );
@@ -284,7 +284,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 			$id => $val,
 		) );
 		$res = LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertEquals( 'NOT-FOUND', get_option( $id, 'NOT-FOUND' ) );	
+		$this->assertEquals( 'NOT-FOUND', get_option( $id, 'NOT-FOUND' ) );
 
 	}
 
@@ -311,6 +311,81 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 		$res = LLMS_Admin_Settings::save_fields( $fields );
 		$this->assertSame( $actions, did_action( 'lifterlms_update_option' ) );
 
+	}
+
+
+	/**
+	 * Test save_fields() on fields with maxlength attribute.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_field_with_maxlength() {
+
+		// Checking on an array of fields.
+		$id     = 'mock_text_arr_field';
+		$val    = '123456789101112';
+		$fields = array(
+			array(
+				'type' => 'text',
+				'id'   => $id . '[one]',
+				'custom_attributes' => array(
+					'maxlength' => 9,
+				)
+			),
+			array(
+				'type' => 'text',
+				'id'   => $id . '[two]',
+			)
+		);
+
+		// Post only one value.
+		$this->mockPostRequest( array(
+			$id => array(
+				'one' => $val
+			),
+		) );
+
+		$res = LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertEquals(
+			array(
+				'one' => '123456789',
+				'two' => '',
+			),
+			get_option( $id )
+		);
+
+		// Post only one value.
+		$this->mockPostRequest( array(
+			$id => array(
+				'two' => $val
+			),
+		) );
+		$res = LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertEquals(
+			array(
+				'one' => '',
+				'two' => $val,
+			),
+			get_option( $id )
+		);
+
+		// Post both values.
+		$this->mockPostRequest( array(
+			$id => array(
+				'one' => $val,
+				'two' => $val,
+			),
+		) );
+		$res = LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertEquals(
+			array(
+				'one' => '123456789',
+				'two' => $val,
+			),
+			get_option( $id )
+		);
 	}
 
 }
