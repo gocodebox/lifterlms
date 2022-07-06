@@ -1024,16 +1024,25 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			array( 'llms_test', array(), 'test' ),
 			array( 'lifterlms_test', null, 'test' ),
 			array( 'lifterlms_test', array(), 'test' ),
+			array( 'llms-test', null, 'test' ),
+			array( 'llms-test', array(), 'test' ),
+			array( 'lifterlms-test', null, 'test' ),
+			array( 'lifterlms-test', array(), 'test' ),
+
 
 			// Only strip from the start of the string.
 			array( 'test_llms_test', null, 'test_llms_test' ),
 			array( 'test_lifterlms_test', null, 'test_lifterlms_test' ),
 			array( 'test_llms_', null, 'test_llms_' ),
 			array( 'test_lifterlms_', null, 'test_lifterlms_' ),
+			array( 'test_llms-', null, 'test_llms-' ),
+			array( 'test_lifterlms-', null, 'test_lifterlms-' ),
 
 			// Don't strip multiple prefixes.
 			array( 'llms_lifterlms_test', null, 'lifterlms_test' ),
 			array( 'lifterlms_llms_test', null, 'llms_test' ),
+			array( 'llms-lifterlms-test', null, 'lifterlms-test' ),
+			array( 'lifterlms-llms-test', null, 'llms-test' ),
 
 			// Custom prefix.
 			array( 'test_llms_test', array( 'test_' ), 'llms_test' ),
