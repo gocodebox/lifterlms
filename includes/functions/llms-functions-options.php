@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -60,8 +60,10 @@ function llms_is_option_secure( $option_name ) {
 		return false;
 	}
 
-	// Note: Do not store `false` values in an environment variable
-	// because `getenv()` returns `false` if the variable is not set.
+	/*
+	 * Note: Do not store `false` values in an environment variable
+	 * because `getenv()` returns `false` if the variable is not set.
+	 */
 	if ( false !== getenv( $option_name ) ) {
 		return true;
 	}
