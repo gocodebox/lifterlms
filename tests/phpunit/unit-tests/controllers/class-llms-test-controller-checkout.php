@@ -885,6 +885,20 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	 */
 	public function test_switch_payment_source_success() {
 
+		$temp_id_handler = function( $order ) {
+
+			$this->assertEquals(
+				array(
+					'customer'     => 'CUS-123',
+					'source'       => 'SRC-456',
+					'subscription' => 'SUB-789',
+				),
+				$order->get_array( 'temp_gateway_ids' )
+			);
+
+		};
+		add_action( 'llms_order_payment_source_switched', $temp_id_handler );
+
 		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$gateway->set_option( 'enabled', 'yes' );
 
@@ -896,7 +910,12 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'frequency'  => 1,
 		) );
 		$order = $this->factory->order->create_and_get( array( 'plan_id' => $plan->get( 'id' ) ) );
-		$order->set( 'payment_gateway', 'not-manual' );
+		$order->set( array(
+			'payment_gateway'         => 'not-manual',
+			'gateway_customer_id'     => 'CUS-123',
+			'gateway_source_id'       => 'SRC-456',
+			'gateway_subscription_id' => 'SUB-789',
+		) );
 		$order->set_status( 'pending-cancel' );
 		wp_set_current_user( $order->get( 'user_id' ) );
 
@@ -918,26 +937,11 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$gateway->set_option( 'enabled', 'no' );
 
+		$this->assertEmpty( $order->get( 'temp_gateway_ids' ) );
+
+		remove_action( 'llms_order_payment_source_switched', $temp_id_handler );
+
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * Test switch_payment_source_ajax() when the form isn't submitted.

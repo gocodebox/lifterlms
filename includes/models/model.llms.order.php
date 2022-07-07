@@ -163,6 +163,8 @@ class LLMS_Order extends LLMS_Post_Model {
 		'date_next_payment'    => 'text',
 		'date_trial_end'       => 'text',
 
+		'temp_gateway_ids'     => 'array',
+
 	);
 
 	/**
