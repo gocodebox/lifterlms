@@ -541,10 +541,28 @@ class LLMS_Controller_Checkout {
 		// Temporarily store the gateway IDs so the previous values are accessible to the old gateway after the source switch.
 		$order->set(
 			'temp_gateway_ids',
-			array(
-				'customer'     => $order->get( 'gateway_customer_id' ),
-				'source'       => $order->get( 'gateway_source_id' ),
-				'subscription' => $order->get( 'gateway_subscription_id' ),
+			/**
+			 * Filters the gateway IDs that are temporarily stored during a payment source switch.
+			 *
+			 * @since [version]
+			 *
+			 * @param array      $temp_ids {
+			 *     An array of gateway-related IDs to be temporarily cached.
+			 *
+			 *     @type string customer     The value of the `gateway_customer_id` property.
+			 *     @type string source       The value of the `gateway_source_id` property.
+			 *     @type string subscription The value of the `gateway_subscription_id` property.
+			 * }
+			 * @param LLMS_Order $order     The order object.
+			 */
+			apply_filters(
+				'llms_order_set_temp_gateway_ids',
+				array(
+					'customer'     => $order->get( 'gateway_customer_id' ),
+					'source'       => $order->get( 'gateway_source_id' ),
+					'subscription' => $order->get( 'gateway_subscription_id' ),
+				),
+				$order
 			)
 		);
 
