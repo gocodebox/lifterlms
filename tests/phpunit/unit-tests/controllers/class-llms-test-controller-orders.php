@@ -482,6 +482,35 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test set_untrash_status().r
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_untrash_status() {
+
+		$controller = new LLMS_Controller_Orders();
+
+		$tests = array(
+			'post'       => 'draft',
+			'page'       => 'draft',
+			'course'     => 'draft',
+			'llms_order' => 'llms-pending',
+		);
+		foreach ( $tests as $post_type => $expected ) {
+			$post_id = $this->factory->post->create( compact( 'post_type' ) );
+
+			$this->assertEquals(
+				$expected,
+				$controller->set_untrash_status( 'draft', $post_id, 'publish' )
+			);
+
+		}
+
+	}
+
+	/**
 	 * Test recurring_charge attempts on orders manually removed from the database.
 	 *
 	 * @since 3.36.1

@@ -32,11 +32,14 @@ class LLMS_Controller_Orders {
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
-	 * @since [version] Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
+	 * @since [version] Added callback for `wp_untrash_post_status` filter. 
+	 *              Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+
+		add_filter( 'wp_untrash_post_status', array( $this, 'set_untrash_status' ), 10, 3 );
 
 		// This action adds our lifterlms specific actions when order & transaction statuses change.
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
@@ -483,6 +486,41 @@ class LLMS_Controller_Orders {
 		// Passed validation, hand off to the gateway.
 		$gateway->handle_recurring_transaction( $order );
 		return true;
+
+	}
+
+	/**
+	 * Sets an order's post status to `llms-pending` when untrashing an order.
+	 *
+	 * This is a filter hook callback for the WP core filter `wp_untrash_post_status`. 
+	 *
+	 * @since [version]
+	 *
+	 * @param string $new_status      The new status of the post after untrashing.
+	 * @param int    $post_id         The WP_Post ID of the order.
+	 * @param string $previous_status The status of the post at the point where it was trashed.
+	 * @return string
+	 */
+	public function set_untrash_status( $new_status, $post_id, $previous_status ) {
+
+		if ( 'llms_order' === get_post_type( $post_id ) ) {
+			/**
+			 * Filters the status that an order post gets assigned when it is restored from the trash.
+			 *
+			 * This is a filter nearly identical to `wp_untrash_post_status` applied specifically to `llms_order` posts.
+			 *
+			 * @since [version]
+			 * 
+			 * @link https://developer.wordpress.org/reference/hooks/wp_untrash_post_status/ 
+			 *
+			 * @param string $new_status      The new status of the post being restored.
+			 * @param int    $post_id         The ID of the post being restored.
+			 * @param string $previous_status The status of the post at the point where it was trashed.
+			 */
+			$new_status = apply_filters( 'llms_untrash_order_status', 'llms-pending', $post_id, $previous_status );
+		}
+
+		return $new_status;
 
 	}
 

@@ -1,0 +1,4 @@
+significance: minor
+type: changed
+entry: When an order post is restored from the trash its post status will now be
+  "llms-pending" in favor of the default "draft" status.
