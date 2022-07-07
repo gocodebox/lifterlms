@@ -538,8 +538,8 @@ class LLMS_Controller_Checkout {
 			return new WP_Error( 'switch-source-action-invalid', __( 'Invalid action.', 'lifterlms' ), 'error' );
 		}
 
-		// Temporarily store the gateway IDs so the previous values are accessible to the old gateway after the source switch. 
-		$order->set( 
+		// Temporarily store the gateway IDs so the previous values are accessible to the old gateway after the source switch.
+		$order->set(
 			'temp_gateway_ids',
 			array(
 				'customer'     => $order->get( 'gateway_customer_id' ),
