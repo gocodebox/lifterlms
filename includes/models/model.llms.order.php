@@ -67,6 +67,15 @@ defined( 'ABSPATH' ) || exit;
  * @property float  $sale_price              Sale price before coupon adjustments.
  * @property float  $sale_value              The value of the sale, `$original_total` - `$sale_price`.
  * @property string $start_date              Date when access was initially granted; this is used to determine when access expires.
+ * @property array  $temp_gateway_ids        {
+ *     An associative array containing gateway ids. The gateway IDs are cached in this meta property while the source is being
+ *     switched. Any gateway running actions when a source is switched may need to know the previous source IDs which might be
+ *     cleared or overwritten by other gateways during the switch.
+ *
+ *     @type string customer     The value of the `gateway_customer_id` property when the source switch starts.
+ *     @type string source       The value of the `gateway_source_id` property when the source switch starts.
+ *     @type string subscription The value of the `gateway_subscription_id` property when the source switch starts.
+ * }
  * @property float  $total                   Actual price of the order, after applicable sale & coupon adjustments.
  * @property int    $trial_length            Length of the trial. Combined with $trial_period to determine the actual length of the trial.
  * @property string $trial_offer             Whether or not there was a trial offer applied to the order, either yes or no.
