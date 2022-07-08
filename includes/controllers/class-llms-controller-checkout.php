@@ -538,6 +538,34 @@ class LLMS_Controller_Checkout {
 			return new WP_Error( 'switch-source-action-invalid', __( 'Invalid action.', 'lifterlms' ), 'error' );
 		}
 
+		// Temporarily store the gateway IDs so the previous values are accessible to the old gateway after the source switch.
+		$order->set(
+			'temp_gateway_ids',
+			/**
+			 * Filters the gateway IDs that are temporarily stored during a payment source switch.
+			 *
+			 * @since [version]
+			 *
+			 * @param array      $temp_ids {
+			 *     An array of gateway-related IDs to be temporarily cached.
+			 *
+			 *     @type string customer     The value of the `gateway_customer_id` property.
+			 *     @type string source       The value of the `gateway_source_id` property.
+			 *     @type string subscription The value of the `gateway_subscription_id` property.
+			 * }
+			 * @param LLMS_Order $order     The order object.
+			 */
+			apply_filters(
+				'llms_order_set_temp_gateway_ids',
+				array(
+					'customer'     => $order->get( 'gateway_customer_id' ),
+					'source'       => $order->get( 'gateway_source_id' ),
+					'subscription' => $order->get( 'gateway_subscription_id' ),
+				),
+				$order
+			)
+		);
+
 		return compact( 'old_gateway', 'new_gateway', 'order' );
 
 	}
@@ -585,6 +613,9 @@ class LLMS_Controller_Checkout {
 		 * @param string     $old_gateway The payment gateway ID of the previous gateway.
 		 */
 		do_action( 'llms_order_payment_source_switched', $order, $new_gateway, $old_gateway );
+
+		// Cleanup temp data.
+		delete_post_meta( $order->get( 'id' ), '_llms_temp_gateway_ids' );
 
 	}
 
