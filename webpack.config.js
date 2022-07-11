@@ -21,6 +21,7 @@ const { readdirSync } = require( 'fs' ),
 			// Module packages.
 			'components',
 			'icons',
+			'spinner',
 			'utils',
 		],
 		css: [ 'admin-addons' ],
