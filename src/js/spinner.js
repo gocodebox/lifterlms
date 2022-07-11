@@ -4,6 +4,8 @@ import * as Spinner from '../../packages/components/src/spinner/';
 /**
  * Expose the components Spinner module via the global `window.LLMS.Spinner` object for backwards compatibility.
  *
+ * This is automatically included in the `llms.js` script file so you likely do not need to include this script directly.
+ *
  * @since [version]
  */
 window.LLMS = window.LLMS || {};
