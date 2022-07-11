@@ -50,13 +50,13 @@ function llms_get_secure_option( $secure_name, $default = false, $db_name = '' )
  *
  * @since [version]
  *
- * @param string $option_name The name of the possibly secure option.
+ * @param string $secure_name The name of the possibly secure option.
  * @return bool Returns `true` if the option is defined in an environment variable or a constant, else `false`.
  */
-function llms_is_option_secure( $option_name ) {
+function llms_is_option_secure( $secure_name ) {
 
 	// Sanity check for empty strings to prevent `getenv()` from returning ALL variables.
-	if ( '' === $option_name ) {
+	if ( '' === $secure_name ) {
 		return false;
 	}
 
@@ -64,9 +64,9 @@ function llms_is_option_secure( $option_name ) {
 	 * Note: Do not store `false` values in an environment variable
 	 * because `getenv()` returns `false` if the variable is not set.
 	 */
-	if ( false !== getenv( $option_name ) ) {
+	if ( false !== getenv( $secure_name ) ) {
 		return true;
 	}
 
-	return defined( $option_name );
+	return defined( $secure_name );
 }
