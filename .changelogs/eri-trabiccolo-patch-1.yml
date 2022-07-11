@@ -1,0 +1,4 @@
+significance: patch
+type: dev
+entry: Updated webpack.config so to allow the deletion of files inside the
+  protected directories (assets/{js|css}).
