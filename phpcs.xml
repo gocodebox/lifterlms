@@ -18,6 +18,7 @@
     <exclude-pattern>assets/js/llms-components.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-icons.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-metaboxes.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-spinner.js</exclude-pattern>
     <exclude-pattern>blocks/**/*.js</exclude-pattern>
 
     <!-- Exclude PHP asset files -->
