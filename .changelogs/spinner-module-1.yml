@@ -1,0 +1,5 @@
+significance: minor
+type: deprecated
+entry: Passing jQuery selections into the `window.LLMS.Spinner` functions is
+  deprecated. Use JS `Elements` or selection strings parseable by
+  `document.querySelector()` instead.
