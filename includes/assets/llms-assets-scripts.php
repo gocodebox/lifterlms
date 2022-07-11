@@ -80,7 +80,7 @@ return array(
 		'suffix'     => '',
 	),
 	'llms-spinner'                  => array(
-		/*
+		/**
 		 * This script is automatically included in the `llms` script file.
 		 *
 		 * If your JS already defines `llms` as a dependency and you wish to use the `llms-spinner` it's recommended
