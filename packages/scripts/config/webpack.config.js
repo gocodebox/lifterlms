@@ -104,7 +104,8 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 					...plugin.cleanAfterEveryBuildPatterns,
 					...cleanAfterEveryBuildPatterns,
 				];
-
+				// Allow removal of current webpack assets.
+				plugin.protectWebpackAssets = false;
 			}
 
 			return plugin;
