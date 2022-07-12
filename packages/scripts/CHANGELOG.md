@@ -5,6 +5,8 @@ Unreleased
 ----------
 
 + Added eslint configuration overrides for jest unit and e2e tests.
++ Updated webpack.config so to allow the deletion of files inside the protected directories (assets/{js|css}).
++ Automatically exclude the local `./tmp` directory when running JS Unit tests using the `config/jest-unit.config.js` file.
 
 
 v3.1.0 - 2022-03-30
