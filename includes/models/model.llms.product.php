@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -278,7 +278,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter the product's restrictions.
 		 *
-		 * @since [version]
+		 * @since 6.8.0
 		 *
 		 * @param string[]     $restrictions An array of strings describing the restrictions placed on the product.
 		 * @param LLMS_Product $product      The LLMS_Product object.

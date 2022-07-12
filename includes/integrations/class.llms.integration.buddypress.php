@@ -119,7 +119,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * @since 6.3.0 Display all registered dashboard tabs (enabled in the settings) automatically.
 	 *              Use `bp_loggedin_user_domain()` to determine the current user domain
 	 *              to be used in the profile nav item's links, in favor of relying on the global `$bp`.
-	 * @since [version] Revert adding nav items only on bp my profile. @link https://github.com/gocodebox/lifterlms/issues/2142.
+	 * @since 6.8.0 Revert adding nav items only on bp my profile. @link https://github.com/gocodebox/lifterlms/issues/2142.
 	 *
 	 * @return void
 	 */
@@ -613,7 +613,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Get a list of custom endpoints to add to BuddyPress profile page.
 	 *
 	 * @since 6.3.0
-	 * @since [version] Remove redundant check on `is_null()`: `isset()` already implies it.
+	 * @since 6.8.0 Remove redundant check on `is_null()`: `isset()` already implies it.
 	 *
 	 * @param bool $active_only If true, returns only active endpoints.
 	 * @return array

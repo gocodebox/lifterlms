@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 6.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.1.3
 	 * @since 3.31.0 Add `plugins_loaded` hook.
-	 * @since [version] Account for BuddyBoss compatibility issue.
+	 * @since 6.8.0 Account for BuddyBoss compatibility issue.
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_PlayNice {
 	/**
 	 * Compatibility for BuddyBoss.
 	 *
-	 * @since [version]
+	 * @since 6.8.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/2142#issuecomment-1157924080.
 	 *

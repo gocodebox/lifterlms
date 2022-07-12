@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2142"
-entry: Fixed regression introduced in version 6.3.0 which prevented the Courses
-  nav item from being customized in the BuddyPress profile nav menu.

@@ -260,7 +260,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 * Test add_profile_nav_items().
 	 *
 	 * @since 6.3.0
-	 * @since [version] Main nav item always shown.
+	 * @since 6.8.0 Main nav item always shown.
 	 *
 	 * @return void
 	 */
@@ -891,7 +891,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 * This is done in the BP_Core_Nav constructor.
 	 *
 	 * @since 6.3.0
-	 * @since [version] Setup nav also for not logged in users.
+	 * @since 6.8.0 Setup nav also for not logged in users.
 	 *
 	 * @return void
 	 */

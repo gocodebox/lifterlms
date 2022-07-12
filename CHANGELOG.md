@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v6.8.0 - 2022-07-12
+-------------------
+
+##### Bug Fixes
+
++ Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
++ Fixed text/label alignment in Twenty-Twenty-Two theme. 
++ Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
+
+##### Developer Notes
+
++ Added new filter `llms_product_get_restrictions` hook to filter the list of restrictions placed on a given product. [#2201](https://github.com/gocodebox/lifterlms/issues/2201)
+
+
 v6.7.0 - 2022-06-09
 -------------------
 

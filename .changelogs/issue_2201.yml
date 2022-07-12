@@ -1,6 +1,0 @@
-significance: minor
-type: dev
-links:
-  - "#2201"
-entry: Added new filter `llms_product_get_restrictions` hook to filter the list
-  of restrictions placed on a given product.
