@@ -81,7 +81,7 @@ class LLMS_Controller_Account {
 
 		/**
 		 * Action triggered after a recurring subscription is cancelled from the student dashboard by the student.
-		 * 
+		 *
 		 * @since 3.17.8
 		 *
 		 * @param LLMS_Order $order The order object.

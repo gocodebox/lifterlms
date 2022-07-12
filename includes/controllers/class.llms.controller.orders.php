@@ -32,7 +32,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
-	 * @since [version] Added callback for `wp_untrash_post_status` filter. 
+	 * @since [version] Added callback for `wp_untrash_post_status` filter.
 	 *              Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
@@ -492,7 +492,7 @@ class LLMS_Controller_Orders {
 	/**
 	 * Sets an order's post status to `llms-pending` when untrashing an order.
 	 *
-	 * This is a filter hook callback for the WP core filter `wp_untrash_post_status`. 
+	 * This is a filter hook callback for the WP core filter `wp_untrash_post_status`.
 	 *
 	 * @since [version]
 	 *
@@ -510,8 +510,8 @@ class LLMS_Controller_Orders {
 			 * This is a filter nearly identical to `wp_untrash_post_status` applied specifically to `llms_order` posts.
 			 *
 			 * @since [version]
-			 * 
-			 * @link https://developer.wordpress.org/reference/hooks/wp_untrash_post_status/ 
+			 *
+			 * @link https://developer.wordpress.org/reference/hooks/wp_untrash_post_status/
 			 *
 			 * @param string $new_status      The new status of the post being restored.
 			 * @param int    $post_id         The ID of the post being restored.
