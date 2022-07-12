@@ -53,5 +53,4 @@ export async function activateTheme( theme = null ) {
 
 	await page.click( `div[data-slug="${ theme }"] .button.activate` );
 	return page.waitForSelector( `div[data-slug="${ theme }"].active` );
-
 }
