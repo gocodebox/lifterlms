@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-12T14:02:23-06:00\n"
+"POT-Creation-Date: 2022-07-12T14:45:19-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.5\n"
 "X-Domain: lifterlms\n"
@@ -30,6 +30,13 @@ msgstr ""
 
 #. Description of the plugin
 msgid "LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites."
+msgstr ""
+
+#: class-lifterlms.php:378
+#: includes/admin/class.llms.admin.menus.php:202
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Settings"
 msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:332
@@ -850,12 +857,6 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:202
 msgid "LifterLMS Settings"
-msgstr ""
-
-#: includes/admin/class.llms.admin.menus.php:202
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
-#: assets/js/llms-admin-certificate-editor.js:20
-msgid "Settings"
 msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:204
@@ -34950,6 +34951,9 @@ msgid "Reset template"
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:22
+#: assets/js/llms-components.js:15
+#: assets/js/llms-spinner.js:1
+#: assets/js/llms.js:2426
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Loading…"
 msgstr ""
