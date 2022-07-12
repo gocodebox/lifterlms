@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 6.7.0\n"
+"Project-Id-Version: LifterLMS 6.8.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-09T11:02:57-06:00\n"
+"POT-Creation-Date: 2022-07-12T13:38:52-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.5\n"
 "X-Domain: lifterlms\n"
@@ -8685,13 +8685,13 @@ msgstr ""
 msgid "User Profile Endpoints"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.buddypress.php:151
-#: includes/integrations/class.llms.integration.buddypress.php:438
+#: includes/integrations/class.llms.integration.buddypress.php:144
+#: includes/integrations/class.llms.integration.buddypress.php:433
 msgctxt "BuddyPress profile main nav item slug"
 msgid "courses"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.buddypress.php:164
+#: includes/integrations/class.llms.integration.buddypress.php:157
 msgctxt "BuddyPress profile main nav item label"
 msgid "Courses"
 msgstr ""

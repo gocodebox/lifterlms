@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 5.8.0
- * @version 5.9.0
+ * @version 6.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,6 +72,7 @@ class LLMS_Twenty_Twenty_Two {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Fixed stretched images in questions with pictures, and images in quiz/questions description.
+	 * @since 6.8.0 Fixed label/text alignment by removing text’s margin top. Also, removed now outdated width rule.
 	 *
 	 * @param string|null $context Inline CSS context. Accepts "editor" to define styles loaded within the block editor or `null` for frontend styles.
 	 * @return string
@@ -92,7 +93,7 @@ class LLMS_Twenty_Twenty_Two {
 			$styles[] = '.llms-form-field input, .llms-form-field textarea, .llms-form-field select { padding: 6px 10px }';
 
 			// Question layout.
-			$styles[] = '.llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-choice-text { width: calc( 100% - 110px); }';
+			$styles[] = '.llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-choice-text { margin-top: 0; }';
 
 			// Payment gateway stylized radio buttons.
 			$styles[] = LLMS_Theme_Support::get_css(
