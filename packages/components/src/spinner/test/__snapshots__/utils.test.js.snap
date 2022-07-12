@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner: utils create()  Default size (not specified) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading...</span></i>"`;
+
+exports[`Spinner: utils create()  Default size (passed) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading...</span></i>"`;
+
+exports[`Spinner: utils create()  Small size 1`] = `"<i class=\\"llms-spinner small\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading...</span></i>"`;
+
+exports[`Spinner: utils ensureElementList() Element input 1`] = `
+Array [
+  <div
+    class="abc"
+  />,
+]
+`;
+
+exports[`Spinner: utils ensureElementList() Element input 2`] = `
+"
+				<div class=\\"abc\\"></div>
+				<div class=\\"def\\"></div>
+			"
+`;
+
+exports[`Spinner: utils ensureElementList() NodeList input 1`] = `
+Array [
+  <div
+    class="abc"
+  />,
+  <div
+    class="def"
+  />,
+]
+`;
+
+exports[`Spinner: utils ensureElementList() NodeList input 2`] = `
+"
+				<div class=\\"abc\\"></div>
+				<div class=\\"def\\"></div>
+			"
+`;
+
+exports[`Spinner: utils ensureElementList() String (multiple) input 1`] = `
+Array [
+  <div
+    class="abc"
+  />,
+  <div
+    class="def"
+  />,
+]
+`;
+
+exports[`Spinner: utils ensureElementList() String (multiple) input 2`] = `
+"
+				<div class=\\"abc\\"></div>
+				<div class=\\"def\\"></div>
+			"
+`;
+
+exports[`Spinner: utils ensureElementList() String (single) input 1`] = `
+Array [
+  <div
+    class="def"
+  />,
+]
+`;
+
+exports[`Spinner: utils ensureElementList() String (single) input 2`] = `
+"
+				<div class=\\"abc\\"></div>
+				<div class=\\"def\\"></div>
+			"
+`;
+
+exports[`Spinner: utils ensureElementList() jQuery input 1`] = `
+Array [
+  <div
+    class="abc"
+  />,
+  <div
+    class="def"
+  />,
+]
+`;
+
+exports[`Spinner: utils ensureElementList() jQuery input 2`] = `
+"
+				<div class=\\"abc\\"></div>
+				<div class=\\"def\\"></div>
+			"
+`;
+
+exports[`Spinner: utils loadStyles() 1`] = `"<style id=\\"llms-spinner-styles\\"> .llms-spinning { background: rgba( 250, 250, 250, 0.7 ); bottom: 0; display: none; left: 0; position: absolute; right: 0; top: 0; } .llms-spinner { animation: llms-spinning 1.5s linear infinite; box-sizing: border-box; border: 4px solid #313131; border-radius: 50%; height: 40px; left: 50%; margin-left: -20px; margin-top: -20px; position: absolute; top: 50%; width: 40px; } .llms-spinner.small { border-width: 2px; height: 20px; margin-left: -10px; margin-top: -10px; width: 20px; } @keyframes llms-spinning { 0% { transform: rotate( 0deg ) } 50% { border-radius: 5%; } 100% { transform: rotate( 220deg) } }</style>"`;
