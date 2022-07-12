@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version 3.0.0
+ * @version [version]
  */
 
 // Deps.
@@ -84,6 +84,7 @@ function setupEntry( js, srcPath ) {
  * @since 1.2.1
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  * @since 2.1.0 Added `cleanAfterEveryBuildPatterns` parameter.
+ * @since [version] Add `protectWebpackAssets = false` to the `CleanWebpackPlugin` config. 
  *
  * @param {Object[]} plugins                      Array of plugin objects or classes.
  * @param {String[]} css                          Array of CSS file slugs.
