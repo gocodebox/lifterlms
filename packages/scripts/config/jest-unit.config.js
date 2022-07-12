@@ -2,7 +2,7 @@
  * Main Jest config
  *
  * @since Unknown
- * @version [version]
+ * @version 3.1.0
  */
 
 const

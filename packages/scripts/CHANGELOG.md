@@ -1,8 +1,8 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
-Unreleased
-----------
+v3.2.0 - 2022-07-12
+-------------------
 
 + Added eslint configuration overrides for jest unit and e2e tests.
 + Updated webpack.config so to allow the deletion of files inside the protected directories (assets/{js|css}).
