@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.4.0
+ * @version 6.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -276,14 +276,14 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Filter whether the product has any purchase restrictions.
+		 * Filter the product's restrictions.
 		 *
-		 * @since 3.38.0
+		 * @since 6.8.0
 		 *
 		 * @param string[]     $restrictions An array of strings describing the restrictions placed on the product.
 		 * @param LLMS_Product $product      The LLMS_Product object.
 		 */
-		return apply_filters( 'llms_product_has_restrictions', $restrictions, $this );
+		return apply_filters( 'llms_product_get_restrictions', $restrictions, $this );
 
 	}
 

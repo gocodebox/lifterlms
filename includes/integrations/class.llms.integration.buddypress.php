@@ -119,19 +119,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * @since 6.3.0 Display all registered dashboard tabs (enabled in the settings) automatically.
 	 *              Use `bp_loggedin_user_domain()` to determine the current user domain
 	 *              to be used in the profile nav item's links, in favor of relying on the global `$bp`.
+	 * @since 6.8.0 Revert adding nav items only on bp my profile. @link https://github.com/gocodebox/lifterlms/issues/2142.
+	 *
 	 * @return void
 	 */
 	public function add_profile_nav_items() {
-
-		/**
-		 * Determine user domain to use.
-		 *
-		 * Note: we only display our tabs on the current user profile,
-		 * this implies we don't display our tabs to visitors.
-		 */
-		if ( ! bp_is_my_profile() ) {
-			return;
-		}
 
 		$profile_endpoints = $this->get_profile_endpoints();
 
@@ -139,8 +131,9 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			return;
 		}
 
-		$user_domain    = bp_loggedin_user_domain();
-		$first_endpoint = reset( $profile_endpoints );
+		$bp_is_my_profile = bp_is_my_profile();
+		$user_domain      = bp_loggedin_user_domain();
+		$first_endpoint   = reset( $profile_endpoints );
 		/**
 		 * Filters the LifterLMS main nav item slug in the BuddyPress  profile menu.
 		 *
@@ -161,8 +154,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				 *
 				 * @param string $label The LifterLMS main nav item label in the BuddyPress profile menu.
 				 */
-				'name'                => apply_filters( 'llms_buddypress_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
-				'slug'                => $main_nav_slug,
+				'name'                    => apply_filters( 'llms_buddypress_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
+				'slug'                    => $main_nav_slug,
 				/**
 				 * Filters the LifterLMS main nav item position in the BuddyPress profile menu.
 				 *
@@ -170,8 +163,9 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				 *
 				 * @param string $position The LifterLMS main nav item position in the BuddyPress profile menu.
 				 */
-				'position'            => apply_filters( 'llms_buddypress_main_nav_item_position', 20 ),
-				'default_subnav_slug' => $first_endpoint['endpoint'],
+				'position'                => apply_filters( 'llms_buddypress_main_nav_item_position', 20 ),
+				'default_subnav_slug'     => $first_endpoint['endpoint'],
+				'show_for_displayed_user' => false,
 			)
 		);
 
@@ -186,6 +180,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 					'screen_function' => function() use ( $ep_key, $profile_endpoint ) {
 						$this->endpoint_content( $ep_key, $profile_endpoint['content'] );
 					},
+					'user_has_access' => $bp_is_my_profile,
 				)
 			);
 		}
@@ -618,13 +613,14 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Get a list of custom endpoints to add to BuddyPress profile page.
 	 *
 	 * @since 6.3.0
+	 * @since 6.8.0 Remove redundant check on `is_null()`: `isset()` already implies it.
 	 *
 	 * @param bool $active_only If true, returns only active endpoints.
 	 * @return array
 	 */
 	public function get_profile_endpoints( $active_only = true ) {
 
-		if ( ! isset( $this->endpoints ) || is_null( $this->endpoints ) ) {
+		if ( ! isset( $this->endpoints ) ) {
 			$this->populate_profile_endpoints();
 		}
 
