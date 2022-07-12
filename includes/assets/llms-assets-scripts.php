@@ -37,7 +37,7 @@ return array(
 
 	// Core.
 	'llms'                          => array(
-		'dependencies' => array( 'jquery' ),
+		'dependencies' => array( 'jquery', 'wp-i18n' ),
 	),
 	'llms-form-checkout'            => array(
 		'dependencies' => array( 'jquery' ),
