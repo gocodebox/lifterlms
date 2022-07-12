@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spinner: utils create()  Default size (not specified) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
+exports[`Spinner: utils create() Default size (not specified) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
 
-exports[`Spinner: utils create()  Default size (passed) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
+exports[`Spinner: utils create() Default size (passed) 1`] = `"<i class=\\"llms-spinner default\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
 
-exports[`Spinner: utils create()  Small size 1`] = `"<i class=\\"llms-spinner small\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
+exports[`Spinner: utils create() Small size 1`] = `"<i class=\\"llms-spinner small\\" role=\\"alert\\" aria-live=\\"assertive\\"><span class=\\"screen-reader-text\\">Loading…</span></i>"`;
 
 exports[`Spinner: utils ensureElementList() Element input 1`] = `
 Array [

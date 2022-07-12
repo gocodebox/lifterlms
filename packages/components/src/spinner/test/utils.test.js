@@ -1,7 +1,7 @@
 import { fakeQuery } from './__MOCKS__/jquery';
 
-import { create, ensureElementList, loadStyles } from '../utils';
-import { SIZE_SMALL, SIZE_DEFAULT } from '../constants';
+import { create, ensureElementList, find, loadStyles } from '../utils';
+import { SIZE_SMALL, SIZE_DEFAULT, WRAPPER_CLASSNAME } from '../constants';
 
 global.jQuery = fakeQuery;
 
@@ -70,6 +70,40 @@ describe( 'Spinner: utils', () => {
 
 			// Make sure Elements aren't removed from the DOM.
 			expect( document.body.innerHTML ).toMatchSnapshot();
+		} );
+	} );
+
+	describe( 'find()', () => {
+		test( 'No spinners found in wrapper', () => {
+			document.body.innerHTML = `
+				<div id="wrap">
+					<div class="abc"></div>
+				</div>
+			`;
+
+			expect( find( document.getElementById( 'wrap' ) ) ).toBeNull();
+		} );
+
+		test( 'No spinners that are direct children of the wrapper', () => {
+			document.body.innerHTML = `
+				<div id="wrap">
+					<div class="abc"><div class="${ WRAPPER_CLASSNAME }"></div></div>
+				</div>
+			`;
+
+			expect( find( document.getElementById( 'wrap' ) ) ).toBeUndefined();
+		} );
+
+		test( 'Spinner found', () => {
+			document.body.innerHTML = `
+				<div id="wrap">
+					<div class="${ WRAPPER_CLASSNAME }" id="shouldbefound"></div>
+				</div>
+			`;
+
+			const spinner = find( document.getElementById( 'wrap' ) );
+			expect( spinner ).toBeInstanceOf( Element );
+			expect( spinner.id ).toBe( 'shouldbefound' );
 		} );
 	} );
 

@@ -29,6 +29,10 @@ describe( 'Spinner: public API', () => {
 			const alreadExistsResult = get( '.abc', SIZE_DEFAULT, false );
 			expect( alreadExistsResult ).toBe( createResult );
 			expect( document.body.innerHTML ).toBe( body );
+
+			const differentParentResult = get( 'body', SIZE_SMALL, false );
+			expect( differentParentResult ).toMatchSnapshot();
+			expect( document.body.innerHTML ).toMatchSnapshot();
 		} );
 
 		test( 'Create small size', () => {

@@ -1,8 +1,8 @@
 /* eslint-env jquery */
 
 // Internal deps.
-import { WRAPPER_CLASSNAME, SIZE_DEFAULT } from './constants';
-import { create, loadStyles, ensureElementList } from './utils';
+import { SIZE_DEFAULT } from './constants';
+import { create, ensureElementList, find, loadStyles } from './utils';
 
 /**
  * This module was originally included in the LifterLMS Core Javascript in the `LLMS` global object as `LLMS.Spinner`.
@@ -15,7 +15,7 @@ import { create, loadStyles, ensureElementList } from './utils';
  */
 
 /**
- * Retrieves spinner(s) inside a given element or element list.
+ * Retrieves spinner(s) inside a given element.
  *
  * If the spinner element doesn't already exist it will be created.
  *
@@ -38,12 +38,9 @@ export function get( selector, size = SIZE_DEFAULT, useJQuery = true ) {
 		return null;
 	}
 
-	const wrapper = nodeList[ 0 ];
-	let spinner =
-		wrapper.querySelector( `.${ WRAPPER_CLASSNAME }` ) ||
-		create( wrapper, size );
-	// Make sure the found spinner is a direct child of the `wrapper`, otherwise create a new one.
-	spinner = wrapper === spinner.parentNode ? spinner : create( wrapper, size );
+	const wrapper = nodeList[ 0 ],
+		// Find an existing spinner and create it if one doesn't exist.
+		spinner = find( wrapper ) || create( wrapper, size );
 
 	// Return it.
 	return useJQuery && typeof jQuery !== 'undefined'

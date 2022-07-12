@@ -58,6 +58,24 @@ export function ensureElementList( selector ) {
 }
 
 /**
+ * Locates an existing spinner element which is a direct child of the specified wrapper element.
+ *
+ * @since [version]
+ *
+ * @param {Element} wrapper Node element for the wrapper.
+ * @return {null|undefined|Element} Returns `null` if no spinners exist within the wrapper, undefined if no spinners are
+ *                                  direct descendants of the wrapper, otherwise returns the spinner element.
+ */
+export function find( wrapper ) {
+	const spinners = wrapper.querySelectorAll( `.${ WRAPPER_CLASSNAME }` );
+	if ( ! spinners.length ) {
+		return null;
+	}
+
+	return Array.from( spinners ).find( ( el ) => wrapper === el.parentNode );
+}
+
+/**
  * Loads CSS styles and appends them to the document's <head>.
  *
  * Attaching CSS directly to the `get()` method means that we don't have to worry about loading CSS files (or relying on CSS) included
