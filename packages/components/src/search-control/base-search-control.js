@@ -163,9 +163,9 @@ export default function BaseSearchControl( {
 	getSearchArgs = getSearchArgs
 		? getSearchArgs
 		: ( searchQuery ) => ( {
-				per_page: 10,
-				search: searchQuery,
-				...additionalSearchArgs,
+			per_page: 10,
+			search: searchQuery,
+			...additionalSearchArgs,
 		  } );
 
 	getSearchURL = getSearchURL

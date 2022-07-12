@@ -18,7 +18,7 @@ import { useCopyToClipboard } from '@wordpress/compose';
  * @param {...*}     args.buttonProps Remaining properties passed to the underlying <Button> component.
  * @return {Object} The copy button fragment.
  */
-export default function ( {
+export default function( {
 	buttonText,
 	copyText,
 	onCopy,

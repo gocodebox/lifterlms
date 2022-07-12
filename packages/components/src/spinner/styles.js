@@ -6,7 +6,7 @@ import { WRAPPER_CLASSNAME, CLASSNAME, SIZE_SMALL } from './constants';
  * @type {string}
  */
 export const STYLES = `
-	.${WRAPPER_CLASSNAME} {
+	.${ WRAPPER_CLASSNAME } {
 		background: rgba( 250, 250, 250, 0.7 );
 		bottom: 0;
 		display: none;
@@ -17,7 +17,7 @@ export const STYLES = `
 		z-index: 2;
 	}
 
-	.${CLASSNAME} {
+	.${ CLASSNAME } {
 		animation: llms-spinning 1.5s linear infinite;
 		box-sizing: border-box;
 		border: 4px solid #313131;
@@ -32,7 +32,7 @@ export const STYLES = `
 
 	}
 
-	.${CLASSNAME}.${SIZE_SMALL} {
+	.${ CLASSNAME }.${ SIZE_SMALL } {
 		border-width: 2px;
 		height: 20px;
 		margin-left: -10px;

@@ -14,14 +14,14 @@ import { STYLES } from './styles';
  * @param {string}  size    Spinner element size.
  * @return {Element} Returns the created spinner node.
  */
-export function create(wrapper, size = SIZE_DEFAULT) {
-	const spinner = document.createElement('div'),
-		loadingMsg = __('Loading…', 'lifterlms');
+export function create( wrapper, size = SIZE_DEFAULT ) {
+	const spinner = document.createElement( 'div' ),
+		loadingMsg = __( 'Loading…', 'lifterlms' );
 
-	spinner.innerHTML = `<i class="${CLASSNAME} ${size}" role="alert" aria-live="assertive"><span class="screen-reader-text">${loadingMsg}</span></i>`;
-	spinner.classList.add(WRAPPER_CLASSNAME);
+	spinner.innerHTML = `<i class="${ CLASSNAME } ${ size }" role="alert" aria-live="assertive"><span class="screen-reader-text">${ loadingMsg }</span></i>`;
+	spinner.classList.add( WRAPPER_CLASSNAME );
 
-	wrapper.appendChild(spinner);
+	wrapper.appendChild( spinner );
 
 	return spinner;
 }
@@ -36,22 +36,22 @@ export function create(wrapper, size = SIZE_DEFAULT) {
  * @param {NodeList|Element|string|jQuery} selector The input selector.
  * @return {Element[]} An array of `Element` objects derived from the selector input.
  */
-export function ensureElementList(selector) {
+export function ensureElementList( selector ) {
 	selector =
 		typeof selector === 'string'
-			? document.querySelectorAll(selector)
+			? document.querySelectorAll( selector )
 			: selector;
 
 	// Already a NodeList.
-	if (selector instanceof NodeList) {
-		return Array.from(selector);
+	if ( selector instanceof NodeList ) {
+		return Array.from( selector );
 	}
 
 	const list = [];
-	if (selector instanceof Element) {
-		list.push(selector);
-	} else if (typeof jQuery !== 'undefined' && selector instanceof jQuery) {
-		selector.toArray().forEach((el) => list.push(el));
+	if ( selector instanceof Element ) {
+		list.push( selector );
+	} else if ( typeof jQuery !== 'undefined' && selector instanceof jQuery ) {
+		selector.toArray().forEach( ( el ) => list.push( el ) );
 	}
 
 	return list;
@@ -70,12 +70,12 @@ export function ensureElementList(selector) {
 export function loadStyles() {
 	const STYLE_ID = 'llms-spinner-styles';
 
-	if (!document.getElementById(STYLE_ID)) {
-		const style = document.createElement('style');
-		style.textContent = STYLES.replace(/\n/g, '')
-			.replace(/\t/g, ' ')
-			.replace(/\s\s+/g, ' ');
+	if ( ! document.getElementById( STYLE_ID ) ) {
+		const style = document.createElement( 'style' );
+		style.textContent = STYLES.replace( /\n/g, '' )
+			.replace( /\t/g, ' ' )
+			.replace( /\s\s+/g, ' ' );
 		style.id = STYLE_ID;
-		document.head.appendChild(style);
+		document.head.appendChild( style );
 	}
 }

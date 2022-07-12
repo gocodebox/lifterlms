@@ -6,8 +6,8 @@ import { SIZE_SMALL, SIZE_DEFAULT } from '../constants';
 
 global.jQuery = fakeQuery;
 
-describe('Spinner: utils', () => {
-	describe('create() ', () => {
+describe( 'Spinner: utils', () => {
+	describe( 'create()', () => {
 		const tests = [
 			{
 				name: 'Default size (not specified)',
@@ -23,23 +23,23 @@ describe('Spinner: utils', () => {
 			},
 		];
 
-		test.each(tests)('$name', ({ size }) => {
+		test.each( tests )( '$name', ( { size } ) => {
 			document.body.innerHTML = '<div id="wrapper"></div>';
-			const el = create(document.querySelector('#wrapper'), size);
-			expect(el).toBeInstanceOf(Element);
-			expect(el.innerHTML).toMatchSnapshot();
-		});
-	});
+			const el = create( document.querySelector( '#wrapper' ), size );
+			expect( el ).toBeInstanceOf( Element );
+			expect( el.innerHTML ).toMatchSnapshot();
+		} );
+	} );
 
-	describe('ensureElementList()', () => {
+	describe( 'ensureElementList()', () => {
 		const tests = [
 			{
 				name: 'NodeList',
-				getInput: () => document.querySelectorAll('div'),
+				getInput: () => document.querySelectorAll( 'div' ),
 			},
 			{
 				name: 'Element',
-				getInput: () => document.querySelector('.abc'),
+				getInput: () => document.querySelector( '.abc' ),
 			},
 			{
 				name: 'String (single)',
@@ -51,39 +51,39 @@ describe('Spinner: utils', () => {
 			},
 			{
 				name: 'jQuery',
-				getInput: () => global.jQuery('div'),
+				getInput: () => global.jQuery( 'div' ),
 			},
 		];
 
-		test.each(tests)('$name input', ({ getInput }) => {
+		test.each( tests )( '$name input', ( { getInput } ) => {
 			document.body.innerHTML = `
 				<div class="abc"></div>
 				<div class="def"></div>
 			`;
 
 			const input = getInput(),
-				list = ensureElementList(input);
+				list = ensureElementList( input );
 
-			expect(list).toMatchSnapshot();
-			list.forEach((el) => {
-				expect(el).toBeInstanceOf(Element);
-			});
+			expect( list ).toMatchSnapshot();
+			list.forEach( ( el ) => {
+				expect( el ).toBeInstanceOf( Element );
+			} );
 
 			// Make sure Elements aren't removed from the DOM.
-			expect(document.body.innerHTML).toMatchSnapshot();
-		});
-	});
+			expect( document.body.innerHTML ).toMatchSnapshot();
+		} );
+	} );
 
-	test('loadStyles()', () => {
+	test( 'loadStyles()', () => {
 		document.head.innerHTML = '';
 
 		// Load them.
 		loadStyles();
 		const headHTML = document.head.innerHTML;
-		expect(headHTML).toMatchSnapshot();
+		expect( headHTML ).toMatchSnapshot();
 
 		// Doesn't load them again.
 		loadStyles();
-		expect(document.head.innerHTML).toBe(headHTML);
-	});
-});
+		expect( document.head.innerHTML ).toBe( headHTML );
+	} );
+} );

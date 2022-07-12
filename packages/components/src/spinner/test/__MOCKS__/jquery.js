@@ -1,14 +1,17 @@
 // Create a mock jQuery for testing.
-function fakeQuery(selector) {
+/**
+ * @param  selector
+ */
+function fakeQuery( selector ) {
 	return {
 		isFakeQuery: true,
-		toArray: () => document.querySelectorAll(selector),
+		toArray: () => document.querySelectorAll( selector ),
 	};
 }
-Object.defineProperty(fakeQuery, Symbol.hasInstance, {
-	value: (instance) => {
+Object.defineProperty( fakeQuery, Symbol.hasInstance, {
+	value: ( instance ) => {
 		return instance.isFakeQuery;
 	},
-});
+} );
 
 export { fakeQuery };

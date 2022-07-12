@@ -30,24 +30,24 @@ import { create, loadStyles, ensureElementList } from './utils';
  * @return {null|Element|jQuery} Returns `null` when the selector cannot be located, otherwise returns an `Element` or `jQuery` selection based on the value
  *                               of `useJQuery`.
  */
-export function get(selector, size = SIZE_DEFAULT, useJQuery = true) {
+export function get( selector, size = SIZE_DEFAULT, useJQuery = true ) {
 	loadStyles();
 
-	const nodeList = ensureElementList(selector);
-	if (!nodeList.length) {
+	const nodeList = ensureElementList( selector );
+	if ( ! nodeList.length ) {
 		return null;
 	}
 
-	const wrapper = nodeList[0];
+	const wrapper = nodeList[ 0 ];
 	let spinner =
-		wrapper.querySelector(`.${WRAPPER_CLASSNAME}`) ||
-		create(wrapper, size);
+		wrapper.querySelector( `.${ WRAPPER_CLASSNAME }` ) ||
+		create( wrapper, size );
 	// Make sure the found spinner is a direct child of the `wrapper`, otherwise create a new one.
-	spinner = wrapper === spinner.parentNode ? spinner : create(wrapper, size);
+	spinner = wrapper === spinner.parentNode ? spinner : create( wrapper, size );
 
 	// Return it.
 	return useJQuery && typeof jQuery !== 'undefined'
-		? jQuery(spinner)
+		? jQuery( spinner )
 		: spinner;
 }
 
@@ -64,13 +64,13 @@ export function get(selector, size = SIZE_DEFAULT, useJQuery = true) {
  * @param {string}                         size     Size or the spinner element. Accepts "default" (40px) or "small" (20px).
  * @return {void}
  */
-export function start(selector, size = SIZE_DEFAULT) {
-	ensureElementList(selector).forEach((el) => {
-		const spinner = get(el, size, false);
-		if (spinner) {
+export function start( selector, size = SIZE_DEFAULT ) {
+	ensureElementList( selector ).forEach( ( el ) => {
+		const spinner = get( el, size, false );
+		if ( spinner ) {
 			spinner.style.display = 'block';
 		}
-	});
+	} );
 }
 
 /**
@@ -82,11 +82,11 @@ export function start(selector, size = SIZE_DEFAULT) {
  *                                                  array of DOM Elements. Each element in the list will have it's spinner stopped.
  * @return {void}
  */
-export function stop(selector) {
-	ensureElementList(selector).forEach((el) => {
-		const spinner = get(el, SIZE_DEFAULT, false);
-		if (spinner) {
+export function stop( selector ) {
+	ensureElementList( selector ).forEach( ( el ) => {
+		const spinner = get( el, SIZE_DEFAULT, false );
+		if ( spinner ) {
 			spinner.style.display = 'none';
 		}
-	});
+	} );
 }
