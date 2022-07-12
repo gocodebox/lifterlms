@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,12 +31,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Added llms-select2.
  * @since 5.5.0 Added llms-addons.
  * @since 6.0.0 Added llms-admin-certificate-editor.
+ * @since [version] Added llms-spinner.
  */
 return array(
 
 	// Core.
 	'llms'                          => array(
-		'dependencies' => array( 'jquery' ),
+		'dependencies' => array( 'jquery', 'wp-i18n' ),
 	),
 	'llms-form-checkout'            => array(
 		'dependencies' => array( 'jquery' ),
@@ -75,6 +76,16 @@ return array(
 		'suffix'     => '',
 	),
 	'llms-icons'                    => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+	'llms-spinner'                  => array(
+		/**
+		 * This script is automatically included in the `llms` script file.
+		 *
+		 * If your JS already defines `llms` as a dependency and you wish to use the `llms-spinner` it's recommended
+		 * you don't also define this as a dependency as it will cause an superfluous HTTP request.
+		 */
 		'asset_file' => true,
 		'suffix'     => '',
 	),
