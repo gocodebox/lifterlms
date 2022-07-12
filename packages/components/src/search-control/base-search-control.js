@@ -166,7 +166,7 @@ export default function BaseSearchControl( {
 			per_page: 10,
 			search: searchQuery,
 			...additionalSearchArgs,
-		  } );
+		} );
 
 	getSearchURL = getSearchURL
 		? getSearchURL

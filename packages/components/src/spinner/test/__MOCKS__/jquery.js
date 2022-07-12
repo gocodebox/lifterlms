@@ -1,6 +1,12 @@
-// Create a mock jQuery for testing.
 /**
- * @param  selector
+ * Mock jQuery class.
+ *
+ * Generates a minimal mocked jQuery object for use by unit tests.
+ *
+ * @since [version]
+ *
+ * @param {string} selector A selector string that can be passed to `document.querySelectorAll()`.
+ * @return {Object} A mock jQuery object.
  */
 function fakeQuery( selector ) {
 	return {

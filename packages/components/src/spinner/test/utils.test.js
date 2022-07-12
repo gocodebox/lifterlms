@@ -1,6 +1,5 @@
 import { fakeQuery } from './__MOCKS__/jquery';
 
-import { get, start, stop } from '../';
 import { create, ensureElementList, loadStyles } from '../utils';
 import { SIZE_SMALL, SIZE_DEFAULT } from '../constants';
 
