@@ -38,10 +38,12 @@ export function get(selector, size = SIZE_DEFAULT, useJQuery = true) {
 		return null;
 	}
 
-	const wrapper = nodeList[0],
-		spinner =
-			wrapper.querySelector(`.${WRAPPER_CLASSNAME}`) ||
-			create(wrapper, size);
+	const wrapper = nodeList[0];
+	let spinner =
+		wrapper.querySelector(`.${WRAPPER_CLASSNAME}`) ||
+		create(wrapper, size);
+	// Make sure the found spinner is a direct child of the `wrapper`, otherwise create a new one.
+	spinner = wrapper === spinner.parentNode ? spinner : create(wrapper, size);
 
 	// Return it.
 	return useJQuery && typeof jQuery !== 'undefined'
