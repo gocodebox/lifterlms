@@ -985,7 +985,13 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.10.0
 	 *
-	 * @return array
+	 * @return array[] {
+	 *     An array of retry rule arrays.
+	 *
+	 *     @type int    $delay         The number of seconds to delay to use when scheduling the retry attempt.
+	 *     @type string $status        The status of the order while awaiting the next retry.
+	 *     @type bool   $notifications Whether or not to trigger notifications to the student/user.
+	 * }
 	 */
 	private function get_retry_rules() {
 
@@ -1012,6 +1018,14 @@ class LLMS_Order extends LLMS_Post_Model {
 			),
 		);
 
+		/**
+		 * Filters the automatic payment recurring retry rules.
+		 *
+		 * @since [version]
+		 *
+		 * @param array      $rules Array of retry rule arrays {@see LLMS_Order::get_retry_rules()}.
+		 * @param LLMS_Order $rules The order object.
+		 */
 		return apply_filters( 'llms_order_automatic_retry_rules', $rules, $this );
 
 	}
@@ -1651,59 +1665,86 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Handles scheduling recurring payment retries when the gateway supports them
 	 *
 	 * @since 3.10.0
+	 * @since [version] Added return value.
 	 *
-	 * @return void
+	 * @return null|boolean Returns `null` if the order cannot be retried, `false` when all retry rules have been tried (or none exist), and `true`
+	 *                      when a retry is scheduled.
 	 */
 	public function maybe_schedule_retry() {
 
 		if ( ! $this->can_be_retried() ) {
-			return;
+			return null;
 		}
 
-		$current_rule = $this->get( 'last_retry_rule' );
-		if ( '' === $current_rule ) {
-			$current_rule = 0;
+		// Get the index of the rule to use for this retry.
+		$current_rule_index = $this->get( 'last_retry_rule' );
+		if ( '' === $current_rule_index ) {
+			$current_rule_index = 0;
 		} else {
-			++$current_rule;
+			++$current_rule_index;
 		}
-		$rules = $this->get_retry_rules();
 
-		if ( isset( $rules[ $current_rule ] ) ) {
+		$rules        = $this->get_retry_rules();
+		$current_rule = $rules[ $current_rule_index ] ?? false;
 
-			$rule = $rules[ $current_rule ];
-
-			$next_payment_time = current_time( 'timestamp' ) + $rule['delay'];
-
-			// Update the status.
-			$this->set_status( $rule['status'] );
-
-			// Set the next payment date based on the rule's delay.
-			$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $next_payment_time ) );
-
-			// Save the rule for reference on potential future retries.
-			$this->set( 'last_retry_rule', $current_rule );
-
-			// If notifications should be sent, trigger them.
-			if ( $rule['notifications'] ) {
-				do_action( 'llms_send_automatic_payment_retry_notification', $this );
-			}
-
-			$this->add_note( sprintf( esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_payment_time ) ) );
-
-			// Generic action.
-			do_action( 'llms_automatic_payment_retry_scheduled', $this );
-
-			// We are out of rules, fail the order, move on with our lives.
-		} else {
+		// No rule to run.
+		if ( ! $current_rule ) {
 
 			$this->set_status( 'failed' );
 			$this->set( 'last_retry_rule', '' );
 
 			$this->add_note( esc_html__( 'Maximum retry attempts reached.', 'lifterlms' ) );
 
+			/**
+			 * Action triggered when there are not more recurring payment retry rules.
+			 *
+			 * @since 3.10.0
+			 *
+			 * @param LLMS_Order $order The order object.
+			 */
 			do_action( 'llms_automatic_payment_maximum_retries_reached', $this );
 
+			return false;
+
 		}
+
+		$datetime = date_i18n( 'Y-m-d H:i:s', current_time( 'timestamp' ) + $current_rule['delay'] );
+		$time     = strtotime( $datetime );
+
+		$this->set_date( 'next_payment', date( 'Y-m-d H:i:s', $time ) );
+		$this->set_status( $current_rule['status'] );
+		$this->set( 'last_retry_rule', $current_rule_index );
+
+		$this->add_note(
+			sprintf(
+				// Translators: %s = next attempt date.
+				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
+				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time )
+			)
+		);
+
+		// If notifications should be sent, trigger them.
+		if ( $current_rule['notifications'] ) {
+			/**
+			 * Triggers the "Payment Retry Scheduled" notification.
+			 *
+			 * @since 3.10.0
+			 *
+			 * @param LLMS_Order $order The order object.
+			 */
+			do_action( 'llms_send_automatic_payment_retry_notification', $this );
+		}
+
+		/**
+		 * Action triggered after a recurring payment retry is successfully scheduled.
+		 *
+		 * @since 3.10.0
+		 *
+		 * @param LLMS_Order $order The order object.
+		 */
+		do_action( 'llms_automatic_payment_retry_scheduled', $this );
+
+		return true;
 
 	}
 
