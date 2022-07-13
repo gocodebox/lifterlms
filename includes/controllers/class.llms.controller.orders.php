@@ -539,7 +539,8 @@ class LLMS_Controller_Orders {
 
 		// Halt if legacy.
 		if ( $order->is_legacy() ) {
-			return; }
+			return;
+		}
 
 		if ( $order->can_be_retried() ) {
 
