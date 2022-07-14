@@ -1709,9 +1709,8 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		$datetime = date_i18n( 'Y-m-d H:i:s', current_time( 'timestamp' ) + $current_rule['delay'] );
-		$time     = strtotime( $datetime );
 
-		$this->set_date( 'next_payment', date( 'Y-m-d H:i:s', $time ) );
+		$this->set_date( 'next_payment', date( 'Y-m-d H:i:s', $datetime ) );
 		$this->set_status( $current_rule['status'] );
 		$this->set( 'last_retry_rule', $current_rule_index );
 
@@ -1719,7 +1718,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			sprintf(
 				// Translators: %s = next attempt date.
 				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
-				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time )
+				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $datetime ) )
 			)
 		);
 
