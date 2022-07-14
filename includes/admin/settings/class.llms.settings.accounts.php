@@ -337,6 +337,44 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'    => __( 'Remove Student LMS Data', 'lifterlms' ),
 					'type'     => 'checkbox',
 				),
+
+				// Data retention.
+				array(
+					'title' => __( 'Data Retention', 'lifterlms' ),
+					'desc'  => sprintf( __( 'Choose how long to retain abandoned orders and inactive user accounts.', 'lifterlms' ) ),
+					'type'  => 'subtitle',
+				),
+
+				array(
+					'autoload' => false,
+					'default'  => 'no',
+					'id'       => 'llms_data_retention[orders_pending]',
+					'desc'     => __( 'Days', 'lifterlms' ) . '<br>' . __( 'Orders in the "Pending" status are automatically deleted after the specified number of days. Leave this setting blank to retain pending orders indefinitely.', 'lifterlms' ),
+					'title'    => __( 'Retain Pending Orders', 'lifterlms' ),
+					'type'     => 'number',
+					'class'    => 'tiny',
+					'custom_attributes' => array(
+						'step' => 1,
+						'min'  => 1,
+						'placeholder' => esc_attr__( 'N/A', 'lifterlms' ),
+					),
+				),
+
+				array(
+					'autoload' => false,
+					'default'  => 'no',
+					'id'       => 'llms_data_retention[accounts_inactive]',
+					'desc'     => __( 'Days', 'lifterlms' ) . '<br>' . __( 'Inactive user accounts are deleted after the specified number of days. An account is considered inactive if it has no associated enrollment data. Leave this setting blank to retain inactive user accounts indefinitely.', 'lifterlms' ),
+					'title'    => __( 'Retain Inactive Accounts', 'lifterlms' ),
+					'type'     => 'number',
+					'class'    => 'tiny',
+					'custom_attributes' => array(
+						'step' => 1,
+						'min'  => 1,
+						'placeholder' => esc_attr__( 'N/A', 'lifterlms' ),
+					),
+				),
+
 				array(
 					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
