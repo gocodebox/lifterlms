@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,18 +94,19 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	protected $option_prefix = 'llms_gateway_';
 
 	/**
-	 * Array of supported gateway features
+	 * Array of supported gateway features.
 	 *
 	 * @var array
 	 */
 	public $supports = array(
-		'checkout_fields'    => false,
-		'cc_save'            => false,
-		'refunds'            => false,
-		'single_payments'    => false,
-		'recurring_payments' => false,
-		'recurring_retry'    => false,
-		'test_mode'          => false,
+		'checkout_fields'           => false,
+		'cc_save'                   => false,
+		'refunds'                   => false,
+		'single_payments'           => false,
+		'recurring_payments'        => false,
+		'recurring_retry'           => false,
+		'test_mode'                 => false,
+		'modify_recurring_payments' => null,
 	);
 
 	/**
@@ -139,11 +140,30 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	public $title = '';
 
 	/**
+	 * Strings to mask when writing debug logs.
+	 *
+	 * @var string[]
+	 */
+	protected $secure_strings = array();
+
+	/**
 	 * Option's data version
 	 *
 	 * @var integer
 	 */
 	protected $version = 2;
+
+	/**
+	 * Adds a string to the gateway's list of secure strings.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string The string to add.
+	 * @return void
+	 */
+	public function add_secure_string( $string ) {
+		$this->secure_strings[] = (string) $string;
+	}
 
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
@@ -179,19 +199,56 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Confirm a Payment
+	 * This should be called by AJAX-powered gateways after verifying that a transaction was completed successfully.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order The order being processed.
+	 * @param array      $data  Data to add to the default success return array.
+	 * @return array {
+	 *     An array of return data. The actual return array may include additional data from the payment gateway.
+	 *
+	 *     @type string $redirect The complete transaction redirect URL.
+	 *     @type string $status   The status code, always 'SUCCESS'.
+	 * }
+	 */
+	public function complete_transaction_ajax( $order, $data = array() ) {
+
+		$data = wp_parse_args(
+			$data,
+			array(
+				'redirect' => $this->get_complete_transaction_redirect_url( $order ),
+				'status'   => 'SUCCESS',
+			)
+		);
+
+		// Ensure notification processors get dispatched since shutdown won't be called.
+		do_action( 'llms_dispatch_notification_processors' );
+
+		return $data;
+
+	}
+
+	/**
+	 * Confirms a Payment.
 	 *
 	 * Called by {@see LLMS_Controller_Orders::confirm_pending_order} on confirm form submission.
 	 *
-	 * Some validation is performed before passing to this function, as it's not required
-	 * gateways will likely doing further validations as are needed.
+	 * Some validation is performed before passing to this function, gateways should do further validation
+	 * on their own.
 	 *
-	 * Not required if a confirmation isn't required by the gateway.
+	 * This stub is not necessary to implement if the gateway doesn't have a payment confirmation step.
+	 *
+	 * For gateways which implement AJAX order processing, this function should return either a WP_Error or
+	 * a success array from {@see LLMS_Payment_Gateway::complete_transaction_ajax()}.
+	 *
+	 * For gateways which implement synchronous order processing through form submission, this function should
+	 * not return and should instead perform a redirect and / or output notices using {@see llms_add_notice()}.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param LLMS_Order $order Instance of the order being processed.
-	 * @return void
+	 * @return void|WP_Error|array
 	 */
 	public function confirm_pending_order( $order ) {}
 
@@ -562,22 +619,34 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Get the value of the logging setting
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added the force filter, `llms_gateway_{$this->id}_logging_enabled`.
 	 *
 	 * @return string
 	 */
 	public function get_logging_enabled() {
+		/**
+		 * Enables forcing the logging status for the gateway on or off.
+		 *
+		 * The dynamic portion of this hook, `{$this->id}`, refers to the gateway's ID.
+		 *
+		 * @since [version]
+		 *
+		 * @param null|bool $forced The forced status. If `null`, the default status derived from the gateway options will be used.
+		 */
+		$forced = apply_filters( "llms_gateway_{$this->id}_logging_enabled", null );
+		if ( ! is_null( $forced ) ) {
+			return $forced ? 'yes' : 'no';
+		}
 		return $this->get_option( 'logging_enabled' );
 	}
 
 	/**
-	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
+	 * Adds the gateway's registered secured strings to the default list of site-wide secure strings.
 	 *
 	 * This is the callback for the `llms_secure_strings` filter (called via `llms_log()`).
 	 *
-	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
-	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter.
-	 *
 	 * @since 6.4.0
+	 * @since [version] Load strings from `retrieve_secure_strings()`.
 	 *
 	 * @param string[] $strings Array of secure strings.
 	 * @param string   $handle  The log handle.
@@ -590,33 +659,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 			return $strings;
 		}
 
-		$gateway_strings = array();
-		foreach ( $this->get_admin_settings_fields() as $field ) {
-
-			if ( empty( $field['id'] ) || empty( $field['secure_option'] ) ) {
-				continue;
-			}
-
-			$string = llms_get_secure_option( $field['secure_option'], '', $field['id'] );
-			if ( empty( $string ) ) {
-				continue;
-			}
-
-			$gateway_strings[] = $string;
-
-		}
-
-		/**
-		 * Filters the list of the gateway's secure strings.
-		 *
-		 * @since 6.4.0
-		 *
-		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
-		 * @param string    $id              The gateway ID.
-		 */
-		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
-
-		return array_merge( $strings, $gateway_strings );
+		return array_merge( $strings, $this->retrieve_secure_strings() );
 
 	}
 
@@ -651,13 +694,19 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Get an array of features the gateway supports
+	 * Get an array of features the gateway supports.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Handle `modify_recurring_payments` depending on `recurring_payments`.
 	 *
 	 * @return array
 	 */
 	public function get_supported_features() {
+
+		if ( ! isset( $this->supports['modify_recurring_payments'] ) || is_null( $this->supports['modify_recurring_payments'] ) ) {
+			$this->supports['modify_recurring_payments'] = $this->supports['recurring_payments'] ?? false;
+		}
+
 		/**
 		 * Filters the gateway's supported features array
 		 *
@@ -749,7 +798,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		return llms_add_notice(
 			sprintf(
 				// Translatos: %s = the title of the payment gateway.
-				esc_html__( 'The selected payment Gateway "%s" does not support payment method switching.', 'lifterlms' ),
+				esc_html__( 'The selected payment gateway "%s" does not support payment method switching.', 'lifterlms' ),
 				$this->get_title()
 			),
 			'error'
@@ -938,16 +987,61 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	public function process_refund( $transaction, $amount = 0, $note = '' ) {}
 
 	/**
+	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
+	 *
+	 * This method will load the values of any gateway options with a `secure_option` declaration. Additional
+	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter or via the
+	 * gateway's `add_secure_string()` method.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	public function retrieve_secure_strings() {
+
+		$gateway_strings = $this->secure_strings;
+		foreach ( $this->get_admin_settings_fields() as $field ) {
+
+			if ( empty( $field['id'] ) || empty( $field['secure_option'] ) ) {
+				continue;
+			}
+
+			$string = llms_get_secure_option( $field['secure_option'], '', $field['id'] );
+			if ( empty( $string ) ) {
+				continue;
+			}
+
+			$gateway_strings[] = $string;
+
+		}
+
+		/**
+		 * Filters the list of the gateway's secure strings.
+		 *
+		 * @since 6.4.0
+		 *
+		 * @param string[] $gateway_strings List of secure strings for the payment gateway.
+		 * @param string   $id              The gateway ID.
+		 */
+		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
+
+		return array_values( array_unique( $gateway_strings ) );
+
+	}
+
+	/**
 	 * Determine if a feature is supported by the gateway
 	 *
 	 * Looks at the $this->supports and ensures the submitted feature exists and is true.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added `$order` param, to be used when the feature also depends on an order property.
 	 *
-	 * @param string $feature Name of the supported feature.
+	 * @param string     $feature Name of the supported feature.
+	 * @param LLMS_Order $order   Instance of an LLMS_Order.
 	 * @return boolean
 	 */
-	public function supports( $feature ) {
+	public function supports( $feature, $order = null ) {
 
 		$supports = $this->get_supported_features();
 
