@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v7.0.0-alpha.3 - 2022-07-16
+---------------------------
+
++ Add max-length sanitization to admin settings which specify a max length.
++ Fixed invalid user links on admin order screens when viewing incomplete orders missing a registered user.
++ Added new function `llms_is_secure()`.
++ Added `lifterlms-` and `llms-` as automatically stripped prefixed when using `llms_strip_prefixes()`.
++ Added new temporary metadata, `temp_gateway_ids` to orders for use by gateways when switching payment methods.
++ Moved `LLMS.Spinner` Javascript into an `@lifterlms/components` module and removed its reliance on jQuery.
++ Disabled `scroll-behavior: scroll` on checkout screens to address a validity reporting issue on Chromium-based browsers.
+
+
 v7.0.0-alpha.2 - 2022-06-23
 ---------------------------
 

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.0.0-alpha.2\n"
+"Project-Id-Version: LifterLMS 7.0.0-alpha.3\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-12T16:09:25-06:00\n"
+"POT-Creation-Date: 2022-07-16T13:29:37-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.5\n"
 "X-Domain: lifterlms\n"
@@ -8020,25 +8020,25 @@ msgstr ""
 msgid "Recurring charge aborted because the purchased product does not exist anymore."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:633
+#: includes/controllers/class.llms.controller.orders.php:634
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:691
+#: includes/controllers/class.llms.controller.orders.php:692
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
 #. Translators: %s = The gateway display name.
-#: includes/controllers/class.llms.controller.orders.php:696
+#: includes/controllers/class.llms.controller.orders.php:697
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
 #. Translators: %s = The gateway display name.
-#: includes/controllers/class.llms.controller.orders.php:701
+#: includes/controllers/class.llms.controller.orders.php:702
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:706
+#: includes/controllers/class.llms.controller.orders.php:707
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -9044,19 +9044,20 @@ msgstr ""
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1642
+#: includes/models/model.llms.order.php:1656
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1691
-msgid "Automatic retry attempt scheduled for %s"
-msgstr ""
-
-#: includes/models/model.llms.order.php:1702
+#: includes/models/model.llms.order.php:1696
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.order.php:2046
+#. Translators: %s = next attempt date.
+#: includes/models/model.llms.order.php:1720
+msgid "Automatic retry attempt scheduled for %s"
+msgstr ""
+
+#: includes/models/model.llms.order.php:2086
 msgid "Next recurring payment due date is not valid"
 msgstr ""
 
