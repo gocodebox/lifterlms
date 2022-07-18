@@ -392,20 +392,20 @@ class LLMS_Order_Generator {
 
 		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
-			$order_id = $this->validate_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
+			$order_id = $this->sanitize_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
 		}
 
 		// Try to lookup by user ID.
 		if ( ! $order_id ) {
 
 			$user_id  = $this->find_user_id( $email );
-			$order_id = $user_id ? $this->validate_retrieved_order_id( llms_locate_order_for_user_and_plan( $user_id, $plan_id ) ) : null;
+			$order_id = $user_id ? $this->sanitize_retrieved_order_id( llms_locate_order_for_user_and_plan( $user_id, $plan_id ) ) : null;
 
 		}
 
 		// Lookup by email address.
 		if ( ! $order_id && $email ) {
-			$order_id = $this->validate_retrieved_order_id( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+			$order_id = $this->sanitize_retrieved_order_id( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
 		}
 
 		return $order_id ? $order_id : 'new';
@@ -486,6 +486,20 @@ class LLMS_Order_Generator {
 
 		return $data;
 
+	}
+
+	/**
+	 * Sanitizes the order_id retrieved by {@see LLMS_Order_Generator::get_order_id()} to ensure it can be resumed or confirmed during checkout.
+	 *
+	 * Only orders with the `llms-pending` status can be resumed or confirmed.
+	 *
+	 * @since [version]
+	 *
+	 * @param null|int $order_id The order ID or `null` if the lookup didn't yield a result.
+	 * @return int|null Returns the submitted order ID if it's valid or `null`.
+	 */
+	private function sanitize_retrieved_order_id( $order_id ) {
+		return $order_id && 'llms-pending' === get_post_status( $order_id ) ? $order_id : null;
 	}
 
 	/**
@@ -673,20 +687,6 @@ class LLMS_Order_Generator {
 		$this->plan = $plan;
 		return true;
 
-	}
-
-	/**
-	 * Validates the order_id retrieved by {@see LLMS_Order_Generator::get_order_id()} to ensure it can be resumed or confirmed during checkout.
-	 *
-	 * Only orders with the `llms-pending` status can be resumed or confirmed.
-	 *
-	 * @since [version]
-	 *
-	 * @param null|int $order_id The order ID or `null` if the lookup didn't yield a result.
-	 * @return int|null Returns the submitted order ID if it's valid or `null`.
-	 */
-	private function validate_retrieved_order_id( $order_id ) {
-		return $order_id && 'llms-pending' === get_post_status( $order_id ) ? $order_id : null;
 	}
 
 	/**
