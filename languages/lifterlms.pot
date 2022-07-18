@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.0.0-alpha.3\n"
+"Project-Id-Version: LifterLMS 7.0.0-alpha.4\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-16T13:29:37-07:00\n"
+"POT-Creation-Date: 2022-07-18T17:48:21-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.5\n"
 "X-Domain: lifterlms\n"
@@ -5443,40 +5443,40 @@ msgstr ""
 
 #. Translators: %s = The user-submitted coupon code.
 #. Translators: %s = coupon code.
-#: includes/class-llms-order-generator.php:568
+#: includes/class-llms-order-generator.php:582
 #: includes/class.llms.ajax.handler.php:1085
 #: includes/functions/llms.functions.order.php:358
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class-llms-order-generator.php:605
+#: includes/class-llms-order-generator.php:619
 #: includes/functions/llms.functions.order.php:375
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/class-llms-order-generator.php:635
-#: includes/class-llms-order-generator.php:643
+#: includes/class-llms-order-generator.php:649
+#: includes/class-llms-order-generator.php:657
 #: includes/controllers/class-llms-controller-checkout.php:106
 #: includes/controllers/class-llms-controller-checkout.php:112
 #: includes/shortcodes/class.llms.shortcode.checkout.php:249
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/class-llms-order-generator.php:665
+#: includes/class-llms-order-generator.php:679
 msgid "Missing access plan ID."
 msgstr ""
 
-#: includes/class-llms-order-generator.php:670
+#: includes/class-llms-order-generator.php:684
 msgid "Access plan not found."
 msgstr ""
 
 #. Translators: %s = The title of the site's LifterLMS Terms and Conditions page.
-#: includes/class-llms-order-generator.php:692
+#: includes/class-llms-order-generator.php:706
 msgid "You must agree to the %s."
 msgstr ""
 
 #. Translators: %s = The title of the course or membership.
-#: includes/class-llms-order-generator.php:724
+#: includes/class-llms-order-generator.php:738
 msgid "You already have access to %s."
 msgstr ""
 

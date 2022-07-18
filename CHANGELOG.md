@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v7.0.0-alpha.4 - 2022-07-18
+---------------------------
+
++ Fixed error causing recurring payment reschedules to fail with a fatal error.
+
+
 v7.0.0-alpha.3 - 2022-07-16
 ---------------------------
 
