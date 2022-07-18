@@ -1710,7 +1710,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$timestamp = current_time( 'timestamp' ) + $current_rule['delay'];
 
-		$this->set_date( 'next_payment', date( 'Y-m-d H:i:s', $timestamp ) );
+		$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $timestamp ) );
 		$this->set_status( $current_rule['status'] );
 		$this->set( 'last_retry_rule', $current_rule_index );
 
