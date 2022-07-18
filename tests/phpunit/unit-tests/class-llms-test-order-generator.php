@@ -775,7 +775,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	public function test_validate_order_not_confirmable() {
 
 		$order = new LLMS_Order( 'new' );
-		$order->set( 'status', 'llms-completed' );
+
+		add_filter( 'llms_order_can_be_confirmed', '__return_false' );
 
 		$gen = new LLMS_Order_Generator( array(
 			'llms_order_key' => $order->get( 'order_key' ),
@@ -784,6 +785,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_order' );
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( $gen::E_ORDER_NOT_CONFIRMABLE, $res );
+
+		remove_filter( 'llms_order_can_be_confirmed', '__return_false' );
 
 	}
 
