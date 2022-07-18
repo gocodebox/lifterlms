@@ -331,7 +331,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_order_id() {
+	public function test_get_order_id_with_order_key() {
 
 		// Not submitted: create a new order.
 		$gen = new LLMS_Order_Generator( array() );
@@ -345,6 +345,11 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// Not a pending order: create a new one.
+		$order->set_status( 'active' );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 	}
 
@@ -377,8 +382,12 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
-	}
+		// Not a pending order: create a new one.
+		$order->set_status( 'active' );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
+	}
 
 	/**
 	 * Test get_order_id() lookup by email (for a non-existent user) & plan.
@@ -401,6 +410,12 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 			'email_address' => $billing_email,
 		) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+
+		// Not a pending order: create a new one.
+		$order->set_status( 'active' );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 	}
 
