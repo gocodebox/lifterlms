@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -67,6 +67,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
 	 * @since 5.4.0 Inform about deleted products.
+	 * @since [version] Treat the case when the order has no WordPress user associated yet.
 	 *
 	 * @param string $column  Custom column name.
 	 * @param int    $post_id ID of the individual post.
@@ -90,7 +91,8 @@ class LLMS_Admin_Post_Table_Orders {
 				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
 					echo $order->get_customer_name();
 				} else {
-					echo '<a href="' . get_edit_user_link( $order->get( 'user_id' ) ) . '">' . $order->get_customer_name() . '</a><br>';
+					$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+					echo ! $edit_user_link ? $order->get_customer_name() . '<br>' : '<a href="' . $edit_user_link . '">' . $order->get_customer_name() . '</a><br>';
 					echo '<a href="mailto:' . $order->get( 'billing_email' ) . '">' . $order->get( 'billing_email' ) . '</a>';
 				}
 

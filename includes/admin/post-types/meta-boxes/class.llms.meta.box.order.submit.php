@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -100,6 +100,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 3.36.0 Date fields require array when sanitized.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null
@@ -125,16 +126,19 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			}
 		}
 
-		/**
-		 * Order is important -- if both trial and next payment are updated
-		 * they should be saved in that order since next payment date
-		 * is automatically recalculated by trial end date update.
-		 */
 		$editable_dates = array(
-			'_llms_date_trial_end',
-			'_llms_date_next_payment',
 			'_llms_date_access_expires',
 		);
+
+		// Save recurring payments related dates if order's gateway supports recurring payments modification.
+		if ( $order->supports_modify_recurring_payments() ) {
+			/**
+			 * Order is important -- if both trial and next payment are updated
+			 * they should be saved in that order since next payment date
+			 * is automatically recalculated by trial end date update.
+			 */
+			array_push( $editable_dates, '_llms_date_trial_end', '_llms_date_next_payment' );
+		}
 
 		foreach ( $editable_dates as $id => $key ) {
 

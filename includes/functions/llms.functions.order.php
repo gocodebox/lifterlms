@@ -5,15 +5,16 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 5.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Determine if a gateway can be used for a give LLMS_Access_Plan.
+ * Determine if a gateway can be used for a given LLMS_Access_Plan.
  *
  * @since 3.29.0
+ * @since [version] Updated to utilize llms_can_gateway_be_used_for_plan_or_order().
  *
  * @param string           $gateway_id LLMS_Payment_Gateway ID.
  * @param LLMS_Access_Plan $plan       The access plan.
@@ -21,39 +22,78 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 
-	$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
-	$err     = new WP_Error();
+	$can_be_used = llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan, true, ( 'manual' !== $gateway_id ) );
 
-	// Valid gateway.
-	if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+	/**
+	 * Filters whether or not a gateway can be used for a given access plan.
+	 *
+	 * @since 3.29.0
+	 * @since [version] The filter now runs on all possible return values instead of running only when the gateway can be used.
+	 *
+	 * @param boolean|WP_Error $can_be_used Whether or not the gateway can be used for the plan. This value will be `true`
+	 *                                      when the gateway can be used an an error object when it cannot.
+	 * @param string           $gateway_id  The LLMS_Payment_Gateway ID.
+	 * @param LLMS_Access_plan $plan        The access plan object.
+	 */
+	return apply_filters( 'llms_can_gateway_be_used_for_plan', $can_be_used, $gateway_id, $plan );
 
-		// Gateway not enabled.
-		if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
+}
 
-			$err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
-			return $err;
+/**
+ * Determines if a payment gateway can be used to process transactions for an LLMS_Order or an LLMS_Access_Plan.
+ *
+ *   + The plan/order must exist
+ *   + The gateway must exist.
+ *   + The gateway must be enabled unless `$enabled_only` is `false`.
+ *   + The gateway must support the order/plan's type (recurring or single).
+ *
+ * @since [version]
+ *
+ * @param string                          $gateway_id    Payment gateway ID.
+ * @param LLMS_Order|LLMS_Access_Plan|int $plan_or_order The `WP_Post` id of a plan or order, a plan object, or an order object.
+ * @param boolean                         $wp_err        Determines the return type when the gateway cannot be used.
+ * @param boolean                         $enabled_only  If `true` requires the specified gateway to be enabled for use. This property
+ *                                                       exists to ensure the manual payment gateway can be used to record free transactions
+ *                                                       regardless of the gateway's status.
+ * @return boolean|WP_Error Returns `true` if the gateway can be used. If the gateway cannot be used, returns `false` if `$wp_error` is
+ *                          `false` and a `WP_Error` if `$wp_err` is `true`.
+ */
+function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order, $wp_err = false, $enabled_only = true ) {
 
-			// It's a recurring plan and the gateway doesn't support recurring.
-		} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+	$can_use = true;
 
-			$err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
-			return $err;
-
-			// Not recurring and the gateway doesn't support single payments.
-		} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-
-			$err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
-			return $err;
-
-		}
+	$plan_or_order = is_numeric( $plan_or_order ) ? llms_get_post( $plan_or_order ) : $plan_or_order;
+	$err_data      = compact( 'gateway_id', 'plan_or_order' );
+	if ( ! is_a( $plan_or_order, 'LLMS_Order' ) && ! is_a( $plan_or_order, 'LLMS_Access_Plan' ) ) {
+		$can_use = new WP_Error( 'post-invalid', __( 'A valid order or access plan must be supplied.', 'lifterlms' ), $err_data );
 	} else {
 
-		$err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
-		return $err;
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 
+		if ( ! $gateway ) {
+			$can_use = new WP_Error( 'gateway-invalid', __( 'The selected payment gateway is not valid.', 'lifterlms' ), $err_data );
+		} elseif ( $enabled_only && ! $gateway->is_enabled() ) {
+			$can_use = new WP_Error( 'gateway-disabled', __( 'The selected payment gateway is not available.', 'lifterlms' ), $err_data );
+		} elseif ( $plan_or_order->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+			$can_use = new WP_Error( 'gateway-support-recurring', __( 'The selected payment gateway does not support recurring payments.', 'lifterlms' ), $err_data );
+		} elseif ( ! $plan_or_order->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+			$can_use = new WP_Error( 'gateway-support-single', __( 'The selected payment gateway does not support one-time payments.', 'lifterlms' ), $err_data );
+		}
 	}
 
-	return apply_filters( 'llms_can_gateway_be_used_for_plan', true, $gateway_id, $plan );
+	/**
+	 * Filters whether or not a gateway can be used for a given plan or order.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean|WP_Error $can_be_used Whether or not the gateway can be used for the plan. This value will be `true`
+	 *                                      when the gateway can be used an an error object when it cannot.
+	 * @param string           $gateway_id  The LLMS_Payment_Gateway ID.
+	 * @param LLMS_Access_plan $plan        The access plan object.
+	 */
+	$can_use = apply_filters( 'llms_can_gateway_be_used_for_plan_or_order', $can_use, $gateway_id, $plan_or_order );
+
+	return is_wp_error( $can_use ) && ! $wp_err ? false : $can_use;
 
 }
 
@@ -161,6 +201,46 @@ function llms_get_possible_order_statuses( $order ) {
 	}
 
 	return $statuses;
+
+}
+
+/**
+ * Locates an order by email address and access plan ID.
+ *
+ * Used during AJAX checkout order creation when users are not created until the gateway confirms success.
+ *
+ * Ensures that only a single pending order for a given plan and email address will exist at any given time.
+ *
+ * @since [version]
+ *
+ * @param string $email   An email address.
+ * @param int    $plan_id Access plan WP_Post ID.
+ * @return null|int Returns the post id if found, otherwise returns `null`.
+ */
+function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'llms_order',
+			'post_status'    => 'llms-pending',
+			'fields'         => 'ids',
+			'posts_per_page' => 1,
+			'no_found_rows'  => true,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'   => '_llms_billing_email',
+					'value' => $email,
+				),
+				array(
+					'key'   => '_llms_plan_id',
+					'value' => $plan_id,
+				),
+			),
+		)
+	);
+
+	return $query->posts[0] ?? null;
 
 }
 
