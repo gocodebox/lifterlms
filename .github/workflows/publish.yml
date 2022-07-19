@@ -61,7 +61,7 @@ jobs:
           curl --location --request PATCH "${{ secrets.LLMS_COM_API_URL }}v3/products/${{ github.event.repository.name }}" \
           --header "X-API-KEY: ${{ secrets.LLMS_COM_API_KEY }}" \
           --header 'Content-Type: application/x-www-form-urlencoded' \
-          --data-urlencode "version=$__LLMS_PKG_VERSION" \
-          --data-urlencode "wp_version=$__LLMS_WP_VERSION"
-          --data-urlencode "php_version=$__LLMS_PHP_VERSION" \
-          --data-urlencode "llms_version=$__LLMS_LLMS_VERSION" \
+          --data "version=$__LLMS_PKG_VERSION" \
+          --data "wp_version=$__LLMS_WP_VERSION"
+          --data "php_version=$__LLMS_PHP_VERSION" \
+          --data "llms_version=$__LLMS_LLMS_VERSION" \
