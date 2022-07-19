@@ -414,7 +414,7 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 
 LifterLMS Requires
 
-+ PHP 7.2 or later
++ PHP 7.4 or later
 + MySQL 5.6 or later
 + WordPress 4.0 or later
 
