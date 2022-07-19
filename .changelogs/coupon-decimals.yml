@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2149"
+entry: Fixed issue preventing decimals from being used for coupon discount amounts.
