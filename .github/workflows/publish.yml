@@ -12,7 +12,7 @@ jobs:
     name: "Check for required secrets"
     runs-on: ubuntu-latest
     outputs:
-      has-secrets: ${{ steps.check-secret.outputs.has-secrets }}
+      has-secrets: ${{ steps.check-secrets.outputs.has-secrets }}
     steps:
       - name: Test secrets
         id: check-secrets
