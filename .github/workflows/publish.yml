@@ -7,9 +7,26 @@ on:
       - published
 
 jobs:
-  update-metadata:
-    name: "Update Metadata at LifterLMS.com"
+
+  check-secrets:
+    name: "Check for required secrets"
     runs-on: ubuntu-latest
+    outputs:
+      has-secret: ${{ steps.check-secret.outputs.has-secrets }}
+    steps:
+      - name: Test secrets
+        id: check-secrets
+        run: |
+          if [ ! -z "${{ secrets.LLMS_COM_API_URL }}" && ! -z "${{ secrets.LLMS_COM_API_KEY }}" ]; then
+            echo "::set-output name=has-secrets::true"
+          fi
+
+  update-metadata:
+    name: "Update product metadata at LifterLMS.com"
+    runs-on: ubuntu-latest
+
+    needs: check-secrets
+    if: ${{ 'true' == needs.check-secrets.outputs.has-secrets }}
 
     steps:
       - name: Checkout
@@ -34,7 +51,17 @@ jobs:
 
       - name: Test metadata
         run: |
-          echo $__LLMS_PKG_VERSION
-          echo $__LLMS_WP_VERSION
-          echo $__LLMS_PHP_VERSION
-          echo $__LLMS_LLMS_VERSION
+          echo "Package version: $__LLMS_PKG_VERSION"
+          echo "Min WP Version: $__LLMS_WP_VERSION"
+          echo "Min PHP Version: $__LLMS_PHP_VERSION"
+          echo "Min LLMS Version: $__LLMS_LLMS_VERSION"
+
+      - name: Update metadata
+        run: |
+          curl --location --request PATCH "${{ secrets.LLMS_COM_API_URL }}v3/products/${{ github.event.repository.name }}" \
+          --header "X-API-KEY: ${{ secrets.LLMS_COM_API_KEY }}" \
+          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --data-urlencode "version=$__LLMS_PKG_VERSION" \
+          --data-urlencode "wp_version=$__LLMS_WP_VERSION"
+          --data-urlencode "php_version=$__LLMS_PHP_VERSION" \
+          --data-urlencode "llms_version=$__LLMS_LLMS_VERSION" \
