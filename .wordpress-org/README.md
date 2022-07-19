@@ -15,12 +15,12 @@ The command to build the readme file is `npm run dev readme`. See full documenta
 
 ### File Parts
 
-+ [01-header.md](./01-header.md): The readme header containing the listing's display title, meta data, and a short description.
-+ [05-description.md](./05-description.md): The main listing "Details" tab.
-+ [10-installation.md](./10-installation.md): The contents of the "Installation" tab
-+ [15-faqs.md](./15-faqs.md): A list of frequently asked questions. This is listed at the bottom of the "Details" tab on the listing page.
-+ [20-screenshots.md](./15-faqs.md): An ordered list of screenshot captions. Each caption should correspond with a screenshot in the [assets directory](./assets). A screenshot with the filename `screenshot-5.png` corresponds to the item 5 in the screenshot list. 
-+ [25-changelog.md](./25-changelog.md): an auto-generated changelog containing the latest 10 changelog entries from the main [CHANGELOG.md](../CHANGELOG.md) file.
++ [01-header.md](./readme/01-header.md): The readme header containing the listing's display title, meta data, and a short description.
++ [05-description.md](./readme/05-description.md): The main listing "Details" tab.
++ [10-installation.md](./readme/10-installation.md): The contents of the "Installation" tab
++ [15-faqs.md](./readme/15-faqs.md): A list of frequently asked questions. This is listed at the bottom of the "Details" tab on the listing page.
++ [20-screenshots.md](./readme/15-faqs.md): An ordered list of screenshot captions. Each caption should correspond with a screenshot in the [assets directory](./assets). A screenshot with the filename `screenshot-5.png` corresponds to the item 5 in the screenshot list. 
++ [25-changelog.md](./readme/25-changelog.md): an auto-generated changelog containing the latest 10 changelog entries from the main [CHANGELOG.md](../CHANGELOG.md) file.
 
 ### Merge Codes
 
