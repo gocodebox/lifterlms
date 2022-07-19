@@ -24,5 +24,17 @@ jobs:
       - name: Install Node dependencies
         run: npm i @lifterlms/dev
 
-      - name: Run test suite
-        run: ./node_modules/.bin/llms-dev meta parse -f json
+      - name: Get metadata
+        run: |
+          __LLMS_METADATA=$( ./node_modules/.bin/llms-dev meta parse -f json )
+          echo __LLMS_PKG_VERSION=$( echo $__LLMS_METADATA | jq --raw-output '.["Version"]' ) >> $GITHUB_ENV
+          echo __LLMS_WP_VERSION=$( echo $__LLMS_METADATA | jq --raw-output '.["Requires at least"]' ) >> $GITHUB_ENV
+          echo __LLMS_PHP_VERSION=$( echo $__LLMS_METADATA | jq --raw-output '.["Requires PHP"]' ) >> $GITHUB_ENV
+          echo __LLMS_LLMS_VERSION=$( echo $__LLMS_METADATA | jq --raw-output '.["LLMS Requires at least"]' ) >> $GITHUB_ENV
+
+      - name: Test metadata
+        run: |
+          echo $__LLMS_PKG_VERSION
+          echo $__LLMS_WP_VERSION
+          echo $__LLMS_PHP_VERSION
+          echo $__LLMS_LLMS_VERSION
