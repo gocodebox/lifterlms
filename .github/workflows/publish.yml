@@ -17,7 +17,7 @@ jobs:
       - name: Test secrets
         id: check-secrets
         run: |
-          if [ ! -z "${{ secrets.LLMS_COM_API_URL }}" && ! -z "${{ secrets.LLMS_COM_API_KEY }}" ]; then
+          if [[ ! -z "${{ secrets.LLMS_COM_API_URL }}" && ! -z "${{ secrets.LLMS_COM_API_KEY }}" ]]; then
             echo "::set-output name=has-secrets::true"
           fi
 
