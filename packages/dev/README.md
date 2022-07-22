@@ -53,19 +53,15 @@ Create a new changelog entry.
 
 Options:
   -s, --significance <level>     The semantic version significance of the change. Accepts: major, minor, patch. (default: "patch")
-  -t, --type <type>              The type of change. Accepts: added, changed, fixed, deprecated, removed, dev, performance, security. (default:
-                                 "changed")
+  -t, --type <type>              The type of change. Accepts: added, changed, fixed, deprecated, removed, dev, performance, security. (default: "changed")
   -c, --comment <comment>        An internal-use comment to include with the changelog entry which is not published with the final changelog.
   -l, --links <issues...>        Link the changelog to one or more GitHub issues. Can be provided multiple times to link to multiple issues.
-  -a, --attributions <users...>  Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which
-                                 originate from outside the LifterLMS organization. Provide a GitHub username or a markdown-formatted anchor. Can be
-                                 provided multiple times to attribute to multiple users.
+  -a, --attributions <users...>  Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which originate from outside the LifterLMS organization. Provide a GitHub username or a
+                                 markdown-formatted anchor. Can be provided multiple times to attribute to multiple users.
   -e, --entry <entry>            The changelog entry.
-  -T, --title <title>            Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the
-                                 title if the title already exists. (default: "dev")
+  -T, --title <title>            Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the title if the title already exists. (default: "dev")
   -i, --interactive              Create the changelog interactively. (default: false)
-  -E, --use-editor               When creating a changelog interactively, will open an editor to write the entry, This is useful when creating
-                                 multi-line entries.
+  -E, --use-editor               When creating a changelog interactively, will open an editor to write the entry, This is useful when creating multi-line entries.
   -d, --dir <directory>          Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help                     display help for command
 
@@ -130,7 +126,7 @@ Options:
   -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
   -F, --force <version>     Use the specified version string instead of determining the version based on changelog entry significance.
   -l, --log-file <file>     The changelog file. (default: "CHANGELOG.md")
-  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2022-03-08")
+  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2022-07-19")
   -L, --links               Add GitHub links to templates and issues in changelog entries. (default: false)
   -n, --no-links            Do not add GitHub links in changelog entries. Use this option to override the --links flag.
   -D, --dry-run             Output what would be written to the changelog instead of writing it to the changelog file.
@@ -152,6 +148,21 @@ Options:
 
 ```
 
+### meta parse
+
+```bash
+Usage: index meta parse [options]
+
+Retrieves metadata from the project's main file.
+
+Options:
+  -F, --file <file>      Main project file name. (default: "dev.php")
+  -k, --key <key>        Retrieves a single metadata by key name.
+  -f, --format [format]  Output format. Accepts: table, json, yaml. (default: "table")
+  -h, --help             display help for command
+
+```
+
 ### pot
 
 ```bash
@@ -160,9 +171,8 @@ Usage: index pot [options]
 Generate i18n pot and json files using the WP-CLI.
 
 Options:
-  -d, --text-domain <text-domain>  Specify the text domain. Used to generate the filenames for generated files. (default: "llms-e2e-test-utils")
-  -e, --exclude <glob...>          Specify files to exclude from scanning. (default: "vendor/**, node_modules/**, tmp/**, dist/**, docs/**, src/**,
-                                   tests/**, *.js.map")
+  -d, --text-domain <text-domain>  Specify the text domain. Used to generate the filenames for generated files. (default: "dev")
+  -e, --exclude <glob...>          Specify files to exclude from scanning. (default: "vendor/**, node_modules/**, tmp/**, dist/**, docs/**, src/**, tests/**, *.js.map")
   -ee, --extra-exclude <glob...>   Additional files to add to the --exclude option.
   -d, --dir <directory>            Output directory where generated files will be stored. (default: "i18n")
   -t, --translator <translator>    Customize the Last Translator header. (default: "Team LifterLMS <team@lifterlms.com>")
@@ -181,11 +191,30 @@ Create a readme.txt file suitable for the WordPress.org plugin repository.
 Options:
   -o, --output-file <filename>     Specify the output readme file name. (default: "readme.txt")
   -i, --input-file <filename>      Specify the input changelog file name. (default: "CHANGELOG.md")
+  -m, --main-file <filename>       Specify the project main file name where metadata is stored. (default: "dev.php")
   -d, --dir <directory>            Directory where the readme part files are stored (default: ".wordpress-org/readme")
   -l, --changelog-length <number>  Specify the number of versions to display before truncating the changelog. (default: 10)
-  -r, --read-more <url>            Specify the "Read More" url where changelogs are published. (default:
-                                   "https://make.lifterlms.com/tag/llms-e2e-test-utils")
+  -r, --read-more <url>            Specify the "Read More" url where changelogs are published. (default: "https://make.lifterlms.com/tag/dev")
   -h, --help                       display help for command
+
+Merge codes:
+  The following merge codes can be used in any of the readme part markdown files.
+
+  | Merge Code                    | Description                                                            | Source       |
+  | ----------------------------- | -----------------------------------------------------------------------| ------------ |
+  | {{__CHANGELOG_ENTRIES__}}     | The most recent 10 changelog entries.                                  | --input-file |
+  | {{__LICENSE__}}               | The project's license (GPLv3).                                         | --main-file  |
+  | {{__LICENSE_URI__}}           | The URI to the project's license.                                      | --main-file  |
+  | {{__MIN_WP_VERSION__}}        | The minimum required WordPress core version.                           | --main-file  |
+  | {{__MIN_LLMS_VERSION__}}      | The minimum required LifterLMS version.                                | --main-file  |
+  | {{__MIN_PHP_VERSION__}}       | The minimum required PHP version.                                      | --main-file  |
+  | {{__PROJECT_URI__}}           | The project's URI.                                                     | --main-file  |
+  | {{__READ_MORE_LINK__}}        | A link to the full project changelog.                                  | --main-file  |
+  | {{__SHORT_DESCRIPTION__}}     | A short description of the project.                                    | --main-file  |
+  | {{__TESTED_LLMS_VERSION__}}   | The latest LifterLMS version the project has been tested against.      | --main-file  |
+  | {{__TESTED_WP_VERSION__}}     | The latest WordPress core version the project has been tested against. | --main-file  |
+  | {{__VERSION__}}               | The current project version.                                           | package.json |
+	
 
 ```
 
@@ -212,20 +241,17 @@ Usage: index release create [options]
 Create a GitHub release and tag from a specified file or branch.
 
 Options:
-  -a, --archive <zip>               If specified, the zip file will be committed and force-pushed to the specified branch before creating the release.
-                                    Pass --no-archive to skip this step. (default: "llms-e2e-test-utils-3.2.0.zip")
+  -a, --archive <zip>               If specified, the zip file will be committed and force-pushed to the specified branch before creating the release. Pass --no-archive to skip this step. (default: "dev-0.0.5.zip")
   -A, --no-archive                  Skip creation from an archive file and use the target --branch for release creation.
-  -c, --commit-message <message>    Customize the commit message used when pushing to the target branch. Used only when releasing from an archive. The
-                                    placeholder "%s" is replaced with the release version. (default: "Release v%s [ci skip]")
+  -c, --commit-message <message>    Customize the commit message used when pushing to the target branch. Used only when releasing from an archive. The placeholder "%s" is replaced with the release version. (default: "Release v%s [ci
+                                    skip]")
   -d, --dir <directory>             Directory where distribution files are stored. (default: "dist")
   -b, --branch <branch>             Target branch to use when creating the release. (default: "release")
   -l, --logfile <file>              Specify the changelog file. (default: "CHANGELOG.md")
   -p, --prerelease                  Mark the GitHub release as a prerelease and skip merging.
-  -P, --prerelease-branch <branch>  When creating a prerelease, use this branch as the target branch in favor of the default branch specified via the
-                                    --branch option. (default: "prerelease")
+  -P, --prerelease-branch <branch>  When creating a prerelease, use this branch as the target branch in favor of the default branch specified via the --branch option. (default: "prerelease")
   -D, --draft                       Create the release as an unpublished draft and skip merging.
-  -M, --merge <branch>              Merge open PRs on the specified branch before creating the release. If publishing a prerelease, or draft merging is
-                                    automatically disabled as if passing "--no-merge". (default: "dev")
+  -M, --merge <branch>              Merge open PRs on the specified branch before creating the release. If publishing a prerelease, or draft merging is automatically disabled as if passing "--no-merge". (default: "dev")
   -n, --no-merge                    Disable merging before release creation. Automatically passed when publishing a prerelease.
   -Y, --yes                         Skip confirmations.
   -v, --verbose                     Output extra information with result messages.
@@ -258,22 +284,18 @@ Usage: index update-version [options]
 Update the project version and replace all [version] placeholders.
 
 Options:
-  -i, --increment <level>                     Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch,
-                                              or prerelease. (default: "patch")
+  -i, --increment <level>                     Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease. (default: "patch")
   -p, --preid <identifier>                    Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
   -F, --force <version>                       Specify an explicit version instead of incrementing the current version with --increment.
-  -r, --replacements <replacement...>]        Replacements to be made. Each replacement is an array containing a list of globs for the files to be
-                                              tested and a regex used to perform the replacement. It is recommended that this argument to configured
-                                              via a configuration file as opposed to being passed via a CLI flag. (default:
+  -r, --replacements <replacement...>]        Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested, a regex used to perform the replacement, and an optional list of RegEx flags
+                                              (defaults to `g` if not supplied). It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag. (default:
                                               [["./**","(?<=@(?:since|version|deprecated)
-                                              +)(\\[version\\])"],["./*.php,./**/*.php","(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=')(\\[version\\])(?=')"],["*lifterlms*.php","(?<=[Vv]ersion
+                                              +)(\\[version\\])"],["./*.php,./**/*.php","(?<=(?:_deprecated_argument|_deprecated_constructor|_deprecated_hook|_deprecated_file|_deprecated_function|_doing_it_wrong|apply_filters_deprecated|do_action_deprecated|llms_deprecated_function\\().+)(?<=')(\\[version\\])(?=')"],["*lifterlms*.php","(?<=[Vv]ersion
                                               *[:=] *[
                                               '\"])(0|[1-9]d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?"],["*lifterlms*.php","(?<=define\\(
                                               '(?:LLMS|LIFTERLMS).*_VERSION', ')(.*)(?=' \\);)"],["./style.css","(?<=Version: )(.+)"]])
-  -e, --extra-replacements <replacement...>]  Additional replacements added to --replacements array. This option allows adding to the default
-                                              replacements instead of overwriting them. (default: [])
-  -E, --exclude <glob...>                     Specify files to exclude from the update. (default: "./vendor/**, ./node_modules/**, ./tmp/**, ./dist/**,
-                                              ./docs/**, ./packages/**")
+  -e, --extra-replacements <replacement...>]  Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them. (default: [])
+  -E, --exclude <glob...>                     Specify files to exclude from the update. (default: "./vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**")
   -s, --skip-config                           Skip updating the version of the package.json or composer.json file. (default: true)
   -h, --help                                  display help for command
 

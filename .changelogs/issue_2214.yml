@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2214"
+entry: Add AR (Arezzo) to Italy states list.

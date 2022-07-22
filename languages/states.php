@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -2240,6 +2240,8 @@ return array(
 		// 'Aosta' manually added, see https://github.com/gocodebox/lifterlms/issues/2098.
 		'AO' => __( 'Aosta', 'lifterlms' ),
 		'AP' => __( 'Ascoli Piceno', 'lifterlms' ),
+		// 'Arezzo' manually added, see https://github.com/gocodebox/lifterlms/issues/2214.
+		'AR' => __( 'Arezzo', 'lifterlms' ),
 		'AT' => __( 'Asti', 'lifterlms' ),
 		'AV' => __( 'Avellino', 'lifterlms' ),
 		'BA' => __( 'Bari', 'lifterlms' ),
