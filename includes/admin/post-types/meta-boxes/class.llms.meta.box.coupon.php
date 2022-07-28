@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version 6.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,6 +45,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership
 	 *               via the `<select />` data attribute 'post-statuses' (data-post-status).
 	 * @since 3.37.19 Localize strings that were missing translation functions.
+	 * @since 6.9.0 Add step definitions for discount amount and trial discount amount to allow float values to be used.
 	 *
 	 * @return array
 	 */
@@ -136,6 +137,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'class'      => 'code input-full',
 						'desc_class' => 'd-all',
 						'required'   => true,
+						'step'       => '0.01',
 					),
 					array(
 						'type'       => 'checkbox',
@@ -155,6 +157,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group'      => '',
 						'value'      => '',
+						'step'       => '0.01',
 					),
 				),
 			),

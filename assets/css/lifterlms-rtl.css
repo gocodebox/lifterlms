@@ -734,11 +734,6 @@
   text-align: center;
 }
 
-/* Genesis Overrides */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 300;
-}
-
 #main-content .llms-payment-options p {
   margin: 0;
   font-size: 16px;
