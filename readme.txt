@@ -1,13 +1,13 @@
 === LifterLMS - WordPress LMS Plugin ===
 Contributors: thomasplevy, chrisbadgett, d4z_c0nf, pondermatic, nrherron, lifterlms, codeboxllc
-Donate link: https://lifterlms.com
+Donate link: https://lifterlms.com/
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 7.4
-Stable tag: 6.8.0
+Stable tag: 6.9.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -414,9 +414,9 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 
 LifterLMS Requires
 
-+ PHP 7.2 or later
++ PHP 7.4 or later
++ WordPress 5.6 or later
 + MySQL 5.6 or later
-+ WordPress 4.0 or later
 
 Visit our [full system requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for additional information.
 
@@ -537,6 +537,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 
 == Changelog ==
+
+= v6.9.0 - 2022-07-28 =
+
+##### Updates and Enhancements
+
++ Removed site-wide font-weight styles targeting `<h1>` through `<h6>` elements. [#2217](https://github.com/gocodebox/lifterlms/issues/2217)
+
+##### Bug Fixes
+
++ Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
++ Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
+
 
 = v6.8.0 - 2022-07-12 =
 
@@ -970,47 +982,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/6.0.0/templates/myaccount/view-order.php)
 + [templates/product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/6.0.0/templates/product/pricing-table.php)
 + [templates/single-certificate.php](https://github.com/gocodebox/lifterlms/blob/6.0.0/templates/single-certificate.php)
-
-
-= v5.10.0 - 2022-02-22 =
-
-##### Updates and Enhancements
-
-+ Added an option to specify a custom checkout form title for free access plans. [#1774](https://github.com/gocodebox/lifterlms/issues/1774)
-+ Updated LifterLMS Blocks to [v2.3.2](https://make.lifterlms.com/2022/02/22/lifterlms-blocks-version-2-3-2/). [#1774](https://github.com/gocodebox/lifterlms/issues/1774)
-
-##### Bug Fixes
-
-+ Fixed ability to sort course students table by completed date. [#1969](https://github.com/gocodebox/lifterlms/issues/1969)
-+ Fixed reporting issue encountered when a course has no lessons. [#2012](https://github.com/gocodebox/lifterlms/issues/2012)
-+ Fixed broken checkout on Twenty Twenty-Two Theme when using the password strength meter. [#1997](https://github.com/gocodebox/lifterlms/issues/1997)
-+ Fixed block template slug generation from path in Windows environments. [#2001](https://github.com/gocodebox/lifterlms/issues/2001)
-+ Fixed an issue encountered when using the search box on the voucher admin posts list screen. [#2005](https://github.com/gocodebox/lifterlms/issues/2005)
-
-##### Updated Templates
-
-+ [templates/admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/admin/reporting/tabs/courses/overview.php)
-+ [templates/admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/admin/reporting/tabs/memberships/overview.php)
-+ [templates/admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/admin/reporting/tabs/quizzes/overview.php)
-+ [templates/block-templates/archive-course.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/archive-course.html)
-+ [templates/block-templates/archive-llms_membership.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/archive-llms_membership.html)
-+ [templates/block-templates/single-certificate.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/single-certificate.html)
-+ [templates/block-templates/single-no-access.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/single-no-access.html)
-+ [templates/block-templates/taxonomy-course_cat.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-course_cat.html)
-+ [templates/block-templates/taxonomy-course_difficulty.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-course_difficulty.html)
-+ [templates/block-templates/taxonomy-course_tag.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-course_tag.html)
-+ [templates/block-templates/taxonomy-course_track.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-course_track.html)
-+ [templates/block-templates/taxonomy-membership_cat.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-membership_cat.html)
-+ [templates/block-templates/taxonomy-membership_tag.html](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/block-templates/taxonomy-membership_tag.html)
-+ [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/checkout/form-confirm-payment.php)
-+ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/course/lesson-navigation.php)
-+ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/course/lesson-preview.php)
-+ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/course/parent-course.php)
-+ [templates/loop-main.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/loop-main.php)
-+ [templates/loop.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/loop.php)
-+ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/myaccount/view-order.php)
-+ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/quiz/questions/content-picture_choice.php)
-+ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/5.10.0/templates/quiz/results.php)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
