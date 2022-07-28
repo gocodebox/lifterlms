@@ -1,0 +1,5 @@
+significance: minor
+type: changed
+links:
+  - "#2217"
+entry: Removed site-wide font-weight styles targeting `<h1>` through `<h6> elements.
