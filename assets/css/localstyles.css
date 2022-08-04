@@ -1,0 +1,52 @@
+/* PirataOne/pirata-one-regular - latin */
+@font-face {
+  font-family: 'Pirata One';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/PirataOne/pirata-one-v22-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Pirata One'),
+       url('./fonts/PirataOne/pirata-one-v22-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/PirataOne/pirata-one-v22-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/PirataOne/pirata-one-v22-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/PirataOne/pirata-one-v22-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('./fonts/PirataOne/pirata-one-v22-latin-regular.svg#PirataOne') format('svg'); /* Legacy iOS */
+}
+/* imperial-script-regular - latin */
+@font-face {
+  font-family: 'Imperial Script';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/imperial-script-v3-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Imperial Script'),
+       url('./fonts/imperial-script-v3-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/imperial-script-v3-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/imperial-script-v3-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/imperial-script-v3-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('./fonts/imperial-script-v3-latin-regular.svg#ImperialScript') format('svg'); /* Legacy iOS */
+}
+/* dancing-script-regular - latin */
+@font-face {
+  font-family: 'Dancing Script';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/dancing-script-v24-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Dancing Script'),
+       url('./fonts/dancing-script-v24-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/dancing-script-v24-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/dancing-script-v24-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('fonts/dancing-script-v24-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/dancing-script-v24-latin-regular.svg#DancingScript') format('svg'); /* Legacy iOS */
+}
+/* unifrakturmaguntia-regular - latin */
+@font-face {
+  font-family: 'UnifrakturMaguntia';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/unifrakturmaguntia-v16-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('UnifrakturMaguntia'),
+       url('./fonts/unifrakturmaguntia-v16-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('./fonts/unifrakturmaguntia-v16-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('./fonts/unifrakturmaguntia-v16-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('./fonts/unifrakturmaguntia-v16-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('./fonts/unifrakturmaguntia-v16-latin-regular.svg#UnifrakturMaguntia') format('svg'); /* Legacy iOS */
+}

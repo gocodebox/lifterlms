@@ -486,4 +486,13 @@ function llms_register_certificate_image_size() {
 	add_image_size( 'lifterlms_certificate_background', $width, $height, true );
 
 }
+/**
+ * Register and enqueue a local font cache of Google Fonts
+ */
+function llms_local_fonts() {
+	$plugin_url = ( plugins_url( '/lifterlms/', $file ) );
+
+wp_enqueue_style( 'style',  $plugin_url . "assets/css/localstyles.css");
+}
+add_action( 'wp_enqueue_scripts', 'llms_local_fonts' );
 add_action( 'after_setup_theme', 'llms_register_certificate_image_size' );
