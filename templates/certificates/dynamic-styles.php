@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 $gfonts_preconnet = false;
 ?>
 
-<!-- Certificates  -->
+<!-- Certificates Dynamic Styles -->
 <?php foreach ( $fonts as $font ) : ?>
 	<?php if ( ! empty( $font['href'] ) ) : ?>
 		<?php
