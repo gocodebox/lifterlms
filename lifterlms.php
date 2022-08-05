@@ -48,7 +48,6 @@ if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
 require_once LLMS_PLUGIN_DIR . 'vendor/autoload.php';
 require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
-
 if ( ! class_exists( 'LifterLMS' ) ) {
 	require_once LLMS_PLUGIN_DIR . 'class-lifterlms.php';
 }
