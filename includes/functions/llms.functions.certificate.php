@@ -129,6 +129,66 @@ function llms_get_certificate_fonts() {
 		// Newspaper-style display fonts.
 		'pirata-one'          => array(
 			'name'       => 'Pirata One',
+			'href'       => 'assets/fonts/PirataOne/pirata-one.css',
+			'fontFamily' => '"Pirata One", ' . $serif,
+		),
+		'unifraktur-maguntia' => array(
+			'name'       => 'UnifrakturMaguntia',
+			'href'       => 'assets/fonts/UnifrakturMaguntia/UnifrakturMaguntia.css',
+			'fontFamily' => '"UnifrakturMaguntia", ' . $serif,
+		),
+
+		// Cursive-style handwriting fonts.
+		'dancing-script'      => array(
+			'name'       => 'Dancing Script',
+			'href'       => 'assets/fonts/DancingScript/dancing-script.css',
+			'fontFamily' => '"Dancing Script", ' . $serif,
+		),
+		'imperial-script'     => array(
+			'name'       => 'Imperial Script',
+			'href'       => 'assets/fonts/ImperialScript/imperial-script.css',
+			'fontFamily' => '"Imperial Script", ' . $serif,
+		),
+
+	);
+	return apply_filters( 'llms_certificate_fonts', $fonts );
+}
+/**
+ * Retrieves a list of fonts available for use in certificates from Google in case the local fonts fail.
+ *
+ * @since 6.0.0
+ *
+ * @return array[] {
+ *     Array of font definition arrays. The array key is the font's unique id.
+ *
+ *     @type string      $name The human-readable name of the font.
+ *     @type string|null $href The href used to load the font or `null` for system or default fonts.
+ *     @type string|null $css  The CSS `font-family` rule value.
+ * }
+ */
+function llms_use_google_webfonts() {
+
+	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+
+	$fonts = array(
+
+		// Default fonts.
+		'sans'                => array(
+			'name'       => __( 'Sans-serif', 'lifterlms' ),
+			'href'       => null,
+			// From https://systemfontstack.com.
+			'fontFamily' => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
+		),
+		'serif'               => array(
+			'name'       => __( 'Serif', 'lifterlms' ),
+			'href'       => null,
+			// From https://systemfontstack.com.
+			'fontFamily' => $serif,
+		),
+
+		// Newspaper-style display fonts.
+		'pirata-one'          => array(
+			'name'       => 'Pirata One',
 			'href'       => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
 			'fontFamily' => '"Pirata One", ' . $serif,
 		),
@@ -159,7 +219,8 @@ function llms_get_certificate_fonts() {
 	 *
 	 * @param array[] $fonts Array of font definitions, {@see llms_get_certificate_fonts()}.
 	 */
-	return apply_filters( 'llms_certificate_fonts', $fonts );
+	return apply_filters( 'llms_use_google_webfonts', false );
+	
 
 }
 
@@ -486,13 +547,4 @@ function llms_register_certificate_image_size() {
 	add_image_size( 'lifterlms_certificate_background', $width, $height, true );
 
 }
-/**
- * Register and enqueue a local font cache of Google Fonts
- */
-function llms_local_fonts() {
-	$plugin_url = ( plugins_url( '/lifterlms/', $file ) );
-
-wp_enqueue_style( 'style',  $plugin_url . "assets/css/localstyles.css");
-}
-add_action( 'wp_enqueue_scripts', 'llms_local_fonts' );
 add_action( 'after_setup_theme', 'llms_register_certificate_image_size' );

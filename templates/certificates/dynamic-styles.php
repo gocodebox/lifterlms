@@ -23,11 +23,11 @@ defined( 'ABSPATH' ) || exit;
 $gfonts_preconnet = false;
 ?>
 
-<!-- Certificates -->
+<!-- Certificates Dynamic Styles -->
 <?php foreach ( $fonts as $font ) : ?>
 	<?php if ( ! empty( $font['href'] ) ) : ?>
 		<?php
-		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], LLMS_PLUGIN_URL . 'assets/css/localstyles.css'  ) ) :
+		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], LLMS_PLUGIN_URL . '/assets/css/localstyles.css'  ) ) :
 			$gfonts_preconnet = true;
 			?>
 			<link rel="preconnect" href="<?LLMS_PLUGIN_URL ?>">
@@ -60,4 +60,4 @@ $gfonts_preconnet = false;
 		margin: 0;
 	}
 </style>
-<!-- End Certificates  -->
+<!-- End Certificates Dynamic Styles -->
