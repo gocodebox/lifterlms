@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.6.0",
-    "classnames": "^2.3.1"
+    "classnames": "^2.3.1",
+    "registry.npmjs.org": "^1.0.1"
   },
   "devDependencies": {
     "@lifterlms/brand": "file:packages/brand",

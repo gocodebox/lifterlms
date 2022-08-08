@@ -34,6 +34,7 @@ class LLMS_Admin_Assets {
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+		add_action( 'wp_enqueue_scripts', 'local_styles' ); //Add action for local styles
 
 	}
 
@@ -501,7 +502,17 @@ class LLMS_Admin_Assets {
 		}
 
 	}
-
+	// /**
+	//  * Initialize Local Styles
+	//  *
+	//  * @since Unknown.
+	//  *
+	//  * @return void
+	//  */
+	// 	public function local_styles() {
+        
+    //     wp_enqueue_style( plugin_dir_url . 'assets/css/localstyles.css' );
+	// }
 }
 
 return new LLMS_Admin_Assets();

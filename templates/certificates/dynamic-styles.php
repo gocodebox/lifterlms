@@ -1,6 +1,6 @@
 <?php
 /**
- * Single certificate dynamic styles.
+ * Single certificate .
  *
  * Output in the header, via the `wp_head` action.
  *
@@ -27,11 +27,11 @@ $gfonts_preconnet = false;
 <?php foreach ( $fonts as $font ) : ?>
 	<?php if ( ! empty( $font['href'] ) ) : ?>
 		<?php
-		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], 'fonts.googleapis.com' ) ) :
+		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], LLMS_PLUGIN_URL . '/assets/css/localstyles.css'  ) ) :
 			$gfonts_preconnet = true;
 			?>
-			<link rel="preconnect" href="https://fonts.googleapis.com">
-			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link rel="preconnect" href="<?LLMS_PLUGIN_URL ?>">
+			<link rel="preconnect" href="<?LLMS_PLUGIN_URL ?>" crossorigin>
 		<?php endif; ?>
 	<link id="llms-font--<?php echo $font['id']; ?>" href="<?php echo $font['href']; ?>" rel="stylesheet">
 	<?php endif; ?>
