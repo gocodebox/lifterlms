@@ -1,6 +1,11 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+Unreleased
+----------
+
++ Added a blocks-specific webpack config: `./config/blocks-webpack.config.js`.
+
 v3.2.0 - 2022-07-12
 -------------------
 
