@@ -26,7 +26,7 @@
   "dependencies": {
     "@jest/test-sequencer": "^27.4.6",
     "@wordpress/eslint-plugin": "^11.1.0",
-    "@wordpress/scripts": "^22.2.0",
+    "@wordpress/scripts": "^23.6.0",
     "dotenv": "^8.2.0",
     "webpack-remove-empty-scripts": "^0.8.1",
     "webpack-rtl-plugin": "^2.0.0"
