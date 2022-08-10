@@ -134,7 +134,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		return ! REMOVE_PLUGINS.includes( pluginName );
 	} );
 
-	css.forEach( ( file ) => {
+	css.forEach( () => {
 		// Extract CSS.
 		plugins.push( new cssExtract( {
 			filename: `css/${ prefix }[name].css`,
@@ -157,7 +157,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 }
 
 /**
- * Generates a Webpack config object
+ * Generates a Webpack config object.
  *
  * This is opinionated based on our opinions for directory structure.
  *
@@ -172,10 +172,12 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
  * @since 2.1.0 Add configuration option added to the CleanWebpackPlugin.
  *
+ * @param {Object}   options                              Configuration options.
  * @param {string[]} options.css                          Array of CSS file slugs.
  * @param {string[]} options.js                           Array of JS file slugs.
  * @param {string}   options.prefix                       File prefix.
  * @param {string}   options.outputPath                   Relative path to the output directory.
+ * @param {string}   options.srcPath                      Relative path to the base source file directory.
  * @param {string[]} options.cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
  * @return {Object} A webpack.config.js object.
  */

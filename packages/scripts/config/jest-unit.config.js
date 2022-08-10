@@ -23,6 +23,6 @@ config.testPathIgnorePatterns = [
 /**
  * Jest Config
  *
- * @link https://jestjs.io/docs/en/configuration.html
+ * @see {@link https://jestjs.io/docs/en/configuration.html}
  */
 module.exports = config;

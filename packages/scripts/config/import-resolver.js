@@ -14,6 +14,16 @@ function isWordPress( source ) {
 	return source.startsWith( '@wordpress/' );
 }
 
+/**
+ * Resolves an imported dependency.
+ *
+ * @since 3.0.0
+ *
+ * @param {string}  source Module name or path
+ * @param {string}  file   File path.
+ * @param {?Object} config Configuration object.
+ * @return {Object} The resolution object.
+ */
 exports.resolve = function( source, file, config ) {
 	if ( isWordPress( source ) ) {
 		return {
@@ -21,6 +31,5 @@ exports.resolve = function( source, file, config ) {
 			path: null,
 		};
 	}
-
 	return originalResolve( source, file, config );
 };

@@ -4,7 +4,7 @@
  * @since Unknown
  * @version Unknown
  *
- * @link https://github.com/smooth-code/jest-puppeteer#jest-puppeteerconfigjs
+ * @see {@link https://github.com/smooth-code/jest-puppeteer#jest-puppeteerconfigjs}
  */
 
 const window = process.env.PUPPETEER_WINDOW || '1440x900',

@@ -5,10 +5,15 @@
  * @version 3.0.0
  */
 
+/* global jest, page, describe, test, beforeAll, expect  */
+/* eslint-disable no-console */
+
+/* eslint-disable-next-line import/no-extraneous-dependencies */
 require( 'regenerator-runtime' );
 
 const { existsSync } = require( 'fs' ),
 	{ execSync } = require( 'child_process' ),
+	/* eslint-disable-next-line import/no-extraneous-dependencies */
 	{ diff } = require( 'jest-diff' );
 
 // Load dotenv files.
@@ -17,7 +22,9 @@ envFiles.some( ( file ) => {
 	const path = `${ process.cwd() }/${ file }`;
 	if ( existsSync( file ) ) {
 		require( 'dotenv' ).config( { path } );
+		return true;
 	}
+	return false;
 } );
 
 if ( ! process.env.WP_VERSION ) {
@@ -52,7 +59,7 @@ beforeAll( async () => {
 	page.on( 'dialog', ( dialog ) => dialog.accept() );
 
 	page.on( 'console', ( log ) => {
-		const shouldLog = ( _log ) => {
+		const shouldLog = () => {
 			// Skip logs by type.
 			if ( [ 'info', 'log', 'endGroup' ].includes( log.type() ) ) {
 				return false;

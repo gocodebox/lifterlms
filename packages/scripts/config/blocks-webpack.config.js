@@ -4,15 +4,17 @@
  * @since [version]
  * @version [version]
  */
+
+/* eslint-disable no-console */
+
 process.env.WP_SRC_DIRECTORY = process.env.WP_SRC_DIRECTORY || './src';
 
 const BLOCK_METADATA_GLOB = '**/block.json';
 
-const CopyPlugin = require( 'copy-webpack-plugin' ),
-	RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' ),
+const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' ),
 	{ readFileSync } = require( 'fs' ),
 	{ sync: glob } = require( 'fast-glob' ),
-	{ resolve, dirname, basename, join, extname, sep } = require( 'path' );
+	{ resolve, dirname, join, extname, sep } = require( 'path' );
 
 const config = require( '@wordpress/scripts/config/webpack.config' ),
 	blockEntries = 'function' === typeof config.entry ? config.entry() : config.entry;
@@ -21,6 +23,11 @@ const config = require( '@wordpress/scripts/config/webpack.config' ),
  * Remove the leading blocks/ from all the block file entrypoints.
  *
  * This ensures that distributed blocks are in the blocks/ directory, not the blocks/blocks directory.
+ *
+ * @since [version]
+ * @version [version]
+ *
+ * @return {Object} A webpack entries object.
  */
 config.entry = () => {
 	try {

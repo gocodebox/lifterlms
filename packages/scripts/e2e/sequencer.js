@@ -9,7 +9,7 @@
  * @since Unknown
  * @version Unknown
  *
- * @link https://jestjs.io/docs/en/next/configuration#testsequencer-string
+ * @see {@link https://jestjs.io/docs/en/next/configuration#testsequencer-string}
  */
 
 const Sequencer = require( '@jest/test-sequencer' ).default;

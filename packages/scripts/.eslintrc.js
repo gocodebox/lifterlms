@@ -1,2 +1,2 @@
-const config = require( '@lifterlms/scripts/config/.eslintrc.js' );
+const config = require( './config/.eslintrc.js' );
 module.exports = config;

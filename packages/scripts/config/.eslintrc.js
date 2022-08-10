@@ -7,8 +7,6 @@
  * @version [version]
  */
 
-const { resolve } = require( 'path' );
-
 const eslintConfig = {
 	root: true,
 	extends: [
