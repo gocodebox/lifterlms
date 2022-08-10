@@ -5,8 +5,8 @@ Unreleased
 ----------
 
 + **[Breaking]** Upgrade `@wordpress/scripts` to [23.6.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2360-2022-07-27).
++ **[Breaking]** Removes the webpack copy plugin responsible for copying `block.json` files from the `src/` directory to the `${outputDir}/blocks` directory. 
 + Added a blocks-specific webpack config: `./config/blocks-webpack.config.js`.
-+ Removes the webpack copy plugin responsible for copying `block.json` files from the `src/` directory to the `${outputDir}/blocks` directory. 
 
 
 v3.2.0 - 2022-07-12
