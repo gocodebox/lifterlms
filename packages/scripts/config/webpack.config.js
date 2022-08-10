@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version 3.1.0
+ * @version [version]
  */
 
 // Deps.
@@ -85,6 +85,7 @@ function setupEntry( js, srcPath ) {
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  * @since 2.1.0 Added `cleanAfterEveryBuildPatterns` parameter.
  * @since 3.1.0 Add `protectWebpackAssets = false` to the `CleanWebpackPlugin` config. 
+ * @since [version] Remove the copy plugin pattern responsible for copying block.json files.
  *
  * @param {Object[]} plugins                      Array of plugin objects or classes.
  * @param {String[]} css                          Array of CSS file slugs.
