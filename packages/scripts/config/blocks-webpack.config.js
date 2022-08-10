@@ -112,6 +112,7 @@ config.plugins.forEach( ( plugin ) => {
 		plugin.patterns.push( {
 			from: '**/**.php',
 			context: 'src/blocks',
+			noErrorOnMissing: true,
 		} );
 	}
 
@@ -119,6 +120,5 @@ config.plugins.forEach( ( plugin ) => {
 
 // Removes empty .js files created when adding SCSS files to the entries array.
 config.plugins.push( new RemoveEmptyScriptsPlugin() );
-// console.dir( config, { depth: null } );
 
 module.exports = config;
