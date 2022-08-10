@@ -130,7 +130,21 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		 */
 		'MiniCssExtractPlugin'
 	];
-	plugins = plugins.filter( plugin => ! REMOVE_PLUGINS.includes( plugin.constructor.name ) );
+	plugins = plugins.filter( plugin => {
+		
+		const { name: pluginName } = plugin.constructor;
+
+		/**
+		 * Removes the copy plugin that copies block.json files from the src/ dir into the assets/blocks dir.
+		 *
+		 * Since we store blocks in the blocks/ dir we don't need this when compiling non-block assets.
+		 */
+		if ( 'CopyPlugin' === pluginName && '**/block.json' === plugin.patterns[0].from ) {
+			return false;
+		}
+
+		return ! REMOVE_PLUGINS.includes( pluginName );
+	} );
 
 	css.forEach( file => {
 
