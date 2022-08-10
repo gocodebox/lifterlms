@@ -1,6 +1,6 @@
 /**
  * A Webpack configuration for building WordPress blocks.
- * 
+ *
  * @since [version]
  * @version [version]
  */
@@ -23,10 +23,8 @@ const config = require( '@wordpress/scripts/config/webpack.config' ),
  * This ensures that distributed blocks are in the blocks/ directory, not the blocks/blocks directory.
  */
 config.entry = () => {
-
 	try {
-
-		const entries = Object.fromEntries( 
+		const entries = Object.fromEntries(
 			Object.entries( blockEntries ).map( ( [ key, val ] ) => {
 				return [ key.replace( 'blocks/', '' ), val ];
 			} )
@@ -39,7 +37,6 @@ config.entry = () => {
 			}
 		);
 		blockMetadataFiles.forEach( ( jsonFilePath ) => {
-
 			/**
 			 * Add SCSS file entries for any block styles that aren't already compiled via JS import in the related JS file.
 			 *
@@ -52,7 +49,6 @@ config.entry = () => {
 				.flat()
 				.filter( ( value ) => value && value.startsWith( 'file:' ) )
 				.forEach( ( value ) => {
-
 					// Removes the `file:` prefix.
 					const filepath = join(
 						dirname( jsonFilePath ),
@@ -68,11 +64,9 @@ config.entry = () => {
 						entries[ entryName ] = filepath.replace( '.css', '.scss' );
 					}
 				} );
-
 		} );
 
 		return entries;
-
 	} catch ( e ) {
 		console.log( 'Error: ' );
 		console.log( '' );
@@ -86,23 +80,21 @@ config.entry = () => {
 	}
 
 	return {};
-
 };
 
 // Put blocks in the blocks/ dir not the build/ dir.
 config.output.path = resolve( process.cwd(), 'blocks' );
 
 config.plugins.forEach( ( plugin ) => {
-
 	const { name: pluginName } = plugin.constructor;
 
-	if ( 'CopyPlugin' === pluginName && BLOCK_METADATA_GLOB === plugin.patterns[0].from ) {
+	if ( 'CopyPlugin' === pluginName && BLOCK_METADATA_GLOB === plugin.patterns[ 0 ].from ) {
 		/**
 		 * Modifies the copy plugin that moves block.json files from src/blocks -> blocks/.
 		 *
 		 * The default plugin moves the block.json file to blocks/blocks/[block-dir]/block.json.
 		 */
-		plugin.patterns[0].context = 'src/blocks';
+		plugin.patterns[ 0 ].context = 'src/blocks';
 
 		/**
 		 * Copies block PHP files.
@@ -115,7 +107,6 @@ config.plugins.forEach( ( plugin ) => {
 			noErrorOnMissing: true,
 		} );
 	}
-
 } );
 
 // Removes empty .js files created when adding SCSS files to the entries array.

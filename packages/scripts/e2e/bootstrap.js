@@ -9,7 +9,7 @@ require( 'regenerator-runtime' );
 
 const { existsSync } = require( 'fs' ),
 	{ execSync } = require( 'child_process' ),
-	{ diff } = require('jest-diff');
+	{ diff } = require( 'jest-diff' );
 
 // Load dotenv files.
 const envFiles = [ '.llmsenv', '.llmsenv.dist' ];
@@ -21,9 +21,8 @@ envFiles.some( ( file ) => {
 } );
 
 if ( ! process.env.WP_VERSION ) {
-
 	try {
-		const wpVersion = execSync( 'composer run env wp core version', { stdio : 'pipe' } ).toString();
+		const wpVersion = execSync( 'composer run env wp core version', { stdio: 'pipe' } ).toString();
 		if ( wpVersion ) {
 			process.env.WP_VERSION = wpVersion;
 		}
@@ -31,7 +30,6 @@ if ( ! process.env.WP_VERSION ) {
 		console.warn( 'Unable to automatically determine the WordPress Core Version. You can define the WP_VERSION as an environment variable. Otherwise "latest" is assumed as the WP_VERSION.' );
 		process.env.WP_VERSION = 'latest';
 	}
-
 }
 
 // Setup the WP Base URL for e2e Tests.
@@ -50,14 +48,11 @@ if ( ! process.env.WP_BASE_URL ) {
 // The Jest timeout is increased because these tests are a bit slow.
 jest.setTimeout( process.env.PUPPETEER_TIMEOUT || 100000 );
 
-beforeAll( async() => {
-
+beforeAll( async () => {
 	page.on( 'dialog', ( dialog ) => dialog.accept() );
 
 	page.on( 'console', ( log ) => {
-
 		const shouldLog = ( _log ) => {
-
 			// Skip logs by type.
 			if ( [ 'info', 'log', 'endGroup' ].includes( log.type() ) ) {
 				return false;
@@ -80,15 +75,13 @@ beforeAll( async() => {
 			}
 
 			return true;
-
 		};
 
 		if ( ! shouldLog( log ) ) {
 			return;
 		}
 
-		console.log( `[${ log.type()}] ${ log.text() }` );
-
+		console.log( `[${ log.type() }] ${ log.text() }` );
 	} );
 
 	page.on( 'pageerror', ( err ) => {
@@ -98,9 +91,7 @@ beforeAll( async() => {
 	page.on( 'error', ( err ) => {
 		console.log( `[error] ${ err.message }`, err );
 	} );
-
 } );
-
 
 expect.extend( {
 
@@ -122,7 +113,6 @@ expect.extend( {
 	 * @return {Promise} Jest expect matcher return.
 	 */
 	async toMatchStringWithQuotes( received, expected ) {
-
 		received = received.replace( /[“”]/g, '"' ).replace( /[‘’]/g, "'" );
 
 		const options = {
@@ -135,33 +125,31 @@ expect.extend( {
 
 		const message = pass
 			? () =>
-					this.utils.matcherHint( 'toMatchStringWithQuotes', undefined, undefined, options ) +
+				this.utils.matcherHint( 'toMatchStringWithQuotes', undefined, undefined, options ) +
 					'\n\n' +
 					`Expected: not ${ this.utils.printExpected( expected ) }\n` +
 					`Received: ${ this.utils.printReceived( received ) }`
 			: () => {
-					const diffString = diff(expected, received, {
-						expand: this.expand,
-					} );
-					return (
-						this.utils.matcherHint( 'toMatchStringWithQuotes', undefined, undefined, options ) +
+				const diffString = diff( expected, received, {
+					expand: this.expand,
+				} );
+				return (
+					this.utils.matcherHint( 'toMatchStringWithQuotes', undefined, undefined, options ) +
 						'\n\n' +
 						( diffString && diffString.includes( '- Expect' )
 							? `Difference:\n\n${ diffString }`
 							: `Expected: ${ this.utils.printExpected( expected ) }\n` +
-								`Received: ${ this.utils.printReceived(received ) }` )
-					);
-				};
+								`Received: ${ this.utils.printReceived( received ) }` )
+				);
+			};
 
 		return {
 			actual: received,
 			message,
-			pass
+			pass,
 		};
-
-	}
+	},
 } );
-
 
 /**
  * Global helper function that conditionally runs a describe() block if the condition is met.
@@ -173,7 +161,7 @@ expect.extend( {
  * @param {boolean} condition If truthy, the suite runs as normal, otherwise it's skipped.
  * @return {Function} Returns either `describe()` or `describe.skip()` depending on the condition.
  */
-global.describeIf = condition => condition ? describe : describe.skip;
+global.describeIf = ( condition ) => condition ? describe : describe.skip;
 
 /**
  * Global helper function that conditionally runs a test() if the condition is met.
@@ -185,4 +173,4 @@ global.describeIf = condition => condition ? describe : describe.skip;
  * @param {boolean} condition If truthy, the suite runs as normal, otherwise it's skipped.
  * @return {Function} Returns either `test()` or `test.skip()` depending on the condition.
  */
-global.testIf = condition => condition ? test : test.skip;
+global.testIf = ( condition ) => condition ? test : test.skip;

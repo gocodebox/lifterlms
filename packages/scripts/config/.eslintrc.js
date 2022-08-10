@@ -1,7 +1,7 @@
 /**
  * Default eslint config for LifterLMS projects
  *
- * @package LifterLMS/Scripts/Config
+ * @package
  *
  * @since Unknown
  * @version [version]

@@ -1,7 +1,7 @@
 /**
  * Webpack config
  *
- * @package LifterLMS_Groups/Scripts/Dev
+ * @package
  *
  * @since Unknown
  * @version [version]
@@ -10,10 +10,10 @@
 // Deps.
 const
 	cssExtract = require( 'mini-css-extract-plugin' ),
-	cssRTL     = require( 'webpack-rtl-plugin' ),
-	config     = require( '@wordpress/scripts/config/webpack.config' ),
+	cssRTL = require( 'webpack-rtl-plugin' ),
+	config = require( '@wordpress/scripts/config/webpack.config' ),
 	depExtract = require( '@wordpress/dependency-extraction-webpack-plugin' ),
-	path       = require( 'path' );
+	path = require( 'path' );
 
 /**
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
@@ -22,10 +22,9 @@ const
  * @since 3.0.0 Load `@lifterlms/*` packages into the `window.llms` namespace.
  *
  * @param {string} request External script slug/id.
- * @return {String|Array} A string
+ * @return {string | Array} A string
  */
 function requestToExternal( request ) {
-
 	if ( 'llms-quill' === request ) {
 		return 'Quill';
 	} else if ( 'llms-izimodal' === request ) {
@@ -35,7 +34,6 @@ function requestToExternal( request ) {
 	} else if ( request.startsWith( '@lifterlms/' ) ) {
 		return [ 'llms', request.replace( '@lifterlms/', '' ) ];
 	}
-
 }
 
 /**
@@ -45,16 +43,14 @@ function requestToExternal( request ) {
  * @since 3.0.0 Use `llms-*` as the script ID for `@lifterlms/*` packages.
  *
  * @param {string} request External script slug/id.
- * @return {String|Array} A string
+ * @return {string | Array} A string
  */
 function requestToHandle( request ) {
-
 	if ( request.startsWith( 'llms/' ) || request.startsWith( 'LLMS/' ) ) {
 		return 'llms';
 	} else if ( request.startsWith( '@lifterlms/' ) ) {
 		return request.replace( '@lifterlms/', 'llms-' );
 	}
-
 }
 
 /**
@@ -63,19 +59,17 @@ function requestToHandle( request ) {
  * @since 1.2.1
  * @since 1.2.3 Add a configurable source file path.
  *
- * @param {String[]} js      Array of JS file slugs.
- * @param {String}   srcPath Relative path to the base source file directory.
+ * @param {string[]} js      Array of JS file slugs.
+ * @param {string}   srcPath Relative path to the base source file directory.
  * @return {Object} Webpack config entry object.
  */
 function setupEntry( js, srcPath ) {
-
 	const entry = {};
-	js.forEach( file => {
+	js.forEach( ( file ) => {
 		entry[ file ] = path.resolve( process.cwd(), `${ srcPath }js/`, `${ file }.js` );
 	} );
 
 	return entry;
-
 }
 
 /**
@@ -84,24 +78,20 @@ function setupEntry( js, srcPath ) {
  * @since 1.2.1
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  * @since 2.1.0 Added `cleanAfterEveryBuildPatterns` parameter.
- * @since 3.1.0 Add `protectWebpackAssets = false` to the `CleanWebpackPlugin` config. 
+ * @since 3.1.0 Add `protectWebpackAssets = false` to the `CleanWebpackPlugin` config.
  * @since [version] Remove the copy plugin pattern responsible for copying block.json files.
  *
  * @param {Object[]} plugins                      Array of plugin objects or classes.
- * @param {String[]} css                          Array of CSS file slugs.
- * @param {String}   prefix                       File prefix.
- * @param {String[]} cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
+ * @param {string[]} css                          Array of CSS file slugs.
+ * @param {string}   prefix                       File prefix.
+ * @param {string[]} cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
  * @return {Object[]} Array of plugin objects or classes.
  */
 function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
-
 	// Modify the CleanWebpackPlugin's cleanAfterEveryBuildPatterns config.
 	if ( cleanAfterEveryBuildPatterns.length ) {
-
-		plugins = plugins.filter( plugin => {
-
+		plugins = plugins.filter( ( plugin ) => {
 			if ( 'CleanWebpackPlugin' === plugin.constructor.name ) {
-
 				plugin.cleanAfterEveryBuildPatterns = [
 					...plugin.cleanAfterEveryBuildPatterns,
 					...cleanAfterEveryBuildPatterns,
@@ -111,9 +101,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 			}
 
 			return plugin;
-
 		} );
-
 	}
 
 	const REMOVE_PLUGINS = [
@@ -129,10 +117,9 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		 *
 		 * Our CSS extractor puts things in our preferred directory structure.
 		 */
-		'MiniCssExtractPlugin'
+		'MiniCssExtractPlugin',
 	];
-	plugins = plugins.filter( plugin => {
-		
+	plugins = plugins.filter( ( plugin ) => {
 		const { name: pluginName } = plugin.constructor;
 
 		/**
@@ -140,15 +127,14 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		 *
 		 * Since we store blocks in the blocks/ dir we don't need this when compiling non-block assets.
 		 */
-		if ( 'CopyPlugin' === pluginName && '**/block.json' === plugin.patterns[0].from ) {
+		if ( 'CopyPlugin' === pluginName && '**/block.json' === plugin.patterns[ 0 ].from ) {
 			return false;
 		}
 
 		return ! REMOVE_PLUGINS.includes( pluginName );
 	} );
 
-	css.forEach( file => {
-
+	css.forEach( ( file ) => {
 		// Extract CSS.
 		plugins.push( new cssExtract( {
 			filename: `css/${ prefix }[name].css`,
@@ -158,7 +144,6 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		plugins.push( new cssRTL( {
 			filename: `css/${ prefix }[name]-rtl.css`,
 		} ) );
-
 	} );
 
 	// Add a custom dependency extractor.
@@ -169,7 +154,6 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 	} ) );
 
 	return plugins;
-
 }
 
 /**
@@ -188,11 +172,11 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
  * @since 2.1.0 Add configuration option added to the CleanWebpackPlugin.
  *
- * @param {String[]} options.css                          Array of CSS file slugs.
- * @param {String[]} options.js                           Array of JS file slugs.
- * @param {String}   options.prefix                       File prefix.
- * @param {String}   options.outputPath                   Relative path to the output directory.
- * @param {String[]} options.cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
+ * @param {string[]} options.css                          Array of CSS file slugs.
+ * @param {string[]} options.js                           Array of JS file slugs.
+ * @param {string}   options.prefix                       File prefix.
+ * @param {string}   options.outputPath                   Relative path to the output directory.
+ * @param {string[]} options.cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
  * @return {Object} A webpack.config.js object.
  */
 module.exports = (
@@ -205,7 +189,6 @@ module.exports = (
 		cleanAfterEveryBuildPatterns = [],
 	}
 ) => {
-
 	return {
 		...config,
 		entry: setupEntry( js, srcPath ),
@@ -215,5 +198,4 @@ module.exports = (
 		},
 		plugins: setupPlugins( config.plugins, css, prefix, cleanAfterEveryBuildPatterns ),
 	};
-
-}
+};

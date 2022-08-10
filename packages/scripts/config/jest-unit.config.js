@@ -8,16 +8,16 @@
 const
 	// Import the initial config to be moified.
 	config = require( '@wordpress/scripts/config/jest-unit.config' ),
-    testPathIgnorePatterns = config.testPathIgnorePatterns || [];
+	testPathIgnorePatterns = config.testPathIgnorePatterns || [];
 
 // Set the root directory to the project's root.
 config.rootDir = process.cwd();
 
 // Exclude dev tmp directory automatically.
 config.testPathIgnorePatterns = [
-    ...testPathIgnorePatterns,
-    '/node_modules/',
-    '<rootDir>/tmp/'
+	...testPathIgnorePatterns,
+	'/node_modules/',
+	'<rootDir>/tmp/',
 ];
 
 /**

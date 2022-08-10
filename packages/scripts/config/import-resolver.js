@@ -8,14 +8,13 @@ exports.interfaceVersion = interfaceVersion;
  * @since 3.0.0
  *
  * @param {string} source Module name or path.
- * @return {Boolean} Returns `true` if the module looks like a WordPress package.
+ * @return {boolean} Returns `true` if the module looks like a WordPress package.
  */
 function isWordPress( source ) {
 	return source.startsWith( '@wordpress/' );
 }
 
-exports.resolve = function ( source, file, config ) {
-
+exports.resolve = function( source, file, config ) {
 	if ( isWordPress( source ) ) {
 		return {
 			found: true,
@@ -24,5 +23,4 @@ exports.resolve = function ( source, file, config ) {
 	}
 
 	return originalResolve( source, file, config );
-
-}
+};
