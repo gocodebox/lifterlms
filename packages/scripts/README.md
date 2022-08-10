@@ -67,9 +67,10 @@ a-plugin/
 
 #### Expected filenames
 
+The script builds scripts and styles according to definitions found in the `block.json` files.
+
 ```
-main         - index.js
-editorScript - editor.js
+editorScript - index.js
 viewScript   - view.js
 script       - script.js
 style        - styles.scss (styles.css)
