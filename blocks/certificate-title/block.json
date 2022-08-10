@@ -31,7 +31,10 @@
     }
   },
   "supports": {
-    "align": [ "wide", "full" ],
+    "align": [
+      "wide",
+      "full"
+    ],
     "anchor": true,
     "className": false,
     "color": {
