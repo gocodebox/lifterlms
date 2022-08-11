@@ -5,8 +5,8 @@
  *
  * This script is intended to be used by projects including SVGs through this package.
  *
- * @since [version]
- * @version [version]
+ * @since 0.0.1
+ * @version 0.0.1
  *
  * Example usage:
  *

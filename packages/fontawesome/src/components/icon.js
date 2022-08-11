@@ -1,7 +1,7 @@
 /**
  * Renders a Font Awesome icon.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Object}    props              Component properties.
  * @param {string}    props.icon         The Icon ID.

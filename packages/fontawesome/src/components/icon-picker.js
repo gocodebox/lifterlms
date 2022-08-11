@@ -12,7 +12,7 @@ import IconList from './icon-list';
 /**
  * A <Dropdown> component with styles targeting the sub-components within it.
  *
- * @since [version]
+ * @since 0.0.1
  */
 const StyledDropdown = styled( Dropdown )`
 	display: block;
@@ -29,7 +29,7 @@ const StyledDropdown = styled( Dropdown )`
 /**
  * Renders an icon picker component, intended to be used within the WordPress block editor.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Object}   props              Component properties.
  * @param {string}   props.icon         The Icon ID.
