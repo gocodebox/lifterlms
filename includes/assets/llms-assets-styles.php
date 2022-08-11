@@ -31,6 +31,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.8.0 Added llms-admin-importer.
  * @since 5.0.0 Added llms-select2.
  * @since 5.5.0 Added llms-admin-add-ons.
+ * @since [version] Added llms-fontawesome.
  */
 return array(
 

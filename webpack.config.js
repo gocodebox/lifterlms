@@ -42,6 +42,8 @@ config.plugins.push( new CleanWebpackPlugin( {
 
 } ) );
 
+// config.entry.fontawesome = resolve( './src/scss/fontawesome.scss' );
+
 module.exports = [ 
 	blocksConfig,
 	config
