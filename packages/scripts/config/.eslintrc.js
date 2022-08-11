@@ -22,6 +22,7 @@ const eslintConfig = {
 		'import/core-modules': [
 			// @todo: This list needs to be expanded to include other WP Core included modules.
 			'jquery',
+			'lodash',
 		],
 		'import/resolver': __dirname + '/import-resolver.js',
 	},
