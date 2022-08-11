@@ -12,7 +12,7 @@ const getProjectSlug = require( './get-project-slug' );
 /**
  * Parses a GitHub-style issue reference string into it's parts.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @param {string} issue A GitHub-style issue reference string. Formatted as either "#123" or "organization/repository#123".
  * @return {GitHubIssueRef} An issue object.

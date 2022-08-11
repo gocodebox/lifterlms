@@ -3,7 +3,7 @@ const { readFileSync } = require( 'fs' );
 /**
  * Parses WordPress project metadata from a file header comment.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @return {Object} A key/value object containing the metadata found within the file.
  */

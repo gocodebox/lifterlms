@@ -72,7 +72,7 @@ function getTypeTitle( type ) {
  * Formats a single changelog item.
  *
  * @since 0.0.1
- * @since [version] Use `getIssueLink()` for generation of issue links.
+ * @since 0.1.0 Use `getIssueLink()` for generation of issue links.
  *
  * @param {ChangelogEntry} args              The changelog entry object.
  * @param {string}         args.entry        The content of the changelog entry.
@@ -126,7 +126,7 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
  * which have been modified.
  *
  * @since 0.0.1
- * @since [version] Use `getFileLink()` to generate links to the template file.
+ * @since 0.1.0 Use `getFileLink()` to generate links to the template file.
  *
  * @param {boolean} includeLinks Whether or not the entry items should be formatted as links to the GitHub repository.
  * @param {string}  version      A semver string.
