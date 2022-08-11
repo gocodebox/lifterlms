@@ -5,12 +5,10 @@
  * @version 3.0.0
  */
 
-const path = require( 'path' );
-
 /**
  * Load the jest-puppeteer config file
  *
- * @see https://github.com/smooth-code/jest-puppeteer/issues/160#issuecomment-491975158
+ * @see {@link https://github.com/smooth-code/jest-puppeteer/issues/160#issuecomment-491975158}
  */
 process.env.JEST_PUPPETEER_CONFIG = require.resolve( './jest-puppeteer.config.js' );
 
@@ -42,6 +40,6 @@ config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 /**
  * Jest Config
  *
- * @link https://jestjs.io/docs/en/configuration.html
+ * @see {@link https://jestjs.io/docs/en/configuration.html}
  */
 module.exports = config;

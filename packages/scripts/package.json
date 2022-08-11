@@ -26,11 +26,16 @@
   "dependencies": {
     "@jest/test-sequencer": "^27.4.6",
     "@wordpress/eslint-plugin": "^11.1.0",
-    "@wordpress/scripts": "^22.2.0",
+    "@wordpress/scripts": "^23.6.0",
     "dotenv": "^8.2.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "fast-glob": "^3.2.11",
+    "mini-css-extract-plugin": "^2.6.1",
+    "webpack-remove-empty-scripts": "^0.8.1",
     "webpack-rtl-plugin": "^2.0.0"
   },
   "scripts": {
-    "dev": "./../dev/src/index.js"
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./"
   }
 }

@@ -1,13 +1,11 @@
 /**
  * Default eslint config for LifterLMS projects
  *
- * @package LifterLMS/Scripts/Config
+ * @package
  *
  * @since Unknown
  * @version [version]
  */
-
-const { resolve } = require( 'path' );
 
 const eslintConfig = {
 	root: true,
@@ -24,6 +22,7 @@ const eslintConfig = {
 		'import/core-modules': [
 			// @todo: This list needs to be expanded to include other WP Core included modules.
 			'jquery',
+			'lodash',
 		],
 		'import/resolver': __dirname + '/import-resolver.js',
 	},
