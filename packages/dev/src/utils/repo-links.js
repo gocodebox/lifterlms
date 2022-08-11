@@ -4,7 +4,7 @@ const getProjectSlug = require( './get-project-slug' ),
 /**
  * Retrieves a link to the specified file on the project's GitHub repository.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @param {string} path   Path to the file (relative to the root directory), eg: "includes/file.php" or "main.php".
  * @param {string} branch Branch or version number. Defaults to "trunk".
@@ -17,7 +17,7 @@ function getFileLink( path, branch = 'trunk' ) {
 /**
  * Retrieves a link to the specified issue on the project's GitHub repository.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @param {string} issue A GitHub-style issue reference string. Formatted as either "#123" or "organization/repository#123".
  * @return {string} The full URL to the specified issue.
@@ -30,7 +30,7 @@ function getIssueLink( issue ) {
 /**
  * Retrieves the base link to a project's GitHub repository.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @param {string} project The project slug.
  * @param {string} org     The project organization.

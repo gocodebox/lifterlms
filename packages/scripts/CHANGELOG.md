@@ -1,8 +1,8 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
-Unreleased
-----------
+v4.0.0 - 2022-08-11
+-------------------
 
 + **[Breaking]** Upgrade `@wordpress/scripts` to [23.6.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2360-2022-07-27).
 + **[Breaking]** Removes the webpack copy plugin responsible for copying `block.json` files from the `src/` directory to the `${outputDir}/blocks` directory. 

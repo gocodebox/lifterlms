@@ -15,7 +15,7 @@ export { default as IconPicker } from './components/icon-picker';
 /**
  * Retrieves metadata for a given icon.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} iconId The icon ID.
  * @return {IconMeta|boolean} An icon metadata object or `false` if the icon can't be found.

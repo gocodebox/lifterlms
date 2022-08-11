@@ -7,8 +7,8 @@
  *
  * This is an internal script intended to be run during package builds before release or after updating the FontAwesome dependency.
  *
- * @since [version]
- * @version [version]
+ * @since 0.0.1
+ * @version 0.0.1
  *
  * Example usage:
  *

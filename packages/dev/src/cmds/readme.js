@@ -46,7 +46,7 @@ function getChangelogSection( file, length ) {
 /**
  * Generates the merge code help text.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @return {string} Help text.
  */
@@ -77,7 +77,7 @@ Merge codes:
  * Command: readme
  *
  * @since 0.0.1
- * @since [version] Added the `--main-file` option as well as additional merge codes derived from metadata found in the main file's header comment.
+ * @since 0.1.0 Added the `--main-file` option as well as additional merge codes derived from metadata found in the main file's header comment.
  *              Exits with a warning and exit code `0` (instead of an error and exit code `1`) when running this command against a prerelease. 
  *
  * @type {Object}

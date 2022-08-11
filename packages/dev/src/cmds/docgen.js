@@ -6,7 +6,7 @@ const path = require( 'path' ),
  * Generate a doc section for the specified command.
  *
  * @since 0.0.1
- * @since [version] Include beforeHelp and afterHelp data added by `Command.addHelpText()`.
+ * @since 0.1.0 Include beforeHelp and afterHelp data added by `Command.addHelpText()`.
  *
  * @param {Command} command    A commander command instance.
  * @param {string}  parentName Name of the parent command (used for subcommands).

@@ -68,7 +68,7 @@ const STYLES = [
 /**
  * Renders an infinitely scrollable list of the available icons.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Object}   props                Component properties.
  * @param {Function} props.onChange       Function to call when a new icon is selected.
@@ -106,7 +106,7 @@ function List( { onChange, selectedStyle, availableIcons, iconPrefix, perPage } 
 /**
  * Renders the icon picker list.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Object}   props            Component properties.
  * @param {Function} props.onChange   Icon select callback function.
