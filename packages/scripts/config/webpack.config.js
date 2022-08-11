@@ -4,7 +4,7 @@
  * @package
  *
  * @since Unknown
- * @version [version]
+ * @version 4.0.0
  */
 
 // Deps.
@@ -79,7 +79,7 @@ function setupEntry( js, srcPath ) {
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  * @since 2.1.0 Added `cleanAfterEveryBuildPatterns` parameter.
  * @since 3.1.0 Add `protectWebpackAssets = false` to the `CleanWebpackPlugin` config.
- * @since [version] Remove the copy plugin pattern responsible for copying block.json files.
+ * @since 4.0.0 Remove the copy plugin pattern responsible for copying block.json files.
  *
  * @param {Object[]} plugins                      Array of plugin objects or classes.
  * @param {string[]} css                          Array of CSS file slugs.

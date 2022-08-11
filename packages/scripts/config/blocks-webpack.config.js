@@ -1,8 +1,8 @@
 /**
  * A Webpack configuration for building WordPress blocks.
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 
 /* eslint-disable no-console */
@@ -24,8 +24,8 @@ const config = require( '@wordpress/scripts/config/webpack.config' ),
  *
  * This ensures that distributed blocks are in the blocks/ directory, not the blocks/blocks directory.
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  *
  * @return {Object} A webpack entries object.
  */
