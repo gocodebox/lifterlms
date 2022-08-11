@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 
 import { __ } from '@wordpress/i18n';
 import { Button, ButtonGroup, SearchControl } from '@wordpress/components';
-import { useCallback, useEffect, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 
 import iconMetadata from '../metadata.json';
 
@@ -62,11 +62,23 @@ const STYLES = [
 	{
 		label: __( 'Brands', 'lifterlms' ),
 		id: 'brands',
-	}
+	},
 ];
 
-function List( { onChange, selectedStyle, availableIcons, iconPrefix, perPage }) {
-
+/**
+ * Renders an infinitely scrollable list of the available icons.
+ *
+ * @since [version]
+ *
+ * @param {Object}   props                Component properties.
+ * @param {Function} props.onChange       Function to call when a new icon is selected.
+ * @param {string}   props.selectedStyle  The currently selected icon style.
+ * @param {Object}   props.availableIcons The available icons to display.
+ * @param {string}   props.iconPrefix     The project icon prefix.
+ * @param {number}   props.perPage        Number of icons to display per "page" of results.
+ * @return {WPElement} A scrollable list.
+ */
+function List( { onChange, selectedStyle, availableIcons, iconPrefix, perPage } ) {
 	const [ endIndex, setEndIndex ] = useState( perPage ),
 		numIcons = Object.keys( availableIcons ).length;
 	return (
@@ -89,32 +101,37 @@ function List( { onChange, selectedStyle, availableIcons, iconPrefix, perPage })
 			</InfiniteScroll>
 		</div>
 	);
-
 }
 
+/**
+ * Renders the icon picker list.
+ *
+ * @since [version]
+ *
+ * @param {Object}   props            Component properties.
+ * @param {Function} props.onChange   Icon select callback function.
+ * @param {string}   props.iconPrefix Project icon prefix.
+ * @param {number}   props.perPage    Number of icons to display per page of results.
+ * @return {WPElement} The list component.
+ */
 export default function( { onChange, iconPrefix, perPage = 48 } ) {
-
 	const [ availableIcons, setAvailableIcons ] = useState( [] ),
 		[ search, setSearch ] = useState( '' ),
-		[ selectedStyle, setSelectedStyle ] = useState( STYLES[0].id );
+		[ selectedStyle, setSelectedStyle ] = useState( STYLES[ 0 ].id );
 
 	useEffect( () => {
-
 		const normalSearch = search.toLowerCase(),
-			filteredIcons = Object.fromEntries( 
-				Object.entries( iconMetadata ).filter( ( [ icon, { terms, styles } ] ) => {
-			
+			filteredIcons = Object.fromEntries(
+				Object.entries( iconMetadata ).filter( ( [ , { terms, styles } ] ) => {
 					if ( ! styles.includes( selectedStyle ) ) {
 						return false;
 					}
 
 					return ! search || terms.map( ( term ) => term.toLowerCase() ).some( ( term ) => term.includes( normalSearch ) );
-
 				} )
 			);
 
 		setAvailableIcons( { ...filteredIcons } );
-
 	}, [ search, selectedStyle ] );
 
 	return (
@@ -139,5 +156,4 @@ export default function( { onChange, iconPrefix, perPage = 48 } ) {
 			<List { ...{ onChange, selectedStyle, availableIcons, iconPrefix, perPage } } />
 		</Wrapper>
 	);
-
 }

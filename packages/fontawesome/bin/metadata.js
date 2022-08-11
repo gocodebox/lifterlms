@@ -31,12 +31,10 @@ const origMetadata = YAML.parse( readFileSync( METADATA_FILE, 'utf8' ) ),
 	metadata = {};
 
 Object.keys( origMetadata ).forEach( ( id ) => {
-
 	const { styles, label, aliases } = origMetadata[ id ],
 		terms = aliases?.names || [];
 
 	metadata[ id ] = { styles, label, terms: [ ...terms, label, id ] };
-
 } );
 
 writeFileSync( `${ SRC_DIR }/metadata.json`, JSON.stringify( metadata, null, 2 ) );

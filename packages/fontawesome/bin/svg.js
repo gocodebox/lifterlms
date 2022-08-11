@@ -17,7 +17,7 @@
 
 const
 	{ argv } = process,
-	srcDir = argv[2] || './src/img/fontawesome',
+	srcDir = argv[ 2 ] || './src/img/fontawesome',
 	{ resolve } = require( 'path' ),
 	{ cpSync, existsSync } = require( 'fs' ),
 	SVG_DIR = resolve( './node_modules/@fortawesome/fontawesome-free/svgs' ),

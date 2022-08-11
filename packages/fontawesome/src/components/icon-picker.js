@@ -1,10 +1,10 @@
 // External deps.
 import styled from '@emotion/styled';
 
-import { BaseControl, Button, Dropdown, SelectControl } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+// WP deps.
+import { BaseControl, Button, Dropdown } from '@wordpress/components';
 
+// Internal deps.
 import { getMetadata } from '../';
 import Icon from './icon';
 import IconList from './icon-list';
@@ -33,17 +33,15 @@ const StyledDropdown = styled( Dropdown )`
  *
  * @param {Object}   props              Component properties.
  * @param {string}   props.icon         The Icon ID.
- * @param {String}   props.iconStyle    The icon style, enum: "solid", "regular", or "brands".
- * @param {String}   props.iconPrefix   The project's icon prefix.
+ * @param {string}   props.iconStyle    The icon style, enum: "solid", "regular", or "brands".
+ * @param {string}   props.iconPrefix   The project's icon prefix.
  * @param {Object}   props.controlProps Properties to pass through to the <BaseControl> component.
  * @param {Function} props.onChange     Function called when an icon is selected from the picker. The function is passed three properties:
  *                                      The icon ID, the currently selected style, and the icon's predefined label.
  * @return {BaseControl} A BaseControl containing the icon picker component.
  */
 export default function( { icon, iconStyle, controlProps = {}, onChange = () => {}, iconPrefix = 'llms-fa-' } ) {
-
-	const [ isOpen, setIsOpen ] = useState( false ),
-		{ label } = getMetadata( icon );
+	const { label } = getMetadata( icon );
 
 	return (
 		<BaseControl { ...controlProps }>
@@ -55,7 +53,7 @@ export default function( { icon, iconStyle, controlProps = {}, onChange = () => 
 					style: {
 						marginTop: '-50px',
 						marginLeft: '-180px',
-					}
+					},
 					// placement: 'left-start',
 					// offset: 200,
 				} }
@@ -65,11 +63,11 @@ export default function( { icon, iconStyle, controlProps = {}, onChange = () => 
 						aria-expanded={ isOpen }
 						style={ isOpen ? { background: '#f0f0f0' } : {} }
 					>
-						<Icon { ...{ icon, iconStyle, iconPrefix, style: { fontSize: '18px', marginRight: '8px', } } }/>
+						<Icon { ...{ icon, iconStyle, iconPrefix, style: { fontSize: '18px', marginRight: '8px' } } } />
 						<span>{ label }</span>
 					</Button>
 				) }
-				renderContent={ () => ( 
+				renderContent={ () => (
 					<div style={ { width: '380px', maxWidth: '100%' } }>
 						<IconList { ...{ iconPrefix, onChange } } />
 					</div>
@@ -77,5 +75,4 @@ export default function( { icon, iconStyle, controlProps = {}, onChange = () => 
 			/>
 		</BaseControl>
 	);
-
 }
