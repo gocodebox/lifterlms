@@ -17,7 +17,7 @@ getProjectSlug.mockImplementation( () => mockedSlug );
 /**
  * Mock the API return retrieved by `gh api...`.
  *
- * @since [version]
+ * @since 0.1.0
  *
  * @param {boolean} isPublic Whether or not the repo is public. Pass `undefined` to for an "unknown" return.
  * @return {string|Object} A JSON string or object to be parsed. Returning an object causes an error for the test unknown responses.

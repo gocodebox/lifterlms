@@ -6,6 +6,7 @@ const path = require( 'path' ),
  * Generate a doc section for the specified command.
  *
  * @since 0.0.1
+ * @since 0.1.0 Include beforeHelp and afterHelp data added by `Command.addHelpText()`.
  *
  * @param {Command} command    A commander command instance.
  * @param {string}  parentName Name of the parent command (used for subcommands).
@@ -21,7 +22,9 @@ function createCommandSection( command, parentName = '' ) {
 		text = `\n### ${ parentName }${ commandName }\n\n`;
 
 		text += '```bash\n';
+		command.emit( 'beforeHelp', { write: ( helpStr ) => text += helpStr } );
 		text += command.helpInformation();
+		command.emit( 'afterHelp', { write: ( helpStr ) => text += helpStr } );
 		text += '\n```\n';
 	} else {
 		command.commands.forEach( ( subcommand ) => {

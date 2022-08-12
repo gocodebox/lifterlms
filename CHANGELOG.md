@@ -91,6 +91,19 @@ v7.0.0-alpha.1 - 2022-06-15
 + [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.1/templates/myaccount/view-order-actions.php)
 
 
+v6.9.0 - 2022-07-28
+-------------------
+
+##### Updates and Enhancements
+
++ Removed site-wide font-weight styles targeting `<h1>` through `<h6>` elements. [#2217](https://github.com/gocodebox/lifterlms/issues/2217)
+
+##### Bug Fixes
+
++ Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
++ Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
+
+
 v6.8.0 - 2022-07-12
 -------------------
 

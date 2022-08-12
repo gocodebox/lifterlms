@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/dev",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Developer's CLI for managing, building, and deploying LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",

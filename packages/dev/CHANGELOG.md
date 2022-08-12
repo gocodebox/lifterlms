@@ -1,6 +1,15 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+v0.1.0 - 2022-08-11
+-------------------
+
++ Updated: [**BREAKING**] During prerelease builds the `readme` command will now exit with code `0` and output a warning message instead of previous behavior: exit code `1` with an error message. 
++ Added: The `readme` command now merges additional merge codes as derived from the `parseMainFileMetadata()` utility function.
++ Added: A New command `meta` has been added.
++ Added: `docgen` will now include `beforeHelp` and `afterHelp` text added via `Command.addHelpText()`.
+
+
 v0.0.5 - 2022-05-23
 -------------------
 
