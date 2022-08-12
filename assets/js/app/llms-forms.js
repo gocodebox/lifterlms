@@ -405,7 +405,6 @@ LLMS.Forms = {
 		holder.prepend( '<option disabled selected>'+placeholder+'</option>' );
 	},
 
-
 	/**
 	 * Disable a given field
 	 *
