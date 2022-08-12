@@ -1,6 +1,54 @@
 LifterLMS Changelog
 ===================
 
+v7.0.0-beta.1 - 2022-08-12
+--------------------------
+
+##### New Features
+
++ Added handling for admin settings options that store their option values in a nested array.
++ Added new AJAX checkout and payment source switching endpoints for payment gateways to utilize instead of the preexisting synchronous form submission methods.
+
+##### Updates and Enhancements
+
++ When an order post is restored from the trash its post status will now be "llms-pending" in favor of the default "draft" status.
+
+##### Bug Fixes
+
++ Don't attempt to lookup the default payment gateway from user meta data.
++ Disabled `scroll-behavior: smooth` on checkout screen to address form element validity checking issues on Chromium-based browsers. [#2206](https://github.com/gocodebox/lifterlms/issues/2206)
+
+##### Deprecations
+
++ Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Deprecated the `lifterlms_update_option_{$type}` action in favor of the `llms_update_option_{$type}` filter.
++ Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::confirm_pending_order()`.
++ Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::create_pending_order()`.
++ Method `LLMS_Controller_Orders::switch_payment_source()` is deprecated in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Passing jQuery selections into the `window.LLMS.Spinner` functions is deprecated. Use JS `Elements` or selection strings parseable by `document.querySelector()` instead.
++ Deprecated hook `llms_{$method}_title` in favor of `llms_{$method}_refund_title`.
+
+##### Developer Notes
+
++ Added admin settings helper function, `llms_get_dashicon_link()`, intended to enable the addition of external resource helper links to settings field descriptions.
++ The `LLMS_Student` object can be instantiated as an empty object and bypass current user autoloading. In the future this may affect integrations using the `lifterlms_new_pending_order` action hook which will receive an "empty" student object during order setup by gateways utilizing new AJAX-powered checkout endpoints.
++ Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will allow force enabling/disabling of gateway logging functions.
++ Improved payment gateway secure string logging by adding a method, `add_secure_string()` allowing developers to add secure strings during runtime without the necessity of registering the strings using filters.
++ Introduces new function `llms_is_option_secure()` for determining if an "secured" option is defined in a "secure" manner.
++ Implemented new gateway feature: `modify_recurring_payments`. [#2176](https://github.com/gocodebox/lifterlms/issues/2176)
++ Admin settings fields now display `after_html` for additional field types which support `desc`.
++ The CSS for `.llms-spinning` and `.llms-spinner` elements is no longer loaded as part of the `lifterlms.css` and `admin.css` files, instead it is loaded dynamically when `window.LLMS.Spinner` functions are called. In some cases CSS overrides to these elements which relied on CSS rule load order may no longer successfully override the default CSS rules. These overrides may need to be updated to have more specific selectors in order to ensure the overrides are retained.
++ The Javascript object, `window.LLMS.Spinner`, has been converted to a module accessible from the same variable.
++ The `window.LLMS.Spinner` methods now accept JS Elements and selector strings parseable by `document.querySelector()` in addition to jQuery selections.
++ Added new filter `llms_transaction_can_be_refunded` enabling custom refund restrictions to be applied to a transaction.
+
+##### Updated Templates
+
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-switch-source.php)
++ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/myaccount/view-order-actions.php)
+
+
 v7.0.0-alpha.4 - 2022-07-18
 ---------------------------
 
