@@ -408,7 +408,7 @@ LLMS.Forms = {
 	 * @param {String} placeholder Currently selected state is the placeholder text.
 	 * @return {void}
 	 */
-	set_state_placeholder: function (holder, placeholder) {
+	set_state_placeholder: function ( holder, placeholder ) {
 		holder.prepend( '<option disabled selected>'+placeholder+'</option>' );
 	},
 
