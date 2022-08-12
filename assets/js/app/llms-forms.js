@@ -396,7 +396,7 @@ LLMS.Forms = {
 	 * @return {string} The placeholder text.
 	 */
 	get_state_placeholder: function( holder, country_code ) {
-		var placeholder = holder.attr('placeholder').replace('{REGION}',country_code[country_code]?.state ?? "DEFAULT");
+		var placeholder = holder.attr( 'placeholder' ).replace( '{REGION}' ,country_code[country_code]?.state ?? "DEFAULT" );
 		return placeholder;
 	},
 	
