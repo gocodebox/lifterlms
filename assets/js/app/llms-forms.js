@@ -409,7 +409,7 @@ LLMS.Forms = {
 	 * @return {void}
 	 */
 	set_state_placeholder: function ( holder, placeholder ) {
-		holder.prepend( '<option disabled selected>'+placeholder+'</option>' );
+		holder.prepend( '<option disabled selected>' + placeholder + '</option>' );
 	},
 
 	/**
