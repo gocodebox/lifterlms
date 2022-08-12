@@ -395,7 +395,7 @@ LLMS.Forms = {
 	 * @param {String} placeholder Currently selected state is the placeholder text.
 	 * @return {void}
 	 */
-	get_state_placeholder: function(holder, country_code) {
+	get_state_placeholder: function( holder, country_code ) {
 		var placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
 		return placeholder;
 	},
