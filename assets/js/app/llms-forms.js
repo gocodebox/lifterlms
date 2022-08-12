@@ -352,6 +352,7 @@ LLMS.Forms = {
 
 	},
 
+	
 	/**
 	 * Update the available options in the state field
 	 *
@@ -366,8 +367,8 @@ LLMS.Forms = {
 	 * @param {String} country_code Currently selected country code.
 	 * @return {void}
 	 */
-	update_state_options: function( country_code ) {
 
+	 update_state_options: function( country_code ) {
 		if ( ! this.$states.length ) {
 			return;
 		}
@@ -378,11 +379,36 @@ LLMS.Forms = {
 			this.$states.html( '<option>&nbsp</option>' );
 			this.disable_field( this.$states );
 		} else {
+			var placeholder = this.get_state_placeholder(this.$states, country_code);
 			this.enable_field( this.$states );
 			this.$states.html( opts );
+			if(placeholder !== ''){
+				this.set_state_placeholder(this.$states, placeholder);
+			}
 		}
 
 	},
+
+     /**
+	 * Pull the states placeholder and set it to the state field
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param {String} placeholder Currently selected state is the placeholder text.
+	 * @return {void}
+	 */
+
+	get_state_placeholder: function(holder, country_code) {
+	console.log(country_code);
+	console.log(this.address_info[country_code]);
+	var placeholder = holder.attr('placeholder').replace('{REGION}', this.address_info[country_code].state);
+	return placeholder;
+	},
+	
+	set_state_placeholder: function (holder, placeholder) {
+	holder.prepend( '<option disabled selected>'+placeholder+'</option>' );
+	},
+
 
 	/**
 	 * Disable a given field
