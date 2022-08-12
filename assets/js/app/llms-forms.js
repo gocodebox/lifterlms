@@ -366,7 +366,6 @@ LLMS.Forms = {
 	 * @param {String} country_code Currently selected country code.
 	 * @return {void}
 	 */
-
 	update_state_options: function( country_code ) {
 		if ( ! this.$states.length ) {
 			return;
