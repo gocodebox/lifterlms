@@ -42,13 +42,3 @@ jobs:
     - name: Run linter
       continue-on-error: true
       run: npm run lint:js
-
-    - name: Save linter output
-      continue-on-error: true
-      run: npm run lint:js -- --output-file eslint-report.json --format json
-
-    - name: Create annotations
-      uses: ataylorme/eslint-annotate-action@1.2.0
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        report-json: "eslint-report.json"
