@@ -388,8 +388,8 @@ LLMS.Forms = {
 
 	},
 
-     /**
-	 * Pull the states placeholder and set it to the state field
+    /**
+	 * Get the state placeholder and/or {REGION}
 	 *
 	 * @since [version]
 	 *
@@ -401,6 +401,14 @@ LLMS.Forms = {
 		return placeholder;
 	},
 	
+	/**
+	 * Set the state placeholder to the state field
+	 *
+	 * @since [version]
+	 *
+	 * @param {String} placeholder Currently selected state is the placeholder text.
+	 * @return {void}
+	 */
 	set_state_placeholder: function (holder, placeholder) {
 		holder.prepend( '<option disabled selected>'+placeholder+'</option>' );
 	},
