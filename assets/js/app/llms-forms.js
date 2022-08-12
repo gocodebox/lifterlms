@@ -393,7 +393,7 @@ LLMS.Forms = {
 	 * @since [version]
 	 *
 	 * @param {String} placeholder Currently selected state is the placeholder text.
-	 * @return {void}
+	 * @return {string} The placeholder text.
 	 */
 	get_state_placeholder: function( holder, country_code ) {
 		var placeholder = holder.attr('placeholder').replace('{REGION}',country_code[country_code]?.state ?? "DEFAULT");
