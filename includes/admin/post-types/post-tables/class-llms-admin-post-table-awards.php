@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -305,6 +305,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * Modify post row actions.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added missing textdomain for the 'Move {post_title} to the Trash' string.
 	 *
 	 * @param array   $actions Existing actions.
 	 * @param WP_Post $post    Post object.
@@ -318,7 +319,7 @@ class LLMS_Admin_Post_Table_Awards {
 				'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 				get_delete_post_link( $post->ID ),
 				// Translators: %s: Post title.
-				esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), _draft_or_post_title( $post ) ) ),
+				esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash', 'lifterlms' ), _draft_or_post_title( $post ) ) ),
 				__( 'Delete Permanently', 'lifterlms' )
 			);
 
