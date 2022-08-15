@@ -18,22 +18,25 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
 	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
-	 *
+	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * 
 	 * @return void
 	 */
 	public function test_login() {
+
+		$main = new LLMS_Controller_Login();
 
 		LLMS_Install::create_pages();
 
 		// form not submitted
 		$this->mockPostRequest( array() );
-		do_action( 'init' );
+		$main->login();
 		$this->assertEquals( 0, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
 
 		// not submitted
 		$this->mockGetRequest( array() );
-		do_action( 'init' );
+		$main->login();
 		$this->assertEquals( 0, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
 
@@ -41,7 +44,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 		$this->mockPostRequest( array(
 			'_llms_login_user_nonce' => wp_create_nonce( 'llms_login_user' ),
 		) );
-		do_action( 'init' );
+		$main->login();
 		$this->assertEquals( 1, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
@@ -52,7 +55,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 			'_llms_login_user_nonce' => wp_create_nonce( 'llms_login_user' ),
 			'email_address' => 'fake@mock.org',
 		) );
-		do_action( 'init' );
+		$main->login();
 		$this->assertEquals( 2, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
@@ -86,7 +89,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 			wp_logout();
 		}, 10, 2 );
 
-		do_action( 'init' );
+		$main->login();
 
 	}
 

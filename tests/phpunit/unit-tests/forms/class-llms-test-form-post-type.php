@@ -294,12 +294,13 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 *
 	 * @since 5.0.0
 	 * @since 5.10.0 Added expected meta prop '_llms_form_title_free_access_plans'.
+	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */
 	public function test_register_meta() {
 
-		do_action( 'init' );
+		$this->main->register_meta();
 
 		global $wp_meta_keys;
 		$this->assertArrayHasKey( 'post', $wp_meta_keys );

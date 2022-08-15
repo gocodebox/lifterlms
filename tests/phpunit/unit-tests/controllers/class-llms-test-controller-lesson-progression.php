@@ -90,21 +90,24 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.1
 	 * @since 3.29.0 Unknown.
+	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */
 	public function test_handle_complete_form() {
 
+		$main = new LLMS_Controller_Lesson_Progression();
+
 		// Form not submitted.
 		$this->mockPostRequest( array() );
-		do_action( 'init' );
+		$main->handle_complete_form();
 		$this->assertEquals( 0, did_action( 'llms_trigger_lesson_completion' ) );
 
 		// Form submitted but missing required fields.
 		$this->mockPostRequest( array(
 			'_wpnonce' => wp_create_nonce( 'mark_complete' ),
 		) );
-		do_action( 'init' );
+		$main->handle_complete_form();
 		$this->assertEquals( 0, did_action( 'llms_trigger_lesson_completion' ) );
 
 		// Form submitted but invalid lesson id.
@@ -113,7 +116,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 			'mark-complete' => 'wut', // Lesson id.
 			'mark_complete' => '', // Button.
 		) );
-		do_action( 'init' );
+		$main->handle_complete_form();
 		$this->assertEquals( 0, did_action( 'llms_trigger_lesson_completion' ) );
 		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 
@@ -129,7 +132,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 			'mark-complete' => $lesson_id, // Lesson id.
 			'mark_complete' => '', // Button.
 		) );
-		do_action( 'init' );
+		$main->handle_complete_form();
 		$this->assertEquals( 1, did_action( 'llms_trigger_lesson_completion' ) );
 		$this->assertTrue( $student->is_complete( $lesson_id, 'lesson' ) );
 
@@ -140,21 +143,24 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.1
 	 * @since 3.29.0 Unknown.
+	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */
 	public function test_handle_incomplete_form() {
 
+		$main = new LLMS_Controller_Lesson_Progression();
+
 		// Form not submitted.
 		$this->mockPostRequest( array() );
-		do_action( 'init' );
+		$main->handle_incomplete_form();
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 
 		// Form submitted but missing required fields.
 		$this->mockPostRequest( array(
 			'_wpnonce' => wp_create_nonce( 'mark_incomplete' ),
 		) );
-		do_action( 'init' );
+		$main->handle_incomplete_form();
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 
 		// Form submitted but invalid lesson id.
@@ -163,7 +169,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 			'mark-incomplete' => 'wut', // Lesson id.
 			'mark_incomplete' => '', // Button.
 		) );
-		do_action( 'init' );
+		$main->handle_incomplete_form();
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 
@@ -180,7 +186,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 			'mark-incomplete' => $lesson_id, // Lesson id.
 			'mark_incomplete' => '', // Button.
 		) );
-		do_action( 'init' );
+		$main->handle_incomplete_form();
 		$this->assertFalse( $student->is_complete( $lesson_id, 'lesson' ) );
 
 	}
