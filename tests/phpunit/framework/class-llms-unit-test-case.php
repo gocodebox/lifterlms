@@ -34,6 +34,13 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		llms_tests_reset_current_time();
 	}
 
+public function tear_down() {
+	if ( ! empty( $this->caught_doing_it_wrong ) ) {
+		var_dump( $this->caught_doing_it_wrong );
+	}
+	parent::tear_down();
+}
+
 	/**
 	 * Create mock user session data.
 	 *
