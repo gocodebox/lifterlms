@@ -392,20 +392,27 @@ LLMS.Forms = {
 	 *
 	 * @since [version]
 	 *
-	 * @param {String} placeholder Currently selected state is the placeholder text.
-	 * @return {string} The placeholder text.
+	 * @param {String} Creates the default text from the text that is in the state/region field in the wordpress admin
+	 * @return {String} Returns the placeholder text from the admin area to the state field.
+	 * @return {String} Returns the {REGION} text from the admin area to the state field if nothing is found Default is used.
+	 * @return {void}
 	 */
-	get_state_placeholder: function( holder, country_code ) {
-		var placeholder = holder.attr( 'placeholder' ).replace( '{REGION}' ,country_code[country_code]?.state ?? "DEFAULT" );
+	 get_state_placeholder: function( holder, country_code ) {
+		var placeholder;
+		if (typeof this.address_info[country_code] === 'undefined' ) {
+		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( "DEFAULT" ));
+		} else {
+		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
+		}
 		return placeholder;
-	},
+		},
 	
 	/**
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
 	 *
-	 * @param {String} placeholder Currently selected state is the placeholder text.
+	 * @param {String} Sets the 'placeholder' text to the field as an option that cannot be selected.
 	 * @return {void}
 	 */
 	set_state_placeholder: function ( holder, placeholder ) {
