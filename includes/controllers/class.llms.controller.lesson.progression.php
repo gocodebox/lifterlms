@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,6 +80,7 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @since 3.29.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Check the current user can edit the lesson they're going to mark complete/incomplete.
 	 *
 	 * @return void
 	 */
@@ -94,7 +95,7 @@ class LLMS_Controller_Lesson_Progression {
 		$student_id = absint( llms_filter_input( INPUT_POST, 'student_id' ) );
 
 		// Missing required data.
-		if ( empty( $action ) || empty( $lesson_id ) || empty( $student_id ) ) {
+		if ( empty( $action ) || empty( $lesson_id ) || empty( $student_id ) || ! current_user_can( 'edit_post', $lesson_id ) ) {
 			return;
 		}
 
