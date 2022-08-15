@@ -26,6 +26,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * Test the handle_admin_managment_forms() method.
 	 *
 	 * @since 3.29.0
+	 * @since [version] Added tests on user caps.
 	 *
 	 * @return void
 	 */
@@ -62,21 +63,42 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 		$this->assertEquals( 0, did_action( 'llms_mark_complete' ) );
 
-		// All data but invalid action..
+		// All data but invalid action...
 		$data['llms-lesson-action'] = 'fake';
 		$this->mockPostRequest( $data );
 		$class->handle_admin_managment_forms();
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 		$this->assertEquals( 0, did_action( 'llms_mark_complete' ) );
 
-		// Mark the lesson complete..
+		// Mark lessons complete/incomplete as users with no adequate caps, or no user.
+		wp_set_current_user( 0 );
+
+		// Mark the lesson complete...
+		$data['llms-lesson-action'] = 'complete';
+		$this->mockPostRequest( $data );
+		$class->handle_admin_managment_forms();
+		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
+		$this->assertEquals( 0, did_action( 'llms_mark_complete' ) );
+
+		// Mark it incomplete...
+		$data['llms-lesson-action'] = 'incomplete';
+		$this->mockPostRequest( $data );
+		$class->handle_admin_managment_forms();
+		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
+		$this->assertEquals( 0, did_action( 'llms_mark_complete' ) );
+
+		// Mark lessons complete/incomplete as users with adequate caps.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$data['llms-admin-progression-nonce'] = wp_create_nonce( 'llms-admin-lesson-progression' );
+
+		// Mark the lesson complete...
 		$data['llms-lesson-action'] = 'complete';
 		$this->mockPostRequest( $data );
 		$class->handle_admin_managment_forms();
 		$this->assertEquals( 0, did_action( 'llms_mark_incomplete' ) );
 		$this->assertEquals( 1, did_action( 'llms_mark_complete' ) );
 
-		// Mark it incomplete..
+		// Mark it incomplete...
 		$data['llms-lesson-action'] = 'incomplete';
 		$this->mockPostRequest( $data );
 		$class->handle_admin_managment_forms();
