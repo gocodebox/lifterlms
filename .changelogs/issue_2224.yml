@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2224"
+entry: Added missing textodmain for the string 'Move {post_title} to the Trash'.
