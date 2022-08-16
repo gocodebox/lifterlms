@@ -402,7 +402,7 @@ LLMS.Forms = {
 		if (typeof this.address_info[country_code] === 'undefined' ) {
 		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State / Region' ) );
 		} else {
-		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
+		placeholder = holder.attr(  'placeholder'  ).replace(  '{REGION} ', this.address_info [ country_code ].state );
 		}
 		return placeholder;
 		},
