@@ -415,7 +415,6 @@ LLMS.Forms = {
 	 * @param  {} placeholder
 	 * @return {}
 	 */
-	 * @param {String} Sets the 'placeholder' text to the field as an option that cannot be selected.
 	 * @return {void}
 	 */
 	set_state_placeholder: function ( holder, placeholder ) {
