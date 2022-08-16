@@ -392,33 +392,30 @@
 	 *
 	 * @since [version]
 	 * 
-	 * @param  {string} holder
-	 * @param  {Object} country_code
-	 * @param  {local var} 'placeholder'
-	 * @return {local var} The placeholder text.
+	 * @param {String} country_code Currently selected country code. 
+	 * @return {String} placeholder text if any has been set, otherwise returns default state/region. 
 	 */
 	get_state_placeholder: function( holder, country_code ) {
-		
+
 		var placeholder;
 		
-		if ( 'undefined' === typeof this.address_info[ country_code ] ) {
-			placeholder = holder.attr( 'placeholder' );
+		if ('undefined' === typeof this.address_info[ country_code ] ) {
+			placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State/Region' ));
 		} else {
-			placeholder = holder.attr( 'placeholder' ).replace( ' {REGION} ', this.address_info[ country_code ].state );
+			placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
 		}
-		
+
 		return placeholder;
-	},
+
+		},
 	
 	/**
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
-	 * 
-	 * @param  {var} holder
-	 * @param  {string} placeholder
-	 * @return {}
+	 * @param {String} placeholder Sets the 'placeholder' text to the field so users must select their state/region. 
 	 */
+
 	set_state_placeholder: function ( holder, placeholder ) {
 		holder.prepend( '<option disabled selected>' + placeholder + '</option>' );
 	},
