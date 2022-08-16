@@ -392,9 +392,9 @@ LLMS.Forms = {
 	 *
 	 * @since [version]
 	 *
-	 * @param {String} Creates the default text from the text that is in the state/region field in the wordpress admin
-	 * @return {String} Returns the placeholder text from the admin area to the state field.
-	 * @return {String} Returns the {REGION} text from the admin area to the state field if nothing is found Default is used.
+	 * @param  {} 'placeholder'
+	 * @param  {} .replace('{REGION}'
+	 * @param  {} this.address_info[country_code].state
 	 * @return {string} The placeholder text.
 	 */
 	 get_state_placeholder: function( holder, country_code ) {
