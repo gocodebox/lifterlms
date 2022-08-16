@@ -384,36 +384,37 @@ LLMS.Forms = {
 				this.set_state_placeholder( this.$states, placeholder );
 			}
 		}
-
 	},
 
     /**
-	 * Get the state placeholder and/or {REGION}
+	 * Get the state placeholder and/or replace with {REGION}
 	 *
 	 * @since [version]
-	 *
-	 * @param {String} Creates the default text from the text that is in the state/region field in the wordpress admin
-	 * @return {String} Returns the placeholder text from the admin area to the state field.
-	 * @return {String} Returns the {REGION} text from the admin area to the state field if nothing is found Default is used.
-	 * @return {void}
+	 * @param  {} 'placeholder'
+	 * @param  {} .replace('{REGION}'
+	 * @param  {} this.address_info[country_code].state
+	 * @return {string} The placeholder text.
 	 */
 	 get_state_placeholder: function( holder, country_code ) {
+		
 		var placeholder;
-		if (typeof this.address_info[country_code] === 'undefined' ) {
-		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( "DEFAULT" ));
+		
+		if ( 'undefined' === typeof this.address_info[ country_code ] ) {
+			placeholder = holder.attr( 'placeholder' );
 		} else {
-		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
+			placeholder = holder.attr( 'placeholder' ).replace( ' {REGION} ', this.address_info[ country_code ].state );
 		}
+		
 		return placeholder;
-		},
+	},
 	
 	/**
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
-	 *
-	 * @param {String} Sets the 'placeholder' text to the field as an option that cannot be selected.
-	 * @return {void}
+	 * @param  {} holder
+	 * @param  {} placeholder
+	 * @return {}
 	 */
 	set_state_placeholder: function ( holder, placeholder ) {
 		holder.prepend( '<option disabled selected>' + placeholder + '</option>' );
@@ -432,7 +433,7 @@ LLMS.Forms = {
 	disable_field: function( $field ) {
 		$(
 			'<input>',
-			{ name: $field.attr('name'), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
+			{ name: $field.attr( 'name' ), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
 		).insertAfter( $field );
 		$field.attr( 'disabled', 'disabled' );
 		this.get_field_parent( $field ).hide();
@@ -450,7 +451,7 @@ LLMS.Forms = {
 	 */
 	enable_field: function( $field ) {
 		$field.removeAttr( 'disabled' );
-		$field.next( '.hidden[name='+$field.attr('name')+']' ).detach();
+		$field.next( '.hidden[name=' + $field.attr('name') + ']' ).detach();
 		this.get_field_parent( $field ).show();
 	}
 
