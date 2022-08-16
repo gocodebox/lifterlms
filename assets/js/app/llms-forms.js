@@ -394,8 +394,8 @@
 	 * 
 	 * @param  {string} holder
 	 * @param  {Object} country_code
-	 * @param  {var} 'placeholder'
-	 * @return {string} The placeholder text.
+	 * @param  {local var} 'placeholder'
+	 * @return {local var} The placeholder text.
 	 */
 	get_state_placeholder: function( holder, country_code ) {
 		
@@ -414,6 +414,7 @@
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
+	 * 
 	 * @param  {var} holder
 	 * @param  {string} placeholder
 	 * @return {}
