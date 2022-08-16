@@ -407,11 +407,14 @@ LLMS.Forms = {
 		return placeholder;
 		},
 	
-	/**
+		/**
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
-	 *
+	 * @param  {} holder
+	 * @param  {} placeholder
+	 * @return {}
+	 */
 	 * @param {String} Sets the 'placeholder' text to the field as an option that cannot be selected.
 	 * @return {void}
 	 */
