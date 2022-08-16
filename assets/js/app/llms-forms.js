@@ -399,7 +399,7 @@ LLMS.Forms = {
 	 */
 	 get_state_placeholder: function( holder, country_code ) {
 		var placeholder;
-		if (typeof this.address_info[country_code] === 'undefined' ) {
+		if (  'undefined' === typeof this.address_info[ country_code ] ) {
 		placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State / Region' ) );
 		} else {
 		placeholder = holder.attr(  'placeholder'  ).replace(  '{REGION} ', this.address_info [ country_code ].state );
