@@ -440,8 +440,8 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 		// Get the redirection URL.
 		$plan_id  = $order->get( 'plan_id' );
-		$plan     = new LLMS_Access_Plan( $plan_id );
-		$redirect = urldecode( $plan->get_redirection_url( true ) );
+		$plan     = llms_get_post( $plan_id );
+		$redirect = is_a( $plan, 'LLMS_Access_Plan' ) ? urldecode( $plan->get_redirection_url() ) : '';
 
 		// Redirect to the product's permalink, if no parameter was set.
 		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
