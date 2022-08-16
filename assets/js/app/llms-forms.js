@@ -7,7 +7,7 @@
  * @version 5.3.3
  */
 
-LLMS.Forms = {
+ LLMS.Forms = {
 
 	/**
 	 * Stores locale information.
@@ -384,18 +384,20 @@ LLMS.Forms = {
 				this.set_state_placeholder( this.$states, placeholder );
 			}
 		}
+
 	},
 
     /**
 	 * Get the state placeholder and/or replace with {REGION}
 	 *
 	 * @since [version]
-	 * @param  {} 'placeholder'
-	 * @param  {} .replace('{REGION}'
-	 * @param  {} this.address_info[country_code].state
+	 * 
+	 * @param  {string} holder
+	 * @param  {Object} country_code
+	 * @param  {var} 'placeholder'
 	 * @return {string} The placeholder text.
 	 */
-	 get_state_placeholder: function( holder, country_code ) {
+	get_state_placeholder: function( holder, country_code ) {
 		
 		var placeholder;
 		
@@ -412,8 +414,8 @@ LLMS.Forms = {
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
-	 * @param  {} holder
-	 * @param  {} placeholder
+	 * @param  {var} holder
+	 * @param  {string} placeholder
 	 * @return {}
 	 */
 	set_state_placeholder: function ( holder, placeholder ) {
