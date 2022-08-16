@@ -428,17 +428,20 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Calculates the url to redirect to on transaction completion
+	 * Calculates the url to redirect to on transaction completion.
 	 *
 	 * @since 3.30.0
+	 * @since [version] Retrieve the redirection URL directly from the access plan.
 	 *
 	 * @param LLMS_Order $order The order object.
 	 * @return string
 	 */
 	protected function get_complete_transaction_redirect_url( $order ) {
 
-		// Get the redirect parameter.
-		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+		// Get the redirection URL.
+		$plan_id  = $order->get( 'plan_id' );
+		$plan     = new LLMS_Access_Plan( $plan_id );
+		$redirect = urldecode( $plan->get_redirection_url( true ) );
 
 		// Redirect to the product's permalink, if no parameter was set.
 		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );

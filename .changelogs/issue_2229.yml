@@ -1,0 +1,6 @@
+significance: major
+type: added
+links:
+  - "#2229"
+entry: On purchase completed retrieve the redirection URL from the purchased
+  access plan settings if no 'redirect' GET variable is passed.
