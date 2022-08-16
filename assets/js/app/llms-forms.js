@@ -392,9 +392,10 @@ LLMS.Forms = {
 	 *
 	 * @since [version]
 	 *
+	 * @param  {} holder
+	 * @param  {} country_code
 	 * @param  {} 'placeholder'
 	 * @param  {} .replace('{REGION}'
-	 * @param  {} this.address_info[country_code].state
 	 * @return {string} The placeholder text.
 	 */
 	 get_state_placeholder: function( holder, country_code ) {
