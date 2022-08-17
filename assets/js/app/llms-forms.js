@@ -396,7 +396,6 @@ LLMS.Forms = {
 	 * @return {String} placeholder text if any has been set, otherwise returns default state/region. 
 	 */
 	get_state_placeholder: function( holder, country_code ) {
-
 		var placeholder;
 		
 		if ( 'undefined' === typeof this.address_info[ country_code ] ) {
