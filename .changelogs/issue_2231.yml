@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2231"
+entry: Fixed PHP fatal error when quick editing an award.
