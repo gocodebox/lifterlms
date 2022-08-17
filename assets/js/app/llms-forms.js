@@ -413,6 +413,7 @@ LLMS.Forms = {
 	 * Set the state placeholder to the state field
 	 *
 	 * @since [version]
+	 *
 	 * @param {String} placeholder Sets the 'placeholder' text to the field so users must select their state/region. 
 	 */
 
