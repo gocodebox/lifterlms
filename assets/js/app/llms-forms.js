@@ -7,7 +7,7 @@
  * @version 5.3.3
  */
 
- LLMS.Forms = {
+LLMS.Forms = {
 
 	/**
 	 * Stores locale information.
