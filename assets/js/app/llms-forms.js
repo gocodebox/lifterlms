@@ -400,7 +400,7 @@ LLMS.Forms = {
 		var placeholder;
 		
 		if ( 'undefined' === typeof this.address_info[ country_code ] ) {
-			placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State/Region' ));
+			placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State/Region' ) );
 		} else {
 			placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
 		}
