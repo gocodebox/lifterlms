@@ -147,14 +147,16 @@ class LLMS_Admin_Post_Table_Awards {
 	 *
 	 * @since 6.0.0
 	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] When no INPUT_GET `post_type` variable set, retrieve the post_type from the `$id` (WP_Post ID) parameter.
 	 *
-	 * @param int     $id       WP_Post id.
+	 * @param int     $id       WP_Post ID.
 	 * @param boolean $template Whether or not a template is being requested.
 	 * @return LLMS_User_Achievement|LLMS_User_Certificate|boolean Returns the object or `false` for invalid post types.
 	 */
 	private function get_object( $id, $template = false ) {
 
 		$post_type = llms_filter_input( INPUT_GET, 'post_type' );
+		$post_type = $post_type ? $post_type : get_post_type( $id );
 
 		if ( 'llms_my_achievement' === $post_type ) {
 			return new LLMS_User_Achievement( $id );
