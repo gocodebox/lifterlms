@@ -380,7 +380,7 @@ var LLMS = window.LLMS || {};
 	 * @version 5.3.3
 	 */
 	
-	LLMS.Forms = {
+	 LLMS.Forms = {
 	
 		/**
 		 * Stores locale information.
@@ -478,8 +478,10 @@ var LLMS = window.LLMS || {};
 			self.$countries = $( '.llms-l10n-country-select select' );
 			self.$states    = $( '.llms-l10n-state-select select' );
 			self.$zips      = $( '#llms_billing_zip' );
-	
+			
 			if ( ! self.$countries.length ) {
+				this.disable_field(self.$countries); //added to make field disappear if empty
+				this.disable_field(self.$states); //added to make field disappear if empty
 				return;
 			}
 	
@@ -740,7 +742,6 @@ var LLMS = window.LLMS || {};
 		 * @return {void}
 		 */
 		update_state_options: function( country_code ) {
-	
 			if ( ! this.$states.length ) {
 				return;
 			}
@@ -751,10 +752,56 @@ var LLMS = window.LLMS || {};
 				this.$states.html( '<option>&nbsp</option>' );
 				this.disable_field( this.$states );
 			} else {
+				var placeholder = this.get_state_placeholder( this.$states, country_code );
 				this.enable_field( this.$states );
 				this.$states.html( opts );
+				if ( '' !== placeholder ) {
+					this.set_state_placeholder( this.$states, placeholder );
+				}
 			}
 	
+		},
+	
+	    /**
+		 * Update state field with placeholder text
+		 * 
+		 * Get the state placeholder and/or replace with {REGION}
+		 *
+		 * @since [version]
+		 * 
+		 * @link https://github.com/gocodebox/lifterlms/issues/1705
+		 * 
+		 * @param {String} country_code Currently selected country code.
+		 * @param {Object} holder Contains (holds) the placeholder text.
+		 *  
+		 * @return {Void}
+		 */
+		get_state_placeholder: function( holder, country_code ) {
+	  
+			var placeholder;
+	  
+			if ( 'undefined' === typeof this.address_info[ country_code ] ) {
+				placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', LLMS.l10n.translate( 'State/Region' ) );
+				} else {
+				placeholder = holder.attr( 'placeholder' ).replace( '{REGION}', this.address_info[country_code].state );
+				}
+	
+	return placeholder;
+	
+	},
+		
+		/**
+		 * Set the state placeholder to the state field
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} placeholder Sets the text of state field making it a requirement to select state/region.
+		 * @param {Object} holder prepends the options.
+		 * @return {void}	  
+		 */
+	
+		set_state_placeholder: function ( holder, placeholder ) {
+			holder.prepend( '<option disabled selected>' + placeholder + '</option>' );
 		},
 	
 		/**
@@ -770,7 +817,7 @@ var LLMS = window.LLMS || {};
 		disable_field: function( $field ) {
 			$(
 				'<input>',
-				{ name: $field.attr('name'), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
+				{ name: $field.attr( 'name' ), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
 			).insertAfter( $field );
 			$field.attr( 'disabled', 'disabled' );
 			this.get_field_parent( $field ).hide();
@@ -788,7 +835,7 @@ var LLMS = window.LLMS || {};
 		 */
 		enable_field: function( $field ) {
 			$field.removeAttr( 'disabled' );
-			$field.next( '.hidden[name='+$field.attr('name')+']' ).detach();
+			$field.next( '.hidden[name=' + $field.attr('name') + ']' ).detach();
 			this.get_field_parent( $field ).show();
 		}
 	
