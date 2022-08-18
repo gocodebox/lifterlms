@@ -2,5 +2,8 @@ significance: major
 type: added
 links:
   - "#2229"
-entry: On purchase completed retrieve the redirection URL from the purchased
-  access plan settings if no 'redirect' GET variable is passed.
+entry: On purchase completed retrieve the redirection URL from the
+  INPUT_POST 'redirect' variable, if no 'redirect' variable is passed
+  via INPUT_GET.
+  The INPUT_POST 'redirect' variable comes from the new checkout form's
+  hidden field 'redirect' populated with LLMS_Access_Plan::get_redirection_url().

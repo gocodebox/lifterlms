@@ -431,23 +431,24 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Calculates the url to redirect to on transaction completion.
 	 *
 	 * @since 3.30.0
-	 * @since [version] Retrieve the redirection URL directly from the access plan.
+	 * @since [version] Retrieve the redirect URL from the INPUT_POST if not passed via INPUT_GET.
 	 *
 	 * @param LLMS_Order $order The order object.
 	 * @return string
 	 */
 	protected function get_complete_transaction_redirect_url( $order ) {
 
-		// Get the redirection URL.
-		$plan_id  = $order->get( 'plan_id' );
-		$plan     = llms_get_post( $plan_id );
-		$redirect = is_a( $plan, 'LLMS_Access_Plan' ) ? $plan->get_redirection_url( false ) : '';
+		// Get the redirect parameter from INPUT_GET.
+		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
 
-		// Redirect to the product's permalink, if no parameter was set.
-		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
+		// Get the redirect parameter from INPUT_POST if not INPUT_GET redirect pased.
+		$redirect = $redirect ? $redirect : urldecode( llms_filter_input( INPUT_POST, 'redirect' ) );
+
+		// Redirect to the product's permalink, if no redirect found yet.
+		$redirect = $redirect ? $redirect : get_permalink( $order->get( 'product_id' ) );
 
 		// Fallback to the account page if we don't have a url for some reason.
-		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
+		$redirect = $redirect ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
 
 		// Add order key to the url.
 		$redirect = add_query_arg(
@@ -458,11 +459,10 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		);
 
 		// Redirection url on free checkout form.
-		$quick_enroll_form = llms_filter_input( INPUT_POST, 'form' );
-
+		$quick_enroll_form      = llms_filter_input( INPUT_POST, 'form' );
 		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect' );
 
-		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && ! empty( $free_checkout_redirect ) ) {
+		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && $free_checkout_redirect ) {
 			$redirect = urldecode( $free_checkout_redirect );
 		}
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * LifterLMS Checkout Page Shortcode.
+ * LifterLMS Checkout Page Shortcode
  *
  * Controls functionality associated with shortcode [llms_checkout].
  *
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -274,13 +274,14 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Setup attributes for plan and form information
+	 * Setup attributes for plan and form information.
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
+	 * @since [version] Add 'redirect' hidden field to be used on purchase completion.
 	 *
 	 * @param int   $plan_id LLMS_Access_Plan post id.
-	 * @param array $atts Existing attributes.
+	 * @param array $atts    Existing attributes.
 	 * @return array Modified attributes array.
 	 */
 	protected static function setup_plan_and_form_atts( $plan_id, $atts ) {
@@ -294,6 +295,19 @@ class LLMS_Shortcode_Checkout {
 		$atts['form_location'] = 'checkout';
 		$atts['form_title']    = llms_get_form_title( $atts['form_location'], array( 'plan' => $plan ) );
 		$atts['form_fields']   = self::clean_form_fields( llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) ) );
+
+		// Add 'redirect' URL hidden field to be used on purchase completion.
+		$plan_redirection_url  = $plan->get_redirection_url();
+		if ( $plan_redirection_url ) {
+			$atts['form_fields'] .= ( new LLMS_Form_Field(
+				array(
+					'name'           => 'redirect',
+					'type'           => 'hidden',
+					'value'          => $plan_redirection_url,
+					'data_store_key' => false,
+				)
+			) )->get_html();
+		}
 
 		return $atts;
 	}
