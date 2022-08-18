@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added new parameter to LLMS_Access_Plan::get_redirection_url() to
+  optionally get a raw (not encoded) URL.

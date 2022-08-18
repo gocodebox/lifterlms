@@ -1210,4 +1210,82 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test method `get_redirection_url()` when there's no 'redirect' $_GET variable.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_redirection_url_no_input_get() {
+
+		$this->set_obj_product( 'course' );
+		$this->obj->set( 'checkout_redirect_type', 'url' );
+		$this->obj->set( 'checkout_redirect_url', 'https:://example.com' );
+
+		// Expect the encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( $this->obj->get( 'checkout_redirect_url' ) ) );
+		// Expect the not-encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), $this->obj->get( 'checkout_redirect_url' ) );
+
+		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
+		$this->obj->set( 'checkout_redirect_url', '' );
+
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+
+	}
+
+	/**
+	 * Test method `get_redirection_url()` when there's a 'redirect' $_GET variable.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_redirection_url_with_input_get() {
+
+		$this->set_obj_product( 'course' );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => '',
+			)
+		);
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example-redirect-get.com',
+			)
+		);
+		// Expect the encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
+		// Expect the not-encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+
+		// Set access plan redirect options, still the $_GET variable will win.
+		$this->obj->set( 'checkout_redirect_type', 'url' );
+		$this->obj->set( 'checkout_redirect_url', 'https:://example.com' );
+
+		// Expect the encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
+		// Expect the not-encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+
+		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
+		$this->obj->set( 'checkout_redirect_url', '' );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => '',
+			)
+		);
+
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+
+	}
+
 }

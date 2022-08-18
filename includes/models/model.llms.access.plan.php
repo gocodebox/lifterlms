@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,34 +215,36 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the full URL to redirect to after successful checkout
+	 * Retrieve the full URL to redirect to after successful checkout.
 	 *
-	 * @since    3.30.0
-	 * @version  3.30.0
+	 * @since 3.30.0
+	 * @since [version] Addeded `$encode` parameter.
 	 *
-	 * @return   string
+	 * @param bool $encode Whether or not encoding the URL.
+	 * @return string
 	 */
-	public function get_redirection_url() {
+	public function get_redirection_url( $encode = true ) {
 
-		// what type of redirection is set up by user?
+		// What type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
 
 		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
-		// force redirect querystring parameter over all else.
+		// Force redirect querystring parameter over all else.
 		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
 
 		/**
-		 * Filter the checkout redirection parameter
+		 * Filter the checkout redirection parameter.
 		 *
-		 * @since    3.30.0
-		 * @version  3.30.0
+		 * @since 3.30.0
 		 *
-		 * @param    string               $redirection The calculated url to redirect to.
-		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
-		 * @param    LLMS_Acccess_Plan    $this Current Access Plan object.
+		 * @param string            $redirection      The calculated url to redirect to.
+		 * @param string            $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
+		 * @param LLMS_Acccess_Plan $access_plan      Current Access Plan object.
 		 */
-		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this ) );
+		$redirection = apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this );
+
+		return $encode ? urlencode( $redirection ) : $redirection;
 
 	}
 
