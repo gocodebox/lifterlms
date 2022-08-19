@@ -5,7 +5,6 @@
  * @group shortcodes
  *
  * @since 5.1.0
- * @version [version]
  */
 class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
