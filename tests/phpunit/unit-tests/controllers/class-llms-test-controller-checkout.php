@@ -46,7 +46,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		foreach ( $actions as $hook => $priority ) {
 			$this->assertEquals( $priority, has_action( 'init', array( $this->main, $hook ) ) );
-		}		
+		}
 
 	}
 
@@ -89,7 +89,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'llms_order_key' => 'NOT-A-REAL-ORDER-KEY',
 		) );
 		$this->assertFalse( $this->main->confirm_pending_order() );
-		
+
 	}
 
 	/**
@@ -283,7 +283,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'llms-order-gen-order-not-found', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 	}
@@ -521,7 +521,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'llms-order-gen-plan-required', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 	}
@@ -549,7 +549,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		};
 		$this->load_payment_gateway( $gateway );
 
-		$this->mockPostRequest( 
+		$this->mockPostRequest(
 			array_merge(
 				$this->get_mock_checkout_data_array(),
 				array(
@@ -567,7 +567,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'gateway-err', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 		$this->unload_payment_gateway( 'fake-create-pending-order-ajax-gateway-err' );
@@ -597,7 +597,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		};
 		$this->load_payment_gateway( $gateway );
 
-		$this->mockPostRequest( 
+		$this->mockPostRequest(
 			array_merge(
 				$this->get_mock_checkout_data_array(),
 				array(
@@ -615,8 +615,8 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertEquals( 'yes', $res['success'] );
-		$this->assertArrayHasKey( 'order_key', $res ); 
-		
+		$this->assertArrayHasKey( 'order_key', $res );
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 		$this->unload_payment_gateway( 'fake-create-pending-order-ajax-success' );
@@ -707,7 +707,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'order_id'             => $this->factory->post->create(),
 		) );
 		$this->assertNull( $this->main->switch_payment_source() );
-		$this->assertHasNotice( 'Invalid order.', 'error' );	
+		$this->assertHasNotice( 'Invalid order.', 'error' );
 
 	}
 
@@ -728,7 +728,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'order_id'             => $order->get( 'id' ),
 		) );
 		$this->assertNull( $this->main->switch_payment_source() );
-		$this->assertHasNotice( 'Invalid order.', 'error' );	
+		$this->assertHasNotice( 'Invalid order.', 'error' );
 
 	}
 
@@ -752,7 +752,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'order_id'             => $order->get( 'id' ),
 		) );
 		$this->assertNull( $this->main->switch_payment_source() );
-		$this->assertHasNotice( 'Missing gateway information.', 'error' );	
+		$this->assertHasNotice( 'Missing gateway information.', 'error' );
 
 	}
 
@@ -777,7 +777,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'llms_payment_gateway' => 'FAKE',
 		) );
 		$this->assertNull( $this->main->switch_payment_source() );
-		$this->assertHasNotice( 'The selected payment gateway is not valid.', 'error' );	
+		$this->assertHasNotice( 'The selected payment gateway is not valid.', 'error' );
 
 	}
 
@@ -1020,7 +1020,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'switch-source-order-missing', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 	}
@@ -1048,7 +1048,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'switch-source-order-invalid', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 	}
@@ -1079,7 +1079,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
 		$res = json_decode( ob_get_clean(), true );
 		$this->assertArrayHasKey( 'switch-source-order-invalid', $res['errors'] );
-		
+
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
 
 	}

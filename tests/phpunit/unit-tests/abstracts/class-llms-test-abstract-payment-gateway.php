@@ -360,4 +360,77 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_complete_transaction_redirect_url() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_complete_transaction_redirect_url() {
+
+		$order = new LLMS_Order( 'new' );
+		$this->assertEquals(
+			'?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Force INPUT_GET redirect.
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example-redirect-get.com',
+			)
+		);
+		$this->assertEquals(
+			'https://example-redirect-get.com?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Force INPUT_POST redirect, the INPUT_GET will win.
+		$this->mockPostRequest(
+			array(
+				'redirect' => 'https://example-redirect-post.com',
+			)
+		);
+		$this->assertEquals(
+			'https://example-redirect-get.com?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Reset INPUT_GET, INPUT_POST will win.
+		$this->mockGetRequest( array() );
+		$this->assertEquals(
+			'https://example-redirect-post.com?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Free enroll and no user logged in, INPUT_POST will win.
+		$this->mockPostRequest(
+			array(
+				'redirect'               => 'https://example-redirect-post.com',
+				'form'                   => 'free_enroll',
+				'free_checkout_redirect' => 'https://free-checkout-redirect.com',
+			)
+		);
+		$this->assertEquals(
+			'https://example-redirect-post.com?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Free enroll user logged in, INPUT_POST will win.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
+		$this->mockPostRequest(
+			array(
+				'redirect'               => 'https://example-redirect-post.com',
+				'form'                   => 'free_enroll',
+				'free_checkout_redirect' => 'https://free-checkout-redirect.com',
+			)
+		);
+		$this->assertEquals(
+			'https://free-checkout-redirect.com',
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+	}
+
 }
