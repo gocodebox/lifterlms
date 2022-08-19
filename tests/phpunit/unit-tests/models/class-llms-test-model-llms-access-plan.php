@@ -7,8 +7,9 @@
  * @group access_plan
  *
  * @since 3.23.0
- * @since 3.30.1 Add tests for get_initial_price() method.
+ * @since 3.30.1 Add tests for `get_initial_price()` method.
  * @since 3.40.0 Improved tests for the `requires_payment()` method.
+ * @since [version] Added tests for `get_redirection_url()` method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -1223,17 +1224,23 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'checkout_redirect_type', 'url' );
 		$this->obj->set( 'checkout_redirect_url', 'https:://example.com' );
 
-		// Expect the encoded url.
+		// Expect the encoded URL.
 		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( $this->obj->get( 'checkout_redirect_url' ) ) );
-		// Expect the not-encoded url.
+		// Require only querystring, expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url( true, true ) );
+
+		// Expect the not-encoded URL.
 		$this->assertEquals( $this->obj->get_redirection_url( false ), $this->obj->get( 'checkout_redirect_url' ) );
+		// Require only querystring, expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url( false, true ) );
+
 
 		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
 		$this->obj->set( 'checkout_redirect_url', '' );
 
 		// Expect empty string.
 		$this->assertEmpty( $this->obj->get_redirection_url() );
-
+		$this->assertEmpty( $this->obj->get_redirection_url( true, false ) );
 	}
 
 	/**
@@ -1260,10 +1267,15 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 				'redirect' => 'https://example-redirect-get.com',
 			)
 		);
-		// Expect the encoded url.
+		// Expect the encoded URL.
 		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
-		// Expect the not-encoded url.
+		// Require only querystring, expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
+
+		// Expect the not-encoded URL.
 		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+		// Require only querystring, expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
 
 		// Set access plan redirect options, still the $_GET variable will win.
 		$this->obj->set( 'checkout_redirect_type', 'url' );
@@ -1271,8 +1283,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 		// Expect the encoded url.
 		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
+		// Require only querystring, expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
+
 		// Expect the not-encoded url.
 		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+		// Require only querystring, expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
 
 		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
 		$this->obj->set( 'checkout_redirect_url', '' );
@@ -1285,6 +1302,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 		// Expect empty string.
 		$this->assertEmpty( $this->obj->get_redirection_url() );
+		$this->assertEmpty( $this->obj->get_redirection_url( true, false ) );
 
 	}
 
