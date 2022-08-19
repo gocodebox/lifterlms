@@ -297,10 +297,11 @@ class LLMS_Shortcode_Checkout {
 		$atts['form_fields']   = self::clean_form_fields( llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) ) );
 
 		// Add 'redirect' URL hidden field to be used on purchase completion.
-		$plan_redirection_url  = $plan->get_redirection_url();
+		$plan_redirection_url = $plan->get_redirection_url( false );
 		if ( $plan_redirection_url ) {
 			$atts['form_fields'] .= ( new LLMS_Form_Field(
 				array(
+					'id'             => 'llms-redirect',
 					'name'           => 'redirect',
 					'type'           => 'hidden',
 					'value'          => $plan_redirection_url,
