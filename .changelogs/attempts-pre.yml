@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Make `<pre>` elements in quiz attempt results scrollable.
