@@ -452,7 +452,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since 6.0.0
 	 * @since 6.1.0 Added `{earned_date}` merge code.
-	 *               Allowed `{current_date}` to be mocked.
+	 *              Allowed `{current_date}` to be mocked.
 	 *
 	 * @return string[] Array mapping merge codes to the merge data.
 	 */
@@ -491,6 +491,22 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'llms_certificate_merge_data'
 		);
 
+		/**
+		 * Filters the certificate merge data.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $codes      {
+		 *
+		 *    Merge codes and data.
+		 *
+		 *    @type string          $code The merge code. E.g. {first_name}.
+		 *    @type int|string|bool $data The merga data to replace the merge code with. E.g. 'Dude'.
+		 * }
+		 * @param int   $user_id     WP User ID of the user who earned the certificate.
+		 * @param int   $template_id WP_Post ID of the certificate template.
+		 * @param int   $related_id  WP Post ID of the post which triggered the certificate to be awarded.
+		 */
 		return apply_filters( 'llms_certificate_merge_data', $codes, $user_id, $template_id, $related_id );
 
 	}
