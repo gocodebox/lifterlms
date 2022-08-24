@@ -497,7 +497,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @since 6.0.0
 		 *
 		 * @param array $codes      {
-		 *
 		 *    Merge codes and data.
 		 *
 		 *    @type string          $code The merge code. E.g. {first_name}.
