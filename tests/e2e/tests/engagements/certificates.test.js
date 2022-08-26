@@ -96,7 +96,7 @@ function backportBlockAttributes( blocks ) {
 				if ( 'core/separator' === block.name ) {
 					block.attributes.opacity = 'alpha-channel';
 				} else if ( block.innerBlocks.length ) {
-					block.innerBlocks = separatorUpdate( block.innerBlocks );
+					block.innerBlocks = backportSeparators( block.innerBlocks );
 				}
 				return block;
 			} );
