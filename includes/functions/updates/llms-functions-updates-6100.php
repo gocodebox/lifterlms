@@ -54,12 +54,7 @@ function migrate_spanish_users() {
 		'CT' => '',
 		'EX' => '',
 		'GA' => '',
-		'RI' => '',
-		'MD' => '',
-		'MC' => '',
-		'NC' => '',
 		'SA' => '',
-		'VC' => '',
 	);
 
 	$query = new \WP_User_Query(
