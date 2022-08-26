@@ -1,0 +1,6 @@
+significance: minor
+type: dev
+entry: Added two new parameters to LLMS_Access_Plan::get_redirection_url()
+  - `$encode` to optionally get a raw (not encoded) URL.
+  - `$querystring_only` to optionally get only the redirect URL
+  if set via NPUT_GET variable.
