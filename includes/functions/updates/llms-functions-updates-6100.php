@@ -44,6 +44,22 @@ function migrate_spanish_users() {
 		'MC' => 'MU', // 'Murcia'.
 		'NC' => 'NA', // 'Navarra'.
 		'VC' => 'V', // 'Valencia'.
+		// No map.
+		'AN' => '',
+		'AR' => '',
+		'PV' => '',
+		'CN' => '',
+		'CL' => '',
+		'CM' => '',
+		'CT' => '',
+		'EX' => '',
+		'GA' => '',
+		'RI' => '',
+		'MD' => '',
+		'MC' => '',
+		'NC' => '',
+		'SA' => '',
+		'VC' => '',
 	);
 
 	$query = new \WP_User_Query(
