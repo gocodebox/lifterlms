@@ -91,7 +91,7 @@ function backportBlockAttributes( blocks ) {
 
 	// On 5.9 and earlier snapshots fail because separator opacity didn't exist.
 	if ( wpVersionCompare( '6.0', '<' ) ) {
-		const backportSeparators = ( blockList ) => {
+		const backportSeparators = ( blocksList ) => {
 			return blocksList.map( ( block ) => {
 				if ( 'core/separator' === block.name ) {
 					block.attributes.opacity = 'alpha-channel';
