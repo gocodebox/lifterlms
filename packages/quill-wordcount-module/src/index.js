@@ -5,10 +5,9 @@ import wordCountModule from './module';
  *
  * @since [version]
  *
- * @return {Boolean} Returns `true` when registered and `false` if Quill is not available.
+ * @return {boolean} Returns `true` when registered and `false` if Quill is not available.
  */
 export default function() {
-
 	const { Quill } = window;
 	if ( undefined === Quill ) {
 		return false;
@@ -16,5 +15,4 @@ export default function() {
 
 	Quill.register( 'modules/wordcount', wordCountModule );
 	return true;
-
-};
+}

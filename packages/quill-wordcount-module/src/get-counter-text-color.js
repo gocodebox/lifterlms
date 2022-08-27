@@ -3,12 +3,11 @@
  *
  * @since [version]
  *
- * @param {number}                 wordCount The current word count in the Quill editor instance.
- * @param {WordCountModuleOptions} options   The module options object.
+ * @param {number} wordCount The current word count in the Quill editor instance.
+ * @param {Object} options   A `WordCountModuleOptions` options object.
  * @return {string} The CSS color code to use.
  */
 export default function( wordCount, options ) {
-
 	const { min, max, colorWarning, colorError } = options;
 
 	let color = 'initial';
@@ -20,5 +19,4 @@ export default function( wordCount, options ) {
 	}
 
 	return color;
-
 }

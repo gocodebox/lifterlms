@@ -1,7 +1,14 @@
 import wordCountModule, { setOptions } from '../module';
 
+/**
+ * Mock Quill class.
+ *
+ * @since [version]
+ *
+ * @param {Element} container DOM element container.
+ * @return {MockQuill} A mock Quill instance.
+ */
 function MockQuill( container ) {
-
 	this.container = container;
 
 	this.getText = function() {
@@ -13,10 +20,9 @@ function MockQuill( container ) {
 	};
 
 	return this;
-};
+}
 
 describe( 'module', () => {
-
 	describe( 'setOptions()', () => {
 		const testData = [
 			[ 'Use defaults', {}, undefined ],
@@ -38,20 +44,17 @@ describe( 'module', () => {
 			[ 'Chinese characters and default options', '我去了一家中餐馆，买了一条面包。', { min: 1, max: 14 } ],
 		];
 		test.each( testData )( '%s', ( testName, startingText, opts ) => {
-
 			const container = document.createElement( 'div' );
 
-			container.id        = 'ql-editor';
+			container.id = 'ql-editor';
 			container.innerHTML = startingText;
 
-			document.body.appendChild( container );	
+			document.body.appendChild( container );
 
 			wordCountModule( new MockQuill( container ), opts );
 			expect( document.body.innerHTML ).toMatchSnapshot();
 
 			document.body.innerHTML = '';
-
 		} );
 	} );
-
 } );

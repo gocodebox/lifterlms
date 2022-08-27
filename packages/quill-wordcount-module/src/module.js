@@ -6,20 +6,20 @@ import formatNumber from './format-number';
 
 /**
  * The modules options object.
- * 
+ *
  * @typedef {Object} WordCountModuleOptions
  *
  * @property {?number}  min           The minimum required words. If `null` no minimum will be enforced.
  * @property {?number}  max           The maximum required words. If `null` no maximum will be enforced.
  * @property {string}   colorWarning  A CSS color code used when approaching the maximum word count.
  * @property {string}   colorError    A CSS color code used when below the minimum or above the maximum word count.
- * @property {Function} onChange      Callback function invoked when the quill text changes. This function is passed 
+ * @property {Function} onChange      Callback function invoked when the quill text changes. This function is passed
  *                                    3 parameters: the `quill` object, the module options object, and the current number of words.
  * @property {Object}   l10n          An object of language strings used in the module's UI.
- * @proprety {string}   l10n.singular The singular unit, default "word".
- * @proprety {string}   l10n.plural   The plurarl unit, default "words".
- * @proprety {string}   l10n.min      Text to display for minimum count, default "Minimum".
- * @proprety {string}   l10n.max      Text to display for maximum count, default "Maximum".
+ * @property {string}   l10n.singular The singular unit, default "word".
+ * @property {string}   l10n.plural   The plurarl unit, default "words".
+ * @property {string}   l10n.min      Text to display for minimum count, default "Minimum".
+ * @property {string}   l10n.max      Text to display for maximum count, default "Maximum".
  */
 
 /**
@@ -31,14 +31,13 @@ import formatNumber from './format-number';
  * @return {WordCountModuleOptions} A full options object.
  */
 export function setOptions( options = {} ) {
-	
 	options = {
 		...{
 			min: null,
 			max: null,
 			colorWarning: '#ff922b', // Orange.
-			colorError: '#e5554e',  // Red.
-			onChange: ( quill, options, wordCount ) => {},
+			colorError: '#e5554e', // Red.
+			onChange: () => {},
 			l10n: {},
 		},
 		...options,
@@ -54,7 +53,7 @@ export function setOptions( options = {} ) {
 		...options.l10n,
 	};
 
-	return options;	
+	return options;
 }
 
 /**
@@ -62,16 +61,15 @@ export function setOptions( options = {} ) {
  *
  * @since [version]
  *
- * @param {Quill}                  quill   The Quill editor instance.
+ * @param {Object}                 quill   A `Quill` editor instance.
  * @param {WordCountModuleOptions} options A full or partial options object.
  * @return {void}
  */
 export default function( quill, options = {} ) {
-
 	options = setOptions( options );
 
 	const container = createContainer( options ),
-		counter     = document.createElement( 'span' );
+		counter = document.createElement( 'span' );
 
 	counter.className = 'ql-wordcount-counter';
 	counter.style.float = 'right';
@@ -79,16 +77,14 @@ export default function( quill, options = {} ) {
 	container.appendChild( counter );
 
 	const updateCounter = () => {
-
 		const wordCount = wordsCount( quill.getText() );
 
 		counter.style.color = getCounterTextColor( wordCount, options );
-		
+
 		const unit = 1 === wordCount ? options.l10n.singular : options.l10n.plural;
 		counter.innerHTML = formatNumber( wordCount ) + ' ' + unit;
 
 		options.onChange( quill, options, wordCount );
-
 	};
 
 	updateCounter();
@@ -96,5 +92,4 @@ export default function( quill, options = {} ) {
 	quill.container.parentNode.insertBefore( container, quill.container.nextSibling );
 
 	quill.on( 'text-change', updateCounter );
-
 }

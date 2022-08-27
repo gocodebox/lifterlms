@@ -6,6 +6,6 @@
  * @param {number} number An integer, float, or numerical string.
  * @return {string} The formatted number string.
  */
-export default function ( number ) {
+export default function( number ) {
 	return new Intl.NumberFormat().format( number );
 }

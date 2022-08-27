@@ -7,4 +7,4 @@ import quillWordcountModule from '../../packages/quill-wordcount-module/src';
  */
 ( function() {
 	quillWordcountModule();
-} )();
+}() );
