@@ -1,0 +1,4 @@
+significance: minor
+type: changed
+entry: Upgrades the bundled quill-wordcount-module to version 2.0, addressing an
+  issue encountered when counting words with non-Latin character languages.
