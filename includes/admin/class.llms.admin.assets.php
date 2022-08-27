@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -481,23 +481,19 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 3.16.0
 	 * @since 3.17.8 Unknown.
+	 * @since [version] Load modules using `llms()->assets`.
 	 *
 	 * @return void
 	 */
 	public static function register_quill( $modules = array() ) {
 
 		if ( ! wp_script_is( 'llms-quill', 'registered' ) ) {
-
 			wp_register_script( 'llms-quill', LLMS_PLUGIN_URL . 'assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', array(), '1.3.5', true );
 			wp_register_style( 'llms-quill-bubble', LLMS_PLUGIN_URL . 'assets/vendor/quill/quill.bubble' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.3.5', 'screen' );
-
 		}
 
 		foreach ( $modules as $module ) {
-
-			$url = LLMS_PLUGIN_URL . 'assets/vendor/quill/quill.module.' . $module . LLMS_ASSETS_SUFFIX . '.js';
-			wp_register_script( 'llms-quill-' . $module, $url, array( 'llms-quill' ), llms()->version, true );
-
+			llms()->assets->register_script( "llms-quill-{$module}" );
 		}
 
 	}

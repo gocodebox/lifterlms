@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,6 +31,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Added llms-select2.
  * @since 5.5.0 Added llms-addons.
  * @since 6.0.0 Added llms-admin-certificate-editor.
+ * @since [version] Added llms-quill-wordcount.
  */
 return array(
 
@@ -81,6 +82,13 @@ return array(
 	'llms-utils'                    => array(
 		'asset_file' => true,
 		'suffix'     => '',
+	),
+
+	// Quill Modules.
+	'llms-quill-wordcount'          => array(
+		'asset_file'   => true,
+		'suffix'       => '',
+		'dependencies' => array( 'llms-quill' ),
 	),
 
 	// Vendor.
