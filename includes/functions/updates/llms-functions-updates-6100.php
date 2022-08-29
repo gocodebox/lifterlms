@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 6.10.0
+ * @version 6.10.0
  */
 
 namespace LLMS\Updates\Version_6_10_0;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 6.10.0
  *
  * @access private
  *
@@ -28,7 +28,7 @@ function _get_db_version() {
 /**
  * Migrates spanish user's provinces to the correct ones.
  *
- * @since [version]
+ * @since 6.10.0
  *
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
@@ -96,7 +96,7 @@ function migrate_spanish_users() {
 /**
  * Update db version to 6.10.0.
  *
- * @since [version]
+ * @since 6.10.0
  *
  * @return fasle.
  */

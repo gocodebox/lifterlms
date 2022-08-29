@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version [version]
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,7 +80,7 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @since 3.29.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Check the current user can edit the lesson they're going to mark complete/incomplete.
+	 * @since 6.10.0 Check the current user can edit the lesson they're going to mark complete/incomplete.
 	 *
 	 * @return void
 	 */

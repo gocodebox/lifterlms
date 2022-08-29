@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -481,7 +481,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 3.16.0
 	 * @since 3.17.8 Unknown.
-	 * @since [version] Load modules using `llms()->assets`.
+	 * @since 6.10.0 Load modules using `llms()->assets`.
 	 *
 	 * @return void
 	 */

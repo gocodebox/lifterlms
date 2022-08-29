@@ -342,7 +342,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Tets {@see LLMS_Admin_Assets:register_quill}.
 	 *
-	 * @since [version]
+	 * @since 6.10.0
 	 *
 	 * @return void
 	 */

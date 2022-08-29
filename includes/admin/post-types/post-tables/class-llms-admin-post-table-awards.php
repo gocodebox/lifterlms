@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,7 +147,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 *
 	 * @since 6.0.0
 	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] When no INPUT_GET `post_type` variable set, retrieve the post_type from the `$id` (WP_Post ID) parameter.
+	 * @since 6.10.0 When no INPUT_GET `post_type` variable set, retrieve the post_type from the `$id` (WP_Post ID) parameter.
 	 *
 	 * @param int     $id       WP_Post ID.
 	 * @param boolean $template Whether or not a template is being requested.
@@ -307,7 +307,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * Modify post row actions.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added missing textdomain for the 'Move {post_title} to the Trash' string.
+	 * @since 6.10.0 Added missing textdomain for the 'Move {post_title} to the Trash' string.
 	 *
 	 * @param array   $actions Existing actions.
 	 * @param WP_Post $post    Post object.

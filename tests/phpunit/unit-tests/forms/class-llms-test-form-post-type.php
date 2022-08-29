@@ -294,7 +294,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 *
 	 * @since 5.0.0
 	 * @since 5.10.0 Added expected meta prop '_llms_form_title_free_access_plans'.
-	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * @since 6.10.0 Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */

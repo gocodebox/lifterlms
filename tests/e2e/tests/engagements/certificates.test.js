@@ -72,7 +72,7 @@ async function getCertificateHTML( templateVersion = 2 ) {
  *
  * WP < 6.0: Adds opacity attribute. 
  *
- * @since [version]
+ * @since 6.10.0
  *
  * @param {Object[]} blocks Array of WP_Block objects.
  * @return {Object[]} Updated array.

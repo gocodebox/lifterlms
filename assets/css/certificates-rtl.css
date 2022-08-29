@@ -79,38 +79,31 @@ body {
     height: 100%;
     overflow: hidden;
   }
-
   @page {
     size: auto;
   }
   .no-print {
     display: none;
   }
-
   body * {
     visibility: hidden !important;
     background: #fff none;
   }
-
   .site, .site-content {
     overflow: visible;
   }
-
   header, aside, nav, footer {
     display: none !important;
   }
-
   .single-llms_my_certificate .container,
 .single-llms_certificate .container {
     width: 100%;
   }
-
   .llms-certificate-container,
 .llms-certificate-container * {
     visibility: visible !important;
     background: transparent none;
   }
-
   .llms-certificate-container:not(.cert-template-v2) {
     position: absolute;
     top: 0;
@@ -119,7 +112,6 @@ body {
     margin: 0 auto;
     background: #fff none;
   }
-
   .llms-certificate-container.cert-template-v2 {
     margin: 0 auto !important;
     -webkit-print-color-adjust: exact !important;

@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;

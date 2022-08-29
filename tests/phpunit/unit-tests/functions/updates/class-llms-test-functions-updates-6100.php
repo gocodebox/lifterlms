@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_6100
  *
- * @since [version]
+ * @since 6.10.0
  */
 class LLMS_Test_Functions_Updates_6100 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_6100 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
- 	 * @since [version]
+ 	 * @since 6.10.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Updates_6100 extends LLMS_UnitTestCase {
 	/**
 	 * Test migrate_spanish_users().
 	 *
-	 * @since [version]
+	 * @since 6.10.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Functions_Updates_6100 extends LLMS_UnitTestCase {
 	/**
 	 * Test update_db_version().
 	 *
-	 * @since [version]
+	 * @since 6.10.0
 	 *
 	 * @return void
 	 */

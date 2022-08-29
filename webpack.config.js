@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts/Dev
  *
  * @since 5.5.0
- * @version [version]
+ * @version 6.10.0
  */
 
 const { resolve } = require( 'path' ),
