@@ -49,6 +49,7 @@
 
 			"!assets/js/llms-components.js",
 			"!assets/js/llms-icons.js",
+			"!assets/js/llms-quill-wordcount.js",
 			"!assets/js/llms-utils.js"
 		],
 		"dest": "assets/js/"

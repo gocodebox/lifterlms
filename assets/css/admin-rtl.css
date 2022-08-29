@@ -565,7 +565,6 @@ them however you see fit.
     width: 100%;
     padding-left: 0;
   }
-
   .m-1of2 {
     float: right;
     padding-left: 0.75em;
@@ -573,7 +572,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 50%;
   }
-
   .m-1of3 {
     float: right;
     padding-left: 0.75em;
@@ -581,7 +579,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 33.33%;
   }
-
   .m-2of3 {
     float: right;
     padding-left: 0.75em;
@@ -589,7 +586,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 66.66%;
   }
-
   .m-1of4 {
     float: right;
     padding-left: 0.75em;
@@ -597,7 +593,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 25%;
   }
-
   .m-3of4 {
     float: right;
     padding-left: 0.75em;
@@ -605,27 +600,21 @@ them however you see fit.
             box-sizing: border-box;
     width: 75%;
   }
-
   .m-right {
     text-align: center;
   }
-
   .m-center {
     text-align: center;
   }
-
   .m-left {
     text-align: center;
   }
-
   .d-right {
     text-align: left;
   }
-
   .d-center {
     text-align: center;
   }
-
   .d-left {
     text-align: right;
   }
@@ -640,7 +629,6 @@ them however you see fit.
     width: 100%;
     padding-left: 0;
   }
-
   .t-1of2 {
     float: right;
     padding-left: 0.75em;
@@ -648,7 +636,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 50%;
   }
-
   .t-1of3 {
     float: right;
     padding-left: 0.75em;
@@ -656,7 +643,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 33.33%;
   }
-
   .t-2of3 {
     float: right;
     padding-left: 0.75em;
@@ -664,7 +650,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 66.66%;
   }
-
   .t-1of4 {
     float: right;
     padding-left: 0.75em;
@@ -672,7 +657,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 25%;
   }
-
   .t-3of4 {
     float: right;
     padding-left: 0.75em;
@@ -680,7 +664,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 75%;
   }
-
   .t-1of5 {
     float: right;
     padding-left: 0.75em;
@@ -688,7 +671,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 20%;
   }
-
   .t-2of5 {
     float: right;
     padding-left: 0.75em;
@@ -696,7 +678,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 40%;
   }
-
   .t-3of5 {
     float: right;
     padding-left: 0.75em;
@@ -704,7 +685,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 60%;
   }
-
   .t-4of5 {
     float: right;
     padding-left: 0.75em;
@@ -712,15 +692,12 @@ them however you see fit.
             box-sizing: border-box;
     width: 80%;
   }
-
   .d-right {
     text-align: left;
   }
-
   .d-center {
     text-align: center;
   }
-
   .d-left {
     text-align: right;
   }
@@ -735,7 +712,6 @@ them however you see fit.
     width: 100%;
     padding-left: 0;
   }
-
   .d-1of2 {
     float: right;
     padding-left: 0.75em;
@@ -743,7 +719,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 50%;
   }
-
   .d-1of3 {
     float: right;
     padding-left: 0.75em;
@@ -751,7 +726,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 33.33%;
   }
-
   .d-2of3 {
     float: right;
     padding-left: 0.75em;
@@ -759,7 +733,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 66.66%;
   }
-
   .d-1of4 {
     float: right;
     padding-left: 0.75em;
@@ -767,7 +740,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 25%;
   }
-
   .d-3of4 {
     float: right;
     padding-left: 0.75em;
@@ -775,7 +747,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 75%;
   }
-
   .d-1of5 {
     float: right;
     padding-left: 0.75em;
@@ -783,7 +754,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 20%;
   }
-
   .d-2of5 {
     float: right;
     padding-left: 0.75em;
@@ -791,7 +761,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 40%;
   }
-
   .d-3of5 {
     float: right;
     padding-left: 0.75em;
@@ -799,7 +768,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 60%;
   }
-
   .d-4of5 {
     float: right;
     padding-left: 0.75em;
@@ -807,7 +775,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 80%;
   }
-
   .d-1of6 {
     float: right;
     padding-left: 0.75em;
@@ -815,7 +782,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 16.6666666667%;
   }
-
   .d-1of7 {
     float: right;
     padding-left: 0.75em;
@@ -823,7 +789,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 14.2857142857%;
   }
-
   .d-2of7 {
     float: right;
     padding-left: 0.75em;
@@ -831,7 +796,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 28.5714286%;
   }
-
   .d-3of7 {
     float: right;
     padding-left: 0.75em;
@@ -839,7 +803,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 42.8571429%;
   }
-
   .d-4of7 {
     float: right;
     padding-left: 0.75em;
@@ -847,7 +810,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 57.1428572%;
   }
-
   .d-5of7 {
     float: right;
     padding-left: 0.75em;
@@ -855,7 +817,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 71.4285715%;
   }
-
   .d-6of7 {
     float: right;
     padding-left: 0.75em;
@@ -863,7 +824,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 85.7142857%;
   }
-
   .d-1of8 {
     float: right;
     padding-left: 0.75em;
@@ -871,7 +831,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 12.5%;
   }
-
   .d-1of9 {
     float: right;
     padding-left: 0.75em;
@@ -879,7 +838,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 11.1111111111%;
   }
-
   .d-1of10 {
     float: right;
     padding-left: 0.75em;
@@ -887,7 +845,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 10%;
   }
-
   .d-1of11 {
     float: right;
     padding-left: 0.75em;
@@ -895,7 +852,6 @@ them however you see fit.
             box-sizing: border-box;
     width: 9.0909090909%;
   }
-
   .d-1of12 {
     float: right;
     padding-left: 0.75em;
@@ -903,15 +859,12 @@ them however you see fit.
             box-sizing: border-box;
     width: 8.33%;
   }
-
   .d-right {
     text-align: left;
   }
-
   .d-center {
     text-align: center;
   }
-
   .d-left {
     text-align: right;
   }
@@ -1774,17 +1727,14 @@ ul.tabs li {
   ul.tabs li {
     display: inline-block;
   }
-
   .llms-nav-tab {
     display: inline-block;
     width: 33%;
   }
-
   .llms-nav-tab-settings {
     display: inline-block;
     width: 25%;
   }
-
   #llms-form-wrapper .llms-select {
     width: 50%;
     max-width: 500px;
@@ -1799,7 +1749,6 @@ ul.tabs li {
   #llms-form-wrapper .llms-date-select:first-child {
     margin-left: 5%;
   }
-
   .llms-widget input[type=text],
 .llms-widget input[type=password],
 .llms-widget input[type=datetime],
@@ -1883,12 +1832,10 @@ ul.tabs li {
     display: inline-block;
     width: 33.333%;
   }
-
   .llms-nav-tab-settings {
     display: inline-block;
     width: 25%;
   }
-
   #llms-form-wrapper .llms-select {
     display: inline-block;
     width: 47.5%;
@@ -1912,7 +1859,6 @@ ul.tabs li {
   #llms-form-wrapper .llms-date-select:first-child {
     margin-left: 5%;
   }
-
   .llms-widget-row:before, .llms-widget-row:after {
     content: " ";
     display: table;
@@ -2958,6 +2904,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   -webkit-box-flex: 3;
       -ms-flex: 3;
           flex: 3;
+  max-width: 75%;
 }
 .llms-reporting-tab-content .llms-reporting-tab-side {
   -webkit-box-flex: 1;
@@ -3110,6 +3057,9 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-quiz-attempt-results .llms-quiz-attempt-question.status--graded.incorrect .llms-status-icon {
   background-color: #e5554e;
+}
+.llms-quiz-attempt-results .llms-quiz-attempt-question pre {
+  overflow: auto;
 }
 .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-question-title {
   float: right;
@@ -3586,8 +3536,8 @@ button[name=llms_quiz_attempt_action].grading .save {
   background-position: -24px 0;
   background-repeat: no-repeat;
   border-radius: 50%;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.35) 0 0 0 1px;
-          box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.35) 0 0 0 1px;
+  -webkit-box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.35) 0 0 0 1px;
+          box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.35) 0 0 0 1px;
   content: "";
   cursor: pointer;
   display: inline-block;

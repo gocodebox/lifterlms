@@ -793,8 +793,8 @@
   border-radius: 50%;
   cursor: pointer;
   vertical-align: middle;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.5) 0 0 0 1px;
-          box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.5) 0 0 0 1px;
+  -webkit-box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.5) 0 0 0 1px;
+          box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.5) 0 0 0 1px;
   background: #efefef;
   background-image: radial-gradient(ellipse at center, #e5554e 0%, #e5554e 40%, #efefef 45%);
   background-repeat: no-repeat;
@@ -1999,6 +1999,9 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
 .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question.status--graded.incorrect .llms-status-icon {
   background-color: #e5554e;
 }
+.single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question pre {
+  overflow: auto;
+}
 .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-question-title {
   float: left;
   margin: 0;
@@ -2779,8 +2782,8 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   background-position: -24px 0;
   background-repeat: no-repeat;
   border-radius: 50%;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.35) 0 0 0 1px;
-          box-shadow: rgba(255, 255, 255, 0.15) 0 1px 1px, inset rgba(0, 0, 0, 0.35) 0 0 0 1px;
+  -webkit-box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.35) 0 0 0 1px;
+          box-shadow: hsla(0deg, 0%, 100%, 0.15) 0 1px 1px, inset hsla(0deg, 0%, 0%, 0.35) 0 0 0 1px;
   content: "";
   cursor: pointer;
   display: inline-block;

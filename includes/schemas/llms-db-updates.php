@@ -164,4 +164,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'6.10.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'migrate_spanish_users',
+			'update_db_version',
+		),
+	),
 );

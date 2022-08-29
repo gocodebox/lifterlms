@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version 6.4.0
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,14 +147,16 @@ class LLMS_Admin_Post_Table_Awards {
 	 *
 	 * @since 6.0.0
 	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.10.0 When no INPUT_GET `post_type` variable set, retrieve the post_type from the `$id` (WP_Post ID) parameter.
 	 *
-	 * @param int     $id       WP_Post id.
+	 * @param int     $id       WP_Post ID.
 	 * @param boolean $template Whether or not a template is being requested.
 	 * @return LLMS_User_Achievement|LLMS_User_Certificate|boolean Returns the object or `false` for invalid post types.
 	 */
 	private function get_object( $id, $template = false ) {
 
 		$post_type = llms_filter_input( INPUT_GET, 'post_type' );
+		$post_type = $post_type ? $post_type : get_post_type( $id );
 
 		if ( 'llms_my_achievement' === $post_type ) {
 			return new LLMS_User_Achievement( $id );
@@ -305,6 +307,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * Modify post row actions.
 	 *
 	 * @since 6.0.0
+	 * @since 6.10.0 Added missing textdomain for the 'Move {post_title} to the Trash' string.
 	 *
 	 * @param array   $actions Existing actions.
 	 * @param WP_Post $post    Post object.
@@ -318,7 +321,7 @@ class LLMS_Admin_Post_Table_Awards {
 				'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 				get_delete_post_link( $post->ID ),
 				// Translators: %s: Post title.
-				esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), _draft_or_post_title( $post ) ) ),
+				esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash', 'lifterlms' ), _draft_or_post_title( $post ) ) ),
 				__( 'Delete Permanently', 'lifterlms' )
 			);
 
