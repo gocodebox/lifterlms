@@ -1,0 +1,6 @@
+significance: minor
+type: deprecated
+entry: The files `assets/vendor/quill/quill.module.wordcount.js` and
+  `assets/vendor/quill/quill.module.wordcount.min.js` are to be removed in the
+  next major release. Instead of loading these files directly, use
+  `wp_enqueue_script( 'llms-quill-wordcount' )`.

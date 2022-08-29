@@ -16,6 +16,7 @@ const { resolve } = require( 'path' ),
 			'admin-addons',
 			'admin-award-certificate',
 			'admin-certificate-editor',
+			'quill-wordcount',
 
 			// Module packages.
 			'components',

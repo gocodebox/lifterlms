@@ -339,5 +339,25 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Tets {@see LLMS_Admin_Assets:register_quill}.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_quill() {
+
+		wp_deregister_script( 'llms-quill' );
+		wp_deregister_script( 'llms-quill-wordcount' );
+		wp_deregister_style( 'llms-quill-bubble' );
+
+		LLMS_Admin_Assets::register_quill( array( 'wordcount' ) );
+
+		$this->assertAssetIsRegistered( 'script', 'llms-quill' );
+		$this->assertAssetIsRegistered( 'script', 'llms-quill-wordcount' );
+		$this->assertAssetIsRegistered( 'style', 'llms-quill-bubble' );
+
+	}
 
 }
