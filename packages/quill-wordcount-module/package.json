@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/quill-wordcount-module",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Wordcount module for Quill.js",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
