@@ -66,15 +66,18 @@ async function getCertificateHTML( templateVersion = 2 ) {
 }
 
 /**
- * Adds isStackedOnMobile block attribute to blocks on WP 5.8 so our snapshots can
- * be taken for 5.9 and later.
+ * Adds various block attributes to block snapshots depending on the WP version.
+ * 
+ * WP < 5.8: Adds isStackedOnMobile attribute.
  *
- * @since 6.0.0
+ * WP < 6.0: Adds opacity attribute. 
+ *
+ * @since 6.10.0
  *
  * @param {Object[]} blocks Array of WP_Block objects.
  * @return {Object[]} Updated array.
  */
-function backportColumnsAttrs( blocks ) {
+function backportBlockAttributes( blocks ) {
 
 	// On 5.8 snapshots fail because isStackedOnMobile didn't exist.
 	if ( wpVersionCompare( '5.9', '<' ) ) {
@@ -84,6 +87,21 @@ function backportColumnsAttrs( blocks ) {
 			}
 			return block;
 		} );
+	}
+
+	// On 5.9 and earlier snapshots fail because separator opacity didn't exist.
+	if ( wpVersionCompare( '6.0', '<' ) ) {
+		const backportSeparators = ( blocksList ) => {
+			return blocksList.map( ( block ) => {
+				if ( 'core/separator' === block.name ) {
+					block.attributes.opacity = 'alpha-channel';
+				} else if ( block.innerBlocks.length ) {
+					block.innerBlocks = backportSeparators( block.innerBlocks );
+				}
+				return block;
+			} );
+		};
+		blocks = backportSeparators( blocks );
 	}
 
 	return blocks;
@@ -170,7 +188,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 			await page.waitForTimeout( 1000 );
 
-			expect( backportColumnsAttrs( await getAllBlocks( false ) ) ).toMatchSnapshot();
+			expect( backportBlockAttributes( await getAllBlocks( false ) ) ).toMatchSnapshot();
 
 		} );
 
@@ -191,7 +209,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 			await page.waitForTimeout( 1000 );
 
-			expect( backportColumnsAttrs( await getAllBlocks( false ) ) ).toMatchSnapshot();
+			expect( backportBlockAttributes( await getAllBlocks( false ) ) ).toMatchSnapshot();
 
 		} );
 

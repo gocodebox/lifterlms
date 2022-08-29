@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/components",
-  "version": "1.0.1-alpha.0",
+  "version": "1.0.1-alpha.1",
   "description": "UI components for LifterLMS.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -28,7 +28,7 @@
     "@wordpress/api-fetch": "^5.2.6",
     "@wordpress/components": "^19.5.0",
     "@wordpress/compose": "^5.0.6",
-    "@wordpress/element": "^4.0.4",
+    "@wordpress/element": "^4.14.0",
     "@wordpress/i18n": "^4.2.4",
     "@wordpress/url": "^3.3.1",
     "lodash": "^4.17.21",

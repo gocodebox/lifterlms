@@ -1,52 +1,39 @@
 LifterLMS Changelog
 ===================
 
-v7.0.0-beta.1 - 2022-08-12
---------------------------
 
-##### New Features
-
-+ Added handling for admin settings options that store their option values in a nested array.
-+ Added new AJAX checkout and payment source switching endpoints for payment gateways to utilize instead of the preexisting synchronous form submission methods.
+v6.10.0 - 2022-08-29
+--------------------
 
 ##### Updates and Enhancements
 
-+ When an order post is restored from the trash its post status will now be "llms-pending" in favor of the default "draft" status.
++ Updtaed woocommerce/action-scheduler to version [3.5.0](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.0).
++ Upgrades the bundled `quill-wordcount` module to version 2.0, addressing an issue encountered when counting words with non-Latin character languages.
 
 ##### Bug Fixes
 
-+ Don't attempt to lookup the default payment gateway from user meta data.
-+ Disabled `scroll-behavior: smooth` on checkout screen to address form element validity checking issues on Chromium-based browsers. [#2206](https://github.com/gocodebox/lifterlms/issues/2206)
++ Make `<pre>` elements in quiz attempt results scrollable.
++ Make sure the current user can edit the lesson, when changing its completion status from the admin reporting.
++ Added missing textodmain for the string 'Move {post_title} to the Trash'. [#2224](https://github.com/gocodebox/lifterlms/issues/2224)
++ Fixed PHP fatal error when quick editing an award. [#2231](https://github.com/gocodebox/lifterlms/issues/2231)
++ Updated Spain's provinces list. [#2243](https://github.com/gocodebox/lifterlms/issues/2243)
 
 ##### Deprecations
 
-+ Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
-+ Deprecated the `lifterlms_update_option_{$type}` action in favor of the `llms_update_option_{$type}` filter.
-+ Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::confirm_pending_order()`.
-+ Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::create_pending_order()`.
-+ Method `LLMS_Controller_Orders::switch_payment_source()` is deprecated in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
-+ Passing jQuery selections into the `window.LLMS.Spinner` functions is deprecated. Use JS `Elements` or selection strings parseable by `document.querySelector()` instead.
-+ Deprecated hook `llms_{$method}_title` in favor of `llms_{$method}_refund_title`.
++ The files `assets/vendor/quill/quill.module.wordcount.js` and `assets/vendor/quill/quill.module.wordcount.min.js` are to be removed in the next major release. Instead of loading these files directly, use `wp_enqueue_script( 'llms-quill-wordcount' )`.
 
-##### Developer Notes
 
-+ Added admin settings helper function, `llms_get_dashicon_link()`, intended to enable the addition of external resource helper links to settings field descriptions.
-+ The `LLMS_Student` object can be instantiated as an empty object and bypass current user autoloading. In the future this may affect integrations using the `lifterlms_new_pending_order` action hook which will receive an "empty" student object during order setup by gateways utilizing new AJAX-powered checkout endpoints.
-+ Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will allow force enabling/disabling of gateway logging functions.
-+ Improved payment gateway secure string logging by adding a method, `add_secure_string()` allowing developers to add secure strings during runtime without the necessity of registering the strings using filters.
-+ Introduces new function `llms_is_option_secure()` for determining if an "secured" option is defined in a "secure" manner.
-+ Implemented new gateway feature: `modify_recurring_payments`. [#2176](https://github.com/gocodebox/lifterlms/issues/2176)
-+ Admin settings fields now display `after_html` for additional field types which support `desc`.
-+ The CSS for `.llms-spinning` and `.llms-spinner` elements is no longer loaded as part of the `lifterlms.css` and `admin.css` files, instead it is loaded dynamically when `window.LLMS.Spinner` functions are called. In some cases CSS overrides to these elements which relied on CSS rule load order may no longer successfully override the default CSS rules. These overrides may need to be updated to have more specific selectors in order to ensure the overrides are retained.
-+ The Javascript object, `window.LLMS.Spinner`, has been converted to a module accessible from the same variable.
-+ The `window.LLMS.Spinner` methods now accept JS Elements and selector strings parseable by `document.querySelector()` in addition to jQuery selections.
-+ Added new filter `llms_transaction_can_be_refunded` enabling custom refund restrictions to be applied to a transaction.
+v6.9.0 - 2022-07-28
+-------------------
 
-##### Updated Templates
+##### Updates and Enhancements
 
-+ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-gateways.php)
-+ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-switch-source.php)
-+ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/myaccount/view-order-actions.php)
++ Removed site-wide font-weight styles targeting `<h1>` through `<h6>` elements. [#2217](https://github.com/gocodebox/lifterlms/issues/2217)
+
+##### Bug Fixes
+
++ Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
++ Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
 
 
 v7.0.0-alpha.4 - 2022-07-18
@@ -65,6 +52,20 @@ v7.0.0-alpha.3 - 2022-07-16
 + Added new temporary metadata, `temp_gateway_ids` to orders for use by gateways when switching payment methods.
 + Moved `LLMS.Spinner` Javascript into an `@lifterlms/components` module and removed its reliance on jQuery.
 + Disabled `scroll-behavior: scroll` on checkout screens to address a validity reporting issue on Chromium-based browsers.
+
+
+v6.8.0 - 2022-07-12
+-------------------
+
+##### Bug Fixes
+
++ Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
++ Fixed text/label alignment in Twenty-Twenty-Two theme. 
++ Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
+
+##### Developer Notes
+
++ Added new filter `llms_product_get_restrictions` hook to filter the list of restrictions placed on a given product. [#2201](https://github.com/gocodebox/lifterlms/issues/2201)
 
 
 v7.0.0-alpha.2 - 2022-06-23
@@ -137,33 +138,6 @@ v7.0.0-alpha.1 - 2022-06-15
 + [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.1/templates/checkout/form-gateways.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.1/templates/checkout/form-switch-source.php)
 + [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-alpha.1/templates/myaccount/view-order-actions.php)
-
-
-v6.9.0 - 2022-07-28
--------------------
-
-##### Updates and Enhancements
-
-+ Removed site-wide font-weight styles targeting `<h1>` through `<h6>` elements. [#2217](https://github.com/gocodebox/lifterlms/issues/2217)
-
-##### Bug Fixes
-
-+ Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
-+ Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
-
-
-v6.8.0 - 2022-07-12
--------------------
-
-##### Bug Fixes
-
-+ Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
-+ Fixed text/label alignment in Twenty-Twenty-Two theme. 
-+ Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
-
-##### Developer Notes
-
-+ Added new filter `llms_product_get_restrictions` hook to filter the list of restrictions placed on a given product. [#2201](https://github.com/gocodebox/lifterlms/issues/2201)
 
 
 v6.7.0 - 2022-06-09

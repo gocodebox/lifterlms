@@ -36,7 +36,9 @@
 				background-color: $color-red;
 			}
 		}
-
+		pre {
+			overflow: auto;
+		}
 		.llms-question-title {
 			float: left;
 			margin: 0;
