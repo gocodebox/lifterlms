@@ -1,8 +1,8 @@
 /**
  * Babel config.
  *
- * @since [version]
- * @version [version]
+ * @since 2.0.0
+ * @version 2.0.0
  */
 
 const presets = [ '@wordpress/default' ];

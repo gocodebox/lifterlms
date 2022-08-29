@@ -1,7 +1,7 @@
 /**
  * Retrieves the text-color to use to denote word count errors or warnings.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {number} wordCount The current word count in the Quill editor instance.
  * @param {Object} options   A `WordCountModuleOptions` options object.

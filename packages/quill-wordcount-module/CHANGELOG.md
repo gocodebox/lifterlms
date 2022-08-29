@@ -1,7 +1,7 @@
 @lifterlms/quill-wordcount-module Changelog
 ===========================================
 
-v2.0.0 - 2022-0?-??
+v2.0.0 - 2022-08-29
 -------------------
 
 + Migrated to ESNext package.
