@@ -3,7 +3,7 @@ import wordCountModule, { setOptions } from '../module';
 /**
  * Mock Quill class.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {Element} container DOM element container.
  * @return {MockQuill} A mock Quill instance.

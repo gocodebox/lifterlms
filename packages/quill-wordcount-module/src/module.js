@@ -25,7 +25,7 @@ import formatNumber from './format-number';
 /**
  * Merges default options into the supplied options ensuring all necessary options in exist in the resulting object.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {WordCountModuleOptions} options A full or partial options object.
  * @return {WordCountModuleOptions} A full options object.
@@ -59,7 +59,7 @@ export function setOptions( options = {} ) {
 /**
  * The Quill Word Count Module.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {Object}                 quill   A `Quill` editor instance.
  * @param {WordCountModuleOptions} options A full or partial options object.

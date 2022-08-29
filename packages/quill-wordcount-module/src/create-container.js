@@ -3,7 +3,7 @@ import formatNumber from './format-number';
 /**
  * Creates a new DOM node for the min or max count display.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {string} classNameSuffix Suffix to add to the element's classname.
  * @param {string} text            Text to display.
@@ -26,7 +26,7 @@ function createCounterNode( classNameSuffix, text, limit ) {
 /**
  * Creates a container element to house the wordcount module UI.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @param {Object} options A `WordCountModuleOptions` options object.
  * @return {Element} The container DOM node element.

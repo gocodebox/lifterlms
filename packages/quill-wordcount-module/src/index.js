@@ -3,7 +3,7 @@ import wordCountModule from './module';
 /**
  * Registers the Word Count module with Quill.
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @return {boolean} Returns `true` when registered and `false` if Quill is not available.
  */
