@@ -2,5 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#2250"
-entry: Fixed PHP warning raised when logging errors during the notification
-  emails dispatching.
+entry: Fixed a PHP warning raised when logging errors during email notification dispatch.
