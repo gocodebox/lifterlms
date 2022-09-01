@@ -107,7 +107,8 @@ function llms_get_certificate_content( $id = 0 ) {
  * }
  */
 function llms_get_certificate_fonts() {
-
+	
+	$use_g_fonts = apply_filters( 'llms_use_google_webfonts', false );
 	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 
 	$fonts = array(
@@ -129,24 +130,24 @@ function llms_get_certificate_fonts() {
 		// Newspaper-style display fonts.
 		'pirata-one'          => array(
 			'name'       => 'Pirata One',
-			'href'       => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
+			'href'		 => $use_g_fonts ? {'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap'} : LLMS_PLUGIN . {"../assets/css/pirata-one.css"},
 			'fontFamily' => '"Pirata One", ' . $serif,
 		),
 		'unifraktur-maguntia' => array(
 			'name'       => 'UnifrakturMaguntia',
-			'href'       => 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap',
+			'href'		 => $use_g_fonts ? {'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap'} : LLMS_PLUGIN . {"../assets/css/unifraktur-maguntia.css"},
 			'fontFamily' => '"UnifrakturMaguntia", ' . $serif,
 		),
 
 		// Cursive-style handwriting fonts.
 		'dancing-script'      => array(
 			'name'       => 'Dancing Script',
-			'href'       => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
+			'href'		 => $use_g_fonts ? {'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap'} : LLMS_PLUGIN . {"../assets/css/dancing-script.css"},
 			'fontFamily' => '"Dancing Script", ' . $serif,
 		),
 		'imperial-script'     => array(
 			'name'       => 'Imperial Script',
-			'href'       => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
+			'href'		 => $use_g_fonts ? {'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap'} : LLMS_PLUGIN . {"../assets/css/imperial-script.css"},
 			'fontFamily' => '"Imperial Script", ' . $serif,
 		),
 
@@ -159,6 +160,7 @@ function llms_get_certificate_fonts() {
 	 *
 	 * @param array[] $fonts Array of font definitions, {@see llms_get_certificate_fonts()}.
 	 */
+
 	return apply_filters( 'llms_certificate_fonts', $fonts );
 
 }
