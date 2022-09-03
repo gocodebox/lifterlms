@@ -66,6 +66,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		} catch ( Error $e ) {
 			$this->log( sprintf( 'error sending email notification ID #%d', $notification_id ) );
 			$this->log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
+			$notification->set( 'status', 'error' );
 			return false;
 		}
 

@@ -1,17 +1,19 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership
+ * LLMS_Notifications_Query class file
  *
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query LifterLMS Students for a given course / membership
+ * LLMS_Notifications_Query class.
+ *
+ * Query LifterLMS Students for a given course/membership.
  *
  * @example
  *   $query = new LLMS_Notifications_Query( array(
@@ -34,14 +36,15 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected $id = 'notifications';
 
 	/**
-	 * Get an array of allowed notification statuses
+	 * Get an array of allowed notification statuses.
 	 *
-	 * @return   string[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Added 'error' among the available statuses.
+	 *
+	 * @return string[]
 	 */
 	private function get_available_statuses() {
-		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' );
+		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed', 'error' );
 	}
 
 	/**
