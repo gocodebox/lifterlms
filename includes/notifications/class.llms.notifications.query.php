@@ -93,7 +93,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		 * @param array                    $args                Array of default arguments to set up the query with.
 		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
 		 */
-		return apply_filters( 'llms_notifications_query_default_args', $this->get_filter( 'default_args' ), $args, $this );
+		return apply_filters( 'llms_notifications_query_default_args', $args, $this );
 
 	}
 
