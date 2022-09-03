@@ -87,11 +87,12 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Convert raw results to notification objects
+	 * Convert raw results to notification objects.
 	 *
-	 * @return   LLMS_Notification[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] When loading a notification, if errored, exclude it when not explictly requested.
+	 *
+	 * @return LLMS_Notification[]
 	 */
 	public function get_notifications() {
 
@@ -101,8 +102,11 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		if ( $results ) {
 
 			foreach ( $results as $result ) {
-				$obj             = new LLMS_Notification( $result->id );
-				$notifications[] = $obj->load();
+				$notification = ( new LLMS_Notification( $result->id ) )->load();
+				// If the notification status is 'error' and errored notifications were not requestedm, skip it.
+				if ( 'error' !== $notification->get( 'status' ) || ! in_array( 'error', $this->arguments['statuses'], true ) ) {
+					$notifications[] = $notification;
+				}
 			}
 		}
 
