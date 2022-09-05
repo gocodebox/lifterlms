@@ -76,7 +76,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 				'updated' => 'DESC',
 				'id'      => 'DESC',
 			),
-			'statuses'   => array_diff( $this->get_available_statuses(), array( 'error' ) ),
+			'statuses'   => array_values( array_diff( $this->get_available_statuses(), array( 'error' ) ) ),
 			'triggers'   => array(),
 			'types'      => array(),
 			'user_id'    => null,
@@ -223,6 +223,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -237,7 +238,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- SQL is prepared in other functions.
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS *
+			"SELECT {$this->sql_select_columns()}
 			FROM {$wpdb->prefix}lifterlms_notifications AS n
 			LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id
 			{$this->sql_where()}
