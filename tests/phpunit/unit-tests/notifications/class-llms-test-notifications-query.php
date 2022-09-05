@@ -68,7 +68,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 		$post_id = $this->factory->post->create();
 
 		// Create two notifications.
-		$n1   = new LLMS_Notification();
+		$n1    = new LLMS_Notification();
 		$nid_1 = $n1->create(
 			array(
 				'post_id'    => $post_id,

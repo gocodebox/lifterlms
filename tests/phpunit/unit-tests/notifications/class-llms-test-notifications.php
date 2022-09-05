@@ -259,4 +259,54 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test email processor task's method on errored notification.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_email_processor_errored_notification_task() {
+
+		$email = $this->main->get_processor( 'email' );
+		$user  = $this->factory->user->create();
+
+		$order = $this->get_mock_order();
+		$txn   = $order->record_transaction(
+			array(
+				'amount'             => $order->get_initial_price( array(), 'float' ),
+				'source_description' => 'Mock Payment',
+				'transaction_id'     => uniqid( 'mock-' ),
+				'status'             => 'llms-txn-succeeded',
+				'payment_gateway'    => 'manual',
+			)
+		);
+
+		// Create a notification for a purcahse receipt.
+		$n1    = new LLMS_Notification();
+		$nid_1 = $n1->create(
+			array(
+				'post_id'    => $txn->get('id'),
+				'subscriber' => $user,
+				'type'       => 'basic',
+				'trigger_id' => 'purchase_receipt',
+				'user_id'    => 1,
+			)
+		);
+		$this->assertEquals( 'new', $n1->get('status') );
+		// Process notification email.
+		$email_processor = $this->main->get_processor( 'email' );
+		$res = LLMS_Unit_Test_Util::call_method( $email_processor, 'task', array( $nid_1 ) );
+		$this->assertEquals( false, $res );
+		$this->assertEquals( 'sent', $n1->get('status') );
+
+		// Delete the order so that a fatal error will be produced.
+		wp_delete_post( $order->get('id') );
+
+		$res = LLMS_Unit_Test_Util::call_method( $email_processor, 'task', array( $nid_1 ) );
+		$this->assertEquals( false, $res );
+		$this->assertEquals( 'error', $n1->get('status') );
+
+	}
+
 }
