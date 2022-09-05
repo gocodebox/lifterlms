@@ -26,7 +26,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * Test the handle_admin_managment_forms() method.
 	 *
 	 * @since 3.29.0
-	 * @since [version] Added tests on user caps.
+	 * @since 6.10.0 Added tests on user caps.
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.1
 	 * @since 3.29.0 Unknown.
-	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * @since 6.10.0 Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.1
 	 * @since 3.29.0 Unknown.
-	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * @since 6.10.0 Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */

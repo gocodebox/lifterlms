@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Make sure the current user can edit the lesson, when changing its
-  completion status from the admin reporting.

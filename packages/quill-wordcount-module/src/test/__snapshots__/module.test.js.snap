@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`module module() Chinese characters and default options 1`] = `"<div id=\\"ql-editor\\">我去了一家中餐馆，买了一条面包。</div><div class=\\"ql-wordcount ql-toolbar ql-snow\\" style=\\"margin-top: -1px; font-size: 85%;\\"><i class=\\"ql-wordcount-min\\" style=\\"opacity: 0.5; margin-right: 10px;\\">Minimum: 1</i><i class=\\"ql-wordcount-max\\" style=\\"opacity: 0.5; margin-right: 10px;\\">Maximum: 14</i><span class=\\"ql-wordcount-counter\\" style=\\"float: right; color: rgb(255, 146, 43);\\">14 words</span></div>"`;
+
+exports[`module module() Latin characters and specified options 1`] = `"<div id=\\"ql-editor\\">Lorem ipsum dolor sit.</div><div class=\\"ql-wordcount ql-toolbar ql-snow\\" style=\\"margin-top: -1px; font-size: 85%;\\"><i class=\\"ql-wordcount-min\\" style=\\"opacity: 0.5; margin-right: 10px;\\">Minimum: 1</i><i class=\\"ql-wordcount-max\\" style=\\"opacity: 0.5; margin-right: 10px;\\">Max: 1,000</i><span class=\\"ql-wordcount-counter\\" style=\\"float: right;\\">4 words</span></div>"`;
+
+exports[`module module() No starting text and default options 1`] = `"<div id=\\"ql-editor\\"></div><div class=\\"ql-wordcount ql-toolbar ql-snow\\" style=\\"margin-top: -1px; font-size: 85%;\\"><span class=\\"ql-wordcount-counter\\" style=\\"float: right;\\">0 words</span></div>"`;
+
+exports[`module setOptions() Specify min and max 1`] = `
+Object {
+  "colorError": "#e5554e",
+  "colorWarning": "#ff922b",
+  "l10n": Object {
+    "max": "Maximum",
+    "min": "Minimum",
+    "plural": "words",
+    "singular": "word",
+  },
+  "max": 1000,
+  "min": 5,
+  "onChange": [Function],
+}
+`;
+
+exports[`module setOptions() Specify onChange function 1`] = `
+Object {
+  "colorError": "#e5554e",
+  "colorWarning": "#ff922b",
+  "l10n": Object {
+    "max": "Maximum",
+    "min": "Minimum",
+    "plural": "words",
+    "singular": "word",
+  },
+  "max": null,
+  "min": null,
+  "onChange": [Function],
+}
+`;
+
+exports[`module setOptions() Specify partial l10n object 1`] = `
+Object {
+  "colorError": "#e5554e",
+  "colorWarning": "#ff922b",
+  "l10n": Object {
+    "max": "Maximum",
+    "min": "Min",
+    "plural": "words",
+    "singular": "word",
+  },
+  "max": null,
+  "min": null,
+  "onChange": [Function],
+}
+`;
+
+exports[`module setOptions() Use defaults 1`] = `
+Object {
+  "colorError": "#e5554e",
+  "colorWarning": "#ff922b",
+  "l10n": Object {
+    "max": "Maximum",
+    "min": "Minimum",
+    "plural": "words",
+    "singular": "word",
+  },
+  "max": null,
+  "min": null,
+  "onChange": [Function],
+}
+`;

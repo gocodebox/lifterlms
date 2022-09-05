@@ -72,7 +72,7 @@ async function getCertificateHTML( templateVersion = 2 ) {
  *
  * WP < 6.0: Adds opacity attribute. 
  *
- * @since [version]
+ * @since 6.10.0
  *
  * @param {Object[]} blocks Array of WP_Block objects.
  * @return {Object[]} Updated array.
@@ -91,12 +91,12 @@ function backportBlockAttributes( blocks ) {
 
 	// On 5.9 and earlier snapshots fail because separator opacity didn't exist.
 	if ( wpVersionCompare( '6.0', '<' ) ) {
-		const backportSeparators = ( blockList ) => {
+		const backportSeparators = ( blocksList ) => {
 			return blocksList.map( ( block ) => {
 				if ( 'core/separator' === block.name ) {
 					block.attributes.opacity = 'alpha-channel';
 				} else if ( block.innerBlocks.length ) {
-					block.innerBlocks = separatorUpdate( block.innerBlocks );
+					block.innerBlocks = backportSeparators( block.innerBlocks );
 				}
 				return block;
 			} );

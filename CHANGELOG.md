@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v6.10.0 - 2022-08-29
+--------------------
+
+##### Updates and Enhancements
+
++ Updtaed woocommerce/action-scheduler to version [3.5.0](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.0).
++ Upgrades the bundled `quill-wordcount` module to version 2.0, addressing an issue encountered when counting words with non-Latin character languages.
+
+##### Bug Fixes
+
++ Make `<pre>` elements in quiz attempt results scrollable.
++ Make sure the current user can edit the lesson, when changing its completion status from the admin reporting.
++ Added missing textodmain for the string 'Move {post_title} to the Trash'. [#2224](https://github.com/gocodebox/lifterlms/issues/2224)
++ Fixed PHP fatal error when quick editing an award. [#2231](https://github.com/gocodebox/lifterlms/issues/2231)
++ Updated Spain's provinces list. [#2243](https://github.com/gocodebox/lifterlms/issues/2243)
+
+##### Deprecations
+
++ The files `assets/vendor/quill/quill.module.wordcount.js` and `assets/vendor/quill/quill.module.wordcount.min.js` are to be removed in the next major release. Instead of loading these files directly, use `wp_enqueue_script( 'llms-quill-wordcount' )`.
+
+
 v6.9.0 - 2022-07-28
 -------------------
 

@@ -21,7 +21,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
 	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
-	 * @since [version] Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * @since 6.10.0 Call the tested method directly instead of indirectly via `do_action( 'init' )`.
 	 * 
 	 * @return void
 	 */
