@@ -115,10 +115,14 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 			foreach ( $results as $result ) {
 				$notification = ( new LLMS_Notification( $result->id ) )->load();
-				// If the notification status is 'error' and errored notifications were not requestedm, skip it.
-				if ( 'error' !== $notification->get( 'status' ) || ! in_array( 'error', $this->arguments['statuses'], true ) ) {
-					$notifications[] = $notification;
+
+				// If the notification status is 'error' and errored notifications were not requested, skip it.
+				if ( 'error' === $notification->get( 'status' ) && ! in_array( 'error', $this->arguments['statuses'], true ) ) {
+					continue;
 				}
+
+				$notifications[] = $notification;
+
 			}
 		}
 
