@@ -100,8 +100,53 @@ abstract class LLMS_Abstract_Post_Data {
 	 * @return string The start or end date in the format 'Y-m-d H:i:s'.
 	 */
 	protected function get_date( $period, $date ) {
-
 		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
+	}
+
+	/**
+	 * Retrieve an array of all post ids in the course
+	 *
+	 * Includes course id, all section ids, all lesson ids, and all quiz ids.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_all_ids() {
+		return array( $this->post_id );
+	}
+
+	/**
+	 * Retrieve # of engagements related to the course awarded within the period
+	 *
+	 * @since 3.15.0
+	 *
+	 * @param string $type   Engagement type [email|certificate|achievement].
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
+	 */
+	public function get_engagements( $type, $period = 'current' ) {
+
+		global $wpdb;
+
+		$ids = implode( ',', array_map( 'absint', $this->get_all_ids() ) );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
+			SELECT DISTINCT COUNT( user_id )
+			FROM {$wpdb->prefix}lifterlms_user_postmeta
+			WHERE meta_key = %s
+			  AND post_id IN ( {$ids} )
+			  AND updated_date BETWEEN %s AND %s
+			",
+				'_' . $type,
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);// db call ok; no-cache ok.
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
