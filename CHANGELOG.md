@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v6.10.1 - 2022-09-07
+--------------------
+
+##### Bug Fixes
+
++ Fixed a PHP warning raised when logging errors during email notification dispatch. [#2250](https://github.com/gocodebox/lifterlms/issues/2250)
++ Fixed issue preventing one-time orders for being included in membership revenue reporting widgets. [#2254](https://github.com/gocodebox/lifterlms/issues/2254)
+
+
 v6.10.0 - 2022-08-29
 --------------------
 

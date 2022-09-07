@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2254"
-entry: Fixed issue preventing one-time orders for being included in membership
-  revenue reporting widgets.

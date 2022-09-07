@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 6.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,7 +186,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	 * Execute a WP Query to retrieve orders within the given date range.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Fixed typo preventing one-time orders from adding to revenue.
+	 * @since 6.10.1 Fixed typo preventing one-time orders from adding to revenue.
 	 *
 	 * @param int   $num_orders Optional. Number of orders to retrieve. Default 1.
 	 * @param array $dates      Optiona. Date range (passed to WP_Query['date_query']). Default empty array.
