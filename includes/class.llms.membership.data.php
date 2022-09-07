@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version 3.35.0
+ * @version 6.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,6 +186,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	 * Execute a WP Query to retrieve orders within the given date range.
 	 *
 	 * @since 3.32.0
+	 * @since 6.10.1 Fixed typo preventing one-time orders from adding to revenue.
 	 *
 	 * @param int   $num_orders Optional. Number of orders to retrieve. Default 1.
 	 * @param array $dates      Optiona. Date range (passed to WP_Query['date_query']). Default empty array.
@@ -195,7 +196,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 
 		$args = array(
 			'post_type'      => 'llms_order',
-			'post_status'    => array( 'llms-active', 'llms-complete' ),
+			'post_status'    => array( 'llms-active', 'llms-completed' ),
 			'posts_per_page' => $num_orders,
 			'meta_key'       => '_llms_product_id',
 			'meta_value'     => $this->post_id,
