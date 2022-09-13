@@ -28,7 +28,7 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 3.14.0
-	 * @version 4.5.1
+	 * @version 6.10.2
 	 */
 	
 	LLMS.Achievements = {
@@ -38,18 +38,17 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.14.0
 		 * @since 4.5.1 Fix conditional loading check.
+		 * @since 6.10.2 Don't run deprecated method `maybe_open()`.
+		 *               Removed reliance on jQuery.
 		 *
 		 * @return void
 		 */
 		init: function() {
 	
-			if ( $( '.llms-achievement' ).length ) {
-	
+			if ( document.querySelector( '.llms-achievement' ) ) {
 				var self = this;
-	
-				$( function() {
+				setTimeout( () => {
 					self.bind();
-					self.maybe_open();
 				} );
 			}
 	
@@ -135,16 +134,12 @@ var LLMS = window.LLMS || {};
 		 * On page load, opens a modal if the URL contains an achievement in the location hash
 		 *
 		 * @since 3.14.0
+		 * @deprecated 6.10.2 LLMS.Achievements.maybe_open() is deprecated with no replacement.
 		 *
 		 * @return void
 		 */
 		maybe_open: function() {
-	
-			var hash = window.location.hash;
-			if ( hash && -1 !== hash.indexOf( 'achievement-' ) ) {
-				$( 'a[href="' + hash + '"]' ).first().trigger( 'click' );
-			}
-	
+			console.warn( 'LLMS.Achievements.maybe_open() is deprecated with no replacement.' );
 		}
 	
 	};

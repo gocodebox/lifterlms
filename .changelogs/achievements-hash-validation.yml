@@ -1,5 +1,0 @@
-significance: patch
-type: deprecated
-links:
-  - gocodebox/private-issues#61
-entry: Deprecated JS method `LLMS.Achievements.maybe_open()` with no replacement.

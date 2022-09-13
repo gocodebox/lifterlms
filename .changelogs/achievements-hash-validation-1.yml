@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Fixed a jQuery error encountered on various pages when an invalid
-  achievement ID is passed in the web address hash.

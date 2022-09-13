@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v6.10.2 - 2022-09-13
+--------------------
+
+##### Bug Fixes
+
++ Fixed a jQuery error encountered on various pages when an invalid achievement ID is passed in the web address hash.
+
+##### Deprecations
+
++ Deprecated JS method `LLMS.Achievements.maybe_open()` with no replacement. [gocodebox/private-issues#61](https://github.com/gocodebox/private-issues/issues/61)
+
+
 v6.10.1 - 2022-09-07
 --------------------
 

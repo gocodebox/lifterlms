@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.10.2
  */
 
 LLMS.Achievements = {
@@ -14,7 +14,7 @@ LLMS.Achievements = {
 	 *
 	 * @since 3.14.0
 	 * @since 4.5.1 Fix conditional loading check.
-	 * @since [version] Don't run deprecated method `maybe_open()`.
+	 * @since 6.10.2 Don't run deprecated method `maybe_open()`.
 	 *               Removed reliance on jQuery.
 	 *
 	 * @return void
@@ -110,7 +110,7 @@ LLMS.Achievements = {
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
 	 *
 	 * @since 3.14.0
-	 * @deprecated [version] LLMS.Achievements.maybe_open() is deprecated with no replacement.
+	 * @deprecated 6.10.2 LLMS.Achievements.maybe_open() is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
