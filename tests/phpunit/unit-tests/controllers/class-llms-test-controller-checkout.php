@@ -384,6 +384,45 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_pending_order() when a validation error is encountered via the free checkout / enrollment form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_setup_error_free_enroll_form() {
+
+		$plan = $this->get_mock_plan();
+		$plan->set( array( 
+			'price'   => 0.00,
+			'is_free' => 'yes',
+		) );
+
+		LLMS_Forms::instance()->install( true );
+
+		$user = $this->factory->student->create();
+		wp_set_current_user( $user );
+
+		$this->mockPostRequest( array(
+			'_llms_checkout_nonce' => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+			'action'               => $this->main::ACTION_CREATE_PENDING_ORDER,
+			'llms_plan_id'         => $plan->get( 'id' ),
+			'form'                 => 'free_enroll',
+		) );
+
+		try {
+			$this->main->create_pending_order();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			$this->assertEquals(
+				"?plan={$plan->get( 'id' )} [302] YES",
+				$exception->getMessage()
+			);
+			$this->assertHasNotice( 'First Name is a required field.', 'error' );
+		}
+
+	}
+
+	/**
 	 * Test create_pending_order() success.
 	 *
 	 * @since [version]
@@ -633,6 +672,100 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	public function test_get_url() {
 		$nonce = wp_create_nonce( 'action' );
 		$this->assertEquals( "http://example.org?llms-checkout={$nonce}", $this->main->get_url( 'action' ) );
+	}
+
+	/**
+	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when called from an invalid context.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_from_free_enroll_form_invalid_context() {
+
+		// Everything is wrong.
+		$this->assertNull(
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( 0, 'fake' )
+			)
+		);
+
+		// User is logged in, a plan ID is submitted, but the form is invalid.
+		wp_set_current_user( $this->factory->student->create() );
+		$this->assertNull(
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( 123, 'fake' )
+			)
+		);
+		$this->assertNull(
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( 123, '' )
+			)
+		);
+
+		// User is logged in and correct form but no plan ID.
+		$this->assertNull(
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( 0, 'free_enroll' )
+			)
+		);
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when called with an invalid plan ID.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_from_free_enroll_form_invalid_plan() {
+
+		wp_set_current_user( $this->factory->student->create() );
+		$this->assertFalse(
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( $this->factory->post->create(), 'free_enroll' )
+			)
+		);
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when a redirect is executed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_from_free_enroll_form_success() {
+
+		$plan    = $this->get_mock_plan();
+		$plan_id = $plan->get( 'id' ) ;
+
+		wp_set_current_user( $this->factory->student->create() );
+		try {
+			LLMS_Unit_Test_Util::call_method( 
+				$this->main, 
+				'maybe_redirect_from_free_enroll_form', 
+				array( $plan_id, 'free_enroll' )
+			);
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			$this->assertEquals(
+				"?plan={$plan_id} [302] YES",
+				$exception->getMessage()
+			);
+		}
+
 	}
 
 	/**

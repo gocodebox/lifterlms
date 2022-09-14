@@ -169,6 +169,10 @@ class LLMS_Controller_Checkout {
 	 * If errors are encountered they are displayed to the user via {@see llms_add_notice()} and execution
 	 * of the method is halted early. Gateways should do the same if they encounter errors during processing.
 	 *
+	 * This method also handles free enrollment form submission from the access plan button (on pricing tables, etc...).
+	 * In the event of validation issues during free enrollment form submission the user is automatically redirect to checkout
+	 * where the validation issues will be displayed.
+	 *
 	 * Upon success the gateway should redirect the user to the relevant next step. For multi-step checkout that
 	 * requires payment confirmation, the user should be redirected to the order confirmation page, for one-step
 	 * gateways assuming the order is moved to active or completed status and enrollment takes place, the user
@@ -204,11 +208,22 @@ class LLMS_Controller_Checkout {
 			return false;
 		}
 
+		$setup_data = $this->extract_setup_data( wp_unslash( $_POST ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+
 		// Setup the pending order.
-		$setup = llms_setup_pending_order( $this->extract_setup_data( $_POST ) );  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+		$setup = llms_setup_pending_order( $setup_data );
 		if ( is_wp_error( $setup ) ) {
+
 			llms_add_notice( $setup->get_error_message(), 'error' );
+
+			/*
+			 * If the free enroll form is being submitted and there were validation issues this will redirect
+			 * to the checkout page in favor of returning an error.
+			 */
+			$this->maybe_redirect_from_free_enroll_form( $setup_data['plan_id'], llms_filter_input( INPUT_POST, 'form' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+
 			return $setup;
+
 		}
 
 		/**
@@ -369,6 +384,35 @@ class LLMS_Controller_Checkout {
 			wp_create_nonce( $action ),
 			get_site_url()
 		);
+	}
+
+	/**
+	 * Handles redirection during {@see LLMS_Controller_Checkout::create_pending_order()} if validation errors are encountered
+	 * via the free checkout/enrollment form.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $plan_id WP_Post ID of the access plan.
+	 * @param string $form    Value of the posted `form`, should be `free_enroll`.
+	 * @return null|bool|void Returns `null` when called in an invalid context, `false` if the supplied access plan ID is invalid,
+	 *                        and `void` when a redirect is performed to the checkout page.
+	 */
+	private function maybe_redirect_from_free_enroll_form( $plan_id, $form ) {
+
+		// Not the free enroll form.
+		if ( ! get_current_user_id() || 'free_enroll' !== $form || ! $plan_id ) {
+			return null;
+		}
+
+		// Invalid plan submitted.
+		$plan = llms_get_post( $plan_id );
+		if ( ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
+			return false;
+		}
+
+		// Redirect to the checkout screen.
+		llms_redirect_and_exit( $plan->get_checkout_url() );
+
 	}
 
 	/**
