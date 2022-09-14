@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -435,6 +435,7 @@ class LLMS_Assets {
 	 * location.
 	 *
 	 * @since 4.4.0
+	 * @since [version] When increasing priorities, round to the nearest two decimals.
 	 *
 	 * @param float $priority      Requested enqueue priority.
 	 * @param array $inline_assets List of existing inline assets for the requested location.
@@ -448,7 +449,7 @@ class LLMS_Assets {
 
 			$priorities = wp_list_pluck( $inline_assets, 'priority' );
 			while ( in_array( $priority, $priorities, true ) ) {
-				$priority += 0.01;
+				$priority = round( $priority + 0.01, 2 );
 			}
 		}
 
