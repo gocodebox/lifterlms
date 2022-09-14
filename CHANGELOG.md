@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v6.10.2 - 2022-09-14
+--------------------
+
+##### Updates and Enhancements
+
++ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
+
+##### Security Fixes
+
++ Fixed a data sanitization issue related to achievement permalinks.
+
+
+v6.10.1 - 2022-09-07
+--------------------
+
+##### Bug Fixes
+
++ Fixed a PHP warning raised when logging errors during email notification dispatch. [#2250](https://github.com/gocodebox/lifterlms/issues/2250)
++ Fixed issue preventing one-time orders for being included in membership revenue reporting widgets. [#2254](https://github.com/gocodebox/lifterlms/issues/2254)
+
+
 v7.0.0-beta.1 - 2022-08-29
 --------------------------
 
@@ -51,7 +72,6 @@ v7.0.0-beta.1 - 2022-08-29
 + [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-gateways.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/checkout/form-switch-source.php)
 + [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0-beta.1/templates/myaccount/view-order-actions.php)
-
 
 
 v6.10.0 - 2022-08-29

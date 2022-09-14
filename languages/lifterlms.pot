@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-29T12:24:09-06:00\n"
+"POT-Creation-Date: 2022-09-14T13:08:59-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.1.0\n"
 "X-Domain: lifterlms\n"
@@ -35059,7 +35059,7 @@ msgstr ""
 #: assets/js/llms-admin-certificate-editor.js:22
 #: assets/js/llms-components.js:15
 #: assets/js/llms-spinner.js:1
-#: assets/js/llms.js:2426
+#: assets/js/llms.js:2439
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Loading…"
 msgstr ""
