@@ -2,22 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-<<<<<<< HEAD
 "Project-Id-Version: LifterLMS 7.0.0-rc.1\n"
-=======
-"Project-Id-Version: LifterLMS 6.10.2\n"
->>>>>>> 3b37e839c9c8258c37c5e978990186c9d27f3aeb
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2022-09-14T13:10:52-06:00\n"
-=======
-"POT-Creation-Date: 2022-09-14T11:42:42-06:00\n"
->>>>>>> 3b37e839c9c8258c37c5e978990186c9d27f3aeb
+"POT-Creation-Date: 2022-09-14T15:32:20-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.1.0\n"
 "X-Domain: lifterlms\n"
@@ -5450,7 +5442,7 @@ msgid "Error creating the question post object."
 msgstr ""
 
 #: includes/class-llms-order-generator.php:241
-#: includes/controllers/class-llms-controller-checkout.php:245
+#: includes/controllers/class-llms-controller-checkout.php:260
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
@@ -7916,25 +7908,25 @@ msgstr ""
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class-llms-controller-checkout.php:516
+#: includes/controllers/class-llms-controller-checkout.php:560
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class-llms-controller-checkout.php:521
+#: includes/controllers/class-llms-controller-checkout.php:565
 msgid "Invalid order."
 msgstr ""
 
-#: includes/controllers/class-llms-controller-checkout.php:526
+#: includes/controllers/class-llms-controller-checkout.php:570
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class-llms-controller-checkout.php:538
+#: includes/controllers/class-llms-controller-checkout.php:582
 #: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:96
 msgid "Invalid action."
 msgstr ""
 
 #. Translators: %1$s = old payment gateway ID; %2$s = new payment gateway ID.
-#: includes/controllers/class-llms-controller-checkout.php:594
+#: includes/controllers/class-llms-controller-checkout.php:638
 msgid "Payment source updated by customer. Payment gateway changed from \"%1$s\" to \"%2$s\"."
 msgstr ""
 

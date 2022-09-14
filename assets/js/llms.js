@@ -150,7 +150,7 @@ var LLMS = window.LLMS || {};
 			if ( '#achievement-' !== hash[0] || ! Number.isInteger( hash[1] ) ) {
 				return;
 			}
-
+	
 			const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` )
 			if ( ! a ) {
 				return;
