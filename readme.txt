@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 7.4
-Stable tag: 6.10.1
+Stable tag: 6.10.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -540,6 +540,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.10.2 - 2022-09-14 =
+
+##### Updates and Enhancements
+
++ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
+
+##### Security Fixes
+
++ Fixed a data sanitization issue related to achievement permalinks.
+
+
 = v6.10.1 - 2022-09-07 =
 
 ##### Bug Fixes
@@ -720,28 +731,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added new filter `llms_buddypress_min_nav_item_slug` to control the LifterLMS main BuddyPress' nav item slug.
 + Added new filter `llms_buddypress_min_nav_item_label` to control the LifterLMS main BuddyPress' nav item label.
 + Added new filter `llms_buddypress_min_nav_item_position` to control the LifterLMS main BuddyPress' nav item position.
-
-
-= v6.2.0 - 2022-03-30 =
-
-##### Updates and Enhancements
-
-+ Changed the `llmsStudentsSelect2()` JavaScript function to use the LifterLMS REST API "list students" endpoint instead of the `LLMS_AJAX_Handler::query_students()` PHP function.
-+ Upgraded LifterLMS Blocks to [v2.4.1](https://make.lifterlms.com/2022/03/30/lifterlms-blocks-version-2-4-1/).
-
-##### Bug Fixes
-
-+ Fixed issue with hidden checkboxes on LifterLMS forms.
-+ Fixed a compatiblity issue with the Divi Theme Builder ignoring access restrictions when using template with custom body. [#2063](https://github.com/gocodebox/lifterlms/issues/2063)
-+ Fixed an error encountered on the Engagements > Certificates screen when using the BuddyBoss theme. [#2080](https://github.com/gocodebox/lifterlms/issues/2080)
-
-##### Deprecations
-
-+ Deprecated `LLMS_AJAX_Handler::query_students()`. Use the [REST API list students](https://developer.lifterlms.com/rest-api/#tag/Students/paths/~1students/get) endpoint instead.
-
-##### Developer Notes
-
-+ Added new filter `llms_template_loader_priority` to control the priority of the `template_include` hook callback used to load restricted content templates.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
