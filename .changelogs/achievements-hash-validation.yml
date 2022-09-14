@@ -1,5 +1,0 @@
-significance: patch
-type: security
-links:
-  - gocodebox/private-issues#61
-entry: Fixed a data sanitization issue related to achievement permalinks.

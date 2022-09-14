@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.10.2
  */
 
 LLMS.Achievements = {
@@ -111,7 +111,7 @@ LLMS.Achievements = {
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
 	 *
 	 * @since 3.14.0
-	 * @since [version] Sanitize achievement IDs before using window.location.hash to trigger the modal open.
+	 * @since 6.10.2 Sanitize achievement IDs before using window.location.hash to trigger the modal open.
 	 *
 	 * @return {void}
 	 */

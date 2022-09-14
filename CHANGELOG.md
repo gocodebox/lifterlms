@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v6.10.2 - 2022-09-14
+--------------------
+
+##### Updates and Enhancements
+
++ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
+
+##### Security Fixes
+
++ Fixed a data sanitization issue related to achievement permalinks.
+
+
 v6.10.1 - 2022-09-07
 --------------------
 
