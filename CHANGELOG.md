@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v6.10.2 - 2022-09-14
+--------------------
+
+##### Updates and Enhancements
+
++ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
+
+##### Security Fixes
+
++ Fixed a data sanitization issue related to achievement permalinks.
+
+
+v6.10.1 - 2022-09-07
+--------------------
+
+##### Bug Fixes
+
++ Fixed a PHP warning raised when logging errors during email notification dispatch. [#2250](https://github.com/gocodebox/lifterlms/issues/2250)
++ Fixed issue preventing one-time orders for being included in membership revenue reporting widgets. [#2254](https://github.com/gocodebox/lifterlms/issues/2254)
+
+
 v6.10.0 - 2022-08-29
 --------------------
 

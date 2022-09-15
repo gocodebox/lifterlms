@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,7 +62,7 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	 *
 	 * @since 3.8.0
 	 * @since 3.38.0 Added return from parent method.
-	 * @since [version] Fixed malformed sprintf when logging dispatch errors.
+	 * @since 6.10.1 Fixed malformed sprintf when logging dispatch errors.
 	 *
 	 * @return array|WP_Error Response from `wp_remote_post()`.
 	 */
