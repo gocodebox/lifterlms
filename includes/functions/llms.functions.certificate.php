@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -97,7 +97,8 @@ function llms_get_certificate_content( $id = 0 ) {
  * Retrieves a list of fonts available for use in certificates.
  *
  * @since 6.0.0
- * @version [version] Added internal call for certificate fonts, with external option enabled.
+ * @since [version] Added internal call for certificate fonts, with external option enabled.
+ * 
  * @return array[] {
  *     Array of font definition arrays. The array key is the font's unique id.
  *
