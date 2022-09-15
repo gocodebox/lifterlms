@@ -129,24 +129,24 @@ function llms_get_certificate_fonts() {
 		// Newspaper-style display fonts.
 		'pirata-one'          => array(
 			'name'       => 'Pirata One',
-			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap' : LLMS_PLUGIN_URL . '/assets/css/pirata-one.css',
+			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap' : LLMS_PLUGIN_URL . 'assets/css/pirata-one.css',
 			'fontFamily' => '"Pirata One", ' . $serif,
 		),
 		'unifraktur-maguntia' => array(
 			'name'       => 'UnifrakturMaguntia',
-			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap' : LLMS_PLUGIN_URL . '/assets/css/unifraktur-maguntia.css',
+			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap' : LLMS_PLUGIN_URL . 'assets/css/unifraktur-maguntia.css',
 			'fontFamily' => '"UnifrakturMaguntia", ' . $serif,
 		),
 
 		// Cursive-style handwriting fonts.
 		'dancing-script'      => array(
 			'name'       => 'Dancing Script',
-			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap' : LLMS_PLUGIN_URL . '/assets/css/dancing-script.css',
+			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap' : LLMS_PLUGIN_URL . 'assets/css/dancing-script.css',
 			'fontFamily' => '"Dancing Script", ' . $serif,
 		),
 		'imperial-script'     => array(
 			'name'       => 'Imperial Script',
-			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap' : LLMS_PLUGIN_URL . '/assets/css/imperial-script.css',
+			'href'       => $use_g_fonts ? 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap' : LLMS_PLUGIN_URL . 'assets/css/imperial-script.css',
 			'fontFamily' => '"Imperial Script", ' . $serif,
 		),
 
