@@ -1,17 +1,16 @@
 /* vietnamese */
 @font-face {
   font-family: 'Dancing Script';
-  src: url("../assets/fonts/dancing-script/dancing-script-v24-vietnamese-regular.woff2") format("woff2");
+  src: url("../fonts/dancing-script/dancing-script-v24-vietnamese-regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../assets/fonts/dancing-script/dancing-script-v24-vietnamese-regular.woff2") format("woff2");
   unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
 }
 /* latin-ext */
 @font-face {
   font-family: 'Dancing Script';
-  src: url("../assets/fonts/dancing-script/dancing-script-v24-latin-ext.woff2") format("woff2");
+  src: url("../fonts/dancing-script/dancing-script-v24-latin-ext.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -20,7 +19,7 @@
 /* latin */
 @font-face {
   font-family: 'Dancing Script';
-  src: url("../assets/fonts/dancing-script/dancing-script-v24-latin-regular.woff2") format("woff2");
+  src: url("../fonts/dancing-script/dancing-script-v24-latin-regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;

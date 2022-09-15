@@ -1,7 +1,7 @@
 /* latin */
 @font-face {
   font-family: 'UnifrakturMaguntia';
-  src: url("../assets/fonts/unifraktur-maguntia/unifraktur-maguntia-v16-latin-regular.woff2") format('woff2');
+  src: url("../fonts/unifraktur-maguntia/unifraktur-maguntia-v16-latin-regular.woff2") format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;

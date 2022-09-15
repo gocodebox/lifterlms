@@ -1,7 +1,7 @@
 /* latin-ext */
 @font-face {
   font-family: 'Pirata One';
-  src: url("../assets/fonts/pirata-one/pirata-one-v22-latin-ext.woff2") format('woff2');
+  src: url("../fonts/pirata-one/pirata-one-v22-latin-ext.woff2") format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -10,7 +10,7 @@
 /* latin */
 @font-face {
   font-family: 'Pirata One';
-  src: url("../assets/fonts/pirata-one/pirata-one-v22-latin-regular.woff2") format('woff2');
+  src: url("../fonts/pirata-one/pirata-one-v22-latin-regular.woff2") format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
