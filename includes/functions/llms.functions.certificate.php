@@ -108,6 +108,13 @@ function llms_get_certificate_content( $id = 0 ) {
  * }
  */
 function llms_get_certificate_fonts() {
+	/**
+	 * Determines whether or not webfonts are loaded from Google CDNs.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $use_g_fonts If `true`, fonts are loaded from Google, otherwise they are loaded from the local site.
+	 */
 	$use_g_fonts = apply_filters( 'llms_use_google_webfonts', false );
 	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 
