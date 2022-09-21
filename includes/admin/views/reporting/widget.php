@@ -12,7 +12,7 @@
  * @var string     $compare_operator The operator to display before the changed data value.
  * @var string     $compare_title    A description of the previous data when displaying comparison data.
  * @var bool|float $change           The percent-change value when displaying comparisons or `false` when a comparison
- *      							 should not be displayed.
+ *                                   should not be displayed.
  */
 
 defined( 'ABSPATH' ) || exit;
