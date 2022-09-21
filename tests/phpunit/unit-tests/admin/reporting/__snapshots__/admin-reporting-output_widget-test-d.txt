@@ -1,0 +1,8 @@
+<div class="d-1of2">
+	<div class="llms-reporting-widget test-d" id="test-d">
+				<div class="llms-reporting-widget-data">
+			<strong>Lorem ipsum dolor sit.</strong>
+					</div>
+		<small>Test Letter D</small>
+	</div>
+</div>
