@@ -1,7 +1,0 @@
-significance: patch
-type: fixed
-comment: Added woff2 internal call for certificate fonts.
-links:
-  - "#2189"
-entry: Retrieves a list of fonts avaliable for use in certificates internally in
-  favor of loading the fonts remotely.

@@ -1,0 +1,11 @@
+significance: minor
+type: changed
+links:
+  - "#2189"
+entry: >
+  + Serve font files from the server in favor of serving them from the Google
+  Fonts CDN(s).
+
+  + For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/.
+
+  + If you wish to continue loading fonts from Google's CDN(s), add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`.
