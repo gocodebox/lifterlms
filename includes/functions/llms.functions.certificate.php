@@ -98,7 +98,7 @@ function llms_get_certificate_content( $id = 0 ) {
  *
  * @since 6.0.0
  * @since [version] Added internal call for certificate fonts, with external option enabled.
- * 
+ *
  * @return array[] {
  *     Array of font definition arrays. The array key is the font's unique id.
  *
@@ -116,7 +116,7 @@ function llms_get_certificate_fonts() {
 	 * @param bool $use_g_fonts If `true`, fonts are loaded from Google, otherwise they are loaded from the local site.
 	 */
 	$use_g_fonts = apply_filters( 'llms_use_google_webfonts', false );
-	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+	$serif       = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 
 	$fonts = array(
 
