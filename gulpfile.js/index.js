@@ -6,6 +6,7 @@
 var gulp = require('gulp');
 
 // All custom tasks.
+require( './tasks/hacky-clean' );
 require( './tasks/js-additional' );
 require( './tasks/js-builder' );
 

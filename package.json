@@ -43,7 +43,7 @@
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:scripts": "wp-scripts build",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
-    "build:styles": "gulp styles && gulp styles-rtl",
+    "build:styles": "gulp styles && gulp styles-rtl && gulp hacky-clean",
     "dev": "llms-dev",
     "lerna": "lerna",
     "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
