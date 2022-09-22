@@ -310,7 +310,28 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return int WP Post ID of the new Post on success or 0 on error.
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( wp_slash( apply_filters( "llms_new_{$this->model_post_type}", $this->get_creation_args( $title ) ) ), true );
+		return wp_insert_post(
+			wp_slash(
+				/**
+				 * Filters the creation arguments used to create a new post.
+				 *
+				 * The return array is passed through {@see wp_slash} and ultimately
+				 * passed directly to {@see wp_insert_post}.
+				 *
+				 * The dynamic portion of this hook, `{$this->model_post_type}`, refers to the post
+				 * model's `$model_post_type` property.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param array $creation_args An array of arguments passed.
+				 */
+				apply_filters(
+					"llms_new_{$this->model_post_type}",
+					$this->get_creation_args( $title )
+				)
+			),
+			true
+		);
 	}
 
 	/**

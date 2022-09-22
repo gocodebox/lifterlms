@@ -3,7 +3,7 @@
 
 As an innovative self-hosted WordPress LMS platfom solution LifterLMS strikes a beautiful balance in being an **all-in-one WordPress LMS solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
-https://www.youtube.com/watch?v=jDVvkipF_pg
+https://www.youtube.com/watch?v=N72Zw2EBm4A
 
 > **Similar to WooCommerce and WordPress**, As a WordPress LMS plugin, LifterLMS gives back to the open source WordPress community by contributing the core LifterLMS plugin for FREE for the world to benefit from. The core LMS incredibly powerful and customizable by itself with it's course building, membership, gamification system, and more. We believe in free distributed learning for all, and our core free open source WordPress LMS plugin helps further tha vision **LifterLMS exists to democratize education in the digital classroom.** 
 

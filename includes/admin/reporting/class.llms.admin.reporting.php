@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version 6.0.0
+ * @version 6.11.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -222,6 +222,34 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
+	 * Retrieves arguments for {@see LifterLMS_Admin_Reporting::output_widget}.
+	 *
+	 * Merges the supplied arguments with the default args.
+	 *
+	 * @since 6.11.0
+	 *
+	 * @param array $args Widget settings and data, {@see LifterLMS_Adming_Reporting::output_widget}.
+	 * @return array Merged arguments.
+	 */
+	private static function get_output_widget_args( $args = array() ) {
+
+		return wp_parse_args(
+			$args,
+			array(
+				'id'           => '',
+				'text'         => '',
+				'data'         => '',
+				'data_compare' => '',
+				'data_type'    => 'numeric', // Enum: numeric, monetary, text, percentage, or date.
+				'icon'         => '',
+				'impact'       => 'positive', // Enum: positive or negative.
+				'cols'         => 'd-1of2',
+			)
+		);
+
+	}
+
+	/**
 	 * Retrieve an array of period filters used by self::output_widget_range_filter().
 	 *
 	 * @since 3.16.0
@@ -423,43 +451,61 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Output the HTML for a reporting widget.
+	 * Outputs the HTML for a reporting widget.
 	 *
 	 * @since 3.15.0
 	 * @since 3.31.0 Remove redundant `if` statement.
+	 * @since 6.11.0 Moved HTML into a view file.
+	 *               Fixed division by zero error encountered during data comparisons when `$data` is `0`.
+	 *               Added a check to ensure only numeric, monetary, or percentage data types will generate comparison data.
 	 *
-	 * @param array $args Widget options.
+	 * @param array $args {
+	 *    Array of widget options and data to be displayed.
+	 *
+	 *    @type string           $id           Required. A unique identifier for the widget.
+	 *    @type string           $text         A short description of the widget's data.
+	 *    @type int|string|float $data         The value of the data to display.
+	 *    @type int|string|float $data_compare Additional data to compare $data against.
+	 *    @type string           $data_type    The type of data. Used to format displayed data. Accepts "numeric",
+	 *                                         "monetary", "text", "percentage", or "date".
+	 *    @type string           $icon         An optional Font Awesome icon used to help visually identify the widget.
+	 *                                         If supplied, should be supplied without the `fa-` icon prefix.
+	 *    @type string           $impact       The type of impact the data has, either "positive" or "negative". This
+	 *                                         is used when displaying comparisons to determine if the change was a positive
+	 *                                         change or negative change. For example: student enrollments has a positive
+	 *                                         impact while quiz failures has a negative impact. An increase in enrollments
+	 *                                         will be displayed in green while a decrease will be displayed in red. An
+	 *                                         increase in quiz failures will be displayed in red while a decrease will be
+	 *                                         displayed in green.
+	 *    @type string           $cols         Grid class widget width ID. See: assets/scss/admin/partials/_grid.scss.
+	 * }
 	 * @return void
 	 */
 	public static function output_widget( $args = array() ) {
 
-		$args = wp_parse_args(
-			$args,
-			array(
-				'cols'         => 'd-1of2',
-				'data'         => '',
-				'data_compare' => '',
-				'data_type'    => 'numeric', // [numeric|monetary|text|percentage|date]
-				'icon'         => '',
-				'id'           => '',
-				'impact'       => 'positive',
-				'text'         => '',
-			)
-		);
+		$args = self::get_output_widget_args( $args );
 
-		$data_after = '';
-		if ( 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ) {
-			$data_after = '<sup>%</sup>';
-		}
+		// Only these data types can make comparisons.
+		$can_compare = in_array( $args['data_type'], array( 'numeric', 'monetary', 'percentage' ), true );
 
-		$change = false;
-		if ( $args['data_compare'] && $args['data'] ) {
+		// Adds a percentage symbol after data.
+		$data_after = 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ? '<sup>%</sup>' : '';
 
+		$change           = false;
+		$compare_operator = '';
+		$compare_class    = '';
+		$compare_title    = '';
+		if ( $can_compare && $args['data_compare'] && floatval( $args['data'] ) ) {
 			$change           = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
 			$compare_operator = ( $change <= 0 ) ? '' : '+';
-			if ( 'positive' === $args['impact'] ) {
-				$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
-			} else {
+			$compare_title    = sprintf(
+				// Translators: %s = The value of the data from the previous data set.
+				esc_attr__( 'Previously %s', 'lifterlms' ),
+				$args['data_compare'] . wp_strip_all_tags( $data_after )
+			);
+
+			$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
+			if ( 'negative' === $args['impact'] ) {
 				$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
 			}
 		}
@@ -469,24 +515,9 @@ class LLMS_Admin_Reporting {
 			$args['data_compare'] = llms_price_raw( $args['data_compare'] );
 		}
 
-		?>
-		<div class="<?php echo esc_attr( $args['cols'] ); ?>">
-			<div class="llms-reporting-widget <?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
-				<?php if ( $args['icon'] ) : ?>
-					<i class="fa fa-<?php echo $args['icon']; ?>" aria-hidden="true"></i>
-				<?php endif; ?>
-				<div class="llms-reporting-widget-data">
-					<strong><?php echo $args['data'] . $data_after; ?></strong>
-					<?php if ( $change ) : ?>
-						<small class="compare tooltip <?php echo $compare_class; ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
-							<?php echo $compare_operator . $change; ?>%
-						</small>
-					<?php endif; ?>
-				</div>
-				<small><?php echo $args['text']; ?></small>
-			</div>
-		</div>
-		<?php
+		$args['id'] = esc_attr( $args['id'] );
+
+		include LLMS_PLUGIN_DIR . 'includes/admin/views/reporting/widget.php';
 	}
 
 	/**
