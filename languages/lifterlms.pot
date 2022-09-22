@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 6.10.2\n"
+"Project-Id-Version: LifterLMS 6.11.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-14T11:42:42-06:00\n"
+"POT-Creation-Date: 2022-09-22T13:00:58-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.1.0\n"
 "X-Domain: lifterlms\n"
@@ -182,19 +182,19 @@ msgstr ""
 msgid "The selected payment Gateway \"%s\" does not support payment method switching."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:346
+#: includes/abstracts/abstract.llms.post.model.php:367
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1307
+#: includes/abstracts/abstract.llms.post.model.php:1328
 msgid "Empty data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1313
+#: includes/abstracts/abstract.llms.post.model.php:1334
 msgid "Invalid data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1502
+#: includes/abstracts/abstract.llms.post.model.php:1523
 msgid "Cannot insert/update the %s meta"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgid "Last Login"
 msgstr ""
 
 #: includes/admin/class-llms-admin-users-table.php:85
-#: includes/admin/reporting/class.llms.admin.reporting.php:301
+#: includes/admin/reporting/class.llms.admin.reporting.php:329
 #: includes/admin/reporting/tables/llms.table.students.php:638
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:75
 #: includes/admin/settings/class.llms.settings.general.php:203
@@ -541,7 +541,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:170
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:69
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
-#: includes/admin/reporting/class.llms.admin.reporting.php:297
+#: includes/admin/reporting/class.llms.admin.reporting.php:325
 #: includes/admin/reporting/tables/llms.table.courses.php:181
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:119
 #: includes/admin/settings/class.llms.settings.courses.php:32
@@ -556,7 +556,7 @@ msgstr ""
 #: includes/admin/class-llms-admin-users-table.php:120
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:75
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:83
-#: includes/admin/reporting/class.llms.admin.reporting.php:298
+#: includes/admin/reporting/class.llms.admin.reporting.php:326
 #: includes/admin/reporting/tables/llms.table.memberships.php:189
 #: includes/admin/reporting/tables/llms.table.students.php:654
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:120
@@ -1274,22 +1274,22 @@ msgid "Student Email Address"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:210
-#: includes/functions/llms.functions.certificate.php:205
+#: includes/functions/llms.functions.certificate.php:214
 msgid "Student Username"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:211
-#: includes/functions/llms.functions.certificate.php:201
+#: includes/functions/llms.functions.certificate.php:210
 msgid "Student First Name"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:212
-#: includes/functions/llms.functions.certificate.php:202
+#: includes/functions/llms.functions.certificate.php:211
 msgid "Student Last Name"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:213
-#: includes/functions/llms.functions.certificate.php:199
+#: includes/functions/llms.functions.certificate.php:208
 msgid "Current Date"
 msgstr ""
 
@@ -1918,7 +1918,7 @@ msgid "Email Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:60
-#: includes/functions/llms.functions.certificate.php:203
+#: includes/functions/llms.functions.certificate.php:212
 msgid "Student Email"
 msgstr ""
 
@@ -2812,49 +2812,49 @@ msgstr ""
 msgid "Enrollment Trigger"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:234
+#: includes/admin/reporting/class.llms.admin.reporting.php:262
 msgid "Today"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:235
+#: includes/admin/reporting/class.llms.admin.reporting.php:263
 msgid "Yesterday"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:236
+#: includes/admin/reporting/class.llms.admin.reporting.php:264
 msgid "This Week"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:237
+#: includes/admin/reporting/class.llms.admin.reporting.php:265
 msgid "Last Week"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:238
+#: includes/admin/reporting/class.llms.admin.reporting.php:266
 #: templates/admin/analytics/analytics.php:48
 #: templates/admin/reporting/nav-filters.php:28
 msgid "This Month"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:239
+#: includes/admin/reporting/class.llms.admin.reporting.php:267
 #: templates/admin/analytics/analytics.php:44
 #: templates/admin/reporting/nav-filters.php:24
 msgid "Last Month"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:240
+#: includes/admin/reporting/class.llms.admin.reporting.php:268
 #: templates/admin/analytics/analytics.php:40
 #: templates/admin/reporting/nav-filters.php:20
 msgid "This Year"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:241
+#: includes/admin/reporting/class.llms.admin.reporting.php:269
 msgid "Last Year"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:242
+#: includes/admin/reporting/class.llms.admin.reporting.php:270
 msgid "All Time"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:296
+#: includes/admin/reporting/class.llms.admin.reporting.php:324
 #: includes/admin/reporting/tables/llms.table.course.students.php:281
 #: includes/admin/reporting/tables/llms.table.courses.php:315
 #: includes/admin/reporting/tables/llms.table.membership.students.php:268
@@ -2868,22 +2868,23 @@ msgstr ""
 msgid "Students"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:299
+#: includes/admin/reporting/class.llms.admin.reporting.php:327
 #: includes/admin/reporting/tables/llms.table.quizzes.php:306
 #: includes/class.llms.post-types.php:570
 #: templates/admin/reporting/tabs/quizzes/quiz.php:20
 msgid "Quizzes"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:300
+#: includes/admin/reporting/class.llms.admin.reporting.php:328
 msgid "Sales"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:378
+#: includes/admin/reporting/class.llms.admin.reporting.php:406
 msgid "You don't have permission to do that"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:481
+#. Translators: %s = The value of the data from the previous data set.
+#: includes/admin/reporting/class.llms.admin.reporting.php:503
 msgid "Previously %s"
 msgstr ""
 
@@ -2909,7 +2910,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.achievements.php:242
 #: includes/admin/reporting/tables/llms.table.certificates.php:245
-#: includes/functions/llms.functions.certificate.php:200
+#: includes/functions/llms.functions.certificate.php:209
 #: includes/privacy/class-llms-privacy-exporters.php:127
 #: includes/privacy/class-llms-privacy-exporters.php:168
 msgid "Earned Date"
@@ -8357,91 +8358,91 @@ msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:117
+#: includes/functions/llms.functions.certificate.php:125
 msgid "Sans-serif"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:123
+#: includes/functions/llms.functions.certificate.php:131
 msgid "Serif"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:197
+#: includes/functions/llms.functions.certificate.php:206
 #: includes/notifications/views/class.llms.notification.view.student.welcome.php:81
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:198
+#: includes/functions/llms.functions.certificate.php:207
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:204
+#: includes/functions/llms.functions.certificate.php:213
 msgid "Student User ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:206
+#: includes/functions/llms.functions.certificate.php:215
 msgid "Certificate ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:207
+#: includes/functions/llms.functions.certificate.php:216
 msgid "Sequential Certificate ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:223
+#: includes/functions/llms.functions.certificate.php:232
 msgid "Portrait"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:224
+#: includes/functions/llms.functions.certificate.php:233
 msgid "Landscape"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:315
+#: includes/functions/llms.functions.certificate.php:324
 msgctxt "Paper size name"
 msgid "A3"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:321
+#: includes/functions/llms.functions.certificate.php:330
 msgctxt "Paper size name"
 msgid "A4"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:327
+#: includes/functions/llms.functions.certificate.php:336
 msgctxt "Paper size name"
 msgid "A5"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:334
+#: includes/functions/llms.functions.certificate.php:343
 msgctxt "Paper size name"
 msgid "Letter"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:340
+#: includes/functions/llms.functions.certificate.php:349
 msgctxt "Paper size name"
 msgid "Legal"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:346
+#: includes/functions/llms.functions.certificate.php:355
 msgctxt "Paper size name"
 msgid "Ledger"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:352
+#: includes/functions/llms.functions.certificate.php:361
 msgid "User defined"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:388
+#: includes/functions/llms.functions.certificate.php:397
 msgid "Inches"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:389
+#: includes/functions/llms.functions.certificate.php:398
 msgctxt "Symbol for inches"
 msgid "\""
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:392
+#: includes/functions/llms.functions.certificate.php:401
 msgid "Millimeters"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:393
+#: includes/functions/llms.functions.certificate.php:402
 msgctxt "Symbol for millimeters"
 msgid "mm"
 msgstr ""

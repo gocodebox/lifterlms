@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 7.4
-Stable tag: 6.10.2
+Stable tag: 6.11.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -17,7 +17,7 @@ LifterLMS is a powerful WordPress learning management system plugin that makes i
 
 As an innovative self-hosted WordPress LMS platfom solution LifterLMS strikes a beautiful balance in being an **all-in-one WordPress LMS solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
-https://www.youtube.com/watch?v=jDVvkipF_pg
+https://www.youtube.com/watch?v=N72Zw2EBm4A
 
 > **Similar to WooCommerce and WordPress**, As a WordPress LMS plugin, LifterLMS gives back to the open source WordPress community by contributing the core LifterLMS plugin for FREE for the world to benefit from. The core LMS incredibly powerful and customizable by itself with it's course building, membership, gamification system, and more. We believe in free distributed learning for all, and our core free open source WordPress LMS plugin helps further tha vision **LifterLMS exists to democratize education in the digital classroom.** 
 
@@ -540,6 +540,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.11.0 - 2022-09-22 =
+
+##### Updates and Enhancements
+
++ Since version 6.0.0, the Certificate Title Block provided the option to use four Google-hosted fonts. These fonts will now be served from the site's server in favor of serving them from the Google Fonts CDN. For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/. If you wish to continue loading fonts from Google's CDN, add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`. [#2189](https://github.com/gocodebox/lifterlms/issues/2189)
++ Upgraded included library, `@woocommerce/action-scheduler`, to version [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
+
+##### Bug Fixes
+
++ Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
+
+
 = v6.10.2 - 2022-09-14 =
 
 ##### Updates and Enhancements
@@ -692,45 +704,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added a new filter, `llms_secure_strings` allowing developers to register strings that should be automatically masked when written to log files.
 + Added new filter `llms_no_cache` to control whether or not LifterLMS will send nocache headers. [#2092](https://github.com/gocodebox/lifterlms/issues/2092)
 + Added new filter `llms_template_loader_restricted_priority` to control the priority of the `template_include` hook callback used to load restricted content single templates.
-
-
-= v6.3.0 - 2022-04-07 =
-
-##### Upcoming PHP Version Requirement Change
-
-**LifterLMS will drop support for PHP 7.3 by May, 2022. This will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
-
-##### New Features
-
-+ Automatically add student's dashboard endpoints to the BuddyPress profile nav. [#627](https://github.com/gocodebox/lifterlms/issues/627)
-
-##### Updates and Enhancements
-
-+ Upgraded LifterLMS Blocks to [v2.4.2](https://make.lifterlms.com/2022/04/07/lifterlms-blocks-version-2-4-2/).
-+ Updated LifterLMS Helper to [v3.4.2](https://make.lifterlms.com/2022/04/01/lifterlms-helper-version-3-4-2/).
-
-##### Bug Fixes
-
-+ Fixed paged queries in student dashboard not working when using plain permalinks.
-+ Fixed an issue that prevented searching students in some admin areas when WordPress was installed in a subdirectory. [#2096](https://github.com/gocodebox/lifterlms/issues/2096)
-+ Fixed lesson's comments status not reflecting default global setting when created with the course builder. [#2099](https://github.com/gocodebox/lifterlms/issues/2099)
-
-##### Deprecations
-
-+ Deprecated `LLMS_Integration_Buddypress::achievements_screen()` method with no replacement.
-+ Deprecated `LLMS_Integration_Buddypress::certificates_screen()` method with no replacement.
-+ Deprecated `LLMS_Integration_Buddypress::courses_screen()` method with no replacement.
-+ Deprecated `LLMS_Integration_Buddypress::memberships_screen()` method with no replacement.
-+ Deprecated `LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()` method with no replacement.
-+ Deprecated `LLMS_Integration_Buddypress::modify_courses_paginate_links()` method with no replacement.
-
-##### Developer Notes
-
-+ Added `llms_get_paged_query_var()` function that returns the page number query var for the current request.
-+ Added new filter `llms_buddypress_profile_endpoints` to control the LifterLMS endpoints to be added to the BuddyPress profile.
-+ Added new filter `llms_buddypress_min_nav_item_slug` to control the LifterLMS main BuddyPress' nav item slug.
-+ Added new filter `llms_buddypress_min_nav_item_label` to control the LifterLMS main BuddyPress' nav item label.
-+ Added new filter `llms_buddypress_min_nav_item_position` to control the LifterLMS main BuddyPress' nav item position.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
