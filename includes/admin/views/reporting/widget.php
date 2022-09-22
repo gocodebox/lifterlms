@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Views/Reporting
  *
- * @since [version]
+ * @since 6.11.0
  *
  * @var array      $args             Input arguments provided to {@see LLMS_Admin_Reporting::output_widget}.
  * @var string     $data_after       Additional HTML to render inside the data display element.

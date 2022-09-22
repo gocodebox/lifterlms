@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 6.11.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -226,7 +226,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * Merges the supplied arguments with the default args.
 	 *
-	 * @since [version]
+	 * @since 6.11.0
 	 *
 	 * @param array $args Widget settings and data, {@see LifterLMS_Adming_Reporting::output_widget}.
 	 * @return array Merged arguments.
@@ -455,7 +455,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.15.0
 	 * @since 3.31.0 Remove redundant `if` statement.
-	 * @since [version] Moved HTML into a view file.
+	 * @since 6.11.0 Moved HTML into a view file.
 	 *               Fixed division by zero error encountered during data comparisons when `$data` is `0`.
 	 *               Added a check to ensure only numeric, monetary, or percentage data types will generate comparison data.
 	 *

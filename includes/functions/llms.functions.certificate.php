@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version [version]
+ * @version 6.11.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -97,7 +97,7 @@ function llms_get_certificate_content( $id = 0 ) {
  * Retrieves a list of fonts available for use in certificates.
  *
  * @since 6.0.0
- * @since [version] Added internal call for certificate fonts, with external option enabled.
+ * @since 6.11.0 Added internal call for certificate fonts, with external option enabled.
  *
  * @return array[] {
  *     Array of font definition arrays. The array key is the font's unique id.
@@ -111,7 +111,7 @@ function llms_get_certificate_fonts() {
 	/**
 	 * Determines whether or not webfonts are loaded from Google CDNs.
 	 *
-	 * @since [version]
+	 * @since 6.11.0
 	 *
 	 * @param bool $use_g_fonts If `true`, fonts are loaded from Google, otherwise they are loaded from the local site.
 	 */

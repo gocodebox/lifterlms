@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v6.11.0 - 2022-09-22
+--------------------
+
+##### Updates and Enhancements
+
++ Since version 6.0.0, the Certificate Title Block provided the option to use four Google-hosted fonts. These fonts will now be served from the site's server in favor of serving them from the Google Fonts CDN. For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/. If you wish to continue loading fonts from Google's CDN, add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`. [#2189](https://github.com/gocodebox/lifterlms/issues/2189)
++ Upgraded included library, `@woocommerce/action-scheduler`, to version [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
+
+##### Bug Fixes
+
++ Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
+
+
 v6.10.2 - 2022-09-14
 --------------------
 

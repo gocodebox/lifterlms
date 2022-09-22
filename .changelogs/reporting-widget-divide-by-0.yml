@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2270"
-entry: Fixed a division by zero error encountered on quiz reporting screens for
-  quizzes with 0 total available points.
