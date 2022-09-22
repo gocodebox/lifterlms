@@ -1,0 +1,4 @@
+significance: patch
+type: changed
+entry: Upgraded included library, `@woocommerce/action-scheduler`, to version
+  [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
