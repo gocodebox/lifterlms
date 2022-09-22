@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version 4.5.1
+ * @version 6.10.2
  */
 
 LLMS.Achievements = {
@@ -15,7 +15,7 @@ LLMS.Achievements = {
 	 * @since 3.14.0
 	 * @since 4.5.1 Fix conditional loading check.
 	 *
-	 * @return void
+	 * @return {void}
 	 */
 	init: function() {
 
@@ -36,7 +36,7 @@ LLMS.Achievements = {
 	 *
 	 * @since 3.14.0
 	 *
-	 * @return void
+	 * @return {void}
 	 */
 	bind: function() {
 
@@ -70,7 +70,7 @@ LLMS.Achievements = {
 	 * @since 3.14.0
 	 *
 	 * @param obj $el The jQuery selector for the modal card.
-	 * @return void
+	 * @return {void}
 	 */
 	create_modal: function( $el ) {
 
@@ -111,15 +111,28 @@ LLMS.Achievements = {
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
 	 *
 	 * @since 3.14.0
+	 * @since 6.10.2 Sanitize achievement IDs before using window.location.hash to trigger the modal open.
 	 *
-	 * @return void
+	 * @return {void}
 	 */
 	maybe_open: function() {
 
-		var hash = window.location.hash;
-		if ( hash && -1 !== hash.indexOf( 'achievement-' ) ) {
-			$( 'a[href="' + hash + '"]' ).first().trigger( 'click' );
+		let hash = window.location.hash.split( '-' );
+		if ( 2 !== hash.length ) {
+			return;
 		}
+
+		hash[1] = parseInt( hash[1] );
+		if ( '#achievement-' !== hash[0] || ! Number.isInteger( hash[1] ) ) {
+			return;
+		}
+
+		const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` )
+		if ( ! a ) {
+			return;
+		}
+
+		a.click();
 
 	}
 
