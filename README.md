@@ -104,9 +104,9 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/chrisbadgett"><img src="https://avatars.githubusercontent.com/u/12163552?v=4" title="chrisbadgett" width="80" height="80"></a>
 <a href="https://github.com/MaximilianoRicoTabo"><img src="https://avatars.githubusercontent.com/u/1678457?v=4" title="MaximilianoRicoTabo" width="80" height="80"></a>
 <a href="https://github.com/alimathis"><img src="https://avatars.githubusercontent.com/u/16086976?v=4" title="alimathis" width="80" height="80"></a>
+<a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/daniel-shuy"><img src="https://avatars.githubusercontent.com/u/17351764?v=4" title="daniel-shuy" width="80" height="80"></a>
 <a href="https://github.com/andreasblumberg"><img src="https://avatars.githubusercontent.com/u/1697968?v=4" title="andreasblumberg" width="80" height="80"></a>
-<a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
 <a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
@@ -137,6 +137,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/nhandl3"><img src="https://avatars.githubusercontent.com/u/1247539?v=4" title="nhandl3" width="80" height="80"></a>
 <a href="https://github.com/Nikschavan"><img src="https://avatars.githubusercontent.com/u/2931091?v=4" title="Nikschavan" width="80" height="80"></a>
 <a href="https://github.com/reedhewitt"><img src="https://avatars.githubusercontent.com/u/957141?v=4" title="reedhewitt" width="80" height="80"></a>
+<a href="https://github.com/sekanderb"><img src="https://avatars.githubusercontent.com/u/3262638?v=4" title="sekanderb" width="80" height="80"></a>
 <a href="https://github.com/edent"><img src="https://avatars.githubusercontent.com/u/837136?v=4" title="edent" width="80" height="80"></a>
 <a href="https://github.com/sujaypawar"><img src="https://avatars.githubusercontent.com/u/2222249?v=4" title="sujaypawar" width="80" height="80"></a>
 
