@@ -11,6 +11,21 @@
  */
 class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 
+
+	/**
+	 * Setup before class.
+	 *
+	 * Forces notifications debugging on so that we can make assertions against logged data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
+		llms_maybe_define_constant( 'LLMS_NOTIFICATIONS_LOGGING', true );
+	}
+
 	/**
 	 * Setup the test case
 	 *
@@ -268,6 +283,8 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 */
 	public function test_email_processor_errored_notification_task() {
 
+		$this->markTestSkipped( "in progress" );
+
 		$email = $this->main->get_processor( 'email' );
 		$user  = $this->factory->user->create();
 
@@ -306,6 +323,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 		$res = LLMS_Unit_Test_Util::call_method( $email_processor, 'task', array( $nid_1 ) );
 		$this->assertEquals( false, $res );
 		$this->assertEquals( 'error', $n1->get('status') );
+
+		$this->assertContains(
+			'Error caught Call to a member function get() on null',
+			$this->logs->get( 'notifications' )
+		);
+
+		$this->logs->clear( 'notifications' );
 
 	}
 
