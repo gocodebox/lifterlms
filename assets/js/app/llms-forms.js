@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 5.0.0
- * @version 5.3.3
+ * @version [version]
  */
 
 LLMS.Forms = {
@@ -197,20 +197,14 @@ LLMS.Forms = {
 	 * Retrieve the parent element for a given field.
 	 *
 	 * The parent element is hidden when the field isn't required.
-	 * Looks for a WP column wrapper and falls back to the field's
-	 * wrapper div.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Do not look for a WP column wrapper anymore, always return the field's wrapper div.
 	 *
 	 * @param {Object} $field jQuery dom object.
 	 * @return {Object}
 	 */
 	get_field_parent: function( $field ) {
-
-		var $block = $field.closest( '.wp-block-column' );
-		if ( $block.length ) {
-			return $block;
-		}
 
 		return $field.closest( '.llms-form-field' );
 
