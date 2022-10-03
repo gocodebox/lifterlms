@@ -6,8 +6,8 @@
  *
  * @since Unknown
  * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
- * @since [version] Disable data-source loading for gateway radio fields.
- * @version [version]
+ * @since 7.0.0 Disable data-source loading for gateway radio fields.
+ * @version 7.0.0
  *
  * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
  * @param string $selected_gateway ID of the currently selected/default payment gateway.

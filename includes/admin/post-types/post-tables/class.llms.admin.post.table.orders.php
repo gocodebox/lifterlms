@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -67,7 +67,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
 	 * @since 5.4.0 Inform about deleted products.
-	 * @since [version] Treat the case when the order has no WordPress user associated yet.
+	 * @since 7.0.0 Treat the case when the order has no WordPress user associated yet.
 	 *
 	 * @param string $column  Custom column name.
 	 * @param int    $post_id ID of the individual post.

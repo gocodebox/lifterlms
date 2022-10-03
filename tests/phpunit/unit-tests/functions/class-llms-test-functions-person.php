@@ -377,7 +377,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_validate_user() with validation errors.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -394,7 +394,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_validate_user() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

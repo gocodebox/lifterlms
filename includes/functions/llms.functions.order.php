@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Determine if a gateway can be used for a given LLMS_Access_Plan.
  *
  * @since 3.29.0
- * @since [version] Updated to utilize llms_can_gateway_be_used_for_plan_or_order().
+ * @since 7.0.0 Updated to utilize llms_can_gateway_be_used_for_plan_or_order().
  *
  * @param string           $gateway_id LLMS_Payment_Gateway ID.
  * @param LLMS_Access_Plan $plan       The access plan.
@@ -28,7 +28,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 	 * Filters whether or not a gateway can be used for a given access plan.
 	 *
 	 * @since 3.29.0
-	 * @since [version] The filter now runs on all possible return values instead of running only when the gateway can be used.
+	 * @since 7.0.0 The filter now runs on all possible return values instead of running only when the gateway can be used.
 	 *
 	 * @param boolean|WP_Error $can_be_used Whether or not the gateway can be used for the plan. This value will be `true`
 	 *                                      when the gateway can be used an an error object when it cannot.
@@ -47,7 +47,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  *   + The gateway must be enabled unless `$enabled_only` is `false`.
  *   + The gateway must support the order/plan's type (recurring or single).
  *
- * @since [version]
+ * @since 7.0.0
  *
  * @param string                          $gateway_id    Payment gateway ID.
  * @param LLMS_Order|LLMS_Access_Plan|int $plan_or_order The `WP_Post` id of a plan or order, a plan object, or an order object.
@@ -84,7 +84,7 @@ function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order
 	/**
 	 * Filters whether or not a gateway can be used for a given plan or order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param boolean|WP_Error $can_be_used Whether or not the gateway can be used for the plan. This value will be `true`
 	 *                                      when the gateway can be used an an error object when it cannot.
@@ -211,7 +211,7 @@ function llms_get_possible_order_statuses( $order ) {
  *
  * Ensures that only a single pending order for a given plan and email address will exist at any given time.
  *
- * @since [version]
+ * @since 7.0.0
  *
  * @param string $email   An email address.
  * @param int    $plan_id Access plan WP_Post ID.

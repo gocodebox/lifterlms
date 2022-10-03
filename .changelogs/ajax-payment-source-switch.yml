@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of
-  `LLMS_Controller_Checkout::switch_payment_source()`.

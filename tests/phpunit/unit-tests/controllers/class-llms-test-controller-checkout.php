@@ -9,7 +9,7 @@
  * @group checkout
  * @group controller_checkout
  *
- * @since [version]
+ * @since 7.0.0
  */
 class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 
@@ -23,7 +23,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when the form hasn't been submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when a nonce error is encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when an missing action.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when an invalid order key is submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when an missing order key is submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when an invalid order key is submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() when an the order cannot be confirmed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order() is passed to the specified gateway and runs the gateway's method.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -209,7 +209,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order_ajax() when the form was not submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -220,7 +220,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order_ajax() when the nonce is invalid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -234,7 +234,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order_ajax() when the action is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -248,7 +248,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order_ajax() when the action is invalid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm_pending_order_ajax() successfully passes to the order generator.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when the form is not submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -302,7 +302,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when a nonce error is encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -316,7 +316,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when the action is not submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when the submitted action is invalid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -345,7 +345,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when custom validation errors are encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -362,7 +362,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when an error is encountered running `llms_setup_pending_order()`.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -386,7 +386,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() when a validation error is encountered via the free checkout / enrollment form.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -425,7 +425,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -486,7 +486,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when the form was not submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -497,7 +497,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when the nonce is invalid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -511,7 +511,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when the action is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -525,7 +525,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when the action is invalid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -540,7 +540,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when an order validation error is encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -568,7 +568,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when a gateway error is encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -616,7 +616,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() when an order validation error is encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -665,7 +665,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test get_url().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -677,7 +677,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when called from an invalid context.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -723,7 +723,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when called with an invalid plan ID.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -743,7 +743,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Tests {@see LLMS_Controller_Checkout::maybe_redirect_from_free_enroll_form} when a redirect is executed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -771,7 +771,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the form isn't submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -783,7 +783,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() with an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -798,7 +798,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the order_id is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -813,7 +813,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when an invalid order ID is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -829,7 +829,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the order ID isn't an order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -847,7 +847,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when there's no logged in user.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -868,7 +868,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the gateway is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -892,7 +892,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when there's a gateway validation error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -917,7 +917,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the switch action is invalid, fake, or missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -958,7 +958,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() when the gateway handler returns an error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1012,7 +1012,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1079,7 +1079,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the form isn't submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1091,7 +1091,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() with an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1106,7 +1106,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the order_id is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1133,7 +1133,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when an invalid order ID is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1161,7 +1161,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the order ID isn't an order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1189,7 +1189,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when there's no logged in user.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1220,7 +1220,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the gateway is missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1254,7 +1254,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when there's a gateway validation error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1289,7 +1289,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the switch action is invalid, fake, or missing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1335,7 +1335,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() when the gateway handler returns an error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1397,7 +1397,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test switch_payment_source_ajax() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

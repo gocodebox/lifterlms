@@ -37,7 +37,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Loads a payment gateway class.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param LLMS_Payment_Gateway $gateway Gateway class instance.
 	 * @param boolean              $enabled Whether or not to enable the gateway.
@@ -51,7 +51,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Unload a payment gateway.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $id Gateway ID.
 	 * @return void
@@ -304,7 +304,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieves an array of data as would be found in `$_POST` from a checkout form submission.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param LLMS_Access_Plan|null $plan An access plan or `null` to automatically create one with default values from `get_mock_plan()`.
 	 * @return array
@@ -326,7 +326,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieves an array user data as would be found in `$_POST` from a checkout or registration form submission.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return array
 	 */
@@ -446,7 +446,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Retrieves a mock order object.
 	 *
 	 * @since Unknown
-	 * @since [version] Added `$student` parameter to allow supplying the student for the order.
+	 * @since 7.0.0 Added `$student` parameter to allow supplying the student for the order.
 	 *
 	 * @param LLMS_Access_Plan $plan    An access plan object. If not supplied will create one.
 	 * @param boolean          $coupon  If `true` will create (and apply) a coupon to the order.

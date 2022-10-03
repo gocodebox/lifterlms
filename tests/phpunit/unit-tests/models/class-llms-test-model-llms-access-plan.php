@@ -222,7 +222,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_checkout_url() with redirection.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1292,7 +1292,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test method `get_redirection_url()` when there's no 'redirect' $_GET variable.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -1324,7 +1324,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test method `get_redirection_url()` when there's a 'redirect' $_GET variable.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

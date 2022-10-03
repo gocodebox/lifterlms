@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -217,7 +217,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
 	 * @since 5.0.2 Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
-	 * @since [version] Add `$after_html` to all field types.
+	 * @since 7.0.0 Add `$after_html` to all field types.
 	 *
 	 * @param array $field {
 	 *     Array of field settings.
@@ -768,7 +768,7 @@ class LLMS_Admin_Settings {
 	 * Add and set default values for a field when looping
 	 *
 	 * @since 1.4.5
-	 * @since [version] Use `wp_parse_args()` to simplify method logic & add `after_html` default.
+	 * @since 7.0.0 Use `wp_parse_args()` to simplify method logic & add `after_html` default.
 	 *
 	 * @param array $field Associative array of field data, {@see LLMS_Admin_Settings::output_field()} for a full description.
 	 * @return array
@@ -934,7 +934,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Add handling for array fields for standard input types.
+	 * @since 7.0.0 Add handling for array fields for standard input types.
 	 *              Account for the `maxlength` input text and textarea attribute.
 	 *
 	 * @param array $settings Opens array to output
@@ -1029,11 +1029,11 @@ class LLMS_Admin_Settings {
 					 * Action run for external field types.
 					 *
 					 * @since Unknown
-					 * @deprecated [version] Use `llms_update_option_{$type}` filter hook instead.
+					 * @deprecated 7.0.0 Use `llms_update_option_{$type}` filter hook instead.
 					 *
 					 * @param type $arg Description.
 					 */
-					do_action_deprecated( "lifterlms_update_option_{$type}", array( $field ), '[version]' );
+					do_action_deprecated( "lifterlms_update_option_{$type}", array( $field ), '7.0.0' );
 
 			}
 
@@ -1049,7 +1049,7 @@ class LLMS_Admin_Settings {
 			 * The dynamic portion of this hook, `{$type}` refers to the setting field type:
 			 * email, text, checkbox, etc...
 			 *
-			 * @since [version]
+			 * @since 7.0.0
 			 *
 			 * @param string|null $option_value The sanitized option value or `null`.
 			 * @param array       $field        The settings field array.
@@ -1112,7 +1112,7 @@ class LLMS_Admin_Settings {
 	/**
 	 * Retrieves the posted value for an array type setting field.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $id The field ID, eg: "my_setting[field_one]".
 	 * @return string Returns the (sanitized) posted value or an empty string if it wasn't posted.

@@ -82,7 +82,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test generate_refund_id() when processing manually.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test generate_refund_id() when processing via a gateway.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test generate_refund_id() when using a custom processing method.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_refund_method_title() with manual processing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_refund_method_title() with gateway processing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_refund_method_title() with custom processing.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -199,7 +199,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_refunds() and get_refund().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -243,7 +243,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test can_be_refunded().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() when the transaction isn't eligible for a refund.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -295,7 +295,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() when the requested refund amount exceeds the remaining available amount on the transaction.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -317,7 +317,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() unknown error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -339,7 +339,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() through a manual gateway success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -408,7 +408,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() through an invalid gateway.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -431,7 +431,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() through a gateway that doesn't support refunds.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -463,7 +463,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test process_refund() through a gateway success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

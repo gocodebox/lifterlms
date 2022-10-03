@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2134"
-entry: Fixed required fields duplication when the form is a child of a
-  `.wp-block-column` element.

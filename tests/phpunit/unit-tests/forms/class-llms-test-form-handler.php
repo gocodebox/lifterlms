@@ -295,7 +295,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submit() with the validate_only flag and validation errors.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -311,7 +311,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submit() with the validate_only flag and no validation errors.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

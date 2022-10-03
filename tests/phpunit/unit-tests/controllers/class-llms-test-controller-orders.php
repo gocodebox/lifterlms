@@ -175,7 +175,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test deprecated create_pending_order().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @expectedDeprecated LLMS_Controller_Orders::create_pending_order
 	 *
@@ -189,7 +189,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test deprecated confirm_pending_order().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @expectedDeprecated LLMS_Controller_Orders::confirm_pending_order
 	 *
@@ -484,7 +484,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test set_untrash_status().r
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

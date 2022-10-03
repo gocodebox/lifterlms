@@ -1206,7 +1206,7 @@ function llms_set_time_limit( $limit = 0 ) {
  * Will strip only the first prefix found from the list of supplied prefixes.
  *
  * @since 6.0.0
- * @since [version] Added `llms-` and `lifterlms-` as additional default prefixes to strip.
+ * @since 7.0.0 Added `llms-` and `lifterlms-` as additional default prefixes to strip.
  *
  * @param string   $string   String to modify.
  * @param string[] $prefixes List of prefixs.

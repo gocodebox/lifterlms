@@ -8,7 +8,7 @@
  * @since 5.4.0 Inform about deleted products.
  * @since 6.1.0 Add validation to the remaining payments input.
  *              Allow the number of remaining payments to be `0` for already-completed payment plans.
- * @version [version]
+ * @version 7.0.0
  *
  * @property LLMS_Order           $order                     Order object.
  * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.

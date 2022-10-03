@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0
  * @since 3.30.0 Added checkout redirect options.
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Correctly handle `$checkout_redirect_forced` property when updating.
+ * @since 7.0.0 Correctly handle `$checkout_redirect_forced` property when updating.
  *
  * @param array $props {
  *     An array of of properties that make up the plan to create or update.

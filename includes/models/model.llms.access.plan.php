@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -218,7 +218,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the full URL to redirect to after successful checkout.
 	 *
 	 * @since 3.30.0
-	 * @since [version] Addeded `$encode` and `$querystring_only` parameters.
+	 * @since 7.0.0 Addeded `$encode` and `$querystring_only` parameters.
 	 *
 	 * @param bool $encode           Whether or not encoding the URL.
 	 * @param bool $querystring_only Only return the redirect URL bassed by the querystring.
@@ -241,7 +241,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * Filter the checkout redirection parameter.
 		 *
 		 * @since 3.30.0
-		 * @since [version] Added `$querystring_only` parameter.
+		 * @since 7.0.0 Added `$querystring_only` parameter.
 		 *
 		 * @param string            $redirection      The calculated url to redirect to.
 		 * @param string            $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
@@ -260,7 +260,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.30.0 Added access plan redirection settings.
 	 * @since 3.31.0 The `$check_availability` parameter was added to the filter `llms_plan_get_checkout_url`
-	 * @since [version] No need to add the redirect querystring parameter if not already set, except for unavailable members only plans.
+	 * @since 7.0.0 No need to add the redirect querystring parameter if not already set, except for unavailable members only plans.
 	 *
 	 * @param bool $check_availability Determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return string

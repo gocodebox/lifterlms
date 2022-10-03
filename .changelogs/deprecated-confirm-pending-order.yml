@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in
-  favor of `LLMS_Controller_Checkout::confirm_pending_order()`.

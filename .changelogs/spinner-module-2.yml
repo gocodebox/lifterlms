@@ -1,9 +1,0 @@
-significance: major
-type: dev
-entry: The CSS for `.llms-spinning` and `.llms-spinner` elements is no longer
-  loaded as part of the `lifterlms.css` and `admin.css` files, instead it is
-  loaded dynamically when `window.LLMS.Spinner` functions are called. In some
-  cases CSS overrides to these elements which relied on CSS rule load order may
-  no longer successfully override the default CSS rules. These overrides may
-  need to be updated to have more specific selectors in order to ensure the
-  overrides are retained.

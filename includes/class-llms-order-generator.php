@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.0.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Validate and create LLMS_Order posts.
  *
- * @since [version]
+ * @since 7.0.0
  */
 class LLMS_Order_Generator {
 
@@ -168,7 +168,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array $data {
 	 *     An associative array of input data used to generate the order, usually from $_POST.
@@ -189,7 +189,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Confirms an existing pending order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return WP_Error|array Returns an array of data from the payment gateway's `confirm_pending_order()` method on success.
 	 */
@@ -226,7 +226,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Creates a new pending order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return WP_Error|LLMS_Order
 	 */
@@ -251,7 +251,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Registers or updates the user from the submitted data.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return integer|WP_Error Returns the `WP_User` ID on success or an error object.
 	 */
@@ -279,7 +279,7 @@ class LLMS_Order_Generator {
 	 * This method accepts an error code and message and passes them directly to `WP_Error` and
 	 * adds all class variables to the error objects `$data` parameter.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $code       Error code.
 	 * @param string $message    Error message.
@@ -302,7 +302,7 @@ class LLMS_Order_Generator {
 	 *
 	 * Uses the logged in user's information and falls back to a lookup by email address if available.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string|null $email An email address, if available.
 	 * @return null|integer Returns the WP_User ID or null if not found.
@@ -328,7 +328,7 @@ class LLMS_Order_Generator {
 	 * Uses data submitted during class construction and performs all necessary
 	 * validations. If validations pass, creates the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $user_action The user action, accepts `LLMS_Order_Generator::UA_COMMIT` or `LLMS_Order_Generator::UA_VALIDATE`.
 	 * @return WP_Error|LLMS_Order
@@ -354,7 +354,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the coupon object for the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return LLMS_Coupon|null
 	 */
@@ -365,7 +365,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the payment gateway instance for the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return LLMS_Payment_Gateway|null
 	 */
@@ -379,7 +379,7 @@ class LLMS_Order_Generator {
 	 * Attempts to locate an existing pending order by order key if it was submitted,
 	 * otherwise returns `new` which denotes a new order should be created.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return integer|string
 	 */
@@ -415,7 +415,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the access plan for the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return LLMS_Access_Plan|null
 	 */
@@ -426,7 +426,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the order object.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return LLMS_Order|null
 	 */
@@ -437,7 +437,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the student for the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return LLMS_Student|null
 	 */
@@ -451,7 +451,7 @@ class LLMS_Order_Generator {
 	 * The resulting array is intended to be used for setting up the `LLMS_Order` post's
 	 * user metadata, ideally passed to `LLMS_Order::init()`.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return array
 	 */
@@ -493,7 +493,7 @@ class LLMS_Order_Generator {
 	 *
 	 * Only orders with the `llms-pending` status can be resumed or confirmed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param null|int $order_id The order ID or `null` if the lookup didn't yield a result.
 	 * @return int|null Returns the submitted order ID if it's valid or `null`.
@@ -505,7 +505,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Performs all required data validations necessary to create the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param boolean $validate_order Whether or not order data should be validated. This is `true` when running `confirm()` and `false` otherwise.
 	 * @return boolean|WP_Error Returns `true` if all validations pass or an error object.
@@ -517,7 +517,7 @@ class LLMS_Order_Generator {
 		 *
 		 * This validation hook runs prior to all default validation.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param null|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
@@ -550,7 +550,7 @@ class LLMS_Order_Generator {
 		 *
 		 * This validation hook runs after all default validation.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param boolean|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
@@ -561,7 +561,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Validates the coupon.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */
@@ -602,7 +602,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Validates the payment gateway.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */
@@ -635,7 +635,7 @@ class LLMS_Order_Generator {
 	 *
 	 * Ensures the submitted order key is valid and that the order can be confirmed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */
@@ -668,7 +668,7 @@ class LLMS_Order_Generator {
 	 *
 	 * Ensures the access plan data was submitted and that it's a valid plan.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */
@@ -692,7 +692,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Validates the site's terms and conditions were submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */
@@ -716,7 +716,7 @@ class LLMS_Order_Generator {
 	/**
 	 * Validates the submitted user data.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean|WP_Error Returns `true` on success or an error object.
 	 */

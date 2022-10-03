@@ -94,7 +94,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test complete_transaction_ajax().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -234,7 +234,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test get_supported_features() method, regarding to the `modify_recurring_payments` feature.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test get_complete_transaction_redirect_url() method.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

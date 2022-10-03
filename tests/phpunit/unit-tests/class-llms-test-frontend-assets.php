@@ -17,7 +17,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Clears enqueued inline scripts.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Test enqueue_inline_scripts().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Test get_checkout_urls().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

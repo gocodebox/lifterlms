@@ -495,7 +495,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_inline_priority()
 	 *
 	 * @since 4.4.0
-	 * @since [version] Round mock priorities to nearest 2 decimals.
+	 * @since 7.0.0 Round mock priorities to nearest 2 decimals.
 	 *
 	 * @return void
 	 */

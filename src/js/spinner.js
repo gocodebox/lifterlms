@@ -6,7 +6,7 @@ import * as Spinner from '../../packages/components/src/spinner/';
  *
  * This is automatically included in the `llms.js` script file so you likely do not need to include this script directly.
  *
- * @since [version]
+ * @since 7.0.0
  */
 window.LLMS = window.LLMS || {};
 window.LLMS.Spinner = Spinner;

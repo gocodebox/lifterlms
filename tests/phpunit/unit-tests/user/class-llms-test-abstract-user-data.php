@@ -13,7 +13,7 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor and get_user_id() method.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor when loading the current user.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor when current user autoloading is disabled.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

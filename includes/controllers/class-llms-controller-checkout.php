@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Controllers/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.0.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Processes orders and interacts with payment gateway classes during checkout.
  *
- * @since [version]
+ * @since 7.0.0
  */
 class LLMS_Controller_Checkout {
 
@@ -50,7 +50,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Controller_Checkout {
 	 * Note that this method is widely used but the AJAX equivalent, {@see LLMS_Controller_Checkout::confirm_pending_order_ajax()},
 	 * is preferred when implementing a new gateway.
 	 *
-	 * @since [version] Relocated from `LLMS_Controller_Orders`.
+	 * @since 7.0.0 Relocated from `LLMS_Controller_Orders`.
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -134,7 +134,7 @@ class LLMS_Controller_Checkout {
 	 * require an order confirmation step. PayPal is a two-step checkout that requires confirmation
 	 * whereas Stripe is a one-step checkout without a confirmation step.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -178,7 +178,7 @@ class LLMS_Controller_Checkout {
 	 * gateways assuming the order is moved to active or completed status and enrollment takes place, the user
 	 * should be redirected to the relevant course or membership URL.
 	 *
-	 * @since [version] Moved from `LLMS_Controller_Orders.
+	 * @since 7.0.0 Moved from `LLMS_Controller_Orders.
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -279,7 +279,7 @@ class LLMS_Controller_Checkout {
 	 * hands the resulting order and data to the gateway's `handle_pending_order()` method and then
 	 * outputs a JSON response object.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -321,7 +321,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Extracts data from `$_POST` into an array that can be passed into `llms_setup_pending_order()`.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array $posted_data Data array, from `$_POST`.
 	 * @return array
@@ -345,7 +345,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Extracts user registration / update information from a posted data array.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array $posted_data Raw $_POST (or similar) data.
 	 * @return array
@@ -373,7 +373,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Retrieves the AJAX URL for the requested action.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $action A checkout action. Expects a class action constant: `LLMS_Controller_Checkout::ACTION_*`.
 	 * @return string
@@ -390,7 +390,7 @@ class LLMS_Controller_Checkout {
 	 * Handles redirection during {@see LLMS_Controller_Checkout::create_pending_order()} if validation errors are encountered
 	 * via the free checkout/enrollment form.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param int    $plan_id WP_Post ID of the access plan.
 	 * @param string $form    Value of the posted `form`, should be `free_enroll`.
@@ -418,7 +418,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Sends a JSON response.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array|WP_Error $data Response data.
 	 * @return void
@@ -437,7 +437,7 @@ class LLMS_Controller_Checkout {
 	 * Secondly, this will remove the non-ajax action callback of the method's name ensuring that the non-ajax version doesn't
 	 * run immediately behind the ajax version.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $method Name of the non-ajax method to remove.
 	 * @return void
@@ -455,7 +455,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order.
 	 *
-	 * @since [version] Relocated from `LLMS_Controller_Orders`.
+	 * @since 7.0.0 Relocated from `LLMS_Controller_Orders`.
 	 *
 	 * @return void
 	 */
@@ -483,7 +483,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Handle ajax payment method switching from the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -521,7 +521,7 @@ class LLMS_Controller_Checkout {
 			 * This is used by gateways such as PayPal that require a creation and approval step on PayPal as opposed
 			 * to a gateway like Stripe that doesn't require end-user approval on the Stripe platform.
 			 *
-			 * @since [version]
+			 * @since 7.0.0
 			 *
 			 * @param type $arg Description.
 			 */
@@ -543,7 +543,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Validates and parses user-submitted `$_POST` data during payment source switching.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return WP_Error|array {
 	 *     An error object or an associative array on success.
@@ -588,7 +588,7 @@ class LLMS_Controller_Checkout {
 			/**
 			 * Filters the gateway IDs that are temporarily stored during a payment source switch.
 			 *
-			 * @since [version]
+			 * @since 7.0.0
 			 *
 			 * @param array      $temp_ids {
 			 *     An array of gateway-related IDs to be temporarily cached.
@@ -617,7 +617,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Action run following a successful payment source switch.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array $args Payment switch arguments from {@see LLMS_Controller_Checkout::switch_payment_source_setup()}.
 	 * @param bool  $note If `true`, automatically records an order note for the source the switch.
@@ -650,7 +650,7 @@ class LLMS_Controller_Checkout {
 		/**
 		 * Action run after an order's payment source is switched.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param LLMS_Order $order       Order object.
 		 * @param string     $new_gateway The payment gateway ID of the new gateway.
@@ -666,7 +666,7 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Verifies an incoming request nonce and posted action field.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $field The nonce field.
 	 * @param string $nonce The nonce & action value.

@@ -48,7 +48,7 @@ abstract class LLMS_Abstract_User_Data {
 	 *
 	 * @since 2.2.3
 	 * @since 3.9.0 Unknown.
-	 * @since [version] Added `$autoload` parameter.
+	 * @since 7.0.0 Added `$autoload` parameter.
 	 *
 	 * @param int|null|WP_User|LLMS_Abstract_User_Data $user     A `WP_User` ID, instance of a `WP_User`, or instance of any class extending this class.
 	 * @param boolean                                  $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.

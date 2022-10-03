@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -509,7 +509,7 @@ function llms_update_user( $data = array(), $location = 'account', $args = array
  * The related functions `llms_update_user()` and `llms_register_user()` automatically perform validations so this method
  * should only be used if you wish to test updates / registration without actually performing the registration or update action.
  *
- * @since [version]
+ * @since 7.0.0
  *
  * @param array  $data     Array of user data.
  * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'checkout'

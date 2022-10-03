@@ -4,7 +4,7 @@
  *
  * @since 3.19.0
  * @since 5.4.0 The order status dropdown is now limited to a subset of possible status.
- * @version [version]
+ * @version 7.0.0
  *
  * @property LLMS_Meta_Box_Order_Submit $this  LLMS_Meta_Box_Order_Submit instance.
  * @property LLMS_Order                 $order LLMS_Order instance.

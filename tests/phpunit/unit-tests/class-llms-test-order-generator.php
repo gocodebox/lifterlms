@@ -7,15 +7,15 @@
  * @group orders
  * @group order_generator
  *
- * @since [version]
- * @version [version]
+ * @since 7.0.0
+ * @version 7.0.0
  */
 class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 	/**
 	 * Test confirm() when validation errors are encountered.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm() when the gateway encounters an error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test confirm() success
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test create() when an error is encountered creating the order post.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test commit_user().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test error().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test generate() with validation errors.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -229,7 +229,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test generate() when an error is encountered during the user commit step.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -259,7 +259,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test generate() with commit success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -285,7 +285,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test generate() with user validation only success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -309,7 +309,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test the protected property getter methods.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_order_id().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -356,7 +356,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_order_id() lookup by user/email & plan.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -392,7 +392,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_order_id() lookup by email (for a non-existent user) & plan.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -422,7 +422,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_user_data().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -457,7 +457,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_user_data() when incomplete data is submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -486,7 +486,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate() during an early return from a 3rd party.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -511,7 +511,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate() when a validation error is encountered().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -527,7 +527,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate() when a validation error is encountered() with order data.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -546,7 +546,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -564,7 +564,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate() success with order validation.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -586,7 +586,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon() when no coupon is submitted.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -600,7 +600,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon() when the supplied coupon can't be found.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -616,7 +616,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon() when the supplied coupon isn't valid.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -642,7 +642,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon() with a valid coupon.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -666,7 +666,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_gateway() when no gateway is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -687,7 +687,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_gateway() when no gateway is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -709,7 +709,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_gateway() when no gateway is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -729,7 +729,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_gateway() when no gateway is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -750,7 +750,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_order() when the order can't be found.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -768,7 +768,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_order() when the order can't be confirmed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -793,7 +793,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_order() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -814,7 +814,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() when no plan is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -831,7 +831,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() when an invalid or non-existent plan is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -850,7 +850,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -869,7 +869,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_terms() when terms aren't required.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -888,7 +888,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_terms() when terms aren't required.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -915,7 +915,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_user() with validation errors.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -933,7 +933,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_user() extra enrollment validations.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -967,7 +967,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_user() success.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

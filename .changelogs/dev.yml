@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2277"
-entry: Fixed unclosed checkout div wrapper on empty cart.
