@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcode_Checkout
+ * LLMS_Shortcode_Checkout class.
  *
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
@@ -150,6 +150,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -176,13 +177,17 @@ class LLMS_Shortcode_Checkout {
 			$atts['field_data'] = get_current_user_id();
 		}
 
-		echo '<div class="llms-checkout-wrapper">';
+		self::checkout_wrapper_start();
 
-		// allow gateways to throw errors before outputting anything else.
-		// useful if you need to check for extra session or query string data.
+		/**
+		 * Allow gateways to throw errors before outputting anything else.
+		 * Useful if you need to check for extra session or query string data.
+		 */
 		$err = apply_filters( 'lifterlms_pre_checkout_error', false );
 		if ( $err ) {
-			return self::error( $err );
+			self::error( $err );
+			self::checkout_wrapper_end();
+			return;
 		}
 
 		llms_print_notices();
@@ -246,8 +251,9 @@ class LLMS_Shortcode_Checkout {
 
 			if ( ! isset( $_GET['order'] ) ) {
 
-				return self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
-
+				self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
+				self::checkout_wrapper_end();
+				return;
 			}
 
 			$order = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_GET, 'order' ) );
@@ -265,11 +271,11 @@ class LLMS_Shortcode_Checkout {
 
 		} else {
 
-			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
+			self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
 		}
 
-		echo '</div><!-- .llms-checkout-wrapper -->';
+		self::checkout_wrapper_end();
 
 	}
 
@@ -331,4 +337,27 @@ class LLMS_Shortcode_Checkout {
 		}
 		return $fields_html;
 	}
+
+	/**
+	 * Output the checkout wrapper opening tags.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private static function checkout_wrapper_start() {
+		echo '<div class="llms-checkout-wrapper">';
+	}
+
+	/**
+	 * Output the checkout wrapper closing tags.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private static function checkout_wrapper_end() {
+		echo '</div><!-- .llms-checkout-wrapper -->';
+	}
+
 }

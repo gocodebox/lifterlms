@@ -2,9 +2,11 @@ name: Release Publication and Distribution
 
 on:
   workflow_dispatch:
-  release:
-    types:
-      - published
+  push:
+    branches:
+      - trunk
+    paths:
+      - 'readme.txt'
 
 jobs:
 

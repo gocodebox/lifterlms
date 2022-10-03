@@ -1,0 +1,11 @@
+<div class="d-1of2">
+	<div class="llms-reporting-widget test-e" id="test-e">
+				<div class="llms-reporting-widget-data">
+			<strong><span class="lifterlms-price"><span class="llms-price-currency-symbol">&#36;</span>45.90</span></strong>
+							<small class="compare tooltip positive" title="Previously 200.32">
+					-336.43%
+				</small>
+					</div>
+		<small>Test Letter E</small>
+	</div>
+</div>
