@@ -1,0 +1,6 @@
+significance: minor
+type: changed
+links:
+  - "#2281"
+entry: "Full Site Editing: wrap custom template's header and footer into proper
+  tags."
