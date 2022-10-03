@@ -36,16 +36,16 @@ export default function PostSearchControl( {
 	formatSearchResultLabel = formatSearchResultLabel
 		? formatSearchResultLabel
 		: ( { title, id } ) =>
-				sprintf(
-					// Translators: %1$s = Post title; %2$s = Post id.
-					_x(
-						'%1$s (ID# %2$d)',
-						'Post search result label',
-						'lifterlms'
-					),
-					title.rendered,
-					id
-				);
+			sprintf(
+				// Translators: %1$s = Post title; %2$s = Post id.
+				_x(
+					'%1$s (ID# %2$d)',
+					'Post search result label',
+					'lifterlms'
+				),
+				title.rendered,
+				id
+			);
 
 	return (
 		<BaseSearchControl

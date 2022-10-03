@@ -19,10 +19,12 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.5.1
 	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
+	 * @since [version] Add call to `parent::tear_down()`.
 	 *
 	 * @return void
 	 */
 	public function tear_down() {
+		parent::tear_down();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE {$wpdb->posts}" );
 	}

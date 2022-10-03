@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Don't attempt to lookup the default payment gateway from user meta data.

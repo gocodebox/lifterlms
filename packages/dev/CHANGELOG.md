@@ -1,6 +1,12 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+UNRELEASED
+----------
+
++ When using `update-version` with a prerelease version, certain replacements will be automatically excluded.
+
+
 v0.1.0 - 2022-08-11
 -------------------
 

@@ -23,7 +23,7 @@ import { useState } from '@wordpress/element';
  *                                   can optionally include an "icon" property.
  * @return {BaseControl} The rendered component.
  */
-export default function ( {
+export default function( {
 	label,
 	onClick = () => {},
 	className = null,

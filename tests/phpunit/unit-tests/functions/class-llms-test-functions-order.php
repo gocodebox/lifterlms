@@ -17,6 +17,155 @@
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
 	/**
+	 * Test llms_can_gateway_be_used_for_plan (and llms_can_gateway_be_used_for_plan_or_order() for a plan).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_gateway_be_used_for_plan() {
+
+		$plan    = llms_insert_access_plan( array(
+			'price'      => 15.99,
+			'product_id' => $this->factory->post->create( array( 'post_type' => 'course' ) ),
+		) );
+		$plan_id = $plan->get( 'id' );
+
+		$gateway           = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$orig_supports     = $gateway->supports;
+		$gateway->supports = array(
+			'single_payments'    => false,
+			'recurring_payments' => false,
+		);
+
+		// Invalid gateway.
+		$this->assertWPErrorCodeEquals( 'gateway-invalid', llms_can_gateway_be_used_for_plan( 'fake', $plan ) );
+		$this->assertWPErrorCodeEquals( 'gateway-invalid', llms_can_gateway_be_used_for_plan_or_order( 'fake', $plan, true ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'fake', $plan_id ) );
+
+		// Manual not available.
+		$this->assertWPErrorCodeEquals( 'gateway-disabled', llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan, true ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan_id ) );
+
+		// Recurring plan without support.
+		$plan->set( 'frequency', 1 );
+		$this->assertWPErrorCodeEquals( 'gateway-support-recurring', llms_can_gateway_be_used_for_plan( 'manual', $plan ) );
+		$this->assertWPErrorCodeEquals( 'gateway-support-recurring', llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan, true, false ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan_id ) );
+			
+		// One-time plan without support.
+		$plan->set( 'frequency', 0 );
+		$this->assertWPErrorCodeEquals( 'gateway-support-single', llms_can_gateway_be_used_for_plan( 'manual', $plan ) );
+		$this->assertWPErrorCodeEquals( 'gateway-support-single', llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan, true, false ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan_id ) );
+
+		// Reset support.
+		$gateway->supports = $orig_supports;
+
+		// Recurring okay.
+		$plan->set( 'frequency', 1 );
+		$this->assertTrue( llms_can_gateway_be_used_for_plan( 'manual', $plan ) );
+		$this->asserttrue( llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan_id, false, false ) );
+
+		// Single okay.
+		$plan->set( 'frequency', 0 );
+		$this->assertTrue( llms_can_gateway_be_used_for_plan( 'manual', $plan ) );
+		$this->asserttrue( llms_can_gateway_be_used_for_plan_or_order( 'manual', $plan_id, false, false ) );
+
+	}
+
+	/**
+	 * Test llms_can_gateway_be_used_for_plan() for a disabled gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_gateway_be_used_for_plan_disabled_gateway() {
+
+		$plan = llms_insert_access_plan( array(
+			'price'      => 15.99,
+			'product_id' => $this->factory->post->create( array( 'post_type' => 'course' ) ),
+		) );
+
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'fake-not-enabled';
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+		};
+		$this->load_payment_gateway( $gateway, false );
+
+		$this->assertWPErrorCodeEquals( 'gateway-disabled', llms_can_gateway_be_used_for_plan( 'fake-not-enabled', $plan ) );
+
+		$this->unload_payment_gateway( 'fake-not-enabled' );
+
+	}
+
+	/**
+	 * Test llms_can_gateway_be_used_for_plan_or_order() for an order. 
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_gateway_be_used_for_plan_or_order() {
+
+		$order    = $this->factory->order->create_and_get();
+		$order_id = $order->get( 'id' );
+
+		$gateway           = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$orig_supports     = $gateway->supports;
+		$gateway->supports = array(
+			'single_payments'    => false,
+			'recurring_payments' => false,
+		);
+
+		// Invalid gateway.
+		$this->assertWPErrorCodeEquals( 'gateway-invalid', llms_can_gateway_be_used_for_plan_or_order( 'fake', $order, true ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'fake', $order_id ) );
+
+		// Manual not available.
+		$this->assertWPErrorCodeEquals( 'gateway-disabled', llms_can_gateway_be_used_for_plan_or_order( 'manual', $order, true ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $order_id ) );
+
+		// Recurring plan without support.
+		$order->set( 'order_type', 'recurring' );
+		$this->assertWPErrorCodeEquals( 'gateway-support-recurring', llms_can_gateway_be_used_for_plan_or_order( 'manual', $order, true, false ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $order_id ) );
+			
+		// One-time plan without support.
+		$order->set( 'order_type', 'single' );
+		$this->assertWPErrorCodeEquals( 'gateway-support-single', llms_can_gateway_be_used_for_plan_or_order( 'manual', $order, true, false ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $order_id ) );
+
+		// Reset support.
+		$gateway->supports = $orig_supports;
+
+		// Recurring okay.
+		$order->set( 'frequency', 1 );
+		$this->asserttrue( llms_can_gateway_be_used_for_plan_or_order( 'manual', $order_id, false, false ) );
+
+		// Single okay.
+		$order->set( 'frequency', 0 );
+		$this->asserttrue( llms_can_gateway_be_used_for_plan_or_order( 'manual', $order_id, false, false ) );
+
+	}
+
+	/**
+	 * Test llms_can_gateway_be_used_for_plan_or_order() with an invalid post input.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_gateway_be_used_for_plan_or_order_invalid_post() {
+
+		$post_id = $this->factory->post->create();
+		$this->assertWPErrorCodeEquals( 'post-invalid', llms_can_gateway_be_used_for_plan_or_order( 'manual', $post_id, true ) );
+		$this->assertFalse( llms_can_gateway_be_used_for_plan_or_order( 'manual', $post_id ) );
+
+	}
+
+	/**
 	 * Test the llms_get_order_by_key() method.
 	 *
 	 * @since 3.30.1
@@ -111,6 +260,44 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 			'llms-refunded',
 			'llms-failed',
 		), array_keys( llms_get_order_statuses( 'single' ) ) );
+
+	}
+
+	/**
+	 * Test llms_locate_order_for_email_and_plan().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_locate_order_for_email_and_plan() {
+
+		$order   = new LLMS_Order( 'new' );
+		$email   = 'locate_order_for_email_and_plan@fake.tld';
+		$plan_id = $this->factory->post->create( array(
+			'post_type' => 'llms_access_plan',
+		) );
+
+		$order->set( 'plan_id', $plan_id );
+		$order->set_status( 'llms-pending' );
+
+		// Invalid email & plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id + 1 ) );
+
+		// Invalid email & valid plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+
+		$order->set( 'billing_email', $email );
+		
+		// Valid email & invalid plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id + 1 ) );
+
+		// Valid email & valid plan.
+		$this->assertEquals( $order->get( 'id' ), llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+
+		// Only locates pending orders.
+		$order->set_status( 'llms-failed' ); 
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
 
 	}
 
@@ -218,7 +405,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
 		// Fake payment gateway.
 		$order_data['payment_gateway'] = 'fakeway';
-		$this->setup_pending_order_fail( $order_data, 'invalid-gateway' );
+		$this->setup_pending_order_fail( $order_data, 'gateway-invalid' );
 
 		// Real payment gateway.
 		$order_data['payment_gateway'] = 'manual';

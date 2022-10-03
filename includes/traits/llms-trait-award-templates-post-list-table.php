@@ -60,7 +60,7 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 			add_query_arg(
 				array(
 					LLMS_Admin_Post_Table_Awards::TEMPLATE_FILTER_QUERY_VAR => $post->ID,
-					'post_type'                                             => $award_post_type,
+					'post_type' => $award_post_type,
 				),
 				admin_url( 'edit.php' )
 			),
@@ -76,7 +76,7 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 		$sync_action = "sync_awarded_{$this->engagement_type}s";
 		$sync_url    = add_query_arg(
 			array(
-				'action'                                            => $sync_action,
+				'action' => $sync_action,
 				"_llms_{$this->engagement_type}_sync_actions_nonce" => wp_create_nonce( "llms-{$this->engagement_type}-sync-actions" ),
 			),
 			get_edit_post_link( $post, 'raw' )

@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2234"
+entry: Fixed an issue that prevented disabling the access plan’s option,
+  Override Membership Redirects, once enabled.

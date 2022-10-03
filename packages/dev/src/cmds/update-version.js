@@ -116,33 +116,51 @@ const defaultReplacements = [
 	[ 
 		'./**',
 		'(?<=@(?:since|version|deprecated) +)(\\[version\\])',
+		'g',
+		false,
 	],
 
 	// 2. Replace [version] placeholder in all deprecate function methods tags.
 	[ 
 		'./*.php,./**/*.php',
 		`(?<=(?:${ deprecatedFunctions }\\().+)(?<=\')(\\[version\\])(?=\')`,
+		'g',
+		false,
 	],
 
 	// 3. Replace plugin metadata "Version" with current version.
 	[ 
 		'*lifterlms*.php',
 		'(?<=[Vv]ersion *[:=] *[ \'\"])(0|[1-9]\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?',
+		'g',
+		true,
 	],
 
 	// 4. Replace LIFTERLMS*_VERSION constants with the current version.
 	[ 
 		'*lifterlms*.php',
 		'(?<=define\\( \'(?:LLMS|LIFTERLMS).*_VERSION\', \')(.*)(?=\' \\);)',
+		'g',
+		true,
 	],
 
 	// 5. Replace theme stylesheet's version number with the current version.
 	[ 
 		'./style.css',
 		'(?<=Version: )(.+)',
+		'g',
+		true,
 	],
 ];
 
+/**
+ * Command: update-version
+ *
+ * @since 0.0.1
+ * @since [version] Added 4th parameter to the replacement arrays to allow excluding replacement sets when building a prerelease.
+ *
+ * @type {Object}
+ */
 module.exports = {
 	command: 'update-version',
 	description: 'Update the project version and replace all [version] placeholders.',
@@ -150,7 +168,7 @@ module.exports = {
 		[ '-i, --increment <level>', 'Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease.', 'patch' ],
 		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.' ],
 		[ '-F, --force <version>', 'Specify an explicit version instead of incrementing the current version with --increment.' ],
-		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested, a regex used to perform the replacement, and an optional list of RegEx flags (defaults to `g` if not supplied). It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
+		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested, a regex used to perform the replacement, an optional list of RegEx flags (defaults to `g` if not supplied), and a boolean used to specify if the replacement should be run when building a prerelease (defaults to `false` if not supplied). It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
 		[ '-e, --extra-replacements <replacement...>]', 'Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them.', [] ],
 		[ '-E, --exclude <glob...>', 'Specify files to exclude from the update.', './vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**' ],
 		[ '-s, --skip-config', 'Skip updating the version of the package.json or composer.json file.' ],
@@ -162,6 +180,8 @@ module.exports = {
 			logResult( `The supplied version string ${ chalk.bold( version ) } is invalid.`, 'error' );
 			process.exit( 1 );
 		}
+
+		const isPrerelease = semver.prerelease( version )?.length ? true : false;
 
 		// Add extraReplacements.
 		replacements = [ ...replacements, ...extraReplacements ];
@@ -180,7 +200,14 @@ module.exports = {
 			if ( replacements[ i ].length < 3 ) {
 				replacements[ i ].push( 'g' );
 			}
-			updateVersions( ...replacements[ i ], exclude, version )
+
+			const [ glob, regex, flags, forPreleases ] = replacements[ i ];
+
+			if ( isPrerelease && ! forPreleases ) {
+				continue;
+			}
+
+			updateVersions( glob, regex, flags, exclude, version )
 				.filter( ( { hasChanged } ) => hasChanged )
 				.forEach( ( update ) => {
 					res.push( {

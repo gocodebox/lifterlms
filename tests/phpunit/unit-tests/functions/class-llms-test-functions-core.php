@@ -715,10 +715,13 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.35.0 Test sanitization and ipv6 addresses.
+	 * @since [version] Reset the original `$_SERVER['REMOTE_ADDR']` value on test completion.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_ip_address() {
+
+		$orig_ip = $_SERVER['REMOTE_ADDR'];	
 
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
@@ -748,6 +751,9 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		$_SERVER['REMOTE_ADDR'] = '127\\/\/\/\.0.0.1';
 		$this->assertEquals( '', llms_get_ip_address() );
+
+		// Reset.
+		$_SERVER['REMOTE_ADDR'] = $orig_ip;
 
 	}
 
@@ -1018,16 +1024,25 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			array( 'llms_test', array(), 'test' ),
 			array( 'lifterlms_test', null, 'test' ),
 			array( 'lifterlms_test', array(), 'test' ),
+			array( 'llms-test', null, 'test' ),
+			array( 'llms-test', array(), 'test' ),
+			array( 'lifterlms-test', null, 'test' ),
+			array( 'lifterlms-test', array(), 'test' ),
+
 
 			// Only strip from the start of the string.
 			array( 'test_llms_test', null, 'test_llms_test' ),
 			array( 'test_lifterlms_test', null, 'test_lifterlms_test' ),
 			array( 'test_llms_', null, 'test_llms_' ),
 			array( 'test_lifterlms_', null, 'test_lifterlms_' ),
+			array( 'test_llms-', null, 'test_llms-' ),
+			array( 'test_lifterlms-', null, 'test_lifterlms-' ),
 
 			// Don't strip multiple prefixes.
 			array( 'llms_lifterlms_test', null, 'lifterlms_test' ),
 			array( 'lifterlms_llms_test', null, 'llms_test' ),
+			array( 'llms-lifterlms-test', null, 'lifterlms-test' ),
+			array( 'lifterlms-llms-test', null, 'llms-test' ),
 
 			// Custom prefix.
 			array( 'test_llms_test', array( 'test_' ), 'llms_test' ),

@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2206"
+entry: "Disabled `scroll-behavior: smooth` on checkout screen to address form
+  element validity checking issues on Chromium-based browsers."

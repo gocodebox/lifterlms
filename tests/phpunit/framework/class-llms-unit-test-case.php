@@ -32,10 +32,39 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	public function set_up() {
 		parent::set_up();
 		llms_tests_reset_current_time();
+	}
 
-		add_action( 'doing_it_wrong_run', function( $func, $msg ) {
-			var_dump( $func, $msg );
-		}, 20, 2 );
+	/**
+	 * Loads a payment gateway class.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Payment_Gateway $gateway Gateway class instance.
+	 * @param boolean              $enabled Whether or not to enable the gateway.
+	 * @return void
+	 */
+	protected function load_payment_gateway( $gateway, $enabled = true ) {
+		$gateway->set_option( 'enabled', $enabled ? 'yes' : 'no' );
+		llms()->payment_gateways()->payment_gateways[] = $gateway;
+	}
+
+	/**
+	 * Unload a payment gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $id Gateway ID.
+	 * @return void
+	 */
+	protected function unload_payment_gateway( $id ) {
+
+		foreach ( llms()->payment_gateways()->payment_gateways as $i => $gateway ) {
+			if ( $id !== $gateway->id ) {
+				continue;
+			}
+			unset( llms()->payment_gateways()->payment_gateways[ $i ] );
+		}
+
 	}
 
 	/**
@@ -273,6 +302,57 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Retrieves an array of data as would be found in `$_POST` from a checkout form submission.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan|null $plan An access plan or `null` to automatically create one with default values from `get_mock_plan()`.
+	 * @return array
+	 */
+	protected function get_mock_checkout_data_array( $plan = null ) {
+
+		$plan = $plan ? $plan : $this->get_mock_plan();
+
+		$data = array(
+			'llms_plan_id'         => $plan->get( 'id' ),
+			'llms_payment_gateway' => 'manual',
+		);
+		$user_data = $this->get_mock_user_data_array();
+
+		return array_merge( $data, $user_data );
+
+	}
+
+	/**
+	 * Retrieves an array user data as would be found in `$_POST` from a checkout or registration form submission.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_mock_user_data_array() {
+
+		$email = wp_generate_password( 5, false ) . '@' . wp_generate_password( 5, false ) . '.tld';
+
+		return array(
+			'email_address'          => $email,
+			'email_address_confirm'  => $email,
+			'password'               => '12345678',
+			'password_confirm'       => '12345678',
+			'first_name'             => 'Fred',
+			'last_name'              => 'Stevens',
+			'llms_phone'             => '1234567890',
+			'llms_billing_address_1' => '123 A Street',
+			'llms_billing_address_2' => '#456',
+			'llms_billing_city'      => 'City',
+			'llms_billing_state'     => 'State',
+			'llms_billing_zip'       => '12345',
+			'llms_billing_country'   => 'CA',
+		);
+
+	}
+
+	/**
 	 * Generates an array of course data which can be passed to a Generator
 	 * @param    int     $iterator      number for use as course number
 	 * @param    int     $num_sections  number of sections to generate for the course
@@ -362,7 +442,18 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	}
 
-	protected function get_mock_order( $plan = null, $coupon = false ) {
+	/**
+	 * Retrieves a mock order object.
+	 *
+	 * @since Unknown
+	 * @since [version] Added `$student` parameter to allow supplying the student for the order.
+	 *
+	 * @param LLMS_Access_Plan $plan    An access plan object. If not supplied will create one.
+	 * @param boolean          $coupon  If `true` will create (and apply) a coupon to the order.
+	 * @param LLMS_Student     $student Student object. If not supplied will create one.
+	 * @return void
+	 */
+	protected function get_mock_order( $plan = null, $coupon = false, $student = null ) {
 
 		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
@@ -389,7 +480,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		}
 
 		$order = new LLMS_Order( 'new' );
-		return $order->init( $this->get_mock_student(), $plan, $gateway, $coupon );
+		return $order->init( $student ? $student : $this->get_mock_student(), $plan, $gateway, $coupon );
 
 	}
 
