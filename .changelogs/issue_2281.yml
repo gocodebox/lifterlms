@@ -1,0 +1,5 @@
+significance: major
+type: changed
+links:
+  - "#2281"
+entry: "Full Site Editing: **[BREAKING]** The wrappers in the custom header and footer templates have been changed to the semantic HTML tags `<header>` and `<footer>` in favor of default `<div>` tags."
