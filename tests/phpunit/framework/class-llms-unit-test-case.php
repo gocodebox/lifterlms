@@ -32,10 +32,6 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	public function set_up() {
 		parent::set_up();
 		llms_tests_reset_current_time();
-
-		add_action( 'doing_it_wrong_run', function( $func, $msg ) {
-			var_dump( $func, $msg );
-		}, 20, 2 );
 	}
 
 	/**
