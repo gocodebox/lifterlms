@@ -1201,11 +1201,12 @@ function llms_set_time_limit( $limit = 0 ) {
 /**
  * Strips a list of prefixes from the start of a string.
  *
- * By default, strips `llms_` or `lifterlms_`. Other prefixes may be provided.
+ * By default, strips `llms_`, `lifterlms_`, 'llms-', or 'lifterlms-'. Other prefixes may be provided.
  *
  * Will strip only the first prefix found from the list of supplied prefixes.
  *
  * @since 6.0.0
+ * @since 7.0.0 Added `llms-` and `lifterlms-` as additional default prefixes to strip.
  *
  * @param string   $string   String to modify.
  * @param string[] $prefixes List of prefixs.
@@ -1213,7 +1214,7 @@ function llms_set_time_limit( $limit = 0 ) {
  */
 function llms_strip_prefixes( $string, $prefixes = array() ) {
 
-	$prefixes = empty( $prefixes ) ? array( 'llms_', 'lifterlms_' ) : $prefixes;
+	$prefixes = empty( $prefixes ) ? array( 'llms_', 'lifterlms_', 'llms-', 'lifterlms-' ) : $prefixes;
 
 	foreach ( $prefixes as $prefix ) {
 		if ( 0 === strpos( $string, $prefix ) ) {

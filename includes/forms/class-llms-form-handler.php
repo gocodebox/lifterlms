@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 6.0.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -304,11 +304,15 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Remove invisible fields from when loading the checkout form.
+	 * @since 7.0.0 Allow submission validation only (without actually submitting the fields) using the
+	 *              `validate_only` flag in the `$args` array.
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.
 	 * @param array  $args        Additional arguments passed to the short-circuit filter.
-	 * @return int|WP_Error WP_User ID on success, error object on failure.
+	 * @return integer|boolean|WP_Error On success returns the `WP_User` ID.
+	 *                                  If the `validate_only` argument is passed returns `true` on success.
+	 *                                  Returns an error object if any validation or processing errors are encountered.
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {
 
@@ -331,6 +335,10 @@ class LLMS_Form_Handler {
 		// Make sure the user id cannot be forced by user submission.
 		unset( $posted_data['user_id'] );
 
+		if ( ! empty( $args['validate_only'] ) ) {
+			return $this->validate_fields( $posted_data, $location, $fields, $action );
+		}
+
 		return $this->submit_fields( $posted_data, $location, $fields, $action );
 
 	}
@@ -342,6 +350,7 @@ class LLMS_Form_Handler {
 	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
 	 * @since 5.4.1 Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
 	 * @since 6.0.0 Notify developers of the deprecated `lifterlms_created_person` action hook.
+	 * @since 7.0.0 Moved validation logic to the `validate_fields()` method.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.
@@ -351,87 +360,10 @@ class LLMS_Form_Handler {
 	 */
 	public function submit_fields( $posted_data, $location, $fields, $action ) {
 
-		/**
-		 * Run an action immediately prior to user registration or update.
-		 *
-		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
-		 *
-		 * @since 3.0.0
-		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
-		 *              Added parameters `$fields` and `$args`.
-		 *              Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
-		 *              of `$posted_data` and `$fields` via hooks.
-		 *
-		 * @param array   $posted_data Array of user-submitted data (passed by reference).
-		 * @param string  $location    Form location.
-		 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
-		 */
-		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields ) );
-
-		// Check for all required fields.
-		$required = $this->validator->validate_required_fields( $posted_data, $fields );
-
-		/**
-		 * Filter the required fields validity of the form submission.
-		 *
-		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
-		 *
-		 * @since 5.0.1
-		 *
-		 * @param WP_Error|true $valid       Error object containing required validation errors or true when the data is valid.
-		 * @param array         $posted_data Array of user-submitted data.
-		 * @param string        $location    Form location.
-		 */
-		$required = apply_filters( "lifterlms_user_${action}_required_data", $required, $posted_data, $location );
-
-		if ( is_wp_error( $required ) ) {
-			return $this->submit_error( $required, $posted_data, $action );
+		$validate = $this->validate_fields( $posted_data, $location, $fields, $action );
+		if ( is_wp_error( $validate ) ) {
+			return $validate;
 		}
-
-		$posted_data = wp_unslash( $posted_data );
-
-		$valid = $this->validator->validate_fields( $posted_data, $fields );
-		if ( is_wp_error( $valid ) ) {
-			return $this->submit_error( $valid, $posted_data, $action );
-		}
-
-		// Validate matching fields.
-		$matches = $this->validator->validate_matching_fields( $posted_data, $fields );
-		if ( is_wp_error( $matches ) ) {
-			return $this->submit_error( $matches, $posted_data, $action );
-		}
-
-		/**
-		 * Filter the validity of the form submission.
-		 *
-		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
-		 *
-		 * @since 3.0.0
-		 * @since 5.0.0 Unknown.
-		 *
-		 * @param WP_Error|true $valid       Error object containing validation errors or true when the data is valid.
-		 * @param array         $posted_data Array of user-submitted data.
-		 * @param string        $location    Form location.
-		 */
-		$valid = apply_filters( "lifterlms_user_${action}_data", true, $posted_data, $location );
-		if ( is_wp_error( $valid ) ) {
-			return $this->submit_error( $valid, $posted_data, $action );
-		}
-
-		/**
-		 * Run an action immediately after user registration/update fields have been validated.
-		 *
-		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
-		 *
-		 * @since 3.0.0
-		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
-		 *              Added parameters `$fields` and `$args`.
-		 *
-		 * @param array   $posted_data Array of user-submitted data.
-		 * @param string  $location    Form location.
-		 * @param array[] $fields      Array of LifterLMS Form Fields.
-		 */
-		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields );
 
 		// Sanitize.
 		$posted_data = $this->validator->sanitize_fields( $posted_data, $fields );
@@ -517,6 +449,105 @@ class LLMS_Form_Handler {
 		 * @param string   $action      Submission action, either "registration" or "update"!
 		 */
 		return apply_filters( "lifterlms_user_${action}_failure", $error, $posted_data, $action );
+
+	}
+
+	/**
+	 * Form fields submission validation.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array   $posted_data User-submitted form data.
+	 * @param string  $location    Form location ID.
+	 * @param array[] $fields      Array of LifterLMS Form Fields.
+	 * @param string  $action      User action to perform.
+	 * @return boolean|WP_Error Returns `true` on success and an error object on failure.
+	 */
+	protected function validate_fields( $posted_data, $location, $fields, $action ) {
+
+		/**
+		 * Run an action immediately prior to user registration or update.
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
+		 * @since 3.0.0
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
+		 *              Added parameters `$fields` and `$args`.
+		 *              Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
+		 *              of `$posted_data` and `$fields` via hooks.
+		 *
+		 * @param array   $posted_data Array of user-submitted data (passed by reference).
+		 * @param string  $location    Form location.
+		 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
+		 */
+		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields ) );
+
+		// Check for all required fields.
+		$required = $this->validator->validate_required_fields( $posted_data, $fields );
+
+		/**
+		 * Filter the required fields validity of the form submission.
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
+		 * @since 5.0.1
+		 *
+		 * @param WP_Error|true $valid       Error object containing required validation errors or true when the data is valid.
+		 * @param array         $posted_data Array of user-submitted data.
+		 * @param string        $location    Form location.
+		 */
+		$required = apply_filters( "lifterlms_user_${action}_required_data", $required, $posted_data, $location );
+
+		if ( is_wp_error( $required ) ) {
+			return $this->submit_error( $required, $posted_data, $action );
+		}
+
+		$posted_data = wp_unslash( $posted_data );
+
+		$valid = $this->validator->validate_fields( $posted_data, $fields );
+		if ( is_wp_error( $valid ) ) {
+			return $this->submit_error( $valid, $posted_data, $action );
+		}
+
+		// Validate matching fields.
+		$matches = $this->validator->validate_matching_fields( $posted_data, $fields );
+		if ( is_wp_error( $matches ) ) {
+			return $this->submit_error( $matches, $posted_data, $action );
+		}
+
+		/**
+		 * Filter the validity of the form submission.
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
+		 * @since 3.0.0
+		 * @since 5.0.0 Unknown.
+		 *
+		 * @param WP_Error|true $valid       Error object containing validation errors or true when the data is valid.
+		 * @param array         $posted_data Array of user-submitted data.
+		 * @param string        $location    Form location.
+		 */
+		$valid = apply_filters( "lifterlms_user_${action}_data", true, $posted_data, $location );
+		if ( is_wp_error( $valid ) ) {
+			return $this->submit_error( $valid, $posted_data, $action );
+		}
+
+		/**
+		 * Run an action immediately after user registration/update fields have been validated.
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
+		 * @since 3.0.0
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
+		 *              Added parameters `$fields` and `$args`.
+		 *
+		 * @param array   $posted_data Array of user-submitted data.
+		 * @param string  $location    Form location.
+		 * @param array[] $fields      Array of LifterLMS Form Fields.
+		 */
+		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields );
+
+		return true;
 
 	}
 
