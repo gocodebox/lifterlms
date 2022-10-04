@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,62 +215,69 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the full URL to redirect to after successful checkout
+	 * Retrieve the full URL to redirect to after successful checkout.
 	 *
-	 * @since    3.30.0
-	 * @version  3.30.0
+	 * @since 3.30.0
+	 * @since 7.0.0 Addeded `$encode` and `$querystring_only` parameters.
 	 *
-	 * @return   string
+	 * @param bool $encode           Whether or not encoding the URL.
+	 * @param bool $querystring_only Only return the redirect URL bassed by the querystring.
+	 * @return string
 	 */
-	public function get_redirection_url() {
+	public function get_redirection_url( $encode = true, $querystring_only = false ) {
 
-		// what type of redirection is set up by user?
+		// What type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
 
 		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
-		// force redirect querystring parameter over all else.
-		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
+		// Force redirect querystring parameter over all else.
+		$redirection = $query_redirection;
+		if ( ! $querystring_only ) {
+			$redirection = $query_redirection ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
+		}
 
 		/**
-		 * Filter the checkout redirection parameter
+		 * Filter the checkout redirection parameter.
 		 *
-		 * @since    3.30.0
-		 * @version  3.30.0
+		 * @since 3.30.0
+		 * @since 7.0.0 Added `$querystring_only` parameter.
 		 *
-		 * @param    string               $redirection The calculated url to redirect to.
-		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
-		 * @param    LLMS_Acccess_Plan    $this Current Access Plan object.
+		 * @param string            $redirection      The calculated url to redirect to.
+		 * @param string            $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
+		 * @param LLMS_Acccess_Plan $access_plan      Current Access Plan object.
+		 * @param bool              $querystring_only Whether or not it was requested to only return the redirect URL passed by querystring.
 		 */
-		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this ) );
+		$redirection = apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this, $querystring_only );
+
+		return $encode ? urlencode( $redirection ) : $redirection;
 
 	}
 
 	/**
-	 * Retrieve the full URL to the checkout screen for the plan
+	 * Retrieve the full URL to the checkout screen for the plan.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Added access plan redirection settings.
 	 * @since 3.31.0 The `$check_availability` parameter was added to the filter `llms_plan_get_checkout_url`
+	 * @since 7.0.0 No need to add the redirect querystring parameter if not already set, except for unavailable members only plans.
 	 *
-	 * @param    bool $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
-	 * @return   string
+	 * @param bool $check_availability Determine if availability checks should be made (allows retrieving plans on admin panel).
+	 * @return string
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 
 		$ret       = '#llms-plan-locked';
 		$available = $this->is_available_to_user( get_current_user_id() );
 
-		$redirection = $this->get_redirection_url();
-
 		// if bypassing availability checks OR plan is available to user.
 		if ( ! $check_availability || $available ) {
 
-			$ret_params = array(
+			$ret_params  = array(
 				'plan' => $this->get( 'id' ),
 			);
-
-			if ( ! empty( $redirection ) ) {
+			$redirection = $this->get_redirection_url( true, true );
+			if ( $redirection ) {
 				$ret_params['redirect'] = $redirection;
 			}
 
@@ -283,8 +290,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			// if there's only 1 plan associated with the membership return that url.
 			if ( 1 === count( $memberships ) ) {
-				$ret = get_permalink( $memberships[0] );
-				if ( ! empty( $redirection ) ) {
+				$ret         = get_permalink( $memberships[0] );
+				$redirection = $this->get_redirection_url();
+
+				if ( $redirection ) {
 					$ret = add_query_arg(
 						array(
 							'redirect' => $redirection,

@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -488,7 +488,7 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 }
 
 /**
- * Performs validations for the user.
+ * Update a user.
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.
@@ -500,5 +500,24 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
  * @return int|WP_Error WP_User ID on success or error object on failure.
  */
 function llms_update_user( $data = array(), $location = 'account', $args = array() ) {
+	return LLMS_Form_Handler::instance()->submit( $data, $location, $args );
+}
+
+/**
+ * Performs validations for submitted user data.
+ *
+ * The related functions `llms_update_user()` and `llms_register_user()` automatically perform validations so this method
+ * should only be used if you wish to test updates / registration without actually performing the registration or update action.
+ *
+ * @since 7.0.0
+ *
+ * @param array  $data     Array of user data.
+ * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'checkout'
+ * @param array  $args     Additional arguments passed to the short-circuit filter.
+ * @return boolean|WP_Error Returns `true` if the user data passes validation, otherwise returns an error object describing
+ *                          the validation issues.
+ */
+function llms_validate_user( $data = array(), $location = 'checkout', $args = array() ) {
+	$args['validate_only'] = true;
 	return LLMS_Form_Handler::instance()->submit( $data, $location, $args );
 }

@@ -3,8 +3,8 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since   3.0.0
- * @version 3.34.5
+ * @since 3.0.0
+ * @version 7.0.0
  */
 
 ( function( $ ) {
@@ -39,7 +39,8 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.34.5 Make sure we bind click events for the Show / Hide login area at the top of the checkout screen
-		 *                  even if there's no llms product purchase form.
+		 *               even if there's no llms product purchase form.
+		 * @since 7.0.0 Disable smooth scroll-behavior on checkout.
 		 *
 		 * @return void
 		 */
@@ -57,6 +58,13 @@
 				this.$form_sections = this.$checkout_form.find( '.llms-checkout-section' );
 
 				this.$checkout_form.on( 'submit', this, this.submit );
+
+				/**
+				 * Fix `HTMLFormElement.reportValidity()` when `scroll-behavior: smooth`.
+				 * 
+				 * @see {@link https://github.com/gocodebox/lifterlms/issues/2206}
+				 */
+				document.querySelector( 'html' ).style.scrollBehavior = 'auto';
 
 				// add before submit event for password strength meter if one's found
 				if ( $( '.llms-password-strength-meter' ).length ) {

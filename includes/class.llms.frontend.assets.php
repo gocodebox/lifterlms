@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,6 +214,7 @@ class LLMS_Frontend_Assets {
 	 * Enqueue inline scripts.
 	 *
 	 * @since 4.4.0
+	 * @since 7.0.0 Include checkout page script data for AJAX-powered gateways.
 	 *
 	 * @return void
 	 */
@@ -230,6 +231,11 @@ class LLMS_Frontend_Assets {
 			'llms-LLMS-obj'          => 'window.LLMS = window.LLMS || {};',
 			'llms-l10n'              => 'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';',
 		);
+
+		$checkout_urls = self::get_checkout_urls();
+		if ( ! empty( $checkout_urls ) ) {
+			$scripts['llms-checkout-urls'] = "window.llms.checkoutUrls = JSON.parse( '" . wp_json_encode( $checkout_urls ) . "' );";
+		}
 
 		// Enqueue them.
 		foreach ( $scripts as $handle => $script ) {
@@ -256,6 +262,32 @@ class LLMS_Frontend_Assets {
 				20
 			);
 		}
+
+	}
+
+	/**
+	 * Retrieves AJAX checkout URLs used for checkout and switching payment source on the student dashboard.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return array
+	 */
+	private static function get_checkout_urls() {
+		$urls       = array();
+		$controller = LLMS_Controller_Checkout::instance();
+
+		if ( is_llms_checkout() ) {
+			$urls = array(
+				'createPendingOrder'  => $controller->get_url( $controller::ACTION_CREATE_PENDING_ORDER ),
+				'confirmPendingOrder' => $controller->get_url( $controller::ACTION_CONFIRM_PENDING_ORDER ),
+			);
+		} elseif ( is_llms_account_page() && 'orders' === LLMS_Student_Dashboard::get_current_tab( 'slug' ) && is_numeric( get_query_var( 'orders', false ) ) ) {
+			$urls = array(
+				'switchPaymentSource' => $controller->get_url( $controller::ACTION_SWITCH_PAYMENT_SOURCE ),
+			);
+		}
+
+		return $urls;
 
 	}
 

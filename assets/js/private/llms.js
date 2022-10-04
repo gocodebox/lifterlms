@@ -15,6 +15,8 @@ var LLMS = window.LLMS || {};
 	 */
 	// = include ../app/*.js
 
+	// = include ../llms-spinner.js
+
 	/**
 	 * Initializes all classes within the LLMS Namespace
 	 *

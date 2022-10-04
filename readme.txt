@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 7.4
-Stable tag: 6.11.0
+Stable tag: 7.0.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -540,6 +540,69 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.0.0 - 2022-10-04 =
+
+##### New Features
+
++ Added handling for admin settings options that store their option values in a nested array.
++ Added new AJAX checkout and payment source switching endpoints for payment gateways to utilize instead of the preexisting synchronous form submission methods.
++ On purchase completed retrieve the redirection URL from the INPUT_POST 'redirect' variable, if no 'redirect' variable is passed via INPUT_GET. The INPUT_POST 'redirect' variable comes from the new checkout form's hidden field 'redirect' populated with LLMS_Access_Plan::get_redirection_url(). [#2229](https://github.com/gocodebox/lifterlms/issues/2229)
+
+##### Updates and Enhancements
+
++ Full Site Editing: **[BREAKING]** The wrappers in the custom header and footer templates have been changed to the semantic HTML tags `<header>` and `<footer>` in favor of default `<div>` tags. [#2281](https://github.com/gocodebox/lifterlms/issues/2281)
++ When an order post is restored from the trash its post status will now be "llms-pending" in favor of the default "draft" status.
+
+##### Bug Fixes
+
++ Fixed unclosed checkout div wrapper on empty cart. [#2277](https://github.com/gocodebox/lifterlms/issues/2277)
++ Don't attempt to lookup the default payment gateway from user meta data.
++ Fixed required fields duplication when the form is a child of a `.wp-block-column` element. [#2134](https://github.com/gocodebox/lifterlms/issues/2134)
++ Fixed an issue that prevented disabling the access plan’s option, Override Membership Redirects, once enabled. [#2234](https://github.com/gocodebox/lifterlms/issues/2234)
++ Disabled `scroll-behavior: smooth` on checkout screen to address form element validity checking issues on Chromium-based browsers. [#2206](https://github.com/gocodebox/lifterlms/issues/2206)
+
+##### Deprecations
+
++ Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Deprecated the `lifterlms_update_option_{$type}` action in favor of the `llms_update_option_{$type}` filter.
++ Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::confirm_pending_order()`.
++ Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::create_pending_order()`.
++ Method `LLMS_Controller_Orders::switch_payment_source()` is deprecated in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
++ Passing jQuery selections into the `window.LLMS.Spinner` functions is deprecated. Use JS `Elements` or selection strings parseable by `document.querySelector()` instead.
++ Deprecated hook `llms_{$method}_title` in favor of `llms_{$method}_refund_title`.
+
+##### Developer Notes
+
++ Added admin settings helper function, `llms_get_dashicon_link()`, intended to enable the addition of external resource helper links to settings field descriptions.
++ The `LLMS_Student` object can be instantiated as an empty object and bypass current user autoloading. In the future this may affect integrations using the `lifterlms_new_pending_order` action hook which will receive an "empty" student object during order setup by gateways utilizing new AJAX-powered checkout endpoints.
++ Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will allow force enabling/disabling of gateway logging functions.
++ Improved payment gateway secure string logging by adding a method, `add_secure_string()` allowing developers to add secure strings during runtime without the necessity of registering the strings using filters.
++ Introduces new function `llms_is_option_secure()` for determining if an "secured" option is defined in a "secure" manner.
++ Implemented new gateway feature: `modify_recurring_payments`. [#2176](https://github.com/gocodebox/lifterlms/issues/2176)
++ Added two new parameters to LLMS_Access_Plan::get_redirection_url() - `$encode` to optionally get a raw (not encoded) URL. - `$querystring_only` to optionally get only the redirect URL if set via NPUT_GET variable.
++ Added new parameter `$querystring_only` to the filter hook `llms_plan_get_checkout_redirection`.
++ Admin settings fields now display `after_html` for additional field types which support `desc`.
++ The CSS for `.llms-spinning` and `.llms-spinner` elements is no longer loaded as part of the `lifterlms.css` and `admin.css` files, instead it is loaded dynamically when `window.LLMS.Spinner` functions are called. In some cases CSS overrides to these elements which relied on CSS rule load order may no longer successfully override the default CSS rules. These overrides may need to be updated to have more specific selectors in order to ensure the overrides are retained.
++ The Javascript object, `window.LLMS.Spinner`, has been converted to a module accessible from the same variable.
++ The `window.LLMS.Spinner` methods now accept JS Elements and selector strings parseable by `document.querySelector()` in addition to jQuery selections.
++ Added new filter `llms_transaction_can_be_refunded` enabling custom refund restrictions to be applied to a transaction.
+
+##### Updated Templates
+
++ [templates/block-templates/archive-course.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/archive-course.html)
++ [templates/block-templates/archive-llms_membership.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/archive-llms_membership.html)
++ [templates/block-templates/single-no-access.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/single-no-access.html)
++ [templates/block-templates/taxonomy-course_cat.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_cat.html)
++ [templates/block-templates/taxonomy-course_difficulty.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_difficulty.html)
++ [templates/block-templates/taxonomy-course_tag.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_tag.html)
++ [templates/block-templates/taxonomy-course_track.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_track.html)
++ [templates/block-templates/taxonomy-membership_cat.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-membership_cat.html)
++ [templates/block-templates/taxonomy-membership_tag.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-membership_tag.html)
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-switch-source.php)
++ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/myaccount/view-order-actions.php)
+
+
 = v6.11.0 - 2022-09-22 =
 
 ##### Updates and Enhancements
@@ -669,41 +732,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Added a new filter, `llms_lesson_drip_bypass_if_completed`, which controls the automatic bypass of drip restrictions for completed lessons. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
 + Allow avoiding error return when updating an `LLMS_Post_Model` post meta with the same value as the one stored in the database. [#909](https://github.com/gocodebox/lifterlms/issues/909)
-
-
-= v6.4.0 - 2022-04-19 =
-
-##### Upcoming PHP Version Requirement Change
-
-**LifterLMS will drop support for PHP 7.3 by May, 2022. This will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
-
-##### New Features
-
-+ Any "secure" payment gateway options will be automatically masked when written to debug log files.
-
-##### Updates and Enhancements
-
-+ When building notification content, only parse merge codes used in the notification. [#1465](https://github.com/gocodebox/lifterlms/issues/1465)
-+ Improved checks related to the number of quiz attempts allowed for each student.
-+ Prevent browser page caching on quizzes. [#2092](https://github.com/gocodebox/lifterlms/issues/2092)
-
-##### Bug Fixes
-
-+ Allowed classes extended from the manual payment gateway class to display payment instructions.
-+ Allowed the `LLMS_Shortcode_User_Info` class to be filtered by the `llms_load_shortcodes` and `llms_load_shortcode_path` hooks.
-+ Stop using the deprecated `FILTER_SANITIZE_STRING` constant.
-+ Fixed an issue that caused shortcodes to not be replaced in some engagement emails. [#2070](https://github.com/gocodebox/lifterlms/issues/2070)
-+ Improve core forms detection so to exclude duplicates. [#2052](https://github.com/gocodebox/lifterlms/issues/2052)
-+ Added Aosta (AO) to the list of Italian provinces. [#2098](https://github.com/gocodebox/lifterlms/issues/2098)
-+ Fixed a compatibility issue with the Elementor Pro Theme Builder encountered on course and membership catalogs. [#2111](https://github.com/gocodebox/lifterlms/issues/2111)
-+ Fixed an issue where merge codes in reusable blocks on certificate templates were not replaced when the template was displayed or when the certificate was awarded and published. [#2058](https://github.com/gocodebox/lifterlms/issues/2058)
-+ Fixed an issue with OceanWP and Twenty Twenty themes where the Terms and Conditions checkbox was displayed incorrectly. [#1938](https://github.com/gocodebox/lifterlms/issues/1938)
-
-##### Developer Notes
-
-+ Added a new filter, `llms_secure_strings` allowing developers to register strings that should be automatically masked when written to log files.
-+ Added new filter `llms_no_cache` to control whether or not LifterLMS will send nocache headers. [#2092](https://github.com/gocodebox/lifterlms/issues/2092)
-+ Added new filter `llms_template_loader_restricted_priority` to control the priority of the `template_include` hook callback used to load restricted content single templates.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

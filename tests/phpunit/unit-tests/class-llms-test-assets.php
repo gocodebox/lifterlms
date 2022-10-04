@@ -495,6 +495,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_inline_priority()
 	 *
 	 * @since 4.4.0
+	 * @since 7.0.0 Round mock priorities to nearest 2 decimals.
 	 *
 	 * @return void
 	 */
@@ -508,7 +509,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			$this->assertEquals( $i, LLMS_Unit_Test_Util::call_method( $this->main, 'get_inline_priority', array( 5, $existing_priorties ) ) );
 
 			$existing_priorties[] = array( 'priority' => $i );
-			$i += .01;
+			$i = round( $i + 0.01, 2 );
 
 		}
 

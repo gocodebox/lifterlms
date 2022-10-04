@@ -1,19 +1,91 @@
 <?php
 /**
  * Tests for LLMS_Abstract_User_Data
- * @group    LLMS_Student
- * @since    3.9.0
- * @version  3.9.0
+ * 
+ * @group LLMS_Student
+ * @group abstracts
+ * @group abstract_user_data
+ * 
+ * @since 3.9.0
  */
 class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
-	 * Test exists function
-	 * @return   void
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * Test constructor and get_user_id() method.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
 	 */
-	public function text_exists() {
+	public function test_constructor() {
+
+		$user = $this->factory->user->create_and_get();
+
+		$tests = array(
+			(int) $user->ID,
+			(string) $user->ID,
+			$user,
+			new LLMS_Student( $user ),
+		);
+
+		$expected = new LLMS_Student( $user );
+
+		foreach ( $tests as $i => $input ) {
+			$student = new LLMS_Student( $input );
+			$this->assertEquals( $expected, $student, $i );
+			$this->assertEquals( $user->ID, $student->get_id(), $i );
+			$this->assertEquals( $user, $student->get_user(), $i );
+		}
+
+	}
+
+	/**
+	 * Test constructor when loading the current user.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_constructor_curr_user() {
+
+		$user = $this->factory->user->create_and_get();
+		wp_set_current_user( $user->ID );
+
+		$student = new LLMS_Student();
+		$this->assertEquals( new LLMS_Student( $user->ID ), $student );
+		$this->assertEquals( $user->ID, $student->get_id() );
+		$this->assertEquals( $user, $student->get_user() );
+
+	}
+
+	/**
+	 * Test constructor when current user autoloading is disabled.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_constructor_no_autoload() {
+
+		$user = $this->factory->user->create_and_get();
+
+		wp_set_current_user( $user->ID );
+
+		$student = new LLMS_Student( null, false );
+
+		$this->assertSame( 0, $student->get_id() );
+		$this->assertFalse( $student->exists() );
+
+	}
+
+	/**
+	 * Test exists function
+	 * 
+	 * @since 3.9.0
+	 * 
+	 * @return void
+	 */
+	public function test_exists() {
 
 		$uid = $this->factory->user->create();
 
@@ -27,9 +99,10 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * test get_id method
-	 * @return   [type]     [description]
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * 
+	 * @since 3.9.0
+	 * 
+	 * @return void
 	 */
 	public function test_get_id() {
 
@@ -41,9 +114,10 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * test get_user method
-	 * @return   [type]     [description]
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * 
+	 * @since 3.9.0
+	 * 
+	 * @return void
 	 */
 	public function test_get_user() {
 
@@ -55,14 +129,15 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Test Student Getters and Setters
+	 * 
+	 * @since 3.9.0
+	 * 
 	 * @return   void
-	 * @since    3.9.0
-	 * @version  3.9.0
 	 */
 	public function test_getters_setters() {
 
-		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
-		$user = new WP_User( $uid );
+		$uid     = $this->factory->user->create( array( 'role' => 'student' ) );
+		$user    = new WP_User( $uid );
 		$student =  new LLMS_Student( $uid );
 
 		// test some core prefixed stuff from the usermeta table
@@ -87,8 +162,5 @@ class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( get_user_meta( $uid, 'this_is_third_party', true ), $student->get( 'this_is_third_party' ) );
 
 	}
-
-
-
 
 }

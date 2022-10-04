@@ -10,7 +10,9 @@ const { Icon, ...icons } = Icons;
  * and stores them as raw SVG files for display use in the README.md file between
  * the appropriate comment tokens.
  *
- * @return {Object} Main react component.
+ * @since 1.0.0
+ *
+ * @return {Object} React component fragment.
  */
 function App() {
 	return (

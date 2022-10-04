@@ -41,6 +41,6 @@
   "scripts": {
     "docgen": "browserify docs/app.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > docs/bundle.js && react-snap && node docs/generate.js && rm -rf docs/build && rm docs/200.html && rm docs/bundle.js",
     "dev": "./../dev/src/index.js",
-    "lint:js": "wp-scripts lint-js ./"
+    "lint:js": "wp-scripts lint-js ./ --config ../../.eslintrc.js"
   }
 }

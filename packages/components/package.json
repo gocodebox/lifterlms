@@ -41,7 +41,7 @@
   "scripts": {
     "docgen": "docgen src/index.js --output README.md --to-token",
     "dev": "./../dev/src/index.js",
-    "lint:js": "wp-scripts lint-js ./",
+    "lint:js": "wp-scripts lint-js ./ --config ../../.eslintrc.js",
     "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
   }
 }

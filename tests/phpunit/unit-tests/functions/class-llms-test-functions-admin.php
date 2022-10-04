@@ -101,6 +101,38 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_dashicon_link().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_dashicon_link() {
+
+		$url = 'https://mock.tld/fake';
+
+		// Defaults.
+		$this->assertEquals(
+			'<a href="https://mock.tld/fake" style="text-decoration:none;" target="_blank" rel="noreferrer" title="More information"><span class="dashicons dashicons-external" style="font-size:18px;width:18px;height:18px"></span></a>',
+			llms_get_dashicon_link( $url )
+		);
+
+		// Custom args.
+		$this->assertEquals(
+			'<a href="https://mock.tld/fake" style="text-decoration:none;" target="_blank" rel="noreferrer" title="Something..."><span class="dashicons dashicons-fake" style="font-size:22px;width:22px;height:22px"></span></a>',
+			llms_get_dashicon_link( 
+				$url,
+				array(
+					'size'   => 22,
+					'title'  => 'Something...',
+					'icon'   => 'fake',
+				)
+			)
+		);
+
+	}
+
+	/**
 	 * test the llms_get_sales_page_types() function
 	 *
 	 * @since 3.23.0

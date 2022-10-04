@@ -258,6 +258,37 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test can_be_confirmed().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_can_be_confirmed() {
+
+		$statuses = array(
+			// Can be confirmed.
+			'llms-pending'        => true,
+
+			// Cannot be confirmed.
+			'llms-completed'      => false,
+			'llms-active'         => false,
+			'llms-expired'        => false,
+			'llms-on-hold'        => false,
+			'llms-pending-cancel' => false,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
+		);
+
+		foreach ( $statuses as $status => $expected ) {
+			$this->obj->set_status( $status );
+			$this->assertEquals( $expected, $this->obj->can_be_confirmed() );
+		}
+
+	}
+
+	/**
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.
@@ -310,15 +341,15 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	public function test_can_resubscribe() {
 
 		$statuses = array(
-			'llms-completed' => false,
-			'llms-active' => false,
-			'llms-expired' => false,
-			'llms-on-hold' => true,
+			'llms-completed'      => false,
+			'llms-active'         => false,
+			'llms-expired'        => false,
+			'llms-on-hold'        => true,
 			'llms-pending-cancel' => true,
-			'llms-pending' => true,
-			'llms-cancelled' => false,
-			'llms-refunded' => false,
-			'llms-failed' => false,
+			'llms-pending'        => true,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
 		);
 
 		foreach ( $statuses as $status => $expect ) {
@@ -331,6 +362,38 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$this->obj->set_status( $status );
 			$this->assertEquals( $expect, $this->obj->can_resubscribe() );
 		}
+
+	}
+
+	/**
+	 * Test can_switch_source().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_can_switch_source() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		$statuses = array(
+			'llms-completed'      => false,
+			'llms-active'         => true,
+			'llms-expired'        => false,
+			'llms-on-hold'        => true,
+			'llms-pending-cancel' => true,
+			'llms-pending'        => true,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
+		);
+
+		foreach ( $statuses as $status => $expect ) {
+
+			$this->obj->set( 'status', $status );
+			$this->assertEquals( $expect, $this->obj->can_switch_source(), $status );
+		}
+
 
 	}
 
@@ -862,6 +925,38 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_switch_source_action().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_switch_source_action() {
+
+		$this->obj->set( 'order_type', 'recurring' );
+
+		$tests = array(
+			'llms-completed'      => null,
+			'llms-active'         => 'switch',
+			'llms-expired'        => null,
+			'llms-on-hold'        => 'pay',
+			'llms-pending-cancel' => 'switch',
+			'llms-pending'        => 'pay',
+			'llms-cancelled'      => null,
+			'llms-refunded'       => null,
+			'llms-failed'         => null,
+		);
+
+		foreach ( $tests as $status => $expected ) {
+
+			$this->obj->set( 'status', $status );
+			$this->assertEquals( $expected, $this->obj->get_switch_source_action(), $status );
+
+		}	
+
+	}
+
 	// public function test_get_transaction_total() {}
 
 	// public function test_get_start_date() {}
@@ -1035,6 +1130,133 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test init().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_init() {
+
+		$user_data = array(
+			'user_email' => 'orderinit@mock.tld',
+			'first_name' => 'Adam',
+			'last_name'  => 'Phillips',
+		);
+
+		$user_extra = array(
+			'billing_address_1'    => 'add1',
+			'billing_address_2'    => 'add2',
+			'billing_city'         => 'City',
+			'billing_state'        => 'AB',
+			'billing_zip'          => '12345',
+			'billing_country'      => 'ZZ',
+		);
+
+		$student = $this->factory->student->create_and_get( $user_data );
+		$plan    = $this->get_mock_plan();
+
+		$expected_data = array(
+			'billing_email'        => $user_data['user_email'],
+			'billing_first_name'   => $user_data['first_name'],
+			'billing_last_name'    => $user_data['last_name'],
+			'billing_phone'        => '(123) 456-7890',
+			'user_ip_address'      => '127.0.0.1',
+			'plan_id'              => $plan->get( 'id' ),
+			'plan_title'           => $plan->get( 'title' ),
+			'plan_sku'             => $plan->get( 'sku' ),
+			'product_id'           => $plan->get( 'product_id' ),
+			'product_title'        => get_the_title( $plan->get( 'product_id' ) ),
+			'product_sku'          => '',
+			'product_type'         => 'course',
+			'payment_gateway'      => 'manual',
+			'gateway_api_mode'     => 'live',
+			'trial_offer'          => 'no',
+			'trial_length'         => 0,
+			'trial_period'         => '',
+			'trial_original_total' => 0.0,
+			'trial_total'          => 0.0,
+			'date_trial_end'       => '',
+			'currency'             => 'USD',
+			'on_sale'              => 'no',
+			'sale_price'           => 0.0,
+			'sale_value'           => 0,
+			'original_total'       => 25.99,
+			'total'                => 25.99,
+			'coupon_id'            => 0,
+			'coupon_amount'        => 0,
+			'coupon_code'          => '',
+			'coupon_type'          => '',
+			'coupon_used'          => 'no',
+			'coupon_value'         => 0.0,
+			'coupon_amount_trial'  => '',
+			'coupon_value_trial'   => 0,
+			'billing_frequency'    => 1,
+			'billing_length'       => 0,
+			'billing_period'       => 'day',
+			'order_type'           => 'recurring',
+			'date_next_payment'    => '2022-03-03 12:22:19',
+			'access_expiration'    => 'lifetime',
+			'access_expires'       => '',
+			'access_length'        => 0,
+			'access_period'        => '',
+		);
+
+		foreach ( $user_extra as $key => $val ) {
+			$student->set( $key, $val );
+			$expected_data[ $key ] = $val;
+		}
+		$student->set( 'phone', '(123) 456-7890' );
+
+		$mock_next_payment_date = function() use ( $expected_data ) {
+			return $expected_data['date_next_payment'];
+		};
+		add_filter( 'llms_order_calculate_next_payment_date', $mock_next_payment_date );
+
+		$order = $this->get_mock_order( $plan, null, $student );
+
+		remove_filter( 'llms_order_calculate_next_payment_date', $mock_next_payment_date );
+
+		foreach ( $expected_data as $key => $expected ) {
+			$this->assertEquals( $expected, $order->get( $key ), $key );
+		}
+
+	}
+
+	/**
+	 * Test init() with a user data array.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_init_with_user_data_array() {
+
+		// Should pass an empty student object to the hook.
+		$handler = function( $order, $student, $user_data ) {
+			$this->assertFalse( $student->exists() );
+		};
+		add_action( 'lifterlms_new_pending_order', $handler, 10, 3 );
+
+		$order = new LLMS_Order( 'new' );
+
+		// Use a user data array.
+		$order->init(
+			array(
+				'billing_email' => 'email@email.tld',
+			),
+			$this->get_mock_plan(),
+			llms()->payment_gateways()->get_gateway_by_id( 'manual' )
+		);
+
+		$this->assertEquals( 'email@email.tld', $order->get( 'billing_email' ) );
+		$this->assertEquals( 0, $order->get( 'user_id' ) );
+
+		remove_action( 'lifterlms_new_pending_order', $handler, 10 );
+
+	}
+
+	/**
 	 * Test init() with a plan that has a trial.
 	 *
 	 * @since Unknown
@@ -1049,7 +1271,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		$this->assertTrue( $order->has_trial() );
 		$this->assertNotEmpty( $order->get( 'date_trial_end' ) );
-
 
 	}
 
@@ -1278,6 +1499,83 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test set_user_data().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_set_user_data() {
+
+		$expected = array(
+			'billing_email'      => 'maude@thelittlelebowskiurbanachievers.org',
+			'billing_first_name' => 'Maude',
+			'billing_last_name'  => 'Lebowski',
+			'billing_address_1'  => '123 Ant Street',
+			'billing_address_2'  => 'Suite Z',
+			'billing_city'       => 'Someplace',
+			'billing_state'      => 'OK',
+			'billing_zip'        => '32921-2342',
+			'billing_country'    => 'US',
+			'billing_phone'      => '(123) 456-7890',
+			'user_ip_address'    => '127.0.0.1',
+		);
+
+		$user_id = $this->factory->student->create( array(
+			'user_email' => $expected['billing_email'],
+			'first_name' => $expected['billing_first_name'],
+			'last_name'  => $expected['billing_last_name'],
+		) );
+
+		$student = llms_get_student( $user_id );
+		$student->set( 'billing_address_1', $expected['billing_address_1'] );
+		$student->set( 'billing_address_2', $expected['billing_address_2'] );
+		$student->set( 'billing_city', $expected['billing_city'] );
+		$student->set( 'billing_state', $expected['billing_state'] );
+		$student->set( 'billing_zip', $expected['billing_zip'] );
+		$student->set( 'billing_country', $expected['billing_country'] );
+		$student->set( 'phone', $expected['billing_phone'] );
+
+		$expected['user_id'] = $user_id;
+
+		$tests = array(
+			'User ID'      => $user_id,
+			'LLMS_Student' => $student,
+			'WP_User'      => get_user_by( 'id', $user_id ),
+			'Raw Array'    => $expected,
+		);
+		foreach ( $tests as $msg => $input ) {
+
+			$this->create(); // Reset the data from the previous run.
+ 			$this->assertUserDataSet( $expected, $this->obj->set_user_data( $input ), "From {$msg}" );
+
+		}
+
+		$this->create();
+
+		// Test raw array with a "forced" ip address.
+		$expected['user_ip_address'] = '192.168.1.45';
+		$this->assertUserDataSet( $expected, $this->obj->set_user_data( $expected ), "From raw array with forced IP address" );
+
+		// Extra fields are excluded.
+		$this->assertUserDataSet( $expected, $this->obj->set_user_data( array_merge( $expected, array( 'extra_field' => 'excluded' ) ) ), "From raw array with extra data" );
+
+	}
+
+	private function assertUserDataSet( $expected, $received, $message = '' ) {
+
+		// Response is correct.
+		$this->assertEquals( $expected, $received, $message );
+
+		// Persisted to the order.
+		foreach ( $expected as $key => $val ) {
+			$this->assertEquals( $val, $this->obj->get( $key ), "{$message}: {$key}" );
+		}
+
+	}
+
+
+	/**
 	 * Test the start access method
 	 *
 	 * @since 3.19.0
@@ -1454,6 +1752,39 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$order->get_recurring_payment_due_date_for_scheduler( false, true )
 		);
 
+	}
+
+	/**
+	 * Test supports_modify_recurring_payments() method.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_support_modify_recurring_payments() {
+
+		// Default gateway: manual - supports recurring payments.
+		$order = $this->get_mock_order();
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		// Set gateway to something that, by default doesn't support recurring payments.
+		$order->set( 'payment_gateway', 'garbage' );
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		// Set the gateway to support 'modify_recurring_payments'.
+		$order->set( 'payment_gateway', 'manual' );
+		$gateway = $order->get_gateway();
+		$gw_original_supports = $gateway->supports;
+		$gateway->supports['recurring_payments'] = false;
+		$gateway->supports['modify_recurring_payments'] = true;
+		$this->assertTrue($order->get_gateway()->supports( 'modify_recurring_payments' ) );
+		$this->assertTrue( $order->supports_modify_recurring_payments() );
+
+		// Set the gateway to not support 'modify_recurring_payments'.
+		$order->get_gateway()->supports['modify_recurring_payments'] = false;
+		$this->assertFalse( $order->supports_modify_recurring_payments() );
+
+		$gateway->supports = $gw_original_supports;
 	}
 
 }

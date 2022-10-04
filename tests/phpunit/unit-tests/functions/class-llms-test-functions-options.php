@@ -44,4 +44,31 @@ class LLMS_Test_Functions_Options extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Tests the llms_is_option_secure() function.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_is_option_secure() {
+
+		// Empty name.
+		$this->assertFalse( llms_is_option_secure( '' ) );
+
+		// Environment variable.
+		putenv( 'FOO=BAR' );
+		$this->assertTrue( llms_is_option_secure( 'FOO' ) );
+
+		// Unset environment variable.
+		putenv( 'FOO' );
+		$this->assertFalse( llms_is_option_secure( 'FOO' ) );
+
+		// Undefined constant.
+		$this->assertFalse( llms_is_option_secure( 'F00D' ) );
+
+		// Defined constant.
+		define( 'F00D', 'BAD' );
+		$this->assertTrue( llms_is_option_secure( 'F00D' ) );
+	}
 }

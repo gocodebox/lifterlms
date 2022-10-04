@@ -173,6 +173,34 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test deprecated create_pending_order().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::create_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$res = $controller->create_pending_order();
+	}
+
+	/**
+	 * Test deprecated confirm_pending_order().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::confirm_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_confirm_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$controller->confirm_pending_order();
+	}
+
+	/**
 	 * Test order error statuses.
 	 *
 	 * @since 3.19.0
@@ -450,6 +478,35 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		$this->assertEquals( 'cancelled', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-cancelled', get_post_status( $order->get( 'id' ) ) );
+
+	}
+
+	/**
+	 * Test set_untrash_status().r
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_set_untrash_status() {
+
+		$controller = new LLMS_Controller_Orders();
+
+		$tests = array(
+			'post'       => 'draft',
+			'page'       => 'draft',
+			'course'     => 'draft',
+			'llms_order' => 'llms-pending',
+		);
+		foreach ( $tests as $post_type => $expected ) {
+			$post_id = $this->factory->post->create( compact( 'post_type' ) );
+
+			$this->assertEquals(
+				$expected,
+				$controller->set_untrash_status( 'draft', $post_id, 'publish' )
+			);
+
+		}
 
 	}
 

@@ -79,6 +79,14 @@ class LLMS_Controller_Account {
 		$order->set_status( $new_status );
 		$order->add_note( $note );
 
+		/**
+		 * Action triggered after a recurring subscription is cancelled from the student dashboard by the student.
+		 *
+		 * @since 3.17.8
+		 *
+		 * @param LLMS_Order $order The order object.
+		 * @param integer    $uid   The WP_User ID the student who cancelled the subscription.
+		 */
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 
 	}

@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('llms-components', 'llms-utils', 'wp-components', 'wp-core-data', 'wp-data', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url'), 'version' => '422e3e8089432a2ff721');
+<?php return array('dependencies' => array('llms-components', 'llms-utils', 'wp-components', 'wp-core-data', 'wp-data', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url'), 'version' => 'ee1d01791767e3200592');

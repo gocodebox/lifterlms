@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.30.3
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0
  * @since 3.30.0 Added checkout redirect options.
  * @since 3.30.3 Fixed spelling errors.
+ * @since 7.0.0 Correctly handle `$checkout_redirect_forced` property when updating.
  *
  * @param array $props {
  *     An array of of properties that make up the plan to create or update.
@@ -32,6 +33,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $access_period Time period of access from time of purchase, combine with $access_length. Only applicable when $access_expiration is "limited-period" [year|month|week|day].
  *     @type string $availability Determine if this access plan is available to anyone or to members only. Use with $availability_restrictions to determine if the member can use the access plan. [open|members].
  *     @type array $availability_restrictions Indexed array of LifterLMS Membership IDs a user must belong to to use the access plan. Only applicable if $availability is "members".
+ *     @type string $checkout_redirect_forced On a members' only access plan, whether to force redirect users back to the redirect settings specified in this access plan.
  *     @type string $checkout_redirect_type Type of checkout redirection [self|page|url].
  *     @type string $content Plan description (post_content).
  *     @type string $enroll_text Text to display on buy buttons.
@@ -67,7 +69,17 @@ function llms_insert_access_plan( $props = array() ) {
 			return new WP_Error( 'invalid-plan', sprintf( __( 'Access Plan ID "%s" is not valid.', 'lifterlms' ), $props['id'] ) );
 		}
 		unset( $props['id'] );
-		$props = wp_parse_args( $props, $plan->toArray() );
+		$plan_array = $plan->toArray();
+		/**
+		 * The property 'checkout_redirect_forced' is not sent when the related checkbox is unchecked,
+		 * so we have to avoid to override it with the saved value.
+		 *
+		 * {@see https://github.com/gocodebox/lifterlms/issues/2234}
+		 */
+		if ( ! isset( $props['checkout_redirect_forced'] ) ) {
+			unset( $plan_array['checkout_redirect_forced'] );
+		}
+		$props = wp_parse_args( $props, $plan );
 
 	}
 
@@ -77,24 +89,25 @@ function llms_insert_access_plan( $props = array() ) {
 		apply_filters(
 			'llms_access_plan_default_properties',
 			array(
-				'access_expiration'      => 'lifetime',
-				'access_length'          => 1,
-				'access_period'          => 'year',
-				'availability'           => 'open',
-				'checkout_redirect_type' => 'self',
-				'frequency'              => 0,
-				'is_free'                => 'yes',
-				'length'                 => 0,
-				'on_sale'                => 'no',
-				'period'                 => 'year',
-				'price'                  => 0,
-				'sale_price'             => 0,
-				'title'                  => __( 'Access Plan', 'lifterlms' ),
-				'trial_length'           => 1,
-				'trial_offer'            => 'no',
-				'trial_period'           => 'year',
-				'trial_price'            => 0,
-				'visibility'             => 'visible',
+				'access_expiration'        => 'lifetime',
+				'access_length'            => 1,
+				'access_period'            => 'year',
+				'availability'             => 'open',
+				'checkout_redirect_forced' => 'no',
+				'checkout_redirect_type'   => 'self',
+				'frequency'                => 0,
+				'is_free'                  => 'yes',
+				'length'                   => 0,
+				'on_sale'                  => 'no',
+				'period'                   => 'year',
+				'price'                    => 0,
+				'sale_price'               => 0,
+				'title'                    => __( 'Access Plan', 'lifterlms' ),
+				'trial_length'             => 1,
+				'trial_offer'              => 'no',
+				'trial_period'             => 'year',
+				'trial_price'              => 0,
+				'visibility'               => 'visible',
 			)
 		)
 	);

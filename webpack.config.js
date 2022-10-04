@@ -21,6 +21,7 @@ const { resolve } = require( 'path' ),
 			// Module packages.
 			'components',
 			'icons',
+			'spinner',
 			'utils',
 		],
 		css: [ 
