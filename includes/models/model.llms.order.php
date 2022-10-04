@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -375,7 +375,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * Additional requirements can be introduced via the filter `llms_order_can_be_confirmed`.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean
 	 */
@@ -459,7 +459,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			/**
 			 * Filters the order statuses from which an order can be reactivated.
 			 *
-			 * @since [version]
+			 * @since 7.0.0
 			 *
 			 * @param string[] $allowed_statuses The list of allowed order statuses.
 			 */
@@ -490,7 +490,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determines if the order's payment source can be changed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return boolean
 	 */
@@ -501,7 +501,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Filters whether or not the order's payment source can be changed.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param boolean    $can_switch Whether or not the order's source can be switched.
 		 * @param LLMS_Order $order      The order object.
@@ -1021,7 +1021,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Filters the automatic payment recurring retry rules.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param array      $rules Array of retry rule arrays {@see LLMS_Order::get_retry_rules()}.
 		 * @param LLMS_Order $rules The order object.
@@ -1116,7 +1116,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieves the user action required when changing the order's payment source.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return null|string Returns `switch` when the payment source can be switched and `pay` when payment on the new source
 	 *                     is required before switching. A `null` return indicates that the order's payment source cannot be switched.
@@ -1131,7 +1131,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Filters the required user action for the order when switching the order's payment source.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param null|string $action The switch action ID or `null` when the payment source cannot be switched.
 		 * @param LLMS_Order  $order  The order object.
@@ -1446,7 +1446,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.0 Don't set unused legacy property `date_billing_end`.
-	 * @since [version] Use `LLMS_Order::set_user_data()` to update user data.
+	 * @since 7.0.0 Use `LLMS_Order::set_user_data()` to update user data.
 	 *
 	 * @param array|LLMS_Student|WP_User|integer $user_data User info for the person placing the order. See
 	 *                                                      {@see LLMS_Order::set_user_data()} for more info.
@@ -1550,7 +1550,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * Action triggered after the order is initialized.
 		 *
 		 * @since Unknown.
-		 * @since [version] Added `$user_data` parameter.
+		 * @since 7.0.0 Added `$user_data` parameter.
 		 *                 The `$student` parameter returns an "empty" student object
 		 *                 if the method's input data is an array instead of an existing
 		 *                 user object.
@@ -1665,7 +1665,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Handles scheduling recurring payment retries when the gateway supports them
 	 *
 	 * @since 3.10.0
-	 * @since [version] Added return value.
+	 * @since 7.0.0 Added return value.
 	 *
 	 * @return null|boolean Returns `null` if the order cannot be retried, `false` when all retry rules have been tried (or none exist), and `true`
 	 *                      when a retry is scheduled.
@@ -1862,7 +1862,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Sets user-related metadata for the order.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array|LLMS_Student|WP_User|integer $user_or_data Accepts a raw array user meta-data or
 	 *                                                         an input string accepted by `llms_get_student()`.
@@ -2107,7 +2107,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * Depends on whether the order's gateway supports.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return bool
 	 */

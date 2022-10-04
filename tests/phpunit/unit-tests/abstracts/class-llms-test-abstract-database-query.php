@@ -19,7 +19,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.5.1
 	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
-	 * @since [version] Add call to `parent::tear_down()`.
+	 * @since 7.0.0 Add call to `parent::tear_down()`.
 	 *
 	 * @return void
 	 */

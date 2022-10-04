@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 ( function( $ ) {
@@ -40,7 +40,7 @@
 		 * @since 3.0.0
 		 * @since 3.34.5 Make sure we bind click events for the Show / Hide login area at the top of the checkout screen
 		 *               even if there's no llms product purchase form.
-		 * @since [version] Disable smooth scroll-behavior on checkout.
+		 * @since 7.0.0 Disable smooth scroll-behavior on checkout.
 		 *
 		 * @return void
 		 */

@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -304,7 +304,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Remove invisible fields from when loading the checkout form.
-	 * @since [version] Allow submission validation only (without actually submitting the fields) using the
+	 * @since 7.0.0 Allow submission validation only (without actually submitting the fields) using the
 	 *              `validate_only` flag in the `$args` array.
 	 *
 	 * @param array  $posted_data User-submitted form data.
@@ -350,7 +350,7 @@ class LLMS_Form_Handler {
 	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
 	 * @since 5.4.1 Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
 	 * @since 6.0.0 Notify developers of the deprecated `lifterlms_created_person` action hook.
-	 * @since [version] Moved validation logic to the `validate_fields()` method.
+	 * @since 7.0.0 Moved validation logic to the `validate_fields()` method.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.
@@ -455,7 +455,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Form fields submission validation.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.

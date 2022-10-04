@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -781,7 +781,7 @@ GROUP BY locations.meta_value";
 	 * @since 5.0.0
 	 * @since 5.1.0 Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
 	 * @since 5.9.0 Fix php 8.1 deprecation warnings when `get_form_fields()` returns `false`.
-	 * @since [version] Retrieve and use the free checkout redirect URL as not encoded.
+	 * @since 7.0.0 Retrieve and use the free checkout redirect URL as not encoded.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.

@@ -7,8 +7,8 @@
  * @package LifterLMS/Templates
  *
  * @since 3.10.0
- * @since [version] Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
- * @version [version]
+ * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
+ * @version 7.0.0
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.
  * @var LLMS_Order $order   The order object.

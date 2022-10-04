@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 6.0.0
- * @since [version] Use {@see LLMS_Order::can_switch_source()} to determine if the order's source can be switched.
- * @version [version]
+ * @since 7.0.0 Use {@see LLMS_Order::can_switch_source()} to determine if the order's source can be switched.
+ * @version 7.0.0
  *
  * @var LLMS_Order $order The order object.
  */

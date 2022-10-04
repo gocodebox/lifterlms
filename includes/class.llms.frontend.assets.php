@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,7 +214,7 @@ class LLMS_Frontend_Assets {
 	 * Enqueue inline scripts.
 	 *
 	 * @since 4.4.0
-	 * @since [version] Include checkout page script data for AJAX-powered gateways.
+	 * @since 7.0.0 Include checkout page script data for AJAX-powered gateways.
 	 *
 	 * @return void
 	 */
@@ -268,7 +268,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Retrieves AJAX checkout URLs used for checkout and switching payment source on the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return array
 	 */

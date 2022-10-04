@@ -9,14 +9,14 @@
  * @group order_submit
  * @group metaboxes_post_type
  *
- * @since [version]
+ * @since 7.0.0
  */
 class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() method checking all the editable date fields can be saved.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() method checking all the editable date fields can be saved, except recurring payment related.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test meta box view contains editable recurring payment date fields.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -178,7 +178,7 @@ class LLMS_Test_Meta_Box_Order_Submit extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test meta box view doesn't contain editable recurring payment date fields, for orders which do not support recurring payments.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

@@ -54,7 +54,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test setup_plan_and_form_atts() method adds redirection hidden field when needed.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test setup_plan_and_form_atts() method adds redirection hidden field when needed.
 	 * Test checkout wrapper on empty cart.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test checkout wrapper on pre checkout error.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test checkout wrapper when invalid access plan is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test checkout wrapper on confirm payment when no order is supplied.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

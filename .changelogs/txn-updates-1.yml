@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Deprecated hook `llms_{$method}_title` in favor of
-  `llms_{$method}_refund_title`.

@@ -98,7 +98,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 * Test save() when remaining payment data is updated.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
+	 * @since 7.0.0 Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() when remaining payment data is updated but the order doesn't support recurring payment modifications.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -178,7 +178,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 * Test save_remaining_payments() when no changes should occur.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
+	 * @since 7.0.0 Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
@@ -217,7 +217,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 * Test save_remaining_payments() when changes are made.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Create the order via `$this->get_mock_order()` which also sets a valid gateway.
+	 * @since 7.0.0 Create the order via `$this->get_mock_order()` which also sets a valid gateway.
 	 *
 	 * @return void
 	 */
@@ -272,7 +272,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_remaining_payments() when changes are made but the order doesn't support recurring payment modifications.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -332,7 +332,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test meta box view contains editable recurring remaining payments.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -369,7 +369,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test meta box view doesn't contain editable recurring remaining payments.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

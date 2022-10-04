@@ -19,7 +19,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_can_gateway_be_used_for_plan (and llms_can_gateway_be_used_for_plan_or_order() for a plan).
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_can_gateway_be_used_for_plan() for a disabled gateway.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_can_gateway_be_used_for_plan_or_order() for an order. 
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_can_gateway_be_used_for_plan_or_order() with an invalid post input.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -266,7 +266,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_locate_order_for_email_and_plan().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

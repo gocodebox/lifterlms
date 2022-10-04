@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
-	 * @since [version] Added callback for `wp_untrash_post_status` filter.
+	 * @since 7.0.0 Added callback for `wp_untrash_post_status` filter.
 	 *              Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
@@ -494,7 +494,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * This is a filter hook callback for the WP core filter `wp_untrash_post_status`.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $new_status      The new status of the post after untrashing.
 	 * @param int    $post_id         The WP_Post ID of the order.
@@ -509,7 +509,7 @@ class LLMS_Controller_Orders {
 			 *
 			 * This is a filter nearly identical to `wp_untrash_post_status` applied specifically to `llms_order` posts.
 			 *
-			 * @since [version]
+			 * @since 7.0.0
 			 *
 			 * @link https://developer.wordpress.org/reference/hooks/wp_untrash_post_status/
 			 *
@@ -726,12 +726,12 @@ class LLMS_Controller_Orders {
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::confirm_pending_order()}.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::confirm_pending_order()}.
 	 *
 	 * @return void
 	 */
 	public function confirm_pending_order() {
-		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::confirm_pending_order' );
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::confirm_pending_order' );
 		LLMS_Controller_Checkout::instance()->confirm_pending_order();
 	}
 
@@ -754,12 +754,12 @@ class LLMS_Controller_Orders {
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order()}.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order()}.
 	 *
 	 * @return void
 	 */
 	public function create_pending_order() {
-		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::create_pending_order' );
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::create_pending_order' );
 		LLMS_Controller_Checkout::instance()->create_pending_order();
 	}
 
@@ -771,12 +771,12 @@ class LLMS_Controller_Orders {
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::switch_payment_source()}.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::switch_payment_source()}.
 	 *
 	 * @return void
 	 */
 	public function switch_payment_source() {
-		_deprecated_function( __METHOD__, '[version]', 'LLMS_Controller_Checkout::switch_payment_source' );
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::switch_payment_source' );
 		LLMS_Controller_Checkout::instance()->switch_payment_source();
 	}
 

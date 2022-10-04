@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,7 +74,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * Status must not be "failed" and total refunded amount must be less than order amount.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Made the return value filterable via the `llms_transaction_can_be_refunded` hook.
+	 * @since 7.0.0 Made the return value filterable via the `llms_transaction_can_be_refunded` hook.
 	 *
 	 * @return boolean
 	 */
@@ -91,7 +91,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		/**
 		 * Filters whether or not a transaction can be refunded.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param boolean          $can_be_refunded Whether the transaction can be refunded.
 		 * @param LLMS_Transaction $transaction     The transaction object.
@@ -108,7 +108,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * to the gateway for processing (via the gateway's API). For custom methods processing is handled
 	 * via the `llms_{$method}_refund_id` filter.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $method Refund processing method ID.
 	 * @param float  $amount The amount to refund.
@@ -264,7 +264,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * This method records the method used to process a refund in the refund order note.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $method The refund method ID.
 	 * @return string
@@ -288,11 +288,11 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				 * The dynamic portion of this hook, `{$method}`, represents the ID of the custom refund method.
 				 *
 				 * @since 3.0.0
-				 * @deprecated [version] Replaced with `llms_{$method}_refund_title`.
+				 * @deprecated 7.0.0 Replaced with `llms_{$method}_refund_title`.
 				 *
 				 * @param string $method The method ID.
 				 */
-				$method_title = apply_filters_deprecated( "llms_{$method}_title", array( $method ), '[version]', "llms_{$method}_refund_title" );
+				$method_title = apply_filters_deprecated( "llms_{$method}_title", array( $method ), '7.0.0', "llms_{$method}_refund_title" );
 				if ( $method_title !== $method ) {
 					return $method_title;
 				}
@@ -318,7 +318,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Retrieves a single refund by ID.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $id The refund ID.
 	 * @return array|boolean {
@@ -338,7 +338,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Retrieves a list of refunds against the transaction.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return array[] An array of refund arrays as described by {@see LLMS_Transaction::get_refund()}.
 	 */
@@ -352,7 +352,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * This method is called called from the admin panel by clicking a refund (manual or gateway) button.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Refactored code into multiple methods.
+	 * @since 7.0.0 Refactored code into multiple methods.
 	 *
 	 * @see LLMS_Meta_Box_Order_Transactions::save_refund()
 	 *
@@ -401,7 +401,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Processes a refund via the gateway that processed the transaction.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param float  $amount The refund amount.
 	 * @param string $note   Refund order note.
@@ -444,7 +444,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * If the refund data isn't validated, try using {@see LLMS_Transaction::process_refund()} instead.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param array  $refund {
 	 *      Refund arguments.
@@ -508,7 +508,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Records an order note associated with a refund.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $note      User-submitted refund note data to add to the order alongside the refund.
 	 * @param float  $amount    The refund amount.

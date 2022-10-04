@@ -139,7 +139,7 @@ function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
  *
  * A utility for adding links to external documentation.
  *
- * @since [version]
+ * @since 7.0.0
  *
  * @param string $url The URL of the anchor tag.
  * @param array  $args {

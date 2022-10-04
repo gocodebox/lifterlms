@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,7 +48,7 @@ function llms_get_secure_option( $secure_name, $default = false, $db_name = '' )
 /**
  * Determines if the given option name is stored in a "secure" manner, i.e. an environment variable or a constant.
  *
- * @since [version]
+ * @since 7.0.0
  *
  * @param string $secure_name The name of the possibly secure option.
  * @return bool Returns `true` if the option is defined in an environment variable or a constant, else `false`.

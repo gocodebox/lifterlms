@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 5.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 LLMS.Forms = {
@@ -199,7 +199,7 @@ LLMS.Forms = {
 	 * The parent element is hidden when the field isn't required.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Do not look for a WP column wrapper anymore, always return the field's wrapper div.
+	 * @since 7.0.0 Do not look for a WP column wrapper anymore, always return the field's wrapper div.
 	 *
 	 * @param {Object} $field jQuery dom object.
 	 * @return {Object}

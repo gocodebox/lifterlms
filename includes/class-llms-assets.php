@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -435,7 +435,7 @@ class LLMS_Assets {
 	 * location.
 	 *
 	 * @since 4.4.0
-	 * @since [version] When increasing priorities, round to the nearest two decimals.
+	 * @since 7.0.0 When increasing priorities, round to the nearest two decimals.
 	 *
 	 * @param float $priority      Requested enqueue priority.
 	 * @param array $inline_assets List of existing inline assets for the requested location.

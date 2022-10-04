@@ -1,7 +1,0 @@
-significance: minor
-type: dev
-entry: >
-  + The Javascript object, `window.LLMS.Spinner`, has been converted to a module
-  accessible from the same variable.
-
-  + The `window.LLMS.Spinner` methods now accept JS Elements and selector strings parseable by `document.querySelector()` in addition to jQuery selections.

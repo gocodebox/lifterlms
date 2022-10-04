@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -127,7 +127,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 *
 	 * @since 5.3.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Return `-1` if the recurring payment cannot be modified (the gateway doesn't support this feature).
+	 * @since 7.0.0 Return `-1` if the recurring payment cannot be modified (the gateway doesn't support this feature).
 	 *
 	 * @param LLMS_Order $order Order object
 	 * @return int Returns `-1` when there's for invalid order types, `0` when there's no changes to save, and

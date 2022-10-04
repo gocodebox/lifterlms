@@ -1,4 +1,0 @@
-significance: minor
-type: added
-entry: Added handling for admin settings options that store their option values
-  in a nested array.

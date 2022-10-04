@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -150,7 +150,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
+	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -284,7 +284,7 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
-	 * @since [version] Add 'redirect' hidden field to be used on purchase completion.
+	 * @since 7.0.0 Add 'redirect' hidden field to be used on purchase completion.
 	 *
 	 * @param int   $plan_id LLMS_Access_Plan post id.
 	 * @param array $atts    Existing attributes.
@@ -341,7 +341,7 @@ class LLMS_Shortcode_Checkout {
 	/**
 	 * Output the checkout wrapper opening tags.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -352,7 +352,7 @@ class LLMS_Shortcode_Checkout {
 	/**
 	 * Output the checkout wrapper closing tags.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-links:
-  - "#2176"
-entry: "Implemented new gateway feature: `modify_recurring_payments`."

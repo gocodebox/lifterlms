@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-entry: Added admin settings helper function, `llms_get_dashicon_link()`,
-  intended to enable the addition of external resource helper links to settings
-  field descriptions.

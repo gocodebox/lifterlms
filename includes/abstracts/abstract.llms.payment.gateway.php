@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -156,7 +156,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Adds a string to the gateway's list of secure strings.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param string $string The string to add.
 	 * @return void
@@ -201,7 +201,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * This should be called by AJAX-powered gateways after verifying that a transaction was completed successfully.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @param LLMS_Order $order The order being processed.
 	 * @param array      $data  Data to add to the default success return array.
@@ -431,7 +431,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Calculates the url to redirect to on transaction completion.
 	 *
 	 * @since 3.30.0
-	 * @since [version] Retrieve the redirect URL from the INPUT_POST if not passed via INPUT_GET.
+	 * @since 7.0.0 Retrieve the redirect URL from the INPUT_POST if not passed via INPUT_GET.
 	 *
 	 * @param LLMS_Order $order The order object.
 	 * @return string
@@ -622,7 +622,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Get the value of the logging setting
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added the force filter, `llms_gateway_{$this->id}_logging_enabled`.
+	 * @since 7.0.0 Added the force filter, `llms_gateway_{$this->id}_logging_enabled`.
 	 *
 	 * @return string
 	 */
@@ -632,7 +632,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 *
 		 * The dynamic portion of this hook, `{$this->id}`, refers to the gateway's ID.
 		 *
-		 * @since [version]
+		 * @since 7.0.0
 		 *
 		 * @param null|bool $forced The forced status. If `null`, the default status derived from the gateway options will be used.
 		 */
@@ -649,7 +649,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * This is the callback for the `llms_secure_strings` filter (called via `llms_log()`).
 	 *
 	 * @since 6.4.0
-	 * @since [version] Load strings from `retrieve_secure_strings()`.
+	 * @since 7.0.0 Load strings from `retrieve_secure_strings()`.
 	 *
 	 * @param string[] $strings Array of secure strings.
 	 * @param string   $handle  The log handle.
@@ -700,7 +700,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Get an array of features the gateway supports.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Handle `modify_recurring_payments` depending on `recurring_payments`.
+	 * @since 7.0.0 Handle `modify_recurring_payments` depending on `recurring_payments`.
 	 *
 	 * @return array
 	 */
@@ -996,7 +996,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter or via the
 	 * gateway's `add_secure_string()` method.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return string[]
 	 */
@@ -1038,7 +1038,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Looks at the $this->supports and ensures the submitted feature exists and is true.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added `$order` param, to be used when the feature also depends on an order property.
+	 * @since 7.0.0 Added `$order` param, to be used when the feature also depends on an order property.
 	 *
 	 * @param string     $feature Name of the supported feature.
 	 * @param LLMS_Order $order   Instance of an LLMS_Order.

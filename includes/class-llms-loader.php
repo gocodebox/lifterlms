@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -231,7 +231,7 @@ class LLMS_Loader {
 	 * @since 6.0.0 Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
-	 * @since [version] Include `LLMS_Controller_Checkout`.
+	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */

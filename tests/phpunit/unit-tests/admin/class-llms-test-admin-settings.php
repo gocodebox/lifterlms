@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_settings
  *
- * @since [version]
+ * @since 7.0.0
  */
 class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests set_field_defaults().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() with a single checkbox type field.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() with an checkbox group (array) field.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Tests save_fields() with regular fields.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() with array type fields.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -252,7 +252,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() with a secure option.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() for a setting field with no ID.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */
@@ -317,7 +317,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() on fields with maxlength attribute.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

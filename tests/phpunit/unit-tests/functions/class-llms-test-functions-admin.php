@@ -103,7 +103,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_dashicon_link().
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

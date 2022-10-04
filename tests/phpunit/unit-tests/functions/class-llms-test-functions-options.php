@@ -47,7 +47,7 @@ class LLMS_Test_Functions_Options extends LLMS_UnitTestCase {
 	/**
 	 * Tests the llms_is_option_secure() function.
 	 *
-	 * @since [version]
+	 * @since 7.0.0
 	 *
 	 * @return void
 	 */

@@ -715,7 +715,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.35.0 Test sanitization and ipv6 addresses.
-	 * @since [version] Reset the original `$_SERVER['REMOTE_ADDR']` value on test completion.
+	 * @since 7.0.0 Reset the original `$_SERVER['REMOTE_ADDR']` value on test completion.
 	 *
 	 * @return void
 	 */
