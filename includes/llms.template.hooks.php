@@ -106,7 +106,7 @@ add_action( 'llms_acces_plan_content', 'llms_template_access_plan_pricing', 20 )
 add_action( 'llms_acces_plan_content', 'llms_template_access_plan_restrictions', 30 );
 add_action( 'llms_acces_plan_content', 'llms_template_access_plan_description', 40 );
 
-add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_trial', 10 );
+add_action( 'llms_acces_plan_content', 'llms_template_access_plan_trial', 50 );
 add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_button', 20 );
 
 add_action( 'lifterlms_product_not_purchasable', 'llms_template_product_not_purchasable', 10 );

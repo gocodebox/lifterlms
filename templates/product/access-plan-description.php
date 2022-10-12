@@ -9,5 +9,10 @@
  * @version   3.23.0
  */
 defined( 'ABSPATH' ) || exit;
+
+$content = $plan->get( 'content' );
+if ( ! $content ) {
+	return;
+}
 ?>
-<div class="llms-access-plan-description"><?php echo $plan->get( 'content' ); ?></div>
+<div class="llms-access-plan-description"><?php echo $content; ?></div>

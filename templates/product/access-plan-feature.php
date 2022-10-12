@@ -9,11 +9,11 @@
  * @version   3.23.0
  */
 defined( 'ABSPATH' ) || exit;
+
+if ( ! $plan->is_featured() ) {
+	return;
+}
 ?>
 <div class="llms-access-plan-featured">
-	<?php if ( $plan->is_featured() ) : ?>
-		<?php echo apply_filters( 'lifterlms_featured_access_plan_text', __( 'FEATURED', 'lifterlms' ), $plan ); ?>
-	<?php else : ?>
-		&nbsp;
-	<?php endif; ?>
+	<?php echo apply_filters( 'lifterlms_featured_access_plan_text', __( 'FEATURED', 'lifterlms' ), $plan ); ?>
 </div>

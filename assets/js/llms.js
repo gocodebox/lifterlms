@@ -1677,8 +1677,8 @@ var LLMS = window.LLMS || {};
 		 */
 		bind: function() {
 	
-			$( '.llms-access-plan-content' ).matchHeight();
-			$( '.llms-access-plan-pricing.trial' ).matchHeight();
+			// $( '.llms-access-plan-content' ).matchHeight();
+			// $( '.llms-access-plan-pricing.trial' ).matchHeight();
 	
 		},
 	

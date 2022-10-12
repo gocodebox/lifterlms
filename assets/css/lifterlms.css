@@ -1,16 +1,27 @@
 @charset "UTF-8";
+:root {
+  --llms-primary: #262626;
+  --llms-primary-text: #ffffff;
+  --llms-secondary: #404040;
+  --llms-secondary-text: #ffffff;
+  --llms-success: #83c373;
+  --llms-warning: #ff922b;
+  --llms-danger: #e5554e;
+  --llms-element-background: #f2f2f2;
+  --llms-element-border: #d9d9d9;
+  --llms-element-text: #0d0d0d;
+}
+
 .llms-pagination ul:before, .llms-pagination ul:after,
 .llms-student-dashboard .llms-sd-items:before,
 .llms-form-fields:before,
 .llms-checkout-cols-2:before,
-.llms-access-plans:before,
 .llms-course-navigation:before,
 .llms-loop-list:before,
 .llms-cols:before,
 .llms-student-dashboard .llms-sd-items:after,
 .llms-form-fields:after,
 .llms-checkout-cols-2:after,
-.llms-access-plans:after,
 .llms-course-navigation:after,
 .llms-loop-list:after,
 .llms-cols:after {
@@ -21,7 +32,6 @@
 .llms-student-dashboard .llms-sd-items:after,
 .llms-form-fields:after,
 .llms-checkout-cols-2:after,
-.llms-access-plans:after,
 .llms-course-navigation:after,
 .llms-loop-list:after,
 .llms-cols:after {
@@ -1446,15 +1456,16 @@ svg .llms-animated-circle {
   margin-right: 0;
 }
 .llms-instructor-info .llms-instructors .llms-author {
-  background: #f5f5f5;
-  border-top: 4px solid #2295ff;
+  background: var(--llms-element-background);
+  color: var(--llms-element-text);
+  border-top: 4px solid var(--llms-primary);
   text-align: center;
   margin: 45px 5px 5px;
   padding: 0 10px 10px;
 }
 .llms-instructor-info .llms-instructors .llms-author .avatar {
-  background: #2295ff;
-  border: 4px solid #2295ff;
+  background: var(--llms-primary);
+  border: 4px solid var(--llms-primary);
   display: block;
   margin: -35px auto 10px;
 }
@@ -2355,6 +2366,17 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
   display: none;
 }
 
+.llms-access-plans {
+  --llms-featured-offset: 35px;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: var(--llms-featured-offset);
+  gap: 4px;
+}
 @media all and (min-width: 600px) {
   .llms-access-plans.cols-1 .llms-access-plan {
     width: 100%;
@@ -2378,102 +2400,96 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
 }
 
 .llms-access-plan {
+  background: var(--llms-element-background);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  float: left;
+  color: var(--llms-element-text);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   text-align: center;
   width: 100%;
 }
-.llms-access-plan .llms-access-plan-footer,
-.llms-access-plan .llms-access-plan-content {
-  background: #f1f1f1;
-}
-.llms-access-plan.featured .llms-access-plan-featured {
-  background: #4ba9ff;
-}
-.llms-access-plan.featured .llms-access-plan-footer,
-.llms-access-plan.featured .llms-access-plan-content {
-  border-left: 3px solid #2295ff;
-  border-right: 3px solid #2295ff;
-}
-.llms-access-plan.featured .llms-access-plan-footer {
-  border-bottom-color: #2295ff;
+.llms-access-plan.featured {
+  border: 3px solid var(--llms-primary);
+  margin-top: calc(var(--llms-featured-offset) * -1);
 }
 .llms-access-plan.on-sale .price-regular {
   text-decoration: line-through;
 }
 .llms-access-plan .stamp {
-  background: #2295ff;
-  color: #fff;
-  font-size: 11px;
+  background: var(--llms-secondary);
+  color: var(--llms-secondary-text);
+  font-size: 75%;
   font-style: normal;
-  font-weight: 300;
-  padding: 2px 3px;
-  vertical-align: top;
-}
-.llms-access-plan .llms-access-plan-restrictions ul {
-  margin: 0;
+  font-weight: 400;
+  padding: 2px 4px;
+  vertical-align: middle;
 }
 
 .llms-access-plan-featured {
-  color: #fff;
-  font-size: 14px;
+  background: var(--llms-secondary);
+  color: var(--llms-secondary-text);
+  font-size: 85%;
   font-weight: 400;
-  margin: 0 2px 0 2px;
-}
-
-.llms-access-plan-content {
-  margin: 0 2px 0;
-}
-.llms-access-plan-content .llms-access-plan-pricing {
-  padding: 10px 0 0;
+  padding: 5px;
+  height: calc(var(--llms-featured-offset) - 10px);
+  margin: -3px -3px 0 -3px;
 }
 
 .llms-access-plan-title {
-  background: #2295ff;
-  color: #fff;
-  margin-bottom: 0;
+  background: var(--llms-primary);
+  color: var(--llms-primary-text);
+  margin: 0 0 10px;
   padding: 10px;
 }
 
+.llms-access-plan-footer {
+  margin-top: auto;
+  padding: 10px;
+}
+.llms-access-plan-footer > a, .llms-access-plan-footer button {
+  display: inline-block;
+}
+
 .llms-access-plan-pricing .llms-price-currency-symbol {
-  font-size: 14px;
+  font-size: 85%;
   vertical-align: top;
 }
 
 .llms-access-plan-price {
-  font-size: 18px;
   font-variant: small-caps;
-  line-height: 20px;
 }
 .llms-access-plan-price .lifterlms-price {
   font-weight: 700;
-}
-.llms-access-plan-price.sale {
-  padding: 5px 0;
-  border-top: 1px solid #d0d0d0;
-  border-bottom: 1px solid #d0d0d0;
 }
 
 .llms-access-plan-trial,
 .llms-access-plan-schedule,
 .llms-access-plan-sale-end,
 .llms-access-plan-expiration {
-  font-size: 15px;
+  font-size: 90%;
   font-variant: small-caps;
   line-height: 1.2;
 }
 
 .llms-access-plan-description {
-  font-size: 16px;
+  font-size: 90%;
   padding: 10px 10px 0;
 }
 .llms-access-plan-description ul {
   margin: 0;
+  padding: 0;
 }
 .llms-access-plan-description ul li {
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid var(--llms-element-border);
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 .llms-access-plan-description ul li:last-child {
   border-bottom: none;
@@ -2487,26 +2503,13 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
 }
 .llms-access-plan-restrictions ul {
   margin: 0;
+  padding: 0;
 }
 .llms-access-plan-restrictions ul li {
-  font-size: 12px;
-  line-height: 14px;
+  margin: 0;
+  padding: 0;
+  font-size: 80%;
   list-style-type: none;
-}
-.llms-access-plan-restrictions a {
-  color: #f8954f;
-}
-.llms-access-plan-restrictions a:hover {
-  color: #f67d28;
-}
-
-.llms-access-plan-footer {
-  border-bottom: 3px solid #f1f1f1;
-  padding: 10px;
-  margin: 0 2px 2px 2px;
-}
-.llms-access-plan-footer .llms-access-plan-pricing {
-  padding: 0 0 10px;
 }
 
 .webui-popover-content .llms-members-only-restrictions {

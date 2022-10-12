@@ -1,5 +1,11 @@
 .llms-access-plans {
-	@extend %clearfix;
+
+	--llms-featured-offset: 35px;
+
+	align-items: stretch;
+	display: flex;
+	padding-top: var( --llms-featured-offset );
+	gap: 4px;
 
 	@media all and (min-width: 600px) {
 		$cols: 1;
@@ -10,7 +16,6 @@
 			$cols: $cols + 1;
 		}
 	}
-
 }
 
 .llms-free-enroll-form {
@@ -18,32 +23,17 @@
 }
 
 .llms-access-plan {
+	background: var( --llms-element-background );
 	box-sizing: border-box;
-	float: left;
+	color: var( --llms-element-text );
+	display: flex;
+	flex-direction: column;
 	text-align: center;
 	width: 100%;
 
-	.llms-access-plan-footer,
-	.llms-access-plan-content {
-		background: #f1f1f1;
-	}
-
 	&.featured {
-
-		.llms-access-plan-featured {
-			background: lighten( $color-brand-blue, 8 );
-		}
-
-		.llms-access-plan-footer,
-		.llms-access-plan-content {
-			border-left: 3px solid $color-brand-blue;
-			border-right: 3px solid $color-brand-blue;
-		}
-
-		.llms-access-plan-footer {
-			border-bottom-color: $color-brand-blue;
-		}
-
+		border: 3px solid var( --llms-primary );
+		margin-top: calc( var( --llms-featured-offset ) * -1 );
 	}
 
 	&.on-sale {
@@ -51,123 +41,106 @@
 	}
 
 	.stamp {
-		background: $color-brand-blue;
-		color: #fff;
-		font-size: 11px;
+		background: var( --llms-secondary );
+		color: var( --llms-secondary-text );
+		font-size: 75%;
 		font-style: normal;
-		font-weight: 300;
-		padding: 2px 3px;
+		font-weight: 400;
+		padding: 2px 4px;
+		vertical-align: middle;
+	}
+}
+
+.llms-access-plan-featured {
+	background: var( --llms-secondary );
+	color: var( --llms-secondary-text );
+	font-size: 85%;
+	font-weight: 400;
+	padding: 5px;
+	height: calc( var( --llms-featured-offset ) - 10px );
+	margin: -3px -3px 0 -3px;
+}
+
+.llms-access-plan-title {
+	background: var( --llms-primary );
+	color: var( --llms-primary-text );
+	margin: 0 0 10px;
+	padding: 10px;
+}
+
+.llms-access-plan-footer {
+	margin-top: auto;
+	padding: 10px;
+	> a, button {
+		display: inline-block;
+	}
+}
+
+
+
+.llms-access-plan-pricing {
+	.llms-price-currency-symbol {
+		font-size: 85%;
 		vertical-align: top;
 	}
-
-	.llms-access-plan-restrictions ul { margin: 0; }
-
 }
-	.llms-access-plan-featured {
-		color: #fff;
-		font-size: 14px;
-		font-weight: 400;
-		margin: 0 2px 0 2px;
+
+.llms-access-plan-price {
+	font-variant: small-caps;
+
+	.lifterlms-price {
+		font-weight: 700;
+	}
+}
+
+.llms-access-plan-trial,
+.llms-access-plan-schedule,
+.llms-access-plan-sale-end,
+.llms-access-plan-expiration {
+	font-size: 90%;
+	font-variant: small-caps;
+	line-height: 1.2;
+}
+
+.llms-access-plan-description {
+	font-size: 90%;
+	padding: 10px 10px 0;
+
+	ul {
+		margin: 0;
+		padding: 0;
+		li {
+			border-bottom: 1px solid var( --llms-element-border );
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			&:last-child {
+				border-bottom: none;
+			}
+		}
 	}
 
-	.llms-access-plan-content {
-		margin: 0 2px 0;
+	div, img, p, ul, li {
+		&:last-child { margin-bottom: 0; }
+	}
+}
 
-		.llms-access-plan-pricing {
-			padding: 10px 0 0;
+
+.llms-access-plan-restrictions {
+	.stamp {
+		vertical-align: baseline;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		li {
+			margin: 0;
+			padding: 0;
+			font-size: 80%;
+			list-style-type: none;
 		}
 	}
-
-		.llms-access-plan-title {
-			background: $color-brand-blue;
-			color: #fff;
-			margin-bottom: 0;
-			padding: 10px;
-		}
-
-		.llms-access-plan-pricing {
-
-			.llms-price-currency-symbol {
-				font-size: 14px;
-				vertical-align: top;
-			}
-
-		}
-
-			.llms-access-plan-price {
-				font-size: 18px;
-				font-variant: small-caps;
-				line-height: 20px;
-
-				.lifterlms-price {
-					font-weight: 700;
-				}
-
-				&.sale {
-					padding: 5px 0;
-					border-top: 1px solid #d0d0d0;
-					border-bottom: 1px solid #d0d0d0;
-				}
-			}
-
-			.llms-access-plan-trial,
-			.llms-access-plan-schedule,
-			.llms-access-plan-sale-end,
-			.llms-access-plan-expiration {
-				font-size: 15px;
-				font-variant: small-caps;
-				line-height: 1.2;
-			}
-
-		.llms-access-plan-description {
-			font-size: 16px;
-			padding: 10px 10px 0;
-
-			ul {
-				margin: 0;
-				li {
-					border-bottom: 1px solid #d0d0d0;
-					list-style-type: none;
-					&:last-child {
-						border-bottom: none;
-					}
-				}
-			}
-
-			div, img, p, ul, li {
-				&:last-child { margin-bottom: 0; }
-			}
-		}
-
-		.llms-access-plan-restrictions {
-			.stamp {
-				vertical-align: baseline;
-			}
-			ul {
-				margin: 0;
-				li {
-					font-size: 12px;
-					line-height: 14px;
-					list-style-type: none;
-				}
-			}
-			a {
-				color: $color-brand-orange;
-				&:hover {
-					color: $color-brand-orange-dark;
-				}
-			}
-		}
-
-	.llms-access-plan-footer {
-		border-bottom: 3px solid #f1f1f1;
-		padding: 10px;
-		margin: 0 2px 2px 2px;
-
-		.llms-access-plan-pricing {
-			padding: 0 0 10px;
-		}
-	}
+}
 
 
 .webui-popover-content .llms-members-only-restrictions {

@@ -11,6 +11,7 @@
  * @version 4.2.0
  */
 defined( 'ABSPATH' ) || exit;
+
 ?>
 <?php
 /**
@@ -25,5 +26,5 @@ if ( apply_filters( 'llms_display_free_enroll_form', get_current_user_id() && $p
 	?>
 	<?php llms_get_template( 'product/free-enroll-form.php', compact( 'plan' ) ); ?>
 <?php else : ?>
-	<a class="llms-button-action button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
+	<a class="wp-element-button" href="<?php echo $plan->get_checkout_url(); ?>"><?php echo $plan->get_enroll_text(); ?></a>
 <?php endif; ?>
