@@ -19,7 +19,7 @@ import { create, ensureElementList, find, loadStyles } from './utils';
  *
  * If the spinner element doesn't already exist it will be created.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {jQuery|Element|string} selector  A selector to be parsed by `jQuery()`, an existing `jQuery()` selection, a DOM Element. The first spinner
  *                                          found within the element will be returned. If none found it will be created, appended to the element, and
@@ -53,7 +53,7 @@ export function get( selector, size = SIZE_DEFAULT, useJQuery = true ) {
  *
  * If the spinner element doesn't already exist it will be created.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {jQuery|Element|NodeList|string} selector A selector to be parsed by `jQuery()`, an existing `jQuery()` selection, a DOM Element, or an
  *                                                  array of DOM Elements. Each element in the list will have it's spinner started. If a spinner doesn't
@@ -73,7 +73,7 @@ export function start( selector, size = SIZE_DEFAULT ) {
 /**
  * Stops spinner(s) inside a given element or element list.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {jQuery|Element|NodeList|string} selector A selector to be parsed by `jQuery()`, an existing `jQuery()` selection, a DOM Element, or an
  *                                                  array of DOM Elements. Each element in the list will have it's spinner stopped.
