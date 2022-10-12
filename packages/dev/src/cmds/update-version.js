@@ -157,7 +157,7 @@ const defaultReplacements = [
  * Command: update-version
  *
  * @since 0.0.1
- * @since [version] Added 4th parameter to the replacement arrays to allow excluding replacement sets when building a prerelease.
+ * @since 0.2.0 Added 4th parameter to the replacement arrays to allow excluding replacement sets when building a prerelease.
  *
  * @type {Object}
  */

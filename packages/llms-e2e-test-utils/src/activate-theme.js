@@ -35,7 +35,7 @@ function getThemeByCoreVersion() {
  * Activates a theme.
  *
  * @since 3.3.0
- * @since [version] Don't use WP activateTheme, see https://github.com/WordPress/gutenberg/issues/39862.
+ * @since 4.0.1 Don't use WP activateTheme, see https://github.com/WordPress/gutenberg/issues/39862.
  *
  * @param {?string} theme Accepts a theme slug. If not supplied, loads the default theme for the tested WP version.
  * @return {Promise} Promise that resolves when the theme is activated.

@@ -1,8 +1,8 @@
 @lifterlms/components CHANGELOG
 ===============================
 
-Unreleased
-----------
+v1.1.0 - 2022-10-12
+-------------------
 
 + Adds a spinner component intended to replace `LLMS.Spinner`.
 

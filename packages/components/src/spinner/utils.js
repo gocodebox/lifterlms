@@ -8,7 +8,7 @@ import { STYLES } from './styles';
 /**
  * Creates a spinner element inside the specified wrapper Element.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {Element} wrapper DOM node to append the created spinner element to.
  * @param {string}  size    Spinner element size.
@@ -31,7 +31,7 @@ export function create( wrapper, size = SIZE_DEFAULT ) {
  *
  * When jQuery selection is detected, adds a console deprecation warning as well.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {NodeList|Element|string|jQuery} selector The input selector.
  * @return {Element[]} An array of `Element` objects derived from the selector input.
@@ -60,7 +60,7 @@ export function ensureElementList( selector ) {
 /**
  * Locates an existing spinner element which is a direct child of the specified wrapper element.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @param {Element} wrapper Node element for the wrapper.
  * @return {null|undefined|Element} Returns `null` if no spinners exist within the wrapper, undefined if no spinners are
@@ -81,7 +81,7 @@ export function find( wrapper ) {
  * Attaching CSS directly to the `get()` method means that we don't have to worry about loading CSS files (or relying on CSS) included
  * by the LifterLMS core plugin in order to use this styled component.
  *
- * @since [version]
+ * @since 1.1.0
  *
  * @return {void}
  */
