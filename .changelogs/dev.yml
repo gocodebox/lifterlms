@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added `LLMS_Abstract_Enum` which defines a pattern for creating enum-like
+  objects based on public class constants.
