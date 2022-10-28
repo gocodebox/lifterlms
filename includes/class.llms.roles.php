@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,8 +21,8 @@ class LLMS_Roles {
 	 * The capability name to manage earned engagament.
 	 *
 	 * @since 6.0.0
-	 *
-	 * @var string
+	 * @deprecated [version] Constant {@see LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP}
+	 *                       is deprecated in favor of {@see LLMS_Capabilities::MANAGE_EARNED_ENGAGEMENT}.
 	 */
 	const MANAGE_EARNED_ENGAGEMENT_CAP = 'manage_earned_engagement';
 
@@ -53,8 +53,10 @@ class LLMS_Roles {
 	 * @since 3.34.0 Added capabilities for student management.
 	 * @since 4.21.2 Added the `view_grades` capability.
 	 * @since 6.0.0 Added `manage_earned_engagement` capability.
+	 * @since [version] Use {@see LLMS_Capabilities} in favor of a hard-coded list.
 	 *
 	 * @link https://lifterlms.com/docs/roles-and-capabilities/
+	 * @see LLMS_Capabilities
 	 *
 	 * @return string[]
 	 */
@@ -69,70 +71,54 @@ class LLMS_Roles {
 		 */
 		return apply_filters(
 			'llms_get_all_core_caps',
-			array(
-				'lifterlms_instructor',
-				'manage_lifterlms',
-				self::MANAGE_EARNED_ENGAGEMENT_CAP,
-				'view_lifterlms_reports',
-				'view_others_lifterlms_reports',
-				'enroll',
-				'unenroll',
-				'create_students',
-				'view_grades',
-				'view_students',
-				'view_others_students',
-				'edit_students',
-				'edit_others_students',
-				'delete_students',
-				'delete_others_students',
-			)
+			array_values( LLMS_Capabilities::cases() )
 		);
 	}
 
 	/**
-	 * Retrieve the LifterLMS core capabilities for a give role
+	 * Retrieves all the LifterLMS core capabilities for a give role.
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Added student management capabilities.
 	 * @since 4.21.2 Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
 	 * @since 6.0.0 Added `manage_earned_engagement` to the list of instructor/assistant caps which are not automatically available.
+	 * @since [version] Refactored for reduced cognitive complexity.
+	 *               Reference capabilities from {@see LLMS_Capabilities} constants in favor of using strings.
 	 *
 	 * @param string $role Name of the role.
-	 * @return string[]
+	 * @return bool[] An associative array where the array key is the capability name and the array value is `true`.
 	 */
 	private static function get_core_caps( $role ) {
 
-		$all_caps = array_fill_keys( array_values( self::get_all_core_caps() ), true );
+		$all_caps = array_fill_keys(
+			array_values( self::get_all_core_caps() ),
+			true
+		);
 
-		switch ( $role ) {
-
-			case 'instructor':
-			case 'instructors_assistant':
-				$caps = $all_caps;
-				unset(
-					$caps['enroll'],
-					$caps['unenroll'],
-					$caps['manage_lifterlms'],
-					$caps[ self::MANAGE_EARNED_ENGAGEMENT_CAP ],
-					$caps['view_others_lifterlms_reports'],
-					$caps['create_students'],
-					$caps['view_others_students'],
-					$caps['edit_students'],
-					$caps['edit_others_students'],
-					$caps['delete_students'],
-					$caps['delete_others_students'],
-					$caps['view_grades']
-				);
-				break;
-
-			case 'administrator':
-			case 'lms_manager':
-				$caps = $all_caps;
-				break;
-
-			default:
-				$caps = array();
-
+		$caps = array();
+		if ( in_array( $role, array( 'administrator', 'lms_manager' ), true ) ) {
+			$caps = $all_caps;
+		} elseif ( in_array( $role, array( 'instructor', 'instructors_assistant' ), true ) ) {
+			$caps = array_diff_key(
+				$all_caps,
+				array_fill_keys(
+					array(
+						LLMS_Capabilities::ENROLL,
+						LLMS_Capabilities::UNENROLL,
+						LLMS_Capabilities::MANAGE_LIFTERLMS,
+						LLMS_Capabilities::MANAGE_EARNED_ENGAGEMENT,
+						LLMS_Capabilities::VIEW_OTHERS_REPORTS,
+						LLMS_Capabilities::CREATE_STUDENTS,
+						LLMS_Capabilities::VIEW_OTHERS_STUDENTS,
+						LLMS_Capabilities::EDIT_STUDENTS,
+						LLMS_Capabilities::EDIT_OTHERS_STUDENTS,
+						LLMS_Capabilities::DELETE_STUDENTS,
+						LLMS_Capabilities::DELETE_OTHERS_STUDENTS,
+						LLMS_Capabilities::VIEW_GRADES,
+					),
+					true
+				)
+			);
 		}
 
 		/**
