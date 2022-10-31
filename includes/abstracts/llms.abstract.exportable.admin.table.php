@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +40,15 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @var boolean
 	 */
 	protected $is_exportable = true;
+
+	/**
+	 * Returns the table's title.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	abstract public function get_title();
 
 	/**
 	 * Generate an export file for the current table.
@@ -219,18 +228,46 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the file name for an export file
+	 * Retrieves the file name for an export file.
 	 *
 	 * @since 3.15.0
 	 * @since 3.28.0 Unknown.
+	 * @since [version] Fixed issue encountered when special characters are present in the table's title.
 	 *
 	 * @param array $args Optional arguments passed from table to csv processor.
 	 * @return string
 	 */
 	public function get_export_file_name( $args = array() ) {
 
-		$title = sprintf( '%1$s_export_%2$s_%3$s', sanitize_title( $this->get_export_title( $args ), 'llms-' . $this->id ), current_time( 'Y-m-d' ), wp_generate_password( 8, false, false ) );
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_file_name', $title );
+		$parts = array(
+			sanitize_file_name( strtolower( $this->get_export_title( $args ) ) ),
+			_x( 'export', 'Used in export filenames', 'lifterlms' ),
+			llms_current_time( 'Y-m-d' ),
+			wp_generate_password( 8, false, false ),
+		);
+
+		$filename = implode( '_', $parts );
+
+		/**
+		 * Filters the file name for an export file.
+		 *
+		 * The dynamic portion of this hook, `$this->id`, refers to the table's
+		 * `$id` property.
+		 *
+		 * @since Unknown
+		 * @since [version] Added the `$parts` and `$table` parameters.
+		 *
+		 * @param string                               $filename The generated filename.
+		 * @param string[]                             $parts    An array of strings that makeup the generated filename
+		 *                                                       when joined with the underscore separator character.
+		 * @param LLMS_Abstract_Exportable_Admin_Table $table    Instance of the table object.
+		 */
+		return apply_filters(
+			"llms_table_get_{$this->id}_export_file_name",
+			$filename,
+			$parts,
+			$this
+		);
 
 	}
 
