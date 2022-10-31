@@ -99,6 +99,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @since 5.3.0
 	 * @since 7.0.0 Create the order via `$this->get_mock_order()` which also sets a valid gateway.
+	 * @since [version] Compare all order notes in favor of testing for the expected order.
 	 *
 	 * @return void
 	 */
@@ -125,11 +126,14 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 		$notes = $order->get_notes();
 		add_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
 
-		$user_note  = array_pop( $notes );
-		$this->assertEquals( 'Mock note', $user_note->comment_content );
-
-		$system_note = array_pop( $notes );
-		$this->assertEquals( 'The billing length of the order has been modified from 5 days to 3 days.', $system_note->comment_content );
+		$this->assertEqualSets(
+			array(
+				'Order status changed from new to Pending Payment',
+				'The billing length of the order has been modified from 5 days to 3 days.',
+				'Mock note',
+			),
+			wp_list_pluck( $notes, 'comment_content' )
+		);
 
 	}
 
