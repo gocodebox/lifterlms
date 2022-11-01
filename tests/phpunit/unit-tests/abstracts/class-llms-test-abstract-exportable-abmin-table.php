@@ -19,12 +19,18 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 	 * @return LLMS_Abstract_Exportable_Admin_Table
 	 */
 	private function get_mock( $id = 'mock', $title = 'Mock Title' ) {
-		$mock = $this->getMockForAbstractClass( LLMS_Abstract_Exportable_Admin_Table::class );
+		$mock = $this->getMockForAbstractClass(
+			LLMS_Abstract_Exportable_Admin_Table::class,
+			array(),
+			'',
+			true,
+			true,
+			true,
+			array( 'get_title' )
+		);
 		LLMS_Unit_Test_Util::set_private_property( $mock, 'id', $id );
 
-		$mock->method( 'get_title' )->will(
-			$this->returnValue( $title )
-		);
+		$mock->method( 'get_title' )->willReturn( $title );
 
 		return $mock;
 	}
@@ -79,6 +85,25 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 		);
 
 		remove_filter( 'random_password', $pass );
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Abstract_Exportable_Admin_Table::get_title} stub.
+	 *
+	 * @since [version]
+	 */
+	public function test_get_title() {
+
+		$mock = $this->getMockForAbstractClass(
+			LLMS_Abstract_Exportable_Admin_Table::class
+		);
+		LLMS_Unit_Test_Util::set_private_property( $mock, 'id', 'mock' );
+
+		$this->setExpectedIncorrectUsage(
+			'LLMS_Abstract_Exportable_Admin_Table::get_title'
+		);
+		$this->assertEquals( 'mock', $mock->get_title() );
 
 	}
 

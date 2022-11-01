@@ -42,15 +42,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	protected $is_exportable = true;
 
 	/**
-	 * Returns the table's title.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	abstract public function get_title();
-
-	/**
 	 * Generate an export file for the current table.
 	 *
 	 * @since 3.28.0
@@ -293,6 +284,28 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	public function get_export_title( $args = array() ) {
 		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title(), $args );
+	}
+
+	/**
+	 * Retrieves the table's title.
+	 *
+	 * This method must be overwritten by extending classes.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		_doing_it_wrong(
+			__METHOD__,
+			sprintf(
+				// Translators: %s = the name of the method.
+				__( "Method '%s' must be overridden.", 'lifterlms' ),
+				__METHOD__
+			),
+			'[version]'
+		);
+		return $this->id;
 	}
 
 	/**
