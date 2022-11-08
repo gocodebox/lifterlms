@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -114,6 +114,17 @@ final class LifterLMS {
 		 */
 		do_action( 'lifterlms_loaded' );
 
+	}
+
+	/**
+	 * Retrieves the main {@see LLMS_Database} instance.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Database
+	 */
+	public function db(): LLMS_Database {
+		return LLMS_Database::instance();
 	}
 
 	/**

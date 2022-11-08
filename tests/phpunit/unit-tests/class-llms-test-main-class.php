@@ -64,6 +64,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 5.8.0 Added tests for additional instances.
+	 * @since [version] Added test against the {@see LifterLMS::db} method.
 	 *
 	 * @return void
 	 */
@@ -73,6 +74,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 			array( 'LLMS_Achievements', 'achievements' ),
 			array( 'LLMS_Block_Templates', 'block_templates' ),
 			array( 'LLMS_Certificates', 'certificates' ),
+			array( 'LLMS_Database', 'db' ),
 			array( 'LLMS_Engagements', 'engagements' ),
 			array( 'LLMS_Events', 'events' ),
 			array( 'LLMS_Grades', 'grades' ),
