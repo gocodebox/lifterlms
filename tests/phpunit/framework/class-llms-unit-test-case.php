@@ -1,4 +1,7 @@
 <?php
+
+use Spatie\Snapshots\MatchesSnapshots;
+
 /**
  * LifterLMS Unit Test Case Base class
  *
@@ -15,8 +18,11 @@
  * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_UnitTestCase::setup_get()` method
  *              - `LLMS_UnitTestCase::setup_post()` method
+ * @since [version] Added snapshot testing.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
+
+	use MatchesSnapshots;
 
 	/**
 	 * Setup tests
