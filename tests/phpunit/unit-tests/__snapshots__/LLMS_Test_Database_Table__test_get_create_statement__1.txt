@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `testing_lifterlms_user_postmeta` (
+`meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+`user_id` bigint(20) UNSIGNED NOT NULL,
+`post_id` bigint(20) UNSIGNED NOT NULL,
+`meta_key` varchar(255) DEFAULT NULL,
+`meta_value` longtext DEFAULT NULL,
+`updated_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+PRIMARY KEY (`meta_id`),
+KEY `user_id` (`user_id`),
+KEY `post_id` (`post_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
