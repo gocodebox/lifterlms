@@ -67,6 +67,7 @@ jobs:
           wp-version: ${{ matrix.WP }}
           llms-branch: ${{ matrix.LLMS }}
           env-file: ".github/.env.test-phpunit"
+          deploy-key: ${{ secrets.LLMS_DEPLOY_KEY }}
           secrets: ${{ toJSON( secrets ) }}
 
       - name: Run Tests
