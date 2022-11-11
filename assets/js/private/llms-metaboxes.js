@@ -775,8 +775,8 @@
 		 * Re-initializes TinyMCE Editors found within metaboxes
 		 *
 		 * @since 4.19.0
-		 * @since 4.19.0
 		 * @since 4.21.2 Improve early return dependency check.
+		 * @since [version] Add `undefined` condition on early return check.
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1553
 		 * @link https://github.com/gocodebox/lifterlms/pull/1618
