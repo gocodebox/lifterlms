@@ -11,9 +11,9 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version [version]
  */
-( function( $ ) {
+ ( function( $ ) {
 
 	/**
 	 * jQuery plugin to allow "collapsible" sections
@@ -1277,15 +1277,18 @@
 		 *
 		 * @since 4.19.0
 		 * @since 4.21.2 Improve early return dependency check.
+		 * @since [version] Add `undefined` condition on early return check.
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1553
+		 * @link https://github.com/gocodebox/lifterlms/pull/1618
+		 * @link https://github.com/gocodebox/lifterlms/issues/2298
 		 *
 		 * @return {void}
 		 */
-		this.bind_mce_fixes = function() {
+		 this.bind_mce_fixes = function() {
 
 			// We need `wp.data` to proceed.
-			if ( undefined === wp.data || null === wp.data.select( 'core/edit-post' ) ) {
+			if ( undefined === wp.data || [ null, undefined ].includes( wp.data.select( 'core/edit-post' ) ) ) {
 				return;
 			}
 
