@@ -19,6 +19,13 @@
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
+	 * Cached access plan object used by mock orders if the plan isn't specified.
+	 *
+	 * @var LLMS_Access_Plan|null
+	 */
+	protected ?LLMS_Access_Plan $saved_mock_plan = null;
+
+	/**
 	 * Setup tests
 	 * Automatically called before each test
 	 *
