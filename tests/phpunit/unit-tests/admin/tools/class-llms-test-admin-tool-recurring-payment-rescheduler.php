@@ -176,6 +176,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Admin_Tool
 	 *
 	 * @since 4.6.0
 	 * @since 4.7.0 Add an order with `plan_ended` meta that should be ignored and add tests for `FOUND_ROWS()` cached data.
+	 * @since [version] Remove reference to undefined property.
 	 *
 	 * @return void
 	 */
@@ -199,7 +200,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Admin_Tool
 		$this->assertEqualSets( $to_handle, wp_list_pluck( $res, 'ID' ) );
 
 		// Test FOUND_ROWS() cache data.
-		$this->assertEquals( 3, wp_cache_get( sprintf( 'recurring-payment-rescheduler-total-results', $this->id ), 'llms_tool_data' ) );
+		$this->assertEquals( 3, wp_cache_get( 'recurring-payment-rescheduler-total-results', 'llms_tool_data' ) );
 
 	}
 
