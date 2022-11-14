@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.1
  */
  ( function( $ ) {
 
@@ -776,7 +776,7 @@
 		 *
 		 * @since 4.19.0
 		 * @since 4.21.2 Improve early return dependency check.
-		 * @since [version] Add `undefined` condition on early return check.
+		 * @since 7.0.1 Add `undefined` condition on early return check.
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1553
 		 * @link https://github.com/gocodebox/lifterlms/pull/1618

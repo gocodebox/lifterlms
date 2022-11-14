@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.0.0\n"
+"Project-Id-Version: LifterLMS 7.0.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-03T13:33:29-06:00\n"
+"POT-Creation-Date: 2022-11-14T15:03:51-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: llms/dev 0.1.0\n"
+"X-Generator: llms/dev 0.2.0\n"
 "X-Domain: lifterlms\n"
 
 #. Plugin Name of the plugin
@@ -33,7 +33,7 @@ msgid "LifterLMS is a powerful WordPress learning management system plugin that 
 msgstr ""
 
 #: class-lifterlms.php:378
-#: includes/admin/class.llms.admin.menus.php:202
+#: includes/admin/class.llms.admin.menus.php:201
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Settings"
@@ -262,6 +262,24 @@ msgstr ""
 msgid "Unable to generate export file, could not open file for writing."
 msgstr ""
 
+#: includes/abstracts/llms.abstract.exportable.admin.table.php:235
+msgctxt "Used in export filenames"
+msgid "export"
+msgstr ""
+
+#. Translators: %s = the name of the method.
+#. Translators: %s = method name.
+#: includes/abstracts/llms.abstract.exportable.admin.table.php:303
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:90
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:119
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:138
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:156
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:182
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:207
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:238
+msgid "Method '%s' must be overridden."
+msgstr ""
+
 #: includes/abstracts/llms.abstract.integration.php:183
 msgid "Check to enable this integration."
 msgstr ""
@@ -409,7 +427,7 @@ msgid "Grade"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:58
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:207
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:390
 #: includes/admin/reporting/tables/llms.table.course.students.php:433
 #: includes/admin/reporting/tables/llms.table.membership.students.php:411
@@ -849,50 +867,50 @@ msgstr ""
 msgid "Only valid JSON files can be imported."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:181
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:180
+#: includes/admin/class.llms.admin.menus.php:209
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
 msgid "Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:202
+#: includes/admin/class.llms.admin.menus.php:201
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:204
+#: includes/admin/class.llms.admin.menus.php:203
 msgid "LifterLMS Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:204
+#: includes/admin/class.llms.admin.menus.php:203
 msgid "Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:205
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:205
 #: includes/admin/views/import.php:33
 msgid "Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:207
 msgid "LifterLMS Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:209
 msgid "LifterLMS Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:235
+#: includes/admin/class.llms.admin.menus.php:234
 msgid "LifterLMS Add-ons, Courses, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:235
+#: includes/admin/class.llms.admin.menus.php:234
 msgid "Add-ons & more"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:328
+#: includes/admin/class.llms.admin.menus.php:346
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:100
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:75
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:82
@@ -5464,7 +5482,7 @@ msgstr ""
 #: includes/class-llms-order-generator.php:657
 #: includes/controllers/class-llms-controller-checkout.php:106
 #: includes/controllers/class-llms-controller-checkout.php:112
-#: includes/shortcodes/class.llms.shortcode.checkout.php:254
+#: includes/shortcodes/class.llms.shortcode.checkout.php:266
 msgid "Could not locate an order to confirm."
 msgstr ""
 
@@ -10610,11 +10628,11 @@ msgstr ""
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:247
+#: includes/shortcodes/class.llms.shortcode.checkout.php:258
 msgid "Invalid access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:274
+#: includes/shortcodes/class.llms.shortcode.checkout.php:285
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
@@ -32705,17 +32723,6 @@ msgstr ""
 
 #: libraries/lifterlms-helper/includes/views/beta-testing.php:88
 msgid "Are you sure you want to enable or disable beta testing for these plugins and themes?"
-msgstr ""
-
-#. Translators: %s = method name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:90
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:119
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:138
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:156
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:182
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:207
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:238
-msgid "Method '%s' must be overridden."
 msgstr ""
 
 #: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:65

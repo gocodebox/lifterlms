@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#1540"
-entry: Use `sanitize_file_name()` in favor of `sanitize_title()` for generating
-  the file name of reporting table export files.

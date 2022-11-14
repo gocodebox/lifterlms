@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2298"
-entry: Resolved conflict encountered on post edit screens when using LifterLMS,
-  Yoast SEO, and the Classic Editor plugin.

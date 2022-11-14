@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Added new filter to allow customizing which user roles are affected by
-  the `LLMS_Admin_Menus::instructor_menu_hack` function.

@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2093"
-entry: Fixed a fatal error encountered on the payment confirmation screen when
-  attempting to confirm a non-existent order.

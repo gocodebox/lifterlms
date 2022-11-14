@@ -48,7 +48,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieves a mock admin menu array.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @return array[]
 	 */
@@ -67,7 +67,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Tests {@see LLMS_Admin_Menus::instructor:menu_hack}.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_instructor_menu_hack() {
 
@@ -94,7 +94,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	 * Tests {@see LLMS_Admin_Menus::instructor:menu_hack} when an instructor is
 	 * explicitly allowed to edit posts.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_instructor_menu_hack_removed() {
 

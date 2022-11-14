@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version [version]
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -223,7 +223,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.15.0
 	 * @since 3.28.0 Unknown.
-	 * @since [version] Fixed issue encountered when special characters are present in the table's title.
+	 * @since 7.0.1 Fixed issue encountered when special characters are present in the table's title.
 	 *
 	 * @param array $args Optional arguments passed from table to csv processor.
 	 * @return string
@@ -246,7 +246,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 * `$id` property.
 		 *
 		 * @since Unknown
-		 * @since [version] Added the `$parts` and `$table` parameters.
+		 * @since 7.0.1 Added the `$parts` and `$table` parameters.
 		 *
 		 * @param string                               $filename The generated filename.
 		 * @param string[]                             $parts    An array of strings that makeup the generated filename
@@ -291,7 +291,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * This method must be overwritten by extending classes.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @return string
 	 */

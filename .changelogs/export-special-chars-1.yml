@@ -1,6 +1,0 @@
-significance: patch
-type: dev
-entry: A stub method, `get_title()` has been added to the
-  `LLMS_Abstract_Exportable_Admin_Table` abstract class. This method should be
-  defined by any extending classes and will throw a `_doing_it_wrong()` error
-  when undefined.

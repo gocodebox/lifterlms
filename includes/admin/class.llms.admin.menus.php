@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -286,7 +286,7 @@ class LLMS_Admin_Menus {
 	 * but this hack will allow instructors to publish new lessons, quizzes, & questions.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added filterable early return allowing 3rd parties to modify
+	 * @since 7.0.1 Added filterable early return allowing 3rd parties to modify
 	 *               the user roles affected by this hack.
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/22895
@@ -306,7 +306,7 @@ class LLMS_Admin_Menus {
 		 *
 		 * @see LLMS_Admin_Menus::instructor_menu_hack
 		 *
-		 * @since [version]
+		 * @since 7.0.1
 		 *
 		 * @param string[] $roles The list of WP_User roles which need the hack.
 		 */

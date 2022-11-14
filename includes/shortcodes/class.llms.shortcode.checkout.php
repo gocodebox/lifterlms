@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -154,7 +154,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
-	 * @since [version] Fixed issue encountered when trying to confirm payment for a non-existent order.
+	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void

@@ -99,7 +99,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @since 5.3.0
 	 * @since 7.0.0 Create the order via `$this->get_mock_order()` which also sets a valid gateway.
-	 * @since [version] Compare all order notes in favor of testing for the expected order.
+	 * @since 7.0.1 Compare all order notes in favor of testing for the expected order.
 	 *
 	 * @return void
 	 */

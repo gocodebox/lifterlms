@@ -22,7 +22,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Retrieves the output of {@see LLMS_Shortcode_Checkout::output}.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @return string
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Determines if the checkout opening wrapper markup is found in the given
 	 * output string.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @param string $output The output string.
 	 */
@@ -55,7 +55,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Determines if the checkout closing wrapper markup is found in the given
 	 * output string.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @param string $output The output string.
 	 */
@@ -158,7 +158,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on empty cart.
 	 *
 	 * @since 7.0.0
-	 * @since [version] Updated to use new test utility methods.
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on pre checkout error.
 	 *
 	 * @since 7.0.0
-	 * @since [version] Updated to use new test utility methods.
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper when invalid access plan is supplied.
 	 *
 	 * @since 7.0.0
-	 * @since [version] Updated to use new test utility methods.
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -229,7 +229,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on confirm payment when no order is supplied.
 	 *
 	 * @since 7.0.0
-	 * @since [version] Updated to use new test utility methods.
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -254,7 +254,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Tests {@see LLMS_Shortcode_Checkout::output} when confirming a payment
 	 * for an invalid order.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_output_confirm_payment_invalid_order() {
 
@@ -283,7 +283,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Tests {@see LLMS_Shortcode_Checkout::output} when confirming a payment
 	 * for an invalid order.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_output_confirm_payment_real_order() {
 

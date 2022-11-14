@@ -7,14 +7,14 @@
  * @group abstracts
  * @group admin_tables
  *
- * @since [version]
+ * @since 7.0.1
  */
 class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 
 	/**
 	 * Retrieves a mock for the abstract class.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 *
 	 * @return LLMS_Abstract_Exportable_Admin_Table
 	 */
@@ -38,7 +38,7 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 	/**
 	 * Tests {@see LLMS_Abstract_Exportable_Admin_Table::get_export_file_name}
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_get_export_file_name() {
 
@@ -66,7 +66,7 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1540
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_get_export_file_name_special_chars() {
 
@@ -91,7 +91,7 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 	/**
 	 * Tests {@see LLMS_Abstract_Exportable_Admin_Table::get_title} stub.
 	 *
-	 * @since [version]
+	 * @since 7.0.1
 	 */
 	public function test_get_title() {
 

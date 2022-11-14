@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v7.0.1 - 2022-11-14
+-------------------
+
+##### Bug Fixes
+
++ Fixed a fatal error encountered on the payment confirmation screen when attempting to confirm a non-existent order. [#2093](https://github.com/gocodebox/lifterlms/issues/2093)
++ Use `sanitize_file_name()` in favor of `sanitize_title()` for generating the file name of reporting table export files. [#1540](https://github.com/gocodebox/lifterlms/issues/1540)
++ Resolved conflict encountered on post edit screens when using LifterLMS, Yoast SEO, and the Classic Editor plugin. [#2298](https://github.com/gocodebox/lifterlms/issues/2298)
+
+##### Developer Notes
+
++ A stub method, `get_title()` has been added to the `LLMS_Abstract_Exportable_Admin_Table` abstract class. This method should be defined by any extending classes and will throw a `_doing_it_wrong()` error when undefined.
++ Added new filter to allow customizing which user roles are affected by the `LLMS_Admin_Menus::instructor_menu_hack` function.
+
+
 v7.0.0 - 2022-10-04
 -------------------
 
