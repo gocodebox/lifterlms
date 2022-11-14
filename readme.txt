@@ -5,9 +5,9 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 7.4
-Stable tag: 7.0.0
+Stable tag: 7.0.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -540,6 +540,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.0.1 - 2022-11-14 =
+
+##### Bug Fixes
+
++ Fixed a fatal error encountered on the payment confirmation screen when attempting to confirm a non-existent order. [#2093](https://github.com/gocodebox/lifterlms/issues/2093)
++ Use `sanitize_file_name()` in favor of `sanitize_title()` for generating the file name of reporting table export files. [#1540](https://github.com/gocodebox/lifterlms/issues/1540)
++ Resolved conflict encountered on post edit screens when using LifterLMS, Yoast SEO, and the Classic Editor plugin. [#2298](https://github.com/gocodebox/lifterlms/issues/2298)
+
+##### Developer Notes
+
++ A stub method, `get_title()` has been added to the `LLMS_Abstract_Exportable_Admin_Table` abstract class. This method should be defined by any extending classes and will throw a `_doing_it_wrong()` error when undefined.
++ Added new filter to allow customizing which user roles are affected by the `LLMS_Admin_Menus::instructor_menu_hack` function.
+
+
 = v7.0.0 - 2022-10-04 =
 
 ##### New Features
@@ -711,27 +725,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fixed the ability for 3rd party plugins to use the `lifterlms_external_engagement_handler_arguments` and `lifterlms_external_engagement_query_arguments` filters.
 + Added automatic exclusion of "no cache" pages from the WP Engine server-side cache when using "pretty" permalinks. [#1717](https://github.com/gocodebox/lifterlms/issues/1717)
 + Stop subtracting LifterLMS order note comments from global comment counts via the `wp_count_comments` filter on WordPress 6.0 and later. See related WordPress Trac ticket [#19901](https://core.trac.wordpress.org/ticket/19901)
-
-
-= v6.5.0 - 2022-05-11 =
-
-##### Upcoming PHP Version Requirement Change
-
-**This will be the last version of LifterLMS to support PHP 7.3. The next version of LifterLMS, expected before the end of May 2022, will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
-
-##### Updates and Enhancements
-
-+ Updates LifterLMS Rest to [v1.0.0-beta.25](https://make.lifterlms.com/2022/05/11/lifterlms-rest-api-version-1-0-0-beta-25/).
-
-##### Bug Fixes
-
-+ Students who have already completed a lesson will now automatically bypass the lesson's drip restrictions. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
-+ Properly encode certificate JS localization data. [#2140](https://github.com/gocodebox/lifterlms/issues/2140)
-
-##### Developer Notes
-
-+ Added a new filter, `llms_lesson_drip_bypass_if_completed`, which controls the automatic bypass of drip restrictions for completed lessons. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
-+ Allow avoiding error return when updating an `LLMS_Post_Model` post meta with the same value as the one stored in the database. [#909](https://github.com/gocodebox/lifterlms/issues/909)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
