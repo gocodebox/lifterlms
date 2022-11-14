@@ -20,6 +20,53 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	}
 
 	/**
+	 * Retrieves the output of {@see LLMS_Shortcode_Checkout::output}.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @return string
+	 */
+	private function get_shortcode_output() {
+		return $this->get_output(
+			array(
+				'LLMS_Shortcode_Checkout',
+				'output'
+			),
+			array( null )
+		);
+	}
+
+	/**
+	 * Determines if the checkout opening wrapper markup is found in the given
+	 * output string.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @param string $output The output string.
+	 */
+	private function assertContainsOpeningWrapper( $output ) {
+		$this->assertStringContainsString(
+			'<div class="llms-checkout-wrapper">',
+			$output
+		);
+	}
+
+	/**
+	 * Determines if the checkout closing wrapper markup is found in the given
+	 * output string.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @param string $output The output string.
+	 */
+	private function assertContainsClosingWrapper( $output ) {
+		$this->assertStringContainsString(
+			'</div><!-- .llms-checkout-wrapper -->',
+			$output
+		);
+	}
+
+	/**
 	 * Test clean_form_fields.
 	 *
 	 * @since 5.1.0
@@ -111,38 +158,20 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on empty cart.
 	 *
 	 * @since 7.0.0
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
 
 	public function test_checkout_wrapper_on_empty_cart() {
 
-		$this->assertOutputContains(
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
 			'Your cart is currently empty.',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+			$output
 		);
-
-		$this->assertOutputContains(
-			'<div class="llms-checkout-wrapper">',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
-
-		$this->assertOutputContains(
-			'</div><!-- .llms-checkout-wrapper -->',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
+		$this->assertContainsOpeningWrapper( $output );
+		$this->assertContainsClosingWrapper( $output );
 
 	}
 
@@ -150,6 +179,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on pre checkout error.
 	 *
 	 * @since 7.0.0
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -160,32 +190,13 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 		};
 		add_filter( 'lifterlms_pre_checkout_error', $pre_checkout_error );
 
-		$this->assertOutputContains(
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
 			'Pre checkout error.',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+			$output
 		);
-
-		$this->assertOutputContains(
-			'<div class="llms-checkout-wrapper">',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
-
-		$this->assertOutputContains(
-			'</div><!-- .llms-checkout-wrapper -->',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
+		$this->assertContainsOpeningWrapper( $output );
+		$this->assertContainsClosingWrapper( $output );
 
 		remove_filter( 'lifterlms_pre_checkout_error', $pre_checkout_error );
 
@@ -196,6 +207,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper when invalid access plan is supplied.
 	 *
 	 * @since 7.0.0
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -203,32 +215,13 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
 		$this->mockGetRequest( array( 'plan' => $this->factory->post->create() ) );
 
-		$this->assertOutputContains(
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
 			'Invalid access plan.',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+			$output
 		);
-
-		$this->assertOutputContains(
-			'<div class="llms-checkout-wrapper">',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
-
-		$this->assertOutputContains(
-			'</div><!-- .llms-checkout-wrapper -->',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
-		);
+		$this->assertContainsOpeningWrapper( $output );
+		$this->assertContainsClosingWrapper( $output );
 
 	}
 
@@ -236,6 +229,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	 * Test checkout wrapper on confirm payment when no order is supplied.
 	 *
 	 * @since 7.0.0
+	 * @since 7.0.1 Updated to use new test utility methods.
 	 *
 	 * @return void
 	 */
@@ -244,31 +238,70 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 		$wpt = $wp;
 		$wp->query_vars['confirm-payment'] = true;
 
-		$this->assertOutputContains(
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
 			'Could not locate an order to confirm.',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+			$output
 		);
+		$this->assertContainsOpeningWrapper( $output );
+		$this->assertContainsClosingWrapper( $output );
 
-		$this->assertOutputContains(
-			'<div class="llms-checkout-wrapper">',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+		$wp = $wpt;
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Shortcode_Checkout::output} when confirming a payment
+	 * for an invalid order.
+	 *
+	 * @since 7.0.1
+	 */
+	public function test_output_confirm_payment_invalid_order() {
+
+		global $wp;
+		$wpt = $wp;
+		$wp->query_vars['confirm-payment'] = true;
+
+		// Fake order.
+		$this->mockGetRequest( array(
+			'order' => 'order-' . wp_generate_password( 32, false ),
+		) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
+			'Could not locate an order to confirm.',
+			$output
 		);
+		$this->assertContainsOpeningWrapper( $output );
+		$this->assertContainsClosingWrapper( $output );
 
-		$this->assertOutputContains(
-			'</div><!-- .llms-checkout-wrapper -->',
-			array(
-				'LLMS_Shortcode_Checkout',
-				'output',
-				array( null )
-			)
+		$wp = $wpt;
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Shortcode_Checkout::output} when confirming a payment
+	 * for an invalid order.
+	 *
+	 * @since 7.0.1
+	 */
+	public function test_output_confirm_payment_real_order() {
+
+		global $wp;
+		$wpt = $wp;
+		$wp->query_vars['confirm-payment'] = true;
+
+		$order = $this->factory->order->create_and_get();
+
+		// Fake order.
+		$this->mockGetRequest( array(
+			'order' => $order->get( 'order_key' ),
+		) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString(
+			'id="llms-product-purchase-confirm-form"',
+			$output
 		);
 
 		$wp = $wpt;

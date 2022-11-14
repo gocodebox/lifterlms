@@ -46,6 +46,78 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Retrieves a mock admin menu array.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @return array[]
+	 */
+	private function get_mock_admin_menu() {
+
+		$menu = array();
+		$menu[2]  = array( __( 'Dashboard' ), 'read', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'dashicons-dashboard' );
+		$menu[4]  = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
+		$menu[5] = array( 'Posts', 'edit_posts', 'edit.php', '', 'menu-top menu-icon-post open-if-no-js', 'menu-posts', 'dashicons-admin-post' );
+		$menu[7] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
+
+		return $menu;
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Admin_Menus::instructor:menu_hack}.
+	 *
+	 * @since 7.0.1
+	 */
+	public function test_instructor_menu_hack() {
+
+		global $menu;
+
+		$tests = array(
+			'administrator'         => array( 2, 4, 5, 7 ),
+			'lms_manager'           => array( 2, 4, 5, 7 ),
+			'author'                => array( 2, 4, 5, 7 ),
+			'instructor'            => array( 2, 4, 7 ),
+			'instructors_assistant' => array( 2, 4, 7 ),
+		);
+
+		foreach ( $tests as $role => $expected ) {
+			$menu = $this->get_mock_admin_menu();
+			wp_set_current_user( $this->factory->user->create( compact( 'role' ) ) );
+			$this->main->instructor_menu_hack();
+			$this->assertEquals( $expected, array_keys( $menu ), $role );
+		}
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Admin_Menus::instructor:menu_hack} when an instructor is
+	 * explicitly allowed to edit posts.
+	 *
+	 * @since 7.0.1
+	 */
+	public function test_instructor_menu_hack_removed() {
+
+		global $menu;
+		$menu = $this->get_mock_admin_menu();
+
+		// Allow instructor to edit.
+		$handler = function( $roles ) {
+			return array( 'instructors_assistant' );
+		};
+		add_filter( 'llms_instructor_menu_hack_roles', $handler );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+
+		$this->main->instructor_menu_hack();
+		$this->assertEquals( array( 2, 4, 5, 7 ), array_keys( $menu ) );
+
+		remove_filter( 'llms_instructor_menu_hack_roles', $handler );
+		unset( $menu );
+
+	}
+
+	/**
 	 * Test reporting_page_init() when there's permission issues.
 	 *
 	 * @since 4.7.0

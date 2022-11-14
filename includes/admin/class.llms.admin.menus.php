@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -127,7 +127,6 @@ class LLMS_Admin_Menus {
 		return $flag;
 
 	}
-
 
 	/**
 	 * Handle init actions on the course builder page
@@ -287,6 +286,8 @@ class LLMS_Admin_Menus {
 	 * but this hack will allow instructors to publish new lessons, quizzes, & questions.
 	 *
 	 * @since 3.13.0
+	 * @since 7.0.1 Added filterable early return allowing 3rd parties to modify
+	 *               the user roles affected by this hack.
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/22895
 	 * @link https://core.trac.wordpress.org/ticket/16808
@@ -294,8 +295,25 @@ class LLMS_Admin_Menus {
 	 * @return void
 	 */
 	public function instructor_menu_hack() {
+
+		/**
+		 * Filters the WP_User roles should receive the instructor admin menu hack.
+		 *
+		 * If you wish to provide explicit access to the `post` post type, to the
+		 * instrutor or instructor's assistant role, the role will need to be
+		 * removed from this array so they can access to the post type edit.php
+		 * screen.
+		 *
+		 * @see LLMS_Admin_Menus::instructor_menu_hack
+		 *
+		 * @since 7.0.1
+		 *
+		 * @param string[] $roles The list of WP_User roles which need the hack.
+		 */
+		$roles = apply_filters( 'llms_instructor_menu_hack_roles', array( 'instructor', 'instructors_assistant' ) );
+
 		$user = wp_get_current_user();
-		if ( array_intersect( array( 'instructor', 'instructors_assistant' ), $user->roles ) ) {
+		if ( array_intersect( $roles, $user->roles ) ) {
 			remove_menu_page( 'edit.php' );
 		}
 	}

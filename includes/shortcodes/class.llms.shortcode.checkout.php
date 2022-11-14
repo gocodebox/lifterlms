@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 7.0.0
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -123,9 +123,14 @@ class LLMS_Shortcode_Checkout {
 	 * @return void
 	 */
 	private static function error( $message ) {
-
+		/**
+		 * Filters error messages displayed on the checkout screen.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $message The error message.
+		 */
 		echo apply_filters( 'llms_checkout_error_output', $message );
-
 	}
 
 	/**
@@ -137,9 +142,7 @@ class LLMS_Shortcode_Checkout {
 	 * @return string
 	 */
 	public static function get( $atts ) {
-
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
-
 	}
 
 	/**
@@ -151,6 +154,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
+	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -180,8 +184,15 @@ class LLMS_Shortcode_Checkout {
 		self::checkout_wrapper_start();
 
 		/**
-		 * Allow gateways to throw errors before outputting anything else.
-		 * Useful if you need to check for extra session or query string data.
+		 * Allows gateways or third parties to output custom errors before
+		 * any core logic is executed.
+		 *
+		 * This filter returns `false` by default. To output custom errors return
+		 * the error message as a string that will be displayed on screen.
+		 *
+		 * @since Unknown
+		 *
+		 * @param bool|string $pre_error A custom error message.
 		 */
 		$err = apply_filters( 'lifterlms_pre_checkout_error', false );
 		if ( $err ) {
@@ -249,15 +260,15 @@ class LLMS_Shortcode_Checkout {
 			}
 		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
-			if ( ! isset( $_GET['order'] ) ) {
-
+			$order_key = llms_filter_input_sanitize_string( INPUT_GET, 'order' );
+			$order     = $order_key ? llms_get_order_by_key( $order_key ) : false;
+			if ( ! $order ) {
 				self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
 				self::checkout_wrapper_end();
 				return;
 			}
 
-			$order = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_GET, 'order' ) );
-			$atts  = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
+			$atts = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
 
 			if ( $order->get( 'coupon_id' ) ) {
 				$atts['coupon'] = new LLMS_Coupon( $order->get( 'coupon_id' ) );

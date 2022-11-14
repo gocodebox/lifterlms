@@ -176,7 +176,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Admin_Tool
 	 *
 	 * @since 4.6.0
 	 * @since 4.7.0 Add an order with `plan_ended` meta that should be ignored and add tests for `FOUND_ROWS()` cached data.
-	 * @since [version] Remove reference to undefined property.
+	 * @since 7.0.1 Remove reference to undefined property.
 	 *
 	 * @return void
 	 */
