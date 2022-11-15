@@ -302,6 +302,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 	 * Test LLMS_Processor_Certificate_Sync::task() and LLMS_Controller_Certificates::sync_awarded_engagements().
 	 *
 	 * @since 6.0.0
+	 * @since [version] Test logs as equal sets.
 	 *
 	 * @return void
 	 */
@@ -356,7 +357,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 			$awarded_certificates_ids
 		);
 
-		$this->assertEquals(
+		$this->assertEqualSets(
 			array(
 				sprintf(
 					'awarded certificates bulk sync task started for the certificate template %1$s (#%2$d) - chunk 1',
