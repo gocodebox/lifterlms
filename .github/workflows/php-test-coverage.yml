@@ -13,6 +13,10 @@ name: PHP Code Coverage Report
 
 on:
   workflow_dispatch:
+    inputs:
+      cache-suffix:
+        description: Cache suffix
+        type: string
   pull_request:
   # Once daily at 00:00 UTC.
   schedule:
@@ -60,6 +64,7 @@ jobs:
           env-file: ".github/.env.php-test-coverage"
           deploy-key: ${{ secrets.LLMS_DEPLOY_KEY }}
           secrets: ${{ toJSON( secrets ) }}
+          cache-suffix: ${{ inputs.cache-suffix }}
 
       - name: Run Tests with Coverage & Upload Coverage Report
         uses: paambaati/codeclimate-action@v2.7.5

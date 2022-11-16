@@ -13,6 +13,10 @@ name: Test PHPUnit
 
 on:
   workflow_dispatch:
+    inputs:
+      cache-suffix:
+        description: Cache suffix
+        type: string
   pull_request:
   # Once daily at 00:00 UTC.
   schedule:
@@ -69,6 +73,7 @@ jobs:
           env-file: ".github/.env.test-phpunit"
           deploy-key: ${{ secrets.LLMS_DEPLOY_KEY }}
           secrets: ${{ toJSON( secrets ) }}
+          cache-suffix: ${{ inputs.cache-suffix }}
 
       - name: Run Tests
         run: composer run tests
