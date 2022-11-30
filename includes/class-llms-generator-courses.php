@@ -714,8 +714,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 				'enrollment_opens_message',
 			);
 
-			$find    = 'id="' . $generated_from_id . '"';
-			$replace = 'id="' . $post->get( 'id' ) . '"';
+			$find    = '#(.*id=["\'])' . $generated_from_id . '(["\'].*)#';
+			$replace = '${1}' . $post->get( 'id' ) . '${2}';
 
 			/**
 			 * Replace old post ID with new cloned post ID in course/enrollment
@@ -723,7 +723,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 			 */
 			foreach ( $replace_id_props as $key ) {
 				if ( isset( $raw[ $key ] ) ) {
-					$raw[ $key ] = str_replace( $find, $replace, $raw[ $key ] );
+					$raw[ $key ] = preg_replace( $find, $replace, $raw[ $key ] );
 				}
 			}
 		}

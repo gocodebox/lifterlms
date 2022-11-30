@@ -48,7 +48,7 @@
   "comment_status": "open",
   "content": "<!-- wp:paragraph -->\n<p></p>\n<!-- /wp:paragraph -->\n\n<!-- wp:llms/course-information /-->\n\n<!-- wp:llms/instructors /-->\n\n<!-- wp:llms/pricing-table /-->\n\n<!-- wp:llms/course-progress /-->\n\n<!-- wp:llms/course-continue-button -->\n<div class=\"wp-block-llms-course-continue-button\" style=\"text-align:center\">[lifterlms_course_continue_button]</div>\n<!-- /wp:llms/course-continue-button -->\n\n<!-- wp:llms/course-syllabus /-->",
   "content_restricted_message": "You must enroll in this course to access course content.",
-  "course_closed_message": "This course closed on [lifterlms_course_info id=\"98\" key=\"end_date\"].",
+  "course_closed_message": "This course closed on [lifterlms_course_info id='98' key=\"end_date\"].",
   "course_opens_message": "This course opens on [lifterlms_course_info id=\"98\" key=\"start_date\"].",
   "custom": {
     "_llms_blocks_migrated": [
@@ -66,7 +66,7 @@
   "end_date": "",
   "enrollment_closed_message": "Enrollment in this course closed on [lifterlms_course_info id=\"98\" key=\"enrollment_end_date\"].",
   "enrollment_end_date": "",
-  "enrollment_opens_message": "Enrollment in this course opens on [lifterlms_course_info id=\"98\" key=\"enrollment_start_date\"].",
+  "enrollment_opens_message": "Enrollment in this course opens on [lifterlms_course_info id='98' key=\"enrollment_start_date\"].",
   "enrollment_period": "no",
   "enrollment_start_date": "",
   "excerpt": "",
