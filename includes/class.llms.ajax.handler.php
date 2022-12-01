@@ -804,7 +804,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			/**
-			 * Filter the quiz redirect URL on completion.			 
+			 * Filter the quiz redirect URL on completion.
 			 *
 			 * @since Unknown
 			 *
