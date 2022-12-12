@@ -65,7 +65,7 @@ if ( 'llms-active' === $status ) {
 			<?php if ( ! in_array( $status, array( 'llms-active', 'llms-pending-cancel' ), true ) ) : ?>
 				<ul class="llms-order-summary">
 					<li>
-					<?php
+						<?php
 						$price_type  = 'total';
 						$label_class = 'price-regular';
 						if ( $order->has_trial() && ! $order->get_last_transaction( 'llms-txn-succeeded', 'trial' ) ) {
@@ -81,7 +81,7 @@ if ( 'llms-active' === $status ) {
 								$order->get_price( $price_type )
 							)
 						);
-					?>
+						?>
 					</li>
 				</ul>
 			<?php endif; ?>
