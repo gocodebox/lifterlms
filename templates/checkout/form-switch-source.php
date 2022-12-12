@@ -8,7 +8,8 @@
  *
  * @since 3.10.0
  * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
- * @version 7.0.0
+ * @since [version] Show the trial price when needed rather than the recurring payment price.
+ * @version [version]
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.
  * @var LLMS_Order $order   The order object.
@@ -61,13 +62,26 @@ if ( 'llms-active' === $status ) {
 			);
 			?>
 
-			<?php if ( ! in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ) : ?>
+			<?php if ( ! in_array( $status, array( 'llms-active', 'llms-pending-cancel' ), true ) ) : ?>
 				<ul class="llms-order-summary">
 					<li>
-						<?php
+					<?php
+						$price_type  = 'total';
+						$label_class = 'price-regular';
+						if ( $order->has_trial() && ! $order->get_last_transaction( 'llms-txn-succeeded', 'trial' ) ) {
+							$price_type   = 'trial_total';
+							$label_class .= ' price-trial';
+						}
 						// Translators: %s = formatted price / amount due.
-						printf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' );
-						?>
+						printf(
+							esc_html__( 'Due Now: %s', 'lifterlms' ),
+							sprintf(
+								'<span class="%1$s">%2$s</span>',
+								$label_class,
+								$order->get_price( $price_type )
+							)
+						);
+					?>
 					</li>
 				</ul>
 			<?php endif; ?>

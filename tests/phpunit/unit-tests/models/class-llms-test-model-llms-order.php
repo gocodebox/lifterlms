@@ -953,7 +953,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$this->obj->set( 'status', $status );
 			$this->assertEquals( $expected, $this->obj->get_switch_source_action(), $status );
 
-		}	
+		}
 
 	}
 
