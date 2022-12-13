@@ -1107,7 +1107,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'per_page'      => 1,
 				'status'        => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
 				'type'          => 'any',
-				'no_found_rows' => false,
+				'no_found_rows' => true,
 			)
 		);
 		if ( $txns['count'] ) {
