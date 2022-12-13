@@ -1,0 +1,7 @@
+significance: patch
+type: changed
+comment: Merged WooCommerce Italian province list with LifterLMS's to add to and
+  correct our previous list.
+links:
+  - "#2256"
+entry: Updated and added to Italian province list with corrected and missing names.
