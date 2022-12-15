@@ -1,0 +1,6 @@
+significance: patch
+type: performance
+links:
+  - "#2305"
+entry: Skip counting the total transactions found when retrieving the last or
+  first transaction for an order.
