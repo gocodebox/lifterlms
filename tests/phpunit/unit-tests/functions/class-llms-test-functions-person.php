@@ -118,6 +118,29 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_student autoload
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_student_autoload() {
+
+		$uid = $this->factory->user->create();
+
+		$this->assertFalse( llms_get_student( 0 ) );
+
+		// Log in with uid.
+		wp_set_current_user( $uid );
+		$this->assertTrue( is_a( llms_get_student( new WP_User( $uid ) ), 'LLMS_Student' ) );
+		$this->assertFalse( llms_get_student( 0, false ) );
+
+		// Log out.
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test llms_get_usernames_blocklist() function.
 	 *
 	 * @since 5.0.0

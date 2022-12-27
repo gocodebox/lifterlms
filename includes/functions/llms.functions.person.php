@@ -231,16 +231,19 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 }
 
 /**
- * Get an LLMS_Student
+ * Get an LLMS_Student.
  *
  * @since 3.8.0
  * @since 3.9.0 Unknown
+ * @since [version] Added the `$autoload` parameter.
  *
- * @param mixed $user  WP_User ID, instance of WP_User, or instance of any student class extending this class.
+ * @param mixed   $user     WP_User ID, instance of WP_User, or instance of any student class extending this class.
+ * @param boolean $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
+ *                          If `$user` is not empty then this parameter has no impact.
  * @return LLMS_Student|false LLMS_Student instance on success, false if user not found.
  */
-function llms_get_student( $user = null ) {
-	$student = new LLMS_Student( $user );
+function llms_get_student( $user = null, $autoload = true ) {
+	$student = new LLMS_Student( $user, $autoload );
 	return $student->exists() ? $student : false;
 }
 
