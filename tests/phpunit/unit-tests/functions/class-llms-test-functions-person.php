@@ -118,7 +118,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_get_student autoload
+	 * Test llms_get_student autoload.
 	 *
 	 * @since [version]
 	 *
