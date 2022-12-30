@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -665,15 +665,18 @@ function llms_get_progress_bar_html( $percentage ) {
 
 
 /**
- * Output a course continue button linking to the incomplete lesson for a given student
- * If the course is complete "Course Complete" is displayed
+ * Output a course continue button linking to the incomplete lesson for a given student.
  *
- * @param    int        $post_id   WP Post ID for a course, lesson, or quiz
- * @param    obj        $student   instance of an LLMS_Student, defaults to current student
- * @param    integer    $progress  current progress of the student through the course
- * @return   void
- * @since    3.11.1
- * @version  3.15.0
+ * If the course is complete "Course Complete" is displayed.
+ *
+ * @since 3.11.1
+ * @since 3.15.0 Unknown.
+ * @since [version] Remove check on student existence, now included in the enrollment check.
+ *
+ * @param int          $post_id  WP Post ID for a course, lesson, or quiz.
+ * @param LLMS_Student $student  Instance of an LLMS_Student, defaults to current student.
+ * @param int          $progress Current progress of the student through the course.
+ * @return void
  */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
@@ -700,7 +703,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		if ( ! $student ) {
 			$student = llms_get_student();
 		}
-		if ( ! $student || ! $student->exists() || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
+		if ( ! $student || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
 			return '';
 		}
 

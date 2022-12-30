@@ -1,0 +1,5 @@
+significance: major
+type: performance
+entry: Immediately return false when running `llms_is_user_enrolled()` on logged
+  out or no longer existing users, avoiding running additional DB queries e.g.
+  when displaying course or membership catalogs for visitors.
