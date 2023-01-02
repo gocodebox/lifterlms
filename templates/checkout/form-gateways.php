@@ -1,6 +1,6 @@
 <?php
 /**
- * Coupon area of the checkout form
+ * Payment gateways area of the checkout form
  *
  * @package LifterLMS/Templates/Checkout
  *
@@ -9,10 +9,10 @@
  * @since 7.0.0 Disable data-source loading for gateway radio fields.
  * @version 7.0.0
  *
- * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
- * @param string $selected_gateway ID of the currently selected/default payment gateway.
- * @param LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
- * @param LLMS_Access_Plan $plan Access plan object.
+ * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
+ * @param string                 $selected_gateway ID of the currently selected/default payment gateway.
+ * @param LLMS_Coupon|false      $coupon           Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan       $plan             Access plan object.
  */
 defined( 'ABSPATH' ) || exit;
 
