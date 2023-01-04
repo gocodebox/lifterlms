@@ -432,7 +432,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * @since 3.30.0
 	 * @since 7.0.0 Retrieve the redirect URL from the INPUT_POST if not passed via INPUT_GET.
-	 * @since [version] PHP 8.1 compat: don't try to urldecode a null value.
 	 *
 	 * @param LLMS_Order $order The order object.
 	 * @return string
