@@ -186,7 +186,6 @@ class LLMS_Admin_Menus {
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
-	 * @since [version] Fixed compatibility with PHP 8.1 by using an empty string as menu page for the course builder
 	 *              submenu page in place of NULL.
 	 *
 	 * @return void
