@@ -219,7 +219,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since 3.30.0
 	 * @since 7.0.0 Addeded `$encode` and `$querystring_only` parameters.
-	 * @since [version] PHP 8.1 compat: don't try to urlencode a null value.
 	 *
 	 * @param bool $encode           Whether or not encoding the URL.
 	 * @param bool $querystring_only Only return the redirect URL bassed by the querystring.
