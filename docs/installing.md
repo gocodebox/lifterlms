@@ -21,8 +21,11 @@ $ git clone https://github.com/gocodebox/lifterlms
 $ cd lifterlms
 ```
 
-If you're planning to contribute code, you should fork this repository and clone your fork instead.
+If you're planning to contribute code, you should fork this repository and clone your fork instead and switch to the dev branch before continuing the install.
 
+```sh
+$ git checkout dev
+```
 
 ### 2. Install composer dependencies:
 
@@ -40,7 +43,7 @@ $ npm install
 ### 4. Build static assets
 
 ```sh
-$ gulp build
+$ npm run build
 ```
 
 The `lifterlms` directory is now an installable plugin that can be moved into your local server's `wp-content/plugins` directory.

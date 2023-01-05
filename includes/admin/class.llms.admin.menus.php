@@ -181,11 +181,12 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Admin Menu
+	 * Admin Menu.
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
+	 *              submenu page in place of NULL.
 	 *
 	 * @return void
 	 */
@@ -206,7 +207,8 @@ class LLMS_Admin_Menus {
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
 
-		add_submenu_page( null, __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'builder_init' ) );
+		// Passing '' to register the page without actually adding a menu item.
+		add_submenu_page( '', __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'builder_init' ) );
 
 	}
 
