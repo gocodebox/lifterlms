@@ -5,13 +5,13 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Order_Transactions class
+ * LLMS_Meta_Box_Order_Transactions class.
  *
  * @since 3.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -181,11 +181,12 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 
 	/**
-	 * Save method, records manual transactions
+	 * Save method, records manual transactions.
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Record a trial transaction instead of a single one when the order has unpaid trial.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null
@@ -198,7 +199,9 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 			return $this->add_error( __( 'Refund Error: Missing or invalid payment amount', 'lifterlms' ) );
 		}
 
-		$order = new LLMS_Order( $post_id );
+		$order        = new LLMS_Order( $post_id );
+		$payment_type = $order->has_trial() && ! $order->get_last_transaction( 'llms-txn-succeeded', 'trial' ) ?
+			'trial' : 'single';
 
 		$txn = $order->record_transaction(
 			array(
@@ -207,7 +210,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 				'transaction_id'     => llms_filter_input_sanitize_string( INPUT_POST, 'llms_txn_id' ),
 				'status'             => 'llms-txn-succeeded',
 				'payment_gateway'    => 'manual',
-				'payment_type'       => 'single',
+				'payment_type'       => $payment_type,
 			)
 		);
 
