@@ -38,8 +38,13 @@ class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase 
 	 * Test the add_post_actions() method.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Log in as administrator so that the certificates have a post edit link set.
+	 *
+	 * @return void
 	 */
 	public function test_add_post_actions() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		foreach ( $this->tables as $pt => $table ) {
 			// No post passed, no actions added.
