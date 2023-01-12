@@ -813,7 +813,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		// Record a transaction.
 		$txn_time = current_time( 'Y-m-d H:i:s' );
-		$txn      = $order->record_transaction( array(
+		$txn_rec  = $order->record_transaction( array(
 			'amount'         => 25.99,
 			'completed_date' => $txn_time,
 			'status'         => 'llms-txn-succeeded',
@@ -823,17 +823,17 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		// Change published date to reflect the completed date.
 		wp_update_post(
 			array(
-				'ID'        => $txn->get( 'id' ),
+				'ID'        => $txn_rec->get( 'id' ),
 				'post_date' => $txn_time,
 			)
 		);
 
 		// Hydrate.
-		$txn_rec = llms_get_post( $txn->get( 'id' ) );
-		$this->assertEquals( $order->get_last_transaction(), $txn );
+		$txn_rec = llms_get_post( $txn_rec->get( 'id' ) );
+		$this->assertEquals( $order->get_last_transaction(), $txn_rec );
 		$this->assertEquals(
 			$order->get_last_transaction( 'llms-txn-succeeded', 'recurring'),
-			$txn
+			$txn_rec
 		);
 		$this->assertFalse(
 			$order->get_last_transaction( 'llms-txn-failed', 'recurring'),
@@ -864,7 +864,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		// Hydrate.
 		$txn = llms_get_post( $txn->get( 'id' ) );
-
+		// The last transaction is still the recurring one, being newer.
 		$this->assertEquals( $txn_rec, $order->get_last_transaction() );
 
 	}
