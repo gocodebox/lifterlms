@@ -68,7 +68,7 @@ if ( 'llms-active' === $status ) {
 						<?php
 						$price_type  = 'total';
 						$label_class = 'price-regular';
-						if ( $order->has_trial() && ! $order->get_last_transaction( 'llms-txn-succeeded', 'trial' ) ) {
+						if ( $order->has_trial() && ! $order->get_last_transaction( 'llms-txn-succeeded' ) ) {
 							$price_type   = 'trial_total';
 							$label_class .= ' price-trial';
 						}

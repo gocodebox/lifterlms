@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -843,22 +843,20 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the last (most recent) transaction processed for the order.
+	 * Retrieve the last (most recent) transaction processed for the order
 	 *
 	 * @since 3.0.0
-	 * @since [version] Skip counting the total rows found when retrieving the last transaction.
 	 *
-	 * @param array|string $status Filter by status (see transaction statuses). By default looks for any status.
-	 * @param array|string $type   Filter by type [recurring|single|trial]. By default looks for any type.
+	 * @param array|string $status Optional. Filter by status (see transaction statuses). By default looks for any status.
+	 * @param array|string $type   Optional. Filter by type [recurring|single|trial]. By default looks for any type.
 	 * @return LLMS_Transaction|false instance of the LLMS_Transaction or false if none found
 	 */
 	public function get_last_transaction( $status = 'any', $type = 'any' ) {
 		$txns = $this->get_transactions(
 			array(
-				'per_page'      => 1,
-				'status'        => $status,
-				'type'          => $type,
-				'no_found_rows' => true,
+				'per_page' => 1,
+				'status'   => $status,
+				'type'     => $type,
 			)
 		);
 		if ( $txns['count'] ) {
@@ -1084,30 +1082,26 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the start date for the order.
+	 * Get the start date for the order
 	 *
 	 * Gets the date of the first initially successful transaction
 	 * if none found, uses the created date of the order.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Skip counting the total rows found when retrieving the first transaction.
 	 *
 	 * @param string $format Optional. Desired return format of the date. Default is 'Y-m-d H:i:s'.
 	 * @return string
 	 */
 	public function get_start_date( $format = 'Y-m-d H:i:s' ) {
-		/**
-		 * Get the first recorded transaction.
-		 * Refunds are okay b/c that would have initially given the user access.
-		 */
+		// Get the first recorded transaction.
+		// Refunds are okay b/c that would have initially given the user access.
 		$txns = $this->get_transactions(
 			array(
-				'order'         => 'ASC',
-				'orderby'       => 'date',
-				'per_page'      => 1,
-				'status'        => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
-				'type'          => 'any',
-				'no_found_rows' => true,
+				'order'    => 'ASC',
+				'orderby'  => 'date',
+				'per_page' => 1,
+				'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
+				'type'     => 'any',
 			)
 		);
 		if ( $txns['count'] ) {
@@ -1153,21 +1147,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.10.0 Unknown.
 	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
 	 * @since 5.2.0 Use stric type comparisons.
-	 * @since [version] Added `no_found_rows` parameter.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.
 	 *
-	 *     @type string|string[] $status        Transaction post status or array of transaction post status.
-	 *                                          Defaults to "any".
-	 *     @type string|string[] $type          Transaction types or array of transaction types. Defaults to "any".
-	 *                                          Accepts "recurring", "single", or "trial".
-	 *     @type int             $per_page      Number of transactions to include in the return. Default `50`.
-	 *     @type int             $paged         Result set page number.
-	 *     @type string          $order         Result set order. Default "DESC". Accepts "DESC" or "ASC".
-	 *     @type string          $orderby       Result set ordering field. Default "date".
-	 *     @type bool            $no_found_rows Whether to skip counting the total rows found. Enabling can improve
-	 *                                          performance. Default false.
+	 *     @type string|string[] $status   Transaction post status or array of transaction post status. Defaults to "any".
+	 *     @type string|string[] $type     Transaction types or array of transaction types. Defaults to "any".
+	 *                                     Accepts "recurring", "single", or "trial".
+	 *     @type int             $per_page Number of transactions to include in the return. Default `50`.
+	 *     @type int             $paged    Result set page number.
+	 *     @type string          $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
+	 *     @type string          $orderby  Result set ordering field. Default "date".
 	 * }
 	 * @return array
 	 */
@@ -1177,13 +1167,12 @@ class LLMS_Order extends LLMS_Post_Model {
 			wp_parse_args(
 				$args,
 				array(
-					'status'        => 'any', // String or array or post statuses.
-					'type'          => 'any', // String or array of transaction types [recurring|single|trial].
-					'per_page'      => 50, // Int, number of transactions to return.
-					'paged'         => 1, // Int, page number of transactions to return.
-					'order'         => 'DESC',
-					'orderby'       => 'date', // Field to order results by.
-					'no_found_rows' => false,
+					'status'   => 'any', // String or array or post statuses.
+					'type'     => 'any', // String or array of transaction types [recurring|single|trial].
+					'per_page' => 50, // Int, number of transactions to return.
+					'paged'    => 1, // Int, page number of transactions to return.
+					'order'    => 'DESC',
+					'orderby'  => 'date', // Field to order results by.
 				)
 			)
 		);
@@ -1242,27 +1231,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Execute the query.
 		$query = new WP_Query(
-			/**
-			 * Filters the order's transactions query aguments.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param array $query_args {
-			 *     Hash of query argument data passed to a WP_Query.
-			 *
-			 *     @type string|string[] $status        Transaction post status or array of transaction post status.
-			 *                                          Defaults to "any".
-			 *     @type string|string[] $type          Transaction types or array of transaction types.
-			 *                                          Defaults to "any".
-			 *                                          Accepts "recurring", "single", or "trial".
-			 *     @type int             $per_page      Number of transactions to include in the return. Default `50`.
-			 *     @type int             $paged         Result set page number.
-			 *     @type string          $order         Result set order. Default "DESC". Accepts "DESC" or "ASC".
-			 *     @type string          $orderby       Result set ordering field. Default "date".
-			 *     @type bool            $no_found_rows Whether to skip counting the total rows found.
-			 *                                          Enabling can improve performance. Default false.
-			 * }
-			 */
 			apply_filters(
 				'llms_order_get_transactions_query',
 				array(
@@ -1280,7 +1248,6 @@ class LLMS_Order extends LLMS_Post_Model {
 					'post_type'      => 'llms_transaction',
 					'posts_per_page' => $per_page,
 					'paged'          => $paged,
-					'no_found_rows'  => $no_found_rows,
 				)
 			),
 			$this,
@@ -1295,7 +1262,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		return array(
 			'total'        => $query->found_posts,
-			'count'        => $query->post_count,
+			'count'        => count( $query->posts ),
 			'page'         => $paged,
 			'pages'        => $query->max_num_pages,
 			'transactions' => $transactions,
