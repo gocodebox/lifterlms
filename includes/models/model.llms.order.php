@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -491,12 +491,23 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determines if the order's payment source can be changed.
 	 *
 	 * @since 7.0.0
+	 * @since [version] Account for order's with expired upaid trials.
 	 *
 	 * @return boolean
 	 */
 	public function can_switch_source() {
 
-		$can_switch = 'llms-active' === $this->get( 'status' ) || $this->can_resubscribe();
+		$is_order_active = 'llms-active' === $this->get( 'status' );
+		$can_switch      = $is_order_active || $this->can_resubscribe();
+
+		// If the order has an expired trial and no successful transactions, its payment source cannot be switched.
+		$can_switch = $can_switch && ! $is_order_active ?
+			! (
+				$this->has_trial() &&
+				$this->has_trial_ended() &&
+				! $this->get_last_transaction( 'llms-txn-succeeded' )
+			) :
+			$can_switch;
 
 		/**
 		 * Filters whether or not the order's payment source can be changed.
