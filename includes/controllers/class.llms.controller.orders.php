@@ -83,6 +83,9 @@ class LLMS_Controller_Orders {
 		// Expire access plans.
 		add_action( 'llms_access_plan_expiration', array( $this, 'expire_access' ), 10, 1 );
 
+		// Change order's status to 'failed' when we hit its trial time limit in 'pending' state.
+		add_action( 'llms_pending_trial_failure', array( $this, 'maybe_fail_trial' ), 10, 1 );
+
 	}
 
 	/**
@@ -318,6 +321,35 @@ class LLMS_Controller_Orders {
 
 		$order->unschedule_recurring_payment();
 		$order->maybe_schedule_expiration();
+
+	}
+
+
+	/**
+	 * Make an order fail upon trial time limit in 'pending' reached.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $order_id WP_Post ID of the LLMS Order.
+	 * @return void
+	 */
+	public function maybe_fail_trial( $order_id ) {
+
+		$order = $order_id ? llms_get_post( $order_id ) : false;
+
+		// If it's a pending order with unpaid trial.
+		if (
+			$order &&
+			is_a( $order, 'LLMS_Order' ) &&
+			'llms-pending' === $order->get( 'status' ) &&
+			! $order->get_last_transaction( 'llms-txn-succeeded' )
+		) {
+			$order->set_status( 'failed' );
+			$order->unschedule_recurring_payment();
+			$order->add_note(
+				esc_html__( 'The trial was not paid on schedule', 'lifterlms' ),
+			);
+		}
 
 	}
 

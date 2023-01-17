@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 7.0.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -155,6 +155,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
 	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
+	 * @since [version] Try to resume only orders that can be confirmed.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -233,7 +234,7 @@ class LLMS_Shortcode_Checkout {
 					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $plan_id );
 					if ( $pending_order ) {
 						$order             = llms_get_post( $pending_order );
-						$atts['order_key'] = ( 'llms-pending' === $order->get( 'status' ) ) ? $order->get( 'order_key' ) : '';
+						$atts['order_key'] = $order->can_be_confirmed() ? $order->get( 'order_key' ) : '';
 					}
 				}
 
