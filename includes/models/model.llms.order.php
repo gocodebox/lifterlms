@@ -1350,8 +1350,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	private function get_trial_pending_time() {
 
-		$trial_length_timestamp = $this->get_trial_end_date( 'U' ) - $this->get_date( 'date', 'U' );
-		return min( $this->get_trial_pending_max_time(), $trial_length_timestamp );
+		$trial_length_timestamp = (int) $this->get_trial_end_date( 'U' ) - (int) $this->get_date( 'date', 'U' );
+		return min( (int) $this->get_trial_pending_max_time(), $trial_length_timestamp );
 
 	}
 
