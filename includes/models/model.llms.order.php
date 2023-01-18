@@ -384,7 +384,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$can_be_confirmed = 'llms-pending' === $this->get( 'status' );
 
-		// If it's a pending order with unpaid trial:
+		// If it's a pending order with unpaid trial.
 		if (
 			$can_be_confirmed &&
 			$this->has_trial() &&
@@ -1695,7 +1695,6 @@ class LLMS_Order extends LLMS_Post_Model {
 					$this->get_action_args()
 				);
 			}
-
 		}
 
 	}
@@ -2133,9 +2132,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
-	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
-	 *                                   Only applies when the `$next_payment_date` is provided.
+	 * @param string $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param bool   $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                  Only applies when the `$next_payment_date` is provided.
 	 * @return WP_Error|integer WP_Error if the plan ended. Otherwise returns the return value of `as_schedule_single_action`: the action's ID.
 	 */
 	public function schedule_recurring_payment( $next_payment_date = false, $gmt = false ) {
@@ -2159,14 +2158,14 @@ class LLMS_Order extends LLMS_Post_Model {
 		);
 
 		/**
-		 * Fired after a recurring payment is scheduled
+		 * Fired after a recurring payment is scheduled.
 		 *
 		 * @since 5.2.0
 		 *
 		 * @param LLMS_Order $order       LLMS_Order instance.
-		 * @param integer    $date        Timestamp of the recurring payment date UTC.
+		 * @param int        $date        Timestamp of the recurring payment date UTC.
 		 * @param array      $action_args Arguments passed to the scheduler.
-		 * @param integer    $action_id   Scheduled action ID.
+		 * @param int        $action_id   Scheduled action ID.
 		 */
 		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args, $action_id );
 

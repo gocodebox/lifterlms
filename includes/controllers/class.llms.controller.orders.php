@@ -347,7 +347,7 @@ class LLMS_Controller_Orders {
 			$order->set_status( 'failed' );
 			$order->unschedule_recurring_payment();
 			$order->add_note(
-				esc_html__( 'The trial was not paid on schedule', 'lifterlms' ),
+				esc_html__( 'The trial was not paid on schedule', 'lifterlms' )
 			);
 		}
 
