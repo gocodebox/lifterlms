@@ -1,17 +1,17 @@
 <?php
 /**
- * Main LifterLMS class
+ * Main LifterLMS class file
  *
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Main LifterLMS Class
+ * Main LifterLMS Class.
  *
  * @since 1.0.0
  * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
@@ -68,19 +68,11 @@ final class LifterLMS {
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
 	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since [version] Localize the plugin at `plugins_loaded|0` in favor of during class construction.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
-		/**
-		 * Localize as early as possible.
-		 *
-		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load first.
-		 */
-		$this->localize();
 
 		$this->define_constants();
 
@@ -91,6 +83,15 @@ final class LifterLMS {
 		// Hooks.
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
+
+		/**
+		 * Localize as early as possible, but still when the current user is set.
+		 *
+		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
+		 * so we must localize before any l10n functions (like `__()`) are used
+		 * so that our custom "safe" location will always load first.
+		 */
+		add_action( 'plugins_loaded', array( $this, 'localize' ), 0 );
 
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
@@ -386,7 +387,7 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Localize the plugin
+	 * Localize the plugin.
 	 *
 	 * Language files can be found in the following locations (The first loaded file takes priority):
 	 *
@@ -408,12 +409,19 @@ final class LifterLMS {
 	 *
 	 * @since Unknown
 	 * @since 4.9.0 Use `llms_load_textdomain()`.
+	 * @since [version] If for any reason the plugin textdomain has already been loaded,
+	 *              unload it prior to load it again.
 	 *
 	 * @return void
 	 */
 	public function localize() {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
+
+		if ( is_textdomain_loaded( 'lifterlms' ) ) {
+			unload_textdomain( 'lifterlms' );
+		}
+
 		llms_load_textdomain( 'lifterlms' );
 
 	}
