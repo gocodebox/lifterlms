@@ -27,11 +27,11 @@ When running this command, the following happens:
 
 After building and testing the built release, all changes should be committed and pushed to GitHub.
 
-## 3. Generate the Distribution Archive
+## 4. Generate the Distribution Archive
 
 Run `npm run dev release archive`.
 
-## 4. Run pre-release tests on the archived
+## 5. Run pre-release tests on the archived
 
 Install and activate the zip file on a temporary sandbox site.
 
@@ -42,7 +42,7 @@ Install and activate the zip file on a temporary sandbox site.
 
 _This manual testing ensures no errors occurred in the build steps above._
 
-## 5. Publish the Release
+## 6. Publish the Release
 
 Run `npm run dev release create`.
 
