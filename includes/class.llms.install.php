@@ -507,7 +507,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
-	 * Core install function
+	 * Core install function.
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.

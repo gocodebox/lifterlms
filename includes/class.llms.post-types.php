@@ -36,7 +36,7 @@ class LLMS_Post_Types {
 	 *
 	 * @var array
 	 */
-	private static $rewrite_slugs = array();
+	private static $rewrite_slugs;
 
 	/**
 	 * Constructor
@@ -75,7 +75,7 @@ class LLMS_Post_Types {
 		// Make sure rewrite slugs are localized with the site locale.
 		llms_maybe_switch_to_site_locale();
 
-		self::$rewrite_slugs = array(
+		$rewrite_slugs = array(
 			'post_types' => array(
 				'course'              => array(
 					'slug'         => _x( 'course', 'course url slug', 'lifterlms' ),
@@ -123,7 +123,7 @@ class LLMS_Post_Types {
 		/**
 		 * @since [version]
 		 */
-		self::$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', self::$rewrite_slugs );
+		self::$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
 
 		// Restore original locale.
 		llms_maybe_restore_locale();
@@ -138,7 +138,11 @@ class LLMS_Post_Types {
 	 * @return array
 	 */
 	public static function get_rewrite_slugs() {
-		return self::$rewrite_slugs;
+		if ( ! isset( self::$rewrite_slugs ) ) {
+			self::define_rewrite_slugs();
+		}
+
+		return self::$rewrite_slugs ;
 	}
 
 	/**
@@ -533,13 +537,15 @@ class LLMS_Post_Types {
 	 *             Renames `llms_certificate` slug from `certificate` to `certificate-template`.
 	 *             Rename `llms_my_certificate` slug from `my_certificate` to `certificate`.
 	 *             Replaced the use of the deprecated `get_page() function with `get_post()`.
-	 * @since [version] Use rewrite slugs defined in `self::$rewrite_slugs`.
+	 * @since [version] Use rewrite slugs defined in `$rewrite_slugs`.
 	 *
 	 * @return void
 	 */
 	public static function register_post_types() {
 
 		do_action( 'llms_before_registering_core_post_types' );
+
+		$rewrite_slugs = self::get_rewrite_slugs();
 
 		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -571,13 +577,13 @@ class LLMS_Post_Types {
 				'exclude_from_search' => false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => self::$rewrite_slugs['post_types']['course']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['post_types']['course']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : ( self::$rewrite_slugs['post_types']['course']['archive_slug'] ?? '' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : ( $rewrite_slugs['post_types']['course']['archive_slug'] ?? '' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -646,7 +652,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => self::$rewrite_slugs['post_types']['lesson']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['post_types']['lesson']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -685,7 +691,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => self::$rewrite_slugs['post_types']['llms_quiz']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['post_types']['llms_quiz']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -761,14 +767,14 @@ class LLMS_Post_Types {
 				'show_in_menu'        => true,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => self::$rewrite_slugs['post_types']['llms_membership']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['post_types']['llms_membership']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
 				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ?
-					get_page_uri( $membership_page_id ) : ( self::$rewrite_slugs['post_types']['llms_membership']['archive_slug'] ?? '' ),
+					get_page_uri( $membership_page_id ) : ( $rewrite_slugs['post_types']['llms_membership']['archive_slug'] ?? '' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -997,7 +1003,7 @@ class LLMS_Post_Types {
 			array(
 				'map_meta_cap' => true,
 			),
-			self::$rewrite_slugs['post_types']['llms_certificate']['slug'] ?? '',
+			$rewrite_slugs['post_types']['llms_certificate']['slug'] ?? '',
 			/**
 			 * Filters the WordPress user capability required for a user to manage certificate templates on the admin panel.
 			 *
@@ -1030,7 +1036,7 @@ class LLMS_Post_Types {
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
 				'map_meta_cap' => false,
 			),
-			self::$rewrite_slugs['post_types']['llms_my_certificate']['slug'] ?? '',
+			$rewrite_slugs['post_types']['llms_my_certificate']['slug'] ?? '',
 			/**
 			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *
@@ -1366,13 +1372,15 @@ class LLMS_Post_Types {
 	 * @since 1.0.0
 	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
 	 * @since 3.34.1 Add custom property `show_in_llms_rest` set to true by default to those taxonomies we want to show in LLMS REST api.
-	 * @since [version] Use rewrite slugs defined in `self::$rewrite_slugs`.
+	 * @since [version] Use rewrite slugs defined in `$rewrite_slugs`.
 	 *
 	 * @return void
 	 */
 	public static function register_taxonomies() {
 
 		do_action( 'llms_before_registering_core_taxonomies' );
+
+		$rewrite_slugs = self::get_rewrite_slugs();
 
 		// Course cat.
 		self::register_taxonomy(
@@ -1399,7 +1407,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => self::$rewrite_slugs['taxonomies']['course_cat']['slug'] ?? '',
+					'slug'         => $rewrite_slugs['taxonomies']['course_cat']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1432,7 +1440,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => self::$rewrite_slugs['taxonomies']['course_difficulty']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['taxonomies']['course_difficulty']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1464,7 +1472,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => self::$rewrite_slugs['taxonomies']['course_tag']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['taxonomies']['course_tag']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1496,7 +1504,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => self::$rewrite_slugs['taxonomies']['course_track']['slug'] ?? '',
+					'slug'         => $rewrite_slugs['taxonomies']['course_track']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1530,7 +1538,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'         => self::$rewrite_slugs['taxonomies']['membership_cat']['slug'] ?? '',
+					'slug'         => $rewrite_slugs['taxonomies']['membership_cat']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1564,7 +1572,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'       => self::$rewrite_slugs['taxonomies']['membership_tag']['slug'] ?? '',
+					'slug'       => $rewrite_slugs['taxonomies']['membership_tag']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
