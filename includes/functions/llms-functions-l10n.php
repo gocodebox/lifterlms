@@ -14,18 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * Retrieve the current plugin locale.
  *
  * @since 4.9.0
- *
+ * @since [version] Remove fall-backs for WP versin less than 5.0.
  * @param string $domain Text domain.
  * @return string
  */
 function llms_get_locale( $domain = 'lifterlms' ) {
 
-	if ( function_exists( 'determine_locale' ) ) {
-		$locale = determine_locale();
-	} else {
-		// @TODO: This can be removed when minimum supported version is 5.0.
-		$locale = is_admin() ? get_user_locale() : get_locale();
-	}
+	$locale = determine_locale();
 
 	/**
 	 * Filter the plugin's locale
@@ -110,5 +105,84 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	 * 2. wp-content/plugins/lifterlms/languages/lifterlms-en_US.mo
 	 */
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
+
+}
+
+/**
+ * Switch plugin to site language.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_maybe_switch_to_site_locale( $domain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
+
+	if ( function_exists( 'switch_to_locale' ) && get_locale() !== determine_locale() ) {
+
+		do_action( 'llms_before_switching_to_site_locale', $domain, $plugin_dir, $language_dir );
+
+		do_action( "llms_before_switching_to_site_locale_{$domain}", $plugin_dir, $language_dir );
+
+		switch_to_locale( get_locale() );
+
+		// Filter on plugin_locale so load_plugin_textdomain loads the correct locale.
+		add_filter( 'plugin_locale', 'get_locale' );
+
+		// Init plugin locale.
+		llms_init_locale( $domain, $plugin_dir, $language_dir );
+
+		do_action( 'llms_after_switching_to_site_locale', $domain, $plugin_dir, $language_dir );
+
+		do_action( "llms_after_switching_to_site_locale_{$domain}", $plugin_dir, $language_dir );
+
+	}
+
+}
+
+/**
+ * Switch plugin language to original.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_maybe_restore_locale( $domain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
+
+	if ( function_exists( 'restore_previous_locale' ) && get_locale() !== determine_locale() ) {
+
+		do_action( 'llms_before_restoring_locale', $domain, $plugin_dir, $language_dir );
+
+		do_action( "llms_before_restoring_locale_{$domain}", $plugin_dir, $language_dir );
+
+		restore_previous_locale();
+
+		// Remove filter.
+		remove_filter( 'plugin_locale', 'get_locale' );
+
+		// Init plugin locale.
+		llms_init_locale( $domain, $plugin_dir, $language_dir );
+
+		do_action( 'llms_after_restoring_locale', $domain, $plugin_dir, $language_dir );
+
+		do_action( "llms_after_restoring_locale_{$domain}", $plugin_dir, $language_dir );
+
+	}
+
+}
+
+/**
+ * Init plugin locale.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_init_locale( $domain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
+
+	if ( is_textdomain_loaded( $domain ) ) {
+		unload_textdomain( $domain );
+	}
+
+	llms_load_textdomain( $domain, $plugin_dir, $language_dir );
 
 }

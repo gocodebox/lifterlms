@@ -39,10 +39,13 @@ class LLMS_Post_Types {
 	 */
 	public static function init() {
 
-		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
+		add_action( 'init', 'llms_maybe_switch_to_site_locale', 5, 0 );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
-		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
+		add_action( 'init', 'llms_maybe_restore_locale', 5, 0 );
+
+		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
+		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
 
 		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
@@ -446,6 +449,8 @@ class LLMS_Post_Types {
 	 * @return void
 	 */
 	public static function register_post_types() {
+
+		do_action( 'llms_before_registering_core_post_types' );
 
 		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -1128,6 +1133,7 @@ class LLMS_Post_Types {
 			)
 		);
 
+		do_action( 'llms_after_registering_core_post_types' );
 	}
 
 	/**
@@ -1274,6 +1280,8 @@ class LLMS_Post_Types {
 	 * @return void
 	 */
 	public static function register_taxonomies() {
+
+		do_action( 'llms_before_registering_core_taxonomies' );
 
 		// Course cat.
 		self::register_taxonomy(
@@ -1500,6 +1508,7 @@ class LLMS_Post_Types {
 			)
 		);
 
+		do_action( 'llms_after_registering_core_taxonomies' );
 	}
 
 }

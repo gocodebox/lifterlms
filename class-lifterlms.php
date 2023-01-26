@@ -418,11 +418,8 @@ final class LifterLMS {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 
-		if ( is_textdomain_loaded( 'lifterlms' ) ) {
-			unload_textdomain( 'lifterlms' );
-		}
-
-		llms_load_textdomain( 'lifterlms' );
+		// Init plugin locale.
+		llms_init_locale();
 
 	}
 
