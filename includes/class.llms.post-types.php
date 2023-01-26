@@ -142,7 +142,7 @@ class LLMS_Post_Types {
 			self::define_rewrite_slugs();
 		}
 
-		return self::$rewrite_slugs ;
+		return self::$rewrite_slugs;
 	}
 
 	/**
