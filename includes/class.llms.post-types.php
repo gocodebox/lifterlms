@@ -39,7 +39,7 @@ class LLMS_Post_Types {
 	private static $rewrite_slugs;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.4 Unknown.
@@ -121,7 +121,14 @@ class LLMS_Post_Types {
 		);
 
 		/**
+		 * Filters the Custom Posty Types and Taxonomies slugs.
+		 *
+		 * At this stage the locale is the site locale
+		 *
 		 * @since [version]
+		 *
+		 * @param array $slugs Associative array of rewrite slugs. Array key is the content type `post_types|taxonomies`.
+		 *                     Values are associative arrays: keys are `slug|archive_slug` values are the slugs.
 		 */
 		self::$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
 
