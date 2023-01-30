@@ -123,7 +123,7 @@ class LLMS_Post_Types {
 		/**
 		 * Filters the Custom Posty Types and Taxonomies slugs.
 		 *
-		 * At this stage the locale is the site locale
+		 * At this stage the current locale is the site locale.
 		 *
 		 * @since [version]
 		 *
@@ -133,7 +133,7 @@ class LLMS_Post_Types {
 		self::$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
 
 		// Restore original locale.
-		llms_maybe_restore_locale();
+		llms_maybe_restore_previous_locale();
 
 	}
 
@@ -550,6 +550,11 @@ class LLMS_Post_Types {
 	 */
 	public static function register_post_types() {
 
+		/**
+		 * Fired before registering LifterLMS core post types.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_before_registering_core_post_types' );
 
 		$rewrite_slugs = self::get_rewrite_slugs();
@@ -1236,6 +1241,11 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Fired after registering LifterLMS core post types.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_after_registering_core_post_types' );
 	}
 
@@ -1385,6 +1395,11 @@ class LLMS_Post_Types {
 	 */
 	public static function register_taxonomies() {
 
+		/**
+		 * Fired before registering LifterLMS core taxonomies.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_before_registering_core_taxonomies' );
 
 		$rewrite_slugs = self::get_rewrite_slugs();
@@ -1614,7 +1629,13 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Fired after registering LifterLMS core taxonomies.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_after_registering_core_taxonomies' );
+
 	}
 
 }

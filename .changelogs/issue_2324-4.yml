@@ -1,0 +1,5 @@
+significance: patch
+type: dev
+entry: Added the action hooks `llms_before_switching_to_site_locale`,
+  `llms_after_switching_to_site_locale`, `llms_before_restoring_previous_locale`
+  and `llms_after_restoring_previous_locale`.

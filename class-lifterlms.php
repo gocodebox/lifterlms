@@ -409,8 +409,7 @@ final class LifterLMS {
 	 *
 	 * @since Unknown
 	 * @since 4.9.0 Use `llms_load_textdomain()`.
-	 * @since [version] If for any reason the plugin textdomain has already been loaded,
-	 *              unload it prior to load it again.
+	 * @since [version] Use {@see `llms_init_locale`} in place of {@see `llms_load_textomain`}.
 	 *
 	 * @return void
 	 */

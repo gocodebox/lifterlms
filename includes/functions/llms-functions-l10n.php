@@ -129,6 +129,11 @@ function llms_maybe_switch_to_site_locale() {
 
 	if ( function_exists( 'switch_to_locale' ) && get_locale() !== determine_locale() ) {
 
+		/**
+		 * Fired before switching the current locale to the site locale.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_before_switching_to_site_locale' );
 
 		switch_to_locale( get_locale() );
@@ -139,6 +144,13 @@ function llms_maybe_switch_to_site_locale() {
 		// Init plugin locale.
 		llms_init_locale();
 
+		/**
+		 * Fired after switching the current locale to the site locale.
+		 *
+		 * At this stage the LifterLMS textdomain has ben already loaded with the site locale.
+		 *
+		 * @since [version]
+		 */
 		do_action( 'llms_after_switching_to_site_locale' );
 
 	}
@@ -152,11 +164,16 @@ function llms_maybe_switch_to_site_locale() {
  *
  * @return void
  */
-function llms_maybe_restore_locale() {
+function llms_maybe_restore_previous_locale() {
 
 	if ( function_exists( 'restore_previous_locale' ) && get_locale() !== determine_locale() ) {
 
-		do_action( 'llms_before_restoring_locale' );
+		/**
+		 * Fired before restoring the previous locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_restoring_previous_locale' );
 
 		restore_previous_locale();
 
@@ -166,7 +183,14 @@ function llms_maybe_restore_locale() {
 		// Init plugin locale.
 		llms_init_locale();
 
-		do_action( 'llms_after_restoring_locale' );
+		/**
+		 * Fired after restoring the previous locale.
+		 *
+		 * At this stage the LifterLMS textdomain has ben already loaded with the previous locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_after_restoring_previous_locale' );
 
 	}
 

@@ -1,0 +1,4 @@
+significance: patch
+type: dev
+entry: Added `llms_init_locale()`, it's a wrapper for `llms_load_textdomain()`
+  but it also unloads the domain if it was already loaded.
