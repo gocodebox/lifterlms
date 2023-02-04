@@ -11,13 +11,6 @@ defined( 'ABSPATH' ) || exit;
  * Add all the meta boxes for the dashboard.
  */
 add_meta_box(
-	'llms_dashboard_addons',
-	__( 'Most Popular Add-ons, Courses, and Resources', 'lifterlms' ),
-	'llms_dashboard_addons_callback',
-	'toplevel_page_llms-dashboard',
-	'normal'
-);
-add_meta_box(
 	'llms_dashboard_quick_links',
 	__( 'Quick Links', 'lifterlms' ),
 	'llms_dashboard_quick_links_callback',
@@ -25,15 +18,22 @@ add_meta_box(
 	'normal'
 );
 add_meta_box(
+	'llms_dashboard_addons',
+	__( 'Most Popular Add-ons, Courses, and Resources', 'lifterlms' ),
+	'llms_dashboard_addons_callback',
+	'toplevel_page_llms-dashboard',
+	'normal'
+);
+add_meta_box(
 	'llms_dashboard_blog',
-	__( 'From the Blog', 'lifterlms' ),
+	__( 'LifterLMS Blog', 'lifterlms' ),
 	'llms_dashboard_blog_callback',
 	'toplevel_page_llms-dashboard',
 	'side'
 );
 add_meta_box(
-	'llms_dashboard_podcast_updates',
-	__( 'From the Podcast', 'lifterlms' ),
+	'llms_dashboard_podcast',
+	__( 'LifterLMS Podcast', 'lifterlms' ),
 	'llms_dashboard_podcast_callback',
 	'toplevel_page_llms-dashboard',
 	'side'
@@ -167,13 +167,45 @@ function llms_dashboard_addons_callback() {
  * Callback function for llms_dashboard_quick_links meta box.
  */
 function llms_dashboard_quick_links_callback() { ?>
-	<div class="llms-list">
-		<ul>
-			<li><p><?php echo sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></p></li>
-			<li><p><?php echo sprintf( __( 'Need help? Get support on the %1$sforums%2$s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">', '</a>' ); ?></p></li>
-			<li><p><?php echo sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ); ?></p></li>
-			<li><p><?php echo sprintf( __( 'Get LifterLMS news, updates, and more on our %1$sblog%2$s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ); ?></p></li>
-		</ul>
+	<div class="llms-quick-links">
+		<a class="llms-button-primary" href=""><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php esc_html_e( 'Create a New Course', 'lifterlms' ); ?></a>
+		<a class="llms-button-secondary" href=""><i class="fa fa-line-chart" aria-hidden="true"></i> <?php esc_html_e( 'View Reports', 'lifterlms' ); ?></a>
+		<a class="llms-button-secondary" href=""><i class="fa fa-key" aria-hidden="true"></i> <?php esc_html_e( 'Manage My License Keys', 'lifterlms' ); ?></a>
+	</div>
+	<hr />
+	<div class="llms-help-links">
+		<div class="llms-list">
+			<h3><span class="dashicons dashicons-admin-users"></span> <?php esc_html_e( 'Sales', 'lifterlms' ); ?></h3>
+			<ul>
+				<li><a href="https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Pricing" target="_blank"><?php esc_html_e( 'Pricing', 'lifterlms' ); ?></a></li>
+				<li><a href="https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Add-ons" target="_blank"><?php esc_html_e( 'Add-Ons', 'lifterlms' ); ?></a></li>
+				<li><a href="https://lifterlms.com/presales-contact/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Presales%20Contact" target="_blank"><?php esc_html_e( 'Contact Sales', 'lifterlms' ); ?></a></li>
+			</ul>
+		</div>
+		<div class="llms-list">
+			<h3><span class="dashicons dashicons-editor-help"></span> <?php esc_html_e( 'Support', 'lifterlms' ); ?></h3>
+			<ul>
+				<li><a href="https://lifterlms.com/docs/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Documentation" target="_blank"><?php esc_html_e( 'Documentation', 'lifterlms' ); ?></a></li>
+				<li><a href="https://wordpress.org/support/plugin/lifterlms/" target="_blank"><?php esc_html_e( 'WordPress.org Support', 'lifterlms' ); ?></a></li>
+				<li><a href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Support" target="_blank"><?php esc_html_e( 'Premium Support', 'lifterlms' ); ?></a></li>
+			</ul>
+		</div>
+		<div class="llms-list">
+			<h3><span class="dashicons dashicons-lightbulb"></span> <?php esc_html_e( 'Learn', 'lifterlms' ); ?></h3>
+			<ul>
+				<li><a href="https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Academy" target="_blank"><?php esc_html_e( 'Academy', 'lifterlms' ); ?></a></li>
+				<li><a href="https://lifterlms.com/community-events/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Events" target="_blank"><?php esc_html_e( 'Events', 'lifterlms' ); ?></a></li>
+				<li><a href="https://developer.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Developers" target="_blank"><?php esc_html_e( 'Developers', 'lifterlms' ); ?></a></li>
+			</ul>
+		</div>
+		<div class="llms-list">
+			<h3><span class="dashicons dashicons-admin-site"></span> <?php esc_html_e( 'Content', 'lifterlms' ); ?></h3>
+			<ul>
+				<li><a href="https://lifterlms.com/blog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Blog" target="_blank"><?php esc_html_e( 'Blog', 'lifterlms' ); ?></a></li>
+				<li><a href="https://podcast.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Podcast" target="_blank"><?php esc_html_e( 'Podcast', 'lifterlms' ); ?></a></li>
+				<li><a href="https://www.youtube.com/lifterlms" target="_blank"><?php esc_html_e( 'YouTube', 'lifterlms' ); ?></a></li>
+			</ul>
+		</div>
 	</div>
 	<?php
 }
@@ -181,15 +213,89 @@ function llms_dashboard_quick_links_callback() { ?>
 /**
  * Callback function for llms_dashboard_blog meta box.
  */
-function llms_dashboard_blog_callback() { ?>
-	...
+function llms_dashboard_blog_callback() {
+
+	// Get RSS Feed(s)
+	include_once( ABSPATH . WPINC . '/feed.php' );
+
+	// Get a SimplePie feed object from the specified feed source.
+	$rss = fetch_feed( 'https://lifterlms.com/feed' );
+
+	$maxitems = 0;
+
+	if ( ! is_wp_error( $rss ) ) : // Checks that the object is created correctly
+
+		// Figure out how many total items there are, but limit it to 3.
+		$maxitems = $rss->get_item_quantity( 3 );
+
+		// Build an array of all the items, starting with element 0 (first element).
+		$rss_items = $rss->get_items( 0, $maxitems );
+
+	endif;
+
+	?>
+
+	<ul>
+		<?php if ( $maxitems == 0 ) : ?>
+			<li><?php esc_html_e( 'No news found.', 'lifterlms' ); ?></li>
+		<?php else : ?>
+			<?php // Loop through each feed item and display each item as a hyperlink. ?>
+			<?php foreach ( $rss_items as $item ) : ?>
+				<li>
+					<a href="<?php echo esc_url( $item->get_permalink() ); ?>"
+						title="<?php printf( __( 'Posted %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>">
+						<?php echo esc_html( $item->get_title() ); ?>
+					</a>
+					<?php echo esc_html( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>
+				</li>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</ul>
+	<p><a class="llms-button-secondary small" href="https://lifterlms.com/blog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Blog"><?php esc_html_e( 'View More', 'lifterlms' ); ?></a></p>
 	<?php
 }
 
 /**
  * Callback function for llms_dashboard_podcast meta box.
  */
-function llms_dashboard_podcast_callback() { ?>
-	...
+function llms_dashboard_podcast_callback() {
+
+	// Get RSS Feed(s)
+	include_once( ABSPATH . WPINC . '/feed.php' );
+
+	// Get a SimplePie feed object from the specified feed source.
+	$rss = fetch_feed( 'https://podcast.lifterlms.com/feed/' );
+
+	$maxitems = 0;
+
+	if ( ! is_wp_error( $rss ) ) : // Checks that the object is created correctly
+
+		// Figure out how many total items there are, but limit it to 3.
+		$maxitems = $rss->get_item_quantity( 3 );
+
+		// Build an array of all the items, starting with element 0 (first element).
+		$rss_items = $rss->get_items( 0, $maxitems );
+
+	endif;
+
+	?>
+
+	<ul>
+		<?php if ( $maxitems == 0 ) : ?>
+			<li><?php esc_html_e( 'No news found.', 'lifterlms' ); ?></li>
+		<?php else : ?>
+			<?php // Loop through each feed item and display each item as a hyperlink. ?>
+			<?php foreach ( $rss_items as $item ) : ?>
+				<li>
+					<a href="<?php echo esc_url( $item->get_permalink() ); ?>"
+						title="<?php printf( __( 'Posted %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>">
+						<?php echo esc_html( $item->get_title() ); ?>
+					</a>
+					<?php echo esc_html( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>
+				</li>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</ul>
+	<p><a class="llms-button-secondary small" href="https://lifterlms.com/blog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Podcast"><?php esc_html_e( 'View More', 'lifterlms' ); ?></a></p>
 	<?php
 }

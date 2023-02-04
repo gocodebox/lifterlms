@@ -17,10 +17,80 @@
 
 			.llms-add-on-item {
 				margin-top: 0;
+
+				footer.llms-actions {
+					padding-top: 0;
+				}
 			}
 
 		}
 
+	}
+
+	#llms_dashboard_quick_links {
+
+		hr {
+
+		}
+
+		.llms-quick-links {
+			padding-top: 15px;
+
+			a {
+				display: inline-block;
+			}
+		}
+
+		.llms-help-links {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-column-gap: 30px;
+
+			.llms-list {
+
+				h3 {
+					margin: 0;
+
+					.dashicons {
+						color: #AAA;
+					}
+				}
+
+				ul {
+					list-style: disc;
+					margin: 5px 0 0 20px;
+
+					li {
+						font-size: 15px;
+						line-height: 1.5;
+					}
+				}
+			}
+		}
+
+	}
+	#llms_dashboard_blog,
+	#llms_dashboard_podcast {
+
+		ul {
+
+			li {
+				margin: 15px 0;
+
+				a {
+					display: block;
+				}
+			}
+		}
+
+		p {
+			margin: 15px 0;
+			text-align: center;
+
+			a {
+				display: inline-block;
+			}
+		}
 	}
 
 }

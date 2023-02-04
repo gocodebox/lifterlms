@@ -17,6 +17,19 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Dashboard {
 
 	/**
+	 * Constructor
+	 *
+	 * @since TBD
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+
+		wp_enqueue_script('postbox');
+
+	}
+
+	/**
 	 * Retrieve an instance of the WP_Screen for the dashboard screen
 	 *
 	 * @since TBD

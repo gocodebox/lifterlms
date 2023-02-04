@@ -93,7 +93,13 @@ class LLMS_Admin_AddOns {
 		if ( ! is_wp_error( $this->data ) ) {
 
 			foreach ( $this->data['items'] as $key => $addon ) {
+				// Exclude the core plugin and helper plugin.
 				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
+					unset( $this->data['items'][ $key ] );
+				}
+
+				// Exclude uncategorized Add-ons.
+				if ( array_key_exists( 'uncategorized', $addon['categories'] ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
 			}
@@ -418,7 +424,6 @@ class LLMS_Admin_AddOns {
 		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav', $curr_section ); ?>
-				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 				<?php
 				foreach ( $this->data['categories'] as $name => $title ) :
 					$name   = sanitize_title( $name );
@@ -427,6 +432,7 @@ class LLMS_Admin_AddOns {
 					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
+				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 
 			<?php do_action( 'lifterlms_after_addons_nav', $curr_section ); ?>
 			</ul>

@@ -9,12 +9,88 @@
 	position: relative;
 	z-index: 1;
 
-	.lifterlms-logo {
-		max-height: 52px;
+	.llms-inside-wrap {
+		display: flex;
+		padding: 0 10px;
 	}
 
-	.llms-inside-wrap {
-		padding: 0 10px;
+	.lifterlms-logo {
+		flex: 0 0 190px;
+		max-height: 52px;
+		margin-right: 10px;
+	}
+
+	.llms-meta {
+		align-self: center;
+		display: flex;
+		flex: 1;
+		font-size: 16px;
+		justify-content: space-between;
+		line-height: 1.5;
+
+		.llms-version {
+			background-color: #1d2327;
+			color: #FFF;
+			border-radius: 999px;
+			font-size: 13px;
+			font-weight: 700;
+			padding: 6px 12px;
+		}
+
+		a {
+			display: inline-block;
+		}
+
+		.llms-license {
+			font-weight: 700;
+
+			a {
+				text-decoration: none;
+
+				&:before {
+					content: "\f534";
+					display: inline-block;
+					font: 400 16px/1 dashicons;
+					left: 0;
+					padding-right: 3px;
+					position: relative;
+					text-decoration: none;
+					vertical-align: text-bottom;
+				}
+
+				&.llms-license-none {
+					color: #888;
+
+					&:before {
+						content: "\f335";
+					}
+				}
+
+				&.llms-license-active {
+					color: #008a20;
+
+					&:before {
+						content: "\f112";
+					}
+
+				}
+
+			}
+		}
+
+		.llms-support {
+			border-left: 1px solid #CCC;
+			font-weight: 700;
+			margin-left: 12px;
+			padding-left: 12px;
+
+			a {
+				color: #1d2327;
+				text-decoration: none;
+			}
+
+		}
+
 	}
 
 }

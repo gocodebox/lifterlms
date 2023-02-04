@@ -61,11 +61,36 @@ class LLMS_Admin_Header {
 			$show_header = false;
 		}
 
+		// Get active keys for this site.
+		$my_keys = llms_helper_options()->get_license_keys();
+
 		// Conditionally show our header.
 		if ( ! empty( $show_header ) ) { ?>
 			<header class="llms-header">
 				<div class="llms-inside-wrap">
 					<img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo-black.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
+					<div class="llms-meta">
+						<div class="llms-meta-left">
+							<span class="llms-version"><?php echo sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></span>
+						</div>
+						<div class="llms-meta-right">
+							<span class="llms-license">
+								<?php
+									if ( empty( $my_keys ) ) {
+										$license_class = 'llms-license-none';
+										$license_label = __( 'No License', 'lifterlms' );
+									} else {
+										$license_class = 'llms-license-active';
+										$license_label = __( 'My License Keys', 'lifterlms' );
+									}
+								?>
+								<a class="<?php echo esc_attr( $license_class ); ?>" href=""><?php echo esc_html( $license_label ); ?></a>
+							</span>
+							<span class="llms-support">
+								<a href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Support" target="_blank"><?php esc_html_e( 'Get Support', 'lifterlms' ); ?></a>
+							</span>
+						</div>
+					</div>
 				</div>
 			</header>
 			<?php
