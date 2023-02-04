@@ -12,13 +12,6 @@ defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 ?>
 <div class="wrap lifterlms llms-reporting tab--<?php echo $current_tab; ?>">
-
-	<header class="llms-header">
-		<div class="llms-inside-wrap">
-			<img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
-		</div>
-	</header>
-
 	<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-reporting-nav" method="GET">
 
 		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
@@ -52,7 +45,5 @@ is_admin() || exit;
 
 
 	</div>
-
-	<p class="alignright"><em><a style="font-size:12px;color:#555d66" target="_blank" href="https://lifterlms.com/docs/lifterlms-reporting-beta/"><?php _e( 'LifterLMS Reporting Beta', 'lifterlms' ); ?></em></a></p>
 
 </div>

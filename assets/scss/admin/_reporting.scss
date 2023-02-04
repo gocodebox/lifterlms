@@ -1,18 +1,12 @@
 .llms-reporting.wrap {
 
 	.llms-options-page-contents {
-		background: #fff;
-		box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
-		margin: 0 0 20px;
-		padding: 20px;
+
 		.llms-nav-tab-wrapper.llms-nav-secondary {
-			background: #fafafa;
-			box-shadow: none;
-			margin: 0 -20px 40px;
-			padding: 0 20px;
-			.llms-nav-link {
-				padding: 8px 14px;
-			}
+			box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
+			margin: 0;
+			padding: 0;
+
 		}
 	}
 
@@ -27,7 +21,11 @@
 		text-decoration: none;
 	}
 
+	th.id, td.id,
 	th.name, td.name,
+	th.registered, td.registered,
+	th.last_seen, td.last_seen,
+	th.overall_progress, td.overall_progress,
 	th.title, td.title { text-align: left; }
 
 	td.section-title {
@@ -55,6 +53,23 @@
 
 	table.quiz-attempts {
 		margin-bottom: 40px;
+	}
+
+	&.tab--students {
+		.llms-options-page-contents {
+
+			#llms-award-certificate-wrapper .components-button.is-secondary {
+				background: #e1e1e1;
+				border-radius: 8px;
+				box-shadow: none;
+				color: #414141;
+				font-size: 13px;
+				font-weight: 700;
+				height: auto;
+				padding: 8px 14px;
+			}
+
+		}
 	}
 
 	&.tab--enrollments,
@@ -96,7 +111,6 @@
 			line-height: 23px;
 		}
 
-
 		.llms-analytics-filters {
 			display: none;
 
@@ -123,13 +137,20 @@
 
 }
 
+.llms-charts-wrapper {
+	background-color: #FFF;
+	border: 1px solid #dedede;
+	border-radius: 12px;
+	box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+	padding: 20px;
+}
 
 .llms-reporting-tab {
 
 	h1, h2, h3, h4, h5, h6 {
 		margin: 0;
 		a {
-			color: $color-brand-dark-blue;
+			color: $color-brand-blue;
 			text-decoration: none;
 			&:hover {
 				color: $color-brand-blue;
@@ -137,54 +158,86 @@
 		}
 	}
 
+	h2 {
+		font-size: 22px;
+		line-height: 1.5;
 
-	.llms-reporting-header {
+		&.llms-table-title {
+			margin-bottom: 20px;
+		}
 
-		background: #fafafa;
-		padding: 20px;
-		margin: 0 -20px;
+	}
 
-		.llms-reporting-header-img {
-			border-radius: 50%;
-			display: inline-block;
-			margin-right: 10px;
-			overflow: hidden;
-			vertical-align: middle;
-			img {
-				display: block;
-				max-height: 64px;
-				width: auto;
+	h5 {
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
+	.llms-reporting-body {
+		background-color: #FFF;
+		box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
+		margin: 20px auto;
+		padding: 0;
+
+		.llms-reporting-stab {
+			padding: 30px;
+
+			.llms-table-header {
+				margin: 0;
 			}
 		}
 
-		.llms-reporting-header-info {
-			display: inline-block;
-			vertical-align: middle;
-
+		.llms-gb-tab {
+			padding: 30px;
 		}
 
+		.llms-reporting-header {
+			padding: 30px;
+			margin: 0;
+
+			.llms-reporting-header-img {
+				border-radius: 50%;
+				display: inline-block;
+				margin-right: 10px;
+				overflow: hidden;
+				vertical-align: middle;
+				img {
+					display: block;
+					max-height: 64px;
+					width: auto;
+				}
+			}
+
+			.llms-reporting-header-info {
+				display: inline-block;
+				vertical-align: middle;
+
+			}
+
+		}
 	}
 
 }
 
 .llms-reporting-breadcrumbs {
-	background: #fafafa;
-	margin: -20px -20px 0;
-	padding: 20px 20px 10px;
+	margin: 0;
+	padding: 0;
 	a {
 		color: $color-brand-blue;
+		font-size: 15px;
 		text-decoration: none;
 		&:hover {
 			color: $color-brand-blue-dark;
 		}
 		&:after {
 			content: ' > ';
-			color: #555;
+			color: #646970;
 		}
 
 		&:last-child {
-			color: $color-brand-dark-blue;
-			&:after { display: none;}
+			color: #000;
+			font-weight: 700;
+			&:after { display: none; }
 		}
 	}
 }
@@ -237,24 +290,21 @@
 
 	border-top: 4px solid $color-brand-blue;
 	background: #fafafa;
-	margin-bottom: 0.75em;
-	padding: 18px 15px 15px;
+	margin-bottom: 10px;
+	padding: 30px;
 	@include clearfix;
 
 	.fa {
-		color: #555;
+		color: #999;
 		float: left;
 		font-size: 32px;
 		margin-right: 10px;
 	}
 
-	.llms-reporting-widget-data {
-		line-height: 0.8;
-	}
-
 	strong {
 		color: #333;
 		font-size: 20px;
+		line-height: 1.2;
 	}
 
 	&.llms-reporting-student-address {
@@ -272,7 +322,7 @@
 	}
 
 	small {
-		color: #888;
+		font-size: 13px;
 		&.compare {
 			margin-left: 5px;
 			&.positive {
@@ -338,5 +388,15 @@
 
 }
 
-@import "../_includes/quiz-result-question-list";
+@media only screen and (min-width: 782px) {
+	.llms-reporting.wrap {
+		.llms-options-page-contents {
+			.llms-nav-tab-wrapper.llms-nav-secondary {
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+	}
+}
 
+@import "../_includes/quiz-result-question-list";

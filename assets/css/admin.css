@@ -27,11 +27,11 @@
 .llms-button-primary,
 .llms-button-secondary {
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
   color: #fefefe;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 700;
   text-decoration: none;
   text-shadow: none;
   line-height: 1;
@@ -159,6 +159,45 @@
 }
 .llms-button-danger:focus, .llms-button-danger:active {
   background: #e86660;
+}
+
+.llms-button-outline {
+  background: transparent;
+  border: 3px solid #1D2327;
+  border-radius: 8px;
+  color: #1D2327;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: none;
+  line-height: 1;
+  margin: 0;
+  max-width: 100%;
+  padding: 12px 24px;
+  position: relative;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.llms-button-outline:disabled {
+  opacity: 0.5;
+}
+.llms-button-outline:hover, .llms-button-outline:active {
+  color: #1D2327;
+}
+.llms-button-outline:focus {
+  color: #1D2327;
+}
+.llms-button-outline.auto {
+  width: auto;
+}
+.llms-button-outline.full {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.llms-button-outline.square {
+  padding: 12px;
 }
 
 .lifterlms [data-tip],
@@ -1122,11 +1161,15 @@ a.llms-voucher-delete:hover {
 }
 
 .llms-widget {
-  background: #fefefe;
+  background-color: #FFF;
+  border: 1px solid #dedede;
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+          box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin-bottom: 20px;
-  padding: 10px 20px;
+  padding: 20px;
   position: relative;
   width: 100%;
 }
@@ -1146,23 +1189,20 @@ a.llms-voucher-delete:hover {
   font-weight: 300;
 }
 .llms-widget h1 {
+  color: #466dd8;
   font-size: 2.4em;
+  font-weight: 700;
 }
 .llms-widget h2 {
   font-size: 1.8em;
 }
 .llms-widget .llms-label {
-  border-bottom: 1px solid #ccc;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  color: #999;
   font-size: 18px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  margin: 0 0 15px;
-  padding-bottom: 10px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
   text-align: center;
-  text-transform: uppercase;
 }
 .llms-widget .llms-chart {
   width: 100%;
@@ -1217,8 +1257,8 @@ a.llms-voucher-delete:hover {
   cursor: pointer;
   font-size: 16px;
   position: absolute;
-  right: 25px;
-  top: 13px;
+  right: 20px;
+  top: 20px;
 }
 .llms-widget.info-showing .llms-widget-info {
   display: block;
@@ -1351,16 +1391,14 @@ Metabox Tabs
 
 .llms-mb-container .tab-content {
   display: none;
-  background: #fefefe;
-  padding: 15px;
+  background-color: #FFF;
 }
 .llms-mb-container .tab-content ul:not(.select2-selection__rendered) {
-  margin: 0;
+  margin: 0 0 15px 0;
 }
 .llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li {
   padding: 20px 0;
   margin: 0;
-  border-bottom: 1px solid #ccc;
 }
 .llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li.select:not([class*=d-]) {
   width: 100%;
@@ -1910,6 +1948,52 @@ ul.tabs li {
     width: 12.5%;
   }
 }
+.wrap.lifterlms {
+  margin-top: 0;
+}
+
+.llms-header {
+  background-color: #FFF;
+  margin: 0 0 0 -20px;
+  padding: 20px 10px;
+  position: relative;
+  z-index: 1;
+}
+.llms-header .lifterlms-logo {
+  max-height: 52px;
+}
+.llms-header .llms-inside-wrap {
+  padding: 0 10px;
+}
+
+.llms-subheader {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-left: -20px;
+  padding: 10px 20px;
+  width: 100%;
+  z-index: 1;
+}
+.llms-subheader h1 {
+  font-weight: 700;
+  padding: 0;
+}
+.llms-subheader h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 #post_course_difficulty {
   min-width: 200px;
 }
@@ -1921,6 +2005,14 @@ ul.tabs li {
 .clear {
   clear: both;
   width: 100%;
+}
+
+hr {
+  background-color: #CCC;
+  border: none;
+  height: 1px;
+  margin: 30px 0;
+  padding: 0;
 }
 
 .llms_certificate_default_image, .llms_certificate_image {
@@ -1949,6 +2041,13 @@ div[id^=lifterlms-] .inside {
   font-size: 13px;
   height: 13px;
   width: 13px;
+}
+.llms-button-action:hover,
+.llms-button-danger:hover,
+.llms-button-primary:hover,
+.llms-button-secondary:hover {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 a.llms-view-as {
@@ -2003,13 +2102,22 @@ a.llms-view-as {
   font-style: italic;
 }
 
+.llms-rating-stars {
+  color: #ffb900;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 782px) {
+  .llms-header {
+    top: 46px;
+  }
+}
 .llms-table-wrap {
   position: relative;
 }
 
 .llms-table-header {
-  padding: 0 10px;
-  margin-bottom: 10px;
+  padding: 0;
 }
 .llms-table-header:before, .llms-table-header:after {
   content: " ";
@@ -2019,10 +2127,11 @@ a.llms-view-as {
   clear: both;
 }
 .llms-table-header h2 {
+  font-size: 20px;
   padding: 0;
   display: inline-block;
-  line-height: 1;
-  margin: 0;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
   vertical-align: middle;
 }
 .llms-table-header .llms-table-search,
@@ -2032,24 +2141,23 @@ a.llms-view-as {
 }
 .llms-table-header .llms-table-search input {
   margin: 0;
-  padding: 5px;
+  padding: 0 8px;
 }
 
 .llms-table {
-  border: 1px solid #cecece;
+  border: 1px solid #c3c4c7;
   border-collapse: collapse;
   width: 100%;
 }
-.llms-table a {
+.llms-table a:not(.small) {
   color: #466dd8;
 }
-.llms-table a:hover {
+.llms-table a:not(.small):hover {
   color: #2b55cb;
 }
 .llms-table td, .llms-table th {
-  border-bottom: 1px solid #cecece;
-  font-size: 95%;
-  padding: 4px;
+  border-bottom: 1px solid #c3c4c7;
+  padding: 10px 12px;
   text-align: center;
 }
 .llms-table td.expandable.closed, .llms-table th.expandable.closed {
@@ -2069,8 +2177,8 @@ a.llms-view-as {
 }
 .llms-table thead th,
 .llms-table tfoot th {
-  background-color: #eaeaea;
-  font-weight: 500;
+  background-color: #FFF;
+  font-weight: 700;
 }
 .llms-table thead th a.llms-sortable,
 .llms-table tfoot th a.llms-sortable {
@@ -2119,7 +2227,7 @@ a.llms-view-as {
   float: left;
 }
 .llms-table tfoot th .llms-table-export .llms-table-progress {
-  background: #fafafa;
+  background: #efefef;
   display: none;
   margin-left: 8px;
   vertical-align: middle;
@@ -2129,17 +2237,23 @@ a.llms-view-as {
   float: right;
 }
 .llms-table.zebra tbody tr:nth-child(even) th, .llms-table.zebra tbody tr:nth-child(even) td {
-  background-color: #fafafa;
+  background-color: #fff;
 }
 .llms-table.zebra tbody tr:nth-child(odd) th, .llms-table.zebra tbody tr:nth-child(odd) td {
-  background-color: #fff;
+  background-color: #f6f7f7;
 }
 .llms-table.text-left td, .llms-table.text-left th {
   text-align: left;
 }
 .llms-table.size-large td, .llms-table.size-large th {
-  font-size: 105%;
-  padding: 8px;
+  font-size: 14px;
+  padding: 10px 12px;
+}
+.llms-table .llms-drag-handle {
+  color: #777;
+  cursor: pointer;
+  -webkit-transition: color 0.4s ease;
+  transition: color 0.4s ease;
 }
 .llms-table .llms-action-icon {
   color: #777;
@@ -2155,28 +2269,31 @@ a.llms-view-as {
   color: #e5554e;
 }
 .llms-table .llms-table-page-count {
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 12px;
   padding: 0 5px;
 }
 
 .llms-table-progress {
+  text-align: center;
+}
+.llms-table-progress .llms-table-progress-bar {
   background: #eee;
+  border-radius: 10px;
   height: 16px;
+  overflow: hidden;
   position: relative;
 }
-.llms-table-progress .llms-table-progress-text {
-  font-size: 11px;
-  line-height: 16px;
-  position: absolute;
-  right: 4px;
-  top: 0;
-}
-.llms-table-progress .llms-table-progress-inner {
+.llms-table-progress .llms-table-progress-bar .llms-table-progress-inner {
   background: #466dd8;
   height: 100%;
   -webkit-transition: width 0.2s ease;
   transition: width 0.2s ease;
+}
+.llms-table-progress .llms-table-progress-text {
+  color: #466dd8;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
 }
 
 .llms-table.llms-gateway-table .status .fa,
@@ -2225,21 +2342,26 @@ a.llms-view-as {
 }
 
 .llms-mb-list label {
-  font-weight: bold;
-  width: 100%;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
   display: block;
+  width: 100%;
+}
+.llms-mb-list .description {
+  margin-bottom: 8px;
 }
 .llms-mb-list .input-full {
   width: 100%;
 }
 
 #poststuff .llms-metabox h2, #poststuff .llms-metabox h3, #poststuff .llms-metabox h6 {
-  font-weight: 300;
   margin: 0;
   padding: 0;
 }
 #poststuff .llms-metabox h2 {
-  font-size: 22px;
+  font-size: 18px;
+  font-weight: 700;
 }
 #poststuff .llms-metabox h3 {
   color: #777;
@@ -2280,6 +2402,9 @@ a.llms-view-as {
 }
 #poststuff .llms-metabox h4 button.llms-editable {
   float: right;
+}
+#poststuff .llms-metabox .llms-table {
+  margin-top: 10px;
 }
 
 .llms-metabox-section {
@@ -2491,7 +2616,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   display: none;
 }
 .llms-metabox .llms-access-plans {
-  margin-top: 25px;
+  margin-top: 10px;
 }
 .llms-metabox .llms-access-plans > .llms-no-plans-msg {
   display: none;
@@ -2633,7 +2758,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link {
   color: #414141;
-  font-size: 13px;
+  font-size: 15px;
   padding: 8px 14px;
 }
 .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link .dashicons {
@@ -2644,8 +2769,12 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-nav-tab-wrapper.llms-nav-text {
   background: inherit;
 }
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-items {
+  padding-left: 0;
+}
 .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item {
   background: inherit;
+  color: #646970;
 }
 .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item:last-child:after {
   display: none;
@@ -2653,23 +2782,30 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item:after {
   content: "|";
   display: inline-block;
-  margin: 0 3px 0 0;
+  margin: 0 8px 0 6px;
 }
-.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item .llms-nav-link:hover, .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item.llms-active .llms-nav-link {
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item .llms-nav-link:hover {
   background: inherit;
   color: #466dd8;
-  text-decoration: underline;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item.llms-active .llms-nav-link {
+  background: inherit;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
 }
 .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item .llms-nav-link {
-  color: #1c3987;
+  color: #466dd8;
   display: inline-block;
   letter-spacing: 0;
   margin: 0;
   padding: 0;
+  text-decoration: underline;
   text-transform: none;
 }
 .llms-nav-tab-wrapper .llms-nav-items {
   margin: 0;
+  padding-left: 10px;
 }
 .llms-nav-tab-wrapper .llms-nav-items:before, .llms-nav-tab-wrapper .llms-nav-items:after {
   content: " ";
@@ -2702,8 +2838,8 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   color: #fff;
   cursor: pointer;
   display: block;
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 15px;
   padding: 9px 18px;
   text-align: center;
   text-decoration: none;
@@ -2718,22 +2854,11 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   border-bottom: 1px solid #999;
 }
 
-.llms-reporting.wrap .llms-options-page-contents {
-  background: #fff;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-  margin: 0 0 20px;
-  padding: 20px;
-}
 .llms-reporting.wrap .llms-options-page-contents .llms-nav-tab-wrapper.llms-nav-secondary {
-  background: #fafafa;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  margin: 0 -20px 40px;
-  padding: 0 20px;
-}
-.llms-reporting.wrap .llms-options-page-contents .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link {
-  padding: 8px 14px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 0;
+  padding: 0;
 }
 .llms-reporting.wrap .llms-stab-title {
   color: #1c3987;
@@ -2744,7 +2869,11 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-reporting.wrap td.id a {
   text-decoration: none;
 }
+.llms-reporting.wrap th.id, .llms-reporting.wrap td.id,
 .llms-reporting.wrap th.name, .llms-reporting.wrap td.name,
+.llms-reporting.wrap th.registered, .llms-reporting.wrap td.registered,
+.llms-reporting.wrap th.last_seen, .llms-reporting.wrap td.last_seen,
+.llms-reporting.wrap th.overall_progress, .llms-reporting.wrap td.overall_progress,
 .llms-reporting.wrap th.title, .llms-reporting.wrap td.title {
   text-align: left;
 }
@@ -2771,6 +2900,17 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-reporting.wrap table.quiz-attempts {
   margin-bottom: 40px;
+}
+.llms-reporting.wrap.tab--students .llms-options-page-contents #llms-award-certificate-wrapper .components-button.is-secondary {
+  background: #e1e1e1;
+  border-radius: 8px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #414141;
+  font-size: 13px;
+  font-weight: 700;
+  height: auto;
+  padding: 8px 14px;
 }
 .llms-reporting.wrap.tab--enrollments .llms-nav-tab-wrapper.llms-nav-secondary, .llms-reporting.wrap.tab--sales .llms-nav-tab-wrapper.llms-nav-secondary {
   margin-bottom: 0;
@@ -2819,45 +2959,80 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   width: 160px;
 }
 
+.llms-charts-wrapper {
+  background-color: #FFF;
+  border: 1px solid #dedede;
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+          box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+  padding: 20px;
+}
+
 .llms-reporting-tab h1, .llms-reporting-tab h2, .llms-reporting-tab h3, .llms-reporting-tab h4, .llms-reporting-tab h5, .llms-reporting-tab h6 {
   margin: 0;
 }
 .llms-reporting-tab h1 a, .llms-reporting-tab h2 a, .llms-reporting-tab h3 a, .llms-reporting-tab h4 a, .llms-reporting-tab h5 a, .llms-reporting-tab h6 a {
-  color: #1c3987;
+  color: #466dd8;
   text-decoration: none;
 }
 .llms-reporting-tab h1 a:hover, .llms-reporting-tab h2 a:hover, .llms-reporting-tab h3 a:hover, .llms-reporting-tab h4 a:hover, .llms-reporting-tab h5 a:hover, .llms-reporting-tab h6 a:hover {
   color: #466dd8;
 }
-.llms-reporting-tab .llms-reporting-header {
-  background: #fafafa;
-  padding: 20px;
-  margin: 0 -20px;
+.llms-reporting-tab h2 {
+  font-size: 22px;
+  line-height: 1.5;
 }
-.llms-reporting-tab .llms-reporting-header .llms-reporting-header-img {
+.llms-reporting-tab h2.llms-table-title {
+  margin-bottom: 20px;
+}
+.llms-reporting-tab h5 {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.llms-reporting-tab .llms-reporting-body {
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+  margin: 20px auto;
+  padding: 0;
+}
+.llms-reporting-tab .llms-reporting-body .llms-reporting-stab {
+  padding: 30px;
+}
+.llms-reporting-tab .llms-reporting-body .llms-reporting-stab .llms-table-header {
+  margin: 0;
+}
+.llms-reporting-tab .llms-reporting-body .llms-gb-tab {
+  padding: 30px;
+}
+.llms-reporting-tab .llms-reporting-body .llms-reporting-header {
+  padding: 30px;
+  margin: 0;
+}
+.llms-reporting-tab .llms-reporting-body .llms-reporting-header .llms-reporting-header-img {
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;
   overflow: hidden;
   vertical-align: middle;
 }
-.llms-reporting-tab .llms-reporting-header .llms-reporting-header-img img {
+.llms-reporting-tab .llms-reporting-body .llms-reporting-header .llms-reporting-header-img img {
   display: block;
   max-height: 64px;
   width: auto;
 }
-.llms-reporting-tab .llms-reporting-header .llms-reporting-header-info {
+.llms-reporting-tab .llms-reporting-body .llms-reporting-header .llms-reporting-header-info {
   display: inline-block;
   vertical-align: middle;
 }
 
 .llms-reporting-breadcrumbs {
-  background: #fafafa;
-  margin: -20px -20px 0;
-  padding: 20px 20px 10px;
+  margin: 0;
+  padding: 0;
 }
 .llms-reporting-breadcrumbs a {
   color: #466dd8;
+  font-size: 15px;
   text-decoration: none;
 }
 .llms-reporting-breadcrumbs a:hover {
@@ -2865,10 +3040,11 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-reporting-breadcrumbs a:after {
   content: " > ";
-  color: #555;
+  color: #646970;
 }
 .llms-reporting-breadcrumbs a:last-child {
-  color: #1c3987;
+  color: #000;
+  font-weight: 700;
 }
 .llms-reporting-breadcrumbs a:last-child:after {
   display: none;
@@ -2929,8 +3105,8 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-reporting-widget {
   border-top: 4px solid #466dd8;
   background: #fafafa;
-  margin-bottom: 0.75em;
-  padding: 18px 15px 15px;
+  margin-bottom: 10px;
+  padding: 30px;
 }
 .llms-reporting-widget:before, .llms-reporting-widget:after {
   content: " ";
@@ -2940,17 +3116,15 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   clear: both;
 }
 .llms-reporting-widget .fa {
-  color: #555;
+  color: #999;
   float: left;
   font-size: 32px;
   margin-right: 10px;
 }
-.llms-reporting-widget .llms-reporting-widget-data {
-  line-height: 0.8;
-}
 .llms-reporting-widget strong {
   color: #333;
   font-size: 20px;
+  line-height: 1.2;
 }
 .llms-reporting-widget.llms-reporting-student-address strong {
   line-height: 1.1;
@@ -2963,7 +3137,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   vertical-align: baseline;
 }
 .llms-reporting-widget small {
-  color: #888;
+  font-size: 13px;
 }
 .llms-reporting-widget small.compare {
   margin-left: 5px;
@@ -3017,6 +3191,12 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   color: inherit;
 }
 
+@media only screen and (min-width: 782px) {
+  .llms-reporting.wrap .llms-options-page-contents .llms-nav-tab-wrapper.llms-nav-secondary {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 .llms-quiz-attempt-results {
   margin: 0;
   padding: 0;
@@ -3137,95 +3317,118 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   font-weight: normal;
 }
 
-.wrap.llms-reporting .llms-header,
-.wrap.lifterlms-settings .llms-header {
-  background: #fff;
-  border-bottom: 1px solid #efefef;
-  margin: -10px -20px 0;
-  padding: 10px 0;
-  z-index: 1;
-}
-.wrap.llms-reporting .llms-header .lifterlms-logo,
-.wrap.lifterlms-settings .llms-header .lifterlms-logo {
-  max-width: 140px;
-}
-.wrap.llms-reporting .llms-header .llms-save,
-.wrap.lifterlms-settings .llms-header .llms-save {
-  float: right;
-}
-.wrap.llms-reporting .llms-header .llms-inside-wrap,
-.wrap.lifterlms-settings .llms-header .llms-inside-wrap {
-  padding: 0 10px;
-}
 .wrap.llms-reporting .llms-inside-wrap,
-.wrap.lifterlms-settings .llms-inside-wrap {
+.wrap.lifterlms-settings .llms-inside-wrap,
+.wrap.llms-status .llms-inside-wrap {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  max-width: 1000px;
   margin: 0 auto;
 }
-.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
-  background: #fff;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-  margin: 0 -20px 20px;
-  z-index: 1;
+.wrap.llms-reporting .llms-inside-wrap .llms-nav-text,
+.wrap.lifterlms-settings .llms-inside-wrap .llms-nav-text,
+.wrap.llms-status .llms-inside-wrap .llms-nav-text {
+  margin: 0 auto;
 }
-.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover, .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.llms-reporting .llms-subheader .llms-save,
+.wrap.lifterlms-settings .llms-subheader .llms-save,
+.wrap.llms-status .llms-subheader .llms-save {
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+  text-align: right;
+}
+.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary {
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 0 -20px 20px -10px;
+}
+.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
+  padding-left: 0;
+}
+.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover,
 .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover {
+  background: #f0f0f1;
+  color: #222222;
+}
+.wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
   background: #fafafa;
   color: #466dd8;
   border-top-color: #466dd8;
 }
 .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
   font-weight: 700;
 }
 .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link {
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-link {
   border-top: 2px solid transparent;
   padding: 14px;
 }
 .wrap.llms-reporting .llms-setting-group,
-.wrap.lifterlms-settings .llms-setting-group {
-  background: #fff;
+.wrap.lifterlms-settings .llms-setting-group,
+.wrap.llms-status .llms-setting-group {
+  background-color: #FFF;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-  margin: 0 0 20px;
+  margin: 20px auto;
   padding: 20px;
 }
 .wrap.llms-reporting .llms-setting-group .llms-label,
-.wrap.lifterlms-settings .llms-setting-group .llms-label {
+.wrap.lifterlms-settings .llms-setting-group .llms-label,
+.wrap.llms-status .llms-setting-group .llms-label {
   border-bottom: 1px solid #efefef;
   font-weight: 700;
   font-size: 20px;
   padding: 20px;
   margin: -20px -20px 20px;
 }
+.wrap.llms-reporting .llms-setting-group .llms-label .llms-button-primary,
+.wrap.lifterlms-settings .llms-setting-group .llms-label .llms-button-primary,
+.wrap.llms-status .llms-setting-group .llms-label .llms-button-primary {
+  margin-left: 10px;
+}
 .wrap.llms-reporting .llms-setting-group .llms-help-tooltip .dashicons,
-.wrap.lifterlms-settings .llms-setting-group .llms-help-tooltip .dashicons {
+.wrap.lifterlms-settings .llms-setting-group .llms-help-tooltip .dashicons,
+.wrap.llms-status .llms-setting-group .llms-help-tooltip .dashicons {
   color: #444;
   cursor: help;
 }
 .wrap.llms-reporting .llms-setting-group .form-table,
-.wrap.lifterlms-settings .llms-setting-group .form-table {
+.wrap.lifterlms-settings .llms-setting-group .form-table,
+.wrap.llms-status .llms-setting-group .form-table {
   margin: 0;
 }
 .wrap.llms-reporting .llms-setting-group .form-table tr:first-child .llms-subtitle,
-.wrap.lifterlms-settings .llms-setting-group .form-table tr:first-child .llms-subtitle {
+.wrap.lifterlms-settings .llms-setting-group .form-table tr:first-child .llms-subtitle,
+.wrap.llms-status .llms-setting-group .form-table tr:first-child .llms-subtitle {
   margin-top: 0;
 }
 .wrap.llms-reporting .llms-setting-group td[colspan="2"],
-.wrap.lifterlms-settings .llms-setting-group td[colspan="2"] {
+.wrap.lifterlms-settings .llms-setting-group td[colspan="2"],
+.wrap.llms-status .llms-setting-group td[colspan="2"] {
   padding-top: 0;
   padding-left: 0;
 }
 .wrap.llms-reporting .llms-setting-group tr.llms-disabled-field,
-.wrap.lifterlms-settings .llms-setting-group tr.llms-disabled-field {
+.wrap.lifterlms-settings .llms-setting-group tr.llms-disabled-field,
+.wrap.llms-status .llms-setting-group tr.llms-disabled-field {
   opacity: 0.5;
   pointer-events: none;
+}
+.wrap.llms-reporting .llms-setting-group p,
+.wrap.lifterlms-settings .llms-setting-group p,
+.wrap.llms-status .llms-setting-group p {
+  font-size: 14px;
 }
 .wrap.llms-reporting .llms-setting-group input[type=text],
 .wrap.llms-reporting .llms-setting-group input[type=password],
@@ -3258,7 +3461,23 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.lifterlms-settings .llms-setting-group input[type=tel],
 .wrap.lifterlms-settings .llms-setting-group input[type=color],
 .wrap.lifterlms-settings .llms-setting-group select,
-.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area) {
+.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area),
+.wrap.llms-status .llms-setting-group input[type=text],
+.wrap.llms-status .llms-setting-group input[type=password],
+.wrap.llms-status .llms-setting-group input[type=datetime],
+.wrap.llms-status .llms-setting-group input[type=datetime-local],
+.wrap.llms-status .llms-setting-group input[type=date],
+.wrap.llms-status .llms-setting-group input[type=month],
+.wrap.llms-status .llms-setting-group input[type=time],
+.wrap.llms-status .llms-setting-group input[type=week],
+.wrap.llms-status .llms-setting-group input[type=number],
+.wrap.llms-status .llms-setting-group input[type=email],
+.wrap.llms-status .llms-setting-group input[type=url],
+.wrap.llms-status .llms-setting-group input[type=search],
+.wrap.llms-status .llms-setting-group input[type=tel],
+.wrap.llms-status .llms-setting-group input[type=color],
+.wrap.llms-status .llms-setting-group select,
+.wrap.llms-status .llms-setting-group textarea:not(.wp-editor-area) {
   width: 50%;
 }
 .wrap.llms-reporting .llms-setting-group input[type=text].medium,
@@ -3292,7 +3511,23 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.lifterlms-settings .llms-setting-group input[type=tel].medium,
 .wrap.lifterlms-settings .llms-setting-group input[type=color].medium,
 .wrap.lifterlms-settings .llms-setting-group select.medium,
-.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).medium {
+.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).medium,
+.wrap.llms-status .llms-setting-group input[type=text].medium,
+.wrap.llms-status .llms-setting-group input[type=password].medium,
+.wrap.llms-status .llms-setting-group input[type=datetime].medium,
+.wrap.llms-status .llms-setting-group input[type=datetime-local].medium,
+.wrap.llms-status .llms-setting-group input[type=date].medium,
+.wrap.llms-status .llms-setting-group input[type=month].medium,
+.wrap.llms-status .llms-setting-group input[type=time].medium,
+.wrap.llms-status .llms-setting-group input[type=week].medium,
+.wrap.llms-status .llms-setting-group input[type=number].medium,
+.wrap.llms-status .llms-setting-group input[type=email].medium,
+.wrap.llms-status .llms-setting-group input[type=url].medium,
+.wrap.llms-status .llms-setting-group input[type=search].medium,
+.wrap.llms-status .llms-setting-group input[type=tel].medium,
+.wrap.llms-status .llms-setting-group input[type=color].medium,
+.wrap.llms-status .llms-setting-group select.medium,
+.wrap.llms-status .llms-setting-group textarea:not(.wp-editor-area).medium {
   width: 30%;
 }
 .wrap.llms-reporting .llms-setting-group input[type=text].small,
@@ -3326,7 +3561,23 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.lifterlms-settings .llms-setting-group input[type=tel].small,
 .wrap.lifterlms-settings .llms-setting-group input[type=color].small,
 .wrap.lifterlms-settings .llms-setting-group select.small,
-.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).small {
+.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).small,
+.wrap.llms-status .llms-setting-group input[type=text].small,
+.wrap.llms-status .llms-setting-group input[type=password].small,
+.wrap.llms-status .llms-setting-group input[type=datetime].small,
+.wrap.llms-status .llms-setting-group input[type=datetime-local].small,
+.wrap.llms-status .llms-setting-group input[type=date].small,
+.wrap.llms-status .llms-setting-group input[type=month].small,
+.wrap.llms-status .llms-setting-group input[type=time].small,
+.wrap.llms-status .llms-setting-group input[type=week].small,
+.wrap.llms-status .llms-setting-group input[type=number].small,
+.wrap.llms-status .llms-setting-group input[type=email].small,
+.wrap.llms-status .llms-setting-group input[type=url].small,
+.wrap.llms-status .llms-setting-group input[type=search].small,
+.wrap.llms-status .llms-setting-group input[type=tel].small,
+.wrap.llms-status .llms-setting-group input[type=color].small,
+.wrap.llms-status .llms-setting-group select.small,
+.wrap.llms-status .llms-setting-group textarea:not(.wp-editor-area).small {
   width: 20%;
 }
 .wrap.llms-reporting .llms-setting-group input[type=text].tiny,
@@ -3360,59 +3611,82 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.lifterlms-settings .llms-setting-group input[type=tel].tiny,
 .wrap.lifterlms-settings .llms-setting-group input[type=color].tiny,
 .wrap.lifterlms-settings .llms-setting-group select.tiny,
-.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).tiny {
+.wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).tiny,
+.wrap.llms-status .llms-setting-group input[type=text].tiny,
+.wrap.llms-status .llms-setting-group input[type=password].tiny,
+.wrap.llms-status .llms-setting-group input[type=datetime].tiny,
+.wrap.llms-status .llms-setting-group input[type=datetime-local].tiny,
+.wrap.llms-status .llms-setting-group input[type=date].tiny,
+.wrap.llms-status .llms-setting-group input[type=month].tiny,
+.wrap.llms-status .llms-setting-group input[type=time].tiny,
+.wrap.llms-status .llms-setting-group input[type=week].tiny,
+.wrap.llms-status .llms-setting-group input[type=number].tiny,
+.wrap.llms-status .llms-setting-group input[type=email].tiny,
+.wrap.llms-status .llms-setting-group input[type=url].tiny,
+.wrap.llms-status .llms-setting-group input[type=search].tiny,
+.wrap.llms-status .llms-setting-group input[type=tel].tiny,
+.wrap.llms-status .llms-setting-group input[type=color].tiny,
+.wrap.llms-status .llms-setting-group select.tiny,
+.wrap.llms-status .llms-setting-group textarea:not(.wp-editor-area).tiny {
   width: 10%;
 }
 @media only screen and (min-width: 782px) {
-  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover, .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
+  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link,
+.wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
     background: #fff;
   }
 }
 .wrap.llms-reporting #llms-mailhawk-connect,
-.wrap.lifterlms-settings #llms-mailhawk-connect {
-  font-size: 16px;
+.wrap.lifterlms-settings #llms-mailhawk-connect,
+.wrap.llms-status #llms-mailhawk-connect {
   height: auto;
   margin: 0 0 6px;
-  padding: 8px 14px;
   position: relative;
 }
 .wrap.llms-reporting #llms-mailhawk-connect .dashicons,
-.wrap.lifterlms-settings #llms-mailhawk-connect .dashicons {
+.wrap.lifterlms-settings #llms-mailhawk-connect .dashicons,
+.wrap.llms-status #llms-mailhawk-connect .dashicons {
   margin: -4px 4px 0 0;
   vertical-align: middle;
 }
 .wrap.llms-reporting #llms-sendwp-connect,
-.wrap.lifterlms-settings #llms-sendwp-connect {
-  font-size: 16px;
+.wrap.lifterlms-settings #llms-sendwp-connect,
+.wrap.llms-status #llms-sendwp-connect {
   height: auto;
   margin: 0 0 6px;
-  padding: 8px 14px;
   position: relative;
 }
 .wrap.llms-reporting #llms-sendwp-connect .fa,
-.wrap.lifterlms-settings #llms-sendwp-connect .fa {
+.wrap.lifterlms-settings #llms-sendwp-connect .fa,
+.wrap.llms-status #llms-sendwp-connect .fa {
   margin-right: 4px;
 }
 
 @media only screen and (min-width: 782px) {
-  .wrap.lifterlms-settings .llms-header {
+  .wrap.llms-reporting .llms-subheader,
+.wrap.lifterlms-settings .llms-subheader {
+    height: 40px;
     position: sticky;
-    top: 30px;
+    top: 32px;
   }
-  .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
+  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
+    margin: 0 -20px 20px -22px;
     position: sticky;
-    top: 93px;
+    top: 92px;
+  }
+  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items,
+.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
+    padding-left: 10px;
+  }
+  .wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary {
+    margin: 0 -40px 20px -22px;
+  }
+  .wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
+    padding-left: 10px;
   }
 }
-.wrap.llms-reporting .llms-inside-wrap {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  max-width: 1000px;
-  margin: 0 0 0 20px;
-}
-
 .llms-remarks .llms-remarks-field {
   height: 120px;
   width: 100%;

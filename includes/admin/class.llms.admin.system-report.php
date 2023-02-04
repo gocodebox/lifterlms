@@ -54,17 +54,13 @@ class LLMS_Admin_System_Report {
 	 */
 	public static function output_copy_box() {
 		?>
-		<div class="llms-widget-full top">
-			<div class="llms-widget">
-				<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
-				<p class="llms-description">
-					<div id="llms-debug-report">
-						<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
-						<p class="submit">
-							<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
-							<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
-						</p>
-					</div>
+		<div class="llms-setting-group top">
+			<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
+			<div id="llms-debug-report">
+				<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
+				<p class="submit">
+					<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
+					<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
 				</p>
 			</div>
 		</div>
@@ -118,24 +114,22 @@ class LLMS_Admin_System_Report {
 		}
 
 		?>
-		<div class="llms-widget-full top">
-			<div class="llms-widget settings-box">
-				<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
-				<div class="llms-list">
-					<ul>
-						<?php foreach ( $data as $key => $val ) : ?>
-							<li><p>
-							<?php if ( 'plugins' === $section_title ) : ?>
-								<?php self::plugin_item( $val ); ?>
-							<?php elseif ( 'template_overrides' === $section_title ) : ?>
-								<?php self::template_item( $val ); ?>
-							<?php else : ?>
-								<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
-							<?php endif; ?>
-							</p></li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
+		<div class="llms-setting-group">
+			<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
+			<div class="llms-list">
+				<ul>
+					<?php foreach ( $data as $key => $val ) : ?>
+						<li><p>
+						<?php if ( 'plugins' === $section_title ) : ?>
+							<?php self::plugin_item( $val ); ?>
+						<?php elseif ( 'template_overrides' === $section_title ) : ?>
+							<?php self::template_item( $val ); ?>
+						<?php else : ?>
+							<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
+						<?php endif; ?>
+						</p></li>
+					<?php endforeach; ?>
+				</ul>
 			</div>
 		</div>
 		<?php
@@ -180,6 +174,12 @@ class LLMS_Admin_System_Report {
 	private static function title( $key ) {
 
 		$key = ucwords( str_replace( '_', ' ', $key ) );
+
+		// Fix for capital P.
+		if ( $key === 'Wordpress' ) {
+			$key = 'WordPress';
+		}
+
 		echo $key;
 
 	}

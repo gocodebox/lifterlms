@@ -206,7 +206,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			$sid = $lesson->get_parent_section();
 
 			if ( $this->current_section != $sid ) {
-				echo '<tr><td>' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
+				echo '<tr><td class="id">' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
 				$this->current_section = $sid;
 			}
 		}

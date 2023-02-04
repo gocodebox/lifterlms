@@ -124,7 +124,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( 'custom' === $data['id'] ) {
 				$settings[] = array(
-					'desc' => '<br>' . $data['description'],
+					'desc' => $data['description'],
 					'id'   => $controller->get_option_name( $type . '_custom_subscribers' ),
 					'type' => 'text',
 				);
