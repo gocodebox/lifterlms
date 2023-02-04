@@ -126,7 +126,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php if ( $lesson && $section ) : ?>
 
-				<h4><?php printf( __( 'Course: %s', 'lifterlms' ), $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ); ?></h4>
+				<p><strong><?php printf( __( 'Course: %s', 'lifterlms' ), $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ); ?></strong></p>
 
 				<?php $this->output_section( $section, 'previous' ); ?>
 
@@ -174,7 +174,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 		?>
 
-		<h5><?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $this->get_title_html( $section->get( 'title' ), $url ) ); ?></h5>
+		<p><strong><?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $this->get_title_html( $section->get( 'title' ), $url ) ); ?></strong></p>
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>

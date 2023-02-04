@@ -1188,10 +1188,20 @@ a.llms-voucher-delete:hover {
   color: #444;
   font-weight: 300;
 }
+.llms-widget a {
+  border-bottom: 1px dotted #466dd8;
+  display: inline-block;
+  text-decoration: none;
+}
+.llms-widget a:hover {
+  border-bottom: 1px dotted #2b55cb;
+}
 .llms-widget h1 {
   color: #466dd8;
   font-size: 2.4em;
   font-weight: 700;
+  line-height: 1;
+  word-break: break-all;
 }
 .llms-widget h2 {
   font-size: 1.8em;
@@ -1392,6 +1402,7 @@ Metabox Tabs
 .llms-mb-container .tab-content {
   display: none;
   background-color: #FFF;
+  padding: 0 20px;
 }
 .llms-mb-container .tab-content ul:not(.select2-selection__rendered) {
   margin: 0 0 15px 0;
@@ -2702,6 +2713,12 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   color: #32373c;
 }
 
+.llms-builder-launcher p {
+  margin-top: 0;
+}
+.llms-builder-launcher ol {
+  margin-top: -6px;
+}
 .llms-builder-launcher .llms-button-primary {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -2803,6 +2820,23 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   text-decoration: underline;
   text-transform: none;
 }
+.llms-nav-tab-wrapper.llms-nav-style-tabs {
+  background-color: #1c3987;
+  margin: 0;
+  padding-top: 8px;
+}
+.llms-nav-tab-wrapper.llms-nav-style-tabs .llms-nav-item {
+  margin: 0 3px;
+}
+.llms-nav-tab-wrapper.llms-nav-style-tabs .llms-nav-item .llms-nav-link {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.llms-nav-tab-wrapper.llms-nav-style-tabs .llms-nav-item.llms-active .llms-nav-link {
+  background-color: #FFF;
+  color: #466dd8;
+  font-weight: 700;
+}
 .llms-nav-tab-wrapper .llms-nav-items {
   margin: 0;
   padding-left: 10px;
@@ -2818,7 +2852,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   margin: 0;
 }
 .llms-nav-tab-wrapper .llms-nav-item .llms-nav-link:hover {
-  background: #2b55cb;
+  background: #466dd8;
 }
 .llms-nav-tab-wrapper .llms-nav-item.llms-active .llms-nav-link {
   background: #1c3987;
@@ -3315,6 +3349,19 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-quiz-attempt-results .llms-quiz-attempt-question.type--removed .llms-question-title {
   font-style: italic;
   font-weight: normal;
+}
+
+.wrap.llms-dashboard .llms-dashboard-activity {
+  margin-top: 30px;
+}
+.wrap.llms-dashboard .llms-dashboard-activity h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item {
+  margin-top: 0;
 }
 
 .wrap.llms-reporting .llms-inside-wrap,

@@ -29,10 +29,22 @@
 
 	}
 
+	a {
+		border-bottom: 1px dotted $color-brand-blue;
+		display: inline-block;
+		text-decoration: none;
+
+		&:hover {
+		border-bottom: 1px dotted $color-brand-blue-dark;
+		}
+	}
+
 	h1 {
-		color: $color-blue;
+		color: $color-brand-blue;
 		font-size: 2.4em;
 		font-weight: 700;
+		line-height: 1;
+		word-break: break-all;
 	}
 
 	h2 {

@@ -67,6 +67,28 @@
 		}
 	}
 
+	&.llms-nav-style-tabs {
+		background-color: $color-brand-dark-blue;
+		margin: 0;
+		padding-top: 8px;
+
+		.llms-nav-item {
+			margin: 0 3px;
+
+			.llms-nav-link {
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+			}
+
+			&.llms-active .llms-nav-link {
+				background-color: #FFF;
+				color: $color-brand-blue;
+				font-weight: 700;
+			}
+		}
+
+	}
+
 	.llms-nav-items {
 		@include clearfix;
 		margin: 0;
@@ -77,7 +99,7 @@
 			margin: 0;
 
 			.llms-nav-link:hover {
-				background: $color-brand-blue-dark;
+				background: $color-brand-blue;
 			}
 			&.llms-active .llms-nav-link {
 				background: $color-brand-dark-blue;
