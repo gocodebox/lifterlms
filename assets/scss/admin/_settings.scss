@@ -1,5 +1,13 @@
 .wrap.llms-dashboard {
 
+	#poststuff {
+
+		h2 {
+			padding: 12px 20px;
+		}
+
+	}
+
 	.llms-dashboard-activity {
 		margin-top: 30px;
 
@@ -11,9 +19,25 @@
 		}
 	}
 
+	.postbox {
+		background-color: #FFF;
+		border: none;
+		box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.13 );
+
+		.postbox-header {
+			border-bottom-color: #efefef;
+
+		}
+
+		.inside {
+			padding: 20px;
+		}
+	}
+
 	#llms_dashboard_addons {
 
 		.llms-addons-wrap {
+			margin-top: 0;
 
 			.llms-add-on-item {
 				margin-top: 0;
@@ -29,12 +53,7 @@
 
 	#llms_dashboard_quick_links {
 
-		hr {
-
-		}
-
 		.llms-quick-links {
-			padding-top: 15px;
 
 			a {
 				display: inline-block;
@@ -73,9 +92,10 @@
 	#llms_dashboard_podcast {
 
 		ul {
+			margin: 0;
 
 			li {
-				margin: 15px 0;
+				margin: 0 0 15px 0;
 
 				a {
 					display: block;
