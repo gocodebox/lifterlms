@@ -42,7 +42,10 @@
 		}
 
 		.llms-license {
+			border-right: 1px solid #CCC;
 			font-weight: 700;
+			margin-right: 12px;
+			padding-right: 12px;
 
 			a {
 				text-decoration: none;
@@ -79,10 +82,7 @@
 		}
 
 		.llms-support {
-			border-left: 1px solid #CCC;
 			font-weight: 700;
-			margin-left: 12px;
-			padding-left: 12px;
 
 			a {
 				color: #1d2327;
@@ -150,11 +150,94 @@ div[id^="lifterlms-"] .inside {
 	overflow: visible;
 }
 
-.llms-admin-notice {
+.notice.llms-admin-notice {
+	background-color: #FFF;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.15 );
+	display: flex;
+	padding: 0;
 	position: relative;
+
 	.notice-dismiss {
 		text-decoration: none;
 	}
+
+	&.notice-warning {
+		border-left: 4px solid #F8954F;
+
+		.llms-admin-notice-icon {
+			background-color: #FEF4ED;
+		}
+	}
+
+	&.notice-info {
+		border-left: 4px solid #466DD8;
+
+		h3 {
+			color: #466DD8;
+		}
+
+		.llms-admin-notice-icon {
+			background-color: #EDF0FB;
+		}
+
+	}
+
+	&.notice-success {
+		border-left: 4px solid #18A957;
+
+		h3 {
+			color: #18A957;
+		}
+
+		.llms-admin-notice-icon {
+			background-color: #E8F6EE;
+		}
+
+	}
+
+	&.notice-error {
+		border-left: 4px solid #DF1642;
+
+		h3 {
+			color: #9C0F2E;
+		}
+
+		.llms-admin-notice-icon {
+			background-color: #FCE8EC;
+		}
+
+	}
+
+	.llms-admin-notice-icon {
+		background-image: url(../../assets/images/lifterlms-icon-color.png);
+		background-position: center 22px;
+		background-repeat: no-repeat;
+		background-size: 30px;
+		min-width: 70px;
+
+	}
+
+	.llms-admin-notice-content {
+		color: #111;
+		padding: 20px;
+	}
+
+	h3 {
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 25px;
+		margin: 0 0 15px 0;
+	}
+
+	p {
+		font-size: 14px;
+		line-height: 22px;
+		margin: 0;
+		max-width: 65em;
+		padding: 0;
+	}
+
 }
 
 .llms-button-action,

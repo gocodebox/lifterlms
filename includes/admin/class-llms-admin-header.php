@@ -61,9 +61,6 @@ class LLMS_Admin_Header {
 			$show_header = false;
 		}
 
-		// Get active keys for this site.
-		$my_keys = llms_helper_options()->get_license_keys();
-
 		// Conditionally show our header.
 		if ( ! empty( $show_header ) ) { ?>
 			<header class="llms-header">
@@ -74,18 +71,28 @@ class LLMS_Admin_Header {
 							<span class="llms-version"><?php echo sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></span>
 						</div>
 						<div class="llms-meta-right">
-							<span class="llms-license">
-								<?php
-									if ( empty( $my_keys ) ) {
-										$license_class = 'llms-license-none';
-										$license_label = __( 'No License', 'lifterlms' );
-									} else {
-										$license_class = 'llms-license-active';
-										$license_label = __( 'My License Keys', 'lifterlms' );
-									}
-								?>
-								<a class="<?php echo esc_attr( $license_class ); ?>" href=""><?php echo esc_html( $license_label ); ?></a>
-							</span>
+							<?php
+								// Show a license link in header if we aren't on the Add-ons screen.
+								$screen = get_current_screen();
+								if ( $screen->id != 'lifterlms_page_llms-add-ons' ) { ?>
+									<span class="llms-license">
+										<?php
+											// Get active keys for this site.
+											$my_keys = llms_helper_options()->get_license_keys();
+
+											if ( empty( $my_keys ) ) {
+												$license_class = 'llms-license-none';
+												$license_label = __( 'No License', 'lifterlms' );
+											} else {
+												$license_class = 'llms-license-active';
+												$license_label = __( 'My License Keys', 'lifterlms' );
+											}
+										?>
+										<a class="<?php echo esc_attr( $license_class ); ?>" href=""><?php echo esc_html( $license_label ); ?></a>
+									</span>
+									<?php
+								}
+							?>
 							<span class="llms-support">
 								<a href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Support" target="_blank"><?php esc_html_e( 'Get Support', 'lifterlms' ); ?></a>
 							</span>

@@ -312,25 +312,27 @@ class LLMS_Admin_Notices {
 			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<?php if ( $notice['dismissible'] ) : ?>
-					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
-						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
-					</a>
-				<?php endif; ?>
+				<div class="llms-admin-notice-icon"></div>
+				<div class="llms-admin-notice-content">
+					<?php if ( $notice['dismissible'] ) : ?>
+						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
+							<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
+						</a>
+					<?php endif; ?>
+					<?php if ( ! empty( $notice['template'] ) ) : ?>
 
-				<?php if ( ! empty( $notice['template'] ) ) : ?>
+						<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
 
-					<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
+					<?php elseif ( ! empty( $notice['html'] ) ) : ?>
 
-				<?php elseif ( ! empty( $notice['html'] ) ) : ?>
+						<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
 
-					<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
+					<?php endif; ?>
 
-				<?php endif; ?>
-
-				<?php if ( $notice['remindable'] ) : ?>
-					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
-				<?php endif; ?>
+					<?php if ( $notice['remindable'] ) : ?>
+						<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
+					<?php endif; ?>
+				</div>
 			</div>
 			<?php
 
