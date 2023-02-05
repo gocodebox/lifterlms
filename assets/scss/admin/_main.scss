@@ -14,6 +14,7 @@
 		padding: 0 10px;
 	}
 
+
 	.lifterlms-logo {
 		flex: 0 0 190px;
 		max-height: 52px;
@@ -316,5 +317,21 @@ a.llms-view-as {
 @media screen and (max-width: 782px) {
 	.llms-header {
 		top: 46px;
+
+		.llms-inside-wrap {
+			flex-direction: column;
+			gap: 20px;
+
+			.lifterlms-logo {
+				align-self: center;
+				flex: inherit;
+				max-height: initial;
+				max-width: 200px;
+			}
+
+			.llms-meta {
+				column-gap: 10px;
+			}
+		}
 	}
 }

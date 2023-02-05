@@ -2258,6 +2258,27 @@ a.llms-view-as {
   .llms-header {
     top: 46px;
   }
+  .llms-header .llms-inside-wrap {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 20px;
+  }
+  .llms-header .llms-inside-wrap .lifterlms-logo {
+    -ms-flex-item-align: center;
+        align-self: center;
+    -webkit-box-flex: inherit;
+        -ms-flex: inherit;
+            flex: inherit;
+    max-height: initial;
+    max-width: 200px;
+  }
+  .llms-header .llms-inside-wrap .llms-meta {
+    -webkit-column-gap: 10px;
+       -moz-column-gap: 10px;
+            column-gap: 10px;
+  }
 }
 .llms-table-wrap {
   position: relative;
