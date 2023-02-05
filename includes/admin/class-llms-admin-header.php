@@ -88,7 +88,7 @@ class LLMS_Admin_Header {
 												$license_label = __( 'My License Keys', 'lifterlms' );
 											}
 										?>
-										<a class="<?php echo esc_attr( $license_class ); ?>" href=""><?php echo esc_html( $license_label ); ?></a>
+										<a class="<?php echo esc_attr( $license_class ); ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ); ?>"><?php echo esc_html( $license_label ); ?></a>
 									</span>
 									<?php
 								}

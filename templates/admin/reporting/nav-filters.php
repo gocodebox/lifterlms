@@ -99,7 +99,7 @@ is_admin() || exit;
 			</li>
 
 			<li class="llms-nav-item llms-analytics-form">
-				<button class="button" type="submit"><?php _e( 'Apply Filters', 'lifterlms' ); ?></button>
+				<button class="llms-button-primary small" type="submit"><?php _e( 'Apply Filters', 'lifterlms' ); ?></button>
 			</li>
 
 		</ul>

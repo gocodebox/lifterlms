@@ -120,11 +120,14 @@
 
 				label {
 					display: block;
+					font-weight: 700;
+					margin: 0 0 5px 0;
 				}
 			}
 
-			.button {
+			.llms-button-primary {
 				float: right;
+				margin-bottom: 15px;
 			}
 
 		}

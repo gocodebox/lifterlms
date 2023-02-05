@@ -2158,7 +2158,7 @@ div[id^=lifterlms-] .inside {
 }
 .notice.llms-admin-notice .llms-admin-notice-icon {
   background-image: url(../../assets/images/lifterlms-icon-color.png);
-  background-position: center 22px;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: 30px;
   min-width: 70px;
@@ -2173,12 +2173,19 @@ div[id^=lifterlms-] .inside {
   line-height: 25px;
   margin: 0 0 15px 0;
 }
+.notice.llms-admin-notice button,
+.notice.llms-admin-notice .llms-button-primary {
+  display: inline-block;
+}
 .notice.llms-admin-notice p {
   font-size: 14px;
   line-height: 22px;
-  margin: 0;
+  margin: 0 0 15px 0;
   max-width: 65em;
   padding: 0;
+}
+.notice.llms-admin-notice p:last-of-type {
+  margin-bottom: 0;
 }
 
 .llms-button-action.small .dashicons,
@@ -3142,9 +3149,12 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-item label, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item label {
   display: block;
+  font-weight: 700;
+  margin: 0 0 5px 0;
 }
-.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .button, .llms-reporting.wrap.tab--sales .llms-analytics-filters .button {
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-button-primary, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-button-primary {
   float: right;
+  margin-bottom: 15px;
 }
 .llms-reporting.wrap .llms-reporting-tab.llms-reporting-quiz .llms-table-filter-wrap {
   width: 160px;
@@ -3508,16 +3518,17 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   font-weight: normal;
 }
 
+.wrap.llms-dashboard .llms-inside-wrap {
+  padding-top: 30px;
+}
 .wrap.llms-dashboard #poststuff h2 {
   padding: 12px 20px;
-}
-.wrap.llms-dashboard .llms-dashboard-activity {
-  margin-top: 30px;
 }
 .wrap.llms-dashboard .llms-dashboard-activity h2 {
   font-size: 20px;
   font-weight: 700;
   line-height: 1.5;
+  margin-top: 0;
   text-align: center;
 }
 .wrap.llms-dashboard .postbox {
@@ -3541,13 +3552,32 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item footer.llms-actions {
   padding-top: 0;
 }
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+}
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links a {
   display: inline-block;
 }
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list h3 {
+  margin: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-primary,
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-secondary,
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-action {
+  display: block;
+  text-align: center;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-column-gap: 30px;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 }
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 {
   margin: 0;
@@ -3562,6 +3592,11 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul li {
   font-size: 15px;
   line-height: 1.5;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 .wrap.llms-dashboard #llms_dashboard_blog ul,
 .wrap.llms-dashboard #llms_dashboard_podcast ul {
@@ -3943,13 +3978,14 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
     margin: 0 -20px 20px -22px;
     position: sticky;
     top: 92px;
+    z-index: 1;
   }
   .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items,
 .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
     padding-left: 10px;
   }
   .wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary {
-    margin: 0 -40px 20px -22px;
+    margin: 0 -20px 20px -22px;
   }
   .wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
     padding-left: 10px;

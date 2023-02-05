@@ -1,5 +1,9 @@
 .wrap.llms-dashboard {
 
+	.llms-inside-wrap {
+		padding-top: 30px;
+	}
+
 	#poststuff {
 
 		h2 {
@@ -9,12 +13,12 @@
 	}
 
 	.llms-dashboard-activity {
-		margin-top: 30px;
 
 		h2 {
 			font-size: 20px;
 			font-weight: 700;
 			line-height: 1.5;
+			margin-top: 0;
 			text-align: center;
 		}
 	}
@@ -54,16 +58,38 @@
 	#llms_dashboard_quick_links {
 
 		.llms-quick-links {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-gap: 20px;
 
 			a {
 				display: inline-block;
+			}
+
+			.llms-list {
+
+				h3 {
+					margin: 0;
+				}
+
+				.llms-button-primary,
+				.llms-button-secondary,
+				.llms-button-action {
+					display: block;
+					text-align: center;
+				}
+
+			}
+
+			@media only screen and (min-width: 782px) {
+				grid-template-columns: 1fr 1fr 1fr;
 			}
 		}
 
 		.llms-help-links {
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr 1fr;
-			grid-column-gap: 30px;
+			grid-template-columns: 1fr 1fr;
+			grid-gap: 20px;
 
 			.llms-list {
 
@@ -84,7 +110,13 @@
 						line-height: 1.5;
 					}
 				}
+
 			}
+
+			@media only screen and (min-width: 782px) {
+				grid-template-columns: 1fr 1fr 1fr 1fr;
+			}
+
 		}
 
 	}
@@ -280,6 +312,7 @@
 			margin: 0 -20px 20px -22px;
 			position: sticky;
 			top: 92px;
+			z-index: 1;
 
 			.llms-nav-items {
 				padding-left: 10px;
@@ -290,7 +323,7 @@
 
 	.wrap.llms-status {
 		.llms-nav-tab-wrapper.llms-nav-secondary {
-			margin: 0 -40px 20px -22px;
+			margin: 0 -20px 20px -22px;
 
 			.llms-nav-items {
 				padding-left: 10px;

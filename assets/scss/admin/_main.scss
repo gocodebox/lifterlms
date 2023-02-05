@@ -212,7 +212,7 @@ div[id^="lifterlms-"] .inside {
 
 	.llms-admin-notice-icon {
 		background-image: url(../../assets/images/lifterlms-icon-color.png);
-		background-position: center 22px;
+		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: 30px;
 		min-width: 70px;
@@ -231,14 +231,22 @@ div[id^="lifterlms-"] .inside {
 		margin: 0 0 15px 0;
 	}
 
+	button,
+	.llms-button-primary {
+		display: inline-block;
+	}
+
 	p {
 		font-size: 14px;
 		line-height: 22px;
-		margin: 0;
+		margin: 0 0 15px 0;
 		max-width: 65em;
 		padding: 0;
 	}
 
+	p:last-of-type {
+		margin-bottom: 0;
+	}
 }
 
 .llms-button-action,
