@@ -97,11 +97,6 @@ class LLMS_Admin_AddOns {
 				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
-
-				// Exclude uncategorized Add-ons.
-				if ( array_key_exists( 'uncategorized', $addon['categories'] ) ) {
-					unset( $this->data['items'][ $key ] );
-				}
 			}
 		}
 

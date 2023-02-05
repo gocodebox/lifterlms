@@ -89,6 +89,33 @@
 
 	}
 
+	&.llms-nav-style-filters {
+		background-color: $color-brand-blue;
+		border-radius: 12px;
+		margin: 20px 0;
+		overflow: hidden;
+		padding: 0;
+
+		.llms-nav-items {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding-left: 0;
+
+			@media only screen and (min-width: 782px) {
+				flex-direction: row;
+			}
+
+			.llms-nav-item {
+				float: none;
+
+				.llms-nav-link {
+					padding: 14px;
+				}
+			}
+		}
+	}
+
 	.llms-nav-items {
 		@include clearfix;
 		margin: 0;

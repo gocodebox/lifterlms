@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 ?>
 
-<nav class="llms-nav-tab-wrapper llms-nav-secondary" id="llms-date-quick-filters">
+<nav class="llms-nav-tab-wrapper llms-nav-style-filters" id="llms-date-quick-filters">
 	<div class="llms-inside-wrap">
 		<ul class="llms-nav-items">
 
@@ -39,7 +39,7 @@ is_admin() || exit;
 				<input type="text" name="date_start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_start; ?>"> -
 				<input type="text" name="date_end" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_end; ?>">
 
-				<button class="button small" id="llms-custom-date-submit" type="submit"><?php _e( 'Go', 'lifterlms' ); ?></button>
+				<button class="llms-button-action small" id="llms-custom-date-submit" type="submit"><?php _e( 'Go', 'lifterlms' ); ?></button>
 			</li>
 
 			<li class="llms-nav-item llms-nav-item-right">
@@ -52,7 +52,7 @@ is_admin() || exit;
 
 </nav>
 
-<nav class="llms-nav-tab-wrapper llms-nav-secondary llms-analytics-filters"<?php echo ( $current_students || $current_courses || $current_memberships ) ? ' style="display:block;"' : ''; ?>>
+<nav class="llms-analytics-filters"<?php echo ( $current_students || $current_courses || $current_memberships ) ? ' style="display:block;"' : ''; ?>>
 	<div class="llms-inside-wrap">
 		<ul class="llms-nav-items">
 			<li class="llms-nav-item llms-analytics-form">
@@ -97,12 +97,8 @@ is_admin() || exit;
 				</select>
 
 			</li>
-
-			<li class="llms-nav-item llms-analytics-form">
-				<button class="llms-button-primary small" type="submit"><?php _e( 'Apply Filters', 'lifterlms' ); ?></button>
-			</li>
-
 		</ul>
+		<p><button class="llms-button-primary small" type="submit"><?php _e( 'Apply Filters', 'lifterlms' ); ?></button></p>
 	</div>
 </nav>
 

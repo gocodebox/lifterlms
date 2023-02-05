@@ -301,7 +301,6 @@
 }
 
 @media only screen and (min-width: 782px) {
-	.wrap.llms-reporting,
 	.wrap.lifterlms-settings {
 		.llms-subheader {
 			height: 40px;
@@ -320,6 +319,18 @@
 
 		}
 	}
+
+	.wrap.llms-reporting {
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			margin: 0 -20px 20px -22px;
+
+			.llms-nav-items {
+				padding-left: 10px;
+			}
+
+		}
+	}
+	
 
 	.wrap.llms-status {
 		.llms-nav-tab-wrapper.llms-nav-secondary {

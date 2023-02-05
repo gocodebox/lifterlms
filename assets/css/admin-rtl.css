@@ -3001,6 +3001,40 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   color: #466dd8;
   font-weight: 700;
 }
+.llms-nav-tab-wrapper.llms-nav-style-filters {
+  background-color: #466dd8;
+  border-radius: 12px;
+  margin: 20px 0;
+  overflow: hidden;
+  padding: 0;
+}
+.llms-nav-tab-wrapper.llms-nav-style-filters .llms-nav-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-right: 0;
+}
+@media only screen and (min-width: 782px) {
+  .llms-nav-tab-wrapper.llms-nav-style-filters .llms-nav-items {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+}
+.llms-nav-tab-wrapper.llms-nav-style-filters .llms-nav-items .llms-nav-item {
+  float: none;
+}
+.llms-nav-tab-wrapper.llms-nav-style-filters .llms-nav-items .llms-nav-item .llms-nav-link {
+  padding: 14px;
+}
 .llms-nav-tab-wrapper .llms-nav-items {
   margin: 0;
   padding-right: 10px;
@@ -3120,19 +3154,31 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   margin-top: 20px;
   padding: 0;
 }
-.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form {
-  color: #414141;
+.llms-reporting.wrap.tab--enrollments .llms-nav-style-filters .llms-analytics-form, .llms-reporting.wrap.tab--sales .llms-nav-style-filters .llms-analytics-form {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-item-align: center;
+      align-self: center;
+  color: #FFF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   font-size: 13px;
-  padding: 6px 14px;
+  gap: 5px;
 }
-.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form input, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form input {
+.llms-reporting.wrap.tab--enrollments .llms-nav-style-filters .llms-analytics-form label, .llms-reporting.wrap.tab--sales .llms-nav-style-filters .llms-analytics-form label {
+  font-weight: 700;
+}
+.llms-reporting.wrap.tab--enrollments .llms-nav-style-filters .llms-analytics-form input, .llms-reporting.wrap.tab--sales .llms-nav-style-filters .llms-analytics-form input {
   border: 0;
   font-size: 13px;
   margin: 0;
-  padding: 3px 6px;
+  padding: 0 4px;
   vertical-align: middle;
+  width: 110px;
 }
-.llms-reporting.wrap.tab--enrollments .llms-nav-item.llms-analytics-form .select2-container input, .llms-reporting.wrap.tab--sales .llms-nav-item.llms-analytics-form .select2-container input {
+.llms-reporting.wrap.tab--enrollments .llms-nav-style-filters .llms-analytics-form .select2-container input, .llms-reporting.wrap.tab--sales .llms-nav-style-filters .llms-analytics-form .select2-container input {
   width: 100% !important;
 }
 .llms-reporting.wrap.tab--enrollments .button.small, .llms-reporting.wrap.tab--sales .button.small {
@@ -3141,6 +3187,36 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .llms-reporting.wrap.tab--enrollments .llms-analytics-filters, .llms-reporting.wrap.tab--sales .llms-analytics-filters {
   display: none;
+}
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-inside-wrap, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-inside-wrap {
+  background-color: #FFF;
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+  margin: -20px 10px 20px 10px;
+  padding: 20px;
+}
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-items, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0;
+}
+@media only screen and (min-width: 782px) {
+  .llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-items, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-items {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
 }
 .llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-item, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item {
   -webkit-box-sizing: border-box;
@@ -3152,9 +3228,17 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   font-weight: 700;
   margin: 0 0 5px 0;
 }
-.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-button-primary, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-button-primary {
-  float: left;
-  margin-bottom: 15px;
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters .llms-nav-item .select2-selection__rendered, .llms-reporting.wrap.tab--sales .llms-analytics-filters .llms-nav-item .select2-selection__rendered {
+  word-wrap: break-word;
+  text-overflow: inherit;
+  white-space: normal;
+}
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters p, .llms-reporting.wrap.tab--sales .llms-analytics-filters p {
+  margin: 0;
+  text-align: left;
+}
+.llms-reporting.wrap.tab--enrollments .llms-analytics-filters p .llms-button-primary, .llms-reporting.wrap.tab--sales .llms-analytics-filters p .llms-button-primary {
+  display: inline-block;
 }
 .llms-reporting.wrap .llms-reporting-tab.llms-reporting-quiz .llms-table-filter-wrap {
   width: 160px;
@@ -3967,21 +4051,24 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 
 @media only screen and (min-width: 782px) {
-  .wrap.llms-reporting .llms-subheader,
-.wrap.lifterlms-settings .llms-subheader {
+  .wrap.lifterlms-settings .llms-subheader {
     height: 40px;
     position: sticky;
     top: 32px;
   }
-  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
+  .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
     margin: 0 -22px 20px -20px;
     position: sticky;
     top: 92px;
     z-index: 1;
   }
-  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items,
-.wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
+  .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
+    padding-right: 10px;
+  }
+  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary {
+    margin: 0 -22px 20px -20px;
+  }
+  .wrap.llms-reporting .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
     padding-right: 10px;
   }
   .wrap.llms-status .llms-nav-tab-wrapper.llms-nav-secondary {
