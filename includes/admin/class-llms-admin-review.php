@@ -146,7 +146,7 @@ class LLMS_Admin_Review {
 		$review      = get_option( 'llms_review' );
 		$time        = time();
 		$enrollments = 0;
-/*
+
 		// No review info stored, create a stub.
 		if ( ! $review ) {
 
@@ -174,7 +174,6 @@ class LLMS_Admin_Review {
 		if ( $enrollments < 30 ) {
 			return false;
 		}
-*/
 
 		$enrollments = self::round_down( $enrollments );
 
