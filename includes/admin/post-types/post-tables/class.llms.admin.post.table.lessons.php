@@ -28,11 +28,53 @@ class LLMS_Admin_Post_Table_Lessons {
 	 */
 	public function __construct() {
 
+		add_filter( 'post_row_actions', array( $this, 'add_links' ), 1, 2 );
+
 		add_filter( 'manage_lesson_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
 		add_filter( 'parse_query', array( $this, 'parse_query_filters' ), 10, 1 );
+
+	}
+
+	/**
+	 * Add course builder edit link
+	 *
+	 * @param    array $actions  existing actions
+	 * @param    obj   $post     WP_Post object
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_links( $actions, $post ) {
+
+		if ( 'lesson' === $post->post_type && current_user_can( 'edit_lesson', $post->ID ) ) {
+
+			$lesson = llms_get_post( $post->ID );
+			if ( ! $lesson ) {
+				return;
+			}
+
+			$course = $lesson->get( 'parent_course' );
+			$url = add_query_arg(
+				array(
+					'page'      => 'llms-course-builder',
+					'course_id' => $course,
+				),
+				admin_url( 'admin.php' )
+			);
+			$url  .= sprintf( '#lesson:%d', $post->ID );
+
+			$actions = array_merge(
+				array(
+					'llms-builder' => '<a href="' . esc_url( $url ) . '">' . __( 'Builder', 'lifterlms' ) . '</a>',
+				),
+				$actions
+			);
+
+		}
+
+		return $actions;
 
 	}
 
@@ -53,6 +95,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			'course'  => __( 'Course', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
 			'prereq'  => __( 'Prerequisite', 'lifterlms' ),
+			'quiz'  => __( 'Quiz', 'lifterlms' ),
 			'author'  => __( 'Author', 'lifterlms' ),
 			'date'    => __( 'Date', 'lifterlms' ),
 		);
@@ -139,6 +182,32 @@ class LLMS_Admin_Post_Table_Lessons {
 					echo '&ndash;';
 
 				}
+
+				break;
+
+
+			case 'quiz':
+				$course = $lesson->get( 'parent_course' );
+				$url = add_query_arg(
+					array(
+						'page'      => 'llms-course-builder',
+						'course_id' => $course,
+					),
+					admin_url( 'admin.php' )
+				);
+				$url  .= sprintf( '#lesson:%d:quiz', $post_id );
+
+				if ( $lesson->has_quiz() ) {
+
+					$label = __( 'Edit Quiz', 'lifterlms' );
+
+				} else {
+
+					$label = __( 'Add Quiz', 'lifterlms' );
+
+				}
+
+				echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 
 				break;
 
