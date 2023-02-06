@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since 3.24.0
- * @version 4.14.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,16 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Header UI
  *
- * Please say nice things about us.
- *
- * @since TBD
+ * @since [version]
  */
 class LLMS_Admin_Header {
 
 	/**
 	 * Constructor
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -33,7 +31,7 @@ class LLMS_Admin_Header {
 	/**
 	 * Show admin header banner on LifterLMS admin screens.
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 */
 	public function admin_header() {
@@ -55,6 +53,11 @@ class LLMS_Admin_Header {
 		if ( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) {
 			$show_header = true;
 		}
+
+		// Exclude the wizard.
+		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
+			$show_header = false;
+		} 
 
 		// Don't show header on the Course Builder.
 		if ( $current_screen->base == 'admin_page_llms-course-builder' ) {

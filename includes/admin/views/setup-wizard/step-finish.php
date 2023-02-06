@@ -15,8 +15,8 @@ $courses = LLMS_Export_API::list( 1, 3 );
 <h1><?php _e( 'Setup Complete!', 'lifterlms' ); ?></h1>
 <p><?php _e( 'Here\'s some resources to help you get familiar with LifterLMS:', 'lifterlms' ); ?></p>
 <ul>
-	<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/" target="_blank"><?php _e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
-	<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-with-lifterlms/" target="_blank"><?php _e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
+	<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%Video%20Tutorials" target="_blank"><?php _e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
+	<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-guide-with-lifterlms-resources/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%Getting%20Started" target="_blank"><?php _e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
 </ul>
 <br>
 
@@ -31,7 +31,7 @@ $courses = LLMS_Export_API::list( 1, 3 );
 		printf(
 			// Translators: %s = anchor link to LifterLMS.com.
 			__( 'The selected course will be downloaded and imported into this site from %s.', 'lifterlms' ),
-			'<a href="https://lifterlms.com" target="_blank">LifterLMS.com</a>'
+			'<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Home" target="_blank">LifterLMS.com</a>'
 		);
 		?>
 	</p>
@@ -41,7 +41,7 @@ $courses = LLMS_Export_API::list( 1, 3 );
 			// Translators: %1$s = The number of selected courses; %2$s = anchor link to LifterLMS.com.
 			__( 'The %1$s selected courses will be downloaded and imported into this site from %2$s.', 'lifterlms' ),
 			'<span id="llms-importing-number">2</span>',
-			'<a href="https://lifterlms.com" target="_blank">LifterLMS.com</a>'
+			'<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Home" target="_blank">LifterLMS.com</a>'
 		);
 		?>
 	</p>

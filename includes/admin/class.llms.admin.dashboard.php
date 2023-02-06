@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since TBD
+ * @since [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Dashboard Screen
  *
- * @since TBD
+ * @since [version]
  */
 class LLMS_Admin_Dashboard {
 
 	/**
 	 * Constructor
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Retrieve an instance of the WP_Screen for the dashboard screen
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the dashboard screen, otherwise returns `false`.
 	 */
@@ -50,7 +50,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Retrieves the HTML of a view from the views/dashboard directory.
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @param string $file The file basename of the view to retrieve.
 	 * @return string The HTML content of the view.
@@ -66,7 +66,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Handle HTML output on the screen
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @return void
 	 */

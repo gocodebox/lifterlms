@@ -3602,108 +3602,6 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   font-weight: normal;
 }
 
-.wrap.llms-dashboard .llms-inside-wrap {
-  padding-top: 30px;
-}
-.wrap.llms-dashboard #poststuff h2 {
-  padding: 12px 20px;
-}
-.wrap.llms-dashboard .llms-dashboard-activity h2 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5;
-  margin-top: 0;
-  text-align: center;
-}
-.wrap.llms-dashboard .postbox {
-  background-color: #FFF;
-  border: none;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-}
-.wrap.llms-dashboard .postbox .postbox-header {
-  border-bottom-color: #efefef;
-}
-.wrap.llms-dashboard .postbox .inside {
-  padding: 20px;
-}
-.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap {
-  margin-top: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item {
-  margin-top: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item footer.llms-actions {
-  padding-top: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 20px;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links a {
-  display: inline-block;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list h3 {
-  margin: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-primary,
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-secondary,
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-action {
-  display: block;
-  text-align: center;
-}
-@media only screen and (min-width: 782px) {
-  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 {
-  margin: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 .dashicons {
-  color: #AAA;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul {
-  list-style: disc;
-  margin: 5px 0 0 20px;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul li {
-  font-size: 15px;
-  line-height: 1.5;
-}
-@media only screen and (min-width: 782px) {
-  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
-.wrap.llms-dashboard #llms_dashboard_blog ul,
-.wrap.llms-dashboard #llms_dashboard_podcast ul {
-  margin: 0;
-}
-.wrap.llms-dashboard #llms_dashboard_blog ul li,
-.wrap.llms-dashboard #llms_dashboard_podcast ul li {
-  margin: 0 0 15px 0;
-}
-.wrap.llms-dashboard #llms_dashboard_blog ul li a,
-.wrap.llms-dashboard #llms_dashboard_podcast ul li a {
-  display: block;
-}
-.wrap.llms-dashboard #llms_dashboard_blog p,
-.wrap.llms-dashboard #llms_dashboard_podcast p {
-  margin: 15px 0;
-  text-align: center;
-}
-.wrap.llms-dashboard #llms_dashboard_blog p a,
-.wrap.llms-dashboard #llms_dashboard_podcast p a {
-  display: inline-block;
-}
-
 .wrap.llms-reporting .llms-inside-wrap,
 .wrap.lifterlms-settings .llms-inside-wrap,
 .wrap.llms-status .llms-inside-wrap {
@@ -4078,6 +3976,115 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
     padding-left: 10px;
   }
 }
+.wrap.llms-dashboard .llms-inside-wrap {
+  padding-top: 30px;
+}
+.wrap.llms-dashboard #poststuff h2 {
+  padding: 12px 20px;
+}
+.wrap.llms-dashboard .llms-dashboard-activity h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-top: 0;
+  text-align: center;
+}
+.wrap.llms-dashboard .postbox {
+  background-color: #FFF;
+  border: none;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+}
+.wrap.llms-dashboard .postbox .postbox-header {
+  border-bottom-color: #efefef;
+}
+.wrap.llms-dashboard .postbox .inside {
+  padding: 20px;
+}
+.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap {
+  margin-top: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item {
+  margin-top: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item footer.llms-actions {
+  padding-top: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_addons p {
+  text-align: center;
+}
+.wrap.llms-dashboard #llms_dashboard_addons p .llms-button-primary {
+  display: inline-block;
+  margin-top: 15px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links a {
+  display: inline-block;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list h3 {
+  margin: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-primary,
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-secondary,
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-action {
+  display: block;
+  text-align: center;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 {
+  margin: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 .dashicons {
+  color: #AAA;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul {
+  list-style: disc;
+  margin: 5px 0 0 20px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul li {
+  font-size: 15px;
+  line-height: 1.5;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+.wrap.llms-dashboard #llms_dashboard_blog ul,
+.wrap.llms-dashboard #llms_dashboard_podcast ul {
+  margin: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_blog ul li,
+.wrap.llms-dashboard #llms_dashboard_podcast ul li {
+  margin: 0 0 15px 0;
+}
+.wrap.llms-dashboard #llms_dashboard_blog ul li a,
+.wrap.llms-dashboard #llms_dashboard_podcast ul li a {
+  display: block;
+}
+.wrap.llms-dashboard #llms_dashboard_blog p,
+.wrap.llms-dashboard #llms_dashboard_podcast p {
+  margin: 15px 0;
+  text-align: center;
+}
+.wrap.llms-dashboard #llms_dashboard_blog p a,
+.wrap.llms-dashboard #llms_dashboard_podcast p a {
+  display: inline-block;
+}
+
 .llms-remarks .llms-remarks-field {
   height: 120px;
   width: 100%;

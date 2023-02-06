@@ -62,6 +62,11 @@ class LLMS_Admin_Review {
 			$show_footer = true;
 		}
 
+		// Exclude the wizard.
+		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
+			$show_header = false;
+		} 
+
 		// Don't show footer on the Course Builder.
 		if ( $current_screen->base == 'admin_page_llms-course-builder' ) {
 			$show_footer = false;

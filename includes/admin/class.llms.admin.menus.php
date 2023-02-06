@@ -325,7 +325,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for admin dashboard screen
 	 *
-	 * @since TBD
+	 * @since [version]
 	 *
 	 * @return void
 	 */

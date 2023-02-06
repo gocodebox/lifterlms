@@ -41,7 +41,7 @@ class LLMS_Settings_Dashboard extends LLMS_Settings_Page {
 	/**
 	 * Get settings array.
 	 *
-	 * @since TBD.
+	 * @since [version]
 	 *
 	 * @return array
 	 */

@@ -2,7 +2,7 @@
 /**
  * Dashboard Page HTML
  *
- * @since    TBD
+ * @since [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,7 +159,7 @@ function llms_dashboard_addons_callback() {
 	$view = new LLMS_Admin_AddOns();
 
 	echo $view->output_for_settings();
-	echo '<p style="text-align:center;"><a class="llms-button-primary" href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '">' . __( 'View Add-ons & more', 'lifterlms' ) . '</a></p><br />'; 
+	echo '<p><a class="llms-button-primary" href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '">' . __( 'View Add-ons & more', 'lifterlms' ) . '</a></p><br />'; 
 }
 
 /**
@@ -181,15 +181,15 @@ function llms_dashboard_quick_links_callback() { ?>
 					printf( __( '%s Lessons', 'lifterlms' ), esc_html( $lessons_count ) );
 				?></li>
 			</ul>
-			<a class="llms-button-primary small" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php esc_html_e( 'Create a New Course', 'lifterlms' ); ?></a>
+			<a class="llms-button-primary" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php esc_html_e( 'Create a New Course', 'lifterlms' ); ?></a>
 		</div>
 		<div class="llms-list">
 			<h3><?php esc_html_e( 'Reports', 'lifterlms' ); ?></h3>
-			<a class="llms-button-secondary small" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><i class="fa fa-line-chart" aria-hidden="true"></i> <?php esc_html_e( 'View Reports', 'lifterlms' ); ?></a>
+			<a class="llms-button-secondary" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><i class="fa fa-line-chart" aria-hidden="true"></i> <?php esc_html_e( 'View Reports', 'lifterlms' ); ?></a>
 		</div>
 		<div class="llms-list">
 			<h3><?php esc_html_e( 'License', 'lifterlms' ); ?></h3>
-			<a class="llms-button-action small" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ); ?>"><i class="fa fa-key" aria-hidden="true"></i> <?php esc_html_e( 'Add License Key', 'lifterlms' ); ?></a>
+			<a class="llms-button-action" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ); ?>"><i class="fa fa-key" aria-hidden="true"></i> <?php esc_html_e( 'Add License Key', 'lifterlms' ); ?></a>
 		</div>
 	</div>
 	<hr />
