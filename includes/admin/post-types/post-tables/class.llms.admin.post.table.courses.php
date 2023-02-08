@@ -29,6 +29,9 @@ class LLMS_Admin_Post_Table_Courses {
 
 		add_filter( 'post_row_actions', array( $this, 'add_links' ), 1, 2 );
 
+		add_filter( 'manage_course_posts_columns', array( $this, 'add_columns' ), 10, 1 );
+		add_action( 'manage_course_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
+
 		add_filter( 'bulk_actions-edit-course', array( $this, 'register_bulk_actions' ) );
 		add_filter( 'handle_bulk_actions-edit-course', array( $this, 'handle_bulk_actions' ), 10, 3 );
 
@@ -126,6 +129,76 @@ class LLMS_Admin_Post_Table_Courses {
 
 		$actions['llms_export'] = __( 'Export', 'lifterlms' );
 		return $actions;
+
+	}
+
+
+	/**
+	 * Add Custom course Columns
+	 *
+	 * @since [version]
+	 *
+	 * @param array $columns Array of default columns.
+	 * @return array
+	 */
+	public function add_columns( $columns ) {
+
+		// Add a new column for Lessons.
+		$new_columns = array();
+		$new_columns['lessons'] = __( 'Lessons', 'lifterlms' );
+
+		// Insert column into third position in existing columns array.
+		$columns = array_merge( array_slice( $columns, 0, 3 ), $new_columns, array_slice( $columns, 3 ) );
+
+		return $columns;
+	}
+
+
+	/**
+	 * Manage content of custom course columns
+	 *
+	 * @since [version]
+	 *
+	 * @param string $column  Column key/name.
+	 * @param int    $post_id WP Post ID of the course for the row.
+	 * @return void
+	 */
+	public function manage_columns( $column, $post_id ) {
+
+		switch ( $column ) {
+
+			case 'lessons':
+
+				// Get a count of lessons in the course.
+				$course = llms_get_post( $post_id );
+				$lessons = $course->get_lessons( 'lessons' );
+				$lesson_count = (int) count( $lessons );
+
+				if ( ! empty( $lesson_count ) ) {
+
+					// Build the URL to link to lesson post type filtered for course ID.
+					$url = add_query_arg(
+						array(
+							'post_status' => 'all',
+							'post_type' => 'lesson',
+							'llms_filter_course_id' => $post_id,
+						),
+						admin_url( 'edit.php' )
+					);
+
+					// Translators: %d = Number of lessons in the specified course.
+					$label = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
+					echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
+
+				} else {
+
+					echo '&ndash;';
+
+				}
+
+				break;
+
+		}
 
 	}
 
