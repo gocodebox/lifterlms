@@ -16,11 +16,8 @@
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
-  "dependencies": {
-    "@emotion/styled": "^11.6.0",
-    "classnames": "^2.3.1"
-  },
   "devDependencies": {
+    "@emotion/styled": "^11.6.0",
     "@lifterlms/brand": "file:packages/brand",
     "@lifterlms/components": "file:packages/components",
     "@lifterlms/dev": "file:packages/dev",
@@ -29,7 +26,17 @@
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
     "@lifterlms/utils": "file:packages/utils",
+    "@wordpress/api-fetch": "^6.23.0",
+    "@wordpress/block-editor": "^11.3.0",
+    "@wordpress/blocks": "^12.3.0",
+    "@wordpress/components": "^23.3.0",
+    "@wordpress/data": "^8.3.0",
     "@wordpress/docgen": "^1.18.0",
+    "@wordpress/editor": "^13.3.0",
+    "@wordpress/element": "^5.3.0",
+    "@wordpress/i18n": "^4.26.0",
+    "@wordpress/server-side-render": "^4.3.0",
+    "classnames": "^2.3.1",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
@@ -42,6 +49,7 @@
     "build": "npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:scripts": "wp-scripts build",
+    "build:blocks": "wp-scripts build --config packages/scripts/config/blocks-webpack.config.js",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl && gulp hacky-clean",
     "dev": "llms-dev",

@@ -239,6 +239,7 @@ class LLMS_Loader {
 
 		// Instantiate LLMS_Shortcodes before LLMS_Controller_Orders.
 		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class.llms.shortcodes.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class.llms.shortcodes.blocks.php';
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';
