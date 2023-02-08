@@ -185,7 +185,6 @@ class LLMS_Admin_Post_Table_Lessons {
 
 				break;
 
-
 			case 'quiz':
 				$course = $lesson->get( 'parent_course' );
 				$url = add_query_arg(

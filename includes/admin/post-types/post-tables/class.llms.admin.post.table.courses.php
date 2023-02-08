@@ -148,7 +148,7 @@ class LLMS_Admin_Post_Table_Courses {
 		$new_columns['lessons'] = __( 'Lessons', 'lifterlms' );
 
 		// Insert column into third position in existing columns array.
-		$columns = array_merge( array_slice( $columns, 0, 3 ), $new_columns, array_slice( $columns, 3 ));
+		$columns = array_merge( array_slice( $columns, 0, 3 ), $new_columns, array_slice( $columns, 3 ) );
 
 		return $columns;
 	}
@@ -166,6 +166,7 @@ class LLMS_Admin_Post_Table_Courses {
 	public function manage_columns( $column, $post_id ) {
 
 		switch ( $column ) {
+
 			case 'lessons':
 
 				// Get a count of lessons in the course.
