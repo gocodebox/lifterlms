@@ -33,7 +33,7 @@ foreach ( $attributes as $key => $value ) {
 }
 
 $html = '<div ' . get_block_wrapper_attributes() . '>';
-$html .= "[lifterlms_$name $atts]";
+$html .= do_shortcode( "[lifterlms_$name $atts]" );
 $html .= '</div>';
 
-echo do_shortcode( $html );
+echo $html;

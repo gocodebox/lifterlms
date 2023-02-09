@@ -22,6 +22,12 @@ class LLMS_Shortcodes_Blocks {
 		'access-plan-button',
 		'checkout',
 		'courses',
+		'course-author',
+		'course-continue',
+		'course-meta-info',
+		'course-outline',
+		'course-prerequisites',
+		'course-reviews',
 		'login',
 		'memberships',
 		'my-account',
@@ -39,6 +45,8 @@ class LLMS_Shortcodes_Blocks {
 		add_action( 'init', [ $this, 'register_blocks' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		add_filter( 'block_categories', [ $this, 'register_block_category' ], 11 );
+		add_filter( 'llms_hide_registration_form', [ $this, 'show_form_preview' ] );
+		add_filter( 'llms_hide_login_form', [ $this, 'show_form_preview' ] );
 	}
 
 	/**
@@ -149,6 +157,25 @@ CSS;
 			},
 			$query->posts
 		);
+	}
+
+	/**
+	 * Shows the registration form in editor preview.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param bool $hide Whether to hide the registration form.
+	 *
+	 * @return bool
+	 */
+	public function show_form_preview( bool $hide ): bool {
+		$rest_route = (string) ( $_GET['rest_route'] ?? '' );
+
+		if ( strpos( $rest_route, 'block-renderer' ) !== false ) {
+			$hide = false;
+		}
+
+		return $hide;
 	}
 }
 
