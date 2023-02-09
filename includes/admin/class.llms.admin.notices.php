@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,11 +18,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Notices {
 
 	/**
-	 * Array of messages to display
+	 * Array of messages to display.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private static $notices = array();
+
+	/**
+	 * Array of messages already displayed in the current request.
+	 *
+	 * @var array
+	 */
+	private static $printed_notices = array();
 
 	/**
 	 * Static constructor
@@ -342,16 +349,22 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Output all saved notices
+	 * Output all saved notices.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Made sure to print the notices only once.
 	 *
 	 * @return void
 	 */
 	public static function output_notices() {
-		foreach ( self::get_notices() as $notice_id ) {
+
+		$notices_to_print = array_diff( self::get_notices(), self::$printed_notices );
+
+		foreach ( $notices_to_print as $notice_id ) {
 			self::output_notice( $notice_id );
+			self::$printed_notices[] = $notice_id;
 		}
+
 	}
 
 	/**
