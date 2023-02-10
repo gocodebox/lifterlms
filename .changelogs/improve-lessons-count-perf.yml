@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added new `LLMS_Course::get_lessons_count()` method. It can be used in
+  place of `count( LLMS_Course::get_lessons() )` to improve performance.
