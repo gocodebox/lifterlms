@@ -32,7 +32,6 @@ class LLMS_Admin_Header {
 	 * Show admin header banner on LifterLMS admin screens.
 	 *
 	 * @since [version]
-	 *
 	 */
 	public function admin_header() {
 

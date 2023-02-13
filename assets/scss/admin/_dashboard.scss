@@ -46,6 +46,10 @@
 			.llms-add-on-item {
 				margin-top: 0;
 
+				p {
+					text-align: left;
+				}
+
 				footer.llms-actions {
 					padding-top: 0;
 				}
@@ -66,10 +70,20 @@
 
 	#llms_dashboard_quick_links {
 
+		ul {
+			list-style: disc;
+			margin: 5px 0 0 20px;
+
+			li {
+				font-size: 15px;
+				line-height: 1.5;
+			}
+		}
+
 		.llms-quick-links {
 			display: grid;
 			grid-template-columns: 1fr;
-			grid-gap: 20px;
+			grid-gap: 30px;
 
 			a {
 				display: inline-block;
@@ -78,7 +92,29 @@
 			.llms-list {
 
 				h3 {
-					margin: 0;
+					margin: 0 0 10px 0;
+				}
+
+				ul {
+					margin-bottom: 20px;
+
+					&.llms-checklist {
+						list-style: none;
+						margin-left: 0;
+					}
+				}
+
+				.fa {
+					text-align: center;
+					width: 16px;
+				}
+
+				.fa-check {
+					color: #008a20;
+				}
+
+				.fa-times {
+					color: #d63638;
 				}
 
 				.llms-button-primary,
@@ -107,16 +143,6 @@
 
 					.dashicons {
 						color: #AAA;
-					}
-				}
-
-				ul {
-					list-style: disc;
-					margin: 5px 0 0 20px;
-
-					li {
-						font-size: 15px;
-						line-height: 1.5;
 					}
 				}
 

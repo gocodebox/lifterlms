@@ -3106,7 +3106,9 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-reporting.wrap th.registered, .llms-reporting.wrap td.registered,
 .llms-reporting.wrap th.last_seen, .llms-reporting.wrap td.last_seen,
 .llms-reporting.wrap th.overall_progress, .llms-reporting.wrap td.overall_progress,
-.llms-reporting.wrap th.title, .llms-reporting.wrap td.title {
+.llms-reporting.wrap th.title, .llms-reporting.wrap td.title,
+.llms-reporting.wrap th.course, .llms-reporting.wrap td.course,
+.llms-reporting.wrap th.lesson, .llms-reporting.wrap td.lesson {
   text-align: right;
 }
 .llms-reporting.wrap td.section-title {
@@ -3956,9 +3958,6 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   }
   .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
     margin: 0 -22px 20px -20px;
-    position: sticky;
-    top: 92px;
-    z-index: 1;
   }
   .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-items {
     padding-right: 10px;
@@ -4007,6 +4006,9 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item {
   margin-top: 0;
 }
+.wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item p {
+  text-align: right;
+}
 .wrap.llms-dashboard #llms_dashboard_addons .llms-addons-wrap .llms-add-on-item footer.llms-actions {
   padding-top: 0;
 }
@@ -4017,16 +4019,41 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   display: inline-block;
   margin-top: 15px;
 }
+.wrap.llms-dashboard #llms_dashboard_quick_links ul {
+  list-style: disc;
+  margin: 5px 20px 0 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links ul li {
+  font-size: 15px;
+  line-height: 1.5;
+}
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links {
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 20px;
+  grid-gap: 30px;
 }
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links a {
   display: inline-block;
 }
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list h3 {
-  margin: 0;
+  margin: 0 0 10px 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list ul {
+  margin-bottom: 20px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list ul.llms-checklist {
+  list-style: none;
+  margin-right: 0;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .fa {
+  text-align: center;
+  width: 16px;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .fa-check {
+  color: #008a20;
+}
+.wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .fa-times {
+  color: #d63638;
 }
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-primary,
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-quick-links .llms-list .llms-button-secondary,
@@ -4049,14 +4076,6 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 }
 .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list h3 .dashicons {
   color: #AAA;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul {
-  list-style: disc;
-  margin: 5px 20px 0 0;
-}
-.wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links .llms-list ul li {
-  font-size: 15px;
-  line-height: 1.5;
 }
 @media only screen and (min-width: 782px) {
   .wrap.llms-dashboard #llms_dashboard_quick_links .llms-help-links {
