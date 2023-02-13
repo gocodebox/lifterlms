@@ -23,7 +23,7 @@ class LLMS_Shortcodes_Blocks {
 		'checkout',
 		'courses',
 		'course-author',
-		'course-continue',
+		'course-continue-button',
 		'course-meta-info',
 		'course-outline',
 		'course-prerequisites',
