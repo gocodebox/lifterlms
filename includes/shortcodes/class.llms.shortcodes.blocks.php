@@ -18,7 +18,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Available shortcode blocks.
 	 */
-	private array $shortcodes = [
+	private array $shortcodes = array(
 		'access-plan-button',
 		'checkout',
 		'courses',
@@ -33,7 +33,7 @@ class LLMS_Shortcodes_Blocks {
 		'my-account',
 		'my-achievements',
 		'registration',
-	];
+	);
 
 	/**
 	 * Constructor.
@@ -42,11 +42,11 @@ class LLMS_Shortcodes_Blocks {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'init', [ $this, 'register_blocks' ] );
-		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
-		add_filter( 'block_categories', [ $this, 'register_block_category' ], 11 );
-		add_filter( 'llms_hide_registration_form', [ $this, 'show_form_preview' ] );
-		add_filter( 'llms_hide_login_form', [ $this, 'show_form_preview' ] );
+		add_action( 'init', array( $this, 'register_blocks' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+		add_filter( 'block_categories', array( $this, 'register_block_category' ), 11 );
+		add_filter( 'llms_hide_registration_form', array( $this, 'show_form_preview' ) );
+		add_filter( 'llms_hide_login_form', array( $this, 'show_form_preview' ) );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class LLMS_Shortcodes_Blocks {
 		wp_enqueue_style(
 			'lifterlms-styles',
 			LLMS()->plugin_url() . '/assets/css/lifterlms.min.css',
-			[],
+			array(),
 			filemtime( LLMS()->plugin_path() . '/assets/css/lifterlms.min.css' )
 		);
 
@@ -82,9 +82,9 @@ class LLMS_Shortcodes_Blocks {
 		wp_localize_script(
 			'llms-blocks-editor',
 			'llmsShortcodeBlocks',
-			[
+			array(
 				'accessPlans' => $this->get_access_plans(),
-			]
+			)
 		);
 	}
 
@@ -100,12 +100,12 @@ class LLMS_Shortcodes_Blocks {
 	public function register_block_category( array $categories ): array {
 		return array_merge(
 			$categories,
-			[
-				[
+			array(
+				array(
 					'slug'  => 'lifterlms',
 					'title' => __( 'LifterLMS', 'lifterlms' ),
-				],
-			]
+				),
+			)
 		);
 	}
 
@@ -139,19 +139,19 @@ CSS;
 	 */
 	private function get_access_plans(): array {
 		$query = new WP_Query(
-			[
+			array(
 				'post_type'      => 'llms_access_plan',
 				'posts_per_page' => -1,
 				'post_status'    => 'publish',
-			]
+			)
 		);
 
 		return array_map(
 			function ( $post ) {
-				return [
+				return array(
 					'value' => $post->ID,
 					'label' => $post->post_title,
-				];
+				);
 			},
 			$query->posts
 		);

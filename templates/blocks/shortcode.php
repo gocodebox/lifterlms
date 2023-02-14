@@ -9,7 +9,7 @@
  * $block (WP_Block): The block instance.
  */
 
-$attributes = $attributes ?? [];
+$attributes = $attributes ?? array();
 $content    = $content ?? '';
 $block      = $block ?? null;
 
@@ -19,8 +19,8 @@ unset( $attributes['llms_visibility_posts'] );
 
 $block = $block ?? null;
 $name  = str_replace(
-	[ 'llms/', '-' ],
-	[ '', '_' ],
+	array( 'llms/', '-' ),
+	array( '', '_' ),
 	$block->name ?? ''
 );
 
@@ -32,7 +32,7 @@ foreach ( $attributes as $key => $value ) {
 	}
 }
 
-$html = '<div ' . get_block_wrapper_attributes() . '>';
+$html  = '<div ' . get_block_wrapper_attributes() . '>';
 $html .= do_shortcode( "[lifterlms_$name $atts]" );
 $html .= '</div>';
 

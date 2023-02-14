@@ -1,10 +1,12 @@
 import { registerBlockType } from '@wordpress/blocks';
-import FormTokenField, {
+import {
 	PanelBody,
 	PanelRow,
 	SelectControl,
-	ToggleControl,
-	__experimentalNumberControl as NumberControl, TextControl, Disabled
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalNumberControl as NumberControl,
+	TextControl,
+	Disabled,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -13,111 +15,117 @@ import ServerSideRender from '@wordpress/server-side-render';
 
 import blockJson from './block.json';
 
-registerBlockType( blockJson, {
-	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
-		const blockProps                    = useBlockProps();
+const Edit = ( props ) => {
+	const { attributes, setAttributes } = props;
+	const blockProps = useBlockProps();
 
-		const { categories, memberships } = useSelect( ( select ) => {
-			return {
-				categories: select( 'core' )?.getEntityRecords( 'taxonomy', 'membership_cat' ),
-				memberships: select( 'core' )?.getEntityRecords( 'postType', 'membership' )
-			};
-		}, [] );
+	const { categories, memberships } = useSelect( ( select ) => {
+		return {
+			categories: select( 'core' )?.getEntityRecords( 'taxonomy', 'membership_cat' ),
+			memberships: select( 'core' )?.getEntityRecords( 'postType', 'membership' ),
+		};
+	}, [] );
 
-		let categoryOptions = categories?.map( ( category ) => {
-			return {
-				value: category.slug,
-				label: category.name,
-			};
-		} );
+	const categoryOptions = categories?.map( ( category ) => {
+		return {
+			value: category.slug,
+			label: category.name,
+		};
+	} );
 
-		categoryOptions?.unshift( {
-			value: '',
-			label: __( 'All', 'lifterlms' )
-		} );
+	categoryOptions?.unshift( {
+		value: '',
+		label: __( 'All', 'lifterlms' ),
+	} );
 
-		let membershipOptions = {};
+	const membershipOptions = {};
 
-		memberships?.map( ( membership ) => {
-			membershipOptions[ membership.id ] = membership.title.rendered;
-		} );
+	memberships?.map( ( membership ) => {
+		membershipOptions[ membership.id ] = membership.title.rendered;
 
-		return <>
+		return membership;
+	} );
 
-			<InspectorControls>
-				<PanelBody title={ __( 'Memberships Settings', 'lifterlms' ) }>
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Category', 'lifterlms' ) }
-							value={ attributes.category }
-							options={ categoryOptions }
-							onChange={ ( value ) => setAttributes( { category: value } ) }
-							help={ __( 'Display courses from a specific Membership Category only.', 'lifterlms' ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<TextControl
-							label={ __( 'Membership ID', 'lifterlms' ) }
-							value={ attributes.id }
-							onChange={ ( value ) => setAttributes( { id: value } ) }
-							help={ __( 'Display only a specific membership. Use the memberships’s post ID. If using this option, all other options are rendered irrelevant.', 'lifterlms' ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Order', 'lifterlms' ) }
-							value={ attributes.order }
-							options={ [
-								{ value: 'ASC', label: __( 'Ascending', 'lifterlms' ) },
-								{ value: 'DESC', label: __( 'Descending', 'lifterlms' ) },
-							] }
-							onChange={ ( value ) => setAttributes( { order: value } ) }
-							help={ __( 'Display memberships in ascending or descending order.', 'lifterlms' ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Order by', 'lifterlms' ) }
-							value={ attributes.orderby }
-							options={ [
-								{ value: 'id', label: __( 'ID', 'lifterlms' ) },
-								{ value: 'author', label: __( 'Author', 'lifterlms' ) },
-								{ value: 'title', label: __( 'Title', 'lifterlms' ) },
-								{ value: 'name', label: __( 'Name', 'lifterlms' ) },
-								{ value: 'date', label: __( 'Date', 'lifterlms' ) },
-								{ value: 'modified', label: __( 'Date modified', 'lifterlms' ) },
-								{ value: 'rand', label: __( 'Random', 'lifterlms' ) },
-								{ value: 'menu_order', label: __( 'Menu Order', 'lifterlms' ) },
-							] }
-							onChange={ ( value ) => setAttributes( { orderby: value } ) }
-							help={ __( 'Determines which field is used to order memberships in the memberships list.', 'lifterlms' ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<NumberControl
-							label={ __( 'Per Page', 'lifterlms' ) }
-							value={ attributes.posts_per_page }
-							min={ - 1 }
-							max={ 100 }
-							onChange={ ( value ) => setAttributes( { posts_per_page: value ?? - 1 } ) }
-							help={ __( ' Determines the number of results to display. Default returns all available memberships.', 'lifterlms' ) }
-						/>
-					</PanelRow>
-				</PanelBody>
-			</InspectorControls>
+	return <>
 
-			<div { ...blockProps }>
-				<Disabled>
-					<ServerSideRender
-						block={ blockJson.name }
-						attributes={ attributes }
-						LoadingResponsePlaceholder={ () => <p>Loading...</p> }
-						ErrorResponsePlaceholder={ () => <p>Error</p> }
+		<InspectorControls>
+			<PanelBody title={ __( 'Memberships Settings', 'lifterlms' ) }>
+				<PanelRow>
+					<SelectControl
+						label={ __( 'Category', 'lifterlms' ) }
+						value={ attributes.category }
+						options={ categoryOptions }
+						onChange={ ( value ) => setAttributes( { category: value } ) }
+						help={ __( 'Display courses from a specific Membership Category only.', 'lifterlms' ) }
 					/>
-				</Disabled>
-			</div>
+				</PanelRow>
+				<PanelRow>
+					<TextControl
+						label={ __( 'Membership ID', 'lifterlms' ) }
+						value={ attributes.id }
+						onChange={ ( value ) => setAttributes( { id: value } ) }
+						help={ __( 'Display only a specific membership. Use the memberships’s post ID. If using this option, all other options are rendered irrelevant.', 'lifterlms' ) }
+					/>
+				</PanelRow>
+				<PanelRow>
+					<SelectControl
+						label={ __( 'Order', 'lifterlms' ) }
+						value={ attributes.order }
+						options={ [
+							{ value: 'ASC', label: __( 'Ascending', 'lifterlms' ) },
+							{ value: 'DESC', label: __( 'Descending', 'lifterlms' ) },
+						] }
+						onChange={ ( value ) => setAttributes( { order: value } ) }
+						help={ __( 'Display memberships in ascending or descending order.', 'lifterlms' ) }
+					/>
+				</PanelRow>
+				<PanelRow>
+					<SelectControl
+						label={ __( 'Order by', 'lifterlms' ) }
+						value={ attributes?.orderby }
+						options={ [
+							{ value: 'id', label: __( 'ID', 'lifterlms' ) },
+							{ value: 'author', label: __( 'Author', 'lifterlms' ) },
+							{ value: 'title', label: __( 'Title', 'lifterlms' ) },
+							{ value: 'name', label: __( 'Name', 'lifterlms' ) },
+							{ value: 'date', label: __( 'Date', 'lifterlms' ) },
+							{ value: 'modified', label: __( 'Date modified', 'lifterlms' ) },
+							{ value: 'rand', label: __( 'Random', 'lifterlms' ) },
+							{ value: 'menu_order', label: __( 'Menu Order', 'lifterlms' ) },
+						] }
+						onChange={ ( value ) => setAttributes( {
+							orderby: value,
+						} ) }
+						help={ __( 'Determines which field is used to order memberships in the memberships list.', 'lifterlms' ) }
+					/>
+				</PanelRow>
+				<PanelRow>
+					<NumberControl
+						label={ __( 'Per Page', 'lifterlms' ) }
+						value={ attributes.posts_per_page }
+						min={ -1 }
+						max={ 100 }
+						onChange={ ( value ) => setAttributes( { posts_per_page: value ?? -1 } ) }
+						help={ __( ' Determines the number of results to display. Default returns all available memberships.', 'lifterlms' ) }
+					/>
+				</PanelRow>
+			</PanelBody>
+		</InspectorControls>
 
-		</>;
-	}
+		<div { ...blockProps }>
+			<Disabled>
+				<ServerSideRender
+					block={ blockJson.name }
+					attributes={ attributes }
+					LoadingResponsePlaceholder={ () => <p>Loading...</p> }
+					ErrorResponsePlaceholder={ () => <p>Error</p> }
+				/>
+			</Disabled>
+		</div>
+
+	</>;
+};
+
+registerBlockType( blockJson, {
+	Edit,
 } );
