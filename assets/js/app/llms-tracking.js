@@ -9,7 +9,7 @@
  * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
  * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
  * @since 5.0.0 Set `settings` as an empty object when no settings supplied.
- *              Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+ * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
  */
 LLMS.Tracking = function( settings ) {
 
