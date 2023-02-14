@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.3.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,11 +19,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Post_Table_Courses {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @return  void
-	 * @since    3.3.0
-	 * @version  3.13.0
+	 * @since 3.3.0
+	 * @since 3.13.0 Unknown.
+	 * @since [version] Added new custom columns.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -134,7 +136,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 
 	/**
-	 * Add Custom course Columns
+	 * Add custom course columns.
 	 *
 	 * @since [version]
 	 *
@@ -144,7 +146,7 @@ class LLMS_Admin_Post_Table_Courses {
 	public function add_columns( $columns ) {
 
 		// Add a new column for Lessons.
-		$new_columns = array();
+		$new_columns            = array();
 		$new_columns['lessons'] = __( 'Lessons', 'lifterlms' );
 
 		// Insert column into third position in existing columns array.
@@ -155,7 +157,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 
 	/**
-	 * Manage content of custom course columns
+	 * Manage content of custom course columns.
 	 *
 	 * @since [version]
 	 *
@@ -165,40 +167,35 @@ class LLMS_Admin_Post_Table_Courses {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		switch ( $column ) {
+		if ( 'lessons' !== $column ) {
+			return $column;
+		}
 
-			case 'lessons':
+		// Get a count of lessons in the course.
+		$course       = llms_get_post( $post_id );
+		$lesson_count = $course->get_lessons_count();
 
-				// Get a count of lessons in the course.
-				$course = llms_get_post( $post_id );
-				$lessons = $course->get_lessons( 'lessons' );
-				$lesson_count = (int) count( $lessons );
+		$column_content = '&ndash;';
 
-				if ( ! empty( $lesson_count ) ) {
+		if ( $lesson_count ) {
 
-					// Build the URL to link to lesson post type filtered for course ID.
-					$url = add_query_arg(
-						array(
-							'post_status' => 'all',
-							'post_type' => 'lesson',
-							'llms_filter_course_id' => $post_id,
-						),
-						admin_url( 'edit.php' )
-					);
+			// Build the URL to link to lesson post type filtered for course ID.
+			$url = add_query_arg(
+				array(
+					'post_status'           => 'all',
+					'post_type'             => 'lesson',
+					'llms_filter_course_id' => $post_id,
+				),
+				admin_url( 'edit.php' )
+			);
 
-					// Translators: %d = Number of lessons in the specified course.
-					$label = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
-					echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
-
-				} else {
-
-					echo '&ndash;';
-
-				}
-
-				break;
+			// Translators: %d = Number of lessons in the specified course.
+			$label          = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
+			$column_content = '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 
 		}
+
+		echo $column_content;
 
 	}
 
