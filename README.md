@@ -114,10 +114,10 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
 <a href="https://github.com/jdevalk"><img src="https://avatars.githubusercontent.com/u/487629?v=4" title="jdevalk" width="80" height="80"></a>
 <a href="https://github.com/nikolapasic"><img src="https://avatars.githubusercontent.com/u/10199798?v=4" title="nikolapasic" width="80" height="80"></a>
-<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/AndreaBarghigiani"><img src="https://avatars.githubusercontent.com/u/190159?v=4" title="AndreaBarghigiani" width="80" height="80"></a>
 <a href="https://github.com/yojance"><img src="https://avatars.githubusercontent.com/u/1916064?v=4" title="yojance" width="80" height="80"></a>
 <a href="https://github.com/tpkemme"><img src="https://avatars.githubusercontent.com/u/3424234?v=4" title="tpkemme" width="80" height="80"></a>
+<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/dineshchouhan"><img src="https://avatars.githubusercontent.com/u/15683967?v=4" title="dineshchouhan" width="80" height="80"></a>
 <a href="https://github.com/mcguffin"><img src="https://avatars.githubusercontent.com/u/402988?v=4" title="mcguffin" width="80" height="80"></a>
 <a href="https://github.com/wenchen"><img src="https://avatars.githubusercontent.com/u/959457?v=4" title="wenchen" width="80" height="80"></a>
