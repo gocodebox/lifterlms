@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2305"
+entry: "Fixed: display the correct trial price when switching payment source on
+  recurring orders with trial payment due."

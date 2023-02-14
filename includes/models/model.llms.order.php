@@ -376,10 +376,22 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Additional requirements can be introduced via the filter `llms_order_can_be_confirmed`.
 	 *
 	 * @since 7.0.0
+	 * @since [version] Added checks for orders with unpaid trials.
 	 *
 	 * @return boolean
 	 */
 	public function can_be_confirmed() {
+
+		$can_be_confirmed = 'llms-pending' === $this->get( 'status' );
+
+		// If it's a pending order with unpaid trial.
+		if (
+			$can_be_confirmed &&
+			$this->has_trial() &&
+			! $this->get_last_transaction( 'llms-txn-succeeded' )
+		) {
+			$can_be_confirmed = $this->can_unpaid_trial_be_confirmed();
+		}
 
 		/**
 		 * Determine if the order can be confirmed.
@@ -392,10 +404,23 @@ class LLMS_Order extends LLMS_Post_Model {
 		 */
 		return apply_filters(
 			'llms_order_can_be_confirmed',
-			( 'llms-pending' === $this->get( 'status' ) ),
+			$can_be_confirmed,
 			$this,
 			$this->get( 'payment_gateway' )
 		);
+
+	}
+
+	/**
+	 * Determine if the order with trial can be confirmed.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function can_unpaid_trial_be_confirmed() {
+
+		return llms_current_time( 'timestamp' ) < $this->get_date( 'date', 'U' ) + $this->get_trial_pending_time();
 
 	}
 
@@ -491,12 +516,27 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determines if the order's payment source can be changed.
 	 *
 	 * @since 7.0.0
+	 * @since [version] Account for order's with expired upaid trials.
 	 *
 	 * @return boolean
 	 */
 	public function can_switch_source() {
 
 		$can_switch = 'llms-active' === $this->get( 'status' ) || $this->can_resubscribe();
+
+		/**
+		 * If it's a pending order with a trial and no successful transactions,
+		 * its payment source cannot be switched if the trial can't be confirmed
+		 * (out of time).
+		 */
+		if (
+			$can_switch &&
+			'llms-pending' === $this->get( 'status' ) &&
+			$this->has_trial() &&
+			! $this->get_last_transaction( 'llms-txn-succeeded' )
+		) {
+			$can_switch = $this->can_unpaid_trial_be_confirmed();
+		}
 
 		/**
 		 * Filters whether or not the order's payment source can be changed.
@@ -1346,6 +1386,31 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * How long (in Unix timestamp format) a trial order can be on 'pending'.
+	 *
+	 * @since [version]
+	 *
+	 * @return int
+	 */
+	private function get_trial_pending_time() {
+
+		$trial_length_timestamp = (int) $this->get_trial_end_date( 'U' ) - (int) $this->get_date( 'date', 'U' );
+		return min( (int) $this->get_trial_pending_max_time(), $trial_length_timestamp );
+
+	}
+
+	/**
+	 * How long (in Unix timestamp format) at maximum a trial order can be on 'pending'.
+	 *
+	 * @since [version]
+	 *
+	 * @return int
+	 */
+	private function get_trial_pending_max_time() {
+		return apply_filters( 'llms_order_trial_pending_max_time', DAY_IN_SECONDS * 3 );
+	}
+
+	/**
 	 * Gets the total revenue of an order
 	 *
 	 * @since 3.0.0
@@ -1491,6 +1556,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.0 Don't set unused legacy property `date_billing_end`.
 	 * @since 7.0.0 Use `LLMS_Order::set_user_data()` to update user data.
+	 * @since [version] Schedule pending trial failure.
 	 *
 	 * @param array|LLMS_Student|WP_User|integer $user_data User info for the person placing the order. See
 	 *                                                      {@see LLMS_Order::set_user_data()} for more info.
@@ -1576,6 +1642,9 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'billing_length', $plan->get( 'length' ) );
 			$this->set( 'billing_period', $plan->get( 'period' ) );
 			$this->set( 'order_type', 'recurring' );
+			if ( $this->has_trial() ) {
+				$this->maybe_schedule_pending_trial_failure();
+			}
 			$this->set( 'date_next_payment', $this->calculate_next_payment_date() );
 		} else {
 			$this->set( 'order_type', 'single' );
@@ -1636,6 +1705,42 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function is_recurring() {
 		return $this->get( 'order_type' ) === 'recurring';
+	}
+
+	/**
+	 * Schedule pending trial failure.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function maybe_schedule_pending_trial_failure() {
+
+		if ( ! $this->is_recurring() ) {
+			return;
+		}
+
+		// If it's a pending order with unpaid trial.
+		if ( 'llms-pending' === $this->get( 'status' ) && ! $this->get_last_transaction( 'llms-txn-succeeded' ) ) {
+
+			$pending_trial_failure_time = $this->get_date( 'date_gmt', 'U' ) + $this->get_trial_pending_time();
+			if ( is_numeric( $pending_trial_failure_time ) ) {
+
+				if ( $this->get_next_scheduled_action_time( 'llms_pending_trial_failure' ) ) {
+					as_unschedule_action(
+						'llms_pending_trial_failure',
+						$this->get_action_args()
+					);
+				}
+
+				as_schedule_single_action(
+					$pending_trial_failure_time,
+					'llms_pending_trial_failure',
+					$this->get_action_args()
+				);
+			}
+		}
+
 	}
 
 	/**
@@ -1872,7 +1977,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			// Additionally update the next payment date & don't break because we want to reschedule payments too.
 			case 'trial_end':
 				$this->set_date( 'next_payment', $this->calculate_next_payment_date( 'U' ) );
-
+				$this->maybe_schedule_pending_trial_failure();
 				// Everything else reschedule's payments.
 			default:
 				$this->maybe_schedule_payment( false );
@@ -2071,9 +2176,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
-	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
-	 *                                   Only applies when the `$next_payment_date` is provided.
+	 * @param string $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param bool   $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                  Only applies when the `$next_payment_date` is provided.
 	 * @return WP_Error|integer WP_Error if the plan ended. Otherwise returns the return value of `as_schedule_single_action`: the action's ID.
 	 */
 	public function schedule_recurring_payment( $next_payment_date = false, $gmt = false ) {
@@ -2097,14 +2202,14 @@ class LLMS_Order extends LLMS_Post_Model {
 		);
 
 		/**
-		 * Fired after a recurring payment is scheduled
+		 * Fired after a recurring payment is scheduled.
 		 *
 		 * @since 5.2.0
 		 *
 		 * @param LLMS_Order $order       LLMS_Order instance.
-		 * @param integer    $date        Timestamp of the recurring payment date UTC.
+		 * @param int        $date        Timestamp of the recurring payment date UTC.
 		 * @param array      $action_args Arguments passed to the scheduler.
-		 * @param integer    $action_id   Scheduled action ID.
+		 * @param int        $action_id   Scheduled action ID.
 		 */
 		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args, $action_id );
 
