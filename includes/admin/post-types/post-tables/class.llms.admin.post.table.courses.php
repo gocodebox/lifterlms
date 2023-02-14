@@ -173,8 +173,9 @@ class LLMS_Admin_Post_Table_Courses {
 
 		// Get a count of lessons in the course.
 		$course       = llms_get_post( $post_id );
-		$lessons      = $course->get_lessons( 'ids' );
-		$lesson_count = count( $lessons );
+		$lesson_count = $course->get_lessons_count();
+
+		$column_content = '&ndash;';
 
 		if ( $lesson_count ) {
 
@@ -189,14 +190,12 @@ class LLMS_Admin_Post_Table_Courses {
 			);
 
 			// Translators: %d = Number of lessons in the specified course.
-			$label = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
-			echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
-
-		} else {
-
-			echo '&ndash;';
+			$label          = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
+			$column_content = '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 
 		}
+
+		echo $column_content;
 
 	}
 
