@@ -78,5 +78,5 @@ const Edit = ( { attributes, setAttributes } ) => {
 };
 
 registerBlockType( blockJson, {
-	Edit,
+	edit: Edit,
 } );

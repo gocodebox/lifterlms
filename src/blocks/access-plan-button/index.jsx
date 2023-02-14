@@ -117,5 +117,5 @@ const Edit = ( props ) => {
 };
 
 registerBlockType( blockJson, {
-	Edit,
+	edit: Edit,
 } );
