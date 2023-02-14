@@ -2,7 +2,7 @@
 /**
  * LifterLMS Shortcodes Blocks
  *
- * @since   1.0.0
+ * @since   7.0.1
  * @package LifterLMS/Classes/Shortcodes
  */
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Shortcodes_Blocks
  *
- * @since 5.3.0
+ * @since 7.0.1
  */
 class LLMS_Shortcodes_Blocks {
 
@@ -38,7 +38,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.3.0
+	 * @since 7.0.1
 	 * @return void
 	 */
 	public function __construct() {
@@ -52,6 +52,8 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Registers shortcode blocks.
 	 *
+	 * @since 7.0.1
+	 *
 	 * @return void
 	 */
 	public function register_blocks(): void {
@@ -63,7 +65,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Loads front end CSS in the editor.
 	 *
-	 * @since 1.0.0
+	 * @since 7.0.1
 	 *
 	 * @return void
 	 */
@@ -89,7 +91,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Registers the LifterLMS block category.
 	 *
-	 * @since 1.0.0
+	 * @since 7.0.1
 	 *
 	 * @param array $categories Array of block categories.
 	 *
@@ -110,7 +112,9 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Returns inline CSS for the editor.
 	 *
-	 * @since 1.0.0
+	 * @since 7.0.1
+	 *
+	 * @TODO: Should create and move to a separate file?
 	 *
 	 * @return string
 	 */
@@ -121,12 +125,6 @@ class LLMS_Shortcodes_Blocks {
 .components-range-control {
 	width: 100%;
 }
-
-.llms-block-description {
-	margin: 0 0 8px;
-    font-size: 12px;
-    color: rgb(117, 117, 117);
-}
 CSS;
 
 		return $css;
@@ -135,7 +133,7 @@ CSS;
 	/**
 	 * Returns an array of access plans.
 	 *
-	 * @since 1.0.0
+	 * @since 7.0.1
 	 *
 	 * @return array
 	 */
@@ -162,7 +160,7 @@ CSS;
 	/**
 	 * Shows the registration form in editor preview.
 	 *
-	 * @since 1.0.0
+	 * @since 7.0.1
 	 *
 	 * @param bool $hide Whether to hide the registration form.
 	 *
