@@ -55,7 +55,7 @@ module.exports = ( distDir, silent, log = () => {} ) => {
 	}
 
 	// Create the initial archive using composer.
-	execSync( `composer archive --format=zip --dir=${ distDir } --file=${ name.replace( '.zip', '' ) }`, true );
+	execSync( `composer archive --format=zip --dir="${ distDir }" --file=${ name.replace( '.zip', '' ) }`, true );
 
 	// Unzip the initial archive into a subdirectory matching the project's slug.
 	execSync( `unzip ${ name } -d ${ slug }`, silent, { cwd } );
