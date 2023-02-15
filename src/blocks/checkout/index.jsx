@@ -7,6 +7,7 @@ import {
 	BaseControl,
 	ButtonGroup,
 	Button,
+	Spinner,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -64,9 +65,19 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>{ __( 'Loading…', 'lifterlms' ) }</p> }
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
+					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p> }
+						<p className={ 'llms-block-error' }>
+							{ __( 'There was an error loading the content.', 'lifterlms' ) }
+						</p>
+					}
+					EmptyResponsePlaceholder={ () =>
+						<p className={ 'llms-block-empty' }>
+							{ __( 'There is no content to display.', 'lifterlms' ) }
+						</p>
+					}
 				/>
 			</Disabled>
 		</div>

@@ -13,27 +13,32 @@ $attributes = $attributes ?? array();
 $content    = $content ?? '';
 $block      = $block ?? null;
 
-unset( $attributes['llms_visibility'] );
-unset( $attributes['llms_visibility_in'] );
-unset( $attributes['llms_visibility_posts'] );
+if ( ! property_exists( $block, 'name' ) ) {
+	return;
+}
 
-$block = $block ?? null;
-$name  = str_replace(
+$name = str_replace(
 	array( 'llms/', '-' ),
 	array( '', '_' ),
-	$block->name ?? ''
+	$block->name
 );
 
 $atts = '';
 
 foreach ( $attributes as $key => $value ) {
-	if ( ! empty( $value ) ) {
+	if ( ! empty( $value ) && ! str_contains( $key, 'llms_visibility' ) ) {
 		$atts .= " $key=$value";
 	}
 }
 
+$shortcode = trim( do_shortcode( "[lifterlms_$name $atts]" ) );
+
+if ( ! $shortcode || str_contains( $shortcode, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
+	return;
+}
+
 $html  = '<div ' . get_block_wrapper_attributes() . '>';
-$html .= do_shortcode( "[lifterlms_$name $atts]" );
+$html .= $shortcode;
 $html .= '</div>';
 
 echo $html;

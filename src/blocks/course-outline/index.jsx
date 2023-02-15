@@ -5,6 +5,7 @@ import {
 	Disabled,
 	ToggleControl,
 	SelectControl,
+	Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -54,29 +55,29 @@ const Edit = ( props ) => {
 					/>
 				</PanelRow>
 				{ attributes.collapse &&
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Toggles', 'lifterlms' ) }
-							help={ __( 'If true, will display “Collapse All” and “Expand All” toggles at the bottom of the outline. Only functions if “collapse” is true.', 'lifterlms' ) }
-							checked={ attributes.toggles }
-							onChange={ ( toggles ) => setAttributes( {
-								toggles,
-							} ) }
-						/>
-					</PanelRow>
+				<PanelRow>
+					<ToggleControl
+						label={ __( 'Toggles', 'lifterlms' ) }
+						help={ __( 'If true, will display “Collapse All” and “Expand All” toggles at the bottom of the outline. Only functions if “collapse” is true.', 'lifterlms' ) }
+						checked={ attributes.toggles }
+						onChange={ ( toggles ) => setAttributes( {
+							toggles,
+						} ) }
+					/>
+				</PanelRow>
 				}
 				{ ! isLlmsPostType &&
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Course', 'lifterlms' ) }
-							help={ __( 'Select a course to display the course information for.', 'lifterlms' ) }
-							value={ attributes.course_id }
-							options={ courseOptions }
-							onChange={ ( value ) => setAttributes( {
-								course_id: value,
-							} ) }
-						/>
-					</PanelRow>
+				<PanelRow>
+					<SelectControl
+						label={ __( 'Course', 'lifterlms' ) }
+						help={ __( 'Select a course to display the course information for.', 'lifterlms' ) }
+						value={ attributes.course_id }
+						options={ courseOptions }
+						onChange={ ( value ) => setAttributes( {
+							course_id: value,
+						} ) }
+					/>
+				</PanelRow>
 				}
 				<PanelRow>
 					<SelectControl
@@ -106,13 +107,14 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>{ __( 'Loading…', 'lifterlms' ) }</p>
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p>{ __( 'No outline information available for this course.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'No outline information available for this course.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>

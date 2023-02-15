@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	BaseControl, Button, ButtonGroup,
-	Disabled, Flex, PanelBody, PanelRow, TextControl,
+	Disabled, Flex, PanelBody, PanelRow, Spinner, TextControl,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -62,15 +62,14 @@ const Edit = ( { attributes, setAttributes } ) => {
 					block={ blockJson.name }
 					attributes={ attributes }
 					LoadingResponsePlaceholder={ () =>
-						<p>{ __( 'Loading…', 'lifterlms' ) }</p>
+						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p>{ __( 'Displays LifterLMS register form.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'Displays LifterLMS register form.', 'lifterlms' ) }</p>
 					}
-
 				/>
 			</Disabled>
 		</div>

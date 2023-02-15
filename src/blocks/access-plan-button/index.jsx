@@ -8,6 +8,7 @@ import {
 	SelectControl,
 	Button,
 	BaseControl,
+	Spinner,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -105,10 +106,17 @@ const Edit = ( props ) => {
 					block={ blockJson.name }
 					attributes={ attributes }
 					LoadingResponsePlaceholder={ () =>
-						<button>{ __( 'Loading', 'lifterlms' ) }</button>
+						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<button>{ __( 'Empty', 'lifterlms' ) }</button>
+						<p className={ 'llms-block-error' }>
+							{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }
+						</p>
+					}
+					EmptyResponsePlaceholder={ () =>
+						<p className={ 'llms-block-empty' }>
+							{ __( 'No Access Plans Found', 'lifterlms' ) }
+						</p>
 					}
 				/>
 			</Disabled>

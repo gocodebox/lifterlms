@@ -1,5 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { Disabled } from '@wordpress/components';
+import { Disabled, Spinner } from '@wordpress/components';
 import { useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
@@ -18,15 +18,14 @@ const Edit = ( { attributes } ) => {
 					block={ blockJson.name }
 					attributes={ attributes }
 					LoadingResponsePlaceholder={ () =>
-						<p>{ __( 'Loading…', 'lifterlms' ) }</p>
+						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p>{ __( 'Displays LifterLMS register form.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'Registration form preview not available.', 'lifterlms' ) }</p>
 					}
-
 				/>
 			</Disabled>
 		</div>

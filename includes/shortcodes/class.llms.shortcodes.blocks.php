@@ -125,13 +125,18 @@ class LLMS_Shortcodes_Blocks {
 .components-range-control {
 	width: 100%;
 }
+.llms-block-empty,
+.llms-block-error {
+	padding: 1em;
+	border: 1px solid;
+}
 CSS;
 
 		return $css;
 	}
 
 	/**
-	 * Returns an array of access plans.
+	 * Returns an array of access plans (not available in REST).
 	 *
 	 * @since 7.0.1
 	 *

@@ -8,7 +8,7 @@ import {
 	FormTokenField,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalNumberControl as NumberControl,
-	BaseControl,
+	BaseControl, Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -157,8 +157,19 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>Loading...</p> }
-					ErrorResponsePlaceholder={ () => <p>Error</p> }
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
+					}
+					ErrorResponsePlaceholder={ () =>
+						<p className={ 'llms-block-error' }>
+							{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }
+						</p>
+					}
+					EmptyResponsePlaceholder={ () =>
+						<p className={ 'llms-block-empty' }>
+							{ __( 'No courses found matching your selection.', 'lifterlms' ) }
+						</p>
+					}
 				/>
 			</Disabled>
 		</div>

@@ -3,7 +3,7 @@ import {
 	PanelBody,
 	PanelRow,
 	TextControl,
-	Disabled,
+	Disabled, Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -34,8 +34,15 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>{ __( 'Loading…', 'lifterlms' ) }</p> }
-					ErrorResponsePlaceholder={ () => <p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p> }
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
+					}
+					ErrorResponsePlaceholder={ () =>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+					}
+					EmptyResponsePlaceholder={ () =>
+						<p className={ 'llms-block-empty' }>{ __( 'Account preview not available.', 'lifterlms' ) }</p>
+					}
 				/>
 			</Disabled>
 		</div>

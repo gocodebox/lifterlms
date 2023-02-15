@@ -4,6 +4,7 @@ import {
 	PanelRow,
 	Disabled,
 	SelectControl,
+	Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -33,8 +34,13 @@ const Edit = ( props ) => {
 		value: 0,
 	} ];
 
-	if ( ! attributes.course_id && courseOptions.length >= 1 ) {
-		attributes.course_id = courseOptions[ 0 ].value;
+	const courseId = attributes?.course_id || 0;
+
+	// If the course id is not set, set it to the current post id if it's a course.
+	if ( ! courseId ) {
+		setAttributes( {
+			course_id: parseInt( courseOptions[ 0 ].value ),
+		} );
 	}
 
 	const isLlmsPostType = [ 'course', 'lesson', 'llms_quiz' ].includes( postType );
@@ -50,7 +56,7 @@ const Edit = ( props ) => {
 						value={ attributes.course_id }
 						options={ courseOptions }
 						onChange={ ( value ) => setAttributes( {
-							course_id: value,
+							course_id: parseInt( value ),
 						} ) }
 					/>
 				</PanelRow>
@@ -62,11 +68,14 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>{ __( 'Loading…', 'lifterlms' ) }</p> }
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
+					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p> }
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+					}
 					EmptyResponsePlaceholder={ () =>
-						<p>{ __( 'No prerequisites available for this course.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'No prerequisites available for this course.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>

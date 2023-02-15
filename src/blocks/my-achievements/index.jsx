@@ -6,7 +6,7 @@ import {
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalNumberControl as NumberControl,
 	RangeControl,
-	SelectControl,
+	SelectControl, Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -84,9 +84,15 @@ const Edit = ( props ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					LoadingResponsePlaceholder={ () => <p>{ __( 'Loading…', 'lifterlms' ) }</p> }
+					LoadingResponsePlaceholder={ () =>
+						<Spinner />
+					}
 					ErrorResponsePlaceholder={ () =>
-						<p>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p> }
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+					}
+					EmptyResponsePlaceholder={ () =>
+						<p className={ 'llms-block-empty' }>{ __( 'No achievements found matching this criteria.', 'lifterlms' ) }</p>
+					}
 				/>
 			</Disabled>
 		</div>
