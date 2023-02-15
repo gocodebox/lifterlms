@@ -156,7 +156,7 @@ class LLMS_Shortcodes_Blocks {
 	}
 
 	/**
-	 * Shows the registration form in editor preview.
+	 * Shows the registration and login form in editor preview.
 	 *
 	 * @since 7.0.1
 	 *
@@ -165,9 +165,19 @@ class LLMS_Shortcodes_Blocks {
 	 * @return bool
 	 */
 	public function show_form_preview( bool $hide ): bool {
-		$rest_route = (string) ( $_GET['rest_route'] ?? '' );
+		if ( ! defined( 'REST_REQUEST' ) || ! is_user_logged_in() ) {
+			return $hide;
+		}
 
-		if ( strpos( $rest_route, 'block-renderer' ) !== false ) {
+		global $wp;
+
+		if ( ! $wp instanceof WP || empty( $wp->query_vars['rest_route'] ) ) {
+			return $hide;
+		}
+
+		$route = $wp->query_vars['rest_route'];
+
+		if ( str_contains( $route, '/block-renderer/' ) ) {
 			$hide = false;
 		}
 
@@ -181,7 +191,7 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @return bool
 	 */
-	private function is_block_editor() : bool {
+	private function is_block_editor(): bool {
 		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
 			return true;
 		}
