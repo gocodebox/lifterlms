@@ -44,6 +44,7 @@ class LLMS_Shortcodes_Blocks {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_editor_styles' ) );
 		add_filter( 'block_categories', array( $this, 'register_block_category' ), 11 );
 		add_filter( 'llms_hide_registration_form', array( $this, 'show_form_preview' ) );
 		add_filter( 'llms_hide_login_form', array( $this, 'show_form_preview' ) );
@@ -77,14 +78,32 @@ class LLMS_Shortcodes_Blocks {
 			filemtime( LLMS()->plugin_path() . '/assets/css/lifterlms.min.css' )
 		);
 
-		wp_add_inline_style( 'lifterlms-styles', $this->get_inline_css() );
-
 		wp_localize_script(
 			'llms-blocks-editor',
 			'llmsShortcodeBlocks',
 			array(
 				'accessPlans' => $this->get_access_plans(),
 			)
+		);
+	}
+
+	/**
+	 * Enqueues editor styles.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @return void
+	 */
+	public function enqueue_editor_styles(): void {
+		if ( ! $this->is_block_editor() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'llms-editor',
+			LLMS()->plugin_url() . '/assets/css/editor.min.css',
+			array(),
+			filemtime( LLMS()->plugin_path() . '/assets/css/editor.min.css' )
 		);
 	}
 
@@ -107,32 +126,6 @@ class LLMS_Shortcodes_Blocks {
 				),
 			)
 		);
-	}
-
-	/**
-	 * Returns inline CSS for the editor.
-	 *
-	 * @since 7.0.1
-	 *
-	 * @TODO: Should create and move to a separate file?
-	 *
-	 * @return string
-	 */
-	private function get_inline_css(): string {
-		$css = <<<CSS
-.components-form-token-field,
-.components-number-control,
-.components-range-control {
-	width: 100%;
-}
-.llms-block-empty,
-.llms-block-error {
-	padding: 1em;
-	border: 1px solid;
-}
-CSS;
-
-		return $css;
 	}
 
 	/**
@@ -179,6 +172,27 @@ CSS;
 		}
 
 		return $hide;
+	}
+
+	/**
+	 * Checks if the current page is a block editor page.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @return bool
+	 */
+	private function is_block_editor() : bool {
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return true;
+		}
+
+		$current_screen = get_current_screen();
+
+		if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

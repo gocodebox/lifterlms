@@ -1,0 +1,11 @@
+.components-form-token-field,
+.components-number-control,
+.components-range-control {
+  width: 100%;
+}
+
+.llms-block-empty,
+.llms-block-error {
+  padding: 1em;
+  border: 1px solid;
+}
