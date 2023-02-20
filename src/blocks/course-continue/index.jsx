@@ -32,7 +32,7 @@ const Edit = ( props ) => {
 		{ ! isLlmsPostType &&
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Course Meta Info Settings', 'lifterlms' ) }
+					title={ __( 'Course Continue Settings', 'lifterlms' ) }
 				>
 					<CourseSelect { ...props } />
 				</PanelBody>
@@ -50,7 +50,7 @@ const Edit = ( props ) => {
 						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>{ __( 'No meta information available for this course. This block will not be displayed.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'No progress data found for this course. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>

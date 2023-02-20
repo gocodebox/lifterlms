@@ -1,3 +1,4 @@
+// WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
@@ -16,6 +17,7 @@ import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 
+// Internal dependencies.
 import blockJson from './block.json';
 
 const Edit = ( props ) => {
@@ -162,12 +164,12 @@ const Edit = ( props ) => {
 					}
 					ErrorResponsePlaceholder={ () =>
 						<p className={ 'llms-block-error' }>
-							{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }
+							{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }
 						</p>
 					}
 					EmptyResponsePlaceholder={ () =>
 						<p className={ 'llms-block-empty' }>
-							{ __( 'No courses found matching your selection.', 'lifterlms' ) }
+							{ __( 'No courses found matching your selection. This block will not be displayed.', 'lifterlms' ) }
 						</p>
 					}
 				/>

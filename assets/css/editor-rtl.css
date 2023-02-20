@@ -7,5 +7,15 @@
 .llms-block-empty,
 .llms-block-error {
   padding: 1em;
-  border: 1px solid;
+  border: 1px solid #e0e0e0;
+  font-size: 16px;
+}
+
+.llms-block-empty {
+  font-style: italic;
+}
+
+.wp-block .llms-button-primary {
+  color: #fff !important;
+  text-decoration: none;
 }

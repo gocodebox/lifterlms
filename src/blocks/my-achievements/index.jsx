@@ -1,3 +1,4 @@
+// WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
@@ -12,9 +13,10 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import ServerSideRender from '@wordpress/server-side-render';
-
-import blockJson from './block.json';
 import { useState } from '@wordpress/element';
+
+// Internal dependencies.
+import blockJson from './block.json';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
@@ -88,10 +90,10 @@ const Edit = ( props ) => {
 						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>{ __( 'No achievements found matching this criteria.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'No achievements found matching your selection. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>

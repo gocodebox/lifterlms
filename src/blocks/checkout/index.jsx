@@ -1,3 +1,4 @@
+// WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
@@ -16,6 +17,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 
+// Internal dependencies.
 import blockJson from './block.json';
 
 const VisualLabel = BaseControl.VisualLabel ?? <></>;
@@ -70,12 +72,12 @@ const Edit = ( props ) => {
 					}
 					ErrorResponsePlaceholder={ () =>
 						<p className={ 'llms-block-error' }>
-							{ __( 'There was an error loading the content.', 'lifterlms' ) }
+							{ __( 'There was an error loading the content. This block will not be displayed.', 'lifterlms' ) }
 						</p>
 					}
 					EmptyResponsePlaceholder={ () =>
 						<p className={ 'llms-block-empty' }>
-							{ __( 'There is no content to display.', 'lifterlms' ) }
+							{ __( 'Checkout not available. This block will not be displayed.', 'lifterlms' ) }
 						</p>
 					}
 				/>

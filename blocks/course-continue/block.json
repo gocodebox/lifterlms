@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "llms/course-continue-button",
+  "name": "llms/course-continue",
   "title": "Course Progress with Continue Button",
   "icon": "chart-bar",
   "category": "lifterlms",

@@ -1,3 +1,4 @@
+// WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
@@ -13,6 +14,7 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import ServerSideRender from '@wordpress/server-side-render';
 
+// Internal dependencies.
 import blockJson from './block.json';
 
 const Edit = ( props ) => {
@@ -96,7 +98,7 @@ const Edit = ( props ) => {
 						onChange={ ( value ) => setAttributes( {
 							orderby: value,
 						} ) }
-						help={ __( 'Determines which field is used to order memberships in the memberships list.', 'lifterlms' ) }
+						help={ __( 'Determines which field is used to order memberships in the memberships list. This block will not be displayed.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 				<PanelRow>
@@ -106,7 +108,7 @@ const Edit = ( props ) => {
 						min={ -1 }
 						max={ 100 }
 						onChange={ ( value ) => setAttributes( { posts_per_page: value ?? -1 } ) }
-						help={ __( ' Determines the number of results to display. Default returns all available memberships.', 'lifterlms' ) }
+						help={ __( ' Determines the number of results to display. Default returns all available memberships. This block will not be displayed.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 			</PanelBody>

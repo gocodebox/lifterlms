@@ -1,3 +1,4 @@
+// WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
@@ -5,7 +6,6 @@ import {
 	Disabled,
 	RangeControl,
 	ToggleControl,
-	SelectControl,
 	Spinner,
 } from '@wordpress/components';
 import {
@@ -14,36 +14,22 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
-import { useSelect } from '@wordpress/data';
 
+// Internal dependencies.
 import blockJson from './block.json';
+import { useCourseOptions, useLlmsPostType, CourseSelect } from '../../../packages/components/src/course-select';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
+	const isLlmsPostType = useLlmsPostType();
+	const courseOptions = useCourseOptions();
 
-	const { courses, postType } = useSelect( ( select ) => {
-		return {
-			courses: select( 'core' )?.getEntityRecords( 'postType', 'course' ),
-			postType: select( 'core/editor' )?.getCurrentPostType(),
-		};
-	}, [] );
-
-	const courseOptions = courses?.map( ( course ) => {
-		return {
-			label: course.title.rendered,
-			value: course.id,
-		};
-	} ) || [ {
-		label: __( 'No courses found', 'lifterlms' ),
-		value: null,
-	} ];
-
-	if ( ! attributes.course_id && courseOptions.length >= 1 ) {
-		attributes.course_id = courseOptions[ 0 ].value;
+	if ( ! attributes.course_id && ! isLlmsPostType ) {
+		setAttributes( {
+			course_id: courseOptions?.[ 0 ]?.value,
+		} );
 	}
-
-	const isLlmsPostType = [ 'course', 'lesson', 'llms_quiz' ].includes( postType );
 
 	return <>
 		<InspectorControls>
@@ -54,35 +40,27 @@ const Edit = ( props ) => {
 						help={ __( 'The size of the avatar in pixels.', 'lifterlms' ) }
 						value={ attributes.avatar_size }
 						onChange={ ( size ) => setAttributes( {
-							avatar_size: size,
+							avatar_size: parseInt( size ),
 						} ) }
 						min={ 0 }
 						max={ 300 }
 						allowReset={ true }
+						resetFallbackValue={ blockJson.attributes.avatar_size.default }
+						default={ blockJson.attributes.avatar_size.default }
 					/>
 				</PanelRow>
 				<PanelRow>
 					<ToggleControl
 						label={ __( 'Display Bio', 'lifterlms' ) }
-						help={ attributes.bio ? __( 'Bio is displayed.', 'lifterlms' ) : __( 'Bio is hidden.', 'lifterlms' ) }
-						checked={ attributes.bio }
-						onChange={ ( bio ) => setAttributes( {
-							bio,
+						help={ attributes?.bio ? __( 'Author bio is displayed.', 'lifterlms' ) : __( 'Author bio is hidden.', 'lifterlms' ) }
+						checked={ attributes.bio === 'yes' }
+						onChange={ ( value ) => setAttributes( {
+							bio: value ? 'yes' : 'no',
 						} ) }
 					/>
 				</PanelRow>
 				{ ! isLlmsPostType &&
-				<PanelRow>
-					<SelectControl
-						label={ __( 'Course', 'lifterlms' ) }
-						help={ __( 'The course to display the author for.', 'lifterlms' ) }
-						value={ attributes.course_id }
-						options={ courseOptions }
-						onChange={ ( value ) => setAttributes( {
-							course_id: value,
-						} ) }
-					/>
-				</PanelRow>
+					<CourseSelect { ...props } />
 				}
 			</PanelBody>
 		</InspectorControls>
@@ -95,10 +73,10 @@ const Edit = ( props ) => {
 						<Spinner />
 					}
 					ErrorResponsePlaceholder={ () =>
-						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>{ __( 'Author not found.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'Author not found. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>
