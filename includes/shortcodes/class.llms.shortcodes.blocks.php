@@ -23,7 +23,7 @@ class LLMS_Shortcodes_Blocks {
 		'checkout',
 		'courses',
 		'course-author',
-		'course-continue-button',
+		'course-continue',
 		'course-meta-info',
 		'course-outline',
 		'course-prerequisites',
@@ -177,7 +177,7 @@ class LLMS_Shortcodes_Blocks {
 
 		$route = $wp->query_vars['rest_route'];
 
-		if ( str_contains( $route, '/block-renderer/' ) ) {
+		if ( false !== strpos( $route, '/block-renderer/' ) ) {
 			$hide = false;
 		}
 
