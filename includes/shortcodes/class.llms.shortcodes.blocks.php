@@ -28,6 +28,7 @@ class LLMS_Shortcodes_Blocks {
 		'course-outline',
 		'course-prerequisites',
 		'course-reviews',
+		'course-syllabus',
 		'login',
 		'memberships',
 		'my-account',

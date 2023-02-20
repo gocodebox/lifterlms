@@ -10,7 +10,11 @@ import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 
 // Internal dependencies.
-import { CourseSelect, useCourseOptions, useLlmsPostType } from '../../../packages/components/src/course-select';
+import {
+	CourseSelect,
+	useCourseOptions,
+	useLlmsPostType,
+} from '../../../packages/components/src/course-select';
 import blockJson from './block.json';
 
 const Edit = ( props ) => {
@@ -28,7 +32,7 @@ const Edit = ( props ) => {
 	return <>
 		<InspectorControls>
 			<PanelBody
-				title={ __( 'Course Prerequisites Settings', 'lifterlms' ) }
+				title={ __( 'Course Syllabus Settings', 'lifterlms' ) }
 			>
 				<CourseSelect { ...props } />
 			</PanelBody>
@@ -37,7 +41,9 @@ const Edit = ( props ) => {
 			<Disabled>
 				<ServerSideRender
 					block={ blockJson.name }
-					attributes={ attributes }
+					attributes={ {
+						course_id: attributes.course_id ?? courseOptions?.[ 0 ]?.value,
+					} }
 					LoadingResponsePlaceholder={ () =>
 						<Spinner />
 					}
@@ -45,7 +51,7 @@ const Edit = ( props ) => {
 						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>{ __( 'No prerequisites available for this course. This block will not be displayed.', 'lifterlms' ) }</p>
+						<p className={ 'llms-block-empty' }>{ __( 'No syllabus found for this course. This block will not be displayed.', 'lifterlms' ) }</p>
 					}
 				/>
 			</Disabled>

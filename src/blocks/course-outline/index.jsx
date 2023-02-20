@@ -53,9 +53,7 @@ const Edit = ( props ) => {
 						/>
 					</PanelRow>
 				}
-				{ ! isLlmsPostType &&
-					<CourseSelect { ...props } />
-				}
+				<CourseSelect { ...props } />
 				<PanelRow>
 					<SelectControl
 						label={ __( 'Outline Type', 'lifterlms' ) }

@@ -29,15 +29,13 @@ const Edit = ( props ) => {
 	}
 
 	return <>
-		{ ! isLlmsPostType &&
-			<InspectorControls>
-				<PanelBody
-					title={ __( 'Course Meta Info Settings', 'lifterlms' ) }
-				>
-					<CourseSelect { ...props } />
-				</PanelBody>
-			</InspectorControls>
-		}
+		<InspectorControls>
+			<PanelBody
+				title={ __( 'Course Meta Info Settings', 'lifterlms' ) }
+			>
+				<CourseSelect { ...props } />
+			</PanelBody>
+		</InspectorControls>
 		<div { ...blockProps }>
 			<Disabled>
 				<ServerSideRender

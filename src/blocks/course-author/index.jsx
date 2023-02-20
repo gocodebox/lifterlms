@@ -59,9 +59,7 @@ const Edit = ( props ) => {
 						} ) }
 					/>
 				</PanelRow>
-				{ ! isLlmsPostType &&
-					<CourseSelect { ...props } />
-				}
+				<CourseSelect { ...props } />
 			</PanelBody>
 		</InspectorControls>
 		<div { ...blockProps }>

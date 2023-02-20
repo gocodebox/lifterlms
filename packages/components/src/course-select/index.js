@@ -16,16 +16,30 @@ export const useLlmsPostType = () => {
 
 export const useCourseOptions = () => {
 	const courses = useSelect( ( select ) => select( 'core' )?.getEntityRecords( 'postType', 'course' ), [] );
+	const postType = useSelect( ( select ) => select( 'core/editor' )?.getCurrentPostType(), [] );
 
-	return courses?.map( ( course ) => {
+	const courseOptions = courses?.map( ( course ) => {
 		return {
 			label: course.title.rendered,
 			value: course.id,
 		};
-	} ) || [ {
-		label: __( 'No courses found', 'lifterlms' ),
-		value: null,
-	} ];
+	} ) ?? [];
+
+	if ( llmsPostTypes.includes( postType ) ) {
+		courseOptions.unshift( {
+			label: __( 'Inherit from current ', 'lifterlms' ) + postType?.replace( 'llms_', '' ),
+			value: 0,
+		} );
+	}
+
+	if ( ! courseOptions?.length ) {
+		courseOptions.push( {
+			label: __( 'No courses found', 'lifterlms' ),
+			value: 0,
+		} );
+	}
+
+	return courseOptions;
 };
 
 export const CourseSelect = ( { attributes, setAttributes } ) => {
