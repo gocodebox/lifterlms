@@ -33,7 +33,13 @@ foreach ( $attributes as $key => $value ) {
 
 $shortcode = trim( do_shortcode( "[lifterlms_$name $atts]" ) );
 
-if ( ! $shortcode || str_contains( $shortcode, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
+// This allows emptyResponsePlaceholder to be used when no content is returned.
+if ( ! $shortcode ) {
+	return;
+}
+
+// Use emptyResponsePlaceholder for Courses block instead of shortcode message.
+if ( false !== strpos( $shortcode, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
 	return;
 }
 

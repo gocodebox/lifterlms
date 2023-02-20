@@ -39,6 +39,7 @@ class LLMS_Shortcodes_Blocks {
 	 * Constructor.
 	 *
 	 * @since 7.0.1
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -78,6 +79,7 @@ class LLMS_Shortcodes_Blocks {
 			filemtime( LLMS()->plugin_path() . '/assets/css/lifterlms.min.css' )
 		);
 
+		// Add access plan data to script (not available in REST).
 		wp_localize_script(
 			'llms-blocks-editor',
 			'llmsShortcodeBlocks',
