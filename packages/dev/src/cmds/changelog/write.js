@@ -73,6 +73,7 @@ function getTypeTitle( type ) {
  *
  * @since 0.0.1
  * @since 0.1.0 Use `getIssueLink()` for generation of issue links.
+ * @since [version] Remove trailing `@` from the GitHub handler when building the contributor's profile URL.
  *
  * @param {ChangelogEntry} args              The changelog entry object.
  * @param {string}         args.entry        The content of the changelog entry.
@@ -104,7 +105,7 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 	if ( attributions.length ) {
 		attributions = attributions.map( ( v ) => {
 			if ( '@' === v.charAt( 0 ) ) {
-				v = `[${ v }](https://github.com/${ v })`;
+				v = `[${ v }](https://github.com/${ v.slice( 1 ) })`;
 			}
 			return v;
 		} );

@@ -1,19 +1,19 @@
 <?php
 /**
- * Checkout Form
+ * Payment gateways area of the checkout form
  *
- * @package  LifterLMS/Templates
+ * @package LifterLMS/Templates/Checkout
  *
- * @since 1.0.0
- * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
- * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
- * @since 5.0.0 Use LLMS_Forms to output form fields and title.
- *               Add field label displays when form information is output.
- * @since 5.3.0 Added clearfix to the payment details section to fix mobile layout issues.
- * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
- * @version 5.3.0
+ * @since Unknown
+ * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
+ * @since 7.0.0 Disable data-source loading for gateway radio fields.
+ * @version 7.0.0
+ *
+ * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
+ * @param string                 $selected_gateway ID of the currently selected/default payment gateway.
+ * @param LLMS_Coupon|false      $coupon           Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan       $plan             Access plan object.
  */
-
 defined( 'ABSPATH' ) || exit;
 
 $order_key  = llms_filter_input_sanitize_string( INPUT_GET, 'order' );
