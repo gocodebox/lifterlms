@@ -93,9 +93,17 @@ class LLMS_Admin_AddOns {
 		if ( ! is_wp_error( $this->data ) ) {
 
 			foreach ( $this->data['items'] as $key => $addon ) {
+
+				// Exclude the core plugin and helper plugin.
 				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
+
+				// Exclude uncategorized Add-ons.
+				if ( array_key_exists( 'uncategorized', $addon['categories'] ) ) {
+					unset( $this->data['items'][ $key ] );
+				}
+
 			}
 		}
 
