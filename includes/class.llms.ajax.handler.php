@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -317,10 +317,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle notification display & dismissal
+	 * Handle notification display & dismissal.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.14 Use strict comparison.
+	 * @since [version] Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array
@@ -340,12 +341,14 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
+		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => get_current_user_id(),
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => get_current_user_id(),
+				'no_found_rows' => true,
 			)
 		);
 

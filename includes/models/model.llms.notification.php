@@ -1,17 +1,17 @@
 <?php
 /**
- * LifterLMS Notification Model
+ * LLMS_Notification class file
  *
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Notification model class
+ * LLMS_Notification model class.
  *
  * Used for notification CRUD and Display.
  *
@@ -100,7 +100,7 @@ class LLMS_Notification implements JsonSerializable {
 	 * Merged HTML for the notification
 	 * used for displaying a notification view
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	private $html;
 
@@ -277,11 +277,12 @@ class LLMS_Notification implements JsonSerializable {
 	}
 
 	/**
-	 * Load all notification data into the instance
+	 * Load all notification data into the instance.
 	 *
-	 * @return   self
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Catch possible fatals while generating the notification HTML and log them.
+	 *
+	 * @return LLMS_Notification
 	 */
 	public function load() {
 
@@ -298,8 +299,13 @@ class LLMS_Notification implements JsonSerializable {
 				$this->$key = $val;
 			}
 
-			$this->html = $this->get_html();
-
+			try {
+				$this->html = $this->get_html();
+			} catch ( Error $e ) {
+				llms_log( sprintf( 'Error generating the HTML for the notification ID #%d', $this->id ) );
+				llms_log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
+				$this->set( 'status', 'error' );
+			}
 		}
 
 		return $this;
