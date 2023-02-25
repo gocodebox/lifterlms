@@ -107,6 +107,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/daniel-shuy"><img src="https://avatars.githubusercontent.com/u/17351764?v=4" title="daniel-shuy" width="80" height="80"></a>
 <a href="https://github.com/andreasblumberg"><img src="https://avatars.githubusercontent.com/u/1697968?v=4" title="andreasblumberg" width="80" height="80"></a>
+<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
 <a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
@@ -114,7 +115,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
 <a href="https://github.com/jdevalk"><img src="https://avatars.githubusercontent.com/u/487629?v=4" title="jdevalk" width="80" height="80"></a>
 <a href="https://github.com/nikolapasic"><img src="https://avatars.githubusercontent.com/u/10199798?v=4" title="nikolapasic" width="80" height="80"></a>
-<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/AndreaBarghigiani"><img src="https://avatars.githubusercontent.com/u/190159?v=4" title="AndreaBarghigiani" width="80" height="80"></a>
 <a href="https://github.com/yojance"><img src="https://avatars.githubusercontent.com/u/1916064?v=4" title="yojance" width="80" height="80"></a>
 <a href="https://github.com/tpkemme"><img src="https://avatars.githubusercontent.com/u/3424234?v=4" title="tpkemme" width="80" height="80"></a>
