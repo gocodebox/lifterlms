@@ -302,7 +302,7 @@ class LLMS_Notification implements JsonSerializable {
 			try {
 				$this->html = $this->get_html();
 			} catch ( Error $e ) {
-				llms_log( sprintf( 'error generating the HTML for the notification ID #%d', $this->id ) );
+				llms_log( sprintf( 'Error generating the HTML for the notification ID #%d', $this->id ) );
 				llms_log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
 				$this->set( 'status', 'error' );
 			}

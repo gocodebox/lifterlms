@@ -55,7 +55,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 			$mailer = llms()->mailer()->get_email( 'notification' );
 
 			if ( ! $mailer->add_recipient( $notification->get( 'subscriber' ), 'to' ) ) {
-				$this->log( sprintf( 'error sending email notification ID #%d - subscriber does not exist', $notification_id ) );
+				$this->log( sprintf( 'Error sending email notification ID #%d - subscriber does not exist', $notification_id ) );
 				$this->log( $notification->toArray() );
 				$notification->set( 'status', 'error' );
 				return false;
@@ -64,7 +64,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 			$mailer->set_subject( $view->get_subject() )->set_heading( $view->get_title() )->set_body( $view->get_html() );
 
 		} catch ( Error $e ) {
-			$this->log( sprintf( 'error sending email notification ID #%d', $notification_id ) );
+			$this->log( sprintf( 'Error sending email notification ID #%d', $notification_id ) );
 			$this->log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
 			$notification->set( 'status', 'error' );
 			return false;
@@ -74,7 +74,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		if ( $mailer->send() ) {
 			$notification->set( 'status', 'sent' );
 		} else {
-			$this->log( sprintf( 'error sending email notification ID #%d', $notification_id ) );
+			$this->log( sprintf( 'Error sending email notification ID #%d', $notification_id ) );
 			$this->log( $notification->toArray() );
 		}
 
