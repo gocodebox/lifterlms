@@ -19,7 +19,7 @@ module.exports = {
 			);
 		// Unzip the archive for inspection.
 		if ( inspect ) {
-			execSync( `unzip ${ fileName }`, ! verbose, { cwd: distDir } );
+			execSync( `unzip "${ fileName }"`, ! verbose, { cwd: distDir } );
 		}
 
 		logResult( `Distribution file ${ chalk.bold( fileName ) } created successfully.`, 'success' );

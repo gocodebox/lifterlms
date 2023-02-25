@@ -9,7 +9,7 @@
  * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
  * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
  * @since 5.0.0 Set `settings` as an empty object when no settings supplied.
- *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+ * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
  */
 LLMS.Tracking = function( settings ) {
 
@@ -25,17 +25,12 @@ LLMS.Tracking = function( settings ) {
 	 *
 	 * @since 3.36.0
 	 * @since 5.0.0 Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+	 * @since [version] Do not add a nonce to the datastore by default, will be added/updated
+	 *              when storing an event to track.
 	 *
 	 * @return {void}
 	 */
 	function init() {
-
-		// Set the nonce for server-side verification.
-		if ( settings.nonce ) {
-
-			store.set( 'nonce', settings.nonce );
-
-		}
 
 		self.addEvent( 'page.load' );
 
@@ -53,6 +48,7 @@ LLMS.Tracking = function( settings ) {
 	 * @since 3.36.2 Fix error when settings aren't loaded.
 	 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
 	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
+	 * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 	 *
 	 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 	 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -71,7 +67,9 @@ LLMS.Tracking = function( settings ) {
 		}
 
 		// Make sure the nonce is set for server-side verification.
-		store.set( 'nonce', settings.nonce );
+		if ( settings.nonce ) {
+			store.set( 'nonce', settings.nonce );
+		}
 
 		event = self.makeEventObj( args );
 

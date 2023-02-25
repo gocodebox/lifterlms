@@ -764,13 +764,13 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * End a quiz attempt
+	 * End a quiz attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
 	 *
 	 * @param array                  $request $_POST data.
-	 * @param LLMS_Quiz_Attempt|null $attempt Optional. The quiz attempt. Default `null`.
+	 * @param LLMS_Quiz_Attempt|null $attempt The quiz attempt.
 	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
@@ -794,10 +794,10 @@ class LLMS_AJAX_Handler {
 
 		}
 
-		// record the attempt's completion.
+		// Record the attempt's completion.
 		$attempt->end();
 
-		// setup a redirect.
+		// Setup a redirect.
 		$url = add_query_arg(
 			array(
 				'attempt_key' => $attempt->get_key(),
@@ -807,15 +807,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			/**
-			 * Filter the quiz redirect URL on completion
-			 *
-			 * Return an associative array containing at least the `$id` to cease execution and have
-			 * the custom item returned via the `process_trash()` method.
-			 *
-			 * A successful deletion return should be: `array( 'id' => $id )`.
-			 *
-			 * A failure should contain an error message in a second array member:
-			 * `array( 'id' => $id, 'error' => esc_html__( 'My error message', 'my-domain' ) )`.
+			 * Filter the quiz redirect URL on completion.
 			 *
 			 * @since Unknown
 			 *
