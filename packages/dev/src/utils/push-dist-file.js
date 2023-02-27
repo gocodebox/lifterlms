@@ -28,7 +28,7 @@ module.exports = ( distFile, branch, message, silent = true ) => {
 		url = execSync( 'git config --get remote.origin.url', true );
 
 	// Clone the repo into a temp directory.
-	execSync( `git clone ${ url } ${ cwd }`, silent );
+	execSync( `git clone ${ url } "${ cwd }"`, silent );
 
 	// Checkout to the publication branch.
 	execSync( `git checkout -b ${ branch }`, silent, { cwd } );
@@ -37,7 +37,7 @@ module.exports = ( distFile, branch, message, silent = true ) => {
 	execSync( `mv .git ../ && cd ../ && rm -rf ./git && mkdir git && mv .git ./git && cd git`, silent, { cwd } );
 
 	// Extract the distribution file.
-	execSync( `unzip ${ distFile } -d ./tmp/git/`, silent );
+	execSync( `unzip "${ distFile }" -d ./tmp/git/`, silent );
 
 	// Move all the contents into the publication branch.
 	execSync( `mv ./${ slug }/* ./ && rm -rf ${ slug }/`, silent, { cwd } );

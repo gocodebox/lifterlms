@@ -5,13 +5,13 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Course model class
+ * LLMS_Course model class.
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
@@ -295,6 +295,37 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			$ret = array_map( 'llms_get_post', $lessons );
 		}
 		return $ret;
+
+	}
+
+	/**
+	 * Retrieve the number of course's lessons.
+	 *
+	 * This is less expensive than counting the result of {@see LLMS_Course::get_lessons()},
+	 * and should be preferred when you only need to count the number of lessons of a course.
+	 *
+	 * @since [version]
+	 *
+	 * @return int
+	 */
+	public function get_lessons_count() {
+
+		$query = new WP_Query(
+			array(
+				'meta_key'               => '_llms_parent_course',
+				'meta_value'             => $this->get( 'id' ),
+				'post_type'              => 'lesson',
+				'posts_per_page'         => -1,
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'fields'                 => 'ids',
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+			)
+		);
+
+		return $query->post_count;
 
 	}
 
