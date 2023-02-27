@@ -293,7 +293,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 5.2.1 Add assertions for checking against single payment orders and
-	 *        			when the recurring retry feature option is disabled.
+	 *              when the recurring retry feature option is disabled.
 	 *
 	 * @return void
 	 */
@@ -706,7 +706,168 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_get_last_transaction() {}
+/**
+	 * Test get_last_transaction() on a one-time payment.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_last_transaction_single() {
+
+		$this->assertFalse( $this->obj->get_last_transaction() );
+
+		// Record a transaction.
+		$txn = $this->obj->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => current_time( 'Y-m-d H:i:s' ),
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'single',
+		) );
+
+		$this->assertEquals( $this->obj->get_last_transaction(), $txn );
+		$this->assertEquals(
+			$this->obj->get_last_transaction( 'llms-txn-succeeded', 'single'),
+			$txn
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'llms-txn-failed', 'single'),
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'any', 'recurring' )
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'any', 'trial' )
+		);
+	}
+
+	/**
+	 * Test get_last_transaction() on a recurring payments order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_last_transaction_recurring() {
+
+		$this->assertFalse( $this->obj->get_last_transaction() );
+
+		// Record a transaction.
+		$txn_time = date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+		$txn      = $this->obj->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => $txn_time,
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'recurring',
+		) );
+
+		// Change published date to reflect the completed date.
+		wp_update_post(
+			array(
+				'ID'        => $txn->get( 'id' ),
+				'post_date' => $txn_time,
+			)
+		);
+
+		// Hydrate.
+		$txn = llms_get_post( $txn->get( 'id' ) );
+		$this->assertEquals( $this->obj->get_last_transaction(), $txn );
+		$this->assertEquals(
+			$this->obj->get_last_transaction( 'llms-txn-succeeded', 'recurring'),
+			$txn
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'llms-txn-failed', 'recurring'),
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'any', 'single' )
+		);
+		$this->assertFalse(
+			$this->obj->get_last_transaction( 'any', 'trial' )
+		);
+
+		// Record a new transaction.
+		$txn = $this->obj->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => current_time( 'Y-m-d H:i:s' ),
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'recurring',
+		) );
+		$this->assertEquals( $txn, $this->obj->get_last_transaction() );
+
+	}
+
+	/**
+	 * Test get_last_transaction() on a recurring payment order with trial.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_last_transaction_recurring_with_trial() {
+
+		$trial_plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
+		$order      = $this->get_order( $trial_plan );
+
+		$this->assertFalse( $order->get_last_transaction() );
+
+		// Record a transaction.
+		$txn_time = current_time( 'Y-m-d H:i:s' );
+		$txn_rec  = $order->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => $txn_time,
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'recurring',
+		) );
+
+		// Change published date to reflect the completed date.
+		wp_update_post(
+			array(
+				'ID'        => $txn_rec->get( 'id' ),
+				'post_date' => $txn_time,
+			)
+		);
+
+		// Hydrate.
+		$txn_rec = llms_get_post( $txn_rec->get( 'id' ) );
+		$this->assertEquals( $order->get_last_transaction(), $txn_rec );
+		$this->assertEquals(
+			$order->get_last_transaction( 'llms-txn-succeeded', 'recurring'),
+			$txn_rec
+		);
+		$this->assertFalse(
+			$order->get_last_transaction( 'llms-txn-failed', 'recurring'),
+		);
+		$this->assertFalse(
+			$order->get_last_transaction( 'any', 'single' )
+		);
+		$this->assertFalse(
+			$order->get_last_transaction( 'any', 'trial' )
+		);
+
+		// Record a new transaction, mimicking a trial paid yestarday.
+		$txn_time = date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+		$txn = $order->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => $txn_time,
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'trial',
+		) );
+
+		// Change published date to reflect the completed date.
+		wp_update_post(
+			array(
+				'ID'        => $txn->get( 'id' ),
+				'post_date' => $txn_time,
+			)
+		);
+
+		// Hydrate.
+		$txn = llms_get_post( $txn->get( 'id' ) );
+		// The last transaction is still the recurring one, being newer.
+		$this->assertEquals( $txn_rec, $order->get_last_transaction() );
+
+	}
 
 	// public function test_get_last_transaction_date() {}
 
@@ -959,7 +1120,68 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_transaction_total() {}
 
-	// public function test_get_start_date() {}
+/**
+	 * Test get_start_date() mathod.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_start_date() {
+
+		$trial_plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
+		$order      = $this->get_order( $trial_plan );
+
+		$this->assertEquals(
+			$order->get_date( 'date', 'Y-m-d H:i:s' ),
+			$order->get_start_date()
+		);
+
+		// Record a transaction.
+		$txn_time = date_i18n( 'Y-m-d H:i:s', strtotime( '+1 hour' ) );
+		$txn      = $order->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => $txn_time,
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'recurring',
+		) );
+		// Change published date to reflect the completed date.
+		wp_update_post(
+			array(
+				'ID'        => $txn->get( 'id' ),
+				'post_date' => $txn_time,
+			)
+		);
+
+		// Hydrate.
+		$txn = llms_get_post( $txn->get( 'id' ) );
+		$this->assertNotEquals(
+			$order->get_start_date(),
+			$order->get_date( 'date', 'Y-m-d H:i:s' )
+		);
+		$this->assertEquals( $order->get_start_date(), $txn_time );
+
+		// Record a new transaction, mimicking a trial paid yestarday.
+		$txn_time = date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day' ) );
+		$txn = $order->record_transaction( array(
+			'amount'         => 25.99,
+			'completed_date' => $txn_time,
+			'status'         => 'llms-txn-succeeded',
+			'payment_type'   => 'trial',
+		) );
+
+		// Change published date to reflect the completed date.
+		wp_update_post(
+			array(
+				'ID'        => $txn->get( 'id' ),
+				'post_date' => $txn_time,
+			)
+		);
+		// Hydrate.
+		$txn = llms_get_post( $txn->get( 'id' ) );
+		$this->assertEquals( $order->get_start_date(), $txn_time );
+
+	}
 
 	// public function test_get_transactions() {}
 

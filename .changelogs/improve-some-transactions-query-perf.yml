@@ -1,0 +1,4 @@
+significance: patch
+type: performance
+entry: Skip counting the total transactions found when retrieving the last or
+  the first transaction for an order.

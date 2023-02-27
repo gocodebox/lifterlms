@@ -144,7 +144,7 @@ module.exports = {
 
 		createArgs.push( `--title "Version ${ version }"` );
 		createArgs.push( `--target ${ branch }` );
-		createArgs.push( `--notes-file ${ notesFile }` );
+		createArgs.push( `--notes-file "${ notesFile }"` );
 
 		if ( draft ) {
 			createArgs.push( '--draft' );
@@ -159,6 +159,6 @@ module.exports = {
 		logResult( `Release v${ chalk.bold( version ) } published. Permalink: ${ chalk.underline( res ) }.` );
 
 		// Cleanup the tmp notesfile.
-		execSync( `rm ${ notesFile }` );
+		execSync( `rm "${ notesFile }"` );
 	},
 };

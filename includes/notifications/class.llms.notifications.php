@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -116,12 +116,13 @@ class LLMS_Notifications {
 	}
 
 	/**
-	 * Enqueue basic notifications for onscreen display
+	 * Enqueue basic notifications for onscreen display.
 	 *
 	 * @since 3.22.0
 	 * @since 3.36.1 Don't automatically mark notifications as read.
 	 * @since 3.38.0 Use `wp_json_decode()` in favor of `json_decode()`.
 	 * @since 4.4.0 Use `LLMS_Assets::enqueue_inline()` in favor of deprecated `LLMS_Frontend_Assets::enqueue_inline_script()`.
+	 * @since [version] Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @return void
 	 */
@@ -135,10 +136,11 @@ class LLMS_Notifications {
 		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => $user_id,
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => $user_id,
+				'no_found_rows' => true,
 			)
 		);
 

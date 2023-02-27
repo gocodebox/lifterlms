@@ -32,7 +32,6 @@ class LLMS_Admin_Notices_Core {
 		add_action( 'current_screen', array( __CLASS__, 'maybe_hide_notices' ), 999 );
 
 		add_action( 'current_screen', array( __CLASS__, 'add_init_actions' ) );
-		add_action( 'switch_theme', array( __CLASS__, 'clear_sidebar_notice' ) );
 
 	}
 
@@ -57,7 +56,6 @@ class LLMS_Admin_Notices_Core {
 			$priority = 77;
 		}
 
-		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
 
 	}
@@ -122,68 +120,6 @@ class LLMS_Admin_Notices_Core {
 
 		}
 
-	}
-
-	/**
-	 * Check theme support for LifterLMS Sidebars
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.4 Unknown.
-	 * @since 4.5.0 Use strict comparison for `in_array()`.
-	 *
-	 * @return void
-	 */
-	public static function sidebar_support() {
-
-		$theme = wp_get_theme();
-
-		$id = 'sidebars';
-
-		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $theme->get_template(), llms_get_core_supported_themes(), true ) ) {
-
-			$msg = sprintf(
-				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
-				$theme->get( 'Name' ),
-				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">',
-				'</a>',
-				'<a href="https://lifterlms.com/product/launchpad/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">',
-				'</a>'
-			);
-
-			LLMS_Admin_Notices::add_notice(
-				$id,
-				$msg,
-				array(
-					'dismissible'      => true,
-					'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
-					'remindable'       => false,
-					'type'             => 'warning',
-				)
-			);
-
-		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
-
-			LLMS_Admin_Notices::delete_notice( $id );
-
-		}
-
-	}
-
-	/**
-	 * Removes the current sidebar notice (if present) and clears notice delay transients
-	 *
-	 * Called when theme is switched.
-	 *
-	 * @since 3.14.7
-	 *
-	 * @return void
-	 */
-	public static function clear_sidebar_notice() {
-		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {
-			LLMS_Admin_Notices::delete_notice( 'sidebars' );
-		} else {
-			delete_transient( 'llms_admin_notice_sidebars_delay' );
-		}
 	}
 
 }

@@ -8,6 +8,7 @@ const
  * Call the cli from within the cli.
  *
  * @since 0.0.1
+ * @since [version] Account for spaces in the file paths.
  *
  * @param {string}  cmd    CLI command and options.
  * @param {boolean} silent If `true`, silence STDOUT.
@@ -17,7 +18,7 @@ function callSelf( cmd, silent = true ) {
 	const [ node, cli ] = process.argv;
 	let ret = null;
 	try {
-		ret = execSync( `${ node } ${ cli } ${ cmd }`, silent );
+		ret = execSync( `"${ node }" "${ cli }" ${ cmd }`, silent );
 	} catch ( e ) {
 		logResult( `${ e.type }: ${ e.message }.`, 'error' );
 		console.error( e );
