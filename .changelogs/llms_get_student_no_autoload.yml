@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Added `$autoload` parameter to the function `llms_get_student`.
