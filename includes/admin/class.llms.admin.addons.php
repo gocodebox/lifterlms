@@ -42,7 +42,7 @@ class LLMS_Admin_AddOns {
 
 		$section = 'all';
 
-		if ( isset( $_GET['page'] ) && 'llms-settings' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'llms-dashboard' === $_GET['page'] ) {
 			$section = 'featured';
 		} elseif ( isset( $_GET['section'] ) ) {
 			$section = llms_filter_input_sanitize_string( INPUT_GET, 'section' );
@@ -295,49 +295,62 @@ class LLMS_Admin_AddOns {
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 
-			<h1 class="wp-heading-inline"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
-			<?php do_action( 'llms_addons_page_after_title' ); ?>
-			<hr class="wp-header-end">
+			<div class="llms-subheader">
 
-			<?php $this->output_navigation(); ?>
-			<form action="" method="POST">
+				<h1><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+				<?php do_action( 'llms_addons_page_after_title' ); ?>
 
-				<?php $this->output_content(); ?>
+			</div>
 
-				<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
+			<div class="llms-inside-wrap">
 
-				<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
+				<?php $this->output_navigation(); ?>
 
-					<a class="llms-bulk-close" href="#">
-						<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
-						<i class="fa fa-times-circle" aria-hidden="true"></i>
-					</a>
+				<hr class="wp-header-end">
 
-					<div class="llms-bulk-desc update">
-						<i class="fa fa-cloud-download" aria-hidden="true"></i>
-						<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
+				<form action="" method="POST">
+
+					<?php $this->output_content(); ?>
+
+					<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
+
+					<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
+
+						<a class="llms-bulk-close" href="#">
+							<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
+							<i class="fa fa-times-circle" aria-hidden="true"></i>
+						</a>
+
+						<div class="llms-bulk-desc update">
+							<i class="fa fa-cloud-download" aria-hidden="true"></i>
+							<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc install">
+							<i class="fa fa-cloud-download" aria-hidden="true"></i>
+							<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc activate">
+							<i class="fa fa-plug" aria-hidden="true"></i>
+							<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc deactivate">
+							<i class="fa fa-plug" aria-hidden="true"></i>
+							<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
+
 					</div>
 
-					<div class="llms-bulk-desc install">
-						<i class="fa fa-cloud-download" aria-hidden="true"></i>
-						<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
-					</div>
+				</form>
 
-					<div class="llms-bulk-desc activate">
-						<i class="fa fa-plug" aria-hidden="true"></i>
-						<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
-					</div>
+			</div>
 
-					<div class="llms-bulk-desc deactivate">
-						<i class="fa fa-plug" aria-hidden="true"></i>
-						<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
-					</div>
-
-					<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
-				</div>
-
-			</form>
 		</div>
+
 		<?php
 	}
 
@@ -410,10 +423,9 @@ class LLMS_Admin_AddOns {
 	private function output_navigation() {
 		$curr_section = $this->get_current_section();
 		?>
-		<nav class="llms-nav-tab-wrapper llms-nav-text">
+		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav', $curr_section ); ?>
-				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 				<?php
 				foreach ( $this->data['categories'] as $name => $title ) :
 					$name   = sanitize_title( $name );
@@ -422,6 +434,7 @@ class LLMS_Admin_AddOns {
 					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
+				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 
 			<?php do_action( 'lifterlms_after_addons_nav', $curr_section ); ?>
 			</ul>

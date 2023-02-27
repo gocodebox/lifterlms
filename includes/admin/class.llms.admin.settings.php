@@ -840,7 +840,7 @@ class LLMS_Admin_Settings {
 
 		} elseif ( $description ) {
 
-			$description = '<span class="description">' . wp_kses_post( $description ) . '</span>';
+			$description = '<p class="description">' . wp_kses_post( $description ) . '</p>';
 		}
 
 		if ( $tooltip && in_array( $field['type'], array( 'checkbox' ) ) ) {

@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 								<input class="llms-bulk-check" data-action="deactivate" name="llms_deactivate[]" id="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 								<i class="fa fa-check-square-o" aria-hidden="true"></i>
 								<i class="fa fa-plug" aria-hidden="true"></i>
-								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?>
+								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?></span>
 							</label>
 						<?php endif; ?>
 					<?php else : ?>
@@ -101,7 +101,7 @@ defined( 'ABSPATH' ) || exit;
 							<input class="llms-bulk-check" data-action="activate" name="llms_activate[]" id="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 							<i class="fa fa-check-square-o" aria-hidden="true"></i>
 							<i class="fa fa-plug" aria-hidden="true"></i>
-							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?>
+							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?></span>
 						</label>
 					<?php endif; ?>
 				<?php endif; ?>

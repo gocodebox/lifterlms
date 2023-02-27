@@ -3,16 +3,16 @@
 }
 
 .llms-table-header {
-	padding: 0 10px;
-	margin-bottom: 10px;
+	padding: 0;
 
 	@include clearfix();
 
 	h2 {
+		font-size: 20px;
 		padding: 0;
 		display: inline-block;
-		line-height: 1;
-		margin: 0;
+		line-height: 1.5;
+		margin: 0 0 20px 0;
 		vertical-align: middle;
 	}
 
@@ -24,18 +24,18 @@
 
 	.llms-table-search input {
 		margin: 0;
-		padding: 5px;
+		padding: 0 8px;
 	}
 
 }
 
 .llms-table {
 
-	border: 1px solid #cecece;
+	border: 1px solid #c3c4c7;
 	border-collapse: collapse;
 	width: 100%;
 
-	a {
+	a:not(.small) {
 		color: $color-brand-blue;
 		&:hover {
 			color: $color-brand-blue-dark;
@@ -43,9 +43,8 @@
 	}
 
 	td, th {
-		border-bottom: 1px solid #cecece;
-		font-size: 95%;
-		padding: 4px;
+		border-bottom: 1px solid #c3c4c7;
+		padding: 10px 12px;
 		text-align: center;
 
 		&.expandable.closed {
@@ -69,8 +68,8 @@
 
 	thead th,
 	tfoot th {
-		background-color: #eaeaea;
-		font-weight: 500;
+		background-color: #FFF;
+		font-weight: 700;
 
 		a.llms-sortable {
 			// display: block;
@@ -111,7 +110,7 @@
 		.llms-table-export {
 			float: left;
 			.llms-table-progress {
-				background: #fafafa;
+				background: #efefef;
 				display: none;
 				margin-left: 8px;
 				vertical-align: middle;
@@ -126,11 +125,11 @@
 	}
 
 	&.zebra tbody tr:nth-child( even ) {
-		th, td { background-color: #fafafa; }
+		th, td { background-color: #fff; }
 	}
 
 	&.zebra tbody tr:nth-child( odd ) {
-		th, td { background-color: #fff; }
+		th, td { background-color: #f6f7f7; }
 	}
 
 	&.text-left {
@@ -141,9 +140,16 @@
 
 	&.size-large {
 		td, th {
-			font-size: 105%;
-			padding: 8px;
+			font-size: 14px;
+			padding: 10px 12px;
 		}
+	}
+
+	.llms-drag-handle {
+		color: #777;
+		cursor: pointer;
+		-webkit-transition: color 0.4s ease;
+		transition: color 0.4s ease;
 	}
 
 	.llms-action-icon {
@@ -164,8 +170,7 @@
 	}
 
 	.llms-table-page-count {
-		font-size: 11px;
-		font-weight: 300;
+		font-size: 12px;
 		padding: 0 5px;
 	}
 
@@ -173,20 +178,24 @@
 
 // progress bars within the tables
 .llms-table-progress {
-	background: #eee;
-	height: 16px;
-	position: relative;
-	.llms-table-progress-text {
-		font-size: 11px;
-		line-height: 16px;
-		position: absolute;
-		right: 4px;
-		top: 0;
+	text-align: center;
+	.llms-table-progress-bar {
+		background: #eee;
+		border-radius: 10px;
+		height: 16px;
+		overflow: hidden;
+		position: relative;
+		.llms-table-progress-inner {
+			background: $color-brand-blue;
+			height: 100%;
+			transition: width 0.2s ease;
+		}
 	}
-	.llms-table-progress-inner {
-		background: $color-brand-blue;
-		height: 100%;
-		transition: width 0.2s ease;
+	.llms-table-progress-text {
+		color: $color-brand-blue;
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 16px;
 	}
 }
 

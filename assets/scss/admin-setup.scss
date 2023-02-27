@@ -6,35 +6,41 @@
 
 #llms-setup-wizard {
 
-	background-color: #f1f1f1;
+	background-color: #F0F0F1;
 	height: 100%;
 	left: 0;
 	overflow: scroll;
 	position: fixed;
 	top: 0;
 	width: 100%;
+
 }
 
 .llms-setup-wrapper {
-	margin: 20px auto;
+	margin: 30px auto;
 	max-width: 640px;
 }
 
 #llms-logo {
 	text-align: center;
 
+	a {
+		display: inline-block;
+	}
+
 	img {
 		max-width: 200px;
 	}
+
 }
 
 .llms-setup-content {
-	background-color: #fff;
-	box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
-	padding: 15px 30px;
+	background-color: #FFF;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+	padding: 30px;
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #444;
+		color: #3C434A;
 	}
 
 	a:not( .llms-button-primary ):not( .llms-button-secondary ) {
@@ -42,7 +48,7 @@
 	}
 
 	p, li {
-		color: #666;
+		color: #3C434A;
 		font-size: 16px;
 	}
 
@@ -58,6 +64,18 @@
 	.llms-setup-actions {
 		margin-top: 40px;
 		text-align: right;
+
+		.llms-button-primary {
+			display: inline-block;
+
+			&:after {
+				content: "\f054";
+				font-family: 'FontAwesome';
+				font-weight: 900;
+				padding-left: 10px;
+			}
+
+		}
 	}
 
 	.llms-exit-setup {
@@ -74,32 +92,62 @@
 
 	td {
 		border-top: 1px solid #f1f1f1;
+
 		&:first-child {
 			padding-right: 10px;
 			width: 33%;
+
 			a {
 				font-size: 16px;
 				font-weight: 500;
 			}
+
+			i {
+				display: block;
+				font-size: 13px;
+				margin-top: 10px;
+
+				a {
+					font-size: 13px;
+				}
+			}
+
 		}
+
 	}
 
 	ul.llms-importable-courses {
+		border-bottom: 1px solid #f1f1f1;
 		display: block;
+
 		li.llms-importable-course {
-			border-bottom: 1px solid #f1f1f1;
+			border-top: 1px solid #f1f1f1;
 			display: block;
+			margin: 0;
 			max-width: 100%;
-			padding-bottom: 15px;
+			padding: 20px 40px 20px 0;
+
+			h3 {
+				margin: 0;
+			}
+
+			p {
+				margin: 10px 0 0 0;
+			}
+
+			label {
+				font-weight: 400;
+			}
 
 			img {
 				float: left;
 				margin-right: 15px;
-				width: 20%;
+				width: 22%;
 			}
 
 			.llms-switch {
 				float: right;
+				right: -40px;
 
 				input.llms-toggle-round:checked + label {
 					border-color: $color-brand-blue;
@@ -107,6 +155,7 @@
 				}
 
 			}
+
 		}
 	}
 

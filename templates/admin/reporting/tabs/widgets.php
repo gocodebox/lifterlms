@@ -22,7 +22,16 @@ if ( ! is_admin() ) {
 			<div class="llms-widget is-loading" data-method="<?php echo $id; ?>" id="llms-widget-<?php echo $id; ?>">
 
 				<p class="llms-label"><?php echo $opts['title']; ?></p>
+
+				<?php if ( ! empty( $opts['link'] ) ) { ?>
+					<a href="<?php echo esc_url( $opts['link'] ); ?>">
+				<?php } ?>
+				
 				<h1><?php echo $opts['content']; ?></h1>
+
+				<?php if ( ! empty( $opts['link'] ) ) { ?>
+					</a>
+				<?php } ?>
 
 				<span class="spinner"></span>
 

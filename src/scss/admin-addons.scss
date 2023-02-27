@@ -3,23 +3,21 @@
 
 .wrap.lifterlms-addons {
 
-	.wp-heading-inline {
-		vertical-align: middle;
-	}
-
-	.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item:after {
-		margin: 0 3px;
+	.llms-subheader {
+		display: flex;
+		flex-direction: column;
 	}
 
 }
 
 .llms-addons-bulk-actions {
-	background: #fff;
-	border: 1px solid #ddd;
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.1);
-	padding: 40px;
+	background-color: #FFF;
+	border: 1px solid #dedede;
+	border-radius: 12px;
+	box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
 	left: 50%;
-	margin-left: -100px;
+	margin-left: -205px;
+	padding: 40px 60px;
 	position: fixed;
 	text-align: center;
 	transition: top 0.2s ease;
@@ -63,35 +61,33 @@
 }
 
 .llms-addons-wrap {
+	display: grid;
+	grid-gap: 30px;
+	grid-template-columns: 1fr;
+	justify-content: space-between;
 
-	@include clearfix();
+	@media only screen and ( min-width: 782px ) {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
 
 	.llms-add-on-item {
-		display: block;
+		background-color: #FFF;
+		border: 1px solid #dedede;
+		border-radius: 12px;
+		box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
 		list-style: none;
-		margin-bottom: 20px;
-		position: relative;
+		margin: 0;
+		overflow: hidden;
 
 		@media only screen and ( min-width: 680px ) {
-			float: left;
-			margin-right: 30px;
-			width: calc( 33.333% - 20px );
-			&:nth-of-type(3n) {
-				margin-right: 0;
-			}
-			&:nth-of-type(3n+1) {
-				clear: left;
-			}
-		}
 
+		}
 	}
 
 	.llms-add-on {
-
-		background-color: #f5f5f5;
-		border: 1px solid #ddd;
-		box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.1);
-		position: relative;
+		display: flex;
+		flex-flow: column no-wrap;
+		height: 100%;
 
 		.llms-add-on-link {
 			color: #444;
@@ -102,38 +98,49 @@
 		header {
 			margin-bottom: 0;
 			h4 {
-				color: #23282d;
-				font-size: 16px;
-				margin: 8px 8px 0;
+				color: #1d2327;
+				font-size: 20px;
+				line-height: 1.5;
+				margin: 30px 20px 20px 20px;
 			}
 			img {
+				aspect-ratio: 2 /1;
 				display: block;
-				max-width: 100%;
+				height: auto;
+				width: 100%;
 			}
 		}
 
 		section {
-			padding: 8px;
+			padding: 0 20px;
 			p {
-				margin: 0 0 8px;
+				font-size: 15px;
+				line-height: 1.5;
+				margin: 0 0 15px;
+				text-align: left;
 			}
 			ul, li {
+				font-size: 15px;
+				line-height: 1.5;
 				margin: 0;
 				padding: 0;
+
+				:first-child {
+					font-weight: 700;
+				}
 			}
 			img {
 				border-radius: 50%;
 				display: inline-block;
-				width: 18px;
-				vertical-align: bottom;
+				height: 20px;
+				width: 20px;
+				vertical-align: text-bottom;
 			}
 		}
 
 		footer.llms-actions {
-			background: #e8e8e8;
-			border-top: 1px solid #ddd;
-			padding: 16px 8px;
-			margin-top: 8px;
+			margin-top: auto;
+			padding: 20px;
 
 			a.open-plugin-details-modal {
 				font-size: 18px;
@@ -142,24 +149,33 @@
 			}
 
 			.llms-status-icon {
-
-				background: #ececec;
-				border: 1px solid #b7b7b7;
-				color: #444;
-				border-radius: 4px;
-				margin-right: 4px;
-				padding: 8px;
+				background-color: #e1e1e1;
+				border: none;
+				border-radius: 8px;
+				color: #414141;
+				cursor: pointer;
+				display: block;
+				font-size: 16px;
+				font-weight: 700;
+				text-decoration: none;
+				text-shadow: none;
+				line-height: 1;
+				margin: 10px 0;
+				max-width: 100%;
+				padding: 8px 14px;
+				-webkit-transition: all .5s ease;
+				transition: all .5s ease;
 				text-decoration: none;
 				vertical-align: middle;
 
 				&:hover {
-					background: #f0f0f0;
+					background-color: #cdcdcd;
 					.fa.show-on-hover { display: inline-block; }
 					.fa.hide-on-hover { display: none; }
 				}
 
 				.fa {
-					color: #777;
+					color: #414141;
 					display: inline-block;
 					font-size: 16px;
 					height: 16px;
@@ -185,7 +201,6 @@
 				}
 
 				.llms-status-text {
-					font-weight: 400;
 					font-size: 14px;
 				}
 
@@ -261,6 +276,42 @@
 				}
 			}
 
+		}
+
+	}
+
+}
+
+@media only screen and (min-width: 782px) {
+	.wrap.lifterlms-addons {
+
+		.llms-subheader {
+			display: flex;
+			flex-direction: row;
+			height: 40px;
+			position: sticky;
+			top: 32px;
+
+			h1 {
+				margin-bottom: 0;
+			}
+
+		}
+
+	}
+
+	.llms-addons-wrap {
+
+		.llms-add-on {
+
+			footer.llms-actions {
+
+				.llms-status-icon {
+					display: inline-block;
+					margin: 10px 5px 0 0;
+				}
+
+			}
 		}
 
 	}

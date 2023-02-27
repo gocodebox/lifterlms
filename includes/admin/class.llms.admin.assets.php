@@ -196,7 +196,7 @@ class LLMS_Admin_Assets {
 
 		$screen = get_current_screen();
 
-		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-settings' === $screen->id ) {
+		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-dashboard' === $screen->id ) {
 			llms()->assets->enqueue_style( 'llms-admin-add-ons' );
 		}
 
@@ -452,15 +452,15 @@ class LLMS_Admin_Assets {
 	 */
 	protected function maybe_enqueue_reporting( $screen ) {
 
-		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-settings' ), true ) ) {
+		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-dashboard' ), true ) ) {
 
 			$current_tab = llms_filter_input( INPUT_GET, 'tab' );
 
 			wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04', false );
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), llms()->version, true );
 
-			// Settings "general" tab where we have analytics widgets.
-			if ( 'lifterlms_page_llms-settings' === $screen->base && ( is_null( $current_tab ) || 'general' === $current_tab ) ) {
+			// Dashboard page where we have analytics widgets.
+			if ( 'lifterlms_page_llms-dashboard' === $screen->base ) {
 
 				wp_enqueue_script( 'llms-analytics' );
 

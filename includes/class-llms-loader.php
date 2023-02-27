@@ -327,6 +327,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
 
 		// Admin classes.
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-header.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
@@ -335,6 +336,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 
 		// Admin classes (files to be renamed).
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.menus.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';

@@ -3,11 +3,11 @@
 .llms-button-primary,
 .llms-button-secondary {
 	border:none;
-	border-radius: 0;
+	border-radius: 8px;
 	color: $color-white;
 	cursor: pointer;
 	font-size: 16px;
-	font-weight: 300;
+	font-weight: 700;
 	text-decoration: none;
 	text-shadow: none;
 	line-height: 1;
@@ -58,7 +58,6 @@
 		}
 	}
 
-
 }
 
 .llms-button-primary {
@@ -108,4 +107,47 @@
 	&:active {
 		background: lighten( $color-danger, 4 );
 	}
+}
+
+.llms-button-outline {
+	background: transparent;
+	border: 3px solid #1D2327;
+	border-radius: 8px;
+	color: #1D2327;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+	text-shadow: none;
+	line-height: 1;
+	margin: 0;
+	max-width: 100%;
+	padding: 12px 24px;
+	position: relative;
+	transition: all .5s ease;
+
+	&:disabled {
+		opacity: 0.5;
+	}
+	&:hover, &:active {
+		color: #1D2327;
+	}
+	&:focus {
+		color: #1D2327;
+	}
+
+	&.auto {
+		width: auto;
+	}
+
+	&.full {
+		display: block;
+		text-align: center;
+		width: 100%;
+	}
+
+	&.square {
+		padding: 12px;
+	}
+
 }
