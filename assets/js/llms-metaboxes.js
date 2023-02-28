@@ -1457,7 +1457,7 @@
 			$el.on( 'change', function() {
 				var id = $( this ).val();
 				if ( id ) {
-					$btn.attr( 'href', '/?p=' + id ).show();
+					$btn.attr( 'href', window.llms.site_url + '/?p=' + id ).show();
 				} else {
 					$btn.hide();
 				}

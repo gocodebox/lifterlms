@@ -391,6 +391,7 @@ class LLMS_Admin_Assets {
 				window.llms = window.llms || {};
 				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
+				window.llms.site_url = "' . site_url() . '";
 				window.llms.post = ' . json_encode( $postdata ) . ';
 				window.llms.analytics = ' . json_encode( $this->get_analytics_options() ) . ';
 			</script>
