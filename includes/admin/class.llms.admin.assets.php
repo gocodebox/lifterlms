@@ -341,6 +341,8 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
+		} elseif ( 'lifterlms_page_llms-dashboard' === $screen->id ) {
+			wp_enqueue_script( 'postbox' );
 		}
 
 		if (
