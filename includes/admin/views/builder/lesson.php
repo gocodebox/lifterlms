@@ -59,6 +59,10 @@
 				</a>
 			<?php endif; ?>
 
+			<span class="llms-action-icons-lesson-id">
+				<?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}
+			</span>
+
 		</div>
 
 	</header>
