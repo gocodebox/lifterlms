@@ -2,7 +2,10 @@
 /**
  * Dashboard Page HTML
  *
+ * @package LifterLMS/Admin/Views
+ *
  * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,7 +62,7 @@ add_meta_box(
 				echo llms_get_template(
 					'admin/reporting/tabs/widgets.php',
 					array(
-						'json'        => json_encode(
+						'json'        => wp_json_encode(
 							array(
 								'current_tab'         => 'settings',
 								'current_range'       => 'last-7-days',
@@ -148,6 +151,10 @@ add_meta_box(
 <?php
 /**
  * Callback function for llms_dashboard_welcome meta box.
+ *
+ * @since [version]
+ *
+ * @return void
  */
 function llms_dashboard_addons_callback() {
 	/**
@@ -161,6 +168,10 @@ function llms_dashboard_addons_callback() {
 
 /**
  * Callback function for llms_dashboard_quick_links meta box.
+ *
+ * @since [version]
+ *
+ * @return void
  */
 function llms_dashboard_quick_links_callback() {
 	?>
@@ -269,6 +280,10 @@ function llms_dashboard_quick_links_callback() {
 
 /**
  * Callback function for llms_dashboard_blog meta box.
+ *
+ * @since [version]
+ *
+ * @return void
  */
 function llms_dashboard_blog_callback() {
 
@@ -293,7 +308,7 @@ function llms_dashboard_blog_callback() {
 	?>
 
 	<ul>
-		<?php if ( $maxitems === 0 ) : ?>
+		<?php if ( 0 === $maxitems ) : ?>
 			<li><?php esc_html_e( 'No news found.', 'lifterlms' ); ?></li>
 		<?php else : ?>
 			<?php // Loop through each feed item and display each item as a hyperlink. ?>
@@ -314,6 +329,10 @@ function llms_dashboard_blog_callback() {
 
 /**
  * Callback function for llms_dashboard_podcast meta box.
+ *
+ * @since [version]
+ *
+ * @return void
  */
 function llms_dashboard_podcast_callback() {
 
@@ -338,7 +357,7 @@ function llms_dashboard_podcast_callback() {
 	?>
 
 	<ul>
-		<?php if ( $maxitems === 0 ) : ?>
+		<?php if ( 0 === $maxitems ) : ?>
 			<li><?php esc_html_e( 'No news found.', 'lifterlms' ); ?></li>
 		<?php else : ?>
 			<?php // Loop through each feed item and display each item as a hyperlink. ?>
