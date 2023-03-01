@@ -68,7 +68,7 @@ class LLMS_Admin_Header {
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		// Don't show header on the Course Builder.
-		if ( 'admin_page_llms-course-builder' === $current_screen->base ) {
+		if ( isset( $current_screen->base ) && 'admin_page_llms-course-builder' === $current_screen->base ) {
 			$show_header = false;
 		}
 
