@@ -63,7 +63,7 @@ class LLMS_Admin_Review {
 		// Show footer on our settings pages.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed here
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
 			( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) ||
 			( ! empty( $current_screen->id ) && str_starts_with( $current_screen->id, 'lifterlms' ) )
@@ -71,6 +71,7 @@ class LLMS_Admin_Review {
 			$show_footer = true;
 		}
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 		// Exclude the wizard.
 		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
