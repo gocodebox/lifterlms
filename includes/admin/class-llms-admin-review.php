@@ -5,13 +5,13 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version 4.14.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin review request
+ * Admin review request.
  *
  * Handles UI updates to the admin panel which request users to rate & review the
  * LifterLMS plugin on WordPress.org.
@@ -39,9 +39,10 @@ class LLMS_Admin_Review {
 	}
 
 	/**
-	 * On LifterLMS admin screens replace the default footer text with a review request
+	 * On LifterLMS admin screens replace the default footer text with a review request.
 	 *
 	 * @since 3.24.0
+	 * @since [version] Show footer on our custom post types in admin, but not on the block editor.
 	 *
 	 * @param string $text Default footer text.
 	 * @return string
@@ -51,24 +52,31 @@ class LLMS_Admin_Review {
 		global $current_screen;
 
 		// Show footer on our custom post types in admin, but not on the block editor.
-		if ( isset( $current_screen->post_type ) &&
+		if (
+			isset( $current_screen->post_type ) &&
 			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ), true ) &&
-			$current_screen->is_block_editor === false ) {
+			false === $current_screen->is_block_editor
+		) {
 			$show_footer = true;
 		}
 
 		// Show footer on our settings pages.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed here
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if ( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) {
 			$show_footer = true;
 		}
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// Exclude the wizard.
-		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
+		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
 			$show_header = false;
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		// Don't show footer on the Course Builder.
-		if ( $current_screen->base === 'admin_page_llms-course-builder' ) {
+		if ( 'admin_page_llms-course-builder' === $current_screen->base ) {
 			$show_footer = false;
 		}
 
