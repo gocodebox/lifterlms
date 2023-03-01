@@ -71,12 +71,12 @@ class LLMS_Admin_Review {
 
 		// Exclude the wizard.
 		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
-			$show_header = false;
+			$show_footer = false;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		// Don't show footer on the Course Builder.
-		if ( 'admin_page_llms-course-builder' === $current_screen->base ) {
+		if ( isset( $current_screen->base ) && 'admin_page_llms-course-builder' === $current_screen->base ) {
 			$show_footer = false;
 		}
 
