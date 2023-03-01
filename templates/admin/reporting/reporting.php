@@ -20,7 +20,7 @@ is_admin() || exit;
 				<ul class="llms-nav-items">
 				<?php foreach ( $tabs as $name => $label ) : ?>
 
-					<?php $current_tab_class = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
+					<?php $current_tab_class = ( $current_tab === $name ) ? ' llms-active' : ''; ?>
 					<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $name ); ?>"><?php echo $label; ?></a>
 
 				<?php endforeach; ?>

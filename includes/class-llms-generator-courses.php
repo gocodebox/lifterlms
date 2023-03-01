@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.7.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -688,6 +688,47 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$raw['status'] = apply_filters( 'llms_generator_cloned_post_status', 'draft', $raw, $this );
 
 		return $raw;
+
+	}
+
+	/**
+	 * Set all metadata for a given post object.
+	 *
+	 * This method will only set metadata for registered LLMS_Post_Model properties.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model $post An LLMS post object.
+	 * @param array           $raw  Array of raw data.
+	 * @return void
+	 */
+	protected function set_metadata( $post, $raw ) {
+
+		$generated_from_id = $post->get( 'generated_from_id' );
+
+		if ( $generated_from_id ) {
+			$replace_id_props = array(
+				'course_closed_message',
+				'course_opens_message',
+				'enrollment_closed_message',
+				'enrollment_opens_message',
+			);
+
+			$find    = '#(.*id=["\'])' . $generated_from_id . '(["\'].*)#';
+			$replace = '${1}' . $post->get( 'id' ) . '${2}';
+
+			/**
+			 * Replace old post ID with new cloned post ID in course/enrollment
+			 * message shortcodes.
+			 */
+			foreach ( $replace_id_props as $key ) {
+				if ( isset( $raw[ $key ] ) ) {
+					$raw[ $key ] = preg_replace( $find, $replace, $raw[ $key ] );
+				}
+			}
+		}
+
+		return parent::set_metadata( $post, $raw );
 
 	}
 

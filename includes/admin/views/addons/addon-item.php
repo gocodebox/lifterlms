@@ -65,7 +65,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<?php do_action( 'llms_add_ons_single_item_before_actions', $addon, $current_tab ); ?>
 
-			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ) ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) || ( $addon->is_installable() && ! $addon->is_installed() ) ) : ?>
+			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ), true ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) || ( $addon->is_installable() && ! $addon->is_installed() ) ) : ?>
 				<a href="<?php echo esc_url( $addon->get_permalink() ); ?>" class="llms-status-icon external status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-info-circle hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>

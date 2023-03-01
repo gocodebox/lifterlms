@@ -161,6 +161,7 @@ class LLMS_Admin_Settings {
 
 		self::get_settings_tabs();
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce is checked in self::save().
 		$current_tab = empty( $_GET['tab'] ) ? 'general' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is checked in self::save().
@@ -506,7 +507,7 @@ class LLMS_Admin_Settings {
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
 							<?php
-							if ( 'multiselect' == $field['type'] ) {
+							if ( 'multiselect' === $field['type'] ) {
 								echo 'multiple="multiple"'; }
 							?>
 							>
@@ -521,20 +522,18 @@ class LLMS_Admin_Settings {
 
 								?>
 								<option value="<?php echo esc_attr( $key ); ?>"
-														  <?php
-
-															if ( is_array( $option_value ) ) {
-																selected( in_array( $key, $option_value ), true );
-															} else {
-																selected( $option_value, $key );
-															}
-
-															?>
+								<?php
+								if ( is_array( $option_value ) ) {
+									selected( in_array( $key, $option_value ), true );
+								} else {
+									selected( $option_value, $key );
+								}
+								?>
 								><?php echo $val; ?></option>
 								<?php
 							}
 							?>
-					   </select>
+							</select>
 						<?php echo $description; ?>
 					</td>
 				</tr>
@@ -587,16 +586,16 @@ class LLMS_Admin_Settings {
 				if ( ! isset( $field['show_if_checked'] ) ) {
 					$field['show_if_checked'] = false;
 				}
-				if ( 'yes' == $field['hide_if_checked'] || 'yes' == $field['show_if_checked'] ) {
+				if ( 'yes' === $field['hide_if_checked'] || 'yes' === $field['show_if_checked'] ) {
 					$visbility_class[] = 'hidden_option';
 				}
-				if ( 'option' == $field['hide_if_checked'] ) {
+				if ( 'option' === $field['hide_if_checked'] ) {
 					$visbility_class[] = 'hide_options_if_checked';
 				}
-				if ( 'option' == $field['show_if_checked'] ) {
+				if ( 'option' === $field['show_if_checked'] ) {
 					$visbility_class[] = 'show_options_if_checked';
 				}
-				if ( ! isset( $field['checkboxgroup'] ) || 'start' == $field['checkboxgroup'] ) {
+				if ( ! isset( $field['checkboxgroup'] ) || 'start' === $field['checkboxgroup'] ) {
 					?>
 						<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?> <?php echo $disabled_class; ?>">
 							<th><?php echo esc_html( $field['title'] ); ?></th>
@@ -628,7 +627,7 @@ class LLMS_Admin_Settings {
 					</label> <?php echo $tooltip; ?>
 				<?php
 
-				if ( ! isset( $field['checkboxgroup'] ) || 'end' == $field['checkboxgroup'] ) {
+				if ( ! isset( $field['checkboxgroup'] ) || 'end' === $field['checkboxgroup'] ) {
 					?>
 								</fieldset>
 							</td>
@@ -712,7 +711,7 @@ class LLMS_Admin_Settings {
 					<td class="forminp">
 						<?php echo str_replace( ' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
 					</td>
-				   </tr>
+				</tr>
 				<?php
 				break;
 
@@ -741,7 +740,7 @@ class LLMS_Admin_Settings {
 							<?php
 							foreach ( $posts as $post ) :
 								setup_postdata( $post );
-								if ( $args['selected'] == $post->ID ) {
+								if ( $args['selected'] === $post->ID ) {
 									$selected = 'selected';
 								} else {
 									$selected = '';
@@ -751,7 +750,7 @@ class LLMS_Admin_Settings {
 						<?php endforeach; ?>
 						</select>
 					</td>
-				   </tr>
+				</tr>
 				<?php
 				break;
 
@@ -830,11 +829,11 @@ class LLMS_Admin_Settings {
 
 		}
 
-		if ( $description && in_array( $field['type'], array( 'radio' ) ) ) {
+		if ( $description && in_array( $field['type'], array( 'radio' ), true ) ) {
 
 			$description = '<p style="margin-top:0">' . wp_kses_post( $description ) . '</p>';
 
-		} elseif ( $description && in_array( $field['type'], array( 'checkbox' ) ) ) {
+		} elseif ( $description && in_array( $field['type'], array( 'checkbox' ), true ) ) {
 
 			$description = wp_kses_post( $description );
 
@@ -843,7 +842,7 @@ class LLMS_Admin_Settings {
 			$description = '<p class="description">' . wp_kses_post( $description ) . '</p>';
 		}
 
-		if ( $tooltip && in_array( $field['type'], array( 'checkbox' ) ) ) {
+		if ( $tooltip && in_array( $field['type'], array( 'checkbox' ), true ) ) {
 
 			$tooltip = '<p class="description">' . $tooltip . '</p>';
 

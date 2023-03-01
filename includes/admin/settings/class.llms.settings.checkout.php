@@ -212,7 +212,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Force SSL', 'lifterlms' ),
 				'desc'    => __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
-							   '<p class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_checkout_force_ssl',
 				'type'    => 'checkbox',
 				'default' => 'no',
@@ -328,7 +328,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'Payment Gateways', 'lifterlms' ),
 				'type'  => 'title',
-				// 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
 				'id'    => 'checkout_settings_gateways_list_title',
 			),
 

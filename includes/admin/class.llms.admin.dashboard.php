@@ -5,6 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +16,19 @@ defined( 'ABSPATH' ) || exit;
  * @since [version]
  */
 class LLMS_Admin_Dashboard {
+
+	/**
+	 * Constructor
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+
+		wp_enqueue_script( 'postbox' );
+
+	}
 
 	/**
 	 * Retrieve an instance of the WP_Screen for the dashboard screen

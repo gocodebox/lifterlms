@@ -149,7 +149,7 @@ class LLMS_Admin_Menus {
 			$post_id = absint( $_GET['course_id'] );
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
-			wp_redirect(
+			wp_safe_redirect(
 				add_query_arg(
 					array(
 						'page'      => 'llms-course-builder',
@@ -357,7 +357,7 @@ class LLMS_Admin_Menus {
 	 */
 	public function reporting_page_init() {
 
-		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 

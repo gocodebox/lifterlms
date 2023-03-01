@@ -534,7 +534,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			</header>
 			<table
 				class="<?php echo implode( ' ', $classes ); ?>"
-				data-args='<?php echo json_encode( $this->get_args() ); ?>'
+				data-args='<?php echo wp_json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
 			>

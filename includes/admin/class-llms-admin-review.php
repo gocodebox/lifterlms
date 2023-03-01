@@ -51,8 +51,8 @@ class LLMS_Admin_Review {
 		global $current_screen;
 
 		// Show footer on our custom post types in admin, but not on the block editor.
-		if ( isset( $current_screen->post_type ) && 
-			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ) ) && 
+		if ( isset( $current_screen->post_type ) &&
+			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ), true ) &&
 			$current_screen->is_block_editor === false ) {
 			$show_footer = true;
 		}
@@ -65,10 +65,10 @@ class LLMS_Admin_Review {
 		// Exclude the wizard.
 		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
 			$show_header = false;
-		} 
+		}
 
 		// Don't show footer on the Course Builder.
-		if ( $current_screen->base == 'admin_page_llms-course-builder' ) {
+		if ( $current_screen->base === 'admin_page_llms-course-builder' ) {
 			$show_footer = false;
 		}
 

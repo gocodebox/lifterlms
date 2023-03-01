@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2304"
+entry: Fix cloned course retaining original course's ID in some restriction messages.

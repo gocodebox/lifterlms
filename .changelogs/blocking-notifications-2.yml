@@ -1,0 +1,7 @@
+significance: patch
+type: performance
+links:
+  - "#933"
+entry: Improve performance when querying notifications via the
+  LLMS_Notifications_Query and there's no need to count the total notifications
+  found, or for pagination information.
