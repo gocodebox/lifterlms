@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+comment: "Fixed: View button URL when using WP in subdirectory"
+entry: Fixed View button URL when using WP in subdirectory.
