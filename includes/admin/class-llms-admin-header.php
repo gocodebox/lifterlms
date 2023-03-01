@@ -56,7 +56,10 @@ class LLMS_Admin_Header {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed here
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
-		if ( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) {
+		if (
+			( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) ||
+			( ! empty( $current_screen->id ) && str_starts_with( $current_screen->id, 'lifterlms' ) )
+		) {
 			$show_header = true;
 		}
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
