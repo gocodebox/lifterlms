@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -292,10 +292,12 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
 }
 
 /**
- * Checks if user is currently enrolled in course
+ * Checks if user is currently enrolled courses, sections, lessons, or memberships.
  *
  * @since Unknown
  * @since 3.25.0 Unknown.
+ * @since [version] From now on this function will always return false for non existing users,
+ *               e.g. deleted users.
  *
  * @see LLMS_Student->is_enrolled()
  *
@@ -309,7 +311,9 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
  */
 function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
 	$student = new LLMS_Student( $user_id );
-	return $student->is_enrolled( $product_id, $relation, $use_cache );
+	return $student->exists() ?
+		$student->is_enrolled( $product_id, $relation, $use_cache ) :
+		false;
 }
 
 /**
