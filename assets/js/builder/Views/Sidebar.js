@@ -1,30 +1,34 @@
 /**
  * Main sidebar view
+ *
  * @since    3.16.0
  * @version  3.16.7
  */
 define( [
-		'Views/Editor',
-		'Views/Elements',
-		'Views/Utilities',
-		'Views/_Subview'
-	], function(
-		Editor,
-		Elements,
-		Utilities,
-		Subview
-	) {
-
+	'Views/Editor',
+	'Views/Elements',
+	'Views/Utilities',
+	'Views/VideoExplainer',
+	'Views/_Subview',
+], function(
+	Editor,
+	Elements,
+	Utilities,
+	VideoExplainer,
+	Subview
+) {
 	return Backbone.View.extend( _.defaults( {
 
 		/**
 		 * Current builder state
-		 * @type  {String}
+		 *
+		 * @type  {string}
 		 */
 		state: 'builder', // [builder|editor]
 
 		/**
 		 * Current Subviews
+		 *
 		 * @type  {Object}
 		 */
 		views: {
@@ -38,6 +42,11 @@ define( [
 				instance: null,
 				state: 'builder',
 			},
+			video_explainer: {
+				class: VideoExplainer,
+				instance: null,
+				state: 'builder',
+			},
 			editor: {
 				class: Editor,
 				instance: null,
@@ -47,12 +56,14 @@ define( [
 
 		/**
 		 * HTML element selector
-		 * @type  {String}
+		 *
+		 * @type  {string}
 		 */
 		el: '#llms-builder-sidebar',
 
 		/**
 		 * DOM events
+		 *
 		 * @type  {Object}
 		 */
 		events: {
@@ -63,24 +74,27 @@ define( [
 
 		/**
 		 * Wrapper Tag name
-		 * @type  {String}
+		 *
+		 * @type  {string}
 		 */
 		tagName: 'aside',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-sidebar-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
+		 * @param  data
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		initialize: function( data ) {
-
+		initialize( data ) {
 			// save a reference to the main Course view
 			this.CourseView = data.CourseView;
 
@@ -95,17 +109,17 @@ define( [
 			Backbone.pubSub.on( 'sidebar-editor-close', this.on_editor_close, this );
 
 			this.$saveButton = $( '#llms-save-button' );
-
 		},
 
 		/**
 		 * Compiles the template and renders the view
+		 *
+		 * @param  view_data
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		render: function( view_data ) {
-
+		render( view_data ) {
 			view_data = view_data || {};
 
 			this.$el.html( this.template() );
@@ -114,7 +128,7 @@ define( [
 				SidebarView: this,
 			} ) );
 
-			var $el = $( '.wrap.lifterlms.llms-builder' );
+			const $el = $( '.wrap.lifterlms.llms-builder' );
 			if ( 'builder' === this.state ) {
 				$el.removeClass( 'editor-active' );
 			} else {
@@ -124,83 +138,76 @@ define( [
 			this.$saveButton = this.$el.find( '#llms-save-button' );
 
 			return this;
-
 		},
 
 		/**
 		 * Adds error message element
-		 * @param    {[type]}   $err  [description]
+		 *
+		 * @param {[type]} $err [description]
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		add_error: function( $err ) {
-
+		add_error( $err ) {
 			this.$el.find( '.llms-builder-save' ).prepend( $err );
-
 		},
 
 		/**
 		 * Clear any existing error message elements
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		clear_errors: function() {
-
+		clear_errors() {
 			this.$el.find( '.llms-builder-save .llms-builder-error' ).remove();
-
 		},
 
 		/**
 		 * Update save status button when changes are detected
 		 * runs on an interval to check status of course regularly for unsaved changes
-		 * @param    obj   sync  instance of the sync controller
+		 *
+		 * @param  obj  sync  instance of the sync controller
+		 * @param  sync
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		changes_made: function( sync ) {
-
+		changes_made( sync ) {
 			// if a save is currently running, don't do anything
 			if ( sync.saving ) {
 				return;
 			}
 
 			if ( sync.has_unsaved_changes ) {
-
 				this.$saveButton.attr( 'data-status', 'unsaved' );
 				this.$saveButton.removeAttr( 'disabled' );
-
 			} else {
-
 				this.$saveButton.attr( 'data-status', 'saved' );
 				this.$saveButton.attr( 'disabled', 'disabled' );
-
 			}
-
 		},
 
 		/**
 		 * Exit the builder and return to the WP Course Editor
+		 *
 		 * @return   void
 		 * @since    3.16.7
 		 * @version  3.16.7
 		 */
-		exit_now: function() {
-
+		exit_now() {
 			window.location.href = window.llms_builder.CourseModel.get_edit_post_link();
-
 		},
 
 		/**
 		 * Triggered when a heartbeat send event starts containing builder information
-		 * @param    obj   sync  instance of the sync controller
+		 *
+		 * @param  obj  sync  instance of the sync controller
+		 * @param  sync
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		heartbeat_send: function( sync ) {
-
+		heartbeat_send( sync ) {
 			if ( sync.saving ) {
 				LLMS.Spinner.start( this.$saveButton.find( 'i' ), 'small' );
 				this.$saveButton.attr( {
@@ -208,30 +215,29 @@ define( [
 					disabled: 'disabled',
 				} );
 			}
-
 		},
 
 		/**
 		 * Triggered when a heartbeat tick completes and updates save status or appends errors
-		 * @param    obj   sync  instance of the sync controller
-		 * @param    obj   data  updated data
+		 *
+		 * @param  obj  sync  instance of the sync controller
+		 * @param  obj  data  updated data
+		 * @param  sync
+		 * @param  data
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		heartbeat_tick: function( sync, data ) {
-
+		heartbeat_tick( sync, data ) {
 			if ( ! sync.saving ) {
-
-				var status = 'saved';
+				let status = 'saved';
 
 				this.clear_errors();
 
 				if ( 'error' === data.status ) {
-
 					status = 'error';
 
-					var msg = data.message,
+					let msg = data.message,
 						$err = $( '<ol class="llms-builder-error" />' );
 
 					if ( 'object' === typeof msg ) {
@@ -239,11 +245,10 @@ define( [
 							$err.append( '<li>' + txt + '</li>' );
 						} );
 					} else {
-						$err = $err.append( '<li>' + msg + '</li>' );;
+						$err = $err.append( '<li>' + msg + '</li>' );
 					}
 
 					this.add_error( $err );
-
 				}
 
 				this.$saveButton.find( '.llms-spinning' ).remove();
@@ -251,44 +256,42 @@ define( [
 					'data-status': status,
 					disabled: 'disabled',
 				} );
-
 			}
-
 		},
 
 		/**
 		 * Determine if the editor is the currently active state
+		 *
 		 * @return   boolean
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		is_editor_active: function() {
-
+		is_editor_active() {
 			return ( 'editor' === this.state );
-
 		},
 
 		/**
 		 * Triggered when the editor closes, updates state to be the course builder view
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		on_editor_close: function() {
-
+		on_editor_close() {
 			this.set_state( 'builder' ).render();
-
 		},
 
 		/**
 		 * When a lesson is selected, opens the sidebar to the editor view
-		 * @param    obj   lesson_model  instance of the lesson model which was selected
+		 *
+		 * @param  obj          lesson_model  instance of the lesson model which was selected
+		 * @param  lesson_model
+		 * @param  tab
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		on_lesson_select: function( lesson_model, tab ) {
-
+		on_lesson_select( lesson_model, tab ) {
 			if ( 'editor' !== this.state ) {
 				this.set_state( 'editor' );
 			} else {
@@ -297,23 +300,20 @@ define( [
 
 			this.render( {
 				model: lesson_model,
-				tab: tab,
+				tab,
 			} );
-
 		},
 
 		/**
 		 * Save button click event
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		save_now: function() {
-
+		save_now() {
 			window.llms_builder.sync.save_now();
-
 		},
 
 	}, Subview ) );
-
 } );

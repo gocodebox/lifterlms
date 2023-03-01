@@ -598,6 +598,7 @@ class LLMS_Admin_Builder {
 					'settings-fields',
 					'sidebar',
 					'utilities',
+					'video-explainer',
 				);
 
 				foreach ( $templates as $template ) {

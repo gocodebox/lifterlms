@@ -11,6 +11,7 @@
 
 	<div class="llms-elements" id="llms-elements"></div>
 	<div class="llms-utilities" id="llms-utilities"></div>
+	<div class="llms-video-explainer" id="llms-video-explainer"></div>
 
 	<div class="llms-editor" id="llms-editor"></div>
 
