@@ -1,0 +1,5 @@
+significance: minor
+type: dev
+entry: The function `llms_is_user_enrolled()` will always return `false` for non
+  existing users. While, before, it could return `true` if a now removed user
+  was enrolled into a the given course or membership.
