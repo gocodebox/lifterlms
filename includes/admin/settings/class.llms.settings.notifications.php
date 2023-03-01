@@ -171,7 +171,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+			$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( $controller ) {
 
@@ -215,7 +215,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 */
 	public function maybe_disable_save( $bool ) {
 
-		return ( isset( $_GET['notification'] ) );
+		return ( isset( $_GET['notification'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 	}
 

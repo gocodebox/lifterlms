@@ -142,7 +142,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Grades', 'lifterlms' ),
-					'desc'     =>  __( 'Student grade and progress reporting', 'lifterlms' ),
+					'desc'     => __( 'Student grade and progress reporting', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_grades_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-grades',

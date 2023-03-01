@@ -42,8 +42,8 @@ class LLMS_Admin_Header {
 		$current_screen = get_current_screen();
 
 		// Show header on our custom post types in admin, but not on the block editor.
-		if ( isset( $current_screen->post_type ) && 
-			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ) ) && 
+		if ( isset( $current_screen->post_type ) &&
+			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ), true ) && 
 			$current_screen->is_block_editor === false ) {
 			$show_header = true;
 		}
@@ -56,10 +56,10 @@ class LLMS_Admin_Header {
 		// Exclude the wizard.
 		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
 			$show_header = false;
-		} 
+		}
 
 		// Don't show header on the Course Builder.
-		if ( $current_screen->base == 'admin_page_llms-course-builder' ) {
+		if ( $current_screen->base === 'admin_page_llms-course-builder' ) {
 			$show_header = false;
 		}
 
@@ -76,7 +76,8 @@ class LLMS_Admin_Header {
 							<?php
 								// Show a license link in header if we aren't on the Add-ons screen.
 								$screen = get_current_screen();
-								if ( $screen->id != 'lifterlms_page_llms-add-ons' ) { ?>
+								if ( $screen->id !== 'lifterlms_page_llms-add-ons' ) {
+									?>
 									<span class="llms-license">
 										<?php
 											// Get active keys for this site.

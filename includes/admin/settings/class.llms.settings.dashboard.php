@@ -102,7 +102,7 @@ class LLMS_Settings_Dashboard extends LLMS_Settings_Page {
 		llms_get_template(
 			'admin/reporting/tabs/widgets.php',
 			array(
-				'json'        => json_encode(
+				'json'        => wp_json_encode(
 					array(
 						'current_tab'         => 'dashboard',
 						'current_range'       => 'last-7-days',

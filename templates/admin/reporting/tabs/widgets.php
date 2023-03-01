@@ -26,7 +26,7 @@ if ( ! is_admin() ) {
 				<?php if ( ! empty( $opts['link'] ) ) { ?>
 					<a href="<?php echo esc_url( $opts['link'] ); ?>">
 				<?php } ?>
-				
+
 				<h1><?php echo $opts['content']; ?></h1>
 
 				<?php if ( ! empty( $opts['link'] ) ) { ?>

@@ -5,6 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +26,7 @@ class LLMS_Admin_Dashboard {
 	 */
 	public function __construct() {
 
-		wp_enqueue_script('postbox');
+		wp_enqueue_script( 'postbox' );
 
 	}
 

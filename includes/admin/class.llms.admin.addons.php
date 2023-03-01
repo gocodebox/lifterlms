@@ -91,11 +91,9 @@ class LLMS_Admin_AddOns {
 		$this->data = llms_get_add_ons();
 
 		if ( ! is_wp_error( $this->data ) ) {
-
 			foreach ( $this->data['items'] as $key => $addon ) {
-
 				// Exclude the core plugin and helper plugin.
-				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
+				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ), true ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
 
@@ -103,7 +101,6 @@ class LLMS_Admin_AddOns {
 				if ( array_key_exists( 'uncategorized', $addon['categories'] ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
-
 			}
 		}
 
@@ -166,11 +163,11 @@ class LLMS_Admin_AddOns {
 
 		foreach ( $addons as $addon ) {
 
-			if ( in_array( 'third-party', array_keys( $addon['categories'] ) ) ) {
+			if ( in_array( 'third-party', array_keys( $addon['categories'] ), true ) ) {
 				continue;
 			}
 
-			if ( ! in_array( $addon['id'], $excludes ) ) {
+			if ( ! in_array( $addon['id'], $excludes, true ) ) {
 				return $addon;
 			}
 		}
@@ -196,11 +193,11 @@ class LLMS_Admin_AddOns {
 			$cats = array_keys( $item['categories'] );
 
 			// Exclude bundles if bundles are not being included or requested.
-			if ( 'bundles' !== $cat && ! $include_bundles && in_array( 'bundles', $cats ) ) {
+			if ( 'bundles' !== $cat && ! $include_bundles && in_array( 'bundles', $cats, true ) ) {
 				continue;
 			}
 
-			if ( in_array( $cat, $cats ) ) {
+			if ( in_array( $cat, $cats, true ) ) {
 				$products[] = $item;
 			}
 		}

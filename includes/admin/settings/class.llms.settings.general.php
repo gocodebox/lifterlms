@@ -53,8 +53,8 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		$settings = array();
 
 		$settings[] = array(
-			'id'   => 'section_features',
-			'type' => 'sectionstart',
+			'id'    => 'section_features',
+			'type'  => 'sectionstart',
 			'class' => 'top',
 		);
 

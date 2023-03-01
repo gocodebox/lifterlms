@@ -156,7 +156,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		$url = false;
 
-		if ( 'previous' == $which ) {
+		if ( 'previous' === $which ) {
 			$section = $section->get_previous();
 		} elseif ( 'next' === $which ) {
 			$section = $section->get_next();
@@ -166,7 +166,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 			return;
 		}
 
-		if ( 'previous' == $which || 'next' === $which ) {
+		if ( 'previous' === $which || 'next' === $which ) {
 			$lessons = $section->get_lessons( 'ids' );
 			if ( $lessons ) {
 				$url = get_edit_post_link( $lessons[0] );
@@ -183,7 +183,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 				$hash = 'lesson:' . $lesson->get( 'id' );
 				?>
 				<li>
-					<?php if ( $this->post->ID != $lesson->get( 'id' ) ) : ?>
+					<?php if ( $this->post->ID !== $lesson->get( 'id' ) ) : ?>
 						<?php echo $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ); ?>
 					<?php else : ?>
 						<?php echo $lesson->get( 'title' ); ?>
