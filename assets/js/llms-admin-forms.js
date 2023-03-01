@@ -51,9 +51,10 @@
 
 		btn.className = 'button dashicons dashicons-editor-help';
 		btn.style     = [
+			'background-color: #466dd8',
 			'border-radius: 50%;',
-			'border-color: #50575e',
-			'color: #50575e',
+			'border-color: #466dd8',
+			'color: #FFF',
 			'font-size: 23px;',
 			'height: 30px;',
 			'line-height: 1;',
@@ -88,9 +89,7 @@
 		div.className = HELP_CLASS;
 		div.style     = 'display:none';
 
-		div.innerHTML  = '<p><b>Want to create custom forms and custom fields for your forms?</b></p>';
-		div.innerHTML += '<p>Create unique student information forms for specific courses and memberships. Also unlock the power of custom fields so you can collect and display any form field data you can imagine.</p>';
-		div.innerHTML += '<p><a class="button-primary" target="_blank" rel="noopener" href="https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=Add%20Form%20Notice&utm_campaign=Add%20Form%20In%20App%20Upgrade%20Flow">Learn More</a></p>';
+		div.innerHTML = '<div class="llms-admin-notice-icon"></div><div class="llms-admin-notice-content"><h3>Create Custom Forms and Fields</h3><p>Create unique student information forms for specific courses and memberships. Also unlock the power of custom fields so you can collect and display any form field data you can imagine.</p><p><a class="llms-button-primary" target="_blank" rel="noopener" href="https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=Add%20Form%20Notice&utm_campaign=Add%20Form%20In%20App%20Upgrade%20Flow">Learn More</a></p></div>';
 
 		return div;
 
@@ -108,8 +107,8 @@
 		var el = document.querySelector( '.' + HELP_CLASS );
 
 		if ( 'none' === el.style.display ) {
-			el.style.display = 'block';
-			el.className += ' notice notice-info';
+			el.style.display = 'flex';
+			el.className += ' notice notice-info llms-admin-notice';
 		} else {
 			el.style.display = 'none';
 		}

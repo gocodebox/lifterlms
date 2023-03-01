@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added a new Dashboard page under the LifterLMS menu in the admin,
+  whicih includes recent activity widgets and links to useful resources.

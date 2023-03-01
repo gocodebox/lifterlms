@@ -3,9 +3,15 @@
 .llms-mb-list {
 
 	label {
-		font-weight: bold;
-		width: 100%;
+		font-size: 15px;
+		font-weight: 700;
+		line-height: 1.5;
 		display: block;
+		width: 100%;
+	}
+
+	.description {
+		margin-bottom: 8px;
 	}
 
 	.input-full {
@@ -19,13 +25,13 @@
 	@extend %cf;
 
 	h2, h3, h6 {
-		font-weight: 300;
 		margin: 0;
 		padding: 0;
 	}
 
 	h2 {
-		font-size: 22px;
+		font-size: 18px;
+		font-weight: 700;
 	}
 
 	h3 {
@@ -72,6 +78,10 @@
 		float: right;
 	}
 
+	.llms-table {
+		margin-top: 10px;
+
+	}
 }
 
 .llms-metabox-section {

@@ -139,7 +139,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
 		}
 
-		return '<button class="button button-primary" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
+		return '<button class="llms-button-outline" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
 
 	}
 

@@ -50,15 +50,39 @@ class LLMS_Admin_Review {
 
 		global $current_screen;
 
-		if ( ! empty( $current_screen->id ) && false !== strpos( $current_screen->id, 'lifterlms' ) ) {
+		// Show footer on our custom post types in admin, but not on the block editor.
+		if ( isset( $current_screen->post_type ) &&
+			in_array( $current_screen->post_type, array( 'course', 'lesson', 'llms_review', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_coupon', 'llms_voucher', 'llms_form', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email' ), true ) &&
+			$current_screen->is_block_editor === false ) {
+			$show_footer = true;
+		}
+
+		// Show footer on our settings pages.
+		if ( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) {
+			$show_footer = true;
+		}
+
+		// Exclude the wizard.
+		if ( ! empty( $_GET['page' ] ) && $_GET['page'] === 'llms-setup' ) {
+			$show_header = false;
+		}
+
+		// Don't show footer on the Course Builder.
+		if ( $current_screen->base === 'admin_page_llms-course-builder' ) {
+			$show_footer = false;
+		}
+
+		// Conditionally filter footer text with our content.
+		if ( ! empty( $show_footer ) ) {
 
 			$url  = 'https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post';
 			$text = sprintf(
 				wp_kses(
 					/* Translators: %1$s = LifterLMS plugin name; %2$s = WP.org review link; %3$s = WP.org review link. */
-					__( 'Please rate %1$s <a href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', 'lifterlms' ),
+					__( 'Please rate %1$s <a class="llms-rating-stars" href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', 'lifterlms' ),
 					array(
 						'a' => array(
+							'class'  => array(),
 							'href'   => array(),
 							'target' => array(),
 							'rel'    => array(),

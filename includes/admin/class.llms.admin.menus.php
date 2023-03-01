@@ -93,7 +93,7 @@ class LLMS_Admin_Menus {
 		if ( isset( $submenu['lifterlms'] ) ) {
 
 			// Our desired order.
-			$order = array( 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
+			$order = array( 'llms-dashboard', 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
 
 			// Temporary array to hold our submenu items.
 			$new_submenu = array();
@@ -149,7 +149,7 @@ class LLMS_Admin_Menus {
 			$post_id = absint( $_GET['course_id'] );
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
-			wp_redirect(
+			wp_safe_redirect(
 				add_query_arg(
 					array(
 						'page'      => 'llms-course-builder',
@@ -198,6 +198,8 @@ class LLMS_Admin_Menus {
 
 		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', $icon_url, 51 );
+
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Dashboard', 'lifterlms' ), __( 'Dashboard', 'lifterlms' ), 'manage_lifterlms', 'llms-dashboard', array( $this, 'dashboard_page_init' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
 
@@ -321,6 +323,17 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Output the HTML for admin dashboard screen
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function dashboard_page_init() {
+		LLMS_Admin_Dashboard::output();
+	}
+
+	/**
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
@@ -344,7 +357,7 @@ class LLMS_Admin_Menus {
 	 */
 	public function reporting_page_init() {
 
-		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 

@@ -214,7 +214,7 @@ class LLMS_Admin_Page_Status {
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo esc_attr( $current_tab ); ?>">
 
-			<nav class="llms-nav-tab-wrapper">
+			<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 				<ul class="llms-nav-items">
 				<?php
 				foreach ( $tabs as $name => $label ) :
@@ -369,18 +369,21 @@ class LLMS_Admin_Page_Status {
 
 		?>
 		<form action="<?php echo esc_url( self::get_url( 'tools' ) ); ?>" method="POST">
-			<table class="llms-table text-left zebra">
-			<?php foreach ( $tools as $slug => $data ) : ?>
-				<tr>
-					<th><?php echo $data['label']; ?></th>
-					<td>
-						<p><?php echo $data['description']; ?></p>
-						<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo $slug; ?>"><?php echo $data['text']; ?></button>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-			</table>
-			<?php wp_nonce_field( 'llms_tool' ); ?>
+			<div class="llms-setting-group top">
+				<p class="llms-label"><?php esc_html_e( 'Tools & Utilities', 'lifterlms' ); ?></p>
+				<table class="llms-table text-left zebra">
+				<?php foreach ( $tools as $slug => $data ) : ?>
+					<tr>
+						<th><?php echo $data['label']; ?></th>
+						<td>
+							<p><?php echo $data['description']; ?></p>
+							<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo $slug; ?>"><?php echo $data['text']; ?></button>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+				</table>
+				<?php wp_nonce_field( 'llms_tool' ); ?>
+			</div>
 		</form>
 		<?php
 

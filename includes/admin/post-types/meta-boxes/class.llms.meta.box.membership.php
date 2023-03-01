@@ -68,10 +68,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 			$data[] = array(
 
-				'<span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>',
+				'<span class="dashicons dashicons-menu llms-drag-handle ui-sortable-handle"></span>',
 				'<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $title . ' (ID#' . $course_id . ')</a>',
 				'<a class="llms-button-danger small" data-id="' . $course_id . '" href="#llms-course-remove" style="float:right;">' . __( 'Remove course', 'lifterlms' ) . '</a>
-				 <a class="llms-button-secondary small" data-id="' . $course_id . '" href="#llms-course-bulk-enroll" style="float:right;">' . __( 'Enroll All Members', 'lifterlms' ) . '</a>',
+				 <a class="llms-button-secondary small" data-id="' . $course_id . '" href="#llms-course-bulk-enroll" style="float:right;margin-right:5px;">' . __( 'Enroll All Members', 'lifterlms' ) . '</a>',
 
 			);
 

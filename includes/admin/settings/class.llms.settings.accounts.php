@@ -65,7 +65,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'             => __( 'Dashboard Page', 'lifterlms' ),
-					'desc'              => '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
+					'desc'              => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
 					'id'                => 'lifterlms_myaccount_page_id',
 					'default'           => '',
 					'desc_tip'          => true,
@@ -79,7 +79,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				array(
 					'title'   => __( 'Courses Sorting', 'lifterlms' ),
 					'default' => 'order,ASC',
-					'desc'    => '<br>' . __( 'Determines the order of the courses in-progress listed on the student dashboard.', 'lifterlms' ),
+					'desc'    => __( 'Determines the order of the courses in-progress listed on the student dashboard.', 'lifterlms' ),
 					'id'      => 'lifterlms_myaccount_courses_in_progress_sorting',
 					'type'    => 'select',
 					'options' => array(
@@ -142,7 +142,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Grades', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Student grade and progress reporting', 'lifterlms' ),
+					'desc'     => __( 'Student grade and progress reporting', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_grades_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-grades',
@@ -150,7 +150,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Courses', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
+					'desc'     => __( 'List of all the student\'s courses', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_courses_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-courses',
@@ -158,7 +158,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Memberships', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'List of all the student\'s memberships', 'lifterlms' ),
+					'desc'     => __( 'List of all the student\'s memberships', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_memberships_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-memberships',
@@ -166,7 +166,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Achievements', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
+					'desc'     => __( 'List of all the student\'s achievements', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_achievements_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-achievements',
@@ -174,7 +174,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'View Certificates', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'List of all the student\'s certificates', 'lifterlms' ),
+					'desc'     => __( 'List of all the student\'s certificates', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_certificates_endpoint',
 					'type'     => 'text',
 					'default'  => 'my-certificates',
@@ -182,7 +182,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'Notifications', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
+					'desc'     => __( 'View Notifications and adjust notification settings', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_notifications_endpoint',
 					'type'     => 'text',
 					'default'  => 'notifications',
@@ -190,7 +190,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'Edit Account', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Edit Account page', 'lifterlms' ),
+					'desc'     => __( 'Edit Account page', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_edit_account_endpoint',
 					'type'     => 'text',
 					'default'  => 'edit-account',
@@ -198,7 +198,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'Lost Password', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Lost Password page', 'lifterlms' ),
+					'desc'     => __( 'Lost Password page', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_lost_password_endpoint',
 					'type'     => 'text',
 					'default'  => 'lost-password',
@@ -206,7 +206,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'Redeem Vouchers', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
+					'desc'     => __( 'Redeem vouchers page', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_redeem_vouchers_endpoint',
 					'type'     => 'text',
 					'default'  => 'redeem-voucher',
@@ -214,7 +214,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'title'    => __( 'Orders History', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
+					'desc'     => __( 'Students can review order history on this page', 'lifterlms' ),
 					'id'       => 'lifterlms_myaccount_orders_endpoint',
 					'type'     => 'text',
 					'default'  => 'orders',
@@ -264,7 +264,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'autoload'          => false,
-					'desc'              => '<br>' . __( 'Select a page where your site\'s Terms and Conditions are described.', 'lifterlms' ),
+					'desc'              => __( 'Select a page where your site\'s Terms and Conditions are described.', 'lifterlms' ),
 					'id'                => 'lifterlms_terms_page_id',
 					'default'           => '',
 					'desc_tip'          => true,
@@ -281,7 +281,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'autoload' => false,
 					'default'  => llms_get_terms_notice(),
 					'id'       => 'llms_terms_notice',
-					'desc'     => '<br>' . __( 'Customize the text used to display the Terms and Conditions checkbox that students must accept.', 'lifterlms' ),
+					'desc'     => __( 'Customize the text used to display the Terms and Conditions checkbox that students must accept.', 'lifterlms' ),
 					'title'    => __( 'Terms and Conditions Notice', 'lifterlms' ),
 					'type'     => 'textarea',
 					'value'    => llms_get_terms_notice(),
@@ -292,7 +292,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'autoload'          => false,
-					'desc'              => '<br>' . sprintf(
+					'desc'              => sprintf(
 						__( 'Select a page where your site\'s Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information', 'lifterlms' ),
 						'<a href="' . esc_url( admin_url( 'privacy.php' ) ) . '">',
 						'</a>'
@@ -311,7 +311,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'autoload' => false,
 					'default'  => llms_get_privacy_notice(),
 					'id'       => 'llms_privacy_notice',
-					'desc'     => '<br>' . __( 'Optionally display a privacy policy notice during registration and checkout.', 'lifterlms' ),
+					'desc'     => __( 'Optionally display a privacy policy notice during registration and checkout.', 'lifterlms' ),
 					'title'    => __( 'Privacy Policy Notice', 'lifterlms' ),
 					'type'     => 'textarea',
 				),

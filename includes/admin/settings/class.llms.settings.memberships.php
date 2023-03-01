@@ -70,7 +70,7 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 						'data-placeholder' => __( 'Select a membership', 'lifterlms' ),
 					),
 					'default'           => '',
-					'desc'              => '<br/>' . __( 'Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level.', 'lifterlms' ),
+					'desc'              => __( 'Only allow access to site to users with a specific membership level. Users will be able to view and purchase membership level.', 'lifterlms' ),
 					'id'                => 'lifterlms_membership_required',
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_membership_required', '' ) ),
 					'title'             => __( 'Restrict site by membership level', 'lifterlms' ),
@@ -102,7 +102,7 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 						'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 					),
 					'default'           => '',
-					'desc'              => '<br/>' . __( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
+					'desc'              => __( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
 					'id'                => 'lifterlms_memberships_page_id',
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_memberships_page_id', '' ) ),
 					'title'             => __( 'Memberships Page', 'lifterlms' ),
@@ -111,7 +111,7 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 
 				array(
 					'title'   => __( 'Memberships per page', 'lifterlms' ),
-					'desc'    => '<br/>' . __( 'To show all memberships on one page, enter -1', 'lifterlms' ),
+					'desc'    => __( 'To show all memberships on one page, enter -1', 'lifterlms' ),
 					'id'      => 'lifterlms_memberships_per_page',
 					'type'    => 'number',
 					'default' => 9,
@@ -120,7 +120,7 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 
 				array(
 					'default' => 'menu_order',
-					'desc'    => '<br />' . __( 'Determines the display order for items on the memberships page.', 'lifterlms' ),
+					'desc'    => __( 'Determines the display order for items on the memberships page.', 'lifterlms' ),
 					'id'      => 'lifterlms_memberships_ordering',
 					'options' => array(
 						'menu_order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
