@@ -1,0 +1,4 @@
+significance: minor
+type: deprecated
+entry: Deprecated methods `LLMS_Admin_Notices_Core::sidebar_support()` and
+  `LLMS_Admin_Notices_Core::clear_sidebar_notice()`.
