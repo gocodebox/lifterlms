@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version 7.0.1
+ * @version [version]
  */
  ( function( $ ) {
 
@@ -932,7 +932,7 @@
 		 * @since 3.0.0
 		 * @since 3.21.0 Unknown.
 		 * @since 6.0.0 Show element at 100% width if not displaying a view button.
-		 * @since 7.0.1 Fixed `home_url` for view button.
+		 * @since [version] Fixed `home_url` for view button.
 		 *
 		 * @return void
 		 */
