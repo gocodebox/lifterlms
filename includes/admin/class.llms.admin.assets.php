@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -368,7 +368,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.5.1 Add an analytics localization object.
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
 	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
-	 * @since 7.0.1 Add `home_url`
+	 * @since [version] Add `home_url`.
 	 * 
 	 * @return void
 	 */
