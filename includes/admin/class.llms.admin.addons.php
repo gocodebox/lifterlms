@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,7 @@ class LLMS_Admin_AddOns {
 	 *
 	 * @since 3.5.0
 	 * @since 3.22.2 Unknown.
-	 * @since [version] Use strict comparisons for `in_array()`.
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
 	 *
 	 * @return array|WP_Error
 	 */
@@ -153,7 +153,7 @@ class LLMS_Admin_AddOns {
 	 * Get a random product from a category that doesn't exist in the list of excluded product ids.
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use strict comparisons for `in_array()`.
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
 	 *
 	 * @param  string $cat      Category slug.
 	 * @param  array  $excludes List of product ids to exclude.
@@ -183,7 +183,7 @@ class LLMS_Admin_AddOns {
 	 * Retrieve products for a specific category.
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use strict comparisons for `in_array()`.
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
 	 *
 	 * @param string $cat Category slug.
 	 * @return array

@@ -8,7 +8,7 @@
  * @group admin_reviews
  *
  * @since 3.24.0
- * @version [version]
+ * @version 7.1.0
  */
 class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 
@@ -58,7 +58,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Test admin_footer() when it's supposed to display.
 	 *
 	 * @since 4.14.0
-	 * @since [version] Updated expected text.
+	 * @since 7.1.0 Updated expected text.
 	 *
 	 * @return void
 	 */

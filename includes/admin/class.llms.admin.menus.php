@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -82,7 +82,7 @@ class LLMS_Admin_Menus {
 	 * @since 1.0.0
 	 * @since 3.2.0 Unknown.
 	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
-	 * @since [version] Added `llms-dashboard` to the order array in first position.
+	 * @since 7.1.0 Added `llms-dashboard` to the order array in first position.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool
@@ -188,7 +188,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.13.0 Unknown.
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *              submenu page in place of NULL.
-	 * @since [version] Added the 'Dashboard' submenu page.
+	 * @since 7.1.0 Added the 'Dashboard' submenu page.
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for admin dashboard screen.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -216,7 +216,7 @@ class LLMS_Admin_Assets {
 	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
-	 * @since [version] Enqueue `postbox` script on the new dashboard page.
+	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
 	 *
 	 * @return void
 	 */

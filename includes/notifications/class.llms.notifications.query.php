@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,7 +39,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Get an array of allowed notification statuses.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Added 'error' among the available statuses.
+	 * @since 7.1.0 Added 'error' among the available statuses.
 	 *
 	 * @return string[]
 	 */
@@ -63,7 +63,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Explicitly exclude 'error' status.
+	 * @since 7.1.0 Explicitly exclude 'error' status.
 	 *               Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_notification_query_default_args'`.
 	 * @return array
 	 */
@@ -88,7 +88,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		 * Filters the notifications query's default args.
 		 *
 		 * @since 3.8.0
-		 * @since [version] Added `$notifications_query` parameter.
+		 * @since 7.1.0 Added `$notifications_query` parameter.
 		 *
 		 * @param array                    $args                Array of default arguments to set up the query with.
 		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
@@ -101,7 +101,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Convert raw results to notification objects.
 	 *
 	 * @since 3.8.0
-	 * @since [version] When loading a notification, if errored, exclude it when not explictly requested.
+	 * @since 7.1.0 When loading a notification, if errored, exclude it when not explictly requested.
 	 *              Drop usage of `this->get_filter( 'default_args' )` in favor of `llms_notifications_query_get_notifications`.
 	 *
 	 * @return LLMS_Notification[]
@@ -227,7 +227,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
-	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 * @since 7.1.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -263,7 +263,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * Slightly modified from abstract to include the table name to prevent ambiguous errors.
 	 *
 	 * @since 3.9.2
-	 * @since [version] Drop usage of `$this->get_filter('where')` in favor of `llms_notifications_query_where`.
+	 * @since 7.1.0 Drop usage of `$this->get_filter('where')` in favor of `llms_notifications_query_where`.
 	 *
 	 * @return string
 	 */
@@ -286,7 +286,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the query WHERE clause.
 		 *
-		 * @since [version]
+		 * @since 7.1.0
 		 *
 		 * @param string                   $sql                 The WHERE clause of the query.
 		 * @param LLMS_Notifications_Query $notifications_query Instance of LLMS_Events_Query.

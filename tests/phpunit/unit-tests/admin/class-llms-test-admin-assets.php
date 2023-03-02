@@ -9,7 +9,7 @@
  * @group assets
  *
  * @since 4.3.3
- * @since [version] Turn `test_maybe_enqueue_reporting_general_settings_assumed()` into ` test_maybe_enqueue_reporting_dashboard_assumed()`.
+ * @since 7.1.0 Turn `test_maybe_enqueue_reporting_general_settings_assumed()` into ` test_maybe_enqueue_reporting_dashboard_assumed()`.
  *              Removed outdated `test_maybe_enqueue_reporting_general_settings_explicit()`.
  */
 class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
@@ -173,7 +173,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * This test tests the default "assumed" tab when there's no `tab` set in the $_GET array.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -196,7 +196,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 * This test is the same as test_maybe_enqueue_reporting_dashboard_assumed() except this one explicitly
 	 * tests for the presence of the `tab=general` in the $_GET array.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will not be registered.
 	 *
 	 * @since 4.3.3
-	 * @since [version] Updated to reflect that `llms-google-charts` and `llms-analytics` are not registered on settings screens.
+	 * @since 7.1.0 Updated to reflect that `llms-google-charts` and `llms-analytics` are not registered on settings screens.
 	 *
 	 * @return void
 	 */

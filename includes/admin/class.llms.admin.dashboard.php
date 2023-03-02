@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.1.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Dashboard Screen class.
  *
- * @since [version]
+ * @since 7.1.0
  */
 class LLMS_Admin_Dashboard {
 
 	/**
 	 * Retrieve an instance of the WP_Screen for the dashboard screen.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the dashboard screen, otherwise returns `false`.
 	 */
@@ -38,7 +38,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Register Dashboard's meta boxes.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ class LLMS_Admin_Dashboard {
 		 *
 		 * Third parties can hook here to remove LifterLMS core meta boxes.
 		 *
-		 * @since [version]
+		 * @since 7.1.0
 		 */
 		do_action( 'llms_dashboard_meta_boxes_added' );
 
@@ -98,7 +98,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Prints the dashboard's meta box html.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param mixed $data_object Often this is the object that's the focus of the current screen,
 	 *                           for example a `WP_Post` or `WP_Comment` object.
@@ -116,7 +116,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Handle HTML output on the screen.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ class LLMS_Admin_Dashboard {
 	/**
 	 * Retrieves the HTML of a view from the views/dashboard directory.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param string $file The file basename of the view to retrieve.
 	 * @return string The HTML content of the view.

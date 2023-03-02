@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.1.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Header UI.
  *
- * @since [version]
+ * @since 7.1.0
  */
 class LLMS_Admin_Header {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Admin_Header {
 	/**
 	 * Show admin header banner on LifterLMS admin screens.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */

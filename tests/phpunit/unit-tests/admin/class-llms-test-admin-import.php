@@ -537,7 +537,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Test output() method.
 	 *
 	 * @since 4.7.0
-	 * @since [version] Mark-up update.
+	 * @since 7.1.0 Mark-up update.
 	 *
 	 * @return void
 	 */

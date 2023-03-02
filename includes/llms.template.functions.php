@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -671,7 +671,7 @@ function llms_get_progress_bar_html( $percentage ) {
  *
  * @since 3.11.1
  * @since 3.15.0 Unknown.
- * @since [version] Remove check on student existence, now included in the enrollment check.
+ * @since 7.1.0 Remove check on student existence, now included in the enrollment check.
  *
  * @param int          $post_id  WP Post ID for a course, lesson, or quiz.
  * @param LLMS_Student $student  Instance of an LLMS_Student, defaults to current student.

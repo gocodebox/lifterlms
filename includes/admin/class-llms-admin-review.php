@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ class LLMS_Admin_Review {
 	 * On LifterLMS admin screens replace the default footer text with a review request.
 	 *
 	 * @since 3.24.0
-	 * @since [version] Show footer on our custom post types in admin, but not on the block editor.
+	 * @since 7.1.0 Show footer on our custom post types in admin, but not on the block editor.
 	 *
 	 * @param string $text Default footer text.
 	 * @return string

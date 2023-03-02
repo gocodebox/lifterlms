@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,7 @@ class LLMS_Admin_System_Report {
 	 *
 	 * @since 2.1.0
 	 * @since 3.11.2 Unknown.
-	 * @since [version] Style update.
+	 * @since 7.1.0 Style update.
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class LLMS_Admin_System_Report {
 	 * Output the title for an item in the system report.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Fixed misspelled WordPress.
+	 * @since 7.1.0 Fixed misspelled WordPress.
 	 *
 	 * @param string $key Title.
 	 * @return void

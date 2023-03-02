@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ class LLMS_Admin_Notices_Core {
 	 *
 	 * @since 3.0.0
 	 * @since 3.14.8 Add handler for removing dismissed notices.
-	 * @since [version] Do not add a callback to remove sidebar notice on `switch_theme` anymore.
+	 * @since 7.1.0 Do not add a callback to remove sidebar notice on `switch_theme` anymore.
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Admin_Notices_Core {
 	 *
 	 * @since 3.0.0
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
-	 * @since [version] Do not add a callback to show the missing sidebar support anymore.
+	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
 	 *
 	 * @return void
 	 */
@@ -130,13 +130,13 @@ class LLMS_Admin_Notices_Core {
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
 	 * @since 4.5.0 Use strict comparison for `in_array()`.
-	 * @deprecated [version]
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function sidebar_support() {
 
-		_deprecated_function( __METHOD__, '[version]' );
+		_deprecated_function( __METHOD__, '7.1.0' );
 
 		$theme = wp_get_theme();
 
@@ -178,13 +178,13 @@ class LLMS_Admin_Notices_Core {
 	 * Called when theme is switched.
 	 *
 	 * @since 3.14.7
-	 * @deprecated [version]
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function clear_sidebar_notice() {
 
-		_deprecated_function( __METHOD__, '[version]' );
+		_deprecated_function( __METHOD__, '7.1.0' );
 
 		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {
 			LLMS_Admin_Notices::delete_notice( 'sidebars' );
