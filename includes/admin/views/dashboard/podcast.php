@@ -52,5 +52,5 @@ endif;
 		class="llms-button-secondary small"
 		href="https://lifterlms.com/blog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Podcast"
 		target="_blank"
-		rel="noopener"><?php esc_html_e( 'View More', 'lifterlms' ); ?> <i class="fa fa-external-link" aria-hidden="true"></i></a>
+		rel="noopener"><i class="fa fa-external-link" aria-hidden="true"></i> <?php esc_html_e( 'View More', 'lifterlms' ); ?></a>
 </p>
