@@ -356,7 +356,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+		if ( function_exists( 'register_block_type' ) && function_exists( 'llms_blocks_is_post_migrated' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
