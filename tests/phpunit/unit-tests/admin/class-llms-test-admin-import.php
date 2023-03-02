@@ -534,15 +534,16 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test output() method
+	 * Test output() method.
 	 *
 	 * @since 4.7.0
+	 * @since [version] Mark-up update.
 	 *
 	 * @return void
 	 */
 	public function test_output() {
 
-		$this->assertOutputContains( '<div class="wrap lifterlms llms-import-export">', array( $this->import, 'output' ) );
+		$this->assertOutputContains( '<div class="wrap lifterlms lifterlms-settings llms-import-export">', array( $this->import, 'output' ) );
 
 	}
 

@@ -43,7 +43,7 @@ We care about your feature ideas and what you have to say. You can [request a fe
 
 #### Do you have any training for building an online course website?
 
-Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons installed. This demo allows you to test drive all the add-ons before you invest. Check it out here: **[Try LifterLMS for $1](https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)**.
+Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](https://academy.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons intalled. This demo allows you to test drive all the add-ons before you invest. Check it out here: **[Try LifterLMS for $1](https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)**.
 
 
 #### I'm interested in contributing to LifterLMS, how can I start?
