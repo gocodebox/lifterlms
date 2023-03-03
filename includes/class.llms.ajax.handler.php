@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.2.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -317,10 +317,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle notification display & dismissal
+	 * Handle notification display & dismissal.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.14 Use strict comparison.
+	 * @since 7.1.0 Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array
@@ -340,12 +341,14 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
+		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => get_current_user_id(),
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => get_current_user_id(),
+				'no_found_rows' => true,
 			)
 		);
 
@@ -761,13 +764,13 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * End a quiz attempt
+	 * End a quiz attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
 	 *
 	 * @param array                  $request $_POST data.
-	 * @param LLMS_Quiz_Attempt|null $attempt Optional. The quiz attempt. Default `null`.
+	 * @param LLMS_Quiz_Attempt|null $attempt The quiz attempt.
 	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
@@ -791,10 +794,10 @@ class LLMS_AJAX_Handler {
 
 		}
 
-		// record the attempt's completion.
+		// Record the attempt's completion.
 		$attempt->end();
 
-		// setup a redirect.
+		// Setup a redirect.
 		$url = add_query_arg(
 			array(
 				'attempt_key' => $attempt->get_key(),
@@ -804,15 +807,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			/**
-			 * Filter the quiz redirect URL on completion
-			 *
-			 * Return an associative array containing at least the `$id` to cease execution and have
-			 * the custom item returned via the `process_trash()` method.
-			 *
-			 * A successful deletion return should be: `array( 'id' => $id )`.
-			 *
-			 * A failure should contain an error message in a second array member:
-			 * `array( 'id' => $id, 'error' => esc_html__( 'My error message', 'my-domain' ) )`.
+			 * Filter the quiz redirect URL on completion.
 			 *
 			 * @since Unknown
 			 *

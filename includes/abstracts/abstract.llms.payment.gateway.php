@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -439,7 +439,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	protected function get_complete_transaction_redirect_url( $order ) {
 
 		// Get the redirect parameter from INPUT_GET.
-		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '' );
 
 		// Get the redirect parameter from INPUT_POST if not INPUT_GET redirect pased.
 		$redirect = $redirect ? $redirect : llms_filter_input( INPUT_POST, 'redirect', FILTER_VALIDATE_URL );

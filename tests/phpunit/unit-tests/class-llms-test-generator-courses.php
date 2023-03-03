@@ -251,10 +251,12 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test create_course()
+	 * Test create_course().
 	 *
 	 * @since 4.7.0
 	 * @since 4.12.0 Only test properties that exist on the raw data arrays.
+	 * @since 7.1.0 Check that properties on the generated course correctly
+	 *               refer to the course id rather than the raw data id.
 	 *
 	 * @return void
 	 */
@@ -280,10 +282,28 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		// Store the original ID.
 		$this->assertEquals( $raw['id'], $course->get( 'generated_from_id' ) );
 
+		/**
+		 * Properties which refer to the new id rather than the
+		 * `$generated_from_id`.
+		 */
+		$replace_id_props = array(
+			'course_closed_message',
+			'course_opens_message',
+			'enrollment_closed_message',
+			'enrollment_opens_message',
+		);
+
+		$find    = '#(.*id=["\'])' . $raw['id'] . '(["\'].*)#';
+		$replace = '${1}' . $course->get( 'id' ) . '${2}';
+
 		// Test meta props are set.
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $course, 'properties' ) ) as $prop ) {
 			if ( isset( $raw[ $prop ] ) ) {
-				$this->assertEquals( $raw[ $prop ], $course->get( $prop ) );
+				if ( in_array( $prop, $replace_id_props, true ) ) {
+					$this->assertEquals( preg_replace( $find, $replace, $raw[$prop] ), $course->get( $prop ) );
+				} else {
+					$this->assertEquals( $raw[ $prop ], $course->get( $prop ) );
+				}
 			}
 		}
 

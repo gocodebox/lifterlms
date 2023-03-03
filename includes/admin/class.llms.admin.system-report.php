@@ -5,13 +5,13 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version 4.13.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin System Report Class
+ * Admin System Report Class.
  *
  * @since 2.1.0
  */
@@ -23,7 +23,7 @@ class LLMS_Admin_System_Report {
 	 * @since 2.1.0
 	 * @since 3.0.0 Unknown.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public static function output() {
 
@@ -45,26 +45,23 @@ class LLMS_Admin_System_Report {
 	}
 
 	/**
-	 * Output the copy for support box
+	 * Output the copy for support box.
 	 *
 	 * @since 2.1.0
 	 * @since 3.11.2 Unknown.
+	 * @since 7.1.0 Style update.
 	 *
 	 * @return void
 	 */
 	public static function output_copy_box() {
 		?>
-		<div class="llms-widget-full top">
-			<div class="llms-widget">
-				<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
-				<p class="llms-description">
-					<div id="llms-debug-report">
-						<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
-						<p class="submit">
-							<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
-							<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
-						</p>
-					</div>
+		<div class="llms-setting-group top">
+			<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
+			<div id="llms-debug-report">
+				<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
+				<p class="submit">
+					<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
+					<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
 				</p>
 			</div>
 		</div>
@@ -118,24 +115,22 @@ class LLMS_Admin_System_Report {
 		}
 
 		?>
-		<div class="llms-widget-full top">
-			<div class="llms-widget settings-box">
-				<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
-				<div class="llms-list">
-					<ul>
-						<?php foreach ( $data as $key => $val ) : ?>
-							<li><p>
-							<?php if ( 'plugins' === $section_title ) : ?>
-								<?php self::plugin_item( $val ); ?>
-							<?php elseif ( 'template_overrides' === $section_title ) : ?>
-								<?php self::template_item( $val ); ?>
-							<?php else : ?>
-								<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
-							<?php endif; ?>
-							</p></li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
+		<div class="llms-setting-group">
+			<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
+			<div class="llms-list">
+				<ul>
+					<?php foreach ( $data as $key => $val ) : ?>
+						<li><p>
+						<?php if ( 'plugins' === $section_title ) : ?>
+							<?php self::plugin_item( $val ); ?>
+						<?php elseif ( 'template_overrides' === $section_title ) : ?>
+							<?php self::template_item( $val ); ?>
+						<?php else : ?>
+							<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
+						<?php endif; ?>
+						</p></li>
+					<?php endforeach; ?>
+				</ul>
 			</div>
 		</div>
 		<?php
@@ -170,9 +165,10 @@ class LLMS_Admin_System_Report {
 
 
 	/**
-	 * Output the title for an item in the system report
+	 * Output the title for an item in the system report.
 	 *
 	 * @since 3.0.0
+	 * @since 7.1.0 Fixed misspelled WordPress.
 	 *
 	 * @param string $key Title.
 	 * @return void
@@ -180,6 +176,12 @@ class LLMS_Admin_System_Report {
 	private static function title( $key ) {
 
 		$key = ucwords( str_replace( '_', ' ', $key ) );
+
+		// Fix for capital P.
+		if ( 'Wordpress' === $key ) { // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+			$key = 'WordPress';
+		}
+
 		echo $key;
 
 	}

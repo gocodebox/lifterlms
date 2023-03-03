@@ -302,7 +302,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 	 * Test LLMS_Processor_Certificate_Sync::task() and LLMS_Controller_Certificates::sync_awarded_engagements().
 	 *
 	 * @since 6.0.0
-	 * @since [version] Test logs as equal sets.
+	 * @since 7.1.0 Test logs as equal sets.
 	 *
 	 * @return void
 	 */

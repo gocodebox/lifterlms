@@ -85,7 +85,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 
 		}
 
-		return sprintf( '<button type="button" class="button button-primary big-button" id="llms-mailhawk-connect"><span class="dashicons dashicons-email-alt"></span> %s</button>', __( 'Connect MailHawk', 'lifterlms' ) );
+		return sprintf( '<button type="button" class="llms-button-outline" id="llms-mailhawk-connect"><span class="dashicons dashicons-email-alt"></span> %s</button>', __( 'Connect MailHawk', 'lifterlms' ) );
 
 	}
 

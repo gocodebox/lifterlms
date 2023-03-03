@@ -21,38 +21,43 @@ if ( ! is_admin() ) {
 		<?php do_action( 'llms_reporting_student_tab_breadcrumbs' ); ?>
 	</header>
 
-	<header class="llms-reporting-header">
+	<div class="llms-reporting-body">
 
-		<div class="llms-reporting-header-img">
-			<?php echo $student->get_avatar( 64 ); ?>
-		</div>
-		<div class="llms-reporting-header-info">
-			<h2><a href="<?php echo get_edit_user_link( $student->get_id() ); ?>"><?php echo $student->get_name(); ?></a></h2>
-			<h5><a href="mailto:<?php echo $student->get( 'user_email' ); ?>"><?php echo $student->get( 'user_email' ); ?></a></h5>
-		</div>
+		<header class="llms-reporting-header">
 
-	</header>
+			<div class="llms-reporting-header-img">
+				<?php echo $student->get_avatar( 64 ); ?>
+			</div>
+			<div class="llms-reporting-header-info">
+				<h2><a href="<?php echo get_edit_user_link( $student->get_id() ); ?>"><?php echo $student->get_name(); ?></a></h2>
+				<h5><a href="mailto:<?php echo $student->get( 'user_email' ); ?>"><?php echo $student->get( 'user_email' ); ?></a></h5>
+			</div>
 
-	<nav class="llms-nav-tab-wrapper llms-nav-secondary">
-		<ul class="llms-nav-items">
-		<?php foreach ( $tabs as $name => $label ) : ?>
-			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
-					<?php echo $label; ?>
-				</a>
-		<?php endforeach; ?>
-		</ul>
-	</nav>
+		</header>
 
-	<section class="llms-reporting-stab">
-		<?php
-		llms_get_template(
-			'admin/reporting/tabs/students/' . $current_tab . '.php',
-			array(
-				'student' => $student,
-			)
-		);
-		?>
-	</section>
+		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
+			<ul class="llms-nav-items">
+			<?php foreach ( $tabs as $name => $label ) : ?>
+				<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
+					<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
+						<?php echo $label; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+		</nav>
+
+		<section class="llms-reporting-stab">
+			<?php
+			llms_get_template(
+				'admin/reporting/tabs/students/' . $current_tab . '.php',
+				array(
+					'student' => $student,
+				)
+			);
+			?>
+		</section>
+
+	</div>
 
 </section>

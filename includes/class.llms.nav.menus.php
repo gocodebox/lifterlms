@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version 4.12.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,6 +26,8 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.14.7
 	 * @since 3.22.0 Unknown.
+	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
+	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
 	 *
 	 * @return void
 	 */
@@ -35,7 +37,7 @@ class LLMS_Nav_Menus {
 		add_filter( 'wp_nav_menu_objects', array( $this, 'filter_nav_items' ) );
 
 		// Add meta box to the Appearance -> Menus screen on admin panel.
-		add_action( 'load-nav-menus.php', array( $this, 'add_metabox' ) );
+		add_action( 'admin_head-nav-menus.php', array( $this, 'add_metabox' ) );
 
 		// Add LifterLMS menu item type section to customizer.
 		add_filter( 'customize_nav_menu_available_item_types', array( $this, 'customize_add_type' ) );

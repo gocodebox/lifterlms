@@ -1,17 +1,19 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership
+ * LLMS_Notifications_Query class file
  *
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query LifterLMS Students for a given course / membership
+ * LLMS_Notifications_Query class.
+ *
+ * Query LifterLMS Students for a given course/membership.
  *
  * @example
  *   $query = new LLMS_Notifications_Query( array(
@@ -34,14 +36,15 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected $id = 'notifications';
 
 	/**
-	 * Get an array of allowed notification statuses
+	 * Get an array of allowed notification statuses.
 	 *
-	 * @return   string[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 7.1.0 Added 'error' among the available statuses.
+	 *
+	 * @return string[]
 	 */
 	private function get_available_statuses() {
-		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' );
+		return array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed', 'error' );
 	}
 
 	/**
@@ -56,11 +59,13 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve default arguments for a student query
+	 * Retrieve default arguments for a student query.
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.11.0
+	 * @since 3.8.0
+	 * @since 3.11.0 Unknown.
+	 * @since 7.1.0 Explicitly exclude 'error' status.
+	 *               Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_notification_query_default_args'`.
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -71,7 +76,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 				'updated' => 'DESC',
 				'id'      => 'DESC',
 			),
-			'statuses'   => array(),
+			'statuses'   => array_values( array_diff( $this->get_available_statuses(), array( 'error' ) ) ),
 			'triggers'   => array(),
 			'types'      => array(),
 			'user_id'    => null,
@@ -79,16 +84,27 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
-		return apply_filters( $this->get_filter( 'default_args' ), $args );
+		/**
+		 * Filters the notifications query's default args.
+		 *
+		 * @since 3.8.0
+		 * @since 7.1.0 Added `$notifications_query` parameter.
+		 *
+		 * @param array                    $args                Array of default arguments to set up the query with.
+		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
+		 */
+		return apply_filters( 'llms_notifications_query_default_args', $args, $this );
 
 	}
 
 	/**
-	 * Convert raw results to notification objects
+	 * Convert raw results to notification objects.
 	 *
-	 * @return   LLMS_Notification[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 7.1.0 When loading a notification, if errored, exclude it when not explictly requested.
+	 *              Drop usage of `this->get_filter( 'default_args' )` in favor of `llms_notifications_query_get_notifications`.
+	 *
+	 * @return LLMS_Notification[]
 	 */
 	public function get_notifications() {
 
@@ -98,8 +114,15 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		if ( $results ) {
 
 			foreach ( $results as $result ) {
-				$obj             = new LLMS_Notification( $result->id );
-				$notifications[] = $obj->load();
+				$notification = ( new LLMS_Notification( $result->id ) )->load();
+
+				// If the notification status is 'error' and errored notifications were not requested, skip it.
+				if ( 'error' === $notification->get( 'status' ) && ! in_array( 'error', $this->arguments['statuses'], true ) ) {
+					continue;
+				}
+
+				$notifications[] = $notification;
+
 			}
 		}
 
@@ -107,7 +130,15 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			return $notifications;
 		}
 
-		return apply_filters( $this->get_filter( 'get_notifications' ), $notifications, $this );
+		/**
+		 * Filters the list of notifications.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array                    $notifications       Array of {@see LLMS_Notification} instances.
+		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
+		 */
+		return apply_filters( 'llms_notifications_query_get_notifications', $notifications, $this );
 
 	}
 
@@ -196,6 +227,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since 7.1.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -210,7 +242,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- SQL is prepared in other functions.
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS *
+			"SELECT {$this->sql_select_columns()}
 			FROM {$wpdb->prefix}lifterlms_notifications AS n
 			LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id
 			{$this->sql_where()}
@@ -226,12 +258,14 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the ORDER clause
-	 * Slightly modified from abstract to include the table name to prevent ambiguous errors
+	 * Retrieve the prepared SQL for the ORDER clause.
 	 *
-	 * @return   string
-	 * @since    3.9.2
-	 * @version  3.9.2
+	 * Slightly modified from abstract to include the table name to prevent ambiguous errors.
+	 *
+	 * @since 3.9.2
+	 * @since 7.1.0 Drop usage of `$this->get_filter('where')` in favor of `llms_notifications_query_where`.
+	 *
+	 * @return string
 	 */
 	protected function sql_orderby() {
 
@@ -249,7 +283,15 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'orderby' ), $sql, $this );
+		/**
+		 * Filters the query WHERE clause.
+		 *
+		 * @since 7.1.0
+		 *
+		 * @param string                   $sql                 The WHERE clause of the query.
+		 * @param LLMS_Notifications_Query $notifications_query Instance of LLMS_Events_Query.
+		 */
+		return apply_filters( 'llms_notifications_query_where', $sql, $this );
 
 	}
 

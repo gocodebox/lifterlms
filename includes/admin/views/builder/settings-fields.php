@@ -17,8 +17,8 @@ defined( 'ABSPATH' ) || exit;
 				<h4 class="llms-settings-group-title">{{{ group_data.title }}}</h4>
 				<# if ( group_data.toggleable ) { #>
 					<a class="llms-action-icon llms-settings-group-toggle" href="#llms-group-toggle">
-						<i class="fa fa-caret-square-o-up" aria-hidden="true"></i>
-						<i class="fa fa-caret-square-o-down" aria-hidden="true"></i>
+						<i class="fa fa-caret-up" aria-hidden="true"></i>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
 					</a>
 				<# } #>
 			</header>

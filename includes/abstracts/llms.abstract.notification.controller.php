@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -437,10 +437,11 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
-	 * Determine if the notification is a potential duplicate
+	 * Determine if the notification is a potential duplicate.
 	 *
 	 * @since 3.11.0
 	 * @since 6.0.0 Fixed how the protected {@see LLMS_Notifications_Query::$found_results} property is accessed.
+	 * @since 7.1.0 Improve the query performance by fetching only one result.
 	 *
 	 * @param string $type       Notification type id.
 	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...
@@ -450,11 +451,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		$query = new LLMS_Notifications_Query(
 			array(
-				'post_id'    => $this->post_id,
-				'subscriber' => $subscriber,
-				'types'      => $type,
-				'trigger_id' => $this->id,
-				'user_id'    => $this->user_id,
+				'post_id'       => $this->post_id,
+				'subscriber'    => $subscriber,
+				'types'         => $type,
+				'trigger_id'    => $this->id,
+				'user_id'       => $this->user_id,
+				'per_page'      => 1,
+				'no_found_rows' => true,
 			)
 		);
 

@@ -1,41 +1,40 @@
 .wrap.llms-reporting,
-.wrap.lifterlms-settings {
-
-	.llms-header {
-		background: #fff;
-		border-bottom: 1px solid #efefef;
-		margin: -10px -20px 0;
-		padding: 10px 0;
-		z-index: 1;
-
-		.lifterlms-logo {
-			max-width: 140px;
-		}
-
-		.llms-save {
-			float: right;
-		}
-
-		.llms-inside-wrap {
-			padding: 0 10px;
-		}
-
-	}
+.wrap.lifterlms-settings,
+.wrap.llms-status {
 
 	.llms-inside-wrap {
 		box-sizing: border-box;
-		max-width: 1000px;
 		margin: 0 auto;
+
+		.llms-nav-text {
+			margin: 0 auto;
+		}
+	}
+
+	.llms-subheader {
+
+		.llms-save {
+			flex: auto;
+			text-align: right;
+		}
+
 	}
 
 	.llms-nav-tab-wrapper.llms-nav-secondary {
-		background: #fff;
-		box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
-		margin: 0 -20px 20px;
-		z-index: 1;
+		background-color: #FFF;
+		box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
+		margin: 0 -20px 20px -10px;
+
+		.llms-nav-items {
+			padding-left: 0;
+		}
 
 		.llms-nav-item {
-			.llms-nav-link:hover,
+			.llms-nav-link:hover {
+				background: #f0f0f1;
+				color: #222222;
+			}
+
 			&.llms-active .llms-nav-link {
 				background: #fafafa;
 				color: $color-blue;
@@ -55,10 +54,9 @@
 	}
 
 	.llms-setting-group {
-
-		background: #fff;
+		background-color: #FFF;
 		box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
-		margin: 0 0 20px;
+		margin: 20px auto;
 		padding: 20px;
 
 		.llms-label {
@@ -67,6 +65,10 @@
 			font-size: 20px;
 			padding: 20px;
 			margin: -20px -20px 20px;
+
+			.llms-button-primary {
+				margin-left: 10px;
+			}
 		}
 
 		.llms-help-tooltip .dashicons {
@@ -91,6 +93,9 @@
 			pointer-events: none;
 		}
 
+		p {
+			font-size: 14px;
+		}
 		input[type="text"],
 		input[type="password"],
 		input[type="datetime"],
@@ -117,7 +122,6 @@
 	@media only screen and (min-width: 782px) {
 		.llms-nav-tab-wrapper.llms-nav-secondary {
 			.llms-nav-item {
-				.llms-nav-link:hover,
 				&.llms-active .llms-nav-link {
 					background: #fff;
 				}
@@ -127,10 +131,8 @@
 
 	// Email Delivery providers.
 	#llms-mailhawk-connect {
-		font-size: 16px;
 		height: auto;
 		margin: 0 0 6px;
-		padding: 8px 14px;
 		position: relative;
 
 		.dashicons {
@@ -139,10 +141,8 @@
 		}
 	}
 	#llms-sendwp-connect {
-		font-size: 16px;
 		height: auto;
 		margin: 0 0 6px;
-		padding: 8px 14px;
 		position: relative;
 
 		.fa {
@@ -154,21 +154,41 @@
 
 @media only screen and (min-width: 782px) {
 	.wrap.lifterlms-settings {
-		.llms-header {
+		.llms-subheader {
+			height: 40px;
 			position: sticky;
-			top: 30px;
+			top: 32px;
 		}
 		.llms-nav-tab-wrapper.llms-nav-secondary {
-			position: sticky;
-			top: 93px;
+			margin: 0 -20px 20px -22px;
+
+			.llms-nav-items {
+				padding-left: 10px;
+			}
+
 		}
 	}
-}
 
-.wrap.llms-reporting {
-	.llms-inside-wrap {
-		box-sizing: border-box;
-		max-width: 1000px;
-		margin: 0 0 0 20px;
+	.wrap.llms-reporting {
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			margin: 0 -20px 20px -22px;
+
+			.llms-nav-items {
+				padding-left: 10px;
+			}
+
+		}
+	}
+	
+
+	.wrap.llms-status {
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			margin: 0 -20px 20px -22px;
+
+			.llms-nav-items {
+				padding-left: 10px;
+			}
+
+		}
 	}
 }

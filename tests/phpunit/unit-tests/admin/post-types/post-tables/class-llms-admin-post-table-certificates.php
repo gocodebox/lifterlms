@@ -85,10 +85,13 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	 * Test add_actions().
 	 *
 	 * @since 6.0.0
+	 * @since 7.1.0 Log in as administrator so that the certificates have a post edit link set.
 	 *
 	 * @return void
 	 */
 	public function test_add_actions() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		// Is legacy.
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_certificate' ) );

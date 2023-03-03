@@ -79,7 +79,7 @@ body.admin_page_llms-course-builder {
 
 	.llms-headline {
 		display: inline-block;
-		font-weight: 300;
+		font-weight: 400;
 		margin: 0;
 		padding: 0;
 		transition: width 0.3s ease-in-out;
@@ -580,14 +580,22 @@ body.admin_page_llms-course-builder {
 	}
 
 	.llms-model-settings {
+		background-color: #FFF;
+		-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		@include clearfix();
+
 		.llms-settings-group-header {
-			.fa-caret-square-o-up { display: block; }
-			.fa-caret-square-o-down { display: none; }
+			border-bottom: 1px solid #efefef;
+			padding: 10px;
+
+			.fa-caret-up { display: block; }
+			.fa-caret-down { display: none; }
 		}
 		&.hidden {
 			.llms-settings-group-header {
-				.fa-caret-square-o-up { display: none; }
-				.fa-caret-square-o-down { display: block; }
+				.fa-caret-up { display: none; }
+				.fa-caret-down { display: block; }
 			}
 			.llms-settings-group-body { display: none; }
 		}
@@ -598,7 +606,8 @@ body.admin_page_llms-course-builder {
 		.llms-settings-group-title {
 			display: inline-block;
 			font-size: 16px;
-			font-weight: 300;
+			font-weight: 700;
+			line-height: 1.5;
 			margin: 0 5px;
 			padding: 0;
 		}
@@ -610,7 +619,7 @@ body.admin_page_llms-course-builder {
 	}
 
 	.llms-settings-group-body {
-		margin-top: 5px;
+		padding: 16px;
 	}
 
 	.llms-settings-row {
@@ -675,7 +684,7 @@ body.admin_page_llms-course-builder {
 		|__/ \_______/ \______/ |__/  |__/|_______/
 	 */
 	.llms-action-icon {
-		color: #aaa;
+		color: #888;
 		display: inline-block;
 		font-size: 16px;
 		padding: 0 5px;
@@ -912,7 +921,9 @@ body.admin_page_llms-course-builder {
 			// }
 
 			.llms-editor-nav {
-				background: #b0b0b0;
+				background-color: $color-brand-dark-blue;
+				margin: 0;
+				padding: 8px 0 0 8px;
 				font-size: 0;
 				margin: -10px -10px 10px -10px;
 				position: relative;
@@ -926,12 +937,8 @@ body.admin_page_llms-course-builder {
 
 					.llms-editor-menu-item {
 						display: inline-block;
-						margin: 0;
+						margin: 0 6px 0 0;
 						padding: 0;
-
-						&.right {
-							float: right;
-						}
 
 						> .llms-editor-menu {
 							display: none;
@@ -951,15 +958,17 @@ body.admin_page_llms-course-builder {
 
 						}
 
-						&:hover > a,
-						&.active > a {
-							background: #cacaca;
+						&:hover > a {
+							background-color: $color-brand-blue;
 						}
 
 						&.active > a {
-							box-shadow: inset 0 -3px 0 $color-brand-blue;
+							background-color: #e6e6e6;
+							color: $color-brand-blue;
+							font-weight: 700;
+
 							&:focus {
-								box-shadow: inset 0 -3px 0 $color-brand-blue;
+								box-shadow: none;
 							}
 						}
 
@@ -968,14 +977,23 @@ body.admin_page_llms-course-builder {
 						}
 
 						a {
-							color: #444;
+							border-top-left-radius: 4px;
+							border-top-right-radius: 4px;
+							color: #FFF;
 							display: inline-block;
-							padding: 13px 20px;
+							padding: 9px 18px;
 							text-decoration: none;
 							transition: background 0.2s ease;
-							font-size: 14px;
-							&:focus {
-								box-shadow: inset 0 0 0 2px $color-brand-blue;
+							font-size: 15px;
+						}
+
+
+						&.right {
+							float: right;
+
+							a,
+							&:hover {
+								background: transparent;
 							}
 						}
 
@@ -1058,6 +1076,8 @@ body.admin_page_llms-course-builder {
 				width: 75%;
 			}
 			.llms-exit {
+				padding-left: 5px;
+				padding-right: 5px;
 				width: 23%;
 			}
 
@@ -1181,14 +1201,6 @@ body.admin_page_llms-course-builder {
 
 	 }
 
-
-	.llms-model-header,
-	.llms-model-settings {
-		background: #fff;
-		padding: 10px;
-		@include clearfix();
-	}
-
 	.llms-editor-tab.tab--quiz {
 		.llms-model-header {
 			.llms-model-title {
@@ -1203,7 +1215,11 @@ body.admin_page_llms-course-builder {
 	}
 
 	.llms-model-header {
-		border-bottom: 5px solid #e6e6e6;
+		background-color: #FFF;
+		-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		padding: 10px;
+		@include clearfix();
 
 		.llms-model-title {
 			float: left;
@@ -1231,11 +1247,6 @@ body.admin_page_llms-course-builder {
 				max-width: 15px;
 			}
 		}
-
-		.llms-model-settings {
-			padding: 0;
-		}
-
 	}
 
 	.llms-model-header + .llms-model-settings.active {

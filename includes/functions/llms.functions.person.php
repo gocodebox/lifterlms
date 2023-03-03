@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -231,16 +231,19 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 }
 
 /**
- * Get an LLMS_Student
+ * Get an LLMS_Student.
  *
  * @since 3.8.0
  * @since 3.9.0 Unknown
+ * @since 7.1.0 Added the `$autoload` parameter.
  *
- * @param mixed $user  WP_User ID, instance of WP_User, or instance of any student class extending this class.
+ * @param mixed   $user     WP_User ID, instance of WP_User, or instance of any student class extending this class.
+ * @param boolean $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
+ *                          If `$user` is not empty then this parameter has no impact.
  * @return LLMS_Student|false LLMS_Student instance on success, false if user not found.
  */
-function llms_get_student( $user = null ) {
-	$student = new LLMS_Student( $user );
+function llms_get_student( $user = null, $autoload = true ) {
+	$student = new LLMS_Student( $user, $autoload );
 	return $student->exists() ? $student : false;
 }
 
@@ -289,10 +292,12 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
 }
 
 /**
- * Checks if user is currently enrolled in course
+ * Checks if user is currently enrolled courses, sections, lessons, or memberships.
  *
  * @since Unknown
  * @since 3.25.0 Unknown.
+ * @since 7.1.0 From now on this function will always return false for non existing users,
+ *               e.g. deleted users.
  *
  * @see LLMS_Student->is_enrolled()
  *
@@ -306,7 +311,9 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
  */
 function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
 	$student = new LLMS_Student( $user_id );
-	return $student->is_enrolled( $product_id, $relation, $use_cache );
+	return $student->exists() ?
+		$student->is_enrolled( $product_id, $relation, $use_cache ) :
+		false;
 }
 
 /**

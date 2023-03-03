@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.2.3
- * @version 5.7.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,14 +19,17 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Post_Table_Lessons {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.2.3
 	 * @since 3.12.0 Unknown.
+	 * @since 7.1.0 Added links to the course builder.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+
+		add_filter( 'post_row_actions', array( $this, 'add_links' ), 1, 2 );
 
 		add_filter( 'manage_lesson_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_lesson_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
@@ -37,10 +40,52 @@ class LLMS_Admin_Post_Table_Lessons {
 	}
 
 	/**
-	 * Add Custom lesson Columns
+	 * Add course builder edit link.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @param array   $actions Existing actions.
+	 * @param WP_Post $post    Lesson's WP_Post object.
+	 * @return array
+	 */
+	public function add_links( $actions, $post ) {
+
+		if ( 'lesson' === $post->post_type && current_user_can( 'edit_lesson', $post->ID ) ) {
+
+			$lesson = llms_get_post( $post->ID );
+			if ( ! $lesson ) {
+				return $actions;
+			}
+
+			$course = $lesson->get( 'parent_course' );
+			$url    = add_query_arg(
+				array(
+					'page'      => 'llms-course-builder',
+					'course_id' => $course,
+				),
+				admin_url( 'admin.php' )
+			);
+			$url   .= sprintf( '#lesson:%d', $post->ID );
+
+			$actions = array_merge(
+				array(
+					'llms-builder' => '<a href="' . esc_url( $url ) . '">' . __( 'Builder', 'lifterlms' ) . '</a>',
+				),
+				$actions
+			);
+
+		}
+
+		return $actions;
+
+	}
+
+	/**
+	 * Add custom lesson columns.
 	 *
 	 * @since 3.2.3
 	 * @since 3.12.0 Unknown.
+	 * @since 7.1.0 Quiz column added.
 	 *
 	 * @param array $columns Array of default columns.
 	 * @return array
@@ -53,6 +98,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			'course'  => __( 'Course', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
 			'prereq'  => __( 'Prerequisite', 'lifterlms' ),
+			'quiz'    => __( 'Quiz', 'lifterlms' ),
 			'author'  => __( 'Author', 'lifterlms' ),
 			'date'    => __( 'Date', 'lifterlms' ),
 		);
@@ -82,11 +128,12 @@ class LLMS_Admin_Post_Table_Lessons {
 	}
 
 	/**
-	 * Manage content of custom lesson columns
+	 * Manage content of custom lesson columns.
 	 *
 	 * @since 3.2.3
 	 * @since 3.24.0 Unknown.
 	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 7.1.0 Implemented content for the quiz column.
 	 *
 	 * @param string $column  Column key/name.
 	 * @param int    $post_id WP Post ID of the lesson for the row.
@@ -139,6 +186,31 @@ class LLMS_Admin_Post_Table_Lessons {
 					echo '&ndash;';
 
 				}
+
+				break;
+
+			case 'quiz':
+				$course = $lesson->get( 'parent_course' );
+				$url    = add_query_arg(
+					array(
+						'page'      => 'llms-course-builder',
+						'course_id' => $course,
+					),
+					admin_url( 'admin.php' )
+				);
+				$url   .= sprintf( '#lesson:%d:quiz', $post_id );
+
+				if ( $lesson->has_quiz() ) {
+
+					$label = __( 'Edit Quiz', 'lifterlms' );
+
+				} else {
+
+					$label = __( 'Add Quiz', 'lifterlms' );
+
+				}
+
+				echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 
 				break;
 

@@ -272,7 +272,7 @@ abstract class LLMS_Admin_Metabox {
 		echo '<div class="llms-mb-container">';
 		// only show tabbed navigation when there's more than 1 tab.
 		if ( $this->total_tabs > 1 ) {
-			echo '<nav class="llms-nav-tab-wrapper"><ul class="tabs llms-nav-items">' . $this->navigation . '</ul></nav>';
+			echo '<nav class="llms-nav-tab-wrapper llms-nav-style-tabs"><ul class="tabs llms-nav-items">' . $this->navigation . '</ul></nav>';
 		}
 		do_action( 'llms_metabox_before_content', $this->id );
 		echo $this->content;
