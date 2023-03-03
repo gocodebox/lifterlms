@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -229,12 +229,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// What type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
 
-		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
-
 		// Force redirect querystring parameter over all else.
-		$redirection = $query_redirection;
-		if ( ! $querystring_only ) {
-			$redirection = $query_redirection ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
+		$redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '';
+
+		if ( ! $redirection && ! $querystring_only ) {
+			$redirection = $this->calculate_redirection_url( $redirect_type );
 		}
 
 		/**

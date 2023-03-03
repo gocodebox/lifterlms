@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.10.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,11 +159,11 @@ class LLMS_Admin_Assets {
 			return true;
 		} elseif ( false !== strpos( $id, 'llms' ) ) {
 			return true;
-		} elseif ( in_array( $id, array( 'course', 'lesson' ) ) ) {
+		} elseif ( in_array( $id, array( 'course', 'lesson' ), true ) ) {
 			return true;
 		} elseif ( ! empty( $screen->post_type ) && post_type_supports( $screen->post_type, 'llms-membership-restrictions' ) ) {
 			return true;
-		} elseif ( in_array( $screen->id, array( 'users' ) ) ) {
+		} elseif ( in_array( $screen->id, array( 'users' ), true ) ) {
 			return true;
 		}
 
@@ -196,14 +196,14 @@ class LLMS_Admin_Assets {
 
 		$screen = get_current_screen();
 
-		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-settings' === $screen->id ) {
+		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-dashboard' === $screen->id ) {
 			llms()->assets->enqueue_style( 'llms-admin-add-ons' );
 		}
 
 	}
 
 	/**
-	 * Enqueue scripts
+	 * Enqueue scripts.
 	 *
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
@@ -216,6 +216,8 @@ class LLMS_Admin_Assets {
 	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
+	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
+	 *
 	 * @return void
 	 */
 	public function admin_scripts() {
@@ -244,7 +246,7 @@ class LLMS_Admin_Assets {
 				'llms_membership',
 			)
 		);
-		if ( in_array( $screen->id, $tables ) ) {
+		if ( in_array( $screen->id, $tables, true ) ) {
 			wp_register_script( 'llms-admin-tables', LLMS_PLUGIN_URL . 'assets/js/llms-admin-tables' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			wp_enqueue_script( 'llms-admin-tables' );
 		}
@@ -268,12 +270,12 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_media();
 
-			if ( 'course' == $post_type ) {
+			if ( 'course' === $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
 
-			if ( 'course' == $post_type || 'llms_membership' == $post_type ) {
+			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), llms()->version, true );
 				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
@@ -281,7 +283,7 @@ class LLMS_Admin_Assets {
 
 			}
 
-			if ( 'lesson' == $post_type ) {
+			if ( 'lesson' === $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
 			if ( in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
@@ -292,10 +294,10 @@ class LLMS_Admin_Assets {
 
 				wp_enqueue_script( 'llms-metabox-achievement', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-achievement' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
-			if ( 'llms_membership' == $post_type ) {
+			if ( 'llms_membership' === $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
-			if ( 'llms_voucher' == $post_type ) {
+			if ( 'llms_voucher' === $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-voucher', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-voucher' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
@@ -311,7 +313,7 @@ class LLMS_Admin_Assets {
 			}
 		}
 
-		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
+		if ( 'lifterlms_page_llms-settings' === $screen->id ) {
 
 			wp_enqueue_media();
 			wp_enqueue_script( 'llms-admin-settings', LLMS_PLUGIN_URL . 'assets/js/llms-admin-settings' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable' ), llms()->version, true );
@@ -341,6 +343,8 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
+		} elseif ( 'lifterlms_page_llms-dashboard' === $screen->id ) {
+			wp_enqueue_script( 'postbox' );
 		}
 
 		if (
@@ -391,8 +395,8 @@ class LLMS_Admin_Assets {
 				window.llms = window.llms || {};
 				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
-				window.llms.post = ' . json_encode( $postdata ) . ';
-				window.llms.analytics = ' . json_encode( $this->get_analytics_options() ) . ';
+				window.llms.post = ' . wp_json_encode( $postdata ) . ';
+				window.llms.analytics = ' . wp_json_encode( $this->get_analytics_options() ) . ';
 			</script>
 		';
 
@@ -452,15 +456,15 @@ class LLMS_Admin_Assets {
 	 */
 	protected function maybe_enqueue_reporting( $screen ) {
 
-		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-settings' ), true ) ) {
+		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-dashboard' ), true ) ) {
 
 			$current_tab = llms_filter_input( INPUT_GET, 'tab' );
 
 			wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04', false );
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), llms()->version, true );
 
-			// Settings "general" tab where we have analytics widgets.
-			if ( 'lifterlms_page_llms-settings' === $screen->base && ( is_null( $current_tab ) || 'general' === $current_tab ) ) {
+			// Dashboard page where we have analytics widgets.
+			if ( 'lifterlms_page_llms-dashboard' === $screen->base ) {
 
 				wp_enqueue_script( 'llms-analytics' );
 

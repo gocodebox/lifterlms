@@ -12,27 +12,27 @@ defined( 'ABSPATH' ) || exit;
 
 	<form action="" method="POST" id="mainform" enctype="multipart/form-data">
 
-		<header class="llms-header">
-			<div class="llms-inside-wrap">
-				<img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
+		<div class="llms-subheader">
 
-				<?php if ( apply_filters( 'llms_settings_' . $current_tab . '_has_save_button', true ) ) : ?>
+			<h1><?php esc_html_e( 'Settings', 'lifterlms' ); ?></h1>
 
-					<div class="llms-save">
+			<?php if ( apply_filters( 'llms_settings_' . $current_tab . '_has_save_button', true ) ) : ?>
 
-						<?php do_action( 'llms_before_admin_settings_save_button', $current_tab ); ?>
+				<div class="llms-save">
 
-						<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
+					<?php do_action( 'llms_before_admin_settings_save_button', $current_tab ); ?>
 
-						<?php wp_nonce_field( 'lifterlms-settings' ); ?>
+					<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
 
-						<?php do_action( 'llms_after_admin_settings_save_button', $current_tab ); ?>
+					<?php wp_nonce_field( 'lifterlms-settings' ); ?>
 
-					</div>
+					<?php do_action( 'llms_after_admin_settings_save_button', $current_tab ); ?>
 
-				<?php endif; ?>
-			</div>
-		</header>
+				</div>
+
+			<?php endif; ?>
+
+		</div>
 
 		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 			<div class="llms-inside-wrap">
@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 				<ul class="llms-nav-items">
 				<?php
 				foreach ( $tabs as $name => $label ) :
-					$active = ( $current_tab == $name ) ? ' llms-active' : '';
+					$active = ( $current_tab === $name ) ? ' llms-active' : '';
 					?>
 
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-settings&tab=' . $name ); ?>"><?php echo $label; ?></a></li>
@@ -56,6 +56,8 @@ defined( 'ABSPATH' ) || exit;
 		</nav>
 
 		<div class="llms-inside-wrap">
+
+			<hr class="wp-header-end">
 
 			<h1 class="screen-reader-text"><?php echo $tabs[ $current_tab ]; ?></h1>
 

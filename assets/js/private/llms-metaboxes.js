@@ -593,9 +593,9 @@
 				var $table = $( '.llms-mb-list._llms_content_table' );
 					$tr    = $( '<tr />' );
 
-				$tr.append( '<td><span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span></td>' );
+				$tr.append( '<td><span class="dashicons dashicons-menu llms-drag-handle ui-sortable-handle"></span></td>' );
 				$tr.append( '<td><a href="' + window.llms.admin_url + 'post.php?action=edit&post=' + id + '">' + title + '</a></td>' );
-				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
+				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;margin-right:5px;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
 
 				// append the element to the table.
 				$table.find( 'table tbody' ).append( $tr );

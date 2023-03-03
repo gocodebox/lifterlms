@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,11 +18,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Notices {
 
 	/**
-	 * Array of messages to display
+	 * Array of messages to display.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private static $notices = array();
+
+	/**
+	 * Array of messages already displayed in the current request.
+	 *
+	 * @var array
+	 */
+	private static $printed_notices = array();
 
 	/**
 	 * Static constructor
@@ -312,25 +319,27 @@ class LLMS_Admin_Notices {
 			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<?php if ( $notice['dismissible'] ) : ?>
-					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
-						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
-					</a>
-				<?php endif; ?>
+				<div class="llms-admin-notice-icon"></div>
+				<div class="llms-admin-notice-content">
+					<?php if ( $notice['dismissible'] ) : ?>
+						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
+							<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
+						</a>
+					<?php endif; ?>
+					<?php if ( ! empty( $notice['template'] ) ) : ?>
 
-				<?php if ( ! empty( $notice['template'] ) ) : ?>
+						<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
 
-					<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
+					<?php elseif ( ! empty( $notice['html'] ) ) : ?>
 
-				<?php elseif ( ! empty( $notice['html'] ) ) : ?>
+						<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
 
-					<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
+					<?php endif; ?>
 
-				<?php endif; ?>
-
-				<?php if ( $notice['remindable'] ) : ?>
-					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
-				<?php endif; ?>
+					<?php if ( $notice['remindable'] ) : ?>
+						<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
+					<?php endif; ?>
+				</div>
 			</div>
 			<?php
 
@@ -342,16 +351,22 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Output all saved notices
+	 * Output all saved notices.
 	 *
 	 * @since 3.0.0
+	 * @since 7.1.0 Made sure to print the notices only once.
 	 *
 	 * @return void
 	 */
 	public static function output_notices() {
-		foreach ( self::get_notices() as $notice_id ) {
+
+		$notices_to_print = array_diff( self::get_notices(), self::$printed_notices );
+
+		foreach ( $notices_to_print as $notice_id ) {
 			self::output_notice( $notice_id );
+			self::$printed_notices[] = $notice_id;
 		}
+
 	}
 
 	/**

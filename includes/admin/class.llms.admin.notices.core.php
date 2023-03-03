@@ -5,13 +5,13 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Manage core admin notices class
+ * Manage core admin notices class.
  *
  * @since 3.0.0
  * @since 6.0.0 Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
@@ -19,10 +19,11 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Notices_Core {
 
 	/**
-	 * Constructor
+	 * Init.
 	 *
 	 * @since 3.0.0
 	 * @since 3.14.8 Add handler for removing dismissed notices.
+	 * @since 7.1.0 Do not add a callback to remove sidebar notice on `switch_theme` anymore.
 	 *
 	 * @return void
 	 */
@@ -32,17 +33,17 @@ class LLMS_Admin_Notices_Core {
 		add_action( 'current_screen', array( __CLASS__, 'maybe_hide_notices' ), 999 );
 
 		add_action( 'current_screen', array( __CLASS__, 'add_init_actions' ) );
-		add_action( 'switch_theme', array( __CLASS__, 'clear_sidebar_notice' ) );
 
 	}
 
 	/**
-	 * Add actions on different hooks depending on the current screen
+	 * Add actions on different hooks depending on the current screen.
 	 *
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
 	 *
 	 * @since 3.0.0
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
+	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
 	 *
 	 * @return void
 	 */
@@ -57,7 +58,6 @@ class LLMS_Admin_Notices_Core {
 			$priority = 77;
 		}
 
-		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
 
 	}
@@ -125,15 +125,18 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Check theme support for LifterLMS Sidebars
+	 * Check theme support for LifterLMS Sidebars.
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
 	 * @since 4.5.0 Use strict comparison for `in_array()`.
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function sidebar_support() {
+
+		_deprecated_function( __METHOD__, '7.1.0' );
 
 		$theme = wp_get_theme();
 
@@ -170,15 +173,19 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Removes the current sidebar notice (if present) and clears notice delay transients
+	 * Removes the current sidebar notice (if present) and clears notice delay transients.
 	 *
 	 * Called when theme is switched.
 	 *
 	 * @since 3.14.7
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function clear_sidebar_notice() {
+
+		_deprecated_function( __METHOD__, '7.1.0' );
+
 		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {
 			LLMS_Admin_Notices::delete_notice( 'sidebars' );
 		} else {
