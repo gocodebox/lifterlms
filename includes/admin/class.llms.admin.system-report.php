@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,8 @@ class LLMS_Admin_System_Report {
 	 *
 	 * @since 2.1.0
 	 * @since 3.11.2 Unknown.
-	 * @since 7.1.0 Style update.
+	 * @since 7.1.0 Style and HTML structure update.
+	 * @since [version] Use the right CSS selector to target the elements to include into the system's report copy.
 	 *
 	 * @return void
 	 */
@@ -69,7 +70,7 @@ class LLMS_Admin_System_Report {
 			jQuery( document ).ready( function( $ ) {
 				var $textarea = $( '#llms-debug-report textarea' );
 
-				$( '.llms-widget.settings-box' ).each( function( index, element ) {
+				$( '.llms-setting-group' ).each( function( index, element ) {
 					var title = $( this ).find( '.llms-label' ).text();
 					title = title + '\n' + '-------------------------------------------';
 					var val = $( this ).find( 'li' ).text().replace(/  /g, '').replace(/\t/g, '').replace(/\n\n/g, '\n');
@@ -101,6 +102,7 @@ class LLMS_Admin_System_Report {
 	 * @since 3.0.0
 	 * @since 3.11.2 Unknown.
 	 * @since 4.13.0 Don't strip underscores when outputting the constant keys.
+	 * @since 7.1.0 Style and HTML structure update.
 	 *
 	 * @param string $section_title Title / key of the section.
 	 * @param arry   $data          Array of data for the section.
