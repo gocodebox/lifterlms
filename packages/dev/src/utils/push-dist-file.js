@@ -26,7 +26,9 @@ const
 module.exports = ( distFile, branch, message, silent = true ) => {
 	const slug = getProjectSlug();
 
-	execSync( 'mkdir -p ./tmp' );
+	if ( ! fs.existsSync( process.cwd() + '/tmp' ) ) {
+		fs.mkdirSync( process.cwd() + '/tmp', true );
+	};
 
 	const
 		cwd = process.cwd() + '/tmp/git',
