@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <div class="llms-helper-video">
-
-    <iframe width="762" height="428" src="https://www.youtube.com/embed/mOhRvkjq0d8" title="Top 4 LifterLMS Getting Started Resources" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    
+    <center><iframe src="https://gocodebox.wistia.com/medias/gko7z5cjr3" width="800" height="400"></iframe></center>
 
 </div>

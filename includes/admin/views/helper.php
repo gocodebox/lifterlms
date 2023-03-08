@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
 	</div>
 
 	<div class="llms-inside-wrap">
+		<center><h1>Welcome to LifterLMS!</h1>
+    	<p>Thank you for choosing LifterLMS! This page will be your help command center, where you can find all of the basic information<br> you will need to get started building your courses, and fast travel to any further documentation or support you may need along the way.</p></center>
 
 		<hr class="wp-header-end">
 

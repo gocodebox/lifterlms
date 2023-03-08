@@ -347,6 +347,7 @@ class LLMS_Admin_Menus {
 	 * @return void
 	 */
 	public function helper_page_init() {
+		LLMS_Admin_Helper::register_meta_boxes();
 		LLMS_Admin_Helper::output();
 	}
 
