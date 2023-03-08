@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcodes_Blocks
+ * LLMS_Shortcodes_Blocks class.
  *
  * @since [version]
  */
@@ -19,8 +19,10 @@ class LLMS_Shortcodes_Blocks {
 
 	/**
 	 * Available shortcode blocks.
+	 *
+	 * @var array
 	 */
-	private array $shortcodes = array(
+	private $shortcodes = array(
 		'access-plan-button',
 		'checkout',
 		'courses',
@@ -150,7 +152,6 @@ class LLMS_Shortcodes_Blocks {
 	 * @since [version]
 	 *
 	 * @param bool $hide Whether to hide the registration form.
-	 *
 	 * @return bool
 	 */
 	public function show_form_preview( bool $hide ): bool {

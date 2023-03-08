@@ -2,16 +2,14 @@
 /**
  * Renders shortcode blocks.
  *
- * Available variables:
- *
- * $attributes (array): The block attributes.
- * $content (string): The block default content.
- * $block (WP_Block): The block instance.
- *
  * @package LifterLMS/Templates/Blocks
  *
  * @since [version]
  * @version [version]
+ *
+ * @param array $attributes The block attributes.
+ * @param string $content The block default content.
+ * @param WP_Block $block The block instance.
  */
 
 $attributes = $attributes ?? array();
