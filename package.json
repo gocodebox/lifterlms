@@ -44,6 +44,7 @@
     "build:scripts": "wp-scripts build",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl && gulp hacky-clean",
+    "build:blocks": "wp-scripts build --config packages/scripts/config/blocks-webpack.config.js",
     "dev": "llms-dev",
     "lerna": "lerna",
     "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
