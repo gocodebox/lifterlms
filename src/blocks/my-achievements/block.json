@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/my-achievements",
+  "title": "My Achievements",
+  "icon": "awards",
+  "category": "llms-blocks",
+  "description": "Outputs achievements using the achievement loop templates.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "count": {
+      "type": "integer"
+    },
+    "columns": {
+      "type": "integer",
+      "default": 5
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:../../templates/blocks/shortcode.php"
+}
