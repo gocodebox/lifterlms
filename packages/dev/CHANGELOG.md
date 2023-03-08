@@ -1,5 +1,11 @@
 @lifterlms/dev CHANGELOG
 ========================
+Unreleased
+----------
+
++ Fixed an issue with paths containing spaces on Windows OS.
++ Fixed an issue when trying to create a folder on Windows OS.
+
 
 v0.2.0 - 2022-10-12
 -------------------
@@ -10,7 +16,7 @@ v0.2.0 - 2022-10-12
 v0.1.0 - 2022-08-11
 -------------------
 
-+ Updated: [**BREAKING**] During prerelease builds the `readme` command will now exit with code `0` and output a warning message instead of previous behavior: exit code `1` with an error message. 
++ Updated: [**BREAKING**] During prerelease builds the `readme` command will now exit with code `0` and output a warning message instead of previous behavior: exit code `1` with an error message.
 + Added: The `readme` command now merges additional merge codes as derived from the `parseMainFileMetadata()` utility function.
 + Added: A New command `meta` has been added.
 + Added: `docgen` will now include `beforeHelp` and `afterHelp` text added via `Command.addHelpText()`.
