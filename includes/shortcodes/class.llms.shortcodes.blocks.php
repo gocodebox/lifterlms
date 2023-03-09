@@ -82,15 +82,6 @@ class LLMS_Shortcodes_Blocks {
 			array(),
 			filemtime( LLMS()->plugin_path() . '/assets/css/lifterlms.min.css' )
 		);
-
-		// Add access plan data to script (not available in REST).
-		wp_localize_script(
-			'llms-blocks-editor',
-			'llmsShortcodeBlocks',
-			array(
-				'accessPlans' => $this->get_access_plans(),
-			)
-		);
 	}
 
 	/**
@@ -116,33 +107,6 @@ class LLMS_Shortcodes_Blocks {
 			LLMS()->plugin_url() . $path,
 			array(),
 			filemtime( LLMS()->plugin_path() . $path )
-		);
-	}
-
-	/**
-	 * Returns an array of access plans (not available in REST).
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	private function get_access_plans(): array {
-		$query = new WP_Query(
-			array(
-				'post_type'      => 'llms_access_plan',
-				'posts_per_page' => - 1,
-				'post_status'    => 'publish',
-			)
-		);
-
-		return array_map(
-			function ( $post ) {
-				return array(
-					'value' => $post->ID,
-					'label' => $post->post_title,
-				);
-			},
-			$query->posts
 		);
 	}
 
