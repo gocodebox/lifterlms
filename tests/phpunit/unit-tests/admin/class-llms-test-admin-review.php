@@ -8,6 +8,7 @@
  * @group admin_reviews
  *
  * @since 3.24.0
+ * @version 7.1.0
  */
 class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 
@@ -54,16 +55,17 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test admin_footer() when it's supposed to display
+	 * Test admin_footer() when it's supposed to display.
 	 *
 	 * @since 4.14.0
+	 * @since 7.1.0 Updated expected text.
 	 *
 	 * @return void
 	 */
 	public function test_admin_footer_screen_on_lifterlms_screen() {
 
 		set_current_screen( 'lifterlms' );
-		$this->assertEquals( 'Please rate <strong>LifterLMS</strong> <a href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', $this->main->admin_footer( 'fake' ) );
+		$this->assertEquals( 'Please rate <strong>LifterLMS</strong> <a class="llms-rating-stars" href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', $this->main->admin_footer( 'fake' ) );
 		set_current_screen( 'front' );
 
 	}
@@ -233,7 +235,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 
 		$output = $this->get_output( array( $this->main, 'maybe_show_notice' ) );
 
-		$this->assertStringContains( '<div class="notice notice-info is-dismissible llms-review-notice">', $output );
+		$this->assertStringContains( '<div class="notice notice-info is-dismissible llms-admin-notice llms-review-notice">', $output );
 
 	}
 

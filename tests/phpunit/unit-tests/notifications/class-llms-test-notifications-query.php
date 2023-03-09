@@ -8,14 +8,14 @@
  * @group query
  * @group dbquery
  *
- * @since [version]
+ * @since 7.1.0
  */
 class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test that the notifications query, using default args, calculates found rows.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that the notifications query, passing no_found_rows as true doesn't calculate found rows.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that the notifications query's default args, includes all the available status excluding 'error'.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test getting notifications, escluding the errored ones (default).
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test getting notifications, including the errored ones.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */

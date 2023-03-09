@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -354,7 +354,7 @@ class LLMS_Admin_Notices {
 	 * Output all saved notices.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Made sure to print the notices only once.
+	 * @since 7.1.0 Made sure to print the notices only once.
 	 *
 	 * @return void
 	 */

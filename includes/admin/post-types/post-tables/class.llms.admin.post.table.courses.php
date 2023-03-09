@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 *
 	 * @since 3.3.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Added new custom columns.
+	 * @since 7.1.0 Added new custom columns.
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Admin_Post_Table_Courses {
 	/**
 	 * Add custom course columns.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param array $columns Array of default columns.
 	 * @return array
@@ -159,7 +159,7 @@ class LLMS_Admin_Post_Table_Courses {
 	/**
 	 * Manage content of custom course columns.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param string $column  Column key/name.
 	 * @param int    $post_id WP Post ID of the course for the row.

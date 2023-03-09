@@ -1,6 +1,0 @@
-significance: patch
-type: dev
-links:
-  - "#2318"
-entry: Avoid passing null values to `urlencode()` and `urldecode()` that would
-  produce PHP warnings on PHP 8.1+.

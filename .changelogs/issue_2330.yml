@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2330"
-entry: Avoided setting the `llms-tracking` cookie when there are no events to track.

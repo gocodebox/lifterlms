@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version 5.9.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,9 +42,9 @@ class LLMS_Admin_AddOns {
 
 		$section = 'all';
 
-		if ( isset( $_GET['page'] ) && 'llms-dashboard' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'llms-dashboard' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$section = 'featured';
-		} elseif ( isset( $_GET['section'] ) ) {
+		} elseif ( isset( $_GET['section'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$section = llms_filter_input_sanitize_string( INPUT_GET, 'section' );
 		}
 
@@ -80,11 +80,13 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Retrieve remote json data
+	 * Retrieve remote json data.
 	 *
-	 * @return   null|WP_Error
-	 * @since    3.5.0
-	 * @version  3.22.2
+	 * @since 3.5.0
+	 * @since 3.22.2 Unknown.
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @return array|WP_Error
 	 */
 	private function get_data() {
 
@@ -148,13 +150,14 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Get a random product from a category that doesn't exist in the list of excluded product ids
+	 * Get a random product from a category that doesn't exist in the list of excluded product ids.
 	 *
-	 * @param    string $cat       category slug
-	 * @param    array  $excludes  list of product ids to exclude
-	 * @return   array|false
-	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @since 3.22.0
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @param  string $cat      Category slug.
+	 * @param  array  $excludes List of product ids to exclude.
+	 * @return array|false
 	 */
 	public function get_product_from_cat( $cat, $excludes ) {
 
@@ -177,12 +180,13 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Retrieve products for a specific category
+	 * Retrieve products for a specific category.
 	 *
-	 * @param    string $cat  category slug
-	 * @return   array
-	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @since 3.22.0
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @param string $cat Category slug.
+	 * @return array
 	 */
 	private function get_products_for_cat( $cat, $include_bundles = true ) {
 
