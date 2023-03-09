@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -370,7 +370,8 @@ class LLMS_Admin_Assets {
 	 * @since 4.5.1 Add an analytics localization object.
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
 	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
-	 *
+	 * @since [version] Add `home_url`.
+	 * 
 	 * @return void
 	 */
 	public function admin_print_scripts() {
@@ -395,6 +396,7 @@ class LLMS_Admin_Assets {
 				window.llms = window.llms || {};
 				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
+				window.llms.home_url = "' . esc_url( home_url() ) . '";
 				window.llms.post = ' . wp_json_encode( $postdata ) . ';
 				window.llms.analytics = ' . wp_json_encode( $this->get_analytics_options() ) . ';
 			</script>
