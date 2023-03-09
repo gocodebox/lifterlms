@@ -371,7 +371,7 @@ class LLMS_Admin_Assets {
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
 	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
 	 * @since [version] Add `home_url`.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function admin_print_scripts() {
