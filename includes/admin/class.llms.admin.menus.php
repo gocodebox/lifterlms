@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,7 +94,7 @@ class LLMS_Admin_Menus {
 		if ( isset( $submenu['lifterlms'] ) ) {
 
 			// Our desired order.
-			$order = array( 'llms-dashboard','llms-helper', 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
+			$order = array( 'llms-dashboard','llms-resources', 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
 
 			// Temporary array to hold our submenu items.
 			$new_submenu = array();
@@ -203,7 +203,7 @@ class LLMS_Admin_Menus {
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Dashboard', 'lifterlms' ), __( 'Dashboard', 'lifterlms' ), 'manage_lifterlms', 'llms-dashboard', array( $this, 'dashboard_page_init' ) );
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Helper', 'lifterlms' ), __( 'Helper', 'lifterlms' ), 'manage_lifterlms', 'llms-helper', array( $this, 'helper_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Resources', 'lifterlms' ), __( 'Resources', 'lifterlms' ), 'manage_lifterlms', 'llms-resources', array( $this, 'resources_page_init' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
 
@@ -339,16 +339,15 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the HTML for admin helper screens
+	 * Output the HTML for admin resources screens
 	 *
 	 * @since Unknown
-	 * @since 6.0.0 Removed loading the LLMS_Admin_Helper class file that is now handled by the autoloader.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Resources class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
-	public function helper_page_init() {
-		LLMS_Admin_Helper::register_meta_boxes();
-		LLMS_Admin_Helper::output();
+	public function resources_page_init() {
+		LLMS_Admin_Resources::output();
 	}
 
 	/**
