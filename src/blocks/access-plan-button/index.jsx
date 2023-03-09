@@ -17,6 +17,8 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
+import apiFetch from '@wordpress/api-fetch';
+import { useEffect, useState } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
@@ -24,11 +26,25 @@ import blockJson from './block.json';
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
+	const [ accessPlans, setAccessPlans ] = useState( [
+		{
+			label: __( 'No Access Plans Found', 'lifterlms' ),
+			value: '',
+		},
+	] );
 
-	const accessPlans = window?.llmsShortcodeBlocks?.accessPlans || {
-		label: __( 'No Access Plans Found', 'lifterlms' ),
-		value: '',
-	};
+	useEffect( () => {
+		apiFetch( {
+			path: '/llms/v1/access-plans',
+		} ).then( ( plans ) => {
+			setAccessPlans( plans.map( ( plan ) => {
+				return {
+					label: plan.title.rendered,
+					value: plan.id,
+				};
+			} ) );
+		} );
+	}, [] );
 
 	if ( ! attributes?.id ) {
 		attributes.id = accessPlans?.[ 0 ]?.value;
