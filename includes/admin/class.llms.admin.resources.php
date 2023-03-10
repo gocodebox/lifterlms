@@ -49,7 +49,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Retrieves the HTML of a view from the views/dashboard directory.
 	 *
-	 * @since 7.1.0
+	 * @since [version]
 	 *
 	 * @param string $file The file basename of the view to retrieve.
 	 * @return string The HTML content of the view.
