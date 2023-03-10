@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since 7.1.0
+ * @since [version]
  * @version [version]
  */
 
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Resources Screen class.
  *
- * @since 7.1.0
+ * @since [version]
  */
 class LLMS_Admin_Resources {
 
 	/**
 	 * Retrieve an instance of the WP_Screen for the resources screen.
 	 *
-	 * @since 7.1.0
+	 * @since [version]
 	 *
 	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the resources screen, otherwise returns `false`.
 	 */
@@ -38,7 +38,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Handle HTML output on the screen.
 	 *
-	 * @since 7.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

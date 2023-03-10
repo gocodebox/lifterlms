@@ -339,11 +339,10 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the HTML for admin resources screens
+	 * Output the HTML for admin resources screen
 	 *
-	 * @since Unknown
-	 * @since 6.0.0 Removed loading the LLMS_Admin_Resources class file that is now handled by the autoloader.
-	 *
+	 * @since [version]
+	 * 
 	 * @return void
 	 */
 	public function resources_page_init() {
