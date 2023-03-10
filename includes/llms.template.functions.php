@@ -803,15 +803,19 @@ function llms_placeholder_img( $size = 'full' ) {
  * Get the featured image
  *
  * @access public
+ * @since [version] Fix bug when the featured image file is not available.
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
-	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
-	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
+	$img  = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
+	$html = '';
+
+	if ( isset( $img[0] ) ) {
+		$html = '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">';
+	}
+
+	return apply_filters( 'lifterlms_featured_img', $html );
 }
-
-
-
 
 /**
  * Retrieve author name, avatar, and bio
