@@ -342,9 +342,9 @@ function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'uns
  *
  * @see LLMS_Student->mark_favorite()
  *
- * @param int    $user_id     WP User ID.
- * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int    $object_type Object type [lesson|section|course|track].
+ * @param int $user_id     WP User ID.
+ * @param int $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param int $object_type Object type [lesson|section|course|track].
  * @return boolean
  */
 function llms_mark_favorite( $user_id, $object_id, $object_type ) {

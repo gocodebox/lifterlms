@@ -81,8 +81,8 @@ class LLMS_Controller_Favorite {
 	 */
 	public function handle_favorite_form() {
 
-		$object_id		= $this->get_object_id_from_form_data( 'favorite' );
-		$object_type 	= llms_filter_input( INPUT_POST, 'type' );
+		$object_id   = $this->get_object_id_from_form_data( 'favorite' );
+		$object_type = llms_filter_input( INPUT_POST, 'type' );
 
 		if ( is_null( $object_id ) ) {
 			return;
@@ -113,8 +113,8 @@ class LLMS_Controller_Favorite {
 	 */
 	public function handle_unfavorite_form() {
 
-		$lesson_id 		= $this->get_object_id_from_form_data( 'unfavorite' );
-		$object_type 	= llms_filter_input( INPUT_POST, 'type' );
+		$lesson_id   = $this->get_object_id_from_form_data( 'unfavorite' );
+		$object_type = llms_filter_input( INPUT_POST, 'type' );
 
 		if ( is_null( $lesson_id ) ) {
 			return;
@@ -139,10 +139,10 @@ class LLMS_Controller_Favorite {
 	 *
 	 * @since [version]
 	 *
-	 * @param int    $user_id   	User ID.
-	 * @param int    $object_id 	Object ID.
+	 * @param int    $user_id       User ID.
+	 * @param int    $object_id     Object ID.
 	 * @param string $object_type   Object description string (Lesson, Course or Instructor).
-	 * @param array  $args      	Optional arguments.
+	 * @param array  $args          Optional arguments.
 	 * @return void
 	 */
 	public function mark_favorite( $user_id, $object_id, $object_type = '', $args = array() ) {

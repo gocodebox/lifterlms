@@ -1906,7 +1906,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  [version]
 	 */
 	public function mark_favorite( $object_id, $object_type ) {
-		
+
 		// Short circuit if it's already favorited.
 		if ( $this->is_favorite( $object_id, $object_type ) ) {
 			return true;
@@ -1934,7 +1934,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return boolean
 	 */
 	private function update_favorite_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
-		
+
 		$student_id = $this->get_id();
 
 		/**
@@ -1951,7 +1951,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param string $trigger     String describing the reason for the status change.
 		 */
 		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
-		
+
 		// Retrieve an instance of the object we're acting on.
 		if ( in_array( $object_type, llms_get_completable_post_types(), true ) ) {
 			$object = llms_get_post( $object_id );
@@ -1960,7 +1960,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		} else {
 			return false;
 		}
-		
+
 		// Insert meta data.
 		if ( 'favorite' === $status ) {
 			$this->insert_favorite_postmeta( $object_id, $trigger );
@@ -1999,7 +1999,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param int $object_id  WP_Post ID of the object.
 		 */
 		do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
-		
+
 		return true;
 
 	}
