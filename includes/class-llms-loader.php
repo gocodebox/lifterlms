@@ -232,6 +232,7 @@ class LLMS_Loader {
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
+	 * @since [version] Include `LLMS_Controller_Favorite`.
 	 *
 	 * @return void
 	 */
@@ -285,6 +286,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-awards.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.certificates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.lesson.progression.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.favorites.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-checkout.php'; // Added out of alpha order to preserve action load order.
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.orders.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.quizzes.php';

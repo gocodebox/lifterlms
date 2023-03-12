@@ -1254,6 +1254,30 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Add student postmeta data when lesson is favorited
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson
+	 * @param  string $trigger      String describing the reason for mark completion
+	 * @return boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function insert_favorite_postmeta( $object_id, $trigger = 'unspecified' ) {
+
+		// Add info to the user postmeta table.
+		$user_metadatas = array(
+			'_is_favorite'        => 'yes',
+			'_completion_trigger' => $trigger,
+		);
+
+		$update = llms_update_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
+
+		// Returns an array with errored keys or true on success.
+		return is_array( $update ) ? false : true;
+
+	}
+
+	/**
 	 * Add student postmeta data for enrollment into a course or membership
 	 *
 	 * @param    int    $product_id   WP Post ID of the course or membership
@@ -1838,6 +1862,145 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
+
+	}
+
+	/**
+	 * Determine if the student has favorited a lesson
+	 *
+	 * @param    int    $object_id  WP Post ID of a course or lesson or section or the term id of the track
+	 * @param    string $type    Object type (course, lesson, section, or track)
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_favorite( $object_id, $object_type = 'course' ) {
+
+		$query = new LLMS_Query_User_Postmeta(
+			array(
+				'types'                 => 'favorites',
+				'include_post_children' => false,
+				'user_id'               => $this->get_id(),
+				'post_id'               => $object_id,
+				'per_page'              => 1,
+			)
+		);
+
+		$ret = $query->has_results();
+
+		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
+
+	}
+
+	/**
+	 * Mark a lesson, section, course, or track complete for the given user
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @param  string $trigger      String describing the reason for marking complete
+	 * @return boolean
+	 *
+	 * @see    llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first
+	 *
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function mark_favorite( $object_id, $object_type ) {
+		
+		// Short circuit if it's already favorited.
+		if ( $this->is_favorite( $object_id, $object_type ) ) {
+			return true;
+		}
+
+		return $this->update_favorite_status( 'favorite', $object_id, $object_type );
+
+	}
+
+	/**
+	 * Update the favorite status of a track, course, section, or lesson for the current student
+	 *
+	 * Triggers actions for favorite/unfavorite.
+	 *
+	 * Inserts / updates necessary user postmeta data.
+	 *
+	 * @since [version]
+	 * @since 4.2.0 Use filterable functions to determine if the object is completable.
+	 *              Added filter to allow customization of object parent data.
+	 *
+	 * @param string $status      New status to update to, either "complete" or "incomplete".
+	 * @param int    $object_id   WP_Post ID of the object.
+	 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+	 * @param string $trigger     String describing the reason for the status change.
+	 * @return boolean
+	 */
+	private function update_favorite_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
+		
+		$student_id = $this->get_id();
+
+		/**
+		 * Fires before a student's object completion status is updated.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+		 * either "complete" or "incomplete"
+		 *
+		 * @since [version]
+		 *
+		 * @param int    $student_id  WP_User ID of the student.
+		 * @param int    $object_id   WP_Post ID of the object.
+		 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+		 * @param string $trigger     String describing the reason for the status change.
+		 */
+		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
+		
+		// Retrieve an instance of the object we're acting on.
+		if ( in_array( $object_type, llms_get_completable_post_types(), true ) ) {
+			$object = llms_get_post( $object_id );
+		} elseif ( in_array( $object_type, llms_get_completable_taxonomies(), true ) ) {
+			$object = get_term( $object_id, $object_type );
+		} else {
+			return false;
+		}
+		
+		// Insert meta data.
+		if ( 'favorite' === $status ) {
+			$this->insert_favorite_postmeta( $object_id, $trigger );
+		} elseif ( 'unfavorite' === $status ) {
+			// TODO
+			$this->insert_unfavorite_postmeta( $object_id, $trigger );
+		}
+
+		/**
+		 * Hook that fires when a student's completion status is updated for any object.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
+		 * either "favorite" or "unfavorite"
+		 *
+		 * @since [version]
+		 *
+		 * @param int    $student_id  WP_User ID of the student.
+		 * @param int    $object_id   WP_Post ID of the object.
+		 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+		 * @param string $trigger     String describing the reason for the status change.
+		 */
+		do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
+
+		/**
+		 * Hook that fires when a student's favorite status is updated for a specific object type.
+		 *
+		 * The dynamic portion of this hook, `$object_type` refers to the WP_Post post_type of the object
+		 * which the student's completion status is being updated for.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+		 * either "favorite" or "unfavorite"
+		 *
+		 * @since [version]
+		 *
+		 * @param int $student_id WP_User ID of the student.
+		 * @param int $object_id  WP_Post ID of the object.
+		 */
+		do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
+		
+		return true;
 
 	}
 
