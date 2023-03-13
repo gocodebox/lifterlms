@@ -16,6 +16,7 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
+import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
@@ -30,6 +31,26 @@ const Edit = ( props ) => {
 		1: __( 'One', 'lifterlms' ),
 		2: __( 'Two', 'lifterlms' ),
 	};
+
+	const memoizedServerSideRender = useMemo( () => {
+		return <ServerSideRender
+			block={ blockJson.name }
+			attributes={ attributes }
+			LoadingResponsePlaceholder={ () =>
+				<Spinner />
+			}
+			ErrorResponsePlaceholder={ () =>
+				<p className={ 'llms-block-error' }>
+					{ __( 'There was an error loading the content. This block will not be displayed.', 'lifterlms' ) }
+				</p>
+			}
+			EmptyResponsePlaceholder={ () =>
+				<p className={ 'llms-block-empty' }>
+					{ __( 'Checkout not available. This block will not be displayed.', 'lifterlms' ) }
+				</p>
+			}
+		/>;
+	}, [ attributes ] );
 
 	return <>
 		<InspectorControls>
@@ -64,23 +85,7 @@ const Edit = ( props ) => {
 		</InspectorControls>
 		<div { ...blockProps }>
 			<Disabled>
-				<ServerSideRender
-					block={ blockJson.name }
-					attributes={ attributes }
-					LoadingResponsePlaceholder={ () =>
-						<Spinner />
-					}
-					ErrorResponsePlaceholder={ () =>
-						<p className={ 'llms-block-error' }>
-							{ __( 'There was an error loading the content. This block will not be displayed.', 'lifterlms' ) }
-						</p>
-					}
-					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>
-							{ __( 'Checkout not available. This block will not be displayed.', 'lifterlms' ) }
-						</p>
-					}
-				/>
+				{ memoizedServerSideRender }
 			</Disabled>
 		</div>
 	</>;
