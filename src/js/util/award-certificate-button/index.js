@@ -4,7 +4,7 @@ import { Button, Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
 // LLMS Deps.
-import { PostSearchControl, UserSearchControl } from '@lifterlms/components';
+import { PostSearchControl, UserSearchControl } from '@lifterlms/components/src/search-control';
 
 // Internal Deps.
 import createAward from './create';

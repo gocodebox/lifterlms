@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2371"
+entry: Fixed blank System Report's copy for Support.

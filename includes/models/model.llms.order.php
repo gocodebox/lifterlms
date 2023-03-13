@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -846,7 +846,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Retrieve the last (most recent) transaction processed for the order.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Skip counting the total rows found when retrieving the last transaction.
+	 * @since 7.1.0 Skip counting the total rows found when retrieving the last transaction.
 	 *
 	 * @param array|string $status Filter by status (see transaction statuses). By default looks for any status.
 	 * @param array|string $type   Filter by type [recurring|single|trial]. By default looks for any type.
@@ -1090,7 +1090,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * if none found, uses the created date of the order.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Skip counting the total rows found when retrieving the first transaction.
+	 * @since 7.1.0 Skip counting the total rows found when retrieving the first transaction.
 	 *
 	 * @param string $format Desired return format of the date.
 	 * @return string
@@ -1121,7 +1121,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * Filter the order start date.
 		 *
 		 * @since 3.0.0
-		 * @since [version] Added the `$format` parameter.
+		 * @since 7.1.0 Added the `$format` parameter.
 		 *
 		 * @param string     $date   The formatted start date for the order.
 		 * @param LLMS_Order $order  The order object.
@@ -1164,7 +1164,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.10.0 Unknown.
 	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
 	 * @since 5.2.0 Use stric type comparisons.
-	 * @since [version] Added `no_found_rows` parameter.
+	 * @since 7.1.0 Added `no_found_rows` parameter.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.
@@ -1256,7 +1256,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			 * Filters the order's transactions query aguments.
 			 *
 			 * @since 3.0.0
-			 * @since [version] Added `$no_found_rows` arg.
+			 * @since 7.1.0 Added `$no_found_rows` arg.
 			 *
 			 * @param array $query_args {
 			 *     Hash of query argument data passed to a WP_Query.

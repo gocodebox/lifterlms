@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -235,7 +235,7 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
  *
  * @since 3.8.0
  * @since 3.9.0 Unknown
- * @since [version] Added the `$autoload` parameter.
+ * @since 7.1.0 Added the `$autoload` parameter.
  *
  * @param mixed   $user     WP_User ID, instance of WP_User, or instance of any student class extending this class.
  * @param boolean $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
@@ -296,7 +296,7 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
  *
  * @since Unknown
  * @since 3.25.0 Unknown.
- * @since [version] From now on this function will always return false for non existing users,
+ * @since 7.1.0 From now on this function will always return false for non existing users,
  *               e.g. deleted users.
  *
  * @see LLMS_Student->is_enrolled()

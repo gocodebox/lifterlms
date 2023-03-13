@@ -9,6 +9,8 @@
  * @group assets
  *
  * @since 4.3.3
+ * @since 7.1.0 Turn `test_maybe_enqueue_reporting_general_settings_assumed()` into ` test_maybe_enqueue_reporting_dashboard_assumed()`.
+ *              Removed outdated `test_maybe_enqueue_reporting_general_settings_explicit()`.
  */
 class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
@@ -167,17 +169,17 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on the general settings page where analytics are required for the data widgets
+	 * Test maybe_enqueue_reporting() on the dashboard page where analytics are required for the data widgets
 	 *
 	 * This test tests the default "assumed" tab when there's no `tab` set in the $_GET array.
 	 *
-	 * @since 4.3.3
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
-	public function test_maybe_enqueue_reporting_general_settings_assumed() {
+	public function test_maybe_enqueue_reporting_dashboard_assumed() {
 
-		$screen = (object) array( 'base' => 'lifterlms_page_llms-settings' );
+		$screen = (object) array( 'base' => 'lifterlms_page_llms-dashboard' );
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
 
@@ -189,18 +191,18 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on the general settings page where analytics are required for the data widgets
+	 * Test maybe_enqueue_reporting() on the dashboard page where analytics are required for the data widgets
 	 *
-	 * This test is the same as test_maybe_enqueue_reporting_general_settings_assumed() except this one explicitly
+	 * This test is the same as test_maybe_enqueue_reporting_dashboard_assumed() except this one explicitly
 	 * tests for the presence of the `tab=general` in the $_GET array.
 	 *
-	 * @since 4.3.3
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
-	public function test_maybe_enqueue_reporting_general_settings_explicit() {
+	public function test_maybe_enqueue_reporting_dashbord_explicit() {
 
-		$screen = (object) array( 'base' => 'lifterlms_page_llms-settings' );
+		$screen = (object) array( 'base' => 'lifterlms_page_llms-dashboard' );
 		$this->mockGetRequest( array( 'tab' => 'general' ) );
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
@@ -213,9 +215,10 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will be registered but not enqueued.
+	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will not be registered.
 	 *
 	 * @since 4.3.3
+	 * @since 7.1.0 Updated to reflect that `llms-google-charts` and `llms-analytics` are not registered on settings screens.
 	 *
 	 * @return void
 	 */
@@ -226,10 +229,9 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
 
-		$this->assertAssetIsRegistered( 'script', 'llms-google-charts' );
-		$this->assertAssetIsRegistered( 'script', 'llms-analytics' );
+		$this->assertAssetNotRegistered( 'script', 'llms-google-charts' );
+		$this->assertAssetNotRegistered( 'script', 'llms-analytics' );
 
-		$this->assertAssetNotEnqueued( 'script', 'llms-analytics' );
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.2.3
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 *
 	 * @since 3.2.3
 	 * @since 3.12.0 Unknown.
-	 * @since [version] Added links to the course builder.
+	 * @since 7.1.0 Added links to the course builder.
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Add course builder edit link.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param array   $actions Existing actions.
 	 * @param WP_Post $post    Lesson's WP_Post object.
@@ -85,7 +85,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 *
 	 * @since 3.2.3
 	 * @since 3.12.0 Unknown.
-	 * @since [version] Quiz column added.
+	 * @since 7.1.0 Quiz column added.
 	 *
 	 * @param array $columns Array of default columns.
 	 * @return array
@@ -133,7 +133,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @since 3.2.3
 	 * @since 3.24.0 Unknown.
 	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
-	 * @since [version] Implemented content for the quiz column.
+	 * @since 7.1.0 Implemented content for the quiz column.
 	 *
 	 * @param string $column  Column key/name.
 	 * @param int    $post_id WP Post ID of the lesson for the row.
