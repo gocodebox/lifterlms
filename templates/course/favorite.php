@@ -80,6 +80,10 @@ $student = llms_get_student( get_current_user_id() );
 
 	<?php endif; ?>
 
+	<div class="llms-favorite-count-wrapper">
+		<?php echo get_total_favorites( $lesson->get( 'id' ), '_favorite' ); ?>
+	</div>
+
 	<?php do_action( 'llms_after_favorite_button', $lesson, $student ); ?>
 
 </div>

@@ -1268,7 +1268,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// Add info to the user postmeta table.
 		$user_metadatas = array(
 			'_is_favorite'        => 'yes',
-			'_completion_trigger' => $trigger,
+			'_favorite_trigger' => $trigger,
 		);
 
 		$update = llms_update_user_postmeta( $this->get_id(), $object_id, '_favorite', true );

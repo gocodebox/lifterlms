@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version 3.37.13
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,5 +49,34 @@ function get_lesson( $the_lesson = false, $args = array() ) {
 	}
 
 	return new LLMS_Lesson( $the_lesson, $args );
+
+}
+
+/**
+ * Get Favorites Count
+ *
+ * @since [version]
+ *
+ * @param WP_Post|int|false $object_id Lesson post object or id. If `false` uses the global `$post` object.
+ * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
+ * @return Favorites Count
+ */
+function get_total_favorites( $object_id = false, $meta_key, $meta_value = '', $args = array() ) {
+	
+	global $wpdb;
+
+	$key = $meta_key ? $wpdb->prepare( 'AND meta_key = %s', $meta_key ) : '';
+
+	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$res = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+				WHERE post_id = %d {$key} ORDER BY updated_date DESC",
+			$object_id
+		)
+	);
+	// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+	return count( $res );
 
 }
