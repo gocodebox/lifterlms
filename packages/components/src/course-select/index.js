@@ -20,7 +20,7 @@ export const useCourseOptions = () => {
 
 	const courseOptions = courses?.map( ( course ) => {
 		return {
-			label: course.title.rendered,
+			label: course.title.rendered + ' (ID: ' + course.id + ')',
 			value: course.id,
 		};
 	} ) ?? [];
@@ -48,7 +48,7 @@ export const CourseSelect = ( { attributes, setAttributes } ) => {
 	return <PanelRow>
 		<SelectControl
 			label={ __( 'Course', 'lifterlms' ) }
-			help={ __( 'The course to display the author for.', 'lifterlms' ) }
+			help={ __( 'Select the course to associate with this block.', 'lifterlms' ) }
 			value={ attributes.course_id ?? courseOptions?.[ 0 ]?.value }
 			options={ courseOptions }
 			onChange={ ( value ) => setAttributes( {
