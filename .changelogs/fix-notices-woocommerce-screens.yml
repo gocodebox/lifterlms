@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2373"
-entry: Fixed notice display on WooCommerce dashboard pages.
