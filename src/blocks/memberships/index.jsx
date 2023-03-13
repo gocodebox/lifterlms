@@ -7,12 +7,14 @@ import {
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalNumberControl as NumberControl,
 	TextControl,
-	Disabled, Spinner,
+	Disabled,
+	Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import ServerSideRender from '@wordpress/server-side-render';
+import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
@@ -35,12 +37,28 @@ const Edit = ( props ) => {
 		};
 	} );
 
+	const membershipOptions = {};
+
+	const memoizedServerSideRender = useMemo( () => {
+		return <ServerSideRender
+			block={ blockJson.name }
+			attributes={ attributes }
+			LoadingResponsePlaceholder={ () =>
+				<Spinner />
+			}
+			ErrorResponsePlaceholder={ () =>
+				<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
+			}
+			EmptyResponsePlaceholder={ () =>
+				<p className={ 'llms-block-empty' }>{ __( 'No memberships found matching this criteria.', 'lifterlms' ) }</p>
+			}
+		/>;
+	}, [ attributes ] );
+
 	categoryOptions?.unshift( {
 		value: '',
 		label: __( 'All', 'lifterlms' ),
 	} );
-
-	const membershipOptions = {};
 
 	memberships?.map( ( membership ) => {
 		membershipOptions[ membership.id ] = membership.title.rendered;
@@ -116,19 +134,7 @@ const Edit = ( props ) => {
 
 		<div { ...blockProps }>
 			<Disabled>
-				<ServerSideRender
-					block={ blockJson.name }
-					attributes={ attributes }
-					LoadingResponsePlaceholder={ () =>
-						<Spinner />
-					}
-					ErrorResponsePlaceholder={ () =>
-						<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid.', 'lifterlms' ) }</p>
-					}
-					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>{ __( 'No memberships found matching this criteria.', 'lifterlms' ) }</p>
-					}
-				/>
+				{ memoizedServerSideRender }
 			</Disabled>
 		</div>
 

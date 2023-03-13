@@ -14,7 +14,7 @@ import {
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 
 // Internal dependencies.
@@ -39,20 +39,40 @@ const Edit = ( props ) => {
 		};
 	} );
 
+	const courseOptions = {};
+
+	const [ courseTitles, setCourseTitles ] = useState( [] );
+
+	const memoizedServerSideRender = useMemo( () => {
+		return <ServerSideRender
+			block={ blockJson.name }
+			attributes={ attributes }
+			LoadingResponsePlaceholder={ () =>
+				<Spinner />
+			}
+			ErrorResponsePlaceholder={ () =>
+				<p className={ 'llms-block-error' }>
+					{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }
+				</p>
+			}
+			EmptyResponsePlaceholder={ () =>
+				<p className={ 'llms-block-empty' }>
+					{ __( 'No courses found matching your selection. This block will not be displayed.', 'lifterlms' ) }
+				</p>
+			}
+		/>;
+	}, [ attributes ] );
+
 	categoryOptions?.unshift( {
 		value: '',
 		label: __( 'All', 'lifterlms' ),
 	} );
-
-	const courseOptions = {};
 
 	courses?.map( ( course ) => {
 		courseOptions[ course.id ] = course.title.rendered;
 
 		return course;
 	} );
-
-	const [ courseTitles, setCourseTitles ] = useState( [] );
 
 	return <>
 
@@ -156,23 +176,7 @@ const Edit = ( props ) => {
 
 		<div { ...blockProps }>
 			<Disabled>
-				<ServerSideRender
-					block={ blockJson.name }
-					attributes={ attributes }
-					LoadingResponsePlaceholder={ () =>
-						<Spinner />
-					}
-					ErrorResponsePlaceholder={ () =>
-						<p className={ 'llms-block-error' }>
-							{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }
-						</p>
-					}
-					EmptyResponsePlaceholder={ () =>
-						<p className={ 'llms-block-empty' }>
-							{ __( 'No courses found matching your selection. This block will not be displayed.', 'lifterlms' ) }
-						</p>
-					}
-				/>
+				{ memoizedServerSideRender }
 			</Disabled>
 		</div>
 
