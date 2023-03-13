@@ -62,7 +62,7 @@ function get_lesson( $the_lesson = false, $args = array() ) {
  * @return Favorites Count
  */
 function get_total_favorites( $object_id = false, $meta_key, $meta_value = '', $args = array() ) {
-	
+
 	global $wpdb;
 
 	$key = $meta_key ? $wpdb->prepare( 'AND meta_key = %s', $meta_key ) : '';

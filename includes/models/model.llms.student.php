@@ -1255,19 +1255,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Add student postmeta data when lesson is favorited
+	 * Add student postmeta data when lesson is favorited.
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson
-	 * @param  string $trigger      String describing the reason for mark completion
+	 * @since [version]
+	 *
+	 * @see LLMS_Student->mark_favorite()
+	 *
+	 * @param int $object_id WP User ID.
+	 * @param int $trigger   WP Post ID of the Lesson, Section, Track, or Course.
 	 * @return boolean
-	 * @since    [version]
-	 * @version  [version]
 	 */
 	private function insert_favorite_postmeta( $object_id, $trigger = 'unspecified' ) {
 
 		// Add info to the user postmeta table.
 		$user_metadatas = array(
-			'_is_favorite'        => 'yes',
+			'_is_favorite'      => 'yes',
 			'_favorite_trigger' => $trigger,
 		);
 
@@ -1279,10 +1281,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Remove student postmeta data when lesson is unfavorited
+	 * Remove student postmeta data when lesson is unfavorited.
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson
-	 * @param  string $trigger      String describing the reason for mark completion
+	 * @param  int    $object_id    WP Post ID of the lesson.
+	 * @param  string $trigger      String describing the reason for mark completion.
 	 * @return boolean
 	 * @since    [version]
 	 * @version  [version]
@@ -1887,8 +1889,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student has favorited a lesson
 	 *
-	 * @param    int    $object_id  WP Post ID of a course or lesson or section or the term id of the track
-	 * @param    string $type    Object type (course, lesson, section, or track)
+	 * @param    int    $object_id      WP Post ID of a course or lesson or section or the term id of the track
+	 * @param    string $object_type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    [version]
 	 * @version  [version]
@@ -1974,7 +1976,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param string $trigger     String describing the reason for the status change.
 	 * @return boolean
 	 */
-	
 	private function update_favorite_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
 
 		$student_id = $this->get_id();
