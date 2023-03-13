@@ -1,8 +1,8 @@
 /**
  * Sidebar Utilities View
  *
- * @since    7.0.1
- * @version  7.0.1
+ * @since [version]
+ * @version [version]
  */
 define( [], function() {
 	return Backbone.View.extend( {
@@ -10,44 +10,45 @@ define( [], function() {
 		/**
 		 * HTML element selector
 		 *
-		 * @type  {string}
+		 * @type {string}
 		 */
 		el: '#llms-video-explainer',
 
 		/**
 		 * Wrapper Tag name
 		 *
-		 * @type  {string}
+		 * @type {string}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
 		 *
-		 * @type  {[type]}
+		 * @type {Function}
 		 */
 		template: wp.template( 'llms-video-explainer-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 *
-		 * @return   void
-		 * @since    7.0.1
-		 * @version  7.0.1
+		 * @since [version]
+		 * @version [version]
+		 * @type {Function}
+		 * @return {void}
 		 */
-		initialize() {
-
+		initialize: function() {
 			// this.render();
 		},
 
 		/**
 		 * Compiles the template and renders the view
 		 *
-		 * @return   self (for chaining)
-		 * @since    7.0.1
-		 * @version  7.0.1
+		 * @since [version]
+		 * @version [version]
+		 * @type {Function}
+		 * @return {self}
 		 */
-		render() {
+		render: function() {
 			this.$el.html( this.template() );
 			return this;
 		},

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 5.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -545,6 +545,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
 	 * @since 4.14.0 Added builder autosave preference defaults.
+	 * @since [version] Added video explainer template.
 	 *
 	 * @return void
 	 */

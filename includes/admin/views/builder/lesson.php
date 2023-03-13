@@ -4,7 +4,7 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
- * @version 3.30.3
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
