@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
+ * @since [version] Added the logic to add and remove lesson favoritism.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1278,6 +1279,24 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Remove student postmeta data when lesson is unfavorited
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson
+	 * @param  string $trigger      String describing the reason for mark completion
+	 * @return boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function insert_unfavorite_postmeta( $object_id, $trigger = 'unspecified' ) {
+
+		$update = llms_delete_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
+
+		// Returns an array with errored keys or true on success.
+		return is_array( $update ) ? false : true;
+
+	}
+
+	/**
 	 * Add student postmeta data for enrollment into a course or membership
 	 *
 	 * @param    int    $product_id   WP Post ID of the course or membership
@@ -1893,11 +1912,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Mark a lesson, section, course, or track complete for the given user
+	 * Mark a lesson, section, course, or track favorite for the given user
 	 *
 	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
 	 * @param  string $object_type  object type [lesson|section|course|track]
-	 * @param  string $trigger      String describing the reason for marking complete
 	 * @return boolean
 	 *
 	 * @see    llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first
@@ -1913,6 +1931,29 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_favorite_status( 'favorite', $object_id, $object_type );
+
+	}
+
+	/**
+	 * Mark a lesson, section, course, or track unfavorite for the given user
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @return boolean
+	 *
+	 * @see    llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first
+	 *
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function mark_unfavorite( $object_id, $object_type ) {
+
+		// Short circuit if it's not favorited.
+		if ( ! $this->is_favorite( $object_id, $object_type ) ) {
+			return true;
+		}
+
+		return $this->update_favorite_status( 'unfavorite', $object_id, $object_type );
 
 	}
 
@@ -1933,15 +1974,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param string $trigger     String describing the reason for the status change.
 	 * @return boolean
 	 */
+	
 	private function update_favorite_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
 
 		$student_id = $this->get_id();
 
 		/**
-		 * Fires before a student's object completion status is updated.
+		 * Fires before a student's object favorite status is updated.
 		 *
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
-		 * either "complete" or "incomplete"
+		 * either "favorite" or "unfavorite"
 		 *
 		 * @since [version]
 		 *
@@ -1965,7 +2007,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		if ( 'favorite' === $status ) {
 			$this->insert_favorite_postmeta( $object_id, $trigger );
 		} elseif ( 'unfavorite' === $status ) {
-			// TODO
 			$this->insert_unfavorite_postmeta( $object_id, $trigger );
 		}
 

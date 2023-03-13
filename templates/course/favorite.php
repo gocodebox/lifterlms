@@ -18,7 +18,34 @@ $student = llms_get_student( get_current_user_id() );
 	
 	<?php if ( $student->is_favorite( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 		
-		<i class="fa fa-heart llms-unfavorite"></i>
+		<form action="" class="llms-unfavorite-lesson-form" method="POST" name="mark_unfavorite">
+
+			<?php do_action( 'lifterlms_before_mark_unfavorite_lesson' ); ?>
+
+			<input type="hidden" name="mark-unfavorite" value="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" />
+			<!-- TODO: Dynamic [Lesson, Course, Instructor] value -->
+			<input type="hidden" name="type" value="lesson" />
+			<input type="hidden" name="action" value="mark_unfavorite" />
+			<?php wp_nonce_field( 'mark_unfavorite' ); ?>
+
+			<?php
+			llms_form_field(
+				array(
+					'columns'     => 12,
+					'classes'     => 'llms-button-secondary auto button',
+					'id'          => 'llms_mark_unfavorite',
+					'value'       => apply_filters( 'lifterlms_mark_lesson_unfavorite_button_text', __( '<i class="fa fa-heart"></i>', 'lifterlms' ), $lesson ),
+					'last_column' => true,
+					'name'        => 'mark_unfavorite',
+					'required'    => false,
+					'type'        => 'submit',
+				)
+			);
+			?>
+
+			<?php do_action( 'lifterlms_after_mark_unfavorite_lesson' ); ?>
+
+		</form>
 
 	<?php else : ?>
 

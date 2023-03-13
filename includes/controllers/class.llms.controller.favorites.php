@@ -113,10 +113,10 @@ class LLMS_Controller_Favorite {
 	 */
 	public function handle_unfavorite_form() {
 
-		$lesson_id   = $this->get_object_id_from_form_data( 'unfavorite' );
+		$object_id   = $this->get_object_id_from_form_data( 'unfavorite' );
 		$object_type = llms_filter_input( INPUT_POST, 'type' );
 
-		if ( is_null( $lesson_id ) ) {
+		if ( is_null( $object_id ) ) {
 			return;
 		}
 
