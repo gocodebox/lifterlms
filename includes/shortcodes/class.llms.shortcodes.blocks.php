@@ -64,7 +64,13 @@ class LLMS_Shortcodes_Blocks {
 	 */
 	public function register_blocks(): void {
 		foreach ( $this->shortcodes as $shortcode ) {
-			register_block_type( LLMS_PLUGIN_DIR . "blocks/$shortcode" );
+			$block_dir = LLMS_PLUGIN_DIR . "blocks/$shortcode";
+
+			if ( file_exists( "$block_dir/block.json" ) ) {
+				register_block_type( $block_dir, [
+					'render_callback' => array( $this, 'render_block' ),
+				] );
+			}
 		}
 	}
 
@@ -157,6 +163,58 @@ class LLMS_Shortcodes_Blocks {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Renders a shortcode block.
+	 *
+	 * @package LifterLMS/Templates/Blocks
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @param array $attributes The block attributes.
+	 * @param string $content The block default content.
+	 * @param WP_Block $block The block instance.
+	 *
+	 * @return string
+	 */
+	public function render_block( array $attributes, string $content, WP_Block $block ): string {
+		if ( ! property_exists( $block, 'name' ) ) {
+			return '';
+		}
+
+		$name = str_replace(
+			array( 'llms/', '-' ),
+			array( '', '_' ),
+			$block->name
+		);
+
+		$atts = '';
+
+		foreach ( $attributes as $key => $value ) {
+			if ( ! empty( $value ) && ! str_contains( $key, 'llms_visibility' ) ) {
+				$atts .= " $key=$value";
+			}
+		}
+
+		$shortcode = trim( do_shortcode( "[lifterlms_$name $atts]" ) );
+
+		// This allows emptyResponsePlaceholder to be used when no content is returned.
+		if ( ! $shortcode ) {
+			return '';
+		}
+
+		// Use emptyResponsePlaceholder for Courses block instead of shortcode message.
+		if ( false !== strpos( $shortcode, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
+			return '';
+		}
+
+		$html = '<div ' . get_block_wrapper_attributes() . '>';
+		$html .= $shortcode;
+		$html .= '</div>';
+
+		return $html;
 	}
 }
 
