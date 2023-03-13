@@ -2,6 +2,14 @@ const
 	chalk = require( 'chalk' ),
 	{ createDistFile, execSync, logResult } = require( '../../utils' );
 
+/**
+ * Build distribution archive.
+ *
+ * @since 0.0.1
+ * @since [version] Windows compatibility: account for spaces in file paths.
+ *
+ * @return {string}
+ */
 module.exports = {
 	command: 'archive',
 	description: 'Build a distribution archive (.zip) file for the project.',
