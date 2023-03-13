@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -800,10 +800,15 @@ function llms_placeholder_img( $size = 'full' ) {
 }
 
 /**
- * Get the featured image
+ * Get the featured image.
+ *
+ * @since unknown
+ * @since [version] Fix bug when the featured image file is not available.
  *
  * @access public
- * @since [version] Fix bug when the featured image file is not available.
+ *
+ * @param int $attachment_id Image attachment ID.
+ * @param string|int[] $size Accepts any registered image size name, or an array of width and height values in pixels (in that order). Default 'thumbnail'.
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
