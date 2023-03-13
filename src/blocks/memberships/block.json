@@ -46,6 +46,5 @@
       "full"
     ]
   },
-  "editorScript": "file:./index.js",
-  "render": "file:../../templates/blocks/shortcode.php"
+  "editorScript": "file:./index.js"
 }
