@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('llms-utils', 'lodash', 'react', 'react-dom', 'wp-api-fetch', 'wp-components', 'wp-core-data', 'wp-data', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url'), 'version' => '5b765100d6be00076d52');
+<?php return array('dependencies' => array('llms-components/src/search-control', 'llms-utils', 'wp-components', 'wp-core-data', 'wp-data', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url'), 'version' => '4675ec6b3a0657ed96e2');

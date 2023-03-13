@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v7.1.1 - 2023-03-13
+-------------------
+
+##### Bug Fixes
+
++ Fixed notice display on WooCommerce dashboard pages.
++ Fixed View button URL when using WP in subdirectory.
++ Fixed blank System Report's copy for Support.
+
+
 v7.1.0 - 2023-03-02
 -------------------
 
