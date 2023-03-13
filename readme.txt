@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.1
 Requires PHP: 7.4
-Stable tag: 7.1.0
+Stable tag: 7.1.1
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -521,33 +521,26 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Screenshots ==
 
-1. LifterLMS Courses
-2. LifterLMS Pricing Tables
-3. LifterLMS Checkout
-4. LifterLMS Lessons
-5. LifterLMS Achievement Earned
-6. LifterLMS Achievement Badges
-7. LifterLMS Quiz Results
-8. LifterLMS Student Dashboard
-9. LifterLMS Certificates
-10. LifterLMS Sales Reporting
-11. LifterLMS Student Reporting
-12. LifterLMS Enrollment Reporting
-13. LifterLMS Sidebar Widgets
-14. LifterLMS Subscription Management
-15. LifterLMS Settings
-16. LifterLMS Course Builder
-17. LifterLMS Lesson Settings
-18. LifterLMS Engagements
-19. LifterLMS Email Engagements
-20. LifterLMS Course Access Plans
-21. LifterLMS Update Upcoming Order Details
-22. LifterLMS Lock Down Non LMS Content with Memberships
-23. LifterLMS Membership Course Bundles and Auto Enrollment
-24. LifterLMS Business to Business Bulk Enrollment Activations with Vouchers
-
+1. Infinitely customizable course catalog layouts: shown with course title, featured image, and instructor information.
+2. View a single course with customizable content including access plans, difficulty, instructor, and lesson syllabus.
+3. Edit courses in the WordPress block editor to add pricing tables, progress, outline, and more content.
+4. Use the interactive Course Builder to structure your course, sections, lessons, quizzes, assignments and more.
+5. Dashboard for course creators in the WordPress admin: an overview of recent statistics and quick links to common admin screens.
+6. Advanced reporting for every learner so admins can track an individual students's course progress, membership, engagements, and achievements.
+7. Clean and organized plugin settings to help you quickly and easily set up your course or membership site. 
+8. Detailed sales and enrollment reporting with built-in time periods or custom fields to filter by term, student, course, and membership.
+9. Setup Wizard to help you install and configure your new online course website with LifterLMS in 5 simple steps.
 
 == Changelog ==
+
+= v7.1.1 - 2023-03-13 =
+
+##### Bug Fixes
+
++ Fixed notice display on WooCommerce dashboard pages.
++ Fixed View button URL when using WP in subdirectory.
++ Fixed blank System Report's copy for Support.
+
 
 = v7.1.0 - 2023-03-02 =
 
@@ -755,19 +748,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Developer Notes
 
 + Added new filter `llms_product_get_restrictions` hook to filter the list of restrictions placed on a given product. [#2201](https://github.com/gocodebox/lifterlms/issues/2201)
-
-
-= v6.7.0 - 2022-06-09 =
-
-##### Updates and Enhancements
-
-+ Update LifterLMS Blocks to [v2.4.3](https://make.lifterlms.com/2022/06/09/lifterlms-blocks-version-2-4-3/).
-+ Upgraded Action Scheduler to [v3.4.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.4.1).
-+ Upgraded Action Scheduler to [v3.4.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.4.2).
-
-##### Bug Fixes
-
-+ Fixed a fatal error on PHP 8+ when restoring a post type from revision. [#2164](https://github.com/gocodebox/lifterlms/issues/2164)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

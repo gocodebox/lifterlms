@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version [version]
+ * @version 7.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,7 +50,7 @@ class LLMS_Admin_System_Report {
 	 * @since 2.1.0
 	 * @since 3.11.2 Unknown.
 	 * @since 7.1.0 Style and HTML structure update.
-	 * @since [version] Use the right CSS selector to target the elements to include into the system's report copy.
+	 * @since 7.1.1 Use the right CSS selector to target the elements to include into the system's report copy.
 	 *
 	 * @return void
 	 */
