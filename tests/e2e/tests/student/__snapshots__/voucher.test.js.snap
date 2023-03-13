@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`StudentDashboard/RedeemVoucher Should redeem a valid voucher 1`] = `"Voucher redeemed successfully!"`;
-
-exports[`StudentDashboard/RedeemVoucher Should redeem a valid voucher 2`] = `" <h4 class=\\"llms-notification-title\\">Course enrollment success!</h4> <div class=\\"llms-notification-body\\"><p>Congratulations! You enrolled in LifterLMS Quickstart Course</p> </div> "`;
