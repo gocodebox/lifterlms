@@ -201,7 +201,7 @@ All descriptions for any of these tags should be a full sentence ending with a f
 
 ```
  * @param string $var1 Description of the argument.
- * @param bool $var2 Description of the argument.
+ * @param bool   $var2 Description of the argument.
  * @return string
  */
 function my_function( $var1, $var2 = false ) {
