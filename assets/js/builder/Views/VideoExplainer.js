@@ -22,6 +22,24 @@ define( [], function() {
 		tagName: 'div',
 
 		/**
+		 * Events
+		 *
+		 * @type {Object}
+		 */
+		events: {
+			'click .llms-video-explainer-trigger': 'openPopup',
+			'click .llms-video-explainer-close': 'closePopup',
+			'click .llms-video-explainer-wrapper': 'closePopup',
+		},
+
+		/**
+		 * Youtube video url
+		 *
+		 * @type {string}
+		 */
+		youtubeUrl: 'https://www.youtube.com/embed/kMd37cOsPIg',
+
+		/**
 		 * Get the underscore template
 		 *
 		 * @type {Function}
@@ -51,6 +69,40 @@ define( [], function() {
 		render: function() {
 			this.$el.html( this.template() );
 			return this;
+		},
+
+		/**
+		 * Open the popup
+		 *
+		 * @since [version]
+		 * @param {Object} event JS event object.
+		 * @return {void}
+		 */
+		openPopup: function( event ) {
+			event.preventDefault();
+
+			jQuery( '.llms-video-explainer-wrapper' ).css( {
+				display: 'flex',
+				opacity: '1',
+			} );
+		},
+
+		/**
+		 * Close the popup
+		 *
+		 * @since [version]
+		 * @param {Object} event JS event object.
+		 * @return {void}
+		 */
+		closePopup: function( event ) {
+			event.preventDefault();
+
+			jQuery( '.llms-video-explainer-wrapper' ).css( {
+				display: 'none',
+				opacity: '0',
+			} );
+
+			jQuery( '.llms-video-explainer-iframe' ).attr( 'src', '' ).attr( 'src', this.youtubeUrl );
 		},
 
 	} );
