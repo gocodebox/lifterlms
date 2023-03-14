@@ -1916,10 +1916,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 *
 		 * @since [version]
 		 *
-		 * @param array|false 	$ret      		Array of favorite data or `false` if no favorite is found.
-		 * @param int      		$object_id     	Object ID (Lesson, Course or Instructor).
-		 * @param string      	$object_type	Object description string (Lesson, Course or Instructor).
-		 * @param LLMS_Student	$instance		The Student Instance
+		 * @param array|false   $ret            Array of favorite data or `false` if no favorite is found.
+		 * @param int           $object_id      Object ID (Lesson, Course or Instructor).
+		 * @param string        $object_type    Object description string (Lesson, Course or Instructor).
+		 * @param LLMS_Student  $instance       The Student Instance
 		 */
 		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
 
