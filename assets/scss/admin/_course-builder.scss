@@ -1683,16 +1683,11 @@ body.admin_page_llms-course-builder {
 	.llms-video-explainer-trigger {
 		display: block;
 		margin: 40px 0 0;
-		text-decoration: none;
-		color: initial;
+		cursor: pointer;
 		position: relative;
 		width: 100%;
-		aspect-ratio: 16/9;
-		background-image: url('https://img.youtube.com/vi/kMd37cOsPIg/0.jpg');
-		background-position: center;
-		background-size: cover;
-		border-radius: 4px;
 		transition: color 0.2s ease;
+		color: initial;
 
 		&:hover {
 			color: currentColor;
@@ -1713,6 +1708,12 @@ body.admin_page_llms-course-builder {
 			border-radius: 4em;
 			border: 4px solid currentColor;
 			font-size: 2.5em;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			border-radius: 4px;
 		}
 	}
 
