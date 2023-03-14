@@ -1283,13 +1283,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove student postmeta data when lesson is unfavorited.
 	 *
+	 * @since    [version]
+	 *
 	 * @param  int    $object_id    WP Post ID of the lesson.
 	 * @param  string $trigger      String describing the reason for mark completion.
 	 * @return boolean
-	 * @since    [version]
-	 * @version  [version]
 	 */
-	private function insert_unfavorite_postmeta( $object_id, $trigger = 'unspecified' ) {
+	private function remove_unfavorite_postmeta( $object_id, $trigger = 'unspecified' ) {
 
 		$update = llms_delete_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
 
@@ -1889,11 +1889,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student has favorited a lesson
 	 *
+	 * @since [version]
+	 *
 	 * @param    int    $object_id      WP Post ID of a course or lesson or section or the term id of the track
 	 * @param    string $object_type    Object type (course, lesson, section, or track)
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
 	 */
 	public function is_favorite( $object_id, $object_type = 'course' ) {
 
@@ -1909,6 +1909,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$ret = $query->has_results();
 
+		/**
+		 * Filter object favorite boolean value prior to returning
+		 *
+		 * The dynamic portion of this filter, `{$object_type}`, refers to the Lesson, Course or Instructor.
+		 *
+		 * @since [version]
+		 *
+		 * @param array|false 	$ret      		Array of favorite data or `false` if no favorite is found.
+		 * @param int      		$object_id     	Object ID (Lesson, Course or Instructor).
+		 * @param string      	$object_type	Object description string (Lesson, Course or Instructor).
+		 * @param LLMS_Student	$instance		The Student Instance
+		 */
 		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
 
 	}
@@ -1916,14 +1928,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Mark a lesson, section, course, or track favorite for the given user
 	 *
+	 * @since [version]
+	 *
+	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first
+	 *
 	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
 	 * @param  string $object_type  object type [lesson|section|course|track]
 	 * @return boolean
-	 *
-	 * @see    llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first
-	 *
-	 * @since    [version]
-	 * @version  [version]
 	 */
 	public function mark_favorite( $object_id, $object_type ) {
 
@@ -1939,14 +1950,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Mark a lesson, section, course, or track unfavorite for the given user
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param  string $object_type  object type [lesson|section|course|track]
-	 * @return boolean
+	 * @since    [version]
 	 *
 	 * @see    llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first
 	 *
-	 * @since    [version]
-	 * @version  [version]
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @return boolean
 	 */
 	public function mark_unfavorite( $object_id, $object_type ) {
 
@@ -1960,17 +1970,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Update the favorite status of a track, course, section, or lesson for the current student
-	 *
 	 * Triggers actions for favorite/unfavorite.
 	 *
+	 * Update the favorite status of a track, course, section, or lesson for the current student
 	 * Inserts / updates necessary user postmeta data.
 	 *
-	 * @since [version]
-	 * @since 4.2.0 Use filterable functions to determine if the object is completable.
-	 *              Added filter to allow customization of object parent data.
+	 * @since [version] Use filterable functions to determine if the object can be marked favorite.
 	 *
-	 * @param string $status      New status to update to, either "complete" or "incomplete".
+	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
 	 * @param int    $object_id   WP_Post ID of the object.
 	 * @param string $object_type The type of object. A lesson, section, course, or course_track.
 	 * @param string $trigger     String describing the reason for the status change.
@@ -2004,15 +2011,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return false;
 		}
 
-		// Insert meta data.
+		// Insert / Remove meta data.
 		if ( 'favorite' === $status ) {
 			$this->insert_favorite_postmeta( $object_id, $trigger );
 		} elseif ( 'unfavorite' === $status ) {
-			$this->insert_unfavorite_postmeta( $object_id, $trigger );
+			$this->remove_unfavorite_postmeta( $object_id, $trigger );
 		}
 
 		/**
-		 * Hook that fires when a student's completion status is updated for any object.
+		 * Hook that fires when a student's favorite status is updated for any object.
 		 *
 		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
 		 * either "favorite" or "unfavorite"

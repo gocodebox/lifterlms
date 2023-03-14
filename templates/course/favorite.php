@@ -1,9 +1,16 @@
 <?php
-/**
- * @author      codeBOX
- * @package     lifterLMS/Templates
- */
 
+/**
+ * Template for favorite button
+ *
+ * @author LifterLMS
+ * @package LifterLMS/Templates
+ *
+ * @since [version]
+ *
+ * @var LLMS_Lesson     $lesson        The lesson object.
+ * @var LLMS_Student    $student       A LLMS_Student object.
+ */
 defined( 'ABSPATH' ) || exit;
 
 global $post;

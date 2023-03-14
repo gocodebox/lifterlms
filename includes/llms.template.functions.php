@@ -386,7 +386,9 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 }
 
 /**
- * Favorite Lesson Template Include
+ * Favorite Lesson Template Include.
+ *
+ * @since [version]
  *
  * @return void
  */

@@ -91,12 +91,21 @@ class LLMS_Controller_Favorite {
 		/**
 		 * Filter to modify the user id instead of current logged in user id.
 		 *
-		 * @param int $user_id User id to mark lesson as favorite.
-		 *
 		 * @since [version]
+		 *
+		 * @param int  $user_id User id to mark lesson as favorite.
 		 */
 		$user_id = apply_filters( 'llms_object_favorite_user_id', get_current_user_id() );
 
+		/**
+		 * Action triggered for saving the favorite object to it's own postmeta.
+		 *
+		 * @since [version]
+		 *
+		 * @param int       $user_id     User ID who is marking object as favorite.
+		 * @param int       $object_id   Object ID (Lesson, Course or Instructor).
+		 * @param string    $object_type  Object description string (Lesson, Course or Instructor).
+		 */
 		do_action( 'llms_trigger_object_favorite', $user_id, $object_id, $object_type );
 
 	}
@@ -123,9 +132,9 @@ class LLMS_Controller_Favorite {
 		/**
 		 * Filter to modify the user id instead of current logged in user id.
 		 *
-		 * @param int $user_id User id to mark object as unfavorite.
-		 *
 		 * @since [version]
+		 *
+		 * @param int  $user_id User id to mark lesson as favorite.
 		 */
 		$user_id = apply_filters( 'llms_object_unfavorite_user_id', get_current_user_id() );
 
