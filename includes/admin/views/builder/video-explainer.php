@@ -10,7 +10,7 @@
 
 	<span class="llms-video-explainer-trigger">
 		<img
-			src="<?php echo esc_url( plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/course-builder-video-thumbnail.jpg' ) ?>"
+			src="<?php echo esc_url( plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/course-builder-video-thumbnail.jpg' ); ?>"
 			alt="<?php esc_attr_e( 'How to Build Your Course Outline with the LifterLMS Course Builder', 'lifterlms' ); ?>"
 		/>
 	</span>
