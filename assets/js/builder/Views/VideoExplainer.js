@@ -81,7 +81,7 @@ define( [], function() {
 		openPopup: function( event ) {
 			event.preventDefault();
 
-			jQuery( '.llms-video-explainer-wrapper' ).css( {
+			$( '.llms-video-explainer-wrapper' ).css( {
 				display: 'flex',
 				opacity: '1',
 			} );
@@ -97,12 +97,12 @@ define( [], function() {
 		closePopup: function( event ) {
 			event.preventDefault();
 
-			jQuery( '.llms-video-explainer-wrapper' ).css( {
+			$( '.llms-video-explainer-wrapper' ).css( {
 				display: 'none',
 				opacity: '0',
 			} );
 
-			jQuery( '.llms-video-explainer-iframe' ).attr( 'src', '' ).attr( 'src', this.youtubeUrl );
+			$( '.llms-video-explainer-iframe' ).attr( 'src', '' ).attr( 'src', this.youtubeUrl );
 		},
 
 	} );
