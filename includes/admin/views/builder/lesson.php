@@ -4,6 +4,7 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since [version] Added lesson id.
  * @version [version]
  */
 ?>
