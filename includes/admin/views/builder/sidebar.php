@@ -3,6 +3,7 @@
  * Builder sidebar view template
  *
  * @since 3.16.0
+ * @since [version] Added video explainer wrapper element.
  * @version [version]
  */
 ?>
