@@ -54,7 +54,7 @@ All translations to LifterLMS can be made via our GlotPress project at [translat
 
 Anyone can contribute translations. All you need is to login to your wordpress.org account. If you have questions about how to submit translations please refer to the [Translator's Handbook](https://make.wordpress.org/polyglots/handbook/).
 
-We're always seeking Translation Editors who can manage and approve translations for their locale. If you're interested in becoming a translation editor for your locale please submit an application at [translate.lifterlms.com](https://translate.lifterlms.com/become-a-translator/).
+We're always seeking Translation Editors who can manage and approve translations for their locale. If you're interested in becoming a translation editor for your locale please [review the documentation about translations here](https://lifterlms.com/docs/how-can-i-contribute-translations-to-lifterlms/).
 
 
 ### Need Help Getting Started as a Contributor?
