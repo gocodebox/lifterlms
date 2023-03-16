@@ -49,7 +49,7 @@ class LLMS_Shortcodes_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+		add_action( 'after_setup_theme', array( $this, 'add_editor_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_editor_styles' ) );
 		add_filter( 'llms_hide_registration_form', array( $this, 'show_form_preview' ) );
 		add_filter( 'llms_hide_login_form', array( $this, 'show_form_preview' ) );
@@ -81,13 +81,8 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @return void
 	 */
-	public function enqueue_block_editor_assets(): void {
-		wp_enqueue_style(
-			'lifterlms-styles',
-			LLMS()->plugin_url() . '/assets/css/lifterlms.min.css',
-			array(),
-			filemtime( LLMS()->plugin_path() . '/assets/css/lifterlms.min.css' )
-		);
+	public function add_editor_styles(): void {
+		add_editor_style( '../../plugins/lifterlms/assets/css/lifterlms.min.css' );
 	}
 
 	/**
@@ -168,8 +163,6 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Renders a shortcode block.
 	 *
-	 * @package LifterLMS/Templates/Blocks
-	 *
 	 * @since [version]
 	 * @version [version]
 	 *
@@ -193,12 +186,29 @@ class LLMS_Shortcodes_Blocks {
 		$atts = '';
 
 		foreach ( $attributes as $key => $value ) {
-			if ( ! empty( $value ) && ! str_contains( $key, 'llms_visibility' ) ) {
-				$atts .= " $key=$value";
+
+			if ( empty( $value ) ) {
+				continue;
 			}
+
+			if ( strpos( $key, 'llms_' ) !== false ) {
+				continue;
+			}
+
+			if ( $key === 'text' ) {
+				continue;
+			}
+
+			$atts .= " $key=$value";
 		}
 
-		$shortcode = trim( do_shortcode( "[lifterlms_$name $atts]" ) );
+		$html = "[lifterlms_$name $atts]";
+
+		if ( isset( $attributes['text'] ) && ! empty( $attributes['text'] ) ) {
+			$html .= $attributes['text'] . '[/lifterlms_' . $name . ']';
+		}
+
+		$shortcode = trim( do_shortcode( $html ) );
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
 		if ( ! $shortcode ) {

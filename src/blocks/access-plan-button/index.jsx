@@ -10,6 +10,7 @@ import {
 	Button,
 	BaseControl,
 	Spinner,
+	TextControl
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -134,6 +135,14 @@ const Edit = ( props ) => {
 							},
 						] }
 						onChange={ ( type ) => setAttributes( { type } ) }
+					/>
+				</PanelRow>
+				<PanelRow>
+					<TextControl
+						label={ __( 'Text', 'lifterlms' ) }
+						help={ __( 'The text to display on the button.', 'lifterlms' ) }
+						value={ attributes.text }
+						onChange={ ( text ) => setAttributes( { text } ) }
 					/>
 				</PanelRow>
 			</PanelBody>

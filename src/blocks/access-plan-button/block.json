@@ -22,6 +22,10 @@
       "type": "string",
       "default": "primary"
     },
+    "text": {
+      "type": "string",
+      "default": "Buy Now"
+    },
     "llms_visibility": {
       "type": "string"
     },
