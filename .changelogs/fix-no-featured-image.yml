@@ -2,5 +2,5 @@ significance: patch
 type: fixed
 links:
   - "#2381"
-entry: Fix bug in llms_featured_img function when featured image file is not
+entry: Fix bug in `llms_featured_img` function when featured image file is not
   available.
