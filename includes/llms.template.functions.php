@@ -825,7 +825,7 @@ function llms_featured_img( $post_id, $size ) {
 	 * @since unknown
 	 * @since [version] Added `$post_id` parameter.
 	 *
-	 * @param string $html         HTML img element or empty string if the post has no thumbnail.
+	 * @param string      $html    HTML img element or empty string if the post has no thumbnail.
 	 * @param int|WP_Post $post_id Post ID or WP_Post object.
 	 */
 	return apply_filters( 'lifterlms_featured_img', $html, $post_id );
