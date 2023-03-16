@@ -33,6 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 6.0.0 Added llms-admin-certificate-editor.
  * @since 6.10.0 Added llms-quill-wordcount.
  * @since 7.0.0 Added llms-spinner.
+ * @since [version] Added llms-favorites.
  */
 return array(
 
@@ -48,6 +49,9 @@ return array(
 	),
 	'llms-quiz'                     => array(
 		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
+	),
+	'llms-favorites'                => array(
+		'dependencies' => array( 'jquery', 'llms' ),
 	),
 
 	// Admin.

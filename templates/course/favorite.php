@@ -17,6 +17,7 @@ global $post;
 
 $lesson  = new LLMS_Lesson( $post->ID );
 $student = llms_get_student( get_current_user_id() );
+$total_favorites = get_total_favorites( $lesson->get( 'id' ) );
 ?>
 
 <div class="llms-favorite-wrapper">
@@ -24,7 +25,10 @@ $student = llms_get_student( get_current_user_id() );
 	<?php do_action( 'llms_before_favorite_button', $lesson, $student ); ?>
 	
 	<?php if ( $student->is_favorite( $lesson->get( 'id' ), 'lesson' ) ) : ?>
-		
+
+		<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value -->
+		<i data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-favorite-action"></i>
+
 		<form action="" class="llms-unfavorite-lesson-form" method="POST" name="mark_unfavorite">
 
 			<?php do_action( 'lifterlms_before_mark_unfavorite_lesson' ); ?>
@@ -39,9 +43,9 @@ $student = llms_get_student( get_current_user_id() );
 			llms_form_field(
 				array(
 					'columns'     => 12,
-					'classes'     => 'llms-button-secondary auto button',
+					'classes'     => 'llms-button-secondary',
 					'id'          => 'llms_mark_unfavorite',
-					'value'       => apply_filters( 'lifterlms_mark_lesson_unfavorite_button_text', __( '<i class="fa fa-heart"></i>', 'lifterlms' ), $lesson ),
+					'value'       => apply_filters( 'lifterlms_mark_lesson_unfavorite_button_text', sprintf( '<i class="fa fa-heart"></i> %d', $total_favorites ), $lesson ),
 					'last_column' => true,
 					'name'        => 'mark_unfavorite',
 					'required'    => false,
@@ -55,6 +59,9 @@ $student = llms_get_student( get_current_user_id() );
 		</form>
 
 	<?php else : ?>
+		
+		<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value -->
+		<i data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-favorite-action"></i>
 
 		<form action="" class="llms-favorite-lesson-form" method="POST" name="mark_favorite">
 
@@ -69,10 +76,10 @@ $student = llms_get_student( get_current_user_id() );
 			<?php
 			llms_form_field(
 				array(
-					'columns'     => 1,
-					'classes'     => 'auto button llms-favorite',
+					'columns'     => 12,
+					'classes'     => 'llms-button-primary button llms-favorite',
 					'id'          => 'llms_mark_favorite',
-					'value'       => apply_filters( 'lifterlms_mark_lesson_favorite_button_text', __( '<i class="fa fa-heart-o"></i>', 'lifterlms' ), $lesson ),
+					'value'       => apply_filters( 'lifterlms_mark_lesson_favorite_button_text', sprintf( '<i class="fa fa-heart-o"></i> %d', $total_favorites ), $lesson ),
 					'last_column' => true,
 					'name'        => 'mark_favorite',
 					'required'    => false,
@@ -86,10 +93,6 @@ $student = llms_get_student( get_current_user_id() );
 		</form>
 
 	<?php endif; ?>
-
-	<div class="llms-favorite-count-wrapper">
-		<?php echo get_total_favorites( $lesson->get( 'id' ), '_favorite' ); ?>
-	</div>
 
 	<?php do_action( 'llms_after_favorite_button', $lesson, $student ); ?>
 

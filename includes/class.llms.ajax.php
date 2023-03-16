@@ -38,6 +38,7 @@ class LLMS_AJAX {
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Added `favorite_object` ajax event.
 	 *
 	 * @return void
 	 */
@@ -45,6 +46,7 @@ class LLMS_AJAX {
 
 		$ajax_events = array(
 			'query_quiz_questions' => false,
+			'favorite_object'      => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -202,6 +204,47 @@ class LLMS_AJAX {
 				'success' => true,
 			)
 		);
+
+		wp_die();
+
+	}
+
+	/**
+	 * Add Favorite / Unfavorite Postmeta for an object.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function favorite_object() {
+
+		// Grab the data if it exists.
+		$user_action = array_key_exists( 'user_action', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'user_action' ) : '';
+		$object_id   = array_key_exists( 'object_id', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'object_id', FILTER_SANITIZE_NUMBER_INT ) : 0;
+		$object_type = array_key_exists( 'object_type', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'object_type' ) : '';
+
+		if ( is_null( $object_id ) ) {
+			return;
+		}
+
+		/**
+		 * Filter to modify the user id instead of current logged in user id.
+		 *
+		 * @since [version]
+		 *
+		 * @param int  $user_id User id to mark lesson as favorite.
+		 */
+		$user_id = apply_filters( 'llms_object_favorite_user_id', get_current_user_id() );
+
+		if ( 'favorite' === $user_action ) {
+
+			$r = llms_mark_favorite( $user_id, $object_id, $object_type );
+
+		} elseif ( 'unfavorite' === $user_action ) {
+
+			$r = llms_mark_unfavorite( $user_id, $object_id, $object_type );
+
+		}
 
 		wp_die();
 
