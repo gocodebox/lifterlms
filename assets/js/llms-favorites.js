@@ -2,7 +2,7 @@
 /* jshint strict: true */
 
 /**
- * Front End Favorite Class
+ * Front End Favorite Class.
  *
  * @type     {Object}
  * @since    [version]
@@ -13,14 +13,14 @@
 	var favorite = {
 
 		/**
-		 * Main Favorite Container Element
+		 * Main Favorite Container Element.
 		 *
 		 * @type  obj
 		 */
 		$container: null,
 
 		/**
-		 * Bind DOM events
+		 * Bind DOM events.
 		 *
 		 * @return void
 		 * @since    [version]
@@ -39,9 +39,9 @@
 		},
 
 		/**
-		 * Favorite / Unfavorite an object
+		 * Favorite / Unfavorite an object.
 		 *
-		 * @param    obj   $btn   jQuery object for the "Favorite / Unfavorite" button
+		 * @param    obj   $btn   jQuery object for the "Favorite / Unfavorite" button.
 		 * @return   void
 		 * @since    [version]
 		 * @version  [version]

@@ -219,22 +219,14 @@ class LLMS_AJAX {
 	public function favorite_object() {
 
 		// Grab the data if it exists.
-		$user_action = array_key_exists( 'user_action', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'user_action' ) : '';
-		$object_id   = array_key_exists( 'object_id', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'object_id', FILTER_SANITIZE_NUMBER_INT ) : 0;
-		$object_type = array_key_exists( 'object_type', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'object_type' ) : '';
+		$user_action = llms_filter_input_sanitize_string( INPUT_POST, 'user_action' );
+		$object_id   = llms_filter_input( INPUT_POST, 'object_id', FILTER_SANITIZE_NUMBER_INT );
+		$object_type = llms_filter_input_sanitize_string( INPUT_POST, 'object_type' );
+		$user_id     = get_current_user_id();
 
 		if ( is_null( $object_id ) ) {
 			return;
 		}
-
-		/**
-		 * Filter to modify the user id instead of current logged in user id.
-		 *
-		 * @since [version]
-		 *
-		 * @param int  $user_id User id to mark lesson as favorite.
-		 */
-		$user_id = apply_filters( 'llms_object_favorite_user_id', get_current_user_id() );
 
 		if ( 'favorite' === $user_action ) {
 
@@ -245,6 +237,13 @@ class LLMS_AJAX {
 			$r = llms_mark_unfavorite( $user_id, $object_id, $object_type );
 
 		}
+
+		echo json_encode(
+			array(
+				'total_favorites' => get_total_favorites( $object_id ),
+				'success'         => true,
+			)
+		);
 
 		wp_die();
 

@@ -53,15 +53,14 @@ function get_lesson( $the_lesson = false, $args = array() ) {
 }
 
 /**
- * Get Favorites Count
+ * Get Favorites Count.
  *
  * @since [version]
  *
  * @param WP_Post|int|false $object_id  Lesson post object or id. If `false` uses the global `$post` object.
- * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
- * @return Favorites Count
+ * @return int
  */
-function get_total_favorites( $object_id = false, $args = array() ) {
+function get_total_favorites( $object_id = false ) {
 
 	global $wpdb;
 

@@ -1262,16 +1262,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see LLMS_Student->mark_favorite()
 	 *
 	 * @param int $object_id WP User ID.
-	 * @param int $trigger   WP Post ID of the Lesson, Section, Track, or Course.
 	 * @return boolean
 	 */
-	private function insert_favorite_postmeta( $object_id, $trigger = 'unspecified' ) {
-
-		// Add info to the user postmeta table.
-		$user_metadatas = array(
-			'_is_favorite'      => 'yes',
-			'_favorite_trigger' => $trigger,
-		);
+	private function insert_favorite_postmeta( $object_id ) {
 
 		$update = llms_update_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
 
@@ -1285,11 +1278,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since    [version]
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson.
-	 * @param  string $trigger      String describing the reason for mark completion.
+	 * @param  int    $object_id    WP Post ID of the lesson
 	 * @return boolean
 	 */
-	private function remove_unfavorite_postmeta( $object_id, $trigger = 'unspecified' ) {
+	private function remove_unfavorite_postmeta( $object_id ) {
 
 		$update = llms_delete_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
 
@@ -1887,15 +1879,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Determine if the student has favorited a lesson
+	 * Determine if the student has favorited a lesson.
 	 *
 	 * @since [version]
 	 *
-	 * @param    int    $object_id      WP Post ID of a course or lesson or section or the term id of the track
-	 * @param    string $object_type    Object type (course, lesson, section, or track)
+	 * @param    int    $object_id      WP Post ID of a course or lesson or section or the term id of the track.
+	 * @param    string $object_type    Object type (course, lesson, section, or track).
 	 * @return   boolean
 	 */
-	public function is_favorite( $object_id, $object_type = 'course' ) {
+	public function is_favorite( $object_id, $object_type = 'lesson' ) {
 
 		$query = new LLMS_Query_User_Postmeta(
 			array(
@@ -1926,14 +1918,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Mark a lesson, section, course, or track favorite for the given user
+	 * Mark a lesson, section, course, or track favorite for the given user.
 	 *
 	 * @since [version]
 	 *
-	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first
+	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track.
+	 * @param  string $object_type  object type [lesson|section|course|track].
 	 * @return boolean
 	 */
 	public function mark_favorite( $object_id, $object_type ) {
@@ -1948,14 +1940,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Mark a lesson, section, course, or track unfavorite for the given user
+	 * Mark a lesson, section, course, or track unfavorite for the given user.
 	 *
 	 * @since    [version]
 	 *
-	 * @see    llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first
+	 * @see    llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track.
+	 * @param  string $object_type  object type [lesson|section|course|track].
 	 * @return boolean
 	 */
 	public function mark_unfavorite( $object_id, $object_type ) {
@@ -1991,7 +1983,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * Fires before a student's object favorite status is updated.
 		 *
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
-		 * either "favorite" or "unfavorite"
+		 * either "favorite" or "unfavorite".
 		 *
 		 * @since [version]
 		 *
@@ -2022,7 +2014,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * Hook that fires when a student's favorite status is updated for any object.
 		 *
 		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
-		 * either "favorite" or "unfavorite"
+		 * either "favorite" or "unfavorite".
 		 *
 		 * @since [version]
 		 *
@@ -2040,7 +2032,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * which the student's completion status is being updated for.
 		 *
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
-		 * either "favorite" or "unfavorite"
+		 * either "favorite" or "unfavorite".
 		 *
 		 * @since [version]
 		 *

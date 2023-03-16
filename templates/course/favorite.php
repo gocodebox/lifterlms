@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template for favorite button
+ * Template for favorite button.
  *
  * @author LifterLMS
  * @package LifterLMS/Templates

@@ -370,7 +370,7 @@ function llms_mark_favorite( $user_id, $object_id, $object_type ) {
 }
 
 /**
- * Mark a lesson as unfavorite
+ * Mark a lesson as unfavorite.
  *
  * @since [version]
  *

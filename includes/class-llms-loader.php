@@ -232,7 +232,6 @@ class LLMS_Loader {
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
-	 * @since [version] Include `LLMS_Controller_Favorite`.
 	 *
 	 * @return void
 	 */
