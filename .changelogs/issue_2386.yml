@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2386"
+entry: Fixed manual certificates awarding broken when using the block editor.
