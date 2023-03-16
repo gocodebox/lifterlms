@@ -807,8 +807,8 @@ function llms_placeholder_img( $size = 'full' ) {
  *
  * @access public
  *
- * @param int $attachment_id Image attachment ID.
- * @param string|int[] $size Accepts any registered image size name, or an array of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param int|WP_Post  $post_id Post ID or WP_Post object.
+ * @param string|int[] $size    Accepts any registered image size name, or an array of width and height values in pixels (in that order).
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
@@ -819,7 +819,16 @@ function llms_featured_img( $post_id, $size ) {
 		$html = '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">';
 	}
 
-	return apply_filters( 'lifterlms_featured_img', $html );
+	/**
+	 * Filters the featured image of a given LifterLMS post.
+	 *
+	 * @since unknown
+	 * @since [version] Added `$post_id` parameter.
+	 *
+	 * @param string $html         HTML img element or empty string if the post has no thumbnail.
+	 * @param int|WP_Post $post_id Post ID or WP_Post object.
+	 */
+	return apply_filters( 'lifterlms_featured_img', $html, $post_id );
 }
 
 /**
