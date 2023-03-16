@@ -43,8 +43,8 @@ GitHub is for bug reports and contributions only! If you have a support question
 
 + [Changelog](./CHANGELOG.md)
 + User documentation and knowledge base: https://lifterlms.com/docs/
-+ Contributor's blog: https://make.lifterlms.com/docs/
-+ Developer portal: https://developer.lifterlms.com/docs/
++ Contributor's blog: https://make.lifterlms.com/
++ Developer portal: https://developer.lifterlms.com/
 
 
 ### Included Core Packages
