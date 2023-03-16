@@ -13,6 +13,13 @@
 	var favorite = {
 
 		/**
+		 * Main Favorite Container Element
+		 *
+		 * @type  obj
+		 */
+		$container: null,
+
+		/**
 		 * Bind DOM events
 		 *
 		 * @return void
@@ -24,7 +31,7 @@
 			var self = this;
 
 			// Favorite clicked
-			$( '.llms-favorite-wrapper .llms-favorite-action' ).on( 'click', function( e ) {
+			$( '.llms-favorite-wrapper' ).on( 'click', '.llms-heart-btn', function( e ) {
 				e.preventDefault();
 				self.favorite( $( this ) );
 			} );
@@ -41,12 +48,12 @@
 		 */
 		favorite: function( $btn ) {
 
-			var self      	= this,
-				object_id 	= $btn.attr( 'data-id' ),
-				object_type = $btn.attr( 'data-type' )
-				user_action	= $btn.attr( 'data-action' );
+			this.$container = $btn.closest( '.llms-favorite-wrapper' );
 
-			console.log( 'before ajax', object_id, object_type, user_action );
+			var self 		= this,
+				object_id 	= $btn.attr( 'data-id' ),
+				object_type = $btn.attr( 'data-type' ),
+				user_action	= $btn.attr( 'data-action' );
 
 			LLMS.Ajax.call( {
 				data: {
@@ -55,14 +62,28 @@
 					object_type: object_type,
 					user_action: user_action
 				},
-				beforeSend: function() {
-
-					console.log('before send');
-
-				},
+				beforeSend: function() {},
 				success: function( r ) {
+					
+					if( r.success ) {
 
-					console.log('result', r );
+						if( 'favorite' === user_action ) {
+
+							$btn.removeClass( 'fa-heart-o' ).addClass( 'fa-heart' );
+							$( $btn ).attr( 'data-action', 'unfavorite' );
+
+						} else if ( 'unfavorite' === user_action ) {
+
+							$btn.removeClass( 'fa-heart' ).addClass( 'fa-heart-o' );
+							$( $btn ).attr( 'data-action', 'favorite' );
+
+						}
+
+						// Updating count.
+						self.$container.find( '.llms-favorites-count' ).text( r.total_favorites );
+						
+
+					}
 
 				}
 
