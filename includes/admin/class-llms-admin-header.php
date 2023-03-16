@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,6 +32,7 @@ class LLMS_Admin_Header {
 	 * Show admin header banner on LifterLMS admin screens.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Making the LifterLMS logo link to the LifterLMS.com site.
 	 *
 	 * @return void
 	 */
