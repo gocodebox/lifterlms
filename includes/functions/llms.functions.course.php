@@ -58,22 +58,20 @@ function get_lesson( $the_lesson = false, $args = array() ) {
  * @since [version]
  *
  * @param WP_Post|int|false $object_id  Lesson post object or id. If `false` uses the global `$post` object.
- * @param string            $meta_key   Optional meta key to use in the WHERE condition.
  * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
  * @return Favorites Count
  */
-function get_total_favorites( $object_id = false, $meta_key, $args = array() ) {
+function get_total_favorites( $object_id = false, $args = array() ) {
 
 	global $wpdb;
-
-	$key = $meta_key ? $wpdb->prepare( 'AND meta_key = %s', $meta_key ) : '';
 
 	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$res = $wpdb->get_results(
 		$wpdb->prepare(
 			"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-				WHERE post_id = %d {$key} ORDER BY updated_date DESC",
-			$object_id
+				WHERE post_id = %d AND meta_key = %s ORDER BY updated_date DESC",
+			$object_id,
+			'_favorite'
 		)
 	);
 	// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
