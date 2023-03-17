@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,6 +32,7 @@ require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
 require_once 'functions/llms.functions.user.postmeta.php';
+require_once 'functions/llms.functions.favorite.php';
 
 if ( ! function_exists( 'llms_anonymize_string' ) ) {
 	/**
