@@ -475,7 +475,7 @@ svg .llms-animated-circle {
 }
 
 // Favorites.
-.llms-parent-course-link {
+.llms-has-favorite .llms-parent-course-link {
   display: inline;
 
   + .llms-favorite-wrapper {

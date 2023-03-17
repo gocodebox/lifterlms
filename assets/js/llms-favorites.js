@@ -36,6 +36,9 @@
 				self.favorite( $( this ) );
 			} );
 
+			// Adding class in Favorite's parent
+			$( '.llms-favorite-wrapper' ).parent().addClass( 'llms-has-favorite' );
+
 		},
 
 		/**
