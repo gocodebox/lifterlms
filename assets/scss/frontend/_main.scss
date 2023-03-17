@@ -473,3 +473,17 @@ svg .llms-animated-circle {
 .llms-lesson-tooltip.active {
   display: inline-block;
 }
+
+// Favorites.
+.llms-parent-course-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .llms-favorite-wrapper {
+    cursor: pointer;
+
+    .fa-heart {
+      color: #FF2E2B;
+    }
+  }
+}

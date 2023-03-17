@@ -1276,9 +1276,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove student postmeta data when lesson is unfavorited.
 	 *
-	 * @since    [version]
+	 * @since [version]
 	 *
-	 * @param  int    $object_id    WP Post ID of the lesson
+	 * @param int $object_id    WP Post ID of the lesson
 	 * @return boolean
 	 */
 	private function remove_unfavorite_postmeta( $object_id ) {
