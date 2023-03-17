@@ -475,15 +475,23 @@ svg .llms-animated-circle {
 }
 
 // Favorites.
-.llms-parent-course-wrapper {
-  display: flex;
-  justify-content: space-between;
+.llms-parent-course-link {
+  display: inline;
 
-  .llms-favorite-wrapper {
-    cursor: pointer;
+  + .llms-favorite-wrapper {
+    display: inline;
+    float: right;
 
-    .fa-heart {
-      color: #FF2E2B;
+    + .llms-video-wrapper {
+      margin-top: 10px;
     }
+  }
+}
+
+.llms-favorite-wrapper {
+  cursor: pointer;
+
+  .fa-heart {
+    color: #FF2E2B;
   }
 }

@@ -48,6 +48,7 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
  * @since Unknown
  */
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_parent_course', 10 );
+add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_favorite', 10 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 

@@ -386,6 +386,21 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 }
 
 /**
+ * Favorite Lesson Template Include.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_favorite' ) ) {
+
+	function lifterlms_template_single_favorite() {
+
+		llms_get_template( 'course/favorite.php' );
+	}
+}
+
+/**
  * Complete Lesson Link Template Include
  *
  * @return void
