@@ -331,7 +331,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			case 'billing_zip':
 			case 'billing_country':
 			case 'phone':
-				$value = $student->get( $key );
+				$value = strval( $student->get( $key ) );
+				if ( is_numeric( $value ) ) {
+					$value = "'" . $value;
+				}
 				break;
 
 			default:
