@@ -68,6 +68,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',
+				'LLMS_Shortcode_Favorites',
 			)
 		);
 
@@ -79,7 +80,6 @@ class LLMS_Shortcodes {
 
 			$separator = in_array( $class, $hyphenated_file_classes, true ) ? '-' : '.';
 			$filename  = "class{$separator}" . strtolower( str_replace( '_', $separator, $class ) );
-
 			/**
 			 * Filters the path of the shortcode class file.
 			 *
