@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Include the Favorite filter to enable the feature.
  */
 final class LifterLMS {
 
@@ -416,6 +417,17 @@ final class LifterLMS {
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 		llms_load_textdomain( 'lifterlms' );
 
+	}
+
+	/**
+	 * Filter Hook to enable the Favorite feature.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function is_favorites_enabled() {
+		return apply_filters( 'llms_favorites_enabled', true );
 	}
 
 }

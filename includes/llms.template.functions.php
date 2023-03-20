@@ -396,7 +396,9 @@ if ( ! function_exists( 'lifterlms_template_single_favorite' ) ) {
 
 	function lifterlms_template_single_favorite() {
 
-		llms_get_template( 'course/favorite.php' );
+		if ( llms()->is_favorites_enabled() ) {
+			llms_get_template( 'course/favorite.php' );
+		}
 	}
 }
 

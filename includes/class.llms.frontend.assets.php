@@ -201,7 +201,7 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-quiz' );
 		}
 
-		if ( is_lesson() ) { // TODO: check if favorites is enabled and enqueue script on right places.
+		if ( is_lesson() && true === llms()->is_favorites_enabled() ) {
 			llms()->assets->enqueue_script( 'llms-favorites' );
 		}
 
