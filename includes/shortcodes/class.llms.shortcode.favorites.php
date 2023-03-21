@@ -27,6 +27,25 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	public $tag = 'lifterlms_favorites';
 
 	/**
+	 * Get shortcode attributes
+	 *
+	 * Retrieves an array of default attributes which are automatically merged
+	 * with the user submitted attributes and passed to $this->get_output().
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_default_attributes() {
+
+		return array(
+			'orderby' => 'updated_date',
+			'order'   => 'ASC',
+			'limit'   => '',
+		);
+	}
+
+	/**
 	 * Retrieve an array of Favorites from `lifterlms_user_postmeta`.
 	 *
 	 * @since [version]
@@ -37,10 +56,14 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 
 		global $wpdb;
 
+		$order_by = ( '' === $this->get_attribute( 'orderby' ) ) ? '' : 'ORDER BY ' . $this->get_attribute( 'orderby' );
+		$order    = ( '' === $this->get_attribute( 'order' ) ) ? '' : $this->get_attribute( 'order' );
+		$limit    = ( '' === $this->get_attribute( 'limit' ) ) ? '' : 'LIMIT ' . $this->get_attribute( 'limit' );
+
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d ORDER BY updated_date DESC",
+					WHERE meta_key = %s AND user_id = %d $order_by $order $limit",
 				'_favorite',
 				get_current_user_id()
 			)
