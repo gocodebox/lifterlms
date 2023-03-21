@@ -193,7 +193,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 		if ( ! $courses['results'] ) {
 
-			printf( '<p>%s</p>', __( 'You are not enrolled in any courses.', 'lifterlms' ) );
+			printf( '<p>%s</p>', apply_filters( 'lifterlms_not_enrolled_text', __( 'You are not enrolled in any courses.', 'lifterlms' ) ) );
 
 		} else {
 
