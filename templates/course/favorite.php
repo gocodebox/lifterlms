@@ -15,6 +15,10 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
+if ( ! is_user_logged_in() ) {
+	return;
+}
+
 $lesson          = new LLMS_Lesson( $post->ID );
 $student         = llms_get_student( get_current_user_id() );
 $total_favorites = get_total_favorites( $lesson->get( 'id' ) );
@@ -23,7 +27,7 @@ $total_favorites = get_total_favorites( $lesson->get( 'id' ) );
 <div class="llms-favorite-wrapper">
 
 	<?php do_action( 'llms_before_favorite_button', $lesson, $student ); ?>
-	
+
 	<?php if ( $student->is_favorite( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 
 		<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value. -->
