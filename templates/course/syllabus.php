@@ -22,7 +22,7 @@ $sections = $course->get_sections();
 
 	<?php if ( ! $sections ) : ?>
 
-		<?php _e( 'This course does not have any sections.', 'lifterlms' ); ?>
+		<p><?php _e( 'This course does not have any sections.', 'lifterlms' ); ?></p>
 
 	<?php else : ?>
 
@@ -54,7 +54,7 @@ $sections = $course->get_sections();
 
 			<?php else : ?>
 
-				<?php _e( 'This section does not have any lessons.', 'lifterlms' ); ?>
+				<p><?php _e( 'This section does not have any lessons.', 'lifterlms' ); ?></p>
 
 			<?php endif; ?>
 

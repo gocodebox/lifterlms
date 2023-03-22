@@ -269,7 +269,7 @@ function lifterlms_loop_featured_video() {
 		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
 			$video = $course->get_video();
 			if ( $video ) {
-				echo $video;
+				echo '<div class="llms-video-wrapper">' . $video . '</div>';
 			}
 		}
 	}
