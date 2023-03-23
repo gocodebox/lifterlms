@@ -85,4 +85,12 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 			$wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
 		}
 	}
+
+	// Delete order notes comments.
+	$wpdb->delete(
+		"{$wpdb->prefix}comments",
+		array( 
+			'comment_type' => 'llms_order_note'
+		) 
+	);
 }
