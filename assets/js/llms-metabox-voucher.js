@@ -71,7 +71,7 @@
 			return changeNotSaved ? "If you leave this page you will lose your unsaved changes." : null;
 		};
 
-		$( 'input[type=submit][name=save]' ).click(function (e) {
+		$( 'input[type=submit][name=publish], input[type=submit][name=save]' ).click(function (e) {
 			var unique_values = {};
 			var duplicate     = false;
 			$( 'input[name="llms_voucher_code[]"]' ).each(function() {
@@ -83,7 +83,7 @@
 					duplicate = true;
 				}
 			});
-			if (duplicate) {
+			if ( duplicate ) {
 				alert( 'Please make sure that there are no duplicate voucher codes.' );
 				return false;
 			}
