@@ -193,6 +193,15 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 		if ( ! $courses['results'] ) {
 
+			/**
+			 * Not enrolled text.
+			 *
+			 * Allows developers to filter the text to be displayed when the student is not enrolled in any courses.
+			 *
+			 * @since [version]
+			 *
+			 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
+			 */
 			printf( '<p>%s</p>', apply_filters( 'lifterlms_not_enrolled_text', __( 'You are not enrolled in any courses.', 'lifterlms' ) ) );
 
 		} else {
