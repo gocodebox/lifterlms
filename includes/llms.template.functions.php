@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -800,18 +800,36 @@ function llms_placeholder_img( $size = 'full' ) {
 }
 
 /**
- * Get the featured image
+ * Get the featured image.
+ *
+ * @since unknown
+ * @since [version] Fix bug when the featured image file is not available.
  *
  * @access public
+ *
+ * @param int|WP_Post  $post_id Post ID or WP_Post object.
+ * @param string|int[] $size    Accepts any registered image size name, or an array of width and height values in pixels (in that order).
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
-	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
-	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
+	$img  = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
+	$html = '';
+
+	if ( isset( $img[0] ) ) {
+		$html = '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">';
+	}
+
+	/**
+	 * Filters the featured image of a given LifterLMS post.
+	 *
+	 * @since unknown
+	 * @since [version] Added `$post_id` parameter.
+	 *
+	 * @param string      $html    HTML img element or empty string if the post has no thumbnail.
+	 * @param int|WP_Post $post_id Post ID or WP_Post object.
+	 */
+	return apply_filters( 'lifterlms_featured_img', $html, $post_id );
 }
-
-
-
 
 /**
  * Retrieve author name, avatar, and bio
