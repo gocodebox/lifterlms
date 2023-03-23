@@ -89,8 +89,8 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	// Delete order notes comments.
 	$wpdb->delete(
 		"{$wpdb->prefix}comments",
-		array( 
-			'comment_type' => 'llms_order_note'
-		) 
+		array(
+			'comment_type' => 'llms_order_note',
+		)
 	);
 }
