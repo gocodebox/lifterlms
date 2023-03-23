@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.1.1\n"
+"Project-Id-Version: LifterLMS 7.1.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-13T21:46:53+00:00\n"
+"POT-Creation-Date: 2023-03-22T22:05:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.2.0\n"
 "X-Domain: lifterlms\n"
@@ -526,26 +526,26 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:83
+#: includes/admin/class-llms-admin-header.php:84
 msgid "LifterLMS Logo"
 msgstr ""
 
 #. Translators: %s = Current Version Number.
-#: includes/admin/class-llms-admin-header.php:86
+#: includes/admin/class-llms-admin-header.php:87
 #: includes/admin/views/addons/addon-item.php:46
 msgid "Version: %s"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:101
+#: includes/admin/class-llms-admin-header.php:102
 msgid "No License"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:104
+#: includes/admin/class-llms-admin-header.php:105
 #: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:277
 msgid "My License Keys"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:113
+#: includes/admin/class-llms-admin-header.php:114
 msgid "Get Support"
 msgstr ""
 
