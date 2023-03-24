@@ -77,15 +77,15 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'video_embed',
 						'label'      => __( 'Video Embed Url', 'lifterlms' ),
-						'type'       => 'text',
+						'type'       => 'text', 	
 					),
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'audio_embed',
 						'type'       => 'text',
