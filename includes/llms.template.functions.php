@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -803,7 +803,7 @@ function llms_placeholder_img( $size = 'full' ) {
  * Get the featured image.
  *
  * @since unknown
- * @since [version] Fix bug when the featured image file is not available.
+ * @since 7.1.2 Fix bug when the featured image file is not available.
  *
  * @access public
  *
@@ -823,7 +823,7 @@ function llms_featured_img( $post_id, $size ) {
 	 * Filters the featured image of a given LifterLMS post.
 	 *
 	 * @since unknown
-	 * @since [version] Added `$post_id` parameter.
+	 * @since 7.1.2 Added `$post_id` parameter.
 	 *
 	 * @param string      $html    HTML img element or empty string if the post has no thumbnail.
 	 * @param int|WP_Post $post_id Post ID or WP_Post object.
