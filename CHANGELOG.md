@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v7.1.2 - 2023-03-27
+-------------------
+
+##### Updates and Enhancements
+
++ Making the LifterLMS logo link to the LifterLMS.com site.
+
+##### Bug Fixes
+
++ Fix bug in `llms_featured_img` function when featured image file is not available. [#2381](https://github.com/gocodebox/lifterlms/issues/2381)
++ Fixed manual certificates awarding broken when using the block editor. [#2386](https://github.com/gocodebox/lifterlms/issues/2386)
+
+
 v7.1.1 - 2023-03-13
 -------------------
 
