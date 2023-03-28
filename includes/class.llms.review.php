@@ -7,7 +7,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since Unknown
+ * @since 1.2.7
  * @version [version]
  */
 
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Reviews class
  *
- * @since Unknown
+ * @since 1.2.7
  */
 class LLMS_Reviews {
 
@@ -27,8 +27,8 @@ class LLMS_Reviews {
 	 * 2) output after membership info
 	 * 3 & 4) Add function call to the proper AJAX call
 	 *
+	 * @version 3.1.3
 	 * @return void
-	 * @version  3.1.3
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_LLMSSubmitReview', array( $this, 'process_review' ) );
@@ -41,7 +41,7 @@ class LLMS_Reviews {
 	 * if not, nothing will happen. This function also checks to
 	 * see if a user is allowed to review more than once.
 	 *
-	 * @since Unknown
+	 * @since 1.2.7
 	 * @since 3.24.0 Unknown.
 	 * @since [version] Improve inline styles, escape output.
 	 */
@@ -51,9 +51,19 @@ class LLMS_Reviews {
 		 * Check to see if we are supposed to output the code at all.
 		 */
 		if ( get_post_meta( get_the_ID(), '_llms_display_reviews', true ) ) {
+
+			/**
+			 * Filters the reviews section title.
+			 *
+			 * @since 1.2.7
+			 *
+			 * @param string $section_title The section title.
+			 */
+			$section_title = apply_filters( 'lifterlms_reviews_section_title', __( 'What Others Have Said', 'lifterlms' ) );
+
 			?>
 			<div id="old_reviews">
-			<h3><?php echo esc_html( apply_filters( 'lifterlms_reviews_section_title', __( 'What Others Have Said', 'lifterlms' ) ) ); ?></h3>
+			<h3><?php echo esc_html( $section_title ); ?></h3>
 			<?php
 			$args = array(
 				'posts_per_page'   => get_post_meta( get_the_ID(), '_llms_num_reviews', true ),
@@ -65,10 +75,17 @@ class LLMS_Reviews {
 
 			$posts_array = get_posts( $args );
 
+			/**
+			 * Allow review custom styles to be filtered.
+			 *
+			 * @since 1.2.7
+			 *
+			 * @param array $styles Array of custom styles.
+			 */
 			$styles = apply_filters(
 				'llms_review_custom_styles',
 				array(
-					'background-color' => '#EFEFEF',
+					'background-color' => '#efefef',
 					'title-color'      => 'inherit',
 					'text-color'       => 'inherit',
 					'custom-css'       => '',
@@ -103,7 +120,12 @@ class LLMS_Reviews {
 				?>
 				<div class="llms_review">
 					<h5><strong><?php echo get_the_title( $post->ID ); ?></strong></h5>
-					<h6><?php echo esc_html( __( 'By: ', 'lifterlms' ) . get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ); ?></h6>
+					<h6>
+						<?php
+						// Translators: %s = The author display name.
+						echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) );
+						?>
+					</h6>
 					<p><?php echo esc_html( get_post_field( 'post_content', $post->ID ) ); ?></p>
 				</div>
 				<?php
@@ -122,7 +144,7 @@ class LLMS_Reviews {
 			/**
 			 * Look for previous reviews that we have written on this course.
 			 *
-			 * @var array
+			 * @var array $posts_array Array of posts.
 			 */
 			$args        = array(
 				'posts_per_page'   => 1,
@@ -135,13 +157,22 @@ class LLMS_Reviews {
 			$posts_array = get_posts( $args );
 
 			/**
+			 * Filters the thank you text.
+			 *
+			 * @since 1.2.7
+			 *
+			 * @param string $thank_you_text The thank you text.
+			 */
+			$thank_you_text = apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) );
+
+			/**
 			 * Check to see if we are allowed to write more than one review.
 			 * If we are not, check to see if we have written a review already.
 			 */
 			if ( get_post_meta( get_the_ID(), '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
 				?>
 				<div id="thank_you_box">
-					<h2><?php echo esc_html( apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) ) ); ?></h2>
+					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
 				</div>
 				<?php
 			} else {
@@ -160,7 +191,7 @@ class LLMS_Reviews {
 					<!--</form>	-->
 				</div>
 				<div class="thank_you_box" id="thank_you_box">
-					<h2><?php echo esc_html( apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) ) ); ?></h2>
+					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
 				</div>
 				<?php
 			}
@@ -173,7 +204,7 @@ class LLMS_Reviews {
 	 * is pressed. This function gathers the data from $_POST and
 	 * then adds the review with the appropriate content.
 	 *
-	 * @since Unknown
+	 * @since 1.2.7
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
