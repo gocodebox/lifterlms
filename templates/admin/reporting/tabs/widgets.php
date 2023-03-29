@@ -28,12 +28,14 @@ if ( ! is_admin() ) {
 					<a href="<?php echo esc_url( $opts['link'] ); ?>">
 				<?php } ?>
 
-				<?php printf(
+				<?php
+				printf(
 					'<%s class="llms-widget-content">%s</%s>',
 					esc_html( $opts['content_tag'] ?? 'h3' ),
 					esc_html( $opts['content'] ?? '' ),
 					esc_html( $opts['content_tag'] ?? 'h3' )
-				); ?>
+				);
+				?>
 
 				<?php if ( ! empty( $opts['link'] ) ) { ?>
 					</a>
