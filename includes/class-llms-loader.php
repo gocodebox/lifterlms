@@ -337,6 +337,7 @@ class LLMS_Loader {
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard-widget.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.menus.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
