@@ -7,7 +7,7 @@
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
  * @since 4.3.3 Legends will automatically display on top of the chart.
  * @since 4.5.1 Show sales reporting currency symbol based on LifterLMS site options.
- *
+ * @version [version]
  */( function( $, undefined ) {
 
 	window.llms = window.llms || {};
@@ -203,7 +203,8 @@
 		 * @param    obj   $widget  jQuery selector of the widget element
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.16.8
+		 * @since [version] Change h1 tag to .llms-widget-content.
+		 * @version [version]
 		 */
 		this.load_widget = function( $widget ) {
 
