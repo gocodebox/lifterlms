@@ -209,7 +209,7 @@
 
 			var self         = this,
 				method       = $widget.attr( 'data-method' ),
-				$content     = $widget.find( 'h1' ),
+				$content     = $widget.find( '.llms-widget-content' ),
 				$retry       = $widget.find( '.llms-reload-widget' ),
 				content_text = LLMS.l10n.translate( 'Error' ),
 				status;
