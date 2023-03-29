@@ -557,7 +557,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 	function lifterlms_template_student_dashboard_my_favorites( $preview = false ) {
 
 		$student = llms_get_student();
-		if ( ! $student ) {
+
+		if ( ! $student || ! llms()->is_favorites_enabled() ) {
 			return;
 		}
 

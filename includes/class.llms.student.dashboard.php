@@ -192,7 +192,7 @@ class LLMS_Student_Dashboard {
 				),
 				'view-favorites'    => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_favorites',
-					'endpoint' => get_option( 'lifterlms_myaccount_favorites_endpoint', 'view-favorites' ),
+					'endpoint' => llms()->is_favorites_enabled() ? get_option( 'lifterlms_myaccount_favorites_endpoint', 'view-favorites' ) : '',
 					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Favorites', 'lifterlms' ),
