@@ -46,7 +46,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 *              Reorganized open registration setting.
 	 *              Renamed "User Information Options" to "User Privacy Options".
 	 * @since 5.6.0 Added options to disable concurrent logins.
-	 * @since [version] Added settings to view favorites.
+	 * @since [version] Added settings for favorites endpoint.
 	 *
 	 * @return array
 	 */
@@ -188,6 +188,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'     => 'text',
 					'default'  => 'my-favorites',
 					'sanitize' => 'slug',
+					'disabled' => ! llms()->is_favorites_enabled() ? true : false,
 				),
 				array(
 					'title'    => __( 'Notifications', 'lifterlms' ),
