@@ -136,18 +136,19 @@ final class LifterLMS {
 		llms_maybe_define_constant( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
 		llms_maybe_define_constant( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 
+		// If we're loading in debug mode.
+		$script_debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
+		$wp_debug     = defined( 'WP_DEBUG' ) && WP_DEBUG;
+
+		// If debugging, load the unminified version otherwise load minified.
 		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
-
-			// If we're loading in debug mode.
-			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
-
-			// If debugging, load the unminified version otherwiser load minified.
-			$min = ( $debug ) ? '' : '.min';
-
-			define( 'LLMS_ASSETS_SUFFIX', $min );
-
+			define( 'LLMS_ASSETS_SUFFIX', $script_debug ? '' : '.min' );
 		}
 
+		// If debugging, use time for asset version otherwise use plugin version.
+		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
+			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
+		}
 	}
 
 	/**
