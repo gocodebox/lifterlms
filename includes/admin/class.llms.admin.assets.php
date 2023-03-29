@@ -313,7 +313,7 @@ class LLMS_Admin_Assets {
 			}
 		}
 
-		if ( $screen->base === 'dashboard' ) {
+		if ( 'dashboard' === $screen->base ) {
 			$this->maybe_enqueue_reporting( $screen );
 		}
 
@@ -470,7 +470,7 @@ class LLMS_Admin_Assets {
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), llms()->version, true );
 
 			// Dashboard page where we have analytics widgets.
-			if ( in_array( $screen->base, array( 'lifterlms_page_llms-dashboard', 'dashboard' ) ) ) {
+			if ( in_array( $screen->base, array( 'lifterlms_page_llms-dashboard', 'dashboard' ), true ) ) {
 
 				wp_enqueue_script( 'llms-analytics' );
 
