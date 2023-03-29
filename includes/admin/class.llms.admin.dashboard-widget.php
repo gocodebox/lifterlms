@@ -55,7 +55,8 @@ class LLMS_Admin_Dashboard_Widget {
 		<div class="llms-dashboard-widget-wrap">
 			<h3><?php esc_html_e( 'Activity this week:', 'lifterlms' ); ?></h3>
 			<a class="llms-button-primary" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>">
-				<?php esc_html_e( 'Create new course', 'lifterlms' ); ?>
+				<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+				<?php esc_html_e( 'Create a New Course', 'lifterlms' ); ?>
 			</a>
 		</div>
 		<div class="activity-block">
@@ -90,7 +91,7 @@ class LLMS_Admin_Dashboard_Widget {
 				|
 			</li>
 			<li>
-				<a href="https://lifterlms.com/podcast/" target="_blank" rel="noopener">
+				<a href="https://podcast.lifterlms.com/" target="_blank" rel="noopener">
 					<?php esc_html_e( 'View all podcasts', 'lifterlms' ); ?>
 					<span class="screen-reader-text">
 						<?php esc_html_e( '(opens in a new tab)', 'lifterlms' ); ?>
@@ -100,7 +101,7 @@ class LLMS_Admin_Dashboard_Widget {
 				|
 			</li>
 			<li>
-				<a href="https://lifterlms.com/my-account/support/" target="_blank" rel="noopener">
+				<a href="https://lifterlms.com/help/" target="_blank" rel="noopener">
 					<?php esc_html_e( 'Get support', 'lifterlms' ); ?>
 					<span class="screen-reader-text">
 						<?php esc_html_e( '(opens in a new tab)', 'lifterlms' ); ?>
