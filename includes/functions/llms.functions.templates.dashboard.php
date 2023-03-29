@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 6.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -275,6 +275,47 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
+
+	/**
+	 * Get student's favorites.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @return void
+	 */
+	function lifterlms_template_my_favorites_loop( $student = null ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return;
+		}
+
+		$favorites = $student->get_favorites();
+
+		if ( ! $favorites ) {
+
+			printf( '<p>%s</p>', __( 'No favorites found.', 'lifterlms' ) );
+
+		} else {
+
+			foreach ( $favorites as $favorite ) {
+
+				$lesson = new LLMS_Lesson( $favorite->post_id );
+
+				llms_get_template(
+					'course/lesson-preview.php',
+					array(
+						'lesson' => $lesson,
+					)
+				);
+
+			}
+		}
+
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
@@ -503,6 +544,47 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) {
+
+	/**
+	 * Template for My Favorites section on dashboard index.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $preview Optional. If true, outputs a short list of favorites. Default `false`.
+	 * @return void
+	 */
+	function lifterlms_template_student_dashboard_my_favorites( $preview = false ) {
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			return;
+		}
+
+		$more = false;
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-favorites' ) ) {
+			$more = array(
+				'url'  => llms_get_endpoint_url( 'view-favorites', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Favorites', 'lifterlms' ),
+			);
+		}
+
+		ob_start();
+		lifterlms_template_my_favorites_loop( $student, $preview );
+
+		llms_get_template(
+			'myaccount/dashboard-section.php',
+			array(
+				'action'  => 'my_favorites',
+				'slug'    => 'llms-my-favorites',
+				'title'   => $preview ? __( 'My Favorites', 'lifterlms' ) : '',
+				'content' => ob_get_clean(),
+				'more'    => $more,
+			)
+		);
+
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 

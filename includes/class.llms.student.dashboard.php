@@ -140,6 +140,7 @@ class LLMS_Student_Dashboard {
 	 * @since 3.0.0
 	 * @since 3.28.2 Unknown.
 	 * @since 6.0.0 Add pagination to the view-achievements and view-certificates tabs.
+	 * @since [version] Add view-favorites tab.
 	 *
 	 * @return array
 	 */
@@ -188,6 +189,13 @@ class LLMS_Student_Dashboard {
 					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Certificates', 'lifterlms' ),
+				),
+				'view-favorites'    => array(
+					'content'  => 'lifterlms_template_student_dashboard_my_favorites',
+					'endpoint' => get_option( 'lifterlms_myaccount_favorites_endpoint', 'view-favorites' ),
+					'paginate' => true,
+					'nav_item' => true,
+					'title'    => __( 'My Favorites', 'lifterlms' ),
 				),
 				'notifications'     => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_notifications',
