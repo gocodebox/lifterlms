@@ -266,6 +266,36 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve user's favorites based on supplied criteria.
+	 *
+	 * @since    [version]
+	 *
+	 * @param    string  $order_by    Result set ordering field. Default "date".
+	 * @param    string  $order   Result set order. Default "DESC". Accepts "DESC" or "ASC".
+	 * @param    integer $limit   Number of favorites to return.
+	 * @return   array
+	 */
+	public function get_favorites( $order_by = '', $order = '', $limit = '' ) {
+
+		global $wpdb;
+
+		$order_by = ( '' === $order_by ) ? '' : 'ORDER BY ' . $order_by;
+		$limit    = ( '' === $limit ) ? '' : 'LIMIT ' . $limit;
+
+		$res = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+					WHERE meta_key = %s AND user_id = %d $order_by $order $limit",
+				'_favorite',
+				get_current_user_id()
+			)
+		);
+
+		return empty( $res ) ? false : $res;
+
+	}
+
+	/**
 	 * Retrieve IDs of courses a user has completed
 	 *
 	 * @param  array $args query arguments

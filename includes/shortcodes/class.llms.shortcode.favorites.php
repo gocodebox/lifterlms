@@ -54,22 +54,13 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	 */
 	protected function get_favorites() {
 
-		global $wpdb;
+		$student = llms_get_student();
 
-		$order_by = ( '' === $this->get_attribute( 'orderby' ) ) ? '' : 'ORDER BY ' . $this->get_attribute( 'orderby' );
-		$order    = ( '' === $this->get_attribute( 'order' ) ) ? '' : $this->get_attribute( 'order' );
-		$limit    = ( '' === $this->get_attribute( 'limit' ) ) ? '' : 'LIMIT ' . $this->get_attribute( 'limit' );
+		$order_by = $this->get_attribute( 'orderby' );
+		$order    = $this->get_attribute( 'order' );
+		$limit    = $this->get_attribute( 'limit' );
 
-		$res = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d $order_by $order $limit",
-				'_favorite',
-				get_current_user_id()
-			)
-		);
-
-		return empty( $res ) ? false : $res;
+		return $student->get_favorites( $order_by, $order, $limit );
 
 	}
 
