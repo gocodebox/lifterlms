@@ -2,9 +2,10 @@
 /**
  * Admin Dashboard Widget
  *
- * @since   [version]
- * @version [version]
  * @package LifterLMS/Admin/Classes
+ *
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,7 +72,7 @@ class LLMS_Admin_Dashboard_Widget {
 					</a>
 					<span class="llms-dashboard-widget-feed-date">
 						<?php echo esc_html( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>
-						| LifterLMS
+						|
 						<?php echo strpos( $item->get_permalink(), '//podcast' ) !== false ? esc_html__( 'Podcast', 'lifterlms' ) : esc_html__( 'Blog', 'lifterlms' ); ?>
 					</span>
 				</li>
@@ -130,7 +131,7 @@ class LLMS_Admin_Dashboard_Widget {
 						'current_courses'     => array(),
 						'current_memberships' => array(),
 						'dates'               => array(
-							'start' => date( 'Y-m-d', current_time( 'timestamp' ) - WEEK_IN_SECONDS ),
+							'start' => date( 'Y-m-d', strtotime( '-1 week' ) ),
 							'end'   => current_time( 'Y-m-d' ),
 						),
 					)
