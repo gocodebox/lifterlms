@@ -9,7 +9,8 @@
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
- * @version 5.7.0
+ * @since [version] Added Favorites function `lifterlms_template_single_favorite()`.
+ * @version [version]
  *
  * @var LLMS_Lesson $lesson        The lesson object.
  * @var string      $pre_text      The text to display before the lesson.
@@ -46,6 +47,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ); ?></h5>
+			<?php lifterlms_template_single_favorite( $lesson->get( 'id' ) ); ?>
 			<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>
 			<?php endif; ?>

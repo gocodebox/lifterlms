@@ -390,14 +390,23 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
  *
  * @since [version]
  *
+ * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param string $object_type Object type [lesson|section|course|track].
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_single_favorite' ) ) {
 
-	function lifterlms_template_single_favorite() {
+	function lifterlms_template_single_favorite( $object_id = null, $object_type = 'lesson' ) {
 
 		if ( llms()->is_favorites_enabled() ) {
-			llms_get_template( 'course/favorite.php' );
+
+			llms_get_template(
+				'course/favorite.php',
+				array(
+					'object_id'   => $object_id,
+					'object_type' => $object_type,
+				)
+			);
 		}
 	}
 }

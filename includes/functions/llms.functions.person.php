@@ -325,7 +325,7 @@ function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_c
  *
  * @param int    $user_id     WP User ID.
  * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int    $object_type Object type [lesson|section|course|track].
+ * @param string $object_type Object type [lesson|section|course|track].
  * @param string $trigger     String describing the event that triggered marking the object as complete.
  * @return boolean
  */
@@ -343,7 +343,7 @@ function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'uns
  *
  * @param int    $user_id     WP User ID.
  * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int    $object_type Object type [lesson|section|course|track].
+ * @param string $object_type Object type [lesson|section|course|track].
  * @param string $trigger     String describing the event that triggered marking the object as incomplete.
  * @return boolean
  */
@@ -359,9 +359,9 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  *
  * @see LLMS_Student->mark_favorite()
  *
- * @param int $user_id     WP User ID.
- * @param int $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int $object_type Object type [lesson|section|course|track].
+ * @param int    $user_id     WP User ID.
+ * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param string $object_type Object type [lesson|section|course|track].
  * @return boolean
  */
 function llms_mark_favorite( $user_id, $object_id, $object_type ) {
@@ -376,9 +376,9 @@ function llms_mark_favorite( $user_id, $object_id, $object_type ) {
  *
  * @see LLMS_Student->mark_unfavorite()
  *
- * @param int $user_id     WP User ID.
- * @param int $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int $object_type Object type [lesson|section|course|track].
+ * @param int    $user_id     WP User ID.
+ * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param string $object_type Object type [lesson|section|course|track].
  * @return boolean
  */
 function llms_mark_unfavorite( $user_id, $object_id, $object_type ) {

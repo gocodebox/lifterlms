@@ -166,7 +166,7 @@ class LLMS_Frontend_Assets {
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
-	 * @since [version] Enqueue `llms-favorites` script.
+	 * @since [version] Enqueue `llms-favorites` script on lesson and course page.
 	 *
 	 * @return void
 	 */
@@ -201,7 +201,7 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-quiz' );
 		}
 
-		if ( is_lesson() && true === llms()->is_favorites_enabled() ) {
+		if ( ( is_lesson() || is_course() ) && true === llms()->is_favorites_enabled() ) {
 			llms()->assets->enqueue_script( 'llms-favorites' );
 		}
 

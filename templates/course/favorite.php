@@ -8,8 +8,8 @@
  *
  * @since [version]
  *
- * @var LLMS_Lesson     $lesson        The lesson object.
- * @var LLMS_Student    $student       A LLMS_Student object.
+ * @var int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @var string $object_type Object type [lesson|section|course|track].
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -19,7 +19,7 @@ if ( ! is_user_logged_in() ) {
 	return;
 }
 
-$lesson          = new LLMS_Lesson( $post->ID );
+$lesson          = new LLMS_Lesson( ( null === $object_id || '' === $object_id ) ? $post->ID : $object_id );
 $student         = llms_get_student( get_current_user_id() );
 $total_favorites = get_total_favorites( $lesson->get( 'id' ) );
 ?>
@@ -34,7 +34,7 @@ $total_favorites = get_total_favorites( $lesson->get( 'id' ) );
 		<i data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
 
 	<?php else : ?>
-		
+
 		<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value. -->
 		<i data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
 
