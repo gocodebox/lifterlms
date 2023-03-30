@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +39,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since [version] Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
