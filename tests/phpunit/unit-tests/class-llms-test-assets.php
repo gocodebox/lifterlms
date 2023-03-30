@@ -7,7 +7,6 @@
  * @group assets
  *
  * @since 4.4.0
- *
  * @version [version]
  */
 class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
@@ -423,7 +422,6 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_styles()
 	 *
 	 * @since 4.4.0
-	 *
 	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @return void
