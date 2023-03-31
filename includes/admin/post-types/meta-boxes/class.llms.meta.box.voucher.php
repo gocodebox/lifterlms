@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
  * @since 3.36.0 Remove superfluous code.
  * @since 4.0.0 Remove usage of `LLMS_Svg`.
- * @since [version] Added `esc_attr()` for HTML attributes.
+ * @since [version] Added `esc_attr()` and `esc_html()` for HTML attributes and HTML.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -193,7 +193,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * Retrieve the HTML for the redemption area.
 	 *
 	 * @since Unknown
-	 * @since [version] Added `esc_attr()` for HTML attributes.
+	 * @since [version] Added `esc_html()` for HTML output.
 	 *
 	 * @return string
 	 */

@@ -138,6 +138,7 @@
 	 *
 	 * @since Unknown
 	 * @since 5.9.0 Add nonce.
+	 * @since [version] Add check for empty vouchers.
 	 *
 	 * @return {void}
 	 */
@@ -146,14 +147,14 @@
 		var vouchers = get_codes_from_inputs();
 
 		if( ! vouchers.length ) {
-			jQuery( "#post" ).submit();
+			$( "#post" ).submit();
 			return;
 		}
 
 		var data = {
 			action: 'check_voucher_duplicate',
-			'postId': jQuery( '#post_ID' ).val(),
-			'codes':  get_codes_from_inputs(),
+			postId: $( '#post_ID' ).val(),
+			codes:  vouchers,
 			_ajax_nonce: window.llms.ajax_nonce,
 		};
 
