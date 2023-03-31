@@ -143,10 +143,17 @@
 	 */
 	function check_voucher_duplicate() {
 
+		var vouchers = get_codes_from_inputs();
+
+		if( ! vouchers.length ) {
+			jQuery( "#post" ).submit();
+			return;
+		}
+
 		var data = {
-			action: 'check_voucher_duplicate', 'postId' :
-			jQuery( '#post_ID' ).val(),
-			'codes' :  get_codes_from_inputs(),
+			action: 'check_voucher_duplicate',
+			'postId': jQuery( '#post_ID' ).val(),
+			'codes':  get_codes_from_inputs(),
 			_ajax_nonce: window.llms.ajax_nonce,
 		};
 
@@ -166,7 +173,7 @@
 })( jQuery );
 
 function llms_on_voucher_duplicate (results) {
-	if ( undefined !== results && results.length) {
+	if ( results.length) {
 		for (var i = 0; i < results.length; i++ ) {
 			jQuery( 'input[value="' + results[i].code + '"]' ).css( 'background-color', 'rgba(226, 96, 73, 0.6)' );
 		}

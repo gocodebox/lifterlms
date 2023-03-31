@@ -159,7 +159,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo esc_attr( $code->id ); ?>">
 							</td>
 							<td>
-								<span><?php echo esc_attr( $code->used ); ?> / </span><input type="number" min="1" value="<?php echo esc_attr( $code->redemption_count ); ?>" placeholder="Uses" class="llms-voucher-uses" name="llms_voucher_uses[]">
+								<span><?php echo esc_html( $code->used ); ?> / </span><input type="number" min="1" value="<?php echo esc_attr( $code->redemption_count ); ?>" placeholder="Uses" class="llms-voucher-uses" name="llms_voucher_uses[]">
 							</td>
 							<td>
 								<a href="#" data-id="<?php echo esc_attr( $code->id ); ?>" class="llms-voucher-delete">
@@ -227,10 +227,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
 						<tr>
-							<td><?php echo esc_attr( $user->data->display_name ); ?></td>
-							<td><?php echo esc_attr( $user->data->user_email ); ?></td>
-							<td><?php echo esc_attr( $redeemed_code->redemption_date ); ?></td>
-							<td><?php echo esc_attr( $redeemed_code->code ); ?></td>
+							<td><?php echo esc_html( $user->data->display_name ); ?></td>
+							<td><?php echo esc_html( $user->data->user_email ); ?></td>
+							<td><?php echo esc_html( $redeemed_code->redemption_date ); ?></td>
+							<td><?php echo esc_html( $redeemed_code->code ); ?></td>
 						</tr>
 						<?php
 					endforeach;
