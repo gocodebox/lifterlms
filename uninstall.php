@@ -87,10 +87,6 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	}
 
 	// Delete order notes comments.
-	$wpdb->delete(
-		"{$wpdb->prefix}comments",
-		array(
-			'comment_type' => 'llms_order_note',
-		)
-	);
+	$wpdb->query( "DELETE FROM {$wpdb->comments} WHERE comment_type IN ( 'llms_order_note' );" );
+	$wpdb->query( "DELETE meta FROM {$wpdb->commentmeta} meta LEFT JOIN {$wpdb->comments} comments ON comments.comment_ID = meta.comment_id WHERE comments.comment_ID IS NULL;" );
 }
