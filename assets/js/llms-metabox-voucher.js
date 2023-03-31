@@ -166,7 +166,7 @@
 })( jQuery );
 
 function llms_on_voucher_duplicate (results) {
-	if (results.length) {
+	if ( undefined !== results && results.length) {
 		for (var i = 0; i < results.length; i++ ) {
 			jQuery( 'input[value="' + results[i].code + '"]' ).css( 'background-color', 'rgba(226, 96, 73, 0.6)' );
 		}
