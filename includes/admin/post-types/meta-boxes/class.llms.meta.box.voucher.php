@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
  * @since 3.36.0 Remove superfluous code.
  * @since 4.0.0 Remove usage of `LLMS_Svg`.
+ * @since [version] Added `esc_attr()` for HTML attributes.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -120,6 +121,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 *
 	 * @since Unknown
 	 * @since 4.0.0 Replace SVG delete icon with a dashicon.
+	 * @since [version] Added `esc_attr()` for HTML attributes.
 	 *
 	 * @return string
 	 */
@@ -153,14 +155,14 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						<tr>
 							<td></td>
 							<td>
-								<input type="text" maxlength="20" placeholder="Code" value="<?php echo $code->code; ?>" name="llms_voucher_code[]">
-								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id; ?>">
+								<input type="text" maxlength="20" placeholder="Code" value="<?php echo esc_attr( $code->code ); ?>" name="llms_voucher_code[]">
+								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo esc_attr( $code->id ); ?>">
 							</td>
 							<td>
-								<span><?php echo $code->used; ?> / </span><input type="number" min="1" value="<?php echo $code->redemption_count; ?>" placeholder="Uses" class="llms-voucher-uses" name="llms_voucher_uses[]">
+								<span><?php echo esc_attr( $code->used ); ?> / </span><input type="number" min="1" value="<?php echo esc_attr( $code->redemption_count ); ?>" placeholder="Uses" class="llms-voucher-uses" name="llms_voucher_uses[]">
 							</td>
 							<td>
-								<a href="#" data-id="<?php echo $code->id; ?>" class="llms-voucher-delete">
+								<a href="#" data-id="<?php echo esc_attr( $code->id ); ?>" class="llms-voucher-delete">
 									<?php echo $delete_icon; ?>
 								</a>
 							</td>
@@ -191,6 +193,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * Retrieve the HTML for the redemption area.
 	 *
 	 * @since Unknown
+	 * @since [version] Added `esc_attr()` for HTML attributes.
 	 *
 	 * @return string
 	 */
@@ -224,10 +227,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
 						<tr>
-							<td><?php echo $user->data->display_name; ?></td>
-							<td><?php echo $user->data->user_email; ?></td>
-							<td><?php echo $redeemed_code->redemption_date; ?></td>
-							<td><?php echo $redeemed_code->code; ?></td>
+							<td><?php echo esc_attr( $user->data->display_name ); ?></td>
+							<td><?php echo esc_attr( $user->data->user_email ); ?></td>
+							<td><?php echo esc_attr( $redeemed_code->redemption_date ); ?></td>
+							<td><?php echo esc_attr( $redeemed_code->code ); ?></td>
 						</tr>
 						<?php
 					endforeach;
