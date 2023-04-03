@@ -8,6 +8,7 @@
  * @since 4.3.3 Legends will automatically display on top of the chart.
  * @since 4.5.1 Show sales reporting currency symbol based on LifterLMS site options.
  * @version [version]
+ *
  */( function( $, undefined ) {
 
 	window.llms = window.llms || {};
@@ -63,10 +64,12 @@
 		 */
 		this.bind = function() {
 
-			$( '.llms-datepicker' ).datepicker( {
-				dateFormat: 'yy-mm-dd',
-				maxDate: 0,
-			} );
+			if ( $( '.llms-datepicker' ).length && $.fn.datepicker ) {
+				$( '.llms-datepicker' ).datepicker( {
+					dateFormat: 'yy-mm-dd',
+					maxDate: 0,
+				} );
+			}
 
 			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
 				multiple: true,
@@ -200,11 +203,12 @@
 		/**
 		 * Load a specific widget
 		 *
-		 * @param    obj   $widget  jQuery selector of the widget element
-		 * @return   void
-		 * @since    3.0.0
+		 * @since 3.0.0
 		 * @since [version] Change h1 tag to .llms-widget-content.
 		 * @version [version]
+		 *
+		 * @param obj $widget jQuery selector of the widget element
+		 * @return void
 		 */
 		this.load_widget = function( $widget ) {
 
