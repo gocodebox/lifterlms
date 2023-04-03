@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since Unknown
- * @version Unknown
+ * @since [version] Add content tag param to widget options.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Dashboard_Widget {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since [version]
 	 *
@@ -29,7 +29,7 @@ class LLMS_Admin_Dashboard_Widget {
 	}
 
 	/**
-	 * Add the dashboard widget
+	 * Add the dashboard widget.
 	 *
 	 * @since [version]
 	 *
@@ -44,7 +44,7 @@ class LLMS_Admin_Dashboard_Widget {
 	}
 
 	/**
-	 * Output the dashboard widget
+	 * Output the dashboard widget.
 	 *
 	 * @since [version]
 	 *
@@ -185,7 +185,6 @@ class LLMS_Admin_Dashboard_Widget {
 	 * @return array
 	 */
 	private function get_feed(): array {
-		$html    = '';
 		$blog    = fetch_feed( 'https://lifterlms.com/feed' );
 		$podcast = fetch_feed( 'https://podcast.lifterlms.com/feed/' );
 

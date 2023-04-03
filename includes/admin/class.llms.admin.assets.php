@@ -457,6 +457,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 4.3.3
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Load on dashboard screen.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void
