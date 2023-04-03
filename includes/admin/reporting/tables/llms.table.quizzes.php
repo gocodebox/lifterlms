@@ -199,7 +199,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 						$grade += $attempt->get( 'grade' );
 					}
 
-					$value = round( $grade / $attempts, 3 ) . '%';
+					$value = round( $grade / $attempts, llms_get_reporting_round_precision() ) . '%';
 
 				}
 

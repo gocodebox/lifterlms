@@ -1,0 +1,6 @@
+significance: patch
+type: changed
+comment: Added a helper function for returning precision with filter for
+  floating values in the reporting section for quizzes and assignment's average
+  column.
+entry: Added helper function for precision for floating values in reporting section.
