@@ -205,7 +205,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
 				 */
-				apply_filters( 'lifterlms_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
+				apply_filters( 'lifterlms_dashboard_courses_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
 			);
 
 		} else {
@@ -323,7 +323,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any memberships.
 				 */
-				apply_filters( 'lifterlms_not_enrolled_text', esc_html__( 'You are not enrolled in any memberships.', 'lifterlms' ) )
+				apply_filters( 'lifterlms_dashboard_memberships_not_enrolled_text', esc_html__( 'You are not enrolled in any memberships.', 'lifterlms' ) )
 			);
 
 		} else {
