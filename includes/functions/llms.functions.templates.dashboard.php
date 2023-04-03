@@ -206,7 +206,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
 				 */
 				apply_filters( 'lifterlms_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
-			); 
+			);
 
 		} else {
 
@@ -296,6 +296,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	 *
 	 * @since 3.14.0
 	 * @since 3.14.8 Unknown.
+	 * @since [version] Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @return void
@@ -311,7 +312,19 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
 		if ( ! $memberships ) {
 
-			printf( '<p>%s</p>', __( 'You are not enrolled in any memberships.', 'lifterlms' ) );
+			printf(
+				'<p>%s</p>',
+				/**
+				 * Not enrolled text.
+				 *
+				 * Allows developers to filter the text to be displayed when the student is not enrolled in any memberships.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any memberships.
+				 */
+				apply_filters( 'lifterlms_not_enrolled_text', esc_html__( 'You are not enrolled in any memberships.', 'lifterlms' ) )
+			);
 
 		} else {
 
