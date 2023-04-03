@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 6.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -162,6 +162,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
 	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
+	 * @since [version] Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -193,16 +194,19 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 		if ( ! $courses['results'] ) {
 
-			/**
-			 * Not enrolled text.
-			 *
-			 * Allows developers to filter the text to be displayed when the student is not enrolled in any courses.
-			 *
-			 * @since [version]
-			 *
-			 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
-			 */
-			printf( '<p>%s</p>', apply_filters( 'lifterlms_not_enrolled_text', __( 'You are not enrolled in any courses.', 'lifterlms' ) ) );
+			printf(
+				'<p>%s</p>',
+				/**
+				 * Not enrolled text.
+				 *
+				 * Allows developers to filter the text to be displayed when the student is not enrolled in any courses.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
+				 */
+				apply_filters( 'lifterlms_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
+			); 
 
 		} else {
 
