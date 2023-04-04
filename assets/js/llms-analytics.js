@@ -59,6 +59,7 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+		 * @since [version] Added check for datepicker before initializing.
 		 *
 		 * @return void
 		 */
@@ -205,9 +206,8 @@
 		 *
 		 * @since 3.0.0
 		 * @since [version] Change h1 tag to .llms-widget-content.
-		 * @version [version]
 		 *
-		 * @param obj $widget jQuery selector of the widget element
+		 * @param obj $widget The jQuery selector of the widget element.
 		 * @return void
 		 */
 		this.load_widget = function( $widget ) {
