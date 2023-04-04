@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -286,5 +286,35 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 	}
 
 	return $html;
+
+}
+
+/**
+ * Retrieve the precision for round function for floating values.
+ *
+ * The function returns precision to round off the decimal values
+ * for 'average' column in reporting tables.
+ *
+ * @since [version]
+ *
+ * @return int
+ */
+function llms_get_floats_rounding_precision() {
+
+	// Used `static` to store precision value so `apply_filters()` run only once per request.
+	static $precision = null;
+
+	if ( is_null( $precision ) ) {
+		/**
+		 * Filters the precision for round function for floating values.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $precision Precision for round function for floating values.
+		 */
+		$precision = apply_filters( 'lifterlms_reporting_average_precision', 2 );
+	}
+
+	return $precision;
 
 }

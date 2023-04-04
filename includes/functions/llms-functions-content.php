@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.25.1
- * @version [version]
+ * @version 4.17.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -109,24 +109,6 @@ function llms_get_post_sales_page_content( $post, $default = '' ) {
 	 * @param string  $default Default content used when no override content can be found.
 	 */
 	return apply_filters( 'llms_post_sales_page_content', $content, $post, $default );
-
-}
-
-/**
- * Retrieve the decimal value for average column in Reporting.
- *
- * By default the database return floating-point values and  function
- * percision to round off the decimal value.
- *
- * @since [version]
- *
- * @return int
- */
-function llms_get_reporting_round_precision() {
-
-	$precision = apply_filters( 'lifterlms_average_decimal', 1 );
-
-	return $precision;
 
 }
 
