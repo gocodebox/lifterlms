@@ -12,7 +12,7 @@ on:
       - review_requested
 
 env:
-  PRIMARY_CODEOWNER: '@thomasplevy'
+  PRIMARY_CODEOWNER: '@ideadude'
   PROJECT_ORG: gocodebox
   PROJECT_ID: 18
 
