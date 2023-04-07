@@ -312,7 +312,7 @@ function llms_get_floats_rounding_precision() {
 		 *
 		 * @param int $precision Precision for round function for floating values.
 		 */
-		$precision = apply_filters( 'lifterlms_reporting_average_precision', 2 );
+		$precision = apply_filters( 'lifterlms_floats_rounding_precision', 2 );
 	}
 
 	return $precision;
