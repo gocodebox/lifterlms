@@ -1,7 +1,7 @@
 significance: patch
-type: changed
+type: dev
 comment: Added hook `lifterlms_dashboard_memberships_not_enrolled_text` for
-  updating text when user is not enrolled in any membership.
+  updating text when user is not enrolled in any memberships.
 links:
   - "#2396"
 entry: Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to
