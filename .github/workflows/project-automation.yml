@@ -85,7 +85,7 @@ jobs:
     if: ( 'pull_request_target' == github.event_name && ( 'opened' == github.event.action || 'reopened' == github.event.action || 'review_requested' == github.event.action ) )
     steps:
       - name: Mark PR as Awaiting Review
-        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.ORG_WORKFLOWS }}
           organization: ${{ env.PROJECT_ORG }}
