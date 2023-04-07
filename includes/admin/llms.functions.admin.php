@@ -292,9 +292,6 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 /**
  * Retrieve the precision for round function for floating values.
  *
- * The function returns precision to round off the decimal values
- * for 'average' column in reporting tables.
- *
  * @since [version]
  *
  * @return int
