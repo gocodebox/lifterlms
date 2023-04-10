@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
     	</div>
     	<div class="llms-helper-resources-style2">
     		<div class="llms-helper-blocks">
-    			<center><iframe width="762" height="428" src="https://www.youtube.com/embed/mOhRvkjq0d8" title="Top 4 LifterLMS Getting Started Resources" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
+    			<center><iframe width="762" height="428" src="https://www.youtube.com/embed/SWJKl4hs99g" title="How to Build an LMS Website - Getting Started with LifterLMS" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
     		</div>
 			<div class="llms-helper-blocks">
 				<div class="llms-list">
