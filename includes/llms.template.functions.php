@@ -398,7 +398,7 @@ if ( ! function_exists( 'lifterlms_template_single_favorite' ) ) {
 
 	function lifterlms_template_single_favorite( $object_id = null, $object_type = 'lesson' ) {
 
-		if ( llms()->is_favorites_enabled() ) {
+		if ( llms()->is_favorites_enabled() && has_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_favorite' ) ) {
 
 			llms_get_template(
 				'course/favorite.php',
