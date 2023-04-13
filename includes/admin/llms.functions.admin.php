@@ -288,3 +288,60 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 	return $html;
 
 }
+
+/**
+ * Deletes all pending orders after held duration.
+ *
+ * @since [version]
+ *
+ * @return null
+ */
+function llms_delete_pending_orders() {
+
+	$days = get_option( 'lifterlms_pending_orders_deletion' );
+
+	if ( ! $days ) {
+		return;
+	}
+
+	// Get all LLMS pending orders of custom post `llms_order`
+	$orders = get_posts(
+		array(
+			'post_type' => 'llms_order',
+			'post_status' => 'any',
+			'posts_per_page' => -1 // to get all posts
+		)
+	);
+
+	// Check if the pending orders is older than the days set in the settings.
+	$pending_orders = array_filter(
+		$orders,
+		function( $order ) use ( $days ) {
+
+			if( 'llms-pending' === get_post_status( $order->ID ) ) {
+
+				return $order;
+
+				$created_date = get_the_date( 'Y-m-d', $order->ID );
+				$created_date = new DateTime( $created_date );
+				$today        = new DateTime( 'today' );
+				$diff         = $today->diff( $created_date );
+				$days_diff    = $diff->days;
+
+				if( $days_diff > $days ) {
+					return $order;
+				}
+
+			}
+
+		}
+	);
+
+	// Delete the pending orders.
+	foreach ( $pending_orders as $order ) {
+		wp_delete_post( $order->ID, true );
+	}
+
+
+}
+add_action( 'llms_delete_pending_orders', 'llms_delete_pending_orders' );

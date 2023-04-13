@@ -338,6 +338,25 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'     => 'checkbox',
 				),
 				array(
+					'title' => __( 'Data Retention', 'lifterlms' ),
+					'desc'     => __( 'Choose how long to retain abandoned orders and inactive user accounts.' ),
+					'type'  => 'subtitle',
+				),
+				array(
+					'title'   => __( 'Retaining Pending Orders', 'lifterlms' ),
+					'class'   => 'tiny',
+					'desc'    => __( 'Hold pending orders for x days. When this limit is reached, the pending orders will be deleted. Leave blank to disable.', 'lifterlms' ),
+					'id'      => 'lifterlms_pending_orders_deletion',
+					'type'    => 'number',
+				),
+				array(
+					'title'   => __( 'Retaining Inactive Accounts', 'lifterlms' ),
+					'class'   => 'tiny',
+					'desc'    => __( 'Hold inactive accounts (with no associated enrollments) for x days. When this limit is reached, the inactive accounts will be deleted. Leave blank to disable.', 'lifterlms' ),
+					'id'      => 'lifterlms_inactive_accounts_deletion',
+					'type'    => 'number',
+				),
+				array(
 					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
 				),
