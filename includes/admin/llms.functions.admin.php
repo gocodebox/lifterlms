@@ -309,7 +309,7 @@ function llms_delete_pending_orders() {
 		array(
 			'post_type'      => 'llms_order',
 			'post_status'    => 'any',
-			'posts_per_page' => -1, // to get all posts
+			'posts_per_page' => -1, // to get all posts.
 		)
 	);
 
@@ -319,8 +319,6 @@ function llms_delete_pending_orders() {
 		function( $order ) use ( $days ) {
 
 			if ( 'llms-pending' === get_post_status( $order->ID ) ) {
-
-				return $order;
 
 				$created_date = get_the_date( 'Y-m-d', $order->ID );
 				$created_date = new DateTime( $created_date );
@@ -343,3 +341,60 @@ function llms_delete_pending_orders() {
 
 }
 add_action( 'llms_delete_pending_orders', 'llms_delete_pending_orders' );
+
+/**
+ * Deletes all inactive accounts without any enrollments after held duration.
+ *
+ * @since [version]
+ *
+ * @return null
+ */
+function llms_delete_inactive_accounts() {
+
+	$days = get_option( 'lifterlms_inactive_accounts_deletion' );
+
+	if ( ! $days ) {
+		return;
+	}
+
+	// Get all users.
+	$users = get_users(
+		array(
+			'role__in' => array( 'student' ),
+		)
+	);
+
+	// Check if users has any enrollments.
+	$inactive_users = array_filter(
+		$users,
+		function( $user ) use ( $days ) {
+
+			$student     = llms_get_student( $user->ID );
+			$courses     = $student->get_courses();
+			$memberships = $student->get_courses();
+			$enrollments = $courses['found'] > 0 && $memberships['found'] > 0;
+
+			if ( ! $enrollments ) {
+
+				$created_date = get_the_date( 'Y-m-d', $user->ID );
+				$created_date = new DateTime( $created_date );
+				$today        = new DateTime( 'today' );
+				$diff         = $today->diff( $created_date );
+				$days_diff    = $diff->days;
+
+				if ( $days_diff > $days ) {
+					return $user;
+				}
+			}
+
+		}
+	);
+
+	// Delete the inactive users.
+	foreach ( $inactive_users as $user ) {
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+		wp_delete_user( $user->ID );
+	}
+
+}
+add_action( 'llms_delete_inactive_accounts', 'llms_delete_inactive_accounts' );

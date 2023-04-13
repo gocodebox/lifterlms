@@ -78,7 +78,7 @@ class LLMS_Install {
 	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
 	 * @since 4.0.0 Add expired session cleanup.
 	 * @since 4.5.0 Add log backup cron.
-	 * @since [version] Add pending orders deletion cron.
+	 * @since [version] Add pending orders and inactive accounts deletion cron.
 	 *
 	 * @return void
 	 */
@@ -149,6 +149,19 @@ class LLMS_Install {
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
 				 */
 				'interval' => apply_filters( 'llms_pending_orders_deletion_interval', 'daily' ),
+			),
+			array(
+				'hook'     => 'llms_delete_inactive_accounts',
+				/**
+				 * Filter the recurrence interval at which inactive accounts are deleted.
+				 *
+				 * @since [version]
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'interval' => apply_filters( 'llms_inactive_accounts_deletion_interval', 'daily' ),
 			),
 		);
 
