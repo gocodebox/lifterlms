@@ -20,6 +20,7 @@ wp_clear_scheduled_hook( 'lifterlms_engagement_award_achievement' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_award_certificate' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_send_email' );
 wp_clear_scheduled_hook( 'llms_end_idle_sessions' );
+wp_clear_scheduled_hook( 'llms_delete_pending_orders' );
 
 /**
  * Only actually delete LifterLMS and Related Data when constant is defined.

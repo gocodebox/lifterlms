@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -304,12 +304,12 @@ function llms_delete_pending_orders() {
 		return;
 	}
 
-	// Get all LLMS pending orders of custom post `llms_order`
+	// Get all LLMS pending orders of custom post `llms_order`.
 	$orders = get_posts(
 		array(
-			'post_type' => 'llms_order',
-			'post_status' => 'any',
-			'posts_per_page' => -1 // to get all posts
+			'post_type'      => 'llms_order',
+			'post_status'    => 'any',
+			'posts_per_page' => -1, // to get all posts
 		)
 	);
 
@@ -318,7 +318,7 @@ function llms_delete_pending_orders() {
 		$orders,
 		function( $order ) use ( $days ) {
 
-			if( 'llms-pending' === get_post_status( $order->ID ) ) {
+			if ( 'llms-pending' === get_post_status( $order->ID ) ) {
 
 				return $order;
 
@@ -328,10 +328,9 @@ function llms_delete_pending_orders() {
 				$diff         = $today->diff( $created_date );
 				$days_diff    = $diff->days;
 
-				if( $days_diff > $days ) {
+				if ( $days_diff > $days ) {
 					return $order;
 				}
-
 			}
 
 		}
@@ -341,7 +340,6 @@ function llms_delete_pending_orders() {
 	foreach ( $pending_orders as $order ) {
 		wp_delete_post( $order->ID, true );
 	}
-
 
 }
 add_action( 'llms_delete_pending_orders', 'llms_delete_pending_orders' );
