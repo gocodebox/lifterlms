@@ -132,7 +132,7 @@ class LLMS_Reviews {
 							echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) );
 							?>
 						</h6>
-						<p><?php echo get_post_field( 'post_content', $post->ID ); ?></p>
+						<p><?php echo esc_html( get_post_field( 'post_content', $post->ID ) ); ?></p>
 					</div>
 					<?php
 				}
