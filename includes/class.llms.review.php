@@ -21,13 +21,17 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Reviews {
 
 	/**
-	 * This is the constructor for this class. It takes care of attaching
-	 * the functions in this file to the appropriate actions. These actions are:
-	 * 1) output after course info
-	 * 2) output after membership info
-	 * 3 & 4) Add function call to the proper AJAX call
+	 * This is the constructor for this class.
 	 *
-	 * @version 3.1.3
+	 * It takes care of attaching the functions in this file to the
+	 * appropriate actions.
+	 * These actions are:
+	 * 1) Output after course info.
+	 * 2) Output after membership info.
+	 * 3 & 4) Add function call to the proper AJAX call.
+	 *
+	 * @since 3.1.3
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -44,6 +48,8 @@ class LLMS_Reviews {
 	 * @since 1.2.7
 	 * @since 3.24.0 Unknown.
 	 * @since [version] Improve inline styles, escape output.
+	 *
+	 * @return void
 	 */
 	public static function output() {
 
@@ -126,7 +132,7 @@ class LLMS_Reviews {
 							echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) );
 							?>
 						</h6>
-						<p><?php echo esc_html( get_post_field( 'post_content', $post->ID ) ); ?></p>
+						<p><?php echo get_post_field( 'post_content', $post->ID ); ?></p>
 					</div>
 					<?php
 				}
