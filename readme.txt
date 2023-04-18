@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.1
 Requires PHP: 7.4
-Stable tag: 7.1.1
+Stable tag: 7.1.2
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.1.2 - 2023-03-27 =
+
+##### Updates and Enhancements
+
++ Making the LifterLMS logo link to the LifterLMS.com site.
+
+##### Bug Fixes
+
++ Fix bug in `llms_featured_img` function when featured image file is not available. [#2381](https://github.com/gocodebox/lifterlms/issues/2381)
++ Fixed manual certificates awarding broken when using the block editor. [#2386](https://github.com/gocodebox/lifterlms/issues/2386)
+
+
 = v7.1.1 - 2023-03-13 =
 
 ##### Bug Fixes
@@ -735,19 +747,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
 + Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
-
-
-= v6.8.0 - 2022-07-12 =
-
-##### Bug Fixes
-
-+ Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
-+ Fixed text/label alignment in Twenty-Twenty-Two theme. 
-+ Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
-
-##### Developer Notes
-
-+ Added new filter `llms_product_get_restrictions` hook to filter the list of restrictions placed on a given product. [#2201](https://github.com/gocodebox/lifterlms/issues/2201)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
