@@ -4,7 +4,7 @@
  * @package
  *
  * @since Unknown
- * @version [version]
+ * @version 4.0.1
  */
 
 // Deps.
@@ -163,7 +163,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
  * in `node_modules/` from being transpiled by babel.
  * With this we allow the whole `@lifterlms` package to be transpiled by babel during builds.
  *
- * @since [version]
+ * @since 4.0.1
  *
  * @param {Object[]} config Webpack config.
  * @return {Object[]}
@@ -194,7 +194,7 @@ function allowBabelTranspilation( config ) {
  * @since 1.2.1 Reduce method size by using helper methods
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
  * @since 2.1.0 Add configuration option added to the CleanWebpackPlugin.
- * @since [version] Parse the original WordPress' config to allow babel transpilation for the whole `@lifterlms` package.
+ * @since 4.0.1 Parse the original WordPress' config to allow babel transpilation for the whole `@lifterlms` package.
  *
  * @param {Object}   options                              Configuration options.
  * @param {string[]} options.css                          Array of CSS file slugs.
