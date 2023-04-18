@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +39,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since [version] Fixed condition for unsetting fields when using Gutenberg.
 	 *
 	 * @return array
 	 */
@@ -356,7 +357,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+		if (
+			( ! class_exists( 'Classic_Editor' ) && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
+			( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) )
+		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
