@@ -357,9 +357,17 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
+		$current_screen = get_current_screen();
+		$is_gutenberg   = method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor();
+
+		/**
+		 * Remove length and difficulty fields if
+		 * - the course is a new post and the editor is Gutenberg.
+		 * - the course is migrated to blocks used in the Gutenberg editor.
+		 */
 		if (
-			( ! class_exists( 'Classic_Editor' ) && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
-			( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) )
+			( 'auto-draft' === get_post_status( $this->post->ID ) && $is_gutenberg ) ||
+			$is_gutenberg && llms_blocks_is_post_migrated( $this->post->ID )
 		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
