@@ -172,4 +172,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'7.2.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'migrate_italian_users',
+			'update_db_version',
+		),
+	),
 );

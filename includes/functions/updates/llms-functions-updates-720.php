@@ -1,60 +1,47 @@
 <?php
 /**
- * Update functions for version 6.10.0
+ * Update functions for version 7.2.0
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since 6.10.0
- * @version 6.10.0
+ * @since 7.2.0
+ * @version 7.2.0
  */
 
-namespace LLMS\Updates\Version_6_10_0;
+namespace LLMS\Updates\Version_7_2_0;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieves the DB version of the migration.
  *
- * @since 6.10.0
+ * @since 7.2.0
  *
  * @access private
  *
  * @return string
  */
 function _get_db_version() {
-	return '6.10.0';
+	return '7.2.0';
 }
 
 /**
- * Migrates spanish user's provinces to the correct ones.
+ * Migrates i=Italian user's provinces to the correct ones.
  *
- * @since 6.10.0
+ * @since 7.2.0
  *
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
-function migrate_spanish_users() {
+function migrate_italian_users() {
 
 	$per_page = \llms_update_util_get_items_per_page();
 
 	$states_migration_map = array(
-		'AS' => 'O', // Asturias.
-		'CB' => 'S', // Cantabria.
-		'RI' => 'LO', // 'La Rioja'.
-		'MD' => 'M', // Madrid.
-		'MC' => 'MU', // 'Murcia'.
-		'NC' => 'NA', // 'Navarra'.
-		'VC' => 'V', // 'Valencia'.
 		// No map.
-		'AN' => '',
-		'AR' => '',
-		'PV' => '',
-		'CN' => '',
-		'CL' => '',
-		'CM' => '',
-		'CT' => '',
-		'EX' => '',
-		'GA' => '',
-		'SA' => '',
+		'CI' => '',
+		'VS' => '',
+		'OG' => '',
+		'OT' => '',
 	);
 
 	$query = new \WP_User_Query(
@@ -94,9 +81,9 @@ function migrate_spanish_users() {
 }
 
 /**
- * Update db version to 6.10.0.
+ * Update db version to 7.2.0.
  *
- * @since 6.10.0
+ * @since 7.2.0
  *
  * @return false.
  */
