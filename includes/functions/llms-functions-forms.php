@@ -93,7 +93,6 @@ function llms_get_form_title( $location, $args = array() ) {
 		apply_filters( 'the_title', get_post_meta( $post->ID, '_llms_form_title_free_access_plans', true ) )
 		:
 		get_the_title( $post->ID );
-
 }
 
 /**
