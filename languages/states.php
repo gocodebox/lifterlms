@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 6.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -2310,7 +2310,7 @@ return array(
 		'LO' => __( 'Lodi', 'lifterlms' ),
 		'LU' => __( 'Lucca', 'lifterlms' ),
 		'MC' => __( 'Macerata', 'lifterlms' ),
-		'MN' => __( 'Mantova', 'lifterlms' ),
+		'MN' => __( 'Mantua', 'lifterlms' ),
 		'MS' => __( 'Massa-Carrara', 'lifterlms' ),
 		'MT' => __( 'Matera', 'lifterlms' ),
 		'ME' => __( 'Messina', 'lifterlms' ),
@@ -2326,7 +2326,7 @@ return array(
 		'PR' => __( 'Parma', 'lifterlms' ),
 		'PV' => __( 'Pavia', 'lifterlms' ),
 		'PG' => __( 'Perugia', 'lifterlms' ),
-		'PU' => __( 'Pesaro e Urbino', 'lifterlms' ),
+		'PU' => __( 'Pesaro and Urbino', 'lifterlms' ),
 		'PE' => __( 'Pescara', 'lifterlms' ),
 		'PC' => __( 'Piacenza', 'lifterlms' ),
 		'PI' => __( 'Pisa', 'lifterlms' ),
@@ -2340,7 +2340,7 @@ return array(
 		'RE' => __( 'Reggio Emilia', 'lifterlms' ),
 		'RI' => __( 'Rieti', 'lifterlms' ),
 		'RN' => __( 'Rimini', 'lifterlms' ),
-		'RM' => __( 'Roma', 'lifterlms' ),
+		'RM' => __( 'Rome', 'lifterlms' ),
 		'RO' => __( 'Rovigo', 'lifterlms' ),
 		'SA' => __( 'Salerno', 'lifterlms' ),
 		'SS' => __( 'Sassari', 'lifterlms' ),
