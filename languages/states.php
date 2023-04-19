@@ -5067,10 +5067,13 @@ return array(
 		'W'   => __( 'Western Region', 'lifterlms' ),
 	),
 	'UM' => array(),
-	'US' => array(
-		'AL' => __( 'Alabama', 'lifterlms' ),
-		'AK' => __( 'Alaska', 'lifterlms' ),
-		'AS' => __( 'American Samoa', 'lifterlms' ),
+    'US' => array(
+        'AA' => __( 'Armed Forces (AA)', 'lifterlms' ),
+        'AE' => __( 'Armed Forces (AE)', 'lifterlms' ),
+        'AL' => __( 'Alabama', 'lifterlms' ),
+        'AK' => __( 'Alaska', 'lifterlms' ),
+        'AP' => __( 'Armed Forces (AP)', 'lifterlms' ),
+        'AS' => __( 'American Samoa', 'lifterlms' ),
 		'AZ' => __( 'Arizona', 'lifterlms' ),
 		'AR' => __( 'Arkansas', 'lifterlms' ),
 		'CA' => __( 'California', 'lifterlms' ),
