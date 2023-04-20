@@ -47,7 +47,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ); ?></h5>
-			<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
+			<?php if ( 'course' === get_post_type( get_the_ID() ) && apply_filters( 'lifterlms_single_course_syllabus_lesson_favorite', true ) ) : ?>
 				<?php lifterlms_template_favorite( $lesson->get( 'id' ) ); ?>
 			<?php endif; ?>
 			<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
