@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version 7.1.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,6 +33,7 @@ class LLMS_Admin_Header {
 	 *
 	 * @since 7.1.0
 	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
+	 * @since [version] Using strpos instead of str_starts_with for compatibility.
 	 *
 	 * @return void
 	 */
@@ -58,8 +59,8 @@ class LLMS_Admin_Header {
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
-			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) !== false ) ||
-			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) !== false )
+			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) === 0 ) ||
+			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) === 0 )
 		) {
 			$show_header = true;
 		}
