@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 6.10.0
+ * version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -5067,15 +5067,15 @@ return array(
 		'W'   => __( 'Western Region', 'lifterlms' ),
 	),
 	'UM' => array(),
-    'US' => array(
-        'AA' => __( 'Armed Forces (AA)', 'lifterlms' ),
-        'AE' => __( 'Armed Forces (AE)', 'lifterlms' ),
-        'AL' => __( 'Alabama', 'lifterlms' ),
-        'AK' => __( 'Alaska', 'lifterlms' ),
-        'AP' => __( 'Armed Forces (AP)', 'lifterlms' ),
-        'AS' => __( 'American Samoa', 'lifterlms' ),
+	'US' => array(
+		'AL' => __( 'Alabama', 'lifterlms' ),
+		'AK' => __( 'Alaska', 'lifterlms' ),
+		'AS' => __( 'American Samoa', 'lifterlms' ),
 		'AZ' => __( 'Arizona', 'lifterlms' ),
 		'AR' => __( 'Arkansas', 'lifterlms' ),
+		'AA' => __( 'Armed Forces (Americas)', 'lifterlms' ),
+		'AE' => __( 'Armed Forces (Europe, Canada, Africa, Middle East)', 'lifterlms' ),
+		'AP' => __( 'Armed Forces (Pacific)', 'lifterlms' ),
 		'CA' => __( 'California', 'lifterlms' ),
 		'CO' => __( 'Colorado', 'lifterlms' ),
 		'CT' => __( 'Connecticut', 'lifterlms' ),
