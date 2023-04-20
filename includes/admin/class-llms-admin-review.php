@@ -65,8 +65,8 @@ class LLMS_Admin_Review {
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
-			( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) ||
-			( ! empty( $current_screen->id ) && str_starts_with( $current_screen->id, 'lifterlms' ) )
+			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) !== false ) ||
+			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) !== false )
 		) {
 			$show_footer = true;
 		}
