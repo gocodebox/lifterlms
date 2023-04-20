@@ -394,11 +394,11 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
  * @param string $object_type Object type [lesson|section|course|track].
  * @return void
  */
-if ( ! function_exists( 'lifterlms_template_single_favorite' ) ) {
+if ( ! function_exists( 'lifterlms_template_favorite' ) ) {
 
-	function lifterlms_template_single_favorite( $object_id = null, $object_type = 'lesson' ) {
+	function lifterlms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
 
-		if ( llms()->is_favorites_enabled() && has_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_favorite' ) ) {
+		if ( llms()->is_favorites_enabled() ) {
 
 			llms_get_template(
 				'course/favorite.php',
