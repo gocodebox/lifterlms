@@ -2282,7 +2282,8 @@ return array(
 		'CA' => __( 'Cagliari', 'lifterlms' ),
 		'CL' => __( 'Caltanissetta', 'lifterlms' ),
 		'CB' => __( 'Campobasso', 'lifterlms' ),
-		'CI' => __( 'Carbonia-Iglesias', 'lifterlms' ),
+		// Updated 'Carbonia-Iglesias' to 'Sulcis Iglesiente' manually, see https://github.com/gocodebox/lifterlms/pull/2311#issuecomment-1351496393.
+		'CI' => __( 'Sulcis Iglesiente', 'lifterlms' ),
 		'CE' => __( 'Caserta', 'lifterlms' ),
 		'CT' => __( 'Catania', 'lifterlms' ),
 		'CZ' => __( 'Catanzaro', 'lifterlms' ),
@@ -2326,7 +2327,8 @@ return array(
 		'NO' => __( 'Novara', 'lifterlms' ),
 		'NU' => __( 'Nuoro', 'lifterlms' ),
 		'OG' => __( 'Ogliastra', 'lifterlms' ),
-		'OT' => __( 'Olbia-Tempio', 'lifterlms' ),
+		// 'Updated 'Olbia-Tempio' to 'North-East Sardinia' manually, see https://github.com/gocodebox/lifterlms/pull/2311#issuecomment-1351496393.
+		'OT' => __( 'North-East Sardinia', 'lifterlms' ),
 		'OR' => __( 'Oristano', 'lifterlms' ),
 		'PD' => __( 'Padua', 'lifterlms' ),
 		'PA' => __( 'Palermo', 'lifterlms' ),
