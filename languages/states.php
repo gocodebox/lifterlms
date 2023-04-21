@@ -2272,7 +2272,7 @@ return array(
 		'BA' => __( 'Bari', 'lifterlms' ),
 		'BT' => __( 'Barletta-Andria-Trani', 'lifterlms' ),
 		'BL' => __( 'Belluno', 'lifterlms' ),
-		// 'Benevento' manually added, see https://github.com/gocodebox/lifterlms/pull/2418.
+		// Updated 'Benevento Province' to 'Benevento' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'BN' => __( 'Benevento', 'lifterlms' ),
 		'BG' => __( 'Bergamo', 'lifterlms' ),
 		'BI' => __( 'Biella', 'lifterlms' ),
@@ -2314,7 +2314,7 @@ return array(
 		'LU' => __( 'Lucca', 'lifterlms' ),
 		'MC' => __( 'Macerata', 'lifterlms' ),
 		'MN' => __( 'Mantua', 'lifterlms' ),
-		// 'Massa-Carrara' manually added, see https://github.com/gocodebox/lifterlms/pull/2418.
+		// 'Updated 'Massa and Carrara' to 'Massa-Carrara' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'MS' => __( 'Massa-Carrara', 'lifterlms' ),
 		'MT' => __( 'Matera', 'lifterlms' ),
 		'VS' => __( 'Medio Campidano', 'lifterlms' ),
@@ -2333,6 +2333,7 @@ return array(
 		'PR' => __( 'Parma', 'lifterlms' ),
 		'PV' => __( 'Pavia', 'lifterlms' ),
 		'PG' => __( 'Perugia', 'lifterlms' ),
+		// Updated 'Pesaro and Urbino Province' to 'Pesaro and Urbino' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'PU' => __( 'Pesaro and Urbino', 'lifterlms' ),
 		'PE' => __( 'Pescara', 'lifterlms' ),
 		'PC' => __( 'Piacenza', 'lifterlms' ),
@@ -2355,11 +2356,13 @@ return array(
 		'SI' => __( 'Siena', 'lifterlms' ),
 		'SR' => __( 'Siracusa', 'lifterlms' ),
 		'SO' => __( 'Sondrio', 'lifterlms' ),
+		// Updated 'South Tyrol' to 'Bolzano' manually updated, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'BZ' => __( 'Bolzano', 'lifterlms' ),
 		'TA' => __( 'Taranto', 'lifterlms' ),
 		'TE' => __( 'Teramo', 'lifterlms' ),
 		'TR' => __( 'Terni', 'lifterlms' ),
 		'TP' => __( 'Trapani', 'lifterlms' ),
+		// Updatd 'Trentino' to 'Trento' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'TN' => __( 'Trento', 'lifterlms' ),
 		'TV' => __( 'Treviso', 'lifterlms' ),
 		'TS' => __( 'Trieste', 'lifterlms' ),
