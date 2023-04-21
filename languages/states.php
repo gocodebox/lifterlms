@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 6.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -2262,17 +2262,15 @@ return array(
 		'AG' => __( 'Agrigento', 'lifterlms' ),
 		'AL' => __( 'Alessandria', 'lifterlms' ),
 		'AN' => __( 'Ancona', 'lifterlms' ),
-		// 'Aosta' manually added, see https://github.com/gocodebox/lifterlms/issues/2098.
 		'AO' => __( 'Aosta', 'lifterlms' ),
 		'AP' => __( 'Ascoli Piceno', 'lifterlms' ),
-		// 'Arezzo' manually added, see https://github.com/gocodebox/lifterlms/issues/2214.
 		'AR' => __( 'Arezzo', 'lifterlms' ),
 		'AT' => __( 'Asti', 'lifterlms' ),
 		'AV' => __( 'Avellino', 'lifterlms' ),
 		'BA' => __( 'Bari', 'lifterlms' ),
 		'BT' => __( 'Barletta-Andria-Trani', 'lifterlms' ),
 		'BL' => __( 'Belluno', 'lifterlms' ),
-		'BN' => __( 'Benevento Province', 'lifterlms' ),
+		'BN' => __( 'Benevento', 'lifterlms' ),
 		'BG' => __( 'Bergamo', 'lifterlms' ),
 		'BI' => __( 'Biella', 'lifterlms' ),
 		'BO' => __( 'Bologna', 'lifterlms' ),
@@ -2313,7 +2311,7 @@ return array(
 		'LU' => __( 'Lucca', 'lifterlms' ),
 		'MC' => __( 'Macerata', 'lifterlms' ),
 		'MN' => __( 'Mantua', 'lifterlms' ),
-		'MS' => __( 'Massa and Carrara', 'lifterlms' ),
+		'MS' => __( 'Massa-Carrara', 'lifterlms' ),
 		'MT' => __( 'Matera', 'lifterlms' ),
 		'VS' => __( 'Medio Campidano', 'lifterlms' ),
 		'ME' => __( 'Messina', 'lifterlms' ),
@@ -2331,7 +2329,7 @@ return array(
 		'PR' => __( 'Parma', 'lifterlms' ),
 		'PV' => __( 'Pavia', 'lifterlms' ),
 		'PG' => __( 'Perugia', 'lifterlms' ),
-		'PU' => __( 'Pesaro and Urbino Province', 'lifterlms' ),
+		'PU' => __( 'Pesaro and Urbino', 'lifterlms' ),
 		'PE' => __( 'Pescara', 'lifterlms' ),
 		'PC' => __( 'Piacenza', 'lifterlms' ),
 		'PI' => __( 'Pisa', 'lifterlms' ),
@@ -2353,12 +2351,12 @@ return array(
 		'SI' => __( 'Siena', 'lifterlms' ),
 		'SR' => __( 'Siracusa', 'lifterlms' ),
 		'SO' => __( 'Sondrio', 'lifterlms' ),
-		'BZ' => __( 'South Tyrol', 'lifterlms' ),
+		'BZ' => __( 'Bolzano', 'lifterlms' ),
 		'TA' => __( 'Taranto', 'lifterlms' ),
 		'TE' => __( 'Teramo', 'lifterlms' ),
 		'TR' => __( 'Terni', 'lifterlms' ),
 		'TP' => __( 'Trapani', 'lifterlms' ),
-		'TN' => __( 'Trentino', 'lifterlms' ),
+		'TN' => __( 'Trento', 'lifterlms' ),
 		'TV' => __( 'Treviso', 'lifterlms' ),
 		'TS' => __( 'Trieste', 'lifterlms' ),
 		'TO' => __( 'Turin', 'lifterlms' ),
