@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,6 +32,8 @@ class LLMS_Admin_Header {
 	 * Show admin header banner on LifterLMS admin screens.
 	 *
 	 * @since 7.1.0
+	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
+	 * @since [version] Using strpos instead of str_starts_with for compatibility.
 	 *
 	 * @return void
 	 */
@@ -57,8 +59,8 @@ class LLMS_Admin_Header {
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
-			( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) ||
-			( ! empty( $current_screen->id ) && str_starts_with( $current_screen->id, 'lifterlms' ) )
+			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) === 0 ) ||
+			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) === 0 )
 		) {
 			$show_header = true;
 		}
@@ -80,7 +82,7 @@ class LLMS_Admin_Header {
 		if ( ! empty( $show_header ) ) { ?>
 			<header class="llms-header">
 				<div class="llms-inside-wrap">
-					<img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo-black.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
+					<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Admin%20Header&utm_content=LifterLMS%20Logo" target="_blank"><img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo-black.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>"></a>
 					<div class="llms-meta">
 						<div class="llms-meta-left">
 							<span class="llms-version"><?php echo sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></span>
@@ -110,7 +112,7 @@ class LLMS_Admin_Header {
 							}
 							?>
 							<span class="llms-support">
-								<a href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=LifterLMS%20Support" target="_blank"><?php esc_html_e( 'Get Support', 'lifterlms' ); ?></a>
+								<a href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Admin%20Header&utm_content=LifterLMS%20Support" target="_blank"><?php esc_html_e( 'Get Support', 'lifterlms' ); ?></a>
 							</span>
 						</div>
 					</div>

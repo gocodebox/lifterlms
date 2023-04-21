@@ -1,6 +1,6 @@
 @lifterlms/scripts CHANGELOG
 ============================
-Unreleased
+v4.0.1 - 2023-04-18
 ----------
 
 + Allow the whole `@lifterlms` package to be transpiled by babel during builds.

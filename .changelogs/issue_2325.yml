@@ -1,0 +1,8 @@
+significance: patch
+type: fixed
+comment: added missing armed forces options to adresse's states dropdown in
+  checkout form
+links:
+  - "#2325"
+entry: Added missing armed forces options to the State dropdown in the
+  Billing information form.

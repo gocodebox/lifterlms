@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,12 +39,14 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function is where extending classes can configure all the fields within the metabox
-	 * The function must return an array which can be consumed by the "output" function
+	 * This function is where extending classes can configure all the fields within the metabox.
+	 *
+	 * The function must return an array which can be consumed by the "output" function.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.36.2 'start' drip method made available only if the parent course has a start date set.
+	 * @since [version] Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
@@ -77,7 +79,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'video_embed',
 						'label'      => __( 'Video Embed Url', 'lifterlms' ),
@@ -85,7 +87,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 					),
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'audio_embed',
 						'type'       => 'text',

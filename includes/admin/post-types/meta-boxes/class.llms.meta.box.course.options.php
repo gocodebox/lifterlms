@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +39,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since [version] Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
@@ -150,7 +151,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'video_embed',
 						'class' => 'code input-full',
 					),
@@ -165,7 +166,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Audio', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
 					),
