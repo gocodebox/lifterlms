@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Course_Options class
+ * LLMS_Meta_Box_Course_Options class.
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -39,7 +39,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
-	 * @since [version] Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
+	 * @since [version] Fixed condition for unsetting fields when using Gutenberg.
+	 *                  Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
@@ -357,7 +358,21 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+		$current_screen = get_current_screen();
+		$is_gutenberg   = is_object( $current_screen ) && method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor();
+
+		/**
+		 * Remove length and difficulty fields if
+		 * - the course is a new post and the editor is Gutenberg.
+		 * - the course is migrated to blocks used in the Gutenberg editor.
+		 */
+		if (
+			$is_gutenberg &&
+			(
+				'auto-draft' === get_post_status( $this->post->ID ) ||
+				llms_blocks_is_post_migrated( $this->post->ID )
+			)
+		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
