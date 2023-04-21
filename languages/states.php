@@ -2262,14 +2262,17 @@ return array(
 		'AG' => __( 'Agrigento', 'lifterlms' ),
 		'AL' => __( 'Alessandria', 'lifterlms' ),
 		'AN' => __( 'Ancona', 'lifterlms' ),
+		// 'Aosta' manually added, see https://github.com/gocodebox/lifterlms/issues/2098.
 		'AO' => __( 'Aosta', 'lifterlms' ),
 		'AP' => __( 'Ascoli Piceno', 'lifterlms' ),
+		// 'Arezzo' manually added, see https://github.com/gocodebox/lifterlms/issues/2214.
 		'AR' => __( 'Arezzo', 'lifterlms' ),
 		'AT' => __( 'Asti', 'lifterlms' ),
 		'AV' => __( 'Avellino', 'lifterlms' ),
 		'BA' => __( 'Bari', 'lifterlms' ),
 		'BT' => __( 'Barletta-Andria-Trani', 'lifterlms' ),
 		'BL' => __( 'Belluno', 'lifterlms' ),
+		// 'Benevento' manually added, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'BN' => __( 'Benevento', 'lifterlms' ),
 		'BG' => __( 'Bergamo', 'lifterlms' ),
 		'BI' => __( 'Biella', 'lifterlms' ),
@@ -2311,6 +2314,7 @@ return array(
 		'LU' => __( 'Lucca', 'lifterlms' ),
 		'MC' => __( 'Macerata', 'lifterlms' ),
 		'MN' => __( 'Mantua', 'lifterlms' ),
+		// 'Massa-Carrara' manually added, see https://github.com/gocodebox/lifterlms/pull/2418.
 		'MS' => __( 'Massa-Carrara', 'lifterlms' ),
 		'MT' => __( 'Matera', 'lifterlms' ),
 		'VS' => __( 'Medio Campidano', 'lifterlms' ),
