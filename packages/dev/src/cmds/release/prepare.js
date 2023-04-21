@@ -8,7 +8,7 @@ const
  * Call the cli from within the cli.
  *
  * @since 0.0.1
- * @since [version] Account for spaces in the file paths.
+ * @since 0.2.1 Account for spaces in the file paths.
  *
  * @param {string}  cmd    CLI command and options.
  * @param {boolean} silent If `true`, silence STDOUT.

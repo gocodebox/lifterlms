@@ -37,10 +37,12 @@ _Note: Packages which are included with the LifterLMS core should *always* be re
 
 To publish a release:
 
++ Make sure you are on the trunk branch.
++ Make sure you are logged into npmjs. Run `npm adduser` and follow the prompt.
 + Run `npm run lerna changed` to see which packages have changes to be published.
 + Ensure the `lint:js` and `test` scripts pass.
-+ Ensure changelogs have been updated to the appropriate version and the "Unreleased" header has been removed.
-+ Run `npm run dev update-version -- -F {version}` to update `[version]` placeholders to the appropriate version.
-+ Commit and push changes.
-+ Run `npm run lerna publish` and follow the prompts.
++ Ensure CHANGELOG.md in each package directory has been updated to the appropriate version and the "Unreleased" header has been removed.
++ Run `npm run dev update-version -- -F {version}` from each packages directory to update `[version]` placeholders to the appropriate version.
++ Commit and push changes to git from the base lifterlms directory.
++ Run `npm run lerna publish` and follow the prompts. (Alternatively, publish with `npm publish .` from each packages directory.
 

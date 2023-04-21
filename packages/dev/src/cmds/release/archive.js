@@ -6,7 +6,7 @@ const
  * Build distribution archive.
  *
  * @since 0.0.1
- * @since [version] Windows compatibility: account for spaces in file paths.
+ * @since 0.2.1 Windows compatibility: account for spaces in file paths.
  *
  * @return {string}
  */
