@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+comment: Fixed Unsave data confirmation warning when adding vouchers.
+links:
+  - "#2394"
+entry: Fixed "Unsaved Data" warning when adding vouchers.
