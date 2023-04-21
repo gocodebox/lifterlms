@@ -5073,6 +5073,7 @@ return array(
 		'AS' => __( 'American Samoa', 'lifterlms' ),
 		'AZ' => __( 'Arizona', 'lifterlms' ),
 		'AR' => __( 'Arkansas', 'lifterlms' ),
+		// Armed Forces manually added, see https://github.com/gocodebox/lifterlms/issues/2325.
 		'AA' => __( 'Armed Forces (Americas)', 'lifterlms' ),
 		'AE' => __( 'Armed Forces (Europe, Canada, Africa, Middle East)', 'lifterlms' ),
 		'AP' => __( 'Armed Forces (Pacific)', 'lifterlms' ),
