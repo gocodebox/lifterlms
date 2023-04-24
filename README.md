@@ -123,7 +123,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/dineshchouhan"><img src="https://avatars.githubusercontent.com/u/15683967?v=4" title="dineshchouhan" width="80" height="80"></a>
 <a href="https://github.com/mcguffin"><img src="https://avatars.githubusercontent.com/u/402988?v=4" title="mcguffin" width="80" height="80"></a>
 <a href="https://github.com/wenchen"><img src="https://avatars.githubusercontent.com/u/959457?v=4" title="wenchen" width="80" height="80"></a>
-<a href="https://github.com/actuallyakash"><img src="https://avatars.githubusercontent.com/u/18614782?v=4" title="actuallyakash" width="80" height="80"></a>
 <a href="https://github.com/paulgoodchild"><img src="https://avatars.githubusercontent.com/u/10562196?v=4" title="paulgoodchild" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
 <a href="https://github.com/jasonyingling"><img src="https://avatars.githubusercontent.com/u/4986487?v=4" title="jasonyingling" width="80" height="80"></a>
@@ -131,6 +130,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/nicolas-jaussaud"><img src="https://avatars.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
+<a href="https://github.com/actuallyakash"><img src="https://avatars.githubusercontent.com/u/18614782?v=4" title="actuallyakash" width="80" height="80"></a>
 <a href="https://github.com/hovpoghosyan"><img src="https://avatars.githubusercontent.com/u/9405480?v=4" title="hovpoghosyan" width="80" height="80"></a>
 <a href="https://github.com/README1ST"><img src="https://avatars.githubusercontent.com/u/30046495?v=4" title="README1ST" width="80" height="80"></a>
 <a href="https://github.com/andrewvaughan"><img src="https://avatars.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
