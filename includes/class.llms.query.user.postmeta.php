@@ -145,8 +145,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					'key'     => '_enrollment_trigger',
 					'value'   => 'order_%',
 				),
-				'favorites' => array(
-					'key' => '_favorite',
+				'favorites'   => array(
+					'key'     => '_favorite',
 					'compare' => 'IS NOT NULL',
 				),
 			);

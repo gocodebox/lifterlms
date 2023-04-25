@@ -282,6 +282,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$order_by = ( '' === $order_by ) ? '' : 'ORDER BY ' . $order_by;
 		$limit    = ( '' === $limit ) ? '' : 'LIMIT ' . $limit;
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
