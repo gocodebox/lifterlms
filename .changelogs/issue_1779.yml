@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+comment: Yoast plugin was stopping the error output from printing out by taking
+  it as meta description.
+links:
+  - "#1779"
+entry: Fixed error output conflict with Yoast Plugin.

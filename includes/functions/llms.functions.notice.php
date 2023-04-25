@@ -150,7 +150,7 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
  * @version [version]
  */
 function llms_print_notices() {
-	add_action( "the_content", "llms_show_notices" );
+	add_action( 'the_content', 'llms_show_notices' );
 }
 
 /**
