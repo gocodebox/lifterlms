@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2415"
+entry: Using `strpos()` instead of `str_starts_with()` for compatibility.

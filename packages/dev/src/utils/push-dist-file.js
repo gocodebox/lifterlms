@@ -12,7 +12,7 @@ const
  *
  * @since 0.0.1
  * @since 0.0.2 OSX compatibility: don't use `xargs -d`.
- * @since [version] Windows compatibility:
+ * @since 0.2.1 Windows compatibility:
  *              - account for spaces in file paths
  *              - use node fs utility to create a directory in place of `mkdir` to
  *                override Windows' restrictions.

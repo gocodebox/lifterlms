@@ -1,0 +1,9 @@
+significance: patch
+type: fixed
+comment: Added condition for checking if the post is an auto-draft and the
+  Classic Editor is not active when postmeta is not generated for hiding two
+  options for gutenberg editor.
+links:
+  - "#2174"
+entry: Fixed 'Course Length' and 'Difficulty fields' fields visible in Gutenberg
+  Editor which is meant for Classic Editor.
