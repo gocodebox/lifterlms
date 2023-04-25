@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#410"
-entry: Avoid use of inline styles in course reviews.

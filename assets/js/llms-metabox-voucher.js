@@ -1,13 +1,13 @@
-(function( $ ){
+( function( $ ) {
 
 	var deleteIds = [];
 
-	$( document ).ready(function () {
+	$( document ).ready( function () {
 
 		var changeNotSaved          = false;
 		var codesAddedSinceLastSave = 0;
 
-		$( '#llms_voucher_add_codes' ).click(function (e) {
+		$( '#llms_voucher_add_codes' ).click(function ( e ) {
 			e.preventDefault();
 
 			var qty  = $( '#llms_voucher_add_quantity' ).val();
@@ -16,23 +16,23 @@
 
 			changeNotSaved = true;
 
-			if ($.isNumeric( qty ) && $.isNumeric( uses )) {
-				if (parseInt( qty ) > 0 && parseInt( uses ) > 0) {
+			if ( $.isNumeric( qty ) && $.isNumeric( uses ) ) {
+				if ( parseInt( qty ) > 0 && parseInt( uses ) > 0 ) {
 
-					if (qty > 50) {
+					if ( qty > 50 ) {
 						alert( "You can only generate 50 rows at a time" );
 						return;
 					}
 
 					codesAddedSinceLastSave += parseInt( qty );
 
-					if (codesAddedSinceLastSave > 50) {
+					if ( codesAddedSinceLastSave > 50 ) {
 						alert( "Please save before adding any more codes, limit is 50 at a time" );
 						codesAddedSinceLastSave -= parseInt( qty );
 						return;
 					}
 
-					for (var i = 1; i <= parseInt( qty ); i++) {
+					for ( var i = 1; i <= parseInt( qty ); i++ ) {
 						html += '<tr>' +
 							'<td></td>' +
 							'<td>' +
@@ -49,16 +49,16 @@
 			$( '#llms_voucher_tbody' ).append( html );
 
 			bindDeleteVoucherCode();
-		});
+		} );
 
 		bindDeleteVoucherCode();
 
-		$( '#llms_voucher_tbody input' ).change(function() {
+		$( '#llms_voucher_tbody input' ).change( function() {
 			changeNotSaved = true;
-		});
+		} );
 
 		$( "#post" ).on( 'submit', function() {
-			if ($( '#publish' ).attr( 'name' ) === 'publish') {
+			if ( $( '#publish' ).attr( 'name' ) === 'publish' ) {
 				$( '<input />' ).attr( 'type', 'hidden' )
 					.attr( 'name', "publish" )
 					.attr( 'value', "true" )
@@ -71,10 +71,11 @@
 			return changeNotSaved ? "If you leave this page you will lose your unsaved changes." : null;
 		};
 
-		$( 'input[type=submit][name=save]' ).click(function (e) {
+		$( 'input[type=submit][name=publish], input[type=submit][name=save]' ).click( function ( e ) {
 			var unique_values = {};
 			var duplicate     = false;
-			$( 'input[name="llms_voucher_code[]"]' ).each(function() {
+
+			$( 'input[name="llms_voucher_code[]"]' ).each( function() {
 				var val = $( this ).val()
 				if ( ! unique_values[val] ) {
 					unique_values[val] = true;
@@ -82,8 +83,9 @@
 					$( this ).css( 'background-color', 'rgba(226, 96, 73, 0.6)' );
 					duplicate = true;
 				}
-			});
-			if (duplicate) {
+			} );
+
+			if ( duplicate ) {
 				alert( 'Please make sure that there are no duplicate voucher codes.' );
 				return false;
 			}
@@ -97,11 +99,11 @@
 			changeNotSaved = false;
 			check_voucher_duplicate();
 			return false;
-		});
+		} );
 
 		function bindDeleteVoucherCode() {
 			$( '.llms-voucher-delete' ).unbind( 'click' );
-			$( '.llms-voucher-delete' ).click(function (e) {
+			$( '.llms-voucher-delete' ).click( function ( e ) {
 				e.preventDefault();
 
 				var t   = $( this );
@@ -109,7 +111,7 @@
 
 				changeNotSaved = true;
 
-				if (old) {
+				if ( old ) {
 					deleteIds.push( old );
 
 					$( '#delete_ids' ).val( deleteIds.join( ',' ) );
@@ -119,14 +121,15 @@
 
 				// remove html block
 				t.closest( 'tr' ).remove();
-			});
+			} );
 		}
-	});
+	} );
+
 	function randomizeCode() {
 		var text     = '';
 		var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-		for (var i = 0; i < 12; i++) {
+		for ( var i = 0; i < 12; i++ ) {
 			text += possible.charAt( Math.floor( Math.random() * possible.length ) );
 		}
 
@@ -138,15 +141,23 @@
 	 *
 	 * @since Unknown
 	 * @since 5.9.0 Add nonce.
+	 * @since 7.1.3 Add check for empty vouchers.
 	 *
 	 * @return {void}
 	 */
 	function check_voucher_duplicate() {
 
+		var vouchers = get_codes_from_inputs();
+
+		if( ! vouchers.length ) {
+			$( "#post" ).submit();
+			return;
+		}
+
 		var data = {
-			action: 'check_voucher_duplicate', 'postId' :
-			jQuery( '#post_ID' ).val(),
-			'codes' :  get_codes_from_inputs(),
+			action: 'check_voucher_duplicate',
+			postId: $( '#post_ID' ).val(),
+			codes: vouchers,
 			_ajax_nonce: window.llms.ajax_nonce,
 		};
 
@@ -156,18 +167,18 @@
 
 	function get_codes_from_inputs() {
 		var codes = [];
-		$( 'input[name="llms_voucher_code[]"]' ).each(function() {
+		$( 'input[name="llms_voucher_code[]"]' ).each( function() {
 			codes.push( $( this ).val() );
-		});
+		} );
 
 		return codes;
 	}
 
-})( jQuery );
+} )( jQuery );
 
-function llms_on_voucher_duplicate (results) {
-	if (results.length) {
-		for (var i = 0; i < results.length; i++ ) {
+function llms_on_voucher_duplicate( results ) {
+	if ( results.length ) {
+		for ( var i = 0; i < results.length; i++ ) {
 			jQuery( 'input[value="' + results[i].code + '"]' ).css( 'background-color', 'rgba(226, 96, 73, 0.6)' );
 		}
 		alert( 'Please make sure that there are no duplicate voucher codes.' );

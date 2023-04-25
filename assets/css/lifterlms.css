@@ -1511,6 +1511,32 @@ svg .llms-animated-circle {
   margin-bottom: 0;
 }
 
+.llms_review {
+  margin: 20px 0px;
+  padding: 10px;
+}
+.llms_review h5 {
+  font-size: 17px;
+  margin: 3px 0px;
+}
+.llms_review h6 {
+  font-size: 13px;
+}
+.llms_review p {
+  font-size: 15px;
+}
+
+.review_box [type=text] {
+  margin: 10px 0px;
+}
+.review_box h5 {
+  color: red;
+  display: none;
+}
+.review_box + .thank_you_box {
+  display: none;
+}
+
 .llms-notice {
   background: rgba(34, 149, 255, 0.3);
   border-color: #2295ff;
