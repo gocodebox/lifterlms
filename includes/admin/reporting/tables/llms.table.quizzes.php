@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -146,6 +146,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
 	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since [version] Added `round()` method for 'average' column values with precision from `llms_get_floats_rounding_precision()` helper.
 	 *
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.
@@ -199,7 +200,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 						$grade += $attempt->get( 'grade' );
 					}
 
-					$value = round( $grade / $attempts, 3 ) . '%';
+					$value = round( $grade / $attempts, llms_get_floats_rounding_precision() ) . '%';
 
 				}
 
