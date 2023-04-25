@@ -141,7 +141,7 @@
 	 *
 	 * @since Unknown
 	 * @since 5.9.0 Add nonce.
-	 * @since [version] Add check for empty vouchers.
+	 * @since 7.1.3 Add check for empty vouchers.
 	 *
 	 * @return {void}
 	 */

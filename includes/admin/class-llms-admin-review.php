@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,7 +43,7 @@ class LLMS_Admin_Review {
 	 *
 	 * @since 3.24.0
 	 * @since 7.1.0 Show footer on our custom post types in admin, but not on the block editor.
-	 * @since [version] Using strpos instead of str_starts_with for compatibility.
+	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
 	 *
 	 * @param string $text Default footer text.
 	 * @return string

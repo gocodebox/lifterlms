@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -292,7 +292,7 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 /**
  * Retrieve the precision for round function for floating values.
  *
- * @since [version]
+ * @since 7.1.3
  *
  * @return int
  */
@@ -305,7 +305,7 @@ function llms_get_floats_rounding_precision() {
 		/**
 		 * Filters the precision for round function for floating values.
 		 *
-		 * @since [version]
+		 * @since 7.1.3
 		 *
 		 * @param int $precision Precision for round function for floating values.
 		 */

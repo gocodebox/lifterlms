@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2322"
-entry: Added missing `$post_id` parameter to the Post Title filter when retrieving a form title.

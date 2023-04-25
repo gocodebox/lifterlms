@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -162,7 +162,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
 	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
-	 * @since [version] Added filter for filtering 'Not enrolled text'.
+	 * @since 7.1.3 Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -201,7 +201,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				 *
 				 * Allows developers to filter the text to be displayed when the student is not enrolled in any courses.
 				 *
-				 * @since [version]
+				 * @since 7.1.3
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
 				 */
@@ -296,7 +296,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	 *
 	 * @since 3.14.0
 	 * @since 3.14.8 Unknown.
-	 * @since [version] Added filter for filtering 'Not enrolled text'.
+	 * @since 7.1.3 Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @return void
@@ -319,7 +319,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				 *
 				 * Allows developers to filter the text to be displayed when the student is not enrolled in any memberships.
 				 *
-				 * @since [version]
+				 * @since 7.1.3
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any memberships.
 				 */

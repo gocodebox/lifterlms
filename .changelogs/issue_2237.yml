@@ -1,7 +1,0 @@
-significance: patch
-type: dev
-comment: Added a helper function `llms_get_floats_rounding_precision()` for returning precision with filter `lifterlms_floats_rounding_precision` for rounding off floating values in the reporting section for quizzes average column.
-links:
-  - "#2237"
-entry: Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating
-  values with filter hook `lifterlms_floats_rounding_precision` to filter precision value for reporting section.
