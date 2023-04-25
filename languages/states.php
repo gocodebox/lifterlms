@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 6.10.0
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -2272,7 +2272,8 @@ return array(
 		'BA' => __( 'Bari', 'lifterlms' ),
 		'BT' => __( 'Barletta-Andria-Trani', 'lifterlms' ),
 		'BL' => __( 'Belluno', 'lifterlms' ),
-		'BN' => __( 'Benevento Province', 'lifterlms' ),
+		// Updated 'Benevento Province' to 'Benevento' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
+		'BN' => __( 'Benevento', 'lifterlms' ),
 		'BG' => __( 'Bergamo', 'lifterlms' ),
 		'BI' => __( 'Biella', 'lifterlms' ),
 		'BO' => __( 'Bologna', 'lifterlms' ),
@@ -2281,7 +2282,8 @@ return array(
 		'CA' => __( 'Cagliari', 'lifterlms' ),
 		'CL' => __( 'Caltanissetta', 'lifterlms' ),
 		'CB' => __( 'Campobasso', 'lifterlms' ),
-		'CI' => __( 'Carbonia-Iglesias', 'lifterlms' ),
+		// Updated 'Carbonia-Iglesias' to 'Sulcis Iglesiente' manually, see https://github.com/gocodebox/lifterlms/pull/2311#issuecomment-1351496393.
+		'CI' => __( 'Sulcis Iglesiente', 'lifterlms' ),
 		'CE' => __( 'Caserta', 'lifterlms' ),
 		'CT' => __( 'Catania', 'lifterlms' ),
 		'CZ' => __( 'Catanzaro', 'lifterlms' ),
@@ -2313,7 +2315,8 @@ return array(
 		'LU' => __( 'Lucca', 'lifterlms' ),
 		'MC' => __( 'Macerata', 'lifterlms' ),
 		'MN' => __( 'Mantua', 'lifterlms' ),
-		'MS' => __( 'Massa and Carrara', 'lifterlms' ),
+		// 'Updated 'Massa and Carrara' to 'Massa-Carrara' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
+		'MS' => __( 'Massa-Carrara', 'lifterlms' ),
 		'MT' => __( 'Matera', 'lifterlms' ),
 		'VS' => __( 'Medio Campidano', 'lifterlms' ),
 		'ME' => __( 'Messina', 'lifterlms' ),
@@ -2324,14 +2327,16 @@ return array(
 		'NO' => __( 'Novara', 'lifterlms' ),
 		'NU' => __( 'Nuoro', 'lifterlms' ),
 		'OG' => __( 'Ogliastra', 'lifterlms' ),
-		'OT' => __( 'Olbia-Tempio', 'lifterlms' ),
+		// 'Updated 'Olbia-Tempio' to 'North-East Sardinia' manually, see https://github.com/gocodebox/lifterlms/pull/2311#issuecomment-1351496393.
+		'OT' => __( 'North-East Sardinia', 'lifterlms' ),
 		'OR' => __( 'Oristano', 'lifterlms' ),
 		'PD' => __( 'Padua', 'lifterlms' ),
 		'PA' => __( 'Palermo', 'lifterlms' ),
 		'PR' => __( 'Parma', 'lifterlms' ),
 		'PV' => __( 'Pavia', 'lifterlms' ),
 		'PG' => __( 'Perugia', 'lifterlms' ),
-		'PU' => __( 'Pesaro and Urbino Province', 'lifterlms' ),
+		// Updated 'Pesaro and Urbino Province' to 'Pesaro and Urbino' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
+		'PU' => __( 'Pesaro and Urbino', 'lifterlms' ),
 		'PE' => __( 'Pescara', 'lifterlms' ),
 		'PC' => __( 'Piacenza', 'lifterlms' ),
 		'PI' => __( 'Pisa', 'lifterlms' ),
@@ -2353,12 +2358,14 @@ return array(
 		'SI' => __( 'Siena', 'lifterlms' ),
 		'SR' => __( 'Siracusa', 'lifterlms' ),
 		'SO' => __( 'Sondrio', 'lifterlms' ),
-		'BZ' => __( 'South Tyrol', 'lifterlms' ),
+		// Updated 'South Tyrol' to 'Bolzano' manually updated, see https://github.com/gocodebox/lifterlms/pull/2418.
+		'BZ' => __( 'Bolzano', 'lifterlms' ),
 		'TA' => __( 'Taranto', 'lifterlms' ),
 		'TE' => __( 'Teramo', 'lifterlms' ),
 		'TR' => __( 'Terni', 'lifterlms' ),
 		'TP' => __( 'Trapani', 'lifterlms' ),
-		'TN' => __( 'Trentino', 'lifterlms' ),
+		// Updatd 'Trentino' to 'Trento' manually, see https://github.com/gocodebox/lifterlms/pull/2418.
+		'TN' => __( 'Trento', 'lifterlms' ),
 		'TV' => __( 'Treviso', 'lifterlms' ),
 		'TS' => __( 'Trieste', 'lifterlms' ),
 		'TO' => __( 'Turin', 'lifterlms' ),
@@ -5073,6 +5080,10 @@ return array(
 		'AS' => __( 'American Samoa', 'lifterlms' ),
 		'AZ' => __( 'Arizona', 'lifterlms' ),
 		'AR' => __( 'Arkansas', 'lifterlms' ),
+		// Armed Forces manually added, see https://github.com/gocodebox/lifterlms/issues/2325.
+		'AA' => __( 'Armed Forces (Americas)', 'lifterlms' ),
+		'AE' => __( 'Armed Forces (Europe, Canada, Africa, Middle East)', 'lifterlms' ),
+		'AP' => __( 'Armed Forces (Pacific)', 'lifterlms' ),
 		'CA' => __( 'California', 'lifterlms' ),
 		'CO' => __( 'Colorado', 'lifterlms' ),
 		'CT' => __( 'Connecticut', 'lifterlms' ),

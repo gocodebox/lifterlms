@@ -5,13 +5,13 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Course_Options class
+ * LLMS_Meta_Box_Course_Options class.
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -39,6 +39,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since 7.1.3 Fixed condition for unsetting fields when using Gutenberg.
+	 *                  Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
@@ -150,7 +152,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'video_embed',
 						'class' => 'code input-full',
 					),
@@ -165,7 +167,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Audio', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
 					),
@@ -356,7 +358,21 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+		$current_screen = get_current_screen();
+		$is_gutenberg   = is_object( $current_screen ) && method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor();
+
+		/**
+		 * Remove length and difficulty fields if
+		 * - the course is a new post and the editor is Gutenberg.
+		 * - the course is migrated to blocks used in the Gutenberg editor.
+		 */
+		if (
+			$is_gutenberg &&
+			(
+				'auto-draft' === get_post_status( $this->post->ID ) ||
+				llms_blocks_is_post_migrated( $this->post->ID )
+			)
+		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
