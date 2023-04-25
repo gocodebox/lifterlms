@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since unknown
- * @version 3.14.7
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,9 +147,21 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
  *
  * @return  void
  * @since   1.0.0
- * @version 3.14.7
+ * @version [version]
  */
 function llms_print_notices() {
-	echo llms_get_notices();
+	add_action( "the_content", "llms_show_notices" );
+}
+
+/**
+ * Shows all LLMS notices/warnings/errors via `the_content` hook.
+ *
+ * @since [version]
+ *
+ * @param type $content WP Post/Page Content.
+ * @return void
+ */
+function llms_show_notices( $content ) {
+	echo llms_get_notices() . $content;
 	llms_clear_notices();
 }
