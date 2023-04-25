@@ -8,7 +8,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.2.7
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,7 +47,7 @@ class LLMS_Reviews {
 	 *
 	 * @since 1.2.7
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Improve inline styles, escape output.
+	 * @since 7.1.3 Improve inline styles, escape output.
 	 *
 	 * @return void
 	 */

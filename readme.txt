@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.6
 Tested up to: 6.1
 Requires PHP: 7.4
-Stable tag: 7.1.2
+Stable tag: 7.1.3
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,34 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.1.3 - 2023-04-25 =
+
+##### Updates and Enhancements
+
++ Wrapped some elements in HTML for better styling.
++ In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
++ Updated few new Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
++ Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
+
+##### Bug Fixes
+
++ Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
++ Fixed 'Course Length' and 'Difficulty fields' fields visible in Gutenberg Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
++ Added missing `$post_id` parameter to the Post Title filter when retrieving a form title. [#2322](https://github.com/gocodebox/lifterlms/issues/2322)
++ Added missing armed forces options to the State dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
++ Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
+
+##### Developer Notes
+
++ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values with filter hook `lifterlms_floats_rounding_precision` to filter precision value for reporting section. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
++ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
++ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
+
+##### Updated Templates
+
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
+
+
 = v7.1.2 - 2023-03-27 =
 
 ##### Updates and Enhancements
@@ -735,18 +763,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Deprecations
 
 + The files `assets/vendor/quill/quill.module.wordcount.js` and `assets/vendor/quill/quill.module.wordcount.min.js` are to be removed in the next major release. Instead of loading these files directly, use `wp_enqueue_script( 'llms-quill-wordcount' )`.
-
-
-= v6.9.0 - 2022-07-28 =
-
-##### Updates and Enhancements
-
-+ Removed site-wide font-weight styles targeting `<h1>` through `<h6>` elements. [#2217](https://github.com/gocodebox/lifterlms/issues/2217)
-
-##### Bug Fixes
-
-+ Fixed issue preventing decimals from being used for coupon discount amounts. [#2149](https://github.com/gocodebox/lifterlms/issues/2149)
-+ Added AR (Arezzo) to Italy's states list. [#2214](https://github.com/gocodebox/lifterlms/issues/2214)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

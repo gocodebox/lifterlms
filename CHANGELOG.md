@@ -1,6 +1,35 @@
 LifterLMS Changelog
 ===================
 
+v7.1.3 - 2023-04-25
+-------------------
+
+##### Updates and Enhancements
+
++ Wrapped some elements in HTML for better styling.
++ In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
++ Updated few Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
++ Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
+
+##### Bug Fixes
+
++ Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
++ Fixed "Course Length" and "Difficulty" fields visible in the Block Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
++ Added missing `$post_id` parameter to the `the_title` filter hook when retrieving a form title. [#2332](https://github.com/gocodebox/lifterlms/issues/2332)
++ Added missing Armed Forces options to the US States dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
++ Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
+
+##### Developer Notes
+
++ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values and filter hook `lifterlms_floats_rounding_precision` to filter precision value in reporting. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
++ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
++ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
+
+##### Updated Templates
+
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
+
+
 v7.1.2 - 2023-03-27
 -------------------
 
@@ -355,7 +384,7 @@ v6.8.0 - 2022-07-12
 ##### Bug Fixes
 
 + Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
-+ Fixed text/label alignment in Twenty-Twenty-Two theme. 
++ Fixed text/label alignment in Twenty-Twenty-Two theme.
 + Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
 
 ##### Developer Notes

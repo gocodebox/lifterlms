@@ -1,7 +1,0 @@
-significance: patch
-type: dev
-comment: Added filter to change the text to be displayed when the student is not
-  enrolled in any courses.
-links:
-  - "#2396"
-entry: Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the dashboard when the current user is not enrolled in any courses.

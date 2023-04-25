@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_Admin_Header {
 	 *
 	 * @since 7.1.0
 	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
-	 * @since [version] Using strpos instead of str_starts_with for compatibility.
+	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
 	 *
 	 * @return void
 	 */
