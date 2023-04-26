@@ -1,6 +1,114 @@
 LifterLMS Changelog
 ===================
 
+v7.1.3 - 2023-04-25
+-------------------
+
+##### Updates and Enhancements
+
++ Wrapped some elements in HTML for better styling.
++ In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
++ Updated few Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
++ Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
+
+##### Bug Fixes
+
++ Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
++ Fixed "Course Length" and "Difficulty" fields visible in the Block Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
++ Added missing `$post_id` parameter to the `the_title` filter hook when retrieving a form title. [#2332](https://github.com/gocodebox/lifterlms/issues/2332)
++ Added missing Armed Forces options to the US States dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
++ Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
+
+##### Developer Notes
+
++ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values and filter hook `lifterlms_floats_rounding_precision` to filter precision value in reporting. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
++ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
++ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
+
+##### Updated Templates
+
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
+
+
+v7.1.2 - 2023-03-27
+-------------------
+
+##### Updates and Enhancements
+
++ Making the LifterLMS logo link to the LifterLMS.com site.
+
+##### Bug Fixes
+
++ Fix bug in `llms_featured_img` function when featured image file is not available. [#2381](https://github.com/gocodebox/lifterlms/issues/2381)
++ Fixed manual certificates awarding broken when using the block editor. [#2386](https://github.com/gocodebox/lifterlms/issues/2386)
+
+
+v7.1.1 - 2023-03-13
+-------------------
+
+##### Bug Fixes
+
++ Fixed notice display on WooCommerce dashboard pages.
++ Fixed View button URL when using WP in subdirectory.
++ Fixed blank System Report's copy for Support.
+
+
+v7.1.0 - 2023-03-02
+-------------------
+
+##### New Features
+
++ Added lessons count column on the Courses post list table.
++ Added a new Dashboard page under the LifterLMS menu in the admin, whicih includes recent activity widgets and links to useful resources.
++ Added link to the course builder for each lesson on the Lessons post list table. Also added a link to either edit or add a quiz.
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Helper to [v3.5.0](https://make.lifterlms.com/2023/02/28/lifterlms-helper-version-3-5-0/).
++ Make the LifterLMS menu meta box initially available on Appearance -> Menus.
++ Updates LifterLMS REST to [v1.0.0-beta.26](https://make.lifterlms.com/2023/02/28/lifterlms-rest-api-version-1-0-0-beta-26/).
+
+##### Bug Fixes
+
++ Catch possible fatal when trying to display a "broken" basic notification and set its status to 'error' so that it'll be excluded from the next fetches.
++ Catch possible fatal when sending notification emails and in that case remove from the queue the item that produced it.
++ Fix cloned course retaining original course's ID in some restriction messages.
++ Fixed possible admin notices duplication when activating/deactivating or installing add-ons from the page Add-ons & more.
++ Avoided setting the `llms-tracking` cookie when there are no events to track.
++ Updated styles across the entire plugin.
++ Updated Add-ons & more list to hide old (uncategorized) products.
+
+##### Deprecations
+
++ Deprecated methods `LLMS_Admin_Notices_Core::sidebar_support()` and `LLMS_Admin_Notices_Core::clear_sidebar_notice()`.
++ Removed notice for theme sidebar support.
+
+##### Developer Notes
+
++ The function `llms_is_user_enrolled()` will always return `false` for non existing users. While, before, it could return `true` if a now removed user was enrolled into a the given course or membership.
++ Added new `LLMS_Course::get_lessons_count()` method. It can be used in place of `count( LLMS_Course::get_lessons() )` to improve performance.
++ Fixed compatibility with PHP 8.1 by using an empty string as menu parent page for the course builder submenu page in place of NULL.
++ Avoid passing null values to `urlencode()` and `urldecode()` that would produce PHP warnings on PHP 8.1+.
++ Added `$autoload` parameter to the function `llms_get_student`.
+
+##### Performance Improvements
+
++ Improve performance when querying notifications via the LLMS_Notifications_Query and there's no need to count the total notifications found, or for pagination information.
++ Immediately return false when running `llms_is_user_enrolled()` on logged out or no longer existing users, avoiding running additional DB queries e.g. when displaying course or membership catalogs for visitors.
++ Skip counting the total transactions found when retrieving the last or the first transaction for an order.
+
+##### Updated Templates
+
++ templates/admin/reporting/nav-filters.php
++ templates/admin/reporting/reporting.php
++ templates/admin/reporting/tabs/courses/course.php
++ templates/admin/reporting/tabs/memberships/membership.php
++ templates/admin/reporting/tabs/quizzes/quiz.php
++ templates/admin/reporting/tabs/students/student.php
++ templates/admin/reporting/tabs/widgets.php
++ templates/checkout/form-confirm-payment.php
+
+
 v7.0.1 - 2022-11-14
 -------------------
 
@@ -276,7 +384,7 @@ v6.8.0 - 2022-07-12
 ##### Bug Fixes
 
 + Fixed Hello Theme's word-break and spacing for quiz answer options. [#2132](https://github.com/gocodebox/lifterlms/issues/2132)
-+ Fixed text/label alignment in Twenty-Twenty-Two theme. 
++ Fixed text/label alignment in Twenty-Twenty-Two theme.
 + Fixed regression introduced in version 6.3.0 which prevented the Courses nav item from being customized in the BuddyPress profile nav menu. [#2142](https://github.com/gocodebox/lifterlms/issues/2142)
 
 ##### Developer Notes

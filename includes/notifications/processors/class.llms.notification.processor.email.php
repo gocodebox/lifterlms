@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Processors/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 	 * @since 3.8.0
 	 * @since 3.10.1 Unknown.
 	 * @since 3.33.2 Log additional data during errors.
-	 * @since [version] Catch possible fatals and in that case remove from the queue the item that produced them.
+	 * @since 7.1.0 Catch possible fatals and in that case remove from the queue the item that produced them.
 	 *
 	 * @param int $notification_id ID of an LLMS_Notification.
 	 * @return bool `false` removes item from queue, `true` retain for further processing.

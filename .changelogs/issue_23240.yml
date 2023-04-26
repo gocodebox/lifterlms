@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2340"
-entry: Fixed possible admin notices duplication when activating/deactivating or
-  installing add-ons from the page Add-ons & more.

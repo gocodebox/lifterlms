@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.14.7
 	 * @since 3.22.0 Unknown.
-	 * @since [version] Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
+	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
 	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
 	 *
 	 * @return void

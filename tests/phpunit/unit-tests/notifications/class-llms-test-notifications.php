@@ -17,7 +17,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 *
 	 * Forces notifications debugging on so that we can make assertions against logged data.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -277,7 +277,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test email processor task's method on errored notification.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */

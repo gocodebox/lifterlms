@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.7.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -696,7 +696,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * This method will only set metadata for registered LLMS_Post_Model properties.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @param LLMS_Post_Model $post An LLMS post object.
 	 * @param array           $raw  Array of raw data.

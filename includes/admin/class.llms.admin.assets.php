@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.10.0
+ * @version 7.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -203,7 +203,7 @@ class LLMS_Admin_Assets {
 	}
 
 	/**
-	 * Enqueue scripts
+	 * Enqueue scripts.
 	 *
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
@@ -216,6 +216,8 @@ class LLMS_Admin_Assets {
 	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
+	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
+	 *
 	 * @return void
 	 */
 	public function admin_scripts() {
@@ -368,6 +370,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.5.1 Add an analytics localization object.
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
 	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
+	 * @since 7.1.1 Add `home_url`.
 	 *
 	 * @return void
 	 */
@@ -393,6 +396,7 @@ class LLMS_Admin_Assets {
 				window.llms = window.llms || {};
 				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
+				window.llms.home_url = "' . esc_url( home_url() ) . '";
 				window.llms.post = ' . wp_json_encode( $postdata ) . ';
 				window.llms.analytics = ' . wp_json_encode( $this->get_analytics_options() ) . ';
 			</script>

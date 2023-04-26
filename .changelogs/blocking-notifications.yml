@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Catch possible fatal when sending notification emails and in that case
-  remove from the queue the item that produced it.

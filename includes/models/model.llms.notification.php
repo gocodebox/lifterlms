@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -280,7 +280,7 @@ class LLMS_Notification implements JsonSerializable {
 	 * Load all notification data into the instance.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Catch possible fatals while generating the notification HTML and log them.
+	 * @since 7.1.0 Catch possible fatals while generating the notification HTML and log them.
 	 *
 	 * @return LLMS_Notification
 	 */
