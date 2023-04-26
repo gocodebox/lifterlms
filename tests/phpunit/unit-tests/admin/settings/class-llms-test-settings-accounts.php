@@ -87,6 +87,10 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'my-certificates',
 				'custom-endpoint-certificates',
 			),
+			'lifterlms_myaccount_favorites_endpoint' => array(
+				'my-favorites',
+				'custom-endpoint-favorites',
+			),
 			'lifterlms_myaccount_notifications_endpoint' => array(
 				'notifications',
 				'custom-endpoint-notifications',
