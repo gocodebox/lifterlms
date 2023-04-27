@@ -1,0 +1,5 @@
+significance: patch
+type: dev
+entry: Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2
+  expecting `render_block()` returning a string while we were applying a filter
+  that returned the boolean `true`.
