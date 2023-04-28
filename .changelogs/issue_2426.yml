@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2426"
-entry: Fixed an issue that prevented the correct saving of the course length
-  when using the block editor.

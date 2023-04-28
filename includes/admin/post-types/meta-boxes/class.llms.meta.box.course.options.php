@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,7 +43,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @since 3.36.0 Allow some fields to store values with quotes.
 	 * @since 7.1.3 Fixed condition for unsetting fields when using Gutenberg.
 	 *              Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
-	 * @since [version] Fixed issue that prevented the correct saving of the course length when using the block editor.
+	 * @since 7.1.4 Fixed issue that prevented the correct saving of the course length when using the block editor.
 	 *
 	 * @return array
 	 */
