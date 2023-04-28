@@ -5,13 +5,15 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 7.1.3
+ * @version 7.1.4
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Meta_Box_Course_Options class.
+ *
+ * Course Options meta box.
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -40,7 +42,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
 	 * @since 7.1.3 Fixed condition for unsetting fields when using Gutenberg.
-	 *                  Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
+	 *              Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
+	 * @since 7.1.4 Fixed issue that prevented the correct saving of the course length when using the block editor.
 	 *
 	 * @return array
 	 */
@@ -364,14 +367,12 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		/**
 		 * Remove length and difficulty fields if
 		 * - the course is a new post and the editor is Gutenberg.
+		 * or
 		 * - the course is migrated to blocks used in the Gutenberg editor.
 		 */
 		if (
-			$is_gutenberg &&
-			(
-				'auto-draft' === get_post_status( $this->post->ID ) ||
-				llms_blocks_is_post_migrated( $this->post->ID )
-			)
+			( $is_gutenberg && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
+			llms_blocks_is_post_migrated( $this->post->ID )
 		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
