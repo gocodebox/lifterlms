@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,13 +19,37 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes {
 
 	/**
+	 * Singleton instance of the class.
+	 *
+	 * @since [version]
+	 *
+	 * @var null
+	 */
+	private static $instance;
+
+	/**
+	 * Get the singleton instance for the extending class.
+	 *
+	 * @since [version]
+	 *
+	 * @return self
+	 */
+	public static function instance(): self {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 6.4.0
+	 *
 	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 	}
 
@@ -623,4 +647,4 @@ class LLMS_Shortcodes {
 
 }
 
-return new LLMS_Shortcodes();
+return LLMS_Shortcodes::instance();

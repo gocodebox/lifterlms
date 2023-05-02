@@ -23,21 +23,21 @@ class LLMS_Shortcodes_Blocks {
 	 * @var array
 	 */
 	private $shortcodes = array(
-		'access-plan-button',
-		'checkout',
-		'courses',
-		'course-author',
-		'course-continue',
-		'course-meta-info',
-		'course-outline',
-		'course-prerequisites',
-		'course-reviews',
-		'course-syllabus',
-		'login',
-		'memberships',
-		'my-account',
-		'my-achievements',
-		'registration',
+		'access-plan-button'   => array( LLMS_Shortcodes::class, 'access_plan_button' ),
+		'checkout'             => array( LLMS_Shortcodes::class, 'checkout' ),
+		'courses'              => array( LLMS_Shortcode_Courses::class, 'output' ),
+		'course-author'        => array( LLMS_Shortcode_Course_Author::class, 'output' ),
+		'course-continue'      => array( LLMS_Shortcode_Course_Continue::class, 'output' ),
+		'course-meta-info'     => array( LLMS_Shortcode_Course_Meta_Info::class, 'output' ),
+		'course-outline'       => array( LLMS_Shortcode_Course_Outline::class, 'output' ),
+		'course-prerequisites' => array( LLMS_Shortcode_Course_Prerequisites::class, 'output' ),
+		'course-reviews'       => array( LLMS_Shortcode_Course_Reviews::class, 'output' ),
+		'course-syllabus'      => array( LLMS_Shortcode_Course_Syllabus::class, 'output' ),
+		'login'                => array( LLMS_Shortcodes::class, 'login' ),
+		'memberships'          => array( LLMS_Shortcodes::class, 'memberships' ),
+		'my-account'           => array( LLMS_Shortcodes::class, 'my_account' ),
+		'my-achievements'      => array( LLMS_Shortcode_My_Achievements::class, 'output' ),
+		'registration'         => array( LLMS_Shortcode_Registration::class, 'output' ),
 	);
 
 	/**
@@ -63,7 +63,9 @@ class LLMS_Shortcodes_Blocks {
 	 * @return void
 	 */
 	public function register_blocks(): void {
-		foreach ( $this->shortcodes as $shortcode ) {
+		$shortcodes = array_keys( $this->shortcodes );
+
+		foreach ( $shortcodes as $shortcode ) {
 			$block_dir = LLMS_PLUGIN_DIR . "blocks/$shortcode";
 
 			if ( file_exists( "$block_dir/block.json" ) ) {
@@ -163,33 +165,23 @@ class LLMS_Shortcodes_Blocks {
 			return '';
 		}
 
-		$name = str_replace(
-			array( 'llms/', '-' ),
-			array( '', '_' ),
-			$block->name
-		);
+		$name   = str_replace( 'llms/', '', $block->name );
+		$class  = $this->shortcodes[ $name ][0];
+		$method = $this->shortcodes[ $name ][1];
 
-		$atts = '';
-
-		foreach ( $attributes as $key => $value ) {
-			if ( empty( $value ) || 'text' === $key ) {
-				continue;
-			}
-
-			if ( strpos( $key, 'llms_' ) !== false ) {
-				continue;
-			}
-
-			$atts .= " $key=$value";
+		if ( method_exists( $class, 'instance' ) ) {
+			$class = $class::instance();
+		} else {
+			return '';
 		}
 
-		$html = "[lifterlms_$name $atts]";
+		$content = $attributes['text'] ?? '';
 
-		if ( isset( $attributes['text'] ) && ! empty( $attributes['text'] ) ) {
-			$html .= $attributes['text'] . '[/lifterlms_' . $name . ']';
+		if ( $content ) {
+			$shortcode = $class->$method( $attributes, $content );
+		} else {
+			$shortcode = $class->$method( $attributes );
 		}
-
-		$shortcode = trim( do_shortcode( $html ) );
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
 		if ( ! $shortcode ) {
@@ -202,7 +194,7 @@ class LLMS_Shortcodes_Blocks {
 		}
 
 		$html  = '<div ' . get_block_wrapper_attributes() . '>';
-		$html .= $shortcode;
+		$html .= trim( $shortcode );
 		$html .= '</div>';
 
 		return $html;
