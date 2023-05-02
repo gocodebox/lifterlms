@@ -18,29 +18,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes_Blocks {
 
 	/**
-	 * Available shortcode blocks.
-	 *
-	 * @var array
-	 */
-	private $shortcodes = array(
-		'access-plan-button'   => array( LLMS_Shortcodes::class, 'access_plan_button' ),
-		'checkout'             => array( LLMS_Shortcodes::class, 'checkout' ),
-		'courses'              => array( LLMS_Shortcode_Courses::class, 'output' ),
-		'course-author'        => array( LLMS_Shortcode_Course_Author::class, 'output' ),
-		'course-continue'      => array( LLMS_Shortcode_Course_Continue::class, 'output' ),
-		'course-meta-info'     => array( LLMS_Shortcode_Course_Meta_Info::class, 'output' ),
-		'course-outline'       => array( LLMS_Shortcode_Course_Outline::class, 'output' ),
-		'course-prerequisites' => array( LLMS_Shortcode_Course_Prerequisites::class, 'output' ),
-		'course-reviews'       => array( LLMS_Shortcode_Course_Reviews::class, 'output' ),
-		'course-syllabus'      => array( LLMS_Shortcode_Course_Syllabus::class, 'output' ),
-		'login'                => array( LLMS_Shortcodes::class, 'login' ),
-		'memberships'          => array( LLMS_Shortcodes::class, 'memberships' ),
-		'my-account'           => array( LLMS_Shortcodes::class, 'my_account' ),
-		'my-achievements'      => array( LLMS_Shortcode_My_Achievements::class, 'output' ),
-		'registration'         => array( LLMS_Shortcode_Registration::class, 'output' ),
-	);
-
-	/**
 	 * Constructor.
 	 *
 	 * @since [version]
@@ -56,6 +33,72 @@ class LLMS_Shortcodes_Blocks {
 	}
 
 	/**
+	 * Available shortcode blocks.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function get_config(): array {
+		$config = array(
+			'access-plan-button'   => array(
+				'render' => fn( $atts, $content ) => LLMS_Shortcodes::access_plan_button( $atts, $content ),
+			),
+			'checkout'             => array(
+				'render' => fn( $atts ) => LLMS_Shortcodes::checkout( $atts ),
+			),
+			'courses'              => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Courses::instance()->output( $atts ),
+			),
+			'course-author'        => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Author::instance()->output( $atts ),
+			),
+			'course-continue'      => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Continue::instance()->output( $atts ),
+			),
+			'course-meta-info'     => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Meta_Info::instance()->output( $atts ),
+			),
+			'course-outline'       => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Outline::instance()->output( $atts ),
+			),
+			'course-prerequisites' => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Prerequisites::instance()->output( $atts ),
+			),
+			'course-reviews'       => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Reviews::instance()->output( $atts ),
+			),
+			'course-syllabus'      => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Course_Syllabus::instance()->output( $atts ),
+			),
+			'login'                => array(
+				'render' => fn( $atts ) => LLMS_Shortcodes::login( $atts ),
+			),
+			'memberships'          => array(
+				'render' => fn( $atts ) => LLMS_Shortcodes::memberships( $atts ),
+			),
+			'my-account'           => array(
+				'render' => fn( $atts ) => LLMS_Shortcodes::my_account( $atts ),
+			),
+			'my-achievements'      => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_My_Achievements::instance()->output( $atts ),
+			),
+			'registration'         => array(
+				'render' => fn( $atts ) => LLMS_Shortcode_Registration::instance()->output( $atts ),
+			),
+		);
+
+		/**
+		 * Filters shortcode blocks config.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $config Array of shortcode blocks.
+		 */
+		return apply_filters( 'llms_shortcode_blocks', $config );
+	}
+
+	/**
 	 * Registers shortcode blocks.
 	 *
 	 * @since [version]
@@ -63,10 +106,10 @@ class LLMS_Shortcodes_Blocks {
 	 * @return void
 	 */
 	public function register_blocks(): void {
-		$shortcodes = array_keys( $this->shortcodes );
+		$blocks = $this->get_config();
 
-		foreach ( $shortcodes as $shortcode ) {
-			$block_dir = LLMS_PLUGIN_DIR . "blocks/$shortcode";
+		foreach ( $blocks as $name => $args ) {
+			$block_dir = $args['path'] ?? LLMS_PLUGIN_DIR . "blocks/$name";
 
 			if ( file_exists( "$block_dir/block.json" ) ) {
 				register_block_type(
@@ -166,22 +209,15 @@ class LLMS_Shortcodes_Blocks {
 		}
 
 		$name   = str_replace( 'llms/', '', $block->name );
-		$class  = $this->shortcodes[ $name ][0];
-		$method = $this->shortcodes[ $name ][1];
+		$config = $this->get_config();
+		$render = $config[ $name ]['render'] ?? null;
 
-		if ( method_exists( $class, 'instance' ) ) {
-			$class = $class::instance();
-		} else {
+		if ( ! $render ) {
 			return '';
 		}
 
-		$content = $attributes['text'] ?? '';
-
-		if ( $content ) {
-			$shortcode = $class->$method( $attributes, $content );
-		} else {
-			$shortcode = $class->$method( $attributes );
-		}
+		$content   = $attributes['text'] ?? $attributes['content'] ?? '';
+		$shortcode = $content ? $render( $attributes, $content ) : $render( $attributes );
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
 		if ( ! $shortcode ) {
@@ -193,11 +229,11 @@ class LLMS_Shortcodes_Blocks {
 			return '';
 		}
 
-		$html  = '<div ' . get_block_wrapper_attributes() . '>';
-		$html .= trim( $shortcode );
-		$html .= '</div>';
-
-		return $html;
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			get_block_wrapper_attributes(),
+			trim( $shortcode )
+		);
 	}
 }
 
