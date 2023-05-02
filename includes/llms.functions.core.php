@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1014,6 +1014,27 @@ function llms_is_block_theme() {
 	 * @param $is_block_theme Whether the current theme is a block theme.
 	 */
 	return apply_filters( 'llms_is_block_theme', function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() );
+}
+
+/**
+ * Checks if the current admin page is the block editor.
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_is_block_editor(): bool {
+	if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+		return true;
+	}
+
+	$current_screen = get_current_screen();
+
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**

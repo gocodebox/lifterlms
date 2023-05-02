@@ -67,9 +67,12 @@ class LLMS_Shortcodes_Blocks {
 			$block_dir = LLMS_PLUGIN_DIR . "blocks/$shortcode";
 
 			if ( file_exists( "$block_dir/block.json" ) ) {
-				register_block_type( $block_dir, [
-					'render_callback' => array( $this, 'render_block' ),
-				] );
+				register_block_type(
+					$block_dir,
+					array(
+						'render_callback' => array( $this, 'render_block' ),
+					)
+				);
 			}
 		}
 	}
@@ -82,7 +85,11 @@ class LLMS_Shortcodes_Blocks {
 	 * @return void
 	 */
 	public function add_editor_styles(): void {
-		add_editor_style( '../../plugins/lifterlms/assets/css/lifterlms.min.css' );
+		$plugins_dir = basename( WP_PLUGIN_DIR );
+		$plugin_dir  = basename( LLMS_PLUGIN_DIR );
+		$path        = "../../$plugins_dir/$plugin_dir/assets/css/lifterlms.min.css";
+
+		add_editor_style( $path );
 	}
 
 	/**
@@ -93,7 +100,7 @@ class LLMS_Shortcodes_Blocks {
 	 * @return void
 	 */
 	public function enqueue_editor_styles(): void {
-		if ( ! $this->is_block_editor() ) {
+		if ( ! llms_is_block_editor() ) {
 			return;
 		}
 
@@ -140,35 +147,14 @@ class LLMS_Shortcodes_Blocks {
 	}
 
 	/**
-	 * Checks if the current page is a block editor page.
-	 *
-	 * @since [version]
-	 *
-	 * @return bool
-	 */
-	private function is_block_editor(): bool {
-		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
-			return true;
-		}
-
-		$current_screen = get_current_screen();
-
-		if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Renders a shortcode block.
 	 *
-	 * @since [version]
+	 * @since   [version]
 	 * @version [version]
 	 *
-	 * @param array $attributes The block attributes.
-	 * @param string $content The block default content.
-	 * @param WP_Block $block The block instance.
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block default content.
+	 * @param WP_Block $block      The block instance.
 	 *
 	 * @return string
 	 */
@@ -186,16 +172,11 @@ class LLMS_Shortcodes_Blocks {
 		$atts = '';
 
 		foreach ( $attributes as $key => $value ) {
-
-			if ( empty( $value ) ) {
+			if ( empty( $value ) || 'text' === $key ) {
 				continue;
 			}
 
 			if ( strpos( $key, 'llms_' ) !== false ) {
-				continue;
-			}
-
-			if ( $key === 'text' ) {
 				continue;
 			}
 
@@ -220,7 +201,7 @@ class LLMS_Shortcodes_Blocks {
 			return '';
 		}
 
-		$html = '<div ' . get_block_wrapper_attributes() . '>';
+		$html  = '<div ' . get_block_wrapper_attributes() . '>';
 		$html .= $shortcode;
 		$html .= '</div>';
 
