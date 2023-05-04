@@ -42,49 +42,49 @@ class LLMS_Shortcodes_Blocks {
 	private function get_config(): array {
 		$config = array(
 			'access-plan-button'   => array(
-				'render' => fn( $atts, $content ) => LLMS_Shortcodes::access_plan_button( $atts, $content ),
+				'render' => array( 'LLMS_Shortcodes', 'access_plan_button' ),
 			),
 			'checkout'             => array(
-				'render' => fn( $atts ) => LLMS_Shortcodes::checkout( $atts ),
+				'render' => array( 'LLMS_Shortcodes', 'checkout' ),
 			),
 			'courses'              => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Courses::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Courses', 'output' ),
 			),
 			'course-author'        => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Author::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Author', 'output' ),
 			),
 			'course-continue'      => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Continue::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Continue', 'output' ),
 			),
 			'course-meta-info'     => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Meta_Info::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Meta_Info', 'output' ),
 			),
 			'course-outline'       => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Outline::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Outline', 'output' ),
 			),
 			'course-prerequisites' => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Prerequisites::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Prerequisites', 'output' ),
 			),
 			'course-reviews'       => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Reviews::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Reviews', 'output' ),
 			),
 			'course-syllabus'      => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Course_Syllabus::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Course_Syllabus', 'output' ),
 			),
 			'login'                => array(
-				'render' => fn( $atts ) => LLMS_Shortcodes::login( $atts ),
+				'render' => array( 'LLMS_Shortcodes', 'login' ),
 			),
 			'memberships'          => array(
-				'render' => fn( $atts ) => LLMS_Shortcodes::memberships( $atts ),
+				'render' => array( 'LLMS_Shortcodes', 'memberships' ),
 			),
 			'my-account'           => array(
-				'render' => fn( $atts ) => LLMS_Shortcodes::my_account( $atts ),
+				'render' => array( 'LLMS_Shortcodes', 'my_account' ),
 			),
 			'my-achievements'      => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_My_Achievements::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_My_Achievements', 'output' ),
 			),
 			'registration'         => array(
-				'render' => fn( $atts ) => LLMS_Shortcode_Registration::instance()->output( $atts ),
+				'render' => array( 'LLMS_Shortcode_Registration', 'output' ),
 			),
 		);
 
@@ -194,13 +194,11 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Renders a shortcode block.
 	 *
-	 * @since   [version]
-	 * @version [version]
+	 * @since [version]
 	 *
 	 * @param array    $attributes The block attributes.
 	 * @param string   $content    The block default content.
 	 * @param WP_Block $block      The block instance.
-	 *
 	 * @return string
 	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
@@ -210,14 +208,24 @@ class LLMS_Shortcodes_Blocks {
 
 		$name   = str_replace( 'llms/', '', $block->name );
 		$config = $this->get_config();
-		$render = $config[ $name ]['render'] ?? null;
+		$class  = $config[ $name ]['render'][0] ?? '';
+		$method = $config[ $name ]['render'][1] ?? '';
 
-		if ( ! $render ) {
+		if ( ! method_exists( $class, $method ) ) {
 			return '';
 		}
 
-		$content   = $attributes['text'] ?? $attributes['content'] ?? '';
-		$shortcode = $content ? $render( $attributes, $content ) : $render( $attributes );
+		if ( method_exists( $class, 'instance' ) ) {
+			$render = array( $class::instance(), $method );
+		} else {
+			$render = array( $class, $method );
+		}
+
+		$content = $attributes['text'] ?? '';
+
+		unset( $attributes['text'] );
+
+		$shortcode = call_user_func_array( $render, array( $attributes, $content ) );
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
 		if ( ! $shortcode ) {
