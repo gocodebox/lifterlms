@@ -145,21 +145,42 @@ class LLMS_Nav_Menus {
 		);
 
 		foreach ( $items as $i => $data ) {
+			$url       = '';
+			$is_object = is_object( $items[ $i ] );
 
-			if ( in_array( $items[ $i ]['url'], $urls, true ) ) {
+			if ( $is_object && property_exists( $items[ $i ], 'url' ) ) {
+				$url = $items[ $i ]->url ?? '';
+			}
 
-				if ( '#llms-signin' === $items[ $i ]['url'] ) {
-					if ( is_user_logged_in() ) {
-						unset( $items[ $i ] );
-					} else {
-						$items[ $i ]['url'] = llms_get_page_url( 'myaccount' );
-					}
-				} elseif ( '#llms-signout' === $items[ $i ]['url'] ) {
-					if ( is_user_logged_in() ) {
-						$items[ $i ]['url'] = wp_logout_url( llms_get_page_url( 'myaccount' ) );
-					} else {
-						unset( $items[ $i ] );
-					}
+			if ( is_array( $items[ $i ] ) && isset( $items[ $i ]['url'] ) ) {
+				$url = $items[ $i ]['url'] ?? '';
+			}
+
+			if ( ! in_array( $url, $urls, true ) ) {
+				continue;
+			}
+
+			$new_url = '';
+
+			if ( '#llms-signin' === $url ) {
+				if ( is_user_logged_in() ) {
+					unset( $items[ $i ] );
+				} else {
+					$new_url = llms_get_page_url( 'myaccount' );
+				}
+			} elseif ( '#llms-signout' === $url ) {
+				if ( is_user_logged_in() ) {
+					$new_url = wp_logout_url( llms_get_page_url( 'myaccount' ) );
+				} else {
+					unset( $items[ $i ] );
+				}
+			}
+
+			if ( $new_url ) {
+				if ( $is_object ) {
+					$items[ $i ]->url = $new_url;
+				} else {
+					$items[ $i ]['url'] = $new_url;
 				}
 			}
 		}
