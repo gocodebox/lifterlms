@@ -208,39 +208,42 @@ class LLMS_Shortcodes_Blocks {
 
 		$name   = str_replace( 'llms/', '', $block->name );
 		$config = $this->get_config();
-		$class  = $config[ $name ]['render'][0] ?? '';
-		$method = $config[ $name ]['render'][1] ?? '';
+		$render = $config[ $name ]['render'] ?? array();
 
-		if ( ! method_exists( $class, $method ) ) {
+		if ( method_exists( $render[0] ?? '', 'instance' ) ) {
+			$render = array( $render[0]::instance(), $render[1] ?? '' );
+		}
+
+		if ( ! is_callable( $render ) ) {
 			return '';
 		}
 
-		if ( method_exists( $class, 'instance' ) ) {
-			$render = array( $class::instance(), $method );
-		} else {
-			$render = array( $class, $method );
-		}
-
-		$content = $attributes['text'] ?? '';
+		$text = $attributes['text'] ?? '';
 
 		unset( $attributes['text'] );
 
-		$shortcode = call_user_func_array( $render, array( $attributes, $content ) );
+		$args = array( $attributes );
+
+		if ( $text ) {
+			$args[] = $text;
+		}
+
+		$html = call_user_func( $render, ...$args );
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
-		if ( ! $shortcode ) {
+		if ( ! $html ) {
 			return '';
 		}
 
 		// Use emptyResponsePlaceholder for Courses block instead of shortcode message.
-		if ( false !== strpos( $shortcode, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
+		if ( false !== strpos( $html, __( 'No products were found matching your selection.', 'lifterlms' ) ) ) {
 			return '';
 		}
 
 		return sprintf(
 			'<div %1$s>%2$s</div>',
 			get_block_wrapper_attributes(),
-			trim( $shortcode )
+			trim( $html )
 		);
 	}
 }
