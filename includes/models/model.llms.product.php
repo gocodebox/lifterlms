@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 6.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -378,6 +378,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.17 Use `in_array` with strict comparison.
+	 * @since [version] Removed `in_array` check for `llms_get_product_visibility_options()`.
 	 *
 	 * @param string $visibility Visibility term name.
 	 * @return void

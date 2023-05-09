@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#190"
+entry: Removed `in_array()` check for `llms_get_product_visibility_options()`
+  when options are added via filter.
