@@ -383,9 +383,6 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @return void
 	 */
 	public function set_catalog_visibility( $visibility ) {
-		if ( ! in_array( $visibility, array_keys( llms_get_product_visibility_options() ), true ) ) {
-			return;
-		}
 		wp_set_object_terms( $this->get( 'id' ), $visibility, 'llms_product_visibility', false );
 	}
 
