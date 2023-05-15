@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#2429"
+entry: Added support for Loco Translate's Tranlation files directory.
