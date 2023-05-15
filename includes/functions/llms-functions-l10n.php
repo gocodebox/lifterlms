@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 4.9.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,12 @@ function llms_l10n_get_safe_directory() {
  *      This is the the LifterLMS plugin directory. A language file stored in this directory will
  *      be removed from the server during a LifterLMS plugin update.
  *
+ *   4. wp-content/languages/loco/plugins/{$domain}-{$locale}.mo
+ *
+ *      This is the the Loco Translate directory where Loco Translate saves the translation files.
+ *
  * @since 4.9.0
+ * @since [version] Added support for Loco Translation files.
  *
  * @param string      $domain       Textdomain being loaded.
  * @param string|null $plugin_dir   Full path to the plugin directory, if none supplied `LLMS_PLUGIN_DIR` is used.
@@ -110,5 +115,12 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	 * 2. wp-content/plugins/lifterlms/languages/lifterlms-en_US.mo
 	 */
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
+
+	/**
+	 * Load from Loco Translate Directory if Loco Translate is installed.
+	 *
+	 * Example path: wp-content/languages/loco/plugins/lifterlms-en_US.mo
+	 */
+	load_textdomain( $domain, sprintf( '%1$s/loco/plugins/%2$s-%3$s.mo', WP_LANG_DIR, $domain, llms_get_locale( $domain ) ) );
 
 }

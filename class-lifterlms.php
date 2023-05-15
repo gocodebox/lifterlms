@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -405,6 +405,10 @@ final class LifterLMS {
 	 *
 	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
 	 *      be removed from the server during a LifterLMS plugin update.
+	 *
+	 *   4. wp-content/languages/loco/plugins/{$domain}-{$locale}.mo
+	 *
+	 *       This is the the Loco Translate directory where Loco Translate saves the translation files.
 	 *
 	 * @since Unknown
 	 * @since 4.9.0 Use `llms_load_textdomain()`.
