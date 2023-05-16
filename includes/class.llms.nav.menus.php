@@ -128,7 +128,7 @@ class LLMS_Nav_Menus {
 	/**
 	 * Filters Nav Menu Items to convert #llms- urls into actual URLs.
 	 *
-	 * Also hides URLs that should only be available to logged in users.
+	 * Also hides URLs that should only be available to logged-in users.
 	 *
 	 * @since 3.14.7
 	 * @since 3.37.12 Use `in_array` with strict types comparison.
@@ -145,42 +145,26 @@ class LLMS_Nav_Menus {
 		);
 
 		foreach ( $items as $i => $data ) {
-			$url       = '';
-			$is_object = is_object( $items[ $i ] );
-
-			if ( $is_object && property_exists( $items[ $i ], 'url' ) ) {
-				$url = $items[ $i ]->url ?? '';
-			} elseif ( is_array( $items[ $i ] ) && isset( $items[ $i ]['url'] ) ) {
-				$url = $items[ $i ]['url'] ?? '';
-			}
+			$is_object = is_object( $data ) && property_exists( $data, 'url' );
+			$url       = $is_object ? $data->url : $data['url'] ?? '';
 
 			if ( ! in_array( $url, $urls, true ) ) {
 				continue;
 			}
 
-			$new_url = '';
+			$data      = (object) $data;
+			$logged_in = is_user_logged_in();
 
-			if ( '#llms-signin' === $url ) {
-				if ( is_user_logged_in() ) {
-					unset( $items[ $i ] );
-				} else {
-					$new_url = llms_get_page_url( 'myaccount' );
-				}
-			} elseif ( '#llms-signout' === $url ) {
-				if ( is_user_logged_in() ) {
-					$new_url = wp_logout_url( llms_get_page_url( 'myaccount' ) );
-				} else {
-					unset( $items[ $i ] );
-				}
+			if ( '#llms-signin' === $url && ! $logged_in ) {
+				$data->url = llms_get_page_url( 'myaccount' );
+			} elseif ( '#llms-signout' === $url && $logged_in ) {
+				$data->url = wp_logout_url( llms_get_page_url( 'myaccount' ) );
+			} else {
+				unset( $items[ $i ] );
+				continue;
 			}
 
-			if ( $new_url ) {
-				if ( $is_object ) {
-					$items[ $i ]->url = $new_url;
-				} else {
-					$items[ $i ]['url'] = $new_url;
-				}
-			}
+			$items[ $i ] = $is_object ? $data : (array) $data;
 		}
 
 		return $items;
