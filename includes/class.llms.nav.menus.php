@@ -132,7 +132,7 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.14.7
 	 * @since 3.37.12 Use `in_array` with strict types comparison.
-	 * @since [version] Remove passing by reference.
+	 * @since [version] Remove passing item data by reference and improve URL checks.
 	 *
 	 * @param array $items Nav menu items.
 	 * @return array
@@ -150,9 +150,7 @@ class LLMS_Nav_Menus {
 
 			if ( $is_object && property_exists( $items[ $i ], 'url' ) ) {
 				$url = $items[ $i ]->url ?? '';
-			}
-
-			if ( is_array( $items[ $i ] ) && isset( $items[ $i ]['url'] ) ) {
+			} elseif ( is_array( $items[ $i ] ) && isset( $items[ $i ]['url'] ) ) {
 				$url = $items[ $i ]['url'] ?? '';
 			}
 
@@ -408,7 +406,7 @@ class LLMS_Nav_Menus {
 		$html  = '<li class="wp-block-navigation-item">';
 		$html .= '<a href="' . esc_url( $url ) . '" class="wp-block-navigation-item__content">';
 		$html .= '<span class="wp-block-navigation-item__label">';
-		$html .= $block['attrs']['label'];
+		$html .= esc_html( $block['attrs']['label'] );
 		$html .= '</span></a></li>';
 
 		return $html;
