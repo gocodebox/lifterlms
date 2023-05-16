@@ -62,7 +62,7 @@ const Edit = ( props ) => {
 					<PanelRow>
 						<ToggleControl
 							label={ __( 'Toggles', 'lifterlms' ) }
-							help={ __( 'If true, will display “Collapse All” and “Expand All” toggles at the bottom of the outline. Only functions if “collapse” is true.', 'lifterlms' ) }
+							help={ __( 'If true, will display "Collapse All" and "Expand All" toggles at the bottom of the outline. Only functions if "collapse" is true.', 'lifterlms' ) }
 							checked={ attributes.toggles }
 							onChange={ ( toggles ) => setAttributes( {
 								toggles,

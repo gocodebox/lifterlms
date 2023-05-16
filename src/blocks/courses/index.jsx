@@ -84,7 +84,7 @@ const Edit = ( props ) => {
 						value={ attributes.category }
 						options={ categoryOptions }
 						onChange={ ( value ) => setAttributes( { category: value } ) }
-						help={ __( 'Display courses from a specific Course Category only. Use a category’s “slug”. If omitted, will display courses from all categories.', 'lifterlms' ) }
+						help={ __( 'Display courses from a specific Course Category only. Use a category’s "slug". If omitted, will display courses from all categories.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 				<PanelRow>
@@ -92,7 +92,7 @@ const Edit = ( props ) => {
 						label={ __( 'Show hidden courses?', 'lifterlms' ) }
 						checked={ attributes.hidden }
 						onChange={ ( value ) => setAttributes( { hidden: value } ) }
-						help={ __( 'Whether or not courses with a “hidden” visibility should be included. Defaults to “yes” (hidden courses displayed). Switch to “no” to exclude hidden courses.', 'lifterlms' ) }
+						help={ __( 'Whether or not courses with a "hidden" visibility should be included. Defaults to "yes" (hidden courses displayed). Switch to "no" to exclude hidden courses.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 				<PanelRow>
@@ -128,7 +128,7 @@ const Edit = ( props ) => {
 						] }
 						checked={ attributes.mine }
 						onChange={ ( value ) => setAttributes( { mine: value } ) }
-						help={ __( 'Show only courses the current student is enrolled in. By default (“no”) shows courses regardless of enrollment.', 'lifterlms' ) }
+						help={ __( 'Show only courses the current student is enrolled in. By default ("no") shows courses regardless of enrollment.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 				<PanelRow>
