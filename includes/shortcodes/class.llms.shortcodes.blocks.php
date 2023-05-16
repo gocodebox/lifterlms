@@ -164,7 +164,7 @@ class LLMS_Shortcodes_Blocks {
 	}
 
 	/**
-	 * Shows the registration and login form in editor preview.
+	 * Determines whether to show the registration and login form in editor preview.
 	 *
 	 * @since [version]
 	 *
@@ -172,19 +172,7 @@ class LLMS_Shortcodes_Blocks {
 	 * @return bool
 	 */
 	public function show_form_preview( bool $hide ): bool {
-		if ( ! defined( 'REST_REQUEST' ) || ! is_user_logged_in() ) {
-			return $hide;
-		}
-
-		global $wp;
-
-		if ( ! $wp instanceof WP || empty( $wp->query_vars['rest_route'] ) ) {
-			return $hide;
-		}
-
-		$route = $wp->query_vars['rest_route'];
-
-		if ( false !== strpos( $route, '/block-renderer/' ) ) {
+		if ( llms_is_editor_block_rendering() ) {
 			$hide = false;
 		}
 

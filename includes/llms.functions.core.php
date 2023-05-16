@@ -1038,6 +1038,29 @@ function llms_is_block_editor(): bool {
 }
 
 /**
+ * Determine if the current request is a block rendering request in the editor.
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_is_editor_block_rendering() {
+	if ( ! defined( 'REST_REQUEST' ) || ! is_user_logged_in() ) {
+		return false;
+	}
+
+	global $wp;
+
+	if ( ! $wp instanceof WP || empty( $wp->query_vars['rest_route'] ) ) {
+		return false;
+	}
+
+	$route = $wp->query_vars['rest_route'];
+
+	return false !== strpos( $route, '/block-renderer/' );
+}
+
+/**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
  * @thanks woocommerce <3.
