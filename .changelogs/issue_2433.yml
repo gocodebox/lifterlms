@@ -2,4 +2,4 @@ significance: minor
 type: added
 links:
   - "#2433"
-entry: Added support for showing multiple difficulties.
+entry: Added support for showing multiple difficulties when using Gutenberg Editor.
