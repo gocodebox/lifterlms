@@ -223,7 +223,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * @param string $field Optional. Which field to return from the available term fields.
 	 *                      Any public variables from a WP_Term object are acceptable: term_id, name, slug, and more.
 	 *                      Default is 'name'.
-	 * @return string
+	 * @return string | array
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
@@ -235,12 +235,13 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		} else {
 
-			$difficulties = array();
-
 			foreach ( $terms as $term ) {
 
-				$difficulties[] = $term->$field;
+				if ( property_exists( $term, $field ) ) {
 
+					$difficulties = wp_list_pluck( $terms, $field );
+
+				}
 			}
 
 			return implode( ', ', $difficulties );
