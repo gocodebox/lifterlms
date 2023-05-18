@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.1.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -342,6 +342,22 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 	function lifterlms_template_loop_difficulty() {
 		if ( 'course' === get_post_type( get_the_ID() ) ) {
 			llms_get_template( 'course/difficulty.php' );
+		}
+	}
+}
+
+/**
+ * Count of Total Lessons in a Course.
+ *
+ * @since [version]
+ *
+ * @return void.
+ */
+if ( ! function_exists( 'lifterlms_template_loop_lesson_count' ) ) {
+
+	function lifterlms_template_loop_lesson_count() {
+		if ( 'course' === get_post_type( get_the_ID() ) ) {
+			llms_get_template( 'course/lesson-count.php' );
 		}
 	}
 }
