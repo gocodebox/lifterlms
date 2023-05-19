@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/course-reviews",
   "title": "Course Reviews",
-  "icon": "star-half",
   "category": "llms-blocks",
   "description": "Display reviews and review form for a LifterLMS Course.",
   "textdomain": "lifterlms",

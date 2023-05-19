@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/course-syllabus",
   "title": "Course Syllabus",
-  "icon": "grid-view",
   "category": "llms-blocks",
   "description": "Display the Course Syllabus for a specific course.",
   "textdomain": "lifterlms",

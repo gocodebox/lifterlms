@@ -11,12 +11,9 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
-import {
-	CourseSelect,
-	useCourseOptions,
-	useLlmsPostType,
-} from '../../../packages/components/src/course-select';
 import blockJson from './block.json';
+import Icon from './icon.jsx';
+import { CourseSelect, useCourseOptions, useLlmsPostType } from '../../../packages/components/src/course-select';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
@@ -65,5 +62,6 @@ const Edit = ( props ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
 } );

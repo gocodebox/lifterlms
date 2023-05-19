@@ -3,10 +3,10 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, PanelRow, TextControl, SelectControl } from '@wordpress/components';
-import { customLink } from '@wordpress/icons';
 
 // Internal dependencies.
 import blockJson from './block.json';
+import Icon from './icon.jsx';
 
 const links = window?.llmsNavMenuItems || [];
 
@@ -59,6 +59,6 @@ const Edit = ( { attributes, setAttributes } ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
-	icon: customLink,
 } );

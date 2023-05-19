@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/memberships",
   "title": "Memberships",
-  "icon": "groups",
   "category": "llms-blocks",
   "description": "Display a loop of LifterLMS Membership \"Tiles\" as displayed on the default \"Memberships\" page.",
   "textdomain": "lifterlms",

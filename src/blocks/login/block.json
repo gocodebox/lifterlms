@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/login",
   "title": "LifterLMS Login",
-  "icon": "migrate",
   "category": "llms-blocks",
   "description": "Displays the LifterLMS login form. If a user is already logged in, nothing is displayed.",
   "textdomain": "lifterlms",

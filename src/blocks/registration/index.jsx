@@ -8,6 +8,7 @@ import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
+import Icon from './icon.jsx';
 
 const Edit = ( { attributes } ) => {
 	const blockProps = useBlockProps();
@@ -40,5 +41,6 @@ const Edit = ( { attributes } ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
 } );

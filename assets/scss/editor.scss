@@ -23,3 +23,11 @@
 .llms-navigation-link-settings .components-panel__row > .components-base-control {
 	width: 100%;
 }
+
+[class*="editor-block-list-item-llms"],
+[aria-label*="LifterLMS Link"] {
+
+	svg {
+		transform: scale(0.75) translateY(0.2em);
+	}
+}

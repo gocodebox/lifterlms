@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/my-achievements",
   "title": "My Achievements",
-  "icon": "awards",
   "category": "llms-blocks",
   "description": "Outputs achievements using the achievement loop templates.",
   "textdomain": "lifterlms",

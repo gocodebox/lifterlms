@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/access-plan-button",
   "title": "Access Plan Button",
-  "icon": "button",
   "category": "llms-blocks",
   "description": "Outputs a button which links to the purchase page for a LifterLMS access plan. Useful if you’re creating custom sales pages for courses or memberships.",
   "textdomain": "lifterlms",

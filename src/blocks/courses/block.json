@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/courses",
   "title": "Courses",
-  "icon": "welcome-learn-more",
   "category": "llms-blocks",
   "description": "Displays a loop of LifterLMS Course \"Tiles\" as displayed on the default \"Courses\" page.",
   "textdomain": "lifterlms",

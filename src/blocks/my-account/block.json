@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/my-account",
   "title": "My Account",
-  "icon": "admin-users",
   "category": "llms-blocks",
   "description": "Outputs the login, registration, dashboard, profile and reset password templates.",
   "textdomain": "lifterlms",

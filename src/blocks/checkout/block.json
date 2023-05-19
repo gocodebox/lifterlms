@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/checkout",
   "title": "Checkout",
-  "icon": "cart",
   "category": "llms-blocks",
   "description": "Outputs the checkout page for purchasing courses and memberships in LifterLMS.",
   "textdomain": "lifterlms",

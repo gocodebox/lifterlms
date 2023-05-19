@@ -15,6 +15,7 @@ import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
+import Icon from './icon.jsx';
 import { useCourseOptions, useLlmsPostType, CourseSelect } from '../../../packages/components/src/course-select';
 
 const Edit = ( props ) => {
@@ -103,5 +104,6 @@ const Edit = ( props ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
 } );

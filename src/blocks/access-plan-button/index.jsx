@@ -10,7 +10,7 @@ import {
 	Button,
 	BaseControl,
 	Spinner,
-	TextControl
+	TextControl,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -23,6 +23,7 @@ import { useEffect, useState, useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
+import Icon from './icon.jsx';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
@@ -156,5 +157,6 @@ const Edit = ( props ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
 } );

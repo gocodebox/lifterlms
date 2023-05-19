@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/registration",
   "title": "LifterLMS Register",
-  "icon": "migrate",
   "category": "llms-blocks",
   "description": "Displays the LifterLMS registration form. If a user is already logged in, nothing is displayed.",
   "textdomain": "lifterlms",

@@ -20,6 +20,7 @@ import { useMemo } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
+import Icon from './icon.jsx';
 
 const VisualLabel = BaseControl.VisualLabel ?? <></>;
 
@@ -92,5 +93,6 @@ const Edit = ( props ) => {
 };
 
 registerBlockType( blockJson, {
+	icon: Icon,
 	edit: Edit,
 } );

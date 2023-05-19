@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/course-prerequisites",
   "title": "Course Prerequisites",
-  "icon": "yes-alt",
   "category": "llms-blocks",
   "description": "Display a notice describing unfulfilled prerequisites for a course.",
   "textdomain": "lifterlms",

@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/navigation-link",
   "title": "LifterLMS Link",
-  "icon": "link",
   "category": "llms-blocks",
   "parent": [
     "core/navigation"

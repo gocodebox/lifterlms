@@ -3,7 +3,6 @@
   "apiVersion": 2,
   "name": "llms/course-continue",
   "title": "Course Progress with Continue Button",
-  "icon": "chart-bar",
   "category": "llms-blocks",
   "description": "Display a progress bar with continue button for a specific course. Renders only for enrolled students.",
   "textdomain": "lifterlms",
