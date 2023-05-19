@@ -52,6 +52,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 * Test constructor
 	 *
 	 * @since 4.0.0
+	 * @since [version] Force session initialization.
 	 *
 	 * @return void
 	 */
@@ -61,13 +62,19 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 		remove_action( 'wp_logout', array( $this->main, 'destroy' ) );
 		remove_action( 'shutdown', array( $this->main, 'maybe_save_data' ), 20 );
 
+		add_filter( 'llms_session_should_init', '__return_true', 999 );
 		$this->main = new LLMS_Session();
+		remove_filter( 'llms_session_should_init', '__return_true', 999 );
 
 		$this->assertEquals( 10, has_action( 'llms_delete_expired_session_data', array( $this->main, 'clean' ) ) );
 		$this->assertEquals( 10, has_action( 'wp_logout', array( $this->main, 'destroy' ) ) );
 		$this->assertEquals( 20, has_action( 'shutdown', array( $this->main, 'maybe_save_data' ) ) );
 
 		$this->assertEquals( sprintf( 'wp_llms_session_%s', COOKIEHASH ), $this->get_cookie_name() );
+
+		remove_action( 'llms_delete_expired_session_data', array( $this->main, 'clean' ) );
+		remove_action( 'wp_logout', array( $this->main, 'destroy' ) );
+		remove_action( 'shutdown', array( $this->main, 'maybe_save_data' ), 20 );
 
 	}
 
@@ -187,11 +194,13 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 * Test get_cookie() for a success return
 	 *
 	 * @since 4.0.0
+	 * @since [version] Ensure cookie is initialized before starting test.
 	 *
 	 * @return void
 	 */
 	public function test_get_cookie() {
 
+		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
 		$parts = LLMS_Unit_Test_Util::call_method( $this->main, 'get_cookie' );
 
 		$this->assertEquals( $this->main->get_id(), $parts[0] );
@@ -199,18 +208,21 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 		$this->assertEquals( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'expiring' ), $parts[2] );
 		$this->assertTrue( is_string( $parts[3] ) );
 
+
 	}
 
 	/**
 	 * Test init_cookie() when the cookie exists
 	 *
 	 * @since 4.0.0
+	 * @since [version] Ensure cookie is initialized before starting test.
 	 *
 	 * @return void
 	 */
 	public function test_init_cookie_from_existing() {
 
-		$data = $this->main->set( 'something', 123 );
+		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
+		$this->main->set( 'something', 123 );
 		$this->main->save( time() + HOUR_IN_SECONDS );
 		$parts = LLMS_Unit_Test_Util::call_method( $this->main, 'get_cookie' );
 

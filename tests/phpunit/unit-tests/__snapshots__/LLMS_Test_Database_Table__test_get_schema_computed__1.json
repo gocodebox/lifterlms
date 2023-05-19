@@ -1,0 +1,83 @@
+{
+    "name": "user_postmeta",
+    "description": "Stores user information related to the specified post. Such as student enrollment and progress data.",
+    "columns": {
+        "meta_id": {
+            "allow_null": false,
+            "description": "The meta data ID.",
+            "default": null,
+            "auto_increment": true,
+            "length": 20,
+            "type": "bigint",
+            "unsigned": true
+        },
+        "user_id": {
+            "allow_null": false,
+            "description": "A `WP_User` ID.",
+            "default": null,
+            "auto_increment": false,
+            "length": 20,
+            "type": "bigint",
+            "unsigned": true
+        },
+        "post_id": {
+            "allow_null": false,
+            "description": "A `WP_Post` ID.",
+            "default": null,
+            "auto_increment": false,
+            "length": 20,
+            "type": "bigint",
+            "unsigned": true
+        },
+        "meta_key": {
+            "allow_null": true,
+            "description": "The meta data key \/ name.",
+            "default": "NULL",
+            "auto_increment": false,
+            "length": 255,
+            "type": "varchar",
+            "unsigned": null
+        },
+        "meta_value": {
+            "allow_null": true,
+            "description": "The meta data value.",
+            "default": "NULL",
+            "auto_increment": false,
+            "length": null,
+            "type": "longtext",
+            "unsigned": null
+        },
+        "updated_date": {
+            "allow_null": false,
+            "description": "The timestamp of the last update to the metadata.",
+            "default": "0000-00-00 00:00:00",
+            "auto_increment": false,
+            "length": null,
+            "type": "datetime",
+            "unsigned": null
+        }
+    },
+    "keys": {
+        "meta_id": {
+            "type": "primary",
+            "length": null,
+            "parts": {
+                "meta_id": null
+            }
+        },
+        "user_id": {
+            "type": "default",
+            "length": null,
+            "parts": {
+                "user_id": null
+            }
+        },
+        "post_id": {
+            "type": "default",
+            "length": null,
+            "parts": {
+                "post_id": null
+            }
+        }
+    }
+}

@@ -37,7 +37,8 @@
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "^3.3.1",
-    "lifterlms/lifterlms-cs": "dev-trunk"
+    "lifterlms/lifterlms-cs": "dev-trunk",
+    "spatie/phpunit-snapshot-assertions": "^4.2"
   },
   "archive": {
     "exclude": [
@@ -88,8 +89,8 @@
     ]
   },
   "scripts": {
-    "check-cs": "\"vendor/bin/phpcs\" --colors",
-    "check-cs-errors": "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6",
+    "check-cs": "\"vendor/bin/phpcs\" --colors --runtime-set testVersion 7.4-",
+    "check-cs-errors": "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6 --runtime-set testVersion 7.4-",
     "config-cs": [
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/lifterlms/lifterlms-cs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
       "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'",

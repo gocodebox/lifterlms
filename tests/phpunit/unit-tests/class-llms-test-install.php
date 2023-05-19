@@ -15,6 +15,32 @@
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
+	 * Setup the test.
+	 *
+	 * @since [version]
+	 */
+	public function set_up() {
+
+		parent::set_up();
+		// Can be removed after REST is updated to install it's tables via new system.
+		remove_filter( 'llms_install_get_schema', array( 'LLMS_REST_Install', 'get_schema' ), 20 );
+
+	}
+
+	/**
+	 * Tear down the test.
+	 *
+	 * @since [version]
+	 */
+	public function tear_down() {
+
+		parent::tear_down();
+		// Can be removed after REST is updated to install it's tables via new system.
+		add_filter( 'llms_install_get_schema', array( 'LLMS_REST_Install', 'get_schema' ), 20, 2 );
+
+	}
+
+	/**
 	 * Tests for check_version()
 	 *
 	 * @since 3.3.1
@@ -199,27 +225,28 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 4.0.0 Add missing tables.
+	 * @since [version] Update test to test against real (not temporary) tables.
 	 *
 	 * @return void
 	 */
 	public function test_create_tables() {
 
+		remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
+		remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+
 		global $wpdb;
 
-		$tables = array(
-			"{$wpdb->prefix}lifterlms_user_postmeta",
-			"{$wpdb->prefix}lifterlms_quiz_attempts",
-			"{$wpdb->prefix}lifterlms_product_to_voucher",
-			"{$wpdb->prefix}lifterlms_voucher_code_redemptions",
-			"{$wpdb->prefix}lifterlms_vouchers_codes",
-			"{$wpdb->prefix}lifterlms_notifications",
-			"{$wpdb->prefix}lifterlms_events",
-			"{$wpdb->prefix}lifterlms_sessions",
+		$tables = array_map(
+			function( string $table ): string {
+				$table = llms()->db()->get_table( $table );
+				return $table->get_prefixed_name();
+			},
+			llms()->db()->get_core_tables()
 		);
 
-		// Clear tables.
-		// $list = implode( ', ', $tables );
-		// $wpdb->query( "DROP TABLE IF EXISTS $list;" );
+		foreach ( $tables as $table ) {
+			$wpdb->query( "DROP TABLE {$table};" );
+		}
 
 		// Install tables.
 		LLMS_Install::create_tables();
@@ -227,6 +254,51 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		foreach ( $tables as $table ) {
 			$this->assertEquals( $table, $wpdb->get_var( "SHOW TABLES LIKE '{$table}'" ) );
 		}
+
+		// Reinstall, ensures the temporary tables are available for future tests.
+		add_filter( 'query', array( $this, '_create_temporary_tables' ) );
+		add_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+
+		LLMS_Install::create_tables();
+
+	}
+
+	/**
+	 * Tests {@see LLMS_Install::create_tables} backwards compatibility with the
+	 * deprecated `llms_install_get_schema` hook.
+	 *
+	 * @since [version]
+	 *
+	 * @expectedDeprecated llms_install_get_schema
+	 */
+	public function test_create_tables_deprecated(): void {
+
+		remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
+		remove_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+
+		global $wpdb;
+		$table = "{$wpdb->prefix}test_custom_table";
+
+		$handler = function( string $schema, string $options ) use ( $table ): string {
+			$schema .= "CREATE TABLE `{$table}` (
+				`id` int(5),
+				PRIMARY KEY (`id`)
+			) {$options};";
+			return $schema;
+		};
+
+		add_filter( 'llms_install_get_schema', $handler, 20, 2 );
+
+		LLMS_Install::create_tables();
+
+		$this->assertEquals(
+			$table,
+			$wpdb->get_var( "SHOW TABLES LIKE '{$table}';" )
+		);
+
+		$wpdb->query( "DROP TABLE {$table};" );
+
+		remove_filter( 'llms_install_get_schema', $handler, 20, 2 );
 
 	}
 

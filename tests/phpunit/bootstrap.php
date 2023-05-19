@@ -5,10 +5,10 @@
  * @package LifterLMS/Tests
  *
  * @since 3.3.1
- * @since 3.28.0 Unknown
- * @since 3.37.8 Added class variable to access the tests assets directory.
+ * @version [version]
  */
 
+require_once './vendor/autoload.php';
 require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
 
 class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
@@ -49,14 +49,14 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	public $use_core = false;
 
 	/**
-	 * Install the plugin
+	 * Installs the plugin.
 	 *
-	 * @return   void
-	 * @since    3.28.0
-	 * @version  3.28.0
+	 * @since 3.28.0
+	 * @since [version] Disable LLMS_Session session initialization.
 	 */
 	public function install() {
 
+		tests_add_filter( 'llms_session_should_init', '__return_false' );
 		parent::install();
 
 		// install LLMS
@@ -96,9 +96,9 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	/**
 	 * Uninstall the plugin.
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return void
 	 */
 	public function uninstall() {
 
