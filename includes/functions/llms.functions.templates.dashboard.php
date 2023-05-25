@@ -940,7 +940,7 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled. Default `false`.
 	 * @param string $link    The default link.
 	 */
-	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', false, $link ) ) {
+	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', ! is_page( llms_get_page_id( 'myaccount' ) ), $link ) ) {
 		return $link;
 	}
 
