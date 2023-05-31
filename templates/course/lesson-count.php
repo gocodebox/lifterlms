@@ -17,5 +17,10 @@ $lessons_count = $course->get_lessons_count();
 ?>
 
 <div class="llms-meta llms-lessons-count">
-	<?php printf( '<p>%1$s<span class="lessons-count">%2$s</span></p>', esc_html__( 'Number of Lessons: ', 'lifterlms' ), $lessons_count ); ?>
+	<p>
+		<?php
+			// Translators: %1$s = Lessons Count.
+			printf( esc_html__( 'Number of Lessons: %1$s', 'lifterlms' ), '<span class="lessons-count">' . $lessons_count . '</span>' );
+		?>
+	</p>
 </div>
