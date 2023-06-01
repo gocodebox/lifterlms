@@ -1,0 +1,5 @@
+significance: patch
+type: added
+links:
+  - "#2191"
+entry: Added data retention settings for pending orders and inactive user accounts.

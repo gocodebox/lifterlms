@@ -1,0 +1,6 @@
+significance: minor
+type: dev
+links:
+  - "#2191"
+entry: Added two action hooks namely `llms_delete_inactive_accounts` and
+  `llms_delete_pending_orders` with two public functions.
