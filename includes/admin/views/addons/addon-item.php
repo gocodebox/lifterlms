@@ -65,7 +65,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<?php do_action( 'llms_add_ons_single_item_before_actions', $addon, $current_tab ); ?>
 
-			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ) ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) || ( $addon->is_installable() && ! $addon->is_installed() ) ) : ?>
+			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ), true ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) || ( $addon->is_installable() && ! $addon->is_installed() ) ) : ?>
 				<a href="<?php echo esc_url( $addon->get_permalink() ); ?>" class="llms-status-icon external status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-info-circle hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>
@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 								<input class="llms-bulk-check" data-action="deactivate" name="llms_deactivate[]" id="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 								<i class="fa fa-check-square-o" aria-hidden="true"></i>
 								<i class="fa fa-plug" aria-hidden="true"></i>
-								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?>
+								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?></span>
 							</label>
 						<?php endif; ?>
 					<?php else : ?>
@@ -101,7 +101,7 @@ defined( 'ABSPATH' ) || exit;
 							<input class="llms-bulk-check" data-action="activate" name="llms_activate[]" id="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 							<i class="fa fa-check-square-o" aria-hidden="true"></i>
 							<i class="fa fa-plug" aria-hidden="true"></i>
-							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?>
+							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?></span>
 						</label>
 					<?php endif; ?>
 				<?php endif; ?>

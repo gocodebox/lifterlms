@@ -255,7 +255,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.7.0
 	 * @since 4.12.0 Only test properties that exist on the raw data arrays.
-	 * @since [version] Check that properties on the generated course correctly
+	 * @since 7.1.0 Check that properties on the generated course correctly
 	 *               refer to the course id rather than the raw data id.
 	 *
 	 * @return void

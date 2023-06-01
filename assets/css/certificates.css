@@ -75,7 +75,7 @@ body {
 @media print {
   html, body {
     -webkit-print-color-adjust: exact !important;
-            color-adjust: exact !important;
+            print-color-adjust: exact !important;
     height: 100%;
     overflow: hidden;
   }
@@ -115,7 +115,7 @@ body {
   .llms-certificate-container.cert-template-v2 {
     margin: 0 auto !important;
     -webkit-print-color-adjust: exact !important;
-            color-adjust: exact !important;
+            print-color-adjust: exact !important;
     -webkit-transform: scale(0.95);
             transform: scale(0.95);
   }

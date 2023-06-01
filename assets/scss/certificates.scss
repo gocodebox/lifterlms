@@ -82,7 +82,7 @@ body {
 @media print {
 
 	html, body {
-		color-adjust: exact !important;
+		print-color-adjust: exact !important;
 		height: 100%;
 		overflow: hidden;
 	}
@@ -133,7 +133,7 @@ body {
 
 	.llms-certificate-container.cert-template-v2 {
 		margin: 0 auto !important;
-		color-adjust: exact !important;
+		print-color-adjust: exact !important;
 		transform: scale( 0.95 ); // Don't ram the edge of the paper.
 	}
 

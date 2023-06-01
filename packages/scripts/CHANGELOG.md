@@ -1,11 +1,16 @@
 @lifterlms/scripts CHANGELOG
 ============================
+v4.0.1 - 2023-04-18
+----------
+
++ Allow the whole `@lifterlms` package to be transpiled by babel during builds.
+
 
 v4.0.0 - 2022-08-11
 -------------------
 
 + **[Breaking]** Upgrade `@wordpress/scripts` to [23.6.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2360-2022-07-27).
-+ **[Breaking]** Removes the webpack copy plugin responsible for copying `block.json` files from the `src/` directory to the `${outputDir}/blocks` directory. 
++ **[Breaking]** Removes the webpack copy plugin responsible for copying `block.json` files from the `src/` directory to the `${outputDir}/blocks` directory.
 + Added a blocks-specific webpack config: `./config/blocks-webpack.config.js`.
 + Ignore `lodash` as an undefined dependency when using `config/.eslintrc.js`.
 

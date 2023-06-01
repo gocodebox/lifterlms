@@ -534,7 +534,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			</header>
 			<table
 				class="<?php echo implode( ' ', $classes ); ?>"
-				data-args='<?php echo json_encode( $this->get_args() ); ?>'
+				data-args='<?php echo wp_json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
 			>
@@ -773,8 +773,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	public function get_progress_bar_html( $percentage, $text = '' ) {
 		$text = $text ? $text : $percentage . '%';
 		return '<div class="llms-table-progress">
+			<div class="llms-table-progress-bar"><div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div></div>
 			<span class="llms-table-progress-text">' . $text . '</span>
-			<div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div>
 		</div>';
 	}
 

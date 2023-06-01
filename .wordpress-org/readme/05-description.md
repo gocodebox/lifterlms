@@ -1,84 +1,89 @@
 == Description ==
-[WordPress LMS plugin][home] - **LifterLMS is a powerful WordPress LMS plugin for WordPress that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS is a complete WordPress LMS plugin, course building and LMS solution that works with any well-coded WordPress theme, modern WordPress blocks, and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, Gutenberg, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
+LifterLMS is a secure WordPress LMS plugin packed with features to easily create & sell courses online.
 
-As an innovative self-hosted WordPress LMS platfom solution LifterLMS strikes a beautiful balance in being an **all-in-one WordPress LMS solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
+Transform your WordPress website into a professional eLearning platform with every feature you could possibly need from your LMS.
+
++ **Intuitive LMS Course Builder:** Create Courses, Sections, Interactive Lessons with Rich Content Including Multimedia and Videos
++ **Track Student Progress:** In-Depth Reporting, Create Timed or Open Quizzes, Drip Content, Add Prerequisites, Analyze Progress, and Award Certificates
++ **Complete Ecommerce Platform:** Built-in Gateway Integration for Stripe and PayPal With Memberships and Subscriptions Including Single or Group Enrollment
++ **Community and Social Learning:** Integrate a Community Forum or Discussion Area, Add Multiple Instructors, and Display Course Reviews for Social Proof
+
+[Explore All LMS Features][features]
+
+LifterLMS makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
 https://www.youtube.com/watch?v=N72Zw2EBm4A
 
-> **Similar to WooCommerce and WordPress**, As a WordPress LMS plugin, LifterLMS gives back to the open source WordPress community by contributing the core LifterLMS plugin for FREE for the world to benefit from. The core LMS incredibly powerful and customizable by itself with it's course building, membership, gamification system, and more. We believe in free distributed learning for all, and our core free open source WordPress LMS plugin helps further tha vision **LifterLMS exists to democratize education in the digital classroom.** 
+### Integrate Your LMS With Any Theme, Page Builder, & Block Editor
 
-> **At it's core LifterLMS exists to lift up others through education.**
+LifterLMS works with any well-coded WordPress theme/FSE, the Block Editor (Gutenberg), and every popular WordPress page builder including Elementor, Beaver Builder, and Divi.
 
-You do NOT need a separate ecommerce or membership plugin made by a different company to use LifterLMS! All that and more is included with LifterLMS so you can **avoid the "Software Frankenstein" problem** (too many plugins made by different companies that don't work well together have different levels of support). LifterLMS combines LMS features, course building, membership features, ecommerce feautures, and engagement features into one powerful LMS platform tool.
+**With over 9 years development,** our team is deeply engaged with the WordPress community. We actively encourage our integration partners to create the extensions you need most, like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, and many more.
 
-LifterLMS is also known for having a thriving well supported LMS user community through active listening, social engagement, a course library and robust documentation. As a feature complete LMS solution, LifterLMS invests heavily in support and it's industry leading customer success program. LifterLMS doesn't just provide LMS software. LifterLMS builds community and invest heavily in supporting the community of LMS site builders. 
+Don't see an integration you need? Connect your LifterLMS website to 5,000+ other apps via Zapier.
 
-LifterLMS uses it's own product to create a helpful course library to help the course building community learn. A company should use it's own software beyond simple demos. Course creation software made by course builders!
+### Open Source, Completely Free Core Plugin
 
-***
+Just like WordPress, LifterLMS gives back to the open source community. The core LifterLMS plugin is a totally FREE forever LMS - no limits on your courses, memberships, enrollments, or earnings.
 
-> We encourage you to get to know the team of online course building experts behind the WordPress LMS plugin by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium LMS add-ons installed. This LMS demo site allows you to test drive the core LMS & all the add-ons before you invest. You can practice creating an online course with LifterLMS's industry leading course builder. Or simply take a course yourself on your demo site to test the course experience out for yourself. You can even add your other favorite plugins & themes to your demo site so you can see them in action together with the LMS.
+We believe in free, distributed learning for all. **LifterLMS exists to democratize education in the digital classroom.** 
 
-> Are you ready to **[Try LifterLMS for $1][try]?** 🚀
+### Premium LMS Add-ons and Bundles
 
-***
+Get to know our team and product by signing up for a **[$1 temporary _30 Day_ website][try]**. You'll get instant access to a private demo site hosted on our servers pre-installed with:
 
-You'll see why so many people like you are starting with or switching from another WordPress LMS or hosted platform to [LifterLMS][Home] for online course creation, membership sites, and remote schools.
++ the core LifterLMS plugin, AND
++ every premium LMS add-on we offer
 
-# **Who Uses LifterLMS?**
+See why so many people start with or switch from another WordPress LMS or hosted platform to [LifterLMS][Home] for online course creation, membership sites, and remote schools.
 
-+ **WordPress Freelancers**
-+ **WordPress Agencies**
-+ **WordPress Educators** like Shawn Hesketh at [WP101](https://www.wp101.com)
-+ IT Departments
-+ Marketing Agencies
-+ Entrepreneurs
-+ CEU Publishers
-+ Schools
-+ Organizations
-+ Governments
-+ Enterprise Companies
-+ DIY (Do It Yourself course creators, coaches, and entrepreneurs)
-+ Instructional Designers
-+ WordPress LMS Industry professionals
+This LMS demo site allows you to test drive the core plugin and all premium add-ons before you invest.
+
++ You can practice creating an online course with LifterLMS's industry leading course builder.
++ Or simply take a course yourself on your demo site to test the course experience out for yourself.
++ You can even add your other favorite plugins & themes to your demo site so you can see them in action together with the LMS.
+
+Are you ready to **[Try LifterLMS for $1][try]?** 🚀
 
 https://www.youtube.com/watch?v=RnZflrWG5YQ
 
-# **What Types of People Use LifterLMS for their WordPress LMS?**
+### LifterLMS is a Perfect Fit For Every WordPress User
 
-#### **1) Builders**
-The WordPress developers, designers & IT pros who build LMS websites and training portals for clients, employers & themselves
+**Best for Builders**
+We’re the favorite LMS plugin for WordPress developers, designers and IT pros who **build LMS websites and training portals** for clients, employers and themselves
 
-#### **2) Starters**
-Do-it-yourself innovators who are looking to create high value online courses, coaching or training based membership websites with a WordPress LMS
+**Best for Starters**
+Do-it-yourself innovators love that LifterLMS helps them **create high value online courses, coaching or training based membership websites,** right on WordPress.
 
-#### **3) Switchers**
-People who have outgrown a hosted LMS platform or an incomplete WordPress LMS stack looking for more power, control and better support
+**Best for Switchers**
+Have you outgrown a hosted LMS platform or an incomplete WordPress LMS stack? Choose LifterLMS if you are looking for **more power, control and better support**.
 
-# **Who Makes The Best WordPress LMS Plugin LifterLMS?**
-The LifterLMS team is a **diverse group of talented course creators, developers, designers, marketers and entrepreneurs**. Before developing the LifterLMS product we consulted and built custom WWordPress LMS style training based membership sites for clients all over the world. It was through many years experience building high end custom WordPress LMS websites for the expert industry, that the LifterLMS project was born.
+### Meet The LifterLMS Team
 
-Because 5 years ago we couldn't find a WordPress LMS plugin that provided a rock solid _all-in-one_ foundation for online course based LMS style training based membership websites, we decided to build LifterLMS and **contribute the core plugin to you and the WordPress community**.
 
-> LifterLMS is WordPress LMS, course & membership creation software built by course creators and a talented technical team. We understand WordPress, ecommerce, eLearning, course creation, engagement, gamification, conversion optimization, the website building industry, the LMS industry, and the needs of the online teacher coach, and training professional.
+The LifterLMS team is a **diverse group of talented course creators, developers, designers, marketers and entrepreneurs**.
 
-You can learn more about **[the people behind LifterLMS here][team]**.
+Before developing LifterLMS, we consulted and built custom WordPress-based online learning and membership sites for clients all over the world. LifterLMS was born through this deep hands-on experience building high-end, custom WordPress LMS websites for the expert industry.
 
-# **LifterLMS WordPress LMS By The Numbers ...**
+Learn more about [the people behind LifterLMS here][team].
+
+### LifterLMS WordPress LMS By The Numbers
 
 + 4,348,041 Course Enrollments powered by LifterLMS
 + 6,570,731 Course and lesson completions powered by LifterLMS
 + 86,807 Achievement badges awarded by LifterLMS
 + 120,728 Certificates awarded by LifterLMS
 + Over 10,000 active installs of the WordPress LMS plugin
-+ [181 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [267 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
-# **[LifterLMS Features][features]**
+### [LifterLMS Features][features]
 
-> _Start with our core free WordPress LMS plugin and [scale-up][price] as your business grows!_
+Start with our core free WordPress LMS plugin and [scale-up][price] as your business grows.
 
-#### **Make Money Building an Education-Based Business**
-_LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is powerful enough to get you started on your LMS website journey!_
+**Make Money Building an Education-Based Business**
+Just set up LifterLMS, activate built-in payments with [Stripe][stripe] or [PayPal][pp]. That's all you need to get started on your LMS website journey.
+
+When you need more features and want to expand your online learning business, we are here for you. We have several free and premium add-ons to help you create more value for your students and members, with a focus on scaling your business revenue.
 
 + Credit card payments
 + One-time payments
@@ -104,14 +109,14 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Payment switching
 + Native Zapier integration
 
+**Create Courses on Your WordPress LMS Website**
 
-#### **Create Courses on Your WordPress LMS Website**
 
 + Course multimedia lessons
 + Course quizzes
 + Course builder
 + Drip Content
-+ Course and lesson pre-requisites
++ Course and lesson prerequisites
 + Course tracks
 + Course assignments
 + Quiz time limits
@@ -126,8 +131,8 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Course reviews
 + Group enrollments for courses and memberships
 
+**Engage Your Students**
 
-#### **Engage Your Students**
 
 + Achievement badges
 + Certificates
@@ -136,7 +141,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Private coaching
 + Text messaging
 
-#### **Offer Memberships**
+**Offer Memberships**
 
 + Sitewide membership
 + Course bundles
@@ -148,7 +153,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Private group discussions
 + Members-only forums
 
-#### **Integrate your WordPress LMS with the Tools You Need**
+**Integrate your WordPress LMS with the Tools You Need**
 
 + Payment gateways
 + Email marketing
@@ -160,7 +165,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + E-learning authoring tools
 + Tin Can API (xAPI)
 
-#### **Secure and Protect Your Content**
+**Secure and Protect Your Content**
 
 + Course protection
 + User account management and registration
@@ -170,7 +175,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Password management
 + Self-hosted
 
-#### **Own and Manage Your WordPress LMS Platform**
+**Own and Manage Your WordPress LMS Platform**
 
 + Detailed course, membership, ecommerce, and student reporting
 + Course gradebook
@@ -187,7 +192,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Layout
 + Testing tools
 
-#### **Get Support For Your WordPress LMS Project**
+**Get Support For Your WordPress LMS Project**
 
 + Technical support
 + 30 Days of live weekly onboarding calls called [Liftoff Sessions][lift]
@@ -204,7 +209,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + [Developer ecosystem][devblog]
 + [Recommended Resources][resources] for course creators
 
-#### **Further WordPress LMS Reading**
+**More Info About LifterLMS**
 
 + The [LifterLMS Official Homepage][home]
 + The [LifterLMS Knowledge base][docs]
@@ -214,11 +219,11 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + The [LifterLMS Developer Blog][devblog]
 
 
-# **Extend and Enhance Your LMS with LifterLMS Add-ons**
+### Extend and Enhance Your LMS With LifterLMS Add-Ons
 
-#### **Advanced**
+**Advanced**
 
-_Increase your LMS website and it's training program's value with these engagement add-ons_
+Increase your LMS website and it's training program's value with these engagement add-ons:
 
 + [LifterLMS Advanced Quizzes][aq]
 + [LifterLMS Assignments][ass]
@@ -229,9 +234,9 @@ _Increase your LMS website and it's training program's value with these engageme
 + [LifterLMS Groups][gr]
 + [LifterLMS PDFs][pdf]
 
-#### **Integrations**
+**Integrations**
 
-_Integrate your LMS with the third-party tools you know and love_
+Integrate your LMS with the third-party tools you know and love:
 
 + [LifterLMS Stripe][stripe]
 + [LifterLMS PayPal][pp]
@@ -240,50 +245,52 @@ _Integrate your LMS with the third-party tools you know and love_
 + [LifterLMS ConvertKit][ck]
 + [LifterLMS MailChimp][mc]
 
-#### **LMS Website and User Experience Design Tools**
+### LMS Website and User Experience Design Tools
 
-_Make your online course creations and WordPress LMS platform beautiful_
+Make your online course creations and WordPress LMS platform beautiful
 
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
+### How To Get Support
 
-#### **Support**
-
-_**Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team_
+**Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team.
 
 + LifterLMS Support Ticket System, ready for any question you have about your LMS
 + Liftoff Sessions access with live screensharing to help you get started with the LMS software
 + [LifterLMS Office Hours][oh] is weekly Mastermind group hosted by LifterLMS CEO Chris Badgett and special guests
 
-#### **Save Big on your WordPress LMS with a Bundle**
+### Save on LifterLMS With A Bundle
 
-_Save money while unlocking the full potential of your course building and LMS platform_
+Save money while unlocking the full potential of your course building and LMS platform.
 
 + The [Earth Bundle][earth] gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
-+ Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe]
-+ Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity]
++ Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe].
++ Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity].
 
+### Give The Best WordPress LMS Plugin A Try
 
-# **Give The Best WordPress LMS Plugin LifterLMS a Try**
+The best way to know if LifterLMS meets your needs is to take it for a test drive - something you can't do with a totally premium LMS!
 
-_There are many ways to take LifterLMS for a test drive before commiting to the WordPress LMS_
-
-+ Go ahead and install the free core LifterLMS plugin right now. The free core WordPress LMS plugin is very powerful and customizable.
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. You can also practice creating an online course from scratch and test out the learner experience by enrolling yourself in a course on your demo site. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1][try]** now.
++ Go install the free core LifterLMS plugin right now. See how extensive and customizable our free core plugin truly is.
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. Practice creating an online course, test out the learner experience yourself, and see how easy it will be to manage your course in the WordPress admin. Install your favorite plugins & themes to test compatibility. **[Try LifterLMS for $1][try]** now.
 + Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes. [Take a Free Course][demo] now.
 
-# **Scaling LifterLMS From A Simple Online Course...**
+### Scaling LifterLMS From A Simple Online Course
 
-LifterLMS is incredibly flexible, customizable and scalable. It can be used for a simple one course website, and it can also be used as course marketplace or multi instructor online school. LifterLMS can handle small sites with low course enrollments, and it's also used in large universities and inside fortune 500 corporations for employee training. 
+LifterLMS is incredibly flexible, customizable and scalable. It can be used for a simple one course website, and it can also be used as a course marketplace or multi instructor online school.
 
-Unlike hosted LMS software where you would pay monthly for access and pay more as your platform grows, LifterLMS does not charge you more per course. LifterLMS also does not charge you more per instructor or per student or based on your revenue.
+The plugin is lightweight enough to handle niche sites with low course enrollments, while also powering huge universities and employee training in Fortune 500 corporations. We've even worked with a site that has over 730,000 course enrollments.
 
-Some LifterLMS websites are small in terms of course and membership enrollments by design. Some are quite large in the hundreds of thousand of course enrollments. The largest site we know about has 734,415 course enrollments. 
+Unlike hosted LMS software where you would pay increasing monthly fees for access and growth, LifterLMS does not charge you more per course. LifterLMS also does not charge you more per instructor or per student or based on your revenue.
 
-Wether you are going big or keeping it small, LifterLMS can scale to your needs for your online course, membership site, training portal, or remote school. 
+Whether you are going big or keeping it small, LifterLMS scales to meet your needs for online courses, memberships, training portals, or remote schools.
 
-# **What Others Are Saying About LifterLMS for Course Building, Membership Sites, and Remote Schools...**
+### LifterLMS in Action
++ [Success Stories][case] — Discover these amazing stories and accomplishments from our community of course creators.
++ [Showcase][sho] — Check out these websites using LifterLMS
+
+### What Others Are Saying About LifterLMS
 
 > _"I've used a number of course creation and delivery platforms over the years. And they were all fine… right up to the day when they weren't. The trouble is, they all want you to package and manage your course the way THEY think you should do it. THEIR feature set. THEIR way to do it. **Now I host all my courses on LifterLMS. TOTALLY different experience, because I'm free to do things MY way. I've never yet hit a wall where LifterLMS didn't enable me to do things the way I wanted.** Love it! Great support and community too."_
 
@@ -313,36 +320,35 @@ Wether you are going big or keeping it small, LifterLMS can scale to your needs 
 
 > _**Margot Worthy**, Author, Teacher_
 
+### Join Our Growing Community of Education Entrepreneurs
 
-# **LifterLMS in Action**
-+ [Success Stories][case] — Discover these amazing stories and accomplishments from our community of WordPress LMS website builders.
-+ [Showcase][sho] — Check out these WordPress LMS websites using LifterLMS
+When you download LifterLMS, you **join a thriving community** of education entrepreneurs, course creators, developers, LMS professionals, and WordPress enthusiasts.
 
+We’re one of the fastest growing open source eLearning communities online, and everyone that is seeking to build a sustainable online course business is welcome.
 
-# **Join Our Growing Community of Course Builders, Membership Site Owners, and WordPress LMS Professionals**
+Join the [LifterLMS VIP Facebook group][facebook] so you can:
 
-> When you download LifterLMS, you **join a thriving community** of education entrepreneurs, course creators, developers, LMS professionals, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here in our LMS community.
++ check out what other LifterLMS users and course creators are up to, and
++ ask questions and support fellow course creators
 
-If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in on the open source WordPress LMS software. 
+We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you’d prefer to connect in Slack.
+
+### Contribute to LifterLMS
+
+Are you a developer interested in contributing to LifterLMS? Visit the [LifterLMS GitHub Repository][git] to find out how to support this fully open source WordPress LMS software.
 
 Want to add a new language to LifterLMS? Swell! You can contribute language translations to the LMS at [translate.wordpress.org][translate].
 
-Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users and course creators are up to and ask questions to the LMS website building community. We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you would like to connect in Slack.
 
-**The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.**
+**The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.** LifterLMS helps you **ACCELERATE**.
 
-We invite you to **let us guide you to a successful training platform** through our WordPress LMS technology, course library, and support systems. We want you to avoid the common online course & general LMS website building mistakes, avoid the Software Frankenstein problem, and NOT waste any time bringing your WordPress LMS website to life.
+### What Should You Do Next?
 
-> LifterLMS helps you **ACCELERATE**.
+Install the free LifterLMS plugin on your website, then ...
 
-# **Here's What I'd Like You To Do Next ...**
-
-Install the free LifterLMS plugin on your website from here on WordPress, then ...
-
-**[Try out all the premium WordPress LMS add-ons for $1 by signing up >>HERE<<][try]**
+**[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]**
 
 🚀
-
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [price]: https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
@@ -383,7 +389,7 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[try]: https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[try]: https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [universe]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 

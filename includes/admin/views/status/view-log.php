@@ -17,34 +17,39 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
+<div class="llms-setting-group top">
 
-<form action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'logs' ) ); ?>" method="POST">
-	<select name="llms_log_file">
-		<?php foreach ( $logs as $name => $file ) : ?>
-			<option value="<?php echo esc_attr( $name ); ?>" <?php selected( $current, $name ); ?>>
-				<?php echo esc_html( basename( $file ) ); ?>
-				(<?php echo date_i18n( $date_format, filemtime( $file ) ); ?>)
-			</option>
-		<?php endforeach; ?>
-	</select>
-	<button class="llms-button-secondary small" type="submit"><?php _e( 'View Log', 'lifterlms' ); ?></button>
-</form>
+	<p class="llms-label"><?php esc_html_e( 'View and Manage Logs', 'lifterlms' ); ?></p>	
 
-<h2>
-	<?php
-	printf(
-		// Translators: %s = File name of the log.
-		esc_html__( 'Viewing: %s', 'lifterlms' ),
-		basename(
-			$logs[ $current ]
-		)
-	);
-	?>
-	<?php if ( $delete_url ) : ?>
-		<a class="llms-button-danger small" href="<?php echo esc_url( $delete_url ); ?>"><?php _e( 'Delete', 'lifterlms' ); ?></a>
-	<?php endif; ?>
-</h2>
+	<form action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'logs' ) ); ?>" method="POST">
+		<select name="llms_log_file">
+			<?php foreach ( $logs as $name => $file ) : ?>
+				<option value="<?php echo esc_attr( $name ); ?>" <?php selected( $current, $name ); ?>>
+					<?php echo esc_html( basename( $file ) ); ?>
+					(<?php echo date_i18n( $date_format, filemtime( $file ) ); ?>)
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<button class="llms-button-secondary small" type="submit"><?php _e( 'View Log', 'lifterlms' ); ?></button>
+	</form>
+	<hr />
+	<h2>
+		<?php
+		printf(
+			// Translators: %s = File name of the log.
+			esc_html__( 'Viewing: %s', 'lifterlms' ),
+			basename(
+				$logs[ $current ]
+			)
+		);
+		?>
+		<?php if ( $delete_url ) : ?>
+			<a class="llms-button-danger small" href="<?php echo esc_url( $delete_url ); ?>"><?php _e( 'Delete', 'lifterlms' ); ?></a>
+		<?php endif; ?>
+	</h2>
 
-<div class="llms-log-viewer">
-	<pre><?php echo esc_html( file_get_contents( $logs[ $current ] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not a remote URL. ?></pre>
+	<div class="llms-log-viewer">
+		<pre><?php echo esc_html( file_get_contents( $logs[ $current ] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not a remote URL. ?></pre>
+	</div>
+
 </div>

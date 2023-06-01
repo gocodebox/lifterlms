@@ -5,6 +5,23 @@ This document outlines the workflow used by LifterLMS core maintainers to build 
 
 This document assumes you have already installed LifterLMS for development following the [Installing for Development guide](./installing.md).
 
+## 0. Get ready
+
+Make sure you have your local repository up to date. If your origin is set to the gocodebox/lifterlms repo, these commands will get you up to date.
+
+1. `git checkout dev` and `git pull`
+2. `git checkout trunk` and `git pull`
+
+Make sure you are back on the dev branch.
+
+1. `git checkout dev`
+
+Make sure you have the latest `@lifterlms` JS packages. Note that this will update node_modules using the latest published/stable version of the packages, and won't include any updates made to those packages by this release itself.
+
+1. `npm install`
+
+Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress.
+
 ## 1. Build the Release
 
 Prepare the release: `npm run dev release prepare`:
@@ -26,6 +43,9 @@ When running this command, the following happens:
 ## 3. Commit and push
 
 After building and testing the built release, all changes should be committed and pushed to GitHub.
+
+1. `git commit -a`
+2. Enter something like "build version 7.1.1" for the commit message.
 
 ## 4. Generate the Distribution Archive
 

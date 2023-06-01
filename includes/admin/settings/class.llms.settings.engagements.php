@@ -135,7 +135,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			),
 			array(
 				'title'    => __( 'Default Size', 'lifterlms' ),
-				'desc'     => '<br>' . __( 'The default size used when creating new certificates.', 'lifterlms' ),
+				'desc'     => __( 'The default size used when creating new certificates.', 'lifterlms' ),
 				'id'       => 'lifterlms_certificate_default_size',
 				'type'     => 'select',
 				'options'  => $this->get_certificate_size_opts(),
@@ -244,14 +244,14 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			array(
 				array(
 					'title'   => __( 'Sender Name', 'lifterlms' ),
-					'desc'    => '<br>' . __( 'Name to be displayed in From field', 'lifterlms' ),
+					'desc'    => __( 'Name to be displayed in From field.', 'lifterlms' ),
 					'id'      => 'lifterlms_email_from_name',
 					'type'    => 'text',
 					'default' => esc_attr( get_bloginfo( 'title' ) ),
 				),
 				array(
 					'title'   => __( 'Sender Email', 'lifterlms' ),
-					'desc'    => '<br>' . __( 'Email Address displayed in the From field', 'lifterlms' ),
+					'desc'    => __( 'Email Address displayed in the From field.', 'lifterlms' ),
 					'id'      => 'lifterlms_email_from_address',
 					'type'    => 'email',
 					'default' => get_option( 'admin_email' ),
@@ -265,7 +265,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 				array(
 					'title'   => __( 'Email Footer Text', 'lifterlms' ),
-					'desc'    => '<br>' . __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
+					'desc'    => __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
 					'id'      => 'lifterlms_email_footer_text',
 					'type'    => 'textarea',
 					'default' => '',
@@ -376,7 +376,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			__( 'A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image.', 'lifterlms' ),
 			$post_type
 		);
-		return "<br>{$desc}";
+		return '<p class="description">' . $desc . '</p>';
 
 	}
 

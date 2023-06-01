@@ -163,7 +163,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}// End switch.
 
 		return $this->filter_get_data( $value, $key, $lesson );
 
@@ -205,8 +205,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 			$sid = $lesson->get_parent_section();
 
-			if ( $this->current_section != $sid ) {
-				echo '<tr><td>' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
+			if ( $this->current_section !== $sid ) {
+				echo '<tr><td class="id">' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
 				$this->current_section = $sid;
 			}
 		}
@@ -237,7 +237,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		$student = false;
 		if ( ! empty( $this->student ) ) {
 			$student = $this->student->get_id();
-		} elseif ( ! empty( $_GET['student_id'] ) ) {
+		} elseif ( ! empty( $_GET['student_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
 		}
 

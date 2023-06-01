@@ -16,19 +16,19 @@ defined( 'ABSPATH' ) || exit;
 
 <table>
 	<tr>
-		<td><a href="https://lifterlms.com/docs/course-catalog/" target="_blank"><?php _e( 'Course Catalog', 'lifterlms' ); ?></a></td>
+		<td><a href="https://lifterlms.com/docs/course-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Course%20Catalog" target="_blank"><?php _e( 'Course Catalog', 'lifterlms' ); ?></a></td>
 		<td><p><?php _e( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ); ?></p></td>
 	</tr>
 	<tr>
-		<td><a href="https://lifterlms.com/docs/membership-catalog/" target="_blank"><?php _e( 'Membership Catalog', 'lifterlms' ); ?></a></td>
+		<td><a href="https://lifterlms.com/docs/membership-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Membership%20Catalog" target="_blank"><?php _e( 'Membership Catalog', 'lifterlms' ); ?></a></td>
 		<td><p><?php _e( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ); ?></p></td>
 	</tr>
 	<tr>
-		<td><a href=" https://lifterlms.com/docs/checkout-page/" target="_blank"><?php _e( 'Checkout', 'lifterlms' ); ?></a></td>
+		<td><a href=" https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page" target="_blank"><?php _e( 'Checkout', 'lifterlms' ); ?></a></td>
 		<td><p><?php _e( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ); ?></p></td>
 	</tr>
 	<tr>
-		<td><a href="https://lifterlms.com/docs/student-dashboard/" target="_blank"><?php _e( 'Student Dashboard', 'lifterlms' ); ?></a></td>
+		<td><a href="https://lifterlms.com/docs/student-dashboard/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Student%20Dashboard" target="_blank"><?php _e( 'Student Dashboard', 'lifterlms' ); ?></a></td>
 		<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
 	</tr>
 </table>

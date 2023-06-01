@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version 7.1.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -665,15 +665,18 @@ function llms_get_progress_bar_html( $percentage ) {
 
 
 /**
- * Output a course continue button linking to the incomplete lesson for a given student
- * If the course is complete "Course Complete" is displayed
+ * Output a course continue button linking to the incomplete lesson for a given student.
  *
- * @param    int        $post_id   WP Post ID for a course, lesson, or quiz
- * @param    obj        $student   instance of an LLMS_Student, defaults to current student
- * @param    integer    $progress  current progress of the student through the course
- * @return   void
- * @since    3.11.1
- * @version  3.15.0
+ * If the course is complete "Course Complete" is displayed.
+ *
+ * @since 3.11.1
+ * @since 3.15.0 Unknown.
+ * @since 7.1.0 Remove check on student existence, now included in the enrollment check.
+ *
+ * @param int          $post_id  WP Post ID for a course, lesson, or quiz.
+ * @param LLMS_Student $student  Instance of an LLMS_Student, defaults to current student.
+ * @param int          $progress Current progress of the student through the course.
+ * @return void
  */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
@@ -700,7 +703,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		if ( ! $student ) {
 			$student = llms_get_student();
 		}
-		if ( ! $student || ! $student->exists() || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
+		if ( ! $student || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
 			return '';
 		}
 
@@ -797,18 +800,36 @@ function llms_placeholder_img( $size = 'full' ) {
 }
 
 /**
- * Get the featured image
+ * Get the featured image.
+ *
+ * @since unknown
+ * @since 7.1.2 Fix bug when the featured image file is not available.
  *
  * @access public
+ *
+ * @param int|WP_Post  $post_id Post ID or WP_Post object.
+ * @param string|int[] $size    Accepts any registered image size name, or an array of width and height values in pixels (in that order).
  * @return string
  */
 function llms_featured_img( $post_id, $size ) {
-	$img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
-	return apply_filters( 'lifterlms_featured_img', '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">' );
+	$img  = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $size );
+	$html = '';
+
+	if ( isset( $img[0] ) ) {
+		$html = '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">';
+	}
+
+	/**
+	 * Filters the featured image of a given LifterLMS post.
+	 *
+	 * @since unknown
+	 * @since 7.1.2 Added `$post_id` parameter.
+	 *
+	 * @param string      $html    HTML img element or empty string if the post has no thumbnail.
+	 * @param int|WP_Post $post_id Post ID or WP_Post object.
+	 */
+	return apply_filters( 'lifterlms_featured_img', $html, $post_id );
 }
-
-
-
 
 /**
  * Retrieve author name, avatar, and bio

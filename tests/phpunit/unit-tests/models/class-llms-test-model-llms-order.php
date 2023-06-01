@@ -709,7 +709,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 /**
 	 * Test get_last_transaction() on a one-time payment.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -744,7 +744,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_last_transaction() on a recurring payments order.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -800,7 +800,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_last_transaction() on a recurring payment order with trial.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
@@ -1123,7 +1123,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 /**
 	 * Test get_start_date() mathod.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.10.0
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -255,12 +255,14 @@ if ( ! function_exists( 'lifterlms_loop_end' ) ) {
 	}
 }
 
+
 /**
- * Output a featured video on the course tile in a LifterLMS Loop
+ * Output a featured video on the course tile in a LifterLMS Loop.
  *
- * @return   void
- * @since    3.3.0
- * @version  3.3.0
+ * @since 3.3.0
+ * @since 7.1.3 Add div tag to wrap featured video output in loop.
+ *
+ * @return void
  */
 function lifterlms_loop_featured_video() {
 	global $post;
@@ -269,7 +271,7 @@ function lifterlms_loop_featured_video() {
 		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
 			$video = $course->get_video();
 			if ( $video ) {
-				echo $video;
+				echo '<div class="llms-video-wrapper">' . $video . '</div>';
 			}
 		}
 	}

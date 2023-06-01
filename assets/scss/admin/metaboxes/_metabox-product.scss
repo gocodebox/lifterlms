@@ -6,7 +6,7 @@
 
 	.llms-access-plans {
 		@extend %clearfix;
-		margin-top: 25px;
+		margin-top: 10px;
 
 		> .llms-no-plans-msg { display: none; }
 		> .llms-no-plans-msg:last-child {

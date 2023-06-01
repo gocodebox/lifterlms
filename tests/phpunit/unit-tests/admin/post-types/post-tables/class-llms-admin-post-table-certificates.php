@@ -85,7 +85,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	 * Test add_actions().
 	 *
 	 * @since 6.0.0
-	 * @since [version] Log in as administrator so that the certificates have a post edit link set.
+	 * @since 7.1.0 Log in as administrator so that the certificates have a post edit link set.
 	 *
 	 * @return void
 	 */

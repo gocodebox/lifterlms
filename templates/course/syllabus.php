@@ -7,8 +7,9 @@
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
- * @since 4.4.0 Pass the progressive lesson order value to the lesson-prewiew template.
- * @version 4.4.0
+ * @since 4.4.0 Pass the progressive lesson order value to the lesson-preview template.
+ * @since 7.1.3 Add paragraph tag to wrap message when sections or lessons are empty.
+ * @version 7.1.3
  */
 defined( 'ABSPATH' ) || exit;
 global $post;
@@ -22,7 +23,7 @@ $sections = $course->get_sections();
 
 	<?php if ( ! $sections ) : ?>
 
-		<?php _e( 'This course does not have any sections.', 'lifterlms' ); ?>
+		<p><?php _e( 'This course does not have any sections.', 'lifterlms' ); ?></p>
 
 	<?php else : ?>
 
@@ -54,7 +55,7 @@ $sections = $course->get_sections();
 
 			<?php else : ?>
 
-				<?php _e( 'This section does not have any lessons.', 'lifterlms' ); ?>
+				<p><?php _e( 'This section does not have any lessons.', 'lifterlms' ); ?></p>
 
 			<?php endif; ?>
 

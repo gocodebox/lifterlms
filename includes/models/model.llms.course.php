@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -304,7 +304,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * This is less expensive than counting the result of {@see LLMS_Course::get_lessons()},
 	 * and should be preferred when you only need to count the number of lessons of a course.
 	 *
-	 * @since [version]
+	 * @since 7.1.0
 	 *
 	 * @return int
 	 */

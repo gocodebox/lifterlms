@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.0.1
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -77,11 +77,12 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Remove the default menu page from the submenu
+	 * Remove the default menu page from the submenu.
 	 *
 	 * @since 1.0.0
 	 * @since 3.2.0 Unknown.
 	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
+	 * @since 7.1.0 Added `llms-dashboard` to the order array in first position.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool
@@ -93,7 +94,7 @@ class LLMS_Admin_Menus {
 		if ( isset( $submenu['lifterlms'] ) ) {
 
 			// Our desired order.
-			$order = array( 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
+			$order = array( 'llms-dashboard', 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
 
 			// Temporary array to hold our submenu items.
 			$new_submenu = array();
@@ -149,7 +150,7 @@ class LLMS_Admin_Menus {
 			$post_id = absint( $_GET['course_id'] );
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
-			wp_redirect(
+			wp_safe_redirect(
 				add_query_arg(
 					array(
 						'page'      => 'llms-course-builder',
@@ -187,6 +188,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.13.0 Unknown.
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *              submenu page in place of NULL.
+	 * @since 7.1.0 Added the 'Dashboard' submenu page.
 	 *
 	 * @return void
 	 */
@@ -198,6 +200,8 @@ class LLMS_Admin_Menus {
 
 		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', $icon_url, 51 );
+
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Dashboard', 'lifterlms' ), __( 'Dashboard', 'lifterlms' ), 'manage_lifterlms', 'llms-dashboard', array( $this, 'dashboard_page_init' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
 
@@ -321,6 +325,18 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Output the HTML for admin dashboard screen.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return void
+	 */
+	public function dashboard_page_init() {
+		LLMS_Admin_Dashboard::register_meta_boxes();
+		LLMS_Admin_Dashboard::output();
+	}
+
+	/**
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
@@ -344,7 +360,7 @@ class LLMS_Admin_Menus {
 	 */
 	public function reporting_page_init() {
 
-		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 

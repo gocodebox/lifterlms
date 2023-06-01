@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -321,7 +321,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.14 Use strict comparison.
-	 * @since [version] Improve notifications query performance by not calculating unneeded found rows.
+	 * @since 7.1.0 Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array

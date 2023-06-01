@@ -1,5 +1,6 @@
 // Deps.
 const
+	fs = require( 'fs' ),
 	execSync = require( './exec-sync' ),
 	getProjectSlug = require( './get-project-slug' );
 
@@ -11,6 +12,10 @@ const
  *
  * @since 0.0.1
  * @since 0.0.2 OSX compatibility: don't use `xargs -d`.
+ * @since 0.2.1 Windows compatibility:
+ *              - account for spaces in file paths
+ *              - use node fs utility to create a directory in place of `mkdir` to
+ *                override Windows' restrictions.
  *
  * @param {string}  distFile Distribution file used as the source of the commit.
  * @param {string}  branch   Branch to commit and push to.
@@ -21,7 +26,9 @@ const
 module.exports = ( distFile, branch, message, silent = true ) => {
 	const slug = getProjectSlug();
 
-	execSync( 'mkdir -p ./tmp' );
+	if ( ! fs.existsSync( process.cwd() + '/tmp' ) ) {
+		fs.mkdirSync( process.cwd() + '/tmp', true );
+	};
 
 	const
 		cwd = process.cwd() + '/tmp/git',
