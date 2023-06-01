@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Made sure to always enqueue iziModal assets when rendering achivements cards.
