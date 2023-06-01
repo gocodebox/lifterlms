@@ -353,7 +353,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				array(
 					'title' => __( 'Retaining Inactive Accounts', 'lifterlms' ),
 					'class' => 'tiny',
-					'desc'  => __( 'Hold inactive accounts (with no associated enrollments) for x days. When this limit is reached, the inactive accounts will be deleted. Leave blank to disable.', 'lifterlms' ),
+					'desc'  => __( 'Hold inactive student accounts (with no associated enrollments) for x days. When this limit is reached, the inactive student accounts will be deleted. Leave blank to disable.', 'lifterlms' ),
 					'id'    => 'lifterlms_inactive_accounts_deletion',
 					'type'  => 'number',
 				),
