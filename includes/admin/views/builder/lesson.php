@@ -4,7 +4,8 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
- * @version 3.30.3
+ * @since [version] Added lesson id.
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
@@ -58,6 +59,10 @@
 					<span class="fa fa-trash"></span>
 				</a>
 			<?php endif; ?>
+
+			<span class="llms-action-icons-lesson-id">
+				<?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}
+			</span>
 
 		</div>
 

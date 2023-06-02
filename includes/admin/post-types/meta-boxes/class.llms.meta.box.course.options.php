@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 7.1.4
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,6 +44,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @since 7.1.3 Fixed condition for unsetting fields when using Gutenberg.
 	 *              Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 * @since 7.1.4 Fixed issue that prevented the correct saving of the course length when using the block editor.
+	 * @since [version] Add function exists check for `llms_blocks_is_post_migrated`.
 	 *
 	 * @return array
 	 */
@@ -372,7 +373,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		 */
 		if (
 			( $is_gutenberg && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
-			llms_blocks_is_post_migrated( $this->post->ID )
+			function_exists( 'llms_blocks_is_post_migrated' ) && llms_blocks_is_post_migrated( $this->post->ID )
 		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
