@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version 5.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -258,6 +258,7 @@ function llms_get_template_override_directories() {
  * Build the plugin's template file path.
  *
  * @since 5.8.0
+ * @since [version] Do not add leading slash to absolute template directory.
  *
  * @param string $template                    Template file name.
  * @param string $template_directory          Template directory relative to the plugin base directory.
@@ -268,8 +269,9 @@ function llms_template_file_path( $template, $template_directory = 'templates', 
 
 	// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
 	$override           = llms_get_template_override( $template );
-	$template_directory = $template_directory_absolute ? "/{$template_directory}" : llms()->plugin_path() . "/{$template_directory}/";
+	$template_directory = $template_directory_absolute ? $template_directory : llms()->plugin_path() . "/{$template_directory}/";
 	$template_path      = $override ? $override : $template_directory;
+
 	return trailingslashit( $template_path ) . "{$template}";
 
 }
