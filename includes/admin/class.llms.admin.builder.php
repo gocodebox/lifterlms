@@ -616,21 +616,39 @@ class LLMS_Admin_Builder {
 			<script>window.llms_builder =
 			<?php
 			echo json_encode(
-				array(
-					'autosave'  => self::get_autosave_status(),
-					'admin_url' => admin_url(),
-					'course'    => $course->toArray(),
-					'debug'     => array(
-						'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
-					),
-					'questions' => array_values( llms_get_question_types() ),
-					'schemas'   => self::get_custom_schemas(),
-					'sync'      => apply_filters(
-						'llms_builder_sync_settings',
-						array(
-							'check_interval_ms' => 10000,
-						)
-					),
+				/**
+				 * Filters the settings passed to the builder.
+				 *
+				 * @since [version]
+				 *
+				 * @param array $settings Associative array of settings passed to the LifterLMS course builder.
+				 */
+				apply_filters(
+					'llms_builder_settings',
+					array(
+						'autosave'               => self::get_autosave_status(),
+						'admin_url'              => admin_url(),
+						'course'                 => $course->toArray(),
+						'debug'                  => array(
+							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
+						),
+						'questions'              => array_values( llms_get_question_types() ),
+						'schemas'                => self::get_custom_schemas(),
+						'sync'                   => apply_filters(
+							/**
+							 * Filters the sync builder settings.
+							 *
+							 * @since 3.16.0
+							 *
+							 * @param array $settings Associative array of settings passed to the LifterLMS course builder used for the sync.
+							 */
+							'llms_builder_sync_settings',
+							array(
+								'check_interval_ms' => 10000,
+							)
+						),
+						'enable_video_explainer' => true,
+					)
 				)
 			);
 			?>
