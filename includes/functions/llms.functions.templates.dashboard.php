@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 6.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -162,6 +162,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
 	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
+	 * @since 7.1.3 Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -193,7 +194,19 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 		if ( ! $courses['results'] ) {
 
-			printf( '<p>%s</p>', __( 'You are not enrolled in any courses.', 'lifterlms' ) );
+			printf(
+				'<p>%s</p>',
+				/**
+				 * Not enrolled text.
+				 *
+				 * Allows developers to filter the text to be displayed when the student is not enrolled in any courses.
+				 *
+				 * @since 7.1.3
+				 *
+				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
+				 */
+				apply_filters( 'lifterlms_dashboard_courses_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
+			);
 
 		} else {
 
@@ -283,6 +296,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	 *
 	 * @since 3.14.0
 	 * @since 3.14.8 Unknown.
+	 * @since 7.1.3 Added filter for filtering 'Not enrolled text'.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @return void
@@ -298,7 +312,19 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
 		if ( ! $memberships ) {
 
-			printf( '<p>%s</p>', __( 'You are not enrolled in any memberships.', 'lifterlms' ) );
+			printf(
+				'<p>%s</p>',
+				/**
+				 * Not enrolled text.
+				 *
+				 * Allows developers to filter the text to be displayed when the student is not enrolled in any memberships.
+				 *
+				 * @since 7.1.3
+				 *
+				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any memberships.
+				 */
+				apply_filters( 'lifterlms_dashboard_memberships_not_enrolled_text', esc_html__( 'You are not enrolled in any memberships.', 'lifterlms' ) )
+			);
 
 		} else {
 
@@ -893,11 +919,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 endif;
 
 /**
- * Modify the pagination links displayed on endpoints using the default LLMS loop
+ * Modify the pagination links displayed on endpoints using the default LLMS loop.
  *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
  * @since 6.3.0 Fixed pagination when using plain permalinks.
+ * @since [version] Made sure the pagination links is not altered when not in the LifterLMS dashboard context.
  *
  * @param string $link Default link.
  * @return string
@@ -910,11 +937,13 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	 * Resolves compatibility issues with LifterLMS WooCommerce.
 	 *
 	 * @since unknown
+	 * @since [version] Defaults to `false` only on the LifterLMS dashboard context, while `true` elsewhere.
 	 *
-	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled. Default `false`.
+	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled.
+	 *                        Default `false` in the LifterLMS dashboard context, `true` elsewhere.
 	 * @param string $link    The default link.
 	 */
-	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', false, $link ) ) {
+	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', ! is_page( llms_get_page_id( 'myaccount' ) ), $link ) ) {
 		return $link;
 	}
 
