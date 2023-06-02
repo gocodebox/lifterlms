@@ -20,7 +20,7 @@ $lessons_count = $course->get_lessons_count();
 	<p>
 		<?php
 			// Translators: %1$s = Lessons Count.
-			printf( esc_html__( 'Number of Lessons: %1$s', 'lifterlms' ), '<span class="lessons-count">' . $lessons_count . '</span>' );
+			printf( esc_html__( 'Number of lessons: %1$s', 'lifterlms' ), '<span class="lessons-count">' . $lessons_count . '</span>' );
 		?>
 	</p>
 </div>
