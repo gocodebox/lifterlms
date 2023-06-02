@@ -353,7 +353,7 @@ function llms_delete_inactive_accounts() {
 				),
 			),
 			'count_total'   => false,
-			'fields'        => 'all',
+			'fields'        => 'ID',
 			'no_found_rows' => true,
 		)
 	);
@@ -363,10 +363,10 @@ function llms_delete_inactive_accounts() {
 		$users,
 		function( $user ) {
 
-			$student     = llms_get_student( $user->ID );
-			$enrollments = $student->get_courses()['found'] || $student->get_memberships()['found'];
+			$student     = llms_get_student( $user );
+			$enrollments = $student->get_courses()['results'];
 
-			if ( ! $enrollments ) {
+			if ( empty( $enrollments ) ) {
 				return $user;
 			}
 
@@ -376,7 +376,7 @@ function llms_delete_inactive_accounts() {
 	// Delete the inactive users.
 	require_once ABSPATH . 'wp-admin/includes/user.php';
 	foreach ( $inactive_users as $user ) {
-		wp_delete_user( $user->ID );
+		wp_delete_user( $user );
 	}
 
 }
