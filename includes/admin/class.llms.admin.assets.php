@@ -219,6 +219,7 @@ class LLMS_Admin_Assets {
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
 	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
+	 *              Enqueue reporting scripts on dashboard page.
 	 *
 	 * @return void
 	 */
@@ -313,6 +314,10 @@ class LLMS_Admin_Assets {
 			if ( 'edit-llms_form' === $screen->id ) {
 				llms()->assets->enqueue_script( 'llms-admin-forms' );
 			}
+		}
+
+		if ( 'dashboard' === $screen->base ) {
+			$this->maybe_enqueue_reporting( $screen );
 		}
 
 		if ( 'lifterlms_page_llms-settings' === $screen->id ) {
@@ -454,14 +459,15 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 4.3.3
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
+	 * @since [version] Load on dashboard screen.
+	 *              Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void
 	 */
 	protected function maybe_enqueue_reporting( $screen ) {
 
-		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-dashboard' ), true ) ) {
+		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-dashboard', 'dashboard' ), true ) ) {
 
 			$current_tab = llms_filter_input( INPUT_GET, 'tab' );
 
@@ -469,7 +475,7 @@ class LLMS_Admin_Assets {
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), LLMS_ASSETS_VERSION, true );
 
 			// Dashboard page where we have analytics widgets.
-			if ( 'lifterlms_page_llms-dashboard' === $screen->base ) {
+			if ( in_array( $screen->base, array( 'lifterlms_page_llms-dashboard', 'dashboard' ), true ) ) {
 
 				wp_enqueue_script( 'llms-analytics' );
 
