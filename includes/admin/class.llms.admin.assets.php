@@ -219,7 +219,7 @@ class LLMS_Admin_Assets {
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
 	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
-   *              Enqueue reporting scripts on dashboard page.
+	 *              Enqueue reporting scripts on dashboard page.
 	 *
 	 * @return void
 	 */
@@ -460,7 +460,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.3.3
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since [version] Load on dashboard screen.
-   *              Use `LLMS_ASSETS_VERSION` for asset versions.
+	 *              Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void
