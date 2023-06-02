@@ -81,31 +81,22 @@ class LLMS_Admin_Dashboard_Widget {
 		</ul>
 		<ul class="subsubsub">
 			<li>
-				<a href="https://lifterlms.com/blog/" target="_blank" rel="noopener">
+				<a href="https://lifterlms.com/blog/" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Opens in a new tab', 'lifterlms' ); ?>">
 					<?php esc_html_e( 'View all blog posts', 'lifterlms' ); ?>
-					<span class="screen-reader-text">
-						<?php esc_html_e( '(opens in a new tab)', 'lifterlms' ); ?>
-					</span>
 					<span aria-hidden="true" class="dashicons dashicons-external"></span>
 				</a>
 				|
 			</li>
 			<li>
-				<a href="https://podcast.lifterlms.com/" target="_blank" rel="noopener">
+				<a href="https://podcast.lifterlms.com/" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Opens in a new tab', 'lifterlms' ); ?>">
 					<?php esc_html_e( 'View all podcasts', 'lifterlms' ); ?>
-					<span class="screen-reader-text">
-						<?php esc_html_e( '(opens in a new tab)', 'lifterlms' ); ?>
-					</span>
 					<span aria-hidden="true" class="dashicons dashicons-external"></span>
 				</a>
 				|
 			</li>
 			<li>
-				<a href="https://lifterlms.com/help/" target="_blank" rel="noopener">
+				<a href="https://lifterlms.com/help/" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Opens in a new tab', 'lifterlms' ); ?>">
 					<?php esc_html_e( 'Get support', 'lifterlms' ); ?>
-					<span class="screen-reader-text">
-						<?php esc_html_e( '(opens in a new tab)', 'lifterlms' ); ?>
-					</span>
 					<span aria-hidden="true" class="dashicons dashicons-external"></span>
 				</a>
 			</li>
@@ -140,35 +131,35 @@ class LLMS_Admin_Dashboard_Widget {
 				'widget_data' => array(
 					array(
 						'enrollments'       => array(
-							'title'       => __( 'Enrollments', 'lifterlms' ),
+							'title'       => esc_html__( 'Enrollments', 'lifterlms' ),
 							'cols'        => '1-4',
-							'content'     => __( 'loading...', 'lifterlms' ),
+							'content'     => esc_html__( 'loading...', 'lifterlms' ),
 							'content_tag' => 'p',
-							'info'        => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+							'info'        => esc_html__( 'Number of total enrollments during the selected period', 'lifterlms' ),
 							'link'        => admin_url( 'admin.php?page=llms-reporting&tab=enrollments' ),
 						),
 						'registrations'     => array(
-							'title'       => __( 'Registrations', 'lifterlms' ),
+							'title'       => esc_html__( 'Registrations', 'lifterlms' ),
 							'cols'        => '1-4',
-							'content'     => __( 'loading...', 'lifterlms' ),
+							'content'     => esc_html__( 'loading...', 'lifterlms' ),
 							'content_tag' => 'p',
-							'info'        => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+							'info'        => esc_html__( 'Number of total user registrations during the selected period', 'lifterlms' ),
 							'link'        => admin_url( 'admin.php?page=llms-reporting&tab=students' ),
 						),
 						'sold'              => array(
-							'title'       => __( 'Net Sales', 'lifterlms' ),
+							'title'       => esc_html__( 'Net Sales', 'lifterlms' ),
 							'cols'        => '1-4',
-							'content'     => __( 'loading...', 'lifterlms' ),
+							'content'     => esc_html__( 'loading...', 'lifterlms' ),
 							'content_tag' => 'p',
-							'info'        => __( 'Total of all successful transactions during this period', 'lifterlms' ),
+							'info'        => esc_html__( 'Total of all successful transactions during this period', 'lifterlms' ),
 							'link'        => admin_url( 'admin.php?page=llms-reporting&tab=sales' ),
 						),
 						'lessoncompletions' => array(
-							'title'       => __( 'Lessons Completed', 'lifterlms' ),
+							'title'       => esc_html__( 'Lessons Completed', 'lifterlms' ),
 							'cols'        => '1-4',
-							'content'     => __( 'loading...', 'lifterlms' ),
+							'content'     => esc_html__( 'loading...', 'lifterlms' ),
 							'content_tag' => 'p',
-							'info'        => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
+							'info'        => esc_html__( 'Number of total lessons completed during the selected period', 'lifterlms' ),
 							'link'        => admin_url( 'admin.php?page=llms-reporting&tab=courses' ),
 						),
 					),
