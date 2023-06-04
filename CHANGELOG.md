@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v7.1.4 - 2023-04-28
+-------------------
+
+##### Bug Fixes
+
++ Fixed an issue that prevented the correct saving of the course length when using the block editor. [#2426](https://github.com/gocodebox/lifterlms/issues/2426)
+
+##### Developer Notes
+
++ Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2 expecting `render_block()` returning a string while we were applying a filter that returned the boolean `true`.
+
+
 v7.1.3 - 2023-04-25
 -------------------
 
