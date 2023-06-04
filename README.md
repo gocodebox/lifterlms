@@ -43,8 +43,8 @@ GitHub is for bug reports and contributions only! If you have a support question
 
 + [Changelog](./CHANGELOG.md)
 + User documentation and knowledge base: https://lifterlms.com/docs/
-+ Contributor's blog: https://make.lifterlms.com/docs/
-+ Developer portal: https://developer.lifterlms.com/docs/
++ Contributor's blog: https://make.lifterlms.com/
++ Developer portal: https://developer.lifterlms.com/
 
 
 ### Included Core Packages
@@ -100,20 +100,23 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/therealmarknelson"><img src="https://avatars.githubusercontent.com/u/5050601?v=4" title="therealmarknelson" width="80" height="80"></a>
 <a href="https://github.com/PSmolic"><img src="https://avatars.githubusercontent.com/u/4542049?v=4" title="PSmolic" width="80" height="80"></a>
 <a href="https://github.com/actual-saurabh"><img src="https://avatars.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
+<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/bmatt468"><img src="https://avatars.githubusercontent.com/u/8673706?v=4" title="bmatt468" width="80" height="80"></a>
 <a href="https://github.com/chrisbadgett"><img src="https://avatars.githubusercontent.com/u/12163552?v=4" title="chrisbadgett" width="80" height="80"></a>
 <a href="https://github.com/MaximilianoRicoTabo"><img src="https://avatars.githubusercontent.com/u/1678457?v=4" title="MaximilianoRicoTabo" width="80" height="80"></a>
+<a href="https://github.com/kimcoleman"><img src="https://avatars.githubusercontent.com/u/5312875?v=4" title="kimcoleman" width="80" height="80"></a>
 <a href="https://github.com/alimathis"><img src="https://avatars.githubusercontent.com/u/16086976?v=4" title="alimathis" width="80" height="80"></a>
+<a href="https://github.com/actuallyakash"><img src="https://avatars.githubusercontent.com/u/18614782?v=4" title="actuallyakash" width="80" height="80"></a>
 <a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/daniel-shuy"><img src="https://avatars.githubusercontent.com/u/17351764?v=4" title="daniel-shuy" width="80" height="80"></a>
 <a href="https://github.com/andreasblumberg"><img src="https://avatars.githubusercontent.com/u/1697968?v=4" title="andreasblumberg" width="80" height="80"></a>
-<a href="https://github.com/ideadude"><img src="https://avatars.githubusercontent.com/u/33220397?v=4" title="ideadude" width="80" height="80"></a>
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
 <a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
 <a href="https://github.com/imknight"><img src="https://avatars.githubusercontent.com/u/77604?v=4" title="imknight" width="80" height="80"></a>
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
 <a href="https://github.com/jdevalk"><img src="https://avatars.githubusercontent.com/u/487629?v=4" title="jdevalk" width="80" height="80"></a>
+<a href="https://github.com/seothemes"><img src="https://avatars.githubusercontent.com/u/24793388?v=4" title="seothemes" width="80" height="80"></a>
 <a href="https://github.com/nikolapasic"><img src="https://avatars.githubusercontent.com/u/10199798?v=4" title="nikolapasic" width="80" height="80"></a>
 <a href="https://github.com/AndreaBarghigiani"><img src="https://avatars.githubusercontent.com/u/190159?v=4" title="AndreaBarghigiani" width="80" height="80"></a>
 <a href="https://github.com/yojance"><img src="https://avatars.githubusercontent.com/u/1916064?v=4" title="yojance" width="80" height="80"></a>

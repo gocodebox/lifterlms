@@ -26,6 +26,7 @@ function writeTempNotesFile( version, logfile ) {
 	return tmpFile;
 }
 
+
 module.exports = {
 	command: 'create',
 	description: 'Create a GitHub release and tag from a specified file or branch.',
@@ -44,6 +45,14 @@ module.exports = {
 		[ '-Y, --yes', 'Skip confirmations.' ],
 		[ '-v, --verbose', 'Output extra information with result messages.' ],
 	],
+	/**
+	 * The `create` command.
+	 *
+	 * @since 0.0.1
+	 * @since 0.2.1 Windows compatibility: account for spaces in file paths.
+	 *
+	 * @return {void}
+	 */
 	action: async ( { archive, dir, commitMessage, branch, logfile, prerelease, prereleaseBranch, draft, merge, yes, verbose } ) => {
 		// Ensure the CLI is installed before proceeding.
 		try {

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version 7.1.0
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,6 +43,7 @@ class LLMS_Admin_Review {
 	 *
 	 * @since 3.24.0
 	 * @since 7.1.0 Show footer on our custom post types in admin, but not on the block editor.
+	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
 	 *
 	 * @param string $text Default footer text.
 	 * @return string
@@ -65,8 +66,8 @@ class LLMS_Admin_Review {
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
-			( ! empty( $_GET['page'] ) && str_starts_with( $_GET['page'], 'llms-' ) ) ||
-			( ! empty( $current_screen->id ) && str_starts_with( $current_screen->id, 'lifterlms' ) )
+			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) === 0 ) ||
+			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) === 0 )
 		) {
 			$show_footer = true;
 		}
