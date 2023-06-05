@@ -32,3 +32,18 @@
 .components-range-control__root {
 	height: 3em;
 }
+
+.llms-loop-item {
+	.llms-video-wrapper {
+		aspect-ratio: 16/9;
+		position: relative;
+		iframe {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			object-fit: cover;
+		}
+	}
+}
