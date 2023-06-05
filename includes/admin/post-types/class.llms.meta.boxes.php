@@ -5,6 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 1.0.0
+ * @since [version] Removed course buidler meta box. It's in the block editor sidebar now.
  * @version 6.0.0
  */
 
@@ -67,7 +68,6 @@ class LLMS_Admin_Meta_Boxes {
 		new LLMS_Meta_Box_Membership();
 
 		// Courses & memberships.
-		require_once 'meta-boxes/class.llms.meta.box.course.builder.php';
 		require_once 'meta-boxes/class.llms.meta.box.visibility.php';
 		require_once 'meta-boxes/class.llms.meta.box.instructors.php';
 		new LLMS_Meta_Box_Product();
