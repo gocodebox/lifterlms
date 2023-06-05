@@ -19,11 +19,16 @@ Create a new folder in the `src/blocks` directory for your block. E.g. `/src/blo
 The block directory structure should now look like this:
 
 ```shell
-src/
-└─ blocks/
-   └─ example-block/
-      ├─ block.json
-      └─ index.jsx
+.
+└── project/
+    ├── src/
+    │   └── blocks/
+    │       └── block/
+    │           ├── block.json
+    │           ├── index.jsx
+    │           └── index.scss # optional.
+    ├── package.json
+    └── webpack.congif.js
 ```
 
 ### 2. Add block JSON data
@@ -36,8 +41,7 @@ Next, add block information to the `block.json` file. Below is an example of a b
   "apiVersion": 2,
   "name": "llms/example-block",
   "title": "Example",
-  "icon": "star-filled",
-  "category": "lifterlms",
+  "category": "llms-blocks",
   "description": "Block description",
   "textdomain": "lifterlms",
   "attributes": {},
@@ -98,10 +102,43 @@ Blocks should be designed to be as simple as possible.
 
 #### Icons
 
-Blocks should use the default WordPress icons. The complete list of icons can be found at [https://wordpress.github.io/gutenberg/?path=/story/icons-icon--library](https://wordpress.github.io/gutenberg/?path=/story/icons-icon--library). The icon should be set in the `block.json` file.
+Blocks should use FontAwesome icons. The complete list of icons can be found at [https://fontawesome.com/icons](https://fontawesome.com/icons). SVG icons need to be converted to React components and added to blocks with the `registerBlockType` function:
 
-If none of the default icons are suitable, Dashicons can also be used. The complete list of Dashicons can be found at [https://developer.wordpress.org/resource/dashicons/](https://developer.wordpress.org/resource/dashicons/).
+```jsx
+import { registerBlockType } from '@wordpress/blocks';
+import { SVG, Path } from '@wordpress/primitives';
+
+const Icon = () => (
+	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+		<Path
+			d="M592 416H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h544c26.5 0 48 21.5 48 48v224c0 26.5-21.5 48-48 48z"
+		/>
+	</SVG>
+);
+
+registerBlockType( blockJson, {
+  icon: Icon,
+  edit: Edit
+} );
+```
 
 #### Colors
 
-Blocks should use the default WordPress color palette. The complete list of colors can be found at [https://wordpress.github.io/gutenberg/?path=/story/components-colorpalette--default](https://wordpress.github.io/gutenberg/?path=/story/components-colorpalette--default). The color palette should be set in the `block.json` file.
+Blocks use the default core admin color palette. This ensures that hover and active states are consistent with other blocks.
+
+## Shortcodes
+
+For blocks with Server Side Rendering functionality, a shortcode should also be registered to support users who are not using the block editor. The shortcode should follow LifterLMS shortcode naming conventions and be registered in the `/includes/shortcodes/` directory and extend the `LLMS_Shortcode` class.
+
+Shortcode blocks can use the `llms_shortcode_blocks` filter provided by the  `LLMS_Shortcode_Block` class to handle the block registration and rendering. Below is an example of how to register a block with the class from within a LifterLMS add-on plugin:
+
+```php
+add_filter( 'llms_shortcode_blocks', register_blocks( array $config ): array {
+    $config['group-list'] = array(
+        'render' => array( 'LLMS_Groups_Shortcode_Group_List', 'output' ),
+        'path'   => LLMS_GROUPS_PLUGIN_DIR . 'assets/blocks/group-list',
+    );
+
+    return $config;
+} );
+```
