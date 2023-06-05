@@ -47,7 +47,7 @@ const Edit = ( props ) => {
 
 				setAccessPlans( [
 					{
-						label: __( '- None -', 'lifterlms' ),
+						label: __( 'Select access plan', 'lifterlms' ),
 						value: '',
 					},
 					...planOptions,

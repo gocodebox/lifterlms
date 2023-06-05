@@ -22,12 +22,23 @@ export const useCourseOptions = () => {
 		};
 	}, [] );
 
-	const courseOptions = courses?.map( ( course ) => {
-		return {
-			label: course.title.rendered + ' (ID: ' + course.id + ')',
-			value: course.id,
-		};
-	} ) ?? [];
+	const courseOptions = [];
+
+	if ( ! llmsPostTypes.includes( postType ) ) {
+		courseOptions.push( {
+			label: __( 'Select course', 'lifterlms' ),
+			value: 0,
+		} );
+	}
+
+	if ( courses?.length ) {
+		courses.forEach( ( course ) => {
+			courseOptions.push( {
+				label: course.title.rendered + ' (ID: ' + course.id + ')',
+				value: course.id,
+			} );
+		} );
+	}
 
 	if ( llmsPostTypes.includes( postType ) ) {
 		courseOptions.unshift( {

@@ -30,6 +30,12 @@ const Edit = ( props ) => {
 	);
 
 	const memoizedServerSideRender = useMemo( () => {
+		let emptyPlaceholder = __( 'No progress data found for this course. This block will not be displayed.', 'lifterlms' );
+
+		if ( ! attributes.course_id && courseOptions.length > 0 ) {
+			emptyPlaceholder = __( 'No course selected. Please choose a Course from the block sidebar panel.', 'lifterlms' );
+		}
+
 		return <ServerSideRender
 			block={ blockJson.name }
 			attributes={ attributes }
@@ -40,16 +46,10 @@ const Edit = ( props ) => {
 				<p className={ 'llms-block-error' }>{ __( 'Error loading content. Please check block settings are valid. This block will not be displayed.', 'lifterlms' ) }</p>
 			}
 			EmptyResponsePlaceholder={ () =>
-				<p className={ 'llms-block-empty' }>{ __( 'No progress data found for this course. This block will not be displayed.', 'lifterlms' ) }</p>
+				<p className={ 'llms-block-empty' }>{ emptyPlaceholder }</p>
 			}
 		/>;
 	}, [ attributes ] );
-
-	if ( ! attributes.course_id && ! isLlmsPostType ) {
-		setAttributes( {
-			course_id: defaultCourseId,
-		} );
-	}
 
 	return (
 		<>
