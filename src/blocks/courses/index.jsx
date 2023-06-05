@@ -28,13 +28,23 @@ const Edit = ( props ) => {
 	const blockProps = useBlockProps();
 	const [ courseTitles, setCourseTitles ] = useState( [] );
 
-	const { categoryOptions } = useSelect( ( select ) => {
-		const categories = select( 'core' ).getEntityRecords( 'taxonomy', 'course_cat' );
-
+	const { categories } = useSelect( ( select ) => {
 		return {
-			categoryOptions: categories?.map( ( { name, slug } ) => ( { value: slug, label: name } ) ),
+			categories: select( 'core' )?.getEntityRecords( 'taxonomy', 'course_cat' ),
 		};
 	}, [] );
+
+	const categoryOptions = categories?.map( ( category ) => {
+		return {
+			value: category.slug,
+			label: category.name,
+		};
+	} );
+
+	categoryOptions?.unshift( {
+		value: '',
+		label: __( '- All -', 'lifterlms' ),
+	} );
 
 	const fetchedOptions = useCourseOptions();
 	const courseOptions = {};
@@ -71,7 +81,7 @@ const Edit = ( props ) => {
 					<PanelRow>
 						<SelectControl
 							label={ __( 'Category', 'lifterlms' ) }
-							help={ __( 'Display courses from a specific Course Category only. Use a category’s "slug". If omitted, will display courses from all categories.', 'lifterlms' ) }
+							help={ __( 'Display courses from a specific Course Category only.', 'lifterlms' ) }
 							value={ attributes?.category }
 							options={ categoryOptions }
 							onChange={ ( value ) => setAttributes( {
