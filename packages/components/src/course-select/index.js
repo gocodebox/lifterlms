@@ -1,6 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
 import { PanelRow, SelectControl } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
 
 export const llmsPostTypes = [
 	'course',
@@ -15,8 +17,21 @@ export const useLlmsPostType = () => {
 };
 
 export const useCourseOptions = () => {
-	const courses = useSelect( ( select ) => select( 'core' )?.getEntityRecords( 'postType', 'course' ), [] );
 	const postType = useSelect( ( select ) => select( 'core/editor' )?.getCurrentPostType(), [] );
+
+	const [ courses, setCourses ] = useState( [] );
+
+	apiFetch( {
+		path: '/llms/v1/courses',
+	} ).then( ( response ) => {
+		if ( ! response?.length ) {
+			return;
+		}
+
+		setCourses( response );
+	} ).catch( ( message ) => {
+		console.error( message );
+	} );
 
 	const courseOptions = courses?.map( ( course ) => {
 		return {
@@ -34,7 +49,7 @@ export const useCourseOptions = () => {
 
 	if ( ! courseOptions?.length ) {
 		courseOptions.push( {
-			label: __( 'No courses found', 'lifterlms' ),
+			label: __( 'Loading', 'lifterlms' ),
 			value: 0,
 		} );
 	}
@@ -51,9 +66,13 @@ export const CourseSelect = ( { attributes, setAttributes } ) => {
 			help={ __( 'Select the course to associate with this block.', 'lifterlms' ) }
 			value={ attributes.course_id ?? courseOptions?.[ 0 ]?.value }
 			options={ courseOptions }
-			onChange={ ( value ) => setAttributes( {
-				course_id: value,
-			} ) }
+			onChange={ ( value ) => {
+				setAttributes( {
+					course_id: parseInt( value, 10 ),
+				} );
+
+				console.log( attributes );
+			} }
 		/>
 	</PanelRow>;
 };
