@@ -18,6 +18,29 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes_Blocks {
 
 	/**
+	 * Instance of the class.
+	 *
+	 * @since [version]
+	 *
+	 * @var self
+	 */
+	private static $instance;
+
+	/**
+	 * Get instance of the class.
+	 *
+	 * @since [version]
+	 *
+	 * @return self
+	 */
+	public static function instance(): LLMS_Shortcodes_Blocks {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new LLMS_Shortcodes_Blocks();
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @since [version]
@@ -26,8 +49,8 @@ class LLMS_Shortcodes_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_action( 'after_setup_theme', array( $this, 'add_editor_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_editor_styles' ) );
+		add_action( 'init', array( __CLASS__, 'add_editor_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_editor_styles' ) );
 		add_filter( 'llms_hide_registration_form', array( $this, 'show_form_preview' ) );
 		add_filter( 'llms_hide_login_form', array( $this, 'show_form_preview' ) );
 	}
@@ -129,10 +152,11 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @return void
 	 */
-	public function add_editor_styles(): void {
+	public static function add_editor_styles(): void {
 		$plugins_dir = basename( WP_PLUGIN_DIR );
 		$plugin_dir  = basename( LLMS_PLUGIN_DIR );
-		$path        = "../../$plugins_dir/$plugin_dir/assets/css/lifterlms.min.css";
+		$rtl         = is_rtl() ? '-rtl' : '';
+		$path        = "../../$plugins_dir/$plugin_dir/assets/css/lifterlms{$rtl}.min.css";
 
 		add_editor_style( $path );
 	}
@@ -144,7 +168,7 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @return void
 	 */
-	public function enqueue_editor_styles(): void {
+	public static function enqueue_editor_styles(): void {
 		if ( ! llms_is_block_editor() ) {
 			return;
 		}
@@ -184,9 +208,9 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @since [version]
 	 *
-	 * @param array    $attributes The block attributes.
-	 * @param string   $content    The block default content.
-	 * @param WP_Block $block      The block instance.
+	 * @param array $attributes The block attributes.
+	 * @param string $content The block default content.
+	 * @param WP_Block $block The block instance.
 	 * @return string
 	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
@@ -236,4 +260,4 @@ class LLMS_Shortcodes_Blocks {
 	}
 }
 
-return new LLMS_Shortcodes_Blocks();
+return LLMS_Shortcodes_Blocks::instance();
