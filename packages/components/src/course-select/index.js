@@ -1,8 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
 import { PanelRow, SelectControl } from '@wordpress/components';
-import apiFetch from '@wordpress/api-fetch';
 
 export const llmsPostTypes = [
 	'course',
@@ -17,21 +15,12 @@ export const useLlmsPostType = () => {
 };
 
 export const useCourseOptions = () => {
-	const postType = useSelect( ( select ) => select( 'core/editor' )?.getCurrentPostType(), [] );
-
-	const [ courses, setCourses ] = useState( [] );
-
-	apiFetch( {
-		path: '/llms/v1/courses',
-	} ).then( ( response ) => {
-		if ( ! response?.length ) {
-			return;
-		}
-
-		setCourses( response );
-	} ).catch( ( message ) => {
-		console.error( message );
-	} );
+	const { postType, courses } = useSelect( ( select ) => {
+		return {
+			postType: select( 'core/editor' )?.getCurrentPostType(),
+			courses: select( 'core' ).getEntityRecords( 'postType', 'course' ),
+		};
+	}, [] );
 
 	const courseOptions = courses?.map( ( course ) => {
 		return {
@@ -70,8 +59,6 @@ export const CourseSelect = ( { attributes, setAttributes } ) => {
 				setAttributes( {
 					course_id: parseInt( value, 10 ),
 				} );
-
-				console.log( attributes );
 			} }
 		/>
 	</PanelRow>;
