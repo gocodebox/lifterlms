@@ -24,10 +24,11 @@
 	width: 100%;
 }
 
-[class*="editor-block-list-item-llms"],
-[aria-label*="LifterLMS Link"] {
+.llms-block-icon {
+	transform: scale(0.75);
+}
 
-	svg {
-		transform: scale(0.75) translateY(0.2em);
-	}
+// Fixes core range control component flex issue.
+.components-range-control__root {
+	height: 3em;
 }
