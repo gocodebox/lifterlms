@@ -58,7 +58,7 @@ const Edit = ( props ) => {
 
 	categoryOptions?.unshift( {
 		value: '',
-		label: __( 'All', 'lifterlms' ),
+		label: __( '- All -', 'lifterlms' ),
 	} );
 
 	memberships?.map( ( membership ) => {
@@ -77,7 +77,7 @@ const Edit = ( props ) => {
 						value={ attributes.category }
 						options={ categoryOptions }
 						onChange={ ( value ) => setAttributes( { category: value } ) }
-						help={ __( 'Display courses from a specific Membership Category only.', 'lifterlms' ) }
+						help={ __( 'Display memberships from a specific Membership Category only.', 'lifterlms' ) }
 					/>
 				</PanelRow>
 				<PanelRow>
