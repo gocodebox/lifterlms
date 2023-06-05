@@ -1,6 +1,6 @@
 @lifterlms/dev CHANGELOG
 ========================
-Unreleased
+v0.2.1 - 2023-04-18
 ----------
 
 + Fixed an issue with paths containing spaces on Windows OS.
