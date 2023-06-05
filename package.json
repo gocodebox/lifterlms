@@ -57,6 +57,7 @@
     "pkg:test": "wp-scripts test-unit-js ./packages --config packages/scripts/config/jest-unit.config.js --verbose",
     "postinstall": "npm run pkg:hoist",
     "start": "wp-scripts start",
-    "start:legacy": "gulp watch"
+    "start:legacy": "gulp watch",
+    "start:blocks": "wp-scripts start --config packages/scripts/config/blocks-webpack.config.js"
   }
 }
