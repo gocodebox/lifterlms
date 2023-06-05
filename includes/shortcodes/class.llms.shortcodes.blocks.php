@@ -208,9 +208,9 @@ class LLMS_Shortcodes_Blocks {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $attributes The block attributes.
-	 * @param string $content The block default content.
-	 * @param WP_Block $block The block instance.
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block default content.
+	 * @param WP_Block $block      The block instance.
 	 * @return string
 	 */
 	public function render_block( array $attributes, string $content, WP_Block $block ): string {
