@@ -13,7 +13,7 @@ import { useMemo } from '@wordpress/element';
 // Internal dependencies.
 import blockJson from './block.json';
 import Icon from './icon.jsx';
-import { CourseSelect, useCourseOptions, useLlmsPostType } from '@lifterlms/components/src/course-select';
+import { CourseSelect, useCourseOptions, useLlmsPostType } from '../../../packages/components/src/course-select';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;

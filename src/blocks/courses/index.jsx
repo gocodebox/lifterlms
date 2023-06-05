@@ -19,7 +19,7 @@ import { useState, useMemo } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 
 // Internal dependencies.
-import { useCourseOptions } from '@lifterlms/components/src/course-select';
+import { useCourseOptions } from '../../../packages/components/src/course-select';
 import blockJson from './block.json';
 import Icon from './icon.jsx';
 
