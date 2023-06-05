@@ -345,7 +345,6 @@ function llms_delete_inactive_accounts() {
 	$users = get_users(
 		array(
 			'role'          => 'student',
-			'fields'        => array( 'ID' ),
 			'number'        => -1, // to get all users.
 			'date_query'    => array(
 				array(
@@ -364,9 +363,9 @@ function llms_delete_inactive_accounts() {
 		function( $user ) {
 
 			$student     = llms_get_student( $user );
-			$enrollments = $student->get_courses()['results'];
+			$enrollments = $student->get_courses( array( 'limit' => 1 ) )['results'] || $student->get_memberships( array( 'limit' => 1 ) )['results'];
 
-			if ( empty( $enrollments ) ) {
+			if ( ! $enrollments ) {
 				return $user;
 			}
 
