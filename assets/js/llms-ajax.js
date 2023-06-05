@@ -1,4 +1,4 @@
-function Ajax (type, data, cache) {
+function Ajax ( type, data, cache ) {
 
 	this.type     = type;
 	this.data     = data;
@@ -16,7 +16,7 @@ Ajax.prototype.check_voucher_duplicate = function () {
 		data 		: this.data,
 		cache		: this.cache,
 		dataType	: this.dataType,
-		success		: function(response) {
+		success		: function( response ) {
 			llms_on_voucher_duplicate( response.duplicates );
 		}
 	});

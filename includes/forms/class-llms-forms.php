@@ -1,11 +1,11 @@
 <?php
 /**
- * Register and manage LifterLMS user forms
+ * Register and manage LifterLMS user forms.
  *
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 7.0.0
+ * @version 7.1.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -894,16 +894,19 @@ GROUP BY locations.meta_value";
 	 * Determine if a block is visible based on LifterLMS Visibility Settings.
 	 *
 	 * @since 5.0.0
+	 * @since 7.1.4 Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2
+	 *              expecting `render_block()` returning a string while we were applying a filter
+	 *              that returned the boolean `true`.
 	 *
 	 * @param array $block Parsed block array.
 	 * @return bool
 	 */
 	private function is_block_visible( $block ) {
 
-		// Make the block return `true` if it's visible, it will already automatically return an empty string if it's invisible.
-		add_filter( 'render_block', '__return_true', 5 );
+		// Make the block return a non empty string if it's visible, it will already automatically return an empty string if it's invisible.
+		add_filter( 'render_block', array( __CLASS__, '__return_string' ), 5 );
 
-		// Don't run this classes render function on the block during this test.
+		// Don't run this class render function on the block during this test.
 		remove_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
 
 		// Render the block.
@@ -911,7 +914,7 @@ GROUP BY locations.meta_value";
 
 		// Cleanup / reapply filters.
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
-		remove_filter( 'render_block', '__return_true', 5 );
+		remove_filter( 'render_block', array( __CLASS__, '__return_string' ), 5 );
 
 		/**
 		 * Filter whether or not the block is visible.
@@ -1255,6 +1258,21 @@ GROUP BY locations.meta_value";
 
 		return llms_form_field( $attrs, false );
 
+	}
+
+	/**
+	 * Returns a non-empty string.
+	 *
+	 * Useful for returning a non empty string to filters easily.
+	 *
+	 * @since 7.1.4
+	 *
+	 * @access private
+	 *
+	 * @return string
+	 */
+	public static function __return_string(): string {// phpcs:ignore -- PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.MethodDoubleUnderscore.
+		return '1';
 	}
 
 }

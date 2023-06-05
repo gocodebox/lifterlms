@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -260,7 +260,7 @@ if ( ! function_exists( 'lifterlms_loop_end' ) ) {
  * Output a featured video on the course tile in a LifterLMS Loop.
  *
  * @since 3.3.0
- * @since [version] Add div tag to wrap featured video output in loop.
+ * @since 7.1.3 Add div tag to wrap featured video output in loop.
  *
  * @return void
  */

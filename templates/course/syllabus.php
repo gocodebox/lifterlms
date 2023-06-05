@@ -8,8 +8,8 @@
  * @since 1.0.0
  * @since 3.24.0 Unknown.
  * @since 4.4.0 Pass the progressive lesson order value to the lesson-preview template.
- * @since [version] Add paragraph tag to wrap message when sections or lessons are empty.
- * @version [version]
+ * @since 7.1.3 Add paragraph tag to wrap message when sections or lessons are empty.
+ * @version 7.1.3
  */
 defined( 'ABSPATH' ) || exit;
 global $post;

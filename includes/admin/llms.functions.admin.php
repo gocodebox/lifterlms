@@ -290,6 +290,33 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 }
 
 /**
+ * Retrieve the precision for round function for floating values.
+ *
+ * @since 7.1.3
+ *
+ * @return int
+ */
+function llms_get_floats_rounding_precision() {
+
+	// Used `static` to store precision value so `apply_filters()` run only once per request.
+	static $precision = null;
+
+	if ( is_null( $precision ) ) {
+		/**
+		 * Filters the precision for round function for floating values.
+		 *
+		 * @since 7.1.3
+		 *
+		 * @param int $precision Precision for round function for floating values.
+		 */
+		$precision = apply_filters( 'lifterlms_floats_rounding_precision', 2 );
+	}
+
+	return $precision;
+
+}
+
+/**
  * Deletes all pending orders after held duration.
  *
  * @since [version]

@@ -20,6 +20,7 @@ Make sure you have the latest `@lifterlms` JS packages. Note that this will upda
 
 1. `npm install`
 
+Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress.
 
 ## 1. Build the Release
 
