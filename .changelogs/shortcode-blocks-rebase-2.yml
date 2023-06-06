@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added `llms_is_editor_block_rendering` helper function.

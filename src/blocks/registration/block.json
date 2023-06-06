@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/registration",
+  "title": "LifterLMS Register",
+  "category": "llms-blocks",
+  "description": "Displays the LifterLMS registration form. If a user is already logged in, nothing is displayed.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js"
+}
