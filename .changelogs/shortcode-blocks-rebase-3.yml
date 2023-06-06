@@ -1,3 +1,3 @@
 significance: patch
 type: fixed
-entry: Made sure to always enqueue iziModal assets when rendering achivements cards.
+entry: Made sure to always enqueue iziModal assets when rendering achievements cards.
