@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { PanelRow, SelectControl } from '@wordpress/components';
 
@@ -42,10 +42,10 @@ export const usePostOptions = ( postType = 'course' ) => {
 	}
 
 	if ( posts?.length ) {
-		posts.forEach( ( course ) => {
+		posts.forEach( ( post ) => {
 			options.push( {
-				label: course.title.rendered + ' (ID: ' + course.id + ')',
-				value: course.id,
+				label: post.title.rendered + ' (ID: ' + post.id + ')',
+				value: post.id,
 			} );
 		} );
 	}
@@ -78,7 +78,12 @@ export const PostSelect = (
 	const options = usePostOptions( postType );
 	const postTypeName = getPostTypeName( postType );
 	const postTypeTitle = getPostTypeName( postType, 'title' );
-	const helpText = __( 'Select the ', 'lifterlms' ) + postTypeName + __( ' to associate with this block.', 'lifterlms' );
+
+	const helpText = sprintf(
+		// Translators: %s = post type name.
+		__( 'Select the %s to associate with this block.', 'lifterlms' ),
+		postTypeName
+	);
 
 	return <PanelRow>
 		<SelectControl
