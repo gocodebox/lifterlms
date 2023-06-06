@@ -5,8 +5,7 @@ import { PanelRow, SelectControl } from '@wordpress/components';
 export const llmsPostTypes = [
 	'course',
 	'lesson',
-	'llms_quiz',
-	'llms_membership',
+	'llms_quiz'
 ];
 
 export const getPostTypeName = ( slug, format = 'name' ) => {
@@ -36,7 +35,7 @@ export const usePostOptions = ( postType = 'course' ) => {
 
 	if ( ! llmsPostTypes.includes( currentPostType ) ) {
 		options.push( {
-			label: __( 'Select ', 'lifterlms' ) + postTypeName,
+			label: __( 'Select course', 'lifterlms' ),
 			value: 0,
 		} );
 	}
