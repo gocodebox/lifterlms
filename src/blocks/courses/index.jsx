@@ -19,7 +19,7 @@ import { useState, useMemo } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 
 // Internal dependencies.
-import { useCourseOptions } from '../../../packages/components/src/course-select';
+import { usePostOptions } from '../../../packages/components/src/post-select';
 import blockJson from './block.json';
 import Icon from './icon.jsx';
 
@@ -46,7 +46,7 @@ const Edit = ( props ) => {
 		label: __( '- All -', 'lifterlms' ),
 	} );
 
-	const fetchedOptions = useCourseOptions();
+	const fetchedOptions = usePostOptions();
 	const courseOptions = {};
 
 	fetchedOptions?.forEach( ( { value, label } ) => {

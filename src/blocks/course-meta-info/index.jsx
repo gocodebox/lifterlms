@@ -16,13 +16,12 @@ import { useMemo } from '@wordpress/element';
 // Internal dependencies.
 import blockJson from './block.json';
 import Icon from './icon.jsx';
-import { useCourseOptions, useLlmsPostType, CourseSelect } from '../../../packages/components/src/course-select';
+import { usePostOptions, PostSelect } from '../../../packages/components/src/post-select';
 
 const Edit = ( props ) => {
-	const { attributes, setAttributes } = props;
+	const { attributes } = props;
 	const blockProps = useBlockProps();
-	const isLlmsPostType = useLlmsPostType();
-	const courseOptions = useCourseOptions();
+	const courseOptions = usePostOptions();
 
 	const memoizedServerSideRender = useMemo( () => {
 		let emptyPlaceholder = __( 'No meta information available for this course. This block will not be displayed.', 'lifterlms' );
@@ -51,7 +50,7 @@ const Edit = ( props ) => {
 			<PanelBody
 				title={ __( 'Course Meta Info Settings', 'lifterlms' ) }
 			>
-				<CourseSelect { ...props } />
+				<PostSelect { ...props } />
 			</PanelBody>
 		</InspectorControls>
 		<div { ...blockProps }>

@@ -13,13 +13,13 @@ import { useMemo } from '@wordpress/element';
 // Internal dependencies.
 import blockJson from './block.json';
 import Icon from './icon.jsx';
-import { CourseSelect, useCourseOptions, useLlmsPostType } from '../../../packages/components/src/course-select';
+import { PostSelect, usePostOptions, useLlmsPostType } from '../../../packages/components/src/post-select';
 
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
 	const isLlmsPostType = useLlmsPostType();
-	const courseOptions = useCourseOptions();
+	const courseOptions = usePostOptions();
 
 	const memoizedServerSideRender = useMemo( () => {
 		return <ServerSideRender
@@ -50,7 +50,7 @@ const Edit = ( props ) => {
 			<PanelBody
 				title={ __( 'Course Syllabus Settings', 'lifterlms' ) }
 			>
-				<CourseSelect
+				<PostSelect
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
