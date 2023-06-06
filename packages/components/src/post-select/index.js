@@ -52,7 +52,11 @@ export const usePostOptions = ( postType = 'course' ) => {
 
 	if ( llmsPostTypes.includes( currentPostType ) ) {
 		options.unshift( {
-			label: __( 'Inherit from current ', 'lifterlms' ) + getPostTypeName( currentPostType ),
+			label: sprintf(
+				// Translators: %s = Post type name.
+				__( 'Inherit from current %s', 'lifterlms' ),
+				getPostTypeName( currentPostType )
+			),
 			value: 0,
 		} );
 	}
@@ -80,7 +84,7 @@ export const PostSelect = (
 	const postTypeTitle = getPostTypeName( postType, 'title' );
 
 	const helpText = sprintf(
-		// Translators: %s = post type name.
+		// Translators: %s = Post type name.
 		__( 'Select the %s to associate with this block.', 'lifterlms' ),
 		postTypeName
 	);
