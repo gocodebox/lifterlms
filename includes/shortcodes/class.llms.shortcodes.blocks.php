@@ -106,6 +106,9 @@ class LLMS_Shortcodes_Blocks {
 			'my-achievements'      => array(
 				'render' => array( 'LLMS_Shortcode_My_Achievements', 'output' ),
 			),
+			'pricing-table'        => array(
+				'render' => array( 'LLMS_Shortcodes', 'pricing_table' ),
+			),
 			'registration'         => array(
 				'render' => array( 'LLMS_Shortcode_Registration', 'output' ),
 			),
