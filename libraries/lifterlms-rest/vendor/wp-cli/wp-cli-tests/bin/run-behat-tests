@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Run the Behat tests only if a Behat config file is found.
+if [ ! -f "behat.yml" ]; then
+	echo 'Did not detect "behat.yml" file, skipping Behat tests.'
+  exit 0;
+fi
+
+if ! command -v jq &> /dev/null
+then
+    echo 'The required "jq" command was not found, please install it to run the Behat tests.'
+    echo "See https://stedolan.github.io/jq/download/ for installation instructions."
+    exit 1;
+fi
+
+if [[ "$@" == *"--help"* ]]; then
+    vendor/bin/behat "$@"
+    ret=$?
+    exit $ret
+fi
+
+# Turn WP_VERSION into an actual number to make sure our tags work correctly.
+if [ "${WP_VERSION-latest}" = "latest" ]; then
+	export WP_VERSION=$(curl -s https://api.wordpress.org/core/version-check/1.7/ | jq -r ".offers[0].current")
+fi
+
+# To retrieve the WP-CLI tests package root folder, we start with this scripts
+# location.
+SOURCE="${BASH_SOURCE[0]}"
+
+# Resolve $SOURCE until the file is no longer a symlink.
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  # If $SOURCE was a relative symlink, we need to resolve it relative to the
+  # path where the symlink file was located.
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+
+# Fetch the root folder of the WP-CLI tests package.
+WP_CLI_TESTS_ROOT="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
+export WP_CLI_TESTS_ROOT
+
+# Generate the tags to apply environment-specific filters.
+BEHAT_TAGS=$(php "$WP_CLI_TESTS_ROOT"/utils/behat-tags.php)
+
+# Run the functional tests.
+vendor/bin/behat --format progress "$BEHAT_TAGS" --strict "$@"

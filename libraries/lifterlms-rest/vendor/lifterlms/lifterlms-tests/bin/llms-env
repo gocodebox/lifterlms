@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+
+COMMAND=${1-help}
+
+ENV_DEFUALT_FILE="./vendor/lifterlms/lifterlms-tests/docker/.llmsenv"
+ENV_FILE=$ENV_DEFUALT_FILE
+ENV_OVERRIDE_FILE="./.llmsenv"
+[ -f "$ENV_OVERRIDE_FILE" ] && ENV_FILE=$ENV_OVERRIDE_FILE
+
+COMPOSE_MAIN="./vendor/lifterlms/lifterlms-tests/docker/docker-compose.yml"
+COMPOSE_OVERRIDE="./docker-compose.yml"
+
+FILE_OPT="-f $COMPOSE_MAIN";
+[ -f "$COMPOSE_OVERRIDE" ] && FILE_OPT="-f $COMPOSE_OVERRIDE $FILE_OPT"
+
+DOCKER_CMD="docker-compose --env-file $ENV_FILE $FILE_OPT"
+
+HELP_OPTIONS_HELP=$'-h, --help\n      Display this help message'
+
+# Helper to output help text when running a command with -h or --help
+function output_help() {
+	echo "NAME"
+	echo "   $1"
+	echo ""
+	echo "SYNOPSIS"
+	echo "   $2"
+	echo ""
+	echo "DESCRIPTION"
+	echo "   $3"
+	echo ""
+	echo "OPTIONS"
+	echo "   $4"
+}
+
+# Creates an plugin-specific docker-compose.yml in the plugin root directory.
+function create_compose_override() {
+
+DIR_SLUG=${PWD##*/}
+
+CONTENT="version: '3.1'
+services:
+  wordpress:
+    volumes:
+      - ./:/var/www/html/wp-content/plugins/$DIR_SLUG:rw"
+
+echo "$CONTENT" > $COMPOSE_OVERRIDE
+echo "Override file '$COMPOSE_OVERRIDE' created!"
+
+}
+
+function create_env_override() {
+	[ -f "$ENV_OVERRIDE_FILE" ] && rm $ENV_OVERRIDE_FILE
+	cp $ENV_DEFUALT_FILE $ENV_OVERRIDE_FILE
+	echo "Environment file '$ENV_OVERRIDE_FILE' created!"
+}
+
+# General help command, invoked with llms-env help or --help or -h
+if [[ "help" == $COMMAND || "--help" == $COMMAND || "-h" == $COMMAND ]]; then
+
+	echo "Usage: $0 [-h | --help] <command> [<args>]"
+	echo ""
+	echo "Description:"
+	echo "   Manage and interact with the packages Docker environment."
+	echo ""
+	echo "Available commands:"
+	echo "   config:  Creates configuration override files"
+	echo "   down:    Stop and remove containers and volumes"
+	echo "   up:      Start containers"
+	echo "   ps:      List containers"
+	echo "   reset:   Destroy and recreate containers and volumes"
+	echo "   restart: Restart containers"
+	echo "   rm:      Remove containers and volumes"
+	echo "   ssh:     Open an interactive bash session with the PHP service container"
+	echo "   stop:    Stop containers without removing them"
+	echo "   version: Change the WordPress core version"
+	echo "   wp:      Execute a wp-cli command inside the PHP service container"
+
+elif [ "config" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "config" "$0 config [-h | --help]" "Creates configuration override files in the project root." "$HELP_OPTIONS_HELP"
+	else
+
+		# If file already exists prompt before creating.
+		[ -f "$COMPOSE_OVERRIDE" ] && read -r -p "Override file 'docker-compose.yml' already exists. Do you wish to replace it? [y/N] " RESPONSE
+		case "$RESPONSE" in
+			[yY][eE][sS]|[yY])
+				create_compose_override
+				;;
+			*)
+		esac
+
+		# File doesn't exist, just create it.
+		[ -f "$COMPOSE_OVERRIDE" ] || create_compose_override
+
+
+		# If file already exists prompt before creating.
+		[ -f "$ENV_OVERRIDE_FILE" ] && read -r -p "Override environment file '.llmsenv' already exists. Do you wish to replace it? [y/N] " RESPONSE
+		case "$RESPONSE" in
+			[yY][eE][sS]|[yY])
+				create_env_override
+				;;
+			*)
+		esac
+
+		# File doesn't exist, just create it.
+		[ -f "$ENV_OVERRIDE_FILE" ] || create_env_override
+
+	fi
+
+elif [ "down" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "down" "$0 down [-h | --help]" "Stops and removes Docker containers and volumes for the environment" "$HELP_OPTIONS_HELP"
+	else
+		$DOCKER_CMD $COMMAND -v
+	fi
+
+elif [ "ps" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		HELP_OPTS=$'\n\n   -a, --all\n        Include stopped containers'
+		HELP_OPTS=$HELP_OPTS$'\n\n   -q, --quiet\n      Only display IDs'
+		output_help "ps" "$0 ps [-h | --help] [-a | --all] [-q | --quiet] [SERVICE...]" "List Docker containers for the environment" "$HELP_OPTIONS_HELP $HELP_OPTS"
+	else
+		$DOCKER_CMD ps ${*:2}
+	fi
+
+elif [ "up" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		HELP_OPTS=$'\n\n   -a, --attach\n      Do not run containers in "detached" mode.'
+		output_help "up" "$0 up [-h | --help] [-a | --attach]" "Starts Docker containers for the environment" "$HELP_OPTIONS_HELP $HELP_OPTS"
+	else
+
+		OPTS=" -d"
+		if [[ "-a" == $2 || "--attach" == $2 ]]; then
+			OPTS=""
+		fi;
+		$DOCKER_CMD up$OPTS
+
+		# When detached, ensure WP is accessible and then output the site's URL.
+		if [[ " -d" == $OPTS ]]; then
+
+			echo -n "Waiting for WordPress "
+
+			READY="no"
+			while [[ "no" == $READY ]]; do
+
+				INSTALLED="$( $0 wp core is-installed 2>&1 )"
+				# Only check URL if installation is complete.
+				if [[ "0" == $? ]]; then
+					URL=$( $0 wp option get siteurl | grep :// )
+					if [ ! -z "$URL" ]; then
+						READY="yes"
+					fi
+				fi
+
+				# Not ready yet, output a dot and sleep.
+				if [[ "no" == $READY ]]; then
+					echo -n "."
+					sleep 1
+				fi
+
+			done;
+
+			echo ""
+			echo "Success! Visit $URL to get started."
+
+		fi
+
+	fi
+
+elif [ "reset" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		HELP_OPTS=$'\n\n   -a, --attach\n      Do not run containers in "detached" mode.'
+		output_help "reset" "$0 reset [-h | --help] [-a | --attach]" "Recreate the containers. Removes all volumes, resets the database, and reinstall WordPress on restart." "$HELP_OPTIONS_HELP $HELP_OPTS"
+	else
+		OPTS=" -d"
+		if [[ "-a" == $2 || "--attach" == $2 ]]; then
+			OPTS=""
+		fi;
+
+		$0 wp db reset --yes
+		$0 down
+		$0 up$OPTS
+	fi
+
+elif [ "restart" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "restart" "$0 restart [-h | --help]" "Restarts Docker containers for the environment" "$HELP_OPTIONS_HELP"
+	else
+		$DOCKER_CMD $COMMAND
+	fi
+
+elif [ "rm" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "rm" "$0 rm [-h | --help]" "Removes stopped Docker containers for the environment and deletes all volumes" "$HELP_OPTIONS_HELP"
+	else
+		$DOCKER_CMD rm -v --force
+	fi
+
+elif [ "stop" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "stop" "$0 stop [-h | --help]" "Stops running Docker containers for the environment" "$HELP_OPTIONS_HELP"
+	else
+		$DOCKER_CMD stop
+	fi
+
+elif [ "ssh" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "ssh" "$0 ssh [-h | --help]" "Opens an interactive bash session with the PHP service container" "$HELP_OPTIONS_HELP"
+	else
+		docker exec -it $($0 ps -q wordpress) /bin/bash
+	fi
+
+elif [ "version" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "version" "$0 version <version>" "Changes the WordPress core to the specified version. Accepts latest, nightly, or a major.minor version." "$HELP_OPTIONS_HELP"
+	else
+
+		if [ "nightly" == $2 ]; then
+			DOWNLOAD=https://wordpress.org/nightly-builds/wordpress-latest.zip
+		elif [ "latest" == $2 ]; then
+			DOWNLOAD=https://downloads.wordpress.org/release/wordpress-latest.zip
+		else
+			LIST=$( curl -s https://api.wordpress.org/core/version-check/1.7/?version=$2 )
+			DOWNLOAD=$( node -e "var list = JSON.parse( '$LIST' ).offers; console.log( list[ list.length - 1 ].download );" )
+		fi
+
+		$0 wp core update $DOWNLOAD --force
+		$0 wp core update-db
+		INSTALLED=$( $0 wp core version )
+		echo Version changed to: $INSTALLED
+
+	fi
+
+elif [ "wp" == $COMMAND ]; then
+
+	if [[ "-h" == $2 || "--help" == $2 ]]; then
+		output_help "wp" "$0 wp [-h | --help] <command...> [options...]" "Executes a wp-cli command inside the PHP service container" "$HELP_OPTIONS_HELP"
+	else
+
+		ARGS=""
+		for arg in "${@:2}"; do
+			ARGS="$ARGS "$arg""
+		done
+		docker exec $($DOCKER_CMD ps -q wordpress) bash -c "wp --allow-root $ARGS"
+
+	fi
+
+else
+
+	echo "llms-env: '$1' is not a valid command. See '$0 --help' for usage information.";
+
+fi;

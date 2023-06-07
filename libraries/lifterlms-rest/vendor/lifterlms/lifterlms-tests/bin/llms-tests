@@ -1,0 +1,341 @@
+#!/usr/bin/env bash
+
+COMMAND=${1-invalid}
+
+TMPDIR=./tmp/tests
+TMPDIR=$(echo $TMPDIR | sed -e "s/\/$//")
+
+WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
+WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress/}
+
+PHPUNIT_PATCH_DIR=$WP_TESTS_DIR/includes/phpunit7/MockObject
+PHPUNIT_REAL_DIR="./vendor/phpunit/phpunit/src/Framework"
+
+mkdir -p $TMPDIR
+
+download() {
+	if [ `which curl` ]; then
+		curl -s -L "$1" > "$2";
+	elif [ `which wget` ]; then
+		wget -nv -O "$2" "$1"
+	fi
+}
+
+# Usage: [VAR]=read_json [url] [key]
+function read_json {
+
+	download $1 $TMPDIR/tempjson.json
+	echo `php -r '$json=json_decode( file_get_contents( $argv[1] ), true ); echo $json[ $argv[2] ];' -- $TMPDIR/tempjson.json $2`
+	rm $TMPDIR/tempjson.json
+
+}
+
+function strindex {
+  x="${1%%$2*}"
+  [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
+}
+
+# $1 = DB_Name
+# $2 = DB_USER
+# $3 = DB_PASS
+# $4 = DB_EXTRA (host, protocol, etc...)
+function db_exists {
+	EXISTS=$( mysql --user="$2" --password="$3" $4 --skip-column-names -e "SHOW DATABASES LIKE '$1';" | grep "$1" )
+	if [[ $EXISTS = $DB_NAME ]]; then
+		echo true
+	else
+		echo false
+	fi
+}
+
+function run {
+
+	if [ $COMMAND == "help" ]; then
+
+		echo "help stuff"
+
+	elif [ $COMMAND == "install" ]; then
+
+		# see https://raw.githubusercontent.com/wp-cli/scaffold-command/master/templates/install-wp-tests.sh
+		if [ $# -lt 4 ]; then
+			echo "Usage: $0 $COMMAND <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
+			exit 1
+		fi
+
+		DB_NAME=$2
+		DB_USER=$3
+		DB_PASS=$4
+		DB_HOST=${5:-localhost}
+		WP_VERSION=${6:-latest}
+		SKIP_DB_CREATE=${7:-false}
+		WP_TESTS_VERSION=${8:-trunk}
+
+		if [[ $WP_VERSION =~ ^[0-9]+\.[0-9]+\-(beta|RC)[0-9]+$ ]]; then
+			WP_BRANCH=${WP_VERSION%\-*}
+			WP_TESTS_TAG="branches/$WP_BRANCH"
+
+		elif [[ $WP_VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
+			WP_TESTS_TAG="branches/$WP_VERSION"
+		elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+			if [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0] ]]; then
+				# version x.x.0 means the first release of the major version, so strip off the .0 and download version x.x
+				WP_TESTS_TAG="tags/${WP_VERSION%??}"
+			else
+				WP_TESTS_TAG="tags/$WP_VERSION"
+			fi
+		elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
+			WP_TESTS_TAG="trunk"
+		else
+			# http serves a single offer, whereas https serves multiple. we only want one
+			download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
+			grep '[0-9]+\.[0-9]+(\.[0-9]+)?' /tmp/wp-latest.json
+			LATEST_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+			if [[ -z "$LATEST_VERSION" ]]; then
+				echo "Latest WordPress version could not be found"
+				exit 1
+			fi
+			WP_TESTS_TAG="tags/$LATEST_VERSION"
+		fi
+		set -ex
+
+		if [[ false != $WP_TESTS_VERSION ]]; then
+			if [[ $WP_TESTS_VERSION == 'nightly' || $WP_TESTS_VERSION == 'trunk' ]]; then
+				WP_TESTS_TAG="trunk"
+			else
+				WP_TESTS_TAG="tags/$WP_TESTS_VERSION"
+			fi
+		fi
+
+		install_wp() {
+
+			if [ -d $WP_CORE_DIR ]; then
+				return;
+			fi
+
+			mkdir -p $WP_CORE_DIR
+
+			if [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
+				mkdir -p $TMPDIR/wordpress-nightly
+				download https://wordpress.org/nightly-builds/wordpress-latest.zip  $TMPDIR/wordpress-nightly/wordpress-nightly.zip
+				unzip -q $TMPDIR/wordpress-nightly/wordpress-nightly.zip -d $TMPDIR/wordpress-nightly/
+				mv $TMPDIR/wordpress-nightly/wordpress/* $WP_CORE_DIR
+			else
+				if [ $WP_VERSION == 'latest' ]; then
+					local ARCHIVE_NAME='latest'
+				elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+ ]]; then
+					# https serves multiple offers, whereas http serves single.
+					download https://api.wordpress.org/core/version-check/1.7/ $TMPDIR/wp-latest.json
+					if [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0] ]]; then
+						# version x.x.0 means the first release of the major version, so strip off the .0 and download version x.x
+						LATEST_VERSION=${WP_VERSION%??}
+					else
+						# otherwise, scan the releases and get the most up to date minor version of the major release
+						local VERSION_ESCAPED=`echo $WP_VERSION | sed 's/\./\\\\./g'`
+						LATEST_VERSION=$(grep -o '"version":"'$VERSION_ESCAPED'[^"]*' $TMPDIR/wp-latest.json | sed 's/"version":"//' | head -1)
+					fi
+					if [[ -z "$LATEST_VERSION" ]]; then
+						local ARCHIVE_NAME="wordpress-$WP_VERSION"
+					else
+						local ARCHIVE_NAME="wordpress-$LATEST_VERSION"
+					fi
+				else
+					local ARCHIVE_NAME="wordpress-$WP_VERSION"
+				fi
+				download https://wordpress.org/${ARCHIVE_NAME}.tar.gz  $TMPDIR/wordpress.tar.gz
+				tar --strip-components=1 -zxmf $TMPDIR/wordpress.tar.gz -C $WP_CORE_DIR
+			fi
+
+			download https://raw.githubusercontent.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
+
+		}
+
+		install_test_suite() {
+
+			# portable in-place argument for both GNU sed and Mac OSX sed
+			if [[ $(uname -s) == 'Darwin' ]]; then
+				local ioption='-i.bak'
+			else
+				local ioption='-i'
+			fi
+
+			# set up testing suite if it doesn't yet exist
+			if [ ! -d $WP_TESTS_DIR ]; then
+				# set up testing suite
+				mkdir -p $WP_TESTS_DIR
+				svn co --quiet --ignore-externals https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/ $WP_TESTS_DIR/includes
+				svn co --quiet --ignore-externals https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/ $WP_TESTS_DIR/data
+			fi
+
+			if [ ! -f wp-tests-config.php ]; then
+				download https://develop.svn.wordpress.org/${WP_TESTS_TAG}/wp-tests-config-sample.php "$WP_TESTS_DIR"/wp-tests-config.php
+				# remove all forward slashes in the end
+				WP_CORE_DIR=$(echo $WP_CORE_DIR | sed "s:/\+$::")
+				sed $ioption "s:dirname( __FILE__ ) . '/src/':'$WP_CORE_DIR/':" "$WP_TESTS_DIR"/wp-tests-config.php
+				sed $ioption "s/youremptytestdbnamehere/$DB_NAME/" "$WP_TESTS_DIR"/wp-tests-config.php
+				sed $ioption "s/yourusernamehere/$DB_USER/" "$WP_TESTS_DIR"/wp-tests-config.php
+				sed $ioption "s/yourpasswordhere/$DB_PASS/" "$WP_TESTS_DIR"/wp-tests-config.php
+				sed $ioption "s|localhost|${DB_HOST}|" "$WP_TESTS_DIR"/wp-tests-config.php
+				printf "\ndefine( 'FS_METHOD', 'direct' );\n" >> "$WP_TESTS_DIR"/wp-tests-config.php
+			fi
+
+			# Move phpunit patch files into the phpunit directory.
+			if [ -d $PHPUNIT_PATCH_DIR ]; then
+				cp -br $PHPUNIT_PATCH_DIR $PHPUNIT_REAL_DIR
+			fi
+
+		}
+
+		install_db() {
+
+			if [ ${SKIP_DB_CREATE} = "true" ]; then
+				return 0
+			fi
+
+			# parse DB_HOST for port or socket references
+			local PARTS=(${DB_HOST//\:/ })
+			local DB_HOSTNAME=${PARTS[0]};
+			local DB_SOCK_OR_PORT=${PARTS[1]};
+			local EXTRA=""
+
+			if ! [ -z $DB_HOSTNAME ] ; then
+				if [ $(echo $DB_SOCK_OR_PORT | grep -e '^[0-9]\{1,\}$') ]; then
+					EXTRA=" --host=$DB_HOSTNAME --port=$DB_SOCK_OR_PORT --protocol=tcp"
+				elif ! [ -z $DB_SOCK_OR_PORT ] ; then
+					EXTRA=" --socket=$DB_SOCK_OR_PORT"
+				elif ! [ -z $DB_HOSTNAME ] ; then
+					EXTRA=" --host=$DB_HOSTNAME --protocol=tcp"
+				fi
+			fi
+
+			# Create database if it doesn't already exist.
+			if [ false = $( db_exists $DB_NAME "$DB_USER" "$DB_PASS" $EXTRA ) ]; then
+				mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+			fi;
+
+		}
+
+		install_wp
+		install_test_suite
+		install_db
+
+	elif [ $COMMAND == "install-cli" ]; then
+
+		WP_CLI_TEST_DBNAME=$2 WP_CLI_TEST_DBUSER=$3 WP_CLI_TEST_DBROOTUSER=$3 WP_CLI_TEST_DBPASS=$4 WP_CLI_TEST_DBROOTPASS=$4 WP_CLI_TEST_DBHOST=$5 install-package-tests
+
+	elif [ $COMMAND == "teardown" ]; then
+
+		if [ $# -lt 4 ]; then
+			echo "Usage: $0 $COMMAND <db-name> <db-user> <db-pass> [db-host]"
+			exit 1
+		fi
+
+		DB_NAME=$2
+		DB_USER=$3
+		DB_PASS=$4
+		DB_HOST=${5:-localhost}
+
+		delete_db() {
+
+			# parse DB_HOST for port or socket references
+			local PARTS=(${DB_HOST//\:/ })
+			local DB_HOSTNAME=${PARTS[0]};
+			local DB_SOCK_OR_PORT=${PARTS[1]};
+			local EXTRA=""
+
+			if ! [ -z $DB_HOSTNAME ] ; then
+				if [ $(echo $DB_SOCK_OR_PORT | grep -e '^[0-9]\{1,\}$') ]; then
+					EXTRA=" --host=$DB_HOSTNAME --port=$DB_SOCK_OR_PORT --protocol=tcp"
+				elif ! [ -z $DB_SOCK_OR_PORT ] ; then
+					EXTRA=" --socket=$DB_SOCK_OR_PORT"
+				elif ! [ -z $DB_HOSTNAME ] ; then
+					EXTRA=" --host=$DB_HOSTNAME --protocol=tcp"
+				fi
+			fi
+
+			if [ true = $( db_exists $DB_NAME "$DB_USER" "$DB_PASS" $EXTRA ) ]; then
+				mysqladmin drop -f $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+			fi
+
+		}
+
+		rm -rf $TMPDIR
+		delete_db
+
+		# Restore original PHPUNIT Files.
+		for file in $( find $PHPUNIT_REAL_DIR -type f -name "*~" ); do
+			mv $file ${file%?}
+		done
+
+	elif [ $COMMAND == "plugin" ]; then
+
+		if [ $# -lt 2 ]; then
+			echo "Usage: $0 $COMMAND <slug_or_zip_or_git> [version]"
+			exit 1
+		fi
+
+		SLUG_OR_ZIP=$2
+		VERSION=${3:-latest}
+		ZIP=""
+
+		# Download plugin from WordPress.org.
+		if [ -1 == $(strindex "$SLUG_OR_ZIP" ".zip") ] && [ -1 == $(strindex "$SLUG_OR_ZIP" ".git") ]; then
+
+			if [ "latest" == $VERSION ]; then
+				# download  $TMPDIR/${SLUG_OR_ZIP}-plugin-info.json
+				VERSION=`read_json "https://api.wordpress.org/plugins/info/1.0/${SLUG_OR_ZIP}.json" version`
+				echo "${SLUG_OR_ZIP} latest version is ${VERSION}"
+			fi
+
+			echo "Downloading ${SLUG_OR_ZIP} version ${VERSION}..."
+			download https://downloads.wordpress.org/plugin/${SLUG_OR_ZIP}.${VERSION}.zip $TMPDIR/${SLUG_OR_ZIP}.zip
+			ZIP=$TMPDIR/${SLUG_OR_ZIP}.zip
+
+		# Clone from a git repo.
+		elif [ -1 != $(strindex "$SLUG_OR_ZIP" ".git") ]; then
+
+			REPO_BRANCH=""
+			if [ -1 != $(strindex "$SLUG_OR_ZIP" ".git@") ]; then
+				REPO_BRANCH=${SLUG_OR_ZIP#*@}
+				SLUG_OR_ZIP=${SLUG_OR_ZIP%"@$REPO_BRANCH"}
+				REPO_BRANCH="-b $REPO_BRANCH"
+			fi
+			SLUG=$(basename ${SLUG_OR_ZIP} .${SLUG_OR_ZIP##*.})
+			PLUGIN_DIR="$WP_CORE_DIR"wp-content/plugins/$SLUG
+			rm -rf $PLUGIN_DIR
+
+			git clone $REPO_BRANCH $SLUG_OR_ZIP $PLUGIN_DIR
+
+			# if the plugin has a composer.json file, install deps.
+			if [ -f $PLUGIN_DIR/composer.json ]; then
+				CWD=$(pwd)
+				cd $PLUGIN_DIR
+				composer install --no-dev --no-scripts
+				cd $CWD
+			fi
+
+		# Download from an arbitrary url.
+		else
+
+			FILENAME=${SLUG_OR_ZIP##*/}
+			download ${SLUG_OR_ZIP} $TMPDIR/${FILENAME}
+			ZIP=$TMPDIR/${FILENAME}
+
+		fi
+
+		# If we have a zip file unzip it.
+		if [ ! -z $ZIP ]; then
+			echo $ZIP
+			unzip -qo $ZIP -d $WP_CORE_DIR/wp-content/plugins/
+		fi
+
+	else
+
+		echo "error"
+		exit 1
+
+	fi
+
+}
+
+# Run the Script.
+run "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"

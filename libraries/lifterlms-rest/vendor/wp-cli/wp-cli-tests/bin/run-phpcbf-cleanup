@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Run the code style check only if a configuration file exists.
+if [ -f ".phpcs.xml" ] || [ -f "phpcs.xml" ] || [ -f ".phpcs.xml.dist" ] || [ -f "phpcs.xml.dist" ]
+then
+	vendor/bin/phpcbf "$@"
+fi
