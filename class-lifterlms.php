@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.1.4';
+	public $version = '7.2.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -123,6 +123,7 @@ final class LifterLMS {
 	 * @since 3.17.8 Added `LLMS_PLUGIN_URL` && `LLMS_ASSETS_SUFFIX`.
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
+	 * @since [version] Added `LLMS_ASSETS_VERSION` constant.
 	 *
 	 * @return void
 	 */
@@ -136,18 +137,19 @@ final class LifterLMS {
 		llms_maybe_define_constant( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
 		llms_maybe_define_constant( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 
+		// If we're loading in debug mode.
+		$script_debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
+		$wp_debug     = defined( 'WP_DEBUG' ) && WP_DEBUG;
+
+		// If debugging, load the unminified version otherwise load minified.
 		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
-
-			// If we're loading in debug mode.
-			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
-
-			// If debugging, load the unminified version otherwiser load minified.
-			$min = ( $debug ) ? '' : '.min';
-
-			define( 'LLMS_ASSETS_SUFFIX', $min );
-
+			define( 'LLMS_ASSETS_SUFFIX', $script_debug ? '' : '.min' );
 		}
 
+		// If debugging, use time for asset version otherwise use plugin version.
+		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
+			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
+		}
 	}
 
 	/**

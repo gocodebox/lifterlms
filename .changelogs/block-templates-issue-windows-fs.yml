@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Fixed LifterLMS specific block templates not correctly working on Windows
+  file system.

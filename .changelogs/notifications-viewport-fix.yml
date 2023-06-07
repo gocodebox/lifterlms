@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Update so dismissed notifications don't remain on viewport top layer.

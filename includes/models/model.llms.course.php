@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -218,6 +218,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Added support for showing multiple difficulties.
 	 *
 	 * @param string $field Optional. Which field to return from the available term fields.
 	 *                      Any public variables from a WP_Term object are acceptable: term_id, name, slug, and more.
@@ -229,17 +230,11 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
 
 		if ( false === $terms ) {
-
 			return '';
-
-		} else {
-
-			foreach ( $terms as $term ) {
-
-				return $term->$field;
-
-			}
 		}
+
+		$difficulties = wp_list_pluck( $terms, $field );
+		return implode( ', ', $difficulties );
 
 	}
 

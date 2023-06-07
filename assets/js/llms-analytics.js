@@ -7,6 +7,7 @@
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
  * @since 4.3.3 Legends will automatically display on top of the chart.
  * @since 4.5.1 Show sales reporting currency symbol based on LifterLMS site options.
+ * @version [version]
  *
  */( function( $, undefined ) {
 
@@ -58,15 +59,18 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+		 * @since [version] Added check for datepicker before initializing.
 		 *
 		 * @return void
 		 */
 		this.bind = function() {
 
-			$( '.llms-datepicker' ).datepicker( {
-				dateFormat: 'yy-mm-dd',
-				maxDate: 0,
-			} );
+			if ( $( '.llms-datepicker' ).length && $.fn.datepicker ) {
+				$( '.llms-datepicker' ).datepicker( {
+					dateFormat: 'yy-mm-dd',
+					maxDate: 0,
+				} );
+			}
 
 			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
 				multiple: true,
@@ -200,16 +204,17 @@
 		/**
 		 * Load a specific widget
 		 *
-		 * @param    obj   $widget  jQuery selector of the widget element
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.16.8
+		 * @since 3.0.0
+		 * @since [version] Change h1 tag to .llms-widget-content.
+		 *
+		 * @param obj $widget The jQuery selector of the widget element.
+		 * @return void
 		 */
 		this.load_widget = function( $widget ) {
 
 			var self         = this,
 				method       = $widget.attr( 'data-method' ),
-				$content     = $widget.find( 'h1' ),
+				$content     = $widget.find( '.llms-widget-content' ),
 				$retry       = $widget.find( '.llms-reload-widget' ),
 				content_text = LLMS.l10n.translate( 'Error' ),
 				status;

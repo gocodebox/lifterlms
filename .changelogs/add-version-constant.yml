@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added `LLMS_ASSETS_VERSION` constant for cache busting.

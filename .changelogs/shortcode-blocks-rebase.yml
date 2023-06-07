@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added `llms_is_block_editor` helper function.

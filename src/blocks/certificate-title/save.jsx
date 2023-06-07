@@ -1,7 +1,7 @@
-// External deps.
+// External dependencies.
 import classnames from 'classnames';
 
-// Internal deps.
+// WordPress dependencies.
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 
 /**

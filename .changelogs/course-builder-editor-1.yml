@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Added `function_exists` check for `llms_blocks_is_post_migrated()`.
