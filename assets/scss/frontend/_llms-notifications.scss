@@ -5,22 +5,23 @@
 	background: #fff;
 	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
 	border-top: 4px solid $color-blue;
-	left: 12px;
 	opacity: 0;
 	padding: 12px;
 	position: fixed;
-	right: 12px;
+	right: -800px;
 	top: 24px;
 	transition:
 		opacity 0.4s ease-in-out,
 		right 0.4s ease-in-out,
 	;
-	visibility: none;
+	visibility: hidden;
 	width: auto;
 	z-index: 9999999;
 
 	&.visible {
+		left: 12px;
 		opacity: 1;
+		right: 12px;
 		transition:
 			opacity 0.4s ease-in-out,
 			right 0.4s ease-in-out,
@@ -191,10 +192,10 @@
 
 @media all and (min-width: 480px) {
 	.llms-notification {
-		left: auto;
 		right: -800px;
 		width: 360px;
 		&.visible {
+			left: auto;
 			right: 24px;
 		}
 		.llms-notification-dismiss {

@@ -1196,7 +1196,8 @@ a.llms-voucher-delete:hover {
 .llms-widget a:hover {
   border-bottom: 1px dotted #2b55cb;
 }
-.llms-widget h1 {
+.llms-widget .llms-widget-content {
+  margin: 0.67em 0;
   color: #466dd8;
   font-size: 2.4em;
   font-weight: 700;
@@ -4102,6 +4103,112 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .wrap.llms-dashboard #llms_dashboard_blog p a,
 .wrap.llms-dashboard #llms_dashboard_podcast p a {
   display: inline-block;
+}
+
+#llms_dashboard_widget .inside {
+  margin: 0;
+  padding-bottom: 8px;
+}
+#llms_dashboard_widget .llms-dashboard-widget-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 12px;
+}
+#llms_dashboard_widget .activity-block {
+  padding-bottom: 8px;
+  border-color: #e8e8e8;
+}
+#llms_dashboard_widget h3 {
+  margin-bottom: 0;
+}
+#llms_dashboard_widget .llms-charts-wrapper {
+  display: none;
+}
+#llms_dashboard_widget .llms-widget-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  padding: 4px 0;
+}
+#llms_dashboard_widget .llms-widget-row:before, #llms_dashboard_widget .llms-widget-row:after {
+  display: none;
+}
+#llms_dashboard_widget .llms-widget-1-4 {
+  padding: 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+#llms_dashboard_widget .llms-widget {
+  padding: 8px 8px 12px;
+  margin: 0;
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+  -webkit-box-shadow: 0px 2px 4px rgb(246, 247, 247);
+          box-shadow: 0px 2px 4px rgb(246, 247, 247);
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+#llms_dashboard_widget .llms-label {
+  font-size: 14px;
+  width: 100%;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#llms_dashboard_widget .llms-widget-content {
+  font-size: 20px;
+  margin: 0;
+}
+#llms_dashboard_widget .llms-widget-info-toggle {
+  display: none;
+}
+#llms_dashboard_widget a {
+  border: 0;
+}
+#llms_dashboard_widget .subsubsub {
+  color: #dcdcde;
+}
+
+.llms-dashboard-widget-feed {
+  margin: 0 -12px;
+  padding: 0;
+  background-color: #f6f7f7;
+}
+.llms-dashboard-widget-feed li {
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.llms-dashboard-widget-feed span {
+  display: block;
 }
 
 .llms-remarks .llms-remarks-field {

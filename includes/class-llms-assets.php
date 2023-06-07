@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 7.0.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,7 +44,9 @@ class LLMS_Assets {
 	protected $debugging_assets = false;
 
 	/**
-	 * List of default asset definitions
+	 * List of default asset definitions.
+	 *
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for default asset version.
 	 *
 	 * @var array[]
 	 */
@@ -55,7 +57,7 @@ class LLMS_Assets {
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
-			'version'      => LLMS_VERSION,
+			'version'      => LLMS_ASSETS_VERSION,
 		),
 		// Script specific defaults.
 		'script' => array(
@@ -261,7 +263,7 @@ class LLMS_Assets {
 	 *     @type string   $extension    The filename extension for the asset. Defaults to `.js` for scripts and `.css` for styles.
 	 *     @type string   $suffix       The file suffix for the asset, for example `.min` for minified files. Defaults to `LLMS_ASSETS_SUFFIX`.
 	 *     @type string[] $dependencies An array of asset handles the asset depends on. These assets do not necessarily need to be assets defined by LifterLMS, for example WP Core scripts, such as `jquery`, can be used.
-	 *     @type string   $version      The asset version. Defaults to `LLMS_VERSION`.
+	 *     @type string   $version      The asset version. Defaults to `LLMS_ASSETS_VERSION`.
 	 *     @type string   $package_id   An ID used to identify the originating plugin or theme that defined the asset.
 	 *     @type boolean  $in_footer    (For `script` assets only) Whether or not the script should be output in the footer. Defaults to `true`.
 	 *     @type boolean  $translate    (For `script` assets only) Whether or not script translations should be set. Defaults to `false`.
