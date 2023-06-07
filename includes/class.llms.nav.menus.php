@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Nav_Menus {
 	 * @since 3.22.0 Unknown.
 	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
 	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
-	 * @since [version] Add navigation link block and enqueue block editor assets.
+	 * @since 7.2.0 Add navigation link block and enqueue block editor assets.
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.14.7
 	 * @since 3.37.12 Use `in_array` with strict types comparison.
-	 * @since [version] Remove passing item data by reference and improve URL checks.
+	 * @since 7.2.0 Remove passing item data by reference and improve URL checks.
 	 *
 	 * @param array $items Nav menu items.
 	 * @return array
@@ -357,7 +357,7 @@ class LLMS_Nav_Menus {
 	/**
 	 * Register navigation link block.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -372,7 +372,7 @@ class LLMS_Nav_Menus {
 	/**
 	 * Render the navigation link block.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @param string $block_content Block content.
 	 * @param array  $block Block data.
@@ -399,7 +399,7 @@ class LLMS_Nav_Menus {
 	/**
 	 * Add LifterLMS nav menu item data to block editor.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */

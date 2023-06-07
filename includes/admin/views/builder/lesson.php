@@ -4,8 +4,8 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Added lesson id.
- * @version [version]
+ * @since 7.2.0 Added lesson id.
+ * @version 7.2.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">

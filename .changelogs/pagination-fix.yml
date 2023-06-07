@@ -1,4 +1,0 @@
-significance: patch
-type: changed
-entry: Adjusted `llms_modify_dashboard_pagination_links_disable` filter to
-  return false only on Dashboard page.

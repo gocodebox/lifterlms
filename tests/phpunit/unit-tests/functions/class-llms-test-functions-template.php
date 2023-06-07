@@ -8,7 +8,7 @@
  * @group functions_template
  *
  * @since 4.8.0
- * @version [version]
+ * @version 7.2.0
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -250,7 +250,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() when passing an absolute template directory (not relative to the plugin dir).
 	 *
 	 * @since 5.9.0
-	 * @since [version] Stop expecting leading slash added to absolute paths.
+	 * @since 7.2.0 Stop expecting leading slash added to absolute paths.
 	 *
 	 * @return void
 	 */

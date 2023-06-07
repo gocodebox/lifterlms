@@ -1,4 +1,0 @@
-significance: minor
-type: dev
-entry: Added new filter hook `llms_builder_settings` to filter the settings
-  passed to the course builder.

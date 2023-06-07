@@ -2,7 +2,7 @@
  * Main sidebar view
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.2.0
  */
 define( [
 	'Views/Editor',

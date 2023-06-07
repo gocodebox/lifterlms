@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -123,7 +123,7 @@ final class LifterLMS {
 	 * @since 3.17.8 Added `LLMS_PLUGIN_URL` && `LLMS_ASSETS_SUFFIX`.
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
-	 * @since [version] Added `LLMS_ASSETS_VERSION` constant.
+	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
 	 *
 	 * @return void
 	 */

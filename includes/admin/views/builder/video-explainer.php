@@ -2,8 +2,8 @@
 /**
  * Builder video explainer view
  *
- * @since [version]
- * @version [version]
+ * @since 7.2.0
+ * @version 7.2.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-video-explainer-template">

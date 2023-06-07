@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.14.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -63,7 +63,7 @@ function llms_get_achievement_loop_columns() {
  * @since 3.14.0
  * @since 3.14.1 Unknown.
  * @since 6.0.0 Updated to use the new signature of the {@see LLMS_Student::get_achievements()}.
- * @since [version] Made sure to always enqueue needed assets.
+ * @since 7.2.0 Made sure to always enqueue needed assets.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
  *                              The current student will be used if none supplied.

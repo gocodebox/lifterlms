@@ -1,6 +1,0 @@
-significance: patch
-type: added
-comment: WPDB query to remove order notes from comments table.
-links:
-  - "#2322"
-entry: Added query to remove order comments on plugin uninstall when the constant `LLMS_REMOVE_ALL_DATA` is set to `true`.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -924,7 +924,7 @@ endif;
  * @since 3.24.0
  * @since 3.26.3 Unknown.
  * @since 6.3.0 Fixed pagination when using plain permalinks.
- * @since [version] Made sure the pagination links is not altered when not in the LifterLMS dashboard context.
+ * @since 7.2.0 Made sure the pagination links is not altered when not in the LifterLMS dashboard context.
  *
  * @param string $link Default link.
  * @return string
@@ -937,7 +937,7 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	 * Resolves compatibility issues with LifterLMS WooCommerce.
 	 *
 	 * @since unknown
-	 * @since [version] Defaults to `false` only on the LifterLMS dashboard context, while `true` elsewhere.
+	 * @since 7.2.0 Defaults to `false` only on the LifterLMS dashboard context, while `true` elsewhere.
 	 *
 	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled.
 	 *                        Default `false` in the LifterLMS dashboard context, `true` elsewhere.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -545,7 +545,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
 	 * @since 4.14.0 Added builder autosave preference defaults.
-	 * @since [version] Added video explainer template.
+	 * @since 7.2.0 Added video explainer template.
 	 *
 	 * @return void
 	 */
@@ -619,7 +619,7 @@ class LLMS_Admin_Builder {
 				/**
 				 * Filters the settings passed to the builder.
 				 *
-				 * @since [version]
+				 * @since 7.2.0
 				 *
 				 * @param array $settings Associative array of settings passed to the LifterLMS course builder.
 				 */

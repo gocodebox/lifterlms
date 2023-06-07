@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.2.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Dashboard Widget class.
  *
- * @since [version]
+ * @since 7.2.0
  */
 class LLMS_Admin_Dashboard_Widget {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Add the dashboard widget.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Output the dashboard widget.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Get the widget HTML.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return string
 	 */
@@ -171,7 +171,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Get blog and podcast feed.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return array
 	 */

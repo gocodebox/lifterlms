@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -258,7 +258,7 @@ function llms_get_template_override_directories() {
  * Build the plugin's template file path.
  *
  * @since 5.8.0
- * @since [version] Do not add leading slash to absolute template directory.
+ * @since 7.2.0 Do not add leading slash to absolute template directory.
  *
  * @param string $template                    Template file name.
  * @param string $template_directory          Template directory relative to the plugin base directory.

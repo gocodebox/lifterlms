@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -475,7 +475,7 @@ class LLMS_Block_Templates {
 	 * @since 5.8.0
 	 * @since 5.9.0 Return empty string if the passed path is not in the configuration.
 	 * @since 5.10.0 Use '/' in favor of DIRECTORY_SEPARATOR to avoid issues on Windows.
-	 * @since [version] Retrieve the slug by using `basename()` which also fixes issues on Windows filesystems.
+	 * @since 7.2.0 Retrieve the slug by using `basename()` which also fixes issues on Windows filesystems.
 	 *
 	 * @param string $path The template's path.
 	 * @return string

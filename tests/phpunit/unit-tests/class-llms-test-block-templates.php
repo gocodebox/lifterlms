@@ -7,7 +7,7 @@
  * @group block_templates
  *
  * @since 5.8.0
- * @version [version]
+ * @version 7.2.0
  */
 class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 
@@ -124,7 +124,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	 * Test generate_template_slug_from_path().
 	 *
 	 * @since 5.9.0
-	 * @since [version] Remove unneded tests after switching `generate_template_slug_from_path()` logic to use `basename()`.
+	 * @since 7.2.0 Remove unneded tests after switching `generate_template_slug_from_path()` logic to use `basename()`.
 	 *
 	 * @return void
 	 */

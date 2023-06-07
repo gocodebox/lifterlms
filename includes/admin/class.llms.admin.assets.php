@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -179,7 +179,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 5.0.0 Use `LLMS_Assets` for registration/enqueue of styles.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-addons`.
-	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_Admin_Assets {
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
-	 * @since [version] Use `LLMS_ASSETS_VERSION` for asset versions.
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *              Enqueue reporting scripts on dashboard page.
 	 *
 	 * @return void
@@ -459,7 +459,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 4.3.3
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Load on dashboard screen.
+	 * @since 7.2.0 Load on dashboard screen.
 	 *              Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes/Shortcodes
  *
- * @since [version]
- * @version [version]
+ * @since 7.2.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Shortcodes_Blocks class.
  *
- * @since [version]
+ * @since 7.2.0
  */
 class LLMS_Shortcodes_Blocks {
 
 	/**
 	 * Instance of the class.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @var self
 	 */
@@ -29,7 +29,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Get instance of the class.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return self
 	 */
@@ -43,7 +43,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Available shortcode blocks.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return array
 	 */
@@ -114,7 +114,7 @@ class LLMS_Shortcodes_Blocks {
 		/**
 		 * Filters shortcode blocks config.
 		 *
-		 * @since [version]
+		 * @since 7.2.0
 		 *
 		 * @param array $config Array of shortcode blocks.
 		 */
@@ -124,7 +124,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Registers shortcode blocks.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -148,7 +148,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Loads front end CSS in the editor.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Enqueues editor styles.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Determines whether to show the registration and login form in editor preview.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @param bool $hide Whether to hide the registration form.
 	 * @return bool
@@ -206,7 +206,7 @@ class LLMS_Shortcodes_Blocks {
 	/**
 	 * Renders a shortcode block.
 	 *
-	 * @since [version]
+	 * @since 7.2.0
 	 *
 	 * @param array    $attributes The block attributes.
 	 * @param string   $content    The block default content.

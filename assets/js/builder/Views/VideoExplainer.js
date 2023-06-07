@@ -1,8 +1,8 @@
 /**
  * Sidebar Utilities View
  *
- * @since [version]
- * @version [version]
+ * @since 7.2.0
+ * @version 7.2.0
  */
 define( [], function() {
 	return Backbone.View.extend( {
@@ -40,7 +40,7 @@ define( [], function() {
 		/**
 		 * Compiles the template and renders the view.
 		 *
-		 * @since [version]
+		 * @since 7.2.0
 		 *
 		 * @return {self}
 		 */
@@ -52,7 +52,7 @@ define( [], function() {
 		/**
 		 * Open the popup.
 		 *
-		 * @since [version]
+		 * @since 7.2.0
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {void}
@@ -69,7 +69,7 @@ define( [], function() {
 		/**
 		 * Close the popup.
 		 *
-		 * @since [version]
+		 * @since 7.2.0
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {void}

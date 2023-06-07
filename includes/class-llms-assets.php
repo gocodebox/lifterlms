@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +46,7 @@ class LLMS_Assets {
 	/**
 	 * List of default asset definitions.
 	 *
-	 * @since [version] Use `LLMS_ASSETS_VERSION` for default asset version.
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for default asset version.
 	 *
 	 * @var array[]
 	 */

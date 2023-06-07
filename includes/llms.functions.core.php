@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1019,7 +1019,7 @@ function llms_is_block_theme() {
 /**
  * Checks if the current admin page is the block editor.
  *
- * @since [version]
+ * @since 7.2.0
  *
  * @return bool
  */
@@ -1040,7 +1040,7 @@ function llms_is_block_editor(): bool {
 /**
  * Determine if the current request is a block rendering request in the editor.
  *
- * @since [version]
+ * @since 7.2.0
  *
  * @return bool
  */

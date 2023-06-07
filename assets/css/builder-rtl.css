@@ -214,6 +214,10 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   transition: right 0.2s ease, opacity 0.2s ease;
   vertical-align: middle;
 }
+.wrap.lifterlms.llms-builder .llms-builder-main .llms-action-icons-lesson-id {
+  vertical-align: top;
+  opacity: 0.7;
+}
 .wrap.lifterlms.llms-builder .llms-builder-main .llms-builder-header:hover > .llms-action-icons,
 .wrap.lifterlms.llms-builder .llms-builder-main .llms-builder-header .llms-action-icons.static {
   right: 0;
@@ -804,7 +808,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   top: 32px;
   left: 0;
   width: 280px;
-  z-index: 1;
+  z-index: 2;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-utilities ul, .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-utilities li {
   margin: 0;
@@ -1538,4 +1542,78 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   transition: transform 0.2s ease, -webkit-transform 0.2s ease;
   top: 2px;
   width: 12px;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-trigger {
+  display: block;
+  margin: 40px 0 0;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+  color: initial;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-trigger:hover {
+  color: currentColor;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-trigger:after {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  pointer-events: none;
+  content: "▶";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  clear: both;
+  height: 2em;
+  width: 2em;
+  border-radius: 4em;
+  border: 4px solid currentColor;
+  font-size: 2.5em;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-trigger img {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-wrapper {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  inset: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-iframe {
+  position: relative;
+  width: min(90%, 800px);
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+.wrap.lifterlms.llms-builder .llms-video-explainer-close {
+  position: absolute;
+  top: 6vh;
+  left: 2vw;
+  background: transparent;
+  border: 0;
+  font-size: 2em;
+  color: #fff;
+  cursor: pointer;
 }
