@@ -49,7 +49,12 @@ After building and testing the built release, all changes should be committed an
 
 ## 4. Generate the Distribution Archive
 
-Run `npm run dev release archive`.
+Run `npm run dev release archive -- -i`.
+
+This is a more pedantic version of `npm run dev release archive` that will allow to easily inspect 
+the archive: once created, the archive will be unpacked into the `dist` directory so that its content
+could be easily inspected. E.g. make sure it doesn't contain undesired files such as unwanted dependencies
+into the `vendor` directory, and so on.
 
 ## 5. Run pre-release tests on the archived
 
