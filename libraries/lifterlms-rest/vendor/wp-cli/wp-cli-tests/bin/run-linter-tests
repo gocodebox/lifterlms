@@ -1,3 +1,0 @@
-#!/bin/sh
-
-vendor/bin/parallel-lint -j 10 --colors --exclude vendor . "$@"
