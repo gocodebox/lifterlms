@@ -27,9 +27,9 @@ defined( 'ABSPATH' ) || exit;
 		</h1>
 
 		<ul class="llms-setup-progress">
-			<?php foreach ( $steps as $slug => $name ) : ?>
+			<?php foreach ( $steps as $slug => $step ) : ?>
 				<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>>
-					<a href="<?php echo $this->get_step_url( $slug ); ?>"><?php echo $name; ?></a>
+					<a href="<?php echo $this->get_step_url( $slug ); ?>"><?php echo $step['title'] ?? ''; ?></a>
 				</li>
 			<?php endforeach; ?>
 		</ul>
