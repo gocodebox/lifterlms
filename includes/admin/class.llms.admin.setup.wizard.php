@@ -35,8 +35,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->type      = 'setup';
-		$this->views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
 		$this->title     = __( 'LifterLMS Setup Wizard', 'lifterlms' );
 		$this->steps     = array(
 			'intro'    => array(
@@ -66,7 +64,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 			),
 		);
 
-		parent::__construct();
+		$this->add_hooks();
 
 		// Add HTML around importable courses on last step.
 		add_action( 'llms_before_importable_course', array( $this, 'output_before_importable_course' ) );
