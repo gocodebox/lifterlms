@@ -18,9 +18,7 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Abstract_Admin_Wizard {
 
 	/**
-	 * Page slug.
-	 *
-	 * @since [version]
+	 * Wizard type.
 	 *
 	 * @var string
 	 */
@@ -29,11 +27,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Views directory
 	 *
-	 * @since [version]
-	 *
 	 * @var string
 	 */
-	protected string $views_dir;
+	protected string $views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
 
 	/**
 	 * Steps
@@ -54,20 +50,23 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	protected string $title;
 
 	/**
-	 * Instance of WP_Error
+	 * Error message.
+	 *
+	 * @since [version]
+	 * @since [version]
 	 *
 	 * @var WP_Error|null
 	 */
-	protected $error = null;
+	protected ?WP_Error $error = null;
 
 	/**
-	 * Constructor
+	 * Add hooks.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	protected function add_hooks(): void {
 
 		/**
 		 * Whether the LifterLMS Wizard is enabled.
@@ -79,21 +78,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 * @param boolean $enabled Whether the wizard is enabled.
 		 */
 		if ( apply_filters( "llms_enable_{$this->type}_wizard", true ) ) {
-			$this->add_hooks();
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_init', array( $this, 'save' ) );
 		}
-	}
-
-	/**
-	 * Add hooks.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	protected function add_hooks(): void {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_init', array( $this, 'save' ) );
 	}
 
 	/**
@@ -135,6 +123,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return bool
 	 */
 	public function enqueue(): bool {
+
+		if ( ! isset( $_GET['page'] ) || 'llms-' . $this->type !== $_GET['page'] ) {
+			return '';
+		}
 
 		$extra = true;
 
@@ -315,13 +307,12 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return void
 	 */
 	public function output(): void {
-
-		$views_dir = trailingslashit( esc_attr( $this->views_dir ) );
-		$step_html = '';
-		$steps     = $this->get_steps();
-		$current   = $this->get_current_step();
-		$prev      = $this->get_prev_step();
-		$next      = $this->get_next_step();
+		$views_dir   = trailingslashit( esc_attr( $this->views_dir ) );
+		$step_html   = '';
+		$steps       = $this->get_steps();
+		$current     = $this->get_current_step() ?? 'intro';
+		$prev        = $this->get_prev_step();
+		$next        = $this->get_next_step();
 
 		if ( in_array( $current, array_keys( $steps ), true ) ) {
 
@@ -362,25 +353,25 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return null;
 		}
 
-		$res = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		$response = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
+
 		if ( method_exists( $this, 'save_' . $step ) ) {
-			$res = call_user_func( array( $this, 'save_' . $step ) );
+			$response = call_user_func( array( $this, 'save_' . $step ) );
 		}
 
-		if ( is_wp_error( $res ) ) {
-			$this->error = $res;
-			return $res;
+		if ( is_wp_error( $response ) ) {
+			$this->error = $response;
+			return $response;
 		}
 
-		$url = ( 'finish' === $step ) ? $this->get_completed_url( $res ) : $this->get_step_url( $this->get_next_step() );
+		$url = ( 'finish' === $step ) ? $this->get_completed_url( $response ) : $this->get_step_url( $this->get_next_step() );
 
 		try {
 			llms_redirect_and_exit( $url );
-		} catch ( Exception $e ) {
-			$this->error = new WP_Error( 'llms-setup-save-redirect', $e->getMessage() );
-			return $this->error;
+		} catch ( Exception $exception ) {
+			return new WP_Error( 'llms-setup-save-redirect', $exception->getMessage() );
 		}
 
 		return null;
