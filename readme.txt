@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com/
 Tags: course, elearning, learning management system, online courses, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.6
+Requires at least: 5.9
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 7.1.3
+Stable tag: 7.2.0
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,28 +533,77 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.2.0 - 2023-06-07 =
+
+##### New Features
+
++ Added `LLMS_ASSETS_VERSION` constant for cache busting.
++ Add course builder explainer video and lesson IDs.
++ Add new dashboard widget.
++ Added query to remove order comments on plugin uninstall when the constant `LLMS_REMOVE_ALL_DATA` is set to `true`. [#2322](https://github.com/gocodebox/lifterlms/issues/2322)
++ Added support for showing multiple difficulties when using Gutenberg Editor. [#2433](https://github.com/gocodebox/lifterlms/issues/2433)
++ Add shortcode wrapper blocks.
++ Added new navigation link block.
++ Added `llms_is_editor_block_rendering` helper function.
++ Added `llms_is_block_editor` helper function.
+
+##### Updates and Enhancements
+
++ Adjusted `llms_modify_dashboard_pagination_links_disable` filter to return false only on Dashboard page.
++ Updates LifterLMS REST to [v1.0.0-beta.27](https://make.lifterlms.com/2023/05/31/lifterlms-rest-api-version-1-0-0-beta-27).
++ Raised the minimum support WordPress core version to 5.9.
++ Updates LifterLMS Blocks to [2.5.0](https://make.lifterlms.com/2023/06/06/lifterlms-blocks-version-2-5-0/).
+
+##### Bug Fixes
+
++ Fixed LifterLMS specific block templates not correctly working on Windows file system.
++ Added `function_exists` check for `llms_blocks_is_post_migrated()`.
++ Update so dismissed notifications don't remain on viewport top layer.
++ Made sure to always enqueue iziModal assets when rendering achievements cards.
+
+##### Developer Notes
+
++ Added new filter hook `llms_builder_settings` to filter the settings passed to the course builder.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/course/syllabus.php)
+
+
+= v7.1.4 - 2023-04-28 =
+
+##### Bug Fixes
+
++ Fixed an issue that prevented the correct saving of the course length when using the block editor. [#2426](https://github.com/gocodebox/lifterlms/issues/2426)
+
+##### Developer Notes
+
++ Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2 expecting `render_block()` returning a string while we were applying a filter that returned the boolean `true`.
+
+
 = v7.1.3 - 2023-04-25 =
 
 ##### Updates and Enhancements
 
 + Wrapped some elements in HTML for better styling.
 + In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
-+ Updated few new Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
++ Updated few Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
 + Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
 
 ##### Bug Fixes
 
 + Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
-+ Fixed 'Course Length' and 'Difficulty fields' fields visible in Gutenberg Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
-+ Added missing `$post_id` parameter to the Post Title filter when retrieving a form title. [#2322](https://github.com/gocodebox/lifterlms/issues/2322)
-+ Added missing armed forces options to the State dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
++ Fixed "Course Length" and "Difficulty" fields visible in the Block Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
++ Added missing `$post_id` parameter to the `the_title` filter hook when retrieving a form title. [#2332](https://github.com/gocodebox/lifterlms/issues/2332)
++ Added missing Armed Forces options to the US States dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
 + Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
 
 ##### Developer Notes
 
-+ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values with filter hook `lifterlms_floats_rounding_precision` to filter precision value for reporting section. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
-+ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
-+ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
++ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values and filter hook `lifterlms_floats_rounding_precision` to filter precision value in reporting. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
++ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
++ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
 
 ##### Updated Templates
 
@@ -735,34 +784,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Security Fixes
 
 + Fixed a data sanitization issue related to achievement permalinks.
-
-
-= v6.10.1 - 2022-09-07 =
-
-##### Bug Fixes
-
-+ Fixed a PHP warning raised when logging errors during email notification dispatch. [#2250](https://github.com/gocodebox/lifterlms/issues/2250)
-+ Fixed issue preventing one-time orders for being included in membership revenue reporting widgets. [#2254](https://github.com/gocodebox/lifterlms/issues/2254)
-
-
-= v6.10.0 - 2022-08-29 =
-
-##### Updates and Enhancements
-
-+ Updtaed woocommerce/action-scheduler to version [3.5.0](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.0).
-+ Upgrades the bundled `quill-wordcount` module to version 2.0, addressing an issue encountered when counting words with non-Latin character languages.
-
-##### Bug Fixes
-
-+ Make `<pre>` elements in quiz attempt results scrollable.
-+ Make sure the current user can edit the lesson, when changing its completion status from the admin reporting.
-+ Added missing textodmain for the string 'Move {post_title} to the Trash'. [#2224](https://github.com/gocodebox/lifterlms/issues/2224)
-+ Fixed PHP fatal error when quick editing an award. [#2231](https://github.com/gocodebox/lifterlms/issues/2231)
-+ Updated Spain's provinces list. [#2243](https://github.com/gocodebox/lifterlms/issues/2243)
-
-##### Deprecations
-
-+ The files `assets/vendor/quill/quill.module.wordcount.js` and `assets/vendor/quill/quill.module.wordcount.min.js` are to be removed in the next major release. Instead of loading these files directly, use `wp_enqueue_script( 'llms-quill-wordcount' )`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

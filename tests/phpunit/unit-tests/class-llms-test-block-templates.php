@@ -7,7 +7,7 @@
  * @group block_templates
  *
  * @since 5.8.0
- * @since 5.9.0 Added more tests.
+ * @version 7.2.0
  */
 class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 
@@ -124,6 +124,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	 * Test generate_template_slug_from_path().
 	 *
 	 * @since 5.9.0
+	 * @since 7.2.0 Remove unneded tests after switching `generate_template_slug_from_path()` logic to use `basename()`.
 	 *
 	 * @return void
 	 */
@@ -141,41 +142,6 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 				'generate_template_slug_from_path',
 				array(
 					key( $block_templates_config ) . '/template.html',
-				)
-			)
-		);
-
-		// This util is pretty dumb, it expects the block file extension to be 5 chars, dot included, otherwise...
-		$this->assertEquals(
-			reset( $block_templates_config )['slug_prefix'] . 'templat',
-			LLMS_Unit_Test_Util::call_method(
-				$this->main,
-				'generate_template_slug_from_path',
-				array(
-					key( $block_templates_config ) . '/template.htm',
-				)
-			)
-		);
-
-		$this->assertEquals(
-			reset( $block_templates_config )['slug_prefix'] . 'template',
-			LLMS_Unit_Test_Util::call_method(
-				$this->main,
-				'generate_template_slug_from_path',
-				array(
-					key( $block_templates_config ) . '/template12345',
-				)
-			)
-		);
-
-		// If you pass a path which is not in the configuration I expect an empty slug.
-		$this->assertEquals(
-			'',
-			LLMS_Unit_Test_Util::call_method(
-				$this->main,
-				'generate_template_slug_from_path',
-				array(
-					'/whateverpath/template.html',
 				)
 			)
 		);

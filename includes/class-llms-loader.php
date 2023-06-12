@@ -232,7 +232,8 @@ class LLMS_Loader {
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
-	 * @since [version] Move `LLMS_Privacy_Component` require to `late_includes()` executed at 'plugins_loaded' action hook.
+	 * @since 7.2.0 Include `LLMS_Shortcodes_Blocks`.
+   * @since [version] Move `LLMS_Privacy_Component` require to `late_includes()` executed at 'plugins_loaded' action hook.
 	 *
 	 * @return void
 	 */
@@ -240,6 +241,7 @@ class LLMS_Loader {
 
 		// Instantiate LLMS_Shortcodes before LLMS_Controller_Orders.
 		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class.llms.shortcodes.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class.llms.shortcodes.blocks.php';
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';
@@ -343,6 +345,7 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
 	 *
 	 * @return void
 	 */
@@ -362,6 +365,7 @@ class LLMS_Loader {
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard-widget.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.menus.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';

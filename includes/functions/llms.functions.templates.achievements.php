@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.14.0
- * @version 6.0.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -58,11 +58,12 @@ function llms_get_achievement_loop_columns() {
 
 
 /**
- * Get template for achievements loop
+ * Get template for achievements loop.
  *
  * @since 3.14.0
  * @since 3.14.1 Unknown.
  * @since 6.0.0 Updated to use the new signature of the {@see LLMS_Student::get_achievements()}.
+ * @since 7.2.0 Made sure to always enqueue needed assets.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
  *                              The current student will be used if none supplied.
@@ -83,6 +84,9 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 		if ( ! $student ) {
 			return;
 		}
+
+		llms()->assets->enqueue_style( 'llms-iziModal' );
+		llms()->assets->enqueue_script( 'llms-iziModal' );
 
 		$cols     = $columns ? $columns : llms_get_achievement_loop_columns();
 		$per_page = $cols * 5;

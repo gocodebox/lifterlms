@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 7.1.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -894,7 +894,7 @@ GROUP BY locations.meta_value";
 	 * Determine if a block is visible based on LifterLMS Visibility Settings.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2
+	 * @since 7.1.4 Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2
 	 *              expecting `render_block()` returning a string while we were applying a filter
 	 *              that returned the boolean `true`.
 	 *
@@ -1265,7 +1265,7 @@ GROUP BY locations.meta_value";
 	 *
 	 * Useful for returning a non empty string to filters easily.
 	 *
-	 * @since [version]
+	 * @since 7.1.4
 	 *
 	 * @access private
 	 *

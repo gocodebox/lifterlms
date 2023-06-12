@@ -8,7 +8,7 @@
  * @group functions_template
  *
  * @since 4.8.0
- * @since 5.9.0 Added tests on llms_template_file_path().
+ * @version 7.2.0
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -250,6 +250,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() when passing an absolute template directory (not relative to the plugin dir).
 	 *
 	 * @since 5.9.0
+	 * @since 7.2.0 Stop expecting leading slash added to absolute paths.
 	 *
 	 * @return void
 	 */
@@ -258,7 +259,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'/path/to/absolute/single-certificate.php',
-			llms_template_file_path( 'single-certificate.php', 'path/to/absolute', true )
+			llms_template_file_path( 'single-certificate.php', '/path/to/absolute', true )
 		);
 
 		/**
