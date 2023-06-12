@@ -206,7 +206,6 @@ function llms_maybe_restore_previous_locale() {
  * @param string      $domain       Textdomain being loaded.
  * @param string|null $plugin_dir   Full path to the plugin directory, if none supplied `LLMS_PLUGIN_DIR` is used.
  * @param string|null $language_dir Relative path to the language directory within the plugin. If none supplied, `languages` is used.
- *
  * @return void
  */
 function llms_init_locale( $domain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
