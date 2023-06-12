@@ -1,3 +1,5 @@
 significance: patch
 type: dev
-entry: Added `llms_maybe_switch_to_site_locale()` and `llms_restore_previous_locale()` utils. To switch back and forth the current locale to the site locale. In both cases the LifterLMS textdomain is reloaded.
+entry: Added `llms_maybe_switch_to_site_locale()` and `llms_restore_previous_locale()` utils.
+  To switch back and forth the current locale to the site locale.
+  In both cases the LifterLMS textdomain is reloaded.
