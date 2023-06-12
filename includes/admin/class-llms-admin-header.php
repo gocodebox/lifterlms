@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version 7.1.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,6 +34,7 @@ class LLMS_Admin_Header {
 	 * @since 7.1.0
 	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
 	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
+	 * @since [version] Remove admin header from Course Cohorts wizard.
 	 *
 	 * @return void
 	 */
@@ -68,7 +69,7 @@ class LLMS_Admin_Header {
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 		// Exclude the wizard.
-		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
+		if ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup', 'llms-cohorts') ) ) {
 			$show_header = false;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
