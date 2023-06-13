@@ -1,5 +1,7 @@
 @import "_includes/vars";
 
+$input_padding: 0.3em 0.6em;
+
 #wpadminbar, #adminmenumain, #wpfooter {
 	display: none;
 }
@@ -61,34 +63,11 @@
 		font-weight: 500;
 	}
 
-	.llms-setup-actions {
-		margin-top: 40px;
-		text-align: right;
-
-		.llms-button-primary {
-			display: inline-block;
-
-			&:after {
-				content: "\f054";
-				font-family: 'FontAwesome';
-				font-weight: 900;
-				padding-left: 10px;
-			}
-
-		}
-	}
-
-	.llms-exit-setup {
-		color: inherit !important;
-		margin-right: 10px;
-	}
-
 	table {
 		border-bottom: 1px solid #f1f1f1;
 		border-collapse: collapse;
 		width: 100%;
 	}
-
 
 	td {
 		border-top: 1px solid #f1f1f1;
@@ -116,60 +95,142 @@
 
 	}
 
-	ul.llms-importable-courses {
-		border-bottom: 1px solid #f1f1f1;
-		display: block;
+	small {
+		font-size: small;
+	}
 
-		li.llms-importable-course {
-			border-top: 1px solid #f1f1f1;
-			display: block;
+	.has-checkbox-field {
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+		align-items: center;
+		align-content: center;
+		gap: 0.5em;
+		font-weight: normal;
+		font-size: 16px;
+
+		input {
 			margin: 0;
-			max-width: 100%;
-			padding: 20px 40px 20px 0;
-
-			h3 {
-				margin: 0;
-			}
-
-			p {
-				margin: 10px 0 0 0;
-			}
-
-			label {
-				font-weight: 400;
-			}
-
-			img {
-				float: left;
-				margin-right: 15px;
-				width: 22%;
-			}
-
-			.llms-switch {
-				float: right;
-				right: -40px;
-
-				input.llms-toggle-round:checked + label {
-					border-color: $color-brand-blue;
-				 	background-color: $color-brand-blue;
-				}
-
-			}
-
 		}
 	}
 
-
-	.llms-importing-msgs {
-		a { color: $color-brand-blue; }
-		.llms-importing-msg {
-			display: none;
-			font-size: 14px;
-			font-style: italic;
-			text-align: right;
-		}
+	label {
+		font-size: 16px;
+		display: block;
+		margin-bottom: 0.5em;
 	}
 
+	small + label {
+		margin-top: 1em;
+	}
+
+	[type=text] {
+		width: 100%;
+		clear: both;
+		margin: 0;
+		padding: $input_padding;
+	}
+
+	.has-date-field {
+		font-size: 16px;
+		display: flex;
+		margin-bottom: 0.5em;
+		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 0.5em;
+	}
+
+	[type=date] {
+		width: 50%;
+		padding: $input_padding;
+	}
+}
+
+.llms-setup-actions {
+	margin-top: 40px;
+	text-align: right;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+
+	.llms-button-primary {
+		display: inline-block;
+
+		&:after {
+			content: "\f054";
+			font-family: 'FontAwesome';
+			font-weight: 900;
+			padding-left: 10px;
+		}
+
+	}
+}
+
+.llms-exit-setup {
+	color: inherit !important;
+	margin-right: 10px;
+
+	+ .llms-button-primary,
+	+ .llms-button-secondary {
+		margin-left: auto;
+	}
+}
+
+.llms-importing-msgs {
+	a {
+		color: $color-brand-blue;
+	}
+
+	.llms-importing-msg {
+		display: none;
+		font-size: 14px;
+		font-style: italic;
+		text-align: right;
+	}
+}
+
+ul.llms-importable-courses {
+	border-bottom: 1px solid #f1f1f1;
+	display: block;
+
+	li.llms-importable-course {
+		border-top: 1px solid #f1f1f1;
+		display: block;
+		margin: 0;
+		max-width: 100%;
+		padding: 20px 40px 20px 0;
+
+		h3 {
+			margin: 0;
+		}
+
+		p {
+			margin: 10px 0 0 0;
+		}
+
+		label {
+			font-weight: 400;
+		}
+
+		img {
+			float: left;
+			margin-right: 15px;
+			width: 22%;
+		}
+
+		.llms-switch {
+			float: right;
+			right: -40px;
+
+			input.llms-toggle-round:checked + label {
+				border-color: $color-brand-blue;
+				background-color: $color-brand-blue;
+			}
+
+		}
+
+	}
 }
 
 .llms-setup-progress {
@@ -206,6 +267,7 @@
 
 		&.current {
 			font-weight: 700;
+
 			&:after {
 				background: #fff;
 			}
@@ -213,10 +275,12 @@
 
 		&.current ~ li {
 			border-bottom-color: #ccc;
+
 			&:after {
 				background: #ccc;
 				border-color: #ccc;
 			}
+
 			a {
 				color: #bbb;
 			}
