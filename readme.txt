@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 7.2.0
+Stable tag: 7.2.1
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,13 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.2.1 - 2023-06-13 =
+
+##### Updates and Enhancements
+
++ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
+
+
 = v7.2.0 - 2023-06-07 =
 
 ##### New Features
@@ -773,17 +780,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Bug Fixes
 
 + Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
-
-
-= v6.10.2 - 2022-09-14 =
-
-##### Updates and Enhancements
-
-+ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
-
-##### Security Fixes
-
-+ Fixed a data sanitization issue related to achievement permalinks.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
