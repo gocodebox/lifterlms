@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.2.1 - 2023-06-13
+-------------------
+
+##### Updates and Enhancements
+
++ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
+
+
 v7.2.0 - 2023-06-07
 -------------------
 
