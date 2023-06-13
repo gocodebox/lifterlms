@@ -60,6 +60,15 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	protected ?WP_Error $error = null;
 
 	/**
+	 * Optional transient key to store wizard data.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected string $transient_key = '';
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since [version]
@@ -307,12 +316,13 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return void
 	 */
 	public function output(): void {
-		$views_dir   = trailingslashit( esc_attr( $this->views_dir ) );
-		$step_html   = '';
-		$steps       = $this->get_steps();
-		$current     = $this->get_current_step() ?? 'intro';
-		$prev        = $this->get_prev_step();
-		$next        = $this->get_next_step();
+		$views_dir = trailingslashit( esc_attr( $this->views_dir ) );
+		$step_html = '';
+		$steps     = $this->get_steps();
+		$current   = $this->get_current_step() ?? 'intro';
+		$prev      = $this->get_prev_step();
+		$next      = $this->get_next_step();
+		$transient = get_transient( $this->transient_key ) ?? [];
 
 		if ( in_array( $current, array_keys( $steps ), true ) ) {
 
