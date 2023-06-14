@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 5.8.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -545,6 +545,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
 	 * @since 4.14.0 Added builder autosave preference defaults.
+	 * @since 7.2.0 Added video explainer template.
 	 *
 	 * @return void
 	 */
@@ -598,6 +599,7 @@ class LLMS_Admin_Builder {
 					'settings-fields',
 					'sidebar',
 					'utilities',
+					'video-explainer',
 				);
 
 				foreach ( $templates as $template ) {
@@ -614,21 +616,39 @@ class LLMS_Admin_Builder {
 			<script>window.llms_builder =
 			<?php
 			echo json_encode(
-				array(
-					'autosave'  => self::get_autosave_status(),
-					'admin_url' => admin_url(),
-					'course'    => $course->toArray(),
-					'debug'     => array(
-						'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
-					),
-					'questions' => array_values( llms_get_question_types() ),
-					'schemas'   => self::get_custom_schemas(),
-					'sync'      => apply_filters(
-						'llms_builder_sync_settings',
-						array(
-							'check_interval_ms' => 10000,
-						)
-					),
+				/**
+				 * Filters the settings passed to the builder.
+				 *
+				 * @since 7.2.0
+				 *
+				 * @param array $settings Associative array of settings passed to the LifterLMS course builder.
+				 */
+				apply_filters(
+					'llms_builder_settings',
+					array(
+						'autosave'               => self::get_autosave_status(),
+						'admin_url'              => admin_url(),
+						'course'                 => $course->toArray(),
+						'debug'                  => array(
+							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
+						),
+						'questions'              => array_values( llms_get_question_types() ),
+						'schemas'                => self::get_custom_schemas(),
+						'sync'                   => apply_filters(
+							/**
+							 * Filters the sync builder settings.
+							 *
+							 * @since 3.16.0
+							 *
+							 * @param array $settings Associative array of settings passed to the LifterLMS course builder used for the sync.
+							 */
+							'llms_builder_sync_settings',
+							array(
+								'check_interval_ms' => 10000,
+							)
+						),
+						'enable_video_explainer' => true,
+					)
 				)
 			);
 			?>

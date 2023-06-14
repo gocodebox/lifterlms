@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 6.4.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,10 +22,10 @@ class LLMS_Shortcodes {
 	 * Constructor.
 	 *
 	 * @since 6.4.0
+	 *
 	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 	}
 

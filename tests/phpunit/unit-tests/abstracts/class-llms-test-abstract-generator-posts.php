@@ -150,11 +150,18 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 
 		// Force an error response.
 		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+		$block_post_id = $this->factory->post->create();
 
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->stub, 'create_reusable_block', array( $this->factory->post->create(), array(
-			'title' => '',
-			'content' => '',
-		) ) ) );
+		$this->assertFalse(
+			LLMS_Unit_Test_Util::call_method( $this->stub, 'create_reusable_block',
+			array(
+				is_wp_error( $block_post_id ) ? 0 : $block_post_id,
+				array(
+					'title' => '',
+					'content' => '',
+				)
+			)
+		) );
 
 		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
 

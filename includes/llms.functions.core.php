@@ -1018,6 +1018,50 @@ function llms_is_block_theme() {
 }
 
 /**
+ * Checks if the current admin page is the block editor.
+ *
+ * @since 7.2.0
+ *
+ * @return bool
+ */
+function llms_is_block_editor(): bool {
+	if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+		return true;
+	}
+
+	$current_screen = get_current_screen();
+
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Determine if the current request is a block rendering request in the editor.
+ *
+ * @since 7.2.0
+ *
+ * @return bool
+ */
+function llms_is_editor_block_rendering() {
+	if ( ! defined( 'REST_REQUEST' ) || ! is_user_logged_in() ) {
+		return false;
+	}
+
+	global $wp;
+
+	if ( ! $wp instanceof WP || empty( $wp->query_vars['rest_route'] ) ) {
+		return false;
+	}
+
+	$route = $wp->query_vars['rest_route'];
+
+	return false !== strpos( $route, '/block-renderer/' );
+}
+
+/**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
  * @thanks woocommerce <3.

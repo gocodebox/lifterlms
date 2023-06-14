@@ -1,6 +1,53 @@
 LifterLMS Changelog
 ===================
 
+v7.2.1 - 2023-06-13
+-------------------
+
+##### Updates and Enhancements
+
++ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
+
+
+v7.2.0 - 2023-06-07
+-------------------
+
+##### New Features
+
++ Added `LLMS_ASSETS_VERSION` constant for cache busting.
++ Add course builder explainer video and lesson IDs.
++ Add new dashboard widget.
++ Added query to remove order comments on plugin uninstall when the constant `LLMS_REMOVE_ALL_DATA` is set to `true`. [#2322](https://github.com/gocodebox/lifterlms/issues/2322)
++ Added support for showing multiple difficulties when using Gutenberg Editor. [#2433](https://github.com/gocodebox/lifterlms/issues/2433)
++ Add shortcode wrapper blocks.
++ Added new navigation link block.
++ Added `llms_is_editor_block_rendering` helper function.
++ Added `llms_is_block_editor` helper function.
+
+##### Updates and Enhancements
+
++ Adjusted `llms_modify_dashboard_pagination_links_disable` filter to return false only on Dashboard page.
++ Updates LifterLMS REST to [v1.0.0-beta.27](https://make.lifterlms.com/2023/05/31/lifterlms-rest-api-version-1-0-0-beta-27).
++ Raised the minimum support WordPress core version to 5.9.
++ Updates LifterLMS Blocks to [2.5.0](https://make.lifterlms.com/2023/06/06/lifterlms-blocks-version-2-5-0/).
+
+##### Bug Fixes
+
++ Fixed LifterLMS specific block templates not correctly working on Windows file system.
++ Added `function_exists` check for `llms_blocks_is_post_migrated()`.
++ Update so dismissed notifications don't remain on viewport top layer.
++ Made sure to always enqueue iziModal assets when rendering achievements cards.
+
+##### Developer Notes
+
++ Added new filter hook `llms_builder_settings` to filter the settings passed to the course builder.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/course/syllabus.php)
+
+
 v7.1.4 - 2023-04-28
 -------------------
 

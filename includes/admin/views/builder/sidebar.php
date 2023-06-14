@@ -2,8 +2,9 @@
 /**
  * Builder sidebar view template
  *
- * @since   3.16.0
- * @version 3.16.7
+ * @since 3.16.0
+ * @since 7.2.0 Added video explainer wrapper element.
+ * @version 7.2.0
  */
 ?>
 
@@ -11,6 +12,7 @@
 
 	<div class="llms-elements" id="llms-elements"></div>
 	<div class="llms-utilities" id="llms-utilities"></div>
+	<div class="llms-video-explainer" id="llms-video-explainer"></div>
 
 	<div class="llms-editor" id="llms-editor"></div>
 

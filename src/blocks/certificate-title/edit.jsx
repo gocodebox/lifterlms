@@ -1,10 +1,10 @@
-// WP Deps.
+// WordPress dependencies.
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { store as blocksStore } from '@wordpress/blocks';
 import { store as editorStore } from '@wordpress/editor';
 
-// Internal deps.
+// Internal dependencies.
 import { editCertificateTitle } from '../../js/util';
 
 /**

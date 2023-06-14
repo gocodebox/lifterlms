@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "7.1.4",
+  "version": "7.2.1",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "build:scripts": "wp-scripts build",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl && gulp hacky-clean",
+    "build:blocks": "wp-scripts build --config packages/scripts/config/blocks-webpack.config.js",
     "dev": "llms-dev",
     "lerna": "lerna",
     "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
@@ -56,6 +57,7 @@
     "pkg:test": "wp-scripts test-unit-js ./packages --config packages/scripts/config/jest-unit.config.js --verbose",
     "postinstall": "npm run pkg:hoist",
     "start": "wp-scripts start",
-    "start:legacy": "gulp watch"
+    "start:legacy": "gulp watch",
+    "start:blocks": "wp-scripts start --config packages/scripts/config/blocks-webpack.config.js"
   }
 }

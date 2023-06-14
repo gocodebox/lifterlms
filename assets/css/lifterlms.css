@@ -1737,15 +1737,14 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
   -webkit-box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
           box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
   border-top: 4px solid #2295ff;
-  left: 12px;
   opacity: 0;
   padding: 12px;
   position: fixed;
-  right: 12px;
+  right: -800px;
   top: 24px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out;
-  visibility: none;
+  visibility: hidden;
   width: auto;
   z-index: 9999999;
 }
@@ -1757,7 +1756,9 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
   clear: both;
 }
 .llms-notification.visible {
+  left: 12px;
   opacity: 1;
+  right: 12px;
   -webkit-transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
   transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
   transition: opacity 0.4s ease-in-out, right 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
@@ -1936,11 +1937,11 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
 
 @media all and (min-width: 480px) {
   .llms-notification {
-    left: auto;
     right: -800px;
     width: 360px;
   }
   .llms-notification.visible {
+    left: auto;
     right: 24px;
   }
   .llms-notification .llms-notification-dismiss {
