@@ -60,15 +60,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	protected ?WP_Error $error = null;
 
 	/**
-	 * Optional transient key to store wizard data.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	protected string $transient_key = '';
-
-	/**
 	 * Add hooks.
 	 *
 	 * @since [version]
@@ -278,13 +269,13 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return string
 	 */
 	private function get_step_url( string $step ): string {
-		return add_query_arg(
-			array(
-				'page' => 'llms-' . $this->type,
-				'step' => $step,
-			),
-			admin_url()
+
+		$args = array(
+			'page' => 'llms-' . $this->type,
+			'step' => $step,
 		);
+
+		return add_query_arg( $args, admin_url() );
 	}
 
 	/**
@@ -322,7 +313,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		$current   = $this->get_current_step() ?? 'intro';
 		$prev      = $this->get_prev_step();
 		$next      = $this->get_next_step();
-		$transient = get_transient( $this->transient_key ) ?? [];
+		$transient = $this->get_transient();
 
 		if ( in_array( $current, array_keys( $steps ), true ) ) {
 
@@ -376,6 +367,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return $response;
 		}
 
+		if ( ! is_array( $response ) ) {
+			$response = array( $response );
+		}
+
 		$url = ( 'finish' === $step ) ? $this->get_completed_url( $response ) : $this->get_step_url( $this->get_next_step() );
 
 		try {
@@ -385,6 +380,17 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns wizard transient if set.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_transient(): array {
+		return [];
 	}
 
 }
