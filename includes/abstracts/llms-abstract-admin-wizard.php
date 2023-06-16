@@ -2,7 +2,7 @@
 /**
  * Display a Wizard
  *
- * @package LifterLMS/Admin/Classes
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since [version]
  * @version [version]
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Display a Wizard class
+ * Display a Wizard class.
  *
  * @since [version]
  */
@@ -20,19 +20,23 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Wizard type.
 	 *
+	 * @since [version]
+	 *
 	 * @var string
 	 */
 	protected string $type = 'setup';
 
 	/**
-	 * Views directory
+	 * Views directory.
+	 *
+	 * @since [version]
 	 *
 	 * @var string
 	 */
 	protected string $views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
 
 	/**
-	 * Steps
+	 * Steps.
 	 *
 	 * @since [version]
 	 *
@@ -52,7 +56,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Error message.
 	 *
-	 * @since [version]
 	 * @since [version]
 	 *
 	 * @var WP_Error|null
@@ -77,11 +80,32 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @param boolean $enabled Whether the wizard is enabled.
 		 */
-		if ( apply_filters( "llms_enable_{$this->type}_wizard", true ) ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			add_action( 'admin_init', array( $this, 'save' ) );
+		if ( ! apply_filters( "llms_enable_{$this->type}_wizard", true ) ) {
+			return;
 		}
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'save' ) );
+		add_filter( 'llms_admin_show_header', array( $this, 'hide_admin_header' ), 10, 3 );
+	}
+
+	/**
+	 * Hide the admin header on the wizard pages.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool      $show Whether to show the admin header.
+	 * @param WP_Screen $screen Current admin screen.
+	 * @param string    $page Current admin page.
+	 * @return bool
+	 */
+	public function hide_admin_header( bool $show, WP_Screen $screen, string $page ): bool {
+		if ( "llms-{$this->type}" === $page ) {
+			$show = false;
+		}
+
+		return $show;
 	}
 
 	/**
@@ -171,7 +195,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	public function get_current_step(): string {
 		$step_keys = array_keys( $this->get_steps() );
 
-		return ( $_GET['step'] ?? '' ) ? llms_filter_input_sanitize_string( INPUT_GET, 'step' ) : $step_keys[0]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$step = sanitize_text_field( wp_unslash( $_GET['step'] ?? '' ) );
+
+		return $step ? llms_filter_input_sanitize_string( INPUT_GET, 'step' ) : $step_keys[0]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -179,11 +205,11 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $step Step to use as current.
+	 * @param ?string $step Step to use as current.
 	 * @return string
 	 */
-	public function get_next_step( string $step = '' ): string {
-		$step = $step ?: $this->get_current_step();
+	public function get_next_step( string $step = null ): string {
+		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
 
@@ -200,11 +226,11 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $step Step to use as current.
+	 * @param ?string $step Step to use as current.
 	 * @return string
 	 */
-	public function get_prev_step( string $step = '' ): string {
-		$step = $step ?: $this->get_current_step();
+	public function get_prev_step( string $step = null ): string {
+		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
 
@@ -359,7 +385,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
 
 		if ( method_exists( $this, 'save_' . $step ) ) {
-			$response = call_user_func( array( $this, 'save_' . $step ) );
+			$response = $this->{"save_{$step}"}();
 		}
 
 		if ( is_wp_error( $response ) ) {
@@ -376,7 +402,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		try {
 			llms_redirect_and_exit( $url );
 		} catch ( Exception $exception ) {
-			return new WP_Error( 'llms-setup-save-redirect', $exception->getMessage() );
+			return new WP_Error( "llms-{$this->type}-save-redirect", $exception->getMessage() );
 		}
 
 		return null;
@@ -390,7 +416,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return array
 	 */
 	protected function get_transient(): array {
-		return [];
+		return array();
 	}
 
 }
