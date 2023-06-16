@@ -141,9 +141,23 @@ $input_padding: 0.3em 0.6em;
 	}
 
 	[type=date] {
-		width: 50%;
 		padding: $input_padding;
 	}
+
+	.is-hidden {
+		display: none;
+	}
+}
+
+.llms-setup-date-fields {
+	display: flex;
+	justify-content: space-between;
+	gap: 1em;
+	padding-top: 2em;
+}
+
+.llms-setup-date-field {
+	flex: 1;
 }
 
 .llms-setup-actions {
