@@ -35,6 +35,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 * @return void
 	 */
 	public function __construct() {
+		$this->id    = 'setup';
 		$this->title = __( 'LifterLMS Setup Wizard', 'lifterlms' );
 		$this->steps = array(
 			'intro'    => array(
@@ -72,6 +73,24 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 
 		// Hide action buttons on importable courses during last step.
 		add_filter( 'llms_importable_course_show_action', '__return_false' );
+
+		// Enqueue importer styles.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_importer' ) );
+	}
+
+	/**
+	 * Enqueue importer styles.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function enqueue_importer(): bool {
+		if ( 'finish' === $this->get_current_step() ) {
+			return llms()->assets->enqueue_style( 'llms-admin-importer' );
+		}
+
+		return false;
 	}
 
 	/**

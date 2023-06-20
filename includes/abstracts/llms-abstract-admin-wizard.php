@@ -18,19 +18,17 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Abstract_Admin_Wizard {
 
 	/**
-	 * Wizard type.
+	 * Wizard ID.
 	 *
 	 * @since [version]
-	 *
 	 * @var string
 	 */
-	protected string $type = 'setup';
+	protected string $id;
 
 	/**
 	 * Views directory.
 	 *
 	 * @since [version]
-	 *
 	 * @var string
 	 */
 	protected string $views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
@@ -39,7 +37,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * Steps.
 	 *
 	 * @since [version]
-	 *
 	 * @var array
 	 */
 	protected array $steps;
@@ -48,7 +45,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * Page title.
 	 *
 	 * @since [version]
-	 *
 	 * @var string
 	 */
 	protected string $title;
@@ -57,7 +53,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * Error message.
 	 *
 	 * @since [version]
-	 *
 	 * @var WP_Error|null
 	 */
 	protected ?WP_Error $error = null;
@@ -66,7 +61,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * Add hooks.
 	 *
 	 * @since [version]
-	 *
 	 * @return void
 	 */
 	protected function add_hooks(): void {
@@ -76,11 +70,13 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * This filter may be used to entirely disable the setup wizard.
 		 *
+		 * The dynamic portion of this filter, `{$this->id}`, refers to the wizard type. E.g. "setup".
+		 *
 		 * @since [version]
 		 *
 		 * @param boolean $enabled Whether the wizard is enabled.
 		 */
-		if ( ! apply_filters( "llms_enable_{$this->type}_wizard", true ) ) {
+		if ( ! apply_filters( "llms_enable_{$this->id}_wizard", true ) ) {
 			return;
 		}
 
@@ -101,7 +97,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @return bool
 	 */
 	public function hide_admin_header( bool $show, WP_Screen $screen, string $page ): bool {
-		if ( "llms-{$this->type}" === $page ) {
+		if ( "llms-{$this->id}" === $page ) {
 			$show = false;
 		}
 
@@ -109,7 +105,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Register wizard setup page
+	 * Register wizard setup page.
 	 *
 	 * @since [version]
 	 *
@@ -130,17 +126,17 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			$this->title,
 			'',
 			$cap,
-			'llms-' . $this->type,
+			'llms-' . $this->id,
 			array( $this, 'output' )
 		);
 
-		update_option( 'lifterlms_first_time_' . $this->type, 'yes' );
+		update_option( 'lifterlms_first_time_' . $this->id, 'yes' );
 
 		return $hook;
 	}
 
 	/**
-	 * Enqueue static assets for the setup wizard screens
+	 * Enqueue static assets for the setup wizard screens.
 	 *
 	 * @since [version]
 	 *
@@ -148,22 +144,16 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	public function enqueue(): bool {
 
-		if ( ! isset( $_GET['page'] ) || 'llms-' . $this->type !== $_GET['page'] ) {
+		if ( ! isset( $_GET['page'] ) || 'llms-' . $this->id !== $_GET['page'] ) {
 			return '';
 		}
 
-		$extra = true;
-
-		if ( 'finish' === $this->get_current_step() ) {
-			$extra = llms()->assets->enqueue_style( 'llms-admin-importer' );
-		}
-
-		return llms()->assets->enqueue_script( 'llms-admin-setup' ) && llms()->assets->enqueue_style( 'llms-admin-setup' ) && $extra;
+		return llms()->assets->enqueue_script( 'llms-admin-wizard' ) && llms()->assets->enqueue_style( 'llms-admin-wizard' );
 
 	}
 
 	/**
-	 * Retrieve the redirect URL to use after an import is complete at the conclusion of the wizard
+	 * Retrieve the redirect URL to use after an import is complete at the conclusion of the wizard.
 	 *
 	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
 	 * to the course post table list sorted by created date with the most recent courses first.
@@ -186,7 +176,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Retrieve the current step and default to the intro
+	 * Retrieve the current step and default to the intro.
 	 *
 	 * @since [version]
 	 *
@@ -201,7 +191,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Get slug if next step
+	 * Get slug if next step.
 	 *
 	 * @since [version]
 	 *
@@ -222,7 +212,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Get slug if prev step
+	 * Get slug if prev step.
 	 *
 	 * @since [version]
 	 *
@@ -242,7 +232,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Get the text to display on the "save" buttons
+	 * Get the text to display on the "save" buttons.
 	 *
 	 * @since [version]
 	 *
@@ -252,19 +242,21 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	private function get_save_text( string $step ): string {
 
 		/**
-		 * Filter the Save button text for a given step in the setup wizard
+		 * Filter the Save button text for a given step in the setup wizard.
 		 *
-		 * The dynamic portion of this hook, `$step`, refers to the slug of the current step.
+		 * The first dynamic portion of this hook, `$this->id`, refers to the type of wizard being displayed.
+		 *
+		 * The second dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
 		 * @since [version]
 		 *
 		 * @param string $text Button text string.
 		 */
-		return apply_filters( "llms_setup_wizard_get_{$step}_save_text", $this->get_steps()[ $step ]['save'] ?? '' );
+		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_save_text", $this->get_steps()[ $step ]['save'] ?? '' );
 	}
 
 	/**
-	 * Get the text to display on the "skip" buttons
+	 * Get the text to display on the "skip" buttons.
 	 *
 	 * @since [version]
 	 *
@@ -287,7 +279,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Get the URL to a step
+	 * Get the URL to a step.
 	 *
 	 * @since [version]
 	 *
@@ -297,7 +289,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	private function get_step_url( string $step ): string {
 
 		$args = array(
-			'page' => 'llms-' . $this->type,
+			'page' => 'llms-' . $this->id,
 			'step' => $step,
 		);
 
@@ -305,7 +297,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Get an array of step slugs => titles
+	 * Get an array of step slugs => titles.
 	 *
 	 * @since [version]
 	 *
@@ -314,7 +306,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	public function get_steps(): array {
 
 		/**
-		 * Filter the steps included in the setup wizard
+		 * Filter the steps included in the setup wizard.
 		 *
 		 * @since [version]
 		 *
@@ -326,7 +318,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Output the HTML content of the setup page
+	 * Output the HTML content of the setup page.
 	 *
 	 * @since [version]
 	 *
@@ -368,7 +360,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Handle saving data during setup
+	 * Handle saving data during setup.
 	 *
 	 * @since [version]
 	 *
@@ -402,7 +394,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		try {
 			llms_redirect_and_exit( $url );
 		} catch ( Exception $exception ) {
-			return new WP_Error( "llms-{$this->type}-save-redirect", $exception->getMessage() );
+			return new WP_Error( "llms-{$this->id}-save-redirect", $exception->getMessage() );
 		}
 
 		return null;
