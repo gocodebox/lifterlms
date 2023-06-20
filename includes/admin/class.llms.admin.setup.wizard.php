@@ -131,6 +131,29 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
+	 * Retrieve the redirect URL to use after an import is complete at the conclusion of the wizard.
+	 *
+	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
+	 * to the course post table list sorted by created date with the most recent courses first.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
+	 * @return string
+	 */
+	protected function get_completed_url( array $course_ids ): string {
+
+		$count = count( $course_ids );
+
+		if ( 1 === $count ) {
+			return get_edit_post_link( $course_ids[0], 'not-display' );
+		}
+
+		return admin_url( 'edit.php?post_type=course&orderby=date&order=desc' );
+
+	}
+
+	/**
 	 * Save the "Coupon" step
 	 *
 	 * @since 4.8.0

@@ -153,27 +153,14 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	}
 
 	/**
-	 * Retrieve the redirect URL to use after an import is complete at the conclusion of the wizard.
-	 *
-	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
-	 * to the course post table list sorted by created date with the most recent courses first.
+	 * Retrieve the redirect URL at the conclusion of the wizard.
 	 *
 	 * @since [version]
 	 *
 	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
 	 * @return string
 	 */
-	protected function get_completed_url( array $course_ids ): string {
-
-		$count = count( $course_ids );
-
-		if ( 1 === $count ) {
-			return get_edit_post_link( $course_ids[0], 'not-display' );
-		}
-
-		return admin_url( 'edit.php?post_type=course&orderby=date&order=desc' );
-
-	}
+	abstract protected function get_completed_url( array $course_ids ): string;
 
 	/**
 	 * Retrieve the current step and default to the intro.
