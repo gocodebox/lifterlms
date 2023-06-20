@@ -116,11 +116,13 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		/**
 		 * Filter the WP User capability required to access and run the setup wizard.
 		 *
+		 * The dynamic portion of this filter, `{$this->type}`, refers to the wizard type. E.g. "setup".
+		 *
 		 * @since [version]
 		 *
 		 * @param string $cap Required user capability. Default value is `install_plugins`.
 		 */
-		$cap = apply_filters( 'llms_setup_wizard_access', 'install_plugins' );
+		$cap = apply_filters( "llms_{$this->type}_wizard_access", 'install_plugins' );
 
 		$hook = add_dashboard_page(
 			$this->title,
@@ -253,15 +255,17 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	private function get_skip_text( string $step ): string {
 
 		/**
-		 * Filter the skip button text for a given step in the setup wizard
+		 * Filter the skip button text for a given step in the setup wizard.
 		 *
-		 * The dynamic portion of this hook, `$step`, refers to the slug of the current step.
+		 * The first dynamic portion of this hook, `$this->id`, refers to the type of wizard being displayed.
+		 *
+		 * The second dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
 		 * @since [version]
 		 *
 		 * @param string $text Button text string.
 		 */
-		return apply_filters( "llms_setup_wizard_get_{$step}_skip_text", $this->get_steps()[ $step ]['skip'] ?? '' );
+		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_skip_text", $this->get_steps()[ $step ]['skip'] ?? '' );
 
 	}
 
@@ -295,12 +299,14 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		/**
 		 * Filter the steps included in the setup wizard.
 		 *
+		 * The dynamic portion of this hook, `$this->id`, refers to the type of wizard being displayed.
+		 *
 		 * @since [version]
 		 *
 		 * @param string[] $steps Array of setup wizard steps. The array key is the slug/id of the step and the array value
 		 *                        is the step's title displayed in the wizard's navigation.
 		 */
-		return apply_filters( 'llms_setup_wizard_steps', $this->steps );
+		return apply_filters( "llms_{$this->id}_wizard_steps", $this->steps );
 
 	}
 
@@ -331,7 +337,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		/**
 		 * Filter the HTML of a step within the setup wizard.
 		 *
-		 * The dynamic portion of this hook, `$current`, refers to the slug of the current step.
+		 * The first dynamic portion of this hook, `$this->id`, refers to the type of wizard being displayed.
+		 *
+		 * The second dynamic portion of this hook, `$current`, refers to the slug of the current step.
 		 *
 		 * This filter can be used to output the HTML for a custom step in the setup wizard.
 		 *
@@ -340,7 +348,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 * @param string $step_html HTML of the step.
 		 * @param LLMS_Admin_Setup_Wizard $wizard Setup wizard class instance.
 		 */
-		$step_html = apply_filters( "llms_setup_wizard_{$current}_html", $step_html, $this );
+		$step_html = apply_filters( "llms_{$this->id}_wizard_{$current}_html", $step_html, $this );
 
 		include $views_dir . 'main.php';
 
