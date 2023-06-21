@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
+ * @since   [version]
  * @version [version]
  */
 
@@ -91,9 +91,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @param bool      $show Whether to show the admin header.
+	 * @param bool      $show   Whether to show the admin header.
 	 * @param WP_Screen $screen Current admin screen.
-	 * @param string    $page Current admin page.
+	 * @param string    $page   Current admin page.
 	 * @return bool
 	 */
 	public function hide_admin_header( bool $show, WP_Screen $screen, string $page ): bool {
@@ -345,8 +345,8 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @since [version]
 		 *
-		 * @param string $step_html HTML of the step.
-		 * @param LLMS_Admin_Setup_Wizard $wizard Setup wizard class instance.
+		 * @param string                  $step_html HTML of the step.
+		 * @param LLMS_Admin_Setup_Wizard $wizard    Setup wizard class instance.
 		 */
 		$step_html = apply_filters( "llms_{$this->id}_wizard_{$current}_html", $step_html, $this );
 
