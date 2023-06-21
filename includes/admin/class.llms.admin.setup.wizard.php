@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,9 +35,10 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->id    = 'setup';
-		$this->title = __( 'LifterLMS Setup Wizard', 'lifterlms' );
-		$this->steps = array(
+		$this->id        = 'setup';
+		$this->views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
+		$this->title     = __( 'LifterLMS Setup Wizard', 'lifterlms' );
+		$this->steps     = array(
 			'intro'    => array(
 				'title' => __( 'Welcome!', 'lifterlms' ),
 				'save'  => __( 'Save & Continue', 'lifterlms' ),

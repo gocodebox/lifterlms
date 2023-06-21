@@ -31,7 +31,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @since [version]
 	 * @var string
 	 */
-	protected string $views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
+	protected string $views_dir;
 
 	/**
 	 * Steps.
