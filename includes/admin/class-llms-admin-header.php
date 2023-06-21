@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since 7.1.0
+ * @since   7.1.0
  * @version [version]
  */
 
@@ -56,20 +56,15 @@ class LLMS_Admin_Header {
 		}
 
 		// Get the current page if available.
-		$page = sanitize_text_field( wp_unslash( $_GET['page'] ?? '' ) );
+		$page = llms_filter_input( INPUT_GET, 'page' );
 
 		// Show header on our settings pages.
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed here
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
 			( strpos( $page, 'llms-' ) === 0 ) ||
 			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) === 0 )
 		) {
 			$show_header = true;
 		}
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 		// Don't show header on the Course Builder.
 		if ( isset( $current_screen->base ) && 'admin_page_llms-course-builder' === $current_screen->base ) {
@@ -81,9 +76,9 @@ class LLMS_Admin_Header {
 		 *
 		 * @since [version]
 		 *
-		 * @param bool $show_header Whether to show the header.
+		 * @param bool      $show_header    Whether to show the header.
 		 * @param WP_Screen $current_screen The current screen object.
-		 * @param string $page The current page if available.
+		 * @param string    $page           The current page if available.
 		 */
 		$show_header = apply_filters( 'llms_admin_show_header', $show_header, $current_screen, $page );
 
