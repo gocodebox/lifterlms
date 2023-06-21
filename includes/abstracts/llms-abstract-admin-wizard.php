@@ -116,13 +116,13 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		/**
 		 * Filter the WP User capability required to access and run the setup wizard.
 		 *
-		 * The dynamic portion of this filter, `{$this->type}`, refers to the wizard type. E.g. "setup".
+		 * The dynamic portion of this filter, `{$this->id}`, refers to the wizard type. E.g. "setup".
 		 *
 		 * @since [version]
 		 *
 		 * @param string $cap Required user capability. Default value is `install_plugins`.
 		 */
-		$cap = apply_filters( "llms_{$this->type}_wizard_access", 'install_plugins' );
+		$cap = apply_filters( "llms_{$this->id}_wizard_access", 'install_plugins' );
 
 		$hook = add_dashboard_page(
 			$this->title,
