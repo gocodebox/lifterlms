@@ -367,7 +367,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return null;
 		}
 
-		$response = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		$response = new WP_Error( "llms-{$this->id}-save-invalid", __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
 
