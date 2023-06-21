@@ -31,9 +31,10 @@
 			var self = this;
 
 			// Favorite clicked
-			$( '.llms-favorite-wrapper' ).on( 'click', '.llms-heart-btn', function( e ) {
+			$( '.llms-favorite-wrapper' ).on( 'click', function( e ) {
 				e.preventDefault();
-				self.favorite( $( this ) );
+				let $btn = $( this ).find( '.llms-heart-btn' );
+				self.favorite( $btn );
 			} );
 
 			// Adding class in Favorite's parent
