@@ -110,8 +110,8 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		?>
 		<label>
 		<div class="llms-switch">
-			<input class="llms-toggle llms-toggle-round" id="llms-setup-import-course-<?php echo $id; ?>" name="llms_setup_course_import_ids[]" value="<?php echo esc_attr( $id ); ?>" type="checkbox">
-			<label for="llms-setup-import-course-<?php echo $id; ?>"><span class="screen-reader-text"><?php esc_attr_e( 'Toggle to import course', 'lifterlms' ); ?>
+			<input class="llms-toggle llms-toggle-round" id="llms-setup-import-course-<?php echo esc_attr( $id ); ?>" name="llms_setup_course_import_ids[]" value="<?php echo esc_attr( $id ); ?>" type="checkbox">
+			<label for="llms-setup-import-course-<?php echo esc_attr( $id ); ?>"><span class="screen-reader-text"><?php esc_attr_e( 'Toggle to import course', 'lifterlms' ); ?>
 			</label>
 		</div>
 		<?php
