@@ -81,7 +81,10 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase">
 			<exclude-pattern>templates/taxonomy-*.php</exclude-pattern>
 		</exclude>
-
+		
+		<!-- This rule is for PHP versions less than 7.3, but we require an higher PHP version. -->
+		<exclude name="PHPCompatibility.Classes.NewTypedProperties.Found" />
+		
 	</rule>
 
 	<!--
