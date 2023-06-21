@@ -56,7 +56,7 @@ class LLMS_Admin_Header {
 		}
 
 		// Get the current page if available.
-		$page = llms_filter_input( INPUT_GET, 'page' );
+		$page = (string) llms_filter_input( INPUT_GET, 'page' );
 
 		// Show header on our settings pages.
 		if (
