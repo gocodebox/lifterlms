@@ -277,7 +277,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @param string $step Step slug.
 	 * @return string
 	 */
-	private function get_step_url( string $step ): string {
+	protected function get_step_url( string $step ): string {
 
 		$args = array(
 			'page' => 'llms-' . $this->id,
