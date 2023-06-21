@@ -37,32 +37,32 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	public function __construct() {
 		$this->id        = 'setup';
 		$this->views_dir = LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/';
-		$this->title     = __( 'LifterLMS Setup Wizard', 'lifterlms' );
+		$this->title     = esc_html__( 'LifterLMS Setup Wizard', 'lifterlms' );
 		$this->steps     = array(
 			'intro'    => array(
-				'title' => __( 'Welcome!', 'lifterlms' ),
-				'save'  => __( 'Save & Continue', 'lifterlms' ),
-				'skip'  => __( 'Skip this step', 'lifterlms' ),
+				'title' => esc_html__( 'Welcome!', 'lifterlms' ),
+				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
+				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
 			'pages'    => array(
-				'title' => __( 'Page Setup', 'lifterlms' ),
-				'save'  => __( 'Save & Continue', 'lifterlms' ),
-				'skip'  => __( 'Skip this step', 'lifterlms' ),
+				'title' => esc_html__( 'Page Setup', 'lifterlms' ),
+				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
+				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
 			'payments' => array(
-				'title' => __( 'Payments', 'lifterlms' ),
-				'save'  => __( 'Save & Continue', 'lifterlms' ),
-				'skip'  => __( 'Skip this step', 'lifterlms' ),
+				'title' => esc_html__( 'Payments', 'lifterlms' ),
+				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
+				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
 			'coupon'   => array(
-				'title' => __( 'Coupon', 'lifterlms' ),
-				'save'  => __( 'Allow', 'lifterlms' ),
-				'skip'  => __( 'Skip this step', 'lifterlms' ),
+				'title' => esc_html__( 'Coupon', 'lifterlms' ),
+				'save'  => esc_html__( 'Allow', 'lifterlms' ),
+				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
 			'finish'   => array(
-				'title' => __( 'Finish!', 'lifterlms' ),
-				'save'  => __( 'Import Courses', 'lifterlms' ),
-				'skip'  => __( 'Skip this step', 'lifterlms' ),
+				'title' => esc_html__( 'Finish!', 'lifterlms' ),
+				'save'  => esc_html__( 'Import Courses', 'lifterlms' ),
+				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
 		);
 
@@ -173,7 +173,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 			$req = new WP_Error( 'llms-setup-coupon-save-tracking-api', $e->getMessage() );
 		}
 
-		$ret = new WP_Error( 'llms-setup-coupon-save-unknown', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		$ret = new WP_Error( 'llms-setup-coupon-save-unknown', esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		if ( is_wp_error( $req ) ) {
 			$ret = $req;
@@ -196,7 +196,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 */
 	protected function save_pages() {
 
-		return LLMS_Install::create_pages() ? true : new WP_Error( 'llms-setup-pages-save', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		return LLMS_Install::create_pages() ? true : new WP_Error( 'llms-setup-pages-save', esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 	}
 
