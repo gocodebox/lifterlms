@@ -2,8 +2,10 @@
 /**
  * Setup Wizard main view
  *
- * @since 4.4.4
- * @version 4.8.0
+ * @package LifterLMS/Views/Admin/SetupWizard
+ *
+ * @since   4.4.4
+ * @version [version]
  *
  * @property string[]                $steps     Array of setup wizard steps.
  * @property string                  $current   Slug of the current step.

@@ -2,8 +2,10 @@
 /**
  * Setup Wizard step: Welcome
  *
- * @since 4.4.4
- * @version 4.4.4
+ * @package LifterLMS/Views/Admin/SetupWizard
+ *
+ * @since   4.4.4
+ * @version [version]
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */
