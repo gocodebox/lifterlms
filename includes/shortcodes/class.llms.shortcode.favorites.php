@@ -76,8 +76,6 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	 */
 	protected function get_output() {
 
-		$this->enqueue_script( 'llms-jquery-matchheight' );
-
 		ob_start();
 
 		// If we're outputting a "My Favorites" list and we don't have a student output login info.
@@ -93,25 +91,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 
 			$favorites = $this->get_favorites();
 
-			if ( $favorites ) {
-
-				foreach ( $favorites as $favorite ) {
-
-					$lesson = new LLMS_Lesson( $favorite->post_id );
-
-					llms_get_template(
-						'course/lesson-preview.php',
-						array(
-							'lesson' => $lesson,
-						)
-					);
-
-				}
-			} else {
-
-				printf( '<p>%s</p>', __( 'No favorites found.', 'lifterlms' ) );
-
-			}
+			lifterlms_template_my_favorites_loop( get_current_user_id(), $favorites );
 		}
 
 		return ob_get_clean();

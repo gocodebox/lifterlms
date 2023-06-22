@@ -298,14 +298,14 @@ if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @return void
 	 */
-	function lifterlms_template_my_favorites_loop( $student = null ) {
+	function lifterlms_template_my_favorites_loop( $student = null, $favorites = null ) {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
 			return;
 		}
 
-		$favorites = $student->get_favorites();
+		$favorites = $favorites ?? $student->get_favorites();
 
 		if ( ! $favorites ) {
 
@@ -630,7 +630,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 		}
 
 		ob_start();
-		lifterlms_template_my_favorites_loop( $student, $preview );
+		lifterlms_template_my_favorites_loop( $student );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
