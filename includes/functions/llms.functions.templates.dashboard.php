@@ -313,9 +313,27 @@ if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
 
 		} else {
 
-			foreach ( $favorites as $favorite ) {
+			// Adding Parent Course IDs in Favorites for each lesson.
+			foreach ( $favorites as $key => $favorite ) {
+				$parent_course           = get_post_meta( $favorite->post_id, '_llms_parent_course', true );
+				$favorite->parent_course = $parent_course;
+			}
 
-				$lesson = new LLMS_Lesson( $favorite->post_id );
+			// Grouping Favorites by Parent Course ID.
+			$favorites = array_reduce(
+				$favorites,
+				function ( $carry, $item ) {
+					$carry[ $item->parent_course ][] = $item;
+					return $carry;
+				},
+				array()
+			);
+
+			// Printing Favorite Lessons under each Parent Course.
+			foreach ( $favorites as $course => $lessons ) {
+
+				// Get Course Name.
+				$lesson = new LLMS_Lesson( $course );
 
 				llms_get_template(
 					'course/lesson-preview.php',
@@ -323,6 +341,21 @@ if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
 						'lesson' => $lesson,
 					)
 				);
+
+				echo '<ul style="list-style-type:none">';
+				foreach ( $lessons as $lesson ) {
+
+					$lesson = new LLMS_Lesson( $lesson->post_id );
+					echo '<li>';
+					llms_get_template(
+						'course/lesson-preview.php',
+						array(
+							'lesson' => $lesson,
+						)
+					);
+					echo '</li>';
+				}
+				echo '</ul>';
 
 			}
 		}
