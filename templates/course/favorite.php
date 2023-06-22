@@ -32,12 +32,10 @@ $total_favorites = get_total_favorites( $lesson->get( 'id' ) );
 
 		<?php if ( $student->is_favorite( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 
-			<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value. -->
 			<i data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
 
 		<?php else : ?>
 
-			<!-- TODO: Dynamic data-type [Lesson, Course, Instructor] value. -->
 			<i data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
 
 		<?php endif; ?>
