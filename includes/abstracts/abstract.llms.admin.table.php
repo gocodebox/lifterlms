@@ -332,7 +332,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		$placeholder = __( 'Any', 'lifterlms' );
 		if ( is_array( $column_data ) && isset( $column_data['title'] ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data['title'] );
-		} elseif ( is_strinp( $column_data ) ) {
+		} elseif ( is_string( $column_data ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
 		}
 		return apply_filters( 'llms_table_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
