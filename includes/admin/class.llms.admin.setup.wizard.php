@@ -57,7 +57,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 			'coupon'   => array(
 				'title' => esc_html__( 'Coupon', 'lifterlms' ),
 				'save'  => esc_html__( 'Allow', 'lifterlms' ),
-				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
+				'skip'  => esc_html__( 'No thanks', 'lifterlms' ),
 			),
 			'finish'   => array(
 				'title' => esc_html__( 'Finish!', 'lifterlms' ),
@@ -147,7 +147,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		$count = count( $course_ids );
 
 		if ( 1 === $count ) {
-			return get_edit_post_link( $course_ids[0], 'not-display' );
+			return get_edit_post_link( $course_ids[0], 'not-display' ) ?? '';
 		}
 
 		return admin_url( 'edit.php?post_type=course&orderby=date&order=desc' );
@@ -165,14 +165,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 
 		update_option( 'llms_allow_tracking', 'yes' );
 
-		$req = null;
-
-		try {
-			LLMS_Tracker::send_data( true );
-		} catch ( Exception $e ) {
-			$req = new WP_Error( 'llms-setup-coupon-save-tracking-api', $e->getMessage() );
-		}
-
+		$req = LLMS_Tracker::send_data( true );
 		$ret = new WP_Error( 'llms-setup-coupon-save-unknown', esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		if ( is_wp_error( $req ) ) {

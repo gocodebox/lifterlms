@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since   [version]
+ * @since [version]
  * @version [version]
  */
 
@@ -55,7 +55,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @since [version]
 	 * @var WP_Error|null
 	 */
-	protected ?WP_Error $error = null;
+	public ?WP_Error $error = null;
 
 	/**
 	 * Add hooks.
@@ -109,9 +109,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @return string The hook suffix of the setup wizard page ("admin_page_llms-setup"), or `false` if the user does not have the capability required.
+	 * @return string|bool The hook suffix of the setup wizard page ("admin_page_llms-setup"), or `false` if the user does not have the capability required.
 	 */
-	public function admin_menu(): string {
+	public function admin_menu() {
 
 		/**
 		 * Filter the WP User capability required to access and run the setup wizard.
@@ -147,7 +147,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	public function enqueue(): bool {
 
 		if ( ! isset( $_GET['page'] ) || 'llms-' . $this->id !== $_GET['page'] ) {
-			return '';
+			return false;
 		}
 
 		return llms()->assets->enqueue_script( 'llms-admin-wizard' ) && llms()->assets->enqueue_style( 'llms-admin-wizard' );
@@ -184,10 +184,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @param ?string $step Step to use as current.
-	 * @return string
+	 * @param string|bool $step Step to use as current.
+	 * @return string|bool
 	 */
-	public function get_next_step( string $step = null ): string {
+	public function get_next_step( string $step = null ) {
 		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
@@ -197,7 +197,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return false;
 		}
 
-		return $keys[ ++$i ] ?? '';
+		return $keys[ ++$i ] ?? false;
 	}
 
 	/**
@@ -205,10 +205,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
-	 * @param ?string $step Step to use as current.
-	 * @return string
+	 * @param string|bool $step Step to use as current.
+	 * @return string|bool
 	 */
-	public function get_prev_step( string $step = null ): string {
+	public function get_prev_step( string $step = null ) {
 		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
@@ -217,7 +217,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return false;
 		}
 
-		return $keys[ $i - 1 ] ?? '';
+		return $keys[ $i - 1 ] ?? false;
 	}
 
 	/**
@@ -230,6 +230,8 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	private function get_save_text( string $step ): string {
 
+		$default = html_entity_decode( esc_html__( 'Save & Continue', 'lifterlms' ) );
+
 		/**
 		 * Filter the Save button text for a given step in the setup wizard.
 		 *
@@ -241,7 +243,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @param string $text Button text string.
 		 */
-		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_save_text", $this->get_steps()[ $step ]['save'] ?? '' );
+		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_save_text", $this->get_steps()[ $step ]['save'] ?? $default );
 	}
 
 	/**
@@ -254,6 +256,8 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	private function get_skip_text( string $step ): string {
 
+		$default = esc_html__( 'Skip this step', 'lifterlms' );
+
 		/**
 		 * Filter the skip button text for a given step in the setup wizard.
 		 *
@@ -265,7 +269,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @param string $text Button text string.
 		 */
-		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_skip_text", $this->get_steps()[ $step ]['skip'] ?? '' );
+		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_skip_text", $this->get_steps()[ $step ]['skip'] ?? $default );
 
 	}
 
@@ -359,17 +363,21 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since [version]
 	 *
+	 * @throws Exception If the current user does not have permission to save data.
+	 *
 	 * @return null|WP_Error
 	 */
-	public function save() {
+	public function save(): ?WP_Error {
+		$nonce  = "llms_{$this->id}_nonce";
+		$action = "llms_{$this->id}_save";
 
-		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! llms_verify_nonce( 'llms_setup_nonce', 'llms_setup_save' ) || ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! isset( $_POST[ $nonce ] ) || ! llms_verify_nonce( $nonce, $action ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			return null;
 		}
 
 		$response = new WP_Error( "llms-{$this->id}-save-invalid", __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
-		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
+		$step = llms_filter_input( INPUT_POST, $action );
 
 		if ( method_exists( $this, 'save_' . $step ) ) {
 			$response = $this->{"save_{$step}"}();
@@ -386,13 +394,10 @@ abstract class LLMS_Abstract_Admin_Wizard {
 
 		$url = ( 'finish' === $step ) ? $this->get_completed_url( $response ) : $this->get_step_url( $this->get_next_step() );
 
-		try {
-			llms_redirect_and_exit( $url );
-		} catch ( Exception $exception ) {
-			return new WP_Error( "llms-{$this->id}-save-redirect", $exception->getMessage() );
-		}
+		llms_redirect_and_exit( $url );
 
 		return null;
+
 	}
 
 	/**
