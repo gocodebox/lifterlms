@@ -237,14 +237,27 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @return mixed
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
-		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context, $this );
+		/**
+		 * Filters the table data.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param mixed            $value        Value to be displayed.
+		 * @param string           $key          Column key/ID.
+		 * @param mixed            $data         Original data object/array.
+		 * @param string           $context      Display context [display|export].
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
+		return apply_filters( "llms_table_get_data_{$this->id}", $value, $key, $data, $context, $this );
 	}
 
 	/**
 	 * Retrieve the arguments defined in `set_args`.
 	 *
 	 * @since 3.2.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 *
 	 * @return array
 	 */
@@ -267,7 +280,16 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 		$args = wp_parse_args( $this->set_args(), $default );
 
-		return apply_filters( 'llms_table_get_args_' . $this->id, $args );
+		/**
+		 * Filters the arguments used to build the query.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param array $args Arguments to build the query whose results will populate the table.
+		 */
+		return apply_filters( "llms_table_get_args_{$this->id}", $args );
 	}
 
 	/**
@@ -276,11 +298,22 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 * @since 3.24.0 Unknown.
 	 *
+	 * @param string $context Display context [display|export].
 	 * @return array
 	 */
 	public function get_columns( $context = 'display' ) {
 
-		$cols = apply_filters( 'llms_table_get_' . $this->id . '_columns', $this->set_columns(), $context );
+		/**
+		 * Filters the array of table columns.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array  $columns The array of table columns.
+		 * @param string $context Display context [display|export].
+		 */
+		$cols = apply_filters( "llms_table_get_{$this->id}_columns", $this->set_columns(), $context );
 
 		if ( $this->is_exportable ) {
 
@@ -308,22 +341,31 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get $this->empty_msg string.
+	 * Get `$this->empty_msg` string.
 	 *
 	 * @since 3.2.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 *
 	 * @return string
 	 */
 	public function get_empty_message() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_empty_message', $this->set_empty_message() );
+		/**
+		 * Filters the message displayed when the table is empty.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $columns The message displayed when the table is empty.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_empty_message", $this->set_empty_message() );
 	}
 
 	/**
 	 * Get the text for the default/placeholder for a filterable column.
 	 *
 	 * @since 3.4.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 * @since [version] Fixed typo in function name (`is_strinp` => `is_string` ).
 	 *
 	 * @param string $column_id The ID of the column.
@@ -336,7 +378,17 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		} elseif ( is_string( $column_data ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
 		}
-		return apply_filters( 'llms_table_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
+		/**
+		 * Filters the placeholder string for a filterable column.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $placeholder Placeholder string.
+		 * @param string $column_id   The ID of the column.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_filter_placeholder", $placeholder, $column_id );
 	}
 
 	/**
@@ -569,12 +621,21 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
 	 * @since 3.2.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 *
 	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
+		/**
+		 * Filters the text to be used as the placeholder in a searchable tables search input.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $text Text to be used as the placeholder in a searchable tables search input.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_search_placeholder", __( 'Search', 'lifterlms' ) );
 	}
 
 	/**
@@ -598,12 +659,21 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Get `$this->tbody_data` array.
 
 	 * @since 3.2.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 *
 	 * @return array
 	 */
 	public function get_tbody_data() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_tbody_data', $this->tbody_data );
+		/**
+		 * Filters the array of tbody data.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param array $tbody_data Array of data that will be used to create the table body.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_tbody_data", $this->tbody_data );
 	}
 
 	/**
@@ -724,20 +794,38 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @return string
 	 */
 	protected function get_tr_classes( $row ) {
-		return apply_filters( 'llms_table_get_' . $this->id . '_tr_classes', 'llms-table-tr', $row );
+		/**
+		 * Filters the CSS class of a table row.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.24.0
+		 *
+		 * @param string $class CSS class list (as a string) for a given TR.
+		 * @param mixed  $row   Object/array of data that the function can use to extract the data.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_tr_classes", 'llms-table-tr', $row );
 	}
 
 	/**
 	 * Get the HTML for a single row in the body of the table.
 	 *
 	 * @since 3.2.0
-	 * @since 3.21.0 Unknown.
+	 * @since 3.21.0 Fix action hooks names.
 	 *
 	 * @param mixed $row Array/object of data describing a single row in the table.
 	 * @return string
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
+		/**
+		 * Fired before a table `<tr>`.
+		 *
+		 * @since 3.21.0
+		 *
+		 * @param string           $row          Array/object of data describing a single row in the table.
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
 		do_action( 'llms_table_before_tr', $row, $this );
 		?>
 		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
@@ -746,6 +834,14 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		<?php endforeach; ?>
 		</tr>
 		<?php
+		/**
+		 * Fired after a table `<tr>`.
+		 *
+		 * @since 3.21.0
+		 *
+		 * @param string           $row          Array/object of data describing a single row in the table.
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
 		do_action( 'llms_table_after_tr', $row, $this );
 		return ob_get_clean();
 	}
@@ -808,7 +904,16 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @return string
 	 */
 	public function get_title() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
+		/**
+		 * Filters the table title.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $title The title of the table.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_table_title", $this->title );
 	}
 
 	/**
@@ -888,11 +993,20 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Empty message displayed when no results are found.
 	 *
 	 * @since 3.2.0
-	 * @since 3.15.0 Unknown.
+	 * @since 3.15.0 Fix filter name.
 	 *
 	 * @return string
 	 */
 	protected function set_empty_message() {
+		/**
+		 * Filters the default message displayed when the table is empty.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $columns The default message displayed when the table is empty.
+		 */
 		return apply_filters( 'llms_table_default_empty_message', __( 'No results were found.', 'lifterlms' ) );
 	}
 
