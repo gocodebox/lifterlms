@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+attributions:
+  - "@kamalahmed"
+entry: Fixed typo in a function name that could potentially produce a fatal.
