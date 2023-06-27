@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,6 +37,7 @@ class LLMS_Shortcodes {
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
+	 * @since [version] Added student dashboard shortcodes.
 	 *
 	 * @return void
 	 */
@@ -48,6 +49,7 @@ class LLMS_Shortcodes {
 			 * Filters the shortcodes to initialize.
 			 *
 			 * @since Unknown
+			 * @since [version] Added student dashboard shortcodes.
 			 *
 			 * @param string[] $shortcodes Array of shortcode class names to initialize.
 			 */
@@ -62,6 +64,9 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Course_Reviews',
 				'LLMS_Shortcode_Course_Syllabus',
 				'LLMS_Shortcode_Courses',
+				'LLMS_Shortcode_Dashboard_Current',
+				'LLMS_Shortcode_Dashboard_Navigation',
+				'LLMS_Shortcode_Dashboard_Section',
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Membership_Link',
@@ -72,6 +77,9 @@ class LLMS_Shortcodes {
 		);
 
 		$hyphenated_file_classes = array(
+			'LLMS_Shortcode_Dashboard_Current',
+			'LLMS_Shortcode_Dashboard_Navigation',
+			'LLMS_Shortcode_Dashboard_Section',
 			'LLMS_Shortcode_User_Info',
 		);
 
