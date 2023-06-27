@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.2.0
- * @version 3.37.7
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,103 +22,101 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = '';
 
 	/**
 	 * When pagination is enabled, the current page.
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $current_page = 1;
 
 	/**
 	 * Value of the field being filtered by.
-	 *
 	 * Only applicable if $filterby is set.
 	 *
-	 * @var  string
+	 * @varstring
 	 */
 	protected $filter = '';
 
 	/**
 	 * Field results are filtered by.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $filterby = '';
 
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_exportable = false;
 
 	/**
 	 * When pagination enabled, determines if this is the last page of results.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_last_page = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_paginated = false;
 
 	/**
 	 * Determine if the table is filterable.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_filterable = false;
 
 	/**
 	 * If true will be a table with a larger font size.
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $is_large = false;
 
 	/**
 	 * Determine of the table is searchable.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_searchable = false;
 
 	/**
 	 * If true, tbody will be zebra striped.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_zebra = true;
 
 	/**
 	 * If an integer supplied, used to jump to last page.
 	 *
-	 * @var  int
+	 * @var int
 	 */
 	protected $max_pages = null;
 
 	/**
-	 * Results sort order.
-	 *
+	 * Results sort order.	 
 	 * 'ASC' or 'DESC'.
 	 * Only applicable of $orderby is not set.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $order = '';
 
 	/**
 	 * Field results are sorted by.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $orderby = '';
 
@@ -132,17 +130,15 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * The search query submitted for a searchable table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $search = '';
 
 	/**
 	 * Table Data.
 	 *
-	 * Array of objects or arrays.
-	 * Each item represents as row in the table's body, each item is a cell.
-	 *
-	 * @var  array
+	 * @var array Array of objects or arrays.
+	 *            Each item represents as row in the table's body, each item is a cell.
 	 */
 	protected $tbody_data = array();
 
@@ -155,31 +151,31 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Retrieve data for a cell.
-	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object / array of data that the function can use to extract the data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * 
+	 * @since 3.2.0
+	 * 
+	 * @param string $key  The column ID/key.
+	 * @param mixed  $data Object/array of data that the function can use to extract the data.
+	 * @return mixed
 	 */
 	abstract protected function get_data( $key, $data );
 
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param array $args Array of query args.
+	 * @return mixed
 	 */
 	abstract public function get_results( $args = array() );
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
+	 *   
+	 * @since 2.3.0
 	 *
-	 * @return   array
-	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @return array
 	 */
 	abstract public function set_args();
 
@@ -323,10 +319,12 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Get the text for the default/placeholder for a filterable column.
 	 *
-	 * @param    string $column_id  id of the column
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.15.0
+	 * @since 3.4.0
+	 * @since 3.15.0 Unknown.
+	 * @since [version] Fixed typo in function name (`is_strinp` => `is_string` ).
+	 * 
+	 * @param string $column_id The ID of the column.
+	 * @return string
 	 */
 	public function get_filter_placeholder( $column_id, $column_data ) {
 		$placeholder = __( 'Any', 'lifterlms' );
