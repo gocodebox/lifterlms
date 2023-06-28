@@ -64,9 +64,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Course_Reviews',
 				'LLMS_Shortcode_Course_Syllabus',
 				'LLMS_Shortcode_Courses',
-				'LLMS_Shortcode_Dashboard_Current',
-				'LLMS_Shortcode_Dashboard_Navigation',
-				'LLMS_Shortcode_Dashboard_Section',
+				'LLMS_Shortcode_Dashboard',
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Membership_Link',
@@ -77,9 +75,7 @@ class LLMS_Shortcodes {
 		);
 
 		$hyphenated_file_classes = array(
-			'LLMS_Shortcode_Dashboard_Current',
-			'LLMS_Shortcode_Dashboard_Navigation',
-			'LLMS_Shortcode_Dashboard_Section',
+			'LLMS_Shortcode_Dashboard',
 			'LLMS_Shortcode_User_Info',
 		);
 
@@ -203,7 +199,7 @@ class LLMS_Shortcodes {
 
 			ob_start();
 
-			$before = empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
+			$before = empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ?? '' ) . '">' : $wrapper['before'];
 			$after  = empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
 
 			echo $before;
@@ -306,8 +302,6 @@ class LLMS_Shortcodes {
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
 
 	}
-
-
 
 	/**
 	 * Memberships Shortcode

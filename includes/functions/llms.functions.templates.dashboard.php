@@ -21,10 +21,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @since 5.0.0 During password reset, retrieve reset key and login from cookie instead of query string.
 	 *              Use `llms_get_open_registration_status()`.
 	 *
-	 * @param array $options Optional. Array of options. Default empty array.
+	 * @param array   $options Optional. Array of options. Default empty array.
+	 * @param ?string $content If the shortcode is used as a wrapper.
 	 * @return void
 	 */
-	function lifterlms_student_dashboard( $options = array() ) {
+	function lifterlms_student_dashboard( array $options = array(), ?string $content = null ) {
 
 		$options = wp_parse_args(
 			$options,
@@ -37,10 +38,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		 * Fires before the student dashboard output.
 		 *
 		 * @since Unknown
+		 * @since [version] Added the `$content` parameter.
 		 *
 		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
+		 * @param string $content The content of the shortcode.
 		 */
-		do_action( 'lifterlms_before_student_dashboard' );
+		do_action( 'lifterlms_before_student_dashboard', $content );
 
 		/**
 		 * Filters whether or not to display the student dashboard
@@ -120,24 +123,24 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 			}
 		} else {
 
-			$tabs = LLMS_Student_Dashboard::get_tabs();
-
+			$tabs        = LLMS_Student_Dashboard::get_tabs();
 			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 
 			/**
 			 * Fires before the student dashboard content output.
 			 *
-			 * @since unknown
+			 * @since  unknown
 			 *
 			 * @hooked lifterlms_template_student_dashboard_header - 10
+			 * @hooked lifterlms_template_student_dashboard_sections - 10
+			 * @hooked lifterlms_template_student_dashboard_content - 20
+			 *
+			 * @param array  $tabs        Array of dashboard tabs.
+			 * @param string $current_tab The current tab slug.
+			 * @param string $content     If the shortcode is a wrapper.
 			 */
-			do_action( 'lifterlms_before_student_dashboard_content' );
+			do_action( 'lifterlms_before_student_dashboard_content', $tabs, $current_tab, $content );
 
-			if ( isset( $tabs[ $current_tab ] ) && isset( $tabs[ $current_tab ]['content'] ) && is_callable( $tabs[ $current_tab ]['content'] ) ) {
-
-				call_user_func( $tabs[ $current_tab ]['content'] );
-
-			}
 		}
 
 		/**
@@ -371,14 +374,64 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_home' ) ) {
 if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
 
 	/**
-	 * Dashboard header template
+	 * Dashboard header template.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added `$tabs`, `$current_tab`, $content` params.
+	 *
+	 * @param array  $tabs        Array of dashboard tabs.
+	 * @param string $current_tab The current tab.
+	 * @param bool   $content     Shortcode wrapper content.
 	 *
 	 * @return void
 	 */
-	function lifterlms_template_student_dashboard_header() {
-		llms_get_template( 'myaccount/header.php' );
+	function lifterlms_template_student_dashboard_header( $tabs, $current_tab, $content ) {
+
+		if ( ! $content ) {
+			llms_get_template( 'myaccount/header.php' );
+		}
+
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_student_dashboard_content' ) ) {
+
+	/**
+	 * Conditionally display dashboard content.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $tabs        Array of dashboard tabs.
+	 * @param string $current_tab The current tab.
+	 * @param bool   $content     Shortcode wrapper content.
+	 * @return void
+	 */
+	function lifterlms_template_student_dashboard_content( $tabs, $current_tab, $content ) {
+
+		if ( ! $content && is_callable( $tabs[ $current_tab ]['content'] ?? '' ) ) {
+
+			call_user_func( $tabs[ $current_tab ]['content'] );
+
+		}
+	}
+}
+
+if ( ! function_exists( 'lifterlms_template_student_dashboard_sections' ) ) {
+
+	/**
+	 * Conditionally display dashboard sections if shortcode is wrapper.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $tabs        Array of dashboard tabs.
+	 * @param string $current_tab The current tab.
+	 * @param bool   $content     Shortcode wrapper content.
+	 * @return void
+	 */
+	function lifterlms_template_student_dashboard_sections( $tabs, $current_tab, $content ) {
+
+		echo do_shortcode( $content );
+
 	}
 }
 
@@ -858,11 +911,16 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_navigation' ) ) {
 	 * Dashboard Navigation template
 	 *
 	 * @since 3.0.0
+	 * @since [version] Added the `$show` parameter.
 	 *
+	 * @param bool $show Whether to show the navigation.
 	 * @return void
 	 */
-	function lifterlms_template_student_dashboard_navigation() {
-		llms_get_template( 'myaccount/navigation.php' );
+	function lifterlms_template_student_dashboard_navigation( bool $show = false ) {
+
+		if ( $show ) {
+			llms_get_template( 'myaccount/navigation.php' );
+		}
 	}
 }
 
@@ -909,12 +967,16 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
+	 * @since [version] Added `$content` param.
 	 *
+	 * @param ?string $content If shortcode is being used as a wrapper.
 	 * @return void
 	 */
-	function lifterlms_template_student_dashboard_wrapper_open() {
-		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
+	function lifterlms_template_student_dashboard_wrapper_open( string $content = null ) {
+		$current     = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+		$has_content = $content ? ' has-content' : '';
+
+		echo '<div class="llms-student-dashboard ' . $current . $has_content . '" data-current="' . $current . '">';
 	}
 endif;
 
