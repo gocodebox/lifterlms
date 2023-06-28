@@ -178,6 +178,23 @@
 		margin: 0 -10px;
 	}
 
+	&.has-content[data-current] {
+		padding: 0;
+
+		.llms-sd-nav {
+			position: relative;
+			width: auto;
+		}
+	}
+
+	p:empty {
+		display: none;
+	}
+
+}
+
+.llms-sd-section-title {
+	margin-top: 0;
 }
 
 // My Grades course list
