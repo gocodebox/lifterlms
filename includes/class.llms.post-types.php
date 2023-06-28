@@ -1128,6 +1128,41 @@ class LLMS_Post_Types {
 			)
 		);
 
+		// Template Part.
+		self::register_post_type(
+			'llms_dashboard',
+			array(
+				'labels'              => array(
+					'name'               => esc_html__( 'Dashboard Sections', 'lifterlms' ),
+					'singular_name'      => esc_html__( 'Dashboard Section', 'lifterlms' ),
+					'add_new'            => esc_html__( 'Add Dashboard Section', 'lifterlms' ),
+					'add_new_item'       => esc_html__( 'Add New Dashboard Section', 'lifterlms' ),
+					'edit'               => esc_html__( 'Edit', 'lifterlms' ),
+					'edit_item'          => esc_html__( 'Edit Dashboard Section', 'lifterlms' ),
+					'new_item'           => esc_html__( 'New Dashboard Section', 'lifterlms' ),
+					'view'               => esc_html__( 'View Dashboard Section', 'lifterlms' ),
+					'view_item'          => esc_html__( 'View Dashboard Section', 'lifterlms' ),
+					'search_items'       => esc_html__( 'Search Dashboard Sections', 'lifterlms' ),
+					'not_found'          => esc_html__( 'No Dashboard Sections found', 'lifterlms' ),
+					'not_found_in_trash' => esc_html__( 'No Dashboard Sections found in trash', 'lifterlms' ),
+					'parent'             => esc_html__( 'Parent Dashboard Sections', 'lifterlms' ),
+					'menu_name'          => esc_html_x( 'Dashboard Sections', 'Admin menu name', 'lifterlms' ),
+				),
+				'public'              => false,
+				'show_ui'             => true,
+				'map_meta_cap'        => true,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'hierarchical'        => false,
+				'show_in_nav_menus'   => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'supports'            => array( 'title', 'editor', 'slug' ),
+				'has_archive'         => false,
+				'show_in_rest'        => true,
+			)
+		);
+
 	}
 
 	/**

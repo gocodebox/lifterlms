@@ -214,6 +214,11 @@ class LLMS_Admin_Menus {
 		// Passing '' to register the page without actually adding a menu item.
 		add_submenu_page( '', __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'builder_init' ) );
 
+		// Hide dashboard sections from the admin menu.
+		$templates_url = 'edit.php?post_type=llms_dashboard';
+
+		remove_menu_page( $templates_url );
+
 	}
 
 	/**

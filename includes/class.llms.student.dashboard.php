@@ -31,6 +31,9 @@ class LLMS_Student_Dashboard {
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		add_filter( 'page_row_actions', [ $this, 'add_edit_link' ], 10, 2 );
+
 	}
 
 	/**
@@ -391,6 +394,54 @@ class LLMS_Student_Dashboard {
 			)
 		);
 
+	}
+
+	/**
+	 * Enqueue editor scripts and styles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function enqueue_editor_assets() {
+
+		if ( llms_get_page_id( 'myaccount' ) !== get_the_ID() ) {
+			return;
+		}
+
+		$asset_file = require llms()->plugin_path() . '/assets/js/llms-dashboard-sections.asset.php';
+
+		wp_enqueue_script(
+			'llms-dashboard-sections',
+			llms()->plugin_url() . '/assets/js/llms-dashboard-sections.js',
+			$asset_file['dependencies'] ?? [],
+			LLMS_ASSETS_VERSION,
+			true
+		);
+	}
+
+	/**
+	 * Add edit link to the post row actions.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $actions Array of actions.
+	 * @param WP_Post $post    Post object.
+	 * @return array
+	 */
+	public function add_edit_link( array $actions, WP_Post $post ): array {
+
+		if ( llms_get_page_id( 'myaccount' ) !== $post->ID ) {
+			return $actions;
+		}
+
+		$actions['dashboard_sections'] = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			admin_url( 'edit.php?post_type=llms_dashboard' ),
+			esc_html__( 'Customize Sections', 'lifterlms' )
+		);
+
+		return $actions;
 	}
 
 }
