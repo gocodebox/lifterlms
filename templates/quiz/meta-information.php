@@ -7,7 +7,8 @@
  * @since 3.9.0
  * @since 4.0.0 Unknown.
  * @since 4.17.0 Return early if accessed without a logged in user or the quiz can't be loaded from the `$post` global.
- * @version 4.17.0
+ * @since [version] Added function for getting Quiz's questions count.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,7 +40,7 @@ $passing_percent = $quiz->get( 'passing_percent' );
 	</li>
 
 	<li class="llms-quiz-meta-item llms-question-count">
-		<?php printf( __( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . count( $quiz->get_questions( 'ids' ) ) . '</span>' ); ?>
+		<?php printf( __( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . $quiz->get_questions_count() . '</span>' ); ?>
 	</li>
 
 	<?php if ( $quiz->has_time_limit() ) : ?>

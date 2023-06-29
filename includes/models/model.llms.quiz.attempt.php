@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 4.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -413,6 +413,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
+	 * @since [version] Added support for Questions Bank.
 	 *
 	 * @return array
 	 */
@@ -424,7 +425,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
+			$randomize     = llms_parse_bool( $quiz->get( 'random_questions' ) );
+			$question_bank = llms_parse_bool( $quiz->get( 'question_bank' ) );
 
 			// Array of indexes that will be locked during shuffling.
 			$locks = array();
@@ -446,7 +448,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			}
 
-			if ( $randomize ) {
+			// Randomize the questions if Randomize Question Order is enabled OR if Question Bank is enabled.
+			if ( $randomize || $question_bank ) {
 
 				// Lifted from https://stackoverflow.com/a/28491007/400568.
 				// I generally comprehend this code but also in a truer way i have no idea...
@@ -472,6 +475,15 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$questions[ $inc[ $num ] ]  = $questions[ $inc[ $perm ] ];
 					$questions[ $inc[ $perm ] ] = $swap;
 				}
+			}
+		}
+
+		// Limiting the number of questions if the question bank is enabled and the limit is set.
+		if ( $question_bank ) {
+			$questions_limit = $quiz->get( 'number_of_questions' );
+
+			if ( $questions_limit ) {
+				$questions = array_slice( $questions, 0, $questions_limit );
 			}
 		}
 

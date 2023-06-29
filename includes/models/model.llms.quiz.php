@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -106,6 +106,22 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function get_questions( $return = 'questions' ) {
 		return $this->questions()->get_questions( $return );
+	}
+
+	/**
+	 * Get questions count.
+	 *
+	 * @since [version]
+	 *
+	 * @return int Question Count.
+	 */
+	public function get_questions_count() {
+
+		if ( $this->get( 'question_bank' ) ) {
+			return $this->get( 'number_of_questions' );
+		}
+
+		return count( $this->get_questions( 'ids' ) );
 	}
 
 	/**
