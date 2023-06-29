@@ -1,0 +1,6 @@
+significance: patch
+type: changed
+links:
+  - "#2432"
+entry: Updated order links in `/members/admin/courses/orders/` when BuddyPress
+  is active.
