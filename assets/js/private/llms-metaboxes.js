@@ -954,6 +954,13 @@
 				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
 			$el.next( '.select2' ).after( $btn );
 
+			// Add "Edit Sections" button to lifterlms_myaccount_page_id
+			if ( 'lifterlms_myaccount_page_id' === $el.attr( 'id' ) ) {
+				const $editBtn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + LLMS.l10n.translate( 'Edit Sections' ) + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
+				$btn.after( $editBtn );
+				$editBtn.attr( 'href', window.llms.home_url + '/wp-admin/edit.php?post_type=llms_dashboard' );
+			}
+
 			$el.on( 'change', function() {
 				var id = $( this ).val();
 				if ( id ) {
