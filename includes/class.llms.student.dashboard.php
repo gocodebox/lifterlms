@@ -32,7 +32,8 @@ class LLMS_Student_Dashboard {
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
-		add_filter( 'page_row_actions', [ $this, 'add_edit_link' ], 10, 2 );
+		add_filter( 'page_row_actions', array( $this, 'add_edit_link' ), 10, 2 );
+		add_filter( 'render_block_core/shortcode', array( $this, 'render_shortcode_block' ), 10, 2 );
 
 	}
 
@@ -442,6 +443,27 @@ class LLMS_Student_Dashboard {
 		);
 
 		return $actions;
+	}
+
+	/**
+	 * Remove empty paragraphs from the shortcode.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $block_content Block content.
+	 * @param array  $block         Block data.
+	 * @return string
+	 */
+	public function render_shortcode_block( string $block_content, array $block ): string {
+		$inner = $block['innerHTML'] ?? $block['innerContent'] ?? '';
+
+		if ( ! str_contains( $inner, 'lifterlms_dashboard' ) ) {
+			return $block_content;
+		}
+
+		$block_content = shortcode_unautop( $block_content );
+
+		return $block_content;
 	}
 
 }

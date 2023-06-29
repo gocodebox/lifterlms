@@ -65,11 +65,7 @@ class LLMS_Shortcode_Dashboard extends LLMS_Shortcode {
 
 		}
 
-		return str_replace(
-			[ '<p></p>', '<p> </p>' ],
-			'',
-			$output
-		);
+		return $output;
 
 	}
 
@@ -106,15 +102,17 @@ class LLMS_Shortcode_Dashboard extends LLMS_Shortcode {
 		 */
 		$defaults = apply_filters( 'lifterlms_dashboard_defaults', $defaults );
 
+		$content = '';
+
 		$page = get_page_by_path( $slug, OBJECT, 'llms_dashboard' );
 
 		if ( $page && $page->post_content ) {
-			return do_blocks( $page->post_content );
+			$content = $page->post_content;
 		}
 
-		$content = $defaults[ $slug ] ?? '';
+		$callback = $defaults[ $slug ] ?? '';
 
-		if ( is_callable( $content ) ) {
+		if ( is_callable( $callback ) ) {
 
 			ob_start();
 
@@ -135,15 +133,13 @@ class LLMS_Shortcode_Dashboard extends LLMS_Shortcode {
 
 			}
 
-			$content();
+			$callback();
 
-			$clean = ob_get_clean();
-
-			return do_blocks( $clean );
+			$content = ob_get_clean();
 
 		}
 
-		return '';
+		return do_blocks( $content );
 
 	}
 
