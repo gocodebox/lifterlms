@@ -1153,11 +1153,11 @@ class LLMS_Post_Types {
 				'map_meta_cap'        => true,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
-				'hierarchical'        => false,
+				'hierarchical'        => true,
 				'show_in_nav_menus'   => false,
 				'rewrite'             => false,
 				'query_var'           => false,
-				'supports'            => array( 'title', 'editor', 'slug' ),
+				'supports'            => array( 'title', 'editor', 'slug', 'page-attributes' ),
 				'has_archive'         => false,
 				'show_in_rest'        => true,
 			)
