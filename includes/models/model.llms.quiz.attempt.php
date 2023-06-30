@@ -425,8 +425,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			$randomize     = llms_parse_bool( $quiz->get( 'random_questions' ) );
-			$question_bank = llms_parse_bool( $quiz->get( 'question_bank' ) );
+			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
 
 			// Array of indexes that will be locked during shuffling.
 			$locks = array();
@@ -448,9 +447,17 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			}
 
-			// Randomize the questions if Randomize Question Order is enabled OR if Question Bank is enabled.
-			if ( $randomize || $question_bank ) {
-
+			/**
+			 * Filter randomize value for quiz questions.
+			 *
+			 * Sets the randomize to boolean value based on `Randomize` and `Question Bank`.
+			 *
+			 * @since [version]
+			 *
+			 * @param boolean   $randomize The randomize boolean value.
+			 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
+			 */
+			if ( apply_filters( 'llms_quiz_questions_randomize', $randomize, $quiz ) ) {
 				// Lifted from https://stackoverflow.com/a/28491007/400568.
 				// I generally comprehend this code but also in a truer way i have no idea...
 				$inc = array();
@@ -478,16 +485,17 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 		}
 
-		// Limiting the number of questions if the question bank is enabled and the limit is set.
-		if ( $question_bank ) {
-			$questions_limit = $quiz->get( 'number_of_questions' );
-
-			if ( $questions_limit ) {
-				$questions = array_slice( $questions, 0, $questions_limit );
-			}
-		}
-
-		return $questions;
+		/**
+		 * Filter questions for the quiz.
+		 *
+		 * Sets the questions to be used for the quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @param array     $questions The questions to be used for the quiz.
+		 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
+		 */
+		return apply_filters( 'llms_quiz_questions', $questions, $quiz );
 
 	}
 
