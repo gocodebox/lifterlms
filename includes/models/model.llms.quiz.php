@@ -118,7 +118,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	public function get_questions_count() {
 
 		if ( $this->get( 'question_bank' ) ) {
-			return $this->get( 'number_of_questions' );
+
+			$questions_limit = $this->get( 'number_of_questions' );
+
+			if ( $questions_limit ) {
+				return $questions_limit;
+			}
 		}
 
 		return count( $this->get_questions( 'ids' ) );
