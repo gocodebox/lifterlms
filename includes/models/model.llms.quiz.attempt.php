@@ -449,6 +449,18 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 
 			/**
+			 * Filter questions for the quiz.
+			 *
+			 * Sets the questions to be used for the quiz.
+			 *
+			 * @since [version]
+			 *
+			 * @param array     $questions The questions to be used for the quiz.
+			 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
+			 */
+			$questions = apply_filters( 'llms_quiz_questions', $questions, $quiz );
+
+			/**
 			 * Filter randomize value for quiz questions.
 			 *
 			 * Sets the randomize to boolean value based on `Randomize` and `Question Bank`.
@@ -486,17 +498,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 		}
 
-		/**
-		 * Filter questions for the quiz.
-		 *
-		 * Sets the questions to be used for the quiz.
-		 *
-		 * @since [version]
-		 *
-		 * @param array     $questions The questions to be used for the quiz.
-		 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
-		 */
-		return apply_filters( 'llms_quiz_questions', $questions, $quiz );
+		return $questions;
 
 	}
 
