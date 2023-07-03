@@ -438,11 +438,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				}
 
 				$questions[] = array(
-					'id'      => $question->get( 'id' ),
-					'earned'  => 0,
-					'points'  => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
-					'answer'  => null,
-					'correct' => null,
+					'id'                      => $question->get( 'id' ),
+					'earned'                  => 0,
+					'points'                  => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
+					'answer'                  => null,
+					'correct'                 => null,
+					'include_bank_variations' => 'yes' === $question->get( 'include_bank_variations' ) ? true : false,
 				);
 
 			}

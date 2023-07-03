@@ -171,6 +171,19 @@
 				<# } #>
 			</div>
 
+			<# if ( 'yes' === data.collection.parent.attributes.question_bank ) { #>
+				<# console.log('data', data); #>
+			<div class="llms-settings-row">
+				<div class="llms-editable-toggle-group">
+					<label class="llms-switch">
+						<span class="llms-label"><?php _e( 'Include in Questions Bank', 'lifterlms' ); ?></span>
+						<input type="checkbox" name="include_bank_variations"<# if ( 'yes' === data.get( 'include_bank_variations' ) ) { print( ' checked' ) } #>>
+						<div class="llms-switch-slider"></div>
+					</label>
+				</div>
+			</div>
+			<# } #>
+
 		</div>
 
 	</section>
