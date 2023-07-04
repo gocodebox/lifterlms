@@ -8265,7 +8265,6 @@ define( 'Views/SettingsFields',[], function() {
 				break;
 
 				case 'disabled':
-					defaults.classes.push( 'llms-editable-switch-disabled' );
 					defaults.url = 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Advanced%20Quizzes';
 				break;
 
