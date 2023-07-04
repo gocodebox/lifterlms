@@ -3290,8 +3290,15 @@ define( 'Schemas/Quiz',[], function() {
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
 			},
-				],
-
+				], [
+					{
+						attribute: 'number_of_questions',
+						id: 'question-bank',
+						label: LLMS.l10n.translate( 'Question Bank' ),
+						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),
+						type: 'disabled',
+					}
+				]
 			],
 		},
 
@@ -8255,6 +8262,11 @@ define( 'Views/SettingsFields',[], function() {
 					defaults.placeholder = 'https://';
 					defaults.tip         = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
 					defaults.input_type  = 'url';
+				break;
+
+				case 'disabled':
+					defaults.classes.push( 'llms-editable-switch-disabled' );
+					defaults.url = 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Advanced%20Quizzes';
 				break;
 
 			}

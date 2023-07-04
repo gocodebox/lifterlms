@@ -65,6 +65,12 @@ defined( 'ABSPATH' ) || exit;
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
+					<# } else if ( 'disabled' === field.type ) { #>
+
+						<a target="_blank" href="{{{ field.url }}}">
+							<span class="llms-disabled">Get LifterLMS Advanced Quizzes</span>
+						</a>
+
 					<# } else if ( 'select' === field.type || ( 'switch-select' === field.type && data.is_switch_condition_met( field ) ) ) { #>
 
 						<div class="llms-editable-select{{{ field.classes }}}" >
