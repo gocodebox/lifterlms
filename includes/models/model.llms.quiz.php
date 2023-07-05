@@ -118,16 +118,15 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function get_questions_count() {
 
-		if ( $this->get( 'question_bank' ) ) {
-
-			$questions_limit = $this->get( 'number_of_questions' );
-
-			if ( $questions_limit ) {
-				return $questions_limit;
-			}
-		}
-
-		return count( $this->get_questions( 'ids' ) );
+		/**
+		 * Filter the count of questions in a quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @param int       $questions_count Number of questions in a quiz.
+		 * @param LLMS_Quiz $this Current quiz object.
+		 */
+		return apply_filters( 'llms_quiz_questions_count', count( $this->get_questions( 'ids' ) ), $this );
 	}
 
 	/**
