@@ -3,7 +3,7 @@
  * Model Field Settings Template
  *
  * @since   3.17.0
- * @version 3.24.0
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 
 				<#
 					var field = data.setup_field( orig_field, field_index );
-					if ( ! field ) { return; }
+					if ( ! field || 'hidden' === field.visibility ) { return; }
 				#>
 
 				<div class="llms-settings-field settings-field--{{{ field.type }}}<# if ( field.label_after ) { #> has-label-after<# } #>" id="llms-model-settings-field--{{{ field.id }}}">
@@ -68,7 +68,7 @@ defined( 'ABSPATH' ) || exit;
 					<# } else if ( 'disabled' === field.type ) { #>
 
 						<a target="_blank" href="{{{ field.url }}}">
-							<span class="llms-disabled">Get LifterLMS Advanced Quizzes</span>
+							<span class="llms-disabled">{{{ field.text }}}</span>
 						</a>
 
 					<# } else if ( 'select' === field.type || ( 'switch-select' === field.type && data.is_switch_condition_met( field ) ) ) { #>
