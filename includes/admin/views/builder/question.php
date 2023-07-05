@@ -3,7 +3,7 @@
  * Builder question view
  *
  * @since   3.16.0
- * @version 3.27.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-template">
@@ -172,7 +172,6 @@
 			</div>
 
 			<# if ( 'yes' === data.collection.parent.attributes.question_bank ) { #>
-				<# console.log('data', data); #>
 			<div class="llms-settings-row">
 				<div class="llms-editable-toggle-group">
 					<label class="llms-switch">

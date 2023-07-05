@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added filter `llms_quiz_questions` to modify the questions array for the quiz.

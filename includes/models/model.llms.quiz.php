@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
  * @since 5.0.0 Remove previously deprecated method `LLMS_Quiz::get_lessons()`.
+ * @since [verion] Add `get_questions_count()` function.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
