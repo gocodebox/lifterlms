@@ -119,6 +119,25 @@ defined( 'ABSPATH' ) || exit;
 							</div>
 						<# } #>
 
+					<# } else if ( 'switch-multi-input' === field.type ) { #>
+						<# if( field.inputs.length ) { #>
+							<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
+								<div class="llms-editable-input{{{ field.classes }}}">
+									<# field.inputs.forEach( input => { #>
+										<span class="label">{{{ input.label }}}</span>
+											<input
+												class="llms-input standard"
+												data-attribute="{{{ field.attribute }}}"
+												data-original-content="{{{ data.model.get( input.attribute ) }}}"
+												name="{{{ input.attribute }}}"
+												<# if ( input.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
+												type="{{{ input.input_type }}}"
+												value="{{{ data.model.get( input.attribute ) }}}"
+											>
+									<# } ); #>
+								</div>
+							<# } #>
+						<# } #>
 					<# } #>
 
 					<# if ( field.label_after ) { #>
