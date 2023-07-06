@@ -118,7 +118,8 @@ defined( 'ABSPATH' ) || exit;
 								>
 							</div>
 						<# } #>
-
+					
+					<!-- todo: make the below into a helper function with merging with above logic, as both are same. -->
 					<# } else if ( 'switch-multi-input' === field.type ) { #>
 						<# if( field.inputs.length ) { #>
 							<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
@@ -127,7 +128,7 @@ defined( 'ABSPATH' ) || exit;
 										<span class="label">{{{ input.label }}}</span>
 											<input
 												class="llms-input standard"
-												data-attribute="{{{ field.attribute }}}"
+												data-attribute="{{{ input.attribute }}}"
 												data-original-content="{{{ data.model.get( input.attribute ) }}}"
 												name="{{{ input.attribute }}}"
 												<# if ( input.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
