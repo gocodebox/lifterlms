@@ -78,6 +78,7 @@ class LLMS_Admin_Notices {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Added "flash" option.
+	 * @since [version] Added "icon" option.
 	 *
 	 * @param string $notice_id       Unique id of the notice.
 	 * @param string $html_or_options Html content of the notice for short notices that don't need a template
@@ -115,7 +116,8 @@ class LLMS_Admin_Notices {
 				'type'             => 'info', // Info, warning, success, error.
 				'template'         => false, // Template name, eg "admin/notices/notice.php".
 				'template_path'    => '', // Allow override of default llms()->template_path().
-				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
+				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass its own path in here.
+				'icon'             => 'lifterlms', // Accepts any Dashicon class name.
 			)
 		);
 
@@ -317,9 +319,28 @@ class LLMS_Admin_Notices {
 
 				return;
 			}
+
+			$icon      = $notice['icon'] ?? 'lifterlms';
+			$icon_name = ucwords( str_replace('-', ' ', $icon ) );
+
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<div class="llms-admin-notice-icon"></div>
+				<div class="llms-admin-notice-icon">
+					<?php if ( 'lifterlms' === $icon ) : ?>
+						<div class="llms-admin-notice-lifterlms-icon">
+							<span class="screen-reader-text">
+								<?php esc_html_e('LifterLMS icon', 'lifterlms' ); ?>
+							</span>
+						</div>
+					<?php else: ?>
+						<div class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>">
+							<span class="screen-reader-text">
+								<?php echo esc_html( $icon_name ); ?>
+							</span>
+						</div>
+					<?php endif; ?>
+				</div>
+
 				<div class="llms-admin-notice-content">
 					<?php if ( $notice['dismissible'] ) : ?>
 						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">

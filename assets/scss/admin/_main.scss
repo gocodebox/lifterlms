@@ -167,6 +167,7 @@ div[id^="lifterlms-"] .inside {
 		border-left: 4px solid #F8954F;
 
 		.llms-admin-notice-icon {
+			color: #F8954F;
 			background-color: #FEF4ED;
 		}
 	}
@@ -179,6 +180,7 @@ div[id^="lifterlms-"] .inside {
 		}
 
 		.llms-admin-notice-icon {
+			color: #466DD8;
 			background-color: #EDF0FB;
 		}
 
@@ -192,6 +194,7 @@ div[id^="lifterlms-"] .inside {
 		}
 
 		.llms-admin-notice-icon {
+			color: #18A957;
 			background-color: #E8F6EE;
 		}
 
@@ -205,23 +208,43 @@ div[id^="lifterlms-"] .inside {
 		}
 
 		.llms-admin-notice-icon {
+			color: #9C0F2E;
 			background-color: #FCE8EC;
 		}
 
 	}
 
 	.llms-admin-notice-icon {
+		min-width: 70px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.dashicons {
+			width: 20px;
+			height: 20px;
+			font-size: 20px;
+
+			&:before {
+				font-size: inherit;
+			}
+		}
+	}
+
+	.llms-admin-notice-lifterlms-icon {
 		background-image: url(../../assets/images/lifterlms-icon-color.png);
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: 30px;
-		min-width: 70px;
-
 	}
 
 	.llms-admin-notice-content {
 		color: #111;
 		padding: 20px;
+
+		> * {
+			margin-top: 0;
+		}
 	}
 
 	h3 {
@@ -246,6 +269,10 @@ div[id^="lifterlms-"] .inside {
 
 	p:last-of-type {
 		margin-bottom: 0;
+	}
+
+	p + .wp-block-buttons {
+		margin-top: 15px;
 	}
 }
 
