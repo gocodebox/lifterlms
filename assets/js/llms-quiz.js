@@ -2,11 +2,12 @@
 /* jshint strict: true */
 
 /**
- * Front End Quiz Class
+ * Front End Quiz Class.
  *
- * @type     {Object}
- * @since    1.0.0
- * @version  3.24.3
+ * @type {Object}
+ *
+ * @since 1.0.0
+ * @version [version]
  */( function( $ ) {
 
 	var quiz = {
@@ -14,93 +15,101 @@
 		/**
 		 * Selector of all the available button elements
 		 *
-		 * @type  obj
+		 * @type {Object}
 		 */
 		$buttons: null,
 
 		/**
-		 * Main Question Container Element
+		 * Main Question Container Element.
 		 *
-		 * @type  obj
+		 * @type {Object}
 		 */
 		$container: null,
 
 		/**
-		 * Main Quiz container UI element
+		 * Main Quiz container UI element.
 		 *
-		 * @type  obj
+		 * @type {Object}
 		 */
 		$ui: null,
 
 		/**
-		 * Attempt key for the current quiz
+		 * Attempt key for the current quiz.
 		 *
-		 * @type  {[type]}
+		 * @type {[type]}
 		 */
 		attempt_key: null,
 
 		/**
-		 * Question ID of the current question
+		 * Question ID of the current question.
 		 *
-		 * @type  {Number}
+		 * @type {Number}
 		 */
 		current_question: 0,
 
 		/**
-		 * Total number of questions in the current quiz
+		 * Total number of questions in the current quiz.
 		 *
-		 * @type  {Number}
+		 * @type {Number}
 		 */
 		total_questions: 0,
 
 		/**
-		 * Object of quiz question HTML
+		 * Object of quiz question HTML.
 		 *
-		 * @type  {Object}
+		 * @type {Object}
 		 */
 		questions: {},
 
 		/**
-		 * Validator functions for question types
-		 * Third party custom question types can register validators for use when answering questions
+		 * Validator functions for question type.
+		 * Third party custom question types can register validators for use when answering questions.
 		 *
-		 * @type  {Object}
+		 * @type {Object}
 		 */
 		validators: {},
 
 		/**
-		 * Records current status of a quiz session
+		 * Records current status of a quiz session.
 		 * If a user attempts to navigate away from a quiz
 		 * while taking the quiz they'll be warned that their progress
-		 * will not be saved if this status is not null
+		 * will not be saved if this status is not null.
 		 *
-		 * @type  boolean
+		 * @type {Bool}
 		 */
 		status: null,
 
 		/**
-		 * Bind DOM events
+		 * Bind DOM events.
 		 *
-		 * @return void
-		 * @since    1.0.0
-		 * @version  3.16.6
+		 * @since 1.0.0
+		 * @since 3.16.6 Unknown.
+		 * @since [version] Add quiz resume
+		 *
+		 * @return {Void}
 		 */
 		bind: function() {
 
 			var self = this;
 
-			// start quiz
+			// Start quiz.
 			$( '#llms_start_quiz' ).on( 'click', function( e ) {
 				e.preventDefault();
 				self.start_quiz();
 			} );
 
-			// draw quiz grade circular chart
+			// Resume quiz.
+			$( '#llms_resume_quiz' ).on( 'click', function( e ) {
+				e.preventDefault();
+				self.resume_quiz();
+			} );
+
+			// Draw quiz grade circular chart.
 			$( '.llms-donut' ).each( function() {
 				LLMS.Donut( $( this ) );
 			} );
 
-			// redirect to attempt on attempt selection change
+			// Redirect to attempt on attempt selection change.
 			$( '#llms-quiz-attempt-select' ).on( 'change', function() {
 				var val = $( this ).val();
 				if ( val ) {
@@ -108,14 +117,14 @@
 				}
 			} );
 
-			// warn when quiz is running and user tries to leave the page
+			// warn when quiz is running and user tries to leave the page.
 			$( window ).on( 'beforeunload', function() {
 				if ( self.status ) {
 					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
 				}
 			} );
 
-			// complete the quiz attempt when user leaves if the quiz is running
+			// Complete the quiz attempt when user leaves if the quiz is running.
 			$( window ).on( 'unload', function() {
 				if ( self.status ) {
 					self.complete_quiz();
@@ -124,7 +133,7 @@
 
 			$( document ).on( 'llms-post-append-question', self.post_append_question );
 
-			// register validators
+			// Register validators.
 			this.register_validator( 'content', this.validate );
 			this.register_validator( 'choice', this.validate_choice );
 			this.register_validator( 'picture_choice', this.validate_choice );
@@ -316,11 +325,13 @@
 		},
 
 		/**
-		 * Return to the previous question
+		 * Return to the previous question.
 		 *
-		 * @return   void
-		 * @since    1.0.0
-		 * @version  3.16.6
+		 * @since 1.0.0
+		 * @since 3.16.6 Unknown.
+		 * @since [version] Retrieve question HTML from the server when not cached.
+		 *
+		 * @return {Void}
 		 */
 		previous_question: function() {
 
@@ -337,10 +348,46 @@
 				prev_id = ids[ curr - 1 ];
 			}
 
-			setTimeout( function() {
-				self.toggle_loader( 'hide' );
-				self.load_question( self.questions[ prev_id ] );
-			}, 100 );
+			// Retrieve previous question HTML from the server.
+			if ( ! self.questions[ prev_id ] ) {
+				LLMS.Ajax.call( {
+					data: {
+						action     : 'quiz_get_question',
+						attempt_key: self.attempt_key,
+						question_id: prev_id.substring(2), // Remove 'q-'.
+					},
+					success: function( r ) {
+
+						self.toggle_loader( 'hide' );
+						if ( r.data && r.data.html ) {
+
+							self.load_question( r.data.html );
+
+						} else if ( r.data && r.data.redirect ) {
+
+							self.redirect( r.data.redirect );
+
+						} else if ( r.message ) {
+
+							self.$container.append( '<p>' + r.message + '</p>' );
+
+						} else {
+
+							var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+							self.$container.append( '<p>' + msg + '</p>' );
+
+						}
+
+					}
+
+				} );
+
+			} else {
+				setTimeout( function() {
+					self.toggle_loader( 'hide' );
+					self.load_question( self.questions[ prev_id ] );
+				}, 100 );
+			}
 
 		},
 
@@ -419,6 +466,96 @@
 						self.attempt_key     = r.data.attempt_key;
 						self.total_questions = r.data.total;
 
+						self.load_question( r.data.html );
+
+					} else if ( r.message ) {
+
+						self.$container.append( '<p>' + r.message + '</p>' );
+
+					} else {
+
+						var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+						self.$container.append( '<p>' + msg + '</p>' );
+
+					}
+
+				}
+
+			} );
+
+			/**
+			 * Use JS mouse events instead of CSS :hover because iOS is really smart
+			 *
+			 * @see: https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+			 */
+			if ( ! LLMS.is_touch_device() ) {
+
+				this.$ui.on( 'mouseenter', 'li.llms-choice label', function() {
+					$( this ).addClass( 'hovered' );
+				} );
+				this.$ui.on( 'mouseleave', 'li.llms-choice label', function() {
+					$( this ).removeClass( 'hovered' );
+				} );
+
+			}
+
+		},
+
+		/**
+		 * Resume a Quiz via AJAX call.
+		 *
+		 * TODO: Similar to `start_quiz`, consider abstract teh similar parts.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		resume_quiz: function () {
+			console.log('absolutely here');
+			var self = this;
+
+			this.load_ui_elements();
+			this.$ui        = $( '#llms-quiz-ui' );
+			this.$buttons   = $( '#llms-quiz-nav button' );
+			this.$container = $( '#llms-quiz-question-wrapper' );
+
+			// Bind submission event for answering questions.
+			$( '#llms-next-question, #llms-complete-quiz' ).on( 'click', function( e ) {
+				e.preventDefault();
+				self.answer_question( $( this ) );
+			} );
+
+			// Bind submission event for navigating backwards.
+			$( '#llms-prev-question' ).on( 'click', function( e ) {
+				e.preventDefault();
+				self.previous_question();
+			} );
+
+			LLMS.Ajax.call( {
+				data: {
+					action: 'quiz_resume',
+					attempt_key: $( '#llms-attempt-key' ).val(),
+				},
+				beforeSend: function() {
+
+					self.status = true;
+					$( '#llms-quiz-wrapper, #quiz-start-button', '#quiz-resume-button' ).remove();
+					$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
+					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Quiz...' ) );
+
+				},
+				error: function( r, s, t ) {
+					console.log( r, s, t );
+				},
+				success: function( r ) {
+
+					self.toggle_loader( 'hide' );
+
+					if ( r.data && r.data.html ) {
+
+						self.attempt_key     = r.data.attempt_key;
+						self.total_questions = r.data.total;
+						r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
 						self.load_question( r.data.html );
 
 					} else if ( r.message ) {
@@ -652,17 +789,17 @@
 		},
 
 		/**
-		 * Update the progress bar and toggle button availability based on question the question being shown
+		 * Update the progress bar and toggle button availability based on question the question being shown.
 		 *
-		 * @param    {[type]}   qid  [description]
-		 * @return   {[type]}
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since [version] Show counter and set the total as when needed.
+		 *
+		 * @param {Int} qid Question ID.
+		 * @return {Void}
 		 */
 		update_progress: function( qid ) {
 
-			var index = this.get_question_index( qid ),
-				progress;
+			var index = this.get_question_index( qid );
 
 			if ( -1 === index ) {
 				return;
@@ -671,12 +808,12 @@
 			index++;
 
 			$( '#llms-quiz-counter .llms-current' ).text( index );
-			if ( index === 1 ) {
+			if ( index > 0 && ! $( '#llms-quiz-counter .llms-total' ).text() ) {
 				$( '#llms-quiz-counter .llms-total' ).text( this.total_questions );
 				$( '#llms-quiz-counter' ).show();
 			}
 
-			// handle prev question
+			// Handle prev question.
 			if ( index >= 2 ) {
 				$( '#llms-prev-question' ).show();
 			} else {
