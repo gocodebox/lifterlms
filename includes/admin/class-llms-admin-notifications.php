@@ -76,6 +76,7 @@ class LLMS_Admin_Notifications {
 				continue;
 			}
 
+
 			LLMS_Admin_Notices::add_notice(
 				$notification->id,
 				$notification->content,
@@ -151,10 +152,6 @@ class LLMS_Admin_Notifications {
 		$notifications = array();
 
 		foreach ( $filtered as $notification ) {
-			if ( ! is_array( $notification->conditions ?? null ) ) {
-				$notification->conditions = array();
-			}
-
 			$notifications[] = new LLMS_Admin_Notification( $notification );
 		}
 
@@ -212,7 +209,63 @@ class LLMS_Admin_Notifications {
 			return true;
 		}
 
-		return false;
+		foreach ( $notification->conditions as $condition ) {
+			if ( ! $this->check_condition( (object) $condition ) ) {
+				return false;
+			}
+
+			if ( ! $this->check_date_range( (object) $condition ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if a single condition is met.
+	 *
+	 * @since [version]
+	 *
+	 * @param object $condition Condition object.
+	 * @return bool
+	 */
+	private function check_condition( object $condition ): bool {
+		$value = explode( ',', $condition->value );
+
+		$callbacks = [
+			'plugin_active'     => static fn( $value ) => is_plugin_active( $value ),
+			'plugin_inactive'   => static fn( $value ) => ! is_plugin_active( $value ),
+			'lifterlms_version' => static fn( $value, $operator ) => version_compare(
+				llms()->version,
+				$value,
+				$operator
+			),
+			'lifterlms_license' => static fn( $value, $operator ) => version_compare(
+				llms()->version,
+				$value,
+				$operator
+			),
+		];
+
+		if ( ! isset( $callbacks[ $condition->type ] ) ) {
+			return false;
+		}
+
+		return $callbacks[ $condition->type ]( $value, $condition->operator );
+
+	}
+
+	/**
+	 * Checks if a notification is within date range.
+	 *
+	 * @since [version]
+	 *
+	 * @param object $condition Condition object.
+	 * @return bool
+	 */
+	private function check_date_range( object $condition ): bool {
+		return true;
 	}
 
 }

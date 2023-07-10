@@ -83,7 +83,7 @@ class LLMS_Admin_Notification {
 	/**
 	 * Notification conditions.
 	 *
-	 * @var array
+	 * @var array[]
 	 */
 	public array $conditions;
 
@@ -92,9 +92,9 @@ class LLMS_Admin_Notification {
 	 *
 	 * @since [version]
 	 *
-	 * @param object $object Notification stdClass.
+	 * @param object $object Notification object.
 	 */
-	public function __construct( $object ) {
+	public function __construct( object $object ) {
 
 		$this->id          = $object->id ?? 0;
 		$this->title       = $object->title ?? esc_html__( 'Untitled Notification', 'lifterlms' );
@@ -105,7 +105,7 @@ class LLMS_Admin_Notification {
 		$this->icon        = $object->icon ?? 'info-outline';
 		$this->priority    = $object->priority ?? 10;
 		$this->dismissible = $object->dismissible ?? true;
-		$this->conditions  = $object->conditions ?? [];
+		$this->conditions  = (array) ( $object->conditions ?? [] );
 
 	}
 
