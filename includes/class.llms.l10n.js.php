@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  7.2.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  7.2.0
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -111,7 +111,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Quiz.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.24.0
+			 * @version  [version]
 			 */
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
@@ -167,6 +167,8 @@ class LLMS_L10n_JS {
 			'Limit the maximum number of times a student can take this quiz' => esc_html__( 'Limit the maximum number of times a student can take this quiz', 'lifterlms' ),
 			'Time Limit' => esc_html__( 'Time Limit', 'lifterlms' ),
 			'Enforce a maximum number of minutes a student can spend on each attempt' => esc_html__( 'Enforce a maximum number of minutes a student can spend on each attempt', 'lifterlms' ),
+			'Can be resumed' => esc_html__( 'Can be resumed', 'lifterlms' ),
+			'Allow a new attempt on this quiz to be resumed' => esc_html__( 'Allow a new attempt on this quiz to be resumed', 'lifterlms' ),
 			'Show Correct Answers' => esc_html__( 'Show Correct Answers', 'lifterlms' ),
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
@@ -323,6 +325,8 @@ class LLMS_L10n_JS {
 			'Limit the maximum number of times a student can take this quiz' => esc_html__( 'Limit the maximum number of times a student can take this quiz', 'lifterlms' ),
 			'Time Limit' => esc_html__( 'Time Limit', 'lifterlms' ),
 			'Enforce a maximum number of minutes a student can spend on each attempt' => esc_html__( 'Enforce a maximum number of minutes a student can spend on each attempt', 'lifterlms' ),
+			'Can be resumed' => esc_html__( 'Can be resumed', 'lifterlms' ),
+			'Allow a new attempt on this quiz to be resumed' => esc_html__( 'Allow a new attempt on this quiz to be resumed', 'lifterlms' ),
 			'Show Correct Answers' => esc_html__( 'Show Correct Answers', 'lifterlms' ),
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
@@ -432,7 +436,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-quiz.js.
 			 *
 			 * @since    1.0.0
-			 * @version  3.24.3
+			 * @version  [version]
 			 */
 			'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
 			'Grading Quiz...' => esc_html__( 'Grading Quiz...', 'lifterlms' ),

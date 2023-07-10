@@ -1,7 +1,8 @@
 /**
  * Quiz Model
- * @since    3.16.0
- * @version  3.24.0
+ *
+ * @since 3.16.0
+ * @version [version]
  */
 define( [
 		'Collections/Questions',
@@ -22,8 +23,9 @@ define( [
 	return Backbone.Model.extend( _.defaults( {
 
 		/**
-		 * model relationships
-		 * @type  {Object}
+		 * Model relationships.
+		 *
+		 * @type {Object}
 		 */
 		relationships: {
 			parent: {
@@ -41,15 +43,19 @@ define( [
 
 		/**
 		 * Lesson Settings Schema
-		 * @type  {Object}
+		 *
+		 * @type {Object}
 		 */
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.6
+		 * New lesson defaults.
+		 *
+		 * @since 3.16.0
+		 * @since 3.16.6 Unknown.
+		 * @since [version] Added `can_be_resumed` property.
+		 *
+		 * @return {obj}
 		 */
 		defaults: function() {
 
@@ -61,7 +67,7 @@ define( [
 
 				status: 'draft',
 
-				// editable fields
+				// Editable fields.
 				content: '',
 				allowed_attempts: 5,
 				limit_attempts: 'no',
@@ -71,13 +77,14 @@ define( [
 				random_answers: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
+				can_be_resumed: 'no',
 
 				questions: [],
 
-				// calculated
+				// Calculated.
 				_points: 0,
 
-				// display
+				// Display.
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,

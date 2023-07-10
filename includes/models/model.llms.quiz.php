@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @property $show_options_description_wrong_answer (yesno) If yes, displays the question description when the student chooses the wrong answer.
  * @property $show_results (yesno) If yes, results will be shown to the student at the conclusion of the quiz.
  * @property $time_limit (int) Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz.
+ * @property $can_be_resumed (yesno) If yes, the latest incomplete quiz attempt can be resumed.
  *
  * @since 3.3.0
  * @since 3.19.2 Unkwnown.
@@ -48,11 +49,11 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	/**
-	 * Post type meta properties
+	 * Post type meta properties.
 	 *
-	 * Array key is the meta_key and array values is property's type.
-	 *
-	 * @var string[]
+	 * @since [version] 3.3.0
+	 * @since [version] Added `can_be_resumed` property.
+	 * @var array Array key is the meta_key and array values is property's type.
 	 */
 	protected $properties = array(
 		'lesson_id'           => 'absint',
@@ -63,6 +64,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'can_be_resumed'      => 'yesno',
 	);
 
 	/**
@@ -178,6 +180,49 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if a quiz can be resumed.
+	 *
+	 * A quiz can only be resumed if it's set to be resumed
+	 * and has no time limit.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function can_be_resumed() {
+		return llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+	}
+
+	/**
+	 * Determine if a student can resume the quiz.
+	 *
+	 * A student can resume the quiz only if the quiz can be resumed and
+	 * the latest attempt can be resumed.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return bool
+	 */
+	public function can_be_resumed_by_student( $user_id = null ) {
+
+		if ( ! $this->can_be_resumed() ) {
+			return false;
+		}
+
+		$can_be_resumed_by_student = false;
+
+		$student = llms_get_student( $user_id );
+		if ( $student ) {
+			$last_attempt              = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+			$can_be_resumed_by_student = $last_attempt && $last_attempt->can_be_resumed();
+		}
+
+		return $can_be_resumed;
+
+	}
+
+	/**
 	 * Determine if a student can take the quiz.
 	 *
 	 * @since 3.0.0
@@ -185,7 +230,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
 	 *
 	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_open( $user_id = null ) {
 
@@ -202,6 +247,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		/**
 		 * Filters whether the quiz is open to a student or not.
+		 *
+		 * @since 3.37.2
 		 *
 		 * @param boolean            $quiz_open Whether the quiz is open.
 		 * @param int|null           $user_id   WP User ID, can be `null`.

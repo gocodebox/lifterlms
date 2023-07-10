@@ -54,6 +54,17 @@ define( [], function() {
 						type: 'switch-number',
 			},
 				], [
+
+					{
+						attribute: 'can_be_resumed',
+						id: 'resume',
+						label: LLMS.l10n.translate( 'Can be resumed' ),
+						tip: LLMS.l10n.translate( 'Allow a new attempt on this quiz to be resumed' ),
+						type: 'switch',
+						condition: function() {
+							return 'yes' === this.get( 'limit_time' ) ? false : true;
+						}
+			},
 					{
 						attribute: 'show_correct_answer',
 						id: 'show-correct-answer',
