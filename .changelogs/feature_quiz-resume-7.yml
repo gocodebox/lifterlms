@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: "Added `return\x1c` parameter to the method
+  `LLMS_Quiz_Attempt::quiz_next_question()`."
