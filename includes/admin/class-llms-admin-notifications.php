@@ -76,7 +76,6 @@ class LLMS_Admin_Notifications {
 				continue;
 			}
 
-
 			LLMS_Admin_Notices::add_notice(
 				$notification->id,
 				$notification->content,
@@ -205,16 +204,17 @@ class LLMS_Admin_Notifications {
 	 * @return bool
 	 */
 	private function check_conditions( LLMS_Admin_Notification $notification ): bool {
+
+		if ( ! $this->check_date_range( $notification ) ) {
+			return false;
+		}
+
 		if ( ! $notification->conditions ) {
 			return true;
 		}
 
 		foreach ( $notification->conditions as $condition ) {
 			if ( ! $this->check_condition( (object) $condition ) ) {
-				return false;
-			}
-
-			if ( ! $this->check_date_range( (object) $condition ) ) {
 				return false;
 			}
 		}
@@ -261,10 +261,32 @@ class LLMS_Admin_Notifications {
 	 *
 	 * @since [version]
 	 *
-	 * @param object $condition Condition object.
+	 * @param LLMS_Admin_Notification $notification Notification object.
 	 * @return bool
 	 */
-	private function check_date_range( object $condition ): bool {
+	private function check_date_range( LLMS_Admin_Notification $notification ): bool {
+
+		if ( ! $notification->start_date && ! $notification->end_date ) {
+			return true;
+		}
+
+		$start = strtotime( $notification->start_date );
+		$end   = strtotime( $notification->end_date );
+
+		if ( ! $start && ! $end ) {
+			return true;
+		}
+
+		$time = time();
+
+		if ( $time < $start ) {
+			return false;
+		}
+
+		if ( $time > $end ) {
+			return false;
+		}
+
 		return true;
 	}
 
