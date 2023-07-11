@@ -511,7 +511,7 @@
 		 * @return {Void}
 		 */
 		resume_quiz: function () {
-			console.log('absolutely here');
+
 			var self = this;
 
 			this.load_ui_elements();
