@@ -190,7 +190,18 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return bool
 	 */
 	public function can_be_resumed() {
-		return llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+
+		$can_be_resumed = llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+
+		/**
+		 * Filters the quiz resumable status.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool      $can_be_resumed Whether or not the quiz can be resumed.
+		 * @param LLMS_Quiz $quiz           The LLMS_Quiz instance.
+		 */
+		return apply_filters( 'llms_quiz_can_be_resumed', $can_be_resumed, $this );
 	}
 
 	/**
@@ -218,7 +229,28 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			$can_be_resumed_by_student = $last_attempt && $last_attempt->can_be_resumed();
 		}
 
-		return $can_be_resumed;
+		return $can_be_resumed_by_student;
+
+	}
+
+	/**
+	 * Gets last quiz attempt of a user.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return bool
+	 */
+	public function get_last_quiz_attempt( $user_id = null ) {
+
+		$student = llms_get_student( $user_id );
+
+		if ( $student ) {
+			$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+			return $last_attempt;
+		}
+
+		return false;
 
 	}
 

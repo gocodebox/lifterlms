@@ -61,10 +61,46 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 				<p><?php _e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 			<?php endif; ?>
 
-			<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
-				<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php _e( 'Next Lesson', 'lifterlms' ); ?></a>
-			<?php endif; ?>
 		</form>
+
+		<?php if ( 'yes' === $quiz->get( 'can_be_resumed' ) && $quiz->can_be_resumed_by_student() ) : ?>
+			<?php $attempt = $quiz->get_last_quiz_attempt(); ?>
+
+			<form method="POST" action="" name="llms_resume_quiz" enctype="multipart/form-data">
+
+				<?php if ( $quiz->is_open() ) : ?>
+
+					<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo $lesson->get( 'id' ); ?>"/>
+					<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo $quiz->get( 'id' ); ?>"/>
+					<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $attempt->get_key(); ?>"/>
+
+					<input type="hidden" name="action" value="llms_resume_quiz" />
+
+					<?php wp_nonce_field( 'llms_resume_quiz' ); ?>
+
+					<button class="llms-resume-quiz-button llms-button-action button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
+						<?php
+							/**
+							 * Filters the quiz resume button text
+							 *
+							 * @since Unknown
+							 *
+							 * @param string      $button_text The resume quiz button text.
+							 * @param LLMS_Quiz   $quiz        The current quiz instance.
+							 * @param LLMS_Lesson $lesson      The parent lesson instance.
+							 */
+							echo apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson );
+						?>
+					</button>
+
+				<?php endif; ?>
+
+			</form>
+		<?php endif; ?>
+
+		<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
+			<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php _e( 'Next Lesson', 'lifterlms' ); ?></a>
+		<?php endif; ?>
 
 	<?php else : ?>
 

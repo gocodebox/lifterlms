@@ -504,14 +504,13 @@
 		/**
 		 * Resume a Quiz via AJAX call.
 		 *
-		 * TODO: Similar to `start_quiz`, consider abstract teh similar parts.
+		 * TODO: Similar to `start_quiz`, consider abstract the similar parts.
 		 *
 		 * @since [version]
 		 *
 		 * @return {Void}
 		 */
 		resume_quiz: function () {
-
 			var self = this;
 
 			this.load_ui_elements();
