@@ -2,7 +2,7 @@
 /**
  * LLMS_Admin_Notifications class file.
  *
- * @package LifterLMS/Admin/Classes
+ * @package LifterLMS/Admin/Notifications/Classes
  *
  * @since   [version]
  * @version [version]
@@ -72,7 +72,7 @@ class LLMS_Admin_Notifications {
 
 		foreach ( $notifications as $notification ) {
 
-			if ( ! $this->check_conditions( $notification ) ) {
+			if ( ! $notification->check_conditions() ) {
 				continue;
 			}
 
@@ -193,101 +193,6 @@ class LLMS_Admin_Notifications {
 
 		return json_decode( $body, false ) ?? [];
 
-	}
-
-	/**
-	 * Checks if a notification should be displayed.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Admin_Notification $notification Notification object.
-	 * @return bool
-	 */
-	private function check_conditions( LLMS_Admin_Notification $notification ): bool {
-
-		if ( ! $this->check_date_range( $notification ) ) {
-			return false;
-		}
-
-		if ( ! $notification->conditions ) {
-			return true;
-		}
-
-		foreach ( $notification->conditions as $condition ) {
-			if ( ! $this->check_condition( (object) $condition ) ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Checks if a single condition is met.
-	 *
-	 * @since [version]
-	 *
-	 * @param object $condition Condition object.
-	 * @return bool
-	 */
-	private function check_condition( object $condition ): bool {
-		$value = explode( ',', $condition->value );
-
-		$callbacks = [
-			'plugin_active'     => static fn( $value ) => is_plugin_active( $value ),
-			'plugin_inactive'   => static fn( $value ) => ! is_plugin_active( $value ),
-			'lifterlms_version' => static fn( $value, $operator ) => version_compare(
-				llms()->version,
-				$value,
-				$operator
-			),
-			'lifterlms_license' => static fn( $value, $operator ) => version_compare(
-				llms()->version,
-				$value,
-				$operator
-			),
-		];
-
-		if ( ! isset( $callbacks[ $condition->type ] ) ) {
-			return false;
-		}
-
-		return $callbacks[ $condition->type ]( $value, $condition->operator );
-
-	}
-
-	/**
-	 * Checks if a notification is within date range.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Admin_Notification $notification Notification object.
-	 * @return bool
-	 */
-	private function check_date_range( LLMS_Admin_Notification $notification ): bool {
-
-		if ( ! $notification->start_date && ! $notification->end_date ) {
-			return true;
-		}
-
-		$start = strtotime( $notification->start_date );
-		$end   = strtotime( $notification->end_date );
-
-		if ( ! $start && ! $end ) {
-			return true;
-		}
-
-		$time = time();
-
-		if ( $time < $start ) {
-			return false;
-		}
-
-		if ( $time > $end ) {
-			return false;
-		}
-
-		return true;
 	}
 
 }
