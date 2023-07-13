@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added filter `llms_quiz_attempt_can_be_resumed` for updating resume
+  status of an quiz attempt.

@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added method `LLMS_Quiz:get_last_quiz_attempt_key()`.
