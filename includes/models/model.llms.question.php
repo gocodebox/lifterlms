@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -356,12 +356,12 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Get the question text (title)
 	 *
-	 * @since 3.16.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
-	public function get_question( $format = 'html' ) {
-		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_question', $this->get( 'title' ), $format, $this );
+	public function get_question( $format = 'html', $attempt = null ) {
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_question', $this->get( 'title' ), $format, $this, $attempt );
 	}
 
 	/**
