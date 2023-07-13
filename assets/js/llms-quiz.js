@@ -513,6 +513,9 @@
 		resume_quiz: function () {
 			var self = this;
 
+			// Disable resume button.
+			$( '#llms_resume_quiz' ).attr( 'disabled', 'disabled' );
+
 			this.load_ui_elements();
 			this.$ui        = $( '#llms-quiz-ui' );
 			this.$buttons   = $( '#llms-quiz-nav button' );
