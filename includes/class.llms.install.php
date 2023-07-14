@@ -245,7 +245,7 @@ class LLMS_Install {
 	 */
 	public static function get_pages() {
 		return apply_filters(
-			'llms_install_create_pages',
+			'llms_install_get_pages',
 			array(
 				array(
 					'content' => '',
@@ -292,11 +292,12 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Using get_pages method now.
 	 *
 	 * @return boolean False on error, true on success.
 	 */
 	public static function create_pages() {
-		$pages = LLMS_Install::get_pages();
+		$pages = apply_filters( 'llms_install_create_pages', LLMS_Install::get_pages() );
 		foreach ( $pages as $page ) {
 			if ( ! llms_create_page( $page['slug'], $page['title'], $page['content'], $page['option'] ) ) {
 				return false;

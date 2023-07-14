@@ -3,6 +3,7 @@
  * Setup Wizard step: Page Setup
  *
  * @since 4.4.4
+ * @since [version] Using the LLMS_Install::get_pages() method now.
  * @version 4.4.4
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
