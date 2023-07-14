@@ -714,6 +714,11 @@
 		 */
 		load_ui_elements: function() {
 
+			// Removing the quiz UI elements if they already exist.
+			if ( $( '#llms-quiz-ui').length > 0 ) {
+				$( '#llms-quiz-ui' ).remove();
+			}
+
 			var $html   = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
 				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />' )
 				$footer = $( '<footer class="llms-quiz-nav" id="llms-quiz-nav" />' );
