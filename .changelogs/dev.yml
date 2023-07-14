@@ -1,4 +1,0 @@
-significance: patch
-type: changed
-entry: The llms_install_create_pages filter can now be used to manage the pages
-  shown in the setup wizard.
