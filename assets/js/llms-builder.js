@@ -9307,7 +9307,8 @@ define( 'Views/Question',[
 				this.init_editor( 'question-clarifications--' + this.model.get( 'id' ), {
 					mediaButtons: false,
 					tinymce: {
-						toolbar1: 'bold,italic,strikethrough,bullist,numlist,alignleft,aligncenter,alignright',
+						plugins: 'image',
+						toolbar1: 'bold,italic,strikethrough,bullist,numlist,alignleft,aligncenter,alignright,image',
 						toolbar2: '',
 						setup: _.bind( this.on_editor_ready, this ),
 					}
