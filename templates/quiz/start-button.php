@@ -32,6 +32,8 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 	<?php if ( $quiz ) : ?>
 
+		<?php $start_button_string = 'yes' === $quiz->get( 'can_be_resumed' ) && $quiz->can_be_resumed_by_student() ? __( 'Restart Quiz', 'lifterlms' ) : __( 'Start Quiz', 'lifterlms' ); ?>
+
 		<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
 
 			<?php if ( $quiz->is_open() ) : ?>
@@ -54,7 +56,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo apply_filters( 'lifterlms_begin_quiz_button_text', __( 'Start Quiz', 'lifterlms' ), $quiz, $lesson );
+						echo apply_filters( 'lifterlms_begin_quiz_button_text', $start_button_string, $quiz, $lesson );
 					?>
 				</button>
 
