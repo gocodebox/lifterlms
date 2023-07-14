@@ -32,7 +32,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 	<?php if ( $quiz ) : ?>
 
-		<?php $start_button_string = 'yes' === $quiz->get( 'can_be_resumed' ) && $quiz->can_be_resumed_by_student() ? __( 'Restart Quiz', 'lifterlms' ) : __( 'Start Quiz', 'lifterlms' ); ?>
+		<?php $start_button_string = $quiz->can_be_resumed() && $quiz->can_be_resumed_by_student() ? __( 'Restart Quiz', 'lifterlms' ) : __( 'Start Quiz', 'lifterlms' ); ?>
 
 		<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
 
@@ -66,7 +66,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 		</form>
 
-		<?php if ( 'yes' === $quiz->get( 'can_be_resumed' ) && $quiz->can_be_resumed_by_student() ) : ?>
+		<?php if ( $quiz->can_be_resumed() && $quiz->can_be_resumed_by_student() ) : ?>
 
 			<form method="POST" action="" name="llms_resume_quiz" enctype="multipart/form-data">
 

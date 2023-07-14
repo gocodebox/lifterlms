@@ -192,7 +192,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function can_be_resumed() {
 
-		$can_be_resumed = llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+		$can_be_resumed_status = llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
 
 		/**
 		 * Filters the quiz resumable status.
@@ -202,7 +202,41 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		 * @param bool      $can_be_resumed Whether or not the quiz can be resumed.
 		 * @param LLMS_Quiz $quiz           The LLMS_Quiz instance.
 		 */
-		return apply_filters( 'llms_quiz_can_be_resumed', $can_be_resumed, $this );
+		$can_be_resumed = apply_filters( 'llms_quiz_can_be_resumed', $can_be_resumed_status, $this );
+
+		// Check if the quiz can be resumed and if the resume time limit is not reached.
+		if ( $can_be_resumed && $this->has_resume_attempt_time_expired() ) {
+			$can_be_resumed = false;
+		}
+
+		return $can_be_resumed;
+	}
+
+	/**
+	 * Determine if the resume quiz attempt time limit is expired.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private function has_resume_attempt_time_expired() {
+
+		$student      = llms_get_student();
+		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+		$start_date   = $last_attempt->get( 'start_date' );
+
+		/**
+		 * Filters the X time for resuming quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $time_period The time period in days.
+		 */
+		$time_period     = apply_filters( 'llms_quiz_resume_time_period', 1 );
+		$expiration_date = strtotime( "+{$time_period} days", strtotime( $start_date ) );
+		$current_date    = llms_current_time( 'timestamp' );
+
+		return $current_date > $expiration_date;
 	}
 
 	/**
