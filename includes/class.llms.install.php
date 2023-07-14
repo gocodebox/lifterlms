@@ -238,66 +238,86 @@ class LLMS_Install {
 
 	/**
 	 * Get array of essential starter pages.
-	 * 
+	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function get_pages() {
+		/**
+		 * Filters the essential starter pages.
+		 *
+		 * These are the pages that are going to be created when installing LifterLMS.
+		 * All these pages, as long as their `docs_url`, `description` and `wizard_title`
+		 * fields are defined, are going to be shown in the Setup Wizard.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $pages A multidimensional array defining the essential starter pages.
+		 */
 		return apply_filters(
 			'llms_install_get_pages',
 			array(
 				array(
-					'content' => '',
-					'option'  => 'lifterlms_shop_page_id',
-					'slug'    => 'courses',
-					'title'   => esc_html__( 'Course Catalog', 'lifterlms' ),
+					'content'      => '',
+					'option'       => 'lifterlms_shop_page_id',
+					'slug'         => 'courses',
+					'title'        => esc_html__( 'Course Catalog', 'lifterlms' ),
 					'wizard_title' => esc_html__( 'Course Catalog', 'lifterlms' ),
-					'description' => esc_html__( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ),
-					'docs_url' => 'https://lifterlms.com/docs/course-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Course%20Catalog',
+					'description'  => esc_html__( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/course-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Course%20Catalog',
 				),
 				array(
-					'content' => '',
-					'option'  => 'lifterlms_memberships_page_id',
-					'slug'    => 'memberships',
-					'title'   => esc_html__( 'Membership Catalog', 'lifterlms' ),
+					'content'      => '',
+					'option'       => 'lifterlms_memberships_page_id',
+					'slug'         => 'memberships',
+					'title'        => esc_html__( 'Membership Catalog', 'lifterlms' ),
 					'wizard_title' => esc_html__( 'Membership Catalog', 'lifterlms' ),
-					'description' => esc_html__( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
-					'docs_url' => 'https://lifterlms.com/docs/membership-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Membership%20Catalog',
+					'description'  => esc_html__( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/membership-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Membership%20Catalog',
 				),
 				array(
-					'content' => '[lifterlms_checkout]',
-					'option'  => 'lifterlms_checkout_page_id',
-					'slug'    => 'purchase',
-					'title'   => esc_html__( 'Purchase', 'lifterlms' ),
+					'content'      => '[lifterlms_checkout]',
+					'option'       => 'lifterlms_checkout_page_id',
+					'slug'         => 'purchase',
+					'title'        => esc_html__( 'Purchase', 'lifterlms' ),
 					'wizard_title' => esc_html__( 'Checkout', 'lifterlms' ),
-					'description' => esc_html__( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ),
-					'docs_url' => 'https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page',
+					'description'  => esc_html__( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page',
 				),
 				array(
-					'content' => '[lifterlms_my_account]',
-					'option'  => 'lifterlms_myaccount_page_id',
-					'slug'    => 'dashboard',
-					'title'   => esc_html__( 'Dashboard', 'lifterlms' ),
+					'content'      => '[lifterlms_my_account]',
+					'option'       => 'lifterlms_myaccount_page_id',
+					'slug'         => 'dashboard',
+					'title'        => esc_html__( 'Dashboard', 'lifterlms' ),
 					'wizard_title' => esc_html__( 'Student Dashboard', 'lifterlms' ),
-					'description' => esc_html__( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
-					'docs_url' => 'https://lifterlms.com/docs/student-dashboard/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Student%20Dashboard',
+					'description'  => esc_html__( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/student-dashboard/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Student%20Dashboard',
 				),
 			)
 		);
 	}
 
 	/**
-	 * Create essential starter pages
+	 * Create essential starter pages.
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Using get_pages method now.
+	 * @since [version] Using `$this->get_pages()` method now.
 	 *
 	 * @return boolean False on error, true on success.
 	 */
 	public static function create_pages() {
-		$pages = apply_filters( 'llms_install_create_pages', LLMS_Install::get_pages() );
+		/**
+		 * Filters the essential pages to be installed.
+		 *
+		 * @since 3.0.0
+		 *
+		 * {@see `llms_install_get_pages} filter hook.
+		 *
+		 * @param array $pages A multidimensional array defining the essential starter pages to be installed.
+		 */
+		$pages = apply_filters( 'llms_install_create_pages', self::get_pages() );
 		foreach ( $pages as $page ) {
 			if ( ! llms_create_page( $page['slug'], $page['title'], $page['content'], $page['option'] ) ) {
 				return false;
