@@ -117,13 +117,6 @@
 				}
 			} );
 
-			// warn when quiz is running and user tries to leave the page.
-			$( window ).on( 'beforeunload', function() {
-				if ( self.status ) {
-					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
-				}
-			} );
-
 			// Complete the quiz attempt when user leaves if the quiz is running.
 			$( window ).on( 'unload', function() {
 				if ( self.status ) {
