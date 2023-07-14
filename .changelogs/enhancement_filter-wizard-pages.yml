@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Added new filter `llms_install_get_pages`.
