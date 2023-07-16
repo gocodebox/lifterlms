@@ -8,6 +8,7 @@
  * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
  * @since 7.0.0 Disable data-source loading for gateway radio fields.
  * @since [version] Added check on whether a gateway can or cannot process a plan, or an order's plan (source switching).
+ *              Escaped localized strings.
  * @version [version]
  *
  * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
@@ -36,7 +37,7 @@ $gateways_array      = array_values( $gateways );
 <ul class="llms-payment-gateways">
 	<?php if ( $show_gateways ) : ?>
 		<?php if ( ! $gateways ) : ?>
-			<li class="llms-payment-gateway-error"><?php _e( 'Payment processing is currently disabled.', 'lifterlms' ); ?></li>
+			<li class="llms-payment-gateway-error"><?php esc_html_e( 'Payment processing is currently disabled.', 'lifterlms' ); ?></li>
 		<?php else : ?>
 			<?php foreach ( $gateways_array as $index => $gateway ) : ?>
 				<?php if ( $gateway->supports( $supports ) ) : ?>
@@ -50,10 +51,11 @@ $gateways_array      = array_values( $gateways );
 						 *
 						 * @since [version]
 						 *
-						 * @param LLMS_Payment_Gateway $gateway Payment gateway instance.
-						 * @param LLMS_Access_Plan     $plan    Access plan object.
+						 * @param LLMS_Payment_Gateway  $gateway Payment gateway instance.
+						 * @param LLMS_Access_Plan|null $plan    Access plan object.
+						 * @param LLMS_Order|null       $order   Order object.
 						 */
-						do_action( 'llms_checkout_form_gateway_cant_process_plan', $gateway, $plan );
+						do_action( 'llms_checkout_form_gateway_cant_process_plan', $gateway, $plan ?? null, $order ?? null );
 						continue;
 					}
 					?>
@@ -85,7 +87,7 @@ $gateways_array      = array_values( $gateways );
 			<?php endforeach; ?>
 
 			<?php if ( ! $supporting_gateways ) : ?>
-				<li class="llms-payment-gateway-error"><?php _e( 'There are no gateways enabled which can support the necessary transaction type for this access plan.', 'lifterlms' ); ?></li>
+				<li class="llms-payment-gateway-error"><?php esc_html_e( 'There are no gateways enabled which can support the necessary transaction type for this access plan.', 'lifterlms' ); ?></li>
 			<?php endif; ?>
 		<?php endif; ?>
 	<?php endif; ?>
