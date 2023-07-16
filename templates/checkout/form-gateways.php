@@ -7,12 +7,14 @@
  * @since Unknown
  * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
  * @since 7.0.0 Disable data-source loading for gateway radio fields.
- * @version 7.0.0
+ * @since [version] Added check on whether a gateway can or cannot process a plan, or an order's plan (source switching).
+ * @version [version]
  *
- * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
- * @param string $selected_gateway ID of the currently selected/default payment gateway.
- * @param LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
- * @param LLMS_Access_Plan $plan Access plan object.
+ * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
+ * @param string                 $selected_gateway ID of the currently selected/default payment gateway.
+ * @param LLMS_Coupon|false      $coupon           Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan|null  $plan             Access plan object.
+ * @param LLMS_Order|null        $order            Order object.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -20,20 +22,41 @@ $coupon        = isset( $coupon ) ? $coupon : false;
 $show_gateways = true;
 
 // Don't display for free plans or plans which do not require any payment.
-if ( isset( $plan ) && $plan->is_free() || ! $plan->requires_payment( $coupon ) ) {
+if ( isset( $plan ) && ( $plan->is_free() || ! $plan->requires_payment( $coupon ) ) ) {
 	$show_gateways = false;
+} elseif ( isset( $plan ) ) {
+	$supports = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
+} elseif ( ! isset( $plan ) && isset( $order ) ) { // Switching source.
+	$supports = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
 }
 
-$supports            = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
 $supporting_gateways = 0;
+$gateways_array      = array_values( $gateways );
 ?>
 <ul class="llms-payment-gateways">
 	<?php if ( $show_gateways ) : ?>
 		<?php if ( ! $gateways ) : ?>
 			<li class="llms-payment-gateway-error"><?php _e( 'Payment processing is currently disabled.', 'lifterlms' ); ?></li>
 		<?php else : ?>
-			<?php foreach ( $gateways as $gateway ) : ?>
+			<?php foreach ( $gateways_array as $index => $gateway ) : ?>
 				<?php if ( $gateway->supports( $supports ) ) : ?>
+					<?php
+					if ( ! $gateway->can_process_access_plan( $plan ?? null, $order ?? null ) ) {
+						$selected_gateway = ( $gateway->get_id() === $selected_gateway && isset( $gateways_array[ $index + 1 ] ) ) ?
+							$gateways_array[ $index + 1 ]->get_id() : $selected_gateway;
+
+						/**
+						 * Fired when a gateway cannot process a specific plan.
+						 *
+						 * @since [version]
+						 *
+						 * @param LLMS_Payment_Gateway $gateway Payment gateway instance.
+						 * @param LLMS_Access_Plan     $plan    Access plan object.
+						 */
+						do_action( 'llms_checkout_form_gateway_cant_process_plan', $gateway, $plan );
+						continue;
+					}
+					?>
 					<li class="llms-payment-gateway <?php echo $gateway->get_id(); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
 					<?php
 					llms_form_field(

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,6 +48,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  *   + The gateway must support the order/plan's type (recurring or single).
  *
  * @since 7.0.0
+ * @since [version] Added check on whether a gateway can process a plan.
  *
  * @param string                          $gateway_id    Payment gateway ID.
  * @param LLMS_Order|LLMS_Access_Plan|int $plan_or_order The `WP_Post` id of a plan or order, a plan object, or an order object.
@@ -64,16 +65,21 @@ function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order
 
 	$plan_or_order = is_numeric( $plan_or_order ) ? llms_get_post( $plan_or_order ) : $plan_or_order;
 	$err_data      = compact( 'gateway_id', 'plan_or_order' );
-	if ( ! is_a( $plan_or_order, 'LLMS_Order' ) && ! is_a( $plan_or_order, 'LLMS_Access_Plan' ) ) {
+	$order         = is_a( $plan_or_order, 'LLMS_Order' ) ? $plan_or_order : null;
+	$plan          = ! $order && is_a( $plan_or_order, 'LLMS_Access_Plan' ) ? $plan_or_order : null;
+
+	if ( is_null( $order ) && isset( $plan ) ) {
 		$can_use = new WP_Error( 'post-invalid', __( 'A valid order or access plan must be supplied.', 'lifterlms' ), $err_data );
 	} else {
 
 		$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
-
 		if ( ! $gateway ) {
 			$can_use = new WP_Error( 'gateway-invalid', __( 'The selected payment gateway is not valid.', 'lifterlms' ), $err_data );
 		} elseif ( $enabled_only && ! $gateway->is_enabled() ) {
 			$can_use = new WP_Error( 'gateway-disabled', __( 'The selected payment gateway is not available.', 'lifterlms' ), $err_data );
+		} elseif ( ! $gateway->can_process_access_plan( $plan, $order ) ) {
+			// Check whether the gateway can process the plan or the order's plan (which is the plan at the moment of the order's creation).
+			$can_use = new WP_Error( 'gateway-support-plan', __( 'The selected payment gateway is not available for the given plan.', 'lifterlms' ), $err_data );
 		} elseif ( $plan_or_order->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
 			$can_use = new WP_Error( 'gateway-support-recurring', __( 'The selected payment gateway does not support recurring payments.', 'lifterlms' ), $err_data );
 		} elseif ( ! $plan_or_order->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
