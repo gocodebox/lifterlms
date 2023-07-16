@@ -68,7 +68,7 @@ function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order
 	$order         = is_a( $plan_or_order, 'LLMS_Order' ) ? $plan_or_order : null;
 	$plan          = ! $order && is_a( $plan_or_order, 'LLMS_Access_Plan' ) ? $plan_or_order : null;
 
-	if ( is_null( $order ) && isset( $plan ) ) {
+	if ( is_null( $order ) && is_null( $plan ) ) {
 		$can_use = new WP_Error( 'post-invalid', __( 'A valid order or access plan must be supplied.', 'lifterlms' ), $err_data );
 	} else {
 
