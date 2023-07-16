@@ -1,5 +1,5 @@
 significance: minor
 type: dev
-entry: Added `LLMS_Order::can_process_access_plan()` method to determine if an
+entry: Added `LLMS_Payment_Gateway::can_process_access_plan()` method to determine if an
   access plan can be processed by the gateway. Also added the filter hook
   `llms_can_gateway_process_access_plan` to filter its result.
