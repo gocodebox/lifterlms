@@ -30,7 +30,7 @@
  * @see llms_get_currency_symbols()
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -117,7 +117,8 @@ return array(
 	'KRW' => __( '&#8361;', 'lifterlms' ),
 	'KWD' => __( '&#1603;.&#1583;', 'lifterlms' ),
 	'KYD' => __( '&#36;', 'lifterlms' ),
-	'KZT' => __( '&#1083;&#1074;', 'lifterlms' ),
+	// 'KZT' symbol manually updated, see https://github.com/gocodebox/lifterlms/issues/2475.
+	'KZT' => __( '&#8376;', 'lifterlms' ),
 	'LAK' => __( '&#8365;', 'lifterlms' ),
 	'LBP' => __( '&#163;', 'lifterlms' ),
 	'LKR' => __( 'Rs', 'lifterlms' ),
