@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Use `render_block_llms/navigation-link` filter instead of `render_block` for compatibility with LLMS block visibility.
