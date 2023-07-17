@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2474"
+entry: Fixed issue with LifterLMS Navigation Link block and block visibility settings.
