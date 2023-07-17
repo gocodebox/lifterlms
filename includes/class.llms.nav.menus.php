@@ -382,7 +382,7 @@ class LLMS_Nav_Menus {
 	 */
 	public function render_block( string $block_content, array $block ) : string {
 
-		if ( $block['blockName'] !== 'llms/navigation-link' ) {
+		if ( 'llms/navigation-link' !== $block['blockName'] ) {
 			return $block_content;
 		}
 
