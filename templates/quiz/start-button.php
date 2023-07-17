@@ -83,15 +83,15 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 					<button class="llms-resume-quiz-button llms-button-action button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
 						<?php
 							/**
-							 * Filters the quiz resume button text
+							 * Filters the quiz resume button text.
 							 *
-							 * @since Unknown
+							 * @since [version]
 							 *
 							 * @param string      $button_text The resume quiz button text.
 							 * @param LLMS_Quiz   $quiz        The current quiz instance.
 							 * @param LLMS_Lesson $lesson      The parent lesson instance.
 							 */
-							echo apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson );
+							echo esc_html( apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
 						?>
 					</button>
 

@@ -80,11 +80,17 @@
 		status: null,
 
 		/**
+		 * Records if the quiz can be resumed.
+		*/
+		resumable: null,
+
+		/**
 		 * Bind DOM events.
 		 *
 		 * @since 1.0.0
 		 * @since 3.16.6 Unknown.
 		 * @since [version] Add quiz resume
+		 * @since [version] Updated to not show page leave warning if quiz is resumable.
 		 *
 		 * @return {Void}
 		 */
@@ -115,6 +121,15 @@
 				if ( val ) {
 					window.location.href = val;
 				}
+			} );
+
+			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.
+			$( window ).on( 'beforeunload', function() {
+				if ( self.status && ! self.resumable ) {
+					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
+				}
+
+				return;
 			} );
 
 			// Complete the quiz attempt when user leaves if the quiz is running.
@@ -458,6 +473,7 @@
 
 						self.attempt_key     = r.data.attempt_key;
 						self.total_questions = r.data.total;
+						self.resumable       = r.data.can_be_resumed;
 
 						self.load_question( r.data.html );
 
@@ -548,6 +564,7 @@
 
 					if ( r.data && r.data.html ) {
 
+						self.resumable       = r.data.can_be_resumed;
 						self.attempt_key     = r.data.attempt_key;
 						self.total_questions = r.data.total;
 						r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );

@@ -669,11 +669,12 @@ class LLMS_AJAX_Handler {
 		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
-			'attempt_key' => $attempt->get_key(),
-			'html'        => $html,
-			'time_limit'  => $limit,
-			'question_id' => $question_id,
-			'total'       => $attempt->get_count( 'questions' ),
+			'attempt_key'    => $attempt->get_key(),
+			'html'           => $html,
+			'time_limit'     => $limit,
+			'question_id'    => $question_id,
+			'total'          => $attempt->get_count( 'questions' ),
+			'can_be_resumed' => $quiz->can_be_resumed(),
 		);
 
 	}
@@ -755,11 +756,12 @@ class LLMS_AJAX_Handler {
 			);
 
 			return array(
-				'attempt_key'  => $attempt->get_key(),
-				'html'         => $html,
-				'question_id'  => $question_id,
-				'total'        => $attempt->get_count( 'questions' ),
-				'question_ids' => $question_ids,
+				'attempt_key'    => $attempt->get_key(),
+				'html'           => $html,
+				'question_id'    => $question_id,
+				'total'          => $attempt->get_count( 'questions' ),
+				'question_ids'   => $question_ids,
+				'can_be_resumed' => $quiz->can_be_resumed(),
 			);
 
 		} else {
