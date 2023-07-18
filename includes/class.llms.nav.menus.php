@@ -387,17 +387,25 @@ class LLMS_Nav_Menus {
 		}
 
 		$items = $this->filter_nav_items( $this->get_nav_items() );
-		$url   = $items[ $block['attrs']['page'] ]['url'] ?? '';
+		$page  = $block['attrs']['page'] ?? 'dashboard';
+
+		if ( ! $page ) {
+			return '';
+		}
+
+		$url = $items[ $page ]['url'] ?? '';
 
 		// Support conditional URLs, e.g. when user logged in or not.
 		if ( ! $url ) {
 			return '';
 		}
 
+		$label = $block['attrs']['label'] ?? $items[ $page ]['label'] ?? '';
+
 		$html  = '<li class="wp-block-navigation-item">';
 		$html .= '<a href="' . esc_url( $url ) . '" class="wp-block-navigation-item__content">';
 		$html .= '<span class="wp-block-navigation-item__label">';
-		$html .= esc_html( $block['attrs']['label'] );
+		$html .= esc_html( $label );
 		$html .= '</span></a></li>';
 
 		return $html;
