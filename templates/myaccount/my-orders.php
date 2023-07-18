@@ -9,6 +9,8 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$base_url = ! empty( $_SERVER['REQUEST_URI'] ) ? esc_url( home_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : admin_url(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 ?>
 
 <div class="llms-sd-section llms-my-orders">
@@ -31,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php foreach ( $orders['orders'] as $order ) : ?>
 				<tr class="llms-order-item <?php echo $order->get( 'status' ); ?>" id="llms-order-<?php $order->get( 'id' ); ?>">
 					<td data-label="<?php _e( 'Order', 'lifterlms' ); ?>: ">
-						<a href="<?php echo esc_url( home_url( "/members/admin/courses/orders/{$order->get('id')}/" ) ); ?>">#<?php echo $order->get( 'id' ); ?></a>
+						<a href="<?php echo esc_url( $base_url . $order->get( 'id' ) ); ?>">#<?php echo $order->get( 'id' ); ?></a>
 						<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo $order->get_status_name(); ?></span>
 					</td>
 					<td data-label="<?php _e( 'Date', 'lifterlms' ); ?>: "><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
@@ -50,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php endif; ?>
 					</td>
 					<td>
-						<a class="llms-button-primary small" href="<?php echo esc_url( home_url( "/members/admin/courses/orders/{$order->get('id')}/" ) ); ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
+						<a class="llms-button-primary small" href="<?php echo esc_url( $base_url . $order->get( 'id' ) ); ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
