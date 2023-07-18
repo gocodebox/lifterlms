@@ -1,3 +1,5 @@
-significance: minor
-type: changed
+significance: patch
+type: fixed
+links:
+  - "#2465"
 entry: Use dashboard as default value for navigation link block.
