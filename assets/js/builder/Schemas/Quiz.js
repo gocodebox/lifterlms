@@ -2,7 +2,7 @@
  * Quiz Schema
  *
  * @since    3.17.6
- * @version  3.24.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -68,7 +68,17 @@ define( [], function() {
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
 			},
-				],
+				], [
+					{
+						attribute: 'number_of_questions',
+						id: 'question-bank',
+						label: LLMS.l10n.translate( 'Question Bank' ),
+						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),
+						type: 'disabled',
+						text: 'Get LifterLMS Advanced Quizzes',
+						visibility: window.llms.hooks.applyFilters( 'llms_qb_upsell_visibility', 'visible' ),
+					}
+				]
 
 			],
 		},
