@@ -1,4 +1,4 @@
-significance: minor
-type: added
+significance: added
+type: dev
 entry: Added filter `llms_question_array` to modify the question array for the
   quizzes.

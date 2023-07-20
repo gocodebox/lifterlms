@@ -1,4 +1,4 @@
-significance: minor
-type: added
+significance: added
+type: dev
 entry: Added boolean filter `llms_quiz_questions_randomize` to enable/disable
   questions randomize.
