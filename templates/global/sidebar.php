@@ -5,9 +5,12 @@
  * @package LifterLMS/Templates
  *
  * @since Unknown
- * @version Unknown
+ * @since [version] Fix warning for themes without sidebar.php template.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-get_sidebar( 'llms_shop' );
+if ( ABSPATH . WPINC . '/theme-compat/sidebar.php' !== locate_template( array( 'sidebar-llms_shop', 'sidebar.php' ) ) ) {
+	get_sidebar( 'llms_shop' );
+}
