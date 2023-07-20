@@ -96,48 +96,34 @@ defined( 'ABSPATH' ) || exit;
 							</div>
 						<# } #>
 
-					<# } else if ( data.is_default_field( field.type ) ) { #>
+					<# } else if ( data.is_default_field( field.type ) || 'switch-multi-input' === field.type ) { #>
+
+						<# field.inputs = data.is_default_field( field.type ) ? [ field ] : field.inputs; #>
 
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
 							<div class="llms-editable-input{{{ field.classes }}}">
-								<input
-									class="llms-input standard"
-									data-attribute="{{{ field.attribute }}}"
-									data-original-content="{{{ data.model.get( field.attribute ) }}}"
-									<# if ( 'datepicker' === field.type ) { #>
-										<# if ( field.datepicker ) { #> data-date-datepicker="{{{ field.datepicker }}}" <# } #>
-										<# if ( field.timepicker ) { #> data-date-timepicker="{{{ field.timepicker }}}" <# } #>
-										<# if ( field.date_format ) { #> data-date-format="{{{ field.date_format }}}" <# } #>
-									<# } #>
-									<# if ( field.hasOwnProperty( 'min' ) ) { #> min="{{{ field.min }}}" <# } #>
-									<# if ( field.hasOwnProperty( 'max' ) ) { #> max="{{{ field.max }}}" <# } #>
-									name="{{{ field.attribute }}}"
-									<# if ( field.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
-									type="{{{ field.input_type }}}"
-									value="{{{ data.model.get( field.attribute ) }}}"
-								>
-							</div>
-						<# } #>
-					
-					<!-- todo: make the below into a helper function with merging with above logic, as both are same. -->
-					<# } else if ( 'switch-multi-input' === field.type ) { #>
-						<# if( field.inputs.length ) { #>
-							<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
-								<div class="llms-editable-input{{{ field.classes }}}">
-									<# field.inputs.forEach( input => { #>
+								<# field.inputs.forEach( input => { #>
+									<# if ( 'switch-multi-input' === field.type && input.label ) { #>
 										<span class="label">{{{ input.label }}}</span>
-											<input
-												class="llms-input standard"
-												data-attribute="{{{ input.attribute }}}"
-												data-original-content="{{{ data.model.get( input.attribute ) }}}"
-												name="{{{ input.attribute }}}"
-												<# if ( input.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
-												type="{{{ input.input_type }}}"
-												value="{{{ data.model.get( input.attribute ) }}}"
-											>
-									<# } ); #>
-								</div>
-							<# } #>
+									<# } #>
+									<input
+										class="llms-input standard"
+										data-attribute="{{{ input.attribute }}}"
+										data-original-content="{{{ data.model.get( input.attribute ) }}}"
+										<# if ( 'datepicker' === input.type ) { #>
+											<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
+											<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
+											<# if ( input.date_format ) { #> data-date-format="{{{ input.date_format }}}" <# } #>
+										<# } #>
+										<# if ( input.hasOwnProperty( 'min' ) ) { #> min="{{{ input.min }}}" <# } #>
+										<# if ( input.hasOwnProperty( 'max' ) ) { #> max="{{{ input.max }}}" <# } #>
+										name="{{{ input.attribute }}}"
+										<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
+										type="{{{ input.input_type }}}"
+										value="{{{ data.model.get( input.attribute ) }}}"
+									>
+								<# } ); #>
+							</div>
 						<# } #>
 					<# } #>
 
