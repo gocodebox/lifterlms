@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#2488"
-entry: Fixed warning for themes without sidebar.php template.
+entry: Don't include WordPress default sidebar.php template when using a block theme.

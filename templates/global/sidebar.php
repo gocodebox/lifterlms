@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since Unknown
- * @since [version] Fix warning for themes without sidebar.php template.
+ * @since [version] Don't include WordPress default sidebar.php template when using a block theme.
  * @version [version]
  */
 
