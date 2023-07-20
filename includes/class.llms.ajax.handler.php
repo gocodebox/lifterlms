@@ -608,7 +608,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
-	 * @since [version] Use `$attempt->get( 'status' )` instead of the not existing `$attempt->get_status()` method.
+	 * @since [version] Use `$attempt->get( 'status' )` instead of the not existing `$attempt->get_status()` method and added `can_be_resumed` param.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:

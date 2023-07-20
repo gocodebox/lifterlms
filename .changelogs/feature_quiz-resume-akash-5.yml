@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added filter `llms_quiz_resume_time_period` for updating quiz resume
+  allowed time period.

@@ -1,4 +1,4 @@
 significance: minor
-type: added
+type: dev
 entry: Added filter `lifterlms_resume_quiz_button_text` for updating 'Resume
   Quiz' button text.

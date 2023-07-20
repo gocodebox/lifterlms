@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added filter `lifterlms_begin_quiz_button_text` for updating 'Start Quiz'
+  button string.
