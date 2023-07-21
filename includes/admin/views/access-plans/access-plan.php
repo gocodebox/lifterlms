@@ -9,6 +9,8 @@
  * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
  * @since 3.37.18 Don't localize the price "step" html attribute.
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
+ * @since [version] Added another icon for possible issues with the access plan configuration.
+ * @version [version]
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.
@@ -56,6 +58,9 @@ if ( ! isset( $plan ) ) {
 			<?php endif; ?>
 		</h3>
 		<div class="d-1of2 d-right">
+			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'This access plan requires attention for possible misconfigurations', 'lifterlms' ); ?>">
+				<span class="dashicons dashicons-warning medium-danger"></span>
+			</span>
 			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
 				<span class="dashicons dashicons-warning"></span>
 			</span>

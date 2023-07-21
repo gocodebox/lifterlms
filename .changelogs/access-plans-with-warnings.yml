@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+entry: When a notice is shown for an access plan on the course edit screen (e.g.
+  When using the WooCommerce integration and no product has been associated to
+  the access plan.) Also display a warning icon next to the access plan title.
