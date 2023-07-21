@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since Unknown
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -77,8 +77,7 @@ is_admin() || exit;
 			<li class="llms-nav-item llms-analytics-form">
 
 				<label><?php _e( 'Courses', 'lifterlms' ); ?></label>
-
-				<select class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Course(s)', 'lifterlms' ); ?>" data-post-type="course" id="llms-course-ids-filter" name="course_ids[]" multiple="multiple">
+				<select data-post-statuses="<?php echo implode( ',', array_keys( get_post_statuses() ) ); ?>" class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Course(s)', 'lifterlms' ); ?>" data-post-type="course" id="llms-course-ids-filter" name="course_ids[]" multiple="multiple">
 					<?php foreach ( $current_courses as $course_id ) : ?>
 						<option value="<?php echo $course_id; ?>" selected><?php echo get_the_title( $course_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $course_id ); ?></option>
 					<?php endforeach; ?>
@@ -90,7 +89,7 @@ is_admin() || exit;
 
 				<label><?php _e( 'Memberships', 'lifterlms' ); ?></label>
 
-				<select class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Memberships(s)', 'lifterlms' ); ?>" data-post-type="llms_membership" id="llms-membership-ids-filter" name="membership_ids[]" multiple="multiple">
+				<select data-post-statuses="<?php echo implode( ',', array_keys( get_post_statuses() ) ); ?>" class="llms-select2-post" data-placeholder="<?php _e( 'Filter by Memberships(s)', 'lifterlms' ); ?>" data-post-type="llms_membership" id="llms-membership-ids-filter" name="membership_ids[]" multiple="multiple">
 					<?php foreach ( $current_memberships as $membership_id ) : ?>
 						<option value="<?php echo $membership_id; ?>" selected><?php echo get_the_title( $membership_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $membership_id ); ?></option>
 					<?php endforeach; ?>

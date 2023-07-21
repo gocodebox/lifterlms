@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version [version]
+ * @version 6.3.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -45,7 +45,6 @@
 	 * @since 3.32.0 Added ability to fetch posts based on their post status.
 	 * @since 3.37.2 Added ability to fetch posts (llms posts) filtered by their instructor id.
 	 * @since 4.4.0 Update ajax nonce source.
-	 * @since [version] Added Private to `post_statuses` to fetch private posts.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.
@@ -59,7 +58,7 @@
 				multiple: false,
 				placeholder: undefined !== LLMS.l10n ? LLMS.l10n.translate( 'Select a Course/Membership' ) : 'Select a Course/Membership',
 				post_type: self.attr( 'data-post-type' ) || 'post',
-				post_statuses: self.attr( 'data-post-statuses' ) || 'publish,private',
+				post_statuses: self.attr( 'data-post-statuses' ) || 'publish',
 				instructor_id: null,
 				allow_clear: self.attr( 'data-post-type' ) || false,
 				width: null,
