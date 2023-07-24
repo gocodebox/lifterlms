@@ -154,7 +154,7 @@ class LLMS_Shortcode_Dashboard extends LLMS_Shortcode {
 		$slug = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 
 		$slugs = [
-			'dashboard'         => 'dashboard',
+			'dashboard'         => 'main',
 			'view-courses'      => 'my-courses',
 			'my-grades'         => 'my-grades',
 			'view-certificates' => 'my-certificates',
@@ -162,39 +162,36 @@ class LLMS_Shortcode_Dashboard extends LLMS_Shortcode {
 			'view-achievements' => 'my-achievements',
 		];
 
-		$page = isset( $slugs[ $slug ] ) ? get_page_by_path( $slugs[ $slug ], OBJECT, 'llms_dashboard' ) : '';
+		$page = isset( $slugs[ $slug ] ) ? get_page_by_path( 'dashboard/' . $slugs[ $slug ], OBJECT, 'llms_dashboard' ) : '';
 
-		if ( $page ) {
+		if ( $page && $page->post_content ) {
 
 			$content = $page->post_content;
 
+		} else if ( 'dashboard' === $slug ) {
+
+			ob_start();
+			lifterlms_template_student_dashboard_my_courses( true );
+			lifterlms_template_student_dashboard_my_achievements( true );
+			lifterlms_template_student_dashboard_my_certificates( true );
+			lifterlms_template_student_dashboard_my_memberships( true );
+
+			$content = ob_get_clean();
+
 		} else {
 
-			if ( 'dashboard' === $slug ) {
+			$current = LLMS_Student_Dashboard::get_current_tab();
 
-				ob_start();
-				lifterlms_template_student_dashboard_my_courses( true );
-				lifterlms_template_student_dashboard_my_achievements( true );
-				lifterlms_template_student_dashboard_my_certificates( true );
-				lifterlms_template_student_dashboard_my_memberships( true );
-
-				$content = ob_get_clean();
-
-			} else {
-
-				$current = LLMS_Student_Dashboard::get_current_tab();
-
-				if ( ! is_callable( $current['content'] ?? '' ) ) {
-					return;
-				}
-
-				ob_start();
-
-				call_user_func( $current['content'] );
-
-				$content = ob_get_clean();
-
+			if ( ! is_callable( $current['content'] ?? '' ) ) {
+				return;
 			}
+
+			ob_start();
+
+			call_user_func( $current['content'] );
+
+			$content = ob_get_clean();
+
 		}
 
 		echo do_shortcode( $content );
