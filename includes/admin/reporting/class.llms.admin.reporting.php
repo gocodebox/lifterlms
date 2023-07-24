@@ -357,7 +357,7 @@ class LLMS_Admin_Reporting {
 			$cap = 'view_others_lifterlms_reports';
 		}
 
-		return apply_filters( 'lifterlms_reporting_tab_cap', $cap );
+		return apply_filters( 'lifterlms_reporting_tab_cap', $cap, $tab );
 	}
 
 	/**
