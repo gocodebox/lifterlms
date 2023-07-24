@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -575,6 +575,7 @@ class LLMS_Shortcodes {
 	 * @since 3.2.5
 	 * @since 3.23.0 Unknown.
 	 * @since 3.38.0 Use `in_array()` with strict comparison.
+	 * @since [version] Force display of pricing table in block editor.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
@@ -591,7 +592,7 @@ class LLMS_Shortcodes {
 
 		$ret = '';
 
-		// get product id from loop if used from within a course or membership.
+		// Get product id from loop if used from within a course or membership.
 		if ( ! $atts['product'] ) {
 			$id = get_the_ID();
 			if ( in_array( get_post_type( $id ), array( 'course', 'llms_membership' ), true ) ) {
@@ -601,12 +602,26 @@ class LLMS_Shortcodes {
 
 		if ( ! empty( $atts['product'] ) && is_numeric( $atts['product'] ) ) {
 
-			// enqueue match height for height alignments.
+			$block_editor = llms_is_editor_block_rendering();
+
+			// Force display of pricing table in block editor.
+			if ( $block_editor ) {
+				add_filter( 'llms_product_pricing_table_enrollment_status', '__return_false' );
+				add_filter( 'llms_product_is_purchasable', '__return_true' );
+			}
+
+			// Enqueue match height for height alignments.
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();
 			lifterlms_template_pricing_table( $atts['product'] );
 			$ret = ob_get_clean();
+
+			if ( $block_editor ) {
+				remove_filter( 'llms_product_pricing_table_enrollment_status', '__return_false' );
+				remove_filter( 'llms_product_is_purchasable', '__return_true' );
+			}
+
 		}
 
 		/**
