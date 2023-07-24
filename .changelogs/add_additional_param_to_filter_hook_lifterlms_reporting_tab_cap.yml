@@ -1,0 +1,8 @@
+significance: patch
+type: dev
+links:
+  - "#2468"
+attributions:
+  - "@sapayth"
+entry: Added the parameter `$tab` (ID/slug of the tab) to the filter
+  `lifterlms_reporting_tab_cap`.
