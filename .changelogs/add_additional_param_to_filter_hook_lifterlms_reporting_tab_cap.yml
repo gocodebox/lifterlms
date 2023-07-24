@@ -4,5 +4,5 @@ links:
   - "#2468"
 attributions:
   - "@sapayth"
-entry: Added the parameter `$tab` (ID/slug of the tab) to the filter
-  `lifterlms_reporting_tab_cap`.
+entry: Added the parameter `$tab` (ID/slug of the tab) to the 
+  `lifterlms_reporting_tab_cap` filter hook.
