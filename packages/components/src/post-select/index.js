@@ -1,8 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { PanelRow, SelectControl } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
 
 export const llmsPostTypes = [
 	'course',
@@ -24,22 +22,12 @@ export const useLlmsPostType = () => {
 };
 
 export const usePostOptions = ( postType = 'course' ) => {
-	const { currentPostType } = useSelect( ( select ) => {
+	const { posts, currentPostType } = useSelect( ( select ) => {
 		return {
+			posts: select( 'core' ).getEntityRecords( 'postType', postType ),
 			currentPostType: select( 'core/editor' )?.getCurrentPostType(),
 		};
 	}, [] );
-
-	const [ posts, setPosts ] = useState( [] );
-
-	// Remove the llms_ prefix from the post type and add an "s" to the end to match LLMS Rest API endpoints.
-	const postTypeFormatted = postType?.replace( 'llms_', '' ) + 's';
-
-	apiFetch( {
-		path: `/llms/v1/${ postTypeFormatted }?per_page=100`,
-	} ).then( ( response ) => {
-		setPosts( response );
-	} );
 
 	const options = [];
 
