@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version 6.11.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -344,6 +344,7 @@ class LLMS_Admin_Reporting {
 	 * within the view.
 	 *
 	 * @since 3.19.4
+	 * @since [version] Use `in_array()` with strict type comparison.
 	 *
 	 * @param string $tab ID/slug of the tab.
 	 * @return string
@@ -353,11 +354,20 @@ class LLMS_Admin_Reporting {
 		$tab = is_null( $tab ) ? self::get_current_tab() : $tab;
 
 		$cap = 'view_lifterlms_reports';
-		if ( in_array( $tab, array( 'sales', 'enrollments' ) ) ) {
+		if ( in_array( $tab, array( 'sales', 'enrollments' ), true ) ) {
 			$cap = 'view_others_lifterlms_reports';
 		}
 
-		return apply_filters( 'lifterlms_reporting_tab_cap', $cap );
+		/**
+		 * Filters the WP capability required to access a reporting tab.
+		 *
+		 * @since 3.19.4
+		 * @since [version] Added the `$tab` parameter.
+		 *
+		 * @param string      $cap The required WP capability.
+		 * @param string|null $tab ID/slug of the tab.
+		 */
+		return apply_filters( 'lifterlms_reporting_tab_cap', $cap, $tab );
 	}
 
 	/**
