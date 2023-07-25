@@ -5,6 +5,7 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since Unknown
+ * @since [version] Added `data-post-statuses` attribute to the course and membership filters.
  * @version [version]
  */
 
@@ -36,8 +37,8 @@ is_admin() || exit;
 			<li class="llms-nav-item llms-analytics-form<?php echo ( 'custom' === $current_range ) ? ' llms-active' : ''; ?>">
 
 				<label><?php esc_html_e( 'Custom', 'lifterlms' ); ?></label>
-				<input type="text" name="date_start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_start; ?>"> -
-				<input type="text" name="date_end" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_end; ?>">
+				<input type="text" name="date_start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo esc_html( $date_start ); ?>"> -
+				<input type="text" name="date_end" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo esc_html( $date_end ); ?>">
 
 				<button class="llms-button-action small" id="llms-custom-date-submit" type="submit"><?php esc_html_e( 'Go', 'lifterlms' ); ?></button>
 			</li>
@@ -67,7 +68,7 @@ is_admin() || exit;
 					?>
 					<?php foreach ( $current_students as $id ) : ?>
 						<?php $s = get_user_by( 'id', $id ); ?>
-						<option value="<?php echo esc_attr( $id ); ?>" selected="selected"><?php echo $s->display_name; ?> &lt;<?php echo $s->user_email; ?>&gt;</option>
+						<option value="<?php echo esc_attr( $id ); ?>" selected="selected"><?php echo esc_html( $s->display_name ); ?> &lt;<?php echo esc_html( $s->user_email ); ?>&gt;</option>
 					<?php endforeach; ?>
 
 				</select>
@@ -79,7 +80,15 @@ is_admin() || exit;
 				<label><?php esc_html_e( 'Courses', 'lifterlms' ); ?></label>
 				<select data-post-statuses="<?php echo esc_attr( implode( ',', array_keys( get_post_statuses() ) ) ); ?>" class="llms-select2-post" data-placeholder="<?php esc_html_e( 'Filter by Course(s)', 'lifterlms' ); ?>" data-post-type="course" id="llms-course-ids-filter" name="course_ids[]" multiple="multiple">
 					<?php foreach ( $current_courses as $course_id ) : ?>
-						<option value="<?php echo esc_attr( $course_id ); ?>" selected><?php echo get_the_title( $course_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $course_id ); ?></option>
+						<option value="<?php echo esc_attr( $course_id ); ?>" selected><?php echo get_the_title( $course_id ); ?>
+							<?php 
+							printf(
+								// Translators: %s = Course ID.
+								esc_html__( '(ID# %d)', 'lifterlms' ),
+								$course_id
+							);
+							?>
+						</option>
 					<?php endforeach; ?>
 				</select>
 
@@ -91,7 +100,15 @@ is_admin() || exit;
 
 				<select data-post-statuses="<?php echo esc_attr( implode( ',', array_keys( get_post_statuses() ) ) ); ?>" class="llms-select2-post" data-placeholder="<?php esc_html_e( 'Filter by Memberships(s)', 'lifterlms' ); ?>" data-post-type="llms_membership" id="llms-membership-ids-filter" name="membership_ids[]" multiple="multiple">
 					<?php foreach ( $current_memberships as $membership_id ) : ?>
-						<option value="<?php echo esc_attr( $membership_id ); ?>" selected><?php echo get_the_title( $membership_id ); ?> <?php printf( __( '(ID# %d)', 'lifterlms' ), $membership_id ); ?></option>
+						<option value="<?php echo esc_attr( $membership_id ); ?>" selected><?php echo get_the_title( $membership_id ); ?>
+							<?php 
+							printf(
+								// Translators: %s = Membership ID.
+								esc_html__( '(ID# %d)', 'lifterlms' ),
+								$membership_id
+							);
+							?>
+						</option>
 					<?php endforeach; ?>
 				</select>
 
