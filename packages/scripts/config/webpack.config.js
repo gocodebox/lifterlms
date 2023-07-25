@@ -4,7 +4,7 @@
  * @package
  *
  * @since Unknown
- * @version 4.0.1
+ * @version [version] 
  */
 
 // Deps.
@@ -164,6 +164,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
  * With this we allow the whole `@lifterlms` package to be transpiled by babel during builds.
  *
  * @since 4.0.1
+ * @since [version] Fixed cases when the module's rule has no loader.
  *
  * @param {Object[]} config Webpack config.
  * @return {Object[]}
@@ -171,7 +172,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 function allowBabelTranspilation( config ) {
 	config.module.rules = config.module.rules.filter( ( rule ) => {
 		if ( rule.exclude && '/node_modules/' === rule.exclude.toString() &&
-				rule.use[0].loader.indexOf('node_modules/babel-loader') ) {
+				rule.use[0].loader?.indexOf('node_modules/babel-loader') ) {
 			rule.exclude = /node_modules\/(?!\@lifterlms\/)/;
 		}
 		return rule;
