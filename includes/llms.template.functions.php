@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 7.1.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -649,6 +649,14 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 	}
 }
 
+/**
+ * Outputs the html for a progress bar.
+ *
+ * @since Unknown
+ *
+ * @param  float  $percentage Percent completion.
+ * @return string
+ */
 function llms_get_progress_bar_html( $percentage ) {
 
 	$percentage = sprintf( '%s%%', $percentage );
@@ -663,81 +671,122 @@ function llms_get_progress_bar_html( $percentage ) {
 
 }
 
-
-/**
- * Output a course continue button linking to the incomplete lesson for a given student.
- *
- * If the course is complete "Course Complete" is displayed.
- *
- * @since 3.11.1
- * @since 3.15.0 Unknown.
- * @since 7.1.0 Remove check on student existence, now included in the enrollment check.
- *
- * @param int          $post_id  WP Post ID for a course, lesson, or quiz.
- * @param LLMS_Student $student  Instance of an LLMS_Student, defaults to current student.
- * @param int          $progress Current progress of the student through the course.
- * @return void
- */
 if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
+	/**
+	 * Output a course continue button linking to the incomplete lesson for a given student.
+	 *
+	 * If the course is complete "Course Complete" is displayed.
+	 *
+	 * @since 3.11.1
+	 * @since 3.15.0 Unknown.
+	 * @since 7.1.0 Remove check on student existence, now included in the enrollment check.
+	 * @since [version] Enable render preview in block editor.
+	 *
+	 * @param int          $post_id  WP Post ID for a course, lesson, or quiz.
+	 * @param LLMS_Student $student  Instance of an LLMS_Student, defaults to current student.
+	 * @param float        $progress Current progress of the student through the course.
+	 * @return void
+	 */
 	function lifterlms_course_continue_button( $post_id = null, $student = null, $progress = null ) {
 
 		if ( ! $post_id ) {
 			$post_id = get_the_ID();
+
 			if ( ! $post_id ) {
-				return '';
+				return;
 			}
 		}
 
 		$course = llms_get_post( $post_id );
+
 		if ( ! $course || ! is_a( $course, 'LLMS_Post_Model' ) ) {
-			return '';
+			return;
 		}
+
 		if ( in_array( $course->get( 'type' ), array( 'lesson', 'quiz' ) ) ) {
 			$course = llms_get_post_parent_course( $course->get( 'id' ) );
+
 			if ( ! $course ) {
-				return '';
+				return;
 			}
 		}
 
 		if ( ! $student ) {
 			$student = llms_get_student();
-		}
-		if ( ! $student || ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
-			return '';
-		}
 
-		if ( is_null( $progress ) ) {
-			$progress = $student->get_progress( $course->get( 'id' ), 'course' );
-		}
-
-		if ( 100 == $progress ) {
-
-			echo '<p class="llms-course-complete-text">' . apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) . '</p>';
-
-		} else {
-
-			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
-			if ( $lesson ) { ?>
-
-				<a class="llms-button-primary llms-course-continue-button" href="<?php echo get_permalink( $lesson ); ?>">
-
-					<?php if ( 0 == $progress ) : ?>
-
-						<?php _e( 'Get Started', 'lifterlms' ); ?>
-
-					<?php else : ?>
-
-						<?php _e( 'Continue', 'lifterlms' ); ?>
-
-					<?php endif; ?>
-
-				</a>
-
-				<?php
+			if ( ! $student ) {
+				return;
 			}
 		}
 
+		$is_block_editor = llms_is_editor_block_rendering();
+
+		if ( ! $is_block_editor && ! llms_is_user_enrolled( $student->get_id(), $course->get( 'id' ) ) ) {
+			return;
+		}
+
+		if ( $is_block_editor ) {
+			$progress = 50;
+		}
+
+		if ( is_null( $progress ) ) {
+			$progress = $student->get_progress( $course->get( 'id' ) );
+		}
+
+		if ( is_string( $progress ) ) {
+			$progress = intval( $progress );
+		}
+
+		if ( 100 === $progress ) {
+
+			/**
+			 * Filter the text to display when the course is complete.
+			 *
+			 * @since Unknown
+			 *
+			 * @param string          $text   Text to display.
+			 * @param LLMS_Post_Model $course Course being displayed.
+			 */
+			$text = apply_filters(
+				'llms_course_continue_button_complete_text',
+				esc_html__( 'Course Complete', 'lifterlms' ),
+				$course
+			);
+
+			printf(
+				'<p class="llms-course-complete-text">%s</p>',
+				$text
+			);
+
+		} else {
+
+			/**
+			 * Filter the next lesson to link to when outputting the continue button.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int             $lesson  Next lesson to link to.
+			 * @param LLMS_Post_Model $course  Course being displayed.
+			 * @param LLMS_Student    $student Student viewing the course.
+			 */
+			$lesson = apply_filters(
+				'llms_course_continue_button_next_lesson',
+				$student->get_next_lesson( $course->get( 'id' ) ),
+				$course,
+				$student
+			);
+
+			if ( $lesson || $is_block_editor ) {
+
+				printf(
+					'<a class="llms-button-primary llms-course-continue-button" href="%s">%s</a>',
+					esc_url( $is_block_editor ? '#' : get_permalink( $lesson ) ),
+					0 === $progress ? esc_html__( 'Get Started', 'lifterlms' ) : esc_html__( 'Continue', 'lifterlms' )
+				);
+
+			}
+		}
 	}
 }
 
