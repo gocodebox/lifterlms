@@ -83,7 +83,7 @@ is_admin() || exit;
 						<option value="<?php echo esc_attr( $course_id ); ?>" selected><?php echo get_the_title( $course_id ); ?>
 							<?php 
 							printf(
-								// Translators: %s = Course ID.
+								// Translators: %d = Course ID.
 								esc_html__( '(ID# %d)', 'lifterlms' ),
 								$course_id
 							);
@@ -103,7 +103,7 @@ is_admin() || exit;
 						<option value="<?php echo esc_attr( $membership_id ); ?>" selected><?php echo get_the_title( $membership_id ); ?>
 							<?php 
 							printf(
-								// Translators: %s = Membership ID.
+								// Translators: %d = Membership ID.
 								esc_html__( '(ID# %d)', 'lifterlms' ),
 								$membership_id
 							);
