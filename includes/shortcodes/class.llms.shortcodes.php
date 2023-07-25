@@ -471,28 +471,32 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Course Progress Bar Shortcode
+	 * Course Progress Bar Shortcode.
 	 *
 	 * @since unknown
 	 * @since 3.38.0 Added logic to display the bar only to enrolled user.
+	 * @since [version] Add support for `course_id` attribute and render preview in block editor.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
 	 */
 	public static function course_progress( $atts ) {
 
-		$course_id = self::get_course_id();
+		$course_id = $atts['course_id'] ?? self::get_course_id() ?? null;
+
 		if ( ! $course_id ) {
 			return '';
 		}
 
-		if ( ! empty( $atts['check_enrollment'] ) && ! llms_is_user_enrolled( get_current_user_id(), $course_id ) ) {
+		$is_block_editor = llms_is_editor_block_rendering();
+
+		if ( ! $is_block_editor && ! empty( $atts['check_enrollment'] ) && ! llms_is_user_enrolled( get_current_user_id(), $course_id ) ) {
 			return '';
 		}
 
 		$course = new LLMS_Course( $course_id );
 
-		$course_progress = $course->get_percent_complete();
+		$course_progress = $is_block_editor ? 50 : $course->get_percent_complete();
 
 		return lifterlms_course_progress_bar( $course_progress, false, false, false );
 	}
