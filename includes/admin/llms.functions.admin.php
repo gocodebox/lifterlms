@@ -114,7 +114,8 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 				 * Filters the page data passed to create a page.
 				 *
 				 * The output of this filter will be slashed via `wp_slash` prior
-				 * to be passed to `wp_insert_post`.
+				 * to being passed to `wp_insert_post` to prevent slashes from
+				 * being stripped from the page title.
 				 *
 				 * @since 3.0.0
 				 *
