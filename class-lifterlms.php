@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -429,7 +429,10 @@ final class LifterLMS {
 	 * @return boolean
 	 */
 	public function is_favorites_enabled() {
-		return apply_filters( 'llms_favorites_enabled', true );
+
+		$favorite_enabled = llms_parse_bool( get_option( 'lifterlms_favorites', 'no' ) );
+
+		return apply_filters( 'llms_favorites_enabled', $favorite_enabled );
 	}
 
 }
