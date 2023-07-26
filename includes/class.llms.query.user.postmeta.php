@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS User Postmeta Query
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
@@ -87,7 +87,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 *
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since    [version] Added 'Favorites' event.
+	 * @version  [version]
 	 */
 	protected function parse_args() {
 

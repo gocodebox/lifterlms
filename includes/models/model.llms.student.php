@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
- * @since [version] Added the logic to add and remove lesson favoritism.
+ * @since [version] Added the logic to add and remove lesson favorite.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1933,7 +1933,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$ret = $query->has_results();
 
 		/**
-		 * Filter object favorite boolean value prior to returning
+		 * Filter object favorite boolean value prior to returning.
 		 *
 		 * The dynamic portion of this filter, `{$object_type}`, refers to the Lesson, Course or Instructor.
 		 *

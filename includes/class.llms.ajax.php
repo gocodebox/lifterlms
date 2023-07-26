@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *              - `LLMS_AJAX::check_voucher_duplicate()` method.
  *              - `LLMS_AJAX::get_ajax_data()` method.
  *              - `LLMS_AJAX::register_script()` method.
+ * @since [version] Added method `favorite_object` to Add Favorite / Unfavorite Postmeta for an object.
  */
 class LLMS_AJAX {
 

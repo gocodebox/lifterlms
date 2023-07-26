@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added filter `lifterlms_single_course_syllabus_lesson_favorite` for
+  disabling favorites in syllabus view.

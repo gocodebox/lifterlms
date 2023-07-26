@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Include the Favorite filter to enable the feature.
+ * @since [version] Added `is_favorites_enabled` to check favorites status.
  */
 final class LifterLMS {
 
@@ -432,6 +432,13 @@ final class LifterLMS {
 
 		$favorite_enabled = llms_parse_bool( get_option( 'lifterlms_favorites', 'no' ) );
 
+		/**
+		 * Filter to enable/disable the Favorite feature.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $favorite_enabled True if favorites are enabled, false otherwise.
+		 */
 		return apply_filters( 'llms_favorites_enabled', $favorite_enabled );
 	}
 

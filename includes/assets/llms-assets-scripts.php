@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

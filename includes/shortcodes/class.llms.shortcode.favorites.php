@@ -20,14 +20,14 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 
 	/**
-	 * Shortcode tag
+	 * Shortcode tag.
 	 *
 	 * @var string
 	 */
 	public $tag = 'lifterlms_favorites';
 
 	/**
-	 * Get shortcode attributes
+	 * Get shortcode attributes.
 	 *
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output().

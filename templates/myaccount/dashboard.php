@@ -1,6 +1,6 @@
 <?php
 /**
- * My Account page
+ * My Account page.
  *
  * @package LifterLMS/Templates
  *
