@@ -1,8 +1,10 @@
 /**
  * Quiz Schema
  *
- * @since    3.17.6
- * @version  3.24.0
+ * @since 3.17.6
+ * @since 3.24.0 Unknown.
+ * @since [version] Added 'can_be_resumed' option.
+ * @version [version]
  */
 define( [], function() {
 
