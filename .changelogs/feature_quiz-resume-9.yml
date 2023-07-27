@@ -1,3 +1,3 @@
 significance: minor
 type: dev
-entry: Added new method `LLMS_Quiz_Attempt::get_question:answer()`.
+entry: Added new method `LLMS_Quiz_Attempt::get_question_answer()`.
