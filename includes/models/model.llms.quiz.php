@@ -196,8 +196,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Determine if a student can resume the quiz.
 	 *
-	 * A student can resume the quiz only if the quiz can be resumed and
-	 * the latest attempt can be resumed.
+	 * A student can resume the quiz only if their latest attempt can be resumed.
 	 *
 	 * @since [version]
 	 *
@@ -205,10 +204,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return bool
 	 */
 	public function can_be_resumed_by_student( $user_id = null ) {
-
-		if ( ! $this->can_be_resumed() ) {
-			return false;
-		}
 
 		$can_be_resumed_by_student = false;
 
