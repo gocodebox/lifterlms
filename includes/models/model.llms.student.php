@@ -1309,7 +1309,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $object_id    WP Post ID of the lesson
+	 * @param int $object_id WP Post ID of the lesson
 	 * @return bool
 	 */
 	private function remove_unfavorite_postmeta( $object_id ) {
