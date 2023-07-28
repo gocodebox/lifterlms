@@ -1292,7 +1292,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see LLMS_Student->mark_favorite()
 	 *
-	 * @param int $object_id WP User ID.
+	 * @param int $object_id WP Post ID of the lesson.
 	 * @return bool
 	 */
 	private function insert_favorite_postmeta( $object_id ) {

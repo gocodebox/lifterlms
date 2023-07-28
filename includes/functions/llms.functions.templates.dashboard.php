@@ -153,7 +153,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 }
 
 
-if ( ! function_exists( 'llms_template_my_courses_loop' ) ) {
+if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 	/**
 	 * Get course tiles for a student's courses
@@ -168,7 +168,7 @@ if ( ! function_exists( 'llms_template_my_courses_loop' ) ) {
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
 	 * @return void
 	 */
-	function llms_template_my_courses_loop( $student = null, $preview = false ) {
+	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
@@ -588,7 +588,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		}
 
 		ob_start();
-		llms_template_my_courses_loop( $student, $preview );
+		lifterlms_template_my_courses_loop( $student, $preview );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',

@@ -324,9 +324,9 @@ function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_c
  * @see LLMS_Student->mark_complete()
  *
  * @param int    $user_id     WP User ID.
- * @param int    $object_id   WP Post ID of the Lesson.
- * @param string $object_type Type, 'Lesson'.
- * @param string $trigger     String describing the event that triggered marking the object as complete.
+ * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param string $object_type Object type [lesson|section|course|track].
+ * @param string $trigger     String describing the event that triggered marking the object as incomplete.
  * @return boolean
  */
 function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
@@ -342,8 +342,8 @@ function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'uns
  * @see LLMS_Student->mark_incomplete()
  *
  * @param int    $user_id     WP User ID.
- * @param int    $object_id   WP Post ID of the Lesson.
- * @param string $object_type Type, 'Lesson'.
+ * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
+ * @param string $object_type Object type [lesson|section|course|track].
  * @param string $trigger     String describing the event that triggered marking the object as incomplete.
  * @return boolean
  */

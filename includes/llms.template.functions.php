@@ -385,17 +385,17 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 	}
 }
 
-/**
- * Favorite Lesson Template Include.
- *
- * @since [version]
- *
- * @param int    $object_id   WP Post ID of the Lesson.
- * @param string $object_type Type, 'Lesson'.
- * @return void
- */
 if ( ! function_exists( 'llms_template_favorite' ) ) {
 
+	/**
+	 * Favorite Lesson Template Include.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $object_id   WP Post ID of the Lesson.
+	 * @param string $object_type Type, 'Lesson'.
+	 * @return void
+	 */
 	function llms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
 
 		if ( llms_is_favorites_enabled() ) {
