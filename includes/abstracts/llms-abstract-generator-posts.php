@@ -1,11 +1,11 @@
 <?php
 /**
- * Generate LMS Content from export files or raw arrays of data
+ * Generate LMS Content from export files or raw arrays of data.
  *
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -155,10 +155,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 	}
 
 	/**
-	 * Generate a new LLMS_Post_Mdel
+	 * Generate a new LLMS_Post_Model.
 	 *
 	 * @since 4.7.0
 	 * @since 4.7.1 Set the post's excerpt during the initial insert instead of during metadata updates after creation.
+	 * @since [version] Skip adding the `generated_from_id` meta from the original post: this is the case when cloning a cloned post.
+	 *              Also skip creating revisions.
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
@@ -172,6 +174,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
 		if ( ! class_exists( $class_name ) ) {
 			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
+		}
+
+		// Don't create useless creation on "cloning".
+		$revision_creation_hook_priority = has_action( 'post_updated', 'wp_save_post_revision' );
+		if ( $revision_creation_hook_priority ) {
+			remove_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
 		}
 
 		// Insert the object.
@@ -198,12 +206,22 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		// Don't set these values again.
 		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['excerpt'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
+		/**
+		 * Skip adding the `generated_from_id` meta from the original post:
+		 * this is the case when cloning a cloned post.
+		 */
+		unset( $raw['custom'][ $post->get( 'meta_prefix' ) . 'generated_from_id' ] );
 
 		$this->set_metadata( $post, $raw );
 		$this->set_featured_image( $raw, $post->get( 'id' ) );
 		$this->add_custom_values( $post->get( 'id' ), $raw );
 		$this->sideload_images( $post, $raw );
 		$this->handle_reusable_blocks( $post, $raw );
+
+		// Re-add revision creation action.
+		if ( $revision_creation_hook_priority ) {
+			add_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
+		}
 
 		return $post;
 

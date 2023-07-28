@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1002,10 +1002,11 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
-	 * Update lesson from heartbeat data
+	 * Update lesson from heartbeat data.
 	 *
 	 * @since 3.16.0
 	 * @since 5.1.3 Made sure a lesson moved in a just created section is correctly assigned to it.
+	 * @since [version] Skip revision creation when creating a brand new lesson.
 	 *
 	 * @param array        $lessons Lesson data from heartbeat.
 	 * @param LLMS_Section $section instance of the parent LLMS_Section.
@@ -1053,6 +1054,12 @@ class LLMS_Admin_Builder {
 				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
 
 			} else {
+
+				// Don't create useless creation on "cloning".
+				$revision_creation_hook_priority = has_action( 'post_updated', 'wp_save_post_revision' );
+				if ( $revision_creation_hook_priority && $created ) {
+					remove_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
+				}
 
 				/**
 				 * If the parent section was just created the lesson will have a temp id
@@ -1102,6 +1109,11 @@ class LLMS_Admin_Builder {
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
+
+				if ( $revision_creation_hook_priority && $created ) {
+					add_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
+				}
+
 			}
 
 			// Allow 3rd parties to update custom data.
