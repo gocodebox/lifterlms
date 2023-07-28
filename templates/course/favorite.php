@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template for favorite button.
  *
@@ -8,8 +7,8 @@
  *
  * @since [version]
  *
- * @var int    $object_id   WP Post ID of the Lesson.
- * @var string $object_type Type, 'Lesson'.
+ * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+ * @param string $object_type The object type. Currently only the 'lesson' type is possible.
  */
 defined( 'ABSPATH' ) || exit;
 

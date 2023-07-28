@@ -4,8 +4,9 @@
 /**
  * Front End Favorite Class.
  *
- * @type    {Object}
- * @since   [version]
+ * @type {Object}
+ *
+ * @since [version]
  * @version [version]
  */
 ( function( $ ) {
@@ -30,14 +31,14 @@
 
 			var self = this;
 
-			// Favorite clicked
+			// Favorite clicked.
 			$( '.llms-favorite-wrapper' ).on( 'click', function( e ) {
 				e.preventDefault();
 				let $btn = $( this ).find( '.llms-heart-btn' );
 				self.favorite( $btn );
 			} );
 
-			// Adding class in Favorite's parent
+			// Adding class in Favorite's parent.
 			$( '.llms-favorite-wrapper' ).parent().addClass( 'llms-has-favorite' );
 
 		},

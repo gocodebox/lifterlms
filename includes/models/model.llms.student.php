@@ -273,7 +273,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param string $order_by Result set ordering field. Default "date".
 	 * @param string $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
 	 * @param int    $limit    Number of favorites to return.
-	 * @return array
+	 * @return bool|array
 	 */
 	public function get_favorites( $order_by = '', $order = '', $limit = '' ) {
 
@@ -1309,7 +1309,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $object_id WP Post ID of the lesson
+	 * @param int $object_id WP Post ID of the lesson.
 	 * @return bool
 	 */
 	private function remove_unfavorite_postmeta( $object_id ) {

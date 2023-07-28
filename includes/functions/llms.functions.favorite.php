@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  *
- * @param int $object_id WP Post ID of the Lesson.
+ * @param bool|int $object_id WP Post ID of the Lesson. If not supplied it will default to the current post ID.
  * @return int
  */
 function llms_get_object_total_favorites( $object_id = false ) {
