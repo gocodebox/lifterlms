@@ -191,7 +191,7 @@ class LLMS_Student_Dashboard {
 					'title'    => __( 'My Certificates', 'lifterlms' ),
 				),
 				'view-favorites'    => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_favorites',
+					'content'  => 'llms_template_student_dashboard_my_favorites',
 					'endpoint' => llms_is_favorites_enabled() ? get_option( 'lifterlms_myaccount_favorites_endpoint', 'view-favorites' ) : '',
 					'paginate' => true,
 					'nav_item' => true,

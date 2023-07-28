@@ -604,7 +604,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	}
 }
 
-if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) {
+if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 
 	/**
 	 * Template for My Favorites section on dashboard index.
@@ -614,7 +614,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 	 * @param bool $preview Optional. If true, outputs a short list of favorites. Default `false`.
 	 * @return void
 	 */
-	function lifterlms_template_student_dashboard_my_favorites( $preview = false ) {
+	function llms_template_student_dashboard_my_favorites( $preview = false ) {
 
 		$student = llms_get_student();
 

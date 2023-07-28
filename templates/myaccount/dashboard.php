@@ -27,7 +27,7 @@ llms_print_notices();
 		 * @hooked lifterlms_template_student_dashboard_my_achievements - 20
 		 * @hooked lifterlms_template_student_dashboard_my_certificates - 30
 		 * @hooked lifterlms_template_student_dashboard_my_memberships - 40
-		 * @hooked lifterlms_template_student_dashboard_my_favorites - 50
+		 * @hooked llms_template_student_dashboard_my_favorites - 50
 		 */
 		do_action( 'lifterlms_student_dashboard_index', true );
 

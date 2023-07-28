@@ -1,4 +1,4 @@
-;/* global LLMS, $ */
+/* global LLMS, $ */
 /* jshint strict: true */
 
 /**
@@ -85,7 +85,6 @@
 
 						// Updating count.
 						self.$container.find( '.llms-favorites-count' ).text( r.total_favorites );
-						
 
 					}
 
