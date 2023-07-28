@@ -310,7 +310,7 @@ if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
 
 		if ( ! $favorites ) {
 
-			printf( '<p>%s</p>', __( 'No favorites found.', 'lifterlms' ) );
+			printf( '<p>%s</p>', esc_html__( 'No favorites found.', 'lifterlms' ) );
 
 		} else {
 
@@ -626,7 +626,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-favorites' ) ) {
 			$more = array(
 				'url'  => llms_get_endpoint_url( 'view-favorites', '', llms_get_page_url( 'myaccount' ) ),
-				'text' => __( 'View All My Favorites', 'lifterlms' ),
+				'text' => esc_html__( 'View All My Favorites', 'lifterlms' ),
 			);
 		}
 
@@ -638,7 +638,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 			array(
 				'action'  => 'my_favorites',
 				'slug'    => 'llms-my-favorites',
-				'title'   => $preview ? __( 'My Favorites', 'lifterlms' ) : '',
+				'title'   => $preview ? esc_html__( 'My Favorites', 'lifterlms' ) : '',
 				'content' => ob_get_clean(),
 				'more'    => $more,
 			)

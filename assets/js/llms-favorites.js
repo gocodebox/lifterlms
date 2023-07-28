@@ -15,16 +15,16 @@
 		/**
 		 * Main Favorite Container Element.
 		 *
-		 * @type  obj
+		 * @type {Object}
 		 */
 		$container: null,
 
 		/**
 		 * Bind DOM events.
 		 *
-		 * @return void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since [version]
+		 *
+		 * @return {Void}
 		 */
 		bind: function() {
 
@@ -45,10 +45,10 @@
 		/**
 		 * Favorite / Unfavorite an object.
 		 *
-		 * @param    obj   $btn   jQuery object for the "Favorite / Unfavorite" button.
-		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since [version]
+		 * 
+		 * @param {Object} $btn jQuery object for the "Favorite / Unfavorite" button.
+		 * @return {Void}
 		 */
 		favorite: function( $btn ) {
 

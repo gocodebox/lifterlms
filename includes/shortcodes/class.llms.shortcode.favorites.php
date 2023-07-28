@@ -82,7 +82,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		if ( ! llms_get_student() ) {
 
 			printf(
-				__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
+				esc_html__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
 				'<a href="' . llms_get_page_url( 'myaccount' ) . '">',
 				'</a>'
 			);

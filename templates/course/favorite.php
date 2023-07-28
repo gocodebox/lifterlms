@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
-$lesson          = new LLMS_Lesson( ( null === $object_id || '' === $object_id ) ? $post->ID : $object_id );
+$lesson          = new LLMS_Lesson(  empty( $object_id )  ? $post->ID : $object_id );
 $student         = llms_get_student( get_current_user_id() );
 $total_favorites = llms_get_object_total_favorites( $lesson->get( 'id' ) );
 ?>
