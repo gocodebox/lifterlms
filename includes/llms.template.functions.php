@@ -390,15 +390,15 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
  *
  * @since [version]
  *
- * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param string $object_type Object type [lesson|section|course|track].
+ * @param int    $object_id   WP Post ID of the Lesson.
+ * @param string $object_type Type, 'Lesson'.
  * @return void
  */
-if ( ! function_exists( 'lifterlms_template_favorite' ) ) {
+if ( ! function_exists( 'llms_template_favorite' ) ) {
 
-	function lifterlms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
+	function llms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
 
-		if ( llms()->is_favorites_enabled() ) {
+		if ( llms_is_favorites_enabled() ) {
 
 			llms_get_template(
 				'course/favorite.php',

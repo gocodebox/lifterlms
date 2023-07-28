@@ -81,7 +81,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			'view-memberships'  => 'lifterlms_myaccount_memberships_endpoint',
 			'view-achievements' => 'lifterlms_myaccount_achievements_endpoint',
 			'view-certificates' => 'lifterlms_myaccount_certificates_endpoint',
-			'view-favorites' 	=> 'lifterlms_myaccount_favorites_endpoint',
+			'view-favorites'    => 'lifterlms_myaccount_favorites_endpoint',
 			'notifications'     => 'lifterlms_myaccount_notifications_endpoint',
 			'edit-account'      => 'lifterlms_myaccount_edit_account_endpoint',
 			'redeem-voucher'    => 'lifterlms_myaccount_redeem_vouchers_endpoint',
@@ -94,7 +94,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			'view-memberships'  => 'ਵੇਖੋ-ਸਦੱਸਤਾ', // Punjabi.
 			'view-achievements' => 'nailiyyətlər', // Azerbaijani.
 			'view-certificates' => 'ເບິ່ງໃບຢັ້ງຢືນ', // Lao.
-			'view-favorites' 	=> '즐겨찾기', // Korean.
+			'view-favorites'    => '즐겨찾기', // Korean.
 			'notifications'     => '通知', // Chinese (Simplified).
 			'edit-account'      => 'חשבון-עריכה', // Hebrew.
 			'redeem-voucher'    => 'چھڑانا', // Urdu.

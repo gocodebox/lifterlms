@@ -91,7 +91,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 
 			$favorites = $this->get_favorites();
 
-			lifterlms_template_my_favorites_loop( get_current_user_id(), $favorites );
+			llms_template_my_favorites_loop( get_current_user_id(), $favorites );
 		}
 
 		return ob_get_clean();

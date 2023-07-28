@@ -153,7 +153,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 }
 
 
-if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
+if ( ! function_exists( 'llms_template_my_courses_loop' ) ) {
 
 	/**
 	 * Get course tiles for a student's courses
@@ -168,7 +168,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
 	 * @return void
 	 */
-	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
+	function llms_template_my_courses_loop( $student = null, $preview = false ) {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
@@ -288,17 +288,18 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	}
 }
 
-if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
+if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
 
 	/**
 	 * Get student's favorites.
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param LLMS_Student $student   Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param array        $favorites Optional. Array of favorites (current student's favorites if none supplied). Default `null`.
 	 * @return void
 	 */
-	function lifterlms_template_my_favorites_loop( $student = null, $favorites = null ) {
+	function llms_template_my_favorites_loop( $student = null, $favorites = null ) {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
@@ -315,8 +316,8 @@ if ( ! function_exists( 'lifterlms_template_my_favorites_loop' ) ) {
 
 			// Adding Parent Course IDs in Favorites for each lesson.
 			foreach ( $favorites as $key => $favorite ) {
-				$parent_course           = get_post_meta( $favorite->post_id, '_llms_parent_course', true );
-				$favorite->parent_course = $parent_course;
+				$lesson                  = new LLMS_Lesson( $favorite->post_id );
+				$favorite->parent_course = $lesson->get( 'parent_course' );
 			}
 
 			// Grouping Favorites by Parent Course ID.
@@ -587,7 +588,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		}
 
 		ob_start();
-		lifterlms_template_my_courses_loop( $student, $preview );
+		llms_template_my_courses_loop( $student, $preview );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
@@ -617,7 +618,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 
 		$student = llms_get_student();
 
-		if ( ! $student || ! llms()->is_favorites_enabled() ) {
+		if ( ! $student || ! llms_is_favorites_enabled() ) {
 			return;
 		}
 
@@ -630,7 +631,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_favorites' ) ) 
 		}
 
 		ob_start();
-		lifterlms_template_my_favorites_loop( $student );
+		llms_template_my_favorites_loop( $student );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',

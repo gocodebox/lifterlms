@@ -4,8 +4,9 @@
  *
  * @package LifterLMS/Templates
  *
- * @since    1.0.0
- * @version  [version]
+ * @since 1.0.0
+ * @since [version] Hooked my_favorites function.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

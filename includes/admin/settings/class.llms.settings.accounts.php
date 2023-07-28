@@ -188,7 +188,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'     => 'text',
 					'default'  => 'my-favorites',
 					'sanitize' => 'slug',
-					'disabled' => ! llms()->is_favorites_enabled() ? true : false,
+					'disabled' => ! llms_is_favorites_enabled() ? true : false,
 				),
 				array(
 					'title'    => __( 'Notifications', 'lifterlms' ),

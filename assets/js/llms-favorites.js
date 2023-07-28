@@ -4,9 +4,9 @@
 /**
  * Front End Favorite Class.
  *
- * @type     {Object}
- * @since    [version]
- * @version  [version]
+ * @type    {Object}
+ * @since   [version]
+ * @version [version]
  */
 ( function( $ ) {
     

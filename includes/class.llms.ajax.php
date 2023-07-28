@@ -241,7 +241,7 @@ class LLMS_AJAX {
 
 		echo json_encode(
 			array(
-				'total_favorites' => get_total_favorites( $object_id ),
+				'total_favorites' => llms_get_object_total_favorites( $object_id ),
 				'success'         => true,
 			)
 		);
