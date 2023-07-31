@@ -330,37 +330,34 @@ if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
 				array()
 			);
 
+			echo '<div class="llms-syllabus-wrapper">';
+
 			// Printing Favorite Lessons under each Parent Course.
 			foreach ( $favorites as $course => $lessons ) {
 
 				// Get Course Name.
-				$lesson = new LLMS_Lesson( $course );
+				$course = new LLMS_Course( $course );
 
-				llms_get_template(
-					'course/lesson-preview.php',
-					array(
-						'lesson' => $lesson,
-					)
-				);
+				echo '<h3 class="llms-h3 llms-section-title">';
+					echo $course->get( 'title' );
+				echo '</h3>';
 
-				echo '<ul style="list-style-type:none">';
 				foreach ( $lessons as $lesson ) {
 
 					$lesson = new LLMS_Lesson( $lesson->post_id );
-					echo '<li>';
+
 					llms_get_template(
 						'course/lesson-preview.php',
 						array(
 							'lesson' => $lesson,
 						)
 					);
-					echo '</li>';
+
 				}
-				echo '</ul>';
-
 			}
-		}
 
+			echo '</div>';
+		}
 	}
 }
 
