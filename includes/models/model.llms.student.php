@@ -1312,7 +1312,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
 	 * @return bool
 	 */
-	private function remove_unfavorite_postmeta( $object_id ) {
+	private function remove_favorite_postmeta( $object_id ) {
 
 		$update = llms_delete_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
 
@@ -2003,10 +2003,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 	 * @param string $object_type The object type, currently only 'lesson'.
-	 * @param string $trigger     String describing the reason for the status change.
 	 * @return bool
 	 */
-	private function update_favorite_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
+	private function update_favorite_status( $status, $object_id, $object_type ) {
 
 		$student_id = $this->get_id();
 
@@ -2021,15 +2020,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 		 * @param string $object_type The object type, currently only 'lesson'.
-		 * @param string $trigger     String describing the reason for the status change.
 		 */
-		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
+		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type );
 
 		// Insert / Remove meta data.
 		if ( 'favorite' === $status ) {
-			$this->insert_favorite_postmeta( $object_id, $trigger );
+			$this->insert_favorite_postmeta( $object_id );
 		} elseif ( 'unfavorite' === $status ) {
-			$this->remove_unfavorite_postmeta( $object_id, $trigger );
+			$this->remove_favorite_postmeta( $object_id );
 		}
 
 		/**
@@ -2043,9 +2041,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 		 * @param string $object_type The object type, currently only 'lesson'.
-		 * @param string $trigger     String describing the reason for the status change.
 		 */
-		do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
+		do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type );
 
 		/**
 		 * Hook that fires when a student's favorite status is updated for a specific object type.
