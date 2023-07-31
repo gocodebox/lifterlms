@@ -1292,7 +1292,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see LLMS_Student->mark_favorite()
 	 *
-	 * @param int $object_id WP Post ID of the lesson.
+	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
 	 * @return bool
 	 */
 	private function insert_favorite_postmeta( $object_id ) {
@@ -1309,7 +1309,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $object_id WP Post ID of the lesson.
+	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
 	 * @return bool
 	 */
 	private function remove_unfavorite_postmeta( $object_id ) {
@@ -1914,8 +1914,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param int    $object_id   WP Post ID of a lesson.
-	 * @param string $object_type Type, 'Lesson'.
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
 	 * @return bool
 	 */
 	public function is_favorite( $object_id, $object_type = 'lesson' ) {
@@ -1940,8 +1940,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @since [version]
 		 *
 		 * @param array|false  $ret         Array of favorite data or `false` if no favorite is found.
-		 * @param int          $object_id   WP Post ID of the Lesson.
-		 * @param string       $object_type Type, 'Lesson'.
+		 * @param int          $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string       $object_type The object type, currently only 'lesson'.
 		 * @param LLMS_Student $instance    The Student Instance
 		 */
 		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
@@ -1955,8 +1955,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
-	 * @param int    $object_id   WP Post ID of the Lesson.
-	 * @param string $object_type Type, 'Lesson'.
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
 	 * @return bool
 	 */
 	public function mark_favorite( $object_id, $object_type ) {
@@ -1977,8 +1977,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
-	 * @param int    $object_id   WP Post ID of the Lesson.
-	 * @param string $object_type Type, 'Lesson'.
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
 	 * @return bool
 	 */
 	public function mark_unfavorite( $object_id, $object_type ) {
@@ -2001,8 +2001,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since [version] Use filterable functions to determine if the object can be marked favorite.
 	 *
 	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
-	 * @param int    $object_id   WP Post ID of the Lesson.
-	 * @param string $object_type Type, 'Lesson'.
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
 	 * @param string $trigger     String describing the reason for the status change.
 	 * @return bool
 	 */
@@ -2019,8 +2019,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @since [version]
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
-		 * @param int    $object_id   WP Post ID of the Lesson.
-		 * @param string $object_type Type, 'Lesson'.
+		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string $object_type The object type, currently only 'lesson'.
 		 * @param string $trigger     String describing the reason for the status change.
 		 */
 		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
@@ -2041,8 +2041,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @since [version]
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
-		 * @param int    $object_id   WP Post ID of the Lesson.
-		 * @param string $object_type Type, 'Lesson'.
+		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string $object_type The object type, currently only 'lesson'.
 		 * @param string $trigger     String describing the reason for the status change.
 		 */
 		do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );

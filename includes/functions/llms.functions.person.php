@@ -360,8 +360,8 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  * @see LLMS_Student->mark_favorite()
  *
  * @param int    $user_id     WP User ID.
- * @param int    $object_id   WP Post ID of the Lesson.
- * @param string $object_type Type, 'Lesson'.
+ * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+ * @param string $object_type The object type, currently only 'lesson'.
  * @return boolean
  */
 function llms_mark_favorite( $user_id, $object_id, $object_type ) {
@@ -377,8 +377,8 @@ function llms_mark_favorite( $user_id, $object_id, $object_type ) {
  * @see LLMS_Student->mark_unfavorite()
  *
  * @param int    $user_id     WP User ID.
- * @param int    $object_id   WP Post ID of the Lesson.
- * @param string $object_type Type, 'Lesson'.
+ * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+ * @param string $object_type The object type, currently only 'lesson'.
  * @return boolean
  */
 function llms_mark_unfavorite( $user_id, $object_id, $object_type ) {

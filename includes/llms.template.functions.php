@@ -392,8 +392,8 @@ if ( ! function_exists( 'llms_template_favorite' ) ) {
 	 *
 	 * @since [version]
 	 *
-	 * @param int    $object_id   WP Post ID of the Lesson.
-	 * @param string $object_type Type, 'Lesson'.
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
 	 * @return void
 	 */
 	function llms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
