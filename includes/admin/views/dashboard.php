@@ -5,6 +5,7 @@
  * @package LifterLMS/Admin/Views
  *
  * @since 7.1.0
+ * @since [version] Added llms_dashboard_widget_data filter.
  * @version 7.1.0
  */
 
