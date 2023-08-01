@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit;
 							)
 						),
 						'widget_data' => array(
-							array(
+							apply_filters( 'llms_dashboard_widget_data', array(
 								'enrollments'       => array(
 									'title'   => __( 'Enrollments', 'lifterlms' ),
 									'cols'    => '1-4',
@@ -73,7 +73,7 @@ defined( 'ABSPATH' ) || exit;
 									'info'    => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
 									'link'    => admin_url( 'admin.php?page=llms-reporting&tab=courses' ),
 								),
-							),
+							) ),
 						),
 					)
 				);
