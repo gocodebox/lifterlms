@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Views/Dashboard
  *
  * @since 7.1.0
- * @since [version] Added llms_dashboard_checklist filter.
+ * @since [version] Added `llms_dashboard_checklist` filter.
  * @version [version]
  */
 
@@ -62,9 +62,9 @@ defined( 'ABSPATH' ) || exit;
 		// Add checklist items to an array so we can filter.
 		$checklist = array();
 		if ( $ap_check ) {
-			$checklist['access_plan'] = '<i class="fa fa-check"></i> ' . esc_html( 'Create Access Plan', 'lifterlms' );
+			$checklist['access_plan'] = '<i class="fa fa-check"></i> ' . esc_html__( 'Create Access Plan', 'lifterlms' );
 		} else {
-			$checklist['access_plan'] = '<i class="fa fa-times"></i> <a href="https://lifterlms.com/docs/what-is-an-access-plan/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Create%20Access%20Plan" target="_blank" rel="noopener">' .  esc_html__( 'Create Access Plan', 'lifterlms' ) . '</a>';
+			$checklist['access_plan'] = '<i class="fa fa-times"></i> <a href="https://lifterlms.com/docs/what-is-an-access-plan/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Create%20Access%20Plan" target="_blank" rel="noopener">' . esc_html__( 'Create Access Plan', 'lifterlms' ) . '</a>';
 		}
 		if ( $enrollments_check ) {
 			$checklist['enrollments'] = '<i class="fa fa-check"></i> ' . esc_html__( 'Get 10 Enrollments', 'lifterlms' );
@@ -72,6 +72,13 @@ defined( 'ABSPATH' ) || exit;
 			$checklist['enrollments'] = '<i class="fa fa-times"></i> <a href="https://academy.lifterlms.com/course/enroll/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Get%2010%20Enrollments" target="_blank" rel="noopener">' . esc_html__( 'Get 10 Enrollments', 'lifterlms' ) . '</a>';
 		}
 
+		/**
+		 * Filters the dashboard quick links checklist.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $checklist Dashboard quick links checklist.
+		 */
 		$checklist = apply_filters( 'llms_dashboard_checklist', $checklist );
 		?>
 		<ul class="llms-checklist">
