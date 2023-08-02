@@ -1,5 +1,5 @@
 significance: patch
-type: added
+type: dev
 links:
   - "#2491"
 entry: Added `llms_dashboard_checklist` and `llms_dashboard_widget_data` filters to
