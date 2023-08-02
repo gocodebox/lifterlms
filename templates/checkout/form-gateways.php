@@ -27,7 +27,7 @@ if ( isset( $plan ) && ( $plan->is_free() || ! $plan->requires_payment( $coupon 
 	$show_gateways = false;
 } elseif ( isset( $plan ) ) {
 	$supports = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
-} elseif ( ! isset( $plan ) && isset( $order ) ) { // Switching source.
+} elseif ( isset( $order ) ) { // Switching source.
 	$supports = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
 }
 
