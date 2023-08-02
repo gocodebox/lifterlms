@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -302,71 +302,44 @@ class LLMS_Admin_Notices {
 	 * @since 3.7.4 Unknown.
 	 * @since 5.2.0 Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
 	 * @since 5.3.1 Delete empty notices and do not display them.
+	 * @since [version] Move HTML to `admin/notices/notice.php` template.
 	 *
-	 * @param string $notice_id Notice id.
+	 * @param string $id Notice id.
 	 * @return void
 	 */
-	public static function output_notice( $notice_id ) {
+	public static function output_notice( string $id ) {
 
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
-			$notice = self::get_notice( $notice_id );
+		$notice = self::get_notice( $id );
 
-			// Don't output those rogue empty notices I can't find.
-			// @todo find the source.
-			if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
-				self::delete_notice( $notice_id );
+		// Don't output those rogue empty notices I can't find.
+		// @todo find the source.
+		if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
+			self::delete_notice( $id );
 
-				return;
-			}
+			return;
+		}
 
-			$icon      = $notice['icon'] ?? 'lifterlms';
-			$icon_name = ucwords( str_replace('-', ' ', $icon ) );
+		$notice['id']          = $id;
+		$notice['icon']        = $notice['icon'] ?? $notice['dashicon'] ?? 'lifterlms';
+		$notice['dismiss_url'] = wp_nonce_url(
+			add_query_arg( 'llms-hide-notice', $id ),
+			'llms_hide_notices_nonce',
+			'_llms_notice_nonce'
+		);
+		$notice['remind_url']  = wp_nonce_url(
+			add_query_arg( 'llms-remind-notice', $id ),
+			'llms_hide_notices_nonce',
+			'_llms_notice_nonce'
+		);
 
-			?>
-			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<div class="llms-admin-notice-icon">
-					<?php if ( 'lifterlms' === $icon ) : ?>
-						<div class="llms-admin-notice-lifterlms-icon">
-							<span class="screen-reader-text">
-								<?php esc_html_e('LifterLMS icon', 'lifterlms' ); ?>
-							</span>
-						</div>
-					<?php else: ?>
-						<div class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>">
-							<span class="screen-reader-text">
-								<?php echo esc_html( $icon_name ); ?>
-							</span>
-						</div>
-					<?php endif; ?>
-				</div>
+		llms_get_template( 'admin/notices/notice.php', $notice );
 
-				<div class="llms-admin-notice-content">
-					<?php if ( $notice['dismissible'] ) : ?>
-						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
-							<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
-						</a>
-					<?php endif; ?>
-					<?php if ( ! empty( $notice['template'] ) ) : ?>
-
-						<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
-
-					<?php elseif ( ! empty( $notice['html'] ) ) : ?>
-
-						<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
-
-					<?php endif; ?>
-
-					<?php if ( $notice['remindable'] ) : ?>
-						<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
-					<?php endif; ?>
-				</div>
-			</div>
-			<?php
-
-			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
-				self::delete_notice( $notice_id, 'delete' );
-			}
+		if ( isset( $notice['flash'] ) && $notice['flash'] ) {
+			self::delete_notice( $id, 'delete' );
 		}
 
 	}
