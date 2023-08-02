@@ -468,6 +468,7 @@ class LLMS_Admin_Reporting {
 	 * @since 6.11.0 Moved HTML into a view file.
 	 *               Fixed division by zero error encountered during data comparisons when `$data` is `0`.
 	 *               Added a check to ensure only numeric, monetary, or percentage data types will generate comparison data.
+	 * @since [version] Better rounding of float values of percentage data types.
 	 *
 	 * @param array $args {
 	 *    Array of widget options and data to be displayed.
@@ -520,9 +521,13 @@ class LLMS_Admin_Reporting {
 			}
 		}
 
-		if ( 'monetary' === $args['data_type'] && is_numeric( $args['data'] ) ) {
-			$args['data']         = llms_price( $args['data'] );
-			$args['data_compare'] = llms_price_raw( $args['data_compare'] );
+		if ( is_numeric( $args['data'] ) ) {
+			if ( 'percentage' === $args['data_type'] ) {
+				$args['data'] = round( $args['data'], llms_get_floats_rounding_precision() );
+			} elseif ( 'monetary' === $args['data_type'] ) {
+				$args['data']         = llms_price( $args['data'] );
+				$args['data_compare'] = llms_price_raw( $args['data_compare'] );
+			}
 		}
 
 		$args['id'] = esc_attr( $args['id'] );
