@@ -6,7 +6,7 @@
  *
  * @since 7.1.0
  * @since [version] Added llms_dashboard_widget_data filter.
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
