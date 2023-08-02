@@ -45,36 +45,46 @@ defined( 'ABSPATH' ) || exit;
 							)
 						),
 						'widget_data' => array(
-							apply_filters( 'llms_dashboard_widget_data', array(
-								'enrollments'       => array(
-									'title'   => __( 'Enrollments', 'lifterlms' ),
-									'cols'    => '1-4',
-									'content' => __( 'loading...', 'lifterlms' ),
-									'info'    => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
-									'link'    => admin_url( 'admin.php?page=llms-reporting&tab=enrollments' ),
-								),
-								'registrations'     => array(
-									'title'   => __( 'Registrations', 'lifterlms' ),
-									'cols'    => '1-4',
-									'content' => __( 'loading...', 'lifterlms' ),
-									'info'    => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
-									'link'    => admin_url( 'admin.php?page=llms-reporting&tab=students' ),
-								),
-								'sold'              => array(
-									'title'   => __( 'Net Sales', 'lifterlms' ),
-									'cols'    => '1-4',
-									'content' => __( 'loading...', 'lifterlms' ),
-									'info'    => __( 'Total of all successful transactions during this period', 'lifterlms' ),
-									'link'    => admin_url( 'admin.php?page=llms-reporting&tab=sales' ),
-								),
-								'lessoncompletions' => array(
-									'title'   => __( 'Lessons Completed', 'lifterlms' ),
-									'cols'    => '1-4',
-									'content' => __( 'loading...', 'lifterlms' ),
-									'info'    => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
-									'link'    => admin_url( 'admin.php?page=llms-reporting&tab=courses' ),
-								),
-							) ),
+							apply_filters(
+								/**
+								 * Filters the dashboard widget data.
+								 *
+								 * @since [version]
+								 *
+								 * @param array $widget_data Array of data that will feed the dashboard widget.
+								 */
+								'llms_dashboard_widget_data',
+								array(
+									'enrollments'       => array(
+										'title'   => __( 'Enrollments', 'lifterlms' ),
+										'cols'    => '1-4',
+										'content' => __( 'loading...', 'lifterlms' ),
+										'info'    => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+										'link'    => admin_url( 'admin.php?page=llms-reporting&tab=enrollments' ),
+									),
+									'registrations'     => array(
+										'title'   => __( 'Registrations', 'lifterlms' ),
+										'cols'    => '1-4',
+										'content' => __( 'loading...', 'lifterlms' ),
+										'info'    => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+										'link'    => admin_url( 'admin.php?page=llms-reporting&tab=students' ),
+									),
+									'sold'              => array(
+										'title'   => __( 'Net Sales', 'lifterlms' ),
+										'cols'    => '1-4',
+										'content' => __( 'loading...', 'lifterlms' ),
+										'info'    => __( 'Total of all successful transactions during this period', 'lifterlms' ),
+										'link'    => admin_url( 'admin.php?page=llms-reporting&tab=sales' ),
+									),
+									'lessoncompletions' => array(
+										'title'   => __( 'Lessons Completed', 'lifterlms' ),
+										'cols'    => '1-4',
+										'content' => __( 'loading...', 'lifterlms' ),
+										'info'    => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
+										'link'    => admin_url( 'admin.php?page=llms-reporting&tab=courses' ),
+									),
+								)
+							),
 						),
 					)
 				);
