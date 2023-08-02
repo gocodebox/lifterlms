@@ -72,8 +72,6 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 				<?php if ( $quiz->is_open() ) : ?>
 
-					<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo $lesson->get( 'id' ); ?>"/>
-					<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo $quiz->get( 'id' ); ?>"/>
 					<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $quiz->get_last_quiz_attempt_key(); ?>"/>
 
 					<input type="hidden" name="action" value="llms_resume_quiz" />

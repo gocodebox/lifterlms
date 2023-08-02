@@ -84,7 +84,8 @@ define( [
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
+		 * @since 3.16.0
+		 * @since [version] What I did.
 		 * @version  3.16.0
 		 */
 		render: function() {

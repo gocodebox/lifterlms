@@ -81,7 +81,7 @@
 
 		/**
 		 * Records if the quiz can be resumed.
-		*/
+		 */
 		resumable: null,
 
 		/**
@@ -417,7 +417,8 @@
 		 * Start or Resumes a Quiz via AJAX call.
 		 *
 		 * @return   void
-		 * @since    [version]
+         * @since 3.16.0
+		 * @since [version] What what done.
 		 * @version  3.24.3
 		 */
 		start_quiz: function ( action ) {
@@ -465,11 +466,7 @@
 				beforeSend: function() {
 
 					self.status = true;
-					if( 'quiz_resume' === action ) {
-						$( '#llms-quiz-wrapper, #quiz-start-button', '#quiz-resume-button' ).remove();
-					} else {
-						$( '#llms-quiz-wrapper, #quiz-start-button' ).remove();
-					}
+					$( '#llms-quiz-wrapper, #quiz-start-button, #quiz-resume-button' ).remove();
 					$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
 					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Quiz...' ) );
 
