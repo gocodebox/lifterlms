@@ -135,8 +135,35 @@ class LLMS_Admin_Notifications {
 				unset( $notifications[ $key ] );
 			}
 
+			$allowed_html = array (
+				'a'      => array (
+					'class'  => array(),
+					'href'   => array(),
+					'target' => array(),
+					'title'  => array(),
+				),
+				'button' => array (
+					'class'  => array(),
+				),
+				'div'    => array(
+					'class' => array(),
+				),
+				'p'      => array(
+					'class' => array(),
+				),
+				'b'      => array(
+					'class' => array(),
+				),
+				'em'     => array(
+					'class' => array(),
+				),
+				'br'     => array(),
+				'strike' => array(),
+				'strong' => array(),
+			);
+
 			// Map properties.
-			$notification->html        = wp_kses_post( $notification->content ?? '' );
+			$notification->html        = wp_kses( $notification->content ?? '', $allowed_html );
 			$notification->icon        = $notification->icon ?? $notification->dashicon ?? 'lifterlms';
 			$notification->dismiss_url = wp_nonce_url(
 				add_query_arg( 'llms_admin_notification_pause', $notification->id ),
@@ -197,6 +224,20 @@ class LLMS_Admin_Notifications {
 			$notifications,
 			static fn( stdClass $notification ): bool => ! isset( $archived[ $notification->id ] )
 		);
+
+		$max_priority = (int) get_option( 'lifterlms_max_notifications_priority', 5 );
+
+		foreach ( $notifications as $key => $notification ) {
+			$priority = (int) $notification->priority ?? 5;
+
+			if ( $priority > 5 ) {
+				$notification->priority = 5;
+			}
+
+			if ( $priority > $max_priority ) {
+				unset( $notifications[ $key ] );
+			}
+		}
 
 		usort(
 			$notifications,
