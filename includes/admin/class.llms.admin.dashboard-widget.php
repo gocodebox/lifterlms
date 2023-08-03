@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.2.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,10 +32,16 @@ class LLMS_Admin_Dashboard_Widget {
 	 * Add the dashboard widget.
 	 *
 	 * @since 7.2.0
+	 * @since [version] Add dashboard widget only if the current user can `manage_lifterlms`.
 	 *
 	 * @return void
 	 */
 	public function add_dashboard_widget() {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return;
+		}
+
 		wp_add_dashboard_widget(
 			'llms_dashboard_widget',
 			'LifterLMS ' . __( 'Quick Links', 'lifterlms' ),
