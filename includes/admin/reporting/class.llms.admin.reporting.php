@@ -502,17 +502,19 @@ class LLMS_Admin_Reporting {
 		// Adds a percentage symbol after data.
 		$data_after = 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ? '<sup>%</sup>' : '';
 
-		$change           = false;
-		$compare_operator = '';
-		$compare_class    = '';
-		$compare_title    = '';
+		$change             = false;
+		$compare_operator   = '';
+		$compare_class      = '';
+		$compare_title      = '';
+		$floating_precision = llms_get_floats_rounding_precision();
+
 		if ( $can_compare && $args['data_compare'] && floatval( $args['data'] ) ) {
-			$change           = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+			$change           = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, $floating_precision );
 			$compare_operator = ( $change <= 0 ) ? '' : '+';
 			$compare_title    = sprintf(
 				// Translators: %s = The value of the data from the previous data set.
 				esc_attr__( 'Previously %s', 'lifterlms' ),
-				$args['data_compare'] . wp_strip_all_tags( $data_after )
+				round( $args['data_compare'], $floating_precision ) . wp_strip_all_tags( $data_after )
 			);
 
 			$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
@@ -521,9 +523,9 @@ class LLMS_Admin_Reporting {
 			}
 		}
 
-		if ( is_numeric( $args['data'] ) ) {
+		if ( is_numeric( $args['data'] ?? '' ) ) {
 			if ( 'percentage' === $args['data_type'] ) {
-				$args['data'] = round( $args['data'], llms_get_floats_rounding_precision() );
+				$args['data'] = round( $args['data'], $floating_precision );
 			} elseif ( 'monetary' === $args['data_type'] ) {
 				$args['data']         = llms_price( $args['data'] );
 				$args['data_compare'] = llms_price_raw( $args['data_compare'] );
