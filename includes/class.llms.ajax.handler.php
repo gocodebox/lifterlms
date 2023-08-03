@@ -674,7 +674,7 @@ class LLMS_AJAX_Handler {
 			'time_limit'     => $limit,
 			'question_id'    => $question_id,
 			'total'          => $attempt->get_count( 'questions' ),
-			'can_be_resumed' => $quiz->can_be_resumed(),
+			'can_be_resumed' => $attempt->can_be_resumed(),
 		);
 
 	}
@@ -761,7 +761,7 @@ class LLMS_AJAX_Handler {
 				'question_id'    => $question_id,
 				'total'          => $attempt->get_count( 'questions' ),
 				'question_ids'   => $question_ids,
-				'can_be_resumed' => $quiz->can_be_resumed(),
+				'can_be_resumed' => $attempt->can_be_resumed(),
 			);
 
 		} else {

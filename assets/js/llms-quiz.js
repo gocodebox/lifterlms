@@ -100,13 +100,13 @@
 			// Start quiz.
 			$( '#llms_start_quiz' ).on( 'click', function( e ) {
 				e.preventDefault();
-				self.start_quiz( 'quiz_start' );
+				self.start_quiz();
 			} );
 
 			// Resume quiz.
 			$( '#llms_resume_quiz' ).on( 'click', function( e ) {
 				e.preventDefault();
-				self.start_quiz( 'quiz_resume' );
+				self.resume_quiz();
 			} );
 
 			// Draw quiz grade circular chart.
@@ -414,14 +414,38 @@
 		},
 
 		/**
-		 * Start or Resumes a Quiz via AJAX call.
+		 * Start a Quiz.
 		 *
-		 * @return   void
          * @since 3.16.0
-		 * @since [version] What what done.
-		 * @version  3.24.3
+		 * @since [version] Abstracted the function in `init_quiz`.
+		 * 
+		 * @return {Void}
 		 */
-		start_quiz: function ( action ) {
+		start_quiz: function () {
+
+			this.init_quiz( 'quiz_start' );
+		},
+
+		/**
+		 * Resume a Quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		resume_quiz: function () {
+			
+			this.init_quiz( 'quiz_resume' );
+		},
+
+		/**
+		 * Initiate 'Start' or 'Resume' action on a Quiz via AJAX call.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		init_quiz: function ( action ) {
 
 			var self = this;
 
@@ -486,11 +510,8 @@
 
 						if( 'quiz_resume' === action ) {
 							r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
-						} else {
-							// Start the quiz timer when a time limit is set.
-							if ( r.data.time_limit ) {
-								self.start_quiz_timer( r.data.time_limit );
-							}
+						} else if ( r.data.time_limit ) {
+							self.start_quiz_timer( r.data.time_limit );
 						}
 
 						self.load_question( r.data.html );
@@ -525,7 +546,6 @@
 				} );
 
 			}
-
 		},
 
 		/**

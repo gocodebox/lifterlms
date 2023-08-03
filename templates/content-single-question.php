@@ -2,7 +2,7 @@
 /**
  * Single Question Template
  *
- * @since   1.0.0
+ * @since 1.0.0
  * @version [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance

@@ -32,12 +32,10 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 	<?php if ( $quiz ) : ?>
 
-		<?php $start_button_string = $quiz->can_be_resumed() && $quiz->can_be_resumed_by_student() ? __( 'Restart Quiz', 'lifterlms' ) : __( 'Start Quiz', 'lifterlms' ); ?>
+		<?php $start_button_string = $quiz->can_be_resumed_by_student() ? esc_html__( 'Restart Quiz', 'lifterlms' ) : esc_html__( 'Start Quiz', 'lifterlms' ); ?>
 
-		<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
-
-			<?php if ( $quiz->is_open() ) : ?>
-
+		<?php if ( $quiz->is_open() ) : ?>
+			<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
 				<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo $lesson->get( 'id' ); ?>"/>
 				<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo $quiz->get( 'id' ); ?>"/>
 
@@ -56,57 +54,50 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo apply_filters( 'lifterlms_begin_quiz_button_text', $start_button_string, $quiz, $lesson );
+						echo apply_filters( 'lifterlms_begin_quiz_button_text', esc_html( $start_button_string ), $quiz, $lesson );
 					?>
 				</button>
+			</form>
+		<?php else : ?>
+			<p><?php esc_html_e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
+		<?php endif; ?>
 
-			<?php else : ?>
-				<p><?php _e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
-			<?php endif; ?>
-
-		</form>
-
-		<?php if ( $quiz->can_be_resumed() && $quiz->can_be_resumed_by_student() ) : ?>
-
+		<?php if ( $quiz->is_open() && $quiz->can_be_resumed_by_student() ) : ?>
 			<form method="POST" action="" name="llms_resume_quiz" enctype="multipart/form-data">
 
-				<?php if ( $quiz->is_open() ) : ?>
+				<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $quiz->get_student_last_attempt_key(); ?>"/>
 
-					<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $quiz->get_last_quiz_attempt_key(); ?>"/>
+				<input type="hidden" name="action" value="llms_resume_quiz" />
 
-					<input type="hidden" name="action" value="llms_resume_quiz" />
+				<?php wp_nonce_field( 'llms_resume_quiz' ); ?>
 
-					<?php wp_nonce_field( 'llms_resume_quiz' ); ?>
-
-					<button class="llms-resume-quiz-button llms-button-action button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
-						<?php
-							/**
-							 * Filters the quiz resume button text.
-							 *
-							 * @since [version]
-							 *
-							 * @param string      $button_text The resume quiz button text.
-							 * @param LLMS_Quiz   $quiz        The current quiz instance.
-							 * @param LLMS_Lesson $lesson      The parent lesson instance.
-							 */
-							echo esc_html( apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
-						?>
-					</button>
-
-				<?php endif; ?>
+				<button class="llms-resume-quiz-button llms-button-action button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
+					<?php
+						/**
+						 * Filters the quiz resume button text.
+						 *
+						 * @since [version]
+						 *
+						 * @param string      $button_text The resume quiz button text.
+						 * @param LLMS_Quiz   $quiz        The current quiz instance.
+						 * @param LLMS_Lesson $lesson      The parent lesson instance.
+						 */
+						echo esc_html( apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
+					?>
+				</button>
 
 			</form>
 		<?php endif; ?>
 
-		<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
-			<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php _e( 'Next Lesson', 'lifterlms' ); ?></a>
-		<?php endif; ?>
-
 	<?php else : ?>
 
-		<p><?php _e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
+		<p><?php esc_html_e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 
 	<?php endif; ?>
+
+	<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
+		<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
+	<?php endif; ?>	
 
 	<?php
 		/**
