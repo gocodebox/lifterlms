@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -333,6 +333,57 @@ abstract class LLMS_Analytics_Widget {
 			$this->message = $wpdb->last_error;
 
 		}
+
+	}
+
+	/**
+	 * Whether or not the current widget can be processed/displayed.
+	 *
+	 * @since [version]
+	 *
+	 * @return true|WP_Error True if the widget can be processed, `WP_Error` otherwise.
+	 */
+	protected function _can_be_processed() {
+
+		$can_be_processed = true;
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) ) {
+			$can_be_processed = new WP_Error(
+				WP_Http::FORBIDDEN, // 403.
+				esc_html__( 'You are not authorized to access the requested widget', 'lifterlms' )
+			);
+		}
+
+		return $can_be_processed;
+	}
+
+	/**
+	 * Whether or not the current widget can be processed/displayed.
+	 *
+	 * @since [version]
+	 *
+	 * @return true|WP_Error
+	 */
+	public function can_be_processed() {
+
+		$widget_name = str_replace(
+			array( 'llms_analytics_', '_widget' ),
+			'',
+			strtolower( get_class( $this ) )
+		);
+
+		/**
+		 * Whether or not the current widget can be processed/displayed.
+		 *
+		 * @param true|WP_Error         True if the widget can be processed, `WP_Error` otherwise.
+		 * @param string                The widget name
+		 * @param LLMS_Analytics_Widget The instance extending `LLMS_Analytics_Widget`.
+		 */
+		return apply_filters(
+			'llms_can_analytics_widget_be_processed',
+			$this->_can_be_processed(),
+			$widget_name,
+			$this
+		);
 
 	}
 
