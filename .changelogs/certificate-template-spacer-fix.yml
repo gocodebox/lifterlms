@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fix spacer block when creating new certificate templates in WP 6.3.
