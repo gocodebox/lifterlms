@@ -5,7 +5,8 @@
  * @package LifterLMS/Admin/Views/Dashboard
  *
  * @since 7.1.0
- * @version 7.1.0
+ * @since [version] Added `llms_dashboard_checklist` filter.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -57,22 +58,35 @@ defined( 'ABSPATH' ) || exit;
 		if ( $enrollments >= 10 ) {
 			$enrollments_check = true;
 		}
+
+		// Add checklist items to an array so we can filter.
+		$checklist = array();
+		if ( $ap_check ) {
+			$checklist['access_plan'] = '<i class="fa fa-check"></i> ' . esc_html__( 'Create Access Plan', 'lifterlms' );
+		} else {
+			$checklist['access_plan'] = '<i class="fa fa-times"></i> <a href="https://lifterlms.com/docs/what-is-an-access-plan/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Create%20Access%20Plan" target="_blank" rel="noopener">' . esc_html__( 'Create Access Plan', 'lifterlms' ) . '</a>';
+		}
+		if ( $enrollments_check ) {
+			$checklist['enrollments'] = '<i class="fa fa-check"></i> ' . esc_html__( 'Get 10 Enrollments', 'lifterlms' );
+		} else {
+			$checklist['enrollments'] = '<i class="fa fa-times"></i> <a href="https://academy.lifterlms.com/course/enroll/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Get%2010%20Enrollments" target="_blank" rel="noopener">' . esc_html__( 'Get 10 Enrollments', 'lifterlms' ) . '</a>';
+		}
+
+		/**
+		 * Filters the dashboard quick links checklist.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $checklist Dashboard quick links checklist.
+		 */
+		$checklist = apply_filters( 'llms_dashboard_checklist', $checklist );
 		?>
 		<ul class="llms-checklist">
-			<li>
-				<?php if ( $ap_check ) { ?>
-					<i class="fa fa-check"></i> <?php esc_html_e( 'Create Access Plan', 'lifterlms' ); ?>
-				<?php } else { ?>
-					<i class="fa fa-times"></i> <a href="https://lifterlms.com/docs/what-is-an-access-plan/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Create%20Access%20Plan" target="_blank" rel="noopener"><?php esc_html_e( 'Create Access Plan', 'lifterlms' ); ?></a>
-				<?php } ?>
-			</li>
-			<li>
-				<?php if ( $enrollments_check ) { ?>
-					<i class="fa fa-check"></i> <?php esc_html_e( 'Get 10 Enrollments', 'lifterlms' ); ?>
-				<?php } else { ?>
-					<i class="fa fa-times"></i> <a href="https://academy.lifterlms.com/course/enroll/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Dashboard%20Screen&utm_content=Get%2010%20Enrollments" target="_blank" rel="noopener"><?php esc_html_e( 'Get 10 Enrollments', 'lifterlms' ); ?></a>
-				<?php } ?>
-			</li>
+			<?php
+			foreach ( $checklist as $item ) {
+				echo '<li>' . $item . '</li>';
+			}
+			?>
 		</ul>
 		<a class="llms-button-action" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ); ?>"><i class="fa fa-plug" aria-hidden="true"></i> <?php esc_html_e( 'Add Advanced Features', 'lifterlms' ); ?></a>
 	</div>
