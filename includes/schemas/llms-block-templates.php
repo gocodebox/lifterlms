@@ -7,13 +7,15 @@
  * @package LifterLMS/Schemas
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version [version]
  *
  * @see LLMS_Post_Types::get_template().
  * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/
  */
 
 defined( 'ABSPATH' ) || exit;
+
+global $wp_version;
 
 $blocks_styles = array(
 	'certificate' => array(
@@ -68,7 +70,7 @@ $blocks_styles = array(
 			),
 		),
 		'spacer' => array(
-			'height' => 100,
+			'height' => version_compare( $wp_version, '6.3', '>=' ) ? '100px' : 100,
 		),
 	),
 );
