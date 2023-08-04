@@ -1,7 +1,7 @@
 .single-llms_quiz {
-
-	@import "../_includes/quiz-result-question-list";
-
+	#llms-quiz-wrapper {
+		@import "../_includes/quiz-result-question-list";
+	}
 	.llms-return {
 		margin-bottom: 10px;
 	}
@@ -44,8 +44,11 @@
 			}
 			.llms-quiz-results-main,
 			.llms-quiz-results-history {
-				float: left;
+				float: right;
 				width: calc( 100% - 300px );
+			}
+			.llms-quiz-results-history {
+				clear: right;
 			}
 		}
 
