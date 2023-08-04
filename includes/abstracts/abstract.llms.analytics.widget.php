@@ -343,7 +343,7 @@ abstract class LLMS_Analytics_Widget {
 	 *
 	 * @return true|WP_Error True if the widget can be processed, `WP_Error` otherwise.
 	 */
-	protected function _can_be_processed() {
+	protected function _can_be_processed() { // phpcs:ignore -- PSR2.Methods.MethodDeclaration.Underscore.
 
 		$can_be_processed = true;
 		if ( ! current_user_can( 'view_others_lifterlms_reports' ) ) {
@@ -387,6 +387,14 @@ abstract class LLMS_Analytics_Widget {
 
 	}
 
+	/**
+	 * Output widget.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Use `wp_json_encode` in place of the deprecated `json_encode`.
+	 *
+	 * @return void
+	 */
 	public function output() {
 
 		$this->set_query();
@@ -399,7 +407,7 @@ abstract class LLMS_Analytics_Widget {
 		}
 
 		header( 'Content-Type: application/json' );
-		echo json_encode( $this );
+		echo wp_json_encode( $this );
 		wp_die();
 
 	}

@@ -78,7 +78,7 @@ class LLMS_Analytics_Widget_Ajax {
 		$method = str_replace(
 			'llms_widget_',
 			'',
-			sanitize_text_field( wp_unslash( $_REQUEST['action'] ) )
+			sanitize_text_field( wp_unslash( $_REQUEST['action'] ?? '' ) )
 		);
 		$class  = 'LLMS_Analytics_' . ucwords( $method ) . '_Widget';
 
@@ -89,7 +89,7 @@ class LLMS_Analytics_Widget_Ajax {
 		$widget           = new $class();
 		$can_be_processed = $widget->can_be_processed();
 
-		if ( is_wp_error( $can_be_processed) ) {
+		if ( is_wp_error( $can_be_processed ) ) {
 			wp_send_json_error( $can_be_processed );
 			wp_die();
 		}
