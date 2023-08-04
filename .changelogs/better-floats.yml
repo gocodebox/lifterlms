@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Better rounding of float values on some reporting screens.
