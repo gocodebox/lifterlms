@@ -16,7 +16,7 @@ LLMS.Quiz_Attempt = {
 	init: function() {
 
 		$( '.llms-quiz-attempt-question-header a.toggle-answer' ).on( 'click', function( e ) {
-			console.log('what');
+
 			e.preventDefault();
 
 			var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
