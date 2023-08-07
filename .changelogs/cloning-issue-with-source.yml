@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Avoid creating a post revision when cloning a course/lesson.
