@@ -1109,7 +1109,6 @@ class LLMS_Admin_Builder {
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
-
 			}
 
 			// Allow 3rd parties to update custom data.
