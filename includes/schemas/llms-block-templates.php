@@ -70,7 +70,7 @@ $blocks_styles = array(
 			),
 		),
 		'spacer' => array(
-			'height' => version_compare( $wp_version, '6.3', '>=' ) ? '100px' : 100,
+			'height' => version_compare( $wp_version, '6.3-beta2', '>=' ) ? '100px' : 100,
 		),
 	),
 );
