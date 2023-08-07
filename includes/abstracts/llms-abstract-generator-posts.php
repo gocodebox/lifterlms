@@ -176,11 +176,8 @@ abstract class LLMS_Abstract_Generator_Posts {
 			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
 		}
 
-		// Don't create useless creation on "cloning".
-		$revision_creation_hook_priority = has_action( 'post_updated', 'wp_save_post_revision' );
-		if ( $revision_creation_hook_priority ) {
-			remove_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
-		}
+		// Don't create useless revision on "cloning".
+		add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 		// Insert the object.
 		$post = new $class_name(
@@ -218,10 +215,8 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$this->sideload_images( $post, $raw );
 		$this->handle_reusable_blocks( $post, $raw );
 
-		// Re-add revision creation action.
-		if ( $revision_creation_hook_priority ) {
-			add_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
-		}
+		// Remove revision prevention.
+		remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 		return $post;
 

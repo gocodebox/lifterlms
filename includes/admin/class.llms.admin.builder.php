@@ -1055,11 +1055,8 @@ class LLMS_Admin_Builder {
 
 			} else {
 
-				// Don't create useless creation on "cloning".
-				$revision_creation_hook_priority = has_action( 'post_updated', 'wp_save_post_revision' );
-				if ( $revision_creation_hook_priority && $created ) {
-					remove_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
-				}
+				// Don't create useless revision on "creating".
+				add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 				/**
 				 * If the parent section was just created the lesson will have a temp id
@@ -1106,12 +1103,11 @@ class LLMS_Admin_Builder {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
+				// Remove revision prevention.
+				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
+
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
-				}
-
-				if ( $revision_creation_hook_priority && $created ) {
-					add_action( 'post_updated', 'wp_save_post_revision', $revision_creation_hook_priority );
 				}
 
 			}
