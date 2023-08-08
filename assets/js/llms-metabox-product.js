@@ -1,11 +1,12 @@
 /**
- * Product Options MetaBox
- * Displays on Course & Membership Post Types
+ * Product Options MetaBox.
+ *
+ * Displays on Course & Membership Post Types.
  *
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @version 3.36.3
+ * @version 7.3.0
  */
 ( function( $ ) {
 
@@ -43,12 +44,15 @@
 		this.validation_class = 'llms-invalid';
 
 		/**
-		 * Initialize
+		 * Initialize.
 		 *
-		 * @param   bool skip_dep_checks if true, skips dependency checks.
-		 * @return  void
-		 * @since   3.0.0
-		 * @version 3.29.3
+		 * @param bool skip_dep_checks If true, skips dependency checks.
+		 *
+		 * @since 3.0.0
+		 * @since 3.29.3 Unknown.
+		 * @since 7.3.0 Check on whether access plans require attention.
+		 *
+		 * @return {Void}
 		 */
 		this.init = function( skip_dep_checks ) {
 
@@ -63,7 +67,12 @@
 
 			if ( ! $mb.length ) {
 				return;
-			} else if ( skip_dep_checks ) {
+			}
+
+			// Check whether the warning icon should be displayed.
+			self.requiresAttention();
+
+			if ( skip_dep_checks ) {
 				self.bind();
 				return;
 			}
@@ -105,13 +114,12 @@
 		};
 
 		/**
-		 * Bind DOM Events
+		 * Bind DOM Events.
 		 *
-		 * @since  3.0.0
-		 * @since  3.30.0 Add checkout redirect fields events.
-		 * @version 3.30.0
+		 * @since 3.0.0
+		 * @since 3.30.0 Add checkout redirect fields events.
 		 *
-		 * @return void
+		 * @return {Void}
 		 */
 		this.bind = function() {
 
@@ -318,6 +326,24 @@
 			} );
 
 		};
+
+		/**
+		 * Checks whether the access plan requires attention, e.g. because it contains notices.
+		 *
+		 * And if so adds the class `llms-needs-attention` to the access plan.
+		 *
+		 * @since 7.3.0
+		 *
+		 * @return {Void}
+		 */
+		this.requiresAttention = function() {
+			var self = this;
+			self.$plans.find( '.llms-access-plan' ).each(
+				function() {
+					$(this).toggleClass( 'llms-needs-attention', $(this).find('p.notice').length > 0 );
+				}
+			);
+		}
 
 		/**
 		 * Handle physical deletion of a plan element

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 7.2.0
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1002,10 +1002,11 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
-	 * Update lesson from heartbeat data
+	 * Update lesson from heartbeat data.
 	 *
 	 * @since 3.16.0
 	 * @since 5.1.3 Made sure a lesson moved in a just created section is correctly assigned to it.
+	 * @since 7.3.0 Skip revision creation when creating a brand new lesson.
 	 *
 	 * @param array        $lessons Lesson data from heartbeat.
 	 * @param LLMS_Section $section instance of the parent LLMS_Section.
@@ -1054,6 +1055,9 @@ class LLMS_Admin_Builder {
 
 			} else {
 
+				// Don't create useless revision on "creating".
+				add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
+
 				/**
 				 * If the parent section was just created the lesson will have a temp id
 				 * replace it with the newly created section's real ID.
@@ -1098,6 +1102,9 @@ class LLMS_Admin_Builder {
 				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
+
+				// Remove revision prevention.
+				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
