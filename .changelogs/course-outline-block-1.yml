@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Increase maximum number of Courses shown in drop down select to 100.
