@@ -5,8 +5,8 @@
  * @package LifterLMS/Admin/Views/Dashboard
  *
  * @since 7.1.0
- * @since [version] Added `llms_dashboard_checklist` filter.
- * @version [version]
+ * @since 7.3.0 Added `llms_dashboard_checklist` filter.
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,7 +75,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Filters the dashboard quick links checklist.
 		 *
-		 * @since [version]
+		 * @since 7.3.0
 		 *
 		 * @param array $checklist Dashboard quick links checklist.
 		 */

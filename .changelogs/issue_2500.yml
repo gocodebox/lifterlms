@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2500"
-entry: Make the dashboard widget visible only if the current user has LMS
-  Manager capabilities.

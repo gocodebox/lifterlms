@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2496"
-entry: Fixed PHP Warning when no course/membership catalog page was set or if
-  the selected page doesn't exist anymore.

@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-entry: "When creating pages via `llms_create_pages()`: strip all tags from the
-  page title and slash the page data prior to inserting the page in the db via
-  `wp_insert_post()` to prevent slashes from being stripped from the page 
-  title."

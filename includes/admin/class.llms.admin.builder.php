@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1006,7 +1006,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.16.0
 	 * @since 5.1.3 Made sure a lesson moved in a just created section is correctly assigned to it.
-	 * @since [version] Skip revision creation when creating a brand new lesson.
+	 * @since 7.3.0 Skip revision creation when creating a brand new lesson.
 	 *
 	 * @param array        $lessons Lesson data from heartbeat.
 	 * @param LLMS_Section $section instance of the parent LLMS_Section.

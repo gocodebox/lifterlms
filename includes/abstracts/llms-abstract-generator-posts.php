@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 4.7.0
 	 * @since 4.7.1 Set the post's excerpt during the initial insert instead of during metadata updates after creation.
-	 * @since [version] Skip adding the `generated_from_id` meta from the original post: this is the case when cloning a cloned post.
+	 * @since 7.3.0 Skip adding the `generated_from_id` meta from the original post: this is the case when cloning a cloned post.
 	 *              Also skip creating revisions.
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.

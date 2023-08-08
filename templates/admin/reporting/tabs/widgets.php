@@ -6,8 +6,8 @@
  *
  * @since Unknown
  * @since 7.2.0 Add content tag param to widget options.
- * @since [version] Escape output.
- * @version [version]
+ * @since 7.3.0 Escape output.
+ * @version 7.3.0
  *
  * @param array $widget_data Array of widget data to display.
  */

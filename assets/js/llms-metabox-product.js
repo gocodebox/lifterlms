@@ -6,7 +6,7 @@
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @version [version]
+ * @version 7.3.0
  */
 ( function( $ ) {
 
@@ -50,7 +50,7 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.29.3 Unknown.
-		 * @since [version] Check on whether access plans require attention.
+		 * @since 7.3.0 Check on whether access plans require attention.
 		 *
 		 * @return {Void}
 		 */
@@ -332,7 +332,7 @@
 		 *
 		 * And if so adds the class `llms-needs-attention` to the access plan.
 		 *
-		 * @since [version]
+		 * @since 7.3.0
 		 *
 		 * @return {Void}
 		 */

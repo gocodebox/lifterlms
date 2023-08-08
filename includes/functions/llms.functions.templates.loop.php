@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,7 +36,7 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 	 * @since 4.10.0 Moved from `lifterlms_archive_description()`.
 	 *               Adjusted filter `llms_archive_description` to always run instead of only running if content exists to display,
 	 *               this allows developers to filter the content even when an empty string is returned.
-	 * @since [version] Fixed PHP Warning when no course/membership catalog page was set or if the
+	 * @since 7.3.0 Fixed PHP Warning when no course/membership catalog page was set or if the
 	 *               selected page doesn't exist anymore.
 	 *
 	 * @return string

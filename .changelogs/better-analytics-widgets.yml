@@ -1,4 +1,0 @@
-significance: minor
-type: changed
-entry: Made sure only who can `view_others_lifterlms_reports` will be able to
-  see the analytics widget content in the WordPress admin.

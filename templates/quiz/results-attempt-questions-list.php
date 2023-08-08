@@ -5,8 +5,8 @@
  * @since 3.16.0
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
- * @since [version] Script moved into the main llms.js.
- * @version [version]
+ * @since 7.3.0 Script moved into the main llms.js.
+ * @version 7.3.0
  *
  * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  */
