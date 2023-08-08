@@ -1,7 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#2470"
-entry: Improved compatibility with the Divi theme by fixing an issue with the
-  quiz attempt result clarifications not being visible when the Divi
-  option `Defer jQuery And jQuery Migrate` was enabled.

@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Added new public static method
-  `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()`.

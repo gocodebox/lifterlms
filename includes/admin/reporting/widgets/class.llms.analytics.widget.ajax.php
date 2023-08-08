@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 * @since 3.16.8 Unknown.
 	 * @since 3.35.0 Sanitize `$_REQUEST` data.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since [version] Ajax calls are now handled by `LLMS_Analytics_Widget_Ajax::handle()` method.
+	 * @since 7.3.0 Ajax calls are now handled by `LLMS_Analytics_Widget_Ajax::handle()` method.
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Analytics_Widget_Ajax {
 	/**
 	 * Handles the AJAX request.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return void
 	 */

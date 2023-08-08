@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-entry: Added new filter hook `llms_can_analytics_widget_be_processed`
-  that will allow to filter wheteher or not an analytics widgegt can 
-  be processed/disoplayed.

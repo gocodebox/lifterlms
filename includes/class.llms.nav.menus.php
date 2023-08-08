@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Nav_Menus {
 	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
 	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
 	 * @since 7.2.0 Add navigation link block and enqueue block editor assets.
-	 * @since [version] Change `render_block_llms/navigation-link` to `render_block` for compatibility with LLMS block visibility.
+	 * @since 7.3.0 Change `render_block_llms/navigation-link` to `render_block` for compatibility with LLMS block visibility.
 	 *
 	 * @return void
 	 */
@@ -374,7 +374,7 @@ class LLMS_Nav_Menus {
 	 * Render the navigation link block.
 	 *
 	 * @since 7.2.0
-	 * @since [version] Add block name check since filter changed.
+	 * @since 7.3.0 Add block name check since filter changed.
 	 *
 	 * @param string $block_content Block content.
 	 * @param array  $block Block data.

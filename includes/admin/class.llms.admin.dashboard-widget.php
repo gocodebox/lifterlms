@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.2.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Admin_Dashboard_Widget {
 	 * Add the dashboard widget.
 	 *
 	 * @since 7.2.0
-	 * @since [version] Add dashboard widget only if the current user can `manage_lifterlms`.
+	 * @since 7.3.0 Add dashboard widget only if the current user can `manage_lifterlms`.
 	 *
 	 * @return void
 	 */
@@ -178,7 +178,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Get dashboard widget data.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return array $widget_data Array of data that will feed the dashboard widget.
 	 */
@@ -187,7 +187,7 @@ class LLMS_Admin_Dashboard_Widget {
 			/**
 			 * Filters the dashboard widget data.
 			 *
-			 * @since [version]
+			 * @since 7.3.0
 			 *
 			 * @param array $widget_data Array of data that will feed the dashboard widget.
 			 */

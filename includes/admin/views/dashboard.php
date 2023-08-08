@@ -5,8 +5,8 @@
  * @package LifterLMS/Admin/Views
  *
  * @since 7.1.0
- * @since [version] Leverage new `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()` method.
- * @version [version]
+ * @since 7.3.0 Leverage new `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()` method.
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -344,7 +344,7 @@ class LLMS_Admin_Reporting {
 	 * within the view.
 	 *
 	 * @since 3.19.4
-	 * @since [version] Use `in_array()` with strict type comparison.
+	 * @since 7.3.0 Use `in_array()` with strict type comparison.
 	 *
 	 * @param string $tab ID/slug of the tab.
 	 * @return string
@@ -362,7 +362,7 @@ class LLMS_Admin_Reporting {
 		 * Filters the WP capability required to access a reporting tab.
 		 *
 		 * @since 3.19.4
-		 * @since [version] Added the `$tab` parameter.
+		 * @since 7.3.0 Added the `$tab` parameter.
 		 *
 		 * @param string      $cap The required WP capability.
 		 * @param string|null $tab ID/slug of the tab.
@@ -468,7 +468,7 @@ class LLMS_Admin_Reporting {
 	 * @since 6.11.0 Moved HTML into a view file.
 	 *               Fixed division by zero error encountered during data comparisons when `$data` is `0`.
 	 *               Added a check to ensure only numeric, monetary, or percentage data types will generate comparison data.
-	 * @since [version] Better rounding of float values of percentage data types.
+	 * @since 7.3.0 Better rounding of float values of percentage data types.
 	 *
 	 * @param array $args {
 	 *    Array of widget options and data to be displayed.

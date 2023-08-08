@@ -1,13 +1,13 @@
 === LifterLMS - WordPress LMS Plugin for eLearning ===
-Contributors: thomasplevy, chrisbadgett, d4z_c0nf, pondermatic, nrherron, lifterlms, codeboxllc
+Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, blockify, actuallyakash, codeboxllc
 Donate link: https://lifterlms.com/
 Tags: course, elearning, learning management system, online courses, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 7.2.1
+Stable tag: 7.3.0
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,44 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.3.0 - 2023-08-08 =
+
+##### Updates and Enhancements
+
++ When a notice is shown for an access plan on the course edit screen (e.g. When using the WooCommerce integration and no product has been associated to the access plan.) Also display a warning icon next to the access plan title.
++ Made sure only who can `view_others_lifterlms_reports` will be able to see the analytics widget content in the WordPress admin.
++ Better rounding of float values on some reporting screens.
++ Avoid creating a post revision when cloning a course/lesson.
++ When creating pages via `llms_create_pages()`: strip all tags from the page title and slash the page data prior to inserting the page in the db via `wp_insert_post()` to prevent slashes from being stripped from the page title.
++ Updated the WordPress tested version up to 6.3.
++ Improved compatibility with the Divi theme by fixing an issue with the quiz attempt result clarifications not being visible when the Divi option `Defer jQuery And jQuery Migrate` was enabled. [#2470](https://github.com/gocodebox/lifterlms/issues/2470)
+
+##### Bug Fixes
+
++ Fix spacer block when creating new certificate templates in WP 6.3.
++ Fixed PHP Warning when no course/membership catalog page was set or if the selected page doesn't exist anymore. [#2496](https://github.com/gocodebox/lifterlms/issues/2496)
++ Don't include WordPress default sidebar.php template when using a block theme. [#2488](https://github.com/gocodebox/lifterlms/issues/2488)
++ Updated Kazakhstani Tenge's currency symbol. [#2475](https://github.com/gocodebox/lifterlms/issues/2475)
++ Make the dashboard widget visible only if the current user has LMS Manager capabilities. [#2500](https://github.com/gocodebox/lifterlms/issues/2500)
++ Fixed issue with LifterLMS Navigation Link block and block visibility settings. [#2474](https://github.com/gocodebox/lifterlms/issues/2474)
++ Use student dashboard as default value for navigation link block. [#2465](https://github.com/gocodebox/lifterlms/issues/2465)
++ Fixed typo in a function name that could potentially produce a fatal. Thanks [@kamalahmed](https://github.com/kamalahmed)!
+
+##### Developer Notes
+
++ Added the parameter `$tab` (ID/slug of the tab) to the `lifterlms_reporting_tab_cap` filter hook. Thanks [@sapayth](https://github.com/sapayth)! [#2468](https://github.com/gocodebox/lifterlms/issues/2468)
++ Added new filter hook `llms_can_analytics_widget_be_processed` that will allow to filter wheteher or not an analytics widgegt can be processed/disoplayed.
++ Added new filter `llms_install_get_pages`.
++ Added new public static method `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()`.
++ Added `llms_dashboard_checklist` and `llms_dashboard_widget_data` filters to adjust dashboard content. [#2491](https://github.com/gocodebox/lifterlms/issues/2491)
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/global/sidebar.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/global/sidebar.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/quiz/results-attempt-questions-list.php)
+
+
 = v7.2.1 - 2023-06-13 =
 
 ##### Updates and Enhancements
@@ -768,18 +806,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-gateways.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-switch-source.php)
 + [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/myaccount/view-order-actions.php)
-
-
-= v6.11.0 - 2022-09-22 =
-
-##### Updates and Enhancements
-
-+ Since version 6.0.0, the Certificate Title Block provided the option to use four Google-hosted fonts. These fonts will now be served from the site's server in favor of serving them from the Google Fonts CDN. For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/. If you wish to continue loading fonts from Google's CDN, add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`. [#2189](https://github.com/gocodebox/lifterlms/issues/2189)
-+ Upgraded included library, `@woocommerce/action-scheduler`, to version [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
-
-##### Bug Fixes
-
-+ Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

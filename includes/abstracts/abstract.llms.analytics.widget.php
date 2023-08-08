@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -339,7 +339,7 @@ abstract class LLMS_Analytics_Widget {
 	/**
 	 * Whether or not the current widget can be processed/displayed.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return true|WP_Error True if the widget can be processed, `WP_Error` otherwise.
 	 */
@@ -359,7 +359,7 @@ abstract class LLMS_Analytics_Widget {
 	/**
 	 * Whether or not the current widget can be processed/displayed.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return true|WP_Error
 	 */
@@ -391,7 +391,7 @@ abstract class LLMS_Analytics_Widget {
 	 * Output widget.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `wp_json_encode` in place of the deprecated `json_encode`.
+	 * @since 7.3.0 Use `wp_json_encode` in place of the deprecated `json_encode`.
 	 *
 	 * @return void
 	 */

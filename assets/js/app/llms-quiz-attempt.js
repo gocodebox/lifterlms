@@ -3,8 +3,8 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since [version]
- * @version [version]
+ * @since 7.3.0
+ * @version 7.3.0
  */
 
 LLMS.Quiz_Attempt = {

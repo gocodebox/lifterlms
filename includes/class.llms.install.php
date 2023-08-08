@@ -239,7 +239,7 @@ class LLMS_Install {
 	/**
 	 * Get array of essential starter pages.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return array
 	 */
@@ -251,7 +251,7 @@ class LLMS_Install {
 		 * All these pages, as long as their `docs_url`, `description` and `wizard_title`
 		 * fields are defined, are going to be shown in the Setup Wizard.
 		 *
-		 * @since [version]
+		 * @since 7.3.0
 		 *
 		 * @param array $pages A multidimensional array defining the essential starter pages.
 		 */
@@ -303,7 +303,7 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Using `$this->get_pages()` method now.
+	 * @since 7.3.0 Using `$this->get_pages()` method now.
 	 *
 	 * @return boolean False on error, true on success.
 	 */
