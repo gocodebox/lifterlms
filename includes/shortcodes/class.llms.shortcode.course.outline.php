@@ -99,11 +99,13 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
 		// Show the first course when in Editor if none selected.
 		if ( ! $id && llms_is_editor_block_rendering() ) {
-			$courses = get_posts( array(
-				'post_type'      => 'course',
-				'posts_per_page' => 1,
-				'post_status'    => 'publish',
-			) );
+			$courses = get_posts(
+				array(
+					'post_type'      => 'course',
+					'posts_per_page' => 1,
+					'post_status'    => 'publish',
+				)
+			);
 
 			if ( $courses ) {
 				$id = $courses[0]->ID;
