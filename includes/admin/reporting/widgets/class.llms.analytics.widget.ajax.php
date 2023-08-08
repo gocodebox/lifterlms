@@ -25,7 +25,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 * @since 3.16.8 Unknown.
 	 * @since 3.35.0 Sanitize `$_REQUEST` data.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since [version] Ajax call are now handled by `LLMS_Analytics_Widget_Ajax::handle()` method.
+	 * @since [version] Ajax calls are now handled by `LLMS_Analytics_Widget_Ajax::handle()` method.
 	 *
 	 * @return void
 	 */

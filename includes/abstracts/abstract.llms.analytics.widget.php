@@ -375,7 +375,7 @@ abstract class LLMS_Analytics_Widget {
 		 * Whether or not the current widget can be processed/displayed.
 		 *
 		 * @param true|WP_Error         True if the widget can be processed, `WP_Error` otherwise.
-		 * @param string                The widget name
+		 * @param string                The widget name.
 		 * @param LLMS_Analytics_Widget The instance extending `LLMS_Analytics_Widget`.
 		 */
 		return apply_filters(

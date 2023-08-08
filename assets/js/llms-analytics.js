@@ -199,9 +199,7 @@
 			var self = this;
 
 			this.$widgets.each( function() {
-				console.log($(this));
 				self.load_widget( $( this ) );
-
 			} );
 
 		};
