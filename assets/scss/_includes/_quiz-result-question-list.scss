@@ -7,7 +7,7 @@
 		background: #efefef;
 		margin: 0 0 10px;
 		position: relative;
-
+		list-style-type: none;
 		.toggle-answer {
 			@include clearfix();
 			color: inherit;
