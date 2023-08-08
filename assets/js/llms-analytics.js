@@ -7,23 +7,28 @@
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
  * @since 4.3.3 Legends will automatically display on top of the chart.
  * @since 4.5.1 Show sales reporting currency symbol based on LifterLMS site options.
- * @version 7.2.0
+ * @version [version]
  *
  */( function( $, undefined ) {
 
 	window.llms = window.llms || {};
 
 	/**
-	 * LifterLMS Admin Analytics
+	 * LifterLMS Admin Analytics.
 	 *
 	 * @since 3.0.0
 	 * @since 3.5.0 Unknown
 	 * @since 4.5.1 Added `opts` parameter.
+	 * @since [verison] Early bail if no `#llms-analytics-json` is available.
 	 *
 	 * @param {Object} options Options object.
 	 * @return {Object} Class instance.
 	 */
 	var Analytics = function( opts ) {
+
+		if ( ! $( '#llms-analytics-json' ).length ) {
+			return;
+		}
 
 		this.charts_loaded = false;
 		this.data          = {};
@@ -55,13 +60,13 @@
 		};
 
 		/**
-		 * Bind DOM events
+		 * Bind DOM events.
 		 *
 		 * @since 3.0.0
 		 * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
 		 * @since 7.2.0 Added check for datepicker before initializing.
 		 *
-		 * @return void
+		 * @return {Void}
 		 */
 		this.bind = function() {
 
@@ -194,21 +199,20 @@
 			var self = this;
 
 			this.$widgets.each( function() {
-
 				self.load_widget( $( this ) );
-
 			} );
 
 		};
 
 		/**
-		 * Load a specific widget
+		 * Load a specific widget.
 		 *
 		 * @since 3.0.0
 		 * @since 7.2.0 Change h1 tag to .llms-widget-content.
+		 * @since [version] Append `_ajax_nonce` to the ajax data packet.
 		 *
-		 * @param obj $widget The jQuery selector of the widget element.
-		 * @return void
+		 * @param {Object} $widget The jQuery selector of the widget element.
+		 * @return {Void}
 		 */
 		this.load_widget = function( $widget ) {
 
@@ -229,6 +233,7 @@
 					courses: self.query.current_courses,
 					memberships: self.query.current_memberships,
 					students: self.query.current_students,
+					_ajax_nonce: window.llms.ajax_nonce,
 				},
 				method: 'POST',
 				timeout: self.timeout,
