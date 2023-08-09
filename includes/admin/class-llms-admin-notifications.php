@@ -25,37 +25,32 @@ class LLMS_Admin_Notifications {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'current_screen', [ $this, 'show_notifications' ] );
-		add_action( 'current_screen', [ $this, 'dismiss_notification' ], 11 );
+		add_action( 'wp_ajax_llms_dismiss_notification', [ $this, 'dismiss_notification' ] );
+		add_action( 'wp_ajax_llms_show_notification', [ $this, 'show_notification' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ] );
 	}
 
 	/**
-	 * AJAX callback to check and display notifications.
-	 *
-	 * Checks permissions, retrieves the next notification, checks if notifications are paused,
-	 * and finally, outputs the next notification if one is available.
+	 * Enqueue admin scripts.
 	 *
 	 * @since [version]
 	 *
-	 * @param WP_Screen $current_screen WP_Screen instance.
 	 * @return void
 	 */
-	public function show_notifications( WP_Screen $current_screen ): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
+	public function admin_scripts() {
+		$handle = 'llms-admin-notifications';
 
-		if ( ! str_contains( $current_screen->base, 'llms' ) && ! str_contains( $current_screen->id, 'llms' ) ) {
-			return;
-		}
+		llms()->assets->enqueue_script( $handle );
 
-		$notification = $this->get_next_notification();
-
-		if ( null === $notification || $this->is_paused() ) {
-			return;
-		}
-
-		$this->display_notification( $notification );
+		wp_localize_script(
+			$handle,
+			'llmsAdminNotifications',
+			[
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'llms_admin_notification_nonce' ),
+				'paused'  => $this->is_paused() ? 'true' : 'false',
+			]
+		);
 	}
 
 	/**
@@ -69,21 +64,71 @@ class LLMS_Admin_Notifications {
 	 * @return void
 	 */
 	public function dismiss_notification(): void {
-		if ( ! wp_verify_nonce( llms_filter_input( INPUT_GET, 'llms_admin_notification_nonce' ), 'llms_admin_notification_nonce' ) ) {
-			return;
+		if ( ! wp_verify_nonce( llms_filter_input( INPUT_POST, 'nonce' ), 'llms_admin_notification_nonce' ) ) {
+			wp_send_json_error( __( 'Invalid nonce.', 'lifterlms' ) );
 		}
 
-		$id = llms_filter_input( INPUT_GET, 'llms_admin_notification_pause', FILTER_SANITIZE_NUMBER_INT );
+		$id = llms_filter_input( INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! $id ) {
-			return;
+			wp_send_json_error( __( 'Invalid notification ID.', 'lifterlms' ) );
 		}
 
-		$current_user    = get_current_user_id();
+		$current_user = get_current_user_id();
+
+		if ( ! $current_user ) {
+			wp_send_json_error( __( 'Invalid user.', 'lifterlms' ) );
+		}
+
 		$archived        = $this->get_archived_notifications();
 		$archived[ $id ] = date_i18n( 'c' );
 
 		update_user_meta( $current_user, 'llms_archived_notifications', $archived );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * AJAX callback to check and display notifications.
+	 *
+	 * Checks permissions, retrieves the next notification, checks if notifications are paused,
+	 * and finally, outputs the next notification if one is available.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function show_notification(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You do not have permission to view notifications.', 'lifterlms' ) );
+		}
+
+		$nonce = llms_filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
+
+		if ( ! wp_verify_nonce( $nonce, 'llms_admin_notification_nonce' ) ) {
+			wp_send_json_error( __( 'Invalid nonce.', 'lifterlms' ) );
+		}
+
+		$notification = $this->get_next_notification();
+
+		if ( null === $notification ) {
+			wp_send_json_error( __( 'No notifications available.', 'lifterlms' ) );
+		}
+
+		$html = $this->display_notification( $notification );
+
+		if ( ! $html ) {
+			wp_send_json_error( __( 'An error occurred while displaying the notification.', 'lifterlms' ) );
+		} else {
+
+			$html = str_replace(
+				array( "\n", "\r", "\t" ),
+				array( '', '', '' ),
+				$html
+			);
+
+			wp_send_json_success( $html );
+		}
 	}
 
 	/**
@@ -124,13 +169,19 @@ class LLMS_Admin_Notifications {
 	private function get_notifications(): array {
 		$name          = 'llms_notificiations_' . llms()->version;
 		$notifications = get_transient( $name );
+		$debug_id      = $this->get_debug_id();
 
-		if ( ! $notifications || $this->get_debug_id() ) {
+		if ( ! $notifications || $debug_id ) {
 			$notifications = $this->fetch_notifications();
+
 			set_transient( $name, $notifications, DAY_IN_SECONDS );
 		}
 
 		foreach ( $notifications as $key => $notification ) {
+			if ( $debug_id && $notification->id === $debug_id ) {
+				return [ $notification ];
+			}
+
 			if ( ! $this->is_applicable( $notification ) ) {
 				unset( $notifications[ $key ] );
 			}
@@ -165,11 +216,7 @@ class LLMS_Admin_Notifications {
 			// Map properties.
 			$notification->html        = wp_kses( $notification->content ?? '', $allowed_html );
 			$notification->icon        = $notification->icon ?? $notification->dashicon ?? 'lifterlms';
-			$notification->dismiss_url = wp_nonce_url(
-				add_query_arg( 'llms_admin_notification_pause', $notification->id ),
-				'llms_admin_notification_nonce',
-				'llms_admin_notification_nonce'
-			);
+			$notification->dismiss_url = '';
 
 			if ( ( $notification->type ?? '' ) === 'general' ) {
 				$notification->type = 'info';
@@ -253,10 +300,14 @@ class LLMS_Admin_Notifications {
 	 * @since [version]
 	 *
 	 * @param object $notification The notification object.
-	 * @return void
+	 * @return string
 	 */
-	private function display_notification( object $notification ): void {
+	private function display_notification( object $notification ): string {
+		ob_start();
+
 		llms_get_template( 'admin/notices/notice.php', (array) $notification );
+
+		return ob_get_clean();
 	}
 
 	/**

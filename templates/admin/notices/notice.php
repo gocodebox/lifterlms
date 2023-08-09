@@ -42,7 +42,7 @@ $remindable    = $remindable ?? false;
 $remind_url    = $remind_url ?? null;
 
 ?>
-<div class="notice notice-<?php echo esc_attr( $type ); ?> llms-admin-notice" id="llms-notice<?php echo absint( $id ); ?>" style="position:relative;">
+<div class="notice notice-<?php echo esc_attr( $type ); ?> llms-admin-notice" id="llms-notice-<?php echo absint( $id ); ?>" style="position:relative;">
 	<div class="llms-admin-notice-icon">
 		<?php if ( 'lifterlms' === $icon ) : ?>
 			<div class="llms-admin-notice-lifterlms-icon">
@@ -61,7 +61,7 @@ $remind_url    = $remind_url ?? null;
 
 	<div class="llms-admin-notice-content">
 		<?php if ( $dismissible ) : ?>
-			<a class="notice-dismiss" href="<?php echo esc_url( $dismiss_url ); ?>">
+			<a class="notice-dismiss" <?php echo $dismiss_url ? 'href="' . esc_url( $dismiss_url ) . '"' : ''; ?>>
 				<span class="screen-reader-text"><?php esc_html_e( 'Dismiss', 'lifterlms' ); ?></span>
 			</a>
 		<?php endif; ?>

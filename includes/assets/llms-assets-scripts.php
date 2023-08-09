@@ -70,6 +70,11 @@ return array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
+	'llms-admin-notifications'      => array(
+		'asset_file' => true,
+		'suffix'     => '',
+		'dependencies' => array( 'jquery' ),
+	),
 
 	// Modules.
 	'llms-components'               => array(
