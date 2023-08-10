@@ -50,8 +50,7 @@ class LLMS_Tracker {
 	 * @since 3.0.0
 	 * @since [version] Fix return type.
 	 *
-	 * @param boolean $force Force send regardless or the last send time
-	 *
+	 * @param boolean $force Force send regardless or the last send time.
 	 * @return array|WP_Error|void
 	 */
 	public static function send_data( $force = false ) {
