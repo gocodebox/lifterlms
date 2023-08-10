@@ -125,9 +125,10 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since 4.8.0
 	 *
+	 * @param array $course Importable course data array.
 	 * @return void
 	 */
-	public function output_after_importable_course(): void {
+	public function output_after_importable_course( array $course ): void {
 		echo '</label>';
 	}
 
