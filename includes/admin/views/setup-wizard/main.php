@@ -7,6 +7,7 @@
  * @since 4.4.4
  * @since 4.8.0 Unknown.
  * @since [version] Escape output.
+ * @version [version]
  *
  * @property string[]                $steps     Array of setup wizard steps.
  * @property string                  $current   Slug of the current step.
@@ -61,7 +62,9 @@ defined( 'ABSPATH' ) || exit;
 						<?php endif; ?>
 
 						<?php if ( 'finish' === $current ) : ?>
-							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large"><?php esc_html_e( 'Start from Scratch', 'lifterlms' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large">
+								<?php esc_html_e( 'Start from Scratch', 'lifterlms' ); ?>
+							</a>
 						<?php endif; ?>
 
 						<button class="llms-button-primary large" type="submit" id="llms-setup-submit">

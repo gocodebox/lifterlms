@@ -4,7 +4,9 @@
  *
  * @package LifterLMS/Views/Admin/SetupWizard
  *
- * @since   4.4.4
+ * @since 4.4.4
+ * @since 4.8.0 Unknown.
+ * @since [version] Escape output.
  * @version [version]
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
@@ -32,7 +34,7 @@ $courses = LLMS_Export_API::list( 1, 3 );
 		<?php
 		printf(
 			// Translators: %s = anchor link to LifterLMS.com.
-			__( 'The selected course will be downloaded and imported into this site from %s.', 'lifterlms' ),
+			esc_html__( 'The selected course will be downloaded and imported into this site from %s.', 'lifterlms' ),
 			'<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Home" target="_blank">LifterLMS.com</a>'
 		);
 		?>
@@ -41,7 +43,7 @@ $courses = LLMS_Export_API::list( 1, 3 );
 		<?php
 		printf(
 			// Translators: %1$s = The number of selected courses; %2$s = anchor link to LifterLMS.com.
-			__( 'The %1$s selected courses will be downloaded and imported into this site from %2$s.', 'lifterlms' ),
+			esc_html__( 'The %1$s selected courses will be downloaded and imported into this site from %2$s.', 'lifterlms' ),
 			'<span id="llms-importing-number">2</span>',
 			'<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Home" target="_blank">LifterLMS.com</a>'
 		);

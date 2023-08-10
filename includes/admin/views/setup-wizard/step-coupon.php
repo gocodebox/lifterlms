@@ -4,7 +4,9 @@
  *
  * @package LifterLMS/Views/Admin/SetupWizard
  *
- * @since   4.4.4
+ * @since 4.4.4
+ * @since 4.8.0 Unknown.
+ * @since [version] Escape output.
  * @version [version]
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
