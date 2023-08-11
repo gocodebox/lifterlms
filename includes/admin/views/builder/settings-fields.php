@@ -103,25 +103,27 @@ defined( 'ABSPATH' ) || exit;
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
 							<div class="llms-editable-input{{{ field.classes }}}">
 								<# field.inputs.forEach( input => { #>
-									<# if ( 'switch-multi-input' === field.type && input.label ) { #>
-										<span class="label">{{{ input.label }}}</span>
-									<# } #>
-									<input
-										class="llms-input standard"
-										data-attribute="{{{ input.attribute }}}"
-										data-original-content="{{{ data.model.get( input.attribute ) }}}"
-										<# if ( 'datepicker' === input.type ) { #>
-											<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
-											<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
-											<# if ( input.date_format ) { #> data-date-format="{{{ input.date_format }}}" <# } #>
+									<div class="llms-input-wrapper{{{ input.col ? ' llms-col llms-col-' + input.col : '' }}}">
+										<# if ( 'switch-multi-input' === field.type && input.label ) { #>
+											<span class="label">{{{ input.label }}}</span>
 										<# } #>
-										<# if ( input.hasOwnProperty( 'min' ) ) { #> min="{{{ input.min }}}" <# } #>
-										<# if ( input.hasOwnProperty( 'max' ) ) { #> max="{{{ input.max }}}" <# } #>
-										name="{{{ input.attribute }}}"
-										<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
-										type="{{{ input.input_type }}}"
-										value="{{{ data.model.get( input.attribute ) }}}"
-									>
+										<input
+											class="llms-input standard"
+											data-attribute="{{{ input.attribute }}}"
+											data-original-content="{{{ data.model.get( input.attribute ) }}}"
+											<# if ( 'datepicker' === input.type ) { #>
+												<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
+												<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
+												<# if ( input.date_format ) { #> data-date-format="{{{ input.date_format }}}" <# } #>
+											<# } #>
+											<# if ( input.hasOwnProperty( 'min' ) ) { #> min="{{{ input.min }}}" <# } #>
+											<# if ( input.hasOwnProperty( 'max' ) ) { #> max="{{{ input.max }}}" <# } #>
+											name="{{{ input.attribute }}}"
+											<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
+											type="{{{ input.input_type }}}"
+											value="{{{ data.model.get( input.attribute ) }}}"
+										>
+									</div>
 								<# } ); #>
 							</div>
 						<# } #>
