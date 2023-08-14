@@ -654,7 +654,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
  *
  * @since Unknown
  *
- * @param  float  $percentage Percent completion.
+ * @param float $percentage Percent completion.
  * @return string
  */
 function llms_get_progress_bar_html( $percentage ) {
@@ -766,9 +766,9 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 			 *
 			 * @since Unknown
 			 *
-			 * @param int             $lesson  Next lesson to link to.
-			 * @param LLMS_Post_Model $course  Course being displayed.
-			 * @param LLMS_Student    $student Student viewing the course.
+			 * @param int          $lesson  Next lesson to link to.
+			 * @param LLMS_Course  $course  Course being displayed.
+			 * @param LLMS_Student $student Student viewing the course.
 			 */
 			$lesson = apply_filters(
 				'llms_course_continue_button_next_lesson',
