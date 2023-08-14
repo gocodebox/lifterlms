@@ -1,8 +1,10 @@
 <?php
 /**
- * Builder question view
+ * Builder question view.
  *
- * @since   3.16.0
+ * @since 3.16.0
+ * @since [version] Added checkbox for including question in Question Bank.
+ *
  * @version [version]
  */
 ?>

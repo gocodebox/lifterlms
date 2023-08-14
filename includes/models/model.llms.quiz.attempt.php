@@ -443,7 +443,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				 *
 				 * @since [version]
 				 *
-				 * @param array         $question The question array to be used for the quiz.
+				 * @param array         $args     The question args to be used for the quiz.
 				 * @param LLMS_Question $question The question object.
 				 */
 				$questions[] = apply_filters(
@@ -468,7 +468,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 * @since [version]
 			 *
 			 * @param array     $questions The questions to be used for the quiz.
-			 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
+			 * @param LLMS_Quiz $quiz      LLMS_Quiz instance.
 			 */
 			$questions = apply_filters( 'llms_quiz_questions', $questions, $quiz );
 
@@ -480,7 +480,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 * @since [version]
 			 *
 			 * @param boolean   $randomize The randomize boolean value.
-			 * @param LLMS_Quiz $llms_quiz LLMS_Quiz instance.
+			 * @param LLMS_Quiz $quiz      LLMS_Quiz instance.
 			 */
 			if ( apply_filters( 'llms_quiz_questions_randomize', $randomize, $quiz ) ) {
 				// Lifted from https://stackoverflow.com/a/28491007/400568.

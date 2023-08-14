@@ -1,8 +1,10 @@
 <?php
 /**
- * Model Field Settings Template
+ * Model Field Settings Template.
  *
- * @since   3.17.0
+ * @since 3.17.0
+ * @since [version] Added support for 'hidden', 'disabled' and 'switch-multi-input' field types.
+ *
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;

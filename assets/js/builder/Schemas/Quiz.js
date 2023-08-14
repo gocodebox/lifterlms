@@ -73,7 +73,6 @@ define( [], function() {
 			},
 				], [
 					{
-						attribute: 'number_of_questions',
 						id: 'question-bank',
 						label: LLMS.l10n.translate( 'Question Bank' ),
 						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),

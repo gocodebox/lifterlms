@@ -124,7 +124,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		 * @since [version]
 		 *
 		 * @param int       $questions_count Number of questions in a quiz.
-		 * @param LLMS_Quiz $this            Current quiz object.
+		 * @param LLMS_Quiz $quiz            Current quiz object.
 		 */
 		return apply_filters( 'llms_quiz_questions_count', count( $this->get_questions( 'ids' ) ), $this );
 	}
