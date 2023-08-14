@@ -1,8 +1,10 @@
 /**
- * Quiz Schema
+ * Quiz Schema.
  *
- * @since    3.17.6
- * @version  [version]
+ * @since 3.17.6
+ * @since [verion] Added upsell for Question Bank.
+ *
+ * @version [version]
  */
 define( [], function() {
 

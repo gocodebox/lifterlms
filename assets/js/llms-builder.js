@@ -3224,7 +3224,7 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
  * Quiz Schema
  *
  * @since    3.17.6
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Schemas/Quiz',[], function() {
 
@@ -3290,17 +3290,8 @@ define( 'Schemas/Quiz',[], function() {
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
 			},
-				], [
-					{
-						attribute: 'number_of_questions',
-						id: 'question-bank',
-						label: LLMS.l10n.translate( 'Question Bank' ),
-						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),
-						type: 'disabled',
-						text: 'Get LifterLMS Advanced Quizzes',
-						visibility: window.llms.hooks.applyFilters( 'llms_qb_upsell_visibility', 'visible' ),
-					}
-				]
+				],
+
 			],
 		},
 
@@ -8201,7 +8192,6 @@ define( 'Views/SettingsFields',[], function() {
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 * @since 4.7.0 Ensure `switch-number` fields are set with the `number` type attribute.
-		 * @since [version] Added support for `disabled` fields.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
@@ -8265,10 +8255,6 @@ define( 'Views/SettingsFields',[], function() {
 					defaults.placeholder = 'https://';
 					defaults.tip         = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
 					defaults.input_type  = 'url';
-				break;
-
-				case 'disabled':
-					defaults.url = 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Questions%20Bank';
 				break;
 
 			}
