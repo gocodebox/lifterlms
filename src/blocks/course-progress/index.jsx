@@ -88,4 +88,25 @@ const Edit = ( props ) => {
 registerBlockType( blockJson, {
 	icon: Icon,
 	edit: Edit,
+	save: () => null, // <!-- wp:llms/course-progress /-->.
+	deprecated: [
+		{
+			/**
+			 * Block Editor Save.
+			 *
+			 * @since 1.0.0
+			 * @deprecated 1.8.0
+			 *
+			 * @param {Object} props Component properties object.
+			 * @return {Object} Component HTML Fragment.
+			 */
+			save( props ) {
+				return (
+					<div className={ props.className }>
+						[lifterlms_course_progress]
+					</div>
+				);
+			},
+		},
+	],
 } );

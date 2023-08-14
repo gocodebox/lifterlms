@@ -99,4 +99,5 @@ const Edit = ( props ) => {
 registerBlockType( blockJson, {
 	icon: Icon,
 	edit: Edit,
+	save: () => null, // <!-- wp:llms/pricing-table /-->.
 } );

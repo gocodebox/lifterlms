@@ -62,4 +62,31 @@ const Edit = ( props ) => {
 registerBlockType( blockJson, {
 	icon: Icon,
 	edit: Edit,
+	save: () => null, // <!-- wp:llms/course-continue-button /-->.
+	deprecated: [
+		{
+			/**
+			 * The save function defines the way in which the different attributes should be combined
+			 * into the final markup, which is then serialized by Gutenberg into post_content.
+			 *
+			 * The "save" property must be specified and must be a valid function.
+			 *
+			 * @since 1.0.0
+			 * @deprecated [version] Use Server Side Render instead.
+			 *
+			 * @param {Object} props Block properties.
+			 * @return {Function} Component HTML fragment.
+			 */
+			save( props ) {
+				return (
+					<div
+						className={ props.className }
+						style={ { textAlign: 'center' } }
+					>
+						[lifterlms_course_continue_button]
+					</div>
+				);
+			},
+		},
+	],
 } );
