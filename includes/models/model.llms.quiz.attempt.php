@@ -28,7 +28,6 @@ defined( 'ABSPATH' ) || exit;
  *              In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
  *              Added the public method `get_siblings()`.
  * @since 4.3.0 Added `$type` property declaration.
- * @since [version] Added `llms_quiz_questions_randomize`, `llms_quiz_questions` and `llms_question_array` filters.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
