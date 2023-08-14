@@ -67,6 +67,9 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Randomize Question Order' ),
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
+						condition: function() {
+							return 'yes' === this.get( 'question_bank' ) ? false : true;
+						}
 			},
 				], [
 					{
