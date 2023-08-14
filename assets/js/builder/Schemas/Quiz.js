@@ -2,7 +2,7 @@
  * Quiz Schema.
  *
  * @since 3.17.6
- * @since [verion] Added upsell for Question Bank.
+ * @since [version] Added upsell for Question Bank.
  *
  * @version [version]
  */
