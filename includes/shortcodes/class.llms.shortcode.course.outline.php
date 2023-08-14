@@ -85,31 +85,26 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @since 3.5.1
-	 * @since [version] Added fallback to render first course when none selected in Editor.
+	 * @version [version] Add fallback for editor block rendering.
 	 *
 	 * @return string
 	 */
 	protected function get_output() {
 
+		// Get a reference to the current page where the shortcode is displayed.
+		global $post;
+
+		$current_id = $post->ID ?? null;
+
 		$id = $this->get_attribute( 'course_id' );
 
-		if ( ! $id && is_singular( 'course' ) ) {
-			$id = get_the_ID();
+		if ( ! $id ) {
+			$id = $current_id;
 		}
 
 		// Show the first course when in Editor if none selected.
 		if ( ! $id && llms_is_editor_block_rendering() ) {
-			$courses = get_posts(
-				array(
-					'post_type'      => 'course',
-					'posts_per_page' => 1,
-					'post_status'    => 'publish',
-				)
-			);
-
-			if ( $courses ) {
-				$id = $courses[0]->ID;
-			}
+			$id = LLMS_Shortcodes_Blocks::get_placeholder_course_id();
 		}
 
 		$course  = new LLMS_Course( $id );
