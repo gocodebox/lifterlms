@@ -4,7 +4,7 @@
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Added support for 'hidden', 'disabled' and 'switch-multi-input' field types.
+ * @since [version] Added support for 'switch-multi-input' field types.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 
 				<#
 					var field = data.setup_field( orig_field, field_index );
-					if ( ! field || 'hidden' === field.visibility ) { return; }
+					if ( ! field ) { return; }
 				#>
 
 				<div class="llms-settings-field settings-field--{{{ field.type }}}<# if ( field.label_after ) { #> has-label-after<# } #>" id="llms-model-settings-field--{{{ field.id }}}">
@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-					<# } else if ( 'disabled' === field.type ) { #>
+					<# } else if ( 'upsell' === field.type ) { #>
 
 						<a target="_blank" href="{{{ field.url }}}">
 							<span class="llms-disabled">{{{ field.text }}}</span>
@@ -105,7 +105,7 @@ defined( 'ABSPATH' ) || exit;
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
 							<div class="llms-editable-input{{{ field.classes }}}">
 								<# field.inputs.forEach( input => { #>
-									<div class="llms-input-wrapper{{{ input.col ? ' llms-col llms-col-' + input.col : '' }}}">
+									<div class="llms-input-wrapper">
 										<# if ( 'switch-multi-input' === field.type && input.label ) { #>
 											<span class="label">{{{ input.label }}}</span>
 										<# } #>

@@ -156,8 +156,8 @@
 
 		<div class="llms-question-features">
 
-			<div class="llms-settings-row">
-				<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
+			<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
+				<div class="llms-settings-row">
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
 							<span class="llms-label"><?php esc_html_e( 'Result Clarifications', 'lifterlms' ); ?></span>
@@ -170,19 +170,7 @@
 							</div>
 						<# } #>
 					</div>
-				<# } #>
-			</div>
-
-			<# if ( 'yes' === data.collection.parent.attributes.question_bank ) { #>
-			<div class="llms-settings-row">
-				<div class="llms-editable-toggle-group">
-					<label class="llms-switch">
-						<span class="llms-label"><?php esc_html_e( 'Include in Questions Bank', 'lifterlms' ); ?></span>
-						<input type="checkbox" name="include_bank_variations"<# if ( 'yes' === data.get( 'include_bank_variations' ) ) { print( ' checked' ) } #>>
-						<div class="llms-switch-slider"></div>
-					</label>
 				</div>
-			</div>
 			<# } #>
 
 		</div>

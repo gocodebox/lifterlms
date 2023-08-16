@@ -287,7 +287,6 @@ define( [], function() {
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 * @since 4.7.0 Ensure `switch-number` fields are set with the `number` type attribute.
-		 * @since [version] Added support for `disabled` fields.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
@@ -351,10 +350,6 @@ define( [], function() {
 					defaults.placeholder = 'https://';
 					defaults.tip         = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
 					defaults.input_type  = 'url';
-				break;
-
-				case 'disabled':
-					defaults.url = 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Questions%20Bank';
 				break;
 
 			}
