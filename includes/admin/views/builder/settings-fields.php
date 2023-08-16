@@ -4,7 +4,7 @@
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Added support for 'switch-multi-input' field types.
+ * @since [version] Added support for Question Banks multiple input fields.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -98,15 +98,15 @@ defined( 'ABSPATH' ) || exit;
 							</div>
 						<# } #>
 
-					<# } else if ( data.is_default_field( field.type ) || 'switch-multi-input' === field.type ) { #>
+					<# } else if ( data.is_default_field( field.type ) ) { #>
 
-						<# field.inputs = data.is_default_field( field.type ) ? [ field ] : field.inputs; #>
+						<# const field_inputs = field.inputs?.length ? field.inputs : [ field ]; #>
 
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
 							<div class="llms-editable-input{{{ field.classes }}}">
-								<# field.inputs.forEach( input => { #>
+								<# field_inputs.forEach( input => { #>
 									<div class="llms-input-wrapper">
-										<# if ( 'switch-multi-input' === field.type && input.label ) { #>
+										<# if ( field_inputs.length > 1 && input.label ) { #>
 											<span class="label">{{{ input.label }}}</span>
 										<# } #>
 										<input

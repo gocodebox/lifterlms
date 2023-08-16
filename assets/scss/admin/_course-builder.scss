@@ -1766,20 +1766,14 @@ body.admin_page_llms-course-builder {
 
 }
 
-.llms-col-6 {
+.llms-multi-input .llms-input-wrapper {
 	width: 50%;
 	float: left;
-}
-
-.wrap.lifterlms.llms-builder .llms-input-wrapper.llms-col {
 	margin-bottom: 6px;
+	font-size: 12px;
 }
 
-.wrap.lifterlms.llms-builder .llms-input-wrapper.llms-col {
-    font-size: 12px;
-}
-
-.wrap.lifterlms.llms-builder .llms-input-wrapper.llms-col .llms-input.standard {
+.llms-multi-input .llms-input-wrapper .llms-input {
 	font-size: 12px;
     padding: 5px;
 }
