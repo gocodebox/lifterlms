@@ -3,8 +3,8 @@
  * Builder question view.
  *
  * @since 3.16.0
+ * @since 3.27.0 Unknown.
  * @since [version] Added checkbox for including question in Question Bank.
- *
  * @version [version]
  */
 ?>

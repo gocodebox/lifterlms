@@ -478,7 +478,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 *
 			 * @since [version]
 			 *
-			 * @param boolean   $randomize The randomize boolean value.
+			 * @param bool      $randomize The randomize boolean value.
 			 * @param LLMS_Quiz $quiz      LLMS_Quiz instance.
 			 */
 			if ( apply_filters( 'llms_quiz_questions_randomize', $randomize, $quiz ) ) {
