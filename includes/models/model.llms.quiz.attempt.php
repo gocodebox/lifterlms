@@ -413,7 +413,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Added `llms_quiz_questions_randomize` and `llms_quiz_questions` filters and `include_bank_variations` parameter to questions array.
 	 *
 	 * @return array
 	 */
@@ -473,8 +472,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			/**
 			 * Filter randomize value for quiz questions.
-			 *
-			 * Sets the randomize to boolean value based on `Randomize` and `Question Bank`.
 			 *
 			 * @since [version]
 			 *
