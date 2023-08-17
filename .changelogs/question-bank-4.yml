@@ -1,3 +1,3 @@
 significance: added
 type: dev
-entry: Added filter `llms_quiz_questions_count` to filter the quiz's question count.
+entry: Added filter `llms_quiz_attempt_questions_count` to filter the quiz's question count.

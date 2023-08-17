@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added function `LLMS_Quiz::get_questions_count()` for getting count of
+  questions.

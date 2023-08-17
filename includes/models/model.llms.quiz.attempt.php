@@ -441,11 +441,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				 *
 				 * @since [version]
 				 *
-				 * @param array         $args     The question args to be used for the quiz.
-				 * @param LLMS_Question $question The question object.
+				 * @param array             $args     The question args to be used for the quiz.
+				 * @param LLMS_Question     $question The question object.
+				 * @param LLMS_Quiz         $quiz     LLMS_Quiz instance.
+				 * @param LLMS_Quiz_Attempt $attempt  LLMS_Quiz_Attempt instance.
 				 */
 				$questions[] = apply_filters(
-					'llms_question_array',
+					'llms_quiz_attempt_question_array',
 					array(
 						'id'      => $question->get( 'id' ),
 						'earned'  => 0,
@@ -453,7 +455,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 						'answer'  => null,
 						'correct' => null,
 					),
-					$question
+					$question,
+					$quiz,
+					$this
 				);
 
 			}
@@ -465,20 +469,22 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 *
 			 * @since [version]
 			 *
-			 * @param array     $questions The questions to be used for the quiz.
-			 * @param LLMS_Quiz $quiz      LLMS_Quiz instance.
+			 * @param array             $questions The questions to be used for the quiz.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
 			 */
-			$questions = apply_filters( 'llms_quiz_questions', $questions, $quiz );
+			$questions = apply_filters( 'llms_quiz_attempt_questions', $questions, $quiz, $this );
 
 			/**
 			 * Filter randomize value for quiz questions.
 			 *
 			 * @since [version]
 			 *
-			 * @param bool      $randomize The randomize boolean value.
-			 * @param LLMS_Quiz $quiz      LLMS_Quiz instance.
+			 * @param bool              $randomize The randomize boolean value.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
 			 */
-			if ( apply_filters( 'llms_quiz_questions_randomize', $randomize, $quiz ) ) {
+			if ( apply_filters( 'llms_quiz_attempt_questions_randomize', $randomize, $quiz, $this ) ) {
 				// Lifted from https://stackoverflow.com/a/28491007/400568.
 				// I generally comprehend this code but also in a truer way i have no idea...
 				$inc = array();
