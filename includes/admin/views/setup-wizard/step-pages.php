@@ -4,16 +4,17 @@
  *
  * @since 4.4.4
  * @since 7.3.0 Using the `LLMS_Install::get_pages()` method now.
- * @version 7.3.0
+ * @since [version] Escape remaining strings.
+ * @version [version]
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<h1><?php _e( 'Page Setup', 'lifterlms' ); ?></h1>
+<h1><?php esc_html_e( 'Page Setup', 'lifterlms' ); ?></h1>
 
-<p><?php _e( 'LifterLMS has a few essential pages. The following will be created automatically if they don\'t already exist.', 'lifterlms' ); ?>
+<p><?php esc_html_e( 'LifterLMS has a few essential pages. The following will be created automatically if they don\'t already exist.', 'lifterlms' ); ?>
 
 <table>
 	<?php
