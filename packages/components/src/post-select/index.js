@@ -5,7 +5,8 @@ import { PanelRow, SelectControl } from '@wordpress/components';
 export const llmsPostTypes = [
 	'course',
 	'lesson',
-	'llms_quiz'
+	'llms_quiz',
+	'llms_membership',
 ];
 
 export const getPostTypeName = ( slug, format = 'name' ) => {
