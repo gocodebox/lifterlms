@@ -424,7 +424,16 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
+			/**
+			 * Filter randomize value for quiz questions.
+			 *
+			 * @since [version]
+			 *
+			 * @param bool              $randomize The randomize boolean value.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$randomize = apply_filters( 'llms_quiz_attempt_questions_randomize', llms_parse_bool( $quiz->get( 'random_questions' ) ), $quiz, $this );
 
 			// Array of indexes that will be locked during shuffling.
 			$locks = array();
@@ -475,16 +484,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 */
 			$questions = apply_filters( 'llms_quiz_attempt_questions', $questions, $quiz, $this );
 
-			/**
-			 * Filter randomize value for quiz questions.
-			 *
-			 * @since [version]
-			 *
-			 * @param bool              $randomize The randomize boolean value.
-			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
-			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
-			 */
-			if ( apply_filters( 'llms_quiz_attempt_questions_randomize', $randomize, $quiz, $this ) ) {
+			if ( $randomize ) {
 				// Lifted from https://stackoverflow.com/a/28491007/400568.
 				// I generally comprehend this code but also in a truer way i have no idea...
 				$inc = array();
