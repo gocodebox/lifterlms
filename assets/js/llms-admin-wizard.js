@@ -91,10 +91,11 @@
 
 	if ( checkboxToggle ) {
 		checkboxToggle.addEventListener( 'click', function() {
-			const hiddenFields = document.getElementsByClassName( 'llms-setup-date-fields' )[ 0 ];
+			const hiddenFields = this.parentNode.parentNode.querySelectorAll( '.is-hidden,.is-visible' );
 
-			if ( hiddenFields ) {
-				hiddenFields.classList.toggle( 'is-hidden' );
+			for ( let i = 0; i < hiddenFields.length; i++ ) {
+				hiddenFields[ i ].classList.toggle( 'is-visible' );
+				hiddenFields[ i ].classList.toggle( 'is-hidden' );
 			}
 		} );
 	}
