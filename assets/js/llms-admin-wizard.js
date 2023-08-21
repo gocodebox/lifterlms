@@ -6,15 +6,16 @@
  */
 
 ( function() {
-	const currStep = document.getElementById( 'llms-setup-current-step' ),
-		exitLink = document.querySelector( '.llms-exit-setup' ),
-		imports = document.querySelectorAll( 'input[name="llms_setup_course_import_ids[]"]' ),
+	const
+		currStep       = document.getElementById( 'llms-setup-current-step' ),
+		exitLink       = document.querySelector( '.llms-exit-setup' ),
+		imports        = document.querySelectorAll( 'input[name="llms_setup_course_import_ids[]"]' ),
 		checkboxToggle = document.getElementsByClassName( 'llms-checkbox-toggle' )[ 0 ] ?? null;
 
 	if ( imports.length ) {
 		const
 			submit = document.getElementById( 'llms-setup-submit' ),
-			msgs = document.querySelectorAll( '.llms-importing-msgs .llms-importing-msg' );
+			msgs   = document.querySelectorAll( '.llms-importing-msgs .llms-importing-msg' );
 
 		/**
 		 * Retrieve the number of courses to be imported
@@ -63,7 +64,7 @@
 		} );
 
 		// Trigger a change event so the UI displays properly on page load.
-		imports[ 0 ].dispatchEvent( new Event( 'change' ) );
+		imports[0].dispatchEvent( new Event( 'change' ) );
 
 		/**
 		 * Start a spinner when the "Import Courses" button is clicked.
