@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since   3.0.0
+ * @since 3.0.0
  * @version [version]
  */
 
@@ -30,6 +30,8 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Configure wizard.
 	 *
+	 * @since 3.0.0
+	 * @since 4.4.4 Remove output of inline scripts.
 	 * @since [version]
 	 *
 	 * @return void
