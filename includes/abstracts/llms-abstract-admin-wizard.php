@@ -74,7 +74,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean $enabled Whether the wizard is enabled.
+		 * @param bool $enabled Whether the wizard is enabled.
 		 */
 		if ( ! apply_filters( "llms_enable_{$this->id}_wizard", true ) ) {
 			return;
@@ -174,9 +174,9 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	public function get_current_step(): string {
 		$step_keys = array_keys( $this->get_steps() );
 
-		$step = sanitize_text_field( wp_unslash( $_GET['step'] ?? '' ) );
+		$step = llms_filter_input_sanitize_string( INPUT_GET, 'step' );
 
-		return $step ? llms_filter_input_sanitize_string( INPUT_GET, 'step' ) : $step_keys[0]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return $step ?? $step_keys[0] ?? '';
 	}
 
 	/**
@@ -230,7 +230,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	private function get_save_text( string $step ): string {
 
-		$default = html_entity_decode( esc_html__( 'Save & Continue', 'lifterlms' ) );
+		$default = esc_html__( 'Save & Continue', 'lifterlms' );
 
 		/**
 		 * Filter the Save button text for a given step in the setup wizard.
