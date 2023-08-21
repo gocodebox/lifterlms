@@ -64,7 +64,7 @@
 		} );
 
 		// Trigger a change event so the UI displays properly on page load.
-		imports[ 0 ].dispatchEvent( new Event( 'change' ) );
+		imports[0].dispatchEvent( new Event( 'change' ) );
 
 		/**
 		 * Start a spinner when the "Import Courses" button is clicked.
