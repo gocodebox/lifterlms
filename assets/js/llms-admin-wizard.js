@@ -6,7 +6,7 @@
  */
 
 ( function() {
-	const		currStep = document.getElementById( 'llms-setup-current-step' ),
+	const currStep = document.getElementById( 'llms-setup-current-step' ),
 		exitLink = document.querySelector( '.llms-exit-setup' ),
 		imports = document.querySelectorAll( 'input[name="llms_setup_course_import_ids[]"]' ),
 		checkboxToggle = document.getElementsByClassName( 'llms-checkbox-toggle' )[ 0 ] ?? null;
@@ -21,7 +21,7 @@
 		 *
 		 * @since 4.8.0
 		 *
-		 * @return {number} The number of courses to be imported.
+		 * @return {Number} The number of courses to be imported.
 		 */
 		function getSelectedImportCount() {
 			let count = 0;
@@ -54,9 +54,9 @@
 
 				// Show messages where applicable.
 				if ( 1 === selectedCount ) {
-					msgs[ 0 ].style.display = 'block';
+					msgs[0].style.display = 'block';
 				} else if ( selectedCount >= 2 ) {
-					msgs[ 1 ].style.display = 'block';
+					msgs[1].style.display = 'block';
 					document.getElementById( 'llms-importing-number' ).textContent = selectedCount;
 				}
 			} );
