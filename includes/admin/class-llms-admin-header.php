@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since   7.1.0
+ * @since 7.1.0
  * @version [version]
  */
 
