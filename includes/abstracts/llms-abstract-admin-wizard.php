@@ -230,7 +230,8 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	private function get_save_text( string $step ): string {
 
-		$default = esc_html__( 'Save & Continue', 'lifterlms' );
+		// `html_entity_decode()` needed for unit tests to pass.
+		$default = html_entity_decode( esc_html__( 'Save & Continue', 'lifterlms' ) );
 
 		/**
 		 * Filter the Save button text for a given step in the setup wizard.
