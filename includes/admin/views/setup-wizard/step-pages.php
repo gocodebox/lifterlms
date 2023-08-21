@@ -34,4 +34,15 @@ defined( 'ABSPATH' ) || exit;
 	?>
 </table>
 
-<p><?php printf( __( 'After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
+<p>
+	<?php
+	printf(
+		/* Translators: 1: Link to the Pages screen in the WordPress admin 2: Closing link tag 3: Link to the Appearance > Menus screen in the WordPress admin 4: Closing link tag. */
+		esc_html__( 'After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s.', 'lifterlms' ),
+		'<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">',
+		'</a>',
+		'<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">',
+		'</a>'
+	);
+	?>
+</p>
