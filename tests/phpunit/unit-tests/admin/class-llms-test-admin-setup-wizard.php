@@ -8,6 +8,7 @@
  * @group setup_wizard
  *
  * @since [version]
+ * @version [version]
  */
 class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
@@ -202,6 +203,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test get_save_text()
 	 *
 	 * @since 4.8.0
+	 * @since [version] Escaped 'Save & Continue' text.
 	 *
 	 * @return void
 	 */
@@ -210,7 +212,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'Allow', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'coupon' ) ) );
 		$this->assertEquals( 'Import Courses', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'finish' ) ) );
 
-		$this->assertEquals( 'Save & Continue', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'anything-else' )  ));
+		$this->assertEquals( 'Save &amp; Continue', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'anything-else' )  ));
 
 	}
 
