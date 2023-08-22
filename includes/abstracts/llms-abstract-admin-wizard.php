@@ -259,8 +259,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 */
 	private function get_skip_text( string $step ): string {
 
-		$default = esc_html__( 'Skip this step', 'lifterlms' );
-
 		/**
 		 * Filter the skip button text for a given step in the setup wizard.
 		 *
@@ -272,7 +270,12 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * @param string $text Button text string.
 		 */
-		return apply_filters( "llms_{$this->id}_wizard_get_{$step}_skip_text", $this->get_steps()[ $step ]['skip'] ?? $default );
+		$text = apply_filters(
+			"llms_{$this->id}_wizard_get_{$step}_skip_text",
+			$this->get_steps()[ $step ]['skip'] ?? __( 'Skip this step', 'lifterlms' )
+		);
+
+		return esc_html( $text );
 
 	}
 
@@ -378,7 +381,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 			return null;
 		}
 
-		$response = new WP_Error( "llms-{$this->id}-save-invalid", __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		$response = new WP_Error( "llms-{$this->id}-save-invalid", esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		$step = llms_filter_input( INPUT_POST, $action );
 
