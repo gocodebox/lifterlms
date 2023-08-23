@@ -1,4 +1,0 @@
-significance: added
-type: dev
-entry: Added filter `llms_quiz_attempt_question_array` to modify the question array for the
-  quizzes.

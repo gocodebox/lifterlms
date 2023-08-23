@@ -458,28 +458,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$locks[] = $index;
 				}
 
-				/**
-				 * Filter each question to add extra parameters for the questions array.
-				 *
-				 * @since [version]
-				 *
-				 * @param array             $args     The question args to be used for the quiz.
-				 * @param LLMS_Question     $question The question object.
-				 * @param LLMS_Quiz         $quiz     LLMS_Quiz instance.
-				 * @param LLMS_Quiz_Attempt $attempt  LLMS_Quiz_Attempt instance.
-				 */
-				$questions[] = apply_filters(
-					'llms_quiz_attempt_question_array',
-					array(
-						'id'      => $question->get( 'id' ),
-						'earned'  => 0,
-						'points'  => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
-						'answer'  => null,
-						'correct' => null,
-					),
-					$question,
-					$quiz,
-					$this
+				$questions[] = array(
+					'id'      => $question->get( 'id' ),
+					'earned'  => 0,
+					'points'  => $question->supports( 'points' ) ? $question->get( 'points' ) : 0,
+					'answer'  => null,
+					'correct' => null,
 				);
 
 			}
