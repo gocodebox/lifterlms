@@ -2,7 +2,7 @@
  * Model settings fields view
  *
  * @since 3.17.0
- * @version [version]
+ * @version 4.7.0
  */
 define( [], function() {
 
