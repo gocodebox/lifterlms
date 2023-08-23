@@ -50,7 +50,6 @@ define( [
 		/**
 		 * New lesson defaults.
 		 *
-		 * @return   obj
 		 * @since 3.16.0
 		 * @since [version] Added filter for filtering defaults.
 		 *
