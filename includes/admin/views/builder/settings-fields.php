@@ -125,6 +125,9 @@ defined( 'ABSPATH' ) || exit;
 											type="{{{ input.input_type }}}"
 											value="{{{ data.model.get( input.attribute ) }}}"
 										>
+										<# if ( input.input_description ) { #>
+											<small class="llms-description">{{{ input.input_description }}}</small>
+										<# } #>
 									</div>
 								<# } ); #>
 							</div>
