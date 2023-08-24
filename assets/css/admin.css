@@ -2669,6 +2669,9 @@ a.llms-view-as {
 .llms-collapsible .llms-collapsible-header .dashicons.dashicons-warning, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-warning:hover, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-trash:hover, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-no:hover {
   color: #e5554e;
 }
+.llms-collapsible .llms-collapsible-header .dashicons.dashicons-warning.medium-danger, .llms-collapsible .llms-collapsible-header .dashicons.dashicons-warning.medium-danger:hover {
+  color: #ff922b;
+}
 .llms-collapsible .llms-collapsible-body {
   display: none;
   padding: 10px;
@@ -2818,6 +2821,9 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-metabox .llms-access-plans .llms-invalid .dashicons-warning {
   display: inline;
 }
+.llms-metabox .llms-access-plans .llms-needs-attention .dashicons-warning.medium-danger {
+  display: inline;
+}
 .llms-metabox .llms-access-plans .dashicons-warning {
   display: none;
 }
@@ -2840,6 +2846,9 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
 .llms-metabox .llms-access-plan .llms-required {
   color: #e5554e;
   margin-left: 3px;
+}
+.llms-metabox .llms-access-plan .notice {
+  margin-left: 0;
 }
 
 .llms-metabox-students .llms-table tr .name {
@@ -3494,6 +3503,7 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   background: #efefef;
   margin: 0 0 10px;
   position: relative;
+  list-style-type: none;
 }
 .llms-quiz-attempt-results .llms-quiz-attempt-question .toggle-answer {
   color: inherit;

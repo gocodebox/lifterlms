@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version 7.2.0
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,7 @@ class LLMS_Nav_Menus {
 	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
 	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
 	 * @since 7.2.0 Add navigation link block and enqueue block editor assets.
+	 * @since 7.3.0 Change `render_block_llms/navigation-link` to `render_block` for compatibility with LLMS block visibility.
 	 *
 	 * @return void
 	 */
@@ -53,7 +54,7 @@ class LLMS_Nav_Menus {
 		add_action( 'init', array( $this, 'register_block' ) );
 
 		// Render block.
-		add_filter( 'render_block_llms/navigation-link', array( $this, 'render_block' ), 10, 2 );
+		add_filter( 'render_block', array( $this, 'render_block' ), 10, 2 );
 
 		// Load menu items data in block editor.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
@@ -373,24 +374,38 @@ class LLMS_Nav_Menus {
 	 * Render the navigation link block.
 	 *
 	 * @since 7.2.0
+	 * @since 7.3.0 Add block name check since filter changed.
 	 *
 	 * @param string $block_content Block content.
 	 * @param array  $block Block data.
 	 * @return string
 	 */
 	public function render_block( string $block_content, array $block ) : string {
+
+		if ( 'llms/navigation-link' !== $block['blockName'] ) {
+			return $block_content;
+		}
+
 		$items = $this->filter_nav_items( $this->get_nav_items() );
-		$url   = $items[ $block['attrs']['page'] ]['url'] ?? '';
+		$page  = $block['attrs']['page'] ?? 'dashboard';
+
+		if ( ! $page ) {
+			return '';
+		}
+
+		$url = $items[ $page ]['url'] ?? '';
 
 		// Support conditional URLs, e.g. when user logged in or not.
 		if ( ! $url ) {
 			return '';
 		}
 
+		$label = $block['attrs']['label'] ?? $items[ $page ]['label'] ?? '';
+
 		$html  = '<li class="wp-block-navigation-item">';
 		$html .= '<a href="' . esc_url( $url ) . '" class="wp-block-navigation-item__content">';
 		$html .= '<span class="wp-block-navigation-item__label">';
-		$html .= esc_html( $block['attrs']['label'] );
+		$html .= esc_html( $label );
 		$html .= '</span></a></li>';
 
 		return $html;
