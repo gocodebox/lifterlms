@@ -57,7 +57,7 @@ define( [
 		 */
 		defaults: function() {
 
-			return window.llms.hooks.applyFilters( 'llms_define_questions_bank_defaults', {
+			return window.llms.hooks.applyFilters( 'llms_quiz_model_defaults', {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
