@@ -4,7 +4,7 @@
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Added support for Question Banks multiple input fields.
+ * @since [version] Added support for `upsell` field type and multiple input fields.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;

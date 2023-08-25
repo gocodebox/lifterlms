@@ -53,7 +53,7 @@ define( [
 		 * @since 3.16.0
 		 * @since [version] Added filter for filtering defaults.
 		 *
-		 * @version [version]
+		 * @return {Object}
 		 */
 		defaults: function() {
 
