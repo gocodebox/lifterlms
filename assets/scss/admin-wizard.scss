@@ -56,7 +56,13 @@ $input_padding: 0.3em 0.6em;
 
 	p.error {
 		color: $color-red;
-		text-align: center;
+		background: rgba($color-red,0.1);
+		border: 1px solid currentColor;
+		padding: 1em;
+		border-radius: 4px;
+		margin: 1.5em 0 0;
+		font-size: 15px;
+		text-align: left;
 	}
 
 	label {
@@ -161,12 +167,12 @@ $input_padding: 0.3em 0.6em;
 }
 
 .llms-setup-actions {
-	margin-top: 40px;
+	margin-top: 2em;
 	text-align: right;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	gap: 16px;
+	gap: 1em;
 
 	.llms-button-primary {
 		display: inline-block;
