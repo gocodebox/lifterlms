@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -318,6 +318,7 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Added `LLMS_Admin_Data_Retention`.
 	 *
 	 * @return void
 	 */
@@ -331,6 +332,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-data-retention.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
