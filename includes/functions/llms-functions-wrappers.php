@@ -121,8 +121,11 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 			)
 		);
 
+		if ( 302 === $options['status'] ) {
+			nocache_headers(); // Prevent caching of redirects.
+		}
+
 		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
-		nocache_headers(); // Prevent caching of redirects.
 		$func( $location, $options['status'] );
 		exit();
 
