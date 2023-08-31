@@ -2,7 +2,7 @@
  * Quiz Schema.
  *
  * @since 3.17.6
- * @since [version] Added upsell for Question Bank.
+ * @since [version] Added upsell for Question Bank and condition in `random_questions` schema.
  * @version [version]
  */
 define( [], function() {
