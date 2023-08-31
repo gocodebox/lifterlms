@@ -3,7 +3,6 @@
  *
  * @since 3.17.6
  * @since [version] Added upsell for Question Bank.
- *
  * @version [version]
  */
 define( [], function() {
