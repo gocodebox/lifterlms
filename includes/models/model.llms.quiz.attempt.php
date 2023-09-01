@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 4.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -424,12 +424,34 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
+			/**
+			 * Filter randomize value for quiz questions.
+			 *
+			 * @since [version]
+			 *
+			 * @param bool              $randomize The randomize boolean value.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$randomize = apply_filters( 'llms_quiz_attempt_questions_randomize', llms_parse_bool( $quiz->get( 'random_questions' ) ), $quiz, $this );
 
 			// Array of indexes that will be locked during shuffling.
 			$locks = array();
 
-			foreach ( $quiz->get_questions() as $index => $question ) {
+			/**
+			 * Filter questions for the quiz.
+			 *
+			 * Sets the questions to be used for the quiz.
+			 *
+			 * @since [version]
+			 *
+			 * @param array             $questions Array of LLMS_Question objects.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$quiz_questions = apply_filters( 'llms_quiz_attempt_questions', $quiz->get_questions(), $quiz, $this );
+
+			foreach ( $quiz_questions as $index => $question ) {
 
 				// If randomization is enabled, store the questions index so we can lock it during randomization.
 				if ( $randomize && $question->supports( 'random_lock' ) ) {
@@ -447,7 +469,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 
 			if ( $randomize ) {
-
 				// Lifted from https://stackoverflow.com/a/28491007/400568.
 				// I generally comprehend this code but also in a truer way i have no idea...
 				$inc = array();

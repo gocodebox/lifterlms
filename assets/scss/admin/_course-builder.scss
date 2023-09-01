@@ -679,6 +679,10 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.settings-field--disabled {
+		opacity: 0.5;
+	}
+
 	/*
 		 /$$
 		|__/
@@ -1760,4 +1764,16 @@ body.admin_page_llms-course-builder {
 		cursor: pointer;
 	}
 
+}
+
+.llms-multi-input .llms-input-wrapper {
+	width: 50%;
+	float: left;
+	margin-bottom: 6px;
+	font-size: 12px;
+}
+
+.llms-multi-input .llms-input-wrapper .llms-input {
+	font-size: 12px;
+    padding: 5px;
 }
