@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Display a Setup Wizard class
+ * Display a Setup Wizard class.
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling error.
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *              - `LLMS_Admin_Setup_Wizard::output_step_html()` method
  *              - `LLMS_Admin_Setup_Wizard::scripts()` method
  *              - `LLMS_Admin_Setup_Wizard::watch_course_generation()` method
+ * @since [version] Abstracted: {@see LLMS_Abstract_Admin_Wizard}.
  */
 class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 
