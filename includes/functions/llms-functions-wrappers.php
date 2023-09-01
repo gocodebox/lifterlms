@@ -98,7 +98,7 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 	 *
 	 * @since 3.19.4
 	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
-	 * @since [version] Added `nocache_headers()` to prevent caching of redirects.
+	 * @since [version] Added `nocache_headers()` to prevent caching of temporary redirects.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L178-L199
 	 *
