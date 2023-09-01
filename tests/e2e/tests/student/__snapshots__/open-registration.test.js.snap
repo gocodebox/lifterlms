@@ -82,8 +82,11 @@ exports[`OpenRegistration Localization should localize city, state, and postcode
 
 exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 9`] = `
 Object {
+  "AA": "Armed Forces (Americas)",
+  "AE": "Armed Forces (Europe, Canada, Africa, Middle East)",
   "AK": "Alaska",
   "AL": "Alabama",
+  "AP": "Armed Forces (Pacific)",
   "AR": "Arkansas",
   "AS": "American Samoa",
   "AZ": "Arizona",
