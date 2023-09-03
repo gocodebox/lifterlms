@@ -1026,7 +1026,7 @@ body.admin_page_llms-course-builder {
 						flex-direction: column;
 
 						.llms-quiz-questions {
-							flex: 1;
+							flex: 1 0 auto;
 							overflow: scroll;
 
 							// groups
