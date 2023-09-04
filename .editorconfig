@@ -27,6 +27,10 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.snap]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
 [*.txt]
 trim_trailing_whitespace = false
 

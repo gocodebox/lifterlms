@@ -1,19 +1,22 @@
 /**
  * Main sidebar view
- * @since    3.16.0
- * @version  3.16.7
+ *
+ * @since 3.16.0
+ * @version 7.2.0
  */
 define( [
-		'Views/Editor',
-		'Views/Elements',
-		'Views/Utilities',
-		'Views/_Subview'
-	], function(
-		Editor,
-		Elements,
-		Utilities,
-		Subview
-	) {
+	'Views/Editor',
+	'Views/Elements',
+	'Views/Utilities',
+	'Views/VideoExplainer',
+	'Views/_Subview'
+], function(
+	Editor,
+	Elements,
+	Utilities,
+	VideoExplainer,
+	Subview
+) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -35,6 +38,11 @@ define( [
 			},
 			utilities: {
 				class: Utilities,
+				instance: null,
+				state: 'builder',
+			},
+			video_explainer: {
+				class: VideoExplainer,
 				instance: null,
 				state: 'builder',
 			},

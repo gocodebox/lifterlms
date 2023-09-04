@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version 5.10.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -475,23 +475,16 @@ class LLMS_Block_Templates {
 	 * @since 5.8.0
 	 * @since 5.9.0 Return empty string if the passed path is not in the configuration.
 	 * @since 5.10.0 Use '/' in favor of DIRECTORY_SEPARATOR to avoid issues on Windows.
+	 * @since 7.2.0 Retrieve the slug by using `basename()` which also fixes issues on Windows filesystems.
 	 *
 	 * @param string $path The template's path.
 	 * @return string
 	 */
 	private function generate_template_slug_from_path( $path ) {
 
-		$dirname = $this->block_template_config_property_from_path( $path, 'blocks_dir' );
 		$prefix  = $this->block_template_config_property_from_path( $path, 'slug_prefix' );
 
-		return $dirname ?
-			$prefix . substr(
-				$path,
-				strpos( $path, $dirname . '/' ) + 1 + strlen( $dirname ),
-				-5 // .html
-			)
-			:
-			'';
+		return $prefix . basename( $path, '.html' );
 
 	}
 

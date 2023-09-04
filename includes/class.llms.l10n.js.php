@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  7.1.1
+ * @version  7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  7.1.1
+	 * @version  7.3.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -289,7 +289,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-admin.js.
 			 *
 			 * @since    Unknown
-			 * @version  6.3.0
+			 * @version  7.3.0
 			 */
 			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
@@ -299,7 +299,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-analytics.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.0.0
+			 * @version  7.3.0
 			 */
 			'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 			'Error' => esc_html__( 'Error', 'lifterlms' ),
@@ -388,7 +388,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metabox-product.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.36.3
+			 * @version  7.3.0
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 			'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.' => esc_html__( 'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.', 'lifterlms' ),

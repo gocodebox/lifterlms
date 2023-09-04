@@ -1,15 +1,16 @@
-=== LifterLMS - WordPress LMS Plugin for Courses & eLearning ===
-Contributors: thomasplevy, chrisbadgett, d4z_c0nf, pondermatic, nrherron, lifterlms, codeboxllc
+=== LifterLMS - WordPress LMS Plugin for eLearning ===
+Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, blockify, actuallyakash, codeboxllc
 Donate link: https://lifterlms.com/
 Tags: course, elearning, learning management system, online courses, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.6
-Tested up to: 6.2
+Requires at least: 5.9
+Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 7.1.4
+Stable tag: 7.3.0
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
+
 
 == Description ==
 LifterLMS is a secure WordPress LMS plugin packed with features to easily create & sell courses online.
@@ -30,8 +31,6 @@ https://www.youtube.com/watch?v=N72Zw2EBm4A
 ### Integrate Your LMS With Any Theme, Page Builder, & Block Editor
 
 LifterLMS works with any well-coded WordPress theme/FSE, the Block Editor (Gutenberg), and every popular WordPress page builder including Elementor, Beaver Builder, and Divi.
-
-Choosing a theme? Check out Sky Pilot, a Block Theme (FSE) built from first principles with 100% focus on meeting the needs of online courses and training-based membership sites built on WordPress.
 
 **With over 9 years development,** our team is deeply engaged with the WordPress community. We actively encourage our integration partners to create the extensions you need most, like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, and many more.
 
@@ -234,15 +233,6 @@ When you need more features and want to expand your online learning business, we
 + The [LifterLMS Developer Blog][devblog]
 
 
-### Deliver Beautiful eLearning Experiences with Sky Pilot
-
-Brought to you by the team at LifterLMS, Sky Pilot is the only modern full site editing (FSE) theme in existence. The theme is built from first principles with 100% focus on meeting the needs of online courses and training-based membership sites built on WordPress.
-
-Most themes are built to be desirable by as many people as possible without focusing on a singular niche. Sky Pilot is the opposite.
-
-**[Sky Pilot][sky-pilot] is built for course creators by course creators.**
-
-
 ### Extend and Enhance Your LMS With LifterLMS Add-Ons
 
 **Advanced**
@@ -273,8 +263,8 @@ Integrate your LMS with the third-party tools you know and love:
 
 Make your online course creations and WordPress LMS platform beautiful
 
-+ [Sky Pilot eLearning Theme][sky-pilot]
 + [LifterLMS Powerpack][pro]
++ [LifterLMS LaunchPad Theme][lp]
 
 ### How To Get Support
 
@@ -404,13 +394,13 @@ Install the free LifterLMS plugin on your website, then ...
 [earth]: https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [oh]: https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pa]: https://lifterlms.com/product/private-areas/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pdf]: https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[sky-pilot]: https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [try]: https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -532,21 +522,99 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Screenshots ==
 
 1. Infinitely customizable course catalog layouts: shown with course title, featured image, and instructor information.
-2. View a single course with customizable content including access plans, enrollment, difficulty, instructor, student course progress, and lesson syllabus.
-3. View a single lesson with customizable content including student course progress, videos, images, slideshow, PDFs, and lesson syllabus.
-4. Offer quizzes with many question types. Enable students to retake quizzes, get instant grading, and offer contextual feedback.
-5. The powerful student dashboard serves as the primary place for learners to access their courses, memberships, orders, achievements, and more.
-6. The notifications section of the frontend dashboard shows students a recap of activity, achievements, course progress, and more.
-7. Celebrate student progress with custom achievements that can be automatically or manually awarded based on eLearning site interactions.
-8. Edit courses in the WordPress block editor to add pricing tables, progress, outline, and more content.
-9. Use the interactive Course Builder to structure your course, sections, lessons, quizzes, assignments and more.
-10. Dashboard for course creators in the WordPress admin: an overview of recent statistics and quick links to common admin screens.
-11. Advanced reporting for every learner so admins can track an individual students's course progress, membership, engagements, and achievements.
-12. Clean and organized plugin settings to help you quickly and easily set up your course or membership site. 
-13. Detailed sales and enrollment reporting with built-in time periods or custom fields to filter by term, student, course, and membership.
-14. Setup Wizard to help you install and configure your new online course website with LifterLMS in 5 simple steps.
+2. View a single course with customizable content including access plans, difficulty, instructor, and lesson syllabus.
+3. Edit courses in the WordPress block editor to add pricing tables, progress, outline, and more content.
+4. Use the interactive Course Builder to structure your course, sections, lessons, quizzes, assignments and more.
+5. Dashboard for course creators in the WordPress admin: an overview of recent statistics and quick links to common admin screens.
+6. Advanced reporting for every learner so admins can track an individual students's course progress, membership, engagements, and achievements.
+7. Clean and organized plugin settings to help you quickly and easily set up your course or membership site. 
+8. Detailed sales and enrollment reporting with built-in time periods or custom fields to filter by term, student, course, and membership.
+9. Setup Wizard to help you install and configure your new online course website with LifterLMS in 5 simple steps.
 
 == Changelog ==
+
+= v7.3.0 - 2023-08-08 =
+
+##### Updates and Enhancements
+
++ When a notice is shown for an access plan on the course edit screen (e.g. When using the WooCommerce integration and no product has been associated to the access plan.) Also display a warning icon next to the access plan title.
++ Made sure only who can `view_others_lifterlms_reports` will be able to see the analytics widget content in the WordPress admin.
++ Better rounding of float values on some reporting screens.
++ Avoid creating a post revision when cloning a course/lesson.
++ When creating pages via `llms_create_pages()`: strip all tags from the page title and slash the page data prior to inserting the page in the db via `wp_insert_post()` to prevent slashes from being stripped from the page title.
++ Updated the WordPress tested version up to 6.3.
++ Improved compatibility with the Divi theme by fixing an issue with the quiz attempt result clarifications not being visible when the Divi option `Defer jQuery And jQuery Migrate` was enabled. [#2470](https://github.com/gocodebox/lifterlms/issues/2470)
+
+##### Bug Fixes
+
++ Fix spacer block when creating new certificate templates in WP 6.3.
++ Fixed PHP Warning when no course/membership catalog page was set or if the selected page doesn't exist anymore. [#2496](https://github.com/gocodebox/lifterlms/issues/2496)
++ Don't include WordPress default sidebar.php template when using a block theme. [#2488](https://github.com/gocodebox/lifterlms/issues/2488)
++ Updated Kazakhstani Tenge's currency symbol. [#2475](https://github.com/gocodebox/lifterlms/issues/2475)
++ Make the dashboard widget visible only if the current user has LMS Manager capabilities. [#2500](https://github.com/gocodebox/lifterlms/issues/2500)
++ Fixed issue with LifterLMS Navigation Link block and block visibility settings. [#2474](https://github.com/gocodebox/lifterlms/issues/2474)
++ Use student dashboard as default value for navigation link block. [#2465](https://github.com/gocodebox/lifterlms/issues/2465)
++ Fixed typo in a function name that could potentially produce a fatal. Thanks [@kamalahmed](https://github.com/kamalahmed)!
+
+##### Developer Notes
+
++ Added the parameter `$tab` (ID/slug of the tab) to the `lifterlms_reporting_tab_cap` filter hook. Thanks [@sapayth](https://github.com/sapayth)! [#2468](https://github.com/gocodebox/lifterlms/issues/2468)
++ Added new filter hook `llms_can_analytics_widget_be_processed` that will allow to filter wheteher or not an analytics widgegt can be processed/disoplayed.
++ Added new filter `llms_install_get_pages`.
++ Added new public static method `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()`.
++ Added `llms_dashboard_checklist` and `llms_dashboard_widget_data` filters to adjust dashboard content. [#2491](https://github.com/gocodebox/lifterlms/issues/2491)
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/global/sidebar.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/global/sidebar.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/quiz/results-attempt-questions-list.php)
+
+
+= v7.2.1 - 2023-06-13 =
+
+##### Updates and Enhancements
+
++ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
+
+
+= v7.2.0 - 2023-06-07 =
+
+##### New Features
+
++ Added `LLMS_ASSETS_VERSION` constant for cache busting.
++ Add course builder explainer video and lesson IDs.
++ Add new dashboard widget.
++ Added query to remove order comments on plugin uninstall when the constant `LLMS_REMOVE_ALL_DATA` is set to `true`. [#2322](https://github.com/gocodebox/lifterlms/issues/2322)
++ Added support for showing multiple difficulties when using Gutenberg Editor. [#2433](https://github.com/gocodebox/lifterlms/issues/2433)
++ Add shortcode wrapper blocks.
++ Added new navigation link block.
++ Added `llms_is_editor_block_rendering` helper function.
++ Added `llms_is_block_editor` helper function.
+
+##### Updates and Enhancements
+
++ Adjusted `llms_modify_dashboard_pagination_links_disable` filter to return false only on Dashboard page.
++ Updates LifterLMS REST to [v1.0.0-beta.27](https://make.lifterlms.com/2023/05/31/lifterlms-rest-api-version-1-0-0-beta-27).
++ Raised the minimum support WordPress core version to 5.9.
++ Updates LifterLMS Blocks to [2.5.0](https://make.lifterlms.com/2023/06/06/lifterlms-blocks-version-2-5-0/).
+
+##### Bug Fixes
+
++ Fixed LifterLMS specific block templates not correctly working on Windows file system.
++ Added `function_exists` check for `llms_blocks_is_post_migrated()`.
++ Update so dismissed notifications don't remain on viewport top layer.
++ Made sure to always enqueue iziModal assets when rendering achievements cards.
+
+##### Developer Notes
+
++ Added new filter hook `llms_builder_settings` to filter the settings passed to the course builder.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/course/syllabus.php)
+
 
 = v7.1.4 - 2023-04-28 =
 
@@ -557,6 +625,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Developer Notes
 
 + Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2 expecting `render_block()` returning a string while we were applying a filter that returned the boolean `true`.
+
 
 = v7.1.3 - 2023-04-25 =
 
@@ -737,37 +806,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-gateways.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-switch-source.php)
 + [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/myaccount/view-order-actions.php)
-
-
-= v6.11.0 - 2022-09-22 =
-
-##### Updates and Enhancements
-
-+ Since version 6.0.0, the Certificate Title Block provided the option to use four Google-hosted fonts. These fonts will now be served from the site's server in favor of serving them from the Google Fonts CDN. For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/. If you wish to continue loading fonts from Google's CDN, add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`. [#2189](https://github.com/gocodebox/lifterlms/issues/2189)
-+ Upgraded included library, `@woocommerce/action-scheduler`, to version [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
-
-##### Bug Fixes
-
-+ Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
-
-
-= v6.10.2 - 2022-09-14 =
-
-##### Updates and Enhancements
-
-+ Updated `woocommerce/action-scheduler` to version [3.5.1](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.1).
-
-##### Security Fixes
-
-+ Fixed a data sanitization issue related to achievement permalinks.
-
-
-= v6.10.1 - 2022-09-07 =
-
-##### Bug Fixes
-
-+ Fixed a PHP warning raised when logging errors during email notification dispatch. [#2250](https://github.com/gocodebox/lifterlms/issues/2250)
-+ Fixed issue preventing one-time orders for being included in membership revenue reporting widgets. [#2254](https://github.com/gocodebox/lifterlms/issues/2254)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
