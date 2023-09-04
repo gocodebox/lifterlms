@@ -104,7 +104,7 @@ if ( ! $attempt->can_be_resumed() ) {
 		</li>
 <?php endforeach; ?>
 <?php } else { ?>
-	<p><?php esc_html_e( 'The quiz is still ongoing. You can resume your attempt by clicking the \'Resume Quiz\' button.', 'lifterlms' ); ?></p>
+	<p><?php esc_html_e( "The quiz is still ongoing. You can resume your attempt by clicking the 'Resume Quiz' button.", 'lifterlms' ); ?></p>
 <?php } ?>
 </ol>
 

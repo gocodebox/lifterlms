@@ -376,7 +376,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question     $question Question object.
 		 * @param LLMS_Quiz_Attempt $attempt  Attempt object.
 		 */
-		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_question', $this->get( 'title' ), $format, $this, $attempt );
+		return apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
 	}
 
 	/**

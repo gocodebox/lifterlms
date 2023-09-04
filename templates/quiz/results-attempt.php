@@ -3,10 +3,11 @@
  * Quiz Single Attempt Results.
  *
  * @since 3.16.0
+ * @since 3.27.0 Unknown.
  * @since [version] Hide answers if resumable attempt is incomplete.
- * @version 3.27.0
+ * @version [version]
  *
- * @arg $attempt (obj) LLMS_Quiz_Attempt instance.
+ * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  */
 defined( 'ABSPATH' ) || exit;
 
