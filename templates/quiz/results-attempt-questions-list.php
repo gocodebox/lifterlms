@@ -5,7 +5,7 @@
  * @since 3.16.0
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
- * @since [version] Hide answers if resumable attempt is incomplete.
+ * @since [version] Hide answers if resumable attempt is incomplete and escaped output.
  * @version [version]
  *
  * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
@@ -22,12 +22,12 @@ if ( ! $attempt->can_be_resumed() ) {
 		$quiz_question = $attempt_question->get_question();
 		if ( ! $quiz_question ) { // Question missing/deleted.
 			?>
-			<li class="llms-quiz-attempt-question type--removed status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>">
+			<li class="llms-quiz-attempt-question type--removed status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>">
 				<header class="llms-quiz-attempt-question-header">
 					<span class="toggle-answer">
 						<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
 						<span class="llms-points">
-							<?php printf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
+							<?php printf( esc_html__( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
 						</span>
 						<?php echo $attempt_question->get_status_icon(); ?>
 					</span>
@@ -38,7 +38,7 @@ if ( ! $attempt->can_be_resumed() ) {
 		}
 		?>
 
-		<li class="llms-quiz-attempt-question type--<?php echo $quiz_question->get( 'question_type' ); ?> status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
+		<li class="llms-quiz-attempt-question type--<?php echo esc_attr( $quiz_question->get( 'question_type' ) ); ?> status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
 			data-question-id="<?php echo $quiz_question->get( 'id' ); ?>"
 			data-grading-manual="<?php echo $attempt_question->can_be_manually_graded() ? 'yes' : 'no'; ?>"
 			data-points="<?php echo $attempt_question->get( 'points' ); ?>"
@@ -50,7 +50,7 @@ if ( ! $attempt->can_be_resumed() ) {
 
 					<?php if ( $quiz_question->get( 'points' ) ) : ?>
 						<span class="llms-points">
-							<?php printf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
+							<?php printf( esc_html__( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
 						</span>
 					<?php endif; ?>
 
@@ -69,7 +69,7 @@ if ( ! $attempt->can_be_resumed() ) {
 
 				<?php if ( $attempt_question->get( 'answer' ) ) : ?>
 					<div class="llms-quiz-attempt-answer-section llms-student-answer">
-						<p class="llms-quiz-results-label student-answer"><?php _e( 'Selected answer: ', 'lifterlms' ); ?></p>
+						<p class="llms-quiz-results-label student-answer"><?php esc_html_e( 'Selected answer: ', 'lifterlms' ); ?></p>
 						<?php echo $attempt_question->get_answer(); ?>
 					</div>
 				<?php endif; ?>
@@ -78,7 +78,7 @@ if ( ! $attempt->can_be_resumed() ) {
 					<?php if ( llms_parse_bool( $quiz_question->get_quiz()->get( 'show_correct_answer' ) ) ) : ?>
 						<?php if ( in_array( $quiz_question->get_auto_grade_type(), array( 'choices', 'conditional' ) ) ) : ?>
 							<div class="llms-quiz-attempt-answer-section llms-correct-answer">
-								<p class="llms-quiz-results-label correct-answer"><?php _e( 'Correct answer: ', 'lifterlms' ); ?></p>
+								<p class="llms-quiz-results-label correct-answer"><?php esc_html_e( 'Correct answer: ', 'lifterlms' ); ?></p>
 								<?php echo $attempt_question->get_correct_answer(); ?>
 							</div>
 						<?php endif; ?>
@@ -86,16 +86,15 @@ if ( ! $attempt->can_be_resumed() ) {
 
 					<?php if ( llms_parse_bool( $quiz_question->get( 'clarifications_enabled' ) ) ) : ?>
 						<div class="llms-quiz-attempt-answer-section llms-clarifications">
-							<p class="llms-quiz-results-label clarification"><?php _e( 'Clarification: ', 'lifterlms' ); ?></p>
+							<p class="llms-quiz-results-label clarification"><?php esc_html_e( 'Clarification: ', 'lifterlms' ); ?></p>
 							<?php echo $quiz_question->get( 'clarifications' ); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
 
-
 				<?php if ( $attempt_question->has_remarks() ) : ?>
 					<div class="llms-quiz-attempt-answer-section llms-remarks">
-						<p class="llms-quiz-results-label remarks"><?php _e( 'Instructor remarks: ', 'lifterlms' ); ?></p>
+						<p class="llms-quiz-results-label remarks"><?php esc_html_e( 'Instructor remarks: ', 'lifterlms' ); ?></p>
 						<div class="llms-remarks"><?php echo wpautop( $attempt_question->get( 'remarks' ) ); ?></div>
 					</div>
 				<?php endif; ?>

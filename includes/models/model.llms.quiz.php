@@ -227,51 +227,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		// Check if the quiz can be resumed by a student and if the resume time limit is not reached.
-		if ( $can_be_resumed_by_student && $this->has_resume_attempt_time_expired() ) {
+		if ( ! $can_be_resumed_by_student ) {
 			$can_be_resumed_by_student = false;
 		}
 
 		return $can_be_resumed_by_student;
 
-	}
-
-	/**
-	 * Determine if the student's resume quiz attempt time limit is expired.
-	 *
-	 * The resume quiz attempt time limit for a student is 1 day.
-	 *
-	 * @since [version]
-	 *
-	 * @return bool
-	 */
-	private function has_resume_attempt_time_expired() {
-
-		$student = llms_get_student();
-
-		if ( ! $student ) {
-			return false;
-		}
-
-		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
-
-		if ( ! $last_attempt->get( 'start_date' ) ) {
-			return false;
-		}
-
-		$start_date = $last_attempt->get( 'start_date' );
-
-		/**
-		 * Filters the X time for resuming quiz.
-		 *
-		 * @since [version]
-		 *
-		 * @param int $time_period The time period in days.
-		 */
-		$time_period     = apply_filters( 'llms_quiz_resume_time_period', 1 );
-		$expiration_date = strtotime( "+{$time_period} days", strtotime( $start_date ) );
-		$current_date    = llms_current_time( 'timestamp' );
-
-		return $current_date > $expiration_date;
 	}
 
 	/**

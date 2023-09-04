@@ -65,7 +65,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 		<?php if ( $quiz->is_open() && $quiz->can_be_resumed_by_student() ) : ?>
 			<form method="POST" action="" name="llms_resume_quiz" enctype="multipart/form-data">
 
-				<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo $quiz->get_student_last_attempt_key(); ?>"/>
+				<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo esc_attr( $quiz->get_student_last_attempt_key() ); ?>"/>
 
 				<input type="hidden" name="action" value="llms_resume_quiz" />
 
@@ -82,7 +82,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo esc_html( apply_filters( 'lifterlms_resume_quiz_button_text', __( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
+						echo esc_html( apply_filters( 'llms_resume_quiz_button_text', esc_html__( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
 					?>
 				</button>
 

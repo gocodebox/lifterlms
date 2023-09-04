@@ -19,7 +19,7 @@ if ( in_array( $donut_class, array( 'pass', 'fail' ) ) ) {
 }
 ?>
 
-<h2 class="llms-quiz-results-title"><?php printf( __( 'Attempt #%d Results', 'lifterlms' ), $attempt->get( 'attempt' ) ); ?></h2>
+<h2 class="llms-quiz-results-title"><?php printf( esc_html__( 'Attempt #%d Results', 'lifterlms' ), $attempt->get( 'attempt' ) ); ?></h2>
 
 <?php if ( ! $attempt->can_be_resumed() ) { ?>
 	<aside class="llms-quiz-results-aside">
@@ -28,10 +28,10 @@ if ( in_array( $donut_class, array( 'pass', 'fail' ) ) ) {
 		<?php endif; ?>
 		<ul class="llms-quiz-meta-info">
 			<?php if ( $attempt->get_count( 'gradeable_questions' ) ) : ?>
-				<li class="llms-quiz-meta-item"><?php printf( __( 'Correct Answers: %1$d / %2$d', 'lifterlms' ), $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'gradeable_questions' ) ); ?></li>
+				<li class="llms-quiz-meta-item"><?php printf( esc_html__( 'Correct Answers: %1$d / %2$d', 'lifterlms' ), $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'gradeable_questions' ) ); ?></li>
 			<?php endif; ?>
-			<li class="llms-quiz-meta-item"><?php printf( __( 'Completed: %s', 'lifterlms' ), $attempt->get_date( 'start' ) ); ?></li>
-			<li class="llms-quiz-meta-item"><?php printf( __( 'Total time: %s', 'lifterlms' ), $attempt->get_time() ); ?></li>
+			<li class="llms-quiz-meta-item"><?php printf( esc_html__( 'Completed: %s', 'lifterlms' ), $attempt->get_date( 'start' ) ); ?></li>
+			<li class="llms-quiz-meta-item"><?php printf( esc_html__( 'Total time: %s', 'lifterlms' ), $attempt->get_time() ); ?></li>
 		</ul>
 	</aside>
 <?php } ?>
