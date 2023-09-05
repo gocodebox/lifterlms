@@ -3,6 +3,8 @@
  * Single Question Template
  *
  * @since 1.0.0
+ * @since 3.16.0 Unknown.
+ * @since [version] Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
  * @version [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
