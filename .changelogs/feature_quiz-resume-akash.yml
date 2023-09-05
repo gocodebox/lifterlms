@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added filter `llms_quiz_can_be_resumed` for updating resume status for a quiz.

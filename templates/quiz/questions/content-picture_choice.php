@@ -15,16 +15,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$input_type = ( 'yes' === $question->get( 'multi_choices' ) ) ? 'checkbox' : 'radio';
-$choices    = $question->get_choices();
-$cols       = llms_get_picture_choice_question_cols( count( $choices ) );
-$answer     = $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : [];
+$input_type      = ( 'yes' === $question->get( 'multi_choices' ) ) ? 'checkbox' : 'radio';
+$choices         = $question->get_choices();
+$cols            = llms_get_picture_choice_question_cols( count( $choices ) );
+$question_answer = $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : [];
 ?>
 
 <ol class="llms-question-choices llms-flex-cols">
 	<?php foreach ( $choices as $choice ) : ?>
 		<?php
-		$answer = is_array( $answer ) ? in_array( $choice->get( 'id' ), $answer, true ) ? $choice->get( 'id' ) : null : null;
+		$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;
 		?>
 		<li class="llms-choice type--picture llms-col-<?php echo absint( $cols ); ?>" id="choice-wrapper-<?php echo $choice->get( 'id' ); ?>">
 			<label for="choice-<?php echo $choice->get( 'id' ); ?>">

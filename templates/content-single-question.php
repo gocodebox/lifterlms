@@ -2,8 +2,10 @@
 /**
  * Single Question Template
  *
- * @since    1.0.0
- * @version 3.16.0
+ * @since 1.0.0
+ * @since 3.16.0 Unknown.
+ * @since [version] Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
+ * @version [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance
@@ -18,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  */
 do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-	<h3 class="llms-question-text"><?php echo $question->get_question(); ?></h3>
+	<h3 class="llms-question-text"><?php echo $question->get_question( 'html', $attempt ); ?></h3>
 
 	<?php
 		/**

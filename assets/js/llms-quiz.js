@@ -80,11 +80,16 @@
 		status: null,
 
 		/**
+		 * Records if the quiz can be resumed.
+		 */
+		resumable: null,
+
+		/**
 		 * Bind DOM events.
 		 *
 		 * @since 1.0.0
 		 * @since 3.16.6 Unknown.
-		 * @since [version] Add quiz resume
+		 * @since [version] Add quiz resume and hide leave warning if quiz is resumable.
 		 *
 		 * @return {Void}
 		 */
@@ -117,11 +122,13 @@
 				}
 			} );
 
-			// warn when quiz is running and user tries to leave the page.
+			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.
 			$( window ).on( 'beforeunload', function() {
-				if ( self.status ) {
+				if ( self.status && ! self.resumable ) {
 					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
 				}
+
+				return;
 			} );
 
 			// Complete the quiz attempt when user leaves if the quiz is running.
@@ -407,112 +414,46 @@
 		},
 
 		/**
-		 * Start a Quiz via AJAX call
+		 * Start a Quiz.
 		 *
-		 * @return   void
-		 * @since    1.0.0
-		 * @version  3.24.3
+         * @since 1.0.0
+         * @since 3.24.3 Unknown.
+		 * @since [version] Abstracted the function in `init_quiz`.
+		 * 
+		 * @return {Void}
 		 */
 		start_quiz: function () {
 
-			var self = this;
-
-			this.load_ui_elements();
-			this.$ui        = $( '#llms-quiz-ui' );
-			this.$buttons   = $( '#llms-quiz-nav button' );
-			this.$container = $( '#llms-quiz-question-wrapper' );
-
-			// bind submission event for answering questions
-			$( '#llms-next-question, #llms-complete-quiz' ).on( 'click', function( e ) {
-				e.preventDefault();
-				self.answer_question( $( this ) );
-			} );
-
-			// bind submission event for navigating backwards
-			$( '#llms-prev-question' ).on( 'click', function( e ) {
-				e.preventDefault();
-				self.previous_question();
-			} );
-
-			LLMS.Ajax.call( {
-				data: {
-					action: 'quiz_start',
-					attempt_key: $( '#llms-attempt-key' ).val(),
-					lesson_id : $( '#llms-lesson-id' ).val(),
-					quiz_id : $( '#llms-quiz-id' ).val(),
-				},
-				beforeSend: function() {
-
-					self.status = true;
-					$( '#llms-quiz-wrapper, #quiz-start-button' ).remove();
-					$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
-					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Quiz...' ) );
-
-				},
-				error: function( r, s, t ) {
-					console.log( r, s, t );
-				},
-				success: function( r ) {
-
-					self.toggle_loader( 'hide' );
-
-					if ( r.data && r.data.html ) {
-
-						// start the quiz timer when a time limit is set
-						if ( r.data.time_limit ) {
-							self.start_quiz_timer( r.data.time_limit );
-						}
-
-						self.attempt_key     = r.data.attempt_key;
-						self.total_questions = r.data.total;
-
-						self.load_question( r.data.html );
-
-					} else if ( r.message ) {
-
-						self.$container.append( '<p>' + r.message + '</p>' );
-
-					} else {
-
-						var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
-						self.$container.append( '<p>' + msg + '</p>' );
-
-					}
-
-				}
-
-			} );
-
-			/**
-			 * Use JS mouse events instead of CSS :hover because iOS is really smart
-			 *
-			 * @see: https://css-tricks.com/annoying-mobile-double-tap-link-issue/
-			 */
-			if ( ! LLMS.is_touch_device() ) {
-
-				this.$ui.on( 'mouseenter', 'li.llms-choice label', function() {
-					$( this ).addClass( 'hovered' );
-				} );
-				this.$ui.on( 'mouseleave', 'li.llms-choice label', function() {
-					$( this ).removeClass( 'hovered' );
-				} );
-
-			}
-
+			this.init_quiz( 'quiz_start' );
 		},
 
 		/**
-		 * Resume a Quiz via AJAX call.
-		 *
-		 * TODO: Similar to `start_quiz`, consider abstract teh similar parts.
+		 * Resume a Quiz.
 		 *
 		 * @since [version]
 		 *
 		 * @return {Void}
 		 */
 		resume_quiz: function () {
+			
+			this.init_quiz( 'quiz_resume' );
+		},
+
+		/**
+		 * Initiate 'Start' or 'Resume' action on a Quiz via AJAX call.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		init_quiz: function ( action ) {
 
 			var self = this;
+
+			if( 'quiz_resume' === action ) {
+				// Disable resume button.
+				$( '#llms_resume_quiz' ).attr( 'disabled', 'disabled' );
+			}
 
 			this.load_ui_elements();
 			this.$ui        = $( '#llms-quiz-ui' );
@@ -531,15 +472,26 @@
 				self.previous_question();
 			} );
 
-			LLMS.Ajax.call( {
-				data: {
+			if ( 'quiz_resume' === action ) {
+				data = {
 					action: 'quiz_resume',
 					attempt_key: $( '#llms-attempt-key' ).val(),
-				},
+				};
+			} else {
+				data = {
+					action: 'quiz_start',
+					attempt_key: $( '#llms-attempt-key' ).val(),
+					lesson_id : $( '#llms-lesson-id' ).val(),
+					quiz_id : $( '#llms-quiz-id' ).val(),
+				};
+			}
+
+			LLMS.Ajax.call( {
+				data: data,
 				beforeSend: function() {
 
 					self.status = true;
-					$( '#llms-quiz-wrapper, #quiz-start-button', '#quiz-resume-button' ).remove();
+					$( '#llms-quiz-wrapper, #quiz-start-button, #quiz-resume-button' ).remove();
 					$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
 					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Quiz...' ) );
 
@@ -555,7 +507,14 @@
 
 						self.attempt_key     = r.data.attempt_key;
 						self.total_questions = r.data.total;
-						r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
+						self.resumable       = r.data.can_be_resumed;
+
+						if( 'quiz_resume' === action ) {
+							r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
+						} else if ( r.data.time_limit ) {
+							self.start_quiz_timer( r.data.time_limit );
+						}
+
 						self.load_question( r.data.html );
 
 					} else if ( r.message ) {
@@ -588,7 +547,6 @@
 				} );
 
 			}
-
 		},
 
 		/**
@@ -718,6 +676,11 @@
 		 * @version  3.16.9
 		 */
 		load_ui_elements: function() {
+
+			// Removing the quiz UI elements if they already exist.
+			if ( $( '#llms-quiz-ui').length > 0 ) {
+				$( '#llms-quiz-ui' ).remove();
+			}
 
 			var $html   = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
 				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />' )

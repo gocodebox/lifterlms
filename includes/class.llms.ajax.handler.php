@@ -608,7 +608,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
-	 * @since [version] Use `$attempt->get( 'status' )` instead of the not existing `$attempt->get_status()` method.
+	 * @since [version] Use `$attempt->get( 'status' )` instead of the not existing `$attempt->get_status()` method and added `can_be_resumed` param.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -669,11 +669,12 @@ class LLMS_AJAX_Handler {
 		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
-			'attempt_key' => $attempt->get_key(),
-			'html'        => $html,
-			'time_limit'  => $limit,
-			'question_id' => $question_id,
-			'total'       => $attempt->get_count( 'questions' ),
+			'attempt_key'    => $attempt->get_key(),
+			'html'           => $html,
+			'time_limit'     => $limit,
+			'question_id'    => $question_id,
+			'total'          => $attempt->get_count( 'questions' ),
+			'can_be_resumed' => $attempt->can_be_resumed(),
 		);
 
 	}
@@ -755,11 +756,12 @@ class LLMS_AJAX_Handler {
 			);
 
 			return array(
-				'attempt_key'  => $attempt->get_key(),
-				'html'         => $html,
-				'question_id'  => $question_id,
-				'total'        => $attempt->get_count( 'questions' ),
-				'question_ids' => $question_ids,
+				'attempt_key'    => $attempt->get_key(),
+				'html'           => $html,
+				'question_id'    => $question_id,
+				'total'          => $attempt->get_count( 'questions' ),
+				'question_ids'   => $question_ids,
+				'can_be_resumed' => $attempt->can_be_resumed(),
 			);
 
 		} else {

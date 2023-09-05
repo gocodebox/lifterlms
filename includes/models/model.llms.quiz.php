@@ -190,7 +190,20 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return bool
 	 */
 	public function can_be_resumed() {
-		return llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+
+		$can_be_resumed_status = llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+
+		/**
+		 * Filters the quiz resumable status.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool      $can_be_resumed Whether or not the quiz can be resumed.
+		 * @param LLMS_Quiz $quiz           The LLMS_Quiz instance.
+		 */
+		$can_be_resumed = apply_filters( 'llms_quiz_can_be_resumed', $can_be_resumed_status, $this );
+
+		return $can_be_resumed;
 	}
 
 	/**
@@ -213,7 +226,33 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			$can_be_resumed_by_student = $last_attempt && $last_attempt->can_be_resumed();
 		}
 
-		return $can_be_resumed;
+		// Check if the quiz can be resumed by a student and if the resume time limit is not reached.
+		if ( ! $can_be_resumed_by_student ) {
+			$can_be_resumed_by_student = false;
+		}
+
+		return $can_be_resumed_by_student;
+
+	}
+
+	/**
+	 * Gets quiz's last attempt key of a user.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return bool
+	 */
+	public function get_student_last_attempt_key( $user_id = null ) {
+
+		$student      = llms_get_student( $user_id );
+		$last_attempt = false;
+
+		if ( $student ) {
+			$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) )->get_key();
+		}
+
+		return $last_attempt;
 
 	}
 
