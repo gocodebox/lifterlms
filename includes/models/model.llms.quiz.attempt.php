@@ -805,12 +805,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			return false;
 		}
 
-		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'quiz_id' ) );
-
-		if ( ! $last_attempt->get( 'start_date' ) ) {
+		if ( ! $this->get( 'start_date' ) ) {
 			return false;
 		}
-		$start_date = $last_attempt->get( 'start_date' );
+		$start_date = $this->get( 'start_date' );
 
 		/**
 		 * Filters the X time for resuming quiz.
@@ -819,7 +817,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		 *
 		 * @param int $time_period The time period in days.
 		 */
-		$time_period     = apply_filters( 'llms_quiz_attempt_resume_time_period', 1 );
+		$time_period     = apply_filters( 'llms_quiz_attempt_resume_time_period', 1, $this );
 		$expiration_date = strtotime( "+{$time_period} days", strtotime( $start_date ) );
 		$current_date    = llms_current_time( 'timestamp' );
 

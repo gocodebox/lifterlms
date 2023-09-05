@@ -416,7 +416,8 @@
 		/**
 		 * Start a Quiz.
 		 *
-         * @since 3.16.0
+         * @since 1.0.0
+         * @since 3.24.3 Unknown.
 		 * @since [version] Abstracted the function in `init_quiz`.
 		 * 
 		 * @return {Void}
@@ -471,7 +472,7 @@
 				self.previous_question();
 			} );
 
-			if( 'quiz_resume' === action ) {
+			if ( 'quiz_resume' === action ) {
 				data = {
 					action: 'quiz_resume',
 					attempt_key: $( '#llms-attempt-key' ).val(),

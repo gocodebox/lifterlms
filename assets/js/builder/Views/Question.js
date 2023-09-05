@@ -2,7 +2,6 @@
  * Single Question View.
  *
  * @since 3.16.0
- *
  * @version [version]
  */
 define( [
