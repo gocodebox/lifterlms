@@ -5,6 +5,7 @@
  * @since 3.16.0
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
+ * @since 7.3.0 Script moved into the main llms.js.
  * @since [version] Hide answers if resumable attempt is incomplete and escaped output.
  * @version [version]
  *
@@ -107,23 +108,3 @@ if ( ! $attempt->can_be_resumed() ) {
 	<p><?php esc_html_e( "The quiz is still ongoing. You can resume your attempt by clicking the 'Resume Quiz' button.", 'lifterlms' ); ?></p>
 <?php } ?>
 </ol>
-
-<script>
-( function( $ ) {
-	$( '.llms-quiz-attempt-question-header a.toggle-answer' ).on( 'click', function( e ) {
-
-		e.preventDefault();
-
-		var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
-
-		$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
-
-		if ( $curr.is( ':visible' ) ) {
-			$curr.slideUp( 200 );
-		}  else {
-			$curr.slideDown( 200 );
-		}
-
-	} );
-} )( jQuery );
-</script>

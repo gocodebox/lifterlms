@@ -108,7 +108,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "height": 100,
+      "height": "100px",
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
@@ -121,9 +121,6 @@ Array [
     "attributes": Object {
       "content": "Presented to",
       "level": 3,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -146,9 +143,6 @@ Array [
     "attributes": Object {
       "content": "[llms-user display_name]",
       "level": 2,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -171,9 +165,6 @@ Array [
     "attributes": Object {
       "content": "for demonstration of excellence",
       "level": 3,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -194,7 +185,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "height": 100,
+      "height": "100px",
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
@@ -378,7 +369,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "height": 100,
+      "height": "100px",
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
@@ -391,9 +382,6 @@ Array [
     "attributes": Object {
       "content": "Presented to",
       "level": 3,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -416,9 +404,6 @@ Array [
     "attributes": Object {
       "content": "[llms-user display_name]",
       "level": 2,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -441,9 +426,6 @@ Array [
     "attributes": Object {
       "content": "for demonstration of excellence",
       "level": 3,
-      "llms_visibility": "all",
-      "llms_visibility_in": "",
-      "llms_visibility_posts": "[]",
       "style": Object {
         "spacing": Object {
           "margin": Object {
@@ -464,7 +446,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "height": 100,
+      "height": "100px",
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
