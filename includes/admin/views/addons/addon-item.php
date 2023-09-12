@@ -1,14 +1,15 @@
 <?php
 /**
- * Single Add-on Item View
- * Used on Add-Ons browser screen
+ * Single Add-on Item View.
+ * Used on Add-Ons browser screen.
  *
- * @since    3.22.0
- * @version  3.22.0
+ * @since 3.22.0
+ * @since [version] Updated image URLs to use the new local addon image directory.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
-
 ?>
+
 <li class="llms-add-on-item type--<?php echo esc_attr( $addon->get( 'type' ) ); ?>" id="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 
 	<div class="llms-add-on">
@@ -16,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 		<a class="llms-add-on-link" href="<?php echo esc_url( $addon->get_permalink() ); ?>" target="_blank">
 
 			<header>
-				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( $addon->get( 'image' ) ); ?>">
+				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'image' ) ) ); ?>">
 				<h4><?php echo $addon->get( 'title' ); ?></h4>
 			</header>
 
