@@ -4,7 +4,7 @@
  * Used on Add-Ons browser screen.
  *
  * @since 3.22.0
- * @since [version] Updated image URLs to use the new local addon image directory.
+ * @since [version] Updated image URLs to use the new local addon image directory with a fallback remote image.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,10 @@ defined( 'ABSPATH' ) || exit;
 		<a class="llms-add-on-link" href="<?php echo esc_url( $addon->get_permalink() ); ?>" target="_blank">
 
 			<header>
-				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'image' ) ) ); ?>">
+				<object data="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'image' ) ) ); ?>">
+					<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( $addon->get( 'image' ) ); ?>">
+				</object>
+
 				<h4><?php echo $addon->get( 'title' ); ?></h4>
 			</header>
 
@@ -35,7 +38,9 @@ defined( 'ABSPATH' ) || exit;
 							?>
 							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
-								<img alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?> logo" src="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ); ?>">
+								<object data="<?php echo esc_url( llms()->plugin_url() . '/assets/images/aaddons/' . basename( $addon->get( 'image' ) ) ); ?>">
+									<img src="<?php echo esc_url( $addon->get( 'author' )['image'] ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
+								</object>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
