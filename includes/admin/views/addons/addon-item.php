@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 							?>
 							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
-								<img alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?> logo" src="<?php echo esc_url( $addon->get( 'author' )['image'] ); ?>">
+								<img alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?> logo" src="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ); ?>">
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
