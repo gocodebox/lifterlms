@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 7.1.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -3774,6 +3774,8 @@ return array(
 		'13'  => __( 'Caraga', 'lifterlms' ),
 		'14'  => __( 'Autonomous Region in Muslim Mindanao', 'lifterlms' ),
 		'15'  => __( 'Cordillera Administrative Region', 'lifterlms' ),
+		// Chaiyaphum manually added, see https://github.com/gocodebox/lifterlms/issues/2527.
+		'36'  => __( 'Chaiyaphum', 'lifterlms' ),
 		'40'  => __( 'Calabarzon', 'lifterlms' ),
 		'41'  => __( 'Mimaropa', 'lifterlms' ),
 		'ABR' => __( 'Abra', 'lifterlms' ),
