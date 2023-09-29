@@ -3774,8 +3774,6 @@ return array(
 		'13'  => __( 'Caraga', 'lifterlms' ),
 		'14'  => __( 'Autonomous Region in Muslim Mindanao', 'lifterlms' ),
 		'15'  => __( 'Cordillera Administrative Region', 'lifterlms' ),
-		// Chaiyaphum manually added, see https://github.com/gocodebox/lifterlms/issues/2527.
-		'36'  => __( 'Chaiyaphum', 'lifterlms' ),
 		'40'  => __( 'Calabarzon', 'lifterlms' ),
 		'41'  => __( 'Mimaropa', 'lifterlms' ),
 		'ABR' => __( 'Abra', 'lifterlms' ),
@@ -4639,6 +4637,8 @@ return array(
 		'33' => __( 'Si Sa Ket', 'lifterlms' ),
 		'34' => __( 'Ubon Ratchathani', 'lifterlms' ),
 		'35' => __( 'Yasothon', 'lifterlms' ),
+		// Chaiyaphum manually added, see https://github.com/gocodebox/lifterlms/issues/2527.
+		'36' => __( 'Chaiyaphum', 'lifterlms' ),
 		'37' => __( 'Amnat Charoen', 'lifterlms' ),
 		'38' => __( 'Bueng Kan', 'lifterlms' ),
 		'39' => __( 'Nong Bua Lam Phu', 'lifterlms' ),
