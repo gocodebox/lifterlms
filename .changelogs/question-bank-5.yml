@@ -1,4 +1,0 @@
-significance: minor
-type: added
-entry: Added method `LLMS_Quiz::get_questions_count()` for getting count of
-  questions.

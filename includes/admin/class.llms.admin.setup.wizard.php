@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *              - `LLMS_Admin_Setup_Wizard::output_step_html()` method
  *              - `LLMS_Admin_Setup_Wizard::scripts()` method
  *              - `LLMS_Admin_Setup_Wizard::watch_course_generation()` method
- * @since [version] Abstracted: {@see LLMS_Abstract_Admin_Wizard}.
+ * @since 7.4.0 Abstracted: {@see LLMS_Abstract_Admin_Wizard}.
  */
 class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 
@@ -33,7 +33,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 4.4.4 Remove output of inline scripts.
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Enqueue importer styles.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return bool
 	 */
@@ -141,7 +141,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
 	 * to the course post table list sorted by created date with the most recent courses first.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
 	 * @return string

@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: "Course Builder: Correctly get/set (and track changes of) Backbone's
-  model properties which are objects."

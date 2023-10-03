@@ -2,7 +2,7 @@
  * Quiz Model.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.4.0
  */
 define( [
 		'Collections/Questions',
@@ -50,7 +50,7 @@ define( [
 		 * New lesson defaults.
 		 *
 		 * @since 3.16.0
-		 * @since [version] Added filter for filtering defaults.
+		 * @since 7.4.0 Added filter for filtering defaults.
 		 *
 		 * @return {Object}
 		 */

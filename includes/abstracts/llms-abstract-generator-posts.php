@@ -185,7 +185,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			/**
 			 * Filter the data used to generate a new post.
 			 *
-			 * @since [version]
+			 * @since 7.4.0
 			 *
 			 * @param array $new_post_data New post data array.
 			 * @param array $raw           Original raw post data array.

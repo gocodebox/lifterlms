@@ -4,8 +4,8 @@
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Added support for `upsell` field type and multiple input fields.
- * @version [version]
+ * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
+ * @version 7.4.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

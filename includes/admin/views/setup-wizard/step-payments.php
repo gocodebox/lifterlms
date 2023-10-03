@@ -6,8 +6,8 @@
  *
  * @since 4.4.4
  * @since 4.8.0 Unknown.
- * @since [version] Escape output.
- * @version [version]
+ * @since 7.4.0 Escape output.
+ * @version 7.4.0
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */

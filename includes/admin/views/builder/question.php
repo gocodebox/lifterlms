@@ -4,8 +4,8 @@
  *
  * @since 3.16.0
  * @since 3.27.0 Unknown.
- * @since [version] Escaped strings in labels.
- * @version [version]
+ * @since 7.4.0 Escaped strings in labels.
+ * @version 7.4.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-template">

@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Added filter hook `llms_admin_show_header` to allow 3rd parties filering
-  whether or not to show the brandede header in the admin.
