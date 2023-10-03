@@ -1,8 +1,11 @@
-//
-// backbone.trackit - 0.1.0
-// The MIT License
-// Copyright (c) 2013 The New York Times, CMS Group, Matthew DeLambo <delambo@gmail.com>
-//
+/**
+ * backbone.trackit - 0.1.0
+ *
+ * The MIT License
+ * Copyright (c) 2013 The New York Times, CMS Group, Matthew DeLambo <delambo@gmail.com>
+ *
+ * @since 7.4.0 Added support for deep models (attributes that are objects themselves).
+ */
 (function() {
 
 	// Unsaved Record Keeping
@@ -132,8 +135,14 @@
 			return changed;
 		},
 
+		/**
+		 * Reset tracking.
+		 *
+		 * @since 7.4.0 Added support for deep models (attributes that are objects themselves),
+		 *                  by using `_.deepClone` in place of `_.clone`.
+		 */
 		_resetTracking: function() {
-			this._originalAttrs = _.clone(this.attributes);
+			this._originalAttrs = _.deepClone(this.attributes);
 			this._unsavedChanges = {};
 		},
 
