@@ -7,7 +7,7 @@ v7.4.0 - 2023-10-03
 ##### New Features
 
 + Added method `LLMS_Quiz::get_questions_count()` for getting count of questions.
-+ Added support for "Question Bank" feature of the LifterLMS Advanced Quizzes add-on.
++ Added support for the upcoming "Question Bank" feature of the LifterLMS Advanced Quizzes add-on.
 
 ##### Updates and Enhancements
 
@@ -20,10 +20,10 @@ v7.4.0 - 2023-10-03
 ##### Developer Notes
 
 + Course Builder: Correctly get/set (and track changes of) Backbone's model properties which are objects.
-+ Added filter hook `llms_admin_show_header` to allow 3rd parties filering whether or not to show the brandede header in the admin.
++ Added filter hook `llms_admin_show_header` to allow 3rd parties filtering whether or not to show the branded header in the admin.
 + Added filter `llms_generator_new_post_data`, to allow third parties to filter the data used when creating a new post while cloning/exporting a course or lesson.
-+ Abastracted the `LLMS_Admin_Setup_Wizard` class, added the class `LLMS_Abstract_Admin_Wizard`.
-+ Added boolean filter `llms_quiz_attempt_questions_randomize` to enable/disable questions randomize.
++ Abstracted the `LLMS_Admin_Setup_Wizard` class, added the class `LLMS_Abstract_Admin_Wizard`.
++ Added filter `llms_quiz_attempt_questions_randomize` to enable/disable questions randomize.
 + Added filter `llms_quiz_attempt_questions` to modify the questions array for the quiz.
 + Added filter `llms_quiz_questions_count` to filter the quiz's question count.
 
