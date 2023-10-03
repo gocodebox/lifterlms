@@ -1,9 +1,11 @@
 <?php
 /**
- * Builder question view
+ * Builder question view.
  *
- * @since   3.16.0
- * @version 3.27.0
+ * @since 3.16.0
+ * @since 3.27.0 Unknown.
+ * @since [version] Escaped strings in labels.
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-template">
@@ -48,7 +50,7 @@
 
 
 		<div class="llms-question-points llms-editable-number tip--top-left" data-tip="{{{ data.get_points_percentage() }}}">
-			<input class="llms-input two-digits" min="0" max="99" name="question_points" type="number" value="{{{ data.get( 'points' ) }}}" tabindex="-1"<# if ( ! data.get( 'question_type' ).get( 'points' ) ) { print( ' disabled'); }#>><small><?php _e( 'points', 'lifterlms' ); ?></small>
+			<input class="llms-input two-digits" min="0" max="99" name="question_points" type="number" value="{{{ data.get( 'points' ) }}}" tabindex="-1"<# if ( ! data.get( 'question_type' ).get( 'points' ) ) { print( ' disabled'); }#>><small><?php esc_html_e( 'points', 'lifterlms' ); ?></small>
 		</div>
 
 	</header>
@@ -63,7 +65,7 @@
 				<# if ( data.get( 'question_type' ).get( 'description' ) ) { #>
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Description', 'lifterlms' ); ?></span>
+							<span class="llms-label"><?php esc_html_e( 'Description', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="description_enabled"<# if ( 'yes' === data.get( 'description_enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
@@ -83,7 +85,7 @@
 				<# if ( data.get( 'question_type' ).get( 'image' ) ) { #>
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Image', 'lifterlms' ); ?></span>
+							<span class="llms-label"><?php esc_html_e( 'Image', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="image.enabled"<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
@@ -94,13 +96,13 @@
 									<div class="llms-image">
 										<a class="llms-action-icon danger tip--top-left" data-attribute="image" data-tip="<?php esc_attr_e( 'Remove image', 'lifterlms' ); ?>" href="#llms-remove-image">
 											<i class="fa fa-times-circle" aria-hidden="true"></i>
-											<span class="screen-reader-text"><?php _e( 'Remove image', 'lifterlms' ); ?></span>
+											<span class="screen-reader-text"><?php esc_html_e( 'Remove image', 'lifterlms' ); ?></span>
 										</a>
 										<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{{ data.get( 'image' ).get( 'src' ) }}}">
 									</div>
 								<# } else { #>
 									<button class="llms-element-button small llms-add-image" data-attribute="image" data-image-size="full">
-										<span class="fa fa-picture-o"></span> <?php _e( 'Add Image', 'lifterlms' ); ?>
+										<span class="fa fa-picture-o"></span> <?php esc_html_e( 'Add Image', 'lifterlms' ); ?>
 									</button>
 								<# } #>
 							</div>
@@ -111,7 +113,7 @@
 				<# if ( data.get( 'question_type' ).get( 'video' ) ) { #>
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Video', 'lifterlms' ); ?></span>
+							<span class="llms-label"><?php esc_html_e( 'Video', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="video_enabled"<# if ( 'yes' === data.get( 'video_enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
@@ -134,11 +136,11 @@
 
 				<header class="llms-question-choices-list-header">
 
-					<span class="llms-label"><?php _e( 'Choices', 'lifterlms' ); ?></span>
+					<span class="llms-label"><?php esc_html_e( 'Choices', 'lifterlms' ); ?></span>
 
 					<# if ( data.get( 'question_type' ).get_multi_choices() && data.get( 'question_type' ).get_choice_selectable() ) { #>
 						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
+							<span class="llms-label"><?php esc_html_e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
@@ -154,11 +156,11 @@
 
 		<div class="llms-question-features">
 
-			<div class="llms-settings-row">
-				<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
+			<# if ( data.get( 'question_type' ).get( 'clarifications' ) ) { #>
+				<div class="llms-settings-row">
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Result Clarifications', 'lifterlms' ); ?></span>
+							<span class="llms-label"><?php esc_html_e( 'Result Clarifications', 'lifterlms' ); ?></span>
 							<input type="checkbox" name="clarifications_enabled"<# if ( 'yes' === data.get( 'clarifications_enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
@@ -168,8 +170,8 @@
 							</div>
 						<# } #>
 					</div>
-				<# } #>
-			</div>
+				</div>
+			<# } #>
 
 		</div>
 

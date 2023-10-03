@@ -1,7 +1,8 @@
 /**
- * Quiz Model
- * @since    3.16.0
- * @version  3.24.0
+ * Quiz Model.
+ *
+ * @since 3.16.0
+ * @version [version]
  */
 define( [
 		'Collections/Questions',
@@ -46,14 +47,16 @@ define( [
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.6
+		 * New lesson defaults.
+		 *
+		 * @since 3.16.0
+		 * @since [version] Added filter for filtering defaults.
+		 *
+		 * @return {Object}
 		 */
 		defaults: function() {
 
-			return {
+			return window.llms.hooks.applyFilters( 'llms_quiz_model_defaults', {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
@@ -81,7 +84,7 @@ define( [
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,
-			};
+			} );
 
 		},
 
