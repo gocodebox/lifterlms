@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 7.1.3
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -4637,6 +4637,8 @@ return array(
 		'33' => __( 'Si Sa Ket', 'lifterlms' ),
 		'34' => __( 'Ubon Ratchathani', 'lifterlms' ),
 		'35' => __( 'Yasothon', 'lifterlms' ),
+		// Chaiyaphum manually added, see https://github.com/gocodebox/lifterlms/issues/2527.
+		'36' => __( 'Chaiyaphum', 'lifterlms' ),
 		'37' => __( 'Amnat Charoen', 'lifterlms' ),
 		'38' => __( 'Bueng Kan', 'lifterlms' ),
 		'39' => __( 'Nong Bua Lam Phu', 'lifterlms' ),
