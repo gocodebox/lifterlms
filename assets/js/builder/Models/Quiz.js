@@ -1,5 +1,5 @@
 /**
- * Quiz Model
+ * Quiz Model.
  *
  * @since 3.16.0
  * @version [version]
@@ -53,13 +53,13 @@ define( [
 		 *
 		 * @since 3.16.0
 		 * @since 3.16.6 Unknown.
-		 * @since [version] Added `can_be_resumed` property.
+		 * @since [version] Added filter for filtering defaults and `can_be_resumed` property.
 		 *
-		 * @return {obj}
+		 * @return {Object}
 		 */
 		defaults: function() {
 
-			return {
+			return window.llms.hooks.applyFilters( 'llms_quiz_model_defaults', {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
@@ -88,7 +88,7 @@ define( [
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,
-			};
+			} );
 
 		},
 

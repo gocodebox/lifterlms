@@ -111,6 +111,26 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get questions count.
+	 *
+	 * @since [version]
+	 *
+	 * @return int Question Count.
+	 */
+	public function get_questions_count() {
+
+		/**
+		 * Filter the count of questions in a quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @param int       $questions_count Number of questions in a quiz.
+		 * @param LLMS_Quiz $quiz            Current quiz object.
+		 */
+		return apply_filters( 'llms_quiz_questions_count', count( $this->get_questions( 'ids' ) ), $this );
+	}
+
+	/**
 	 * Retrieve the time limit formatted as a human readable string.
 	 *
 	 * @since 3.16.0

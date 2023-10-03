@@ -1,0 +1,322 @@
+@import "_includes/vars";
+
+$input_padding: 0.3em 0.6em;
+
+#wpadminbar, #adminmenumain, #wpfooter {
+	display: none;
+}
+
+#llms-setup-wizard {
+
+	background-color: #F0F0F1;
+	height: 100%;
+	left: 0;
+	overflow: scroll;
+	position: fixed;
+	top: 0;
+	width: 100%;
+
+}
+
+.llms-setup-wrapper {
+	margin: 30px auto;
+	max-width: 640px;
+}
+
+#llms-logo {
+	text-align: center;
+
+	a {
+		display: inline-block;
+	}
+
+	img {
+		max-width: 200px;
+	}
+
+}
+
+.llms-setup-content {
+	background-color: #FFF;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+	padding: 30px;
+
+	h1, h2, h3, h4, h5, h6 {
+		color: #3C434A;
+	}
+
+	a:not( .llms-button-primary ):not( .llms-button-secondary ) {
+		color: $color-brand-blue;
+	}
+
+	p, li {
+		color: #3C434A;
+		font-size: 16px;
+	}
+
+	p.error {
+		color: $color-red;
+		background: rgba($color-red,0.1);
+		border: 1px solid currentColor;
+		padding: 1em;
+		border-radius: 4px;
+		margin: 1.5em 0 0;
+		font-size: 15px;
+		text-align: left;
+	}
+
+	label {
+		font-weight: 500;
+	}
+
+	table {
+		border-bottom: 1px solid #f1f1f1;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	td {
+		border-top: 1px solid #f1f1f1;
+
+		&:first-child {
+			padding-right: 10px;
+			width: 33%;
+
+			a {
+				font-size: 16px;
+				font-weight: 500;
+			}
+
+			i {
+				display: block;
+				font-size: 13px;
+				margin-top: 10px;
+
+				a {
+					font-size: 13px;
+				}
+			}
+
+		}
+
+	}
+
+	small {
+		font-size: small;
+	}
+
+	.has-checkbox-field {
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+		align-items: center;
+		align-content: center;
+		gap: 0.5em;
+		font-weight: normal;
+		font-size: 16px;
+
+		input {
+			margin: 0;
+		}
+	}
+
+	label {
+		font-size: 16px;
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
+	small + label {
+		margin-top: 1em;
+	}
+
+	[type=text] {
+		width: 100%;
+		clear: both;
+		margin: 0;
+		padding: $input_padding;
+	}
+
+	.has-date-field {
+		font-size: 16px;
+		display: flex;
+		margin-bottom: 0.5em;
+		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 0.5em;
+	}
+
+	[type=date] {
+		padding: $input_padding;
+	}
+
+	.is-hidden {
+		display: none;
+	}
+}
+
+.llms-setup-date-fields {
+	display: flex;
+	justify-content: space-between;
+	gap: 1em;
+	padding-top: 2em;
+}
+
+.llms-setup-date-field {
+	flex: 1;
+}
+
+.llms-setup-actions {
+	margin-top: 2em;
+	text-align: right;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1em;
+
+	.llms-button-primary {
+		display: inline-block;
+
+		&:after {
+			content: "\f054";
+			font-family: 'FontAwesome';
+			font-weight: 900;
+			padding-left: 10px;
+		}
+
+	}
+}
+
+.llms-exit-setup {
+	color: inherit !important;
+	margin-right: 10px;
+
+	+ .llms-button-primary,
+	+ .llms-button-secondary {
+		margin-left: auto;
+	}
+}
+
+.llms-importing-msgs {
+	a {
+		color: $color-brand-blue;
+	}
+
+	.llms-importing-msg {
+		display: none;
+		font-size: 14px;
+		font-style: italic;
+		text-align: right;
+	}
+}
+
+ul.llms-importable-courses {
+	border-bottom: 1px solid #f1f1f1;
+	display: block;
+
+	li.llms-importable-course {
+		border-top: 1px solid #f1f1f1;
+		display: block;
+		margin: 0;
+		max-width: 100%;
+		padding: 20px 40px 20px 0;
+
+		h3 {
+			margin: 0;
+		}
+
+		p {
+			margin: 10px 0 0 0;
+		}
+
+		label {
+			font-weight: 400;
+		}
+
+		img {
+			float: left;
+			margin-right: 15px;
+			width: 22%;
+		}
+
+		.llms-switch {
+			float: right;
+			right: -40px;
+
+			input.llms-toggle-round:checked + label {
+				border-color: $color-brand-blue;
+				background-color: $color-brand-blue;
+			}
+
+		}
+
+	}
+}
+
+.llms-setup-progress {
+	display: flex;
+	margin: 20px 0;
+
+	li {
+		border-bottom: 4px solid $color-brand-blue;
+		display: inline-block;
+		font-size: 14px;
+		padding-bottom: 10px;
+		position: relative;
+		text-align: center;
+		flex: 1;
+
+		a {
+			color: $color-brand-blue;
+			text-decoration: none;
+		}
+
+		&:after {
+			background: $color-brand-blue;
+			bottom: 0;
+			content: '';
+			border: 4px solid $color-brand-blue;
+			border-radius: 100%;
+			height: 4px;
+			position: absolute;
+			left: 50%;
+			margin-left: -6px;
+			margin-bottom: -8px;
+			width: 4px;
+		}
+
+		&.current {
+			font-weight: 700;
+
+			&:after {
+				background: #fff;
+			}
+		}
+
+		&.current ~ li {
+			border-bottom-color: #ccc;
+
+			&:after {
+				background: #ccc;
+				border-color: #ccc;
+			}
+
+			a {
+				color: #bbb;
+			}
+		}
+
+	}
+}
+
+.llms-setup-wrapper {
+
+	// Calendar icon for custom date fields.
+	[type="text"].llms-datepicker {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23ccc'%3E%3Cpath d='M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H64C28.7 64 0 92.7 0 128v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64h-40V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H152V24zM48 192h352v256c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 8px center;
+		background-size: 16px 16px;
+		padding-right: 40px;
+	}
+}

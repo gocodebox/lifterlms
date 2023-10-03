@@ -1,9 +1,9 @@
 /**
- * Quiz Schema
+ * Quiz Schema.
  *
  * @since 3.17.6
  * @since 3.24.0 Unknown.
- * @since [version] Added 'can_be_resumed' option.
+ * @since [version] Added upsell for Question Bank, condition in `random_questions` schema and 'can_be_resumed' option.
  * @version [version]
  */
 define( [], function() {
@@ -80,8 +80,20 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Randomize Question Order' ),
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
+						condition: function() {
+							return 'yes' === this.get( 'question_bank' ) ? false : true;
+						}
 			},
-				],
+				], [
+					{
+						id: 'question-bank',
+						label: LLMS.l10n.translate( 'Question Bank' ),
+						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),
+						type: 'upsell',
+						text: LLMS.l10n.translate( 'Get LifterLMS Advanced Quizzes' ),
+						url: 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Questions%20Bank'
+					}
+				]
 
 			],
 		},

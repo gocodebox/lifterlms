@@ -1,0 +1,5 @@
+significance: patch
+type: dev
+entry: Added filter `llms_generator_new_post_data`, to allow third parties to
+  filter the data used when creating a new post while cloning/exporting a course
+  or lesson.

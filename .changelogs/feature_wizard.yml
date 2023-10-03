@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Abastracted the `LLMS_Admin_Setup_Wizard` class, added the class
+  `LLMS_Abstract_Admin_Wizard`.
