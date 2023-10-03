@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ class LLMS_Template_Loader {
 	 * Add a notice and/or redirect during restriction actions.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added `nocache_headers()` to prevent caching of redirects.
+	 * @since 7.4.0 Added `nocache_headers()` to prevent caching of redirects.
 	 *
 	 * @param string $msg      Notice message to display.
 	 * @param string $redirect Optional. Url to redirect to after setting a notice. Default empty string.

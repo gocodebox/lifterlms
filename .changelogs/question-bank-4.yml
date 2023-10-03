@@ -1,3 +1,0 @@
-significance: patch
-type: dev
-entry: Added filter `llms_quiz_questions_count` to filter the quiz's question count.

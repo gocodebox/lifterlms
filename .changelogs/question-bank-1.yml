@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Added boolean filter `llms_quiz_attempt_questions_randomize` to enable/disable
-  questions randomize.

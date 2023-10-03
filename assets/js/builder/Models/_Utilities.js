@@ -2,7 +2,7 @@
  * Utility functions for Models.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.4.0
  */
 define( [], function() {
 
@@ -15,7 +15,7 @@ define( [], function() {
 		 *
 		 * Takes into account attributes of the form object[prop].
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param {Mixed} attr The attribute to be set.
 		 * @param {Mixed} val  The value to set.
@@ -51,7 +51,7 @@ define( [], function() {
 		 *
 		 * Takes into account attributes of the form object[prop].
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param {Mixed} attr The attribute name.
 		 */

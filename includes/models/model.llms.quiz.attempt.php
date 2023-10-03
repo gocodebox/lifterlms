@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -427,7 +427,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			/**
 			 * Filter randomize value for quiz questions.
 			 *
-			 * @since [version]
+			 * @since 7.4.0
 			 *
 			 * @param bool              $randomize The randomize boolean value.
 			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
@@ -443,7 +443,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			 *
 			 * Sets the questions to be used for the quiz.
 			 *
-			 * @since [version]
+			 * @since 7.4.0
 			 *
 			 * @param array             $questions Array of LLMS_Question objects.
 			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.

@@ -7,8 +7,8 @@
  * @group admin
  * @group setup_wizard
  *
- * @since [version]
- * @version [version]
+ * @since 7.4.0
+ * @version 7.4.0
  */
 class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
@@ -105,7 +105,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test enqueue()
 	 *
 	 * @since 4.8.0
-	 * @since [version] Added mock request to test for `llms-setup` page.
+	 * @since 7.4.0 Added mock request to test for `llms-setup` page.
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test get_save_text()
 	 *
 	 * @since 4.8.0
-	 * @since [version] Escaped 'Save & Continue' text.
+	 * @since 7.4.0 Escaped 'Save & Continue' text.
 	 *
 	 * @return void
 	 */
@@ -247,7 +247,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test get_steps()
 	 *
 	 * @since 4.8.0
-	 * @since [version] Updated step value to array and check for title.
+	 * @since 7.4.0 Updated step value to array and check for title.
 	 *
 	 * @return void
 	 */

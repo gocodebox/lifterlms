@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version [version]
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ class LLMS_Admin_Header {
 	 * @since 7.1.0
 	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
 	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
-	 * @since [version] Added `llms_admin_show_header` filter and move wizard check.
+	 * @since 7.4.0 Added `llms_admin_show_header` filter and move wizard check.
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Admin_Header {
 		/**
 		 * Allow developers to filter the show header value.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param bool      $show_header    Whether to show the header.
 		 * @param WP_Screen $current_screen The current screen object.
