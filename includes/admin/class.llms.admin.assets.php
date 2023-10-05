@@ -350,7 +350,7 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
-		} elseif ( 'lifterlms_page_llms-dashboard' === $screen->id ) {
+		} elseif ( in_array( $screen->id, array( 'lifterlms_page_llms-dashboard', 'lifterlms_page_llms-resources' ), true ) ) {
 			wp_enqueue_script( 'postbox' );
 		}
 
