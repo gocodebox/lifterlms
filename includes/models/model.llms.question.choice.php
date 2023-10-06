@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -216,13 +216,14 @@ class LLMS_Question_Choice {
 	}
 
 	/**
-	 * Set a piece of data by key
+	 * Set a piece of data by key.
 	 *
-	 * @param    string $key  name of the key to set
-	 * @param    mixed  $val  value to set
-	 * @return   self
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Check `$type['choices']` is an array before trying to access it as such.
+	 *
+	 * @param string $key Name of the key to set.
+	 * @param mixed  $val Value to set.
+	 * @return self
 	 */
 	public function set( $key, $val ) {
 
@@ -244,10 +245,12 @@ class LLMS_Question_Choice {
 				break;
 
 			case 'marker':
-				$type    = $this->get_question()->get_question_type();
-				$markers = $type['choices']['markers'];
-				if ( ! in_array( $val, $markers ) ) {
-					$val = $markers[0];
+				$type = $this->get_question()->get_question_type();
+				if ( is_array( $type['choices'] ?? false ) ) {
+					$markers = $type['choices']['markers'];
+					if ( ! in_array( $val, $markers ) ) {
+						$val = $markers[0];
+					}
 				}
 				break;
 
