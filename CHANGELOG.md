@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v7.4.1 - 2023-10-06
+-------------------
+
+##### New Features
+
++ Added new admin Resources page.
+
+##### Bug Fixes
+
++ Fixed possible issues when cloning a course containing a quiz built with the Advanced Quizzes addon, after disabling it.
+
+##### Developer Notes
+
++ Moved attempt randomization logic into the new static method `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
++ Added filter hook `llms_quiz_attempt_questions_array` to allow filtering the quiz attempt's question arrays.
+
+
 v7.4.0 - 2023-10-03
 -------------------
 
