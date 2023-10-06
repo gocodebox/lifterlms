@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -413,7 +413,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Moved randomization into `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
+	 * @since 7.4.1 Moved randomization into `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
 	 *
 	 * @return array
 	 */
@@ -464,7 +464,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			/**
 			 * Filter attempt's questions array for the quiz.
 			 *
-			 * @since [version]
+			 * @since 7.4.1
 			 *
 			 * @param array             $questions Array of question (each question is an array itself).
 			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
@@ -664,7 +664,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * Logic moved from `LLMS_Quiz_Attempt::get_new_questions()`.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @param array $questions Array of attempt's questions (each question is an array itself).
 	 * @return array.

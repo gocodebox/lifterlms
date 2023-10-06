@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -411,7 +411,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.1 Fixed bug which caused the next marker to be 1 index too high.
-	 * @since [version] Check `$type['choices']` is an array before trying to access it as such.
+	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
 	 *
 	 * @return string
 	 */

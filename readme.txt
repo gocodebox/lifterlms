@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 7.4.0
+Stable tag: 7.4.1
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,22 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.4.1 - 2023-10-06 =
+
+##### New Features
+
++ Added new admin Resources page.
+
+##### Bug Fixes
+
++ Fixed possible issues when cloning a course containing a quiz built with the Advanced Quizzes addon, after disabling it.
+
+##### Developer Notes
+
++ Moved attempt randomization logic into the new static method `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
++ Added filter hook `llms_quiz_attempt_questions_array` to allow filtering the quiz attempt's question arrays.
+
+
 = v7.4.0 - 2023-10-03 =
 
 ##### New Features
@@ -759,20 +775,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + templates/admin/reporting/tabs/students/student.php
 + templates/admin/reporting/tabs/widgets.php
 + templates/checkout/form-confirm-payment.php
-
-
-= v7.0.1 - 2022-11-14 =
-
-##### Bug Fixes
-
-+ Fixed a fatal error encountered on the payment confirmation screen when attempting to confirm a non-existent order. [#2093](https://github.com/gocodebox/lifterlms/issues/2093)
-+ Use `sanitize_file_name()` in favor of `sanitize_title()` for generating the file name of reporting table export files. [#1540](https://github.com/gocodebox/lifterlms/issues/1540)
-+ Resolved conflict encountered on post edit screens when using LifterLMS, Yoast SEO, and the Classic Editor plugin. [#2298](https://github.com/gocodebox/lifterlms/issues/2298)
-
-##### Developer Notes
-
-+ A stub method, `get_title()` has been added to the `LLMS_Abstract_Exportable_Admin_Table` abstract class. This method should be defined by any extending classes and will throw a `_doing_it_wrong()` error when undefined.
-+ Added new filter to allow customizing which user roles are affected by the `LLMS_Admin_Menus::instructor_menu_hack` function.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

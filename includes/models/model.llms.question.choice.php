@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -219,7 +219,7 @@ class LLMS_Question_Choice {
 	 * Set a piece of data by key.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Check `$type['choices']` is an array before trying to access it as such.
+	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
 	 *
 	 * @param string $key Name of the key to set.
 	 * @param mixed  $val Value to set.
