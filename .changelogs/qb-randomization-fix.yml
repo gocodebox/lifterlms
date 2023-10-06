@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Added filter hook `llms_quiz_attempt_questions_array` to allow filtering
-  the quiz attempt's question arrays.

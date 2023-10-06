@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -189,7 +189,7 @@ class LLMS_Admin_Menus {
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
-	 * @since [version] Added the 'Resources' submenu page.
+	 * @since 7.4.1 Added the 'Resources' submenu page.
 	 *
 	 * @return void
 	 */
@@ -426,7 +426,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for admin resources screen.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @return void
 	 */

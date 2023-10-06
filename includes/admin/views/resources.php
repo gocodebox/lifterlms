@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 7.4.1
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;

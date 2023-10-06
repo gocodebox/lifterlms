@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.4.1
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Resources Screen class.
  *
- * @since [version]
+ * @since 7.4.1
  */
 class LLMS_Admin_Resources {
 
 	/**
 	 * Retrieve an instance of the WP_Screen for the resources screen.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the resources screen, otherwise returns `false`.
 	 */
@@ -38,7 +38,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Register Resource's meta boxes.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_Admin_Resources {
 		 *
 		 * Third parties can hook here to remove LifterLMS core meta boxes.
 		 *
-		 * @since [version]
+		 * @since 7.4.1
 		 */
 		do_action( 'llms_resources_meta_boxes_added' );
 
@@ -88,7 +88,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Prints the resource's meta box html.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @param mixed $data_object Often this is the object that's the focus of the current screen,
 	 *                           for example a `WP_Post` or `WP_Comment` object.
@@ -106,7 +106,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Handle HTML output on the screen.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Admin_Resources {
 	/**
 	 * Retrieves the HTML of a view from the views/dashboard directory.
 	 *
-	 * @since [version]
+	 * @since 7.4.1
 	 *
 	 * @param string $file The file basename of the view to retrieve.
 	 * @return string The HTML content of the view.

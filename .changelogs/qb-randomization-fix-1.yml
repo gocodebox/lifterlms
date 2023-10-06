@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Moved attempt randomization logic into the new static method
-  `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
