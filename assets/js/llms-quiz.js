@@ -466,6 +466,12 @@
 				self.answer_question( $( this ) );
 			} );
 
+			// Bind exit event for quiz.
+			$( '#llms-exit-quiz' ).on( 'click', function( e ) {
+				e.preventDefault();
+				window.location.reload();
+			} );
+
 			// Bind submission event for navigating backwards.
 			$( '#llms-prev-question' ).on( 'click', function( e ) {
 				e.preventDefault();
@@ -688,6 +694,7 @@
 
 			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
 			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
+			$footer.append( '<button class="button large llms-button-action" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
 			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
 
 			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
