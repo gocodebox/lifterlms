@@ -1,13 +1,13 @@
 === LifterLMS - WordPress LMS Plugin for eLearning ===
 Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc
 Donate link: https://lifterlms.com/
-Tags: course, elearning, learning management system, online courses, quiz
+Tags: lms, course, elearning, learning management system, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 7.4.1
+Stable tag: 7.4.2
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -533,6 +533,13 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.4.2 - 2023-10-06 =
+
+##### Developer Notes
+
++ Fixing issues in the 7.4.1 release.
+
+
 = v7.4.1 - 2023-10-06 =
 
 ##### New Features
@@ -720,61 +727,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fixed notice display on WooCommerce dashboard pages.
 + Fixed View button URL when using WP in subdirectory.
 + Fixed blank System Report's copy for Support.
-
-
-= v7.1.0 - 2023-03-02 =
-
-##### New Features
-
-+ Added lessons count column on the Courses post list table.
-+ Added a new Dashboard page under the LifterLMS menu in the admin, whicih includes recent activity widgets and links to useful resources.
-+ Added link to the course builder for each lesson on the Lessons post list table. Also added a link to either edit or add a quiz.
-
-##### Updates and Enhancements
-
-+ Updates LifterLMS Helper to [v3.5.0](https://make.lifterlms.com/2023/02/28/lifterlms-helper-version-3-5-0/).
-+ Make the LifterLMS menu meta box initially available on Appearance -> Menus.
-+ Updates LifterLMS REST to [v1.0.0-beta.26](https://make.lifterlms.com/2023/02/28/lifterlms-rest-api-version-1-0-0-beta-26/).
-
-##### Bug Fixes
-
-+ Catch possible fatal when trying to display a "broken" basic notification and set its status to 'error' so that it'll be excluded from the next fetches.
-+ Catch possible fatal when sending notification emails and in that case remove from the queue the item that produced it.
-+ Fix cloned course retaining original course's ID in some restriction messages.
-+ Fixed possible admin notices duplication when activating/deactivating or installing add-ons from the page Add-ons & more.
-+ Avoided setting the `llms-tracking` cookie when there are no events to track.
-+ Updated styles across the entire plugin.
-+ Updated Add-ons & more list to hide old (uncategorized) products.
-
-##### Deprecations
-
-+ Deprecated methods `LLMS_Admin_Notices_Core::sidebar_support()` and `LLMS_Admin_Notices_Core::clear_sidebar_notice()`.
-+ Removed notice for theme sidebar support.
-
-##### Developer Notes
-
-+ The function `llms_is_user_enrolled()` will always return `false` for non existing users. While, before, it could return `true` if a now removed user was enrolled into a the given course or membership.
-+ Added new `LLMS_Course::get_lessons_count()` method. It can be used in place of `count( LLMS_Course::get_lessons() )` to improve performance.
-+ Fixed compatibility with PHP 8.1 by using an empty string as menu parent page for the course builder submenu page in place of NULL.
-+ Avoid passing null values to `urlencode()` and `urldecode()` that would produce PHP warnings on PHP 8.1+.
-+ Added `$autoload` parameter to the function `llms_get_student`.
-
-##### Performance Improvements
-
-+ Improve performance when querying notifications via the LLMS_Notifications_Query and there's no need to count the total notifications found, or for pagination information.
-+ Immediately return false when running `llms_is_user_enrolled()` on logged out or no longer existing users, avoiding running additional DB queries e.g. when displaying course or membership catalogs for visitors.
-+ Skip counting the total transactions found when retrieving the last or the first transaction for an order.
-
-##### Updated Templates
-
-+ templates/admin/reporting/nav-filters.php
-+ templates/admin/reporting/reporting.php
-+ templates/admin/reporting/tabs/courses/course.php
-+ templates/admin/reporting/tabs/memberships/membership.php
-+ templates/admin/reporting/tabs/quizzes/quiz.php
-+ templates/admin/reporting/tabs/students/student.php
-+ templates/admin/reporting/tabs/widgets.php
-+ templates/checkout/form-confirm-payment.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
