@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Fixed possible issues when cloning a course containing a quiz built with
+  the Advanced Quizzes addon, after disabling it.
