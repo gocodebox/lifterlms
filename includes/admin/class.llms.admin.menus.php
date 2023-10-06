@@ -189,6 +189,7 @@ class LLMS_Admin_Menus {
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
+	 * @since [version] Added the 'Resources' submenu page.
 	 *
 	 * @return void
 	 */
