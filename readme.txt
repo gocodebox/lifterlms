@@ -1,7 +1,7 @@
 === LifterLMS - WordPress LMS Plugin for eLearning ===
 Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc
 Donate link: https://lifterlms.com/
-Tags: course, elearning, learning management system, online courses, quiz
+Tags: lms, course, elearning, learning management system, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
