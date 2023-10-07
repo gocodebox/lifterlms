@@ -466,16 +466,16 @@
 				self.answer_question( $( this ) );
 			} );
 
-			// Bind exit event for quiz.
-			$( '#llms-exit-quiz' ).on( 'click', function( e ) {
-				e.preventDefault();
-				window.location.reload();
-			} );
-
 			// Bind submission event for navigating backwards.
 			$( '#llms-prev-question' ).on( 'click', function( e ) {
 				e.preventDefault();
 				self.previous_question();
+			} );
+
+			// Bind exit event for quiz.
+			$( '#llms-quiz-nav' ).on( 'click', '#llms-exit-quiz', function( e ) {
+				e.preventDefault();
+				window.location.reload();
 			} );
 
 			if ( 'quiz_resume' === action ) {
@@ -519,6 +519,11 @@
 							r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
 						} else if ( r.data.time_limit ) {
 							self.start_quiz_timer( r.data.time_limit );
+						}
+
+						// Adding Exit Button in Layout if quiz is resumable.
+						if ( self.resumable ) {
+							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
 						}
 
 						self.load_question( r.data.html );
@@ -694,7 +699,6 @@
 
 			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
 			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
-			$footer.append( '<button class="button large llms-button-action" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
 			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
 
 			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
