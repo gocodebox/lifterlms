@@ -85,25 +85,38 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 					return;
 				}
 
-				// Query to get all resumable attempts.
-				$query = new LLMS_Query_Quiz_Attempt(
-					array(
-						'quiz_id'        => $quiz_id,
-						'can_be_resumed' => true,
-						'status'         => 'incomplete',
-					)
-				);
-
-				$attempts = wp_list_pluck( $query->get_results(), 'id' );
+				$resumable_attempts = $this->get_resumable_attempts( $quiz_id );
 
 				// Clear all resumable attempts.
-				foreach ( $attempts as $attempt_id ) {
+				foreach ( $resumable_attempts as $attempt_id ) {
 					$attempt = new LLMS_Quiz_Attempt( $attempt_id );
 					$attempt->set( 'can_be_resumed', false );
 					$attempt->save();
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get resumable attempts for a quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $quiz_id Quiz ID.
+	 */
+	public function get_resumable_attempts( $quiz_id ) {
+
+		// Query to get all resumable attempts.
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'quiz_id'        => $quiz_id,
+				'can_be_resumed' => true,
+				'status'         => 'incomplete',
+			)
+		);
+
+		return wp_list_pluck( $query->get_results(), 'id' );
+
 	}
 
 	/**

@@ -579,16 +579,20 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		<div class="llms-table-wrap">
 			<header class="llms-table-header">
 				<?php echo $this->get_table_title_html(); ?>
-
-				<form action="" method="POST">
-					<button class="llms-button-primary small" name="llms_quiz_resumable_attempt_action" type="submit" value="llms_clear_resumable_attempts">
-						<i class="fa fa-trash-o" aria-hidden="true"></i>
-						<?php _e( 'Clear resumable attempts', 'lifterlms' ); ?>
-					</button>
-					<input type="hidden" name="llms_quiz_id" value="<?php echo $this->quiz_id; ?>">
-					<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
-				</form>
-				
+				<?php
+				$admin_quiz_attempts    = new LLMS_Controller_Admin_Quiz_Attempts();
+				$has_resumable_attempts = count( $admin_quiz_attempts->get_resumable_attempts( $this->quiz_id ) );
+				if ( $has_resumable_attempts ) : // Show the delete resumable attempts button.
+					?>
+					<form action="" method="POST">
+						<button class="llms-button-primary small" name="llms_quiz_resumable_attempt_action" type="submit" value="llms_clear_resumable_attempts">
+							<i class="fa fa-trash-o" aria-hidden="true"></i>
+							<?php _e( 'Clear resumable attempts', 'lifterlms' ); ?>
+						</button>
+						<input type="hidden" name="llms_quiz_id" value="<?php echo $this->quiz_id; ?>">
+						<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
+					</form>
+				<?php endif; ?>
 				<?php if ( $this->is_searchable ) : ?>
 					<?php echo $this->get_table_search_form_html(); ?>
 				<?php endif; ?>
