@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.4.2 - 2023-10-06
+-------------------
+
+##### Developer Notes
+
++ Fixing issues in the 7.4.1 release.
+
+
 v7.4.1 - 2023-10-06
 -------------------
 
