@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,13 +28,14 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	}
 
 	/**
-	 * Run actions on form submission
+	 * Run actions on form submission.
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.9 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Added `llms_quiz_resumable_attempt_action` action.
 	 *
 	 * @return void
 	 */
@@ -71,6 +72,38 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 		}
 
+		// Clear all resumable attempts.
+		if ( isset( $_POST['llms_quiz_resumable_attempt_action'] ) ) {
+
+			$action = llms_filter_input( INPUT_POST, 'llms_quiz_resumable_attempt_action' );
+
+			if ( 'llms_clear_resumable_attempts' === $action ) {
+
+				$quiz_id = llms_filter_input( INPUT_POST, 'llms_quiz_id' );
+
+				if ( ! current_user_can( 'edit_post', $quiz_id ) ) {
+					return;
+				}
+
+				// Query to get all resumable attempts.
+				$query = new LLMS_Query_Quiz_Attempt(
+					array(
+						'quiz_id'        => $quiz_id,
+						'can_be_resumed' => true,
+						'status'         => 'incomplete',
+					)
+				);
+
+				$attempts = wp_list_pluck( $query->get_results(), 'id' );
+
+				// Clear all resumable attempts.
+				foreach ( $attempts as $attempt_id ) {
+					$attempt = new LLMS_Quiz_Attempt( $attempt_id );
+					$attempt->set( 'can_be_resumed', false );
+					$attempt->save();
+				}
+			}
+		}
 	}
 
 	/**

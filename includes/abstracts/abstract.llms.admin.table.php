@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.2.0
- * @version 7.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -566,6 +566,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 * @since 3.17.8 Unknown.
 	 * @since 3.37.7 Use correct argument order for implode to fix php 7.4 deprecation.
+	 * @since [version] Added button for clearing resumable attempts.
 	 *
 	 * @return string
 	 */
@@ -578,6 +579,16 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		<div class="llms-table-wrap">
 			<header class="llms-table-header">
 				<?php echo $this->get_table_title_html(); ?>
+
+				<form action="" method="POST">
+					<button class="llms-button-primary small" name="llms_quiz_resumable_attempt_action" type="submit" value="llms_clear_resumable_attempts">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+						<?php _e( 'Clear resumable attempts', 'lifterlms' ); ?>
+					</button>
+					<input type="hidden" name="llms_quiz_id" value="<?php echo $this->quiz_id; ?>">
+					<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
+				</form>
+				
 				<?php if ( $this->is_searchable ) : ?>
 					<?php echo $this->get_table_search_form_html(); ?>
 				<?php endif; ?>
