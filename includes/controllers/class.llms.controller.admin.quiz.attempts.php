@@ -35,7 +35,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Added `llms_quiz_resumable_attempt_action` action.
+	 * @since [version] Added `llms_quiz_resumable_attempt_action` action and single resumable attempt delete.
 	 *
 	 * @return void
 	 */
@@ -69,6 +69,9 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				exit();
 			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] ) ) ) {
 				$this->save_grade( $attempt );
+			} elseif ( 'llms_disable_resume_attempt' === $action ) {
+				$attempt->set( 'can_be_resumed', false );
+				$attempt->save();
 			}
 		}
 
