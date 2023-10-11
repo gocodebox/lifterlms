@@ -804,8 +804,11 @@ class LLMS_AJAX_Handler {
 			get_permalink( $attempt->get( 'quiz_id' ) )
 		);
 
-		// Send a notification to Course Author if all attempts are failed.
-		$student->quizzes()->failed_attempts_notification( $attempt->get( 'quiz_id' ) );
+		// Send a notification to Course Author if all attempts are failed after the last attempt.
+		$last_attempt = $student->quizzes()->get_attempts_remaining_for_quiz( $attempt->get( 'quiz_id' ) ) === 0;
+		if ( $last_attempt ) {
+			$student->quizzes()->failed_attempts_notification( $attempt->get( 'quiz_id' ) );
+		}
 
 		return array(
 			/**
