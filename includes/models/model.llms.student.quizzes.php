@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -210,7 +210,45 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get all the attempts for a given quiz/lesson from an attempt key
+	 * Trigger notification to course author when all quiz attempts are failed.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $quiz_id WP Post ID of a LifterLMS Quiz.
+	 * @return void
+	 */
+	public function failed_attempts_notification( $quiz_id ) {
+
+		$quiz               = llms_get_post( $quiz_id );
+		$allowed_attempts   = $quiz->get( 'allowed_attempts' );
+		$remaining_attempts = $this->get_attempts_remaining_for_quiz( $quiz_id );
+
+		if ( ! $remaining_attempts ) {
+			// Get all failed attempts of the student.
+			$failed_attempts = $this->get_attempts_by_quiz(
+				$quiz_id,
+				array(
+					'status' => array( 'fail' ),
+				)
+			);
+
+			if ( count( $failed_attempts ) === $allowed_attempts ) {
+				/**
+				 * Action triggered immediately following all failed quiz attempts.
+				 *
+				 * @since [version]
+				 *
+				 * @param int $student_id WP User ID of a LifterLMS Student.
+				 * @param int $course_id  WP Post ID of a LifterLMS Course.
+				 * @param int $quiz_id    WP Post ID of a LifterLMS Quiz.
+				 */
+				do_action( 'lifterlms_failed_attempts', $this->get( 'id' ), $quiz->get_course()->get( 'id' ), $quiz->get( 'id' ) );
+			}
+		}
+	}
+
+	/**
+	 * Get all the attempts for a given quiz/lesson from an attempt key.
 	 *
 	 * @since 3.9.0
 	 *

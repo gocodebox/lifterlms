@@ -774,12 +774,11 @@ class LLMS_AJAX_Handler {
 	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
-
-		$err = new WP_Error();
+		$err     = new WP_Error();
+		$student = llms_get_student();
 
 		if ( ! $attempt ) {
 
-			$student = llms_get_student();
 			if ( ! $student ) {
 				$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
 				return $err;
@@ -804,6 +803,9 @@ class LLMS_AJAX_Handler {
 			),
 			get_permalink( $attempt->get( 'quiz_id' ) )
 		);
+
+		// Send a notification to Course Author if all attempts are failed.
+		$student->quizzes()->failed_attempts_notification( $attempt->get( 'quiz_id' ) );
 
 		return array(
 			/**
