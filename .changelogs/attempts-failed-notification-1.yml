@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added function `LLMS_Student_Quizzes::failed_attempts_notification()`.

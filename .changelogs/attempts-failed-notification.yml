@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added notification `lifterlms_failed_attempts` to send notification to
+  admin when all quiz attempts are failed.
