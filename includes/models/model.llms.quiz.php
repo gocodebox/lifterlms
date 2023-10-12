@@ -52,7 +52,9 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 *
 	 * Array key is the meta_key and array values is property's type.
 	 *
-	 * @var string[]
+	 * @since 3.3.0
+	 * @since [version] Added `can_be_resumed` and `disable_retake` property.
+	 * @var array Array key is the meta_key and array values is property's type.
 	 */
 	protected $properties = array(
 		'lesson_id'           => 'absint',
@@ -63,6 +65,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'can_be_resumed'      => 'yesno',
+		'disable_retake'      => 'yesno',
 	);
 
 	/**
@@ -203,6 +207,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.16.0 Unkwnown.
 	 * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
+	 * @since [version] Added check for passed attempt for disabling the quiz.
 	 *
 	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
 	 * @return boolean
@@ -218,6 +223,20 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 			// string for "unlimited" or number of attempts.
 			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
+
+			// Check for a passed attempt and disable the quiz.
+			if ( $quiz_open && llms_parse_bool( $this->get( 'disable_retake' ) ) ) {
+				$passed_attempts = $student->quizzes()->get_attempts_by_quiz(
+					$this->get( 'id' ),
+					array(
+						'status' => array( 'pass' ),
+					)
+				);
+
+				if ( count( $passed_attempts ) ) {
+					$quiz_open = false;
+				}
+			}
 		}
 
 		/**
