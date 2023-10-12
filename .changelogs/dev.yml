@@ -1,3 +1,0 @@
-significance: patch
-type: changed
-entry: Added `nocache_headers()` to prevent browser caching for temporary redirects.

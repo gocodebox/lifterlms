@@ -4,8 +4,8 @@
  *
  * @since 4.4.4
  * @since 7.3.0 Using the `LLMS_Install::get_pages()` method now.
- * @since [version] Escape remaining strings.
- * @version [version]
+ * @since 7.4.0 Escape remaining strings.
+ * @version 7.4.0
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.4.0
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Display a Wizard class.
  *
- * @since [version]
+ * @since 7.4.0
  */
 abstract class LLMS_Abstract_Admin_Wizard {
 
 	/**
 	 * Wizard ID.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @var string
 	 */
 	protected string $id;
@@ -28,7 +28,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Views directory.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @var string
 	 */
 	protected string $views_dir;
@@ -36,7 +36,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Steps.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @var array
 	 */
 	protected array $steps;
@@ -44,7 +44,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Page title.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @var string
 	 */
 	protected string $title;
@@ -52,7 +52,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Error message.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @var WP_Error|null
 	 */
 	public ?WP_Error $error = null;
@@ -60,7 +60,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Add hooks.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 * @return void
 	 */
 	protected function add_hooks(): void {
@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * The dynamic portion of this filter, `{$this->id}`, refers to the wizard type. E.g. "setup".
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param bool $enabled Whether the wizard is enabled.
 		 */
@@ -89,7 +89,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Hide the admin header on the wizard pages.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param bool      $show   Whether to show the admin header.
 	 * @param WP_Screen $screen Current admin screen.
@@ -107,7 +107,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Register wizard setup page.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return string|bool The hook suffix of the setup wizard page ("admin_page_llms-setup"), or `false` if the user does not have the capability required.
 	 */
@@ -118,7 +118,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * The dynamic portion of this filter, `{$this->id}`, refers to the wizard type. E.g. "setup".
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param string $cap Required user capability. Default value is `install_plugins`.
 		 */
@@ -140,7 +140,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Enqueue static assets for the setup wizard screens.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return bool
 	 */
@@ -157,7 +157,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Retrieve the redirect URL at the conclusion of the wizard.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
 	 * @return string
@@ -167,7 +167,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Retrieve the current step and default to the intro.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return string
 	 */
@@ -182,7 +182,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get slug if next step.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param string|bool $step Step to use as current.
 	 * @return string|bool
@@ -203,7 +203,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get slug if prev step.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param string|bool $step Step to use as current.
 	 * @return string|bool
@@ -223,7 +223,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get the text to display on the "save" buttons.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param string $step Step to get text for.
 	 * @return string The translated text.
@@ -237,7 +237,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * The second dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param string $text Button text string.
 		 */
@@ -252,7 +252,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get the text to display on the "skip" buttons.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param string $step Step to get text for.
 	 * @return string Translated text.
@@ -266,7 +266,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * The second dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param string $text Button text string.
 		 */
@@ -282,7 +282,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get the URL to a step.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @param string $step Step slug.
 	 * @return string
@@ -300,7 +300,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Get an array of step slugs => titles.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return array
 	 */
@@ -311,7 +311,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * The dynamic portion of this hook, `$this->id`, refers to the type of wizard being displayed.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param string[] $steps Array of setup wizard steps. The array key is the slug/id of the step and the array value
 		 *                        is the step's title displayed in the wizard's navigation.
@@ -323,7 +323,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Output the HTML content of the setup page.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return void
 	 */
@@ -353,7 +353,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *
 		 * This filter can be used to output the HTML for a custom step in the setup wizard.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param string                  $step_html HTML of the step.
 		 * @param LLMS_Admin_Setup_Wizard $wizard    Setup wizard class instance.
@@ -367,7 +367,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Handle saving data during setup.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @throws Exception If the current user does not have permission to save data.
 	 *
@@ -409,7 +409,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	/**
 	 * Returns wizard transient if set.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return array
 	 */

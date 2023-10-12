@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -113,7 +113,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Get questions count.
 	 *
-	 * @since [version]
+	 * @since 7.4.0
 	 *
 	 * @return int Question Count.
 	 */
@@ -122,7 +122,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		/**
 		 * Filter the count of questions in a quiz.
 		 *
-		 * @since [version]
+		 * @since 7.4.0
 		 *
 		 * @param int       $questions_count Number of questions in a quiz.
 		 * @param LLMS_Quiz $quiz            Current quiz object.

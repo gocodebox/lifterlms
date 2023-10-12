@@ -52,7 +52,7 @@ define( [
 		 * New lesson defaults.
 		 *
 		 * @since 3.16.0
-		 * @since 3.16.6 Unknown.
+		 * @since 7.4.0 Added filter for filtering defaults.
 		 * @since [version] Added filter for filtering defaults and `can_be_resumed` property.
 		 *
 		 * @return {Object}

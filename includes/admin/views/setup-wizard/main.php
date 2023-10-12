@@ -6,8 +6,8 @@
  *
  * @since 4.4.4
  * @since 4.8.0 Unknown.
- * @since [version] Escape output.
- * @version [version]
+ * @since 7.4.0 Escape output.
+ * @version 7.4.0
  *
  * @property string[]                $steps     Array of setup wizard steps.
  * @property string                  $current   Slug of the current step.

@@ -3,7 +3,8 @@
  *
  * @since 3.17.6
  * @since 3.24.0 Unknown.
- * @since [version] Added upsell for Question Bank, condition in `random_questions` schema and 'can_be_resumed' option.
+ * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
+ * @since [version] Added `can_be_resumed` option.
  * @version [version]
  */
 define( [], function() {

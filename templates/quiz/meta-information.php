@@ -7,8 +7,8 @@
  * @since 3.9.0
  * @since 4.0.0 Unknown.
  * @since 4.17.0 Return early if accessed without a logged in user or the quiz can't be loaded from the `$post` global.
- * @since [version] Used `LLMS_Quiz::get_questions_count()` method for showing count and escaped labels.
- * @version [version]
+ * @since 7.4.0 Used `LLMS_Quiz::get_questions_count()` method for showing count and escaped labels.
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
