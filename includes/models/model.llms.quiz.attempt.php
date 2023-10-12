@@ -627,7 +627,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$question_objects = $this->get_question_objects( $cache, $filter_removed );
 		if ( ! $question_objects ) {
-			return [];
+			return array();
 		}
 		foreach ( $question_objects as $attempt_question ) {
 			$quiz_question = $attempt_question->get_question();
@@ -637,7 +637,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 		}
 
-		return $answer ?? [];
+		return $answer ?? array();
 
 	}
 

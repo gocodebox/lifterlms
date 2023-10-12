@@ -246,11 +246,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			$can_be_resumed_by_student = $last_attempt && $last_attempt->can_be_resumed();
 		}
 
-		// Check if the quiz can be resumed by a student and if the resume time limit is not reached.
-		if ( ! $can_be_resumed_by_student ) {
-			$can_be_resumed_by_student = false;
-		}
-
 		return $can_be_resumed_by_student;
 
 	}

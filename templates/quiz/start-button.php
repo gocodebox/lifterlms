@@ -59,11 +59,10 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 					?>
 				</button>
 			</form>
-		<?php else : ?>
-			<p><?php esc_html_e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
+
 		<?php endif; ?>
 
-		<?php if ( $quiz->is_open() && $quiz->can_be_resumed_by_student() ) : ?>
+		<?php if ( $quiz->can_be_resumed_by_student() ) : ?>
 			<form method="POST" action="" name="llms_resume_quiz" enctype="multipart/form-data">
 
 				<input id="llms-attempt-key" name="llms_attempt_key" type="hidden" value="<?php echo esc_attr( $quiz->get_student_last_attempt_key() ); ?>"/>
@@ -98,7 +97,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 	<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
 		<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
-	<?php endif; ?>	
+	<?php endif; ?>
 
 	<?php
 		/**
