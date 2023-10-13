@@ -2,6 +2,5 @@ significance: patch
 type: fixed
 links:
   - "#2550"
-entry: Updated the wrong function name in
-  `includes\functions\llms.functions.templates.dashboard.php` to
-  `lifterlms_student_dashboard`.
+entry: Fixed checking for the wrong function name when 
+  defining the pluggable function `lifterlms_student_dashboard`.
