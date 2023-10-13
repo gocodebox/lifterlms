@@ -45,7 +45,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup body content for output.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -57,7 +56,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup footer content for output.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -69,7 +67,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup notification icon for output.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -81,7 +78,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup merge codes that can be used with the notification.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return array
 	 */
@@ -96,7 +92,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Replace merge codes with actual values.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -123,7 +118,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup notification subject for output.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -135,7 +129,6 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * Setup notification title for output.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */

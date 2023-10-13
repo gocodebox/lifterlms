@@ -26,6 +26,7 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	/**
 	 * Number of accepted arguments passed to the callback function.
 	 *
+	 * @since [version]
 	 * @var int
 	 */
 	protected $action_accepted_args = 2;
@@ -33,6 +34,7 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	/**
 	 * Action hooks used to trigger sending of the notification.
 	 *
+	 * @since [version]
 	 * @var array
 	 */
 	protected $action_hooks = array( 'lifterlms_failed_attempts' );
@@ -45,7 +47,6 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	 * @param int $quiz_id    WP Post ID of a LifterLMS Quiz
 	 *
 	 * @since [version]
-	 * @version [version]
 	 * @return void
 	 */
 	public function action_callback( $student_id = null, $course_id = null, $quiz_id = null ) {
@@ -62,7 +63,6 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @param string $subscriber Subscriber type string.
 	 * @return int|false
@@ -92,7 +92,6 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	 * Get the translatable title for the notification used on settings screens.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -104,7 +103,6 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	 * Setup the subscriber options for the notification.
 	 *
 	 * @since [version]
-	 * @version [version]
 	 *
 	 * @param string $type Notification type ID.
 	 * @return array
