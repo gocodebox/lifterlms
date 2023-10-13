@@ -17,9 +17,14 @@ defined( 'ABSPATH' ) || exit;
 		<a class="llms-add-on-link" href="<?php echo esc_url( $addon->get_permalink() ); ?>" target="_blank">
 
 			<header>
-				<object data="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'image' ) ) ); ?>">
-					<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( $addon->get( 'image' ) ); ?>">
-				</object>
+				<?php
+				if ( is_readable( llms()->plugin_path() . '/assets/images/addons/' . basename( $addon->get( 'image' ) ) ) ) {
+					$addon_image = llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'image' ) );
+				} else {
+					$addon_image = $addon->get( 'image' );
+				}
+				?>
+				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( $addon_image ); ?>">
 
 				<h4><?php echo $addon->get( 'title' ); ?></h4>
 			</header>
@@ -38,9 +43,14 @@ defined( 'ABSPATH' ) || exit;
 							?>
 							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
-								<object data="<?php echo esc_url( llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ); ?>">
-									<img src="<?php echo esc_url( $addon->get( 'author' )['image'] ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
-								</object>
+								<?php
+								if ( is_readable( llms()->plugin_path() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ) ) {
+									$author_image = llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] );
+								} else {
+									$author_image = $addon->get( 'author' )['image'];
+								}
+								?>
+								<img src="<?php echo esc_url( $author_image ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
