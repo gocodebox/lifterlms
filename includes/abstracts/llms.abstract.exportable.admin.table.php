@@ -46,7 +46,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @var string
 	 */
-	public const EXPORT_NONCE = 'llms-export-download-nonce';
+	public const EXPORT_NONCE_ACTION = 'llms_export_table';
 
 	/**
 	 * Generate an export file for the current table.
@@ -182,8 +182,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	protected function get_export_file_url( $file_path ) {
 		return add_query_arg(
 			array(
-				'llms-dl-export' => basename( $file_path ),
-				'nonce'          => wp_create_nonce( self::EXPORT_NONCE ),
+				'llms-dl-export'       => basename( $file_path ),
+				'llms_dl_export_nonce' => wp_create_nonce( self::EXPORT_NONCE_ACTION ),
 			),
 			admin_url( 'admin.php' )
 		);

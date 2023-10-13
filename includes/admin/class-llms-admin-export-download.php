@@ -45,11 +45,13 @@ class LLMS_Admin_Export_Download {
 			return;
 		}
 
-		// Only allow people who can view reports view exports and verify nonce.
-		if (
-			! llms_verify_nonce( 'nonce', LLMS_Abstract_Exportable_Admin_Table::EXPORT_NONCE, 'GET' ) ||
-			! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'view_lifterlms_reports' )
-		) {
+		// Verify nonce.
+		if ( ! llms_verify_nonce( 'llms_dl_export_nonce', LLMS_Abstract_Exportable_Admin_Table::EXPORT_NONCE_ACTION, 'GET' ) ) {
+			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
+		}
+
+		// Only allow people who can view reports view exports.
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
 			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}
 
