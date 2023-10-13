@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Failed Attempts.
+ *
+ * @since [version]
  */
 class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notification_Controller {
 
