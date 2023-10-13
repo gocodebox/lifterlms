@@ -4,7 +4,7 @@
  * The MIT License
  * Copyright (c) 2013 The New York Times, CMS Group, Matthew DeLambo <delambo@gmail.com>
  *
- * @since [version] Added support for deep models (attributes that are objects themselves).
+ * @since 7.4.0 Added support for deep models (attributes that are objects themselves).
  */
 (function() {
 
@@ -138,7 +138,7 @@
 		/**
 		 * Reset tracking.
 		 *
-		 * @since [version] Added support for deep models (attributes that are objects themselves),
+		 * @since 7.4.0 Added support for deep models (attributes that are objects themselves),
 		 *                  by using `_.deepClone` in place of `_.clone`.
 		 */
 		_resetTracking: function() {

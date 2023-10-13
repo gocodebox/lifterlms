@@ -743,6 +743,9 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-editable-radio.has-images input:checked + span {
   background: #466dd8;
 }
+.wrap.lifterlms.llms-builder .settings-field--disabled {
+  opacity: 0.5;
+}
 .wrap.lifterlms.llms-builder .llms-action-icon {
   color: #888;
   display: inline-block;
@@ -1018,8 +1021,8 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
   overflow: scroll;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions .llms-quiz-questions {
@@ -1616,4 +1619,16 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   font-size: 2em;
   color: #fff;
   cursor: pointer;
+}
+
+.llms-multi-input .llms-input-wrapper {
+  width: 50%;
+  float: right;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.llms-multi-input .llms-input-wrapper .llms-input {
+  font-size: 12px;
+  padding: 5px;
 }

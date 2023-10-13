@@ -394,10 +394,10 @@ class LLMS_Post_Types {
 
 			if ( $unprefixed_name !== $name ) {
 				$data = apply_filters_deprecated(
-					"lifterlms_register_post_type_${name}",
+					"lifterlms_register_post_type_{$name}",
 					array( $data ),
 					'5.5.0',
-					"lifterlms_register_post_type_${unprefixed_name}"
+					"lifterlms_register_post_type_{$unprefixed_name}"
 				);
 			}
 
@@ -416,7 +416,7 @@ class LLMS_Post_Types {
 			 *
 			 * @param array $data Post type registration arguments passed to `register_post_type()`.
 			 */
-			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
+			$data = apply_filters( "lifterlms_register_post_type_{$unprefixed_name}", $data );
 			return register_post_type( $name, $data );
 
 		}
