@@ -2,4 +2,4 @@ significance: patch
 type: added
 links:
   - "#2511"
-entry: Added `LLMS_Add_On::get_image()` function to get the addon and author image.
+entry: Added `LLMS_Add_On::get_image()` method to get the addon and author image.
