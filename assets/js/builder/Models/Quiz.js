@@ -71,7 +71,7 @@ define( [
 				limit_time: 'no',
 				passing_percent: 65,
 				name: '',
-				random_answers: 'no',
+				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
 
