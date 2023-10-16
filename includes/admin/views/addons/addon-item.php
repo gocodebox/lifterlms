@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 							?>
 							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
-								<?php $author_image = ! empty( basename( $addon->get( 'image' ) ) ) && is_readable( llms()->plugin_path() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ) ? llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) : $addon->get( 'author' )['image']; ?>
+								<?php $author_image = ! empty( basename( $addon->get( 'author' )['image'] ) ) && is_readable( llms()->plugin_path() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) ) ? llms()->plugin_url() . '/assets/images/addons/' . basename( $addon->get( 'author' )['image'] ) : $addon->get( 'author' )['image']; ?>
 								<img src="<?php echo esc_url( $author_image ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
 							<?php endif; ?>
 						</li>
