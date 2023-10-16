@@ -336,12 +336,12 @@ class LLMS_Add_On {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $type Type of image to retrieve. Defaults to null. Accepts "addon" or "author".
+	 * @param string $type Type of image to retrieve. Defaults to 'addon'. Accepts 'addon' or 'author'.
 	 * @return string
 	 */
-	public function get_image( $type = null ) {
+	public function get_image( $type = 'addon' ) {
 
-		$img = esc_url( 'addon' === $type ? $this->get( 'image' ) : $this->get( 'author' )['image'] );
+		$img = 'author' === $type ? $this->get( 'author' )['image'] : $this->get( 'image' );
 
 		if ( ! $img ) {
 			return '';

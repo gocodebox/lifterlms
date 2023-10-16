@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<a class="llms-add-on-link" href="<?php echo esc_url( $addon->get_permalink() ); ?>" target="_blank">
 			<header>
-				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo $addon->get_image( 'addon' ); ?>">
+				<img alt="<?php echo $addon->get( 'title' ); ?> Banner" src="<?php echo esc_url( $addon->get_image( 'addon' ) ); ?>">
 				<h4><?php echo $addon->get( 'title' ); ?></h4>
 			</header>
 
@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 							?>
 							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
-								<img src="<?php echo $addon->get_image( 'author' ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
+								<img src="<?php echo esc_url( $addon->get_image( 'author' ) ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?>">
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
