@@ -4,7 +4,7 @@
  * Used on Add-Ons browser screen.
  *
  * @since 3.22.0
- * @since [version] Updated image URLs to use the new local addon image directory with a fallback remote image.
+ * @since [version] Image URLs to use the local addon image directory with a fallback remote image and showing only LifterLMS author logo.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 								printf( __( 'Author: %s', 'lifterlms' ), $addon->get( 'author' )['name'] );
 							?>
 							</span>
-							<?php if ( $addon->get( 'author' )['image'] ) : ?>
+							<?php if ( 'LifterLMS' === $addon->get( 'author' )['name'] && $addon->get( 'author' )['image'] ) : ?>
 								<img src="<?php echo esc_url( $addon->get_image( 'author' ) ); ?>" alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?> logo">
 							<?php endif; ?>
 						</li>
