@@ -279,7 +279,7 @@ class LLMS_Form_Handler {
 		 * @param array  $posted_data Array of user-submitted data.
 		 * @param string $action      Submission action, either "registration" or "update".
 		 */
-		$prepared['users'] = apply_filters( "lifterlms_user_${action}_insert_user", $prepared['users'], $posted_data, $action );
+		$prepared['users'] = apply_filters( "lifterlms_user_{$action}_insert_user", $prepared['users'], $posted_data, $action );
 
 		/**
 		 * Filter meta data to be added for the user.
@@ -293,7 +293,7 @@ class LLMS_Form_Handler {
 		 * @param array  $posted_data Array of user-submitted data.
 		 * @param string $action      Submission action, either "registration" or "update".
 		 */
-		$prepared['usermeta'] = apply_filters( "lifterlms_user_${action}_insert_user_meta", $prepared['usermeta'], $posted_data, $action );
+		$prepared['usermeta'] = apply_filters( "lifterlms_user_{$action}_insert_user_meta", $prepared['usermeta'], $posted_data, $action );
 
 		return $prepared;
 
@@ -347,7 +347,7 @@ class LLMS_Form_Handler {
 	 * Form fields submission.
 	 *
 	 * @since 5.0.0
-	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
+	 * @since 5.1.0 Added "lifterlms_user_{$action}_required_data" filter, to filter the required fields validity of the form submission.
 	 * @since 5.4.1 Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
 	 * @since 6.0.0 Notify developers of the deprecated `lifterlms_created_person` action hook.
 	 * @since 7.0.0 Moved validation logic to the `validate_fields()` method.
@@ -448,7 +448,7 @@ class LLMS_Form_Handler {
 		 * @param array    $posted_data Array of user-submitted data.
 		 * @param string   $action      Submission action, either "registration" or "update"!
 		 */
-		return apply_filters( "lifterlms_user_${action}_failure", $error, $posted_data, $action );
+		return apply_filters( "lifterlms_user_{$action}_failure", $error, $posted_data, $action );
 
 	}
 
@@ -480,7 +480,7 @@ class LLMS_Form_Handler {
 		 * @param string  $location    Form location.
 		 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
 		 */
-		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields ) );
+		do_action_ref_array( "lifterlms_before_user_{$action}", array( &$posted_data, $location, &$fields ) );
 
 		// Check for all required fields.
 		$required = $this->validator->validate_required_fields( $posted_data, $fields );
@@ -496,7 +496,7 @@ class LLMS_Form_Handler {
 		 * @param array         $posted_data Array of user-submitted data.
 		 * @param string        $location    Form location.
 		 */
-		$required = apply_filters( "lifterlms_user_${action}_required_data", $required, $posted_data, $location );
+		$required = apply_filters( "lifterlms_user_{$action}_required_data", $required, $posted_data, $location );
 
 		if ( is_wp_error( $required ) ) {
 			return $this->submit_error( $required, $posted_data, $action );
@@ -527,7 +527,7 @@ class LLMS_Form_Handler {
 		 * @param array         $posted_data Array of user-submitted data.
 		 * @param string        $location    Form location.
 		 */
-		$valid = apply_filters( "lifterlms_user_${action}_data", true, $posted_data, $location );
+		$valid = apply_filters( "lifterlms_user_{$action}_data", true, $posted_data, $location );
 		if ( is_wp_error( $valid ) ) {
 			return $this->submit_error( $valid, $posted_data, $action );
 		}
@@ -545,7 +545,7 @@ class LLMS_Form_Handler {
 		 * @param string  $location    Form location.
 		 * @param array[] $fields      Array of LifterLMS Form Fields.
 		 */
-		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields );
+		do_action( "lifterlms_user_{$action}_after_validation", $posted_data, $location, $fields );
 
 		return true;
 
