@@ -1,0 +1,7 @@
+significance: patch
+type: dev
+links:
+  - "#2552"
+attributions:
+  - "@AlexVCS"
+entry: Removed references to the unused quiz's property `random_answers`.
