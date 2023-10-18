@@ -2,7 +2,7 @@
  * Quiz Model.
  *
  * @since 3.16.0
- * @version 7.4.0
+ * @version [version]
  */
 define( [
 		'Collections/Questions',
@@ -47,10 +47,11 @@ define( [
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults.
+		 * New quiz defaults.
 		 *
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
+		 * @since [version] Replaced unused `random_answers` property with `random_questions`.
 		 *
 		 * @return {Object}
 		 */
@@ -64,7 +65,7 @@ define( [
 
 				status: 'draft',
 
-				// editable fields
+				// editable fields.
 				content: '',
 				allowed_attempts: 5,
 				limit_attempts: 'no',
@@ -77,10 +78,10 @@ define( [
 
 				questions: [],
 
-				// calculated
+				// calculated.
 				_points: 0,
 
-				// display
+				// display.
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,
