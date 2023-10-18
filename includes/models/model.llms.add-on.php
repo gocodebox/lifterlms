@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version 5.1.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -329,6 +329,29 @@ class LLMS_Add_On {
 
 		return $ret;
 
+	}
+
+	/**
+	 * Get the addon or author image URL for the add-on.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Type of image to retrieve. Defaults to 'addon'. Accepts 'addon' or 'author'.
+	 * @return string
+	 */
+	public function get_image( $type = 'addon' ) {
+
+		$img = 'author' === $type ? $this->get( 'author' )['image'] : $this->get( 'image' );
+
+		if ( ! $img ) {
+			return '';
+		}
+
+		if ( is_readable( llms()->plugin_path() . '/assets/images/addons/' . basename( $img ) ) ) {
+			return llms()->plugin_url() . '/assets/images/addons/' . basename( $img );
+		}
+
+		return $img;
 	}
 
 	/**
