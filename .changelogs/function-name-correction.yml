@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2550"
+entry: Fixed checking for the wrong function name when 
+  defining the pluggable function `lifterlms_student_dashboard`.

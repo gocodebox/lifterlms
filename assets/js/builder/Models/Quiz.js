@@ -49,11 +49,12 @@ define( [
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults.
+		 * New quiz defaults.
 		 *
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
-		 * @since [version] Added filter for filtering defaults and `can_be_resumed` property.
+		 * @since [version] Replaced unused `random_answers` property with `random_questions`.
+		 *              Added filter for filtering defaults and `can_be_resumed` property.     
 		 *
 		 * @return {Object}
 		 */
@@ -74,7 +75,7 @@ define( [
 				limit_time: 'no',
 				passing_percent: 65,
 				name: '',
-				random_answers: 'no',
+				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
 				can_be_resumed: 'no',

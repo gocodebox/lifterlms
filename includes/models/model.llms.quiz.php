@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property $passing_percent (float) Grade required for a student to "pass" the quiz.
- * @property $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
  * @property $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
  * @property $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
  * @property $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
