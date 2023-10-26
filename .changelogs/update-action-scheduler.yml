@@ -1,0 +1,4 @@
+significance: patch
+type: changed
+entry: Update Action Scheduler to version 3.5.4. To improve compatibility
+  with PHP 8.2.

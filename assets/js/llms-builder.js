@@ -1875,11 +1875,14 @@ define( 'jquery',[],function() {
 	return Backbone.CollectionView;
 } ) );
 
-//
-// backbone.trackit - 0.1.0
-// The MIT License
-// Copyright (c) 2013 The New York Times, CMS Group, Matthew DeLambo <delambo@gmail.com>
-//
+/**
+ * backbone.trackit - 0.1.0
+ *
+ * The MIT License
+ * Copyright (c) 2013 The New York Times, CMS Group, Matthew DeLambo <delambo@gmail.com>
+ *
+ * @since 7.4.0 Added support for deep models (attributes that are objects themselves).
+ */
 (function() {
 
 	// Unsaved Record Keeping
@@ -2009,8 +2012,14 @@ define( 'jquery',[],function() {
 			return changed;
 		},
 
+		/**
+		 * Reset tracking.
+		 *
+		 * @since 7.4.0 Added support for deep models (attributes that are objects themselves),
+		 *                  by using `_.deepClone` in place of `_.clone`.
+		 */
 		_resetTracking: function() {
-			this._originalAttrs = _.clone(this.attributes);
+			this._originalAttrs = _.deepClone(this.attributes);
 			this._unsavedChanges = {};
 		},
 
@@ -2072,6 +2081,7 @@ define( 'jquery',[],function() {
 	});
 
 })();
+
 define("vendor/backbone.trackit", function(){});
 
 /**
@@ -2657,10 +2667,10 @@ define( 'Models/QuestionType',[], function() {
 } );
 
 /**
- * Utility functions for Models
+ * Utility functions for Models.
  *
- * @since    3.16.0
- * @version  3.17.1
+ * @since 3.16.0
+ * @version 7.4.0
  */
 define( 'Models/_Utilities',[], function() {
 
@@ -2669,11 +2679,71 @@ define( 'Models/_Utilities',[], function() {
 		fields: [],
 
 		/**
-		 * Retrieve the edit post link for the current model
+		 * Override Backbone `set` method.
 		 *
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Takes into account attributes of the form object[prop].
+		 *
+		 * @since 7.4.0
+		 *
+		 * @param {Mixed} attr The attribute to be set.
+		 * @param {Mixed} val  The value to set.
+		 */
+		set: function ( attr, val ) {
+
+			if ( 'string' === typeof attr ) {
+
+				const matches = attr.match( /(.*?)\[(.*?)\]/ );
+				if ( matches && 3 === matches.length ) {
+
+					const
+						realAttr   = matches[1],
+						currentVal = Backbone.Model.prototype.get.call( this, realAttr );
+
+					var newVal = undefined !== currentVal ? currentVal : {};
+
+					newVal[ matches[2] ] = val;
+
+					arguments[0] = realAttr;
+					arguments[1] = newVal;
+
+				}
+			}
+
+			// Continue with Backbone default `set` behavior.
+			Backbone.Model.prototype.set.apply( this, arguments );
+
+		},
+
+		/**
+		 * Override Backbone `get` method.
+		 *
+		 * Takes into account attributes of the form object[prop].
+		 *
+		 * @since 7.4.0
+		 *
+		 * @param {Mixed} attr The attribute name.
+		 */
+		get: function( attr ) {
+
+			const matches = attr.match( /(.*?)\[(.*?)\]/ );
+			if ( matches && 3 === matches.length ) {
+				const val = Backbone.Model.prototype.get.call( this, matches[1] );
+				if ( val && undefined !== val[ matches[2] ] ) {
+					return val[ matches[2] ];
+				}
+			}
+
+			// Continue with Backbone default `get` behavior.
+			return Backbone.Model.prototype.get.call( this, attr );
+
+		},
+
+		/**
+		 * Retrieve the edit post link for the current model.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @return string
 		 */
 		get_edit_post_link: function() {
 
@@ -3221,10 +3291,11 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 } );
 
 /**
- * Quiz Schema
+ * Quiz Schema.
  *
- * @since    3.17.6
- * @version  3.24.0
+ * @since 3.17.6
+ * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
+ * @version 7.4.0
  */
 define( 'Schemas/Quiz',[], function() {
 
@@ -3289,8 +3360,20 @@ define( 'Schemas/Quiz',[], function() {
 						label: LLMS.l10n.translate( 'Randomize Question Order' ),
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
+						condition: function() {
+							return 'yes' === this.get( 'question_bank' ) ? false : true;
+						}
 			},
-				],
+				], [
+					{
+						id: 'question-bank',
+						label: LLMS.l10n.translate( 'Question Bank' ),
+						tip: LLMS.l10n.translate( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' ),
+						type: 'upsell',
+						text: LLMS.l10n.translate( 'Get LifterLMS Advanced Quizzes' ),
+						url: 'https://lifterlms.com/product/advanced-quizzes/?utm_source=LifterLMS%20Plugin&utm_medium=Quiz%20Builder%20Button&utm_campaign=Advanced%20Question%20Upsell&utm_content=3.16.0&utm_term=Questions%20Bank'
+					}
+				]
 
 			],
 		},
@@ -3300,9 +3383,10 @@ define( 'Schemas/Quiz',[], function() {
 } );
 
 /**
- * Quiz Model
- * @since    3.16.0
- * @version  3.24.0
+ * Quiz Model.
+ *
+ * @since 3.16.0
+ * @version 7.4.0
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3347,14 +3431,16 @@ define( 'Models/Quiz',[
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.6
+		 * New lesson defaults.
+		 *
+		 * @since 3.16.0
+		 * @since 7.4.0 Added filter for filtering defaults.
+		 *
+		 * @return {Object}
 		 */
 		defaults: function() {
 
-			return {
+			return window.llms.hooks.applyFilters( 'llms_quiz_model_defaults', {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
@@ -3382,7 +3468,7 @@ define( 'Models/Quiz',[
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,
-			};
+			} );
 
 		},
 
@@ -10849,21 +10935,117 @@ define( 'Views/Utilities',[], function() {
 } );
 
 /**
+ * Sidebar Utilities View
+ *
+ * @since 7.2.0
+ * @version 7.2.0
+ */
+define( 'Views/VideoExplainer',[], function() {
+	return Backbone.View.extend( {
+
+		/**
+		 * HTML element selector.
+		 *
+		 * @type {string}
+		 */
+		el: '#llms-video-explainer',
+
+		/**
+		 * Wrapper Tag name.
+		 *
+		 * @type {string}
+		 */
+		tagName: 'div',
+
+		/**
+		 * Events.
+		 *
+		 * @type {Object}
+		 */
+		events: {
+			'click .llms-video-explainer-trigger': 'openPopup',
+			'click .llms-video-explainer-close': 'closePopup',
+			'click .llms-video-explainer-wrapper': 'closePopup',
+		},
+
+		/**
+		 * Get the underscore template.
+		 */
+		template: wp.template( 'llms-video-explainer-template' ),
+
+		/**
+		 * Compiles the template and renders the view.
+		 *
+		 * @since 7.2.0
+		 *
+		 * @return {self}
+		 */
+		render: function() {
+			this.$el.html( this.template() );
+			return this;
+		},
+
+		/**
+		 * Open the popup.
+		 *
+		 * @since 7.2.0
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {void}
+		 */
+		openPopup: function( event ) {
+			event.preventDefault();
+
+			$( '.llms-video-explainer-wrapper' ).css( {
+				display: 'flex',
+				opacity: '1',
+			} );
+		},
+
+		/**
+		 * Close the popup.
+		 *
+		 * @since 7.2.0
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {void}
+		 */
+		closePopup: function( event ) {
+			event.preventDefault();
+
+			$( '.llms-video-explainer-wrapper' ).css( {
+				display: 'none',
+				opacity: '0',
+			} );
+
+			const iframe = $( '.llms-video-explainer-iframe' );
+			const src = iframe.attr( 'src' );
+
+			iframe.attr( 'src', '' ).attr( 'src', src );
+		},
+
+	} );
+} );
+
+/**
  * Main sidebar view
- * @since    3.16.0
- * @version  3.16.7
+ *
+ * @since 3.16.0
+ * @version 7.2.0
  */
 define( 'Views/Sidebar',[
-		'Views/Editor',
-		'Views/Elements',
-		'Views/Utilities',
-		'Views/_Subview'
-	], function(
-		Editor,
-		Elements,
-		Utilities,
-		Subview
-	) {
+	'Views/Editor',
+	'Views/Elements',
+	'Views/Utilities',
+	'Views/VideoExplainer',
+	'Views/_Subview'
+], function(
+	Editor,
+	Elements,
+	Utilities,
+	VideoExplainer,
+	Subview
+) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -10885,6 +11067,11 @@ define( 'Views/Sidebar',[
 			},
 			utilities: {
 				class: Utilities,
+				instance: null,
+				state: 'builder',
+			},
+			video_explainer: {
+				class: VideoExplainer,
 				instance: null,
 				state: 'builder',
 			},

@@ -1,9 +1,9 @@
 == Description ==
-LifterLMS is a secure WordPress LMS plugin packed with features to easily create & sell courses online.
+LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
 
-Transform your WordPress website into a professional eLearning platform with every feature you could possibly need from your LMS.
+Transform your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
 
-+ **Intuitive LMS Course Builder:** Create Courses, Sections, Interactive Lessons with Rich Content Including Multimedia and Videos
++ **Intuitive LMS Course Builder:** Create Courses, Sections, and Interactive Lessons with Rich Content Including Multimedia and Videos
 + **Track Student Progress:** In-Depth Reporting, Create Timed or Open Quizzes, Drip Content, Add Prerequisites, Analyze Progress, and Award Certificates
 + **Complete Ecommerce Platform:** Built-in Gateway Integration for Stripe and PayPal With Memberships and Subscriptions Including Single or Group Enrollment
 + **Community and Social Learning:** Integrate a Community Forum or Discussion Area, Add Multiple Instructors, and Display Course Reviews for Social Proof
@@ -53,10 +53,10 @@ https://www.youtube.com/watch?v=RnZflrWG5YQ
 We’re the favorite LMS plugin for WordPress developers, designers and IT pros who **build LMS websites and training portals** for clients, employers and themselves
 
 **Best for Starters**
-Do-it-yourself innovators love that LifterLMS helps them **create high value online courses, coaching or training based membership websites,** right on WordPress.
+Do-it-yourself innovators love that LifterLMS helps them easily **create high value online courses, coaching or training based membership websites,** right on WordPress.
 
 **Best for Switchers**
-Have you outgrown a hosted LMS platform or an incomplete WordPress LMS stack? Choose LifterLMS if you are looking for **more power, control and better support**.
+Have you outgrown a hosted LMS platform or an incomplete WordPress LMS stack? Choose LifterLMS if you are looking for **more power, control, and better support**.
 
 ### Meet The LifterLMS Team
 
@@ -69,12 +69,12 @@ Learn more about [the people behind LifterLMS here][team].
 
 ### LifterLMS WordPress LMS By The Numbers
 
-+ 4,348,041 Course Enrollments powered by LifterLMS
-+ 6,570,731 Course and lesson completions powered by LifterLMS
-+ 86,807 Achievement badges awarded by LifterLMS
-+ 120,728 Certificates awarded by LifterLMS
++ 8,377,042 Course Enrollments powered by LifterLMS
++ 12,570,881 Course and lesson completions powered by LifterLMS
++ 186,997 Achievement badges awarded by LifterLMS
++ 310,728 Certificates awarded by LifterLMS
 + Over 10,000 active installs of the WordPress LMS plugin
-+ [267 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [296 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 ### [LifterLMS Features][features]
 
@@ -114,7 +114,9 @@ When you need more features and want to expand your online learning business, we
 
 + Course multimedia lessons
 + Course quizzes
++ Quiz question banks
 + Course builder
++ Course cohorts
 + Drip Content
 + Course and lesson prerequisites
 + Course tracks
@@ -233,6 +235,8 @@ Increase your LMS website and it's training program's value with these engagemen
 + [LifterLMS Custom Fields][cf]
 + [LifterLMS Groups][gr]
 + [LifterLMS PDFs][pdf]
++ [LifterLMS Private Site][ps]
++ [LifterLMS Course Cohorts][coh]
 
 **Integrations**
 
@@ -247,10 +251,13 @@ Integrate your LMS with the third-party tools you know and love:
 
 ### LMS Website and User Experience Design Tools
 
-Make your online course creations and WordPress LMS platform beautiful
+Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot][sp] if you want to start with a modern, beautiful, full-site editing block-based theme.
 
++ [LifterLMS Sky Pilot Theme][sp]
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
+
+https://www.youtube.com/watch?v=tE1K1FHiYDM
 
 ### How To Get Support
 
@@ -377,6 +384,7 @@ Install the free LifterLMS plugin on your website, then ...
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [earth]: https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -387,7 +395,9 @@ Install the free LifterLMS plugin on your website, then ...
 [pdf]: https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[ps]: https://lifterlms.com/product/private-site/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[sp]: https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [try]: https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [universe]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale

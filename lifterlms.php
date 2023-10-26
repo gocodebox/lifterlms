@@ -10,15 +10,15 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
- * Version: 7.1.4
+ * Version: 7.4.2
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
  * Domain Path: /languages
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least: 5.6
- * Tested up to: 6.2
+ * Requires at least: 5.9
+ * Tested up to: 6.3
  * Requires PHP: 7.4
  *
  * * * * * * * * * * * * * * * * * * * * * *
@@ -41,7 +41,7 @@ if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 }
 
 if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
-	define( 'LLMS_PLUGIN_DIR', dirname( __FILE__ ) . '/' );
+	define( 'LLMS_PLUGIN_DIR', __DIR__ . '/' );
 }
 
 // Autoloader.

@@ -5,12 +5,12 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 7.1.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
+if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 
 	/**
 	 * Output the LifterLMS Student Dashboard
@@ -919,11 +919,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 endif;
 
 /**
- * Modify the pagination links displayed on endpoints using the default LLMS loop
+ * Modify the pagination links displayed on endpoints using the default LLMS loop.
  *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
  * @since 6.3.0 Fixed pagination when using plain permalinks.
+ * @since 7.2.0 Made sure the pagination links is not altered when not in the LifterLMS dashboard context.
  *
  * @param string $link Default link.
  * @return string
@@ -936,11 +937,13 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	 * Resolves compatibility issues with LifterLMS WooCommerce.
 	 *
 	 * @since unknown
+	 * @since 7.2.0 Defaults to `false` only on the LifterLMS dashboard context, while `true` elsewhere.
 	 *
-	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled. Default `false`.
+	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled.
+	 *                        Default `false` in the LifterLMS dashboard context, `true` elsewhere.
 	 * @param string $link    The default link.
 	 */
-	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', false, $link ) ) {
+	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', ! is_page( llms_get_page_id( 'myaccount' ) ), $link ) ) {
 		return $link;
 	}
 

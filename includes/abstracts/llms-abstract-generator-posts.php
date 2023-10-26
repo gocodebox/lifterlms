@@ -1,11 +1,11 @@
 <?php
 /**
- * Generate LMS Content from export files or raw arrays of data
+ * Generate LMS Content from export files or raw arrays of data.
  *
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version 6.0.0
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -155,10 +155,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 	}
 
 	/**
-	 * Generate a new LLMS_Post_Mdel
+	 * Generate a new LLMS_Post_Model.
 	 *
 	 * @since 4.7.0
 	 * @since 4.7.1 Set the post's excerpt during the initial insert instead of during metadata updates after creation.
+	 * @since 7.3.0 Skip adding the `generated_from_id` meta from the original post: this is the case when cloning a cloned post.
+	 *              Also skip creating revisions.
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
@@ -174,17 +176,32 @@ abstract class LLMS_Abstract_Generator_Posts {
 			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
 		}
 
+		// Don't create useless revision on "cloning".
+		add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
+
 		// Insert the object.
 		$post = new $class_name(
 			'new',
-			array(
-				'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
+			/**
+			 * Filter the data used to generate a new post.
+			 *
+			 * @since 7.4.0
+			 *
+			 * @param array $new_post_data New post data array.
+			 * @param array $raw           Original raw post data array.
+			 */
+			apply_filters(
+				'llms_generator_new_post_data',
+				array(
+					'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
+					'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
+					'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+					'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
+					'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+					'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+					'post_title'    => $raw['title'],
+				),
+				$raw
 			)
 		);
 
@@ -198,12 +215,20 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		// Don't set these values again.
 		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['excerpt'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
+		/**
+		 * Skip adding the `generated_from_id` meta from the original post:
+		 * this is the case when cloning a cloned post.
+		 */
+		unset( $raw['custom'][ $post->get( 'meta_prefix' ) . 'generated_from_id' ] );
 
 		$this->set_metadata( $post, $raw );
 		$this->set_featured_image( $raw, $post->get( 'id' ) );
 		$this->add_custom_values( $post->get( 'id' ), $raw );
 		$this->sideload_images( $post, $raw );
 		$this->handle_reusable_blocks( $post, $raw );
+
+		// Remove revision prevention.
+		remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 		return $post;
 
