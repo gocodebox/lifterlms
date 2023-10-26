@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.1.0
- * @version 7.1.3
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,6 +34,7 @@ class LLMS_Admin_Header {
 	 * @since 7.1.0
 	 * @since 7.1.2 Making the LifterLMS logo link to the LifterLMS.com site.
 	 * @since 7.1.3 Using strpos instead of str_starts_with for compatibility.
+	 * @since 7.4.0 Added `llms_admin_show_header` filter and move wizard check.
 	 *
 	 * @return void
 	 */
@@ -54,29 +55,32 @@ class LLMS_Admin_Header {
 			$show_header = true;
 		}
 
+		// Get the current page if available.
+		$page = (string) llms_filter_input( INPUT_GET, 'page' );
+
 		// Show header on our settings pages.
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- No nonce verification needed here
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- No sanitization needed here, we're not gonna use this value other than for checks
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- No unslash needed here, we're not gonna use this value other than for checks
 		if (
-			( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'llms-' ) === 0 ) ||
+			( strpos( $page, 'llms-' ) === 0 ) ||
 			( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'lifterlms' ) === 0 )
 		) {
 			$show_header = true;
 		}
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-
-		// Exclude the wizard.
-		if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
-			$show_header = false;
-		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		// Don't show header on the Course Builder.
 		if ( isset( $current_screen->base ) && 'admin_page_llms-course-builder' === $current_screen->base ) {
 			$show_header = false;
 		}
+
+		/**
+		 * Allow developers to filter the show header value.
+		 *
+		 * @since 7.4.0
+		 *
+		 * @param bool      $show_header    Whether to show the header.
+		 * @param WP_Screen $current_screen The current screen object.
+		 * @param string    $page           The current page if available.
+		 */
+		$show_header = apply_filters( 'llms_admin_show_header', $show_header, $current_screen, $page );
 
 		// Conditionally show our header.
 		if ( ! empty( $show_header ) ) { ?>

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.7.5 Unknown.
- * @since [version] Strip all tags from the page title, slash the page data prior to inserting the page in the db via `wp_insert_post`.
+ * @since 7.3.0 Strip all tags from the page title, slash the page data prior to inserting the page in the db via `wp_insert_post`.
  *              Prefer strict type comparison when using `in_array()`.
  *
  * @param string $slug    Page slug.
