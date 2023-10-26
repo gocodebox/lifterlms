@@ -347,7 +347,7 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 }
 
 /**
- * Count of Total Lessons in a Course.
+ * Count of total lessons in a course.
  *
  * @since [version]
  *
