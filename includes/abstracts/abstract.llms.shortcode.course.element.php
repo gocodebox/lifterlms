@@ -75,7 +75,7 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 			return '';
 		}
 
-		if ( in_array( $course->post_type, array( 'lesson', 'llms_quiz' ) ) ) {
+		if ( in_array( $course->post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
 			// Get the parent.
 			$parent = llms_get_post_parent_course( $course );
 
