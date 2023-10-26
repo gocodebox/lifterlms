@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
+if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 
 	/**
 	 * Output the LifterLMS Student Dashboard

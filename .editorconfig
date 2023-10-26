@@ -27,7 +27,8 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.txt]
+[*.{md,txt}]
+insert_final_newline = false
 trim_trailing_whitespace = false
 
 [*.{md,json,yml,yml.template}]

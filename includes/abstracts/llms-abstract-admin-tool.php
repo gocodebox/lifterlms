@@ -107,7 +107,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 			/**
 			 * Action run prior to running an admin tool's main `handle()` method.
 			 *
-			 * The dynamic portion of this hook `${tool_id}` refers to the unique ID
+			 * The dynamic portion of this hook `{$tool_id}` refers to the unique ID
 			 * of the admin tool.
 			 *
 			 * @since 5.0.0
@@ -121,7 +121,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 			/**
 			 * Action run prior to running an admin tool's main `handle()` method.
 			 *
-			 * The dynamic portion of this hook `${tool_id}` refers to the unique ID
+			 * The dynamic portion of this hook `{$tool_id}` refers to the unique ID
 			 * of the admin tool.
 			 *
 			 * @since 5.0.0

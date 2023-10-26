@@ -7,7 +7,8 @@
  * @group admin
  * @group setup_wizard
  *
- * @since 4.8.0
+ * @since 7.4.0
+ * @version 7.4.0
  */
 class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
@@ -104,11 +105,13 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test enqueue()
 	 *
 	 * @since 4.8.0
+	 * @since 7.4.0 Added mock request to test for `llms-setup` page.
 	 *
 	 * @return void
 	 */
 	public function test_enqueue() {
 
+		$this->mockGetRequest( array( 'page' => 'llms-setup' ) );
 		$this->assertTrue( $this->main->enqueue() );
 
 	}
@@ -200,6 +203,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test get_save_text()
 	 *
 	 * @since 4.8.0
+	 * @since 7.4.0 Escaped 'Save & Continue' text.
 	 *
 	 * @return void
 	 */
@@ -208,7 +212,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'Allow', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'coupon' ) ) );
 		$this->assertEquals( 'Import Courses', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'finish' ) ) );
 
-		$this->assertEquals( 'Save & Continue', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'anything-else' )  ));
+		$this->assertEquals( 'Save &amp; Continue', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'anything-else' )  ));
 
 	}
 
@@ -243,18 +247,21 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test get_steps()
 	 *
 	 * @since 4.8.0
+	 * @since 7.4.0 Updated step value to array and check for title.
 	 *
 	 * @return void
 	 */
 	public function test_get_steps() {
 
-		$res = $this->main->get_steps();
-		$this->assertTrue( is_array( $res ) );
-		foreach ( $res as $key => $val ) {
-			$this->assertTrue( ! empty( $key ) );
-			$this->assertTrue( ! empty( $val ) );
-			$this->assertTrue( is_string( $key ) );
-			$this->assertTrue( is_string( $val ) );
+		$steps = $this->main->get_steps();
+		$this->assertTrue( is_array( $steps ) );
+
+		foreach ( $steps as $step => $args ) {
+			$this->assertTrue( ! empty( $step ) );
+			$this->assertTrue( is_array( $args ) );
+			$this->assertArrayHasKey( 'title', $args );
+			$this->assertTrue( is_string( $step ) );
+			$this->assertTrue( is_string( $args['title'] ?? '' ) );
 		}
 
 	}

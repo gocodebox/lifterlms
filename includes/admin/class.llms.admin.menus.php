@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -189,6 +189,7 @@ class LLMS_Admin_Menus {
 	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
+	 * @since 7.4.1 Added the 'Resources' submenu page.
 	 *
 	 * @return void
 	 */
@@ -210,6 +211,8 @@ class LLMS_Admin_Menus {
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), 'manage_lifterlms', 'llms-import', array( $this, 'import_page_init' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
+
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Resources', 'lifterlms' ), __( 'Resources', 'lifterlms' ), 'manage_lifterlms', 'llms-resources', array( $this, 'resources_page_init' ) );
 
 		// Passing '' to register the page without actually adding a menu item.
 		add_submenu_page( '', __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'builder_init' ) );
@@ -418,6 +421,18 @@ class LLMS_Admin_Menus {
 	public function status_page_init() {
 		$this->status_page_includes();
 		LLMS_Admin_Page_Status::output();
+	}
+
+	/**
+	 * Output the HTML for admin resources screen.
+	 *
+	 * @since 7.4.1
+	 *
+	 * @return void
+	 */
+	public function resources_page_init() {
+		LLMS_Admin_Resources::register_meta_boxes();
+		LLMS_Admin_Resources::output();
 	}
 
 }

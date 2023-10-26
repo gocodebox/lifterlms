@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version 7.0.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +40,13 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @var boolean
 	 */
 	protected $is_exportable = true;
+
+	/**
+	 * Export download nonce action.
+	 *
+	 * @var string
+	 */
+	public const EXPORT_NONCE_ACTION = 'llms_export_table';
 
 	/**
 	 * Generate an export file for the current table.
@@ -167,6 +174,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.28.0
 	 * @since 3.28.1 Unknown.
+	 * @since [version] Add nonce to export file url.
 	 *
 	 * @param string $file_path Full path to a download file.
 	 * @return string
@@ -174,7 +182,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	protected function get_export_file_url( $file_path ) {
 		return add_query_arg(
 			array(
-				'llms-dl-export' => basename( $file_path ),
+				'llms-dl-export'       => basename( $file_path ),
+				'llms_dl_export_nonce' => wp_create_nonce( self::EXPORT_NONCE_ACTION ),
 			),
 			admin_url( 'admin.php' )
 		);
