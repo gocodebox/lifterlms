@@ -38,8 +38,7 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	/**
 	 * Notification Trigger ID.
 	 *
-	 * @since [version]
-	 * @var [type]
+	 * @var string
 	 */
 	public $trigger_id = 'failed_attempts';
 

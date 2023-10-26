@@ -20,8 +20,7 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	/**
 	 * Trigger Identifier.
 	 *
-	 * @since [version]
-	 * @var [type]
+	 * @var string
 	 */
 	public $id = 'failed_attempts';
 
@@ -44,11 +43,11 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	/**
 	 * Callback function called when a student failed in all quiz attempts.
 	 *
+	 * @since [version]
+	 *
 	 * @param int $student_id WP User ID of a LifterLMS Student
 	 * @param int $course_id  WP Post ID of a LifterLMS Course
 	 * @param int $quiz_id    WP Post ID of a LifterLMS Quiz
-	 *
-	 * @since [version]
 	 * @return void
 	 */
 	public function action_callback( $student_id = null, $course_id = null, $quiz_id = null ) {
