@@ -4221,6 +4221,124 @@ body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post
   display: block;
 }
 
+.wrap.llms-resources .llms-inside-wrap {
+  padding-top: 30px;
+}
+.wrap.llms-resources #poststuff #post-body.columns-2 {
+  margin-right: 350px;
+}
+.wrap.llms-resources #poststuff #post-body.columns-2 #side-sortables {
+  width: 330px;
+}
+@media only screen and (max-width: 850px) {
+  .wrap.llms-resources #poststuff #post-body.columns-2 #side-sortables {
+    width: auto;
+  }
+}
+.wrap.llms-resources #poststuff #postbox-container-1 {
+  float: right;
+  margin-right: -350px;
+  width: 330px;
+}
+.wrap.llms-resources #poststuff h2 {
+  padding: 12px 20px;
+}
+.wrap.llms-resources #poststuff .postbox {
+  background-color: #FFF;
+  border: none;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+}
+.wrap.llms-resources #poststuff .postbox .postbox-header {
+  border-bottom-color: #efefef;
+}
+.wrap.llms-resources #poststuff .postbox .inside {
+  margin: 0;
+  padding: 20px;
+}
+.wrap.llms-resources #llms_dashboard_welcome_video .llms-welcome-video p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 40px 0;
+}
+.wrap.llms-resources #llms_dashboard_welcome_video .llms-welcome-video .llms-welcome-video-container {
+  height: 0;
+  overflow: hidden;
+  padding-top: 30px;
+  padding-bottom: 56.25%;
+  position: relative;
+}
+.wrap.llms-resources #llms_dashboard_welcome_video .llms-welcome-video .llms-welcome-video-container iframe,
+.wrap.llms-resources #llms_dashboard_welcome_video .llms-welcome-video .llms-welcome-video-container object,
+.wrap.llms-resources #llms_dashboard_welcome_video .llms-welcome-video .llms-welcome-video-container embed {
+  left: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.wrap.llms-resources #llms_dashboard_getting_started ul {
+  margin: 0 0 20px 0;
+}
+.wrap.llms-resources #llms_dashboard_getting_started ul li {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+.wrap.llms-resources #llms_dashboard_getting_started .llms-button-primary {
+  display: block;
+  margin-top: auto;
+  max-width: 300px;
+  text-align: center;
+}
+.wrap.llms-resources #llms_dashboard_resource_links ul {
+  list-style: disc;
+  margin: 5px 0 0 20px;
+}
+.wrap.llms-resources #llms_dashboard_resource_links ul li {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 60px;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links a {
+  display: inline-block;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list h3 {
+  margin: 0 0 10px 0;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list h3 .dashicons {
+  color: #AAA;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list ul {
+  margin-bottom: 20px;
+}
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list .llms-button-primary,
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list .llms-button-secondary,
+.wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links .llms-list .llms-button-action {
+  display: block;
+  margin-top: auto;
+  max-width: 300px;
+  text-align: center;
+}
+@media only screen and (min-width: 782px) {
+  .wrap.llms-resources #llms_dashboard_resource_links .llms-resource-links {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 .llms-remarks .llms-remarks-field {
   height: 120px;
   width: 100%;

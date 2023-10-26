@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.3.0\n"
+"Project-Id-Version: LifterLMS 7.4.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-08T15:28:54+00:00\n"
+"POT-Creation-Date: 2023-10-06T23:11:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.2.1\n"
 "X-Domain: lifterlms\n"
@@ -33,7 +33,7 @@ msgid "Complete e-learning platform to sell online courses, protect lessons, off
 msgstr ""
 
 #: class-lifterlms.php:380
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:207
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
 #: includes/admin/views/settings.php:17
 #: assets/js/llms-admin-certificate-editor.js:20
@@ -160,9 +160,9 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:220
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:224
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:47
-#: includes/admin/views/builder/question.php:66
+#: includes/admin/views/builder/question.php:68
 #: includes/class.llms.l10n.js.php:163
-#: includes/class.llms.l10n.js.php:319
+#: includes/class.llms.l10n.js.php:322
 #: includes/privacy/class-llms-privacy-exporters.php:122
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:71
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:149
@@ -214,6 +214,27 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %1$sclick here%2$s for more information."
 msgstr ""
 
+#: includes/abstracts/llms-abstract-admin-wizard.php:246
+#: includes/admin/class.llms.admin.setup.wizard.php:47
+#: includes/admin/class.llms.admin.setup.wizard.php:52
+#: includes/admin/class.llms.admin.setup.wizard.php:57
+msgid "Save & Continue"
+msgstr ""
+
+#: includes/abstracts/llms-abstract-admin-wizard.php:275
+#: includes/admin/class.llms.admin.setup.wizard.php:48
+#: includes/admin/class.llms.admin.setup.wizard.php:53
+#: includes/admin/class.llms.admin.setup.wizard.php:58
+#: includes/admin/class.llms.admin.setup.wizard.php:68
+msgid "Skip this step"
+msgstr ""
+
+#: includes/abstracts/llms-abstract-admin-wizard.php:384
+#: includes/admin/class.llms.admin.setup.wizard.php:173
+#: includes/admin/class.llms.admin.setup.wizard.php:196
+msgid "There was an error saving your data, please try again."
+msgstr ""
+
 #: includes/abstracts/llms-abstract-controller-user-engagements.php:118
 #: includes/abstracts/llms-abstract-meta-box-user-engagement-sync.php:241
 #: includes/abstracts/llms-abstract-processor-user-engagement-sync.php:155
@@ -246,11 +267,11 @@ msgid "The class \"%s\" does not exist."
 msgstr ""
 
 #. Translators: %s = post type name.
-#: includes/abstracts/llms-abstract-generator-posts.php:198
+#: includes/abstracts/llms-abstract-generator-posts.php:210
 msgid "Error creating the %s post object."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:514
+#: includes/abstracts/llms-abstract-generator-posts.php:526
 msgid "Error creating new term \"%s\"."
 msgstr ""
 
@@ -439,7 +460,7 @@ msgid "Grade"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:58
-#: includes/admin/class.llms.admin.menus.php:212
+#: includes/admin/class.llms.admin.menus.php:213
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:390
 #: includes/admin/reporting/tables/llms.table.course.students.php:433
 #: includes/admin/reporting/tables/llms.table.membership.students.php:411
@@ -536,26 +557,26 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:85
+#: includes/admin/class-llms-admin-header.php:89
 msgid "LifterLMS Logo"
 msgstr ""
 
 #. Translators: %s = Current Version Number.
-#: includes/admin/class-llms-admin-header.php:88
+#: includes/admin/class-llms-admin-header.php:92
 #: includes/admin/views/addons/addon-item.php:46
 msgid "Version: %s"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:103
+#: includes/admin/class-llms-admin-header.php:107
 msgid "No License"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:106
+#: includes/admin/class-llms-admin-header.php:110
 #: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:277
 msgid "My License Keys"
 msgstr ""
 
-#: includes/admin/class-llms-admin-header.php:115
+#: includes/admin/class-llms-admin-header.php:119
 msgid "Get Support"
 msgstr ""
 
@@ -743,7 +764,7 @@ msgid "Ivory"
 msgstr ""
 
 #: includes/admin/class.llms.admin.builder.php:52
-#: includes/admin/class.llms.admin.menus.php:204
+#: includes/admin/class.llms.admin.menus.php:205
 #: includes/class.llms.install.php:292
 #: includes/class.llms.student.dashboard.php:155
 #: includes/functions/llms.functions.templates.certificates.php:82
@@ -813,7 +834,7 @@ msgstr ""
 #: includes/admin/class.llms.admin.builder.php:1038
 #: includes/admin/views/builder/elements.php:22
 #: includes/class.llms.l10n.js.php:94
-#: includes/class.llms.l10n.js.php:351
+#: includes/class.llms.l10n.js.php:357
 #: includes/class.llms.post-types.php:537
 #: includes/models/model.llms.lesson.php:426
 msgid "New Lesson"
@@ -1017,55 +1038,64 @@ msgid "Only valid JSON files can be imported."
 msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:181
-#: includes/admin/class.llms.admin.menus.php:215
+#: includes/admin/class.llms.admin.menus.php:218
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:204
+#: includes/admin/class.llms.admin.menus.php:205
 #: includes/admin/views/dashboard.php:19
 msgid "LifterLMS Dashboard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:207
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:209
 msgid "LifterLMS Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:209
 msgid "Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:211
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:211
 #: includes/admin/views/import.php:38
 msgid "Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:212
+#: includes/admin/class.llms.admin.menus.php:213
 msgid "LifterLMS Status"
 msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:215
+#: includes/admin/views/resources.php:18
+msgid "LifterLMS Resources"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:215
+msgid "Resources"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:218
 msgid "LifterLMS Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:240
+#: includes/admin/class.llms.admin.menus.php:243
 msgid "LifterLMS Add-ons, Courses, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:240
+#: includes/admin/class.llms.admin.menus.php:243
 msgid "Add-ons & more"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:364
+#: includes/admin/class.llms.admin.menus.php:367
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:100
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:75
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:82
@@ -1204,6 +1234,18 @@ msgstr ""
 msgid "%1$s draft updated."
 msgstr ""
 
+#: includes/admin/class.llms.admin.resources.php:49
+msgid "Welcome to LifterLMS"
+msgstr ""
+
+#: includes/admin/class.llms.admin.resources.php:59
+msgid "Resource Links"
+msgstr ""
+
+#: includes/admin/class.llms.admin.resources.php:69
+msgid "Getting Started"
+msgstr ""
+
 #: includes/admin/class.llms.admin.reviews.php:60
 #: includes/class.llms.review.php:189
 msgid "Review Title"
@@ -1277,67 +1319,53 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.settings.php:739
 #: includes/class.llms.l10n.js.php:147
-#: includes/class.llms.l10n.js.php:343
+#: includes/class.llms.l10n.js.php:349
 #: libraries/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
 msgid "None"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:92
+#: includes/admin/class.llms.admin.setup.wizard.php:43
 msgid "LifterLMS Setup Wizard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:215
-msgid "Save & Continue"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:218
-msgid "Allow"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:220
-#: includes/admin/views/import.php:20
-msgid "Import Courses"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:246
-msgid "Skip this step"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:249
-msgid "No thanks"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:293
+#: includes/admin/class.llms.admin.setup.wizard.php:46
 msgid "Welcome!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:294
-#: includes/admin/views/setup-wizard/step-pages.php:14
+#: includes/admin/class.llms.admin.setup.wizard.php:51
+#: includes/admin/views/setup-wizard/step-pages.php:15
 msgid "Page Setup"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:295
-#: includes/admin/views/setup-wizard/step-payments.php:18
+#: includes/admin/class.llms.admin.setup.wizard.php:56
+#: includes/admin/views/setup-wizard/step-payments.php:22
 msgid "Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:296
+#: includes/admin/class.llms.admin.setup.wizard.php:61
 #: includes/class.llms.post-types.php:991
 msgid "Coupon"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:297
+#: includes/admin/class.llms.admin.setup.wizard.php:62
+msgid "Allow"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:63
+msgid "No thanks"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:66
 msgid "Finish!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:372
-msgid "Toggle to import course"
+#: includes/admin/class.llms.admin.setup.wizard.php:67
+#: includes/admin/views/import.php:20
+msgid "Import Courses"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:410
-#: includes/admin/class.llms.admin.setup.wizard.php:440
-#: includes/admin/class.llms.admin.setup.wizard.php:463
-msgid "There was an error saving your data, please try again."
+#: includes/admin/class.llms.admin.setup.wizard.php:117
+msgid "Toggle to import course"
 msgstr ""
 
 #: includes/admin/class.llms.admin.system-report.php:60
@@ -1518,8 +1546,8 @@ msgstr ""
 
 #: includes/admin/post-types/class.llms.post.tables.php:62
 #: includes/class-llms-generator-courses.php:677
-#: includes/class.llms.l10n.js.php:230
-#: includes/class.llms.l10n.js.php:369
+#: includes/class.llms.l10n.js.php:233
+#: includes/class.llms.l10n.js.php:375
 msgid "Clone"
 msgstr ""
 
@@ -1837,7 +1865,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:177
 #: includes/class.llms.l10n.js.php:97
-#: includes/class.llms.l10n.js.php:354
+#: includes/class.llms.l10n.js.php:360
 #: templates/myaccount/my-grades-single-table.php:18
 msgid "Section %1$d: %2$s"
 msgstr ""
@@ -2265,7 +2293,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:58
 #: includes/class.llms.l10n.js.php:148
-#: includes/class.llms.l10n.js.php:344
+#: includes/class.llms.l10n.js.php:350
 msgid "On a specific date"
 msgstr ""
 
@@ -2296,7 +2324,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:102
 #: includes/admin/views/builder/lesson.php:134
 #: includes/class.llms.l10n.js.php:139
-#: includes/class.llms.l10n.js.php:335
+#: includes/class.llms.l10n.js.php:341
 msgid "Free Lesson"
 msgstr ""
 
@@ -2363,14 +2391,14 @@ msgid "No automatic enrollment courses found. Add a course below."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:73
-#: includes/class.llms.l10n.js.php:414
-#: includes/class.llms.l10n.js.php:483
+#: includes/class.llms.l10n.js.php:420
+#: includes/class.llms.l10n.js.php:489
 msgid "Remove course"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:74
-#: includes/class.llms.l10n.js.php:415
-#: includes/class.llms.l10n.js.php:484
+#: includes/class.llms.l10n.js.php:421
+#: includes/class.llms.l10n.js.php:490
 msgid "Enroll All Members"
 msgstr ""
 
@@ -2611,8 +2639,8 @@ msgid "OK"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:74
-#: includes/class.llms.l10n.js.php:416
-#: includes/class.llms.l10n.js.php:485
+#: includes/class.llms.l10n.js.php:422
+#: includes/class.llms.l10n.js.php:491
 #: assets/js/llms-admin-award-certificate.js:1
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Cancel"
@@ -2692,6 +2720,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
+#. Translators: %s: Post title.
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:117
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:325
 msgid "Delete Permanently"
@@ -2727,8 +2756,8 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:120
 #: includes/admin/reporting/tables/llms.table.certificates.php:58
-#: includes/class.llms.l10n.js.php:420
-#: includes/class.llms.l10n.js.php:489
+#: includes/class.llms.l10n.js.php:426
+#: includes/class.llms.l10n.js.php:495
 #: templates/myaccount/my-orders.php:53
 msgid "View"
 msgstr ""
@@ -2813,15 +2842,15 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:100
 #: includes/class.llms.l10n.js.php:145
-#: includes/class.llms.l10n.js.php:341
+#: includes/class.llms.l10n.js.php:347
 msgid "Prerequisite"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:103
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:58
 #: includes/class.llms.l10n.js.php:153
-#: includes/class.llms.l10n.js.php:308
-#: includes/class.llms.l10n.js.php:349
+#: includes/class.llms.l10n.js.php:311
+#: includes/class.llms.l10n.js.php:355
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:41
 #: templates/admin/post-types/order-transactions.php:28
 #: templates/myaccount/my-orders.php:24
@@ -2943,7 +2972,7 @@ msgid "Order #%d"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:189
-#: includes/models/model.llms.quiz.attempt.php:611
+#: includes/models/model.llms.quiz.attempt.php:613
 #: includes/models/model.llms.user.postmeta.php:115
 msgid "[Deleted]"
 msgstr ""
@@ -2976,8 +3005,8 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.courses.php:228
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:128
 #: includes/admin/reporting/tables/llms.table.students.php:595
-#: includes/class.llms.l10n.js.php:231
-#: includes/class.llms.l10n.js.php:370
+#: includes/class.llms.l10n.js.php:234
+#: includes/class.llms.l10n.js.php:376
 #: templates/admin/post-types/order-transactions.php:26
 #: blocks/courses/index.js:2
 #: blocks/memberships/index.js:1
@@ -3119,7 +3148,7 @@ msgid "Template ID"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.achievements.php:241
-#: includes/admin/views/builder/question.php:86
+#: includes/admin/views/builder/question.php:88
 #: includes/privacy/class-llms-privacy-exporters.php:132
 msgid "Image"
 msgstr ""
@@ -4054,7 +4083,7 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.general.php:87
 #: includes/class.llms.l10n.js.php:136
 #: includes/class.llms.l10n.js.php:162
-#: includes/class.llms.l10n.js.php:318
+#: includes/class.llms.l10n.js.php:321
 msgid "General Settings"
 msgstr ""
 
@@ -4169,6 +4198,7 @@ msgstr ""
 msgid "Deletes pending batches generated by LifterLMS background processors."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-batch-eraser.php:44
 msgid "There is currently %d pending batch that will be deleted."
 msgid_plural "There are currently %d pending batches that will be deleted."
@@ -4212,6 +4242,7 @@ msgstr ""
 msgid "The method used to determine when a limited-billing recurring order has completed its payment plan changed during version 5.3.0. This tool provides a report of orders which may been affected by this change. %1$sRead more%2$s about this change."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:134
 msgid "There is %d order that should be reviewed."
 msgid_plural "There are %d orders that should be reviewed."
@@ -4230,6 +4261,7 @@ msgstr ""
 msgid "Check active recurring orders to ensure their recurring payment action is properly scheduled for the next payment. If a recurring payment is due and not scheduled it will be rescheduled."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:46
 msgid "There is %d order that will be checked."
 msgid_plural "There are %d orders that will be checked in batches of 50."
@@ -4585,8 +4617,8 @@ msgid "Create New Assignment"
 msgstr ""
 
 #: includes/admin/views/builder/assignment.php:26
-#: includes/class.llms.l10n.js.php:207
-#: includes/class.llms.l10n.js.php:379
+#: includes/class.llms.l10n.js.php:210
+#: includes/class.llms.l10n.js.php:385
 msgid "Add Existing Assignment"
 msgstr ""
 
@@ -4733,18 +4765,18 @@ msgstr ""
 
 #: includes/admin/views/builder/question-choice.php:29
 #: includes/admin/views/builder/question-choice.php:31
-#: includes/admin/views/builder/question.php:95
 #: includes/admin/views/builder/question.php:97
+#: includes/admin/views/builder/question.php:99
 msgid "Remove image"
 msgstr ""
 
 #: includes/admin/views/builder/question-choice.php:33
-#: includes/admin/views/builder/question.php:99
+#: includes/admin/views/builder/question.php:101
 msgid "image preview"
 msgstr ""
 
 #: includes/admin/views/builder/question-choice.php:37
-#: includes/admin/views/builder/question.php:103
+#: includes/admin/views/builder/question.php:105
 msgid "Add Image"
 msgstr ""
 
@@ -4762,58 +4794,58 @@ msgstr ""
 msgid "Install the LifterLMS Advanced Quizzes add-on to enable this question type"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:25
+#: includes/admin/views/builder/question.php:27
 msgid "Expand question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:29
+#: includes/admin/views/builder/question.php:31
 msgid "Collapse question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:34
+#: includes/admin/views/builder/question.php:36
 msgid "Clone question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:39
+#: includes/admin/views/builder/question.php:41
 msgid "Detach question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:44
+#: includes/admin/views/builder/question.php:46
 msgid "Delete question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:51
-#: includes/class.llms.l10n.js.php:429
+#: includes/admin/views/builder/question.php:53
+#: includes/class.llms.l10n.js.php:435
 msgid "points"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:114
+#: includes/admin/views/builder/question.php:116
 msgid "Video"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:120
-#: includes/class.llms.l10n.js.php:269
-#: includes/class.llms.l10n.js.php:366
+#: includes/admin/views/builder/question.php:122
+#: includes/class.llms.l10n.js.php:272
+#: includes/class.llms.l10n.js.php:372
 msgid "Use YouTube, Vimeo, or Wistia video URLS."
 msgstr ""
 
-#: includes/admin/views/builder/question.php:121
+#: includes/admin/views/builder/question.php:123
 msgid "https://"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:137
+#: includes/admin/views/builder/question.php:139
 msgid "Choices"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:141
+#: includes/admin/views/builder/question.php:143
 msgid "Multiple Correct Choices"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:152
+#: includes/admin/views/builder/question.php:154
 msgid "Drag a question here to add it to the group."
 msgstr ""
 
-#: includes/admin/views/builder/question.php:161
+#: includes/admin/views/builder/question.php:163
 msgid "Result Clarifications"
 msgstr ""
 
@@ -4826,8 +4858,8 @@ msgid "Create New Quiz"
 msgstr ""
 
 #: includes/admin/views/builder/quiz.php:25
-#: includes/class.llms.l10n.js.php:257
-#: includes/class.llms.l10n.js.php:375
+#: includes/class.llms.l10n.js.php:260
+#: includes/class.llms.l10n.js.php:381
 msgid "Add Existing Quiz"
 msgstr ""
 
@@ -5372,119 +5404,322 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
+#: includes/admin/views/resources/getting-started.php:16
+msgid "How to Activate Your License Key"
+msgstr ""
+
+#: includes/admin/views/resources/getting-started.php:17
+msgid "How to Create a Course"
+msgstr ""
+
+#: includes/admin/views/resources/getting-started.php:18
+msgid "How to Set Up an Access Plans"
+msgstr ""
+
+#: includes/admin/views/resources/getting-started.php:19
+msgid "How to Create a Membership"
+msgstr ""
+
+#: includes/admin/views/resources/getting-started.php:20
+msgid "How to Create Certificates and Engagements"
+msgstr ""
+
+#: includes/admin/views/resources/getting-started.php:22
+msgid "All Getting Started Resources"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:15
+msgid "Key Documentation"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+msgid "Shortcodes"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:18
+msgid "LifterLMS Payment Gateways"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:19
+msgid "Managing Orders"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:20
+msgid "Integrating WooCommerce"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:21
+msgid "Selling Bundled Courses"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:22
+msgid "Dripping Content"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:23
+msgid "Translating LifterLMS"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:24
+msgid "Editing Registration Forms"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:26
+msgid "Knowledge Base"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:29
+msgid "For Developers"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:31
+msgid "Changelogs"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:32
+msgid "Code Reference"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:33
+#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:31
+msgid "REST API"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:34
+msgid "LLMS-CLI"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:35
+msgid "Coding Standards"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:36
+msgid "Github"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:37
+msgid "Contribute"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:38
+msgid "Developer Slack Community"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:40
+msgid "Developer Resources"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:43
+msgid "Common Hang-ups"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:45
+msgid "Student Dashboard as Front Page"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:46
+msgid "Caching Conflicts"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:47
+msgid "License Key Deactivated"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:48
+msgid "Emails Not Sending"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:49
+msgid "Rerun Set Up Wizard"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:51
+msgid "Contact Support"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:57
+msgid "Courses &amp; Case Studies"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:59
+msgid "LifterLMS Quickstart Course"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:60
+msgid "WordPress 101"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:61
+msgid "LifterLMS Case Studies"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:62
+msgid "LifterLMS Webinars"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:66
+msgid "Community Resources"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:68
+msgid "Virtual Events"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:69
+msgid "Facebook Group"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:70
+msgid "Experts for Hire"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:71
+msgid "WordPress Forums"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:75
+msgid "Third Party Stuff"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:77
+msgid "Third Party Add-ons"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:78
+msgid "Form Plugins"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:79
+msgid "Email Marketing"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:80
+msgid "Backups and Security"
+msgstr ""
+
+#: includes/admin/views/resources/resource-links.php:81
+msgid "More Recommendations"
+msgstr ""
+
+#: includes/admin/views/resources/welcome-video.php:14
+msgid "Thank you for choosing LifterLMS! This page is your command center, where you can find all of the basic information you need to start building your courses. Use the links on this page to quickly access support or any additional documentation you may need along the way."
+msgstr ""
+
 #: includes/admin/views/settings.php:25
 msgid "Save Changes"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:48
+#: includes/admin/views/setup-wizard/main.php:52
 msgid "Skip setup"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:49
+#: includes/admin/views/setup-wizard/main.php:53
 msgid "Get Started Now"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:52
+#: includes/admin/views/setup-wizard/main.php:56
 msgid "The site setup is incomplete! Are you sure you wish to exit?"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:52
+#: includes/admin/views/setup-wizard/main.php:56
 msgid "Exit Setup"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:59
+#: includes/admin/views/setup-wizard/main.php:66
 #: assets/js/llms-admin-award-certificate.js:1
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Start from Scratch"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-coupon.php:14
+#: includes/admin/views/setup-wizard/step-coupon.php:18
 msgid "Help Improve LifterLMS & Get a Coupon"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-coupon.php:15
+#: includes/admin/views/setup-wizard/step-coupon.php:19
 msgid "By allowing us to collect non-sensitive usage information and diagnostic data, you'll be providing us with information we can use to make the future of LifterLMS stronger and more powerful with every update!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-coupon.php:16
+#: includes/admin/views/setup-wizard/step-coupon.php:20
 msgid "Click \"Allow\" to and we'll send you a coupon immediately."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-coupon.php:17
+#: includes/admin/views/setup-wizard/step-coupon.php:21
 msgid "Find out more information"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:15
+#: includes/admin/views/setup-wizard/step-finish.php:19
 msgid "Setup Complete!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:16
+#: includes/admin/views/setup-wizard/step-finish.php:20
 msgid "Here's some resources to help you get familiar with LifterLMS:"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:18
+#: includes/admin/views/setup-wizard/step-finish.php:22
 msgid "Watch the LifterLMS video tutorials"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:19
+#: includes/admin/views/setup-wizard/step-finish.php:23
 msgid "Read the LifterLMS Getting Started Guide"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:23
+#: includes/admin/views/setup-wizard/step-finish.php:27
 msgid "Import Sample Courses and Templates!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:24
+#: includes/admin/views/setup-wizard/step-finish.php:28
 msgid "Accelerate your progress by installing a quick LifterLMS training course and useful course templates."
 msgstr ""
 
 #. Translators: %s = anchor link to LifterLMS.com.
-#: includes/admin/views/setup-wizard/step-finish.php:33
+#: includes/admin/views/setup-wizard/step-finish.php:37
 msgid "The selected course will be downloaded and imported into this site from %s."
 msgstr ""
 
 #. Translators: %1$s = The number of selected courses; %2$s = anchor link to LifterLMS.com.
-#: includes/admin/views/setup-wizard/step-finish.php:42
+#: includes/admin/views/setup-wizard/step-finish.php:46
 msgid "The %1$s selected courses will be downloaded and imported into this site from %2$s."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-intro.php:14
+#: includes/admin/views/setup-wizard/step-intro.php:18
 msgid "Welcome to LifterLMS!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-intro.php:15
+#: includes/admin/views/setup-wizard/step-intro.php:19
 msgid "Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS so you can get started creating courses faster!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-intro.php:16
+#: includes/admin/views/setup-wizard/step-intro.php:20
 msgid "It will only take a few minutes and it is completely optional. If you don't have the time now, come back later."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-pages.php:16
+#: includes/admin/views/setup-wizard/step-pages.php:17
 msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-pages.php:36
+#. Translators: 1: Link to the Pages screen in the WordPress admin 2: Closing link tag 3: Link to the Appearance > Menus screen in the WordPress admin 4: Closing link tag.
+#: includes/admin/views/setup-wizard/step-pages.php:41
 msgid "After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-payments.php:23
+#: includes/admin/views/setup-wizard/step-payments.php:27
 msgid "Which country should be used as the default for student registrations?"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-payments.php:35
+#: includes/admin/views/setup-wizard/step-payments.php:41
 msgid "Which currency should be used for payment processing?"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-payments.php:42
+#: includes/admin/views/setup-wizard/step-payments.php:48
 msgid "If your currency is not listed you can %1$sadd it later%2$s."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-payments.php:48
+#: includes/admin/views/setup-wizard/step-payments.php:54
 msgid "With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%2$s to accept online payments."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-payments.php:49
+#: includes/admin/views/setup-wizard/step-payments.php:55
 msgid "Enable Offline Payments"
 msgstr ""
 
@@ -5817,7 +6052,7 @@ msgstr ""
 #: includes/class.llms.ajax.handler.php:627
 #: includes/class.llms.ajax.handler.php:697
 #: includes/class.llms.ajax.handler.php:784
-#: includes/class.llms.template.loader.php:416
+#: includes/class.llms.template.loader.php:418
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -6000,483 +6235,498 @@ msgid "You are not allowed to perform the requested action."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:48
-#: includes/class.llms.l10n.js.php:455
+#: includes/class.llms.l10n.js.php:461
 msgid "This is a %2$s %1$s String"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:56
-#: includes/class.llms.l10n.js.php:456
+#: includes/class.llms.l10n.js.php:462
 #: includes/functions/llms.functions.access.php:198
 msgid "You do not have permission to access this content"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:64
-#: includes/class.llms.l10n.js.php:457
+#: includes/class.llms.l10n.js.php:463
 msgid "There is an issue with your chosen password."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:65
-#: includes/class.llms.l10n.js.php:458
+#: includes/class.llms.l10n.js.php:464
 msgid "Too Short"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:66
-#: includes/class.llms.l10n.js.php:459
+#: includes/class.llms.l10n.js.php:465
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Very Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:67
-#: includes/class.llms.l10n.js.php:460
+#: includes/class.llms.l10n.js.php:466
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:68
-#: includes/class.llms.l10n.js.php:461
+#: includes/class.llms.l10n.js.php:467
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Medium"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:69
-#: includes/class.llms.l10n.js.php:462
+#: includes/class.llms.l10n.js.php:468
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Strong"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:70
-#: includes/class.llms.l10n.js.php:463
+#: includes/class.llms.l10n.js.php:469
 msgid "Mismatch"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:78
-#: includes/class.llms.l10n.js.php:464
+#: includes/class.llms.l10n.js.php:470
 msgid "Members Only Pricing"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:86
-#: includes/class.llms.l10n.js.php:465
+#: includes/class.llms.l10n.js.php:471
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:95
-#: includes/class.llms.l10n.js.php:352
+#: includes/class.llms.l10n.js.php:358
 msgid "lessons"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:96
-#: includes/class.llms.l10n.js.php:353
+#: includes/class.llms.l10n.js.php:359
 msgid "lesson"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:98
-#: includes/class.llms.l10n.js.php:355
+#: includes/class.llms.l10n.js.php:361
 #: templates/myaccount/my-grades-single-table.php:36
 msgid "Lesson %1$d: %2$s"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:99
-#: includes/class.llms.l10n.js.php:356
+#: includes/class.llms.l10n.js.php:362
 msgid "%1$s Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:107
-#: includes/class.llms.l10n.js.php:316
+#: includes/class.llms.l10n.js.php:319
 msgid "questions"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:108
-#: includes/class.llms.l10n.js.php:317
+#: includes/class.llms.l10n.js.php:320
 msgid "question"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:116
-#: includes/class.llms.l10n.js.php:330
+#: includes/class.llms.l10n.js.php:336
 #: includes/class.llms.post-types.php:576
 msgid "New Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:117
-#: includes/class.llms.l10n.js.php:331
+#: includes/class.llms.l10n.js.php:337
 msgid "quizzes"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:118
-#: includes/class.llms.l10n.js.php:332
+#: includes/class.llms.l10n.js.php:338
 #: includes/models/model.llms.user.postmeta.php:118
 msgid "quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:126
-#: includes/class.llms.l10n.js.php:357
+#: includes/class.llms.l10n.js.php:363
 #: includes/class.llms.post-types.php:503
 msgid "New Section"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:127
-#: includes/class.llms.l10n.js.php:358
+#: includes/class.llms.l10n.js.php:364
 msgid "sections"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:128
-#: includes/class.llms.l10n.js.php:359
+#: includes/class.llms.l10n.js.php:365
 msgid "section"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:137
-#: includes/class.llms.l10n.js.php:333
+#: includes/class.llms.l10n.js.php:339
 msgid "Video Embed URL"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:138
-#: includes/class.llms.l10n.js.php:334
+#: includes/class.llms.l10n.js.php:340
 msgid "Audio Embed URL"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:140
-#: includes/class.llms.l10n.js.php:336
+#: includes/class.llms.l10n.js.php:342
 msgid "Require Passing Grade on Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:141
-#: includes/class.llms.l10n.js.php:337
+#: includes/class.llms.l10n.js.php:343
 msgid "Require Passing Grade on Assignment"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:142
-#: includes/class.llms.l10n.js.php:338
+#: includes/class.llms.l10n.js.php:344
 msgid "Lesson Weight"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:143
-#: includes/class.llms.l10n.js.php:339
+#: includes/class.llms.l10n.js.php:345
 msgid "POINTS"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:144
-#: includes/class.llms.l10n.js.php:340
+#: includes/class.llms.l10n.js.php:346
 msgid "Determines the weight of the lesson when calculating the overall grade of the course."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:146
-#: includes/class.llms.l10n.js.php:342
+#: includes/class.llms.l10n.js.php:348
 msgid "Drip Method"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:149
-#: includes/class.llms.l10n.js.php:345
+#: includes/class.llms.l10n.js.php:351
 msgid "# of days after course enrollment"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:150
-#: includes/class.llms.l10n.js.php:346
+#: includes/class.llms.l10n.js.php:352
 msgid "# of days after course start date"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:151
-#: includes/class.llms.l10n.js.php:347
+#: includes/class.llms.l10n.js.php:353
 msgid "# of days after prerequisite lesson completion"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:152
-#: includes/class.llms.l10n.js.php:348
+#: includes/class.llms.l10n.js.php:354
 msgid "# of days"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:154
-#: includes/class.llms.l10n.js.php:350
+#: includes/class.llms.l10n.js.php:356
 msgid "Time"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:164
-#: includes/class.llms.l10n.js.php:320
+#: includes/class.llms.l10n.js.php:323
 msgid "Passing Percentage"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:165
-#: includes/class.llms.l10n.js.php:321
+#: includes/class.llms.l10n.js.php:324
 msgid "Minimum percentage of total points required to pass the quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:166
-#: includes/class.llms.l10n.js.php:322
+#: includes/class.llms.l10n.js.php:325
 msgid "Limit Attempts"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:167
-#: includes/class.llms.l10n.js.php:323
+#: includes/class.llms.l10n.js.php:326
 msgid "Limit the maximum number of times a student can take this quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:168
-#: includes/class.llms.l10n.js.php:324
+#: includes/class.llms.l10n.js.php:327
 msgid "Time Limit"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:169
-#: includes/class.llms.l10n.js.php:325
+#: includes/class.llms.l10n.js.php:328
 msgid "Enforce a maximum number of minutes a student can spend on each attempt"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:170
-#: includes/class.llms.l10n.js.php:326
+#: includes/class.llms.l10n.js.php:329
 msgid "Show Correct Answers"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:171
-#: includes/class.llms.l10n.js.php:327
+#: includes/class.llms.l10n.js.php:330
 msgid "When enabled, students will be shown the correct answer to any question they answered incorrectly."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:172
-#: includes/class.llms.l10n.js.php:328
+#: includes/class.llms.l10n.js.php:331
 msgid "Randomize Question Order"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:173
-#: includes/class.llms.l10n.js.php:329
+#: includes/class.llms.l10n.js.php:332
 msgid "Display questions in a random order for each attempt. Content questions are locked into their defined positions."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:181
-#: includes/class.llms.l10n.js.php:360
+#: includes/class.llms.l10n.js.php:174
+#: includes/class.llms.l10n.js.php:333
+msgid "Question Bank"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:175
+#: includes/class.llms.l10n.js.php:334
+msgid "A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:176
+#: includes/class.llms.l10n.js.php:335
+msgid "Get LifterLMS Advanced Quizzes"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:184
+#: includes/class.llms.l10n.js.php:366
 msgid "Are you sure you want to detach this %s?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:189
-#: includes/class.llms.l10n.js.php:361
+#: includes/class.llms.l10n.js.php:192
+#: includes/class.llms.l10n.js.php:367
 msgid "Select an image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:190
-#: includes/class.llms.l10n.js.php:362
+#: includes/class.llms.l10n.js.php:193
+#: includes/class.llms.l10n.js.php:368
 msgid "Use this image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:198
-#: includes/class.llms.l10n.js.php:363
+#: includes/class.llms.l10n.js.php:201
+#: includes/class.llms.l10n.js.php:369
 msgid "Are you sure you want to move this %s to the trash?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:206
-#: includes/class.llms.l10n.js.php:378
+#: includes/class.llms.l10n.js.php:209
+#: includes/class.llms.l10n.js.php:384
 msgid "%1$s Assignment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:208
-#: includes/class.llms.l10n.js.php:380
+#: includes/class.llms.l10n.js.php:211
+#: includes/class.llms.l10n.js.php:386
 msgid "Search for existing assignments..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:209
-#: includes/class.llms.l10n.js.php:381
+#: includes/class.llms.l10n.js.php:212
+#: includes/class.llms.l10n.js.php:387
 msgid "Get Your Students Taking Action"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:210
-#: includes/class.llms.l10n.js.php:382
+#: includes/class.llms.l10n.js.php:213
+#: includes/class.llms.l10n.js.php:388
 msgid "Get Assignments Now!"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:211
-#: includes/class.llms.l10n.js.php:383
+#: includes/class.llms.l10n.js.php:214
+#: includes/class.llms.l10n.js.php:389
 msgid "Unlock LifterLMS Assignments"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:219
-#: includes/class.llms.l10n.js.php:384
+#: includes/class.llms.l10n.js.php:222
+#: includes/class.llms.l10n.js.php:390
 msgid "Add Existing Lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:220
-#: includes/class.llms.l10n.js.php:385
+#: includes/class.llms.l10n.js.php:223
+#: includes/class.llms.l10n.js.php:391
 msgid "Search for existing lessons..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:228
-#: includes/class.llms.l10n.js.php:367
+#: includes/class.llms.l10n.js.php:231
+#: includes/class.llms.l10n.js.php:373
 msgid "Searching..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:229
-#: includes/class.llms.l10n.js.php:368
+#: includes/class.llms.l10n.js.php:232
+#: includes/class.llms.l10n.js.php:374
 msgid "Attach"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:239
-#: includes/class.llms.l10n.js.php:373
+#: includes/class.llms.l10n.js.php:242
+#: includes/class.llms.l10n.js.php:379
 msgid "Are you sure you want to delete this question?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:247
-#: includes/class.llms.l10n.js.php:371
+#: includes/class.llms.l10n.js.php:250
+#: includes/class.llms.l10n.js.php:377
 #: includes/class.llms.question.types.php:157
 msgid "Add Existing Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:248
-#: includes/class.llms.l10n.js.php:372
+#: includes/class.llms.l10n.js.php:251
+#: includes/class.llms.l10n.js.php:378
 msgid "Search for existing questions..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:256
-#: includes/class.llms.l10n.js.php:374
+#: includes/class.llms.l10n.js.php:259
+#: includes/class.llms.l10n.js.php:380
 msgid "An error occurred while trying to load the questions. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:258
-#: includes/class.llms.l10n.js.php:376
+#: includes/class.llms.l10n.js.php:261
+#: includes/class.llms.l10n.js.php:382
 msgid "Search for existing quizzes..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:259
-#: includes/class.llms.l10n.js.php:377
+#: includes/class.llms.l10n.js.php:262
+#: includes/class.llms.l10n.js.php:383
 msgid "Add a Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:267
-#: includes/class.llms.l10n.js.php:364
+#: includes/class.llms.l10n.js.php:270
+#: includes/class.llms.l10n.js.php:370
 msgid "Use SoundCloud or Spotify audio URLS."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:268
-#: includes/class.llms.l10n.js.php:365
+#: includes/class.llms.l10n.js.php:271
+#: includes/class.llms.l10n.js.php:371
 msgid "Permalink"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:277
+#: includes/class.llms.l10n.js.php:280
 msgid "Select an Image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:278
+#: includes/class.llms.l10n.js.php:281
 msgid "Select Image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:286
+#: includes/class.llms.l10n.js.php:289
 msgid "An error was encountered generating the export"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:294
+#: includes/class.llms.l10n.js.php:297
 msgid "Select a Course/Membership"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:295
+#: includes/class.llms.l10n.js.php:298
 msgid "Select a student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:296
+#: includes/class.llms.l10n.js.php:299
 msgid "Error: %s"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:304
+#: includes/class.llms.l10n.js.php:307
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:305
+#: includes/class.llms.l10n.js.php:308
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:306
+#: includes/class.llms.l10n.js.php:309
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:307
+#: includes/class.llms.l10n.js.php:310
 msgid "Retry"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:393
+#: includes/class.llms.l10n.js.php:399
 msgid "There was an error loading the necessary resources. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:394
+#: includes/class.llms.l10n.js.php:400
 msgid "After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan's settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:395
+#: includes/class.llms.l10n.js.php:401
 msgid "An error was encountered during the save attempt. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:403
+#: includes/class.llms.l10n.js.php:409
 msgid "Please select a student to enroll"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:411
-#: includes/class.llms.l10n.js.php:473
-msgid "Are you sure you want to delete this row? This cannot be undone."
-msgstr ""
-
-#: includes/class.llms.l10n.js.php:412
-#: includes/class.llms.l10n.js.php:481
-msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
-msgstr ""
-
-#: includes/class.llms.l10n.js.php:413
-#: includes/class.llms.l10n.js.php:482
-msgid "\"%s\" is already in the course list."
-msgstr ""
-
 #: includes/class.llms.l10n.js.php:417
-#: includes/class.llms.l10n.js.php:486
-#: templates/admin/post-types/order-transactions.php:89
-msgid "Refund"
+#: includes/class.llms.l10n.js.php:479
+msgid "Are you sure you want to delete this row? This cannot be undone."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:418
 #: includes/class.llms.l10n.js.php:487
-#: templates/admin/post-types/order-transactions.php:113
-msgid "Record a Manual Payment"
+msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:419
 #: includes/class.llms.l10n.js.php:488
+msgid "\"%s\" is already in the course list."
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:423
+#: includes/class.llms.l10n.js.php:492
+#: templates/admin/post-types/order-transactions.php:89
+msgid "Refund"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:424
+#: includes/class.llms.l10n.js.php:493
+#: templates/admin/post-types/order-transactions.php:113
+msgid "Record a Manual Payment"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:425
+#: includes/class.llms.l10n.js.php:494
 msgid "Copy this code and paste it into the desired area"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:428
+#: includes/class.llms.l10n.js.php:434
 msgid "Remarks to Student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:437
+#: includes/class.llms.l10n.js.php:443
 msgid "Are you sure you wish to quit this quiz attempt?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:438
+#: includes/class.llms.l10n.js.php:444
 msgid "Grading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:439
+#: includes/class.llms.l10n.js.php:445
 msgid "Loading Question..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:440
+#: includes/class.llms.l10n.js.php:446
 msgid "An unknown error occurred. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:441
+#: includes/class.llms.l10n.js.php:447
 msgid "Loading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:442
+#: includes/class.llms.l10n.js.php:448
 msgid "Time Remaining"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:443
+#: includes/class.llms.l10n.js.php:449
 msgid "Next Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:444
+#: includes/class.llms.l10n.js.php:450
 msgid "Complete Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:445
+#: includes/class.llms.l10n.js.php:451
 msgid "Previous Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:446
+#: includes/class.llms.l10n.js.php:452
 msgid "Loading..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:447
+#: includes/class.llms.l10n.js.php:453
 msgid "You must select an answer to continue."
 msgstr ""
 
@@ -8104,11 +8354,11 @@ msgstr ""
 msgid "Order History"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:406
+#: includes/class.llms.template.loader.php:408
 msgid "You must be enrolled in the course to access this quiz."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:741
+#: includes/class.llms.template.loader.php:743
 msgid "This content is restricted"
 msgstr ""
 
@@ -9314,11 +9564,11 @@ msgstr ""
 msgid "Next recurring payment due date is not valid"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:612
+#: includes/models/model.llms.quiz.attempt.php:614
 msgid "Quiz Attempt #%1$d by %2$s"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:636
+#: includes/models/model.llms.quiz.attempt.php:638
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
@@ -11295,7 +11545,7 @@ msgid "Algeria"
 msgstr ""
 
 #: languages/countries.php:43
-#: languages/states.php:5080
+#: languages/states.php:5082
 msgid "American Samoa"
 msgstr ""
 
@@ -11599,7 +11849,7 @@ msgid "Gabon"
 msgstr ""
 
 #: languages/countries.php:118
-#: languages/states.php:5093
+#: languages/states.php:5095
 msgid "Georgia"
 msgstr ""
 
@@ -11633,7 +11883,7 @@ msgid "Guadeloupe"
 msgstr ""
 
 #: languages/countries.php:126
-#: languages/states.php:5094
+#: languages/states.php:5096
 msgid "Guam"
 msgstr ""
 
@@ -11933,7 +12183,7 @@ msgid "Norfolk Island"
 msgstr ""
 
 #: languages/countries.php:200
-#: languages/states.php:5119
+#: languages/states.php:5121
 msgid "Northern Mariana Islands"
 msgstr ""
 
@@ -11990,7 +12240,7 @@ msgid "Portugal"
 msgstr ""
 
 #: languages/countries.php:214
-#: languages/states.php:5124
+#: languages/states.php:5126
 msgid "Puerto Rico"
 msgstr ""
 
@@ -12239,7 +12489,7 @@ msgid "United States"
 msgstr ""
 
 #: languages/countries.php:275
-#: languages/states.php:5130
+#: languages/states.php:5132
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
@@ -13651,7 +13901,7 @@ msgstr ""
 #: languages/states.php:97
 #: languages/states.php:1164
 #: languages/states.php:1771
-#: languages/states.php:5183
+#: languages/states.php:5185
 msgid "Saint George Parish"
 msgstr ""
 
@@ -15467,7 +15717,7 @@ msgstr ""
 
 #: languages/states.php:595
 #: languages/states.php:3721
-#: languages/states.php:5187
+#: languages/states.php:5189
 msgid "Amazonas"
 msgstr ""
 
@@ -17510,13 +17760,13 @@ msgstr ""
 
 #: languages/states.php:1162
 #: languages/states.php:1769
-#: languages/states.php:5181
+#: languages/states.php:5183
 msgid "Saint Andrew Parish"
 msgstr ""
 
 #: languages/states.php:1163
 #: languages/states.php:1770
-#: languages/states.php:5182
+#: languages/states.php:5184
 msgid "Saint David Parish"
 msgstr ""
 
@@ -17535,7 +17785,7 @@ msgstr ""
 
 #: languages/states.php:1169
 #: languages/states.php:1774
-#: languages/states.php:5184
+#: languages/states.php:5186
 msgid "Saint Patrick Parish"
 msgstr ""
 
@@ -19830,13 +20080,13 @@ msgstr ""
 #: languages/states.php:1797
 #: languages/states.php:3416
 #: languages/states.php:3634
-#: languages/states.php:5071
+#: languages/states.php:5073
 msgid "Central Region"
 msgstr ""
 
 #: languages/states.php:1798
 #: languages/states.php:2258
-#: languages/states.php:5072
+#: languages/states.php:5074
 msgid "Eastern Region"
 msgstr ""
 
@@ -19846,7 +20096,7 @@ msgstr ""
 
 #: languages/states.php:1800
 #: languages/states.php:3434
-#: languages/states.php:5073
+#: languages/states.php:5075
 msgid "Northern Region"
 msgstr ""
 
@@ -19865,7 +20115,7 @@ msgstr ""
 #: languages/states.php:1804
 #: languages/states.php:2254
 #: languages/states.php:3636
-#: languages/states.php:5074
+#: languages/states.php:5076
 msgid "Western Region"
 msgstr ""
 
@@ -22357,7 +22607,7 @@ msgstr ""
 #: languages/states.php:3400
 #: languages/states.php:3749
 #: languages/states.php:4152
-#: languages/states.php:5348
+#: languages/states.php:5350
 msgid "Central Province"
 msgstr ""
 
@@ -22370,7 +22620,7 @@ msgstr ""
 #: languages/states.php:4130
 #: languages/states.php:4143
 #: languages/states.php:4464
-#: languages/states.php:5350
+#: languages/states.php:5352
 msgid "Eastern Province"
 msgstr ""
 
@@ -22391,7 +22641,7 @@ msgstr ""
 #: languages/states.php:3768
 #: languages/states.php:4134
 #: languages/states.php:4161
-#: languages/states.php:5356
+#: languages/states.php:5358
 msgid "Western Province"
 msgstr ""
 
@@ -23046,14 +23296,14 @@ msgstr ""
 #: languages/states.php:2701
 #: languages/states.php:4133
 #: languages/states.php:4466
-#: languages/states.php:5355
+#: languages/states.php:5357
 msgid "Southern Province"
 msgstr ""
 
 #: languages/states.php:2702
 #: languages/states.php:4132
 #: languages/states.php:4465
-#: languages/states.php:5353
+#: languages/states.php:5355
 msgid "Northern Province"
 msgstr ""
 
@@ -30066,2607 +30316,2611 @@ msgstr ""
 msgid "Yasothon"
 msgstr ""
 
-#: languages/states.php:4640
-msgid "Amnat Charoen"
-msgstr ""
-
 #: languages/states.php:4641
-msgid "Bueng Kan"
+msgid "Chaiyaphum"
 msgstr ""
 
 #: languages/states.php:4642
-msgid "Nong Bua Lam Phu"
+msgid "Amnat Charoen"
 msgstr ""
 
 #: languages/states.php:4643
-msgid "Khon Kaen"
+msgid "Bueng Kan"
 msgstr ""
 
 #: languages/states.php:4644
-msgid "Udon Thani"
+msgid "Nong Bua Lam Phu"
 msgstr ""
 
 #: languages/states.php:4645
-msgid "Loei"
+msgid "Khon Kaen"
 msgstr ""
 
 #: languages/states.php:4646
-msgid "Nong Khai"
+msgid "Udon Thani"
 msgstr ""
 
 #: languages/states.php:4647
-msgid "Maha Sarakham"
+msgid "Loei"
 msgstr ""
 
 #: languages/states.php:4648
-msgid "Roi Et"
+msgid "Nong Khai"
 msgstr ""
 
 #: languages/states.php:4649
-msgid "Kalasin"
+msgid "Maha Sarakham"
 msgstr ""
 
 #: languages/states.php:4650
-msgid "Sakon Nakhon"
+msgid "Roi Et"
 msgstr ""
 
 #: languages/states.php:4651
-msgid "Nakhon Phanom"
+msgid "Kalasin"
 msgstr ""
 
 #: languages/states.php:4652
-msgid "Mukdahan"
+msgid "Sakon Nakhon"
 msgstr ""
 
 #: languages/states.php:4653
-msgid "Chiang Mai"
+msgid "Nakhon Phanom"
 msgstr ""
 
 #: languages/states.php:4654
-msgid "Lamphun"
+msgid "Mukdahan"
 msgstr ""
 
 #: languages/states.php:4655
-msgid "Lampang"
+msgid "Chiang Mai"
 msgstr ""
 
 #: languages/states.php:4656
-msgid "Uttaradit"
+msgid "Lamphun"
 msgstr ""
 
 #: languages/states.php:4657
-msgid "Phrae"
+msgid "Lampang"
 msgstr ""
 
 #: languages/states.php:4658
-msgid "Nan"
+msgid "Uttaradit"
 msgstr ""
 
 #: languages/states.php:4659
-msgid "Phayao"
+msgid "Phrae"
 msgstr ""
 
 #: languages/states.php:4660
-msgid "Chiang Rai"
+msgid "Nan"
 msgstr ""
 
 #: languages/states.php:4661
-msgid "Mae Hong Son"
+msgid "Phayao"
 msgstr ""
 
 #: languages/states.php:4662
-msgid "Nakhon Sawan"
+msgid "Chiang Rai"
 msgstr ""
 
 #: languages/states.php:4663
-msgid "Uthai Thani"
+msgid "Mae Hong Son"
 msgstr ""
 
 #: languages/states.php:4664
-msgid "Kamphaeng Phet"
+msgid "Nakhon Sawan"
 msgstr ""
 
 #: languages/states.php:4665
-msgid "Tak"
+msgid "Uthai Thani"
 msgstr ""
 
 #: languages/states.php:4666
-msgid "Sukhothai"
+msgid "Kamphaeng Phet"
 msgstr ""
 
 #: languages/states.php:4667
-msgid "Phitsanulok"
+msgid "Tak"
 msgstr ""
 
 #: languages/states.php:4668
-msgid "Phichit"
+msgid "Sukhothai"
 msgstr ""
 
 #: languages/states.php:4669
-msgid "Phetchabun"
+msgid "Phitsanulok"
 msgstr ""
 
 #: languages/states.php:4670
-msgid "Ratchaburi"
+msgid "Phichit"
 msgstr ""
 
 #: languages/states.php:4671
-msgid "Kanchanaburi"
+msgid "Phetchabun"
 msgstr ""
 
 #: languages/states.php:4672
-msgid "Suphanburi"
+msgid "Ratchaburi"
 msgstr ""
 
 #: languages/states.php:4673
-msgid "Nakhon Pathom"
+msgid "Kanchanaburi"
 msgstr ""
 
 #: languages/states.php:4674
-msgid "Samut Sakhon"
+msgid "Suphanburi"
 msgstr ""
 
 #: languages/states.php:4675
-msgid "Samut Songkhram"
+msgid "Nakhon Pathom"
 msgstr ""
 
 #: languages/states.php:4676
-msgid "Phetchaburi"
+msgid "Samut Sakhon"
 msgstr ""
 
 #: languages/states.php:4677
-msgid "Prachuap Khiri Khan"
+msgid "Samut Songkhram"
 msgstr ""
 
 #: languages/states.php:4678
-msgid "Nakhon Si Thammarat"
+msgid "Phetchaburi"
 msgstr ""
 
 #: languages/states.php:4679
-msgid "Krabi"
+msgid "Prachuap Khiri Khan"
 msgstr ""
 
 #: languages/states.php:4680
-msgid "Phang Nga"
+msgid "Nakhon Si Thammarat"
 msgstr ""
 
 #: languages/states.php:4681
-msgid "Phuket"
+msgid "Krabi"
 msgstr ""
 
 #: languages/states.php:4682
-msgid "Surat Thani"
+msgid "Phang Nga"
 msgstr ""
 
 #: languages/states.php:4683
-msgid "Ranong"
+msgid "Phuket"
 msgstr ""
 
 #: languages/states.php:4684
-msgid "Chumphon"
+msgid "Surat Thani"
 msgstr ""
 
 #: languages/states.php:4685
-msgid "Songkhla"
+msgid "Ranong"
 msgstr ""
 
 #: languages/states.php:4686
-msgid "Satun"
+msgid "Chumphon"
 msgstr ""
 
 #: languages/states.php:4687
-msgid "Trang"
+msgid "Songkhla"
 msgstr ""
 
 #: languages/states.php:4688
-msgid "Phatthalung"
+msgid "Satun"
 msgstr ""
 
 #: languages/states.php:4689
-msgid "Pattani"
+msgid "Trang"
 msgstr ""
 
 #: languages/states.php:4690
-msgid "Yala"
+msgid "Phatthalung"
 msgstr ""
 
 #: languages/states.php:4691
-msgid "Narathiwat"
+msgid "Pattani"
 msgstr ""
 
 #: languages/states.php:4692
+msgid "Yala"
+msgstr ""
+
+#: languages/states.php:4693
+msgid "Narathiwat"
+msgstr ""
+
+#: languages/states.php:4694
 msgid "Pattaya"
 msgstr ""
 
-#: languages/states.php:4695
+#: languages/states.php:4697
 msgid "Gorno-Badakhshan Autonomous Province"
 msgstr ""
 
-#: languages/states.php:4696
+#: languages/states.php:4698
 msgid "Khatlon Province"
 msgstr ""
 
-#: languages/states.php:4697
+#: languages/states.php:4699
 msgid "Sughd Province"
 msgstr ""
 
-#: languages/states.php:4698
+#: languages/states.php:4700
 msgid "districts of Republican Subordination"
 msgstr ""
 
-#: languages/states.php:4702
+#: languages/states.php:4704
 msgid "Aileu municipality"
 msgstr ""
 
-#: languages/states.php:4703
+#: languages/states.php:4705
 msgid "Ainaro Municipality"
 msgstr ""
 
-#: languages/states.php:4704
+#: languages/states.php:4706
 msgid "Baucau Municipality"
 msgstr ""
 
-#: languages/states.php:4705
+#: languages/states.php:4707
 msgid "Bobonaro Municipality"
 msgstr ""
 
-#: languages/states.php:4706
+#: languages/states.php:4708
 msgid "Cova Lima Municipality"
 msgstr ""
 
-#: languages/states.php:4707
+#: languages/states.php:4709
 msgid "Dili municipality"
 msgstr ""
 
-#: languages/states.php:4708
+#: languages/states.php:4710
 msgid "Ermera District"
 msgstr ""
 
-#: languages/states.php:4709
+#: languages/states.php:4711
 msgid "Lautém Municipality"
 msgstr ""
 
-#: languages/states.php:4710
+#: languages/states.php:4712
 msgid "Liquiçá Municipality"
 msgstr ""
 
-#: languages/states.php:4711
+#: languages/states.php:4713
 msgid "Manatuto District"
 msgstr ""
 
-#: languages/states.php:4712
+#: languages/states.php:4714
 msgid "Manufahi Municipality"
 msgstr ""
 
-#: languages/states.php:4713
+#: languages/states.php:4715
 msgid "Viqueque Municipality"
 msgstr ""
 
-#: languages/states.php:4716
+#: languages/states.php:4718
 msgid "Ahal Region"
 msgstr ""
 
-#: languages/states.php:4717
+#: languages/states.php:4719
 msgid "Ashgabat"
 msgstr ""
 
-#: languages/states.php:4718
+#: languages/states.php:4720
 msgid "Balkan Region"
 msgstr ""
 
-#: languages/states.php:4719
+#: languages/states.php:4721
 msgid "Daşoguz Region"
 msgstr ""
 
-#: languages/states.php:4720
+#: languages/states.php:4722
 msgid "Lebap Region"
 msgstr ""
 
-#: languages/states.php:4721
+#: languages/states.php:4723
 msgid "Mary Region"
 msgstr ""
 
-#: languages/states.php:4724
+#: languages/states.php:4726
 msgid "Tunis Governorate"
 msgstr ""
 
-#: languages/states.php:4725
+#: languages/states.php:4727
 msgid "Ariana Governorate"
 msgstr ""
 
-#: languages/states.php:4726
+#: languages/states.php:4728
 msgid "Ben Arous Governorate"
 msgstr ""
 
-#: languages/states.php:4727
+#: languages/states.php:4729
 msgid "Manouba Governorate"
 msgstr ""
 
-#: languages/states.php:4728
+#: languages/states.php:4730
 msgid "Zaghouan Governorate"
 msgstr ""
 
-#: languages/states.php:4729
+#: languages/states.php:4731
 msgid "Bizerte Governorate"
 msgstr ""
 
-#: languages/states.php:4730
+#: languages/states.php:4732
 msgid "Kassrine"
 msgstr ""
 
-#: languages/states.php:4731
+#: languages/states.php:4733
 msgid "Jendouba Governorate"
 msgstr ""
 
-#: languages/states.php:4732
+#: languages/states.php:4734
 msgid "Kef Governorate"
 msgstr ""
 
-#: languages/states.php:4733
+#: languages/states.php:4735
 msgid "Siliana Governorate"
 msgstr ""
 
-#: languages/states.php:4734
+#: languages/states.php:4736
 msgid "Kairouan Governorate"
 msgstr ""
 
-#: languages/states.php:4735
+#: languages/states.php:4737
 msgid "Kasserine Governorate"
 msgstr ""
 
-#: languages/states.php:4736
+#: languages/states.php:4738
 msgid "Sidi Bouzid Governorate"
 msgstr ""
 
-#: languages/states.php:4737
+#: languages/states.php:4739
 msgid "Sousse Governorate"
 msgstr ""
 
-#: languages/states.php:4738
+#: languages/states.php:4740
 msgid "Monastir Governorate"
 msgstr ""
 
-#: languages/states.php:4739
+#: languages/states.php:4741
 msgid "Mahdia Governorate"
 msgstr ""
 
-#: languages/states.php:4740
+#: languages/states.php:4742
 msgid "Sfax Governorate"
 msgstr ""
 
-#: languages/states.php:4741
+#: languages/states.php:4743
 msgid "Gafsa Governorate"
 msgstr ""
 
-#: languages/states.php:4742
+#: languages/states.php:4744
 msgid "Tozeur Governorate"
 msgstr ""
 
-#: languages/states.php:4743
+#: languages/states.php:4745
 msgid "Kebili Governorate"
 msgstr ""
 
-#: languages/states.php:4744
+#: languages/states.php:4746
 msgid "Gabès Governorate"
 msgstr ""
 
-#: languages/states.php:4745
+#: languages/states.php:4747
 msgid "Medenine Governorate"
 msgstr ""
 
-#: languages/states.php:4746
+#: languages/states.php:4748
 msgid "Tataouine Governorate"
 msgstr ""
 
-#: languages/states.php:4749
+#: languages/states.php:4751
 msgid "Haʻapai"
 msgstr ""
 
-#: languages/states.php:4750
+#: languages/states.php:4752
 msgid "Niuas"
 msgstr ""
 
-#: languages/states.php:4751
+#: languages/states.php:4753
 msgid "Tongatapu"
 msgstr ""
 
-#: languages/states.php:4752
+#: languages/states.php:4754
 msgid "Vavaʻu"
 msgstr ""
 
-#: languages/states.php:4753
+#: languages/states.php:4755
 msgid "ʻEua"
 msgstr ""
 
-#: languages/states.php:4756
+#: languages/states.php:4758
 msgid "Balıkesir Province"
 msgstr ""
 
-#: languages/states.php:4757
+#: languages/states.php:4759
 msgid "Bilecik Province"
 msgstr ""
 
-#: languages/states.php:4758
+#: languages/states.php:4760
 msgid "Bingöl Province"
 msgstr ""
 
-#: languages/states.php:4759
+#: languages/states.php:4761
 msgid "Bitlis Province"
 msgstr ""
 
-#: languages/states.php:4760
+#: languages/states.php:4762
 msgid "Bolu Province"
 msgstr ""
 
-#: languages/states.php:4761
+#: languages/states.php:4763
 msgid "Burdur Province"
 msgstr ""
 
-#: languages/states.php:4762
+#: languages/states.php:4764
 msgid "Bursa Province"
 msgstr ""
 
-#: languages/states.php:4763
+#: languages/states.php:4765
 msgid "Çanakkale Province"
 msgstr ""
 
-#: languages/states.php:4764
+#: languages/states.php:4766
 msgid "Çankırı Province"
 msgstr ""
 
-#: languages/states.php:4765
+#: languages/states.php:4767
 msgid "Çorum Province"
 msgstr ""
 
-#: languages/states.php:4766
+#: languages/states.php:4768
 msgid "Denizli Province"
 msgstr ""
 
-#: languages/states.php:4767
+#: languages/states.php:4769
 msgid "Diyarbakır Province"
 msgstr ""
 
-#: languages/states.php:4768
+#: languages/states.php:4770
 msgid "Edirne Province"
 msgstr ""
 
-#: languages/states.php:4769
+#: languages/states.php:4771
 msgid "Elazığ Province"
 msgstr ""
 
-#: languages/states.php:4770
+#: languages/states.php:4772
 msgid "Erzincan Province"
 msgstr ""
 
-#: languages/states.php:4771
+#: languages/states.php:4773
 msgid "Erzurum Province"
 msgstr ""
 
-#: languages/states.php:4772
+#: languages/states.php:4774
 msgid "Eskişehir Province"
 msgstr ""
 
-#: languages/states.php:4773
+#: languages/states.php:4775
 msgid "Gaziantep Province"
 msgstr ""
 
-#: languages/states.php:4774
+#: languages/states.php:4776
 msgid "Giresun Province"
 msgstr ""
 
-#: languages/states.php:4775
+#: languages/states.php:4777
 msgid "Gümüşhane Province"
 msgstr ""
 
-#: languages/states.php:4776
+#: languages/states.php:4778
 msgid "Hakkâri Province"
 msgstr ""
 
-#: languages/states.php:4777
+#: languages/states.php:4779
 msgid "Hatay Province"
 msgstr ""
 
-#: languages/states.php:4778
+#: languages/states.php:4780
 msgid "Isparta Province"
 msgstr ""
 
-#: languages/states.php:4779
+#: languages/states.php:4781
 msgid "Mersin Province"
 msgstr ""
 
-#: languages/states.php:4780
+#: languages/states.php:4782
 msgid "Istanbul Province"
 msgstr ""
 
-#: languages/states.php:4781
+#: languages/states.php:4783
 msgid "İzmir Province"
 msgstr ""
 
-#: languages/states.php:4782
+#: languages/states.php:4784
 msgid "Kars Province"
 msgstr ""
 
-#: languages/states.php:4783
+#: languages/states.php:4785
 msgid "Kastamonu Province"
 msgstr ""
 
-#: languages/states.php:4784
+#: languages/states.php:4786
 msgid "Kayseri Province"
 msgstr ""
 
-#: languages/states.php:4785
+#: languages/states.php:4787
 msgid "Kırklareli Province"
 msgstr ""
 
-#: languages/states.php:4786
+#: languages/states.php:4788
 msgid "Kırşehir Province"
 msgstr ""
 
-#: languages/states.php:4787
+#: languages/states.php:4789
 msgid "Kocaeli Province"
 msgstr ""
 
-#: languages/states.php:4788
+#: languages/states.php:4790
 msgid "Konya Province"
 msgstr ""
 
-#: languages/states.php:4789
+#: languages/states.php:4791
 msgid "Kütahya Province"
 msgstr ""
 
-#: languages/states.php:4790
+#: languages/states.php:4792
 msgid "Malatya Province"
 msgstr ""
 
-#: languages/states.php:4791
+#: languages/states.php:4793
 msgid "Manisa Province"
 msgstr ""
 
-#: languages/states.php:4792
+#: languages/states.php:4794
 msgid "Kahramanmaraş Province"
 msgstr ""
 
-#: languages/states.php:4793
+#: languages/states.php:4795
 msgid "Mardin Province"
 msgstr ""
 
-#: languages/states.php:4794
+#: languages/states.php:4796
 msgid "Muğla Province"
 msgstr ""
 
-#: languages/states.php:4795
+#: languages/states.php:4797
 msgid "Muş Province"
 msgstr ""
 
-#: languages/states.php:4796
+#: languages/states.php:4798
 msgid "Nevşehir Province"
 msgstr ""
 
-#: languages/states.php:4797
+#: languages/states.php:4799
 msgid "Niğde Province"
 msgstr ""
 
-#: languages/states.php:4798
+#: languages/states.php:4800
 msgid "Ordu Province"
 msgstr ""
 
-#: languages/states.php:4799
+#: languages/states.php:4801
 msgid "Rize Province"
 msgstr ""
 
-#: languages/states.php:4800
+#: languages/states.php:4802
 msgid "Sakarya Province"
 msgstr ""
 
-#: languages/states.php:4801
+#: languages/states.php:4803
 msgid "Samsun Province"
 msgstr ""
 
-#: languages/states.php:4802
+#: languages/states.php:4804
 msgid "Siirt Province"
 msgstr ""
 
-#: languages/states.php:4803
+#: languages/states.php:4805
 msgid "Sinop Province"
 msgstr ""
 
-#: languages/states.php:4804
+#: languages/states.php:4806
 msgid "Sivas Province"
 msgstr ""
 
-#: languages/states.php:4805
+#: languages/states.php:4807
 msgid "Tekirdağ Province"
 msgstr ""
 
-#: languages/states.php:4806
+#: languages/states.php:4808
 msgid "Tokat Province"
 msgstr ""
 
-#: languages/states.php:4807
+#: languages/states.php:4809
 msgid "Trabzon Province"
 msgstr ""
 
-#: languages/states.php:4808
+#: languages/states.php:4810
 msgid "Tunceli Province"
 msgstr ""
 
-#: languages/states.php:4809
+#: languages/states.php:4811
 msgid "Şanlıurfa Province"
 msgstr ""
 
-#: languages/states.php:4810
+#: languages/states.php:4812
 msgid "Uşak Province"
 msgstr ""
 
-#: languages/states.php:4811
+#: languages/states.php:4813
 msgid "Van Province"
 msgstr ""
 
-#: languages/states.php:4812
+#: languages/states.php:4814
 msgid "Yozgat Province"
 msgstr ""
 
-#: languages/states.php:4813
+#: languages/states.php:4815
 msgid "Zonguldak Province"
 msgstr ""
 
-#: languages/states.php:4814
+#: languages/states.php:4816
 msgid "Aksaray Province"
 msgstr ""
 
-#: languages/states.php:4815
+#: languages/states.php:4817
 msgid "Bayburt Province"
 msgstr ""
 
-#: languages/states.php:4816
+#: languages/states.php:4818
 msgid "Karaman Province"
 msgstr ""
 
-#: languages/states.php:4817
+#: languages/states.php:4819
 msgid "Kırıkkale Province"
 msgstr ""
 
-#: languages/states.php:4818
+#: languages/states.php:4820
 msgid "Batman Province"
 msgstr ""
 
-#: languages/states.php:4819
+#: languages/states.php:4821
 msgid "Şırnak Province"
 msgstr ""
 
-#: languages/states.php:4820
+#: languages/states.php:4822
 msgid "Bartın Province"
 msgstr ""
 
-#: languages/states.php:4821
+#: languages/states.php:4823
 msgid "Ardahan Province"
 msgstr ""
 
-#: languages/states.php:4822
+#: languages/states.php:4824
 msgid "Iğdır Province"
 msgstr ""
 
-#: languages/states.php:4823
+#: languages/states.php:4825
 msgid "Yalova Province"
 msgstr ""
 
-#: languages/states.php:4824
+#: languages/states.php:4826
 msgid "Karabük Province"
 msgstr ""
 
-#: languages/states.php:4825
+#: languages/states.php:4827
 msgid "Kilis Province"
 msgstr ""
 
-#: languages/states.php:4826
+#: languages/states.php:4828
 msgid "Osmaniye Province"
 msgstr ""
 
-#: languages/states.php:4827
+#: languages/states.php:4829
 msgid "Düzce Province"
 msgstr ""
 
-#: languages/states.php:4828
+#: languages/states.php:4830
 msgid "Adana Province"
 msgstr ""
 
-#: languages/states.php:4829
+#: languages/states.php:4831
 msgid "Adıyaman Province"
 msgstr ""
 
-#: languages/states.php:4830
+#: languages/states.php:4832
 msgid "Afyonkarahisar Province"
 msgstr ""
 
-#: languages/states.php:4831
+#: languages/states.php:4833
 msgid "Amasya Province"
 msgstr ""
 
-#: languages/states.php:4832
+#: languages/states.php:4834
 msgid "Ankara Province"
 msgstr ""
 
-#: languages/states.php:4833
+#: languages/states.php:4835
 msgid "Antalya Province"
 msgstr ""
 
-#: languages/states.php:4834
+#: languages/states.php:4836
 msgid "Artvin Province"
 msgstr ""
 
-#: languages/states.php:4835
+#: languages/states.php:4837
 msgid "Aydın Province"
 msgstr ""
 
-#: languages/states.php:4836
+#: languages/states.php:4838
 msgid "Ağrı Province"
 msgstr ""
 
-#: languages/states.php:4839
+#: languages/states.php:4841
 msgid "Arima"
 msgstr ""
 
-#: languages/states.php:4840
+#: languages/states.php:4842
 msgid "Chaguanas"
 msgstr ""
 
-#: languages/states.php:4841
+#: languages/states.php:4843
 msgid "Couva-Tabaquite-Talparo Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4842
+#: languages/states.php:4844
 msgid "Diego Martin Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4843
+#: languages/states.php:4845
 msgid "Eastern Tobago"
 msgstr ""
 
-#: languages/states.php:4844
+#: languages/states.php:4846
 msgid "Penal-Debe Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4845
+#: languages/states.php:4847
 msgid "Point Fortin"
 msgstr ""
 
-#: languages/states.php:4846
+#: languages/states.php:4848
 msgid "Port of Spain"
 msgstr ""
 
-#: languages/states.php:4847
+#: languages/states.php:4849
 msgid "Princes Town Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4848
+#: languages/states.php:4850
 msgid "Rio Claro-Mayaro Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4849
+#: languages/states.php:4851
 msgid "San Fernando"
 msgstr ""
 
-#: languages/states.php:4850
+#: languages/states.php:4852
 msgid "San Juan-Laventille Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4851
+#: languages/states.php:4853
 msgid "Sangre Grande Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4852
+#: languages/states.php:4854
 msgid "Siparia Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4853
+#: languages/states.php:4855
 msgid "Tunapuna-Piarco Regional Corporation"
 msgstr ""
 
-#: languages/states.php:4854
+#: languages/states.php:4856
 msgid "Western Tobago"
 msgstr ""
 
-#: languages/states.php:4857
+#: languages/states.php:4859
 msgid "Funafuti"
 msgstr ""
 
-#: languages/states.php:4858
+#: languages/states.php:4860
 msgid "Nanumanga"
 msgstr ""
 
-#: languages/states.php:4859
+#: languages/states.php:4861
 msgid "Nanumea"
 msgstr ""
 
-#: languages/states.php:4860
+#: languages/states.php:4862
 msgid "Niutao Island Council"
 msgstr ""
 
-#: languages/states.php:4861
+#: languages/states.php:4863
 msgid "Nui"
 msgstr ""
 
-#: languages/states.php:4862
+#: languages/states.php:4864
 msgid "Nukufetau"
 msgstr ""
 
-#: languages/states.php:4863
+#: languages/states.php:4865
 msgid "Nukulaelae"
 msgstr ""
 
-#: languages/states.php:4864
+#: languages/states.php:4866
 msgid "Vaitupu"
 msgstr ""
 
-#: languages/states.php:4867
+#: languages/states.php:4869
 msgid "Changhua County"
 msgstr ""
 
-#: languages/states.php:4868
+#: languages/states.php:4870
 msgid "Chiayi City"
 msgstr ""
 
-#: languages/states.php:4869
+#: languages/states.php:4871
 msgid "Chiayi County"
 msgstr ""
 
-#: languages/states.php:4870
+#: languages/states.php:4872
 msgid "Hsinchu"
 msgstr ""
 
-#: languages/states.php:4871
+#: languages/states.php:4873
 msgid "Hsinchu County"
 msgstr ""
 
-#: languages/states.php:4872
+#: languages/states.php:4874
 msgid "Hualien County"
 msgstr ""
 
-#: languages/states.php:4873
+#: languages/states.php:4875
 msgid "Kaohsiung"
 msgstr ""
 
-#: languages/states.php:4874
+#: languages/states.php:4876
 msgid "Kaohsiung County"
 msgstr ""
 
-#: languages/states.php:4875
+#: languages/states.php:4877
 msgid "Kinmen"
 msgstr ""
 
-#: languages/states.php:4876
+#: languages/states.php:4878
 msgid "Lienchiang County"
 msgstr ""
 
-#: languages/states.php:4877
+#: languages/states.php:4879
 msgid "Miaoli County"
 msgstr ""
 
-#: languages/states.php:4878
+#: languages/states.php:4880
 msgid "Nantou County"
 msgstr ""
 
-#: languages/states.php:4879
+#: languages/states.php:4881
 msgid "Penghu County"
 msgstr ""
 
-#: languages/states.php:4880
+#: languages/states.php:4882
 msgid "Pingtung County"
 msgstr ""
 
-#: languages/states.php:4881
+#: languages/states.php:4883
 msgid "Taichung"
 msgstr ""
 
-#: languages/states.php:4882
+#: languages/states.php:4884
 msgid "Taichung County"
 msgstr ""
 
-#: languages/states.php:4883
+#: languages/states.php:4885
 msgid "Tainan"
 msgstr ""
 
-#: languages/states.php:4884
+#: languages/states.php:4886
 msgid "Tainan County"
 msgstr ""
 
-#: languages/states.php:4885
+#: languages/states.php:4887
 msgid "Taipei"
 msgstr ""
 
-#: languages/states.php:4886
+#: languages/states.php:4888
 msgid "Taitung County"
 msgstr ""
 
-#: languages/states.php:4887
+#: languages/states.php:4889
 msgid "Taoyuan City"
 msgstr ""
 
-#: languages/states.php:4888
+#: languages/states.php:4890
 msgid "Yilan County"
 msgstr ""
 
-#: languages/states.php:4889
+#: languages/states.php:4891
 msgid "Yunlin County"
 msgstr ""
 
-#: languages/states.php:4892
+#: languages/states.php:4894
 msgid "South Pemba Region"
 msgstr ""
 
-#: languages/states.php:4893
+#: languages/states.php:4895
 msgid "Zanzibar Central/South Region"
 msgstr ""
 
-#: languages/states.php:4894
+#: languages/states.php:4896
 msgid "Lindi Region"
 msgstr ""
 
-#: languages/states.php:4895
+#: languages/states.php:4897
 msgid "Mara Region"
 msgstr ""
 
-#: languages/states.php:4896
+#: languages/states.php:4898
 msgid "Zanzibar Urban/West Region"
 msgstr ""
 
-#: languages/states.php:4897
+#: languages/states.php:4899
 msgid "Morogoro Region"
 msgstr ""
 
-#: languages/states.php:4898
+#: languages/states.php:4900
 msgid "Mtwara Region"
 msgstr ""
 
-#: languages/states.php:4899
+#: languages/states.php:4901
 msgid "Mwanza Region"
 msgstr ""
 
-#: languages/states.php:4900
+#: languages/states.php:4902
 msgid "Pwani Region"
 msgstr ""
 
-#: languages/states.php:4901
+#: languages/states.php:4903
 msgid "Rukwa Region"
 msgstr ""
 
-#: languages/states.php:4902
+#: languages/states.php:4904
 msgid "Ruvuma Region"
 msgstr ""
 
-#: languages/states.php:4903
+#: languages/states.php:4905
 msgid "Shinyanga Region"
 msgstr ""
 
-#: languages/states.php:4904
+#: languages/states.php:4906
 msgid "Singida Region"
 msgstr ""
 
-#: languages/states.php:4905
+#: languages/states.php:4907
 msgid "Tabora Region"
 msgstr ""
 
-#: languages/states.php:4906
+#: languages/states.php:4908
 msgid "Tanga Region"
 msgstr ""
 
-#: languages/states.php:4907
+#: languages/states.php:4909
 msgid "Manyara Region"
 msgstr ""
 
-#: languages/states.php:4908
+#: languages/states.php:4910
 msgid "Geita Region"
 msgstr ""
 
-#: languages/states.php:4909
+#: languages/states.php:4911
 msgid "Katavi Region"
 msgstr ""
 
-#: languages/states.php:4910
+#: languages/states.php:4912
 msgid "Njombe Region"
 msgstr ""
 
-#: languages/states.php:4911
+#: languages/states.php:4913
 msgid "Simiyu Region"
 msgstr ""
 
-#: languages/states.php:4912
+#: languages/states.php:4914
 msgid "Arusha Region"
 msgstr ""
 
-#: languages/states.php:4913
+#: languages/states.php:4915
 msgid "Dar es Salaam Region"
 msgstr ""
 
-#: languages/states.php:4914
+#: languages/states.php:4916
 msgid "Dodoma Region"
 msgstr ""
 
-#: languages/states.php:4915
+#: languages/states.php:4917
 msgid "Iringa Region"
 msgstr ""
 
-#: languages/states.php:4916
+#: languages/states.php:4918
 msgid "Kagera Region"
 msgstr ""
 
-#: languages/states.php:4917
+#: languages/states.php:4919
 msgid "Kigoma Region"
 msgstr ""
 
-#: languages/states.php:4918
+#: languages/states.php:4920
 msgid "Kilimanjaro Region"
 msgstr ""
 
-#: languages/states.php:4919
+#: languages/states.php:4921
 msgid "North Pemba Region"
 msgstr ""
 
-#: languages/states.php:4920
+#: languages/states.php:4922
 msgid "Zanzibar North Region"
 msgstr ""
 
-#: languages/states.php:4923
+#: languages/states.php:4925
 msgid "Dnipropetrovsk Oblast"
 msgstr ""
 
-#: languages/states.php:4924
+#: languages/states.php:4926
 msgid "Donetsk Oblast"
 msgstr ""
 
-#: languages/states.php:4925
+#: languages/states.php:4927
 msgid "Zhytomyr Oblast"
 msgstr ""
 
-#: languages/states.php:4926
+#: languages/states.php:4928
 msgid "Zakarpattia Oblast"
 msgstr ""
 
-#: languages/states.php:4927
+#: languages/states.php:4929
 msgid "Zaporizhzhya Oblast"
 msgstr ""
 
-#: languages/states.php:4928
+#: languages/states.php:4930
 msgid "Ivano-Frankivsk Oblast"
 msgstr ""
 
-#: languages/states.php:4929
+#: languages/states.php:4931
 msgid "Kiev"
 msgstr ""
 
-#: languages/states.php:4930
+#: languages/states.php:4932
 msgid "Kyiv Oblast"
 msgstr ""
 
-#: languages/states.php:4931
+#: languages/states.php:4933
 msgid "Kirovohrad Oblast"
 msgstr ""
 
-#: languages/states.php:4932
+#: languages/states.php:4934
 msgid "Autonomous Republic of Crimea"
 msgstr ""
 
-#: languages/states.php:4933
+#: languages/states.php:4935
 msgid "Lviv Oblast"
 msgstr ""
 
-#: languages/states.php:4934
+#: languages/states.php:4936
 msgid "Mykolaiv Oblast"
 msgstr ""
 
-#: languages/states.php:4935
+#: languages/states.php:4937
 msgid "Odessa Oblast"
 msgstr ""
 
-#: languages/states.php:4936
+#: languages/states.php:4938
 msgid "Rivne Oblast"
 msgstr ""
 
-#: languages/states.php:4937
+#: languages/states.php:4939
 msgid "Sumy Oblast"
 msgstr ""
 
-#: languages/states.php:4938
+#: languages/states.php:4940
 msgid "Ternopil Oblast"
 msgstr ""
 
-#: languages/states.php:4939
+#: languages/states.php:4941
 msgid "Kharkiv Oblast"
 msgstr ""
 
-#: languages/states.php:4940
+#: languages/states.php:4942
 msgid "Kherson Oblast"
 msgstr ""
 
-#: languages/states.php:4941
+#: languages/states.php:4943
 msgid "Khmelnytsky Oblast"
 msgstr ""
 
-#: languages/states.php:4942
+#: languages/states.php:4944
 msgid "Cherkasy Oblast"
 msgstr ""
 
-#: languages/states.php:4943
+#: languages/states.php:4945
 msgid "Chernihiv Oblast"
 msgstr ""
 
-#: languages/states.php:4944
+#: languages/states.php:4946
 msgid "Chernivtsi Oblast"
 msgstr ""
 
-#: languages/states.php:4945
+#: languages/states.php:4947
 msgid "Luhansk Oblast"
 msgstr ""
 
-#: languages/states.php:4946
+#: languages/states.php:4948
 msgid "Vinnytsia Oblast"
 msgstr ""
 
-#: languages/states.php:4947
+#: languages/states.php:4949
 msgid "Volyn Oblast"
 msgstr ""
 
-#: languages/states.php:4950
+#: languages/states.php:4952
 msgid "Kalangala District"
 msgstr ""
 
-#: languages/states.php:4951
+#: languages/states.php:4953
 msgid "Kampala District"
 msgstr ""
 
-#: languages/states.php:4952
+#: languages/states.php:4954
 msgid "Kiboga District"
 msgstr ""
 
-#: languages/states.php:4953
+#: languages/states.php:4955
 msgid "Luwero District"
 msgstr ""
 
-#: languages/states.php:4954
+#: languages/states.php:4956
 msgid "Masaka District"
 msgstr ""
 
-#: languages/states.php:4955
+#: languages/states.php:4957
 msgid "Mpigi District"
 msgstr ""
 
-#: languages/states.php:4956
+#: languages/states.php:4958
 msgid "Mubende District"
 msgstr ""
 
-#: languages/states.php:4957
+#: languages/states.php:4959
 msgid "Mukono District"
 msgstr ""
 
-#: languages/states.php:4958
+#: languages/states.php:4960
 msgid "Nakasongola District"
 msgstr ""
 
-#: languages/states.php:4959
+#: languages/states.php:4961
 msgid "Rakai District"
 msgstr ""
 
-#: languages/states.php:4960
+#: languages/states.php:4962
 msgid "Sembabule District"
 msgstr ""
 
-#: languages/states.php:4961
+#: languages/states.php:4963
 msgid "Kayunga District"
 msgstr ""
 
-#: languages/states.php:4962
+#: languages/states.php:4964
 msgid "Wakiso District"
 msgstr ""
 
-#: languages/states.php:4963
+#: languages/states.php:4965
 msgid "Lyantonde District"
 msgstr ""
 
-#: languages/states.php:4964
+#: languages/states.php:4966
 msgid "Mityana District"
 msgstr ""
 
-#: languages/states.php:4965
+#: languages/states.php:4967
 msgid "Nakaseke District"
 msgstr ""
 
-#: languages/states.php:4966
+#: languages/states.php:4968
 msgid "Buikwe District"
 msgstr ""
 
-#: languages/states.php:4967
+#: languages/states.php:4969
 msgid "Bukomansimbi District"
 msgstr ""
 
-#: languages/states.php:4968
+#: languages/states.php:4970
 msgid "Butambala District"
 msgstr ""
 
-#: languages/states.php:4969
+#: languages/states.php:4971
 msgid "Buvuma District"
 msgstr ""
 
-#: languages/states.php:4970
+#: languages/states.php:4972
 msgid "Gomba District"
 msgstr ""
 
-#: languages/states.php:4971
+#: languages/states.php:4973
 msgid "Kalungu District"
 msgstr ""
 
-#: languages/states.php:4972
+#: languages/states.php:4974
 msgid "Kyankwanzi District"
 msgstr ""
 
-#: languages/states.php:4973
+#: languages/states.php:4975
 msgid "Lwengo District"
 msgstr ""
 
-#: languages/states.php:4974
+#: languages/states.php:4976
 msgid "Kyotera District"
 msgstr ""
 
-#: languages/states.php:4975
+#: languages/states.php:4977
 msgid "Bugiri District"
 msgstr ""
 
-#: languages/states.php:4976
+#: languages/states.php:4978
 msgid "Busia District"
 msgstr ""
 
-#: languages/states.php:4977
+#: languages/states.php:4979
 msgid "Iganga District"
 msgstr ""
 
-#: languages/states.php:4978
+#: languages/states.php:4980
 msgid "Jinja District"
 msgstr ""
 
-#: languages/states.php:4979
+#: languages/states.php:4981
 msgid "Kamuli District"
 msgstr ""
 
-#: languages/states.php:4980
+#: languages/states.php:4982
 msgid "Kapchorwa District"
 msgstr ""
 
-#: languages/states.php:4981
+#: languages/states.php:4983
 msgid "Katakwi District"
 msgstr ""
 
-#: languages/states.php:4982
+#: languages/states.php:4984
 msgid "Kumi District"
 msgstr ""
 
-#: languages/states.php:4983
+#: languages/states.php:4985
 msgid "Mbale District"
 msgstr ""
 
-#: languages/states.php:4984
+#: languages/states.php:4986
 msgid "Pallisa District"
 msgstr ""
 
-#: languages/states.php:4985
+#: languages/states.php:4987
 msgid "Soroti District"
 msgstr ""
 
-#: languages/states.php:4986
+#: languages/states.php:4988
 msgid "Tororo District"
 msgstr ""
 
-#: languages/states.php:4987
+#: languages/states.php:4989
 msgid "Kaberamaido District"
 msgstr ""
 
-#: languages/states.php:4988
+#: languages/states.php:4990
 msgid "Mayuge District"
 msgstr ""
 
-#: languages/states.php:4989
+#: languages/states.php:4991
 msgid "Sironko District"
 msgstr ""
 
-#: languages/states.php:4990
+#: languages/states.php:4992
 msgid "Amuria District"
 msgstr ""
 
-#: languages/states.php:4991
+#: languages/states.php:4993
 msgid "Budaka District"
 msgstr ""
 
-#: languages/states.php:4992
+#: languages/states.php:4994
 msgid "Bududa District"
 msgstr ""
 
-#: languages/states.php:4993
+#: languages/states.php:4995
 msgid "Bukedea District"
 msgstr ""
 
-#: languages/states.php:4994
+#: languages/states.php:4996
 msgid "Bukwo District"
 msgstr ""
 
-#: languages/states.php:4995
+#: languages/states.php:4997
 msgid "Butaleja District"
 msgstr ""
 
-#: languages/states.php:4996
+#: languages/states.php:4998
 msgid "Kaliro District"
 msgstr ""
 
-#: languages/states.php:4997
+#: languages/states.php:4999
 msgid "Manafwa District"
 msgstr ""
 
-#: languages/states.php:4998
+#: languages/states.php:5000
 msgid "Namutumba District"
 msgstr ""
 
-#: languages/states.php:4999
+#: languages/states.php:5001
 msgid "Bulambuli District"
 msgstr ""
 
-#: languages/states.php:5000
+#: languages/states.php:5002
 msgid "Buyende District"
 msgstr ""
 
-#: languages/states.php:5001
+#: languages/states.php:5003
 msgid "Kibuku District"
 msgstr ""
 
-#: languages/states.php:5002
+#: languages/states.php:5004
 msgid "Kween District"
 msgstr ""
 
-#: languages/states.php:5003
+#: languages/states.php:5005
 msgid "Luuka District"
 msgstr ""
 
-#: languages/states.php:5004
+#: languages/states.php:5006
 msgid "Namayingo District"
 msgstr ""
 
-#: languages/states.php:5005
+#: languages/states.php:5007
 msgid "Ngora District"
 msgstr ""
 
-#: languages/states.php:5006
+#: languages/states.php:5008
 msgid "Serere District"
 msgstr ""
 
-#: languages/states.php:5007
+#: languages/states.php:5009
 msgid "Butebo District"
 msgstr ""
 
-#: languages/states.php:5008
+#: languages/states.php:5010
 msgid "Namisindwa District"
 msgstr ""
 
-#: languages/states.php:5009
+#: languages/states.php:5011
 msgid "Adjumani District"
 msgstr ""
 
-#: languages/states.php:5010
+#: languages/states.php:5012
 msgid "Apac District"
 msgstr ""
 
-#: languages/states.php:5011
+#: languages/states.php:5013
 msgid "Arua District"
 msgstr ""
 
-#: languages/states.php:5012
+#: languages/states.php:5014
 msgid "Gulu District"
 msgstr ""
 
-#: languages/states.php:5013
+#: languages/states.php:5015
 msgid "Kitgum District"
 msgstr ""
 
-#: languages/states.php:5014
+#: languages/states.php:5016
 msgid "Kotido District"
 msgstr ""
 
-#: languages/states.php:5015
+#: languages/states.php:5017
 msgid "Lira District"
 msgstr ""
 
-#: languages/states.php:5016
+#: languages/states.php:5018
 msgid "Moroto District"
 msgstr ""
 
-#: languages/states.php:5017
+#: languages/states.php:5019
 msgid "Moyo District"
 msgstr ""
 
-#: languages/states.php:5018
+#: languages/states.php:5020
 msgid "Nebbi District"
 msgstr ""
 
-#: languages/states.php:5019
+#: languages/states.php:5021
 msgid "Nakapiripirit District"
 msgstr ""
 
-#: languages/states.php:5020
+#: languages/states.php:5022
 msgid "Pader District"
 msgstr ""
 
-#: languages/states.php:5021
+#: languages/states.php:5023
 msgid "Yumbe District"
 msgstr ""
 
-#: languages/states.php:5022
+#: languages/states.php:5024
 msgid "Abim District"
 msgstr ""
 
-#: languages/states.php:5023
+#: languages/states.php:5025
 msgid "Amolatar District"
 msgstr ""
 
-#: languages/states.php:5024
+#: languages/states.php:5026
 msgid "Amuru District"
 msgstr ""
 
-#: languages/states.php:5025
+#: languages/states.php:5027
 msgid "Dokolo District"
 msgstr ""
 
-#: languages/states.php:5026
+#: languages/states.php:5028
 msgid "Kaabong District"
 msgstr ""
 
-#: languages/states.php:5027
+#: languages/states.php:5029
 msgid "Koboko District"
 msgstr ""
 
-#: languages/states.php:5028
+#: languages/states.php:5030
 msgid "Maracha District"
 msgstr ""
 
-#: languages/states.php:5029
+#: languages/states.php:5031
 msgid "Oyam District"
 msgstr ""
 
-#: languages/states.php:5030
+#: languages/states.php:5032
 msgid "Agago District"
 msgstr ""
 
-#: languages/states.php:5031
+#: languages/states.php:5033
 msgid "Alebtong District"
 msgstr ""
 
-#: languages/states.php:5032
+#: languages/states.php:5034
 msgid "Amudat District"
 msgstr ""
 
-#: languages/states.php:5033
+#: languages/states.php:5035
 msgid "Kole District"
 msgstr ""
 
-#: languages/states.php:5034
+#: languages/states.php:5036
 msgid "Lamwo District"
 msgstr ""
 
-#: languages/states.php:5035
+#: languages/states.php:5037
 msgid "Napak District"
 msgstr ""
 
-#: languages/states.php:5036
+#: languages/states.php:5038
 msgid "Nwoya District"
 msgstr ""
 
-#: languages/states.php:5037
+#: languages/states.php:5039
 msgid "Otuke District"
 msgstr ""
 
-#: languages/states.php:5038
+#: languages/states.php:5040
 msgid "Zombo District"
 msgstr ""
 
-#: languages/states.php:5039
+#: languages/states.php:5041
 msgid "Omoro District"
 msgstr ""
 
-#: languages/states.php:5040
+#: languages/states.php:5042
 msgid "Pakwach District"
 msgstr ""
 
-#: languages/states.php:5041
+#: languages/states.php:5043
 msgid "Bundibugyo District"
 msgstr ""
 
-#: languages/states.php:5042
+#: languages/states.php:5044
 msgid "Bushenyi District"
 msgstr ""
 
-#: languages/states.php:5043
+#: languages/states.php:5045
 msgid "Kabale District"
 msgstr ""
 
-#: languages/states.php:5044
+#: languages/states.php:5046
 msgid "Kabarole District"
 msgstr ""
 
-#: languages/states.php:5045
+#: languages/states.php:5047
 msgid "Kasese District"
 msgstr ""
 
-#: languages/states.php:5046
+#: languages/states.php:5048
 msgid "Kibaale District"
 msgstr ""
 
-#: languages/states.php:5047
+#: languages/states.php:5049
 msgid "Kisoro District"
 msgstr ""
 
-#: languages/states.php:5048
+#: languages/states.php:5050
 msgid "Masindi District"
 msgstr ""
 
-#: languages/states.php:5049
+#: languages/states.php:5051
 msgid "Mbarara District"
 msgstr ""
 
-#: languages/states.php:5050
+#: languages/states.php:5052
 msgid "Ntungamo District"
 msgstr ""
 
-#: languages/states.php:5051
+#: languages/states.php:5053
 msgid "Rukungiri District"
 msgstr ""
 
-#: languages/states.php:5052
+#: languages/states.php:5054
 msgid "Kamwenge District"
 msgstr ""
 
-#: languages/states.php:5053
+#: languages/states.php:5055
 msgid "Kanungu District"
 msgstr ""
 
-#: languages/states.php:5054
+#: languages/states.php:5056
 msgid "Kyenjojo District"
 msgstr ""
 
-#: languages/states.php:5055
+#: languages/states.php:5057
 msgid "Buliisa District"
 msgstr ""
 
-#: languages/states.php:5056
+#: languages/states.php:5058
 msgid "Ibanda District"
 msgstr ""
 
-#: languages/states.php:5057
+#: languages/states.php:5059
 msgid "Isingiro District"
 msgstr ""
 
-#: languages/states.php:5058
+#: languages/states.php:5060
 msgid "Kiruhura District"
 msgstr ""
 
-#: languages/states.php:5059
+#: languages/states.php:5061
 msgid "Buhweju District"
 msgstr ""
 
-#: languages/states.php:5060
+#: languages/states.php:5062
 msgid "Kiryandongo District"
 msgstr ""
 
-#: languages/states.php:5061
+#: languages/states.php:5063
 msgid "Kyegegwa District"
 msgstr ""
 
-#: languages/states.php:5062
+#: languages/states.php:5064
 msgid "Mitooma District"
 msgstr ""
 
-#: languages/states.php:5063
+#: languages/states.php:5065
 msgid "Ntoroko District"
 msgstr ""
 
-#: languages/states.php:5064
+#: languages/states.php:5066
 msgid "Rubirizi District"
 msgstr ""
 
-#: languages/states.php:5065
+#: languages/states.php:5067
 msgid "Sheema District"
 msgstr ""
 
-#: languages/states.php:5066
+#: languages/states.php:5068
 msgid "Kagadi District"
 msgstr ""
 
-#: languages/states.php:5067
+#: languages/states.php:5069
 msgid "Kakumiro District"
 msgstr ""
 
-#: languages/states.php:5068
+#: languages/states.php:5070
 msgid "Rubanda District"
 msgstr ""
 
-#: languages/states.php:5069
+#: languages/states.php:5071
 msgid "Bunyangabu District"
 msgstr ""
 
-#: languages/states.php:5070
+#: languages/states.php:5072
 msgid "Rukiga District"
 msgstr ""
 
-#: languages/states.php:5078
+#: languages/states.php:5080
 msgid "Alabama"
 msgstr ""
 
-#: languages/states.php:5079
+#: languages/states.php:5081
 msgid "Alaska"
 msgstr ""
 
-#: languages/states.php:5081
+#: languages/states.php:5083
 msgid "Arizona"
 msgstr ""
 
-#: languages/states.php:5082
+#: languages/states.php:5084
 msgid "Arkansas"
 msgstr ""
 
-#: languages/states.php:5084
+#: languages/states.php:5086
 msgid "Armed Forces (Americas)"
 msgstr ""
 
-#: languages/states.php:5085
+#: languages/states.php:5087
 msgid "Armed Forces (Europe, Canada, Africa, Middle East)"
 msgstr ""
 
-#: languages/states.php:5086
+#: languages/states.php:5088
 msgid "Armed Forces (Pacific)"
 msgstr ""
 
-#: languages/states.php:5087
+#: languages/states.php:5089
 msgid "California"
 msgstr ""
 
-#: languages/states.php:5088
+#: languages/states.php:5090
 msgid "Colorado"
 msgstr ""
 
-#: languages/states.php:5089
+#: languages/states.php:5091
 msgid "Connecticut"
 msgstr ""
 
-#: languages/states.php:5090
+#: languages/states.php:5092
 msgid "Delaware"
 msgstr ""
 
-#: languages/states.php:5091
+#: languages/states.php:5093
 msgid "District of Columbia"
 msgstr ""
 
-#: languages/states.php:5092
+#: languages/states.php:5094
 msgid "Florida"
 msgstr ""
 
-#: languages/states.php:5095
+#: languages/states.php:5097
 msgid "Hawaii"
 msgstr ""
 
-#: languages/states.php:5096
+#: languages/states.php:5098
 msgid "Idaho"
 msgstr ""
 
-#: languages/states.php:5097
+#: languages/states.php:5099
 msgid "Illinois"
 msgstr ""
 
-#: languages/states.php:5098
+#: languages/states.php:5100
 msgid "Indiana"
 msgstr ""
 
-#: languages/states.php:5099
+#: languages/states.php:5101
 msgid "Iowa"
 msgstr ""
 
-#: languages/states.php:5100
+#: languages/states.php:5102
 msgid "Kansas"
 msgstr ""
 
-#: languages/states.php:5101
+#: languages/states.php:5103
 msgid "Kentucky"
 msgstr ""
 
-#: languages/states.php:5102
+#: languages/states.php:5104
 msgid "Louisiana"
 msgstr ""
 
-#: languages/states.php:5103
+#: languages/states.php:5105
 msgid "Maine"
 msgstr ""
 
-#: languages/states.php:5104
+#: languages/states.php:5106
 msgid "Maryland"
 msgstr ""
 
-#: languages/states.php:5105
+#: languages/states.php:5107
 msgid "Massachusetts"
 msgstr ""
 
-#: languages/states.php:5106
+#: languages/states.php:5108
 msgid "Michigan"
 msgstr ""
 
-#: languages/states.php:5107
+#: languages/states.php:5109
 msgid "Minnesota"
 msgstr ""
 
-#: languages/states.php:5108
+#: languages/states.php:5110
 msgid "Mississippi"
 msgstr ""
 
-#: languages/states.php:5109
+#: languages/states.php:5111
 msgid "Missouri"
 msgstr ""
 
-#: languages/states.php:5110
+#: languages/states.php:5112
 msgid "Montana"
 msgstr ""
 
-#: languages/states.php:5111
+#: languages/states.php:5113
 msgid "Nebraska"
 msgstr ""
 
-#: languages/states.php:5112
+#: languages/states.php:5114
 msgid "Nevada"
 msgstr ""
 
-#: languages/states.php:5113
+#: languages/states.php:5115
 msgid "New Hampshire"
 msgstr ""
 
-#: languages/states.php:5114
+#: languages/states.php:5116
 msgid "New Jersey"
 msgstr ""
 
-#: languages/states.php:5115
+#: languages/states.php:5117
 msgid "New Mexico"
 msgstr ""
 
-#: languages/states.php:5116
+#: languages/states.php:5118
 msgid "New York"
 msgstr ""
 
-#: languages/states.php:5117
+#: languages/states.php:5119
 msgid "North Carolina"
 msgstr ""
 
-#: languages/states.php:5118
+#: languages/states.php:5120
 msgid "North Dakota"
 msgstr ""
 
-#: languages/states.php:5120
+#: languages/states.php:5122
 msgid "Ohio"
 msgstr ""
 
-#: languages/states.php:5121
+#: languages/states.php:5123
 msgid "Oklahoma"
 msgstr ""
 
-#: languages/states.php:5122
+#: languages/states.php:5124
 msgid "Oregon"
 msgstr ""
 
-#: languages/states.php:5123
+#: languages/states.php:5125
 msgid "Pennsylvania"
 msgstr ""
 
-#: languages/states.php:5125
+#: languages/states.php:5127
 msgid "Rhode Island"
 msgstr ""
 
-#: languages/states.php:5126
+#: languages/states.php:5128
 msgid "South Carolina"
 msgstr ""
 
-#: languages/states.php:5127
+#: languages/states.php:5129
 msgid "South Dakota"
 msgstr ""
 
-#: languages/states.php:5128
+#: languages/states.php:5130
 msgid "Tennessee"
 msgstr ""
 
-#: languages/states.php:5129
+#: languages/states.php:5131
 msgid "Texas"
 msgstr ""
 
-#: languages/states.php:5131
+#: languages/states.php:5133
 msgid "United States Virgin Islands"
 msgstr ""
 
-#: languages/states.php:5132
+#: languages/states.php:5134
 msgid "Utah"
 msgstr ""
 
-#: languages/states.php:5133
+#: languages/states.php:5135
 msgid "Vermont"
 msgstr ""
 
-#: languages/states.php:5134
+#: languages/states.php:5136
 msgid "Virginia"
 msgstr ""
 
-#: languages/states.php:5135
+#: languages/states.php:5137
 msgid "Washington"
 msgstr ""
 
-#: languages/states.php:5136
+#: languages/states.php:5138
 msgid "West Virginia"
 msgstr ""
 
-#: languages/states.php:5137
+#: languages/states.php:5139
 msgid "Wisconsin"
 msgstr ""
 
-#: languages/states.php:5138
+#: languages/states.php:5140
 msgid "Wyoming"
 msgstr ""
 
-#: languages/states.php:5141
+#: languages/states.php:5143
 msgid "Artigas Department"
 msgstr ""
 
-#: languages/states.php:5142
+#: languages/states.php:5144
 msgid "Canelones Department"
 msgstr ""
 
-#: languages/states.php:5143
+#: languages/states.php:5145
 msgid "Cerro Largo Department"
 msgstr ""
 
-#: languages/states.php:5144
+#: languages/states.php:5146
 msgid "Colonia Department"
 msgstr ""
 
-#: languages/states.php:5145
+#: languages/states.php:5147
 msgid "Durazno Department"
 msgstr ""
 
-#: languages/states.php:5146
+#: languages/states.php:5148
 msgid "Flores Department"
 msgstr ""
 
-#: languages/states.php:5147
+#: languages/states.php:5149
 msgid "Florida Department"
 msgstr ""
 
-#: languages/states.php:5148
+#: languages/states.php:5150
 msgid "Lavalleja Department"
 msgstr ""
 
-#: languages/states.php:5149
+#: languages/states.php:5151
 msgid "Maldonado Department"
 msgstr ""
 
-#: languages/states.php:5150
+#: languages/states.php:5152
 msgid "Montevideo Department"
 msgstr ""
 
-#: languages/states.php:5151
+#: languages/states.php:5153
 msgid "Paysandú Department"
 msgstr ""
 
-#: languages/states.php:5152
+#: languages/states.php:5154
 msgid "Rivera Department"
 msgstr ""
 
-#: languages/states.php:5153
+#: languages/states.php:5155
 msgid "Rocha Department"
 msgstr ""
 
-#: languages/states.php:5154
+#: languages/states.php:5156
 msgid "Río Negro Department"
 msgstr ""
 
-#: languages/states.php:5155
+#: languages/states.php:5157
 msgid "Salto Department"
 msgstr ""
 
-#: languages/states.php:5156
+#: languages/states.php:5158
 msgid "San José Department"
 msgstr ""
 
-#: languages/states.php:5157
+#: languages/states.php:5159
 msgid "Soriano Department"
 msgstr ""
 
-#: languages/states.php:5158
+#: languages/states.php:5160
 msgid "Tacuarembó Department"
 msgstr ""
 
-#: languages/states.php:5159
+#: languages/states.php:5161
 msgid "Treinta y Tres Department"
 msgstr ""
 
-#: languages/states.php:5162
+#: languages/states.php:5164
 msgid "Andijan Region"
 msgstr ""
 
-#: languages/states.php:5163
+#: languages/states.php:5165
 msgid "Bukhara Region"
 msgstr ""
 
-#: languages/states.php:5164
+#: languages/states.php:5166
 msgid "Fergana Region"
 msgstr ""
 
-#: languages/states.php:5165
+#: languages/states.php:5167
 msgid "Jizzakh Region"
 msgstr ""
 
-#: languages/states.php:5166
+#: languages/states.php:5168
 msgid "Karakalpakstan"
 msgstr ""
 
-#: languages/states.php:5167
+#: languages/states.php:5169
 msgid "Namangan Region"
 msgstr ""
 
-#: languages/states.php:5168
+#: languages/states.php:5170
 msgid "Navoiy Region"
 msgstr ""
 
-#: languages/states.php:5169
+#: languages/states.php:5171
 msgid "Qashqadaryo Region"
 msgstr ""
 
-#: languages/states.php:5170
+#: languages/states.php:5172
 msgid "Samarqand Region"
 msgstr ""
 
-#: languages/states.php:5171
+#: languages/states.php:5173
 msgid "Sirdaryo Region"
 msgstr ""
 
-#: languages/states.php:5172
+#: languages/states.php:5174
 msgid "Surxondaryo Region"
 msgstr ""
 
-#: languages/states.php:5173
+#: languages/states.php:5175
 msgid "Tashkent"
 msgstr ""
 
-#: languages/states.php:5174
+#: languages/states.php:5176
 msgid "Tashkent Region"
 msgstr ""
 
-#: languages/states.php:5175
+#: languages/states.php:5177
 msgid "Xorazm Region"
 msgstr ""
 
-#: languages/states.php:5179
+#: languages/states.php:5181
 msgid "Charlotte Parish"
 msgstr ""
 
-#: languages/states.php:5180
+#: languages/states.php:5182
 msgid "Grenadines Parish"
 msgstr ""
 
-#: languages/states.php:5188
+#: languages/states.php:5190
 msgid "Anzoátegui"
 msgstr ""
 
-#: languages/states.php:5189
+#: languages/states.php:5191
 msgid "Apure"
 msgstr ""
 
-#: languages/states.php:5190
+#: languages/states.php:5192
 msgid "Aragua"
 msgstr ""
 
-#: languages/states.php:5191
+#: languages/states.php:5193
 msgid "Barinas"
 msgstr ""
 
-#: languages/states.php:5192
+#: languages/states.php:5194
 msgid "Bolívar"
 msgstr ""
 
-#: languages/states.php:5193
+#: languages/states.php:5195
 msgid "Capital District"
 msgstr ""
 
-#: languages/states.php:5194
+#: languages/states.php:5196
 msgid "Carabobo"
 msgstr ""
 
-#: languages/states.php:5195
+#: languages/states.php:5197
 msgid "Cojedes"
 msgstr ""
 
-#: languages/states.php:5196
+#: languages/states.php:5198
 msgid "Delta Amacuro"
 msgstr ""
 
-#: languages/states.php:5197
+#: languages/states.php:5199
 msgid "Falcón"
 msgstr ""
 
-#: languages/states.php:5198
+#: languages/states.php:5200
 msgid "Federal Dependencies of Venezuela"
 msgstr ""
 
-#: languages/states.php:5199
+#: languages/states.php:5201
 msgid "Guárico"
 msgstr ""
 
-#: languages/states.php:5200
+#: languages/states.php:5202
 msgid "Lara"
 msgstr ""
 
-#: languages/states.php:5201
+#: languages/states.php:5203
 msgid "Miranda"
 msgstr ""
 
-#: languages/states.php:5202
+#: languages/states.php:5204
 msgid "Monagas"
 msgstr ""
 
-#: languages/states.php:5203
+#: languages/states.php:5205
 msgid "Mérida"
 msgstr ""
 
-#: languages/states.php:5204
+#: languages/states.php:5206
 msgid "Nueva Esparta"
 msgstr ""
 
-#: languages/states.php:5205
+#: languages/states.php:5207
 msgid "Portuguesa"
 msgstr ""
 
-#: languages/states.php:5206
+#: languages/states.php:5208
 msgid "Sucre"
 msgstr ""
 
-#: languages/states.php:5207
+#: languages/states.php:5209
 msgid "Trujillo"
 msgstr ""
 
-#: languages/states.php:5208
+#: languages/states.php:5210
 msgid "Táchira"
 msgstr ""
 
-#: languages/states.php:5209
+#: languages/states.php:5211
 msgid "Vargas"
 msgstr ""
 
-#: languages/states.php:5210
+#: languages/states.php:5212
 msgid "Yaracuy"
 msgstr ""
 
-#: languages/states.php:5211
+#: languages/states.php:5213
 msgid "Zulia"
 msgstr ""
 
-#: languages/states.php:5216
+#: languages/states.php:5218
 msgid "Quảng Ninh"
 msgstr ""
 
-#: languages/states.php:5217
+#: languages/states.php:5219
 msgid "Hòa Bình"
 msgstr ""
 
-#: languages/states.php:5218
+#: languages/states.php:5220
 msgid "Hà Tây"
 msgstr ""
 
-#: languages/states.php:5219
+#: languages/states.php:5221
 msgid "Ninh Bình"
 msgstr ""
 
-#: languages/states.php:5220
+#: languages/states.php:5222
 msgid "Thái Bình"
 msgstr ""
 
-#: languages/states.php:5221
+#: languages/states.php:5223
 msgid "Thanh Hóa"
 msgstr ""
 
-#: languages/states.php:5222
+#: languages/states.php:5224
 msgid "Nghệ An"
 msgstr ""
 
-#: languages/states.php:5223
+#: languages/states.php:5225
 msgid "Hà Tĩnh"
 msgstr ""
 
-#: languages/states.php:5224
+#: languages/states.php:5226
 msgid "Quảng Bình"
 msgstr ""
 
-#: languages/states.php:5225
+#: languages/states.php:5227
 msgid "Quảng Trị"
 msgstr ""
 
-#: languages/states.php:5226
+#: languages/states.php:5228
 msgid "Thừa Thiên-Huế"
 msgstr ""
 
-#: languages/states.php:5227
+#: languages/states.php:5229
 msgid "Quảng Nam"
 msgstr ""
 
-#: languages/states.php:5228
+#: languages/states.php:5230
 msgid "Kon Tum"
 msgstr ""
 
-#: languages/states.php:5229
+#: languages/states.php:5231
 msgid "Quảng Ngãi"
 msgstr ""
 
-#: languages/states.php:5230
+#: languages/states.php:5232
 msgid "Gia Lai"
 msgstr ""
 
-#: languages/states.php:5231
+#: languages/states.php:5233
 msgid "Bình Định"
 msgstr ""
 
-#: languages/states.php:5232
+#: languages/states.php:5234
 msgid "Phú Yên"
 msgstr ""
 
-#: languages/states.php:5233
+#: languages/states.php:5235
 msgid "Đắk Lắk"
 msgstr ""
 
-#: languages/states.php:5234
+#: languages/states.php:5236
 msgid "Khánh Hòa"
 msgstr ""
 
-#: languages/states.php:5235
+#: languages/states.php:5237
 msgid "Lâm Đồng"
 msgstr ""
 
-#: languages/states.php:5236
+#: languages/states.php:5238
 msgid "Ninh Thuận"
 msgstr ""
 
-#: languages/states.php:5237
+#: languages/states.php:5239
 msgid "Tây Ninh"
 msgstr ""
 
-#: languages/states.php:5238
+#: languages/states.php:5240
 msgid "Đồng Nai"
 msgstr ""
 
-#: languages/states.php:5239
+#: languages/states.php:5241
 msgid "Bình Thuận"
 msgstr ""
 
-#: languages/states.php:5240
+#: languages/states.php:5242
 msgid "Long An"
 msgstr ""
 
-#: languages/states.php:5241
+#: languages/states.php:5243
 msgid "Bà Rịa-Vũng Tàu"
 msgstr ""
 
-#: languages/states.php:5242
+#: languages/states.php:5244
 msgid "An Giang"
 msgstr ""
 
-#: languages/states.php:5243
+#: languages/states.php:5245
 msgid "Đồng Tháp"
 msgstr ""
 
-#: languages/states.php:5244
+#: languages/states.php:5246
 msgid "Tiền Giang"
 msgstr ""
 
-#: languages/states.php:5245
+#: languages/states.php:5247
 msgid "Kiên Giang"
 msgstr ""
 
-#: languages/states.php:5246
+#: languages/states.php:5248
 msgid "Vĩnh Long"
 msgstr ""
 
-#: languages/states.php:5247
+#: languages/states.php:5249
 msgid "Bến Tre"
 msgstr ""
 
-#: languages/states.php:5248
+#: languages/states.php:5250
 msgid "Trà Vinh"
 msgstr ""
 
-#: languages/states.php:5249
+#: languages/states.php:5251
 msgid "Sóc Trăng"
 msgstr ""
 
-#: languages/states.php:5250
+#: languages/states.php:5252
 msgid "Bắc Kạn"
 msgstr ""
 
-#: languages/states.php:5251
+#: languages/states.php:5253
 msgid "Bắc Giang"
 msgstr ""
 
-#: languages/states.php:5252
+#: languages/states.php:5254
 msgid "Bạc Liêu"
 msgstr ""
 
-#: languages/states.php:5253
+#: languages/states.php:5255
 msgid "Bắc Ninh"
 msgstr ""
 
-#: languages/states.php:5254
+#: languages/states.php:5256
 msgid "Bình Dương"
 msgstr ""
 
-#: languages/states.php:5255
+#: languages/states.php:5257
 msgid "Bình Phước"
 msgstr ""
 
-#: languages/states.php:5256
+#: languages/states.php:5258
 msgid "Cà Mau"
 msgstr ""
 
-#: languages/states.php:5257
+#: languages/states.php:5259
 msgid "Hải Dương"
 msgstr ""
 
-#: languages/states.php:5258
+#: languages/states.php:5260
 msgid "Hà Nam"
 msgstr ""
 
-#: languages/states.php:5259
+#: languages/states.php:5261
 msgid "Hưng Yên"
 msgstr ""
 
-#: languages/states.php:5260
+#: languages/states.php:5262
 msgid "Nam Định"
 msgstr ""
 
-#: languages/states.php:5261
+#: languages/states.php:5263
 msgid "Phú Thọ"
 msgstr ""
 
-#: languages/states.php:5262
+#: languages/states.php:5264
 msgid "Thái Nguyên"
 msgstr ""
 
-#: languages/states.php:5263
+#: languages/states.php:5265
 msgid "Vĩnh Phúc"
 msgstr ""
 
-#: languages/states.php:5264
+#: languages/states.php:5266
 msgid "Điện Biên"
 msgstr ""
 
-#: languages/states.php:5265
+#: languages/states.php:5267
 msgid "Đắk Nông"
 msgstr ""
 
-#: languages/states.php:5266
+#: languages/states.php:5268
 msgid "Hậu Giang"
 msgstr ""
 
-#: languages/states.php:5267
+#: languages/states.php:5269
 msgid "Cao Bằng"
 msgstr ""
 
-#: languages/states.php:5268
+#: languages/states.php:5270
 msgid "Da Nang"
 msgstr ""
 
-#: languages/states.php:5269
+#: languages/states.php:5271
 msgid "Haiphong"
 msgstr ""
 
-#: languages/states.php:5270
+#: languages/states.php:5272
 msgid "Hanoi"
 msgstr ""
 
-#: languages/states.php:5271
+#: languages/states.php:5273
 msgid "Ho Chi Minh City"
 msgstr ""
 
-#: languages/states.php:5272
+#: languages/states.php:5274
 msgid "Hà Giang"
 msgstr ""
 
-#: languages/states.php:5273
+#: languages/states.php:5275
 msgid "Lai Châu"
 msgstr ""
 
-#: languages/states.php:5274
+#: languages/states.php:5276
 msgid "Lào Cai"
 msgstr ""
 
-#: languages/states.php:5275
+#: languages/states.php:5277
 msgid "Lạng Sơn"
 msgstr ""
 
-#: languages/states.php:5276
+#: languages/states.php:5278
 msgid "Sơn La"
 msgstr ""
 
-#: languages/states.php:5277
+#: languages/states.php:5279
 msgid "Tuyên Quang"
 msgstr ""
 
-#: languages/states.php:5278
+#: languages/states.php:5280
 msgid "Yên Bái"
 msgstr ""
 
-#: languages/states.php:5281
+#: languages/states.php:5283
 msgid "Malampa"
 msgstr ""
 
-#: languages/states.php:5282
+#: languages/states.php:5284
 msgid "Penama"
 msgstr ""
 
-#: languages/states.php:5283
+#: languages/states.php:5285
 msgid "Sanma"
 msgstr ""
 
-#: languages/states.php:5284
+#: languages/states.php:5286
 msgid "Shefa"
 msgstr ""
 
-#: languages/states.php:5285
+#: languages/states.php:5287
 msgid "Tafea"
 msgstr ""
 
-#: languages/states.php:5286
+#: languages/states.php:5288
 msgid "Torba"
 msgstr ""
 
-#: languages/states.php:5290
+#: languages/states.php:5292
 msgid "A'ana"
 msgstr ""
 
-#: languages/states.php:5291
+#: languages/states.php:5293
 msgid "Aiga-i-le-Tai"
 msgstr ""
 
-#: languages/states.php:5292
+#: languages/states.php:5294
 msgid "Atua"
 msgstr ""
 
-#: languages/states.php:5293
+#: languages/states.php:5295
 msgid "Fa'asaleleaga"
 msgstr ""
 
-#: languages/states.php:5294
+#: languages/states.php:5296
 msgid "Gaga'emauga"
 msgstr ""
 
-#: languages/states.php:5295
+#: languages/states.php:5297
 msgid "Gaga'ifomauga"
 msgstr ""
 
-#: languages/states.php:5296
+#: languages/states.php:5298
 msgid "Palauli"
 msgstr ""
 
-#: languages/states.php:5297
+#: languages/states.php:5299
 msgid "Satupa'itea"
 msgstr ""
 
-#: languages/states.php:5298
+#: languages/states.php:5300
 msgid "Tuamasaga"
 msgstr ""
 
-#: languages/states.php:5299
+#: languages/states.php:5301
 msgid "Va'a-o-Fonoti"
 msgstr ""
 
-#: languages/states.php:5300
+#: languages/states.php:5302
 msgid "Vaisigano"
 msgstr ""
 
-#: languages/states.php:5303
+#: languages/states.php:5305
 msgid "Gjilan District"
 msgstr ""
 
-#: languages/states.php:5304
+#: languages/states.php:5306
 msgid "Kosovska Mitrovica District"
 msgstr ""
 
-#: languages/states.php:5305
+#: languages/states.php:5307
 msgid "Peć District"
 msgstr ""
 
-#: languages/states.php:5306
+#: languages/states.php:5308
 msgid "Pristina (Priştine)"
 msgstr ""
 
-#: languages/states.php:5307
+#: languages/states.php:5309
 msgid "Prizren District"
 msgstr ""
 
-#: languages/states.php:5308
+#: languages/states.php:5310
 msgid "Uroševac District (Ferizaj)"
 msgstr ""
 
-#: languages/states.php:5309
+#: languages/states.php:5311
 msgid "Đakovica District (Gjakove)"
 msgstr ""
 
-#: languages/states.php:5312
+#: languages/states.php:5314
 msgid "'Adan Governorate"
 msgstr ""
 
-#: languages/states.php:5313
+#: languages/states.php:5315
 msgid "'Amran Governorate"
 msgstr ""
 
-#: languages/states.php:5314
+#: languages/states.php:5316
 msgid "Abyan Governorate"
 msgstr ""
 
-#: languages/states.php:5315
+#: languages/states.php:5317
 msgid "Al Bayda' Governorate"
 msgstr ""
 
-#: languages/states.php:5316
+#: languages/states.php:5318
 msgid "Al Hudaydah Governorate"
 msgstr ""
 
-#: languages/states.php:5317
+#: languages/states.php:5319
 msgid "Al Jawf Governorate"
 msgstr ""
 
-#: languages/states.php:5318
+#: languages/states.php:5320
 msgid "Al Mahrah Governorate"
 msgstr ""
 
-#: languages/states.php:5319
+#: languages/states.php:5321
 msgid "Al Mahwit Governorate"
 msgstr ""
 
-#: languages/states.php:5320
+#: languages/states.php:5322
 msgid "Dhamar Governorate"
 msgstr ""
 
-#: languages/states.php:5321
+#: languages/states.php:5323
 msgid "Hadhramaut Governorate"
 msgstr ""
 
-#: languages/states.php:5322
+#: languages/states.php:5324
 msgid "Hajjah Governorate"
 msgstr ""
 
-#: languages/states.php:5323
+#: languages/states.php:5325
 msgid "Ibb Governorate"
 msgstr ""
 
-#: languages/states.php:5324
+#: languages/states.php:5326
 msgid "Lahij Governorate"
 msgstr ""
 
-#: languages/states.php:5325
+#: languages/states.php:5327
 msgid "Ma'rib Governorate"
 msgstr ""
 
-#: languages/states.php:5326
+#: languages/states.php:5328
 msgid "Raymah Governorate"
 msgstr ""
 
-#: languages/states.php:5327
+#: languages/states.php:5329
 msgid "Saada Governorate"
 msgstr ""
 
-#: languages/states.php:5328
+#: languages/states.php:5330
 msgid "Sana'a"
 msgstr ""
 
-#: languages/states.php:5329
+#: languages/states.php:5331
 msgid "Sana'a Governorate"
 msgstr ""
 
-#: languages/states.php:5330
+#: languages/states.php:5332
 msgid "Shabwah Governorate"
 msgstr ""
 
-#: languages/states.php:5331
+#: languages/states.php:5333
 msgid "Socotra Governorate"
 msgstr ""
 
-#: languages/states.php:5332
+#: languages/states.php:5334
 msgid "Ta'izz Governorate"
 msgstr ""
 
-#: languages/states.php:5336
+#: languages/states.php:5338
 msgid "Eastern Cape"
 msgstr ""
 
-#: languages/states.php:5337
+#: languages/states.php:5339
 msgid "Free State"
 msgstr ""
 
-#: languages/states.php:5338
+#: languages/states.php:5340
 msgid "Gauteng"
 msgstr ""
 
-#: languages/states.php:5339
+#: languages/states.php:5341
 msgid "KwaZulu-Natal"
 msgstr ""
 
-#: languages/states.php:5340
+#: languages/states.php:5342
 msgid "Limpopo"
 msgstr ""
 
-#: languages/states.php:5341
+#: languages/states.php:5343
 msgid "Mpumalanga"
 msgstr ""
 
-#: languages/states.php:5342
+#: languages/states.php:5344
 msgid "North West"
 msgstr ""
 
-#: languages/states.php:5343
+#: languages/states.php:5345
 msgid "Northern Cape"
 msgstr ""
 
-#: languages/states.php:5344
+#: languages/states.php:5346
 msgid "Western Cape"
 msgstr ""
 
-#: languages/states.php:5347
+#: languages/states.php:5349
 msgid "Muchinga Province"
 msgstr ""
 
-#: languages/states.php:5349
+#: languages/states.php:5351
 msgid "Copperbelt Province"
 msgstr ""
 
-#: languages/states.php:5351
+#: languages/states.php:5353
 msgid "Luapula Province"
 msgstr ""
 
-#: languages/states.php:5352
+#: languages/states.php:5354
 msgid "Lusaka Province"
 msgstr ""
 
-#: languages/states.php:5354
+#: languages/states.php:5356
 msgid "Northwestern Province"
 msgstr ""
 
-#: languages/states.php:5359
+#: languages/states.php:5361
 msgid "Bulawayo Province"
 msgstr ""
 
-#: languages/states.php:5360
+#: languages/states.php:5362
 msgid "Harare Province"
 msgstr ""
 
-#: languages/states.php:5361
+#: languages/states.php:5363
 msgid "Manicaland"
 msgstr ""
 
-#: languages/states.php:5362
+#: languages/states.php:5364
 msgid "Mashonaland Central Province"
 msgstr ""
 
-#: languages/states.php:5363
+#: languages/states.php:5365
 msgid "Mashonaland East Province"
 msgstr ""
 
-#: languages/states.php:5364
+#: languages/states.php:5366
 msgid "Mashonaland West Province"
 msgstr ""
 
-#: languages/states.php:5365
+#: languages/states.php:5367
 msgid "Masvingo Province"
 msgstr ""
 
-#: languages/states.php:5366
+#: languages/states.php:5368
 msgid "Matabeleland North Province"
 msgstr ""
 
-#: languages/states.php:5367
+#: languages/states.php:5369
 msgid "Matabeleland South Province"
 msgstr ""
 
-#: languages/states.php:5368
+#: languages/states.php:5370
 msgid "Midlands Province"
 msgstr ""
 
@@ -33451,10 +33705,6 @@ msgstr ""
 #. Translators: %s = Invalid API Key ID.
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:296
 msgid "\"%s\" is not a valid API Key."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:31
-msgid "REST API"
 msgstr ""
 
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:85
@@ -35078,23 +35328,23 @@ msgstr ""
 msgid "TRIAL"
 msgstr ""
 
-#: templates/quiz/meta-information.php:29
+#: templates/quiz/meta-information.php:30
 msgid "Quiz Information"
 msgstr ""
 
-#: templates/quiz/meta-information.php:33
+#: templates/quiz/meta-information.php:34
 msgid "Minimum Passing Grade: %s"
 msgstr ""
 
-#: templates/quiz/meta-information.php:38
+#: templates/quiz/meta-information.php:39
 msgid "Remaining Attempts: %s"
 msgstr ""
 
-#: templates/quiz/meta-information.php:42
+#: templates/quiz/meta-information.php:43
 msgid "Questions: %s"
 msgstr ""
 
-#: templates/quiz/meta-information.php:47
+#: templates/quiz/meta-information.php:48
 msgid "Time Limit: %s"
 msgstr ""
 
@@ -36538,10 +36788,6 @@ msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "LifterLMS User Information Shortcodes"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
-msgid "Shortcodes"
 msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24

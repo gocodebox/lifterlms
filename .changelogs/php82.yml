@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: "PHP 8.2 compatibility fix: Fixed creation of dynamic property
+  `LLMS_Meta_Box_Access::$_saved`."
