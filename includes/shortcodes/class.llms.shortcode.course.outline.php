@@ -85,6 +85,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @since 3.5.1
+	 * @since 3.19.2 Unknown.
 	 * @since [version] Add fallback for editor block rendering.
 	 *
 	 * @return string
