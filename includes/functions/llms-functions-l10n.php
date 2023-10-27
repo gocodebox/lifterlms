@@ -127,7 +127,10 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
  */
 function llms_maybe_switch_to_site_locale() {
 
-	if ( function_exists( 'switch_to_locale' ) && get_locale() !== determine_locale() ) {
+	if (
+		function_exists( 'switch_to_locale' )
+		&& ( is_locale_switched() ) || ( get_locale() !== determine_locale() )
+	) {
 
 		/**
 		 * Fired before switching the current locale to the site locale.
@@ -166,7 +169,11 @@ function llms_maybe_switch_to_site_locale() {
  */
 function llms_maybe_restore_previous_locale() {
 
-	if ( function_exists( 'restore_previous_locale' ) && get_locale() !== determine_locale() ) {
+	if (
+		function_exists( 'restore_previous_locale' )
+		&& ( is_locale_switched() ) || ( get_locale() !== determine_locale() )
+	) {
+
 
 		/**
 		 * Fired before restoring the previous locale.

@@ -43,7 +43,6 @@ class LLMS_Post_Types {
 	 * @since 1.0.0
 	 * @since 3.0.4 Unknown.
 	 * @since 4.3.2 Add filter to deregister protected post types.
-	 * @since [version] Define rewrite slugs at `init|0`.
 	 *
 	 * @return void
 	 */
