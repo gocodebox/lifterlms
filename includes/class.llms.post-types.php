@@ -69,11 +69,12 @@ class LLMS_Post_Types {
 	 */
 	public static function define_rewrite_slugs( $force_update = false ) {
 
-		$saved_slugs  = get_option( 'lifterlms_rewrite_slugs', array() );
+		$saved_slugs  = (array) get_option( 'lifterlms_rewrite_slugs', array() );
 		$force_update = apply_filters( 'lifterlms_rewrite_slugs_force_update', $force_update );
 
 		if ( ! empty( $saved_slugs ) && ! $force_update ) {
 			self::$rewrite_slugs = $saved_slugs;
+			return;
 		}
 
 		self::$rewrite_slugs = self::get_default_rewrite_slugs();
@@ -615,7 +616,8 @@ class LLMS_Post_Types {
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : ( $rewrite_slugs['post_types']['course']['archive_slug'] ?? '' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ?
+					get_page_uri( $catalog_id ) : ( $rewrite_slugs['post_types']['course']['archive_slug'] ?? '' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)

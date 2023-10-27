@@ -345,7 +345,8 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
+	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Widget` class.
+	 * @since [version] Include `LLMS_Admin_Permalink_Settings` class.
 	 *
 	 * @return void
 	 */
@@ -362,6 +363,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalink-settings.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';

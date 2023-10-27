@@ -126,10 +126,13 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
  * @return void
  */
 function llms_maybe_switch_to_site_locale() {
-
+	global $wp_locale_switcher;
 	if (
-		function_exists( 'switch_to_locale' )
-		&& ( is_locale_switched() ) || ( get_locale() !== determine_locale() )
+		function_exists( 'switch_to_locale' ) &&
+		(
+			( $wp_locale_switcher && is_locale_switched() ) ||
+			( get_locale() !== determine_locale() )
+		)
 	) {
 
 		/**
@@ -168,10 +171,13 @@ function llms_maybe_switch_to_site_locale() {
  * @return void
  */
 function llms_maybe_restore_previous_locale() {
-
+	global $wp_locale_switcher;
 	if (
-		function_exists( 'restore_previous_locale' )
-		&& ( is_locale_switched() ) || ( get_locale() !== determine_locale() )
+		function_exists( 'restore_previous_locale' ) &&
+		(
+			( $wp_locale_switcher && is_locale_switched() ) ||
+			( get_locale() !== determine_locale() )
+		)
 	) {
 
 
