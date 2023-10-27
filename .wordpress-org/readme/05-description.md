@@ -266,9 +266,8 @@ There are several other WordPress LMS plugins like:
 + Sensei
 + Tutor LMS
 + WP Courseware
-+ Learndash
++ LearnDash
 + Masterstudy LMS
-+ Learndash
 + Academy LMS
 + Namaste LMS
 
