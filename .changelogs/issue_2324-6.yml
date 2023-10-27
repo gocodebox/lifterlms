@@ -2,6 +2,6 @@ significance: patch
 type: dev
 entry: Added `llms_rewrite_slugs` filter hook. Third parties can be leverage this
   filter hook to add their localized slugs, and re-use them,
-  retrieving them  via `LLMS_Post_Types::get_rewrite_slugs()`, when
-  registering their post tyeps and taxonomies. This filter is fired  when the
+  retrieving them via `LLMS_Post_Types::get_rewrite_slugs()`, when
+  registering their post types and taxonomies. This filter is fired  when the
   current locale has been already switched to the site locale.

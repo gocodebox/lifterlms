@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -557,6 +557,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * @since 3.13.0 Unknown.
 	 * @since 5.0.0 Install forms.
 	 * @since 5.2.0 Moved DB update logic to LLMS_Install::run_db_updates().
+	 * @since [version] Save rewrite slugs in the DB.
 	 *
 	 * @return void
 	 */
@@ -578,6 +579,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
+		LLMS_Post_Types::define_rewrite_slugs( true );
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 

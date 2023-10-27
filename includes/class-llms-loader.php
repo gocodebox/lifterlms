@@ -233,7 +233,7 @@ class LLMS_Loader {
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
 	 * @since 7.2.0 Include `LLMS_Shortcodes_Blocks`.
-	 * @since [version] Move `LLMS_Privacy_Component` require to `late_includes()` executed at 'plugins_loaded' action hook.
+	 * @since [version] Move `LLMS_Privacy` require to `late_includes()` executed at 'plugins_loaded' action hook.
 	 *
 	 * @return void
 	 */

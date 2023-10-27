@@ -4,5 +4,5 @@ entry: Added `llms_before_registering_core_post_types`,
   `llms_after_registering_core_post_type`,
   `llms_before_registering_core_taxonomies` and
   `llms_after_registering_core_taxonomies` action hooks. They can be leveraged
-  by third parties as convient points where to add their post types and
+  by third parties as convenient points where to add their post types and
   taxonomies.

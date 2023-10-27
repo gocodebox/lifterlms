@@ -1,0 +1,4 @@
+significance: minor
+type: changed
+entry: Save custom post types and taxonomies rewrite slugs in the db when
+  installing or updating the plugin.

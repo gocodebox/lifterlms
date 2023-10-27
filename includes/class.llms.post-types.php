@@ -33,7 +33,6 @@ class LLMS_Post_Types {
 	 * Reference to the rewrite slugs.
 	 *
 	 * @since [version]
-	 *
 	 * @var array
 	 */
 	private static $rewrite_slugs;
@@ -50,7 +49,6 @@ class LLMS_Post_Types {
 	 */
 	public static function init() {
 
-		add_action( 'init', array( __CLASS__, 'define_rewrite_slugs' ), 0 );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 
@@ -70,7 +68,29 @@ class LLMS_Post_Types {
 	 *
 	 * @return void
 	 */
-	public static function define_rewrite_slugs() {
+	public static function define_rewrite_slugs( $force_update = false ) {
+
+		$saved_slugs  = get_option( 'lifterlms_rewrite_slugs', array() );
+		$force_update = apply_filters( 'lifterlms_rewrite_slugs_force_update', $force_update );
+
+		if ( ! empty( $saved_slugs ) && ! $force_update ) {
+			self::$rewrite_slugs = $saved_slugs;
+		}
+
+		self::$rewrite_slugs = self::get_default_rewrite_slugs();
+
+		update_option( 'lifterlms_rewrite_slugs', self::$rewrite_slugs );
+
+	}
+
+	/**
+	 * Return the rewrite slugs.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public static function get_default_rewrite_slugs() {
 
 		// Make sure rewrite slugs are localized with the site locale.
 		llms_maybe_switch_to_site_locale();
@@ -121,7 +141,7 @@ class LLMS_Post_Types {
 		);
 
 		/**
-		 * Filters the Custom Posty Types and Taxonomies slugs.
+		 * Filters the Custom Post Types and Taxonomies slugs.
 		 *
 		 * At this stage the current locale is the site locale.
 		 *
@@ -130,11 +150,12 @@ class LLMS_Post_Types {
 		 * @param array $slugs Associative array of rewrite slugs. Array key is the content type `post_types|taxonomies`.
 		 *                     Values are associative arrays: keys are `slug|archive_slug` values are the slugs.
 		 */
-		self::$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
+		$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
 
 		// Restore original locale.
 		llms_maybe_restore_previous_locale();
 
+		return $rewrite_slugs;
 	}
 
 	/**
