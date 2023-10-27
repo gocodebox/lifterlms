@@ -74,7 +74,7 @@ Learn more about [the people behind LifterLMS here][team].
 + 186,997 Achievement badges awarded by LifterLMS
 + 310,728 Certificates awarded by LifterLMS
 + Over 10,000 active installs of the WordPress LMS plugin
-+ [296 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [297 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 ### [LifterLMS Features][features]
 
@@ -259,7 +259,32 @@ Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beau
 
 https://www.youtube.com/watch?v=tE1K1FHiYDM
 
-### How To Get Support
+### Why Do People Switch to LifterLMS?
+
+There are several other WordPress LMS plugins like:
+
++ Sensei
++ Tutor LMS
++ WP Courseware
++ Learndash
++ Masterstudy LMS
++ Learndash
++ Academy LMS
++ Namaste LMS
+
+There are some membership plugins that include course features like:
+
++ Paid Memberships Pro (This is a great membership plugin that also integrates with LifterLMS)
++ MemberPress
+
+The main reasons we hear from users who switched to LifterLMS after looking and trying out the [best WordPress LMS plugins](https://lifterlms.com/blog/best-wordpress-lms-plugins/) is that LifterLMS ended up having:
+
++ The best most feature-complete customizable well-coded feature set
++ Outstanding customer support including live calls
++ The free core LifterLMS plugin is amazing making the project affordable
++ Memberships, ecommerce, and gamification included in LifterLMS without the need for 3rd party plugins
+
+### How To Get Support From LifterLMS
 
 **Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team.
 
