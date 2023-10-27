@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -220,6 +220,7 @@ class LLMS_Admin_Assets {
 	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
 	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *              Enqueue reporting scripts on dashboard page.
+	 * @since 7.4.1 Enqueue `postbox` script on the new resources page.
 	 *
 	 * @return void
 	 */
@@ -350,7 +351,7 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
-		} elseif ( 'lifterlms_page_llms-dashboard' === $screen->id ) {
+		} elseif ( in_array( $screen->id, array( 'lifterlms_page_llms-dashboard', 'lifterlms_page_llms-resources' ), true ) ) {
 			wp_enqueue_script( 'postbox' );
 		}
 

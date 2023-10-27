@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  7.2.0
+ * @version  7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  7.2.0
+	 * @version  7.4.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -111,7 +111,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Quiz.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.24.0
+			 * @version  7.4.0
 			 */
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
@@ -157,7 +157,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Schemas/Quiz.js.
 			 *
 			 * @since    3.17.6
-			 * @version  3.24.0
+			 * @version  7.4.0
 			 */
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Description' => esc_html__( 'Description', 'lifterlms' ),
@@ -171,6 +171,9 @@ class LLMS_L10n_JS {
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
 			'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
+			'Question Bank' => esc_html__( 'Question Bank', 'lifterlms' ),
+			'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' => esc_html__( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)', 'lifterlms' ),
+			'Get LifterLMS Advanced Quizzes' => esc_html__( 'Get LifterLMS Advanced Quizzes', 'lifterlms' ),
 
 			/**
 			 * File: assets/js/builder/Views/_Detachable.js.
@@ -289,7 +292,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-admin.js.
 			 *
 			 * @since    Unknown
-			 * @version  6.3.0
+			 * @version  7.3.0
 			 */
 			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
@@ -299,7 +302,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-analytics.js.
 			 *
 			 * @since    3.0.0
-			 * @version  7.2.0
+			 * @version  7.3.0
 			 */
 			'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 			'Error' => esc_html__( 'Error', 'lifterlms' ),
@@ -327,6 +330,9 @@ class LLMS_L10n_JS {
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
 			'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
+			'Question Bank' => esc_html__( 'Question Bank', 'lifterlms' ),
+			'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' => esc_html__( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)', 'lifterlms' ),
+			'Get LifterLMS Advanced Quizzes' => esc_html__( 'Get LifterLMS Advanced Quizzes', 'lifterlms' ),
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
 			'quiz' => esc_html__( 'quiz', 'lifterlms' ),
@@ -388,7 +394,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metabox-product.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.36.3
+			 * @version  7.3.0
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 			'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.' => esc_html__( 'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.', 'lifterlms' ),

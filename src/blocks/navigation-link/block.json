@@ -26,10 +26,12 @@
   "textdomain": "lifterlms",
   "attributes": {
     "label": {
-      "type": "string"
+      "type": "string",
+      "default": "Dashboard"
     },
     "page": {
-      "type": "string"
+      "type": "string",
+      "default": "dashboard"
     },
     "llms_visibility": {
       "type": "string"

@@ -67,10 +67,10 @@ async function getCertificateHTML( templateVersion = 2 ) {
 
 /**
  * Adds various block attributes to block snapshots depending on the WP version.
- * 
+ *
  * WP < 5.8: Adds isStackedOnMobile attribute.
  *
- * WP < 6.0: Adds opacity attribute. 
+ * WP < 6.0: Adds opacity attribute.
  *
  * @since 6.10.0
  *
@@ -102,6 +102,40 @@ function backportBlockAttributes( blocks ) {
 			} );
 		};
 		blocks = backportSeparators( blocks );
+	}
+
+	// On 6.2 and earlier snapshots fail because spacer height is not expressed in pixels.
+	if ( wpVersionCompare( '6.3', '<' ) ) {
+		const backportSpacer = ( blocksList ) => {
+			return blocksList.map( ( block ) => {
+				if ( 'core/spacer' === block.name ) {
+					block.attributes.height = '100px';
+				} else if ( block.innerBlocks.length ) {
+					block.innerBlocks = backportSpacer( block.innerBlocks );
+				}
+				return block;
+			} );
+		};
+		blocks = backportSpacer( blocks );
+	}
+
+	// On 6.1 and earlier snapshots fail because block headings were dynamic blocks and
+	// had the visibility options.
+	if ( wpVersionCompare( '6.2', '<' ) ) {
+		const backportHeadings = ( blocksList ) => {
+			return blocksList.map( ( block ) => {
+				if ( 'core/heading' === block.name ) {
+					delete block.attributes.llms_visibility;
+					delete block.attributes.llms_visibility_in;
+					delete block.attributes.llms_visibility_posts;
+
+				} else if ( block.innerBlocks.length ) {
+					block.innerBlocks = backportHeadings( block.innerBlocks );
+				}
+				return block;
+			} );
+		};
+		blocks = backportHeadings( blocks );
 	}
 
 	return blocks;

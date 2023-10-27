@@ -2,7 +2,7 @@
 /**
  * Product Options Admin Metabox HTML
  *
- * @package  LifterLMS/Admin/Views
+ * @package LifterLMS/Admin/Views
  *
  * @since 3.0.0
  * @since 6.0.0 Fix closing tag inside the `llms-no-plans-msg` div element.

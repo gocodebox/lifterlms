@@ -15,6 +15,7 @@ composer.lock
 /blocks/**/*.js.map
 /assets/css/*.map
 /assets/js/*.map
+/assets/maps/*
 
 # Misc.
 *.log

@@ -1,5 +1,10 @@
 @lifterlms/scripts CHANGELOG
 ============================
+Unreleased
+----------
++ When allow the whole `@lifterlms` package to be transpiled by babel during builds, skip those module's rules which have no loader specified.
+
+
 v4.0.1 - 2023-04-18
 ----------
 

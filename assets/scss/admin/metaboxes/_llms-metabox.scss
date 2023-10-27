@@ -196,6 +196,12 @@
 			&.dashicons-no:hover {
 				color: $color-danger;
 			}
+			&.dashicons-warning.medium-danger {
+				&,
+				&:hover {
+					color: $color-orange;
+				}
+			}
 		}
 
 	}

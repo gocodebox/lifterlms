@@ -686,7 +686,7 @@ function llms_get_instructors_defaults() {
  *
  * @since 5.9.0
  *
- * @param string $type          One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
+ * @param int    $type          One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
  * @param string $variable_name Name of a variable to retrieve.
  * @param int[]  $flags         Array of supported filter options and flags.
  *                              Accepts `FILTER_REQUIRE_ARRAY` in order to require the input to be an array.

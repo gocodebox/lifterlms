@@ -1,6 +1,109 @@
 LifterLMS Changelog
 ===================
 
+v7.4.2 - 2023-10-06
+-------------------
+
+##### Developer Notes
+
++ Fixing issues in the 7.4.1 release.
+
+
+v7.4.1 - 2023-10-06
+-------------------
+
+##### New Features
+
++ Added new admin Resources page.
+
+##### Bug Fixes
+
++ Fixed possible issues when cloning a course containing a quiz built with the Advanced Quizzes addon, after disabling it.
+
+##### Developer Notes
+
++ Moved attempt randomization logic into the new static method `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
++ Added filter hook `llms_quiz_attempt_questions_array` to allow filtering the quiz attempt's question arrays.
+
+
+v7.4.0 - 2023-10-03
+-------------------
+
+##### New Features
+
++ Added method `LLMS_Quiz::get_questions_count()` for getting count of questions.
++ Added support for the upcoming "Question Bank" feature of the LifterLMS Advanced Quizzes add-on.
+
+##### Updates and Enhancements
+
++ Added `nocache_headers()` to prevent browser caching for temporary redirects.
+
+##### Bug Fixes
+
++ Added "Chaiyaphum" province for the Thailand. [#2527](https://github.com/gocodebox/lifterlms/issues/2527)
+
+##### Developer Notes
+
++ Course Builder: Correctly get/set (and track changes of) Backbone's model properties which are objects.
++ Added filter hook `llms_admin_show_header` to allow 3rd parties filtering whether or not to show the branded header in the admin.
++ Added filter `llms_generator_new_post_data`, to allow third parties to filter the data used when creating a new post while cloning/exporting a course or lesson.
++ Abstracted the `LLMS_Admin_Setup_Wizard` class, added the class `LLMS_Abstract_Admin_Wizard`.
++ Added filter `llms_quiz_attempt_questions_randomize` to enable/disable questions randomize.
++ Added filter `llms_quiz_attempt_questions` to modify the questions array for the quiz.
++ Added filter `llms_quiz_questions_count` to filter the quiz's question count.
+
+##### Updated Templates
+
++ [templates/quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/7.4.0/templates/quiz/meta-information.php)
+
+
+v7.3.0 - 2023-08-08
+-------------------
+
+##### Updates and Enhancements
+
++ When a notice is shown for an access plan on the course edit screen (e.g. When using the WooCommerce integration and no product has been associated to the access plan.) Also display a warning icon next to the access plan title.
++ Made sure only who can `view_others_lifterlms_reports` will be able to see the analytics widget content in the WordPress admin.
++ Better rounding of float values on some reporting screens.
++ Avoid creating a post revision when cloning a course/lesson.
++ When creating pages via `llms_create_pages()`: strip all tags from the page title and slash the page data prior to inserting the page in the db via `wp_insert_post()` to prevent slashes from being stripped from the page title.
++ Updated the WordPress tested version up to 6.3.
++ Improved compatibility with the Divi theme by fixing an issue with the quiz attempt result clarifications not being visible when the Divi option `Defer jQuery And jQuery Migrate` was enabled. [#2470](https://github.com/gocodebox/lifterlms/issues/2470)
+
+##### Bug Fixes
+
++ Fix spacer block when creating new certificate templates in WP 6.3.
++ Fixed PHP Warning when no course/membership catalog page was set or if the selected page doesn't exist anymore. [#2496](https://github.com/gocodebox/lifterlms/issues/2496)
++ Don't include WordPress default sidebar.php template when using a block theme. [#2488](https://github.com/gocodebox/lifterlms/issues/2488)
++ Updated Kazakhstani Tenge's currency symbol. [#2475](https://github.com/gocodebox/lifterlms/issues/2475)
++ Make the dashboard widget visible only if the current user has LMS Manager capabilities. [#2500](https://github.com/gocodebox/lifterlms/issues/2500)
++ Fixed issue with LifterLMS Navigation Link block and block visibility settings. [#2474](https://github.com/gocodebox/lifterlms/issues/2474)
++ Use student dashboard as default value for navigation link block. [#2465](https://github.com/gocodebox/lifterlms/issues/2465)
++ Fixed typo in a function name that could potentially produce a fatal. Thanks [@kamalahmed](https://github.com/kamalahmed)!
+
+##### Developer Notes
+
++ Added the parameter `$tab` (ID/slug of the tab) to the `lifterlms_reporting_tab_cap` filter hook. Thanks [@sapayth](https://github.com/sapayth)! [#2468](https://github.com/gocodebox/lifterlms/issues/2468)
++ Added new filter hook `llms_can_analytics_widget_be_processed` that will allow to filter whether or not an analytics widget can be processed/displayed.
++ Added new filter `llms_install_get_pages`.
++ Added new public static method `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()`.
++ Added `llms_dashboard_checklist` and `llms_dashboard_widget_data` filters to adjust dashboard content. [#2491](https://github.com/gocodebox/lifterlms/issues/2491)
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/global/sidebar.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/global/sidebar.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/quiz/results-attempt-questions-list.php)
+
+
+v7.2.1 - 2023-06-13
+-------------------
+
+##### Updates and Enhancements
+
++ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
+
+
 v7.2.0 - 2023-06-07
 -------------------
 
