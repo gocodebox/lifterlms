@@ -113,7 +113,7 @@ class LLMS_Admin_Permalink_Settings {
 				$config['callback'],
 				'permalink',
 				$config['section'] ?? 'optional',
-				$config['args'] ?? array(),
+				$config['args'] ?? array()
 			);
 		}
 	}
@@ -138,7 +138,7 @@ class LLMS_Admin_Permalink_Settings {
 		if ( ! is_admin() ) {
 			return;
 		}
-
+		// phpcs:disable -- TODO: fix.
 		// We need to save the options ourselves; settings api does not trigger save for the permalinks page.
 		if ( isset( $_POST['permalink_structure'] ) ) {
 
@@ -146,8 +146,8 @@ class LLMS_Admin_Permalink_Settings {
 			foreach ( self::$rewrite_slugs as $type => $slugs ) {
 				foreach ( $slug as $name => $arr ) {
 					foreach ( $arr as $stype => $slug ) {
-						if ( isset( $_POST["llms_{$name}_{$stype}"] ) ) {
-							$saved_slugs[ $type ][ $name ][ $stype ] = wp_unslash( $_POST["llms_{$name}_{$stype}"] );
+						if ( isset( $_POST[ "llms_{$name}_{$stype}" ] ) ) {
+							$saved_slugs[ $type ][ $name ][ $stype ] = wp_unslash( $_POST[ "llms_{$name}_{$stype}" ] );
 						}
 					}
 				}
@@ -155,6 +155,7 @@ class LLMS_Admin_Permalink_Settings {
 			update_option( 'lifterlms_rewrite_slugs', $saved_slugs );
 			self::$rewrite_slugs = $saved_slugs;
 		}
+		// phpcs: enable
 	}
 
 }

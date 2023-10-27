@@ -180,7 +180,6 @@ function llms_maybe_restore_previous_locale() {
 		)
 	) {
 
-
 		/**
 		 * Fired before restoring the previous locale.
 		 *
