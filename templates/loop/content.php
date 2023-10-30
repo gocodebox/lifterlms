@@ -2,10 +2,10 @@
 /**
  * The Template for displaying all single courses.
  *
- * @package     LifterLMS/Templates
+ * @package LifterLMS/Templates
  *
- * @since       1.0.0
- * @version     3.14.0
+ * @since 1.0.0
+ * @version 3.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,6 +43,7 @@ defined( 'ABSPATH' ) || exit;
 			 * @hooked lifterlms_template_loop_author - 10
 			 * @hooked lifterlms_template_loop_length - 15
 			 * @hooked lifterlms_template_loop_difficulty - 20
+			 * @hooked lifterlms_template_loop_lesson_count - 22
 			 *
 			 * On Student Dashboard & "Mine" Courses Shortcode
 			 * @hooked lifterlms_template_loop_enroll_status - 25
