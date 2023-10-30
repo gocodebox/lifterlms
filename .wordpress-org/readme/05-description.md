@@ -259,19 +259,20 @@ Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beau
 
 https://www.youtube.com/watch?v=tE1K1FHiYDM
 
-### Why Do People Switch to LifterLMS?
+### Why Do People Switch to LifterLMS From Other WordPress LMS Plugins?
 
 There are several other WordPress LMS plugins like:
 
-+ Sensei
++ Sensei LMS
 + Tutor LMS
 + WP Courseware
 + LearnDash
 + Masterstudy LMS
 + Academy LMS
 + Namaste LMS
++ LearnPress
 
-There are some membership plugins that include course features like:
+There are some membership plugins that include some course features like:
 
 + Paid Memberships Pro (This is a great membership plugin that also integrates with LifterLMS)
 + MemberPress
@@ -282,6 +283,12 @@ The main reasons we hear from users who switched to LifterLMS after looking and 
 + Outstanding customer support including live calls
 + The free core LifterLMS plugin is amazing making the project affordable
 + Memberships, ecommerce, and gamification included in LifterLMS without the need for 3rd party plugins
+
+### What Other Plugins and Themes Are Commonly Used with LifterLMS?
+
+The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and many more.
+
+We do recommend a minimalist approach to plugins and themes, so only install what you absolutely need for your WordPress LMS website. 
 
 ### How To Get Support From LifterLMS
 
