@@ -269,6 +269,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Potentially allow recurring payment to go ahead even if access plans expired.
 	 *
 	 * @param int $order_id WP_Post ID of the LLMS Order.
 	 * @return void
@@ -278,24 +279,48 @@ class LLMS_Controller_Orders {
 		$order            = new LLMS_Order( $order_id );
 		$new_order_status = false;
 
-		// Pending cancel moves to cancelled.
+		// Pending cancel order moves to cancelled.
 		if ( 'llms-pending-cancel' === $order->get( 'status' ) ) {
 
-			$status           = 'cancelled';
+			$status           = 'cancelled'; // Enrollment status.
 			$note             = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
 			$new_order_status = 'cancelled';
 
 			// All others move to expired.
 		} else {
 
-			$status = 'expired';
+			$status = 'expired'; // Enrollment status.
 			$note   = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
 
 		}
 
+		/**
+		 * Filters whether or not recurring payments should be stopped on access plan expiration.
+		 *
+		 * By default when an access plan expires, recurring payments are stopped.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool
+		 * @param LLMS_Order $order             Instance of the order.
+		 * @param mixed      $new_order_status  New order status. If `false` it means that the new order status is not
+		 *                                      going to change. At this stage the orders status is not changed yet.
+		 * @param string     $enrollment_status The new enrollment status. At this stage the enrollment status is not changed yet.
+		 */
+		$unschedule_recurring_payment = apply_filters(
+			'llms_unschedule_recurring_payment_on_access_plan_expiration',
+			true,
+			$order,
+			$new_order_status,
+			$status
+		);
+
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 		$order->add_note( $note );
-		$order->unschedule_recurring_payment();
+
+		if ( $unschedule_recurring_payment ) {
+			$order->unschedule_recurring_payment();
+		}
 
 		if ( $new_order_status ) {
 			$order->set_status( $new_order_status );
