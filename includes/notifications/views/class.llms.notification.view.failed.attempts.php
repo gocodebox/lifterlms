@@ -123,7 +123,7 @@ class LLMS_Notification_View_Failed_Attempts extends LLMS_Abstract_Notification_
 	 * @return string
 	 */
 	protected function set_subject() {
-		return sprintf( __( 'Student %1$s has failed all attempts in %2$s.', 'lifterlms' ), '{{STUDENT_NAME}}', '{{QUIZ_TITLE}}' );
+		return sprintf( __( 'Student %1$s has failed all attempts.', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 
 	/**

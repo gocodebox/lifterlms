@@ -76,10 +76,6 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 				$uid = $this->course->get( 'author' );
 				break;
 
-			case 'student':
-				$uid = $this->user_id;
-				break;
-
 			default:
 				$uid = false;
 
