@@ -238,9 +238,9 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 				 *
 				 * @since [version]
 				 *
-				 * @param int $student_id WP User ID of a LifterLMS Student.
-				 * @param int $course_id  WP Post ID of a LifterLMS Course.
-				 * @param int $quiz_id    WP Post ID of a LifterLMS Quiz.
+				 * @param int $student_id WP User ID of the LifterLMS Student.
+				 * @param int $course_id  WP Post ID of the LifterLMS Course.
+				 * @param int $quiz_id    WP Post ID of the LifterLMS Quiz.
 				 */
 				do_action( 'lifterlms_failed_attempts', $this->get( 'id' ), $quiz->get_course()->get( 'id' ), $quiz->get( 'id' ) );
 			}

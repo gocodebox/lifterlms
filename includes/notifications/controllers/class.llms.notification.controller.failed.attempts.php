@@ -30,7 +30,7 @@ class LLMS_Notification_Controller_Failed_Attempts extends LLMS_Abstract_Notific
 	 * @since [version]
 	 * @var int
 	 */
-	protected $action_accepted_args = 2;
+	protected $action_accepted_args = 3;
 
 	/**
 	 * Action hooks used to trigger sending of the notification.
