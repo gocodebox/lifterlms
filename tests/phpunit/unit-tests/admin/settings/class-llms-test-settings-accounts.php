@@ -48,7 +48,8 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 			$this->factory->post->create( array( 'post_type' => 'page' ) ),
 		);
 
-		return array(
+
+		$settings = array(
 			'lifterlms_myaccount_page_id' => $pages,
 			'lifterlms_myaccount_courses_in_progress_sorting' => array(
 				'title,ASC',
@@ -131,6 +132,12 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'yes',
 			),
 		);
+
+		if ( ! llms_is_favorites_enabled() ) {
+			unset( $settings['lifterlms_myaccount_favorites_endpoint'] );
+		}
+
+		return $settings;
 	}
 
 }
