@@ -27,18 +27,16 @@ function llms_get_object_total_favorites( $object_id = false ) {
 		$object_id = get_the_ID();
 	}
 
-	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$res = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+	$res = $wpdb->get_var(
 		$wpdb->prepare(
-			"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+			"SELECT COUNT(DISTINCT meta_id) FROM {$wpdb->prefix}lifterlms_user_postmeta
 				WHERE post_id = %d AND meta_key = %s ORDER BY updated_date DESC",
 			$object_id,
 			'_favorite'
 		)
-	);
-	// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	); // db call ok; no-cache ok.
 
-	return count( $res );
+	return $res;
 
 }
 
