@@ -398,16 +398,14 @@ if ( ! function_exists( 'llms_template_favorite' ) ) {
 	 */
 	function llms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
 
-		if ( llms_is_favorites_enabled() ) {
-
-			llms_get_template(
-				'course/favorite.php',
-				array(
-					'object_id'   => $object_id,
-					'object_type' => $object_type,
-				)
-			);
-		}
+		llms()->assets->enqueue_script( 'llms-favorites' );
+		llms_get_template(
+			'course/favorite.php',
+			array(
+				'object_id'   => $object_id,
+				'object_type' => $object_type,
+			)
+		);
 	}
 }
 

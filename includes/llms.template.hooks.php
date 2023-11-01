@@ -46,9 +46,12 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
  * Single Lesson
  *
  * @since Unknown
+ * @since [version] Maybe add favorite template.
  */
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_parent_course', 10 );
-add_action( 'lifterlms_single_lesson_before_summary', 'llms_template_favorite', 10 );
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'lifterlms_single_lesson_before_summary', 'llms_template_favorite', 10 );
+}
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
