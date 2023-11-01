@@ -210,7 +210,7 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Add Favorite / Unfavorite Postmeta for an object.
+	 * Add Favorite / Unfavorite postmeta for an object.
 	 *
 	 * @since [version]
 	 *
@@ -238,7 +238,7 @@ class LLMS_AJAX {
 
 		}
 
-		echo json_encode(
+		echo wp_json_encode(
 			array(
 				'total_favorites' => llms_get_object_total_favorites( $object_id ),
 				'success'         => true,

@@ -82,15 +82,13 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		if ( ! llms_get_student() ) {
 
 			printf(
+				// Translators: 1%$s = Opening anchor tag; %2$s = Closing anchor tag.
 				esc_html__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
 				'<a href="' . llms_get_page_url( 'myaccount' ) . '">',
 				'</a>'
 			);
-
 		} else {
-
 			$favorites = $this->get_favorites();
-
 			llms_template_my_favorites_loop( get_current_user_id(), $favorites );
 		}
 
