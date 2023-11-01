@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Added function `llms_template_syllabus_syllabus_lesson_preview`.

@@ -9,7 +9,7 @@
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
- * @since [version] Added Favorites function `llms_template_favorite()`.
+ * @since [version] Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
  * @version [version]
  *
  * @var LLMS_Lesson $lesson        The lesson object.
@@ -46,19 +46,26 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			<?php if ( 'lesson' === get_post_type( get_the_ID() ) ) : ?>
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
-			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ); ?></h5>
 			<?php
 			/**
-			 * Filters the visibility of the Favorite button on the Lessons in Course Syllabus.
+			 * Action fired before the lesson title in the lesson preview template.
 			 *
 			 * @since [version]
 			 *
-			 * @param bool $visibility True to show the Favorite button, false to hide it.
+			 * @param LLMS_Lesson $lesson The lesson's instance.
 			 */
-			$favorite_visibility = apply_filters( 'llms_course_syllabus_lesson_favorite_visibility', true );
-			if ( 'course' === get_post_type( get_the_ID() ) && $favorite_visibility ) :
-				llms_template_favorite( $lesson->get( 'id' ) );
-			endif;
+			do_action( 'llms_lesson_preview_before_title', $lesson )
+			?>
+			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ); ?></h5>
+			<?php
+			/**
+			 * Action fired before the lesson title in the lesson preview template.
+			 *
+			 * @since [version]
+			 *
+			 * @param LLMS_Lesson $lesson The lesson's instance.
+			 */
+			do_action( 'llms_lesson_preview_after_title', $lesson )
 			?>
 			<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>

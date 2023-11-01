@@ -201,6 +201,7 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-quiz' );
 		}
 
+		llms()->assets->register_script( 'llms-favorites' );
 		if ( ( is_lesson() || is_course() ) && true === llms_is_favorites_enabled() ) {
 			llms()->assets->enqueue_script( 'llms-favorites' );
 		}

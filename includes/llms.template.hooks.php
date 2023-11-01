@@ -88,6 +88,15 @@ add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_lesson_c
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 
 /**
+ * Course Syllabus
+ *
+ * @since [version]
+ */
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_syllabus_lesson_preview', 10 );
+}
+
+/**
  * Emails
  *
  * @since Unknown

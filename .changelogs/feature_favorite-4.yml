@@ -1,0 +1,4 @@
+significance: patch
+type: dev
+entry: Added `llms_lesson_preview_before_title` and
+  `llms_lesson_preview_after_title` action hooks.
