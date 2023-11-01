@@ -10,15 +10,8 @@
  * @version [version]
  */
 ( function( $ ) {
-    
-	var favorite = {
 
-		/**
-		 * Main Favorite Container Element.
-		 *
-		 * @type {Object}
-		 */
-		$container: null,
+	var favorite = {
 
 		/**
 		 * Bind DOM events.
@@ -34,8 +27,8 @@
 			// Favorite clicked.
 			$( '.llms-favorite-wrapper' ).on( 'click', function( e ) {
 				e.preventDefault();
-				let $btn = $( this ).find( '.llms-heart-btn' );
-				self.favorite( $btn );
+				var $btn = $( this ).find( '.llms-heart-btn' );
+				$btn && self.favorite( $btn );
 			} );
 
 			// Adding class in Favorite's parent.
@@ -47,16 +40,13 @@
 		 * Favorite / Unfavorite an object.
 		 *
 		 * @since [version]
-		 * 
+		 *
 		 * @param {Object} $btn jQuery object for the "Favorite / Unfavorite" button.
 		 * @return {Void}
 		 */
 		favorite: function( $btn ) {
 
-			this.$container = $btn.closest( '.llms-favorite-wrapper' );
-
-			var self 		= this,
-				object_id 	= $btn.attr( 'data-id' ),
+			var object_id 	= $btn.attr( 'data-id' ),
 				object_type = $btn.attr( 'data-type' ),
 				user_action	= $btn.attr( 'data-action' );
 
@@ -69,32 +59,30 @@
 				},
 				beforeSend: function() {},
 				success: function( r ) {
-					
+					/**
+					 * Get all the favorite buttons on the page related to the same lesson, e.g. when the syllabus
+					 * is shown on the sidebar of a lesson or a course, in that case you will have the same favorite
+					 * button twice. The code below makes sure both the buttons are updated.
+					 */
+					var $fav_btns = $( '[data-id='+object_id+'][data-type='+object_type+'][data-action='+user_action+']' );
 					if( r.success ) {
-
-						if( 'favorite' === user_action ) {
-
-							$btn.removeClass( 'fa-heart-o' ).addClass( 'fa-heart' );
-							$( $btn ).attr( 'data-action', 'unfavorite' );
-
-						} else if ( 'unfavorite' === user_action ) {
-
-							$btn.removeClass( 'fa-heart' ).addClass( 'fa-heart-o' );
-							$( $btn ).attr( 'data-action', 'favorite' );
-
-						}
-
-						// Updating count.
-						self.$container.find( '.llms-favorites-count' ).text( r.total_favorites );
-
+						$fav_btns.each(
+							function() {
+								if( 'favorite' === user_action ) {
+									$(this).removeClass( 'fa-heart-o' ).addClass( 'fa-heart' );
+									$(this).attr( 'data-action', 'unfavorite' );
+								} else if ( 'unfavorite' === user_action ) {
+									$(this).removeClass( 'fa-heart' ).addClass( 'fa-heart-o' );
+									$(this).attr( 'data-action', 'favorite' );
+								}
+								// Updating count.
+								$(this).closest( '.llms-favorite-wrapper' ).find( '.llms-favorites-count' ).text( r.total_favorites );
+							}
+						);
 					}
-
 				}
-
 			} );
-
 		}
-
 	};
 
 	favorite.bind();
