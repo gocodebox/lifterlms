@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +45,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @since 3.13.0 Unknown.
 	 * @since 5.6.0 use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
 	 *              Add content protection setting.
-	 * @since [version] Added settings for enabling/disabling favorites.
 	 *
 	 * @return array
 	 */
@@ -71,14 +70,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
 				LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
 			),
-		);
-
-		$settings[] = array(
-			'title'   => __( 'Lesson Favorites', 'lifterlms' ),
-			'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
-			'id'      => 'lifterlms_favorites',
-			'default' => 'no',
-			'type'    => 'checkbox',
 		);
 
 		$settings[] = array(
