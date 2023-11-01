@@ -418,7 +418,7 @@ if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
 	 *
 	 * @return void
 	 */
-	function llms_template_syllabus_syllabus_lesson_preview( $lesson ) {
+	function llms_template_syllabus_favorite_lesson_preview( $lesson ) {
 		if ( 'course' === get_post_type( get_the_ID() ) ) {
 			llms_template_favorite( $lesson->get( 'id' ) );
 		}

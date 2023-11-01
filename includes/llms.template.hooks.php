@@ -93,7 +93,7 @@ add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
  * @since [version]
  */
 if ( llms_is_favorites_enabled() ) {
-	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_syllabus_lesson_preview', 10 );
+	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_favorite_lesson_preview', 10 );
 }
 
 /**
