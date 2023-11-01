@@ -270,23 +270,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $order_by Result set ordering field. Default "date".
+	 * @param string $order_by Result set ordering field. Default "updated_date".
 	 * @param string $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
-	 * @param int    $limit    Number of favorites to return.
+	 * @param int    $limit    Number of favorites to return. Default is infinite.
 	 * @return bool|array
 	 */
-	public function get_favorites( $order_by = '', $order = '', $limit = '' ) {
+	public function get_favorites( $order_by = 'updated_date', $order = 'DESC', $limit = -1 ) {
 
 		global $wpdb;
 
-		$order_by = ( '' === $order_by ) ? '' : 'ORDER BY ' . $order_by;
-		$limit    = ( '' === $limit ) ? '' : 'LIMIT ' . $limit;
+		$limit_clause = $limit < 1 ? '' : "LIMIT 0, {$limit}";
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d $order_by $order $limit",
+					WHERE meta_key = %s AND user_id = %d ORDER BY {$order_by} {$order} {$limit_clause};",
 				'_favorite',
 				get_current_user_id()
 			)
