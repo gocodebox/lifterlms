@@ -618,14 +618,6 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 			return;
 		}
 
-		$more = false;
-		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-favorites' ) ) {
-			$more = array(
-				'url'  => llms_get_endpoint_url( 'view-favorites', '', llms_get_page_url( 'myaccount' ) ),
-				'text' => esc_html__( 'View All My Favorites', 'lifterlms' ),
-			);
-		}
-
 		ob_start();
 		llms_template_my_favorites_loop( $student );
 
@@ -635,8 +627,7 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 				'action'  => 'my_favorites',
 				'slug'    => 'llms-my-favorites',
 				'title'   => $preview ? esc_html__( 'My Favorites', 'lifterlms' ) : '',
-				'content' => ob_get_clean(),
-				'more'    => $more,
+				'content' => ob_get_clean()
 			)
 		);
 
