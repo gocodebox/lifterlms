@@ -622,11 +622,8 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 		llms_template_my_favorites_loop( $student );
 
 		llms_get_template(
-			'myaccount/dashboard-section.php',
+			'myaccount/my-favorites.php',
 			array(
-				'action'  => 'my_favorites',
-				'slug'    => 'llms-my-favorites',
-				'title'   => $preview ? esc_html__( 'My Favorites', 'lifterlms' ) : '',
 				'content' => ob_get_clean(),
 			)
 		);
