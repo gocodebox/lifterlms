@@ -26,7 +26,7 @@ class LLMS_Admin_Permalink_Settings {
 	private static $rewrite_slugs = array();
 
 	/**
-	 * Constructor,
+	 * Constructor.
 	 *
 	 * @since [version]
 	 *
