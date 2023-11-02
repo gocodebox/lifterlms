@@ -608,10 +608,9 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 	 *
 	 * @since [version]
 	 *
-	 * @param bool $preview Optional. If true, outputs a short list of favorites. Default `false`.
 	 * @return void
 	 */
-	function llms_template_student_dashboard_my_favorites( $preview = false ) {
+	function llms_template_student_dashboard_my_favorites() {
 
 		$student = llms_get_student();
 
