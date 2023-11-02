@@ -12,11 +12,20 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-global $post;
+$lesson = null;
+if ( 'lesson' === $object_type ) {
+	global $post;
+	$lesson = llms_get_post( empty( $object_id ) ? $post : $object_id );
+}
 
-$lesson          = new LLMS_Lesson( empty( $object_id ) ? $post->ID : $object_id );
-$student         = llms_get_student( get_current_user_id() );
-$total_favorites = llms_get_object_total_favorites( $lesson->get( 'id' ) );
+if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+	return;
+}
+
+$total_favorites   = llms_get_object_total_favorites( $lesson->get( 'id' ) );
+$student           = llms_get_student( get_current_user_id() );
+$is_favorite       = $student && $student->is_favorite( $lesson->get( 'id' ), 'lesson' );
+$can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->get( 'id' ) ) ) || $lesson->is_free() );
 ?>
 
 <div class="llms-favorite-wrapper">
@@ -33,13 +42,13 @@ $total_favorites = llms_get_object_total_favorites( $lesson->get( 'id' ) );
 	do_action( 'llms_before_favorite_button', $lesson, $student );
 	?>
 
-	<?php if ( ! is_user_logged_in() ) { ?>
+	<?php if ( ! is_user_logged_in() || ( ! $can_mark_favorite && ! $is_favorite ) ) { ?>
 
 		<i class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
 
 	<?php } else { ?>
 
-		<?php if ( $student->is_favorite( $lesson->get( 'id' ), 'lesson' ) ) : ?>
+		<?php if ( $is_favorite ) : ?>
 
 			<i data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
 
