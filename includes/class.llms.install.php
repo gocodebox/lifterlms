@@ -579,7 +579,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
-		LLMS_Post_Types::define_rewrite_slugs( true );
+		LLMS_Post_Types::maybe_save_rewrite_slugs();
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 

@@ -1,5 +1,5 @@
 significance: patch
 type: dev
-entry: Added static methods `LLMS_Post_Types::define_rewrite_slugs`,
+entry: Added static methods `LLMS_Post_Types::maybe_save_rewrite_slugs`,
   `LLMS_Post_Types::get_rewrite_slugs`,
   `LLMS_Post_Types::get_default_rewrite_slugs`.

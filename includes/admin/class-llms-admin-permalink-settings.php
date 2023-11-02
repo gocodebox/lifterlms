@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Admin_Permalink_Settings class.
+ * LLMS_Admin_Permalink_Settings class
  *
  * @package LifterLMS/Admin/Classes
  *
@@ -11,14 +11,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Permalink Settings
+ * Admin Permalink Settings.
  *
  * @since [version]
  */
 class LLMS_Admin_Permalink_Settings {
 
 	/**
-	 * Permalink settings.
+	 * Rewrite slugs.
 	 *
 	 * @since [version]
 	 * @var array
@@ -47,11 +47,84 @@ class LLMS_Admin_Permalink_Settings {
 	public static function init() {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
+
 		self::$rewrite_slugs = LLMS_Post_Types::get_rewrite_slugs();
 
 		$setting_fields = array(
+			'llms_course_slug'              => array(
+				'label'    => esc_html__( 'Course Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'course',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_membership_slug'          => array(
+				'label'    => esc_html__( 'Membership Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'llms_membership',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_lesson_slug'              => array(
+				'label'    => esc_html__( 'Lesson Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'lesson',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_quiz_slug'                => array(
+				'label'    => esc_html__( 'Quiz Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'llms_quiz',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_certificate_slug'         => array(
+				'label'    => esc_html__( 'Certificate Template Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'llms_certificate',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_mycertificate_slug'       => array(
+				'label'    => esc_html__( 'Earned Certificate Post Type', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'llms_my_certificate',
+					'type'  => 'post_types',
+					'field' => 'slug',
+				),
+			),
+			'llms_course_archive_slug'      => array(
+				'label'    => esc_html__( 'Course Archive base', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'course',
+					'type'  => 'post_types',
+					'field' => 'archive',
+				),
+			),
+			'llms_membership_archive_slug'  => array(
+				'label'    => esc_html__( 'Membership Archive base', 'lifterlms' ),
+				'callback' => array( __CLASS__, 'render_slug_input' ),
+				'args'     => array(
+					'name'  => 'llms_membership',
+					'type'  => 'post_types',
+					'field' => 'archive',
+				),
+			),
 			'llms_course_category_slug'     => array(
-				'label'    => esc_html__( 'Course category base', 'lifterlms' ),
+				'label'    => esc_html__( 'Course Category base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'course_cat',
@@ -60,7 +133,7 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 			'llms_course_tag_slug'          => array(
-				'label'    => esc_html__( 'Course tag base', 'lifterlms' ),
+				'label'    => esc_html__( 'Course Tag base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'course_tag',
@@ -69,7 +142,7 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 			'llms_course_track_slug'        => array(
-				'label'    => esc_html__( 'Course track base', 'lifterlms' ),
+				'label'    => esc_html__( 'Course Track base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'course_track',
@@ -78,7 +151,7 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 			'llms_course_difficulty_slug'   => array(
-				'label'    => esc_html__( 'Course difficulty base', 'lifterlms' ),
+				'label'    => esc_html__( 'Course Difficulty base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'course_difficulty',
@@ -87,7 +160,7 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 			'llms_membership_category_slug' => array(
-				'label'    => esc_html__( 'Membership category base', 'lifterlms' ),
+				'label'    => esc_html__( 'Membership Category base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'membership_cat',
@@ -96,7 +169,7 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 			'llms_membership_tag_slug'      => array(
-				'label'    => esc_html__( 'Membership tag base', 'lifterlms' ),
+				'label'    => esc_html__( 'Membership Tag base', 'lifterlms' ),
 				'callback' => array( __CLASS__, 'render_slug_input' ),
 				'args'     => array(
 					'name'  => 'membership_tag',
@@ -105,6 +178,27 @@ class LLMS_Admin_Permalink_Settings {
 				),
 			),
 		);
+
+		// If the courses catalog is a static page, remove the related archive settings.
+		$course_catalog_id = llms_get_page_id( 'shop' );
+		if ( $course_catalog_id && get_post( $course_catalog_id ) ) {
+			unset( $setting_fields['llms_course_archive_slug'] );
+		}
+
+		// If the memberships catalog is a static page, remove the related archive settings.
+		$memberships_catalog_id = llms_get_page_id( 'memberships' );
+		if ( $memberships_catalog_id && get_post( $course_catalog_id ) ) {
+			unset( $setting_fields['llms_membership_archive_slug'] );
+		}
+
+		/**
+		 * Filters the permalink settings fields.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $settings_fields Configuration used to generate the LifterLMS related permalink fields.
+		 */
+		$setting_fields = apply_filters( 'llms_permalink_settings_fields', $setting_fields );
 
 		foreach ( $setting_fields as $field_name => $config ) {
 			add_settings_field(
@@ -122,40 +216,56 @@ class LLMS_Admin_Permalink_Settings {
 	 * Render a slug input.
 	 *
 	 * @since [version]
+	 *
+	 * @param array $args Array of arguments.
 	 */
 	public static function render_slug_input( $args ) {
+
 		$name  = $args['name'] ?? '';
 		$value = self::$rewrite_slugs[ $args['type'] ][ $args['name'] ][ $args['field'] ] ?? '';
 		?>
-		<input name="<?php echo "llms_{$args['name']}_{$args['field']}"; ?>" type="text" class="regular-text code" value="<?php echo esc_attr( $value ); ?>" />
+		<input
+			name="<?php echo esc_attr( "llms_{$args['name']}_{$args['field']}" ); ?>"
+			type="text"
+			class="regular-text code"
+			value="<?php echo esc_attr( $value ); ?>" />
 		<?php
+
 	}
 
 	/**
 	 * Save the settings.
 	 */
 	public static function save() {
-		if ( ! is_admin() ) {
-			return;
-		}
-		// phpcs:disable -- TODO: fix.
+
 		// We need to save the options ourselves; settings api does not trigger save for the permalinks page.
 		if ( isset( $_POST['permalink_structure'] ) ) {
 
-			$saved_slugs = (array) get_option( 'lifterlms_rewrite_slugs', array() );
+			check_admin_referer( 'update-permalink' );
+
 			foreach ( self::$rewrite_slugs as $type => $slugs ) {
-				foreach ( $slug as $name => $arr ) {
+				foreach ( $slugs as $name => $arr ) {
 					foreach ( $arr as $stype => $slug ) {
-						if ( isset( $_POST[ "llms_{$name}_{$stype}" ] ) ) {
-							$saved_slugs[ $type ][ $name ][ $stype ] = wp_unslash( $_POST[ "llms_{$name}_{$stype}" ] );
+						if ( ! empty( $_POST[ "llms_{$name}_{$stype}" ] ) ) {
+
+							$to_save = sanitize_text_field( wp_unslash( $_POST[ "llms_{$name}_{$stype}" ] ) );
+
+							self::$rewrite_slugs[ $type ][ $name ][ $stype ] =
+								rtrim(
+									ltrim(
+										str_replace( '#', '', $to_save ),
+										'/\\'
+									),
+									'/\\'
+								);
 						}
 					}
 				}
 			}
-			update_option( 'lifterlms_rewrite_slugs', $saved_slugs );
-			self::$rewrite_slugs = $saved_slugs;
+			update_option( 'lifterlms_rewrite_slugs', self::$rewrite_slugs );
+
 		}
-		// phpcs: enable
+
 	}
 
 }

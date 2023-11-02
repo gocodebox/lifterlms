@@ -61,25 +61,61 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Define rewrite slugs used when registering post types and taxonomies.
+	 * Save rewrite slugs in the DB used when registering post types and taxonomies.
+	 *
+	 * By default only saved if not empty in the DB.
+	 * Unless the `$force_update` parameter is set to `true`.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $force_update Force update.
+	 * @return void
+	 */
+	public static function maybe_save_rewrite_slugs( $force_update = false ) {
+
+		$saved_slugs = (array) get_option( 'lifterlms_rewrite_slugs', array() );
+		/**
+		 * Filter whether or not force the update of the rewrite slugs.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $force_update Force update.
+		 */
+		$force_update = apply_filters( 'lifterlms_rewrite_slugs_force_update', $force_update );
+		if ( ! empty( $saved_slugs ) && ! $force_update ) {
+			return;
+		}
+
+		update_option( 'lifterlms_rewrite_slugs', self::get_rewrite_slugs() );
+
+	}
+
+	/**
+	 * Set rewrite slugs used when registering post types and taxonomies.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public static function define_rewrite_slugs( $force_update = false ) {
+	private static function set_rewrite_slugs() {
 
-		$saved_slugs  = (array) get_option( 'lifterlms_rewrite_slugs', array() );
-		$force_update = apply_filters( 'lifterlms_rewrite_slugs_force_update', $force_update );
+		$saved_slugs         = (array) get_option( 'lifterlms_rewrite_slugs', array() );
+		$default_slugs       = (array) self::get_default_rewrite_slugs();
+		self::$rewrite_slugs = array_replace_recursive(
+			$default_slugs,
+			$saved_slugs
+		);
 
-		if ( ! empty( $saved_slugs ) && ! $force_update ) {
-			self::$rewrite_slugs = $saved_slugs;
-			return;
+		// Add back all the missing default values.
+		foreach ( self::$rewrite_slugs as $type => $slugs ) {
+			foreach ( $slugs as $name => $arr ) {
+				foreach ( $arr as $slug_type => $slug ) {
+					if ( empty( $slug ) && ! empty( $default_slugs[ $type ][ $name ][ $slug_type ] ) ) {
+						self::$rewrite_slugs[ $type ][ $name ][ $slug_type ] = $default_slugs[ $type ][ $name ][ $slug_type ];
+					}
+				}
+			}
 		}
-
-		self::$rewrite_slugs = self::get_default_rewrite_slugs();
-
-		update_option( 'lifterlms_rewrite_slugs', self::$rewrite_slugs );
 
 	}
 
@@ -150,7 +186,7 @@ class LLMS_Post_Types {
 		 * @param array $slugs Associative array of rewrite slugs. Array key is the content type `post_types|taxonomies`.
 		 *                     Values are associative arrays: keys are `slug|archive_slug` values are the slugs.
 		 */
-		$rewrite_slugs = apply_filters( 'llms_rewrite_slugs', $rewrite_slugs );
+		$rewrite_slugs = apply_filters( 'llms_default_rewrite_slugs', $rewrite_slugs );
 
 		// Restore original locale.
 		llms_maybe_restore_previous_locale();
@@ -167,7 +203,7 @@ class LLMS_Post_Types {
 	 */
 	public static function get_rewrite_slugs() {
 		if ( ! isset( self::$rewrite_slugs ) ) {
-			self::define_rewrite_slugs();
+			self::set_rewrite_slugs();
 		}
 
 		return self::$rewrite_slugs;
