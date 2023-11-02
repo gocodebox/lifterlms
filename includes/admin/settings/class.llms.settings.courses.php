@@ -82,7 +82,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'title'   => __( 'Lesson Favorites', 'lifterlms' ),
 					'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
 					'id'      => 'lifterlms_favorites',
-					'default' => 'no',
+					'default' => 'yes',
 					'type'    => 'checkbox',
 				),
 
