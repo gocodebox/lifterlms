@@ -1,0 +1,6 @@
+significance: minor
+type: dev
+links:
+  - "#2191"
+entry: Added two new filters namely `llms_pending_orders_deletion_interval` and
+  `llms_inactive_accounts_deletion_interval` for updating deletion interval.

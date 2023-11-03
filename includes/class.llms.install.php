@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,7 +35,7 @@ class LLMS_Install {
 	public static $background_updater;
 
 	/**
-	 * Initialize the install class
+	 * Initialize the install class.
 	 *
 	 * Hooks all actions.
 	 *
@@ -57,7 +57,7 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Checks the current LLMS version and runs installer if required
+	 * Checks the current LLMS version and runs installer if required.
 	 *
 	 * @since 3.0.0
 	 *
@@ -72,12 +72,13 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Create LifterLMS cron jobs
+	 * Create LifterLMS cron jobs.
 	 *
 	 * @since 1.0.0
 	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
 	 * @since 4.0.0 Add expired session cleanup.
 	 * @since 4.5.0 Add log backup cron.
+	 * @since [version] Add pending orders and inactive accounts deletion cron.
 	 *
 	 * @return void
 	 */
@@ -85,6 +86,7 @@ class LLMS_Install {
 
 		$crons = array(
 			array(
+				'hook'     => 'llms_backup_logs',
 				/**
 				 * Filter the recurrence interval at which files in the LifterLMS logs are scanned and backed up.
 				 *
@@ -94,10 +96,10 @@ class LLMS_Install {
 				 *
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
 				 */
-				'hook'     => 'llms_backup_logs',
 				'interval' => apply_filters( 'llms_backup_logs_interval', 'daily' ),
 			),
 			array(
+				'hook'     => 'llms_cleanup_tmp',
 				/**
 				 * Filter the recurrence interval at which files in the LifterLMS tmp directory are cleaned.
 				 *
@@ -107,7 +109,6 @@ class LLMS_Install {
 				 *
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
 				 */
-				'hook'     => 'llms_cleanup_tmp',
 				'interval' => apply_filters( 'llms_cleanup_tmp_interval', 'daily' ),
 			),
 			array(
@@ -135,6 +136,32 @@ class LLMS_Install {
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
 				 */
 				'interval' => apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' ),
+			),
+			array(
+				'hook'     => 'llms_delete_pending_orders',
+				/**
+				 * Filter the recurrence interval at which pending orders are deleted.
+				 *
+				 * @since [version]
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'interval' => apply_filters( 'llms_pending_orders_deletion_interval', 'daily' ),
+			),
+			array(
+				'hook'     => 'llms_delete_inactive_accounts',
+				/**
+				 * Filter the recurrence interval at which inactive accounts are deleted.
+				 *
+				 * @since [version]
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'interval' => apply_filters( 'llms_inactive_accounts_deletion_interval', 'daily' ),
 			),
 		);
 

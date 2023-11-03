@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 5.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +46,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 *              Reorganized open registration setting.
 	 *              Renamed "User Information Options" to "User Privacy Options".
 	 * @since 5.6.0 Added options to disable concurrent logins.
+	 * @since [version] Added options for pending orders and inactive accounts retention.
 	 *
 	 * @return array
 	 */
@@ -336,6 +337,25 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'desc'     => __( 'When enabled all student data related to course and membership activities will be removed.', 'lifterlms' ),
 					'title'    => __( 'Remove Student LMS Data', 'lifterlms' ),
 					'type'     => 'checkbox',
+				),
+				array(
+					'title' => __( 'Data Retention', 'lifterlms' ),
+					'desc'  => __( 'Choose how long to retain abandoned orders and inactive user accounts.' ),
+					'type'  => 'subtitle',
+				),
+				array(
+					'title' => __( 'Retaining Pending Orders', 'lifterlms' ),
+					'class' => 'tiny',
+					'desc'  => __( 'Hold pending orders for x days. When this limit is reached, the pending orders will be deleted. Leave blank to disable.', 'lifterlms' ),
+					'id'    => 'lifterlms_pending_orders_deletion',
+					'type'  => 'number',
+				),
+				array(
+					'title' => __( 'Retaining Inactive Accounts', 'lifterlms' ),
+					'class' => 'tiny',
+					'desc'  => __( 'Hold inactive student accounts (with no associated enrollments) for x days. When this limit is reached, the inactive student accounts will be deleted. Leave blank to disable.', 'lifterlms' ),
+					'id'    => 'lifterlms_inactive_accounts_deletion',
+					'type'  => 'number',
 				),
 				array(
 					'id'   => 'user_info_field_options_end',
