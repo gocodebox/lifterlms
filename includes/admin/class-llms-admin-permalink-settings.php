@@ -26,7 +26,7 @@ class LLMS_Admin_Permalink_Settings {
 	private static $rewrite_slugs = array();
 
 	/**
-	 * Constructor,
+	 * Constructor.
 	 *
 	 * @since [version]
 	 *
@@ -48,7 +48,7 @@ class LLMS_Admin_Permalink_Settings {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 
-		self::$rewrite_slugs = LLMS_Post_Types::get_rewrite_slugs();
+		self::$rewrite_slugs = LLMS_Post_Types::get_rewrite_slugs( true, false );
 
 		$setting_fields = array(
 			'llms_course_slug'              => array(

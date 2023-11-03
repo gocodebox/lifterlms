@@ -73,7 +73,7 @@ class LLMS_Post_Types {
 	 */
 	public static function maybe_save_rewrite_slugs( $force_update = false ) {
 
-		$saved_slugs = (array) get_option( 'lifterlms_rewrite_slugs', array() );
+		$saved_slugs = array_filter( (array) get_option( 'lifterlms_rewrite_slugs', array() ) );
 		/**
 		 * Filter whether or not force the update of the rewrite slugs.
 		 *
@@ -86,7 +86,7 @@ class LLMS_Post_Types {
 			return;
 		}
 
-		update_option( 'lifterlms_rewrite_slugs', self::get_rewrite_slugs() );
+		update_option( 'lifterlms_rewrite_slugs', self::get_rewrite_slugs( true, false ) );
 
 	}
 
@@ -95,28 +95,32 @@ class LLMS_Post_Types {
 	 *
 	 * @since [version]
 	 *
+	 * @param bool $merge_defaults Whether or not merging defaults. By default they are merged
+	 *                             only if the db option is empty.
 	 * @return void
 	 */
-	private static function set_rewrite_slugs() {
+	private static function set_rewrite_slugs( $merge_defaults = false ) {
 
-		$saved_slugs         = (array) get_option( 'lifterlms_rewrite_slugs', array() );
-		$default_slugs       = (array) self::get_default_rewrite_slugs();
-		self::$rewrite_slugs = array_replace_recursive(
-			$default_slugs,
-			$saved_slugs
-		);
+		self::$rewrite_slugs = array_filter( (array) get_option( 'lifterlms_rewrite_slugs', array() ) );
+		if ( empty( self::$rewrite_slugs ) || $merge_defaults ) {
 
-		// Add back all the missing default values.
-		foreach ( self::$rewrite_slugs as $type => $slugs ) {
-			foreach ( $slugs as $name => $arr ) {
-				foreach ( $arr as $slug_type => $slug ) {
-					if ( empty( $slug ) && ! empty( $default_slugs[ $type ][ $name ][ $slug_type ] ) ) {
-						self::$rewrite_slugs[ $type ][ $name ][ $slug_type ] = $default_slugs[ $type ][ $name ][ $slug_type ];
+			$default_slugs       = (array) self::get_default_rewrite_slugs();
+			self::$rewrite_slugs = array_replace_recursive(
+				$default_slugs,
+				self::$rewrite_slugs
+			);
+
+			// Add back all the missing default values.
+			foreach ( self::$rewrite_slugs as $type => $slugs ) {
+				foreach ( $slugs as $name => $arr ) {
+					foreach ( $arr as $slug_type => $slug ) {
+						if ( empty( $slug ) && ! empty( $default_slugs[ $type ][ $name ][ $slug_type ] ) ) {
+							self::$rewrite_slugs[ $type ][ $name ][ $slug_type ] = $default_slugs[ $type ][ $name ][ $slug_type ];
+						}
 					}
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -199,11 +203,14 @@ class LLMS_Post_Types {
 	 *
 	 * @since [version]
 	 *
+	 * @param bool $merge_defaults Whether or not merging defaults. By default they are merged
+	 *                             only if the db option is empty.
+	 * @param bool $use_cache      Whether or not using the cached rewrite slugs.
 	 * @return array
 	 */
-	public static function get_rewrite_slugs() {
-		if ( ! isset( self::$rewrite_slugs ) ) {
-			self::set_rewrite_slugs();
+	public static function get_rewrite_slugs( $merge_defaults = false, $use_cache = true ) {
+		if ( ! isset( self::$rewrite_slugs ) || ! $use_cache ) {
+			self::set_rewrite_slugs( $merge_defaults );
 		}
 
 		return self::$rewrite_slugs;
