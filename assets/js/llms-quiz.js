@@ -472,6 +472,12 @@
 				self.previous_question();
 			} );
 
+			// Bind exit event for quiz.
+			$( '#llms-quiz-nav' ).on( 'click', '#llms-exit-quiz', function( e ) {
+				e.preventDefault();
+				window.location.reload();
+			} );
+
 			if ( 'quiz_resume' === action ) {
 				data = {
 					action: 'quiz_resume',
@@ -513,6 +519,11 @@
 							r.data.question_ids.forEach( id => self.questions[`q-${id}`] = '' );
 						} else if ( r.data.time_limit ) {
 							self.start_quiz_timer( r.data.time_limit );
+						}
+
+						// Adding Exit Button in Layout if quiz is resumable.
+						if ( self.resumable ) {
+							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
 						}
 
 						self.load_question( r.data.html );
