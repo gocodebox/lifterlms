@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,6 +78,7 @@ class LLMS_Admin_Notices {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Added "flash" option.
+	 * @since [version] Added "icon" option.
 	 *
 	 * @param string $notice_id       Unique id of the notice.
 	 * @param string $html_or_options Html content of the notice for short notices that don't need a template
@@ -115,7 +116,8 @@ class LLMS_Admin_Notices {
 				'type'             => 'info', // Info, warning, success, error.
 				'template'         => false, // Template name, eg "admin/notices/notice.php".
 				'template_path'    => '', // Allow override of default llms()->template_path().
-				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
+				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass its own path in here.
+				'icon'             => 'lifterlms', // Accepts any Dashicon class name.
 			)
 		);
 
@@ -300,52 +302,44 @@ class LLMS_Admin_Notices {
 	 * @since 3.7.4 Unknown.
 	 * @since 5.2.0 Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
 	 * @since 5.3.1 Delete empty notices and do not display them.
+	 * @since [version] Move HTML to `admin/notices/notice.php` template.
 	 *
-	 * @param string $notice_id Notice id.
+	 * @param string $id Notice id.
 	 * @return void
 	 */
-	public static function output_notice( $notice_id ) {
+	public static function output_notice( string $id ) {
 
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
-			$notice = self::get_notice( $notice_id );
+		$notice = self::get_notice( $id );
 
-			// Don't output those rogue empty notices I can't find.
-			// @todo find the source.
-			if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
-				self::delete_notice( $notice_id );
+		// Don't output those rogue empty notices I can't find.
+		// @todo find the source.
+		if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
+			self::delete_notice( $id );
 
-				return;
-			}
-			?>
-			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<div class="llms-admin-notice-icon"></div>
-				<div class="llms-admin-notice-content">
-					<?php if ( $notice['dismissible'] ) : ?>
-						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
-							<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
-						</a>
-					<?php endif; ?>
-					<?php if ( ! empty( $notice['template'] ) ) : ?>
+			return;
+		}
 
-						<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
+		$notice['id']          = $id;
+		$notice['icon']        = $notice['icon'] ?? $notice['dashicon'] ?? 'lifterlms';
+		$notice['dismiss_url'] = wp_nonce_url(
+			add_query_arg( 'llms-hide-notice', $id ),
+			'llms_hide_notices_nonce',
+			'_llms_notice_nonce'
+		);
+		$notice['remind_url']  = wp_nonce_url(
+			add_query_arg( 'llms-remind-notice', $id ),
+			'llms_hide_notices_nonce',
+			'_llms_notice_nonce'
+		);
 
-					<?php elseif ( ! empty( $notice['html'] ) ) : ?>
+		llms_get_template( 'admin/notices/notice.php', $notice );
 
-						<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
-
-					<?php endif; ?>
-
-					<?php if ( $notice['remindable'] ) : ?>
-						<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
-					<?php endif; ?>
-				</div>
-			</div>
-			<?php
-
-			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
-				self::delete_notice( $notice_id, 'delete' );
-			}
+		if ( isset( $notice['flash'] ) && $notice['flash'] ) {
+			self::delete_notice( $id, 'delete' );
 		}
 
 	}

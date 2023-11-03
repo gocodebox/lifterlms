@@ -16,6 +16,7 @@ const { resolve } = require( 'path' ),
 			'admin-addons',
 			'admin-award-certificate',
 			'admin-certificate-editor',
+			'admin-notifications',
 			'quill-wordcount',
 
 			// Module packages.
@@ -24,7 +25,7 @@ const { resolve } = require( 'path' ),
 			'spinner',
 			'utils',
 		],
-		css: [ 
+		css: [
 			'admin-addons'
 		],
 	} );
@@ -46,7 +47,7 @@ config.plugins.push( new CleanWebpackPlugin( {
 
 // config.entry.fontawesome = resolve( './src/scss/fontawesome.scss' );
 
-module.exports = [ 
+module.exports = [
 	blocksConfig,
 	config
 ];
