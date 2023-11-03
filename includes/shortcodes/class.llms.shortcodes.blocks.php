@@ -94,6 +94,12 @@ class LLMS_Shortcodes_Blocks {
 			'course-syllabus'      => array(
 				'render' => array( 'LLMS_Shortcode_Course_Syllabus', 'output' ),
 			),
+			'dashboard' => array(
+				'render' => array( 'LLMS_Shortcode_Dashboard', 'output' ),
+			),
+			'dashboard-section' => array(
+				'render' => array( 'LLMS_Shortcode_Dashboard', 'output' ),
+			),
 			'login'                => array(
 				'render' => array( 'LLMS_Shortcodes', 'login' ),
 			),
@@ -240,7 +246,11 @@ class LLMS_Shortcodes_Blocks {
 			$args[] = $text;
 		}
 
-		$html = call_user_func( $render, ...$args );
+		if ( $content ) {
+			$html = call_user_func_array( $render, [ $args, $content ] );
+		} else {
+			$html = call_user_func( $render, ...$args );
+		}
 
 		// This allows emptyResponsePlaceholder to be used when no content is returned.
 		if ( ! $html ) {

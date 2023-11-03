@@ -1,7 +1,7 @@
 /**
  * Webpack config
  *
- * @package LifterLMS/Scripts/Dev
+ * @package
  *
  * @since 5.5.0
  * @version 6.10.0
@@ -24,13 +24,13 @@ const { resolve } = require( 'path' ),
 			'spinner',
 			'utils',
 		],
-		css: [ 
-			'admin-addons'
+		css: [
+			'admin-addons',
 		],
 	} );
 
 // Remove the default directory clearer, since we include source JS in the assets/js directory we need to not clear the dest directory (for now).
-config.plugins = config.plugins.filter( plugin => {
+config.plugins = config.plugins.filter( ( plugin ) => {
 	return 'CleanWebpackPlugin' !== plugin.constructor.name;
 } );
 
@@ -46,7 +46,12 @@ config.plugins.push( new CleanWebpackPlugin( {
 
 // config.entry.fontawesome = resolve( './src/scss/fontawesome.scss' );
 
-module.exports = [ 
+config.entry = {
+	...config.entry,
+	'dashboard-sections': './src/js/dashboard-sections.jsx',
+};
+
+module.exports = [
 	blocksConfig,
-	config
+	config,
 ];
