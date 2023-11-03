@@ -156,7 +156,7 @@ class LLMS_Student_Dashboard {
 			),
 			'view-courses'      => array(
 				'content'  => 'lifterlms_template_student_dashboard_my_courses',
-				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'view-courses' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
 				'paginate' => true,
 				'nav_item' => true,
 				'title'    => __( 'My Courses', 'lifterlms' ),
@@ -170,20 +170,20 @@ class LLMS_Student_Dashboard {
 			),
 			'view-memberships'  => array(
 				'content'  => 'lifterlms_template_student_dashboard_my_memberships',
-				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint', 'view-memberships' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint', 'my-memberships' ),
 				'nav_item' => true,
 				'title'    => __( 'My Memberships', 'lifterlms' ),
 			),
 			'view-achievements' => array(
 				'content'  => 'lifterlms_template_student_dashboard_my_achievements',
-				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'view-achievements' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'my-achievements' ),
 				'paginate' => true,
 				'nav_item' => true,
 				'title'    => __( 'My Achievements', 'lifterlms' ),
 			),
 			'view-certificates' => array(
 				'content'  => 'lifterlms_template_student_dashboard_my_certificates',
-				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'view-certificates' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'my-certificates' ),
 				'paginate' => true,
 				'nav_item' => true,
 				'title'    => __( 'My Certificates', 'lifterlms' ),
@@ -228,7 +228,7 @@ class LLMS_Student_Dashboard {
 				'view-favorites',
 				array(
 					'content'  => 'llms_template_student_dashboard_my_favorites',
-					'endpoint' => get_option( 'lifterlms_myaccount_favorites_endpoint', 'view-favorites' ),
+					'endpoint' => get_option( 'lifterlms_myaccount_favorites_endpoint', 'my-favorites' ),
 					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Favorites', 'lifterlms' ),
