@@ -181,6 +181,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::output_fields( $settings );
+		add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 	}
 
 }
