@@ -5,13 +5,13 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query data about a quiz
+ * Query data about a quiz.
  *
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
@@ -21,11 +21,28 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
-	 * Constructor
+	 * Quiz ID.
 	 *
-	 * @since    3.16.0
+	 * @since [version]
+	 * @var int
+	 */
+	public $quiz_id;
+
+	/**
+	 * Quiz instance.
 	 *
-	 * @param    int $quiz_id  WP Post ID of the quiz
+	 * @since [version]
+	 * @var LLMS_Quiz
+	 */
+	public $quiz;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 3.16.0
+	 * @since [version]
+	 *
+	 * @param int $quiz_id WP Post ID of the quiz.
 	 */
 	public function __construct( $quiz_id ) {
 
@@ -36,12 +53,12 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve # of quiz attempts within the period
+	 * Retrieve # of quiz attempts within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_attempt_count( $period = 'current' ) {
 
@@ -64,12 +81,12 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve avg grade of quiz attempts within the period
+	 * Retrieve avg grade of quiz attempts within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_average_grade( $period = 'current' ) {
 
@@ -94,13 +111,13 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve the number assignments with a given status
+	 * Retrieve the number assignments with a given status.
 	 *
-	 * @since    3.24.0
+	 * @since 3.24.0
 	 *
-	 * @param    string $status  status name
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $status Status name.
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_count_by_status( $status, $period = 'current' ) {
 
@@ -125,24 +142,24 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve # of quiz fails within the period
+	 * Retrieve # of quiz fails within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_fail_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'fail', $period );
 	}
 
 	/**
-	 * Retrieve # of quiz passes within the period
+	 * Retrieve # of quiz passes within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_pass_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'pass', $period );
@@ -150,11 +167,12 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz.
+	 *
 	 * This overrides the LLMS_Abstract_Post_Data method.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function recent_events( $args = array() ) {
 
