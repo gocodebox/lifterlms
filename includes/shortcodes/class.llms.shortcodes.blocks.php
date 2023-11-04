@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 7.2.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,54 +59,64 @@ class LLMS_Shortcodes_Blocks {
 	 * Available shortcode blocks.
 	 *
 	 * @since 7.2.0
+	 * @since [version] Add Course Continue Button, Course Progress and Pricing Table.
 	 *
 	 * @return array
 	 */
 	private function get_config(): array {
 		$config = array(
-			'access-plan-button'   => array(
+			'access-plan-button'     => array(
 				'render' => array( 'LLMS_Shortcodes', 'access_plan_button' ),
 			),
-			'checkout'             => array(
+			'checkout'               => array(
 				'render' => array( 'LLMS_Shortcodes', 'checkout' ),
 			),
-			'courses'              => array(
+			'courses'                => array(
 				'render' => array( 'LLMS_Shortcode_Courses', 'output' ),
 			),
-			'course-author'        => array(
+			'course-author'          => array(
 				'render' => array( 'LLMS_Shortcode_Course_Author', 'output' ),
 			),
-			'course-continue'      => array(
+			'course-continue'        => array(
 				'render' => array( 'LLMS_Shortcode_Course_Continue', 'output' ),
 			),
-			'course-meta-info'     => array(
+			'course-continue-button' => array(
+				'render' => array( 'LLMS_Shortcode_Course_Continue_Button', 'output' ),
+			),
+			'course-meta-info'       => array(
 				'render' => array( 'LLMS_Shortcode_Course_Meta_Info', 'output' ),
 			),
-			'course-outline'       => array(
+			'course-outline'         => array(
 				'render' => array( 'LLMS_Shortcode_Course_Outline', 'output' ),
 			),
-			'course-prerequisites' => array(
+			'course-prerequisites'   => array(
 				'render' => array( 'LLMS_Shortcode_Course_Prerequisites', 'output' ),
 			),
-			'course-reviews'       => array(
+			'course-progress'        => array(
+				'render' => array( 'LLMS_Shortcodes', 'course_progress' ),
+			),
+			'course-reviews'         => array(
 				'render' => array( 'LLMS_Shortcode_Course_Reviews', 'output' ),
 			),
-			'course-syllabus'      => array(
+			'course-syllabus'        => array(
 				'render' => array( 'LLMS_Shortcode_Course_Syllabus', 'output' ),
 			),
-			'login'                => array(
+			'login'                  => array(
 				'render' => array( 'LLMS_Shortcodes', 'login' ),
 			),
-			'memberships'          => array(
+			'memberships'            => array(
 				'render' => array( 'LLMS_Shortcodes', 'memberships' ),
 			),
-			'my-account'           => array(
+			'my-account'             => array(
 				'render' => array( 'LLMS_Shortcodes', 'my_account' ),
 			),
-			'my-achievements'      => array(
+			'my-achievements'        => array(
 				'render' => array( 'LLMS_Shortcode_My_Achievements', 'output' ),
 			),
-			'registration'         => array(
+			'pricing-table'          => array(
+				'render' => array( 'LLMS_Shortcodes', 'pricing_table' ),
+			),
+			'registration'           => array(
 				'render' => array( 'LLMS_Shortcode_Registration', 'output' ),
 			),
 		);

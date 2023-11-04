@@ -1,16 +1,13 @@
 // WordPress dependencies.
 import { registerBlockType } from '@wordpress/blocks';
 import {
+	Disabled,
 	PanelBody,
 	PanelRow,
-	Disabled,
 	SelectControl,
 	Spinner,
 } from '@wordpress/components';
-import {
-	InspectorControls,
-	useBlockProps,
-} from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from '@wordpress/element';
@@ -19,8 +16,8 @@ import { useMemo } from '@wordpress/element';
 import blockJson from './block.json';
 import Icon from './icon.jsx';
 import {
-	usePostOptions,
 	PostSelect,
+	usePostOptions,
 } from '../../../packages/components/src/post-select';
 
 const postTypeOptions = [
@@ -69,13 +66,26 @@ const Edit = ( props ) => {
 						} ) }
 					/>
 				</PanelRow>
-				<PostSelect
-					{ ...{
-						...props,
-						postType: attributes?.postType ?? 'course',
-						attribute: 'product',
-					} }
-				/>
+				{
+					attributes.postType === 'course' &&
+					<PostSelect
+						{ ...{
+							...props,
+							postType: 'course',
+							attribute: 'product',
+						} }
+					/>
+				}
+				{
+					attributes.postType === 'llms_membership' &&
+					<PostSelect
+						{ ...{
+							...props,
+							postType: 'llms_membership',
+							attribute: 'product',
+						} }
+					/>
+				}
 			</PanelBody>
 		</InspectorControls>
 		<div { ...blockProps }>
@@ -89,4 +99,5 @@ const Edit = ( props ) => {
 registerBlockType( blockJson, {
 	icon: Icon,
 	edit: Edit,
+	save: () => null, // <!-- wp:llms/pricing-table /-->.
 } );

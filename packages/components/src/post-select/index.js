@@ -5,7 +5,8 @@ import { PanelRow, SelectControl } from '@wordpress/components';
 export const llmsPostTypes = [
 	'course',
 	'lesson',
-	'llms_quiz'
+	'llms_quiz',
+	'llms_membership',
 ];
 
 export const getPostTypeName = ( slug, format = 'name' ) => {
@@ -28,8 +29,6 @@ export const usePostOptions = ( postType = 'course' ) => {
 			currentPostType: select( 'core/editor' )?.getCurrentPostType(),
 		};
 	}, [] );
-
-	const postTypeName = getPostTypeName( postType );
 
 	const options = [];
 
