@@ -6,7 +6,7 @@
  *
  * @since 3.13.0
  * @since 5.5.0 Addedd tests for deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
- * @version [version]
+ * @version 7.5.0
  */
 class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
@@ -273,7 +273,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * @preserveGlobalState disabled
 	 *
 	 * @since 5.5.0
-	 * @since [version] Fixed use of deprecated `${var}`.
+	 * @since 7.5.0 Fixed use of deprecated `${var}`.
 	 *
 	 * @return void
 	 */

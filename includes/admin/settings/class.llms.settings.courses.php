@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.5.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	 * Get settings array.
 	 *
 	 * @since 3.5.0
-	 * @since [version] Added settings for enabling/disabling favorites.
+	 * @since 7.5.0 Added settings for enabling/disabling favorites.
 	 *
 	 * @return array
 	 */

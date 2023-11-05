@@ -114,8 +114,8 @@ class LLMS_Admin_AddOns {
 	 * Retrieve a list of addons for use on the All section
 	 *
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    7.5.0
+	 * @version  7.5.0
 	 */
 	private function get_all() {
 

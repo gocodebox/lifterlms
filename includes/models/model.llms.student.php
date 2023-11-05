@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
- * @since [version] Added the logic to add and remove lesson favorite.
+ * @since 7.5.0 Added the logic to add and remove lesson favorite.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -268,7 +268,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve user's favorites based on supplied criteria.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param string $order_by Result set ordering field. Default "updated_date".
 	 * @param string $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
@@ -1287,7 +1287,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Add student postmeta data when lesson is favorited.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see LLMS_Student->mark_favorite()
 	 *
@@ -1306,7 +1306,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove student postmeta data when lesson is unfavorited.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
 	 * @return bool
@@ -1911,7 +1911,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student has favorited a lesson.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 	 * @param string $object_type The object type, currently only 'lesson'.
@@ -1936,7 +1936,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 *
 		 * The dynamic portion of this filter, `{$object_type}`, refers to the Lesson.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param array|false  $ret         Array of favorite data or `false` if no favorite is found.
 		 * @param int          $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -1950,7 +1950,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Mark a lesson favorite for the given user.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1972,7 +1972,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Mark a lesson unfavorite for the given user.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1997,7 +1997,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Update the favorite status of a lesson for the current student.
 	 * Inserts / updates necessary user postmeta data.
 	 *
-	 * @since [version] Use filterable functions to determine if the object can be marked favorite.
+	 * @since 7.5.0 Use filterable functions to determine if the object can be marked favorite.
 	 *
 	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2014,7 +2014,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2035,7 +2035,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2052,7 +2052,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int $student_id WP_User ID of the student.
 		 * @param int $object_id  WP_Post ID of the object.

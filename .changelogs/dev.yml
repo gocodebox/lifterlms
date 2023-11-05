@@ -1,6 +1,0 @@
-significance: patch
-type: dev
-entry: Added new filter hook
-  `llms_unschedule_recurring_payment_on_access_pan_expiration` to control
-  whether or not the recurring payments fo an order need to be
-  unscheduled when the related access plan expires (`true` by default).

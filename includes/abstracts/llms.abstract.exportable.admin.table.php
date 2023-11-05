@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -174,7 +174,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.28.0
 	 * @since 3.28.1 Unknown.
-	 * @since [version] Add nonce to export file url.
+	 * @since 7.5.0 Add nonce to export file url.
 	 *
 	 * @param string $file_path Full path to a download file.
 	 * @return string

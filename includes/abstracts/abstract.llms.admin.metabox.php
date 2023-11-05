@@ -156,7 +156,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Used to prevent save action from running
 	 * multiple times on a single load.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 * @var bool
 	 */
 	private $_saved;
