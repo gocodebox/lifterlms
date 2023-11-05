@@ -475,19 +475,6 @@ svg .llms-animated-circle {
 }
 
 // Favorites.
-.llms-has-favorite .llms-parent-course-link {
-  display: inline;
-
-  + .llms-favorite-wrapper {
-    display: inline;
-    float: right;
-
-    + .llms-video-wrapper {
-      margin-top: 10px;
-    }
-  }
-}
-
 .llms-favorite-wrapper {
   cursor: pointer;
 
@@ -496,6 +483,20 @@ svg .llms-animated-circle {
   }
 }
 
-.llms-syllabus-wrapper .llms-favorite-wrapper {
+.llms-has-favorite .llms-parent-course-link {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  + .llms-favorite-wrapper {
+    float: right;
+    margin: 0;
+  }
+}
+
+.llms-syllabus-wrapper .llms-has-favorite {
   text-align: left;
+
+  .llms-favorite-wrapper {
+    display: inline-block;
+  }
 }
