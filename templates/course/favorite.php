@@ -50,17 +50,17 @@ $can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->
 
 		<?php if ( $is_favorite ) : ?>
 
-			<i data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
+			<i title="<?php esc_attr_e( 'Remove favorite for this lesson', 'lifterlms' ); ?>" data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
 
 		<?php else : ?>
 
-			<i data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
+			<i title="<?php esc_attr_e( 'Add favorite for this lesson', 'lifterlms' ); ?>" data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
 
 		<?php endif; ?>
 
 	<?php } ?>
 
-	<span class="llms-favorites-count">
+	<span class="llms-favorites-count" aria-label="<?php esc_attr_e( 'Total favorites for this lesson', 'lifterlms' ); ?>">
 		<?php echo $total_favorites; ?>
 	</span>
 
