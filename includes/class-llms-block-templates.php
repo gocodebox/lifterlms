@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version 7.2.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -351,6 +351,7 @@ class LLMS_Block_Templates {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Allow template directory override when the block template comes from an add-on.
+	 * @since 7.5.0 Use `traverse_and_serialize_blocks` in place of deprecated (since wp 6.4.0) `_inject_theme_attribute_in_block_template_content`
 	 *
 	 * @param string $template_file Template file path.
 	 * @param string $template_slug Template slug.
@@ -372,7 +373,9 @@ class LLMS_Block_Templates {
 		$template                 = new WP_Block_Template();
 		$template->id             = $theme ? $theme . '//' . $template_slug : $namespace . '//' . $template_slug;
 		$template->theme          = $theme ? $theme : $namespace;
-		$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
+		$template->content        = function_exists( 'traverse_and_serialize_blocks' ) ?
+			traverse_and_serialize_blocks( parse_blocks( $template_content ), '_inject_theme_attribute_in_template_part_block' ) :
+			_inject_theme_attribute_in_block_template_content( $template_content );
 		$template->source         = $theme ? 'theme' : 'plugin'; // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
 		$template->slug           = $template_slug;
 		$template->type           = 'wp_template';

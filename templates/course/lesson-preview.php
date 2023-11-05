@@ -9,7 +9,8 @@
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
- * @version 5.7.0
+ * @since 7.5.0 Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
+ * @version 7.5.0
  *
  * @var LLMS_Lesson $lesson        The lesson object.
  * @var string      $pre_text      The text to display before the lesson.
@@ -45,7 +46,27 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			<?php if ( 'lesson' === get_post_type( get_the_ID() ) ) : ?>
 				<h6 class="llms-pre-text"><?php echo $pre_text; ?></h6>
 			<?php endif; ?>
+			<?php
+			/**
+			 * Action fired before the lesson title in the lesson preview template.
+			 *
+			 * @since 7.5.0
+			 *
+			 * @param LLMS_Lesson $lesson The lesson's instance.
+			 */
+			do_action( 'llms_lesson_preview_before_title', $lesson )
+			?>
 			<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'id' ) ); ?></h5>
+			<?php
+			/**
+			 * Action fired before the lesson title in the lesson preview template.
+			 *
+			 * @since 7.5.0
+			 *
+			 * @param LLMS_Lesson $lesson The lesson's instance.
+			 */
+			do_action( 'llms_lesson_preview_after_title', $lesson )
+			?>
 			<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 				<div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>
 			<?php endif; ?>

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,6 +38,7 @@ class LLMS_AJAX {
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 7.5.0 Added `favorite_object` ajax event.
 	 *
 	 * @return void
 	 */
@@ -45,6 +46,7 @@ class LLMS_AJAX {
 
 		$ajax_events = array(
 			'query_quiz_questions' => false,
+			'favorite_object'      => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -200,6 +202,51 @@ class LLMS_AJAX {
 				'items'   => $r,
 				'more'    => count( $r ) === $limit,
 				'success' => true,
+			)
+		);
+
+		wp_die();
+
+	}
+
+	/**
+	 * Add Favorite / Unfavorite postmeta for an object.
+	 *
+	 * @since 7.5.0
+	 *
+	 * @return void
+	 */
+	public function favorite_object() {
+
+		// Grab the data if it exists.
+		$user_action = llms_filter_input_sanitize_string( INPUT_POST, 'user_action' );
+		$object_id   = llms_filter_input( INPUT_POST, 'object_id', FILTER_SANITIZE_NUMBER_INT );
+		$object_type = llms_filter_input_sanitize_string( INPUT_POST, 'object_type' );
+		$user_id     = get_current_user_id();
+		$student     = llms_get_student( $user_id );
+		if ( is_null( $object_id ) || ! $student ) {
+			return;
+		}
+
+		if ( 'favorite' === $user_action ) {
+			// You can never mark favorite a non-free lesson of a course you're not enrolled into.
+			if ( 'lesson' === $object_type ) {
+				$lesson            = llms_get_post( $object_id );
+				$can_mark_favorite = $lesson && ( $student->is_enrolled( $object_id ) || $lesson->is_free() );
+				if ( ! $can_mark_favorite ) {
+					return;
+				}
+			}
+
+			llms_mark_favorite( $user_id, $object_id, $object_type );
+		} elseif ( 'unfavorite' === $user_action ) {
+			llms_mark_unfavorite( $user_id, $object_id, $object_type );
+		}
+
+		echo wp_json_encode(
+			array(
+				'total_favorites' => llms_get_object_total_favorites( $object_id ),
+				'success'         => true,
 			)
 		);
 

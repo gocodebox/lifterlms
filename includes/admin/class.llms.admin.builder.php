@@ -818,7 +818,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @param string $id Custom item ID. This should be a question choice id in the format of "${question_id}:{$choice_id}".
+	 * @param string $id Custom item ID. This should be a question choice id in the format of "{$question_id}:{$choice_id}".
 	 * @return null|true|WP_Error `null` when the $id cannot be parsed into a question choice id.
 	 *                            `true` on success.
 	 *                            `WP_Error` when an error is encountered.

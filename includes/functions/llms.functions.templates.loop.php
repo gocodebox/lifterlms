@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.3.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,7 +37,7 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 	 *               Adjusted filter `llms_archive_description` to always run instead of only running if content exists to display,
 	 *               this allows developers to filter the content even when an empty string is returned.
 	 * @since 7.3.0 Fixed PHP Warning when no course/membership catalog page was set or if the
-	 *               selected page doesn't exist anymore.
+	 *              selected page doesn't exist anymore.
 	 *
 	 * @return string
 	 */
@@ -344,6 +344,22 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 	function lifterlms_template_loop_difficulty() {
 		if ( 'course' === get_post_type( get_the_ID() ) ) {
 			llms_get_template( 'course/difficulty.php' );
+		}
+	}
+}
+
+/**
+ * Count of total lessons in a course.
+ *
+ * @since 7.5.0
+ *
+ * @return void.
+ */
+if ( ! function_exists( 'lifterlms_template_loop_lesson_count' ) ) {
+
+	function lifterlms_template_loop_lesson_count() {
+		if ( 'course' === get_post_type( get_the_ID() ) ) {
+			llms_get_template( 'course/lesson-count.php' );
 		}
 	}
 }
