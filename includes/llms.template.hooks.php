@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,8 +46,12 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
  * Single Lesson
  *
  * @since Unknown
+ * @since [version] Maybe add favorite template.
  */
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_parent_course', 10 );
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'lifterlms_single_lesson_before_summary', 'llms_template_favorite', 10 );
+}
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
@@ -79,8 +83,18 @@ add_action( 'lifterlms_before_loop_item_title', 'lifterlms_template_loop_progres
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_author', 10 );
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_length', 15 );
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_difficulty', 20 );
+add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_lesson_count', 22 );
 
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
+
+/**
+ * Course Syllabus
+ *
+ * @since [version]
+ */
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_favorite_lesson_preview', 10 );
+}
 
 /**
  * Emails

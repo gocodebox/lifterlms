@@ -6,6 +6,7 @@
  *
  * @since 3.13.0
  * @since 5.5.0 Addedd tests for deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
+ * @version [version]
  */
 class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
@@ -272,6 +273,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * @preserveGlobalState disabled
 	 *
 	 * @since 5.5.0
+	 * @since [version] Fixed use of deprecated `${var}`.
 	 *
 	 * @return void
 	 */
@@ -280,9 +282,9 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 		foreach ( $this->post_types as $post_type ) {
 
 			unregister_post_type( $post_type );
-			add_filter( "lifterlms_register_post_type_${post_type}", '__return_empty_array' );
+			add_filter( "lifterlms_register_post_type_{$post_type}", '__return_empty_array' );
 			LLMS_Post_Types::register_post_type( $post_type, array() );
-			remove_filter( "lifterlms_register_post_type_${post_type}", '__return_empty_array' );
+			remove_filter( "lifterlms_register_post_type_{$post_type}", '__return_empty_array' );
 
 		}
 
