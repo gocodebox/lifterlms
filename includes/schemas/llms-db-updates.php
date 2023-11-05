@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 6.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -169,6 +169,14 @@ return array(
 		'namespace' => true,
 		'updates'   => array(
 			'migrate_spanish_users',
+			'update_db_version',
+		),
+	),
+	'7.5.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'favorites_feature_bc',
 			'update_db_version',
 		),
 	),

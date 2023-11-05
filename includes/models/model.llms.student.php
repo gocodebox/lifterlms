@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
+ * @since [version] Added the logic to add and remove lesson favorite.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -98,7 +99,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @param  int    $product_id WP Post ID of the course or membership
 	 * @param  string $trigger    String describing the reason for enrollment
-	 * @return boolean
+	 * @return bool
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
@@ -261,6 +262,36 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_courses( $args = array() ) {
 
 		return $this->get_enrollments( 'course', $args );
+
+	}
+
+	/**
+	 * Retrieve user's favorites based on supplied criteria.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $order_by Result set ordering field. Default "updated_date".
+	 * @param string $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
+	 * @param int    $limit    Number of favorites to return. Default is infinite.
+	 * @return bool|array
+	 */
+	public function get_favorites( $order_by = 'updated_date', $order = 'DESC', $limit = -1 ) {
+
+		global $wpdb;
+
+		$limit_clause = $limit < 1 ? '' : "LIMIT 0, {$limit}";
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$res = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+					WHERE meta_key = %s AND user_id = %d ORDER BY {$order_by} {$order} {$limit_clause};",
+				'_favorite',
+				get_current_user_id()
+			)
+		);
+
+		return empty( $res ) ? false : $res;
 
 	}
 
@@ -1093,7 +1124,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.14.0
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_active() {
 
@@ -1176,7 +1207,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @param  int    $object_id    WP Post ID of the lesson, section, course or track
 	 * @param  string $trigger      String describing the reason for mark completion
-	 * @return boolean
+	 * @return bool
 	 * @since    3.3.1
 	 * @version  3.21.0
 	 */
@@ -1254,6 +1285,42 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Add student postmeta data when lesson is favorited.
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Student->mark_favorite()
+	 *
+	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
+	 * @return bool
+	 */
+	private function insert_favorite_postmeta( $object_id ) {
+
+		$update = llms_update_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
+
+		// Returns boolean if postmeta update is successful.
+		return is_array( $update ) ? false : true;
+
+	}
+
+	/**
+	 * Remove student postmeta data when lesson is unfavorited.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
+	 * @return bool
+	 */
+	private function remove_favorite_postmeta( $object_id ) {
+
+		$update = llms_delete_user_postmeta( $this->get_id(), $object_id, '_favorite', true );
+
+		// Returns boolean if postmeta update is successful.
+		return is_array( $update ) ? false : true;
+
+	}
+
+	/**
 	 * Add student postmeta data for enrollment into a course or membership
 	 *
 	 * @param    int    $product_id   WP Post ID of the course or membership
@@ -1285,7 +1352,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @param int    $product_id WP Post ID of the course or membership.
 	 * @param string $trigger    Optional. String the reason for enrollment. Default `null`
-	 * @return boolean Whether or not the enrollment records have been succesfully removed.
+	 * @return bool Whether or not the enrollment records have been succesfully removed.
 	 */
 	private function delete_enrollment_postmeta( $product_id, $trigger = null ) {
 
@@ -1376,12 +1443,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Mark a lesson, section, course, or track complete for the given user
+	 * Mark a lesson, section, course, or track complete for the given user.
 	 *
 	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
 	 * @param  string $object_type  object type [lesson|section|course|track]
 	 * @param  string $trigger      String describing the reason for marking complete
-	 * @return boolean
+	 * @return bool
 	 *
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
@@ -1406,7 +1473,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
 	 * @param  string $object_type  object type [lesson|section|course|track]
 	 * @param  string $trigger      String describing the reason for marking incomplete
-	 * @return boolean
+	 * @return bool
 	 *
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
@@ -1484,7 +1551,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  string $trigger    Only remove the student if the original enrollment trigger matches the submitted value.
 	 *                            Passing `any` will remove regardless of enrollment trigger.
 	 * @param  string $new_status the value to update the new status with after removal is complete.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
@@ -1588,7 +1655,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param int    $product_id WP Post ID of the course or membership.
 	 * @param string $trigger    Optional. Only delete the student's enrollment if the original enrollment trigger matches the submitted value.
 	 *                           "any" will remove regardless of enrollment trigger. Default "any".
-	 * @return boolean Whether or not the enrollment records have been successfully removed.
+	 * @return bool Whether or not the enrollment records have been successfully removed.
 	 */
 	public function delete_enrollment( $product_id, $trigger = 'any' ) {
 
@@ -1676,7 +1743,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param int    $object_id   WP_Post ID of the object.
 	 * @param string $object_type The type of object. A lesson, section, course, or course_track.
 	 * @param string $trigger     String describing the reason for the status change.
-	 * @return boolean
+	 * @return bool
 	 */
 	private function update_completion_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1838,6 +1905,161 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
+
+	}
+
+	/**
+	 * Determine if the student has favorited a lesson.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
+	 * @return bool
+	 */
+	public function is_favorite( $object_id, $object_type = 'lesson' ) {
+
+		$query = new LLMS_Query_User_Postmeta(
+			array(
+				'types'                 => 'favorites',
+				'include_post_children' => false,
+				'user_id'               => $this->get_id(),
+				'post_id'               => $object_id,
+				'per_page'              => 1,
+			)
+		);
+
+		$ret = $query->has_results();
+
+		/**
+		 * Filter object favorite boolean value prior to returning.
+		 *
+		 * The dynamic portion of this filter, `{$object_type}`, refers to the Lesson.
+		 *
+		 * @since [version]
+		 *
+		 * @param array|false  $ret         Array of favorite data or `false` if no favorite is found.
+		 * @param int          $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string       $object_type The object type, currently only 'lesson'.
+		 * @param LLMS_Student $instance    The Student Instance
+		 */
+		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
+
+	}
+
+	/**
+	 * Mark a lesson favorite for the given user.
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first.
+	 *
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
+	 * @return bool
+	 */
+	public function mark_favorite( $object_id, $object_type ) {
+
+		// Short circuit if it's already favorited.
+		if ( $this->is_favorite( $object_id, $object_type ) ) {
+			return true;
+		}
+
+		return $this->update_favorite_status( 'favorite', $object_id, $object_type );
+
+	}
+
+	/**
+	 * Mark a lesson unfavorite for the given user.
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first.
+	 *
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
+	 * @return bool
+	 */
+	public function mark_unfavorite( $object_id, $object_type ) {
+
+		// Short circuit if it's not favorited.
+		if ( ! $this->is_favorite( $object_id, $object_type ) ) {
+			return true;
+		}
+
+		return $this->update_favorite_status( 'unfavorite', $object_id, $object_type );
+
+	}
+
+	/**
+	 * Triggers actions for favorite/unfavorite.
+	 *
+	 * Update the favorite status of a lesson for the current student.
+	 * Inserts / updates necessary user postmeta data.
+	 *
+	 * @since [version] Use filterable functions to determine if the object can be marked favorite.
+	 *
+	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
+	 * @return bool
+	 */
+	private function update_favorite_status( $status, $object_id, $object_type ) {
+
+		$student_id = $this->get_id();
+
+		/**
+		 * Fires before a student's object favorite status is updated.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+		 * either "favorite" or "unfavorite".
+		 *
+		 * @since [version]
+		 *
+		 * @param int    $student_id  WP_User ID of the student.
+		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string $object_type The object type, currently only 'lesson'.
+		 */
+		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type );
+
+		// Insert / Remove meta data.
+		if ( 'favorite' === $status ) {
+			$this->insert_favorite_postmeta( $object_id );
+		} elseif ( 'unfavorite' === $status ) {
+			$this->remove_favorite_postmeta( $object_id );
+		}
+
+		/**
+		 * Hook that fires when a student's favorite status is updated for any object.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
+		 * either "favorite" or "unfavorite".
+		 *
+		 * @since [version]
+		 *
+		 * @param int    $student_id  WP_User ID of the student.
+		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+		 * @param string $object_type The object type, currently only 'lesson'.
+		 */
+		do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type );
+
+		/**
+		 * Hook that fires when a student's favorite status is updated for a specific object type.
+		 *
+		 * The dynamic portion of this hook, `$object_type` refers to the WP_Post post_type of the object
+		 * which the student's completion status is being updated for.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+		 * either "favorite" or "unfavorite".
+		 *
+		 * @since [version]
+		 *
+		 * @param int $student_id WP_User ID of the student.
+		 * @param int $object_id  WP_Post ID of the object.
+		 */
+		do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
+
+		return true;
 
 	}
 

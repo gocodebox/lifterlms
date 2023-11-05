@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param integer                  $post_id A WP_Post ID to check permissions against. If supplied, in addition to the user's role
  *                                          being allowed to bypass the restrictions, the user must also have `edit_post` capabilities
  *                                          for the requested post.
- * @return boolean
+ * @return bool
  */
 function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
 
@@ -58,7 +58,7 @@ function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
  *
  * @param string $cap    Capability name.
  * @param int    $obj_id WP_Post or WP_User ID.
- * @return boolean
+ * @return bool
  */
 function llms_current_user_can( $cap, $obj_id = null ) {
 
@@ -114,8 +114,8 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param boolean $grant Whether or not the requested capability is granted to the user.
-	 * @param int     $obj_id WP_Post or WP_User ID.
+	 * @param bool $grant  Whether or not the requested capability is granted to the user.
+	 * @param int  $obj_id WP_Post or WP_User ID.
 	 */
 	return apply_filters( "llms_current_user_can_{$cap}", $grant, $obj_id );
 
@@ -132,7 +132,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
  * @param int    $product_id WP Post ID of the Course or Membership.
  * @param string $trigger    Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value.
  *                           Passing "any" will remove regardless of enrollment trigger.
- * @return boolean Whether or not the enrollment records have been successfully removed.
+ * @return bool Whether or not the enrollment records have been successfully removed.
  */
 function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
 	$student = new LLMS_Student( $user_id );
@@ -156,7 +156,7 @@ function llms_disable_admin_bar( $show_admin_bar ) {
 	 *
 	 * @since Unknown
 	 *
-	 * @param boolean $disabled Whether or not the admin bar should be disabled.
+	 * @param bool $disabled Whether or not the admin bar should be disabled.
 	 */
 	if ( apply_filters( 'lifterlms_disable_admin_bar', true ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
 		$show_admin_bar = false;
@@ -177,7 +177,7 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10 );
  * @param int    $user_id    WP User ID.
  * @param int    $product_id WP Post ID of the Course or Membership.
  * @param string $trigger    String describing the event that triggered the enrollment.
- * @return boolean
+ * @return bool
  */
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
@@ -237,9 +237,9 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
  * @since 3.9.0 Unknown
  * @since 7.1.0 Added the `$autoload` parameter.
  *
- * @param mixed   $user     WP_User ID, instance of WP_User, or instance of any student class extending this class.
- * @param boolean $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
- *                          If `$user` is not empty then this parameter has no impact.
+ * @param mixed $user     WP_User ID, instance of WP_User, or instance of any student class extending this class.
+ * @param bool  $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
+ *                        If `$user` is not empty then this parameter has no impact.
  * @return LLMS_Student|false LLMS_Student instance on success, false if user not found.
  */
 function llms_get_student( $user = null, $autoload = true ) {
@@ -284,7 +284,7 @@ function llms_get_usernames_blocklist() {
  * @param int $user_id      WP User ID of the user.
  * @param int $object_id    WP Post ID of a Course, Section, or Lesson.
  * @param int $object_type  Type, either Course, Section, or Lesson.
- * @return boolean Returns `true` if complete, otherwise `false`.
+ * @return bool Returns `true` if complete, otherwise `false`.
  */
 function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
 	$s = new LLMS_Student( $user_id );
@@ -307,7 +307,7 @@ function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
  *                              All = user must be enrolled in all $product_ids.
  *                              Any = user must be enrolled in at least one of the $product_ids.
  * @param bool      $use_cache  If true, returns cached data if available, if false will run a db query.
- * @return boolean
+ * @return bool
  */
 function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
 	$student = new LLMS_Student( $user_id );
@@ -325,9 +325,9 @@ function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_c
  *
  * @param int    $user_id     WP User ID.
  * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int    $object_type Object type [lesson|section|course|track].
+ * @param string $object_type Object type [lesson|section|course|track].
  * @param string $trigger     String describing the event that triggered marking the object as complete.
- * @return boolean
+ * @return bool
  */
 function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
@@ -343,13 +343,47 @@ function llms_mark_complete( $user_id, $object_id, $object_type, $trigger = 'uns
  *
  * @param int    $user_id     WP User ID.
  * @param int    $object_id   WP Post ID of the Lesson, Section, Track, or Course.
- * @param int    $object_type Object type [lesson|section|course|track].
+ * @param string $object_type Object type [lesson|section|course|track].
  * @param string $trigger     String describing the event that triggered marking the object as incomplete.
- * @return boolean
+ * @return bool
  */
 function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->mark_incomplete( $object_id, $object_type, $trigger );
+}
+
+/**
+ * Mark an object as favorite.
+ *
+ * @since [version]
+ *
+ * @see LLMS_Student->mark_favorite()
+ *
+ * @param int    $user_id     WP User ID.
+ * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+ * @param string $object_type The object type, currently only 'lesson'.
+ * @return bool
+ */
+function llms_mark_favorite( $user_id, $object_id, $object_type ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_favorite( $object_id, $object_type );
+}
+
+/**
+ * Mark a lesson as unfavorite.
+ *
+ * @since [version]
+ *
+ * @see LLMS_Student->mark_unfavorite()
+ *
+ * @param int    $user_id     WP User ID.
+ * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+ * @param string $object_type The object type, currently only 'lesson'.
+ * @return bool
+ */
+function llms_mark_unfavorite( $user_id, $object_id, $object_type ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->mark_unfavorite( $object_id, $object_type );
 }
 
 /**
@@ -399,8 +433,8 @@ function llms_parse_password_reset_cookie() {
  * @since 5.0.0 Use `LLMS_Form_Handler()` for registration.
  *
  * @param array  $data   Array of registration data.
- * @param string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
- * @param bool   $signon If true, signon the newly created user
+ * @param string $screen The screen to be used for the validation template, accepts "registration" or "checkout".
+ * @param bool   $signon If true, signon the newly created user.
  * @param array  $args   Additional arguments passed to the short-circuit filter.
  * @return int|WP_Error
  */
@@ -422,7 +456,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param boolean $remember If `true` (default), the user signon will be set to "remember".
+		 * @param bool    $remember If `true` (default), the user signon will be set to "remember".
 		 * @param string  $screen   Current validation template, either "registration" or "checkout".
 		 * @param WP_User $user     User object for the newly registered user.
 		 */
@@ -449,7 +483,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * @since 5.0.0
  *
  * @param string $val Cookie value.
- * @return boolean
+ * @return bool
  */
 function llms_set_password_reset_cookie( $val = '' ) {
 
@@ -487,7 +521,7 @@ add_action( 'wp_login', 'llms_set_user_login_time', 10, 2 );
  * @param string $new_status  The value to update the new status with after removal is complete.
  * @param string $trigger     Only remove the student if the original enrollment trigger matches the submitted value.
  *                            Passing "any" will remove regardless of enrollment trigger.
- * @return boolean
+ * @return bool
  */
 function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', $trigger = 'any' ) {
 	$student = new LLMS_Student( $user_id );
@@ -521,8 +555,8 @@ function llms_update_user( $data = array(), $location = 'account', $args = array
  * @param array  $data     Array of user data.
  * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'checkout'
  * @param array  $args     Additional arguments passed to the short-circuit filter.
- * @return boolean|WP_Error Returns `true` if the user data passes validation, otherwise returns an error object describing
- *                          the validation issues.
+ * @return bool|WP_Error Returns `true` if the user data passes validation, otherwise returns an error object describing
+ *                       the validation issues.
  */
 function llms_validate_user( $data = array(), $location = 'checkout', $args = array() ) {
 	$args['validate_only'] = true;

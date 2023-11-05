@@ -473,3 +473,30 @@ svg .llms-animated-circle {
 .llms-lesson-tooltip.active {
   display: inline-block;
 }
+
+// Favorites.
+.llms-favorite-wrapper {
+  cursor: pointer;
+
+  .fa-heart {
+    color: #EF476F;
+  }
+}
+
+.llms-has-favorite .llms-parent-course-link {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  + .llms-favorite-wrapper {
+    float: right;
+    margin: 0;
+  }
+}
+
+.llms-syllabus-wrapper .llms-has-favorite {
+  text-align: left;
+
+  .llms-favorite-wrapper {
+    display: inline-block;
+  }
+}
