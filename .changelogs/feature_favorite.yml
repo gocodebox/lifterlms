@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added filter `llms_favorites_enabled` to enable/disable Favorites feature.

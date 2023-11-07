@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 7.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,6 +166,7 @@ class LLMS_Frontend_Assets {
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
+	 * @since [version] Enqueue `llms-favorites` script on lesson and course page.
 	 *
 	 * @return void
 	 */
@@ -198,6 +199,11 @@ class LLMS_Frontend_Assets {
 
 		if ( is_singular( 'llms_quiz' ) ) {
 			llms()->assets->enqueue_script( 'llms-quiz' );
+		}
+
+		llms()->assets->register_script( 'llms-favorites' );
+		if ( ( is_lesson() || is_course() ) && true === llms_is_favorites_enabled() ) {
+			llms()->assets->enqueue_script( 'llms-favorites' );
 		}
 
 		llms()->assets->register_script( 'llms-iziModal' );

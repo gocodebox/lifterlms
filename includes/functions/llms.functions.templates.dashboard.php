@@ -288,6 +288,78 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	}
 }
 
+if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
+
+	/**
+	 * Get student's favorites.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Student $student   Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param array        $favorites Optional. Array of favorites (current student's favorites if none supplied). Default `null`.
+	 * @return void
+	 */
+	function llms_template_my_favorites_loop( $student = null, $favorites = null ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return;
+		}
+
+		$favorites = $favorites ?? $student->get_favorites();
+
+		if ( ! $favorites ) {
+
+			printf( '<p>%s</p>', esc_html__( 'No favorites found.', 'lifterlms' ) );
+
+		} else {
+
+			// Adding Parent Course IDs in Favorites for each lesson.
+			foreach ( $favorites as $key => $favorite ) {
+				$lesson                  = new LLMS_Lesson( $favorite->post_id );
+				$favorite->parent_course = $lesson->get( 'parent_course' );
+			}
+
+			// Grouping Favorites by Parent Course ID.
+			$favorites = array_reduce(
+				$favorites,
+				function ( $carry, $item ) {
+					$carry[ $item->parent_course ][] = $item;
+					return $carry;
+				},
+				array()
+			);
+
+			echo '<div class="llms-syllabus-wrapper">';
+
+			// Printing Favorite Lessons under each Parent Course.
+			foreach ( $favorites as $course => $lessons ) {
+
+				// Get Course Name.
+				$course = new LLMS_Course( $course );
+
+				echo '<h3 class="llms-h3 llms-section-title">';
+					echo $course->get( 'title' );
+				echo '</h3>';
+
+				foreach ( $lessons as $lesson ) {
+
+					$lesson = new LLMS_Lesson( $lesson->post_id );
+
+					llms_get_template(
+						'course/lesson-preview.php',
+						array(
+							'lesson' => $lesson,
+						)
+					);
+
+				}
+			}
+
+			echo '</div>';
+		}
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
@@ -529,6 +601,35 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	}
 }
 
+if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
+
+	/**
+	 * Template for My Favorites section on dashboard index.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function llms_template_student_dashboard_my_favorites() {
+
+		$student = llms_get_student();
+
+		if ( ! $student || ! llms_is_favorites_enabled() ) {
+			return;
+		}
+
+		ob_start();
+		llms_template_my_favorites_loop( $student );
+
+		llms_get_template(
+			'myaccount/my-favorites.php',
+			array(
+				'content' => ob_get_clean(),
+			)
+		);
+
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 

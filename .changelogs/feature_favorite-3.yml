@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added filter `llms_is_$object_type_favorite` to change object's (lesson,
+  student, course) favorite boolean value.

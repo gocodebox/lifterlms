@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,87 +140,105 @@ class LLMS_Student_Dashboard {
 	 * @since 3.0.0
 	 * @since 3.28.2 Unknown.
 	 * @since 6.0.0 Add pagination to the view-achievements and view-certificates tabs.
+	 * @since [version] Add view-favorites tab.
 	 *
 	 * @return array
 	 */
 	public static function get_tabs() {
 
+		$tabs = array(
+			'dashboard'         => array(
+				'content'  => 'lifterlms_template_student_dashboard_home',
+				'endpoint' => false,
+				'nav_item' => true,
+				'title'    => __( 'Dashboard', 'lifterlms' ),
+				'url'      => llms_get_page_url( 'myaccount' ),
+			),
+			'view-courses'      => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_courses',
+				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
+				'paginate' => true,
+				'nav_item' => true,
+				'title'    => __( 'My Courses', 'lifterlms' ),
+			),
+			'my-grades'         => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_grades',
+				'endpoint' => get_option( 'lifterlms_myaccount_grades_endpoint', 'my-grades' ),
+				'paginate' => true,
+				'nav_item' => true,
+				'title'    => __( 'My Grades', 'lifterlms' ),
+			),
+			'view-memberships'  => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_memberships',
+				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint', 'my-memberships' ),
+				'nav_item' => true,
+				'title'    => __( 'My Memberships', 'lifterlms' ),
+			),
+			'view-achievements' => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_achievements',
+				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'my-achievements' ),
+				'paginate' => true,
+				'nav_item' => true,
+				'title'    => __( 'My Achievements', 'lifterlms' ),
+			),
+			'view-certificates' => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_certificates',
+				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'my-certificates' ),
+				'paginate' => true,
+				'nav_item' => true,
+				'title'    => __( 'My Certificates', 'lifterlms' ),
+			),
+			'notifications'     => array(
+				'content'  => 'lifterlms_template_student_dashboard_my_notifications',
+				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
+				'paginate' => true,
+				'nav_item' => true,
+				'title'    => __( 'Notifications', 'lifterlms' ),
+			),
+			'edit-account'      => array(
+				'content'  => array( __CLASS__, 'output_edit_account_content' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
+				'nav_item' => true,
+				'title'    => __( 'Edit Account', 'lifterlms' ),
+			),
+			'redeem-voucher'    => array(
+				'content'  => array( __CLASS__, 'output_redeem_voucher_content' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
+				'nav_item' => true,
+				'title'    => __( 'Redeem a Voucher', 'lifterlms' ),
+			),
+			'orders'            => array(
+				'content'  => array( __CLASS__, 'output_orders_content' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
+				'nav_item' => true,
+				'title'    => __( 'Order History', 'lifterlms' ),
+			),
+			'signout'           => array(
+				'endpoint' => false,
+				'title'    => __( 'Sign Out', 'lifterlms' ),
+				'nav_item' => false,
+				'url'      => wp_logout_url( llms_get_page_url( 'myaccount' ) ),
+			),
+		);
+
+		if ( llms_is_favorites_enabled() ) {
+			$tabs = llms_assoc_array_insert(
+				$tabs,
+				'view-certificates',
+				'view-favorites',
+				array(
+					'content'  => 'llms_template_student_dashboard_my_favorites',
+					'endpoint' => get_option( 'lifterlms_myaccount_favorites_endpoint', 'my-favorites' ),
+					'paginate' => true,
+					'nav_item' => true,
+					'title'    => __( 'My Favorites', 'lifterlms' ),
+				)
+			);
+		}
+
 		return apply_filters(
 			'llms_get_student_dashboard_tabs',
-			array(
-				'dashboard'         => array(
-					'content'  => 'lifterlms_template_student_dashboard_home',
-					'endpoint' => false,
-					'nav_item' => true,
-					'title'    => __( 'Dashboard', 'lifterlms' ),
-					'url'      => llms_get_page_url( 'myaccount' ),
-				),
-				'view-courses'      => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_courses',
-					'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'view-courses' ),
-					'paginate' => true,
-					'nav_item' => true,
-					'title'    => __( 'My Courses', 'lifterlms' ),
-				),
-				'my-grades'         => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_grades',
-					'endpoint' => get_option( 'lifterlms_myaccount_grades_endpoint', 'my-grades' ),
-					'paginate' => true,
-					'nav_item' => true,
-					'title'    => __( 'My Grades', 'lifterlms' ),
-				),
-				'view-memberships'  => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_memberships',
-					'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint', 'view-memberships' ),
-					'nav_item' => true,
-					'title'    => __( 'My Memberships', 'lifterlms' ),
-				),
-				'view-achievements' => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_achievements',
-					'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'view-achievements' ),
-					'paginate' => true,
-					'nav_item' => true,
-					'title'    => __( 'My Achievements', 'lifterlms' ),
-				),
-				'view-certificates' => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_certificates',
-					'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'view-certificates' ),
-					'paginate' => true,
-					'nav_item' => true,
-					'title'    => __( 'My Certificates', 'lifterlms' ),
-				),
-				'notifications'     => array(
-					'content'  => 'lifterlms_template_student_dashboard_my_notifications',
-					'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
-					'paginate' => true,
-					'nav_item' => true,
-					'title'    => __( 'Notifications', 'lifterlms' ),
-				),
-				'edit-account'      => array(
-					'content'  => array( __CLASS__, 'output_edit_account_content' ),
-					'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
-					'nav_item' => true,
-					'title'    => __( 'Edit Account', 'lifterlms' ),
-				),
-				'redeem-voucher'    => array(
-					'content'  => array( __CLASS__, 'output_redeem_voucher_content' ),
-					'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
-					'nav_item' => true,
-					'title'    => __( 'Redeem a Voucher', 'lifterlms' ),
-				),
-				'orders'            => array(
-					'content'  => array( __CLASS__, 'output_orders_content' ),
-					'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
-					'nav_item' => true,
-					'title'    => __( 'Order History', 'lifterlms' ),
-				),
-				'signout'           => array(
-					'endpoint' => false,
-					'title'    => __( 'Sign Out', 'lifterlms' ),
-					'nav_item' => false,
-					'url'      => wp_logout_url( llms_get_page_url( 'myaccount' ) ),
-				),
-			)
+			$tabs
 		);
 
 	}
