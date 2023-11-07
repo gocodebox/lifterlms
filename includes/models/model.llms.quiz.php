@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 7.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,10 +47,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	/**
-	 * Post type meta properties
+	 * Post type meta properties.
 	 *
 	 * Array key is the meta_key and array values is property's type.
 	 *
+	 * @since Unknown.
+	 * @since [version] Added the `disable_retake` property.
 	 * @var string[]
 	 */
 	protected $properties = array(
@@ -62,6 +64,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'disable_retake'      => 'yesno',
 	);
 
 	/**
@@ -217,6 +220,20 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 			// string for "unlimited" or number of attempts.
 			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
+
+			// Check for a passed attempt and disable the quiz.
+			if ( $quiz_open && llms_parse_bool( $this->get( 'disable_retake' ) ) ) {
+				$passed_attempts = $student->quizzes()->get_attempts_by_quiz(
+					$this->get( 'id' ),
+					array(
+						'status' => array( 'pass' ),
+					)
+				);
+
+				if ( count( $passed_attempts ) ) {
+					$quiz_open = false;
+				}
+			}
 		}
 
 		/**
