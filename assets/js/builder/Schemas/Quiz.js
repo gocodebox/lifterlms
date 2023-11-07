@@ -2,8 +2,10 @@
  * Quiz Schema.
  *
  * @since 3.17.6
+ * @since 3.24.0 Unknown.
  * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
- * @version 7.4.0
+ * @since [version] Added `can_be_resumed` option.
+ * @version [version]
  */
 define( [], function() {
 
@@ -55,6 +57,17 @@ define( [], function() {
 						type: 'switch-number',
 			},
 				], [
+
+					{
+						attribute: 'can_be_resumed',
+						id: 'resume',
+						label: LLMS.l10n.translate( 'Can be resumed' ),
+						tip: LLMS.l10n.translate( 'Allow a new attempt on this quiz to be resumed' ),
+						type: 'switch',
+						condition: function() {
+							return 'yes' === this.get( 'limit_time' ) ? false : true;
+						}
+			},
 					{
 						attribute: 'show_correct_answer',
 						id: 'show-correct-answer',

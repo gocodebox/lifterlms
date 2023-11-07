@@ -7,6 +7,7 @@
  * @since 3.16.0
  * @since 3.17.3 Unknown.
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
+ * @since [version] Add information on whether the attempt can be resumed or not.
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -87,12 +88,16 @@ if ( $student ) {
 				$icon = 'question-circle';
 		}
 
+		if ( $attempt->can_be_resumed() && $attempt->is_last_attempt() ) {
+			$additional = ' - <i>' . esc_html__( 'Can be resumed', 'lifterlms' ) . '</i>';
+		}
+
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of4',
 				'icon'      => $icon,
 				'id'        => 'llms-reporting-quiz-attempt-status',
-				'data'      => $attempt->l10n( 'status' ),
+				'data'      => $attempt->l10n( 'status' ) . ( $additional ?? '' ),
 				'data_type' => 'text',
 				'text'      => __( 'Status', 'lifterlms' ),
 			)

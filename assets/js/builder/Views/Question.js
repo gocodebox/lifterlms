@@ -1,7 +1,8 @@
 /**
- * Single Question View
- * @since    3.16.0
- * @version  3.27.0
+ * Single Question View.
+ *
+ * @since 3.16.0
+ * @version [version]
  */
 define( [
 		'Views/_Detachable',
@@ -82,10 +83,12 @@ define( [
 		},
 
 		/**
-		 * Compiles the template and renders the view
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Compiles the template and renders the view.
+		 *
+		 * @since 3.16.0
+		 * @since [version] Added support for image upload in tinyMCE editor.
+		 *
+		 * @return self (for chaining)
 		 */
 		render: function() {
 
@@ -126,7 +129,8 @@ define( [
 				this.init_editor( 'question-clarifications--' + this.model.get( 'id' ), {
 					mediaButtons: false,
 					tinymce: {
-						toolbar1: 'bold,italic,strikethrough,bullist,numlist,alignleft,aligncenter,alignright',
+						plugins: 'image',
+						toolbar1: 'bold,italic,strikethrough,bullist,numlist,alignleft,aligncenter,alignright,image',
 						toolbar2: '',
 						setup: _.bind( this.on_editor_ready, this ),
 					}

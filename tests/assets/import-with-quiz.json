@@ -182,6 +182,7 @@
             "modified_gmt": "2020-08-04 23:10:23",
             "name": "new-lesson-quiz",
             "passing_percent": 85,
+            "can_be_resumed": "yes",
             "password": "",
             "permalink": "http://localhost:8080/quiz/new-lesson-quiz/",
             "ping_status": "closed",

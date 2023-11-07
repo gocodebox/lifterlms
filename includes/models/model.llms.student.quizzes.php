@@ -5,13 +5,13 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 6.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Access student quiz attempt data
+ * Access student quiz attempt data.
  *
  * @see LLMS_Student->quizzes()
  *
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
-	 * Retrieve the number of quiz attempts for a quiz
+	 * Retrieve the number of quiz attempts for a quiz.
 	 *
 	 * @since 3.16.0
 	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
@@ -43,7 +43,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Remove Student Quiz attempt by ID
+	 * Remove Student Quiz attempt by ID.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
@@ -59,7 +59,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
+	 * Retrieve quiz data for a student and optionally filter by quiz_id(s).
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
@@ -79,7 +79,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		);
 
 		/**
-		 * Filters the list of quiz attempts for a student
+		 * Filters the list of quiz attempts for a student.
 		 *
 		 * @since Unknown
 		 *
@@ -90,9 +90,9 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve quiz attempts
+	 * Retrieve quiz attempts.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
 	 * @param int   $quiz_id WP Post ID of the quiz.
 	 * @param array $args    Additional args to pass to LLMS_Query_Quiz_Attempt.
@@ -119,7 +119,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve an attempt by attempt id
+	 * Retrieve an attempt by attempt id.
 	 *
 	 * @since 3.16.0
 	 * @since 4.21.2 Return `false` for invalid IDs & check permissions before returning the attempt.
@@ -142,7 +142,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Decodes an attempt string and returns the associated attempt
+	 * Decodes an attempt string and returns the associated attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
@@ -156,6 +156,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		if ( ! $id ) {
 			return false;
 		}
+
 		return $this->get_attempt_by_id( $id );
 
 	}
@@ -210,7 +211,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get all the attempts for a given quiz/lesson from an attempt key
+	 * Get all the attempts for a given quiz/lesson from an attempt key.
 	 *
 	 * @since 3.9.0
 	 *
@@ -227,7 +228,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
+	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
@@ -260,9 +261,9 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve the last recorded attempt for a student for a given quiz/lesson
+	 * Retrieve the last recorded attempt for a student for a given quiz/lesson.
 	 *
-	 * "Last" is defined as the attempt with the highest attempt number
+	 * "Last" is defined as the attempt with the highest attempt number.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
@@ -291,7 +292,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the last completed attempt for a given quiz or quiz/lesson combination
+	 * Get the last completed attempt for a given quiz or quiz/lesson combination.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
@@ -323,7 +324,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Parse an attempt key into it's parts
+	 * Parse an attempt key into it's parts.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.7 Unknown.

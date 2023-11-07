@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added new method `LLMS_Quiz::can_be_resumed()`.

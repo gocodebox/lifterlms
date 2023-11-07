@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Quiz_Attempt model class
+ * LLMS_Quiz_Attempt model class.
  *
  * @since 3.9.0
  * @since 3.9.2 Added `calculate_point_weight()`, `get_question_order()`, `is_passing()` methods.
@@ -34,19 +34,22 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Array of table column name => format
 	 *
+	 * @since unknown
+	 * @since [version] Added `can_be_resumed` column.
 	 * @var array
 	 */
 	protected $columns = array(
-		'student_id'  => '%d',
-		'quiz_id'     => '%d',
-		'lesson_id'   => '%d',
-		'start_date'  => '%s',
-		'update_date' => '%s',
-		'end_date'    => '%s',
-		'status'      => '%s',
-		'attempt'     => '%d',
-		'grade'       => '%f',
-		'questions'   => '%s',
+		'student_id'     => '%d',
+		'quiz_id'        => '%d',
+		'lesson_id'      => '%d',
+		'start_date'     => '%s',
+		'update_date'    => '%s',
+		'end_date'       => '%s',
+		'status'         => '%s',
+		'attempt'        => '%d',
+		'grade'          => '%f',
+		'questions'      => '%s',
+		'can_be_resumed' => '%d',
 	);
 
 	protected $date_created = 'start_date';
@@ -487,18 +490,21 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Use strict type comparison.
+	 * @since [version] Added `$return` param, by default `"id"`.
 	 *
-	 * @param int $last_question Optional. WP Post ID of the current LLMS_Question the "next" refers to. Default `null`.
-	 * @return int|false
+	 * @param int    $last_question Optional. WP Post ID of the current LLMS_Question the "next" refers to. Default `null`.
+	 * @param string $return        Optional. Return type 'id|array'. Default 'id'.
+	 * @return int|array|false
 	 */
-	public function get_next_question( $last_question = null ) {
+	public function get_next_question( $last_question = null, $return = 'id' ) {
 
 		$next = false;
 
 		foreach ( $this->get_questions() as $question ) {
 
 			if ( $next || is_null( $question['answer'] ) ) {
-				return $question['id'];
+
+				return 'id' === $return ? $question['id'] : $question;
 
 				// When rewinding and moving back through we don't want to skip questions.
 			} elseif ( $last_question && absint( $last_question ) === absint( $question['id'] ) ) {
@@ -507,6 +513,27 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Retrieve the question in the attempt.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $question_id WP Post ID of the required LLMS_Question.
+	 * @param string $return      Optional. Return type 'id|array'. Default 'id'.
+	 * @return int|array|false
+	 */
+	public function get_question( $question_id, $return = 'id' ) {
+
+		$next  = false;
+		$ids   = array_map( 'intval', array_column( $this->get_questions(), 'id' ) );
+		$index = array_search( (int) $question_id, $ids, true );
+		return $index >= 0 ?
+			'id' === $return ? $question_id : $this->get_questions()[ $index ]
+			:
+			false;
 
 	}
 
@@ -567,6 +594,35 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Retrieve an an answer to a specific question.
+	 *
+	 * @since [version]
+	 *
+	 * @param int     $question_id    Question ID.
+	 * @param boolean $cache          Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 *                                Cached questions won't take into account the `$filte_removed` parameter.
+	 * @param boolean $filter_removed Optional. If `true`, removed questions will be filtered out. Default `false`.
+	 * @return mixed
+	 */
+	public function get_question_answer( $question_id, $cache = true, $filter_removed = false ) {
+
+		$question_objects = $this->get_question_objects( $cache, $filter_removed );
+		if ( ! $question_objects ) {
+			return array();
+		}
+		foreach ( $question_objects as $attempt_question ) {
+			$quiz_question = $attempt_question->get_question();
+			if ( $attempt_question->get_question()->get( 'id' ) === $question_id ) {
+				$answer = $attempt_question->get( 'answer' );
+				break;
+			}
+		}
+
+		return $answer ?? array();
+
+	}
+
+	/**
 	 * Get an instance of the LLMS_Quiz for the attempt
 	 *
 	 * @since 3.9.0
@@ -615,12 +671,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Initialize a new quiz attempt by quiz and lesson for a user
+	 * Initialize a new quiz attempt by quiz and lesson for a user.
 	 *
 	 * If no user found throws an Exception.
 	 *
 	 * @since 3.9.0
-	 * @version 3.16.0
+	 * @since 3.16.0 Unknown.
+	 * @since [version] Set the property `can_be_resumed` on init.
 	 *
 	 * @throws Exception When the user is not logged in.
 	 *
@@ -640,10 +697,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		// Initialize a new attempt.
 		$attempt = new self();
+		$quiz    = llms_get_post( $quiz_id );
 		$attempt->set( 'quiz_id', $quiz_id );
 		$attempt->set( 'lesson_id', $lesson_id );
 		$attempt->set( 'student_id', $student->get_id() );
 		$attempt->set_status( 'incomplete' );
+		$attempt->set( 'can_be_resumed', $quiz->can_be_resumed() );
 		$attempt->set_questions( $attempt->get_new_questions() );
 
 		$number = 1;
@@ -715,7 +774,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Determine if the attempt can be autograded
+	 * Determine if the attempt can be autograded.
 	 *
 	 * @since 3.16.0
 	 *
@@ -735,7 +794,26 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Determine if the attempt was passing
+	 * Determine if the attempt is the last attempt of its quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function is_last_attempt() {
+
+		$student = llms_get_student( $this->get( 'student_id' ) );
+		if ( ! $student ) {
+			return false;
+		}
+
+		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'quiz_id' ) );
+		return $last_attempt && ( $this->get( 'id' ) === $last_attempt->get( 'id' ) );
+
+	}
+
+	/**
+	 * Determine if the attempt was passing.
 	 *
 	 * @since 3.9.2
 	 * @since 3.16.0 Unknown.
@@ -747,7 +825,65 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Translate attempt related strings
+	 * Determine if the attempt can be resumed.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function can_be_resumed() {
+
+		$can_be_resumed = 1 === (int) $this->get( 'can_be_resumed' ) && 'incomplete' === $this->get( 'status' ) && ! $this->has_resume_attempt_time_expired();
+
+		/**
+		 * Filters the attempt resumable status.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool              $can_be_resumed Whether or not the attempt can be resumed.
+		 * @param LLMS_Quiz_Attempt $attempt        The quiz attempt object.
+		 */
+		return apply_filters( 'llms_quiz_attempt_can_be_resumed', $can_be_resumed, $this );
+	}
+
+	/**
+	 * Determine if the student's resume quiz attempt time limit is expired.
+	 *
+	 * The default resume quiz attempt time limit for a student is 1 day.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_resume_attempt_time_expired() {
+
+		$student = llms_get_student();
+
+		if ( ! $student ) {
+			return false;
+		}
+
+		if ( ! $this->get( 'start_date' ) ) {
+			return false;
+		}
+		$start_date = $this->get( 'start_date' );
+
+		/**
+		 * Filters the X time for resuming quiz.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $time_period The time period in days.
+		 */
+		$time_period     = apply_filters( 'llms_quiz_attempt_resume_time_period', 1, $this );
+		$expiration_date = strtotime( "+{$time_period} days", strtotime( $start_date ) );
+		$current_date    = llms_current_time( 'timestamp' );
+
+		return $current_date > $expiration_date;
+	}
+
+	/**
+	 * Translate attempt related strings.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
@@ -776,7 +912,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Setter for serialized questions array
+	 * Setter for serialized questions array.
 	 *
 	 * @since 3.16.0
 	 *
@@ -789,7 +925,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Set the status of the attempt
+	 * Set the status of the attempt.
 	 *
 	 * @since 3.16.0
 	 * @since 4.0.0 Use strict comparisons.
@@ -835,7 +971,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Delete the object from the database
+	 * Delete the object from the database.
 	 *
 	 * Overrides the parent method to perform other actions before deletion.
 	 *
