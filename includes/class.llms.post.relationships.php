@@ -83,6 +83,14 @@ class LLMS_Post_Relationships {
 			),
 		),
 
+		'llms_voucher'    => array(
+			array(
+				'action'     => 'delete',
+				'table_name' => 'lifterlms_vouchers_codes',
+				'table_key'  => 'voucher_id',
+			),
+		),
+
 	);
 
 	/**
