@@ -48,7 +48,7 @@ class LLMS_Admin_Users_Table {
 		add_filter( 'views_users', array( $this, 'modify_views' ) );
 
 		add_filter( 'user_row_actions', array( $this, 'add_actions' ), 20, 2 );
-
+		add_filter( 'role_has_cap', array( $this, 'role_has_cap' ), 10, 3 );
 	}
 
 	/**
@@ -233,6 +233,27 @@ class LLMS_Admin_Users_Table {
 
 		return $output;
 
+	}
+
+	/**
+	 * Prevent the current user with an "administrator" or lms_manager" role from being changed to an "instructor".
+	 *
+	 * This function is specifically designed to prevent the current user, who is an "administrator" or "lms_manager",
+	 * from changing their role to "instructor" during a bulk role change operation in the WordPress admin panel.
+	 *
+	 * @param array  $capabilities     The array of user capabilities.
+	 * @param string $capability_name  The name of the capability being checked.
+	 * @param string $role_name        The name of the role for which the capability is being checked.
+	 * @return array $capabilities     The modified user capabilities array.
+	 */
+	public function role_has_cap( $capabilities, $capability_name, $role_name ) {
+		global $pagenow, $current_user;
+
+		if ( 'users.php' === $pagenow && ! empty( $_REQUEST['users'] ) && 'promote_users' == $capability_name && 'instructor' == $role_name && ( in_array( 'administrator', (array) $current_user->roles ) || in_array( 'lms_manager', (array) $current_user->roles ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$capabilities['promote_users'] = false;
+		}
+
+		return $capabilities;
 	}
 
 }
