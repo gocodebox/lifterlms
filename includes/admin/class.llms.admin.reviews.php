@@ -179,6 +179,11 @@ class LLMS_Admin_Reviews {
 	 * @return void
 	 */
 	public function save_review_meta_boxes() {
+		$post_id = llms_filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT );
+		if ( ! $post_id ) return;
+
+		$post_type = get_post_type( $post_id );
+		if ( 'course' !== $post_type ) return;
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified by core before triggering hook.
 
@@ -187,14 +192,10 @@ class LLMS_Admin_Reviews {
 		$num      = ( isset( $_POST['_llms_num_reviews'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_num_reviews' ) : 0;
 		$multiple = ( isset( $_POST['_llms_multiple_reviews_disabled'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_multiple_reviews_disabled' ) : '';
 
-		$post_id = llms_filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT );
-
-		if ( $post_id ) {
-			update_post_meta( $post_id, '_llms_reviews_enabled', $enabled );
-			update_post_meta( $post_id, '_llms_display_reviews', $display );
-			update_post_meta( $post_id, '_llms_num_reviews', $num );
-			update_post_meta( $post_id, '_llms_multiple_reviews_disabled', $multiple );
-		}
+		update_post_meta( $post_id, '_llms_reviews_enabled', $enabled );
+		update_post_meta( $post_id, '_llms_display_reviews', $display );
+		update_post_meta( $post_id, '_llms_num_reviews', $num );
+		update_post_meta( $post_id, '_llms_multiple_reviews_disabled', $multiple );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	}
