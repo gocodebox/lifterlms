@@ -180,10 +180,14 @@ class LLMS_Admin_Reviews {
 	 */
 	public function save_review_meta_boxes() {
 		$post_id = llms_filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT );
-		if ( ! $post_id ) return;
+		if ( ! $post_id ) {
+			return;
+		}
 
 		$post_type = get_post_type( $post_id );
-		if ( 'course' !== $post_type ) return;
+		if ( 'course' !== $post_type ) {
+			return;
+		}
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified by core before triggering hook.
 
