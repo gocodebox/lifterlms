@@ -776,9 +776,8 @@ class LLMS_Template_Loader {
 
 				$membership_id = $page_restricted['restriction_id'];
 
-				if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
-
-					$membership = new LLMS_Membership( $membership_id );
+				if ( ! empty( $membership_id ) && ( is_array( $membership_id ) || is_numeric( $membership_id ) ) ) {
+					$membership = new LLMS_Membership( is_array( $membership_id ) ? $membership_id[0] : $membership_id );
 
 					if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
 						$msg = $membership->get( 'restriction_notice' );
