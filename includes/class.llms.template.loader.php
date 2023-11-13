@@ -729,6 +729,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
+	 * @since [version] Added support for restricted membership IDs array.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
