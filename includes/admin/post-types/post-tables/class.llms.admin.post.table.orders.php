@@ -320,7 +320,7 @@ class LLMS_Admin_Post_Table_Orders {
 						'compare' => 'IN',
 					),
 				);
-				
+
 				// Set the query.
 				$query->set( 'meta_query', $meta_query );
 			}
