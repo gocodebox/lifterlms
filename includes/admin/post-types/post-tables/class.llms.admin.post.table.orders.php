@@ -276,52 +276,57 @@ class LLMS_Admin_Post_Table_Orders {
 			// What we are searching for.
 			$term = $query->query_vars['s'];
 
-			// Search wp_users.
-			$user_query = new WP_User_Query(
-				array(
-					'search'         => '*' . esc_attr( $term ) . '*',
-					'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
-					'fields'         => 'ID',
-				)
-			);
+			if ( is_numeric( $term ) ) {
+				// Search by order id.
+				$query->query_vars['p'] = $term;
+			} else {
+				// Search wp_users.
+				$user_query = new WP_User_Query(
+					array(
+						'search'         => '*' . esc_attr( $term ) . '*',
+						'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
+						'fields'         => 'ID',
+					)
+				);
 
-			// Search wp_usermeta for First and Last names.
-			$user_query2 = new WP_User_Query(
-				array(
-					'fields'     => 'ID',
-					'meta_query' => array(
-						'relation' => 'OR',
-						array(
-							'key'     => 'first_name',
-							'value'   => $term,
-							'compare' => 'LIKE',
+				// Search wp_usermeta for First and Last names.
+				$user_query2 = new WP_User_Query(
+					array(
+						'fields'     => 'ID',
+						'meta_query' => array(
+							'relation' => 'OR',
+							array(
+								'key'     => 'first_name',
+								'value'   => $term,
+								'compare' => 'LIKE',
+							),
+							array(
+								'key'     => 'last_name',
+								'value'   => $term,
+								'compare' => 'LIKE',
+							),
 						),
-						array(
-							'key'     => 'last_name',
-							'value'   => $term,
-							'compare' => 'LIKE',
-						),
+					)
+				);
+
+				$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
+
+				// Add metaquery for the user id.
+				$meta_query = array(
+					'relation' => 'OR',
+					array(
+						'key'     => '_llms_user_id',
+						'value'   => $results,
+						'compare' => 'IN',
 					),
-				)
-			);
-
-			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
-
-			// Add metaquery for the user id.
-			$meta_query = array(
-				'relation' => 'OR',
-				array(
-					'key'     => '_llms_user_id',
-					'value'   => $results,
-					'compare' => 'IN',
-				),
-			);
+				);
+				
+				// Set the query.
+				$query->set( 'meta_query', $meta_query );
+			}
 
 			// We have to kill this value so that the query actually works.
 			$query->query_vars['s'] = '';
-
-			// Set the query.
-			$query->set( 'meta_query', $meta_query );
 
 			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
 			// @note we're not super proud of this incredible piece of duct tape.
