@@ -342,16 +342,16 @@ class LLMS_Template_Loader {
 		$membership_ids = $info['restriction_id'];
 
 		// Do nothing if we don't have a membership id.
-		if ( ! empty( $membership_ids ) && is_array( $membership_ids ) ) {
+		if ( ! empty( $membership_ids ) && ( is_array( $membership_ids ) || is_numeric( $membership_ids ) ) ) {
 
 			$msg      = '';
 			$redirect = '';
 
-			// If length is less than 2, show default message.
-			if ( 1 === count( $membership_ids ) ) {
+			// Check if we're dealing with an array or a numeric for single membership restriction.
+			if ( ( is_array( $membership_ids ) && 1 === count( $membership_ids ) ) || is_numeric( $membership_ids ) ) {
 
 				// Get the membership.
-				$membership = new LLMS_Membership( $membership_ids[0] );
+				$membership = new LLMS_Membership( is_array( $membership_ids ) ? $membership_ids[0] : $membership_ids );
 
 				if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
 
