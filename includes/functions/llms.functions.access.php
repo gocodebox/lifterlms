@@ -537,16 +537,20 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 		$student = llms_get_student( $user_id );
 
-		// loop through the memberships.
-		foreach ( $memberships as $mid ) {
+		if ( ! $student ) {
+			$restriction_ids = $memberships;
+		} else {
+			// loop through the memberships.
+			foreach ( $memberships as $mid ) {
 
-			// set this as the restriction id.
-			$restriction_ids[] = absint( $mid );
+				// set this as the restriction id.
+				$restriction_ids[] = absint( $mid );
 
-			// once we find the student has access break the loop,
-			// this will be the restriction that the template loader will check against later.
-			if ( $student->is_enrolled( $mid ) ) {
-				break;
+				// once we find the student has access break the loop,
+				// this will be the restriction that the template loader will check against later.
+				if ( $student->is_enrolled( $mid ) ) {
+					break;
+				}
 			}
 		}
 
