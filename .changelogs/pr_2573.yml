@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#2573"
-entry: Fix issue with `.clear` floats with flex parent containers.
+entry: Removed .clear styles since WordPress already sets them by default.
