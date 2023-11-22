@@ -404,7 +404,7 @@ Install the free LifterLMS plugin on your website, then ...
 [lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [aca]: https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [resources]: https://lifterlms.com/recommended-resources/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[team]: https://lifterlms.com/our-team/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[team]: https://lifterlms.com/about-us/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale#h-meet-the-team
 [webinar]: https://lifterlms.com/lifterlms-webinars/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 
