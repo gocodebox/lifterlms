@@ -79,9 +79,9 @@ The following steps are performed automatically by the above task:
     1. The distribution archive is uploaded to the release.
     1. The release is published.
     1. A webhook ping notifies the `llms-releaser` server which performs the remaining steps of the release:
-2. Publish to WordPress plugin repository
-    2. Create a new SVN tag using the release asset (distribution archive) as the base.
-    2. Update the `trunk` branch to match the new tag.
-3. A changelog blog post is published to make.lifterlms.com.
-4. The number is updated at LifterLMS.com
-5. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
+1. Publish to WordPress plugin repository
+    1. Create a new SVN tag using the release asset (distribution archive) as the base.
+    1. Update the `trunk` branch to match the new tag.
+1. A changelog blog post is published to make.lifterlms.com.
+1. The number is updated at LifterLMS.com
+1. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
