@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  7.4.0
+ * @version  7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  7.4.0
+	 * @version  7.5.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -111,7 +111,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Quiz.js.
 			 *
 			 * @since    3.16.0
-			 * @version  7.4.0
+			 * @version  7.5.0
 			 */
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),

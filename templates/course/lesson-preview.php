@@ -9,8 +9,8 @@
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
- * @since [version] Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
- * @version [version]
+ * @since 7.5.0 Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
+ * @version 7.5.0
  *
  * @var LLMS_Lesson $lesson        The lesson object.
  * @var string      $pre_text      The text to display before the lesson.
@@ -50,7 +50,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			/**
 			 * Action fired before the lesson title in the lesson preview template.
 			 *
-			 * @since [version]
+			 * @since 7.5.0
 			 *
 			 * @param LLMS_Lesson $lesson The lesson's instance.
 			 */
@@ -61,7 +61,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			/**
 			 * Action fired before the lesson title in the lesson preview template.
 			 *
-			 * @since [version]
+			 * @since 7.5.0
 			 *
 			 * @param LLMS_Lesson $lesson The lesson's instance.
 			 */

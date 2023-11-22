@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -355,7 +355,7 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
 /**
  * Mark an object as favorite.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @see LLMS_Student->mark_favorite()
  *
@@ -372,7 +372,7 @@ function llms_mark_favorite( $user_id, $object_id, $object_type ) {
 /**
  * Mark a lesson as unfavorite.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @see LLMS_Student->mark_unfavorite()
  *
