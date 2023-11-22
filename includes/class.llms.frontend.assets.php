@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,7 +166,7 @@ class LLMS_Frontend_Assets {
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
-	 * @since [version] Enqueue `llms-favorites` script on lesson and course page.
+	 * @since 7.5.0 Enqueue `llms-favorites` script on lesson and course page.
 	 *
 	 * @return void
 	 */

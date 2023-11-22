@@ -1196,6 +1196,29 @@ svg .llms-animated-circle {
   display: inline-block;
 }
 
+.llms-favorite-wrapper {
+  cursor: pointer;
+}
+.llms-favorite-wrapper .fa-heart {
+  color: #EF476F;
+}
+
+.llms-has-favorite .llms-parent-course-link {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.llms-has-favorite .llms-parent-course-link + .llms-favorite-wrapper {
+  float: right;
+  margin: 0;
+}
+
+.llms-syllabus-wrapper .llms-has-favorite {
+  text-align: left;
+}
+.llms-syllabus-wrapper .llms-has-favorite .llms-favorite-wrapper {
+  display: inline-block;
+}
+
 .llms-loop-list {
   list-style: none;
   margin: 0 -10px;

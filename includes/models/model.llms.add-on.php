@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -334,7 +334,7 @@ class LLMS_Add_On {
 	/**
 	 * Get the addon or author image URL for the add-on.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param string $type Type of image to retrieve. Defaults to 'addon'. Accepts 'addon' or 'author'.
 	 * @return string
