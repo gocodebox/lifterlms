@@ -22,6 +22,12 @@ Make sure you have the latest `@lifterlms` JS packages. Note that this will upda
 
 Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress.
 
+For Add-ons, also confirm that the plugin headers include appropriate values for LLMS minimum version and LLMS tested up to as follows:
+
+` * Tested up to: 6.4.1` (this is the WordPress tested up to value)
+` * LLMS requires at least: 6.0.0` (only update this value if you are sure that the update breaks backwards compatibility)
+` * LLMS tested up to: 7.5.0 ` (this should be updated to the latest LifterLMS stable version)
+
 ## 1. Build the Release
 
 Prepare the release: `npm run dev release prepare`:
