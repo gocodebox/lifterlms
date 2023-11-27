@@ -91,3 +91,11 @@ The following steps are performed automatically by the above task:
 1. A changelog blog post is published to make.lifterlms.com.
 1. The number is updated at LifterLMS.com
 1. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
+
+## 7. Update Trunk
+
+After everything is complete, the final version of should be committed and pushed to GitHub trunk branch. It is possible this can also be done on GitHub.com directly by create a Pull Request from  `dev` to `trunk`
+
+1. `git checkout trunk`
+2. `git merge dev`
+3. `git push`
