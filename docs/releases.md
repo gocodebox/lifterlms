@@ -7,22 +7,21 @@ This document assumes you have already installed LifterLMS for development follo
 
 ## 0. Get ready
 
-Make sure you have your local repository up to date. If your origin is set to the gocodebox/lifterlms repo, these commands will get you up to date.
+1. Make sure you have your local repository up to date. If your origin is set to the gocodebox/lifterlms repo, these commands will get you up to date.
 
-1. `git checkout dev` and `git pull`
-2. `git checkout trunk` and `git pull`
+  `git checkout dev` and `git pull`
 
-Make sure you are back on the dev branch.
+  `git checkout trunk` and `git pull`
 
-1. `git checkout dev`
+2. Make sure you are back on the dev branch.
 
-Make sure you have the latest `@lifterlms` JS packages. Note that this will update node_modules using the latest published/stable version of the packages, and won't include any updates made to those packages by this release itself.
+  `git checkout dev`
 
-1. `npm install`
+3. Make sure you have the latest `@lifterlms` JS packages. Note that this will update node_modules using the latest published/stable version of the packages, and won't include any updates made to those packages by this release itself.
 
-Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress.
+  `npm install`
 
-For Add-ons, also confirm that the plugin headers include appropriate values for LLMS minimum version and LLMS tested up to as follows:
+4. Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress. For Add-ons, also confirm that the plugin headers include appropriate values for LLMS minimum version and LLMS tested up to as follows:
 
 * ` * Tested up to: 6.4.1` (this is the WordPress tested up to value)
 * ` * LLMS requires at least: 6.0.0` (only update this value if you are sure that the update breaks backwards compatibility)
