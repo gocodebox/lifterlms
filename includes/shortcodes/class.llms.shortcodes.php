@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,6 +37,7 @@ class LLMS_Shortcodes {
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
+	 * @since 7.5.0 Added `LLMS_Shortcode_Favorites` class in shortcodes array.
 	 *
 	 * @return void
 	 */
@@ -68,6 +69,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',
+				'LLMS_Shortcode_Favorites',
 			)
 		);
 
@@ -79,7 +81,6 @@ class LLMS_Shortcodes {
 
 			$separator = in_array( $class, $hyphenated_file_classes, true ) ? '-' : '.';
 			$filename  = "class{$separator}" . strtolower( str_replace( '_', $separator, $class ) );
-
 			/**
 			 * Filters the path of the shortcode class file.
 			 *

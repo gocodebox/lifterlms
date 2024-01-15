@@ -3386,7 +3386,7 @@ define( 'Schemas/Quiz',[], function() {
  * Quiz Model.
  *
  * @since 3.16.0
- * @version 7.4.0
+ * @version 7.5.0
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3431,10 +3431,11 @@ define( 'Models/Quiz',[
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults.
+		 * New quiz defaults.
 		 *
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
+		 * @since 7.5.0 Replaced unused `random_answers` property with `random_questions`.
 		 *
 		 * @return {Object}
 		 */
@@ -3448,23 +3449,23 @@ define( 'Models/Quiz',[
 
 				status: 'draft',
 
-				// editable fields
+				// editable fields.
 				content: '',
 				allowed_attempts: 5,
 				limit_attempts: 'no',
 				limit_time: 'no',
 				passing_percent: 65,
 				name: '',
-				random_answers: 'no',
+				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
 
 				questions: [],
 
-				// calculated
+				// calculated.
 				_points: 0,
 
-				// display
+				// display.
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,

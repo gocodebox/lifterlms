@@ -1,4 +1,0 @@
-significance: minor
-type: dev
-entry: Added a check on whether the gateway can process a specific plan when
-  purchasing a plan, or switching the payment gateway of a recurring payment.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -351,7 +351,7 @@ class LLMS_Block_Templates {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Allow template directory override when the block template comes from an add-on.
-	 * @since [version] Use `traverse_and_serialize_blocks` in place of deprecated (since wp 6.4.0) `_inject_theme_attribute_in_block_template_content`
+	 * @since 7.5.0 Use `traverse_and_serialize_blocks` in place of deprecated (since wp 6.4.0) `_inject_theme_attribute_in_block_template_content`
 	 *
 	 * @param string $template_file Template file path.
 	 * @param string $template_slug Template slug.

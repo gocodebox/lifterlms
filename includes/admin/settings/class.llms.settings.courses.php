@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.5.0
- * @version 3.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,14 +38,22 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get settings array
+	 * Get settings array.
+	 *
+	 * @since 3.5.0
+	 * @since 7.5.0 Added settings for enabling/disabling favorites.
 	 *
 	 * @return array
-	 * @since   3.5.0
-	 * @version 3.5.0
 	 */
 	public function get_settings() {
 
+		/**
+		 * Filter the course settings.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array $course_settings THe course Settings.
+		 */
 		$course = apply_filters(
 			'lifterlms_course_settings',
 			array(
@@ -67,6 +75,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'default' => 'no',
 					'id'      => 'lifterlms_retake_lessons',
 					'title'   => __( 'Retake Lessons', 'lifterlms' ),
+					'type'    => 'checkbox',
+				),
+
+				array(
+					'title'   => __( 'Lesson Favorites', 'lifterlms' ),
+					'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
+					'id'      => 'lifterlms_favorites',
+					'default' => 'yes',
 					'type'    => 'checkbox',
 				),
 
@@ -165,6 +181,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::output_fields( $settings );
+		add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 	}
 
 }

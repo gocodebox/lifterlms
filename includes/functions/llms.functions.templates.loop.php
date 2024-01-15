@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -351,7 +351,7 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 /**
  * Count of total lessons in a course.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @return void.
  */
