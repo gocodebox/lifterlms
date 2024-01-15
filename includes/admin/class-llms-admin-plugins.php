@@ -48,9 +48,9 @@ class LLMS_Admin_Plugins {
     public function plugin_row_meta( $links, $file ) {
         if ( plugin_basename( LLMS_PLUGIN_DIR . '/lifterlms.php' ) === $file ) {
             $row_meta = array(
-                'docs'    => '<a href="' . esc_url( 'https://lifterlms.com/docs/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20Description' ) . '" aria-label="' . esc_attr__( 'Docs', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Documentation', 'lifterlms' ) . '</a>',
-                'support' => '<a href="' . esc_url( 'https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20Description' ) . '" aria-label="' . esc_attr__( 'Support', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Support', 'lifterlms' ) . '</a>',
-                'pricing' => '<a href="' . esc_url( 'https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20Description' ) . '" aria-label="' . esc_attr__( 'Premium Plans', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Premium Plans', 'lifterlms' ) . '</a>',
+                'docs'    => '<a href="' . esc_url( 'https://lifterlms.com/docs/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20to%20Sale&utm_content=Documentation' ) . '" aria-label="' . esc_attr__( 'Docs', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Documentation', 'lifterlms' ) . '</a>',
+                'support' => '<a href="' . esc_url( 'https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20to%20Sale&utm_content=Support' ) . '" aria-label="' . esc_attr__( 'Support', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Support', 'lifterlms' ) . '</a>',
+                'pricing' => '<a href="' . esc_url( 'https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20to%20Sale&utm_content=Premium%20Plans' ) . '" aria-label="' . esc_attr__( 'Premium Plans', 'lifterlms' ) . '" target="_blank">' . esc_html__( 'Premium Plans', 'lifterlms' ) . '</a>',
             );
 
             $links = array_merge( $links, $row_meta );
