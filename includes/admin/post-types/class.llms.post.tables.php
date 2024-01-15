@@ -59,7 +59,7 @@ class LLMS_Admin_Post_Tables {
 				),
 				admin_url( 'edit.php' )
 			);
-			$actions['llms-clone'] = '<a href="' . esc_url( $url ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
+			$actions['llms-clone'] = '<a href="' . esc_url( wp_nonce_url( $url, 'llms_clone_post', 'llms_clone_post_nonce' ) ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
 		}
 
 		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
@@ -84,6 +84,7 @@ class LLMS_Admin_Post_Tables {
 	 * @since 3.3.0
 	 * @since 3.33.1 Use `llms_filter_input` to access `$_GET` and `$_POST` data.
 	 * @since 3.33.1 Use `edit_course` cap instead of `edit_post` cap.
+	 * @since [version] Adding nonce to course clone links
 	 *
 	 * @return void
 	 */
@@ -135,6 +136,9 @@ class LLMS_Admin_Post_Tables {
 				break;
 
 			case 'llms-clone-post':
+				if ( ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
+					wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+				}
 				$r = $post->clone_post();
 				if ( is_wp_error( $r ) ) {
 					LLMS_Admin_Notices::flash_notice( $r->get_error_message(), 'error' );
