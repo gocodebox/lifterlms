@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,7 +48,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  *   + The gateway must support the order/plan's type (recurring or single).
  *
  * @since 7.0.0
- * @since [version] Added check on whether a gateway can process a plan.
+ * @since 7.5.0 Added check on whether a gateway can process a plan.
  *
  * @param string                          $gateway_id    Payment gateway ID.
  * @param LLMS_Order|LLMS_Access_Plan|int $plan_or_order The `WP_Post` id of a plan or order, a plan object, or an order object.

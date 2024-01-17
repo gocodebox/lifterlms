@@ -4,8 +4,8 @@
  * Used on Add-Ons browser screen.
  *
  * @since 3.22.0
- * @since [version] Image URLs to use the local addon image directory with a fallback remote image and showing only LifterLMS author logo.
- * @version [version]
+ * @since 7.5.0 Image URLs to use the local addon image directory with a fallback remote image and showing only LifterLMS author logo.
+ * @version 7.5.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

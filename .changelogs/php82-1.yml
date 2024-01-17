@@ -1,3 +1,0 @@
-significance: patch
-type: dev
-entry: Improved some unit tests compatibility with PHP 8.2.

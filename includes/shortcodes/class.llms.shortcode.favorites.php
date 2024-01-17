@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Shortcodes/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output().
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return array
 	 */
@@ -48,7 +48,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	/**
 	 * Retrieve an array of Favorites from `lifterlms_user_postmeta`.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return WP_Query
 	 */
@@ -70,7 +70,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return string
 	 */

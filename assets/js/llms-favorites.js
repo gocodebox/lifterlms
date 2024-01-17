@@ -6,8 +6,8 @@
  *
  * @type {Object}
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.0
+ * @version 7.5.0
  */
 ( function( $ ) {
 
@@ -16,7 +16,7 @@
 		/**
 		 * Bind DOM events.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @return {Void}
 		 */
@@ -39,7 +39,7 @@
 		/**
 		 * Favorite / Unfavorite an object.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param {Object} $btn jQuery object for the "Favorite / Unfavorite" button.
 		 * @return {Void}

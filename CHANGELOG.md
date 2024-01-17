@@ -1,6 +1,61 @@
 LifterLMS Changelog
 ===================
 
+v7.5.0 - 2023-11-05
+-------------------
+
+##### New Features
+
++ Added `LLMS_Add_On::get_image()` method to get the addon and author image. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Added a paragraph to show Number of lessons in a course at Course Catalog and My Courses. [#2434](https://github.com/gocodebox/lifterlms/issues/2434)
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Blocks to [v2.5.2](https://make.lifterlms.com/2023/11/01/lifterlms-blocks-version-2-5-2/).
++ Bundled Add-ons & More Banners/Author Images in Core LifterLMS. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Updates LifterLMS Rest to [v1.0.0-beta.29](https://make.lifterlms.com/2023/10/24/lifterlms-rest-api-version-1-0-0-beta-29/).
++ Update Action Scheduler to version 3.5.4. To improve compatibility with PHP 8.2.
+
+##### Bug Fixes
+
++ Fixed checking for the wrong function name when defining the pluggable function `lifterlms_student_dashboard`. [#2550](https://github.com/gocodebox/lifterlms/issues/2550)
++ Only show LifterLMS-authored Addons in All section.
++ Improved compatibility with WordPress 6.4 by using `traverse_and_serialize_blocks` in place of the deprecated `_inject_theme_attribute_in_block_template_content`.
++ PHP 8.2 compatibility fix: Fixed creation of dynamic property `LLMS_Meta_Box_Access::$_saved`.
+
+##### Developer Notes
+
++ Added `LLMS_Payment_Gateway::can_process_access_plan()` method to determine if an access plan can be processed by the gateway. Also added the filter hook `llms_can_gateway_process_access_plan` to filter its result.
++ Added a check on whether the gateway can process a specific plan when purchasing a plan, or switching the payment gateway of a recurring payment.
++ Added action hook `llms_checkout_form_gateway_cant_process_plan` fired on the checkout form gateways section, when a gateway cannot process a specific plan.
++ Added new filter hook `llms_unschedule_recurring_payment_on_access_pan_expiration` to control whether or not the recurring payments fo an order need to be unscheduled when the related access plan expires (`true` by default).
++ Added 'favorites' in User postmeta for getting all user's favorites.
++ Added filter `llms_course_syllabus_lesson_favorite_visibility` for disabling favorites in syllabus view.
++ Added filter `llms_is_$object_type_favorite` to change object's (lesson, student, course) favorite boolean value.
++ Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
++ Added function `llms_template_syllabus_favorite_lesson_preview`.
++ Added filter `llms_favorites_enabled` to enable/disable Favorites feature.
++ Removed references to the unused quiz's property `random_answers`. Thanks [@AlexVCS](https://github.com/AlexVCS)! [#2552](https://github.com/gocodebox/lifterlms/issues/2552)
++ Improved some unit tests compatibility with PHP 8.2.
+
+##### Security Fixes
+
++ Improved security when exporting a reporting table: make sure to avoid path traversals. Thanks [Huseyin Tintas (stif)](https://linkedin.com/in/huseyintintas)!
+
+##### Updated Templates
+
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-switch-source.php)
++ [templates/content-single-lesson-before.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/content-single-lesson-before.php)
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/favorite.php)
++ [templates/course/length.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/length.php)
++ [templates/course/lesson-count.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-count.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-preview.php)
++ [templates/loop/content.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/loop/content.php)
++ [templates/myaccount/dashboard.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/dashboard.php)
++ [templates/myaccount/my-favorites.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/my-favorites.php)
+
+
 v7.4.2 - 2023-10-06
 -------------------
 

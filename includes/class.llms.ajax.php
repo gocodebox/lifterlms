@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,7 +38,7 @@ class LLMS_AJAX {
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since [version] Added `favorite_object` ajax event.
+	 * @since 7.5.0 Added `favorite_object` ajax event.
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_AJAX {
 	/**
 	 * Add Favorite / Unfavorite postmeta for an object.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return void
 	 */

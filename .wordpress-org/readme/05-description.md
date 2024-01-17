@@ -404,7 +404,7 @@ Install the free LifterLMS plugin on your website, then ...
 [lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [aca]: https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [resources]: https://lifterlms.com/recommended-resources/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[team]: https://lifterlms.com/our-team/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[team]: https://lifterlms.com/about-us/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale#h-meet-the-team
 [webinar]: https://lifterlms.com/lifterlms-webinars/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 
@@ -412,7 +412,6 @@ Install the free LifterLMS plugin on your website, then ...
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -435,9 +434,5 @@ Install the free LifterLMS plugin on your website, then ...
 [wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 [features]: https://lifterlms.com/features/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-lms]: https://lifterlms.com/features/lms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 <!-- Test Auto deployment -->
