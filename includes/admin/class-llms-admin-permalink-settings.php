@@ -111,7 +111,7 @@ class LLMS_Admin_Permalink_Settings {
 				'args'     => array(
 					'name'  => 'course',
 					'type'  => 'post_types',
-					'field' => 'archive',
+					'field' => 'archive_slug',
 				),
 			),
 			'llms_membership_archive_slug'  => array(
@@ -120,7 +120,7 @@ class LLMS_Admin_Permalink_Settings {
 				'args'     => array(
 					'name'  => 'llms_membership',
 					'type'  => 'post_types',
-					'field' => 'archive',
+					'field' => 'archive_slug',
 				),
 			),
 			'llms_course_category_slug'     => array(
@@ -180,14 +180,14 @@ class LLMS_Admin_Permalink_Settings {
 		);
 
 		// If the courses catalog is a static page, remove the related archive settings.
-		$course_catalog_id = llms_get_page_id( 'shop' );
+		$course_catalog_id = llms_get_page_id( 'courses' );
 		if ( $course_catalog_id && get_post( $course_catalog_id ) ) {
 			unset( $setting_fields['llms_course_archive_slug'] );
 		}
 
 		// If the memberships catalog is a static page, remove the related archive settings.
 		$memberships_catalog_id = llms_get_page_id( 'memberships' );
-		if ( $memberships_catalog_id && get_post( $course_catalog_id ) ) {
+		if ( $memberships_catalog_id && get_post( $memberships_catalog_id ) ) {
 			unset( $setting_fields['llms_membership_archive_slug'] );
 		}
 
