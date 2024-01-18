@@ -200,16 +200,34 @@ class LLMS_Admin_Permalink_Settings {
 		 */
 		$setting_fields = apply_filters( 'llms_permalink_settings_fields', $setting_fields );
 
+		// Add LifterLMS section to the permalink settings page.
+		add_settings_section(
+			'llms_permalinks',
+			__( 'LifterLMS', 'lifterlms' ),
+			array( __CLASS__, 'section_description' ),
+			'permalink'
+		);
+
+		// Add the fields to the LifterLMS section.
 		foreach ( $setting_fields as $field_name => $config ) {
 			add_settings_field(
 				$field_name,
 				$config['label'],
 				$config['callback'],
 				'permalink',
-				$config['section'] ?? 'optional',
+				$config['section'] ?? 'llms_permalinks',
 				$config['args'] ?? array()
 			);
 		}
+	}
+
+	/**
+	 * Echo the LifterLMS Permalinks section description.
+	 *
+	 * @since [version]
+	 */
+	public static function section_description() {
+		echo '<p>' . esc_html__( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ) . '</p>';
 	}
 
 	/**
