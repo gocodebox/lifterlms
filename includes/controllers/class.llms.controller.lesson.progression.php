@@ -44,7 +44,7 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @since 3.29.0
 	 *
-	 * @param tring $action Form action, either "complete" or "incomplete".
+	 * @param string $action Form action, either "complete" or "incomplete".
 	 * @return int|null Returns `null` when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success.
 	 */
 	private function get_lesson_id_from_form_data( $action ) {

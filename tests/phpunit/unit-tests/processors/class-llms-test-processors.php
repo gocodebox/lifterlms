@@ -29,7 +29,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	 * @since 5.0.0
 	 * @since 5.3.0 Rename `_instance` property to `instance`.
 	 * @since 6.0.0 Removed testing of the removed `LLMS_Processors::$_instance` property.
-	 * @since [version] Removed testing of mock property.
+	 * @since 7.5.0 Removed testing of mock property.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 7.4.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,6 +34,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 6.10.0 Added llms-quill-wordcount.
  * @since 7.0.0 Added llms-spinner.
  * @since 7.4.0 Renamed llms-admin-setup to llms-admin-wizard.
+ * @since 7.5.0 Added llms-favorites.
  */
 return array(
 
@@ -49,6 +50,9 @@ return array(
 	),
 	'llms-quiz'                     => array(
 		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
+	),
+	'llms-favorites'                => array(
+		'dependencies' => array( 'jquery', 'llms' ),
 	),
 
 	// Admin.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1059,7 +1059,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Determine if an access plan can be processed by the gateway.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param LLMS_Access_Plan $plan  Instance of an LLMS_Access_Plan.
 	 * @param LLMS_Order       $order Instance of an LLMS_Order. Used to check whether a payment can be switched using this gateway.
@@ -1071,7 +1071,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		/**
 		 * Filters whether or not a gateway can process a specific access plan.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param bool             $can_process_plan Whether or not the gateway can process a specific access plan.
 		 * @param LLMS_Access_Plan $plan             Access plan object.

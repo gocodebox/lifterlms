@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.28.1
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ class LLMS_Admin_Export_Download {
 	 *
 	 * @since 3.28.1
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Check nonce and only consider the basename of the file to be downloaded.
+	 * @since 7.5.0 Check nonce and only consider the basename of the file to be downloaded.
 	 *
 	 * @return void
 	 */

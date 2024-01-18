@@ -1,6 +1,0 @@
-significance: patch
-type: security
-attributions:
-  - "[Huseyin Tintas (stif)](https://linkedin.com/in/huseyintintas)"
-entry: "Improved security when exporting a reporting table: make sure to avoid
-  path traversals."

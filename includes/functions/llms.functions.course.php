@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param WP_Post|int|false $the_course Course post object or id. If `false` uses the global `$post` object.
  * @param array             $args       Arguments to pass to the LLMS_Course Constructor.
- * @return array
+ * @return LLMS_Course
  */
 function get_course( $the_course = false, $args = array() ) {
 
@@ -32,14 +32,14 @@ function get_course( $the_course = false, $args = array() ) {
 }
 
 /**
- * Get Product
+ * Get lesson object
  *
  * @since Unknown
  * @since 3.37.13 Use `LLMS_Lesson` in favor of the deprecated `LLMS_Course_Factory::get_lesson()` method.
  *
  * @param WP_Post|int|false $the_lesson Lesson post object or id. If `false` uses the global `$post` object.
  * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
- * @return LLMS_Product
+ * @return LLMS_Lesson
  */
 function get_lesson( $the_lesson = false, $args = array() ) {
 

@@ -68,7 +68,7 @@ class LLMS_Admin_AddOns {
 		if ( ! $content ) {
 
 			if ( 'all' === $sec ) {
-				$content = $this->data['items'];
+				$content = $this->get_all();
 			} elseif ( 'featured' === $sec ) {
 				$content = $this->get_features();
 			} else {
@@ -107,6 +107,31 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $this->data;
+
+	}
+
+	/**
+	 * Retrieve a list of addons for use on the All section
+	 *
+	 * @return   array
+	 * @since    7.5.0
+	 * @version  7.5.0
+	 */
+	private function get_all() {
+
+		$all = array();
+
+		$addons = $this->data['items'];
+
+		foreach ( $addons as $addon ) {
+			// Exclude third-party Addons from the All section.
+			if ( in_array( 'third-party', array_keys( $addon['categories'] ), true ) ) {
+					continue;
+			}
+			$all[] = $addon;
+		}
+
+		return $all;
 
 	}
 
