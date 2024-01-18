@@ -221,13 +221,36 @@ class LLMS_Admin_Permalink_Settings {
 		}
 	}
 
-	/**
-	 * Echo the LifterLMS Permalinks section description.
-	 *
-	 * @since [version]
-	 */
-	public static function section_description() {
-		echo '<p>' . esc_html__( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ) . '</p>';
+    /**
+    * Echo the LifterLMS Permalinks section description.
+    *
+    * @since [version]
+    */
+    public static function section_description() {
+        echo '<p>' . esc_html__( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ) . '</p>';
+        $course_catalog_id = llms_get_page_id( 'courses' );
+        if ( $course_catalog_id && get_post( $course_catalog_id ) ) {
+          ?>
+            <p>
+               <?php echo esc_html__( 'Note: The Courses Catalog is currently set to a static page.', 'lifterlms' ) ?>
+               <a href="<?php echo esc_url( get_edit_post_link( $course_catalog_id ) ) ?>">
+                <?php echo esc_html__( 'You can edit the page slug to change its location.', 'lifterlms' ) ?>
+               </a>
+            </p>
+          <?php
+        }
+
+      $memberships_catalog_id = llms_get_page_id( 'memberships' );
+      if ( $memberships_catalog_id && get_post( $memberships_catalog_id ) ) {
+          ?>
+          <p>
+              <?php echo esc_html__( 'Note: The Memberships Catalog is currently set to a static page.', 'lifterlms' ) ?>
+              <a href="<?php echo esc_url( get_edit_post_link( $memberships_catalog_id ) ) ?>">
+                  <?php echo esc_html__( 'You can edit the page slug to change its location.', 'lifterlms' ) ?>
+              </a>
+          </p>
+          <?php
+      }
 	}
 
 	/**
