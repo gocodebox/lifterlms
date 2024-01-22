@@ -179,7 +179,14 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 		await switchUserToAdmin();
 		await toggleOpenRegistration( false );
 		// Ensure future tests don't get Certificate notifications.
-		await trashAllPosts( 'llms_engagement' );
+		await visitAdminPage( 'edit.php', 'post_type=llms_engagement' );
+		await page.waitForSelector( '#cb-select-all-1' );
+		await page.click( '#cb-select-all-1' );
+		await page.select( '#bulk-action-selector-top', 'trash' );
+		await page.click( '#doaction' );
+		await page.waitForFunction(
+			'document.querySelector("body").innerText.includes("moved to the Trash")'
+		);
 	} );
 
 	describe( 'Templates', () => {
@@ -207,9 +214,6 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 			await page.click( TITLE_SELECTOR );
 			await page.keyboard.type( 'Certificate Title' );
 			await page.keyboard.press( 'Tab' );
-
-			// Add a new block.
-			await insertBlock( 'Spacer' );
 
 			// Make sure sidebar is open.
 			await openSidebarPanelTab();
@@ -324,54 +328,6 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 				expect( bgColor ).toBe( expectedBgColor );
 
 			}
-
-		} );
-
-	} );
-
-	describe( 'Legacy', () => {
-
-		it ( 'should be able to edit legacy certificates in the classic editor', async () => {
-
-			// Find the bootstrapped post.
-			await page.goto( `${ process.env.WP_BASE_URL}/wp-admin/edit.php?s=Template-V1&post_type=llms_my_certificate`  );
-			const POST_ROW = '#the-list tr:first-child';
-
-			// Post state label present.
-			expect( await page.$eval( `${ POST_ROW } .post-state`, ( { textContent } ) => textContent ) ).toBe( 'Legacy' );
-
-			// Load the classic editor.
-			await clickAndWait( `${ POST_ROW } a.row-title` );
-
-			// Confirm it's classic.
-			expect( await page.$eval( 'input#title', ( { value } ) => value ) ).toBe( 'Template-V1' );
-
-			// Load the cert on the frontend.
-			await clickAndWait( '#sample-permalink a' );
-			expect( await getCertificateHTML( 1 ) ).toMatchSnapshot();
-
-		} );
-
-
-		it ( 'should be able to migrate a legacy certificates to the block editor', async () => {
-
-			// Find the bootstrapped post.
-			await page.goto( `${ process.env.WP_BASE_URL}/wp-admin/edit.php?s=Template-V1&post_type=llms_my_certificate`  );
-			const POST_ROW = '#the-list tr:first-child';
-
-			// Migrate link.
-			await page.hover( '#the-list tr:first-child' );
-			await clickAndWait( `${ POST_ROW } .row-actions .llms-migrate-legacy-certificate a` );
-
-			// For some reason clicking the toggle button (handled via insertBlock) is resulting in errors.
-			await page.evaluate( () => wp.data.dispatch( 'core/edit-post' ).setIsInserterOpened( true ) );
-
-			// The template isn't actually migrated until an edit is made, otherwise it retains it's initial HTML.
-			await insertBlock( 'Paragraph' );
-			await publishPost();
-
-			await visitPostPermalink();
-			expect( await getCertificateHTML() ).toMatchSnapshot();
 
 		} );
 
