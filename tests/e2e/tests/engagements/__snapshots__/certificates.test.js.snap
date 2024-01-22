@@ -44,42 +44,6 @@ exports[`Engagements/Certificates Awarded should award a certificate on user reg
 </div>"
 `;
 
-exports[`Engagements/Certificates Legacy should be able to edit legacy certificates in the classic editor 1`] = `
-"<div class=\\"llms-certificate-container\\" style=\\"width:800px; height:616px;\\">
-	<img src=\\"/wp-content/plugins/lifterlms/assets/images/default-certificate.png\\" style=\\"margin-bottom:-616px;\\" alt=\\"Certificate Background\\" class=\\"certificate-background\\">
-	<div id=\\"certificate-999\\" class=\\"post-999 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
-
-		<div class=\\"llms-summary\\">
-
-			
-			
-			<h1>Template-V1</h1>
-			<p>Legacy Template</p>
-
-			
-		</div>
-	</div>
-</div>"
-`;
-
-exports[`Engagements/Certificates Legacy should be able to migrate a legacy certificates to the block editor 1`] = `
-"<div class=\\"llms-certificate-wrapper\\">
-	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
-
-		
-		
-		
-<p>Legacy Template</p>
-
-
-
-<p></p>
-
-		
-	</div>
-</div>"
-`;
-
 exports[`Engagements/Certificates Templates can reset blocks to the default template 1`] = `
 Array [
   Object {
