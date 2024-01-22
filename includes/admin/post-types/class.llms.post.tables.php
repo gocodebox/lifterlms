@@ -136,7 +136,7 @@ class LLMS_Admin_Post_Tables {
 				break;
 
 			case 'llms-clone-post':
-				if ( ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
+				if ( ! isset( $_GET['llms_clone_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
 					wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 				}
 				$r = $post->clone_post();

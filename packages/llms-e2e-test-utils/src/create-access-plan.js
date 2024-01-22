@@ -44,7 +44,7 @@ export async function createAccessPlan( {
 		);
 	}
 
-	await clickAndWait( '#llms-save-access-plans' );
+	await page.click( '#llms-save-access-plans' );
 
 	await page.waitForSelector(
 		`${ selector }:nth-last-child(2) .llms-plan-link`,
