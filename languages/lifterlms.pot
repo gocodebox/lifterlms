@@ -1,15 +1,15 @@
-# Copyright (C) 2014-2023 LifterLMS
+# Copyright (C) 2014-2024 LifterLMS
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.5.0\n"
+"Project-Id-Version: LifterLMS 7.5.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-05T22:34:19+00:00\n"
+"POT-Creation-Date: 2024-01-24T14:59:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.2.1\n"
 "X-Domain: lifterlms\n"
@@ -33,6 +33,7 @@ msgid "Complete e-learning platform to sell online courses, protect lessons, off
 msgstr ""
 
 #: class-lifterlms.php:380
+#: includes/admin/class-llms-admin-plugins.php:38
 #: includes/admin/class.llms.admin.menus.php:207
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
 #: includes/admin/views/settings.php:17
@@ -41,7 +42,7 @@ msgid "Settings"
 msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:375
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Any"
 msgstr ""
 
@@ -147,7 +148,7 @@ msgstr ""
 #: includes/privacy/class-llms-privacy-exporters.php:163
 #: includes/privacy/class-llms-privacy-exporters.php:298
 #: assets/js/llms-admin-certificate-editor.js:20
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Title"
 msgstr ""
@@ -321,7 +322,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.controller.php:336
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:102
 #: includes/llms.functions.core.php:670
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Author"
@@ -434,7 +435,7 @@ msgstr ""
 #: includes/class.llms.post-types.php:457
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:77
 #: templates/myaccount/my-grades.php:19
-#: blocks/pricing-table/index.js:3
+#: blocks/pricing-table/index.js:5
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Course"
 msgstr ""
@@ -581,6 +582,34 @@ msgstr ""
 msgid "Get Support"
 msgstr ""
 
+#: includes/admin/class-llms-admin-plugins.php:37
+#: includes/admin/class.llms.admin.builder.php:52
+#: includes/admin/class.llms.admin.menus.php:205
+#: includes/class.llms.install.php:292
+#: includes/class.llms.student.dashboard.php:154
+#: includes/functions/llms.functions.templates.certificates.php:82
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/class-llms-admin-plugins.php:51
+msgid "Docs"
+msgstr ""
+
+#: includes/admin/class-llms-admin-plugins.php:51
+#: includes/admin/views/dashboard/quick-links.php:107
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/class-llms-admin-plugins.php:52
+#: includes/admin/class.llms.admin.system-report.php:60
+#: includes/admin/views/dashboard/quick-links.php:105
+msgid "Support"
+msgstr ""
+
+#: includes/admin/class-llms-admin-plugins.php:53
+msgid "Premium Plans"
+msgstr ""
+
 #. Translators: %1$s = Opening strong tag; %2$s = Closing strong tag; %3$s = The error message.
 #: includes/admin/class-llms-admin-profile.php:179
 msgid "%1$sError%2$s: %3$s"
@@ -624,7 +653,7 @@ msgstr ""
 #: templates/admin/analytics/analytics.php:97
 #: templates/admin/reporting/nav-filters.php:79
 #: templates/admin/reporting/tabs/courses/course.php:21
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Courses"
 msgstr ""
@@ -762,14 +791,6 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.assets.php:107
 msgid "Ivory"
-msgstr ""
-
-#: includes/admin/class.llms.admin.builder.php:52
-#: includes/admin/class.llms.admin.menus.php:205
-#: includes/class.llms.install.php:292
-#: includes/class.llms.student.dashboard.php:154
-#: includes/functions/llms.functions.templates.certificates.php:82
-msgid "Dashboard"
 msgstr ""
 
 #. Translators: %s = Theme name.
@@ -1369,11 +1390,6 @@ msgstr ""
 msgid "Toggle to import course"
 msgstr ""
 
-#: includes/admin/class.llms.admin.system-report.php:60
-#: includes/admin/views/dashboard/quick-links.php:105
-msgid "Support"
-msgstr ""
-
 #: includes/admin/class.llms.admin.system-report.php:64
 msgid "Copy for Support"
 msgstr ""
@@ -1552,24 +1568,25 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:108
+#: includes/admin/post-types/class.llms.post.tables.php:109
 msgid "Missing post ID."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:115
+#: includes/admin/post-types/class.llms.post.tables.php:116
 msgid "Invalid post ID."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:120
+#: includes/admin/post-types/class.llms.post.tables.php:121
 msgid "Action cannot be executed on the current post."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:125
+#: includes/admin/post-types/class.llms.post.tables.php:126
+#: includes/admin/post-types/class.llms.post.tables.php:140
 msgid "You are not authorized to perform this action on the current post."
 msgstr ""
 
 #. Translators: %s = the singular post type name.
-#: includes/admin/post-types/class.llms.post.tables.php:166
+#: includes/admin/post-types/class.llms.post.tables.php:170
 msgid "Filter by %s"
 msgstr ""
 
@@ -1813,7 +1830,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:129
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:87
 #: includes/class.llms.post-types.php:646
-#: blocks/pricing-table/index.js:3
+#: blocks/pricing-table/index.js:5
 msgid "Membership"
 msgstr ""
 
@@ -2857,7 +2874,7 @@ msgstr ""
 #: templates/myaccount/my-orders.php:24
 #: templates/myaccount/my-orders.php:37
 #: templates/myaccount/view-order-transactions.php:21
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Date"
 msgstr ""
@@ -2876,7 +2893,7 @@ msgstr ""
 #: includes/class.llms.post-types.php:724
 #: templates/myaccount/my-orders.php:23
 #: templates/myaccount/my-orders.php:33
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Order"
 msgstr ""
@@ -3009,7 +3026,7 @@ msgstr ""
 #: includes/class.llms.l10n.js.php:234
 #: includes/class.llms.l10n.js.php:376
 #: templates/admin/post-types/order-transactions.php:26
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "ID"
 msgstr ""
@@ -3025,7 +3042,7 @@ msgstr ""
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
 #: assets/js/llms-admin-certificate-editor.js:1
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Name"
@@ -3294,7 +3311,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:137
 #: includes/llms.functions.core.php:771
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Enrolled"
 msgstr ""
 
@@ -5036,10 +5053,6 @@ msgstr ""
 
 #: includes/admin/views/dashboard/quick-links.php:101
 msgid "Contact Sales"
-msgstr ""
-
-#: includes/admin/views/dashboard/quick-links.php:107
-msgid "Documentation"
 msgstr ""
 
 #: includes/admin/views/dashboard/quick-links.php:108
@@ -9374,12 +9387,12 @@ msgid "Search only"
 msgstr ""
 
 #: includes/llms.functions.core.php:770
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Cancelled"
 msgstr ""
 
 #: includes/llms.functions.core.php:772
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Expired"
 msgstr ""
 
@@ -32955,7 +32968,7 @@ msgstr ""
 msgid "Midlands Province"
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-course-information-block.php:48
+#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-course-information-block.php:62
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Course Information"
 msgstr ""
@@ -33506,7 +33519,7 @@ msgstr ""
 msgid "Invalid featured media ID."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1841
+#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1847
 msgid "Status is forbidden."
 msgstr ""
 
@@ -33998,17 +34011,17 @@ msgid "Instructor deleted"
 msgstr ""
 
 #. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:443
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:442
 msgid "\"%s\" is not a valid status."
 msgstr ""
 
 #. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:449
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:448
 msgid "\"%s\" is not a valid topic."
 msgstr ""
 
 #. Translators: %s = field name.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:456
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:455
 msgid "\"%s\" is required."
 msgstr ""
 
@@ -34519,27 +34532,27 @@ msgstr ""
 msgid "You are not allowed to delete this student."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:114
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:112
 msgid "Retrieve only students enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:122
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:120
 msgid "Retrieve only students not enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:160
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:158
 msgid "You are not allowed to view this student."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:178
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:176
 msgid "You are not allowed to filter students by role."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:182
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:180
 msgid "You are not allowed to list students."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:379
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:377
 msgid "You are not allowed to edit this student."
 msgstr ""
 
@@ -35608,7 +35621,7 @@ msgid "Reset template"
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:22
-#: assets/js/llms-components.js:15
+#: assets/js/llms-components.js:17
 #: assets/js/llms-spinner.js:1
 #: assets/js/llms.js:2467
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
@@ -35630,17 +35643,17 @@ msgid "Search for posts…"
 msgstr ""
 
 #. Translators: %1$s = Post title; %2$s = Post id.
-#: assets/js/llms-components.js:14
+#: assets/js/llms-components.js:15
 msgctxt "Post search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
 
-#: assets/js/llms-components.js:14
+#: assets/js/llms-components.js:15
 msgid "Search users by email or name…"
 msgstr ""
 
 #. Translators: %1$s = User's name; %2$s = User's id.
-#: assets/js/llms-components.js:15
+#: assets/js/llms-components.js:17
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
@@ -35663,18 +35676,18 @@ msgid "No Access Plan selected. Please choose an Access Plan from the block side
 msgstr ""
 
 #: blocks/access-plan-button/index.js:1
-#: blocks/course-author/index.js:3
-#: blocks/course-continue/index.js:3
-#: blocks/course-meta-info/index.js:3
-#: blocks/course-outline/index.js:3
-#: blocks/course-prerequisites/index.js:3
-#: blocks/course-reviews/index.js:3
-#: blocks/course-syllabus/index.js:3
-#: blocks/courses/index.js:2
+#: blocks/course-author/index.js:5
+#: blocks/course-continue/index.js:5
+#: blocks/course-meta-info/index.js:5
+#: blocks/course-outline/index.js:5
+#: blocks/course-prerequisites/index.js:5
+#: blocks/course-reviews/index.js:5
+#: blocks/course-syllabus/index.js:5
+#: blocks/courses/index.js:3
 #: blocks/login/index.js:1
 #: blocks/my-account/index.js:1
 #: blocks/my-achievements/index.js:1
-#: blocks/pricing-table/index.js:3
+#: blocks/pricing-table/index.js:5
 #: blocks/registration/index.js:1
 msgid "Error loading content. Please check block settings are valid. This block will not be displayed."
 msgstr ""
@@ -35758,157 +35771,157 @@ msgid "Select course"
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: blocks/course-author/index.js:2
-#: blocks/course-continue/index.js:2
-#: blocks/course-meta-info/index.js:2
-#: blocks/course-outline/index.js:2
-#: blocks/course-prerequisites/index.js:2
-#: blocks/course-reviews/index.js:2
-#: blocks/course-syllabus/index.js:2
-#: blocks/courses/index.js:2
-#: blocks/pricing-table/index.js:2
+#: blocks/course-author/index.js:3
+#: blocks/course-continue/index.js:3
+#: blocks/course-meta-info/index.js:3
+#: blocks/course-outline/index.js:3
+#: blocks/course-prerequisites/index.js:3
+#: blocks/course-reviews/index.js:3
+#: blocks/course-syllabus/index.js:3
+#: blocks/courses/index.js:3
+#: blocks/pricing-table/index.js:3
 msgid "Inherit from current %s"
 msgstr ""
 
-#: blocks/course-author/index.js:2
-#: blocks/course-continue/index.js:2
-#: blocks/course-meta-info/index.js:2
-#: blocks/course-outline/index.js:2
-#: blocks/course-prerequisites/index.js:2
-#: blocks/course-reviews/index.js:2
-#: blocks/course-syllabus/index.js:2
-#: blocks/courses/index.js:2
-#: blocks/pricing-table/index.js:2
+#: blocks/course-author/index.js:3
+#: blocks/course-continue/index.js:3
+#: blocks/course-meta-info/index.js:3
+#: blocks/course-outline/index.js:3
+#: blocks/course-prerequisites/index.js:3
+#: blocks/course-reviews/index.js:3
+#: blocks/course-syllabus/index.js:3
+#: blocks/courses/index.js:3
+#: blocks/pricing-table/index.js:3
 msgid "Loading"
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: blocks/course-author/index.js:3
-#: blocks/course-continue/index.js:3
-#: blocks/course-meta-info/index.js:3
-#: blocks/course-outline/index.js:3
-#: blocks/course-prerequisites/index.js:3
-#: blocks/course-reviews/index.js:3
-#: blocks/course-syllabus/index.js:3
-#: blocks/pricing-table/index.js:3
+#: blocks/course-author/index.js:5
+#: blocks/course-continue/index.js:5
+#: blocks/course-meta-info/index.js:5
+#: blocks/course-outline/index.js:5
+#: blocks/course-prerequisites/index.js:5
+#: blocks/course-reviews/index.js:5
+#: blocks/course-syllabus/index.js:5
+#: blocks/pricing-table/index.js:5
 msgid "Select the %s to associate with this block."
 msgstr ""
 
-#: blocks/course-author/index.js:3
-#: blocks/pricing-table/index.js:3
+#: blocks/course-author/index.js:5
+#: blocks/pricing-table/index.js:5
 msgid "Author not found. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-author/index.js:3
-#: blocks/course-continue/index.js:3
-#: blocks/course-meta-info/index.js:3
-#: blocks/course-prerequisites/index.js:3
-#: blocks/course-reviews/index.js:3
-#: blocks/pricing-table/index.js:3
+#: blocks/course-author/index.js:5
+#: blocks/course-continue/index.js:5
+#: blocks/course-meta-info/index.js:5
+#: blocks/course-prerequisites/index.js:5
+#: blocks/course-reviews/index.js:5
+#: blocks/pricing-table/index.js:5
 msgid "No course selected. Please choose a Course from the block sidebar panel."
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "Course Author Settings"
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "Avatar Size"
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "The size of the avatar in pixels."
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "Display Bio"
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "Author bio is displayed."
 msgstr ""
 
-#: blocks/course-author/index.js:3
+#: blocks/course-author/index.js:5
 msgid "Author bio is hidden."
 msgstr ""
 
-#: blocks/course-continue/index.js:3
+#: blocks/course-continue/index.js:5
 msgid "No progress data found for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-continue/index.js:3
+#: blocks/course-continue/index.js:5
 msgid "Course Continue Settings"
 msgstr ""
 
-#: blocks/course-meta-info/index.js:3
+#: blocks/course-meta-info/index.js:5
 msgid "No meta information available for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-meta-info/index.js:3
+#: blocks/course-meta-info/index.js:5
 msgid "Course Meta Info Settings"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "No outline information available for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Course Outline Settings"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Collapse"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "If true, will make the outline sections collapsible via click events."
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Toggles"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "If true, will display \"Collapse All\" and \"Expand All\" toggles at the bottom of the outline. Only functions if \"collapse\" is true."
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Outline Type"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Select the type of outline to display."
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Full"
 msgstr ""
 
-#: blocks/course-outline/index.js:3
+#: blocks/course-outline/index.js:5
 msgid "Current Section"
 msgstr ""
 
-#: blocks/course-prerequisites/index.js:3
+#: blocks/course-prerequisites/index.js:5
 msgid "No prerequisites available for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-prerequisites/index.js:3
+#: blocks/course-prerequisites/index.js:5
 msgid "Course Prerequisites Settings"
 msgstr ""
 
-#: blocks/course-reviews/index.js:3
+#: blocks/course-reviews/index.js:5
 msgid "No reviews found for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-reviews/index.js:3
+#: blocks/course-reviews/index.js:5
 msgid "Course Reviews Settings"
 msgstr ""
 
-#: blocks/course-syllabus/index.js:3
+#: blocks/course-syllabus/index.js:5
 msgid "No syllabus found for this course. This block will not be displayed."
 msgstr ""
 
-#: blocks/course-syllabus/index.js:3
+#: blocks/course-syllabus/index.js:5
 msgid "Course Syllabus Settings"
 msgstr ""
 
@@ -35917,95 +35930,95 @@ msgstr ""
 msgid "- All -"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "No courses found matching your selection. This block will not be displayed."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Courses Settings"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Category"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Display courses from a specific Course Category only."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Show hidden courses?"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Whether or not courses with a \"hidden\" visibility should be included. Defaults to \"yes\" (hidden courses displayed). Switch to \"no\" to exclude hidden courses."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Display only specific course(s). You can select multiple courses."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Search available courses"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Show only my courses"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "No"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Show only courses the current student is enrolled in. By default (\"no\") shows courses regardless of enrollment."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Ascending"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Descending"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Display courses in ascending or descending order."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Order by"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Date modified"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Random"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Menu Order"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid "Determines which field is used to order courses in the courses list."
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
 msgid "Per Page"
 msgstr ""
 
-#: blocks/courses/index.js:2
+#: blocks/courses/index.js:3
 msgid " Determines the number of results to display. Default returns all available courses."
 msgstr ""
 
@@ -36104,11 +36117,11 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: blocks/pricing-table/index.js:3
+#: blocks/pricing-table/index.js:5
 msgid "Pricing Table Settings"
 msgstr ""
 
-#: blocks/pricing-table/index.js:3
+#: blocks/pricing-table/index.js:5
 msgid "Post Type"
 msgstr ""
 

@@ -5,9 +5,9 @@ Tags: lms, course, elearning, learning management system, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 7.5.0
+Stable tag: 7.5.1
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -418,7 +418,7 @@ Install the free LifterLMS plugin on your website, then ...
 [lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [aca]: https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [resources]: https://lifterlms.com/recommended-resources/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[team]: https://lifterlms.com/our-team/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[team]: https://lifterlms.com/about-us/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale#h-meet-the-team
 [webinar]: https://lifterlms.com/lifterlms-webinars/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 
@@ -426,7 +426,6 @@ Install the free LifterLMS plugin on your website, then ...
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -449,10 +448,6 @@ Install the free LifterLMS plugin on your website, then ...
 [wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 [features]: https://lifterlms.com/features/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-lms]: https://lifterlms.com/features/lms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 <!-- Test Auto deployment -->
 
@@ -573,6 +568,28 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 9. Setup Wizard to help you install and configure your new online course website with LifterLMS in 5 simple steps.
 
 == Changelog ==
+
+= v7.5.1 - 2024-01-24 =
+
+##### Updates and Enhancements
+
++ Added action and description links to the plugins page.
+
+##### Bug Fixes
+
++ Style updates for buttons in editor.
++ Fixed logic to validate that the terms page exists before adding to email footer.
++ Removed .clear styles since WordPress already sets them by default. [#2573](https://github.com/gocodebox/lifterlms/issues/2573)
++ Improved image appearance in quiz multiple choice and image choice question types. [#2588](https://github.com/gocodebox/lifterlms/issues/2588)
+
+##### Security Fixes
+
++ Added nonce for course clone link. Thanks, Dhabaleshwar Das.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.1/templates/emails/footer.php)
+
 
 = v7.5.0 - 2023-11-05 =
 
@@ -801,18 +818,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Updated Templates
 
 + [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
-
-
-= v7.1.2 - 2023-03-27 =
-
-##### Updates and Enhancements
-
-+ Making the LifterLMS logo link to the LifterLMS.com site.
-
-##### Bug Fixes
-
-+ Fix bug in `llms_featured_img` function when featured image file is not available. [#2381](https://github.com/gocodebox/lifterlms/issues/2381)
-+ Fixed manual certificates awarding broken when using the block editor. [#2386](https://github.com/gocodebox/lifterlms/issues/2386)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
