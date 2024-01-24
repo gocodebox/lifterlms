@@ -43,6 +43,7 @@ When running this command, the following happens:
 
 ## 2. Run tests and coding standards checks
 
+0. Ensure phpunit tests are installed: `composer run tests-install`.
 1. Ensure phpunit tests pass: `composer run tests-run`.
 2. Ensure phpcs checks pass: `composer run check-cs-errors`.
 3. Ensure e2e tests pass: `npm run test`.
