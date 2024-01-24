@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2588"
+entry: Improved image appearance in quiz multiple choice and image choice
+  question types.
