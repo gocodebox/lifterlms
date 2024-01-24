@@ -55,6 +55,7 @@ After building and testing the built release, all changes should be committed an
 
 1. `git commit -a`
 2. Enter something like "build version 7.1.1" for the commit message.
+3. `git push`
 
 ## 4. Generate the Distribution Archive
 
@@ -68,6 +69,10 @@ into the `vendor` directory, and so on.
 ## 5. Run pre-release tests on the archived
 
 Install and activate the zip file on a temporary sandbox site.
+
+Note: If you are reusing a testing site that already has LifterLMS installed, you can add this line to your wp-config.php and then uninstall and delete LifterLMS from the plugins screen and it will delete all of the LifterLMS data.
+
+`define( 'LLMS_REMOVE_ALL_DATA', true );`
 
   1. Run the setup wizard.
   2. Import sample course
