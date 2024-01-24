@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2573"
-entry: Removed .clear styles since WordPress already sets them by default.

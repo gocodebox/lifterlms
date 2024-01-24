@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: Added nonce for course clone link. Thanks, Dhabaleshwar Das.

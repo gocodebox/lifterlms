@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.1
+ * @version 7.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Modifications to the plugins page.
  *
- * @since [version]
+ * @since 7.5.1
  */
 class LLMS_Admin_Plugins {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 7.5.1
 	 *
 	 * @return void
 	 */
