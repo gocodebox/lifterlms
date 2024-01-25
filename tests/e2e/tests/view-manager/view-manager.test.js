@@ -101,6 +101,7 @@ describe( 'ViewManager', () => {
 				planUrl = await createAccessPlan( {
 					postId: courseId,
 					price: 5.00,
+					title: 'Test VM Plan ' + parseInt( Math.random() * 100000 ),
 				} );
 
 			await page.goto( planUrl );

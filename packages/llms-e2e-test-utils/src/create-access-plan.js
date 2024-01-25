@@ -46,13 +46,16 @@ export async function createAccessPlan( {
 
 	await page.click( '#llms-save-access-plans' );
 
-	await page.waitForSelector(
-		`${ selector }:nth-last-child(2) .llms-plan-link`,
+	// Get the link to the specific access plan we just created, in case there's one already there
+	await page.waitForXPath(
+		"//*[contains(@class, 'llms-plan-title') and normalize-space(.)='" + title + "']/following-sibling::*[contains(@class, 'llms-plan-link')]",
 		{ hidden: true }
 	);
 
-	return await page.$eval(
-		`${ selector }:nth-last-child(2) .llms-plan-link a`,
-		( el ) => el.href
+	const planLinkContainers = await page.$x( "//*[contains(@class, 'llms-plan-title') and normalize-space(.)='" + title + "']/following-sibling::*[contains(@class, 'llms-plan-link')]" );
+
+	return await page.evaluate(
+		( el ) => el.querySelector( 'a' ).href,
+		planLinkContainers[0]
 	);
 }

@@ -28,6 +28,7 @@ async function setupTest() {
 		planUrl = await createAccessPlan( {
 			postId: courseId,
 			price: 9.99,
+			title: 'Test Plan ' + parseInt( Math.random() * 100000 ),
 		} );
 
 	}
