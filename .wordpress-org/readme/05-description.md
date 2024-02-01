@@ -1,6 +1,8 @@
 == Description ==
 LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
 
+**[Download the LifterLMS plugin for free here][free]** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free.
+
 Transform your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
 
 + **Intuitive LMS Course Builder:** Create Courses, Sections, and Interactive Lessons with Rich Content Including Multimedia and Videos
@@ -302,6 +304,7 @@ We do recommend a minimalist approach to plugins and themes, so only install wha
 
 Save money while unlocking the full potential of your course building and LMS platform.
 
++ The [Free LifterLMS plan][free] gives you everything you need to get started with all the essential LMS features from unlimited courses, memberships, students, teachers, and more. 
 + The [Earth Bundle][earth] gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe].
 + Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity].
@@ -382,7 +385,9 @@ Want to add a new language to LifterLMS? Swell! You can contribute language tran
 
 ### What Should You Do Next?
 
-Install the free LifterLMS plugin on your website, then ...
+**[Install the free LifterLMS plugin on your website][free]**, 
+
+then ...
 
 **[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]**
 
@@ -416,6 +421,7 @@ Install the free LifterLMS plugin on your website, then ...
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [earth]: https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[free]: https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
