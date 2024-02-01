@@ -174,6 +174,7 @@ class LLMS_Reviews {
 					<?php wp_nonce_field( 'submit_review', 'submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
+					<input type="hidden" id="llms_review_nonce" name="llms_review_nonce" value="<?php echo esc_attr( wp_create_nonce( 'llms-review' ) ); ?>">
 					<input type="submit" class="button" value="<?php esc_attr_e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">
 					<!--</form>	-->
 				</div>
@@ -198,6 +199,11 @@ class LLMS_Reviews {
 	 * @return void
 	 */
 	public function process_review() {
+		// Check the nonce.
+		if ( ! isset( $_POST['llms_review_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['llms_review_nonce'] ), 'llms-review' ) ) {
+			return;
+		}
+		
 		$pageID = llms_filter_input_sanitize_string( INPUT_POST, 'pageID' );
 
 		// Make sure the curren user can write reviews yet.
