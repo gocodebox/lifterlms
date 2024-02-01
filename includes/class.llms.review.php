@@ -148,21 +148,6 @@ class LLMS_Reviews {
 		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() ) {
 
 			/**
-			 * Look for previous reviews that we have written on this course.
-			 *
-			 * @var array $posts_array Array of posts.
-			 */
-			$args        = array(
-				'posts_per_page'   => 1,
-				'post_type'        => 'llms_review',
-				'post_status'      => 'publish',
-				'post_parent'      => get_the_ID(),
-				'author'           => get_current_user_id(),
-				'suppress_filters' => true,
-			);
-			$posts_array = get_posts( $args );
-
-			/**
 			 * Filters the thank you text.
 			 *
 			 * @since 1.2.7
@@ -171,11 +156,7 @@ class LLMS_Reviews {
 			 */
 			$thank_you_text = apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) );
 
-			/**
-			 * Check to see if we are allowed to write more than one review.
-			 * If we are not, check to see if we have written a review already.
-			 */
-			if ( get_post_meta( get_the_ID(), '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
+			if( ! self::current_user_can_write_review() ) {
 				?>
 				<div id="thank_you_box">
 					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
@@ -212,10 +193,17 @@ class LLMS_Reviews {
 	 *
 	 * @since 1.2.7
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 *
+	 * @since [version] Now checking if the user can write a review.
+	 * 
 	 * @return void
 	 */
 	public function process_review() {
+		$pageID = llms_filter_input_sanitize_string( INPUT_POST, 'pageID' );
+
+		// Make sure the curren user can write reviews yet.
+		if ( ! self::current_user_can_write_review( $pageID ) ) {
+			return;
+		}
 
 		$post = array(
 			'post_content' => llms_filter_input_sanitize_string( INPUT_POST, 'review_text' ), // The full text of the post.
@@ -223,11 +211,54 @@ class LLMS_Reviews {
 			'post_title'   => llms_filter_input_sanitize_string( INPUT_POST, 'review_title' ), // The title of your post.
 			'post_status'  => 'publish',
 			'post_type'    => 'llms_review',
-			'post_parent'  => llms_filter_input_sanitize_string( INPUT_POST, 'pageID' ), // Sets the parent of the new post, if any. Default 0.
+			'post_parent'  => $pageID, // Sets the parent of the new post, if any. Default 0.
 			'post_excerpt' => llms_filter_input_sanitize_string( INPUT_POST, 'review_title' ),
 		);
 
 		$result = wp_insert_post( $post, true );
+	}
+
+	/**
+	 * Check to see if we are allowed to write more than one review.
+	 * If we are not, check to see if we have written a review already.
+	 * 
+	 * @since [version]
+	 */
+	public function current_user_can_write_review( $post_id = null ) {
+		// Make sure the user is logged in.
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// Make sure we have a post ID to check.
+		if ( empty( $post_id ) ) {
+			$post_id = get_the_ID();
+		}
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+
+		// Check if reviews are disabled.
+		if ( ! get_post_meta( $post_id, '_llms_reviews_enabled', true ) ) {
+			return false;
+		}
+
+		// Check if reviews are limited and the user has already written a review.
+		$args = array(
+			'posts_per_page'   => 1,
+			'post_type'        => 'llms_review',
+			'post_status'      => 'publish',
+			'post_parent'      => $post_id,
+			'author'           => get_current_user_id(),
+			'suppress_filters' => true,
+		);
+		$posts_array = get_posts( $args );
+		if ( get_post_meta( $post_id, '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
+			return false;
+		}
+		
+		// If we got here, we can write a review.
+		return true;
 	}
 }
 
