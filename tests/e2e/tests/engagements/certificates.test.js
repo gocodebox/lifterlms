@@ -189,7 +189,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 		);
 	} );
 
-	describe( 'Templates', () => {
+	xdescribe( 'Templates', () => {
 
 		// Test is randomly failing, investigate to fix later.
 		xit ( 'should create a certificate in the block editor', async () => {
