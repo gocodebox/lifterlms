@@ -73,14 +73,6 @@ final class LifterLMS {
 	 */
 	private function __construct() {
 
-		/**
-		 * Localize as early as possible.
-		 *
-		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load first.
-		 */
-		$this->localize();
 
 		$this->define_constants();
 
@@ -93,6 +85,7 @@ final class LifterLMS {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( $this, 'localize' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
@@ -415,7 +408,6 @@ final class LifterLMS {
 	 */
 	public function localize() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 		llms_load_textdomain( 'lifterlms' );
 
 	}
