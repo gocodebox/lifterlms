@@ -446,6 +446,7 @@ class LLMS_Post_Types {
 	 * @return void
 	 */
 	public static function register_post_types() {
+		$permalinks = llms_get_permalink_structure();
 
 		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -477,13 +478,13 @@ class LLMS_Post_Types {
 				'exclude_from_search' => false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'course', 'course url slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : $permalinks['courses_base'],
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
