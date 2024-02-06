@@ -129,12 +129,10 @@ class LLMS_Loader {
 
 		$this->includes();
 
-		//add_action( 'init', array( $this, 'includes' ) );
-		add_action( 'init', array( $this, 'includes_admin' ) );
 		if ( is_admin() ) {
-		//	$this->includes_admin();
+			$this->includes_admin();
 		} else {
-			//$this->includes_frontend();
+			$this->includes_frontend();
 		}
 	}
 
