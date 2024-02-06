@@ -20,12 +20,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_get_locale( $domain = 'lifterlms' ) {
 
-	if ( function_exists( 'determine_locale' ) ) {
-		$locale = determine_locale();
-	} else {
-		// @TODO: This can be removed when minimum supported version is 5.0.
-		$locale = is_admin() ? get_user_locale() : get_locale();
-	}
+	$locale = determine_locale();
 
 	/**
 	 * Filter the plugin's locale
