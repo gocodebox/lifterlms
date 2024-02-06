@@ -30,22 +30,7 @@ class LLMS_Admin_Permalinks {
 	 * @return void
 	 */
 	public function __construct() {
-		switch_to_locale( get_locale() );
-
-		// Filter on plugin_locale so load_plugin_textdomain loads the correct locale.
-		add_filter( 'plugin_locale', 'get_locale' );
-
-		llms_load_textdomain( 'lifterlms' );
-
 		$this->settings_init();
-
-		restore_previous_locale();
-
-		// Remove filter.
-		remove_filter( 'plugin_locale', 'get_locale' );
-
-		llms_load_textdomain( 'lifterlms' );
-
 		// TODO: Save settings
 	}
 
@@ -55,7 +40,12 @@ class LLMS_Admin_Permalinks {
 	public function settings_init() {
 		add_settings_section( 'lifterlms-permalink', __( 'LifterLMS Permalinks', 'lifterlms' ), array( $this, 'settings' ), 'permalink' );
 
+		// Make sure we're on the site locale so any defaults are not in the user's language
+		llms_switch_to_site_locale();
+
 		$this->permalinks = llms_get_permalink_structure();
+
+		llms_restore_locale();
 	}
 
 	public function settings() {

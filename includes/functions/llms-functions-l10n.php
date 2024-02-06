@@ -136,3 +136,38 @@ function llms_get_permalink_structure() {
 
 	return $permalinks;
 };
+
+/**
+ * Switch LifterLMS language to site language.
+ *
+ * @since [version]
+ */
+function llms_switch_to_site_locale() {
+	global $wp_locale_switcher;
+
+	if ( function_exists( 'switch_to_locale' ) && isset( $wp_locale_switcher ) ) {
+		switch_to_locale( get_locale() );
+
+		// Filter on plugin_locale so load_plugin_textdomain loads the correct locale.
+		add_filter( 'plugin_locale', 'get_locale' );
+
+		llms_load_textdomain( 'lifterlms' );
+	}
+}
+
+/**
+ * Switch LifterLMS language to original.
+ *
+ * @since [version]
+ */
+function llms_restore_locale() {
+	global $wp_locale_switcher;
+
+	if ( function_exists( 'restore_previous_locale' ) && isset( $wp_locale_switcher ) ) {
+		restore_previous_locale();
+
+		remove_filter( 'plugin_locale', 'get_locale' );
+
+		llms_load_textdomain( 'lifterlms' );
+	}
+}
