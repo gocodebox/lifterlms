@@ -125,6 +125,7 @@ function llms_get_permalink_structure() {
 		array_filter( $saved_permalinks ),
 		array(
 			'course_base' => _x( 'course', 'course url slug', 'lifterlms' ),
+			'courses_base' => _x( 'courses', 'course archive url slug', 'lifterlms' ),
 		)
 	);
 

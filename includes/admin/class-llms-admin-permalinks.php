@@ -65,6 +65,16 @@ class LLMS_Admin_Permalinks {
 					<input name="llms_course_base" id="course_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_base'] ); ?>" class="regular-text code">
 				</td>
 			</tr>
+			<tr>
+				<th>
+					<label for="courses_base">
+						<?php esc_html_e( 'Course Archive base' ); ?>
+					</label>
+				</th>
+				<td>
+					<input name="llms_courses_base" id="courses_base" type="text" value="<?php echo esc_attr( $this->permalinks['courses_base'] ); ?>" class="regular-text code">
+				</td>
+			</tr>
 			</tbody>
 		</table>
 
