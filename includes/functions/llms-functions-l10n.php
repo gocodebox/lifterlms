@@ -114,3 +114,25 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
 
 }
+
+function llms_get_permalink_structure() {
+	$saved_permalinks = (array) get_option( 'llms_permalinks', array() );
+
+	// TODO: Verify this will load the site language and not user language when permalink first set.
+	// TODO: Verify this will load the site language when visiting a front-end page and permalink cache cleared
+	$permalinks = wp_parse_args(
+		// Remove false or empty entries so we can use the default values.
+		array_filter( $saved_permalinks ),
+		array(
+			'course_base' => _x( 'course', 'course url slug', 'lifterlms' ),
+		)
+	);
+
+	array_filter( $permalinks, 'untrailingslashit' );
+
+	if ( $saved_permalinks !== $permalinks ) {
+		update_option( 'llms_permalinks', $permalinks );
+	}
+
+	return $permalinks;
+};
