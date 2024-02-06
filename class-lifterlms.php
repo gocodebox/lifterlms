@@ -68,6 +68,7 @@ final class LifterLMS {
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
 	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since [version] Lood locale textdomain on `init` instead of immediately
 	 *
 	 * @return void
 	 */
@@ -84,8 +85,8 @@ final class LifterLMS {
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
-		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'localize' ), 0 );
+		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
