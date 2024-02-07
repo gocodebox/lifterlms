@@ -121,6 +121,16 @@ function llms_get_permalink_structure() {
 		array(
 			'course_base' => _x( 'course', 'course url slug', 'lifterlms' ),
 			'courses_base' => _x( 'courses', 'course archive url slug', 'lifterlms' ),
+			'lesson_base' => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+			'quiz_base' => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+			'certificate_template_base' => _x( 'certificate-template', 'slug', 'lifterlms' ),
+			'certificate_base' => _x( 'certificate', 'slug', 'lifterlms' ),
+			'course_category_base' => _x( 'course-category', 'slug', 'lifterlms' ),
+			'course_tag_base' => _x( 'course-tag', 'slug', 'lifterlms' ),
+			'course_track_base' => _x( 'course-track', 'slug', 'lifterlms' ),
+			'course_difficulty_base' => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+			'membership_category_base' => _x( 'membership-category', 'slug', 'lifterlms' ),
+			'membership_tag_base' => _x( 'membership-tag', 'slug', 'lifterlms' ),
 		)
 	);
 

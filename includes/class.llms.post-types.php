@@ -553,7 +553,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+					'slug'       => $permalinks['lesson_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -592,7 +592,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+					'slug'       => $permalinks['quiz_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -903,7 +903,7 @@ class LLMS_Post_Types {
 			array(
 				'map_meta_cap' => true,
 			),
-			_x( 'certificate-template', 'slug', 'lifterlms' ),
+			$permalinks['certificate_template_base'],
 			/**
 			 * Filters the WordPress user capability required for a user to manage certificate templates on the admin panel.
 			 *
@@ -936,7 +936,7 @@ class LLMS_Post_Types {
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
 				'map_meta_cap' => false,
 			),
-			_x( 'certificate', 'slug', 'lifterlms' ),
+			$permalinks['certificate_base'],
 			/**
 			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *
@@ -1276,6 +1276,8 @@ class LLMS_Post_Types {
 	 */
 	public static function register_taxonomies() {
 
+		$permalinks = llms_get_permalink_structure();
+
 		// Course cat.
 		self::register_taxonomy(
 			'course_cat',
@@ -1301,7 +1303,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-category', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['course_category_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1334,7 +1336,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_difficulty_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1366,7 +1368,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-tag', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_tag_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1398,7 +1400,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-track', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['course_track_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1432,7 +1434,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'membership-category', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['membership_category_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1466,7 +1468,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'membership-tag', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['membership_tag_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
