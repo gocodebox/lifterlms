@@ -77,6 +77,17 @@ class LLMS_Admin_Permalinks {
 			</tr>
 			<tr>
 				<th>
+					<label for="memberships_base">
+						<?php esc_html_e( 'Memberships Archive base' ); ?>
+					</label>
+				</th>
+				<td>
+					<input name="llms_memberships_base" id="memberships_base" type="text" value="<?php echo esc_attr( $this->permalinks['memberships_base'] ); ?>" class="regular-text code">
+				</td>
+			</tr>
+
+			<tr>
+				<th>
 					<label for="lesson_base">
 						<?php esc_html_e( 'Lesson Post Type' ); ?>
 					</label>

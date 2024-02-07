@@ -674,7 +674,7 @@ class LLMS_Post_Types {
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
-				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : $permalinks['memberships_base'],
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
