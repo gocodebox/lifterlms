@@ -110,6 +110,15 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 
 }
 
+/**
+ * Retrieve the current permalink structure. If no structure is set, the default structure is returned.
+ *
+ * Note: this should be called on install or update of LifterLMS at a time when the site language is known and set.
+ *
+ * @since [version]
+ *
+ * @return array
+ */
 function llms_get_permalink_structure() {
 	$saved_permalinks = (array) get_option( 'llms_permalinks', array() );
 
@@ -143,6 +152,28 @@ function llms_get_permalink_structure() {
 
 	return $permalinks;
 };
+/**
+ * Set the permalink structure and only allow keys we know about.
+ *
+ * @since [version]
+ *
+ * @param $permalinks array
+ *
+ * @return void
+ */
+function llms_set_permalink_structure( $permalinks ) {
+	$defaults = llms_get_permalink_structure();
+
+	$permalinks = wp_parse_args(
+		// Only allow values whose keys are in the defaults array.
+		array_intersect_key( $permalinks, $defaults ),
+		$defaults
+	);
+
+	array_filter( $permalinks, 'untrailingslashit' );
+
+	update_option( 'llms_permalinks', $permalinks );
+}
 
 /**
  * Switch LifterLMS language to site language.

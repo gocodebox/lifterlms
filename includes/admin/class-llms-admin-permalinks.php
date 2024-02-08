@@ -31,7 +31,7 @@ class LLMS_Admin_Permalinks {
 	 */
 	public function __construct() {
 		$this->settings_init();
-		// TODO: Save settings
+		$this->settings_save();
 	}
 
 	/**
@@ -83,7 +83,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_course_base" id="course_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_base'] ); ?>" class="regular-text code">
+					<input name="llms_course_base" id="course_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<?php if ( ! $course_catalog_id || ! get_post( $course_catalog_id ) ): ?>
@@ -94,7 +94,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_courses_base" id="courses_base" type="text" value="<?php echo esc_attr( $this->permalinks['courses_base'] ); ?>" class="regular-text code">
+					<input name="llms_courses_base" id="courses_base" type="text" value="<?php echo esc_attr( $this->permalinks['courses_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<?php endif; ?>
@@ -106,7 +106,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_memberships_base" id="memberships_base" type="text" value="<?php echo esc_attr( $this->permalinks['memberships_base'] ); ?>" class="regular-text code">
+					<input name="llms_memberships_base" id="memberships_base" type="text" value="<?php echo esc_attr( $this->permalinks['memberships_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<?php endif; ?>
@@ -117,7 +117,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_lesson_base" id="lesson_base" type="text" value="<?php echo esc_attr( $this->permalinks['lesson_base'] ); ?>" class="regular-text code">
+					<input name="llms_lesson_base" id="lesson_base" type="text" value="<?php echo esc_attr( $this->permalinks['lesson_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -127,7 +127,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_quiz_base" id="quiz_base" type="text" value="<?php echo esc_attr( $this->permalinks['quiz_base'] ); ?>" class="regular-text code">
+					<input name="llms_quiz_base" id="quiz_base" type="text" value="<?php echo esc_attr( $this->permalinks['quiz_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -137,7 +137,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_certificate_template_base" id="certificate_template_base" type="text" value="<?php echo esc_attr( $this->permalinks['certificate_template_base'] ); ?>" class="regular-text code">
+					<input name="llms_certificate_template_base" id="certificate_template_base" type="text" value="<?php echo esc_attr( $this->permalinks['certificate_template_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -147,7 +147,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_certificate_base" id="certificate_base" type="text" value="<?php echo esc_attr( $this->permalinks['certificate_base'] ); ?>" class="regular-text code">
+					<input name="llms_certificate_base" id="certificate_base" type="text" value="<?php echo esc_attr( $this->permalinks['certificate_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -157,7 +157,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_course_category_base" id="course_category_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_category_base'] ); ?>" class="regular-text code">
+					<input name="llms_course_category_base" id="course_category_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_category_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -167,7 +167,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_course_tag_base" id="course_tag_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_tag_base'] ); ?>" class="regular-text code">
+					<input name="llms_course_tag_base" id="course_tag_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_tag_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -177,7 +177,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_course_track_base" id="course_track_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_track_base'] ); ?>" class="regular-text code">
+					<input name="llms_course_track_base" id="course_track_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_track_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -187,7 +187,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_course_difficulty_base" id="course_difficulty_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_difficulty_base'] ); ?>" class="regular-text code">
+					<input name="llms_course_difficulty_base" id="course_difficulty_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_difficulty_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -197,7 +197,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_membership_category_base" id="membership_category_base" type="text" value="<?php echo esc_attr( $this->permalinks['membership_category_base'] ); ?>" class="regular-text code">
+					<input name="llms_membership_category_base" id="membership_category_base" type="text" value="<?php echo esc_attr( $this->permalinks['membership_category_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			<tr>
@@ -207,7 +207,7 @@ class LLMS_Admin_Permalinks {
 					</label>
 				</th>
 				<td>
-					<input name="llms_membership_tag_base" id="membership_tag_base" type="text" value="<?php echo esc_attr( $this->permalinks['membership_tag_base'] ); ?>" class="regular-text code">
+					<input name="llms_membership_tag_base" id="membership_tag_base" type="text" value="<?php echo esc_attr( $this->permalinks['membership_tag_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
 			</tbody>
@@ -215,6 +215,39 @@ class LLMS_Admin_Permalinks {
 
 		<?php wp_nonce_field( 'llms-permalinks', 'llms-permalinks-nonce' ); ?>
 		<?php
+	}
+
+	/**
+	 * Save the permalink settings
+	 */
+	public function settings_save() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( $_POST['llms-permalinks-nonce'], 'llms-permalinks' ) ) {
+			llms_switch_to_site_locale();
+
+			$permalinks = llms_get_permalink_structure();
+
+			$permalinks['course_base'] = isset( $_POST['llms_course_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_base'] ) ) : $permalinks['course_base'];
+			$permalinks['courses_base'] = isset( $_POST['llms_courses_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_courses_base'] ) ) : $permalinks['courses_base'];
+			$permalinks['memberships_base'] = isset( $_POST['llms_memberships_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_memberships_base'] ) ) : $permalinks['memberships_base'];
+			$permalinks['lesson_base'] = isset( $_POST['llms_lessons_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_lessons_base'] ) ) : $permalinks['lessons_base'];
+			$permalinks['quiz_base'] = isset( $_POST['llms_quiz_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_quiz_base'] ) ) : $permalinks['quiz_base'];
+			$permalinks['certificate_template_base'] = isset( $_POST['llms_certificate_template_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_template_base'] ) ) : $permalinks['certificate_template_base'];
+			$permalinks['certificate_base'] = isset( $_POST['llms_certificate_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_base'] ) ) : $permalinks['certificate_base'];
+			$permalinks['course_category_base'] = isset( $_POST['llms_course_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_category_base'] ) ) : $permalinks['course_category_base'];
+			$permalinks['course_tag_base'] = isset( $_POST['llms_course_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_tag_base'] ) ) : $permalinks['course_tag_base'];
+			$permalinks['course_track_base'] = isset( $_POST['llms_course_track_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_track_base'] ) ) : $permalinks['course_track_base'];
+			$permalinks['course_difficulty_base'] = isset( $_POST['llms_course_difficulty_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_difficulty_base'] ) ) : $permalinks['course_difficulty_base'];
+			$permalinks['membership_category_base'] = isset( $_POST['llms_membership_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_category_base'] ) ) : $permalinks['membership_category_base'];
+			$permalinks['membership_tag_base'] = isset( $_POST['llms_membership_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_tag_base'] ) ) : $permalinks['membership_tag_base'];
+
+			llms_set_permalink_structure( $permalinks );
+
+			llms_restore_locale();
+		}
 	}
 }
 
