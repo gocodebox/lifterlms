@@ -224,7 +224,7 @@ class LLMS_Admin_Permalinks {
 			return;
 		}
 
-		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['llms-permalinks-nonce'] ) ), 'llms-permalinks' ) ) {
+		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['llms-permalinks-nonce'] ), 'llms-permalinks' ) ) {
 			llms_switch_to_site_locale();
 
 			$permalinks = llms_get_permalink_structure();
