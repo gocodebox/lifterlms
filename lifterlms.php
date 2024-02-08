@@ -52,6 +52,8 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 	require_once LLMS_PLUGIN_DIR . 'class-lifterlms.php';
 }
 
+register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
+
 /**
  * Returns the main instance of LifterLMS
  *

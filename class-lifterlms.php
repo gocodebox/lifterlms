@@ -82,7 +82,6 @@ final class LifterLMS {
 		$this->query = new LLMS_Query();
 
 		// Hooks.
-		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
 		add_action( 'init', array( $this, 'localize' ), 0 );
@@ -414,3 +413,5 @@ final class LifterLMS {
 	}
 
 }
+
+
