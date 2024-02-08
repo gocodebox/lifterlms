@@ -44,7 +44,6 @@ class LLMS_Admin_Permalinks {
 	}
 
 	public function settings() {
-		// TODO: Conditionally show message for Course Catalog and Membership Catalog if they are enabled
 		?>
 		<p><?php _e( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ); ?></p>
 
@@ -86,7 +85,7 @@ class LLMS_Admin_Permalinks {
 					<input name="llms_course_base" id="course_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
-			<?php if ( ! $course_catalog_id || ! get_post( $course_catalog_id ) ): ?>
+			<?php if ( ! $course_catalog_id || ! get_post( $course_catalog_id ) ) : ?>
 			<tr>
 				<th>
 					<label for="courses_base">
@@ -98,7 +97,7 @@ class LLMS_Admin_Permalinks {
 				</td>
 			</tr>
 			<?php endif; ?>
-			<?php if ( ! $memberships_catalog_id || ! get_post( $memberships_catalog_id ) ): ?>
+			<?php if ( ! $memberships_catalog_id || ! get_post( $memberships_catalog_id ) ) : ?>
 			<tr>
 				<th>
 					<label for="memberships_base">
@@ -225,7 +224,7 @@ class LLMS_Admin_Permalinks {
 			return;
 		}
 
-		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( $_POST['llms-permalinks-nonce'], 'llms-permalinks' ) ) {
+		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['llms-permalinks-nonce'] ), 'llms-permalinks' ) ) {
 			llms_switch_to_site_locale();
 
 			$permalinks = llms_get_permalink_structure();

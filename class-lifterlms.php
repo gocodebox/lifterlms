@@ -74,7 +74,6 @@ final class LifterLMS {
 	 */
 	private function __construct() {
 
-
 		$this->define_constants();
 
 		$this->init_assets();

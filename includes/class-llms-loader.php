@@ -383,7 +383,7 @@ class LLMS_Loader {
 			return;
 		}
 
-		if ( $screen->id === 'options-permalink' ) {
+		if ( 'options-permalink' === $screen->id ) {
 			require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
 		}
 	}

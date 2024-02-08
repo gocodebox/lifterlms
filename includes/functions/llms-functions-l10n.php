@@ -122,15 +122,13 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 function llms_get_permalink_structure() {
 	$saved_permalinks = (array) get_option( 'llms_permalinks', array() );
 
-	// TODO: Verify this will load the site language and not user language when permalink first set.
-	// TODO: Verify this will load the site language when visiting a front-end page and permalink cache cleared
 	$permalinks = wp_parse_args(
 		// Remove false or empty entries so we can use the default values.
 		array_filter( $saved_permalinks ),
 		array(
 			'course_base' => _x( 'course', 'course url slug', 'lifterlms' ),
 			'courses_base' => _x( 'courses', 'course archive url slug', 'lifterlms' ),
-			'memberships_base' =>  _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+			'memberships_base' => _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 			'lesson_base' => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
 			'quiz_base' => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
 			'certificate_template_base' => _x( 'certificate-template', 'slug', 'lifterlms' ),
