@@ -53,6 +53,32 @@ class LLMS_Admin_Permalinks {
 		?>
 		<p><?php _e( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ); ?></p>
 
+		<?php
+		$course_catalog_id = llms_get_page_id( 'courses' );
+		if ( $course_catalog_id && get_post( $course_catalog_id ) ) {
+			?>
+			<p>
+				<?php echo esc_html__( 'Note: The Courses Catalog is currently set to a static page.', 'lifterlms' ); ?>
+				<a href="<?php echo esc_url( get_edit_post_link( $course_catalog_id ) ); ?>">
+				<?php echo esc_html__( 'You can edit the page slug to change its location.', 'lifterlms' ); ?>
+				</a>
+			</p>
+			<?php
+		}
+
+		$memberships_catalog_id = llms_get_page_id( 'memberships' );
+		if ( $memberships_catalog_id && get_post( $memberships_catalog_id ) ) {
+			?>
+			<p>
+				<?php echo esc_html__( 'Note: The Memberships Catalog is currently set to a static page.', 'lifterlms' ); ?>
+				<a href="<?php echo esc_url( get_edit_post_link( $memberships_catalog_id ) ); ?>">
+					<?php echo esc_html__( 'You can edit the page slug to change its location.', 'lifterlms' ); ?>
+				</a>
+			</p>
+			<?php
+		}
+		?>
+
 		<table class="form-table" role="presentation">
 			<tbody>
 			<tr>
@@ -65,6 +91,7 @@ class LLMS_Admin_Permalinks {
 					<input name="llms_course_base" id="course_base" type="text" value="<?php echo esc_attr( $this->permalinks['course_base'] ); ?>" class="regular-text code">
 				</td>
 			</tr>
+			<?php if ( ! $course_catalog_id || ! get_post( $course_catalog_id ) ): ?>
 			<tr>
 				<th>
 					<label for="courses_base">
@@ -75,6 +102,8 @@ class LLMS_Admin_Permalinks {
 					<input name="llms_courses_base" id="courses_base" type="text" value="<?php echo esc_attr( $this->permalinks['courses_base'] ); ?>" class="regular-text code">
 				</td>
 			</tr>
+			<?php endif; ?>
+			<?php if ( ! $memberships_catalog_id || ! get_post( $memberships_catalog_id ) ): ?>
 			<tr>
 				<th>
 					<label for="memberships_base">
@@ -85,7 +114,7 @@ class LLMS_Admin_Permalinks {
 					<input name="llms_memberships_base" id="memberships_base" type="text" value="<?php echo esc_attr( $this->permalinks['memberships_base'] ); ?>" class="regular-text code">
 				</td>
 			</tr>
-
+			<?php endif; ?>
 			<tr>
 				<th>
 					<label for="lesson_base">
