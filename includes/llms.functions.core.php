@@ -21,7 +21,6 @@ require_once 'functions/llms-functions-progression.php';
 require_once 'functions/llms-functions-user-information-fields.php';
 require_once 'functions/llms-functions-wrappers.php';
 
-
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
 require_once 'functions/llms.functions.course.php';
