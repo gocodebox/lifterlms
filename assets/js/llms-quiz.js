@@ -231,6 +231,11 @@
 
 					}
 
+				},
+				error: function ( jqXHR, status, error ) {
+					self.reload_question();
+					self.add_error( LLMS.l10n.translate( 'Error, try again...' ) );
+					console.log( error );
 				}
 
 			} );
@@ -312,6 +317,19 @@
 			this.toggle_loader( 'show', 'Grading Quiz...' );
 			this.status          = null;
 			window.location.href = url;
+
+		},
+
+		reload_question: function() {
+			var self = this;
+
+			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
+			self.update_progress_bar( 'decrement' );
+
+			setTimeout( function() {
+				self.toggle_loader( 'hide' );
+				self.load_question( self.questions[ 'q-' + self.current_question ] );
+			}, 100 );
 
 		},
 
