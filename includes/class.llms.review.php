@@ -206,7 +206,7 @@ class LLMS_Reviews {
 
 		$parent_id = llms_filter_input_sanitize_string( INPUT_POST, 'pageID' );
 
-		// Make sure the curren user can write reviews yet.
+		// Make sure the current user can write reviews yet.
 		if ( ! self::current_user_can_write_review( $parent_id ) ) {
 			return;
 		}
