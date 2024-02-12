@@ -284,6 +284,12 @@
 
 					}
 
+				},
+
+				error: function ( jqXHR, status, error ) {
+					self.reload_question();
+					self.add_error( LLMS.l10n.translate( 'Error, try again...' ) );
+					console.log( error );
 				}
 
 			} );
@@ -324,7 +330,7 @@
 			var self = this;
 
 			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
-			self.update_progress_bar( 'decrement' );
+			self.update_progress_bar( 'reload' );
 
 			setTimeout( function() {
 				self.toggle_loader( 'hide' );
@@ -714,7 +720,7 @@
 		/**
 		 * Increase progress bar ui element
 		 *
-		 * @param    string   dir  update direction [increment|decrement]
+		 * @param    string   dir  update direction [increment|decrement|reload]
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -722,10 +728,15 @@
 		update_progress_bar: function( dir ) {
 
 			var index = this.get_question_index( this.current_question );
-			if ( 'increment' === dir ) {
-				index++;
-			} else {
-				index--;
+			switch ( dir ) {
+				case 'increment':
+					index++;
+					break;
+				case 'decrement':
+					index--;
+					break;
+				case 'reload':
+					break;
 			}
 
 			progress = ( index / this.total_questions ) * 100;
