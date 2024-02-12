@@ -234,7 +234,7 @@
 				},
 				error: function ( jqXHR, status, error ) {
 					self.reload_question();
-					self.add_error( LLMS.l10n.translate( 'Error, try again...' ) );
+					self.add_error( LLMS.l10n.translate( 'An unknown error occurred. Please try again.' ) );
 					console.log( error );
 				}
 
