@@ -232,7 +232,7 @@ class LLMS_Admin_Permalinks {
 			$permalinks['course_base'] = isset( $_POST['llms_course_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_base'] ) ) : $permalinks['course_base'];
 			$permalinks['courses_base'] = isset( $_POST['llms_courses_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_courses_base'] ) ) : $permalinks['courses_base'];
 			$permalinks['memberships_base'] = isset( $_POST['llms_memberships_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_memberships_base'] ) ) : $permalinks['memberships_base'];
-			$permalinks['lesson_base'] = isset( $_POST['llms_lessons_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_lessons_base'] ) ) : $permalinks['lessons_base'];
+			$permalinks['lesson_base'] = isset( $_POST['llms_lesson_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_lesson_base'] ) ) : $permalinks['lesson_base'];
 			$permalinks['quiz_base'] = isset( $_POST['llms_quiz_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_quiz_base'] ) ) : $permalinks['quiz_base'];
 			$permalinks['certificate_template_base'] = isset( $_POST['llms_certificate_template_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_template_base'] ) ) : $permalinks['certificate_template_base'];
 			$permalinks['certificate_base'] = isset( $_POST['llms_certificate_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_base'] ) ) : $permalinks['certificate_base'];
