@@ -176,9 +176,10 @@ function llms_set_permalink_structure( $permalinks ) {
 /**
  * Switch LifterLMS language to site language.
  *
+ * @param string $textdomain Text domain. Defaults to lifterlms.
  * @since [version]
  */
-function llms_switch_to_site_locale() {
+function llms_switch_to_site_locale( $textdomain = 'lifterlms' ) {
 	global $wp_locale_switcher;
 
 	if ( function_exists( 'switch_to_locale' ) && isset( $wp_locale_switcher ) ) {
@@ -187,16 +188,17 @@ function llms_switch_to_site_locale() {
 		// Filter on plugin_locale so load_plugin_textdomain loads the correct locale.
 		add_filter( 'plugin_locale', 'get_locale' );
 
-		llms_load_textdomain( 'lifterlms' );
+		llms_load_textdomain( $textdomain );
 	}
 }
 
 /**
  * Switch LifterLMS language to original.
  *
+ * @param string $textdomain Text domain. Defaults to lifterlms.
  * @since [version]
  */
-function llms_restore_locale() {
+function llms_restore_locale( $textdomain = 'lifterlms') {
 	global $wp_locale_switcher;
 
 	if ( function_exists( 'restore_previous_locale' ) && isset( $wp_locale_switcher ) ) {
@@ -204,6 +206,6 @@ function llms_restore_locale() {
 
 		remove_filter( 'plugin_locale', 'get_locale' );
 
-		llms_load_textdomain( 'lifterlms' );
+		llms_load_textdomain( $textdomain );
 	}
 }
