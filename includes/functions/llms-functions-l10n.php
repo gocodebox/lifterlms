@@ -198,7 +198,7 @@ function llms_switch_to_site_locale( $textdomain = 'lifterlms' ) {
  * @param string $textdomain Text domain. Defaults to lifterlms.
  * @since [version]
  */
-function llms_restore_locale( $textdomain = 'lifterlms') {
+function llms_restore_locale( $textdomain = 'lifterlms' ) {
 	global $wp_locale_switcher;
 
 	if ( function_exists( 'restore_previous_locale' ) && isset( $wp_locale_switcher ) ) {
