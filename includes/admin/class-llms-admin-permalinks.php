@@ -78,7 +78,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="course_base">
-						<?php esc_html_e( 'Course Post Type' ); ?>
+						<?php esc_html_e( 'Course Post Type', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -89,7 +89,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="courses_base">
-						<?php esc_html_e( 'Course Archive base' ); ?>
+						<?php esc_html_e( 'Course Archive base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -101,7 +101,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="memberships_base">
-						<?php esc_html_e( 'Memberships Archive base' ); ?>
+						<?php esc_html_e( 'Memberships Archive base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -112,7 +112,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="lesson_base">
-						<?php esc_html_e( 'Lesson Post Type' ); ?>
+						<?php esc_html_e( 'Lesson Post Type', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -122,7 +122,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="quiz_base">
-						<?php esc_html_e( 'Quiz Post Type' ); ?>
+						<?php esc_html_e( 'Quiz Post Type', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -132,7 +132,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="certificate_template_base">
-						<?php esc_html_e( 'Certificate Template Post Type' ); ?>
+						<?php esc_html_e( 'Certificate Template Post Type', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -142,7 +142,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="certificate_base">
-						<?php esc_html_e( 'Earned Certificate Post Type' ); ?>
+						<?php esc_html_e( 'Earned Certificate Post Type', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -152,7 +152,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="course_category_base">
-						<?php esc_html_e( 'Course Category base' ); ?>
+						<?php esc_html_e( 'Course Category base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -162,7 +162,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="course_tag_base">
-						<?php esc_html_e( 'Course Tag base' ); ?>
+						<?php esc_html_e( 'Course Tag base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -172,7 +172,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="course_track_base">
-						<?php esc_html_e( 'Course Track base' ); ?>
+						<?php esc_html_e( 'Course Track base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -182,7 +182,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="course_difficulty_base">
-						<?php esc_html_e( 'Course Difficulty base' ); ?>
+						<?php esc_html_e( 'Course Difficulty base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -192,7 +192,7 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="membership_category_base">
-						<?php esc_html_e( 'Membership Category base' ); ?>
+						<?php esc_html_e( 'Membership Category base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
@@ -202,13 +202,14 @@ class LLMS_Admin_Permalinks {
 			<tr>
 				<th>
 					<label for="membership_tag_base">
-						<?php esc_html_e( 'Membership Tag base' ); ?>
+						<?php esc_html_e( 'Membership Tag base', 'lifterlms' ); ?>
 					</label>
 				</th>
 				<td>
 					<input name="llms_membership_tag_base" id="membership_tag_base" type="text" value="<?php echo esc_attr( $this->permalinks['membership_tag_base'] ); ?>" class="regular-text code" required>
 				</td>
 			</tr>
+			<?php do_action( 'llms_permalink_setting_fields' ); ?>
 			</tbody>
 		</table>
 
