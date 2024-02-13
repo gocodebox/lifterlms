@@ -155,7 +155,7 @@ function llms_get_permalink_structure() {
  *
  * @since [version]
  *
- * @param $permalinks array
+ * @param array $permalinks
  *
  * @return void
  */
