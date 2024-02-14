@@ -1,4 +1,4 @@
 significance: patch
-type: security
+type: fixed
 comment:
 entry: Adds error handling when taking a quiz in case of temporary server error or internet issue.
