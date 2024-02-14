@@ -2243,6 +2243,10 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
   text-align: center;
   z-index: 1;
 }
+.llms-quiz-question-wrapper .llms-question-image img {
+  height: auto;
+  max-width: 100%;
+}
 
 .llms-quiz-ui {
   background: #fcfcfc;
@@ -2350,6 +2354,7 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
 }
 .llms-question-wrapper ol.llms-question-choices li.llms-choice.type--picture .llms-choice-image img {
   display: block;
+  height: auto;
   width: 100%;
 }
 .llms-question-wrapper ol.llms-question-choices li.llms-choice.type--picture input:checked ~ .llms-choice-image {

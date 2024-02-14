@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Fixed logic to validate that the terms page exists before adding to email
-  footer.

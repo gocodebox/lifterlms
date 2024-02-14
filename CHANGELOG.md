@@ -1,6 +1,29 @@
 LifterLMS Changelog
 ===================
 
+v7.5.1 - 2024-01-24
+-------------------
+
+##### Updates and Enhancements
+
++ Added action and description links to the plugins page.
+
+##### Bug Fixes
+
++ Style updates for buttons in editor.
++ Fixed logic to validate that the terms page exists before adding to email footer.
++ Removed .clear styles since WordPress already sets them by default. [#2573](https://github.com/gocodebox/lifterlms/issues/2573)
++ Improved image appearance in quiz multiple choice and image choice question types. [#2588](https://github.com/gocodebox/lifterlms/issues/2588)
+
+##### Security Fixes
+
++ Added nonce for course clone link. Thanks, Dhabaleshwar Das.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.1/templates/emails/footer.php)
+
+
 v7.5.0 - 2023-11-05
 -------------------
 

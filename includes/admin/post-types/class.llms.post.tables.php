@@ -84,7 +84,7 @@ class LLMS_Admin_Post_Tables {
 	 * @since 3.3.0
 	 * @since 3.33.1 Use `llms_filter_input` to access `$_GET` and `$_POST` data.
 	 * @since 3.33.1 Use `edit_course` cap instead of `edit_post` cap.
-	 * @since [version] Adding nonce to course clone links
+	 * @since 7.5.1 Adding nonce to course clone links
 	 *
 	 * @return void
 	 */
