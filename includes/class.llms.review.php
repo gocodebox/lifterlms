@@ -156,7 +156,7 @@ class LLMS_Reviews {
 			 */
 			$thank_you_text = apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) );
 
-			if ( ! self::current_user_can_write_review() ) {
+			if ( ! self::current_user_can_write_review( get_the_ID() ) ) {
 				?>
 				<div id="thank_you_box">
 					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
@@ -171,10 +171,9 @@ class LLMS_Reviews {
 					<h5 id="review_title_error"><?php esc_html_e( 'Review Title is required.', 'lifterlms' ); ?></h5>
 					<textarea name="review_text" placeholder="<?php esc_attr_e( 'Review Text', 'lifterlms' ); ?>" id="review_text"></textarea>
 					<h5 id="review_text_error"><?php esc_html_e( 'Review Text is required.', 'lifterlms' ); ?></h5>
-					<?php wp_nonce_field( 'submit_review', 'submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
-					<input type="hidden" id="llms_review_nonce" name="llms_review_nonce" value="<?php echo esc_attr( wp_create_nonce( 'llms-review' ) ); ?>">
+					<?php wp_nonce_field( 'llms-review', 'llms_review_nonce' ); ?>
 					<input type="submit" class="button" value="<?php esc_attr_e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">
 					<!--</form>	-->
 				</div>
@@ -233,16 +232,13 @@ class LLMS_Reviews {
 	 * @param int $parent_id The ID of the parent post.
 	 * @return bool True if the user can write a review, false if not.
 	 */
-	public function current_user_can_write_review( $parent_id = null ) {
+	public function current_user_can_write_review( $parent_id ) {
 		// Make sure the user is logged in.
 		if ( ! is_user_logged_in() ) {
 			return false;
 		}
 
 		// Make sure we have a post ID to check.
-		if ( empty( $parent_id ) ) {
-			$post_id = get_the_ID();
-		}
 		if ( empty( $parent_id ) ) {
 			return false;
 		}
