@@ -30,8 +30,23 @@ class LLMS_Admin_Permalinks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->settings_init();
-		$this->settings_save();
+		add_action( 'current_screen', array( $this, 'load_on_permalinks_screen' ) );
+	}
+
+	/**
+	 * Ensure we're on the permalinks screen.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function load_on_permalinks_screen() {
+		$screen = get_current_screen();
+
+		if ( $screen && 'options-permalink' === $screen->id ) {
+			$this->settings_init();
+			$this->settings_save();
+		}
 	}
 
 	/**

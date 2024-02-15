@@ -326,8 +326,6 @@ class LLMS_Loader {
 	 */
 	public function includes_admin() {
 
-		add_action( 'current_screen', array( $this, 'includes_conditional_admin' ) );
-
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
 
@@ -340,6 +338,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
@@ -366,25 +365,6 @@ class LLMS_Loader {
 		// Load setup wizard conditionally.
 		if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page' ) ) {
 			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
-		}
-	}
-
-	/**
-	 * Includes for classes that are conditionally loaded depending on the screen
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function includes_conditional_admin() {
-		$screen = get_current_screen();
-
-		if ( ! $screen ) {
-			return;
-		}
-
-		if ( 'options-permalink' === $screen->id ) {
-			require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
 		}
 	}
 
