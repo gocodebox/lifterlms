@@ -1,4 +1,0 @@
-significance: patch
-type: security
-comment:
-entry: Reviews handler now checks nonces and user limits. Thanks, Francesco Carlucci at Wordfence.

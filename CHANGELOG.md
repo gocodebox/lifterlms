@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v7.5.2 - 2024-02-16
+-------------------
+
+##### Updates and Enhancements
+
++ Added product images for Aircraft and Memberlite.
++ Updates LifterLMS Rest to [v1.0.0](https://make.lifterlms.com/2024/01/22/lifterlms-rest-api-version-1-0-0/).
+
+##### Bug Fixes
+
++ Adds error handling when taking a quiz in case of temporary server error or internet issue.
+
+##### Security Fixes
+
++ Reviews handler now checks nonces and user limits. Thanks, Francesco Carlucci at Wordfence.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.2/templates/emails/footer.php)
+
+
 v7.5.1 - 2024-01-24
 -------------------
 

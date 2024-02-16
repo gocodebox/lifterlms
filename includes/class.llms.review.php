@@ -193,7 +193,7 @@ class LLMS_Reviews {
 	 *
 	 * @since 1.2.7
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Now checking if the user can write a review.
+	 * @since 7.5.2 Now checking if the user can write a review.
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class LLMS_Reviews {
 	 * Check to see if we are allowed to write more than one review.
 	 * If we are not, check to see if we have written a review already.
 	 *
-	 * @since [version]
+	 * @since 7.5.2
 	 *
 	 * @param int $parent_id The ID of the parent post.
 	 * @return bool True if the user can write a review, false if not.

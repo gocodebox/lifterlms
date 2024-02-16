@@ -7,13 +7,15 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 7.5.1
+Stable tag: 7.5.2
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
 
 == Description ==
 LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
+
+**[Download the LifterLMS plugin for free here][free]** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free.
 
 Transform your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
 
@@ -316,6 +318,7 @@ We do recommend a minimalist approach to plugins and themes, so only install wha
 
 Save money while unlocking the full potential of your course building and LMS platform.
 
++ The [Free LifterLMS plan][free] gives you everything you need to get started with all the essential LMS features from unlimited courses, memberships, students, teachers, and more. 
 + The [Earth Bundle][earth] gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe].
 + Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity].
@@ -396,7 +399,9 @@ Want to add a new language to LifterLMS? Swell! You can contribute language tran
 
 ### What Should You Do Next?
 
-Install the free LifterLMS plugin on your website, then ...
+**[Install the free LifterLMS plugin on your website][free]**, 
+
+then ...
 
 **[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]**
 
@@ -430,6 +435,7 @@ Install the free LifterLMS plugin on your website, then ...
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [earth]: https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[free]: https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -568,6 +574,26 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 9. Setup Wizard to help you install and configure your new online course website with LifterLMS in 5 simple steps.
 
 == Changelog ==
+
+= v7.5.2 - 2024-02-16 =
+
+##### Updates and Enhancements
+
++ Added product images for Aircraft and Memberlite.
++ Updates LifterLMS Rest to [v1.0.0](https://make.lifterlms.com/2024/01/22/lifterlms-rest-api-version-1-0-0/).
+
+##### Bug Fixes
+
++ Adds error handling when taking a quiz in case of temporary server error or internet issue.
+
+##### Security Fixes
+
++ Reviews handler now checks nonces and user limits. Thanks, Francesco Carlucci at Wordfence.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.2/templates/emails/footer.php)
+
 
 = v7.5.1 - 2024-01-24 =
 
@@ -790,34 +816,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Developer Notes
 
 + Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2 expecting `render_block()` returning a string while we were applying a filter that returned the boolean `true`.
-
-
-= v7.1.3 - 2023-04-25 =
-
-##### Updates and Enhancements
-
-+ Wrapped some elements in HTML for better styling.
-+ In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
-+ Updated few Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
-+ Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
-
-##### Bug Fixes
-
-+ Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
-+ Fixed "Course Length" and "Difficulty" fields visible in the Block Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
-+ Added missing `$post_id` parameter to the `the_title` filter hook when retrieving a form title. [#2332](https://github.com/gocodebox/lifterlms/issues/2332)
-+ Added missing Armed Forces options to the US States dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
-+ Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
-
-##### Developer Notes
-
-+ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values and filter hook `lifterlms_floats_rounding_precision` to filter precision value in reporting. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
-+ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
-+ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
-
-##### Updated Templates
-
-+ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
