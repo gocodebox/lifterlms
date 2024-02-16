@@ -9,5 +9,11 @@
  * @version   3.23.0
  */
 defined( 'ABSPATH' ) || exit;
+
+// If the plan has no content, don't display anything.
+if ( ! $plan->get( 'content' ) ) {
+	return;
+}
+
 ?>
 <div class="llms-access-plan-description"><?php echo $plan->get( 'content' ); ?></div>

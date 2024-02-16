@@ -1,24 +1,35 @@
 .llms-checkout-wrapper {
+	.llms-person-login-form-wrapper {
+		margin-bottom: 40px;
+	}	
 	form.llms-login {
-		border: 3px solid $color-brand-blue;
 		display: none;
-		margin-bottom: 10px;
 	}
 	.llms-form-heading {
-		background: $color-brand-blue;
-		color: #fff;
-		margin: 0 0 5px;
-		padding: 10px;
+		margin: 0 0 20px;
 	}
 }
 
 .llms-checkout {
-	background: #fff;
 	position: relative;
 }
 
 .llms-checkout-cols-2 {
 	@extend %clearfix;
+
+	&.llms-col-2 {
+
+		section {
+			background-color: $color-white;
+			border: 1px solid $color-lightgrey;
+			border-radius: $radius-medium;
+			padding: 20px;
+
+			.llms-form-heading {
+				padding: 0;
+			}
+		}
+	}
 
 	@media all and (min-width: 800px) {
 
@@ -26,12 +37,12 @@
 			float: left;
 
 			&.llms-col-1 {
-				margin-right: 5px;
-				width: calc( 58% - 5px );
+				margin-right: 20px;
+				width: calc( 58% - 20px );
 			}
 			&.llms-col-2 {
-				margin-left: 5px;
-				width: calc( 42% - 5px );
+				margin-left: 20px;
+				width: calc( 42% - 20px );
 
 				button {
 					width: 100%;
@@ -44,21 +55,17 @@
 }
 
 	.llms-checkout-section {
-		border: 3px solid $color-brand-blue;
-		margin-bottom: 10px;
+		margin-bottom: 40px;
 		position: relative;
 	}
 
 		.llms-checkout-section-content {
-			margin: 10px;
 			&.llms-form-fields {
 				margin: 0px;
 			}
 
 			.llms-label {
 				font-weight: 400;
-				font-variant: small-caps;
-				text-transform: lowercase;
 			}
 
 			.llms-order-summary {
@@ -66,7 +73,15 @@
 				margin: 0;
 				padding: 0;
 
-				li { list-style-type: none; }
+				li {
+					list-style-type: none;
+					margin: 0 0 15px 0;
+
+				}
+
+				:not(.llms-label) {
+					font-weight: 700;
+				}
 
 				li.llms-pricing {
 					&.on-sale,
@@ -79,19 +94,22 @@
 			}
 
 			.llms-coupon-wrapper {
-				border-top: 1px solid #dadada;
-				margin-top: 10px;
-				padding-top: 10px;
+				border-top: 1px solid $color-border;
+				margin-top: 20px;
+				padding-top: 20px;
 
 				.llms-coupon-entry {
 					display: none;
-					margin-top: 10px;
+					margin-top: 20px;
 				}
 			}
 
 		}
 
 		.llms-form-field.llms-payment-gateway-option {
+			align-items: center;
+			display: flex;
+			gap: 8px;
 
 			label + span.llms-description {
 				display: inline-block;
@@ -121,14 +139,14 @@
 			list-style-type: none;
 
 			li:last-child:after {
-				border-bottom: 1px solid #dadada;
+				border-bottom: 1px solid $color-border;
 				content: '';
 				display: block;
-				margin: 10px;
+				margin: 20px 0;
 			}
 
 			.llms-payment-gateway {
-				margin-bottom: 5px;
+				margin-bottom: 30px;
 				list-style-type: none;
 				&:last-child {
 					margin-bottom: none;
@@ -168,7 +186,7 @@
 		}
 
 		.llms-checkout-confirm {
-			margin: 0 10px;
+			margin: 0;
 		}
 
 		.llms-payment-method {
@@ -177,8 +195,8 @@
 
 		.llms-gateway-description {
 			p {
-				font-size: 85%;
+				font-size: 14px;
 				font-style: italic;
-				margin-bottom: 0;
+				margin: 0;
 			}
 		}

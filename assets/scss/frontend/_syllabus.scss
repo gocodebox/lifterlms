@@ -1,100 +1,93 @@
 .llms-syllabus-wrapper {
 
-	margin: 15px;
-	text-align: center;
+	margin: 20px 0;
+	text-align: left;
 
 	.llms-section-title {
-		margin: 25px 0 0;
-	}
+		margin: 40px 0 10px;
 
-}
-
-.llms-course-navigation {
-	@extend %clearfix;
-
-	.llms-prev-lesson,
-	.llms-next-lesson,
-	.llms-back-to-course {
-		width: 49%;
-	}
-
-	.llms-prev-lesson,
-	.llms-back-to-course {
-		float: left;
-		margin-right: 0.5%;
-	}
-
-	.llms-next-lesson,
-	.llms-prev-lesson + .llms-back-to-course {
-		float: right;
-		margin-left: 0.5%;
+		+ .llms-lesson-preview {
+			border-top: 1px solid $color-border;
+		}
 	}
 
 }
 
 .llms-lesson-preview {
-	display: inline-block;
-	margin-top: 15px;
+	border-right: 1px solid $color-border;
+	border-bottom: 1px solid $color-border;
+	border-left: 1px solid $color-border;
+	display: block;
+	margin: 0;
 	max-width: 100%;
 	position: relative;
-	width: 480px;
 
 	.llms-lesson-link {
-		background: #f1f1f1;
-		color: #212121;
+		color: $color-black;
 		display: block;
-		// height: 100%;
 		padding: 15px;
 		text-decoration: none;
-
-		@include clearfix();
+		transition: background-color 0.3s ease;
 
 		&:hover {
-			background: #eaeaea;
+			background: $el-background-hover;
 		}
 
 		&:visited {
 			color: #212121;
 		}
 
+		&.llms-lesson-link-locked {
+			background: #EFEFEF;
+			color: $color-darkgrey;
+
+			&:hover {
+				background: $color-border;
+			}
+		
+		}
+
+		.llms-lesson-preview-row {
+			display: flex;
+			flex-direction: row-reverse;	
+		}
 	}
 
 	.llms-lesson-thumbnail {
-		margin-bottom: 10px;
+		margin-bottom: 15px;
 		img {
 			display: block;
+			height: auto;
 			width: 100%;
 		}
 	}
 
-	.llms-pre-text {
-		text-align: left;
-	}
-
 	.llms-lesson-title {
 		font-weight: 700;
-		margin: 0 auto 10px;
-		text-align: left;
+		margin: 0 auto 5px;
 		&:last-child {
 			margin-bottom: 0;
 		}
 	}
 
 	.llms-lesson-excerpt {
-		text-align: left;
+		margin-top: 05px;
+
+		p {
+			margin: 0 0 10px 0;
+			padding: 0;
+			&:last-of-type {
+				margin: 0;
+			}
+		}
 	}
 
 	.llms-main {
-		float: left;
-		width: 100%;
+	    flex-grow: 1;
 	}
 	.llms-extra {
-		float: right;
-		width: 15%;
-	}
-
-	.llms-extra + .llms-main {
-		width: 85%;
+		min-width: 50px;
+		text-align: right;
 	}
 
 	.llms-lesson-counter,
@@ -102,8 +95,6 @@
 	.llms-lesson-complete,
 	.llms-lesson-complete-placeholder {
 		display: block;
-		font-size: 32px;
-		margin-bottom: 15px;
 	}
 
 	&.is-free,
@@ -113,14 +104,22 @@
 		}
 	}
 
+	&.is-complete {
+		.llms-lesson-title:not(.llms-student-dashboard .llms-lesson-title):not(.llms-course-navigation .llms-lesson-title) {
+			text-decoration: line-through;
+		}
+	}
+
 	.llms-icon-free {
 		background: $color-brand-blue;
-		border-radius: 4px;
-		color: #f1f1f1;
+		border-radius: $radius-small;
+		color: $color-white;
 		display: inline-block;
-		padding: 5px 6px 4px;
-		line-height: 1;
 		font-size: 14px;
+		font-weight: bold;
+		line-height: 1;
+		padding: 5px 8px 4px;
+		white-space: nowrap;
 	}
 
 	&.is-incomplete {
@@ -131,7 +130,7 @@
 
 	.llms-lesson-counter {
 		font-size: 16px;
-		line-height: 1;
+		margin-bottom: 5px;
 	}
 
 	.llms-free-lesson-svg {
@@ -140,8 +139,36 @@
 		width: 50px;
 	}
 
-	p {
-		margin-bottom: 0;
+}
+
+.llms-course-navigation {
+	display: flex;
+	gap: 20px;
+	.llms-prev-lesson,
+	.llms-next-lesson,
+	.llms-back-to-course {
+		flex: 1;
 	}
 
+	.llms-prev-lesson {
+		& + .llms-back-to-course {
+			text-align: right;
+		}
+	}
+
+	.llms-next-lesson {
+		.llms-lesson-preview {
+			.llms-lesson-link {
+				text-align: right;
+			}
+		}
+	}
+
+	.llms-lesson-preview {
+		border: 1px solid $color-border;
+	}
+
+	.llms-lesson-link {
+		display: block;
+	}
 }

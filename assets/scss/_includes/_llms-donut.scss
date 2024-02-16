@@ -5,7 +5,7 @@
 	background-color: #f1f1f1;
 	background-image: none;
 	border-radius: 50%;
-	color: $color-brand-pink;
+	color: $color-brand-blue;
 	height: 200px;
 	overflow: hidden;
 	position: relative;
@@ -20,7 +20,7 @@
 	svg path {
 		fill: none;
 		stroke-width: 35px;
-		stroke: $color-brand-pink;
+		stroke: $color-brand-blue;
 	}
 
 	&.mini {

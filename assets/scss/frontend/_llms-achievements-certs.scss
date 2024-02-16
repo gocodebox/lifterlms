@@ -37,8 +37,10 @@ ul.llms-certificates-loop,
 
 	background: #f1f1f1;
 	border: none;
+	border-radius: $radius-medium;
 	color: inherit;
 	display: block;
+	padding: 20px 0;
 	text-decoration: none;
 	width: 100%;
 
@@ -48,8 +50,8 @@ ul.llms-certificates-loop,
 
 	.llms-achievement-img {
 		display: block;
-		margin: 0;
-		width: 100%;
+		margin: 0 auto;
+		width: 80%;
 	}
 
 	.llms-achievement-title {
@@ -83,12 +85,12 @@ ul.llms-certificates-loop,
 }
 
 .llms-certificate {
-	border: 4px double #f1f1f1;
+	border: 4px double $color-border;
 	padding: 20px 10px;
-	background: #fff;
+	background: $color-white;
 	text-align: center;
 	&:hover {
-		background: #fff;
+		background: $color-white;
 		border-color: #eaeaea;
 	}
 }

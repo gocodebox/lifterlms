@@ -15,6 +15,10 @@
 
 
 .llms-instructor-info {
+	margin: 40px 0;
+	.llms-meta-title {
+		margin: 0;
+	}
 	.llms-instructors {
 
 		.llms-col {
@@ -27,16 +31,18 @@
 		}
 
 		.llms-author {
-
-			background: #f5f5f5;
-			border-top: 4px solid $color-brand-blue;
+			background: $color-white;
+			border: 1px solid $color-border;
+			border-top: 4px solid $color-blue;
+			border-bottom-right-radius: $radius-small;
+			border-bottom-left-radius: $radius-small;
 			text-align: center;
-			margin: 45px 5px 5px;
-			padding: 0 10px 10px;
+			margin: 45px 0 0;
+			padding: 0 20px 20px;
 
 			.avatar {
 				background: $color-brand-blue;
-				border: 4px solid $color-brand-blue;
+				border: 4px solid $color-blue;
 				display: block;
 				margin: -35px auto 10px;
 			}

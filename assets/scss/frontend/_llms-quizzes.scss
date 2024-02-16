@@ -41,11 +41,15 @@
 			.llms-quiz-results-aside {
 				float: left;
 				width: 220px;
-			}
-			.llms-quiz-results-main,
-			.llms-quiz-results-history {
-				float: right;
-				width: calc( 100% - 300px );
+
+				+ .llms-quiz-results-main {
+					float: right;
+					width: calc( 100% - 300px );
+					+ .llms-quiz-results-history {
+						float: right;
+						width: calc( 100% - 300px );
+					}
+				}
 			}
 			.llms-quiz-results-history {
 				clear: right;
