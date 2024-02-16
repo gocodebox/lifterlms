@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.5.1\n"
+"Project-Id-Version: LifterLMS 7.5.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-24T14:59:06+00:00\n"
+"POT-Creation-Date: 2024-02-16T09:51:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.2.1\n"
 "X-Domain: lifterlms\n"
@@ -1269,7 +1269,7 @@ msgid "Getting Started"
 msgstr ""
 
 #: includes/admin/class.llms.admin.reviews.php:60
-#: includes/class.llms.review.php:189
+#: includes/class.llms.review.php:170
 msgid "Review Title"
 msgstr ""
 
@@ -8300,27 +8300,27 @@ msgstr ""
 msgid "By: %s"
 msgstr ""
 
-#: includes/class.llms.review.php:172
+#: includes/class.llms.review.php:157
 msgid "Thank you for your review!"
 msgstr ""
 
-#: includes/class.llms.review.php:187
+#: includes/class.llms.review.php:168
 msgid "Write a Review"
 msgstr ""
 
-#: includes/class.llms.review.php:190
+#: includes/class.llms.review.php:171
 msgid "Review Title is required."
 msgstr ""
 
-#: includes/class.llms.review.php:191
+#: includes/class.llms.review.php:172
 msgid "Review Text"
 msgstr ""
 
-#: includes/class.llms.review.php:192
+#: includes/class.llms.review.php:173
 msgid "Review Text is required."
 msgstr ""
 
-#: includes/class.llms.review.php:196
+#: includes/class.llms.review.php:177
 msgid "Leave Review"
 msgstr ""
 
@@ -35623,7 +35623,7 @@ msgstr ""
 #: assets/js/llms-admin-certificate-editor.js:22
 #: assets/js/llms-components.js:17
 #: assets/js/llms-spinner.js:1
-#: assets/js/llms.js:2467
+#: assets/js/llms.js:2468
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Loading…"
 msgstr ""
