@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 7.2.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -257,6 +257,27 @@ class LLMS_Shortcodes_Blocks {
 			get_block_wrapper_attributes(),
 			trim( $html )
 		);
+	}
+
+	/**
+	 * Returns ID of first published course.
+	 *
+	 * @since [version]
+	 *
+	 * @return int
+	 */
+	public static function get_placeholder_course_id(): int {
+
+		$courses = get_posts(
+			array(
+				'post_type'      => 'course',
+				'posts_per_page' => 1,
+				'post_status'    => 'publish',
+			)
+		);
+
+		return $courses[0]->ID ?? 0;
+
 	}
 }
 

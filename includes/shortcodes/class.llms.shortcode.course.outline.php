@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 3.5.1
- * @version 3.19.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,13 +84,31 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @return   string
-	 * @since    3.5.1
-	 * @version  3.19.2
+	 * @since 3.5.1
+	 * @since 3.19.2 Unknown.
+	 * @since [version] Add fallback for editor block rendering.
+	 *
+	 * @return string
 	 */
 	protected function get_output() {
 
-		$course  = new LLMS_Course( $this->get_attribute( 'course_id' ) );
+		// Get a reference to the current page where the shortcode is displayed.
+		global $post;
+
+		$current_id = $post->ID ?? null;
+
+		$id = $this->get_attribute( 'course_id' );
+
+		if ( ! $id ) {
+			$id = $current_id;
+		}
+
+		// Show the first course when in Editor if none selected.
+		if ( ! $id && llms_is_editor_block_rendering() ) {
+			$id = LLMS_Shortcodes_Blocks::get_placeholder_course_id();
+		}
+
+		$course  = new LLMS_Course( $id );
 		$student = llms_get_student();
 
 		$args = array(

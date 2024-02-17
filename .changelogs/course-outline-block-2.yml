@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Add fallback course for editor single template block render preview.

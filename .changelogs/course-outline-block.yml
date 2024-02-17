@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Add `inherit from current course` option for Course Outline block when
+  editing Single Course template.
