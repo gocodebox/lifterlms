@@ -5,14 +5,16 @@
 
 	.llms-quiz-attempt-question {
 		background: #efefef;
-		margin: 0 0 10px;
+		border-radius: $radius-small;
+		margin: 0 0 15px;
 		position: relative;
 		list-style-type: none;
 		.toggle-answer {
-			@include clearfix();
 			color: inherit;
-			display: block;
-			padding: 10px 35px 10px 10px;
+			display: flex;
+			gap: 10px;
+			justify-content: space-between;
+			padding: 15px 35px 15px 15px;
 			text-decoration: none;
 		}
 
@@ -40,14 +42,13 @@
 			overflow: auto;
 		}
 		.llms-question-title {
-			float: left;
+			font-size: 22px;
 			margin: 0;
-			line-height: 1;
+			line-height: 1.4;
 		}
 
 		.llms-points {
-			float: right;
-			line-height: 1;
+			line-height: 1.4;
 		}
 
 		.llms-status-icon-tip {
@@ -68,11 +69,12 @@
 
 		.llms-quiz-attempt-question-main {
 			display: none;
-			padding: 0 10px 10px;
+			padding: 0 15px 15px;
 
 			.llms-quiz-results-label {
 				font-weight: 700;
-				margin-bottom: 10px;
+				margin: 0 0 10px;
+				padding: 0;
 			}
 
 			ul.llms-quiz-attempt-answers {
