@@ -348,10 +348,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label' => __( 'Drip Method', 'lifterlms' ),
 						'value' => array(
 							array(
-								'key' => 'none',
-								'title' => __( 'None', 'lifterlms' ),
-							),
-							array(
 								'key' => 'start',
 								'title' => __( 'After course start', 'lifterlms' ),
 							),
