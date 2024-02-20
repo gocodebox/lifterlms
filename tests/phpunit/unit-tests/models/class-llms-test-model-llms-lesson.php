@@ -178,6 +178,120 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	// TODO: Test scenarios below based on course start date set, or student enrollment date if not set
+	// TODO: Test that BOTH lesson_drip = 'yes' and drip_method = 'start' need to be set
+
+	/**
+	 * Test get available date when the course has "After course starts" delay in days set.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_available_date_with_course_drip_settings() {
+		// arrange
+		// create a course with 3 sections and 2 lessons each
+		// set ignore first lesson
+		// set course drip settings to 7 day delay
+		// enroll student in course
+
+		// act/assert
+		// first lesson available immediately
+		// second lesson in first section available 7 days after the course start date
+		// third lesson (first lesson in second section) available 14 days after the course start date
+		// fourth lesson (second lesson in second section) available 21 days after the course start date
+	}
+
+	public function test_get_available_date_with_course_drip_settings_ignores_lesson_drip_settings() {
+		// arrange
+		// create course with 3 sections and 2 lessons each
+		// set course drip settings to 7 day delay
+		// set second lesson to be available on a specific date
+
+		// act/assert
+		// first lesson immediately available (published date)
+		// second lesson available 7 days later
+	}
+
+
+	/**
+	 * Test get available date when the course has "After course starts" delay in days set but ignore first two lessons.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_available_date_with_course_drip_settings_ignoring_first_two_lessons() {
+		// arrange
+		// create a course with 3 sections and 2 lessons each
+		// set course start date
+		// enroll student in course
+		// set ignore first lesson
+		// set course drip settings to 7 day delay
+		// set second lesson to be available on a specific date
+		// set fourth lesson to be available 3 days after the course start date
+
+		// act/assert
+		// first lesson immediately available (published date)
+		// second lesson available on the specific date
+		// third lesson available 3 days after the course start date
+		// fourth lesson available 6 days after the course start date
+	}
+
+	/**
+	 * Test get available date when the course has "After course starts" delay in days set but ignore first two lessons.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_available_date_with_course_drip_settings_with_lesson_overrides() {
+		// arrange
+		// create a course with 3 sections and 2 lessons each
+		// set course start date
+		// enroll student in course
+		// set ignore first lesson
+		// set course drip settings to 7 day delay
+
+		// act
+		// get the available date of the first lesson
+
+		// act/assert
+		// first lesson immediately available (published date)
+		// second lesson immediately available
+		// third lesson available 3 days after the course start date
+		// fourth lesson available 6 days after the course start date
+	}
+
+	/**
+	 * Ensure course drip settings are respected when a lesson is moved to a different section
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_available_date_with_course_drip_settings_when_lesson_moved_to_different_section() {
+		// arrange
+		// create a course with 3 sections and 2 lessons each
+		// set course start date
+		// enroll student in course
+		// set ignore first lesson
+		// set course drip settings to 7 day delay
+
+		// act
+		// get the available date of the first lesson
+
+		// act/assert
+		// first lesson immediately available (published date)
+		// third lesson available 3 days after the course start date
+		// fourth lesson available 6 days after the course start date
+
+		// move the third lesson to the beginning
+		// assert the (now) first lesson is immediately available
+		// assert the second lesson is available in 7 days from X date
+		// assert the third lesson is available in 14 days from X date
+	}
+
 	/**
 	 * Test get course
 	 *
