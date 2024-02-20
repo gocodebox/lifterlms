@@ -3708,6 +3708,24 @@ define( 'Schemas/Lesson',[], function() {
 						},
 			},
 				], [
+
+					{
+						label: LLMS.l10n.translate( 'Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
+						label_after: 'This is atest',
+
+						// Give a description under the heading
+						//desc: 'Testing here', // LLMS.l10n.translate( 'Drip settings are managed at the course level.' ),
+					},
+					],
+				[
+					{
+						type: 'upsell',
+						url: 'abs',
+						text: 'To enable lesson drip settings, you need to disable drip settings for the course.',
+					},
+					], [
 					{
 						attribute: 'drip_method',
 						id: 'drip-method',
