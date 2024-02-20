@@ -162,8 +162,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 					// If it's one of the first X lessons in a course, return availability based on published date.
 					if ( $lesson_number <= $ignore_lessons ) {
-						var_dump( 'ignored lesson');
-						var_dump($available);
 						return date_i18n( $format, $available );
 					}
 
