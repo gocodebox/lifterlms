@@ -117,7 +117,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the date a course became or will become available according to element drip settings
+	 * Get the date a lesson became or will become available according to element drip settings
 	 *
 	 * If there are no drip settings, the published date of the element will be returned.
 	 *

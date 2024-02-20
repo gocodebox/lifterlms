@@ -328,7 +328,45 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Choose Prerequisite Course Track', 'lifterlms' ),
 						'value'            => $course_tracks,
 					),
-
+					array(
+						'type'          => 'checkbox',
+						'label'		    => __( 'Enable Lesson Drip', 'lifterlms' ),
+						'desc'		    => __( 'Set global drip restrictions so lesson content becomes available at an interval you define for the course.', 'lifterlms' ),
+						'id'            => $this->prefix . 'lesson_drip',
+						'is_controller' => true,
+						'value'		    => 'yes',
+						'class'         => '',
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+					),
+					array(
+						'class' => 'llms-select2',
+						'controller' => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
+						'is_controller' => true,
+						'type' => 'select',
+						'id' => $this->prefix . 'drip_method',
+						'label' => __( 'Drip Method', 'lifterlms' ),
+						'value' => array(
+							array(
+								'key' => 'none',
+								'title' => __( 'None', 'lifterlms' ),
+							),
+							array(
+								'key' => 'start',
+								'title' => __( 'After course start', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'controller'       => '#' . $this->prefix . 'drip_method',
+						'controller_value' => 'start',
+						'class'            => 'input-full',
+						'id'               => $this->prefix . 'days_before_available',
+						'label'            => __( 'Delay (in days) ', 'lifterlms' ),
+						'type'             => 'number',
+						'step'             => 1,
+						'min'              => 0,
+					),
 					array(
 						'is_controller' => true,
 						'type'          => 'checkbox',
@@ -381,6 +419,21 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 		return $fields;
 
+	}
+
+	/**
+	 * SHow lesson drip options for the course
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function drip_settings_html() {
+		$course = new LLMS_Course( $this->post );
+
+		?>
+		TEST
+		<?php
 	}
 
 	/**
