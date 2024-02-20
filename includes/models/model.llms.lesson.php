@@ -165,9 +165,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 						return date_i18n( $format, $available );
 					}
 
-					$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ?: $course_enrollment_date );
+					if ( $course_start_date || $course_enrollment_date ) {
+						$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ?: $course_enrollment_date );
 
-					return date_i18n( $format, $available );
+						return date_i18n( $format, $available );
+					}
 					break;
 			}
 		}
