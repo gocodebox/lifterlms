@@ -142,6 +142,38 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		// Default availability is the element's post date.
 		$available = $this->get_date( 'date', 'U' );
 
+		// get the course setting first, if any
+		$course = $this->get_course();
+		if ( $course && 'yes' === $course->get( 'lesson_drip' ) ) {
+			$course_drip_method = $course->get( 'drip_method' );
+
+			switch ( $course_drip_method ) {
+				case 'start':
+					// get number of lessons ignored
+					$ignore_lessons = intval( $course->get( 'ignore_lessons' ) );
+
+					// get index where this lesson appears in the course
+					$course_lessons = $course->get_lessons( 'ids' );
+					$lesson_number = array_search( $this->get( 'id' ), $course_lessons ) + 1;
+
+					$course_days = $course->get( 'days_before_available' ) * DAY_IN_SECONDS;
+					$course_start_date = $course->get_date( 'start_date', 'U' );
+					$course_enrollment_date = llms_get_student() ? llms_get_student()->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' ) : false;
+
+					// If it's one of the first X lessons in a course, return availability based on published date.
+					if ( $lesson_number <= $ignore_lessons ) {
+						var_dump( 'ignored lesson');
+						var_dump($available);
+						return date_i18n( $format, $available );
+					}
+
+					$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ?: $course_enrollment_date );
+
+					return date_i18n( $format, $available );
+					break;
+			}
+		}
+
 		switch ( $drip_method ) {
 
 			// Available on a specific date / time.
@@ -189,32 +221,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 				break;
 
-			default:
-				// get the course setting
-				$course = $this->get_course();
-				if ( $course ) {
-					$course_drip_method = $course->get( 'drip_method' );
-
-					switch ( $course_drip_method ) {
-						case 'start':
-							// get number of lessons ignored
-							$ignore_lessons = intval( $course->get( 'ignore_lessons' ) );
-
-							// get index where this lesson appears in the course
-							$course_lessons = $course->get_lessons( 'ids' );
-							$lesson_number = array_search( $this->get( 'id' ), $course_lessons ) + 1;
-
-							$course_days = $course->get( 'days_before_available' ) * DAY_IN_SECONDS;
-							$course_start_date = $course->get_date( 'start_date', 'U' );
-							$course_enrollment_date = llms_get_student() ? llms_get_student()->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' ) : false;
-
-							if ( $lesson_number >= $ignore_lessons ) {
-								$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ?: $course_enrollment_date );
-							}
-							break;
-					}
-				}
-				break;
 		}
 
 		return date_i18n( $format, $available );
@@ -489,7 +495,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$available = $this->get_available_date( 'U' );
 		$now       = llms_current_time( 'timestamp' );
 
-		return ( $now > $available );
+		return ( $now >= $available );
 
 	}
 
