@@ -358,7 +358,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'controller_value' => 'start',
 						'class'            => 'input-full',
 						'id'               => $this->prefix . 'ignore_lessons',
-						'label'            => __( 'Number of lessons to make available on course start', 'lifterlms' ),
+						'label'            => __( 'Number of lessons to make immediately available on course start', 'lifterlms' ),
 						'type'             => 'number',
 						'step'             => 1,
 						'min'              => 1,
