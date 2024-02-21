@@ -3708,22 +3708,24 @@ define( 'Schemas/Lesson',[], function() {
 						},
 			},
 				], [
-
 					{
-						label: LLMS.l10n.translate( 'Drip Method' ),
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
 						id: 'course-drip',
 						type: 'heading',
-						label_after: 'This is atest',
-
-						// Give a description under the heading
-						//desc: 'Testing here', // LLMS.l10n.translate( 'Drip settings are managed at the course level.' ),
+						condition: function() {
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+						},
+						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level. Disable to allow lesson level drip settings.' ),
 					},
-					],
-				[
+				], [
 					{
+						condition: function() {
+							console.log(this.get_course());
+							return ( this.get_course() );
+						},
 						type: 'upsell',
-						url: 'abs',
-						text: 'To enable lesson drip settings, you need to disable drip settings for the course.',
+						url: window.llms_builder.admin_url, // + 'post.php?post=' + this.get_course().get( 'id' ) + '&action=edit',
+						text: 'Edit course drip settings',
 					},
 					], [
 					{
