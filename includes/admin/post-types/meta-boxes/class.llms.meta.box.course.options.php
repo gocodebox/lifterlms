@@ -354,8 +354,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'start',
+						'controller' 	   => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
 						'class'            => 'input-full',
 						'id'               => $this->prefix . 'ignore_lessons',
 						'label'            => __( 'Number of lessons to make immediately available on course start', 'lifterlms' ),
@@ -364,8 +364,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'min'              => 1,
 					),
 					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'start',
+						'controller' 	   => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
 						'class'            => 'input-full',
 						'id'               => $this->prefix . 'days_before_available',
 						'label'            => __( 'Delay (in days) ', 'lifterlms' ),
