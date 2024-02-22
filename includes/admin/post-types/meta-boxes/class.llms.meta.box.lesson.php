@@ -138,6 +138,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				'title'  => __( 'Drip Settings', 'lifterlms' ),
 				'fields' => array(
 					array(
+						'type' => 'custom-html',
+						'id' => $this->prefix . 'drip_course_settings_info',
+						'value' => $this->get_drip_course_settings_info_html( $course ),
+					),
+					array(
 						'class'         => 'llms-select2',
 						'desc_class'    => 'd-all',
 						'id'            => $this->prefix . 'drip_method',
@@ -193,6 +198,24 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		);
 	}
 
+	/**
+	 * Helpful messaging depending on whether the course for this lesson has drip settings enabled or not.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course Course object.
+	 * @return string
+	 */
+	public function get_drip_course_settings_info_html( $course ) {
+		$output = 'yes' === $course->get( 'lesson_drip' ) && $course->get( 'drip_method' ) ?
+			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.', 'lifterlms' )
+		:
+			__( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.', 'lifterlms' );
+
+		$output .= ' <a href="' . admin_url( 'post.php?post=' . $course->get( 'id' ) . '&action=edit#lifterlms-course-options' ) . '">' . __( 'Edit Course', 'lifterlms' ) . '</a>';
+
+		return $output;
+	}
 }
 
 new LLMS_Meta_Box_Lesson();
