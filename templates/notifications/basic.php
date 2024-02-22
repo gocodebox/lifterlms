@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php endif; ?>
 	</section>
 
-	<?php if ( is_string( $footer ) ) : ?>
+	<?php if ( is_string( $footer ) && ! empty( $footer ) ) : ?>
 		<footer class="llms-notification-footer">
 			<?php echo $footer; ?>
 			<?php if ( 'new' !== $status ) : ?>

@@ -9,6 +9,12 @@
 defined( 'ABSPATH' ) || exit;
 
 global $post;
+
+// Return if the course doesn't have a track.
+if ( ! has_term( '', 'course_track', $post->ID ) ) {
+	return;
+}
+
 ?>
 
 <div class="llms-meta llms-tracks">

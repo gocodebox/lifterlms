@@ -2,9 +2,10 @@
 
 	@include clearfix();
 
-	background: #fff;
+	background: $color-white;
 	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
 	border-top: 4px solid $color-blue;
+	color: $color-black;
 	opacity: 0;
 	padding: 12px;
 	position: fixed;
@@ -52,6 +53,7 @@
 		}
 
 			.llms-notification-title {
+				color: $color-black;
 				font-size: 18px;
 				margin: 0;
 			}
@@ -64,6 +66,9 @@
 				}
 				p {
 					margin-bottom: 8px;
+					img {
+						max-width: 100%;
+					}
 				}
 
 				.llms-mini-cert {
@@ -128,6 +133,10 @@
 		margin-top: 12px;
 		padding: 6px 6px 0;
 		text-align: right;
+
+		a {
+			color: $color-black;
+		}
 	}
 
 	.llms-notification-dismiss {

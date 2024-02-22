@@ -1,0 +1,4 @@
+significance: minor
+type: fixed
+entry: Improvements to the frontend styling of LifterLMS screens for design,
+  accessibility, and better compatibility with dark mode themes.
