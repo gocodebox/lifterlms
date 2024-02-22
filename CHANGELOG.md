@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.5.3 - 2024-02-22
+-------------------
+
+##### Bug Fixes
+
++ Fix fatal error when rendering single course page with reviews enabled. [#2604](https://github.com/gocodebox/lifterlms/issues/2604)
+
+
 v7.5.2 - 2024-02-16
 -------------------
 
