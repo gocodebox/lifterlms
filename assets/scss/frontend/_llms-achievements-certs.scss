@@ -35,10 +35,10 @@ ul.llms-certificates-loop,
 .llms-achievement,
 .llms-certificate {
 
-	background: #f1f1f1;
+	background: $color-white;
 	border: none;
 	border-radius: $radius-medium;
-	color: inherit;
+	color: $color-black;
 	display: block;
 	padding: 20px 0;
 	text-decoration: none;
@@ -55,6 +55,7 @@ ul.llms-certificates-loop,
 	}
 
 	.llms-achievement-title {
+		color: $color-black;
 		font-size: 16px;
 		margin: 0;
 		padding: 10px;
@@ -62,6 +63,7 @@ ul.llms-certificates-loop,
 	}
 
 	.llms-certificate-title {
+		color: $color-black;
 		font-size: 16px;
 		margin: 0;
 		padding: 0 0 10px;

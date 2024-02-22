@@ -58,8 +58,8 @@
 	}
 
 	.orders-table {
-
-		border: 1px solid #f5f5f5;
+		border: 1px solid $color-border;
+		border-spacing: 0;
 		width: 100%;
 
 		thead {
@@ -73,14 +73,20 @@
 		}
 
 		tbody {
-			tr:nth-child( even ) {
+			tr:nth-child( odd ) {
 				td, th {
 					background: #f9f9f9;
 				}
 			}
+			tr:last-child {
+				border-bottom-width: 0;
+			}
 		}
 
 		tfoot {
+			tr {
+				background: #f9f9f9;
+			}
 			th, td {
 				padding: 10px;
 				text-align: right;
@@ -93,11 +99,11 @@
 		}
 
 		th, td {
-			border-color: #efefef;
+			border-color: $color-border;
 			border-style: solid;
 			border-width: 0;
 			display: block;
-			padding: 8px 12px;
+			padding: 15px 20px;
 			text-align: center;
 
 			.llms-button-primary {
@@ -129,6 +135,12 @@
 	}
 
 	@include order_status_badges();
+
+	.order-title {
+		.llms-status {
+			font-size: 18px;
+		}
+	}
 
 	.llms-person-form-wrapper {
 		.llms-change-password { display: none; }

@@ -23,8 +23,8 @@
 	text-align: center;
 	width: 100%;
 
-	.llms-access-plan-footer,
-	.llms-access-plan-content {
+	.llms-access-plan-content,
+	.llms-access-plan-footer {
 		background: #f1f1f1;
 	}
 
@@ -34,6 +34,10 @@
 			background: $color-brand-blue;
 			border-top-left-radius: $radius-small;
 			border-top-right-radius: $radius-small;
+		}
+
+		.llms-access-plan-content {
+			border-radius: 0;
 		}
 
 		.llms-access-plan-title {
@@ -87,17 +91,19 @@
 	}
 
 	.llms-access-plan-content {
+		border-top-right-radius: $radius-small;
+		border-top-left-radius: $radius-small;
 		margin: 0 2px 0;
+		overflow: hidden;
 
 		.llms-access-plan-pricing {
-			margin: 20px 0 0;
+			color: $color-black;
+			padding: 20px 0 0;
 		}
 	}
 
 		.llms-access-plan-title {
 			background: $color-brand-blue;
-			border-top-left-radius: $radius-small;
-			border-top-right-radius: $radius-small;
 			color: $color-white;
 			margin: 0;
 			padding: 10px 15px;

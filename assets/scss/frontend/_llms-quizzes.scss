@@ -132,7 +132,7 @@
 		background: rgba( $color-red, .15 );
 		border: 1px solid $color-red;
 		border-radius: $radius-small;
-		margin: 20px;
+		margin: 20px 0;
 		padding: 15px;
 
 		a {
@@ -246,7 +246,8 @@
 
 			.llms-marker {
 
-				background: #f0f0f0;
+				background: $color-white;
+				color: $color-black;
 				display: inline-block;
 				font-size: 20px;
 				height: 40px;
@@ -283,7 +284,8 @@
 				font-size: 18px;
 				font-weight: 400;
 				line-height: 1.6;
-				margin-bottom: 0;
+				margin: 0;
+				padding: 0;
 				vertical-align: middle;
 				width: calc( 100% - 60px );
 			}

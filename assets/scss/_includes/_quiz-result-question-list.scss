@@ -27,13 +27,13 @@
 		}
 
 		&.status--graded.correct {
-			background: rgba( $color-green, 0.2 );
+			background: rgba( $color-green, 0.15 );
 			.llms-status-icon {
 				background-color: $color-green;
 			}
 		}
 		&.status--graded.incorrect {
-			background: rgba( $color-red, 0.2 );
+			background: rgba( $color-red, 0.15 );
 			.llms-status-icon {
 				background-color: $color-red;
 			}
