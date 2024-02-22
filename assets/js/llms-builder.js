@@ -5183,7 +5183,6 @@ define( 'Views/_Editable',[], function() {
 					success: function( r ) {
 
 						if ( r.permalink && r.slug ) {
-
 							self.model.set( 'permalink', r.permalink );
 							self.model.set( 'name', r.slug );
 							self.render();
