@@ -15,7 +15,7 @@ class LLMS_Test_Template_Functions extends LLMS_UnitTestCase {
 	/**
 	 * Test `lifterlms_template_single_reviews()` outputs the Write a Review content.
 	 *
-	 * @since [version]
+	 * @since 7.5.3
 	 *
 	 * @return void
 	 */

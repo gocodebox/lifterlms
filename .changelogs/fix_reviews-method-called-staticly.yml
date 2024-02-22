@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2604"
-entry: Fix fatal error when rendering single course page with reviews enabled.

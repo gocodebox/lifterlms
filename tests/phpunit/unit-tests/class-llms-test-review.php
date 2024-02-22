@@ -6,14 +6,14 @@
  *
  * @group review
  *
- * @since [version]
+ * @since 7.5.3
  */
 class LLMS_Test_Review extends LLMS_UnitTestCase {
 
 	/**
 	 * Test processing a review.
 	 *
-	 * @since [version]
+	 * @since 7.5.3
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test processing a review with invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 7.5.3
 	 *
 	 * @return void
 	 */
