@@ -20,7 +20,7 @@ global $wp_version;
 $blocks_styles = array(
 	'certificate' => array(
 		'title'  => array(
-			'style' => array(
+			'style'     => array(
 				'typography' => array(
 					'fontSize'   => '90px',
 					'lineHeight' => '1.1',
@@ -35,7 +35,7 @@ $blocks_styles = array(
 			'textColor' => 'black',
 		),
 		'h2'     => array(
-			'style' => array(
+			'style'     => array(
 				'typography' => array(
 					'fontSize'   => '48px',
 					'lineHeight' => '1.3',
@@ -50,7 +50,7 @@ $blocks_styles = array(
 			'textColor' => 'black',
 		),
 		'h3'     => array(
-			'style' => array(
+			'style'     => array(
 				'typography' => array(
 					'fontSize'   => '32px',
 					'lineHeight' => '1.3',
@@ -65,7 +65,7 @@ $blocks_styles = array(
 			'textColor' => 'black',
 		),
 		'p'      => array(
-			'style' => array(
+			'style'     => array(
 				'typography' => array(
 					'fontSize'   => '18px',
 					'lineHeight' => '1.6',
@@ -99,7 +99,7 @@ $certificates = array(
 	array(
 		'llms/certificate-title',
 		array(
-			'style'		=> $blocks_styles['certificate']['title']['style'],
+			'style'     => $blocks_styles['certificate']['title']['style'],
 			'textColor' => $blocks_styles['certificate']['title']['textColor'],
 		),
 	),
@@ -158,9 +158,9 @@ $certificates = array(
 					array(
 						'core/paragraph',
 						array(
-							'align'	    => 'center',
+							'align'     => 'center',
 							'content'   => '{earned_date}',
-							'style'	    => $blocks_styles['certificate']['p']['style'],
+							'style'     => $blocks_styles['certificate']['p']['style'],
 							'textColor' => $blocks_styles['certificate']['p']['textColor'],
 						),
 					),
@@ -173,9 +173,9 @@ $certificates = array(
 					array(
 						'core/paragraph',
 						array(
-							'align'	    => 'center',
+							'align'     => 'center',
 							'content'   => __( 'DATE', 'lifterlms' ),
-							'style'	    => $blocks_styles['certificate']['p']['style'],
+							'style'     => $blocks_styles['certificate']['p']['style'],
 							'textColor' => $blocks_styles['certificate']['p']['textColor'],
 						),
 					),
