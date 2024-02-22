@@ -73,7 +73,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			unset( $methods['start'] );
 		}
 
-		return array(
+		$fields = array(
 			array(
 				'title'  => __( 'General', 'lifterlms' ),
 				'fields' => array(
@@ -134,49 +134,13 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 					),
 				),
 			),
-			array(
+			'drip' => array(
 				'title'  => __( 'Drip Settings', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'type' => 'custom-html',
 						'id' => $this->prefix . 'drip_course_settings_info',
 						'value' => $this->get_drip_course_settings_info_html( $course ),
-					),
-					array(
-						'class'         => 'llms-select2',
-						'desc_class'    => 'd-all',
-						'id'            => $this->prefix . 'drip_method',
-						'is_controller' => true,
-						'label'         => __( 'Method', 'lifterlms' ),
-						'type'          => 'select',
-						'value'         => $methods,
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'lesson,enrollment,start,prerequisite',
-						'class'            => 'input-full',
-						'id'               => $this->prefix . 'days_before_available',
-						'label'            => __( 'Delay (in days) ', 'lifterlms' ),
-						'type'             => 'number',
-						'step'             => 1,
-						'min'              => 0,
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class'            => 'llms-datepicker',
-						'id'               => $this->prefix . 'date_available',
-						'label'            => __( 'Date Available', 'lifterlms' ),
-						'type'             => 'date',
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class'            => '',
-						'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
-						'id'               => $this->prefix . 'time_available',
-						'label'            => __( 'Time Available', 'lifterlms' ),
-						'type'             => 'text',
 					),
 				),
 			),
@@ -196,6 +160,47 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				),
 			),
 		);
+
+		if ( 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) ) {
+			$fields['drip']['fields'][] = array(
+				'class'         => 'llms-select2',
+				'desc_class'    => 'd-all',
+				'id'            => $this->prefix . 'drip_method',
+				'is_controller' => true,
+				'label'         => __( 'Method', 'lifterlms' ),
+				'type'          => 'select',
+				'value'         => $methods,
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'lesson,enrollment,start,prerequisite',
+				'class'            => 'input-full',
+				'id'               => $this->prefix . 'days_before_available',
+				'label'            => __( 'Delay (in days) ', 'lifterlms' ),
+				'type'             => 'number',
+				'step'             => 1,
+				'min'              => 0,
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'date',
+				'class'            => 'llms-datepicker',
+				'id'               => $this->prefix . 'date_available',
+				'label'            => __( 'Date Available', 'lifterlms' ),
+				'type'             => 'date',
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'date',
+				'class'            => '',
+				'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
+				'id'               => $this->prefix . 'time_available',
+				'label'            => __( 'Time Available', 'lifterlms' ),
+				'type'             => 'text',
+			);
+		}
+
+		return $fields;
 	}
 
 	/**
