@@ -3713,21 +3713,23 @@ define( 'Schemas/Lesson',[], function() {
 						id: 'course-drip',
 						type: 'heading',
 						condition: function() {
-							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+							return ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) );
 						},
-						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level. Disable to allow lesson level drip settings.' ),
+						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
+						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
 				], [
 					{
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
 						condition: function() {
-							console.log(this.get_course());
-							return ( this.get_course() );
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
 						},
-						type: 'upsell',
-						url: window.llms_builder.admin_url, // + 'post.php?post=' + this.get_course().get( 'id' ) + '&action=edit',
-						text: 'Edit course drip settings',
+						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
+						detail: LLMS.l10n.translate( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
-					], [
+				], [
 					{
 						attribute: 'drip_method',
 						id: 'drip-method',
@@ -5181,6 +5183,7 @@ define( 'Views/_Editable',[], function() {
 					success: function( r ) {
 
 						if ( r.permalink && r.slug ) {
+
 							self.model.set( 'permalink', r.permalink );
 							self.model.set( 'name', r.slug );
 							self.render();
