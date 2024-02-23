@@ -189,17 +189,28 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @return void
 	 */
 	public function test_get_available_date_with_course_drip_settings() {
-		// arrange
-		// create a course with 3 sections and 2 lessons each
-		// set ignore first lesson
-		// set course drip settings to 7 day delay
-		// enroll student in course
 
-		// act/assert
-		// first lesson available immediately
-		// second lesson in first section available 7 days after the course start date
-		// third lesson (first lesson in second section) available 14 days after the course start date
-		// fourth lesson (second lesson in second section) available 21 days after the course start date
+		$format = 'Y-m-d';
+
+		$course_id = $this->generate_mock_courses( 1, 3, 2, 0 )[0];
+
+		$course = llms_get_post( $course_id );
+		$course->set( 'lesson_drip', 'yes' );
+		$course->set( 'drip_method', 'start' );
+		$course->set( 'days_before_available', '7' );
+		$course->set( 'ignore_lessons', '1' );
+
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+		$student->enroll( $course_id );
+
+		$now = new DateTimeImmutable();
+
+		$this->assertEquals( $now->format( $format ), $course->get_lessons()[0]->get_available_date( $format ) );
+		$this->assertEquals( $now->add(DateInterval::createFromDateString('7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
+		$this->assertEquals( $now->add(DateInterval::createFromDateString('14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
+		$this->assertEquals( $now->add(DateInterval::createFromDateString('21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
+
 	}
 
 	public function test_get_available_date_with_course_drip_settings_ignores_lesson_drip_settings() {
