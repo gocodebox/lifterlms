@@ -207,9 +207,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$now = new DateTimeImmutable();
 
 		$this->assertEquals( $now->format( $format ), $course->get_lessons()[0]->get_available_date( $format ) );
-		$this->assertEquals( $now->add(DateInterval::createFromDateString('7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
-		$this->assertEquals( $now->add(DateInterval::createFromDateString('14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
-		$this->assertEquals( $now->add(DateInterval::createFromDateString('21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString('7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString('14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString('21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
 
 	}
 
