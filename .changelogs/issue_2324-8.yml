@@ -1,0 +1,4 @@
+significance: minor
+type: dev
+entry: Added `llms_permalink_settings_fields`. Third parties can leverage this
+  filter hook to add their permalink settings fields among the LifterLMS ones.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,8 +28,17 @@ class LLMS_Post_Types {
 	 */
 	private static $templates = array();
 
+
 	/**
-	 * Constructor
+	 * Reference to the rewrite slugs.
+	 *
+	 * @since [version]
+	 * @var array
+	 */
+	private static $rewrite_slugs;
+
+	/**
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.4 Unknown.
@@ -39,15 +48,172 @@ class LLMS_Post_Types {
 	 */
 	public static function init() {
 
-		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
-		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
+
+		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
+		add_action( 'init', array( __CLASS__, 'add_membership_restriction_support' ) );
 
 		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
+	}
+
+	/**
+	 * Save rewrite slugs in the DB used when registering post types and taxonomies.
+	 *
+	 * By default only saved if not empty in the DB.
+	 * Unless the `$force_update` parameter is set to `true`.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $force_update Force update.
+	 * @return void
+	 */
+	public static function maybe_save_rewrite_slugs( $force_update = false ) {
+
+		$saved_slugs = array_filter( (array) get_option( 'lifterlms_rewrite_slugs', array() ) );
+		/**
+		 * Filter whether or not force the update of the rewrite slugs.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $force_update Force update.
+		 */
+		$force_update = apply_filters( 'lifterlms_rewrite_slugs_force_update', $force_update );
+		if ( ! empty( $saved_slugs ) && ! $force_update ) {
+			return;
+		}
+
+		update_option( 'lifterlms_rewrite_slugs', self::get_rewrite_slugs( true, false ) );
+
+	}
+
+	/**
+	 * Set rewrite slugs used when registering post types and taxonomies.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $merge_defaults Whether or not merging defaults. By default they are merged
+	 *                             only if the db option is empty.
+	 * @return void
+	 */
+	private static function set_rewrite_slugs( $merge_defaults = false ) {
+
+		self::$rewrite_slugs = array_filter( (array) get_option( 'lifterlms_rewrite_slugs', array() ) );
+		if ( empty( self::$rewrite_slugs ) || $merge_defaults ) {
+
+			$default_slugs       = (array) self::get_default_rewrite_slugs();
+			self::$rewrite_slugs = array_replace_recursive(
+				$default_slugs,
+				self::$rewrite_slugs
+			);
+
+			// Add back all the missing default values.
+			foreach ( self::$rewrite_slugs as $type => $slugs ) {
+				foreach ( $slugs as $name => $arr ) {
+					foreach ( $arr as $slug_type => $slug ) {
+						if ( empty( $slug ) && ! empty( $default_slugs[ $type ][ $name ][ $slug_type ] ) ) {
+							self::$rewrite_slugs[ $type ][ $name ][ $slug_type ] = $default_slugs[ $type ][ $name ][ $slug_type ];
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Return the rewrite slugs.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public static function get_default_rewrite_slugs() {
+
+		// Make sure rewrite slugs are localized with the site locale.
+		llms_maybe_switch_to_site_locale();
+
+		$rewrite_slugs = array(
+			'post_types' => array(
+				'course'              => array(
+					'slug'         => _x( 'course', 'course url slug', 'lifterlms' ),
+					'archive_slug' => _x( 'courses', 'course archive url slug', 'lifterlms' ),
+				),
+				'llms_membership'     => array(
+					'slug'         => _x( 'membership', 'membership url slug', 'lifterlms' ),
+					'archive_slug' => _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+				),
+				'lesson'              => array(
+					'slug' => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+				),
+				'llms_quiz'           => array(
+					'slug' => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+				),
+				'llms_certificate'    => array(
+					'slug' => _x( 'certificate-template', 'slug', 'lifterlms' ),
+				),
+				'llms_my_certificate' => array(
+					'slug' => _x( 'certificate', 'slug', 'lifterlms' ),
+				),
+			),
+			'taxonomies' => array(
+				'course_cat'        => array(
+					'slug' => _x( 'course-category', 'slug', 'lifterlms' ),
+				),
+				'course_difficulty' => array(
+					'slug' => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+				),
+				'course_tag'        => array(
+					'slug' => _x( 'course-tag', 'slug', 'lifterlms' ),
+				),
+				'course_track'      => array(
+					'slug' => _x( 'course-track', 'slug', 'lifterlms' ),
+				),
+				'membership_cat'    => array(
+					'slug' => _x( 'membership-category', 'slug', 'lifterlms' ),
+				),
+				'membership_tag'    => array(
+					'slug' => _x( 'membership-tag', 'slug', 'lifterlms' ),
+				),
+			),
+		);
+
+		/**
+		 * Filters the Custom Post Types and Taxonomies slugs.
+		 *
+		 * At this stage the current locale is the site locale.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $slugs Associative array of rewrite slugs. Array key is the content type `post_types|taxonomies`.
+		 *                     Values are associative arrays: keys are `slug|archive_slug` values are the slugs.
+		 */
+		$rewrite_slugs = apply_filters( 'llms_default_rewrite_slugs', $rewrite_slugs );
+
+		// Restore original locale.
+		llms_maybe_restore_previous_locale();
+
+		return $rewrite_slugs;
+	}
+
+	/**
+	 * Return the rewrite slugs.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $merge_defaults Whether or not merging defaults. By default they are merged
+	 *                             only if the db option is empty.
+	 * @param bool $use_cache      Whether or not using the cached rewrite slugs.
+	 * @return array
+	 */
+	public static function get_rewrite_slugs( $merge_defaults = false, $use_cache = true ) {
+		if ( ! isset( self::$rewrite_slugs ) || ! $use_cache ) {
+			self::set_rewrite_slugs( $merge_defaults );
+		}
+
+		return self::$rewrite_slugs;
 	}
 
 	/**
@@ -442,10 +608,20 @@ class LLMS_Post_Types {
 	 *             Renames `llms_certificate` slug from `certificate` to `certificate-template`.
 	 *             Rename `llms_my_certificate` slug from `my_certificate` to `certificate`.
 	 *             Replaced the use of the deprecated `get_page() function with `get_post()`.
+	 * @since [version] Use rewrite slugs defined in `$rewrite_slugs`.
 	 *
 	 * @return void
 	 */
 	public static function register_post_types() {
+
+		/**
+		 * Fired before registering LifterLMS core post types.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_registering_core_post_types' );
+
+		$rewrite_slugs = self::get_rewrite_slugs();
 
 		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -477,13 +653,14 @@ class LLMS_Post_Types {
 				'exclude_from_search' => false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'course', 'course url slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['post_types']['course']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ?
+					get_page_uri( $catalog_id ) : ( $rewrite_slugs['post_types']['course']['archive_slug'] ?? '' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -552,7 +729,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['post_types']['lesson']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -591,7 +768,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['post_types']['llms_quiz']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -667,13 +844,14 @@ class LLMS_Post_Types {
 				'show_in_menu'        => true,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'membership', 'membership url slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['post_types']['llms_membership']['slug'] ?? '',
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
-				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ?
+					get_page_uri( $membership_page_id ) : ( $rewrite_slugs['post_types']['llms_membership']['archive_slug'] ?? '' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -902,7 +1080,7 @@ class LLMS_Post_Types {
 			array(
 				'map_meta_cap' => true,
 			),
-			_x( 'certificate-template', 'slug', 'lifterlms' ),
+			$rewrite_slugs['post_types']['llms_certificate']['slug'] ?? '',
 			/**
 			 * Filters the WordPress user capability required for a user to manage certificate templates on the admin panel.
 			 *
@@ -935,7 +1113,7 @@ class LLMS_Post_Types {
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
 				'map_meta_cap' => false,
 			),
-			_x( 'certificate', 'slug', 'lifterlms' ),
+			$rewrite_slugs['post_types']['llms_my_certificate']['slug'] ?? '',
 			/**
 			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *
@@ -1128,6 +1306,12 @@ class LLMS_Post_Types {
 			)
 		);
 
+		/**
+		 * Fired after registering LifterLMS core post types.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_after_registering_core_post_types' );
 	}
 
 	/**
@@ -1265,15 +1449,25 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Register Taxonomies
+	 * Register Taxonomies.
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
 	 * @since 3.34.1 Add custom property `show_in_llms_rest` set to true by default to those taxonomies we want to show in LLMS REST api.
+	 * @since [version] Use rewrite slugs defined in `$rewrite_slugs`.
 	 *
 	 * @return void
 	 */
 	public static function register_taxonomies() {
+
+		/**
+		 * Fired before registering LifterLMS core taxonomies.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_registering_core_taxonomies' );
+
+		$rewrite_slugs = self::get_rewrite_slugs();
 
 		// Course cat.
 		self::register_taxonomy(
@@ -1300,7 +1494,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-category', 'slug', 'lifterlms' ),
+					'slug'         => $rewrite_slugs['taxonomies']['course_cat']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1333,7 +1527,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['taxonomies']['course_difficulty']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1365,7 +1559,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-tag', 'slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['taxonomies']['course_tag']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1397,7 +1591,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-track', 'slug', 'lifterlms' ),
+					'slug'         => $rewrite_slugs['taxonomies']['course_track']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1431,7 +1625,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'membership-category', 'slug', 'lifterlms' ),
+					'slug'         => $rewrite_slugs['taxonomies']['membership_cat']['slug'] ?? '',
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1465,7 +1659,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'membership-tag', 'slug', 'lifterlms' ),
+					'slug'       => $rewrite_slugs['taxonomies']['membership_tag']['slug'] ?? '',
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1499,6 +1693,13 @@ class LLMS_Post_Types {
 				'public'            => false,
 			)
 		);
+
+		/**
+		 * Fired after registering LifterLMS core taxonomies.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_after_registering_core_taxonomies' );
 
 	}
 

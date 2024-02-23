@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 4.9.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,18 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * Retrieve the current plugin locale.
  *
  * @since 4.9.0
+ * @since [version] Remove fall-backs for WP versin less than 5.0.
  *
  * @param string $domain Text domain.
  * @return string
  */
 function llms_get_locale( $domain = 'lifterlms' ) {
 
-	if ( function_exists( 'determine_locale' ) ) {
-		$locale = determine_locale();
-	} else {
-		// @TODO: This can be removed when minimum supported version is 5.0.
-		$locale = is_admin() ? get_user_locale() : get_locale();
-	}
+	$locale = determine_locale();
 
 	/**
 	 * Filter the plugin's locale
@@ -41,6 +37,15 @@ function llms_get_locale( $domain = 'lifterlms' ) {
 
 }
 
+/**
+ * Get LifterLMS l10n safe directory.
+ *
+ * By default the safe directory is `wp-content/languages/lifterlms`.
+ *
+ * @since 4.9.0
+ *
+ * @return string
+ */
 function llms_l10n_get_safe_directory() {
 
 	/**
@@ -110,5 +115,117 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	 * 2. wp-content/plugins/lifterlms/languages/lifterlms-en_US.mo
 	 */
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
+
+}
+
+/**
+ * Switch plugin to site language if the current locale is different than the site locale.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_maybe_switch_to_site_locale() {
+	global $wp_locale_switcher;
+	if (
+		function_exists( 'switch_to_locale' ) &&
+		(
+			( $wp_locale_switcher && is_locale_switched() ) ||
+			( get_locale() !== determine_locale() )
+		)
+	) {
+
+		/**
+		 * Fired before switching the current locale to the site locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_switching_to_site_locale' );
+
+		switch_to_locale( get_locale() );
+
+		// Filter on plugin_locale so load_plugin_textdomain loads the correct locale.
+		add_filter( 'plugin_locale', 'get_locale' );
+
+		// Init plugin locale.
+		llms_init_locale();
+
+		/**
+		 * Fired after switching the current locale to the site locale.
+		 *
+		 * At this stage the LifterLMS textdomain has ben already loaded with the site locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_after_switching_to_site_locale' );
+
+	}
+
+}
+
+/**
+ * Switch plugin language to original.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_maybe_restore_previous_locale() {
+	global $wp_locale_switcher;
+	if (
+		function_exists( 'restore_previous_locale' ) &&
+		(
+			( $wp_locale_switcher && is_locale_switched() ) ||
+			( get_locale() !== determine_locale() )
+		)
+	) {
+
+		/**
+		 * Fired before restoring the previous locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_restoring_previous_locale' );
+
+		restore_previous_locale();
+
+		// Remove filter.
+		remove_filter( 'plugin_locale', 'get_locale' );
+
+		// Init plugin locale.
+		llms_init_locale();
+
+		/**
+		 * Fired after restoring the previous locale.
+		 *
+		 * At this stage the LifterLMS textdomain has ben already loaded with the previous locale.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_after_restoring_previous_locale' );
+
+	}
+
+}
+
+/**
+ * Init plugin locale.
+ *
+ * Will unload the domain if already loaded before loading it again.
+ *
+ * @since [version]
+ *
+ * @param string      $domain       Textdomain being loaded.
+ * @param string|null $plugin_dir   Full path to the plugin directory, if none supplied `LLMS_PLUGIN_DIR` is used.
+ * @param string|null $language_dir Relative path to the language directory within the plugin. If none supplied, `languages` is used.
+ * @return void
+ */
+function llms_init_locale( $domain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
+
+	if ( is_textdomain_loaded( $domain ) ) {
+		unload_textdomain( $domain );
+	}
+
+	llms_load_textdomain( $domain, $plugin_dir, $language_dir );
 
 }

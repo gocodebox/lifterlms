@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -115,7 +115,7 @@ class LLMS_Loader {
 	);
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 4.0.0
 	 *
@@ -233,6 +233,7 @@ class LLMS_Loader {
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
 	 * @since 7.2.0 Include `LLMS_Shortcodes_Blocks`.
+	 * @since [version] Move `LLMS_Privacy` require to `late_includes()` executed at 'plugins_loaded' action hook.
 	 *
 	 * @return void
 	 */
@@ -299,15 +300,39 @@ class LLMS_Loader {
 		// Hooks.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.template.hooks.php';
 
-		// Privacy components.
-		require_once LLMS_PLUGIN_DIR . 'includes/privacy/class-llms-privacy.php';
-
 		// Theme support.
 		require_once LLMS_PLUGIN_DIR . 'includes/theme-support/class-llms-theme-support.php';
 
 		// Widgets.
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widget.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widgets.php';
+
+		// Late includes.
+		add_action( 'plugins_loaded', array( $this, 'late_includes' ) );
+
+	}
+
+	/**
+	 * Includes that are included everywhere but that are not required to be included that early.
+	 *
+	 * Or that are required to be included when some information are already set-up.
+	 * E.g. the current user already set up, localization files loaded ecc.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function late_includes() {
+
+		// Privacy components.
+		/**
+		 * This needs to be included when the current user has already been set up:
+		 * in `LLMS_Privacy::__construct()` we use gettext functions which
+		 * would make the plugin localization to be loaded (jit introduced in WP 4.6)
+		 * with the site locale rather than the user locale in admin.
+		 */
+		require_once LLMS_PLUGIN_DIR . 'includes/privacy/class-llms-privacy.php';
+
 	}
 
 	/**
@@ -320,7 +345,8 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
+	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Widget` class.
+	 * @since [version] Include `LLMS_Admin_Permalink_Settings` class.
 	 *
 	 * @return void
 	 */
@@ -338,6 +364,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalink-settings.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
