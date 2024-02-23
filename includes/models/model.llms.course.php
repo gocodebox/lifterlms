@@ -90,7 +90,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'lesson_drip'                => 'yesno',
 		'drip_method'                => 'text',
 		'ignore_lessons'             => 'absint',
-		'days_before_available'	     => 'absint',
+		'days_before_available'      => 'absint',
 
 		// Private.
 		'temp_calc_data'             => 'array',

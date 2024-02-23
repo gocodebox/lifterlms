@@ -142,17 +142,14 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		// Default availability is the element's post date.
 		$available = $this->get_date( 'date', 'U' );
 
-		// get the course setting first, if any
+		// get the course setting first, if any.
 		$course = $this->get_course();
 		if ( $course && 'yes' === $course->get( 'lesson_drip' ) ) {
 			$course_drip_method = $course->get( 'drip_method' );
 
 			switch ( $course_drip_method ) {
 				case 'start':
-					// get number of lessons ignored
 					$ignore_lessons = intval( $course->get( 'ignore_lessons' ) );
-
-					// get index where this lesson appears in the course
 					$course_lessons = $course->get_lessons( 'ids' );
 					$lesson_number = array_search( $this->get( 'id' ), $course_lessons ) + 1;
 
