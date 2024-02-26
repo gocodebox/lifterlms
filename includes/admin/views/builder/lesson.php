@@ -105,7 +105,7 @@
 				'active_condition' => "data.get( 'content' )",
 				'tip'              => esc_attr__( 'No content', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Has content', 'lifterlms' ),
-				'icon'             => '<i class="fa fa-file-text-o"></i>',
+				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-file-text-o"></i>',
 			),
 
@@ -114,7 +114,7 @@
 				'active_condition' => "data.get( 'video_embed' )",
 				'tip'              => esc_attr__( 'No video', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Has video', 'lifterlms' ),
-				'icon'             => '<i class="fa fa-play-circle"></i>',
+				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-play-circle"></i>',
 			),
 
@@ -123,7 +123,7 @@
 				'active_condition' => "data.get( 'audio_embed' )",
 				'tip'              => esc_attr__( 'No audio', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Has audio', 'lifterlms' ),
-				'icon'             => '<i class="fa fa-volume-off"></i>',
+				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-volume-up"></i>',
 			),
 
@@ -141,7 +141,7 @@
 				'active_condition' => "'yes' === data.get( 'has_prerequisite' )",
 				'tip'              => esc_attr__( 'No prerequisite', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Prerequisite Enabled', 'lifterlms' ),
-				'icon'             => '<i class="fa fa-chain-broken"></i>',
+				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-link"></i>',
 			),
 
@@ -150,7 +150,7 @@
 				'active_condition' => "data.get( 'drip_method' )",
 				'tip'              => esc_attr__( 'Drip disabled', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Drip Enabled', 'lifterlms' ),
-				'icon'             => '<i class="fa fa-calendar"></i>',
+				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-calendar"></i>',
 			),
 
@@ -159,21 +159,28 @@
 		foreach ( $icons as $icon ) :
 			?>
 
-			<li class="llms-info-item tip--top-right<# if ( <?php echo $icon['active_condition']; ?> ) { print( ' active') } #>"
-				data-tip="<?php echo $icon['tip']; ?>"
-				data-tip-active="<?php echo $icon['tip_active']; ?>">
-				<?php if ( $icon['action'] ) : ?>
-					<?php printf( '<a class="llms-action-icon %1$s" href="#llms-action--%1$s">', $icon['action'] ); ?>
-				<?php endif; ?>
+			<?php // Hide the whole icon area if there is no icon set, and the active condition is not met. ?>
+			<?php if ( ! $icon['icon'] ): ?>
 				<# if ( <?php echo $icon['active_condition']; ?> ) { #>
-					<?php echo $icon['icon_active']; ?>
-				<# } else { #>
-					<?php echo $icon['icon']; ?>
+			<?php endif; ?>
+				<li class="llms-info-item tip--top-right<# if ( <?php echo $icon['active_condition']; ?> ) { print( ' active') } #>"
+					data-tip="<?php echo $icon['tip']; ?>"
+					data-tip-active="<?php echo $icon['tip_active']; ?>">
+					<?php if ( $icon['action'] ) : ?>
+						<?php printf( '<a class="llms-action-icon %1$s" href="#llms-action--%1$s">', $icon['action'] ); ?>
+					<?php endif; ?>
+					<# if ( <?php echo $icon['active_condition']; ?> ) { #>
+						<?php echo $icon['icon_active']; ?>
+					<# } else { #>
+						<?php echo $icon['icon']; ?>
+					<# } #>
+					<?php if ( $icon['action'] ) : ?>
+						</a>
+					<?php endif; ?>
+				</li>
+			<?php if ( ! $icon['icon'] ): ?>
 				<# } #>
-				<?php if ( $icon['action'] ) : ?>
-					</a>
-				<?php endif; ?>
-			</li>
+			<?php endif; ?>
 
 		<?php endforeach; ?>
 
