@@ -178,9 +178,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// TODO: Test scenarios below based on course start date set, or student enrollment date if not set
-	// TODO: Test that BOTH lesson_drip = 'yes' and drip_method = 'start' need to be set
-
 	/**
 	 * Test get available date when the course has "After course starts" delay in days set.
 	 *
@@ -247,7 +244,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $course_start->add( DateInterval::createFromDateString( '21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
 
 	}
-
 
 	/**
 	 * Test get course
