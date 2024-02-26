@@ -207,101 +207,47 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$now = new DateTimeImmutable();
 
 		$this->assertEquals( $now->format( $format ), $course->get_lessons()[0]->get_available_date( $format ) );
-		$this->assertEquals( $now->add( DateInterval::createFromDateString('7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
-		$this->assertEquals( $now->add( DateInterval::createFromDateString('14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
-		$this->assertEquals( $now->add( DateInterval::createFromDateString('21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString( '7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString( '14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
+		$this->assertEquals( $now->add( DateInterval::createFromDateString( '21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
 
 	}
-
-	public function test_get_available_date_with_course_drip_settings_ignores_lesson_drip_settings() {
-		// arrange
-		// create course with 3 sections and 2 lessons each
-		// set course drip settings to 7 day delay
-		// set second lesson to be available on a specific date
-
-		// act/assert
-		// first lesson immediately available (published date)
-		// second lesson available 7 days later
-	}
-
 
 	/**
-	 * Test get available date when the course has "After course starts" delay in days set but ignore first two lessons.
+	 * Test get available date when the course has "After course starts" delay in days set and
+	 * the course has a fixed start date.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_available_date_with_course_drip_settings_ignoring_first_two_lessons() {
-		// arrange
-		// create a course with 3 sections and 2 lessons each
-		// set course start date
-		// enroll student in course
-		// set ignore first lesson
-		// set course drip settings to 7 day delay
-		// set second lesson to be available on a specific date
-		// set fourth lesson to be available 3 days after the course start date
+	public function test_get_available_date_with_course_drip_settings_with_course_start_date() {
 
-		// act/assert
-		// first lesson immediately available (published date)
-		// second lesson available on the specific date
-		// third lesson available 3 days after the course start date
-		// fourth lesson available 6 days after the course start date
+		$format = 'Y-m-d';
+
+		$course_id = $this->generate_mock_courses( 1, 3, 2, 0 )[0];
+
+		$course = llms_get_post( $course_id );
+		$course->set( 'lesson_drip', 'yes' );
+		$course->set( 'drip_method', 'start' );
+		$course->set( 'days_before_available', '7' );
+		$course->set( 'ignore_lessons', '1' );
+		$course_start = new DateTimeImmutable( '-1 week' );
+		$course->set( 'start_date', $course_start->format( 'm/d/Y' ) );
+
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+		$student->enroll( $course_id );
+
+		$now = new DateTimeImmutable();
+
+		$this->assertEquals( $now->format( $format ), $course->get_lessons()[0]->get_available_date( $format ) );
+		$this->assertEquals( $course_start->add( DateInterval::createFromDateString( '7 days') )->format( $format ), $course->get_lessons()[1]->get_available_date( $format ) );
+		$this->assertEquals( $course_start->add( DateInterval::createFromDateString( '14 days') )->format( $format ), $course->get_lessons()[2]->get_available_date( $format ) );
+		$this->assertEquals( $course_start->add( DateInterval::createFromDateString( '21 days') )->format( $format ), $course->get_lessons()[3]->get_available_date( $format ) );
+
 	}
 
-	/**
-	 * Test get available date when the course has "After course starts" delay in days set but ignore first two lessons.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_available_date_with_course_drip_settings_with_lesson_overrides() {
-		// arrange
-		// create a course with 3 sections and 2 lessons each
-		// set course start date
-		// enroll student in course
-		// set ignore first lesson
-		// set course drip settings to 7 day delay
-
-		// act
-		// get the available date of the first lesson
-
-		// act/assert
-		// first lesson immediately available (published date)
-		// second lesson immediately available
-		// third lesson available 3 days after the course start date
-		// fourth lesson available 6 days after the course start date
-	}
-
-	/**
-	 * Ensure course drip settings are respected when a lesson is moved to a different section
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_available_date_with_course_drip_settings_when_lesson_moved_to_different_section() {
-		// arrange
-		// create a course with 3 sections and 2 lessons each
-		// set course start date
-		// enroll student in course
-		// set ignore first lesson
-		// set course drip settings to 7 day delay
-
-		// act
-		// get the available date of the first lesson
-
-		// act/assert
-		// first lesson immediately available (published date)
-		// third lesson available 3 days after the course start date
-		// fourth lesson available 6 days after the course start date
-
-		// move the third lesson to the beginning
-		// assert the (now) first lesson is immediately available
-		// assert the second lesson is available in 7 days from X date
-		// assert the third lesson is available in 14 days from X date
-	}
 
 	/**
 	 * Test get course
