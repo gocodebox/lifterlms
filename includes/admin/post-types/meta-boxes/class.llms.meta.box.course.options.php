@@ -330,11 +330,11 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					),
 					array(
 						'type'          => 'checkbox',
-						'label'		    => __( 'Enable Lesson Drip', 'lifterlms' ),
-						'desc'		    => __( 'Set global drip restrictions so lesson content becomes available at an interval you define for the course.', 'lifterlms' ),
+						'label'         => __( 'Enable Lesson Drip', 'lifterlms' ),
+						'desc'          => __( 'Set global drip restrictions so lesson content becomes available at an interval you define for the course.', 'lifterlms' ),
 						'id'            => $this->prefix . 'lesson_drip',
 						'is_controller' => true,
-						'value'		    => 'yes',
+						'value'         => 'yes',
 						'class'         => '',
 						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
 					),
@@ -354,7 +354,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
-						'controller' 	   => '#' . $this->prefix . 'lesson_drip',
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
 						'controller_value' => 'yes',
 						'class'            => 'input-full',
 						'id'               => $this->prefix . 'ignore_lessons',
@@ -364,7 +364,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'min'              => 1,
 					),
 					array(
-						'controller' 	   => '#' . $this->prefix . 'lesson_drip',
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
 						'controller_value' => 'yes',
 						'class'            => 'input-full',
 						'id'               => $this->prefix . 'days_before_available',
@@ -425,21 +425,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 		return $fields;
 
-	}
-
-	/**
-	 * SHow lesson drip options for the course
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function drip_settings_html() {
-		$course = new LLMS_Course( $this->post );
-
-		?>
-		TEST
-		<?php
 	}
 
 	/**
