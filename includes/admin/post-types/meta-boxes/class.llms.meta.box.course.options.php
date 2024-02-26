@@ -339,14 +339,14 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
 					),
 					array(
-						'class' => 'llms-select2',
-						'controller' => '#' . $this->prefix . 'lesson_drip',
+						'class'            => 'llms-select2',
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
 						'controller_value' => 'yes',
-						'is_controller' => true,
-						'type' => 'select',
-						'id' => $this->prefix . 'drip_method',
-						'label' => __( 'Drip Method', 'lifterlms' ),
-						'value' => array(
+						'is_controller'    => true,
+						'type'             => 'select',
+						'id'               => $this->prefix . 'drip_method',
+						'label'            => __( 'Drip Method', 'lifterlms' ),
+						'value'            => array(
 							array(
 								'key' => 'start',
 								'title' => __( 'After course start', 'lifterlms' ),

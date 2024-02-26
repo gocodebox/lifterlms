@@ -95,7 +95,6 @@ define( [], function() {
 						condition: function() {
 							return ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) );
 						},
-						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
 						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
 				], [
@@ -106,7 +105,6 @@ define( [], function() {
 						condition: function() {
 							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
 						},
-						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
 						detail: LLMS.l10n.translate( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
 				], [
