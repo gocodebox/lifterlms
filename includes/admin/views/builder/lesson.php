@@ -14,7 +14,6 @@
 
 	<header class="llms-builder-header">
 		<h3 class="llms-headline">
-			<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> {{{ data.get( 'order' ) }}}:
 			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 		</h3>
 

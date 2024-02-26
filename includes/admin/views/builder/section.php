@@ -13,7 +13,6 @@
 	<header class="llms-builder-header">
 
 		<h2 class="llms-headline">
-			<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> {{{ data.order }}}:
 			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.title }}}" data-required="required">{{{ data.title }}}</span>
 		</h2>
 
