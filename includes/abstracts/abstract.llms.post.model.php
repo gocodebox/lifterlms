@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 6.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -837,10 +837,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Get media embeds
+	 * Get media embeds.
 	 *
 	 * @since 3.17.0
 	 * @since 3.17.5 Unknown.
+	 * @since [version] Added function to get provider support.
 	 *
 	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
 	 * @param string $prop Optional. Postmeta property name. Default is empty string.
@@ -854,6 +855,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
 		if ( $url ) {
+
+			$this->get_provider_support( $url );
 
 			$ret = wp_oembed_get( $url );
 
@@ -1694,6 +1697,32 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		return apply_filters( "llms_{$this->model_post_type}_to_array", $arr, $this );
 
 	}
+
+	/**
+	 * Enqueues provider scripts for the URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url URL to check.
+	 * @return null If no provider is found.
+	 */
+	public function get_provider_support( $url ) {
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+
+		// VideoPress Provider.
+		if ( is_plugin_active( 'jetpack-videopress/jetpack-videopress.php' ) ) {
+			if ( strpos( $host, 'videopress.com' ) !== false || strpos( $host, 'video.wordpress.com' ) !== false ) {
+				wp_enqueue_script( 'videopress-token-bridge', plugins_url() . '/jetpack-videopress/jetpack_vendor/automattic/jetpack-videopress/src/../build/lib/token-bridge.js', array(), llms()->version, true );
+
+				wp_localize_script( 'videopress-token-bridge', 'videopressAjax', array() );
+			}
+		}
+
+		return null;
+	}
+
+
 
 	/**
 	 * Called before data is sorted and returned by $this->toArray()

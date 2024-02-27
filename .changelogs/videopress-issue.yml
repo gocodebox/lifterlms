@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2533"
+entry: Allow private VideoPress videos to play when the URL is pasted on Video
+  Embed URL.
