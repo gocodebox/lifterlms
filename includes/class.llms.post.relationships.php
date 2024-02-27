@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,8 +21,10 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Post_Relationships {
 
 	/**
-	 * Configure relationships
+	 * Configure relationships.
 	 *
+	 * @since Unknown.
+	 * @since [version] Added `llms_voucher` relationship.
 	 * @var array
 	 */
 	private $relationships = array(
@@ -80,6 +82,14 @@ class LLMS_Post_Relationships {
 				'action'     => 'delete',
 				'table_name' => 'lifterlms_quiz_attempts',
 				'table_key'  => 'quiz_id',
+			),
+		),
+
+		'llms_voucher'    => array(
+			array(
+				'action'     => 'delete',
+				'table_name' => 'lifterlms_vouchers_codes',
+				'table_key'  => 'voucher_id',
 			),
 		),
 
