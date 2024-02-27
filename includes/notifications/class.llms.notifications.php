@@ -308,6 +308,7 @@ class LLMS_Notifications {
 			'student_welcome',
 			'subscription_cancelled',
 			'upcoming_payment_reminder',
+			'failed_attempts',
 		);
 
 		foreach ( $triggers as $name ) {

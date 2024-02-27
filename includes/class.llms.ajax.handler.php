@@ -774,16 +774,15 @@ class LLMS_AJAX_Handler {
 	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
+		$err     = new WP_Error();
+		$student = llms_get_student();
 
-		$err = new WP_Error();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
 
 		if ( ! $attempt ) {
-
-			$student = llms_get_student();
-			if ( ! $student ) {
-				$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
-				return $err;
-			}
 
 			if ( ! isset( $request['attempt_key'] ) ) {
 				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
@@ -804,6 +803,12 @@ class LLMS_AJAX_Handler {
 			),
 			get_permalink( $attempt->get( 'quiz_id' ) )
 		);
+
+		// Send a notification to Course Author if all attempts are failed after the last attempt.
+		$last_attempt = $student->quizzes()->get_attempts_remaining_for_quiz( $attempt->get( 'quiz_id' ) ) === 0;
+		if ( $last_attempt ) {
+			$student->quizzes()->failed_attempts_notification( $attempt->get( 'quiz_id' ) );
+		}
 
 		return array(
 			/**
