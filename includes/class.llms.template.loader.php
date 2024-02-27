@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 7.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -332,50 +332,79 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.10 Added Flag to print notices when landing on the redirected page.
+	 * @since [version] Added support for multiple memberships warning.
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void
 	 */
 	public function restricted_by_membership( $info ) {
 
-		$membership_id = $info['restriction_id'];
+		$membership_ids = $info['restriction_id'];
 
 		// Do nothing if we don't have a membership id.
-		if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
-
-			// Instantiate the membership.
-			$membership = new LLMS_Membership( $membership_id );
+		if ( ! empty( $membership_ids ) && ( is_array( $membership_ids ) || is_numeric( $membership_ids ) ) ) {
 
 			$msg      = '';
 			$redirect = '';
 
-			if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
+			// Check if we're dealing with an array or a numeric for single membership restriction.
+			if ( ( is_array( $membership_ids ) && 1 === count( $membership_ids ) ) || is_numeric( $membership_ids ) ) {
 
-				$msg = $membership->get( 'restriction_notice' );
+				// Get the membership.
+				$membership = new LLMS_Membership( is_array( $membership_ids ) ? $membership_ids[0] : $membership_ids );
 
-			}
+				if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
 
-			// Get the redirect based on the redirect type (if set).
-			switch ( $membership->get( 'restriction_redirect_type' ) ) {
+					$msg = $membership->get( 'restriction_notice' );
 
-				case 'custom':
-					$redirect = $membership->get( 'redirect_custom_url' );
-					break;
+				}
 
-				case 'membership':
-					$redirect = get_permalink( $membership->get( 'id' ) );
-					break;
+				// Get the redirect based on the redirect type (if set).
+				switch ( $membership->get( 'restriction_redirect_type' ) ) {
 
-				case 'page':
-					$redirect = get_permalink( $membership->get( 'redirect_page_id' ) );
-					// Make sure to print notices in wp pages.
-					$redirect = empty( $msg ) ? $redirect : add_query_arg(
-						array(
-							'llms_print_notices' => 1,
-						),
-						$redirect
-					);
-					break;
+					case 'custom':
+						$redirect = $membership->get( 'redirect_custom_url' );
+						break;
+
+					case 'membership':
+						$redirect = get_permalink( $membership->get( 'id' ) );
+						break;
+
+					case 'page':
+						$redirect = get_permalink( $membership->get( 'redirect_page_id' ) );
+						// Make sure to print notices in wp pages.
+						$redirect = empty( $msg ) ? $redirect : add_query_arg(
+							array(
+								'llms_print_notices' => 1,
+							),
+							$redirect
+						);
+						break;
+				}
+			} else {
+
+				$restricted_memberships = '';
+				$count                  = 0;
+				$length                 = count( $membership_ids );
+
+				foreach ( $membership_ids as $membership_id ) {
+
+					$restricted_memberships .= do_shortcode( '[lifterlms_membership_link id="' . $membership_id . '"]' );
+					$count++;
+
+					// Adding `, ` or ` or ` depending on the number of memberships.
+					if ( $count < $length - 1 ) {
+						$restricted_memberships .= ', ';
+					} elseif ( $count === $length - 1 ) {
+						$restricted_memberships .= __( ' or ', 'lifterlms' );
+					}
+				}
+
+				// Translators: %s = Membership links.
+				$msg = sprintf(
+					__( 'You must belong to one of the following memberships: %s to access this content.', 'lifterlms' ),
+					$restricted_memberships
+				);
 
 			}
 
@@ -700,6 +729,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
+	 * @since [version] Added support for restricted membership IDs array.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
@@ -747,9 +777,8 @@ class LLMS_Template_Loader {
 
 				$membership_id = $page_restricted['restriction_id'];
 
-				if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
-
-					$membership = new LLMS_Membership( $membership_id );
+				if ( ! empty( $membership_id ) && ( is_array( $membership_id ) || is_numeric( $membership_id ) ) ) {
+					$membership = new LLMS_Membership( is_array( $membership_id ) ? $membership_id[0] : $membership_id );
 
 					if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
 						$msg = $membership->get( 'restriction_notice' );
