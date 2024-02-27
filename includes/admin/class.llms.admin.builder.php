@@ -326,7 +326,6 @@ class LLMS_Admin_Builder {
 	 */
 	public static function handle_ajax( $request ) {
 
-		// @todo Do some real error handling here.
 		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
 			return array();
 		}
