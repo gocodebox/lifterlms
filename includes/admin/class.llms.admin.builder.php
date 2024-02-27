@@ -561,12 +561,22 @@ class LLMS_Admin_Builder {
 
 		$post = get_post( $course_id );
 
-		$course = llms_get_post( $post );
-
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
 			_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
+
+		if ( 'auto-draft' === $post->post_status ) {
+			wp_update_post(
+				array(
+					'ID'          => $course_id,
+					'post_status' => 'draft',
+					'post_title'  => __( 'New Course', 'lifterlms' ),
+				)
+			);
+		}
+
+		$course = llms_get_post( $post );
 
 		remove_all_actions( 'the_title' );
 		remove_all_actions( 'the_content' );
