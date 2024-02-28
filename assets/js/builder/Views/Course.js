@@ -71,6 +71,8 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 			Backbone.pubSub.on( 'section-toggle', this.on_section_toggle, this );
 
+			Backbone.pubSub.on( 'section-select', this.on_section_select, this );
+
 			Backbone.pubSub.on( 'expand-section', this.expand_section, this );
 
 			Backbone.pubSub.on( 'lesson-selected', this.active_lesson_change, this );
@@ -146,6 +148,21 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 			var selected = model.get( '_expanded' ) ? [ model ] : [];
 			this.sectionListView.setSelectedModels( selected );
+
+		},
+
+
+		/**
+		 * When doing things like adding a lesson, seelct the section.
+		 *
+		 * @param    obj   model  toggled section
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_section_select: function( model ) {
+
+			this.sectionListView.setSelectedModel( model );
 
 		}
 

@@ -48,6 +48,7 @@ define( [
 			'click .collapse': 'collapse',
 			'click .shift-up--section': 'shift_up',
 			'click .shift-down--section': 'shift_down',
+			'click .new-lesson': 'add_new_lesson',
 
 			'mouseenter .llms-lessons': 'on_mouseenter',
 
@@ -122,6 +123,15 @@ define( [
 			this.maybe_hide_trash_button();
 
 			return this;
+
+		},
+
+		add_new_lesson: function( event ) {
+
+			event.preventDefault();
+
+			Backbone.pubSub.trigger( 'section-select', this.model );
+			Backbone.pubSub.trigger( 'add-new-lesson' );
 
 		},
 
