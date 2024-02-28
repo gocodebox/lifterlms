@@ -50,8 +50,10 @@
 
 	<ul class="llms-lessons<# if ( data._expanded ) { #> expanded<# } #>" id="llms-lessons-{{{ data.id }}}"></ul>
 
-	<button class="llms-element-button new-lesson<# if ( data._expanded ) { #> expanded<# } #>">
-		<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
-	</button>
+	<# if ( data._expanded ) { #>
+		<button class="llms-element-button new-lesson">
+			<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
+		</button>
+	<# } #>
 
 </script>
