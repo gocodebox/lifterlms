@@ -644,7 +644,7 @@ class LLMS_Admin_Builder {
 							 */
 							'llms_builder_sync_settings',
 							array(
-								'check_interval_ms' => 1000,
+								'check_interval_ms' => ( 'yes' === self::get_autosave_status() ? 10000 : 1000 ),
 							)
 						),
 						'enable_video_explainer' => true,
