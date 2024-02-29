@@ -13,7 +13,7 @@ define( [], function() {
 		var self              = this,
 			autosave          = ( 'yes' === window.llms_builder.autosave ),
 			check_interval    = null,
-			check_interval_ms = settings.check_interval_ms || 10000,
+			check_interval_ms = settings.check_interval_ms || 1000,
 			detached          = new Backbone.Collection(),
 			trashed           = new Backbone.Collection();
 
