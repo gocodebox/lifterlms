@@ -36,17 +36,17 @@
 				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
-					<button id="llms-detatch-model" class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>">
+					<a class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach-model">
 						<span class="fa fa-chain-broken"></span>
 						<?php esc_html_e( 'Detach', 'lifterlms' ); ?>
-					</button>
+					</a>
 				<# } #>
 
 				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-					<button id="llms-trash-model" class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>">
+					<a class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" href="#llms-trash-model">
 						<span class="fa fa-trash"></span>
 						<?php esc_html_e( 'Trash', 'lifterlms' ); ?>
-					</button>
+					</a>
 				<?php endif; ?>
 
 			</div>
