@@ -10,16 +10,16 @@
 
 	<ul class="llms-utilities-list">
 		<li>
-			<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="expand" id="llms-expand-all">
+			<button id="llms-expand-all" class="llms-utility bulk-toggle" data-action="expand">
 				<span class="fa fa-plus-circle"></span>
 				<?php esc_html_e( 'Expand Sections', 'lifterlms' ); ?>
-			</a>
+			</button>
 		</li>
 		<li>
-			<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="collapse" id="llms-collapse-all">
+			<button id="llms-collapse-all" class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="collapse">
 				<span class="fa fa-minus-circle"></span>
 				<?php esc_html_e( 'Collapse Sections', 'lifterlms' ); ?>
-			</a>
+			</button>
 		</li>
 	</ul>
 

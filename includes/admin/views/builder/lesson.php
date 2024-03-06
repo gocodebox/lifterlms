@@ -36,38 +36,38 @@
 				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
-					<a class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach-model">
+					<button id="llms-detatch-model" class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-chain-broken"></span>
-						<?php esc_html_e( 'Detatch', 'lifterlms' ); ?>
-					</a>
+						<?php esc_html_e( 'Detach', 'lifterlms' ); ?>
+					</button>
 				<# } #>
 
 				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-					<a class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" href="#llms-trash-model">
+					<button id="llms-trash-model" class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-trash"></span>
 						<?php esc_html_e( 'Trash', 'lifterlms' ); ?>
-					</a>
+					</button>
 				<?php endif; ?>
 
 			</div>
 
 			<div class="llms-action-icons-right">
 
-				<a class="llms-action-icon shift-up--lesson tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-					<span class="fa fa-caret-square-o-up"></span>
-				</a>
-
-				<a class="llms-action-icon shift-down--lesson tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-					<span class="fa fa-caret-square-o-down"></span>
-				</a>
-
-				<a class="llms-action-icon section-prev tip--top-right" data-tip="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" href="#llms-section-change">
+				<button id="llms-section-change" class="llms-action-icon section-prev tip--top-right" data-tip="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Move to previous section', 'lifterlms' ); ?>">
 					<span class="fa fa-arrow-circle-o-up"></span>
-				</a>
+				</button>
 
-				<a class="llms-action-icon section-next tip--top-right" data-tip="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" href="#llms-section-change">
+				<button id="llms-section-change" class="llms-action-icon section-next tip--top-right" data-tip="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Move to next section', 'lifterlms' ); ?>">
 					<span class="fa fa-arrow-circle-o-down"></span>
-				</a>
+				</button>
+
+				<button id="llms-shift" class="llms-action-icon shift-up--lesson tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>">
+					<span class="fa fa-chevron-up"></span>
+				</button>
+
+				<button id="llms-shift" class="llms-action-icon shift-down--lesson tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>">
+					<span class="fa fa-chevron-down"></span>
+				</button>
 
 			</div>
 
@@ -169,7 +169,7 @@
 					data-tip="<?php echo $icon['tip']; ?>"
 					data-tip-active="<?php echo $icon['tip_active']; ?>">
 					<?php if ( $icon['action'] ) : ?>
-						<?php printf( '<a class="llms-action-icon %1$s" href="#llms-action--%1$s">', $icon['action'] ); ?>
+						<?php printf( '<button class="llms-action-icon %1$s" id="#llms-action--%1$s">', $icon['action'] ); ?>
 					<?php endif; ?>
 					<# if ( <?php echo $icon['active_condition']; ?> ) { #>
 						<?php echo $icon['icon_active']; ?>
@@ -177,7 +177,7 @@
 						<?php echo $icon['icon']; ?>
 					<# } #>
 					<?php if ( $icon['action'] ) : ?>
-						</a>
+					</button>
 					<?php endif; ?>
 				</li>
 			<?php if ( ! $icon['icon'] ) : ?>
