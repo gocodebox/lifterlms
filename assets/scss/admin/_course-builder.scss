@@ -9,6 +9,12 @@ body.admin_page_llms-course-builder {
 		margin-left: 0;
 	}
 
+	.llms-button-secondary {
+		.fa {
+			margin-right: 5px;
+		}
+	}
+
 	// &.folded {
 	// 	.llms-course-builder {
 	// 		left: 56px;
@@ -87,58 +93,33 @@ body.admin_page_llms-course-builder {
 	}
 
 	.llms-builder-main {
-		padding: 20px 20px 20px 0;
+		padding: 30px 30px 30px 0;
 		position: relative;
-		width: calc( 100% - 340px );
+		width: calc( 100% - 450px );
 		z-index: 2;
 
 		.llms-action-icons {
 			display: inline-block;
-			left: -20px;
-			opacity: 0;
 			position: relative;
-			transition: left 0.2s ease, opacity 0.2s ease;
 			vertical-align: middle;
 		}
 
 		.llms-action-icons-lesson-id {
 			vertical-align: top;
-			opacity: 0.7;
 		}
 
-		.llms-builder-header:hover > .llms-action-icons,
-		.llms-builder-header .llms-action-icons.static {
-			left: 0;
-			opacity: 1;
-		}
-
-		/*
-
-
-			  /$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$  /$$$$$$
-			 /$$_____/ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/ /$$__  $$
-			| $$      | $$  \ $$| $$  | $$| $$  \__/|  $$$$$$ | $$$$$$$$
-			| $$      | $$  | $$| $$  | $$| $$       \____  $$| $$_____/
-			|  $$$$$$$|  $$$$$$/|  $$$$$$/| $$       /$$$$$$$/|  $$$$$$$
-			 \_______/ \______/  \______/ |__/      |_______/  \_______/
-		 */
-
+		// Course
 		.llms-course-header {
 			position: relative;
 			z-index: 1;
+
+			.llms-button-secondary {
+				margin-right: 10px;
+			}
 		}
 
 
-		/*
-			                                 /$$     /$$
-			                                | $$    |__/
-			  /$$$$$$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$
-			 /$$_____/ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$ /$$_____/
-			|  $$$$$$ | $$$$$$$$| $$        | $$    | $$| $$  \ $$| $$  \ $$|  $$$$$$
-			 \____  $$| $$_____/| $$        | $$ /$$| $$| $$  | $$| $$  | $$ \____  $$
-			 /$$$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
-			|_______/  \_______/ \_______/   \___/  |__/ \______/ |__/  |__/|_______/
-		 */
+		// Sections
 		ul.llms-sections {
 			box-shadow: 0 0 0 3px transparent;
 			min-height: 60px;
@@ -151,9 +132,24 @@ body.admin_page_llms-course-builder {
 
 			li.llms-section {
 				background: #fff;
+				border: 1px solid #efefef;
+				border-radius: 6px;
+				box-shadow: 2px 2px 8px rgba( 0, 0, 0, 0.08 );
 				position: relative;
-				margin: 0;
-				padding: 20px 20px 20px 40px;
+				margin: 0 0 20px 0;
+				padding: 0;
+
+				> .llms-builder-header {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
+					padding: 20px 20px 20px 30px;
+					.llms-action-icons {
+						display: flex;
+						flex: 1;
+						justify-content: space-between;
+					}
+				}
 
 				&.expanded {
 					.llms-lessons { overflow: visible; }
@@ -168,17 +164,10 @@ body.admin_page_llms-course-builder {
 					}
 				}
 
-			}
-
-			// tree line
-			li.llms-section:before {
-				background: #ccc;
-				bottom: 0;
-				content: '';
-				left: 19px;
-				position: absolute;
-				top: 0;
-				width: 2px;
+				> .llms-builder-footer {
+					border-top: 1px solid #efefef;
+					padding: 20px 20px 20px 30px;
+				}
 			}
 
 			li.llms-section:first-child:before {
@@ -193,22 +182,12 @@ body.admin_page_llms-course-builder {
 				bottom: 86px;
 			}
 
-		/*
-			 /$$
-			| $$
-			| $$  /$$$$$$   /$$$$$$$ /$$$$$$$  /$$$$$$  /$$$$$$$   /$$$$$$$
-			| $$ /$$__  $$ /$$_____//$$_____/ /$$__  $$| $$__  $$ /$$_____/
-			| $$| $$$$$$$$|  $$$$$$|  $$$$$$ | $$  \ $$| $$  \ $$|  $$$$$$
-			| $$| $$_____/ \____  $$\____  $$| $$  | $$| $$  | $$ \____  $$
-			| $$|  $$$$$$$ /$$$$$$$//$$$$$$$/|  $$$$$$/| $$  | $$ /$$$$$$$/
-			|__/ \_______/|_______/|_______/  \______/ |__/  |__/|_______/
-		 */
+		// Lessons
 		ul.llms-lessons {
 			box-shadow: 0 0 0 3px transparent;
 			height: 0;
-			margin: 10px 0 0;
-			overflow: hidden;
-			padding: 10px 0;
+			margin: 0;
+			padding: 0;
 			transition: box-shadow 0.6s ease, min-height 0.2s ease;
 			&.dragging {
 				box-shadow: 0 0 0 3px $color-brand-blue;
@@ -227,8 +206,9 @@ body.admin_page_llms-course-builder {
 
 			li.llms-lesson {
 				background: #fff;
+				border-top: 1px solid #efefef;
 				margin: 0;
-				padding: 10px 20px 10px 30px;
+				padding: 15px 20px 15px 30px;
 				position: relative;
 				pointer-events: none;
 				visibility: hidden;
@@ -243,33 +223,20 @@ body.admin_page_llms-course-builder {
 					}
 				}
 
+				> .llms-builder-header {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
+					.llms-action-icons {
+						display: flex;
+						flex: 1;
+						justify-content: space-between;
+					}
+				}
+
 			}
 
-			// line on left of each lesson
-			li.llms-lesson:before {
-				background: #ccc;
-				content: '';
-				height: 2px;
-				left: -20px;
-				position: absolute;
-				top: 20px;
-				width: 30px;
-			}
-
-
-		/*
-			       /$$                                    /$$                                 /$$ /$$
-			      | $$                                   | $$                                | $$| $$
-			  /$$$$$$$  /$$$$$$  /$$$$$$   /$$$$$$       | $$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$$| $$  /$$$$$$   /$$$$$$$
-			 /$$__  $$ /$$__  $$|____  $$ /$$__  $$      | $$__  $$ |____  $$| $$__  $$ /$$__  $$| $$ /$$__  $$ /$$_____/
-			| $$  | $$| $$  \__/ /$$$$$$$| $$  \ $$      | $$  \ $$  /$$$$$$$| $$  \ $$| $$  | $$| $$| $$$$$$$$|  $$$$$$
-			| $$  | $$| $$      /$$__  $$| $$  | $$      | $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$| $$_____/ \____  $$
-			|  $$$$$$$| $$     |  $$$$$$$|  $$$$$$$      | $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$|  $$$$$$$ /$$$$$$$/
-			 \_______/|__/      \_______/ \____  $$      |__/  |__/ \_______/|__/  |__/ \_______/|__/ \_______/|_______/
-			                              /$$  \ $$
-			                             |  $$$$$$/
-			                              \______/
-		 */
+		// Drag Utilities
 		li.llms-section .llms-drag-utility {
 			background: #fff;
 			border: 2px solid #ccc;
@@ -283,8 +250,8 @@ body.admin_page_llms-course-builder {
 
 		li.llms-lesson .llms-drag-utility {
 			height: 6px;
-			left: 5px;
-			top: 16px !important;
+			left: 14px;
+			top: 21px !important;
 			width: 6px;
 		}
 
@@ -312,16 +279,7 @@ body.admin_page_llms-course-builder {
 			}
 		}
 
-		/*
-			                                 /$$               /$$       /$$
-			                                | $$              | $$      | $$
-			  /$$$$$$$  /$$$$$$   /$$$$$$  /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$
-			 /$$_____/ /$$__  $$ /$$__  $$|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$
-			|  $$$$$$ | $$  \ $$| $$  \__/  | $$      /$$$$$$$| $$  \ $$| $$| $$$$$$$$
-			 \____  $$| $$  | $$| $$        | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/
-			 /$$$$$$$/|  $$$$$$/| $$        |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$
-			|_______/  \______/ |__/         \___/   \_______/|_______/ |__/ \_______/
-		 */
+		// Sortable
 		li.llms-section,
 		li.llms-lesson {
 			&.ui-sortable-helper,
@@ -361,17 +319,7 @@ body.admin_page_llms-course-builder {
 
 	}
 
-	/*
-		                 /$$ /$$   /$$               /$$       /$$
-		                | $$|__/  | $$              | $$      | $$
-		  /$$$$$$   /$$$$$$$ /$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$
-		 /$$__  $$ /$$__  $$| $$|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$
-		| $$$$$$$$| $$  | $$| $$  | $$      /$$$$$$$| $$  \ $$| $$| $$$$$$$$
-		| $$_____/| $$  | $$| $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/
-		|  $$$$$$$|  $$$$$$$| $$  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$
-		 \_______/ \_______/|__/   \___/   \_______/|_______/ |__/ \_______/
-	 */
-
+	// Editable
 	.llms-input-wrapper {
 		position: relative;
 	}
@@ -403,7 +351,7 @@ body.admin_page_llms-course-builder {
 		cursor: text;
 		display: inline-block;
 		font-size: inherit;
-		font-weight: 500;
+		font-weight: 700;
 		height: auto;
 		line-height: 1;
 		margin: 0 8px;
@@ -683,21 +631,12 @@ body.admin_page_llms-course-builder {
 		opacity: 0.5;
 	}
 
-	/*
-		 /$$
-		|__/
-		 /$$  /$$$$$$$  /$$$$$$  /$$$$$$$   /$$$$$$$
-		| $$ /$$_____/ /$$__  $$| $$__  $$ /$$_____/
-		| $$| $$      | $$  \ $$| $$  \ $$|  $$$$$$
-		| $$| $$      | $$  | $$| $$  | $$ \____  $$
-		| $$|  $$$$$$$|  $$$$$$/| $$  | $$ /$$$$$$$/
-		|__/ \_______/ \______/ |__/  |__/|_______/
-	 */
+	// Icons
 	.llms-action-icon {
-		color: #888;
+		color: #666;
 		display: inline-block;
-		font-size: 16px;
-		padding: 0 5px;
+		font-size: 13px;
+		padding: 0 10px 0 0;
 		text-decoration: none;
 		&:hover {
 			color: $color-brand-blue;
@@ -726,14 +665,20 @@ body.admin_page_llms-course-builder {
 		margin: 0;
 		padding: 0;
 		li.llms-info-item {
-			color: #aaa;
-			font-size: 16px;
+			color: #666;
+			font-size: 13px;
 			margin: 0;
 			padding: 10px;
 			float: left;
 			&.active,
 			&.active .llms-action-icon {
 				color: $color-brand-blue;
+				.fa {
+					margin-right: 5px;
+				}
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 			.llms-action-icon {
 				margin: -10px;
@@ -743,26 +688,17 @@ body.admin_page_llms-course-builder {
 
 	}
 
-	/*
-		           /$$       /$$           /$$
-		          |__/      | $$          | $$
-		  /$$$$$$$ /$$  /$$$$$$$  /$$$$$$ | $$$$$$$   /$$$$$$   /$$$$$$
-		 /$$_____/| $$ /$$__  $$ /$$__  $$| $$__  $$ |____  $$ /$$__  $$
-		|  $$$$$$ | $$| $$  | $$| $$$$$$$$| $$  \ $$  /$$$$$$$| $$  \__/
-		 \____  $$| $$| $$  | $$| $$_____/| $$  | $$ /$$__  $$| $$
-		 /$$$$$$$/| $$|  $$$$$$$|  $$$$$$$| $$$$$$$/|  $$$$$$$| $$
-		|_______/ |__/ \_______/ \_______/|_______/  \_______/|__/
-	 */
+	// Sidebar
 	.llms-builder-sidebar {
 		background: #e6e6e6;
 		bottom: 0;
 		overflow: hidden;
-		padding: 20px;
+		padding: 30px;
 		position: fixed;
 		transition: width 0.3s ease-in-out;
 		top: 32px;
 		right: 0;
-		width: 280px;
+		width: 360px;
 		z-index: 2;
 
 		.llms-utilities {
@@ -812,9 +748,6 @@ body.admin_page_llms-course-builder {
 		.llms-sidebar-headline {
 			margin: 0 0 10px;
 			font-size: 22px;
-			font-weight: 300;
-			letter-spacing: 2px;
-			text-transform: uppercase;
 		}
 
 		.llms-elements-list {
@@ -1114,20 +1047,7 @@ body.admin_page_llms-course-builder {
 	}
 
 
-	/*
-		                                                   /$$
-		                                                  | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$| $$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$    /$$ /$$$$$$   /$$$$$$
-		 /$$_____/ /$$__  $$ |____  $$ /$$__  $$ /$$_____/| $$__  $$       /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$|  $$  /$$//$$__  $$ /$$__  $$
-		|  $$$$$$ | $$$$$$$$  /$$$$$$$| $$  \__/| $$      | $$  \ $$      | $$  \ $$| $$  \ $$| $$  \ $$| $$  \ $$ \  $$/$$/| $$$$$$$$| $$  \__/
-		 \____  $$| $$_____/ /$$__  $$| $$      | $$      | $$  | $$      | $$  | $$| $$  | $$| $$  | $$| $$  | $$  \  $$$/ | $$_____/| $$
-		 /$$$$$$$/|  $$$$$$$|  $$$$$$$| $$      |  $$$$$$$| $$  | $$      | $$$$$$$/|  $$$$$$/| $$$$$$$/|  $$$$$$/   \  $/  |  $$$$$$$| $$
-		|_______/  \_______/ \_______/|__/       \_______/|__/  |__/      | $$____/  \______/ | $$____/  \______/     \_/    \_______/|__/
-		                                                                  | $$                | $$
-		                                                                  | $$                | $$
-		                                                                  |__/                |__/
-	 */
-
+	// Search Popover
 	 .select2-container {
 	 	z-index: 99999999;
 	 }
@@ -1185,20 +1105,7 @@ body.admin_page_llms-course-builder {
 	}
 
 
-	/*
-		                     /$$
-		                    |__/
-		  /$$$$$$  /$$   /$$ /$$ /$$$$$$$$
-		 /$$__  $$| $$  | $$| $$|____ /$$/
-		| $$  \ $$| $$  | $$| $$   /$$$$/
-		| $$  | $$| $$  | $$| $$  /$$__/
-		|  $$$$$$$|  $$$$$$/| $$ /$$$$$$$$
-		 \____  $$ \______/ |__/|________/
-		      | $$
-		      | $$
-		      |__/
-	 */
-
+	// Quiz
 	 .llms-quiz-empty {
     	margin: 100px auto;
     	text-align: center;
@@ -1286,20 +1193,7 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
-	/*
-		                                           /$$     /$$                           /$$                           /$$
-		                                          | $$    |__/                          | $$                          | $$
-		  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$       | $$$$$$$   /$$$$$$  /$$$$$$$ | $$   /$$
-		 /$$__  $$| $$  | $$ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$      | $$__  $$ |____  $$| $$__  $$| $$  /$$/
-		| $$  \ $$| $$  | $$| $$$$$$$$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$      | $$  \ $$  /$$$$$$$| $$  \ $$| $$$$$$/
-		| $$  | $$| $$  | $$| $$_____/ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$      | $$  | $$ /$$__  $$| $$  | $$| $$_  $$
-		|  $$$$$$$|  $$$$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$/| $$|  $$$$$$/| $$  | $$      | $$$$$$$/|  $$$$$$$| $$  | $$| $$ \  $$
-		 \____  $$ \______/  \_______/|_______/    \___/  |__/ \______/ |__/  |__/      |_______/  \_______/|__/  |__/|__/  \__/
-		      | $$
-		      | $$
-		      |__/
-	 */
-
+	// Question Bank
 	.llms-quiz-tools {
 		display: none;
 		width: 100%;
@@ -1378,19 +1272,7 @@ body.admin_page_llms-course-builder {
 
 	}
 
-	/*
-		                     /$$                                                           /$$     /$$
-		                    |__/                                                          | $$    |__/
-		  /$$$$$$  /$$   /$$ /$$ /$$$$$$$$        /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$
-		 /$$__  $$| $$  | $$| $$|____ /$$/       /$$__  $$| $$  | $$ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$ /$$_____/
-		| $$  \ $$| $$  | $$| $$   /$$$$/       | $$  \ $$| $$  | $$| $$$$$$$$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$|  $$$$$$
-		| $$  | $$| $$  | $$| $$  /$$__/        | $$  | $$| $$  | $$| $$_____/ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$ \____  $$
-		|  $$$$$$$|  $$$$$$/| $$ /$$$$$$$$      |  $$$$$$$|  $$$$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
-		 \____  $$ \______/ |__/|________/       \____  $$ \______/  \_______/|_______/    \___/  |__/ \______/ |__/  |__/|_______/
-		      | $$                                    | $$
-		      | $$                                    | $$
-		      |__/                                    |__/
-	 */
+	// Quiz Questions
 	ul.llms-quiz-questions {
 
 		margin: 10px 3px;

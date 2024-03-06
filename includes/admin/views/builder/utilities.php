@@ -12,13 +12,13 @@
 		<li>
 			<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="expand" id="llms-expand-all">
 				<span class="fa fa-plus-circle"></span>
-				<?php _e( 'Expand All', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Expand Sections', 'lifterlms' ); ?>
 			</a>
 		</li>
 		<li>
 			<a class="llms-utility bulk-toggle" href="#llms-bulk-toggle" data-action="collapse" id="llms-collapse-all">
 				<span class="fa fa-minus-circle"></span>
-				<?php _e( 'Collapse All', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Collapse Sections', 'lifterlms' ); ?>
 			</a>
 		</li>
 	</ul>

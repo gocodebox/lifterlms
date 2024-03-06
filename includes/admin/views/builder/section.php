@@ -18,31 +18,39 @@
 
 		<div class="llms-action-icons">
 
-			<# if ( ! data._expanded ) { #>
-				<a class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" href="#llms-toggle">
-					<span class="fa fa-plus-circle"></span>
+			<div class="llms-action-icons-left">
+
+				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
+					<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash-model">
+						<span class="fa fa-trash"></span>
+					</a>
+				<?php endif; ?>
+
+			</div>
+
+			<div class="llms-action-icons-right">
+
+				<a class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
+					<span class="fa fa-caret-square-o-up"></span>
 				</a>
-			<# } #>
 
-			<# if ( data._expanded ) { #>
-				<a class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" href="#llms-toggle">
-					<span class="fa fa-minus-circle"></span>
+				<a class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
+					<span class="fa fa-caret-square-o-down"></span>
 				</a>
-			<# } #>
 
-			<a class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-				<span class="fa fa-caret-square-o-up"></span>
-			</a>
+				<# if ( ! data._expanded ) { #>
+					<a class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" href="#llms-toggle">
+						<span class="fa fa-plus-circle"></span>
+					</a>
+				<# } #>
 
-			<a class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-				<span class="fa fa-caret-square-o-down"></span>
-			</a>
+				<# if ( data._expanded ) { #>
+					<a class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" href="#llms-toggle">
+						<span class="fa fa-minus-circle"></span>
+					</a>
+				<# } #>
 
-			<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-				<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash-model">
-					<span class="fa fa-trash"></span>
-				</a>
-			<?php endif; ?>
+			</div>
 
 		</div>
 
@@ -51,9 +59,11 @@
 	<ul class="llms-lessons<# if ( data._expanded ) { #> expanded<# } #>" id="llms-lessons-{{{ data.id }}}"></ul>
 
 	<# if ( data._expanded ) { #>
-		<button class="llms-element-button new-lesson">
-			<span class="fa fa-file"></span> <?php _e( 'New Lesson', 'lifterlms' ); ?>
-		</button>
+		<div class="llms-builder-footer">
+			<button class="llms-button-secondary small new-lesson">
+				<span class="fa fa-file"></span> <?php esc_html_e( 'Add New Lesson', 'lifterlms' ); ?>
+			</button>
+		</div>
 	<# } #>
 
 </script>
