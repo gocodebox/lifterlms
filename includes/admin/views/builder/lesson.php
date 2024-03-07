@@ -36,17 +36,17 @@
 				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
-					<a class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach-model">
+					<button class="llms-action-icon llms-detach-model detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-chain-broken"></span>
 						<?php esc_html_e( 'Detach', 'lifterlms' ); ?>
-					</a>
+					</button>
 				<# } #>
 
 				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-					<a class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" href="#llms-trash-model">
+					<button class="llms-action-icon llms-trash-model trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-trash"></span>
 						<?php esc_html_e( 'Trash', 'lifterlms' ); ?>
-					</a>
+					</button>
 				<?php endif; ?>
 
 			</div>

@@ -20,6 +20,7 @@ define( [], function() {
 		 */
 		events: {
 			'click a[href="#llms-detach-model"]': 'detach_model',
+			'click button.llms-detach-model': 'detach_model',
 		},
 
 		/**
@@ -31,6 +32,8 @@ define( [], function() {
 		 * @version  3.16.12
 		 */
 		detach_model: function( event ) {
+
+			console.log('detaching...');
 
 			if ( event ) {
 				event.preventDefault();
