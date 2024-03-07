@@ -81,7 +81,7 @@ class LLMS_Admin_Builder {
 	protected static function get_autosave_status() {
 
 		$autosave = get_user_option( 'llms_builder_autosave' );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		/**
 		 * Gets the status of autosave for the builder
