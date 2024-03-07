@@ -21,10 +21,10 @@
 			<div class="llms-action-icons-left">
 
 				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-					<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash-model">
+					<button class="llms-action-icon llms-trash-model trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>">
 						<span class="fa fa-trash"></span>
 						<span class="screen-reader-text"><?php esc_html_e( 'Delete Section', 'lifterlms' ); ?></span>
-					</a>
+					</button>
 				<?php endif; ?>
 
 			</div>
