@@ -238,12 +238,16 @@ body.admin_page_llms-course-builder {
 						border-color: $color-brand-blue;
 					}
 					> .llms-builder-header .llms-headline {
-						font-weight: 400;
 						color: $color-brand-blue;
 					}
 				}
 
 				> .llms-builder-header {
+					.llms-headline {
+						font-weight: 700;
+						margin-left: 10px;
+						cursor: pointer;
+					}
 					align-items: center;
 					display: flex;
 					flex-wrap: wrap;

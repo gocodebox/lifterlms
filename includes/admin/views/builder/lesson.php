@@ -14,7 +14,7 @@
 
 	<header class="llms-builder-header">
 		<h3 class="llms-headline">
-			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
+			<span>{{{ data.get( 'title' ) }}}</span>
 		</h3>
 
 		<div class="llms-action-icons">
