@@ -33,8 +33,6 @@ define( [], function() {
 		 */
 		detach_model: function( event ) {
 
-			console.log('detaching...');
-
 			if ( event ) {
 				event.preventDefault();
 				event.stopPropagation();
