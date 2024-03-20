@@ -125,6 +125,7 @@ When you need more features and want to expand your online learning business, we
 + Course assignments
 + Quiz time limits
 + Student dashboard
++ Student note-taking
 + Multi-instructor courses
 + Lesson downloads
 + Course import & export
@@ -239,6 +240,8 @@ Increase your LMS website and it's training program's value with these engagemen
 + [LifterLMS PDFs][pdf]
 + [LifterLMS Private Site][ps]
 + [LifterLMS Course Cohorts][coh]
++ [LifterLMS Advanced Coupons][ac]
++ [LifterLMS Notes][not]
 
 **Integrations**
 
@@ -253,9 +256,10 @@ Integrate your LMS with the third-party tools you know and love:
 
 ### LMS Website and User Experience Design Tools
 
-Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot][sp] if you want to start with a modern, beautiful, full-site editing block-based theme.
+Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot][sp] if you want to start with a modern, beautiful, full-site editing block-based theme. And consider using our [Aircraft page builder plugin][air], to make building beautiful web pages fast using our design template library. 
 
 + [LifterLMS Sky Pilot Theme][sp]
++ [LifterLMS Aircraft][air]
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
@@ -290,6 +294,8 @@ The main reasons we hear from users who switched to LifterLMS after looking and 
 
 The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and many more.
 
+You can also connect LifterLMS to over 7,000 other apps like Facebook, Google Sheets, Zoom, Shopify, etc. using the [LifterLMS Zapier app](https://lifterlms.com/blog/zapier/).
+
 We do recommend a minimalist approach to plugins and themes, so only install what you absolutely need for your WordPress LMS website. 
 
 ### How To Get Support From LifterLMS
@@ -297,8 +303,8 @@ We do recommend a minimalist approach to plugins and themes, so only install wha
 **Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team.
 
 + LifterLMS Support Ticket System, ready for any question you have about your LMS
-+ Liftoff Sessions access with live screensharing to help you get started with the LMS software
-+ [LifterLMS Office Hours][oh] is weekly Mastermind group hosted by LifterLMS CEO Chris Badgett and special guests
++ Liftoff Sessions access with live screen-sharing to help you get started with the LMS software
++ [LifterLMS Office Hours][oh] is a weekly Mastermind group hosted by LifterLMS CEO Chris Badgett and special guests
 
 ### Save on LifterLMS With A Bundle
 
@@ -412,7 +418,8 @@ then ...
 [team]: https://lifterlms.com/about-us/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale#h-meet-the-team
 [webinar]: https://lifterlms.com/lifterlms-webinars/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
-
+[ac]: https://lifterlms.com/product/lifterlms-advanced-coupons/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[air]: https://lifterlms.com/product/aircraft/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -426,6 +433,7 @@ then ...
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[not]: https://lifterlms.com/product/lifterlms-notes/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [oh]: https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pa]: https://lifterlms.com/product/private-areas/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pdf]: https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
