@@ -125,6 +125,7 @@ When you need more features and want to expand your online learning business, we
 + Course assignments
 + Quiz time limits
 + Student dashboard
++ Student note-taking
 + Multi-instructor courses
 + Lesson downloads
 + Course import & export
@@ -239,6 +240,8 @@ Increase your LMS website and it's training program's value with these engagemen
 + [LifterLMS PDFs](https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Private Site](https://lifterlms.com/product/private-site/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Course Cohorts](https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Advanced Coupons](https://lifterlms.com/product/lifterlms-advanced-coupons/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Notes](https://lifterlms.com/product/lifterlms-notes/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 **Integrations**
 
@@ -253,9 +256,10 @@ Integrate your LMS with the third-party tools you know and love:
 
 ### LMS Website and User Experience Design Tools
 
-Use LifterLMS with the modern LifterLMS [Sky Pilot Theme](https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot](https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) if you want to start with a modern, beautiful, full-site editing block-based theme.
+Use LifterLMS with the modern LifterLMS [Sky Pilot Theme](https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot](https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) if you want to start with a modern, beautiful, full-site editing block-based theme. And consider using our [Aircraft page builder plugin](https://lifterlms.com/product/aircraft/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale), to make building beautiful web pages fast using our design template library.
 
 + [LifterLMS Sky Pilot Theme](https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Aircraft](https://lifterlms.com/product/aircraft/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Powerpack](https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS LaunchPad Theme](https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
@@ -290,15 +294,17 @@ The main reasons we hear from users who switched to LifterLMS after looking and 
 
 The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and many more.
 
-We do recommend a minimalist approach to plugins and themes, so only install what you absolutely need for your WordPress LMS website.
+You can also connect LifterLMS to over 7,000 other apps like Facebook, Google Sheets, Zoom, Shopify, etc. using the [LifterLMS Zapier app](https://lifterlms.com/blog/zapier/).
+
+We do recommend a minimalist approach to plugins and themes, so only install what you absolutely need for your WordPress LMS website. 
 
 ### How To Get Support From LifterLMS
 
 **Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team.
 
 + LifterLMS Support Ticket System, ready for any question you have about your LMS
-+ Liftoff Sessions access with live screensharing to help you get started with the LMS software
-+ [LifterLMS Office Hours](https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) is weekly Mastermind group hosted by LifterLMS CEO Chris Badgett and special guests
++ Liftoff Sessions access with live screen-sharing to help you get started with the LMS software
++ [LifterLMS Office Hours](https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) is a weekly Mastermind group hosted by LifterLMS CEO Chris Badgett and special guests
 
 ### Save on LifterLMS With A Bundle
 
@@ -339,12 +345,6 @@ Whether you are going big or keeping it small, LifterLMS scales to meet your nee
 
 ***
 
-> _“**WP101.com serves more than 30,000 members**, so it’s no small challenge to migrate to a new membership plugin. **We spent more than a year carefully evaluating dozens of LMS and membership plugins before we finally discovered LifterLMS (a membership plugin and LMS plugin combined into one). It was the only plugin that checked all the boxes for our needs for course creation and membership functionality.** And the LifterLMS team also shares our passion for creating better online learning experiences. In particular, we deeply resonate with their goal of restoring the human touch to online learning—something that is absent from most online courses today.”_
-
-> _**Shawn Hesketh**, Owner, WP101_
-
-***
-
 > _"As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, the LMS UI/UX out of the box, and natural student Engagement opportunities. **In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS** playing a huge part in that!! I’m looking forward to everything that comes next from the creators of LifterLMS!!"_
 
 > _**Sarah Lorenzen**, Teacher, Entrepreneur_
@@ -354,12 +354,6 @@ Whether you are going big or keeping it small, LifterLMS scales to meet your nee
 > _"LifterLMS has been **the best decision we have made** towards the build out of our course library, online Learning Management System site, and community. The breadth and depth of what LifterLMS offers in a few WordPress plugins exceeds anything else we evaluated as it includes: easy course construction, integrated eCommerce, community capabilities, gamification and the support for delivery of 1-on-1 coaching collaboration services. Lifter also has pre-built integrations with other key WordPress technologies we wanted to use. LifterLMS has attracted a solid community and support network of leading experts to help guide anyone who wants to transform the world or their industry with online training. **Chris and the Lifter team are real people, and they care**."_
 
 > _**Michael Wolf**, CEO, emPowering NOW LLC (Golden XPR)_
-
-***
-
-> _"I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the WordPress LMS plugin was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! **Really quite extraordinary to have something so helpful be able to be in the hands of regular folk**."_
-
-> _**Margot Worthy**, Author, Teacher_
 
 ### Join Our Growing Community of Education Entrepreneurs
 
