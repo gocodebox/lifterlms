@@ -22,7 +22,6 @@ LifterLMS works with any well-coded WordPress theme/FSE, the Block Editor (Guten
 
 **With over 10 years development,** our team is deeply engaged with the WordPress community. We encourage our integration partners to create the extensions you need most, like Affiliate WP, Monster Insights, WP Fusion, popular form plugins, GamiPress, Astra Pro, and more.
 
-Don't see an integration you need? Connect your LifterLMS website to 7,000+ other apps via [Zapier](https://lifterlms.com/docs/getting-started-with-lifterlms-and-zapier/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 ### Open Source, Completely Free Core Plugin
 
@@ -291,12 +290,12 @@ The main reasons we hear from users who switched to LifterLMS after looking and 
 
 ### What Other Plugins and Themes Are Commonly Used with LifterLMS?
 
-The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and many more.
+The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and more.
 
 You can also connect LifterLMS to over 7,000 other apps like Facebook, Google Sheets, Zoom, Shopify, etc. using the [LifterLMS Zapier app](https://lifterlms.com/blog/zapier/).
 
 
-### How To Get Support From LifterLMS
+### Get Support From LifterLMS
 
 **Our world-class LMS software support has your back** and all of our paid products include priority private support.
 
@@ -306,16 +305,16 @@ You can also connect LifterLMS to over 7,000 other apps like Facebook, Google Sh
 
 ### Save on LifterLMS With A Bundle
 
-Save money while unlocking the full potential of your course building and LMS platform.
+Save money while unlocking the full potential of your LMS platform.
 
 + The [Free LifterLMS plan](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) gives you everything you need to get started with all the essential LMS features from unlimited courses, memberships, students, teachers, and more.
 + The [Earth Bundle](https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
-+ Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle](https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
++ Add more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle](https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
-### Give The Best WordPress LMS Plugin A Try
+### Try the Best WordPress LMS Plugin
 
-The best way to know if LifterLMS meets your needs is to take it for a test drive - something you can't do with a totally premium LMS!
+Take LifterLMS for a test drive.
 
 + [Install the free core LifterLMS plugin right now](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). See how extensive and customizable our free core plugin is.
 + Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. Practice creating courses, test out the learner experience, and see how easy it will be to manage your course with WordPress. Install your favorite plugins & themes to test compatibility. **[Try LifterLMS for $1](https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** now.
@@ -343,13 +342,13 @@ Whether you are going big or keeping it small, LifterLMS scales to meet your nee
 
 ***
 
-> _"As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, the LMS UI/UX out of the box, and natural student Engagement opportunities. **In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS** playing a huge part in that!! I’m looking forward to everything that comes next from LifterLMS!!"_
+> _"As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, the LMS UI/UX out of the box, and natural student Engagement opportunities. **In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS** playing a huge part in that!!"_
 
 > _**Sarah Lorenzen**, Teacher, Entrepreneur_
 
 ***
 
-> _"LifterLMS was **the best decision we made** towards the build out of our course library, online Learning Management System site, and community. The breadth and depth of what LifterLMS offers in a few WordPress plugins exceeds anything else we evaluated. It includes: easy course construction, integrated eCommerce, community capabilities, gamification and the support for delivery of 1-on-1 coaching collaboration services. Lifter also has pre-built integrations with other key WordPress technologies we needed. LifterLMS has a solid community and support network of leading experts to help guide anyone who wants to transform the world or their industry with online training. **Chris and the Lifter team are real people, and they care**."_
+> _"LifterLMS was **the best decision we made** towards building our course library, online Learning Management System site, and community. **Chris and the Lifter team are real people, and they care**."_
 
 > _**Michael Wolf**, CEO, emPowering NOW LLC (Golden XPR)_
 
