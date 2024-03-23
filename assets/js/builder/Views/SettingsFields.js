@@ -254,7 +254,7 @@ define( [], function() {
 
 			function option_html( label, val ) {
 
-				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label + '</option>';
+				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label.substring( 0, 100 ) + ( label.length > 100 ? '...' : '' ) + '</option>';
 
 			}
 

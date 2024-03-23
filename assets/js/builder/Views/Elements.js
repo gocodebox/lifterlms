@@ -64,7 +64,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 			this.$el.html( this.template() );
 			this.draggable();
-			this.maybe_disable_buttons();
+			this.maybe_add_initial_section();
 
 			return this;
 		},
@@ -161,12 +161,15 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		maybe_disable_buttons: function() {
+		maybe_add_initial_section: function() {
 
 			var $els = $( '#llms-new-lesson, #llms-existing-lesson' );
 
 			if ( ! this.SidebarView.CourseView.model.get( 'sections' ).length ) {
-				$els.attr( 'disabled', 'disabled' );
+				Backbone.pubSub.trigger( 'add-new-section' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
 			} else {
 				$els.removeAttr( 'disabled' );
 			}

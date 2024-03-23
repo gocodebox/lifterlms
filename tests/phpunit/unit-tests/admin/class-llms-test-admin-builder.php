@@ -37,12 +37,12 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	public function test_get_autosave_status() {
 
 		// Defaults to yes.
-		$this->assertEquals( 'yes', LLMS_Unit_Test_Util::call_method( $this->main, 'get_autosave_status' ) );
+		$this->assertEquals( 'no', LLMS_Unit_Test_Util::call_method( $this->main, 'get_autosave_status' ) );
 
 		// User has no value set.
 		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user );
-		$this->assertEquals( 'yes', LLMS_Unit_Test_Util::call_method( $this->main, 'get_autosave_status' ) );
+		$this->assertEquals( 'no', LLMS_Unit_Test_Util::call_method( $this->main, 'get_autosave_status' ) );
 
 		// Explicit yes.
 		update_user_meta( $user, 'llms_builder_autosave','yes' );

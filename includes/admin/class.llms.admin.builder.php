@@ -81,7 +81,7 @@ class LLMS_Admin_Builder {
 	protected static function get_autosave_status() {
 
 		$autosave = get_user_option( 'llms_builder_autosave' );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		/**
 		 * Gets the status of autosave for the builder
@@ -644,7 +644,7 @@ class LLMS_Admin_Builder {
 							 */
 							'llms_builder_sync_settings',
 							array(
-								'check_interval_ms' => 10000,
+								'check_interval_ms' => ( 'yes' === self::get_autosave_status() ? 10000 : 1000 ),
 							)
 						),
 						'enable_video_explainer' => true,

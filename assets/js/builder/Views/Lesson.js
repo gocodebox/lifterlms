@@ -44,6 +44,7 @@ define( [
 		 */
 		events: _.defaults( {
 			'click .edit-lesson': 'open_lesson_editor',
+			'click .llms-headline': 'open_lesson_editor',
 			'click .edit-quiz': 'open_quiz_editor',
 			'click .edit-assignment': 'open_assignment_editor',
 			'click .section-prev': 'section_prev',
