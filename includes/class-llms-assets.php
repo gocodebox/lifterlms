@@ -680,10 +680,6 @@ class LLMS_Assets {
 		$plugin_data = get_plugin_data( $script['base_file'], false, false );
 		$domain      = $plugin_data['TextDomain'];
 
-		// Setup the script's filename based on the md5 of it's relative path.
-		$relative_path = sprintf( '%1$s/%2$s%3$s', $script['path'], $script['file_name'], $script['extension'] );
-		$file          = sprintf( '%1$s-%2$s-%3$s.json', $domain, llms_get_locale(), md5( $relative_path ) );
-
 		// Possible directories where the language files may be found.
 		$dirs = array(
 			llms_l10n_get_safe_directory(),
@@ -692,11 +688,7 @@ class LLMS_Assets {
 		);
 
 		foreach ( $dirs as $dir ) {
-			// If the file exists, set the script translations.
-			if ( file_exists( sprintf( '%1$s/%2$s', $dir, $file ) ) ) {
-				wp_set_script_translations( $script['handle'], $domain, $dir );
-				break;
-			}
+			wp_set_script_translations( $script['handle'], $domain, $dir );
 		}
 
 	}

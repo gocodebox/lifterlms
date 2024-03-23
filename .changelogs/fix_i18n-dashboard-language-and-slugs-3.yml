@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Adds settings in the Permalinks page to edit the custom post type and
+  taxonomy slugs. Slugs are saved in the site language on install on update.

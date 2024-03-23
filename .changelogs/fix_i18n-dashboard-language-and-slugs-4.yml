@@ -1,0 +1,5 @@
+significance: patch
+type: added
+entry: Adds `llms_switch_to_site_locale` and `llms_restore_locale` to help
+  LifterLMS add-ons switch to the site language when getting translation
+  strings.
