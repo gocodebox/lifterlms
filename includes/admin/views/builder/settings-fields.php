@@ -138,6 +138,9 @@ defined( 'ABSPATH' ) || exit;
 						<span class="llms-label llms-label--after">{{{ field.label_after }}}</span>
 					<# } #>
 
+					<# if ( field.detail ) { #>
+						<div class="llms-detail">{{{ field.detail }}}</div>
+					<# } #>
 				</div>
 			<# } ); #>
 			</div>

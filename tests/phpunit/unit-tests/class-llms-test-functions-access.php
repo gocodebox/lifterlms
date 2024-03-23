@@ -39,6 +39,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
 		$course = llms_get_post( $course_id );
 		$lesson = $course->get_lessons()[0];
+		$second_lesson = $course->get_lessons()[1];
 		$lesson_id = $lesson->get( 'id' );
 		$student = $this->get_mock_student();
 		wp_set_current_user( $student->get_id() );
@@ -77,6 +78,31 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		// now available.
 		llms_tests_mock_current_time( '+4 days' );
 		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// Test course-level drip settings.
+
+		// Ensure first lesson is not available due to lesson-level drip settings.
+		llms_tests_reset_current_time();
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+
+		// Set individual drip settings on the second lesson and ensure it is available.
+		$second_lesson->set( 'drip_method', 'date' );
+		$second_lesson->set( 'date_available', date( 'm/d/Y', current_time( 'timestamp' ) - DAY_IN_SECONDS ) );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $second_lesson->get( 'id' ) ) );
+
+		// Now set course-level drip settings and ensure the first lesson is available.
+		$course->set( 'drip_method', 'start' );
+		$course->set( 'lesson_drip', 'yes' );
+		$course->set( 'days_before_available', 10 );
+		$course->set( 'ignore_lessons', 1 );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+		// second not available until 10 days from now.
+		$this->assertEquals( $second_lesson->get( 'id' ), llms_is_post_restricted_by_drip_settings( $second_lesson->get( 'id' ) ) );
+
+		// If lesson drip turned off the rest of the course drip settings should be ignored.
+		$course->set( 'lesson_drip', '' );
+		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
+		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $second_lesson->get( 'id' ) ) );
 
 	}
 

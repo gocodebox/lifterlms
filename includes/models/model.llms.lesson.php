@@ -117,7 +117,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the date a course became or will become available according to element drip settings
+	 * Get the date a lesson became or will become available according to element drip settings
 	 *
 	 * If there are no drip settings, the published date of the element will be returned.
 	 *
@@ -141,6 +141,35 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		// Default availability is the element's post date.
 		$available = $this->get_date( 'date', 'U' );
+
+		// get the course setting first, if any.
+		$course = $this->get_course();
+		if ( $course && 'yes' === $course->get( 'lesson_drip' ) ) {
+			$course_drip_method = $course->get( 'drip_method' );
+
+			switch ( $course_drip_method ) {
+				case 'start':
+					$ignore_lessons = intval( $course->get( 'ignore_lessons' ) );
+					$course_lessons = $course->get_lessons( 'ids' );
+					$lesson_number = array_search( $this->get( 'id' ), $course_lessons ) + 1;
+
+					$course_days = $course->get( 'days_before_available' ) * DAY_IN_SECONDS;
+					$course_start_date = $course->get_date( 'start_date', 'U' );
+					$course_enrollment_date = llms_get_student() ? llms_get_student()->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' ) : false;
+
+					// If it's one of the first X lessons in a course, return availability based on published date.
+					if ( $lesson_number <= $ignore_lessons ) {
+						return date_i18n( $format, $available );
+					}
+
+					if ( $course_start_date || $course_enrollment_date ) {
+						$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ? $course_start_date : $course_enrollment_date );
+
+						return date_i18n( $format, $available );
+					}
+					break;
+			}
+		}
 
 		switch ( $drip_method ) {
 
@@ -453,16 +482,17 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function is_available() {
 
 		$drip_method = $this->get( 'drip_method' );
+		$course_drip_method = $this->get_course() ? 'yes' === $this->get_course()->get( 'lesson_drip' ) && $this->get_course()->get( 'drip_method' ) : '';
 
-		// Drip is no enabled, so the element is available.
-		if ( ! $drip_method ) {
+		// Drip is not enabled, so the element is available.
+		if ( ! $drip_method && ! $course_drip_method ) {
 			return true;
 		}
 
 		$available = $this->get_available_date( 'U' );
 		$now       = llms_current_time( 'timestamp' );
 
-		return ( $now > $available );
+		return ( $now >= $available );
 
 	}
 
