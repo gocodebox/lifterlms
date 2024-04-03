@@ -48,7 +48,7 @@ body.admin_page_llms-course-builder {
 		}
 		@media only screen and ( min-width: 1200px ) {
 			.llms-builder-main {
-				width: 400px;
+				width: 560px;
 			}
 			.llms-builder-sidebar {
 				width: calc( 100% - 640px );
@@ -725,9 +725,6 @@ body.admin_page_llms-course-builder {
 				.fa {
 					margin-right: 5px;
 				}
-				&:hover {
-					text-decoration: underline;
-				}
 			}
 			button {
 				background: none;
@@ -736,6 +733,9 @@ body.admin_page_llms-course-builder {
 				padding: 0;
 				cursor: pointer;
 				outline: inherit;
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 	}
@@ -1092,7 +1092,10 @@ body.admin_page_llms-course-builder {
 			}
 			button[data-status] .llms-status-indicator { display: none; }
 			button[data-status="saved"] .status--saved { display: block; }
-			button[data-status="unsaved"] .status--unsaved { display: block; }
+			button[data-status="unsaved"] {
+				background-color: $color-brand-orange;
+				.status--unsaved { display: block; }
+			}
 			button[data-status="saving"] .status--saving { display: block; }
 			button[data-status="error"] .status--error { display: block; }
 
