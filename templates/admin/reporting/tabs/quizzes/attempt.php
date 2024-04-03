@@ -7,7 +7,7 @@
  * @since 3.16.0
  * @since 3.17.3 Unknown.
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
- * @since [version] Add information on whether the attempt can be resumed or not.
+ * @since [version] Add information on whether the attempt can be resumed or not and disable resume attempt button.
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -157,6 +157,12 @@ if ( $student ) {
 						<i class="fa fa-floppy-o" aria-hidden="true"></i>
 						<?php _e( 'Save Review', 'lifterlms' ); ?>
 					</span>
+			</button>
+			<?php endif; ?>
+			<?php if ( $attempt->can_be_resumed() ) : // Show the clear resume attempt button only if quiz can be resumed. ?>
+			<button class="llms-button-secondary large" name="llms_quiz_attempt_action" type="submit" value="llms_disable_resume_attempt">
+				<i class="fa fa-ban" aria-hidden="true"></i>
+				<?php _e( 'Disable Resume Attempt', 'lifterlms' ); ?>
 			</button>
 			<?php endif; ?>
 			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">
