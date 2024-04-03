@@ -21,6 +21,8 @@
 
 			<div class="llms-action-icons-left">
 
+				<span class="llms-item-id"><?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}</span>
+
 				<# if ( data.get_edit_post_link() ) { #>
 					<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Open WordPress lesson editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}" target="_blank">
 						<span class="fa fa-pencil-square-o"></span>
@@ -36,14 +38,14 @@
 				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
-					<button class="llms-action-icon llms-detach-model detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>">
+					<button class="llms-action-icon llms-detach-model detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-chain-broken"></span>
 						<?php esc_html_e( 'Detach', 'lifterlms' ); ?>
 					</button>
 				<# } #>
 
 				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-					<button class="llms-action-icon llms-trash-model trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>">
+					<button class="llms-action-icon llms-trash-model trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash lesson', 'lifterlms' ); ?>">
 						<span class="fa fa-trash"></span>
 						<?php esc_html_e( 'Trash', 'lifterlms' ); ?>
 					</button>
@@ -77,10 +79,6 @@
 
 	<ul class="llms-info-list">
 
-		<li class="llms-info-item">
-			<?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}
-		</li>
-
 		<?php
 		$icons = array(
 
@@ -88,7 +86,7 @@
 				'action'           => 'edit-lesson',
 				'active_condition' => 'true',
 				'tip'              => '',
-				'tip_active'       => esc_attr__( 'Edit Lesson settings', 'lifterlms' ),
+				'tip_active'       => esc_attr__( 'Edit lesson settings', 'lifterlms' ),
 				'icon'             => '',
 				'icon_active'      => '<i class="fa fa-cog"></i>' . __( 'Settings', 'lifterlms' ),
 			),
@@ -97,18 +95,18 @@
 				'action'           => 'edit-assignment',
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip'              => esc_attr__( 'Add an assignment', 'lifterlms' ),
-				'tip_active'       => sprintf( esc_attr__( 'Edit Assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
-				'icon'             => '<i class="fa fa-check-square-o"></i> ' . __( 'Add Assignment', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . __( 'Edit Assignment', 'lifterlms' ),
+				'tip_active'       => sprintf( esc_attr__( 'Edit assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
+				'icon'             => '<i class="fa fa-check-square-o"></i> ' . __( 'Add assignment', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . __( 'Edit assignment', 'lifterlms' ),
 			),
 
 			'quiz'        => array(
 				'action'           => 'edit-quiz',
 				'active_condition' => "'yes' === data.get( 'quiz_enabled' )",
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
-				'tip_active'       => sprintf( esc_attr__( 'Edit Quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
-				'icon'             => '<i class="fa fa-question-circle"></i> ' . __( 'Add Quiz', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-question-circle"></i>' . __( 'Edit Quiz', 'lifterlms' ),
+				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
+				'icon'             => '<i class="fa fa-question-circle"></i> ' . __( 'Add quiz', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-question-circle"></i>' . __( 'Edit quiz', 'lifterlms' ),
 			),
 
 			'video'       => array(
@@ -130,30 +128,30 @@
 			),
 
 			'free'        => array(
-				'action'           => false,
+				'action'           => 'edit-lesson',
 				'active_condition' => "'yes' === data.get( 'free_lesson' )",
 				'tip'              => esc_attr__( 'Enrolled students only', 'lifterlms' ),
-				'tip_active'       => esc_attr__( 'Free Lesson', 'lifterlms' ),
+				'tip_active'       => esc_attr__( 'Free lesson', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-unlock"></i>' . __( 'Free Lesson', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-unlock"></i>' . __( 'Free lesson', 'lifterlms' ),
 			),
 
 			'prereq'      => array(
-				'action'           => false,
+				'action'           => 'edit-lesson',
 				'active_condition' => "'yes' === data.get( 'has_prerequisite' )",
 				'tip'              => esc_attr__( 'No prerequisite', 'lifterlms' ),
-				'tip_active'       => esc_attr__( 'Prerequisite Enabled', 'lifterlms' ),
+				'tip_active'       => esc_attr__( 'Prerequisite enabled', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-link"></i>' . __( 'Prerequisite Enabled', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-link"></i>' . __( 'Prerequisite enabled', 'lifterlms' ),
 			),
 
 			'drip_method' => array(
-				'action'           => false,
+				'action'           => 'edit-lesson',
 				'active_condition' => "data.get( 'drip_method' )",
 				'tip'              => esc_attr__( 'Drip disabled', 'lifterlms' ),
-				'tip_active'       => esc_attr__( 'Drip Enabled', 'lifterlms' ),
+				'tip_active'       => esc_attr__( 'Drip enabled', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-calendar"></i>' . __( 'Drip Enabled', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-calendar"></i>' . __( 'Drip enabled', 'lifterlms' ),
 			),
 
 		);
