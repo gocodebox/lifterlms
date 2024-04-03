@@ -49,7 +49,7 @@ define( [
 			'click .shift-up--section': 'shift_up',
 			'click .shift-down--section': 'shift_down',
 			'click .new-lesson': 'add_new_lesson',
-
+			'click .llms-builder-header': 'toggle',
 			'mouseenter .llms-lessons': 'on_mouseenter',
 
 		}, Editable.events, Trashable.events ),
@@ -141,6 +141,21 @@ define( [
 				current: current,
 				previous: previous,
 			} );
+
+		},
+
+		toggle: function( event, update ) {
+
+			// We only want to expand/collapse when the actual header div is clicked, not an element inside it.
+			if ( 'llms-builder-header' !== event.target.className ) {
+				return;
+			}
+
+			if ( this.model.get( '_expanded' ) ) {
+				this.collapse( event, update );
+			} else {
+				this.expand( event, update );
+			}
 
 		},
 
