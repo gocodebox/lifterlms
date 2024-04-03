@@ -9,7 +9,14 @@
 <script type="text/html" id="tmpl-llms-elements-template">
 
 	<h2 class="llms-sidebar-headline"><?php esc_html_e( 'Build Your Course', 'lifterlms' ); ?></h2>
-	<p class="llms-sidebar-description"><?php esc_html_e( 'Drag or click on the different course elements below to build your course syllabus.', 'lifterlms' ); ?></p>
+	<p class="llms-sidebar-description">
+		<?php
+			/* translators: %s: link to course builder tutorial */
+			echo sprintf( __( 'Drag or click on the different course elements below to build your course syllabus. <a href="%s" target="_blank">Visit the course builder tutorial here</a>.', 'lifterlms' ),
+				'https://lifterlms.com/docs/using-course-builder/'
+			);
+		?>
+	</p>
 	<ul class="llms-elements-list llms-add-items">
 
 		<li>
