@@ -117,7 +117,7 @@ body.admin_page_llms-course-builder {
 			align-items: center;
 			display: flex;
 			flex-wrap: wrap;
-			gap: 10px;
+			gap: 15px;
 			position: relative;
 			z-index: 1;
 			.llms-button-secondary {
@@ -149,18 +149,25 @@ body.admin_page_llms-course-builder {
 				> .llms-builder-header {
 					align-items: center;
 					display: flex;
-					gap: 10px;
+					gap: 15px;
 					justify-content: space-between;
-					padding: 20px 20px 20px 30px;
+					padding: 20px 10px 20px 30px;
 					.llms-action-icons {
 						align-items: center;
 						display: flex;
-						gap: 10px;
+						gap: 15px;
 						justify-content: space-between;
-						.llms-action-icons-right,
+						.llms-action-icons-right {
+							display: flex;
+							gap: 0px;
+							margin-top: -5px;
+							.llms-action-icon {
+								padding: 5px 10px;
+							}
+						}
 						.llms-action-icons-left {
 							display: flex;
-							gap: 10px;
+							gap: 15px;
 						}
 						@media only screen and ( min-width: 1200px ) {
 							.llms-action-icons-right,
@@ -228,7 +235,7 @@ body.admin_page_llms-course-builder {
 				background: #fff;
 				border-top: 1px solid #efefef;
 				margin: 0;
-				padding: 20px 20px 20px 30px;
+				padding: 20px 10px 20px 30px;
 				position: relative;
 				pointer-events: none;
 				visibility: hidden;
@@ -251,18 +258,25 @@ body.admin_page_llms-course-builder {
 					align-items: center;
 					display: flex;
 					flex-wrap: wrap;
-					gap: 10px;
+					gap: 15px;
 					justify-content: space-between;
 					.llms-action-icons {
 						align-items: center;
 						display: flex;
 						flex: 1;
-						gap: 10px;
+						gap: 15px;
 						justify-content: space-between;
-						.llms-action-icons-left,
+						.llms-action-icons-left {
+							display: flex;
+							gap: 15px;
+						}
 						.llms-action-icons-right {
 							display: flex;
-							gap: 10px;
+							gap: 0;
+							margin-top: -5px;
+							.llms-action-icon {
+								padding: 5px 10px;
+							}
 						}
 						@media only screen and ( min-width: 1200px ) {
 							.llms-action-icons-right,
@@ -698,7 +712,7 @@ body.admin_page_llms-course-builder {
 	ul.llms-info-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		gap: 15px;
 		margin: 10px 0 0 8px;
 		padding: 0;
 		li.llms-info-item {
@@ -748,7 +762,7 @@ body.admin_page_llms-course-builder {
 
 			ul {
 				display: flex;
-				gap: 10px;
+				gap: 15px;
 				li {
 					flex: 1;
 					&:last-child {

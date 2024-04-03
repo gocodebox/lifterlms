@@ -98,8 +98,8 @@
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip'              => esc_attr__( 'Add an assignment', 'lifterlms' ),
 				'tip_active'       => sprintf( esc_attr__( 'Edit Assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
-				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . __( 'Assignment', 'lifterlms' ),
+				'icon'             => '<i class="fa fa-check-square-o"></i> ' . __( 'Add Assignment', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . __( 'Edit Assignment', 'lifterlms' ),
 			),
 
 			'quiz'        => array(
@@ -107,8 +107,8 @@
 				'active_condition' => "'yes' === data.get( 'quiz_enabled' )",
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
 				'tip_active'       => sprintf( esc_attr__( 'Edit Quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
-				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-question-circle"></i>' . __( 'Quiz', 'lifterlms' ),
+				'icon'             => '<i class="fa fa-question-circle"></i> ' . __( 'Add Quiz', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-question-circle"></i>' . __( 'Edit Quiz', 'lifterlms' ),
 			),
 
 			'video'       => array(
