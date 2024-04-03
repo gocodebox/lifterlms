@@ -32,6 +32,10 @@
 	<section class="llms-outline" id="llms-outline">
 		<div class="llms-builder-tutorial" id="llms-builder-tutorial"></div>
 		<ul class="llms-sections" id="llms-sections"></ul>
+		<button class="llms-button-secondary small new-section">
+			<span class="fa fa-file"></span> <?php esc_html_e( 'Add New Section', 'lifterlms' ); ?>
+		</button>
+
 	</section>
 
 </script>
