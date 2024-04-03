@@ -546,6 +546,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.19.2 Unknown.
 	 * @since 4.14.0 Added builder autosave preference defaults.
 	 * @since 7.2.0 Added video explainer template.
+	 * @since [version] Removed video explainer template.
 	 *
 	 * @return void
 	 */
@@ -599,7 +600,6 @@ class LLMS_Admin_Builder {
 					'settings-fields',
 					'sidebar',
 					'utilities',
-					'video-explainer',
 				);
 
 				foreach ( $templates as $template ) {
