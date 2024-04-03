@@ -31,22 +31,22 @@
 
 			<div class="llms-action-icons-right">
 
-				<button id="llms-shift" class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>">
+				<button class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>">
 					<span class="fa fa-chevron-up"></span>
 				</button>
 
-				<button id="llms-shift" class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>">
+				<button class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>">
 					<span class="fa fa-chevron-down"></span>
 				</button>
 
 				<# if ( ! data._expanded ) { #>
-					<button id="llms-toggle" class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>">
+					<button class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>">
 						<span class="fa fa-caret-down"></span>
 					</button>
 				<# } #>
 
 				<# if ( data._expanded ) { #>
-					<button id="llms-toggle" class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>">
+					<button class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>">
 						<span class="fa fa-caret-up"></span>
 					</button>
 				<# } #>
