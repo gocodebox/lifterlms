@@ -27,7 +27,8 @@ export async function importCourse(
 
 	await visitAdminPage( 'admin.php', 'page=llms-import' );
 
-	await page.click( 'button.page-title-action' );
+	// Upload button
+	await page.click( '.llms-setting-group.top button.llms-button-primary' );
 
 	const inputSelector = 'input[name="llms_import"]';
 	await page.waitForSelector( inputSelector );

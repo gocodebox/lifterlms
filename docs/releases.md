@@ -22,6 +22,14 @@ Make sure you have the latest `@lifterlms` JS packages. Note that this will upda
 
 Make sure that the dev version (or trunk since it will merge automatically) are tested up to the latest version of WordPress.
 
+For Add-ons, also confirm that the plugin headers include appropriate values for LLMS minimum version and LLMS tested up to as follows:
+
+1. Adjust these lines in the header of the main plugin .php file.
+
+* ` * Tested up to: 6.4.1` (this is the WordPress tested up to value)
+* ` * LLMS requires at least: 6.0.0` (only update this value if you are sure that the update breaks backwards compatibility)
+* ` * LLMS tested up to: 7.5.0 ` (this should be updated to the latest LifterLMS stable version)
+
 ## 1. Build the Release
 
 Prepare the release: `npm run dev release prepare`:
@@ -35,6 +43,7 @@ When running this command, the following happens:
 
 ## 2. Run tests and coding standards checks
 
+0. Ensure phpunit tests are installed: `composer run tests-install`.
 1. Ensure phpunit tests pass: `composer run tests-run`.
 2. Ensure phpcs checks pass: `composer run check-cs-errors`.
 3. Ensure e2e tests pass: `npm run test`.
@@ -46,6 +55,7 @@ After building and testing the built release, all changes should be committed an
 
 1. `git commit -a`
 2. Enter something like "build version 7.1.1" for the commit message.
+3. `git push`
 
 ## 4. Generate the Distribution Archive
 
@@ -59,6 +69,10 @@ into the `vendor` directory, and so on.
 ## 5. Run pre-release tests on the archived
 
 Install and activate the zip file on a temporary sandbox site.
+
+Note: If you are reusing a testing site that already has LifterLMS installed, you can add this line to your wp-config.php and then uninstall and delete LifterLMS from the plugins screen and it will delete all of the LifterLMS data.
+
+`define( 'LLMS_REMOVE_ALL_DATA', true );`
 
   1. Run the setup wizard.
   2. Import sample course
@@ -74,14 +88,22 @@ Run `npm run dev release create`.
 The following steps are performed automatically by the above task:
 
 1. Publish to GitHub
-    A. The contents of the distribution archive is force-pushed to the `release` branch.
-    B. A new release tag draft is created for the current version number using `release` as the commit target.
-    C. The distribution archive is uploaded to the release.
-    D. The release is published.
-    E. A webhook ping notifies the `llms-releaser` server which performs the remaining steps of the release:
-2. Publish to WordPress plugin repository
-    A. Create a new SVN tag using the release asset (distribution archive) as the base.
-    B. Update the `trunk` branch to match the new tag.
-3. A changelog blog post is published to make.lifterlms.com.
-4. The number is updated at LifterLMS.com
-5. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
+    1. The contents of the distribution archive is force-pushed to the `release` branch.
+    1. A new release tag draft is created for the current version number using `release` as the commit target.
+    1. The distribution archive is uploaded to the release.
+    1. The release is published.
+    1. A webhook ping notifies the `llms-releaser` server which performs the remaining steps of the release:
+1. Publish to WordPress plugin repository
+    1. Create a new SVN tag using the release asset (distribution archive) as the base.
+    1. Update the `trunk` branch to match the new tag.
+1. A changelog blog post is published to make.lifterlms.com.
+1. The number is updated at LifterLMS.com
+1. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
+
+## 7. Update Trunk
+
+After everything is complete, the final version of should be committed and pushed to GitHub trunk branch. It is possible this can also be done on GitHub.com directly by create a Pull Request from  `dev` to `trunk`
+
+1. `git checkout trunk`
+2. `git merge dev`
+3. `git push`

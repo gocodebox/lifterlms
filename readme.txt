@@ -1,23 +1,25 @@
 === LifterLMS - WordPress LMS Plugin for eLearning ===
-Contributors: thomasplevy, chrisbadgett, d4z_c0nf, pondermatic, nrherron, lifterlms, codeboxllc
+Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc
 Donate link: https://lifterlms.com/
-Tags: course, elearning, learning management system, online courses, quiz
+Tags: lms, course, elearning, learning management system, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
-Tested up to: 6.2
+Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 7.2.1
+Stable tag: 7.5.3
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
 
 == Description ==
-LifterLMS is a secure WordPress LMS plugin packed with features to easily create & sell courses online.
+LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
 
-Transform your WordPress website into a professional eLearning platform with every feature you could possibly need from your LMS.
+**[Download the LifterLMS plugin for free here][free]** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free.
 
-+ **Intuitive LMS Course Builder:** Create Courses, Sections, Interactive Lessons with Rich Content Including Multimedia and Videos
+Transform your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
+
++ **Intuitive LMS Course Builder:** Create Courses, Sections, and Interactive Lessons with Rich Content Including Multimedia and Videos
 + **Track Student Progress:** In-Depth Reporting, Create Timed or Open Quizzes, Drip Content, Add Prerequisites, Analyze Progress, and Award Certificates
 + **Complete Ecommerce Platform:** Built-in Gateway Integration for Stripe and PayPal With Memberships and Subscriptions Including Single or Group Enrollment
 + **Community and Social Learning:** Integrate a Community Forum or Discussion Area, Add Multiple Instructors, and Display Course Reviews for Social Proof
@@ -67,10 +69,10 @@ https://www.youtube.com/watch?v=RnZflrWG5YQ
 We’re the favorite LMS plugin for WordPress developers, designers and IT pros who **build LMS websites and training portals** for clients, employers and themselves
 
 **Best for Starters**
-Do-it-yourself innovators love that LifterLMS helps them **create high value online courses, coaching or training based membership websites,** right on WordPress.
+Do-it-yourself innovators love that LifterLMS helps them easily **create high value online courses, coaching or training based membership websites,** right on WordPress.
 
 **Best for Switchers**
-Have you outgrown a hosted LMS platform or an incomplete WordPress LMS stack? Choose LifterLMS if you are looking for **more power, control and better support**.
+Have you outgrown a hosted LMS platform or an incomplete WordPress LMS stack? Choose LifterLMS if you are looking for **more power, control, and better support**.
 
 ### Meet The LifterLMS Team
 
@@ -83,12 +85,12 @@ Learn more about [the people behind LifterLMS here][team].
 
 ### LifterLMS WordPress LMS By The Numbers
 
-+ 4,348,041 Course Enrollments powered by LifterLMS
-+ 6,570,731 Course and lesson completions powered by LifterLMS
-+ 86,807 Achievement badges awarded by LifterLMS
-+ 120,728 Certificates awarded by LifterLMS
++ 8,377,042 Course Enrollments powered by LifterLMS
++ 12,570,881 Course and lesson completions powered by LifterLMS
++ 186,997 Achievement badges awarded by LifterLMS
++ 310,728 Certificates awarded by LifterLMS
 + Over 10,000 active installs of the WordPress LMS plugin
-+ [267 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [297 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 ### [LifterLMS Features][features]
 
@@ -128,7 +130,9 @@ When you need more features and want to expand your online learning business, we
 
 + Course multimedia lessons
 + Course quizzes
++ Quiz question banks
 + Course builder
++ Course cohorts
 + Drip Content
 + Course and lesson prerequisites
 + Course tracks
@@ -247,6 +251,8 @@ Increase your LMS website and it's training program's value with these engagemen
 + [LifterLMS Custom Fields][cf]
 + [LifterLMS Groups][gr]
 + [LifterLMS PDFs][pdf]
++ [LifterLMS Private Site][ps]
++ [LifterLMS Course Cohorts][coh]
 
 **Integrations**
 
@@ -261,12 +267,46 @@ Integrate your LMS with the third-party tools you know and love:
 
 ### LMS Website and User Experience Design Tools
 
-Make your online course creations and WordPress LMS platform beautiful
+Use LifterLMS with the modern LifterLMS [Sky Pilot Theme][sp] for even more beautiful results. LifterLMS works with any well-coded WordPress theme, but check out [Sky Pilot][sp] if you want to start with a modern, beautiful, full-site editing block-based theme.
 
++ [LifterLMS Sky Pilot Theme][sp]
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
-### How To Get Support
+https://www.youtube.com/watch?v=tE1K1FHiYDM
+
+### Why Do People Switch to LifterLMS From Other WordPress LMS Plugins?
+
+There are several other WordPress LMS plugins like:
+
++ Sensei LMS
++ Tutor LMS
++ WP Courseware
++ LearnDash
++ Masterstudy LMS
++ Academy LMS
++ Namaste LMS
++ LearnPress
+
+There are some membership plugins that include some course features like:
+
++ Paid Memberships Pro (This is a great membership plugin that also integrates with LifterLMS)
++ MemberPress
+
+The main reasons we hear from users who switched to LifterLMS after looking and trying out the [best WordPress LMS plugins](https://lifterlms.com/blog/best-wordpress-lms-plugins/) is that LifterLMS ended up having:
+
++ The best most feature-complete customizable well-coded feature set
++ Outstanding customer support including live calls
++ The free core LifterLMS plugin is amazing making the project affordable
++ Memberships, ecommerce, and gamification included in LifterLMS without the need for 3rd party plugins
+
+### What Other Plugins and Themes Are Commonly Used with LifterLMS?
+
+The most common plugins and themes used with LifterLMS include Elementor, WooCommerce, Contact Form 7, Yoast SEO, WP Forms Lite, Akismet Anti-Spam, Elementor, Jetpack by WordPress.com, Classic Editor, Updrafts Plus Backup/Restore, Realy Simple SSL, All-in-One WP Migration, WordPress Importer, Starter Templates, Wordfence Security, Google Analytics for WordPress by MonsterInsights, Loco Translate, Slider Revolution, Astra Pro, Essential Addons for Elementor, WP Mail SMTP, WooCommerce Stripe Gateway, LiteSpeed Cache, Jetpack, Gravity Forms, MailChimp for WooCommerce, BuddyPress, BuddyBoss, Divi, Kadnece, Beaver Builder, bbpress, The Events Calendar, Ultmate Member, and many more.
+
+We do recommend a minimalist approach to plugins and themes, so only install what you absolutely need for your WordPress LMS website. 
+
+### How To Get Support From LifterLMS
 
 **Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team.
 
@@ -278,6 +318,7 @@ Make your online course creations and WordPress LMS platform beautiful
 
 Save money while unlocking the full potential of your course building and LMS platform.
 
++ The [Free LifterLMS plan][free] gives you everything you need to get started with all the essential LMS features from unlimited courses, memberships, students, teachers, and more. 
 + The [Earth Bundle][earth] gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe].
 + Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity].
@@ -358,7 +399,9 @@ Want to add a new language to LifterLMS? Swell! You can contribute language tran
 
 ### What Should You Do Next?
 
-Install the free LifterLMS plugin on your website, then ...
+**[Install the free LifterLMS plugin on your website][free]**, 
+
+then ...
 
 **[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]**
 
@@ -380,7 +423,7 @@ Install the free LifterLMS plugin on your website, then ...
 [lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [aca]: https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [resources]: https://lifterlms.com/recommended-resources/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[team]: https://lifterlms.com/our-team/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[team]: https://lifterlms.com/about-us/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale#h-meet-the-team
 [webinar]: https://lifterlms.com/lifterlms-webinars/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 
@@ -388,10 +431,11 @@ Install the free LifterLMS plugin on your website, then ...
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
-[dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[coh]: https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [earth]: https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[free]: https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -401,17 +445,15 @@ Install the free LifterLMS plugin on your website, then ...
 [pdf]: https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[ps]: https://lifterlms.com/product/private-site/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[sp]: https://lifterlms.com/product/sky-pilot/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [stripe]: https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [try]: https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [universe]: https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [wc]: https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 [features]: https://lifterlms.com/features/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-lms]: https://lifterlms.com/features/lms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
-[feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 
 <!-- Test Auto deployment -->
 
@@ -533,6 +575,200 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.5.3 - 2024-02-22 =
+
+##### Bug Fixes
+
++ Fix fatal error when rendering single course page with reviews enabled. [#2604](https://github.com/gocodebox/lifterlms/issues/2604)
+
+
+= v7.5.2 - 2024-02-16 =
+
+##### Updates and Enhancements
+
++ Added product images for Aircraft and Memberlite.
++ Updates LifterLMS Rest to [v1.0.0](https://make.lifterlms.com/2024/01/22/lifterlms-rest-api-version-1-0-0/).
+
+##### Bug Fixes
+
++ Adds error handling when taking a quiz in case of temporary server error or internet issue.
+
+##### Security Fixes
+
++ Reviews handler now checks nonces and user limits. Thanks, Francesco Carlucci at Wordfence.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.2/templates/emails/footer.php)
+
+
+= v7.5.1 - 2024-01-24 =
+
+##### Updates and Enhancements
+
++ Added action and description links to the plugins page.
+
+##### Bug Fixes
+
++ Style updates for buttons in editor.
++ Fixed logic to validate that the terms page exists before adding to email footer.
++ Removed .clear styles since WordPress already sets them by default. [#2573](https://github.com/gocodebox/lifterlms/issues/2573)
++ Improved image appearance in quiz multiple choice and image choice question types. [#2588](https://github.com/gocodebox/lifterlms/issues/2588)
+
+##### Security Fixes
+
++ Added nonce for course clone link. Thanks, Dhabaleshwar Das.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.1/templates/emails/footer.php)
+
+
+= v7.5.0 - 2023-11-05 =
+
+##### New Features
+
++ Added `LLMS_Add_On::get_image()` method to get the addon and author image. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Added a paragraph to show Number of lessons in a course at Course Catalog and My Courses. [#2434](https://github.com/gocodebox/lifterlms/issues/2434)
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Blocks to [v2.5.2](https://make.lifterlms.com/2023/11/01/lifterlms-blocks-version-2-5-2/).
++ Bundled Add-ons & More Banners/Author Images in Core LifterLMS. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Updates LifterLMS Rest to [v1.0.0-beta.29](https://make.lifterlms.com/2023/10/24/lifterlms-rest-api-version-1-0-0-beta-29/).
++ Update Action Scheduler to version 3.5.4. To improve compatibility with PHP 8.2.
+
+##### Bug Fixes
+
++ Fixed checking for the wrong function name when defining the pluggable function `lifterlms_student_dashboard`. [#2550](https://github.com/gocodebox/lifterlms/issues/2550)
++ Only show LifterLMS-authored Addons in All section.
++ Improved compatibility with WordPress 6.4 by using `traverse_and_serialize_blocks` in place of the deprecated `_inject_theme_attribute_in_block_template_content`.
++ PHP 8.2 compatibility fix: Fixed creation of dynamic property `LLMS_Meta_Box_Access::$_saved`.
+
+##### Developer Notes
+
++ Added `LLMS_Payment_Gateway::can_process_access_plan()` method to determine if an access plan can be processed by the gateway. Also added the filter hook `llms_can_gateway_process_access_plan` to filter its result.
++ Added a check on whether the gateway can process a specific plan when purchasing a plan, or switching the payment gateway of a recurring payment.
++ Added action hook `llms_checkout_form_gateway_cant_process_plan` fired on the checkout form gateways section, when a gateway cannot process a specific plan.
++ Added new filter hook `llms_unschedule_recurring_payment_on_access_pan_expiration` to control whether or not the recurring payments fo an order need to be unscheduled when the related access plan expires (`true` by default).
++ Added 'favorites' in User postmeta for getting all user's favorites.
++ Added filter `llms_course_syllabus_lesson_favorite_visibility` for disabling favorites in syllabus view.
++ Added filter `llms_is_$object_type_favorite` to change object's (lesson, student, course) favorite boolean value.
++ Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
++ Added function `llms_template_syllabus_favorite_lesson_preview`.
++ Added filter `llms_favorites_enabled` to enable/disable Favorites feature.
++ Removed references to the unused quiz's property `random_answers`. Thanks [@AlexVCS](https://github.com/AlexVCS)! [#2552](https://github.com/gocodebox/lifterlms/issues/2552)
++ Improved some unit tests compatibility with PHP 8.2.
+
+##### Security Fixes
+
++ Improved security when exporting a reporting table: make sure to avoid path traversals. Thanks [Huseyin Tintas (stif)](https://linkedin.com/in/huseyintintas)!
+
+##### Updated Templates
+
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-switch-source.php)
++ [templates/content-single-lesson-before.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/content-single-lesson-before.php)
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/favorite.php)
++ [templates/course/length.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/length.php)
++ [templates/course/lesson-count.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-count.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-preview.php)
++ [templates/loop/content.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/loop/content.php)
++ [templates/myaccount/dashboard.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/dashboard.php)
++ [templates/myaccount/my-favorites.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/my-favorites.php)
+
+
+= v7.4.2 - 2023-10-06 =
+
+##### Developer Notes
+
++ Fixing issues in the 7.4.1 release.
+
+
+= v7.4.1 - 2023-10-06 =
+
+##### New Features
+
++ Added new admin Resources page.
+
+##### Bug Fixes
+
++ Fixed possible issues when cloning a course containing a quiz built with the Advanced Quizzes addon, after disabling it.
+
+##### Developer Notes
+
++ Moved attempt randomization logic into the new static method `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
++ Added filter hook `llms_quiz_attempt_questions_array` to allow filtering the quiz attempt's question arrays.
+
+
+= v7.4.0 - 2023-10-03 =
+
+##### New Features
+
++ Added method `LLMS_Quiz::get_questions_count()` for getting count of questions.
++ Added support for the upcoming "Question Bank" feature of the LifterLMS Advanced Quizzes add-on.
+
+##### Updates and Enhancements
+
++ Added `nocache_headers()` to prevent browser caching for temporary redirects.
+
+##### Bug Fixes
+
++ Added "Chaiyaphum" province for the Thailand. [#2527](https://github.com/gocodebox/lifterlms/issues/2527)
+
+##### Developer Notes
+
++ Course Builder: Correctly get/set (and track changes of) Backbone's model properties which are objects.
++ Added filter hook `llms_admin_show_header` to allow 3rd parties filtering whether or not to show the branded header in the admin.
++ Added filter `llms_generator_new_post_data`, to allow third parties to filter the data used when creating a new post while cloning/exporting a course or lesson.
++ Abstracted the `LLMS_Admin_Setup_Wizard` class, added the class `LLMS_Abstract_Admin_Wizard`.
++ Added filter `llms_quiz_attempt_questions_randomize` to enable/disable questions randomize.
++ Added filter `llms_quiz_attempt_questions` to modify the questions array for the quiz.
++ Added filter `llms_quiz_questions_count` to filter the quiz's question count.
+
+##### Updated Templates
+
++ [templates/quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/7.4.0/templates/quiz/meta-information.php)
+
+
+= v7.3.0 - 2023-08-08 =
+
+##### Updates and Enhancements
+
++ When a notice is shown for an access plan on the course edit screen (e.g. When using the WooCommerce integration and no product has been associated to the access plan.) Also display a warning icon next to the access plan title.
++ Made sure only who can `view_others_lifterlms_reports` will be able to see the analytics widget content in the WordPress admin.
++ Better rounding of float values on some reporting screens.
++ Avoid creating a post revision when cloning a course/lesson.
++ When creating pages via `llms_create_pages()`: strip all tags from the page title and slash the page data prior to inserting the page in the db via `wp_insert_post()` to prevent slashes from being stripped from the page title.
++ Updated the WordPress tested version up to 6.3.
++ Improved compatibility with the Divi theme by fixing an issue with the quiz attempt result clarifications not being visible when the Divi option `Defer jQuery And jQuery Migrate` was enabled. [#2470](https://github.com/gocodebox/lifterlms/issues/2470)
+
+##### Bug Fixes
+
++ Fix spacer block when creating new certificate templates in WP 6.3.
++ Fixed PHP Warning when no course/membership catalog page was set or if the selected page doesn't exist anymore. [#2496](https://github.com/gocodebox/lifterlms/issues/2496)
++ Don't include WordPress default sidebar.php template when using a block theme. [#2488](https://github.com/gocodebox/lifterlms/issues/2488)
++ Updated Kazakhstani Tenge's currency symbol. [#2475](https://github.com/gocodebox/lifterlms/issues/2475)
++ Make the dashboard widget visible only if the current user has LMS Manager capabilities. [#2500](https://github.com/gocodebox/lifterlms/issues/2500)
++ Fixed issue with LifterLMS Navigation Link block and block visibility settings. [#2474](https://github.com/gocodebox/lifterlms/issues/2474)
++ Use student dashboard as default value for navigation link block. [#2465](https://github.com/gocodebox/lifterlms/issues/2465)
++ Fixed typo in a function name that could potentially produce a fatal. Thanks [@kamalahmed](https://github.com/kamalahmed)!
+
+##### Developer Notes
+
++ Added the parameter `$tab` (ID/slug of the tab) to the `lifterlms_reporting_tab_cap` filter hook. Thanks [@sapayth](https://github.com/sapayth)! [#2468](https://github.com/gocodebox/lifterlms/issues/2468)
++ Added new filter hook `llms_can_analytics_widget_be_processed` that will allow to filter whether or not an analytics widget can be processed/displayed.
++ Added new filter `llms_install_get_pages`.
++ Added new public static method `LLMS_Admin_Dashboard_Widget::get_dashboard_widget_data()`.
++ Added `llms_dashboard_checklist` and `llms_dashboard_widget_data` filters to adjust dashboard content. [#2491](https://github.com/gocodebox/lifterlms/issues/2491)
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/admin/reporting/tabs/widgets.php)
++ [templates/global/sidebar.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/global/sidebar.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/quiz/results-attempt-questions-list.php)
+
+
 = v7.2.1 - 2023-06-13 =
 
 ##### Updates and Enhancements
@@ -576,210 +812,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/admin/reporting/tabs/widgets.php)
 + [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.2.0/templates/course/syllabus.php)
-
-
-= v7.1.4 - 2023-04-28 =
-
-##### Bug Fixes
-
-+ Fixed an issue that prevented the correct saving of the course length when using the block editor. [#2426](https://github.com/gocodebox/lifterlms/issues/2426)
-
-##### Developer Notes
-
-+ Fixed an issue running unit tests on PHP 7.4 and WordPress 6.2 expecting `render_block()` returning a string while we were applying a filter that returned the boolean `true`.
-
-
-= v7.1.3 - 2023-04-25 =
-
-##### Updates and Enhancements
-
-+ Wrapped some elements in HTML for better styling.
-+ In Course and Lesson settings, replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
-+ Updated few Italian province names. [#2256](https://github.com/gocodebox/lifterlms/issues/2256)
-+ Avoid use of inline styles in course reviews. [#410](https://github.com/gocodebox/lifterlms/issues/410)
-
-##### Bug Fixes
-
-+ Fixed "Unsaved Data" warning when adding vouchers. [#2394](https://github.com/gocodebox/lifterlms/issues/2394)
-+ Fixed "Course Length" and "Difficulty" fields visible in the Block Editor which is meant for Classic Editor. [#2174](https://github.com/gocodebox/lifterlms/issues/2174)
-+ Added missing `$post_id` parameter to the `the_title` filter hook when retrieving a form title. [#2332](https://github.com/gocodebox/lifterlms/issues/2332)
-+ Added missing Armed Forces options to the US States dropdown in the Billing information form. [#2325](https://github.com/gocodebox/lifterlms/issues/2325)
-+ Using `strpos()` instead of `str_starts_with()` for compatibility. [#2415](https://github.com/gocodebox/lifterlms/issues/2415)
-
-##### Developer Notes
-
-+ Added helper function `llms_get_floats_rounding_precision()` to return precision for rounding off floating values and filter hook `lifterlms_floats_rounding_precision` to filter precision value in reporting. [#2237](https://github.com/gocodebox/lifterlms/issues/2237)
-+ Added `lifterlms_dashboard_memberships_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any memberships. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
-+ Added `lifterlms_dashboard_courses_not_enrolled_text` filter hook to allow altering the message displaying on the student dashboard when the current user is not enrolled in any courses. [#2396](https://github.com/gocodebox/lifterlms/issues/2396)
-
-##### Updated Templates
-
-+ [templates/course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/7.1.3/templates/course/syllabus.php)
-
-
-= v7.1.2 - 2023-03-27 =
-
-##### Updates and Enhancements
-
-+ Making the LifterLMS logo link to the LifterLMS.com site.
-
-##### Bug Fixes
-
-+ Fix bug in `llms_featured_img` function when featured image file is not available. [#2381](https://github.com/gocodebox/lifterlms/issues/2381)
-+ Fixed manual certificates awarding broken when using the block editor. [#2386](https://github.com/gocodebox/lifterlms/issues/2386)
-
-
-= v7.1.1 - 2023-03-13 =
-
-##### Bug Fixes
-
-+ Fixed notice display on WooCommerce dashboard pages.
-+ Fixed View button URL when using WP in subdirectory.
-+ Fixed blank System Report's copy for Support.
-
-
-= v7.1.0 - 2023-03-02 =
-
-##### New Features
-
-+ Added lessons count column on the Courses post list table.
-+ Added a new Dashboard page under the LifterLMS menu in the admin, whicih includes recent activity widgets and links to useful resources.
-+ Added link to the course builder for each lesson on the Lessons post list table. Also added a link to either edit or add a quiz.
-
-##### Updates and Enhancements
-
-+ Updates LifterLMS Helper to [v3.5.0](https://make.lifterlms.com/2023/02/28/lifterlms-helper-version-3-5-0/).
-+ Make the LifterLMS menu meta box initially available on Appearance -> Menus.
-+ Updates LifterLMS REST to [v1.0.0-beta.26](https://make.lifterlms.com/2023/02/28/lifterlms-rest-api-version-1-0-0-beta-26/).
-
-##### Bug Fixes
-
-+ Catch possible fatal when trying to display a "broken" basic notification and set its status to 'error' so that it'll be excluded from the next fetches.
-+ Catch possible fatal when sending notification emails and in that case remove from the queue the item that produced it.
-+ Fix cloned course retaining original course's ID in some restriction messages.
-+ Fixed possible admin notices duplication when activating/deactivating or installing add-ons from the page Add-ons & more.
-+ Avoided setting the `llms-tracking` cookie when there are no events to track.
-+ Updated styles across the entire plugin.
-+ Updated Add-ons & more list to hide old (uncategorized) products.
-
-##### Deprecations
-
-+ Deprecated methods `LLMS_Admin_Notices_Core::sidebar_support()` and `LLMS_Admin_Notices_Core::clear_sidebar_notice()`.
-+ Removed notice for theme sidebar support.
-
-##### Developer Notes
-
-+ The function `llms_is_user_enrolled()` will always return `false` for non existing users. While, before, it could return `true` if a now removed user was enrolled into a the given course or membership.
-+ Added new `LLMS_Course::get_lessons_count()` method. It can be used in place of `count( LLMS_Course::get_lessons() )` to improve performance.
-+ Fixed compatibility with PHP 8.1 by using an empty string as menu parent page for the course builder submenu page in place of NULL.
-+ Avoid passing null values to `urlencode()` and `urldecode()` that would produce PHP warnings on PHP 8.1+.
-+ Added `$autoload` parameter to the function `llms_get_student`.
-
-##### Performance Improvements
-
-+ Improve performance when querying notifications via the LLMS_Notifications_Query and there's no need to count the total notifications found, or for pagination information.
-+ Immediately return false when running `llms_is_user_enrolled()` on logged out or no longer existing users, avoiding running additional DB queries e.g. when displaying course or membership catalogs for visitors.
-+ Skip counting the total transactions found when retrieving the last or the first transaction for an order.
-
-##### Updated Templates
-
-+ templates/admin/reporting/nav-filters.php
-+ templates/admin/reporting/reporting.php
-+ templates/admin/reporting/tabs/courses/course.php
-+ templates/admin/reporting/tabs/memberships/membership.php
-+ templates/admin/reporting/tabs/quizzes/quiz.php
-+ templates/admin/reporting/tabs/students/student.php
-+ templates/admin/reporting/tabs/widgets.php
-+ templates/checkout/form-confirm-payment.php
-
-
-= v7.0.1 - 2022-11-14 =
-
-##### Bug Fixes
-
-+ Fixed a fatal error encountered on the payment confirmation screen when attempting to confirm a non-existent order. [#2093](https://github.com/gocodebox/lifterlms/issues/2093)
-+ Use `sanitize_file_name()` in favor of `sanitize_title()` for generating the file name of reporting table export files. [#1540](https://github.com/gocodebox/lifterlms/issues/1540)
-+ Resolved conflict encountered on post edit screens when using LifterLMS, Yoast SEO, and the Classic Editor plugin. [#2298](https://github.com/gocodebox/lifterlms/issues/2298)
-
-##### Developer Notes
-
-+ A stub method, `get_title()` has been added to the `LLMS_Abstract_Exportable_Admin_Table` abstract class. This method should be defined by any extending classes and will throw a `_doing_it_wrong()` error when undefined.
-+ Added new filter to allow customizing which user roles are affected by the `LLMS_Admin_Menus::instructor_menu_hack` function.
-
-
-= v7.0.0 - 2022-10-04 =
-
-##### New Features
-
-+ Added handling for admin settings options that store their option values in a nested array.
-+ Added new AJAX checkout and payment source switching endpoints for payment gateways to utilize instead of the preexisting synchronous form submission methods.
-+ On purchase completed retrieve the redirection URL from the INPUT_POST 'redirect' variable, if no 'redirect' variable is passed via INPUT_GET. The INPUT_POST 'redirect' variable comes from the new checkout form's hidden field 'redirect' populated with LLMS_Access_Plan::get_redirection_url(). [#2229](https://github.com/gocodebox/lifterlms/issues/2229)
-
-##### Updates and Enhancements
-
-+ Full Site Editing: **[BREAKING]** The wrappers in the custom header and footer templates have been changed to the semantic HTML tags `<header>` and `<footer>` in favor of default `<div>` tags. [#2281](https://github.com/gocodebox/lifterlms/issues/2281)
-+ When an order post is restored from the trash its post status will now be "llms-pending" in favor of the default "draft" status.
-
-##### Bug Fixes
-
-+ Fixed unclosed checkout div wrapper on empty cart. [#2277](https://github.com/gocodebox/lifterlms/issues/2277)
-+ Don't attempt to lookup the default payment gateway from user meta data.
-+ Fixed required fields duplication when the form is a child of a `.wp-block-column` element. [#2134](https://github.com/gocodebox/lifterlms/issues/2134)
-+ Fixed an issue that prevented disabling the access plan’s option, Override Membership Redirects, once enabled. [#2234](https://github.com/gocodebox/lifterlms/issues/2234)
-+ Disabled `scroll-behavior: smooth` on checkout screen to address form element validity checking issues on Chromium-based browsers. [#2206](https://github.com/gocodebox/lifterlms/issues/2206)
-
-##### Deprecations
-
-+ Deprecated `LLMS_Controller_Orders::switch_payment_source()` in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
-+ Deprecated the `lifterlms_update_option_{$type}` action in favor of the `llms_update_option_{$type}` filter.
-+ Method `LLMS_Controller_Orders::confirm_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::confirm_pending_order()`.
-+ Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in favor of `LLMS_Controller_Checkout::create_pending_order()`.
-+ Method `LLMS_Controller_Orders::switch_payment_source()` is deprecated in favor of `LLMS_Controller_Checkout::switch_payment_source()`.
-+ Passing jQuery selections into the `window.LLMS.Spinner` functions is deprecated. Use JS `Elements` or selection strings parseable by `document.querySelector()` instead.
-+ Deprecated hook `llms_{$method}_title` in favor of `llms_{$method}_refund_title`.
-
-##### Developer Notes
-
-+ Added admin settings helper function, `llms_get_dashicon_link()`, intended to enable the addition of external resource helper links to settings field descriptions.
-+ The `LLMS_Student` object can be instantiated as an empty object and bypass current user autoloading. In the future this may affect integrations using the `lifterlms_new_pending_order` action hook which will receive an "empty" student object during order setup by gateways utilizing new AJAX-powered checkout endpoints.
-+ Added a filter, `llms_gateway_{$this->id}_logging_enabled`, which will allow force enabling/disabling of gateway logging functions.
-+ Improved payment gateway secure string logging by adding a method, `add_secure_string()` allowing developers to add secure strings during runtime without the necessity of registering the strings using filters.
-+ Introduces new function `llms_is_option_secure()` for determining if an "secured" option is defined in a "secure" manner.
-+ Implemented new gateway feature: `modify_recurring_payments`. [#2176](https://github.com/gocodebox/lifterlms/issues/2176)
-+ Added two new parameters to LLMS_Access_Plan::get_redirection_url() - `$encode` to optionally get a raw (not encoded) URL. - `$querystring_only` to optionally get only the redirect URL if set via NPUT_GET variable.
-+ Added new parameter `$querystring_only` to the filter hook `llms_plan_get_checkout_redirection`.
-+ Admin settings fields now display `after_html` for additional field types which support `desc`.
-+ The CSS for `.llms-spinning` and `.llms-spinner` elements is no longer loaded as part of the `lifterlms.css` and `admin.css` files, instead it is loaded dynamically when `window.LLMS.Spinner` functions are called. In some cases CSS overrides to these elements which relied on CSS rule load order may no longer successfully override the default CSS rules. These overrides may need to be updated to have more specific selectors in order to ensure the overrides are retained.
-+ The Javascript object, `window.LLMS.Spinner`, has been converted to a module accessible from the same variable.
-+ The `window.LLMS.Spinner` methods now accept JS Elements and selector strings parseable by `document.querySelector()` in addition to jQuery selections.
-+ Added new filter `llms_transaction_can_be_refunded` enabling custom refund restrictions to be applied to a transaction.
-
-##### Updated Templates
-
-+ [templates/block-templates/archive-course.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/archive-course.html)
-+ [templates/block-templates/archive-llms_membership.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/archive-llms_membership.html)
-+ [templates/block-templates/single-no-access.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/single-no-access.html)
-+ [templates/block-templates/taxonomy-course_cat.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_cat.html)
-+ [templates/block-templates/taxonomy-course_difficulty.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_difficulty.html)
-+ [templates/block-templates/taxonomy-course_tag.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_tag.html)
-+ [templates/block-templates/taxonomy-course_track.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-course_track.html)
-+ [templates/block-templates/taxonomy-membership_cat.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-membership_cat.html)
-+ [templates/block-templates/taxonomy-membership_tag.html](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/block-templates/taxonomy-membership_tag.html)
-+ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-gateways.php)
-+ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/checkout/form-switch-source.php)
-+ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/7.0.0/templates/myaccount/view-order-actions.php)
-
-
-= v6.11.0 - 2022-09-22 =
-
-##### Updates and Enhancements
-
-+ Since version 6.0.0, the Certificate Title Block provided the option to use four Google-hosted fonts. These fonts will now be served from the site's server in favor of serving them from the Google Fonts CDN. For more information about this change, please refer to https://make.wordpress.org/themes/2022/06/18/complying-with-gdpr-when-using-google-fonts/. If you wish to continue loading fonts from Google's CDN, add the following code to your functions.php file: `add_filter( 'llms_use_google_webfonts', '__return_true' );`. [#2189](https://github.com/gocodebox/lifterlms/issues/2189)
-+ Upgraded included library, `@woocommerce/action-scheduler`, to version [3.5.2](https://github.com/woocommerce/action-scheduler/releases/tag/3.5.2).
-
-##### Bug Fixes
-
-+ Fixed a division by zero error encountered on quiz reporting screens for quizzes with 0 total available points. [#2270](https://github.com/gocodebox/lifterlms/issues/2270)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

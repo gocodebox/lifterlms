@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -366,7 +366,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.4.0
 	 * @since 3.15.0 Fix filter name.
-	 * @since [version] Fixed typo in function name (`is_strinp` => `is_string` ).
+	 * @since 7.3.0 Fixed typo in function name (`is_strinp` => `is_string` ).
 	 *
 	 * @param string $column_id The ID of the column.
 	 * @return string

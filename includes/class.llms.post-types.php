@@ -374,7 +374,7 @@ class LLMS_Post_Types {
 	 * Automatically checks for duplicates and filters data.
 	 *
 	 * @since 3.13.0
-	 * @since 5.5.0 Added `lifterlms_register_post_type_${name}` filters deprecation
+	 * @since 5.5.0 Added `lifterlms_register_post_type_{$name}` filters deprecation
 	 *              where `$name` is the the post type name, if the unprefixed name (removing 'llms_')
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
@@ -394,10 +394,10 @@ class LLMS_Post_Types {
 
 			if ( $unprefixed_name !== $name ) {
 				$data = apply_filters_deprecated(
-					"lifterlms_register_post_type_${name}",
+					"lifterlms_register_post_type_{$name}",
 					array( $data ),
 					'5.5.0',
-					"lifterlms_register_post_type_${unprefixed_name}"
+					"lifterlms_register_post_type_{$unprefixed_name}"
 				);
 			}
 
@@ -416,7 +416,7 @@ class LLMS_Post_Types {
 			 *
 			 * @param array $data Post type registration arguments passed to `register_post_type()`.
 			 */
-			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
+			$data = apply_filters( "lifterlms_register_post_type_{$unprefixed_name}", $data );
 			return register_post_type( $name, $data );
 
 		}

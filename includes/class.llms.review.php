@@ -148,21 +148,6 @@ class LLMS_Reviews {
 		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() ) {
 
 			/**
-			 * Look for previous reviews that we have written on this course.
-			 *
-			 * @var array $posts_array Array of posts.
-			 */
-			$args        = array(
-				'posts_per_page'   => 1,
-				'post_type'        => 'llms_review',
-				'post_status'      => 'publish',
-				'post_parent'      => get_the_ID(),
-				'author'           => get_current_user_id(),
-				'suppress_filters' => true,
-			);
-			$posts_array = get_posts( $args );
-
-			/**
 			 * Filters the thank you text.
 			 *
 			 * @since 1.2.7
@@ -171,11 +156,7 @@ class LLMS_Reviews {
 			 */
 			$thank_you_text = apply_filters( 'llms_review_thank_you_text', __( 'Thank you for your review!', 'lifterlms' ) );
 
-			/**
-			 * Check to see if we are allowed to write more than one review.
-			 * If we are not, check to see if we have written a review already.
-			 */
-			if ( get_post_meta( get_the_ID(), '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
+			if ( ! self::current_user_can_write_review( get_the_ID() ) ) {
 				?>
 				<div id="thank_you_box">
 					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
@@ -190,9 +171,9 @@ class LLMS_Reviews {
 					<h5 id="review_title_error"><?php esc_html_e( 'Review Title is required.', 'lifterlms' ); ?></h5>
 					<textarea name="review_text" placeholder="<?php esc_attr_e( 'Review Text', 'lifterlms' ); ?>" id="review_text"></textarea>
 					<h5 id="review_text_error"><?php esc_html_e( 'Review Text is required.', 'lifterlms' ); ?></h5>
-					<?php wp_nonce_field( 'submit_review', 'submit_review_nonce_code' ); ?>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
+					<?php wp_nonce_field( 'llms-review', 'llms_review_nonce' ); ?>
 					<input type="submit" class="button" value="<?php esc_attr_e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">
 					<!--</form>	-->
 				</div>
@@ -212,10 +193,22 @@ class LLMS_Reviews {
 	 *
 	 * @since 1.2.7
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 7.5.2 Now checking if the user can write a review.
 	 *
 	 * @return void
 	 */
 	public function process_review() {
+		// Check the nonce.
+		if ( ! isset( $_POST['llms_review_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['llms_review_nonce'] ), 'llms-review' ) ) {
+			return;
+		}
+
+		$parent_id = llms_filter_input_sanitize_string( INPUT_POST, 'pageID' );
+
+		// Make sure the current user can write reviews yet.
+		if ( ! self::current_user_can_write_review( $parent_id ) ) {
+			return;
+		}
 
 		$post = array(
 			'post_content' => llms_filter_input_sanitize_string( INPUT_POST, 'review_text' ), // The full text of the post.
@@ -223,11 +216,54 @@ class LLMS_Reviews {
 			'post_title'   => llms_filter_input_sanitize_string( INPUT_POST, 'review_title' ), // The title of your post.
 			'post_status'  => 'publish',
 			'post_type'    => 'llms_review',
-			'post_parent'  => llms_filter_input_sanitize_string( INPUT_POST, 'pageID' ), // Sets the parent of the new post, if any. Default 0.
+			'post_parent'  => $parent_id, // Sets the parent of the new post, if any. Default 0.
 			'post_excerpt' => llms_filter_input_sanitize_string( INPUT_POST, 'review_title' ),
 		);
 
 		$result = wp_insert_post( $post, true );
+	}
+
+	/**
+	 * Check to see if we are allowed to write more than one review.
+	 * If we are not, check to see if we have written a review already.
+	 *
+	 * @since 7.5.2
+	 *
+	 * @param int $parent_id The ID of the parent post.
+	 * @return bool True if the user can write a review, false if not.
+	 */
+	public static function current_user_can_write_review( $parent_id ) {
+		// Make sure the user is logged in.
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// Make sure we have a post ID to check.
+		if ( empty( $parent_id ) ) {
+			return false;
+		}
+
+		// Check if reviews are disabled.
+		if ( ! get_post_meta( $parent_id, '_llms_reviews_enabled', true ) ) {
+			return false;
+		}
+
+		// Check if reviews are limited and the user has already written a review.
+		$args = array(
+			'posts_per_page'   => 1,
+			'post_type'        => 'llms_review',
+			'post_status'      => 'publish',
+			'post_parent'      => $parent_id,
+			'author'           => get_current_user_id(),
+			'suppress_filters' => true,
+		);
+		$posts_array = get_posts( $args );
+		if ( get_post_meta( $parent_id, '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
+			return false;
+		}
+
+		// If we got here, we can write a review.
+		return true;
 	}
 }
 

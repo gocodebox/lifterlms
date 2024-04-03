@@ -98,7 +98,7 @@ class LLMS_Events {
 	 * @since 3.36.0
 	 * @since 3.36.1 Use more performant `array_key_exists( $key, $array_assoc )` in place of `in_array( $key, array_keys( $array_assoc ), true )`.
 	 *
-	 * @param string $event Event string (${event_type}.${event_action}). EG: "account.signon".
+	 * @param string $event Event string ({$event_type}.{$event_action}). EG: "account.signon".
 	 * @return bool
 	 */
 	protected function is_event_valid( $event ) {

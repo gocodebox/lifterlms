@@ -12,6 +12,7 @@ llms_print_notices();
 
 /**
  * @hooked - lifterlms_template_single_parent_course - 10
+ * @hooked - llms_template_favorite - 10
  * @hooked - lifterlms_template_single_lesson_video  -  20
  * @hooked - lifterlms_template_single_lesson_audio  -  20
  */

@@ -9,8 +9,8 @@
  * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
  * @since 3.37.18 Don't localize the price "step" html attribute.
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
- * @since [version] Added another icon for possible issues with the access plan configuration.
- * @version [version]
+ * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
+ * @version 7.3.0
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.

@@ -8,6 +8,7 @@
  *
  * @since 3.10.0
  * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
+ * @since 7.5.0 Pass the `LLMS_Order` instance to the form-gateways template.
  * @version 7.0.0
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.
@@ -56,7 +57,8 @@ if ( 'llms-active' === $status ) {
 				array(
 					'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
 					'selected_gateway' => $order->get( 'payment_gateway' ),
-					'plan'             => $plan,
+					'plan'             => null,
+					'order'            => $order,
 				)
 			);
 			?>

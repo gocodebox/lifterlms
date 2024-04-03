@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
 	/**
-	 * LifterLMS MailHawk Partner ID.
+	 * LifterLMS SendWP Partner ID.
 	 *
 	 * @var int
 	 */

@@ -1,7 +1,8 @@
 /**
- * Quiz Model
- * @since    3.16.0
- * @version  3.24.0
+ * Quiz Model.
+ *
+ * @since 3.16.0
+ * @version 7.5.0
  */
 define( [
 		'Collections/Questions',
@@ -46,14 +47,17 @@ define( [
 		schema: QuizSchema,
 
 		/**
-		 * New lesson defaults
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.6
+		 * New quiz defaults.
+		 *
+		 * @since 3.16.0
+		 * @since 7.4.0 Added filter for filtering defaults.
+		 * @since 7.5.0 Replaced unused `random_answers` property with `random_questions`.
+		 *
+		 * @return {Object}
 		 */
 		defaults: function() {
 
-			return {
+			return window.llms.hooks.applyFilters( 'llms_quiz_model_defaults', {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
@@ -61,27 +65,27 @@ define( [
 
 				status: 'draft',
 
-				// editable fields
+				// editable fields.
 				content: '',
 				allowed_attempts: 5,
 				limit_attempts: 'no',
 				limit_time: 'no',
 				passing_percent: 65,
 				name: '',
-				random_answers: 'no',
+				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
 
 				questions: [],
 
-				// calculated
+				// calculated.
 				_points: 0,
 
-				// display
+				// display.
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,
-			};
+			} );
 
 		},
 

@@ -239,7 +239,7 @@ class LLMS_Install {
 	/**
 	 * Get array of essential starter pages.
 	 *
-	 * @since [version]
+	 * @since 7.3.0
 	 *
 	 * @return array
 	 */
@@ -251,7 +251,7 @@ class LLMS_Install {
 		 * All these pages, as long as their `docs_url`, `description` and `wizard_title`
 		 * fields are defined, are going to be shown in the Setup Wizard.
 		 *
-		 * @since [version]
+		 * @since 7.3.0
 		 *
 		 * @param array $pages A multidimensional array defining the essential starter pages.
 		 */
@@ -262,36 +262,36 @@ class LLMS_Install {
 					'content'      => '',
 					'option'       => 'lifterlms_shop_page_id',
 					'slug'         => 'courses',
-					'title'        => esc_html__( 'Course Catalog', 'lifterlms' ),
-					'wizard_title' => esc_html__( 'Course Catalog', 'lifterlms' ),
-					'description'  => esc_html__( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ),
+					'title'        => __( 'Course Catalog', 'lifterlms' ),
+					'wizard_title' => __( 'Course Catalog', 'lifterlms' ),
+					'description'  => __( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ),
 					'docs_url'     => 'https://lifterlms.com/docs/course-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Course%20Catalog',
 				),
 				array(
 					'content'      => '',
 					'option'       => 'lifterlms_memberships_page_id',
 					'slug'         => 'memberships',
-					'title'        => esc_html__( 'Membership Catalog', 'lifterlms' ),
-					'wizard_title' => esc_html__( 'Membership Catalog', 'lifterlms' ),
-					'description'  => esc_html__( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
+					'title'        => __( 'Membership Catalog', 'lifterlms' ),
+					'wizard_title' => __( 'Membership Catalog', 'lifterlms' ),
+					'description'  => __( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
 					'docs_url'     => 'https://lifterlms.com/docs/membership-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Membership%20Catalog',
 				),
 				array(
 					'content'      => '[lifterlms_checkout]',
 					'option'       => 'lifterlms_checkout_page_id',
 					'slug'         => 'purchase',
-					'title'        => esc_html__( 'Purchase', 'lifterlms' ),
-					'wizard_title' => esc_html__( 'Checkout', 'lifterlms' ),
-					'description'  => esc_html__( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ),
+					'title'        => __( 'Purchase', 'lifterlms' ),
+					'wizard_title' => __( 'Checkout', 'lifterlms' ),
+					'description'  => __( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ),
 					'docs_url'     => 'https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page',
 				),
 				array(
 					'content'      => '[lifterlms_my_account]',
 					'option'       => 'lifterlms_myaccount_page_id',
 					'slug'         => 'dashboard',
-					'title'        => esc_html__( 'Dashboard', 'lifterlms' ),
-					'wizard_title' => esc_html__( 'Student Dashboard', 'lifterlms' ),
-					'description'  => esc_html__( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
+					'title'        => __( 'Dashboard', 'lifterlms' ),
+					'wizard_title' => __( 'Student Dashboard', 'lifterlms' ),
+					'description'  => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
 					'docs_url'     => 'https://lifterlms.com/docs/student-dashboard/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Student%20Dashboard',
 				),
 			)
@@ -303,7 +303,7 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Using `$this->get_pages()` method now.
+	 * @since 7.3.0 Using `$this->get_pages()` method now.
 	 *
 	 * @return boolean False on error, true on success.
 	 */
