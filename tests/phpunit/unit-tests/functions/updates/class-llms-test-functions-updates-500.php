@@ -49,7 +49,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 		array_map( 'add_option', $legacy_options_to_stop_autoloading, array_fill( 0, count( $legacy_options_to_stop_autoloading ), 'yes' ) );
 
 		$check_options_query  = "SELECT option_name FROM $wpdb->options WHERE option_name IN (" . implode( ', ', array_fill( 0, count( $legacy_options_to_stop_autoloading ), '%s' ) ) . ')';
-		$check_autoload_query = $check_options_query. ' AND autoload="yes"';
+		$check_autoload_query = $check_options_query. ' AND (autoload="yes" OR autoload="on")';
 
 		// Check they are autoloaded.
 		$this->assertEquals( count( $legacy_options_to_stop_autoloading ), $wpdb->query( $wpdb->prepare( $check_autoload_query, $legacy_options_to_stop_autoloading ) ) );
