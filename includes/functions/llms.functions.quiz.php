@@ -52,7 +52,7 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 				$cols = $i;
 				break;
 			}
-			$i--;
+			--$i;
 		}
 
 		if ( ! $cols ) {
@@ -62,7 +62,6 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 
 	/** This filter is documented above */
 	return apply_filters( 'llms_get_picture_choice_question_cols', $cols, $num_choices );
-
 }
 
 /**
@@ -87,7 +86,6 @@ function llms_get_question_type( $type ) {
 	 * @param string      $type Id of the question type.
 	 */
 	return apply_filters( 'llms_get_question_type', $ret, $type );
-
 }
 
 /**
@@ -178,7 +176,6 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 	}
 
 	return $settings;
-
 }
 
 /**
@@ -214,5 +211,4 @@ function llms_shuffle_choices( $choices ) {
 	}
 
 	return $shuffled;
-
 }

@@ -86,7 +86,6 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		}// End switch().
 
 		return $code;
-
 	}
 
 	/**
@@ -224,5 +222,4 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	protected function set_title() {
 		return __( 'Quiz Review Details', 'lifterlms' );
 	}
-
 }

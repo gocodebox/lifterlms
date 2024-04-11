@@ -28,7 +28,6 @@ class LLMS_Controller_Login {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'login' ) );
-
 	}
 
 	/**
@@ -58,9 +57,7 @@ class LLMS_Controller_Login {
 		$redirect = isset( $_POST['redirect'] ) ? llms_filter_input( INPUT_POST, 'redirect', FILTER_SANITIZE_URL ) : get_permalink( llms_get_page_id( 'myaccount' ) );
 
 		llms_redirect_and_exit( apply_filters( 'lifterlms_login_redirect', $redirect, $login ) );
-
 	}
-
 }
 
 return new LLMS_Controller_Login();

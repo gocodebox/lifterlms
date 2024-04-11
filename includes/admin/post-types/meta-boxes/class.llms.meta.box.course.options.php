@@ -33,7 +33,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		$this->title    = __( 'Course Options', 'lifterlms' );
 		$this->screens  = 'course';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -380,7 +379,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		}
 
 		return $fields;
-
 	}
 
 	/**
@@ -406,7 +404,5 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			unset( $_POST['_llms_post_course_difficulty'] ); // Don't save this to the postmeta table.
 
 		}
-
 	}
-
 }

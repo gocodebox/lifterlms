@@ -118,7 +118,6 @@ if ( ! function_exists( 'is_lifterlms' ) ) {
 		 * @param boolean $is_lifterlms Default value.
 		 */
 		return apply_filters( 'is_lifterlms', ( is_course() || is_courses() || is_course_taxonomy() || is_lesson() || is_quiz() || is_membership() || is_memberships() || is_membership_taxonomy() ) );
-
 	}
 }
 
@@ -142,7 +141,6 @@ if ( ! function_exists( 'is_llms_account_page' ) ) {
 		 * @param bool $override Default override value (false).
 		 */
 		return ( is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) );
-
 	}
 }
 

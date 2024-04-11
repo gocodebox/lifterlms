@@ -55,7 +55,6 @@ class LLMS_Sessions {
 			wp_schedule_event( time(), $recurrence, 'llms_end_idle_sessions' );
 		}
 		add_action( 'llms_end_idle_sessions', array( $this, 'end_idle_sessions' ) );
-
 	}
 
 	/**
@@ -74,7 +73,6 @@ class LLMS_Sessions {
 			'display'  => sprintf( __( 'Every %d Minutes', 'lifterlms' ), 5 ),
 		);
 		return $schedules;
-
 	}
 
 	/**
@@ -91,7 +89,6 @@ class LLMS_Sessions {
 				$this->end( $event );
 			}
 		}
-
 	}
 
 	/**
@@ -146,7 +143,6 @@ class LLMS_Sessions {
 		}
 
 		return $this->end( $current );
-
 	}
 
 	/**
@@ -178,7 +174,6 @@ class LLMS_Sessions {
 		}
 
 		return $session;
-
 	}
 
 	/**
@@ -233,7 +228,6 @@ class LLMS_Sessions {
 
 		$last_event = array_shift( $events );
 		return ( ( $now - strtotime( $last_event->get( 'date' ) ) ) > $timeout );
-
 	}
 
 	/**
@@ -247,7 +241,6 @@ class LLMS_Sessions {
 	public function is_session_open( $start ) {
 
 		return is_null( $this->get_session_end( $start ) );
-
 	}
 
 	/**
@@ -277,7 +270,6 @@ class LLMS_Sessions {
 				$user_id
 			)
 		); // db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -314,7 +306,6 @@ class LLMS_Sessions {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -350,7 +341,6 @@ class LLMS_Sessions {
 
 		$query = new LLMS_Events_Query( $args );
 		return $query->get_events();
-
 	}
 
 	/**
@@ -385,7 +375,6 @@ class LLMS_Sessions {
 		}
 
 		return new LLMS_Event( $end );
-
 	}
 
 	/**
@@ -408,7 +397,6 @@ class LLMS_Sessions {
 		}
 
 		return ++$last->object_id;
-
 	}
 
 	/**
@@ -452,9 +440,7 @@ class LLMS_Sessions {
 		}
 
 		return $start;
-
 	}
-
 }
 
 return LLMS_Sessions::instance();

@@ -32,7 +32,6 @@ class LLMS_Sidebars {
 
 		// Custom actions for genesis.
 		add_action( 'genesis_init', array( __CLASS__, 'genesis_support' ) );
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class LLMS_Sidebars {
 		}
 
 		return apply_filters( 'llms_get_theme_default_sidebar', $id, $theme );
-
 	}
 
 	/**
@@ -126,7 +124,6 @@ class LLMS_Sidebars {
 
 		// Genesis uses it's own reg method so we can send an empty array of settings.
 		add_filter( 'llms_sidebar_settings', '__return_empty_array' );
-
 	}
 
 	/**
@@ -152,7 +149,6 @@ class LLMS_Sidebars {
 				add_action( 'genesis_sidebar', array( __CLASS__, $method ) );
 			}
 		}
-
 	}
 
 	/**
@@ -171,7 +167,6 @@ class LLMS_Sidebars {
 			genesis_register_sidebar( $sidebar );
 
 		}
-
 	}
 
 	/**
@@ -237,7 +232,6 @@ class LLMS_Sidebars {
 			register_sidebar( $sidebar );
 
 		}
-
 	}
 
 
@@ -271,9 +265,7 @@ class LLMS_Sidebars {
 		}
 
 		return $widgets;
-
 	}
-
 }
 
 LLMS_Sidebars::init();

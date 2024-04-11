@@ -52,7 +52,6 @@ class LLMS_Track {
 			$this->term = $term;
 
 		}
-
 	}
 
 	/**
@@ -113,5 +112,4 @@ class LLMS_Track {
 	public function get_title() {
 		return $this->term->name;
 	}
-
 }

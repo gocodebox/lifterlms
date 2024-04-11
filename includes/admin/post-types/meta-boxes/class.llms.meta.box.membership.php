@@ -38,7 +38,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			'llms_membership',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -78,7 +77,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		}
 
 		return apply_filters( 'llms_membership_get_content_table_data', $data, $membership );
-
 	}
 
 	/**
@@ -352,7 +350,5 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		}
 
 		return $to_return;
-
 	}
-
 }

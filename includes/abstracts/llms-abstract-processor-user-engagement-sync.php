@@ -134,7 +134,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 				)
 			);
 
-			$args['page'] ++;
+			++$args['page'];
 		}
 
 		// Save queue and dispatch the process.

@@ -28,7 +28,6 @@ class LLMS_Question_Types {
 	public static function init() {
 
 		add_filter( 'llms_get_question_types', array( __CLASS__, 'load' ), 5 );
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class LLMS_Question_Types {
 				'video'           => true,
 			)
 		);
-
 	}
 
 	/**
@@ -271,7 +269,6 @@ class LLMS_Question_Types {
 			),
 
 		);
-
 	}
 
 	/**
@@ -296,9 +293,7 @@ class LLMS_Question_Types {
 		}
 
 		return $questions;
-
 	}
-
 }
 
 LLMS_Question_Types::init();

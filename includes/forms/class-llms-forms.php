@@ -45,7 +45,6 @@ class LLMS_Forms {
 
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
 		add_filter( 'llms_get_form_post', array( $this, 'maybe_load_preview' ) );
-
 	}
 
 	/**
@@ -99,7 +98,6 @@ class LLMS_Forms {
 		 * @param boolean $enabled Whether or not usernames are enabled.
 		 */
 		return apply_filters( 'llms_are_usernames_enabled', ! empty( $locations ) );
-
 	}
 
 	/**
@@ -151,7 +149,6 @@ class LLMS_Forms {
 		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
 		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block, $block_list );
-
 	}
 
 	/**
@@ -190,7 +187,6 @@ class LLMS_Forms {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -233,7 +229,6 @@ class LLMS_Forms {
 		}
 
 		return $map;
-
 	}
 
 	/**
@@ -297,7 +292,6 @@ class LLMS_Forms {
 		$args = apply_filters( 'llms_forms_install_post_args', $args, $location_id, $data );
 
 		return wp_insert_post( $args );
-
 	}
 
 	/**
@@ -340,7 +334,6 @@ class LLMS_Forms {
 		}
 
 		return $fields;
-
 	}
 
 	/**
@@ -381,7 +374,6 @@ class LLMS_Forms {
 		 * @param string[] $names List of registered field names.
 		 */
 		return apply_filters( 'llms_forms_field_names', $names );
-
 	}
 
 	/**
@@ -418,7 +410,6 @@ class LLMS_Forms {
 		 * @param array   $args     Additional arguments passed to the short-circuit filter.
 		 */
 		return apply_filters( 'llms_get_form_blocks', $blocks, $location, $args );
-
 	}
 
 	/**
@@ -452,7 +443,6 @@ class LLMS_Forms {
 		 * @param array   $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 		 */
 		return apply_filters( 'llms_get_form_fields', $fields, $location, $args );
-
 	}
 
 	/**
@@ -519,7 +509,6 @@ class LLMS_Forms {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -564,7 +553,6 @@ class LLMS_Forms {
 		 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 		 */
 		return apply_filters( 'llms_get_form_html', $html, $location, $args );
-
 	}
 
 	/**
@@ -627,7 +615,6 @@ class LLMS_Forms {
 		 * @param array        $args     Additional custom arguments.
 		 */
 		return apply_filters( 'llms_get_form_post', $post, $location, $args );
-
 	}
 
 	/**
@@ -649,7 +636,6 @@ class LLMS_Forms {
 		}
 
 		return in_array( $form_id, $this->get_core_forms( 'ids' ), true );
-
 	}
 
 	/**
@@ -700,7 +686,6 @@ GROUP BY locations.meta_value";
 		wp_cache_set( $forms_cache_key, $forms );
 
 		return $forms;
-
 	}
 
 
@@ -726,7 +711,6 @@ GROUP BY locations.meta_value";
 		 * @param array   $args     Additional arguments passed to the short-circuit filter.
 		 */
 		return apply_filters( 'lifterlms_get_person_fields', array(), $location, $args );
-
 	}
 
 	/**
@@ -750,7 +734,6 @@ GROUP BY locations.meta_value";
 		}
 
 		return $html;
-
 	}
 
 	/**
@@ -821,7 +804,6 @@ GROUP BY locations.meta_value";
 		 * @param LLMS_Access_Plan $plan   Access plan being used for enrollment.
 		 */
 		return apply_filters( 'llms_forms_get_free_enroll_form_fields', $fields, $plan );
-
 	}
 
 	/**
@@ -842,7 +824,6 @@ GROUP BY locations.meta_value";
 		}
 
 		return $html;
-
 	}
 
 	/**
@@ -876,7 +857,6 @@ GROUP BY locations.meta_value";
 		 * @param  array[] $locations Associative array of form location information.
 		 */
 		return apply_filters( 'llms_forms_get_locations', $locations );
-
 	}
 
 	/**
@@ -925,7 +905,6 @@ GROUP BY locations.meta_value";
 		 * @param array $block   Parsed block array.
 		 */
 		return apply_filters( 'llms_forms_is_block_visible', llms_parse_bool( $render ), $block );
-
 	}
 
 	/**
@@ -965,7 +944,6 @@ GROUP BY locations.meta_value";
 		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
 		return apply_filters( 'llms_forms_is_block_visible', $is_visible, $block, $block_list );
-
 	}
 
 	/**
@@ -1021,7 +999,6 @@ GROUP BY locations.meta_value";
 
 		// Block not found in the list.
 		return array();
-
 	}
 
 	/**
@@ -1066,7 +1043,6 @@ GROUP BY locations.meta_value";
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -1086,7 +1062,6 @@ GROUP BY locations.meta_value";
 		}
 
 		return $installed;
-
 	}
 
 	/**
@@ -1146,7 +1121,6 @@ GROUP BY locations.meta_value";
 		}
 
 		return $loaded;
-
 	}
 
 	/**
@@ -1172,7 +1146,6 @@ GROUP BY locations.meta_value";
 		$is_preview = ( is_preview() && current_user_can( $this->get_capability(), $post->ID ) );
 
 		return $is_preview ? _set_preview( $post ) : $post;
-
 	}
 
 	/**
@@ -1195,7 +1168,6 @@ GROUP BY locations.meta_value";
 		$blocks = $this->cascade_visibility_attrs( $blocks );
 
 		return $blocks;
-
 	}
 
 	/**
@@ -1227,7 +1199,6 @@ GROUP BY locations.meta_value";
 
 		$attrs['type'] = 'hidden';
 		return $attrs;
-
 	}
 
 	/**
@@ -1257,7 +1228,6 @@ GROUP BY locations.meta_value";
 		$attrs = $this->block_to_field_settings( $block );
 
 		return llms_form_field( $attrs, false );
-
 	}
 
 	/**
@@ -1274,7 +1244,6 @@ GROUP BY locations.meta_value";
 	public static function __return_string(): string {// phpcs:ignore -- PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.MethodDoubleUnderscore.
 		return '1';
 	}
-
 }
 
 return LLMS_Forms::instance();

@@ -69,7 +69,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		// Add trigger actions.
 		$this->add_actions();
-
 	}
 
 	/**
@@ -94,7 +93,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 			add_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
 		}
-
 	}
 
 	/**
@@ -123,7 +121,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 			remove_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
 		}
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$this->data = array();
 
 		return $ret;
-
 	}
 
 	/**
@@ -162,7 +158,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	private function get_actions() {
 
 		return apply_filters( 'llms_data_processor_' . $this->id . '_actions', $this->actions, $this );
-
 	}
 
 	/**
@@ -190,7 +185,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		// Return all the data.
 		return $data;
-
 	}
 
 	/**
@@ -260,7 +254,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		if ( defined( 'LLMS_PROCESSORS_DEBUG' ) && LLMS_PROCESSORS_DEBUG ) {
 			llms_log( $data, 'processors' );
 		}
-
 	}
 
 	/**
@@ -283,7 +276,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		// Save it.
 		update_option( 'llms_processor_data', $all_data );
-
 	}
 
 	/**
@@ -302,7 +294,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$data[ $key ] = $value;
 
 		$this->save_data( $data );
-
 	}
 
 	/**
@@ -321,8 +312,5 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		}
 
 		$this->save_data( $data );
-
 	}
-
-
 }

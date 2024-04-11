@@ -67,7 +67,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		$this->post_id = $transaction->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -106,7 +105,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -178,7 +176,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 				// 'selected' => false,
 			),
 		);
-
 	}
 
 	/**
@@ -217,7 +214,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		$this->post_id = $transaction->get( 'id' );
 
 		return parent::send_test( $type );
-
 	}
 
 	/**
@@ -243,9 +239,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Purchase_Receipt::instance();

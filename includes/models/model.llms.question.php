@@ -85,7 +85,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class LLMS_Question extends LLMS_Post_Model {
 			return false;
 		}
 		return $choice->delete();
-
 	}
 
 	/**
@@ -122,7 +120,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 
@@ -191,7 +188,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		);
 
 		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
-
 	}
 
 
@@ -214,7 +210,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $value;
-
 	}
 
 	/**
@@ -275,7 +270,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -298,7 +292,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		unset( $allowedposttags['source'] );
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_description', $desc, $this );
-
 	}
 
 	/**
@@ -314,7 +307,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		$correct = array_map( 'trim', $correct );
 
 		return $correct;
-
 	}
 
 	/**
@@ -350,7 +342,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $correct;
-
 	}
 
 	/**
@@ -403,7 +394,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_image', $url, $this );
-
 	}
 
 	/**
@@ -472,7 +462,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $html, $embed, $this );
-
 	}
 
 	/**
@@ -556,7 +545,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question $question Question object.
 		 */
 		return apply_filters( "llms_{$question_type}_question_grade", $grade, $answer, $this );
-
 	}
 
 	/**
@@ -623,7 +611,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -698,7 +685,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question $question Instance of the LLMS_Question.
 		 */
 		return apply_filters( "llms_{$this->get( 'question_type' )}_question_supports", $ret, $feature, $option, $this );
-
 	}
 
 	/**
@@ -735,7 +721,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -765,7 +750,6 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		// Return choice ID.
 		return $choice->get( 'id' );
-
 	}
 
 	/**
@@ -797,7 +781,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $query;
-
 	}
 
 	/**
@@ -811,5 +794,4 @@ class LLMS_Question extends LLMS_Post_Model {
 	protected function toArrayCustom( $arr ) {
 		return $arr;
 	}
-
 }

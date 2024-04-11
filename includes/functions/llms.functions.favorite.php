@@ -37,7 +37,6 @@ function llms_get_object_total_favorites( $object_id = false ) {
 	); // db call ok; no-cache ok.
 
 	return $res;
-
 }
 
 /**

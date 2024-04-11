@@ -497,7 +497,6 @@ class LLMS_L10n_JS {
 		) );
 		// phpcs:enable
 	}
-
 }
 
 return new LLMS_L10n_JS();

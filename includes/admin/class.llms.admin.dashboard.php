@@ -32,7 +32,6 @@ class LLMS_Admin_Dashboard {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -92,7 +91,6 @@ class LLMS_Admin_Dashboard {
 		 * @since 7.1.0
 		 */
 		do_action( 'llms_dashboard_meta_boxes_added' );
-
 	}
 
 	/**
@@ -110,7 +108,6 @@ class LLMS_Admin_Dashboard {
 		if ( isset( $box['args']['view'] ) ) {
 			echo self::get_view( $box['args']['view'] );
 		}
-
 	}
 
 	/**
@@ -137,7 +134,5 @@ class LLMS_Admin_Dashboard {
 		ob_start();
 		include 'views/dashboard/' . $file . '.php';
 		return ob_get_clean();
-
 	}
-
 }

@@ -139,7 +139,6 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
 	ob_start();
 	llms_get_template( $template_name, $args, $template_path, $default_path );
 	return ob_get_clean();
-
 }
 
 /**
@@ -251,7 +250,6 @@ function llms_get_template_override_directories() {
 	 * @param string[] $theme_override_directories List of theme override directory paths.
 	 */
 	return apply_filters( 'lifterlms_theme_override_directories', $dirs );
-
 }
 
 /**
@@ -273,5 +271,4 @@ function llms_template_file_path( $template, $template_directory = 'templates', 
 	$template_path      = $override ? $override : $template_directory;
 
 	return trailingslashit( $template_path ) . "{$template}";
-
 }

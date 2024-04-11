@@ -152,7 +152,6 @@ class LLMS_Shortcodes {
 			wp_enqueue_script( $handle );
 
 		}
-
 	}
 
 	/**
@@ -192,7 +191,8 @@ class LLMS_Shortcodes {
 			'class'  => 'lifterlms',
 			'before' => null,
 			'after'  => null,
-		) ) {
+		)
+	) {
 
 			ob_start();
 
@@ -253,7 +253,6 @@ class LLMS_Shortcodes {
 		 * @param string $content Shortcode content, enables custom text/html in the button. Default empty string.
 		 */
 		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
-
 	}
 
 	/**
@@ -282,7 +281,6 @@ class LLMS_Shortcodes {
 		llms_print_notices();
 		llms_get_login_form( null, $redirect, $layout );
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -297,7 +295,6 @@ class LLMS_Shortcodes {
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
-
 	}
 
 
@@ -396,7 +393,6 @@ class LLMS_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -412,7 +408,6 @@ class LLMS_Shortcodes {
 	public static function checkout( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
-
 	}
 
 	/**
@@ -567,7 +562,6 @@ class LLMS_Shortcodes {
 			wp_reset_postdata();
 			return $courses;
 		}
-
 	}
 
 	/**
@@ -619,9 +613,7 @@ class LLMS_Shortcodes {
 		 * @param array  $atts Associative array of shortcode attributes.
 		 */
 		return apply_filters( 'llms_shortcode_pricing_table', $ret, $atts );
-
 	}
-
 }
 
 return new LLMS_Shortcodes();

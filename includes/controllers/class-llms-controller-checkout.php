@@ -65,7 +65,6 @@ class LLMS_Controller_Checkout {
 			add_action( 'init', array( $this, "{$action}_ajax" ), 5 );
 			add_action( 'init', array( $this, $action ) );
 		}
-
 	}
 
 	/**
@@ -122,7 +121,6 @@ class LLMS_Controller_Checkout {
 
 		// Pass the order to the gateway.
 		$gateway->confirm_pending_order( $order );
-
 	}
 
 	/**
@@ -152,7 +150,6 @@ class LLMS_Controller_Checkout {
 		// Confirm the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$this->send_json( $generator->confirm() );
-
 	}
 
 	/**
@@ -267,7 +264,6 @@ class LLMS_Controller_Checkout {
 
 		// Pass to the gateway to start processing.
 		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
-
 	}
 
 	/**
@@ -315,7 +311,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $handle );
-
 	}
 
 	/**
@@ -339,7 +334,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -367,7 +361,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		return $user_data;
-
 	}
 
 	/**
@@ -412,7 +405,6 @@ class LLMS_Controller_Checkout {
 
 		// Redirect to the checkout screen.
 		llms_redirect_and_exit( $plan->get_checkout_url() );
-
 	}
 
 	/**
@@ -449,7 +441,6 @@ class LLMS_Controller_Checkout {
 
 		// Don't process the non-ajax method.
 		remove_action( 'init', array( $this, $method ) );
-
 	}
 
 	/**
@@ -477,7 +468,6 @@ class LLMS_Controller_Checkout {
 		if ( ! llms_notice_count( 'error' ) ) {
 			$this->switch_payment_source_success( $data );
 		}
-
 	}
 
 	/**
@@ -537,7 +527,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $gateway_res );
-
 	}
 
 	/**
@@ -611,7 +600,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return compact( 'old_gateway', 'new_gateway', 'order' );
-
 	}
 
 	/**
@@ -660,7 +648,6 @@ class LLMS_Controller_Checkout {
 
 		// Cleanup temp data.
 		delete_post_meta( $order->get( 'id' ), '_llms_temp_gateway_ids' );
-
 	}
 
 	/**
@@ -685,9 +672,7 @@ class LLMS_Controller_Checkout {
 		}
 
 		return true;
-
 	}
-
 }
 
 return LLMS_Controller_Checkout::instance();

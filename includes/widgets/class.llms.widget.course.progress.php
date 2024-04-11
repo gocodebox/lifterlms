@@ -38,7 +38,6 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 				'description' => __( 'Displays Course Progress on Course or Lesson', 'lifterlms' ),
 			)
 		);
-
 	}
 
 	/**
@@ -117,5 +116,4 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 
 		return $instance;
 	}
-
 }

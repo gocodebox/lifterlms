@@ -64,7 +64,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		// Add actions to recurring payment scheduling/unscheduling.
 		add_action( 'llms_charge_recurring_payment_scheduled', array( $this, 'schedule_upcoming_payment_reminders' ), 10, 2 );
 		add_action( 'llms_charge_recurring_payment_unscheduled', array( $this, 'unschedule_upcoming_payment_reminders' ) );
-
 	}
 
 	/**
@@ -116,7 +115,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		$this->send( false, array( $type ) );
 
 		return true;
-
 	}
 
 	/**
@@ -153,7 +151,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -196,7 +193,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		}
 
 		return $options;
-
 	}
 
 	/**
@@ -216,7 +212,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		foreach ( $types as $type ) {
 			$this->unschedule_upcoming_payment_reminder( $order, $type );
 		}
-
 	}
 
 	/**
@@ -237,7 +232,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		if ( as_next_scheduled_action( 'llms_send_upcoming_payment_reminder_notification', $action_args ) ) {
 			as_unschedule_action( 'llms_send_upcoming_payment_reminder_notification', $action_args );
 		}
-
 	}
 
 	/**
@@ -259,7 +253,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		}
 
 		return $return;
-
 	}
 
 	/**
@@ -299,7 +292,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 			'llms_send_upcoming_payment_reminder_notification',
 			$action_args
 		);
-
 	}
 
 	/**
@@ -350,7 +342,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		$upcoming_payment_reminder_time = apply_filters( "llms_notification_{$this->id}_reminder_date", strtotime( "{$days} day", $next_payment_date ), $order, $type );
 
 		return $upcoming_payment_reminder_time;
-
 	}
 
 
@@ -390,7 +381,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 				),
 			),
 		);
-
 	}
 
 	/**
@@ -461,7 +451,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 				'type'              => 'select',
 			),
 		);
-
 	}
 
 	/**
@@ -485,7 +474,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		$this->post_id = $order->get( 'id' );
 
 		return parent::send_test( $type );
-
 	}
 
 	/**

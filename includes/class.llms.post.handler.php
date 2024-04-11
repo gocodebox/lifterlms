@@ -56,7 +56,6 @@ class LLMS_Post_Handler {
 		}
 
 		return $post_id;
-
 	}
 
 	public static function update_title( $post_id, $title ) {
@@ -75,7 +74,6 @@ class LLMS_Post_Handler {
 				'title' => $title,
 			);
 		}
-
 	}
 
 	public static function update_excerpt( $post_id, $excerpt ) {
@@ -94,7 +92,6 @@ class LLMS_Post_Handler {
 				'post_excerpt' => $excerpt,
 			);
 		}
-
 	}
 
 	/**
@@ -199,7 +196,6 @@ class LLMS_Post_Handler {
 		}
 
 		return $postslist;
-
 	}
 
 	public static function get_lesson_options_for_select_list() {
@@ -227,7 +223,6 @@ class LLMS_Post_Handler {
 		}
 
 		return $options;
-
 	}
 
 	public static function get_prerequisite( $post_id ) {
@@ -242,5 +237,4 @@ class LLMS_Post_Handler {
 			return $lesson->get_prerequisite();
 		}
 	}
-
 }

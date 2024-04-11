@@ -29,7 +29,6 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 		add_action( 'llms_reporting_content_quizzes', array( $this, 'output' ) );
 		add_action( 'llms_reporting_quiz_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
-
 	}
 
 	/**
@@ -61,7 +60,6 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
 
 		}
-
 	}
 
 	/**
@@ -107,8 +105,6 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 			echo $table->get_table_html();
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Reporting_Tab_Quizzes();

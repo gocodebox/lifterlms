@@ -64,7 +64,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function __construct( $resource, $data, $method = null ) {
 
 		$this->call( $resource, $data, $method );
-
 	}
 
 	/**
@@ -128,7 +127,6 @@ abstract class LLMS_Abstract_API_Handler {
 		}
 
 		$this->parse_response( $response );
-
 	}
 
 	/**
@@ -141,7 +139,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function get_error_message() {
 
 		return $this->error_message;
-
 	}
 
 	/**
@@ -154,7 +151,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function get_error_object() {
 
 		return $this->error_object;
-
 	}
 
 	/**
@@ -167,7 +163,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function get_error_type() {
 
 		return $this->error_type;
-
 	}
 
 	/**
@@ -180,7 +175,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function get_result() {
 
 		return $this->result;
-
 	}
 
 	/**
@@ -193,7 +187,6 @@ abstract class LLMS_Abstract_API_Handler {
 	public function is_error() {
 
 		return is_wp_error( $this->get_result() );
-
 	}
 
 	/**
@@ -223,7 +216,6 @@ abstract class LLMS_Abstract_API_Handler {
 		$this->error_type    = $type;
 		$this->error_message = $message;
 		$this->error_object  = $obj;
-
 	}
 
 	/**
@@ -288,5 +280,4 @@ abstract class LLMS_Abstract_API_Handler {
 	protected function set_user_agent( $user_agent, $resource, $method ) {
 		return $user_agent;
 	}
-
 }

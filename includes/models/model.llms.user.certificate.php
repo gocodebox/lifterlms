@@ -102,7 +102,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$this->set_property_defaults();
 
 		parent::__construct( $model, $args );
-
 	}
 
 	/**
@@ -124,7 +123,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$this->set( 'sequential_id', $next_sequential_id );
 
 		return $next_sequential_id;
-
 	}
 
 	/**
@@ -151,7 +149,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param LLMS_User_Certificate $certificate Certificate class instance.
 		 */
 		return apply_filters( 'llms_certificate_can_user_manage', $result, $user_id, $this );
-
 	}
 
 	/**
@@ -177,7 +174,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param LLMS_User_Certificate $certificate Certificate class instance.
 		 */
 		return apply_filters( 'llms_certificate_can_user_view', $result, $user_id, $this );
-
 	}
 
 	/**
@@ -304,7 +300,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return compact( 'src', 'width', 'height', 'is_default' );
-
 	}
 
 	/**
@@ -339,7 +334,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		return array_filter(
 			array_map(
-				function( $font ) use ( $valid_fonts ) {
+				function ( $font ) use ( $valid_fonts ) {
 					if ( 'default' === $font ) {
 						return null;
 					}
@@ -352,7 +347,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 				array_unique( $fonts )
 			)
 		);
-
 	}
 
 	/**
@@ -375,7 +369,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return $with_unit ? sprintf( '%1$s%2$s', $ret, $this->get_unit() ) : $ret;
-
 	}
 
 	/**
@@ -407,7 +400,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'width'  => 'portrait' === $orientation ? $width : $height,
 			'height' => 'portrait' === $orientation ? $height : $width,
 		);
-
 	}
 
 	/**
@@ -437,7 +429,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		if ( $with_units ) {
 			$margins = array_map(
-				function( $margin ) {
+				function ( $margin ) {
 					return $margin . '%';
 				},
 				$margins
@@ -507,7 +499,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param int   $related_id  WP Post ID of the post which triggered the certificate to be awarded.
 		 */
 		return apply_filters( 'llms_certificate_merge_data', $codes, $user_id, $template_id, $related_id );
-
 	}
 
 	/**
@@ -545,7 +536,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return $sizes[ $size ] ?? array_values( $sizes )[0];
-
 	}
 
 	/**
@@ -616,7 +606,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param LLMS_User_Certificate $certificate Instance of the certificate object.
 		 */
 		return apply_filters( 'llms_certificate_sequential_id', $id, $raw_id, $formatting, $this );
-
 	}
 
 	/**
@@ -658,7 +647,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param int $version The template version.
 		 */
 		return apply_filters( 'llms_certificate_template_version', $version, $this );
-
 	}
 
 	/**
@@ -678,7 +666,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$size_info = $this->get_registered_size_data();
 		return $size_info['unit'];
-
 	}
 
 	/**
@@ -711,7 +698,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param LLMS_User_Certificate $certificate Certificate class instance.
 		 */
 		return apply_filters( 'llms_certificate_is_sharing_enabled', llms_parse_bool( $this->get( 'allow_sharing' ) ), $this );
-
 	}
 
 	/**
@@ -760,7 +746,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return $content;
-
 	}
 
 	/**
@@ -775,7 +760,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		// Default size is configured via a site option.
 		$default_size                    = get_option( 'lifterlms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
-
 	}
 
 	/**
@@ -805,7 +789,5 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		foreach ( $props as $prop ) {
 			$this->set( $prop, $template->get( $prop ) );
 		}
-
 	}
-
 }

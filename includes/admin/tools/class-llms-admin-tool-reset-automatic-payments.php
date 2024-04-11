@@ -87,7 +87,6 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 		update_option( 'llms_site_url_ignore', 'no' );
 		LLMS_Site::check_status();
 		llms_redirect_and_exit( esc_url_raw( admin_url( 'admin.php?page=llms-status&tab=tools' ) ) );
-
 	}
 
 	/**
@@ -103,9 +102,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	protected function should_load() {
 
 		return ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) && ! defined( 'LLMS_SITE_IS_CLONE' );
-
 	}
-
 }
 
 return new LLMS_Admin_Tool_Reset_Automatic_Payments();

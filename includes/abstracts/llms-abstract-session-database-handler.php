@@ -49,7 +49,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
 
 		return $wpdb->query( $query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-
 	}
 
 	/**
@@ -71,7 +70,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 				'session_key' => $id,
 			)
 		);
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		$this->is_clean = true;
 
 		return (bool) $save;
-
 	}
 
 	/**
@@ -150,7 +147,5 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		}
 
 		return maybe_unserialize( $data );
-
 	}
-
 }

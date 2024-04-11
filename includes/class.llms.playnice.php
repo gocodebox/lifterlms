@@ -58,7 +58,6 @@ class LLMS_PlayNice {
 
 		// Load other playnice things based on the presence of other plugins.
 		add_action( 'init', array( $this, 'plugins_loaded' ), 11 );
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_PlayNice {
 		// Do not add our profile nav items when not in front-end (and not in "my profile"), to avoid a fatal error.
 		$bp_integration = llms()->integrations()->get_integration( 'buddypress' );
 		remove_action( 'bp_setup_nav', array( $bp_integration, 'add_profile_nav_items' ) );
-
 	}
 
 	/**
@@ -111,7 +109,6 @@ class LLMS_PlayNice {
 		if ( $wc_exists ) {
 			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'wc_account_endpoint_page_not_found' ) );
 		}
-
 	}
 
 	/**
@@ -133,7 +130,6 @@ class LLMS_PlayNice {
 		}
 
 		return $is_page_not_found;
-
 	}
 
 	/**
@@ -187,9 +183,7 @@ class LLMS_PlayNice {
 		}
 
 		return $pages;
-
 	}
-
 }
 
 return new LLMS_PlayNice();

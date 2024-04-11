@@ -71,7 +71,6 @@ trait LLMS_Trait_Award_Default_Images {
 		}
 
 		return llms()->plugin_url() . '/assets/images/' . $img;
-
 	}
 
 	/**
@@ -128,5 +127,4 @@ trait LLMS_Trait_Award_Default_Images {
 		$id = get_option( "lifterlms_{$this->award_type}_default_img", 0 );
 		return $id && get_post( $id ) ? absint( $id ) : 0;
 	}
-
 }

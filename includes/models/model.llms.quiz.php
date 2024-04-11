@@ -193,7 +193,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -229,7 +228,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		 * @param LLMS_Student|false $student   LLMS_Student instance or false if user not found.
 		 */
 		return apply_filters( 'llms_quiz_is_open', $quiz_open, $user_id, $this->get( 'id' ), $this, $student );
-
 	}
 
 	/**
@@ -276,7 +274,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -297,7 +294,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return 0;
-
 	}
 
 	/**
@@ -311,7 +307,5 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		$q = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'questions', true );
 		return $q ? $q : array();
-
 	}
-
 }

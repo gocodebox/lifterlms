@@ -36,7 +36,6 @@ class LLMS_Shortcode_Course_Prerequisites extends LLMS_Shortcode_Course_Element 
 	protected function template_function() {
 		lifterlms_template_single_prerequisites();
 	}
-
 }
 
 return LLMS_Shortcode_Course_Prerequisites::instance();

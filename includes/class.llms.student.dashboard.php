@@ -30,7 +30,6 @@ class LLMS_Student_Dashboard {
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
-
 	}
 
 	/**
@@ -43,7 +42,6 @@ class LLMS_Student_Dashboard {
 	public function add_endpoints( $endpoints ) {
 
 		return array_merge( $endpoints, $this->get_endpoints() );
-
 	}
 
 	/**
@@ -67,7 +65,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $endpoints;
-
 	}
 
 	/**
@@ -99,7 +96,6 @@ class LLMS_Student_Dashboard {
 				'status'  => 'enrolled',
 			)
 		);
-
 	}
 
 	/**
@@ -131,7 +127,6 @@ class LLMS_Student_Dashboard {
 		} else {
 			return $current_tab;
 		}
-
 	}
 
 	/**
@@ -240,7 +235,6 @@ class LLMS_Student_Dashboard {
 			'llms_get_student_dashboard_tabs',
 			$tabs
 		);
-
 	}
 
 	/**
@@ -273,7 +267,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return apply_filters( 'llms_get_student_dashboard_tabs_for_nav', $tabs );
-
 	}
 
 	/**
@@ -293,7 +286,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -332,7 +324,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $title;
-
 	}
 
 	public function modify_rewrite_rules_order( $rules ) {
@@ -390,7 +381,6 @@ class LLMS_Student_Dashboard {
 			);
 
 		}
-
 	}
 
 	/**
@@ -408,9 +398,7 @@ class LLMS_Student_Dashboard {
 				'user' => get_user_by( 'id', get_current_user_id() ),
 			)
 		);
-
 	}
-
 }
 
 return new LLMS_Student_Dashboard();

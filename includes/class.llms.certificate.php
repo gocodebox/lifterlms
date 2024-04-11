@@ -144,7 +144,6 @@ class LLMS_Certificate {
 
 		$this->find    = array( '{blogname}', '{site_title}' );
 		$this->replace = array( $this->get_blogname(), $this->get_blogname() );
-
 	}
 
 	/**
@@ -272,8 +271,5 @@ class LLMS_Certificate {
 
 		// This hook is documented in includes/class-llms-engagement-handler.php.
 		do_action( 'llms_user_earned_certificate', $this->userid, $new_user_certificate_id, $this->lesson_id );
-
 	}
-
 }
-

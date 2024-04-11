@@ -66,7 +66,6 @@ abstract class LLMS_Abstract_Options_Data {
 		remove_filter( "default_option_{$full_name}", array( $this, 'get_option_default_value' ), 10, 3 );
 
 		return $val;
-
 	}
 
 	/**
@@ -148,5 +147,4 @@ abstract class LLMS_Abstract_Options_Data {
 	public function set_option( $name, $value ) {
 		return update_option( $this->get_option_name( $name ), $value );
 	}
-
 }

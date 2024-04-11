@@ -32,8 +32,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Certificates {
 
-	use LLMS_Trait_Singleton,
-		LLMS_Trait_Award_Default_Images;
+	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Award_Default_Images;
 
 	/**
 	 * The ID for the award type.
@@ -132,7 +132,6 @@ class LLMS_Certificates {
 				array()
 			)
 		);
-
 	}
 
 	/**
@@ -193,7 +192,6 @@ class LLMS_Certificates {
 		fclose( $file );
 
 		return $filepath;
-
 	}
 
 	/**
@@ -230,7 +228,6 @@ class LLMS_Certificates {
 		}
 
 		return $filepath;
-
 	}
 
 	/**
@@ -265,7 +262,6 @@ class LLMS_Certificates {
 		 * @param int    $certificate_id WP_Post ID of the earned certificate.
 		 */
 		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
-
 	}
 
 	/**
@@ -302,11 +298,10 @@ class LLMS_Certificates {
 		do {
 			$length = $min_strlen + floor( $i / 5 );
 			$slug   = $title . strtolower( wp_generate_password( absint( $length ), false ) );
-			$i++;
+			++$i;
 		} while ( wp_unique_post_slug( $slug, 0, 'publish', 'llms_my_certificate', 0 ) !== $slug );
 
 		return $slug;
-
 	}
 
 	/**
@@ -369,7 +364,6 @@ class LLMS_Certificates {
 		libxml_use_internal_errors( $libxml_state );
 
 		return $html;
-
 	}
 
 	/**
@@ -419,7 +413,6 @@ class LLMS_Certificates {
 		while ( $links && $links->length ) {
 			$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
 		}
-
 	}
 
 	/**
@@ -449,7 +442,6 @@ class LLMS_Certificates {
 		}
 
 		return $raw;
-
 	}
 
 	/**
@@ -489,7 +481,6 @@ class LLMS_Certificates {
 		foreach ( $to_remove as $img ) {
 			$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
-
 	}
 
 	/**
@@ -521,7 +512,6 @@ class LLMS_Certificates {
 		}
 
 		return compact( 'data', 'type' );
-
 	}
 
 	/**
@@ -573,7 +563,5 @@ class LLMS_Certificates {
 		}
 
 		return wp_remote_retrieve_body( $req );
-
 	}
-
 }

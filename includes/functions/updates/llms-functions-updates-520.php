@@ -35,7 +35,6 @@ function llms_update_520_upcoming_reminder_notification_backward_compat() {
 	}
 
 	return false;
-
 }
 
 /**

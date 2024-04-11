@@ -36,7 +36,6 @@ class LLMS_Admin_Post_Table_Courses {
 
 		add_filter( 'bulk_actions-edit-course', array( $this, 'register_bulk_actions' ) );
 		add_filter( 'handle_bulk_actions-edit-course', array( $this, 'handle_bulk_actions' ), 10, 3 );
-
 	}
 
 	/**
@@ -69,7 +68,6 @@ class LLMS_Admin_Post_Table_Courses {
 		}
 
 		return $actions;
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ class LLMS_Admin_Post_Table_Courses {
 		echo json_encode( $data );
 
 		die;
-
 	}
 
 	/**
@@ -131,7 +128,6 @@ class LLMS_Admin_Post_Table_Courses {
 
 		$actions['llms_export'] = __( 'Export', 'lifterlms' );
 		return $actions;
-
 	}
 
 
@@ -196,9 +192,7 @@ class LLMS_Admin_Post_Table_Courses {
 		}
 
 		echo $column_content;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Courses();

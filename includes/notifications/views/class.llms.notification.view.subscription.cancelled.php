@@ -40,7 +40,6 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 			'{{PRODUCT_TYPE}}',
 			'{{PRODUCT_TITLE_LINK}}'
 		);
-
 	}
 
 	/**
@@ -137,7 +136,6 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -161,5 +159,4 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	protected function set_title() {
 		return sprintf( esc_html__( '%1$s subscription cancellation', 'lifterlms' ), '{{PRODUCT_TYPE}}' );
 	}
-
 }

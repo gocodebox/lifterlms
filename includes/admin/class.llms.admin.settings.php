@@ -99,7 +99,6 @@ class LLMS_Admin_Settings {
 
 		do_action( 'lifterlms_settings_saved' );
 		do_action( 'lifterlms_settings_saved_' . $current_tab );
-
 	}
 
 	/**
@@ -185,7 +184,6 @@ class LLMS_Admin_Settings {
 		$tabs = apply_filters( 'lifterlms_settings_tabs_array', array() );
 
 		include 'views/settings.php';
-
 	}
 
 	/**
@@ -760,7 +758,6 @@ class LLMS_Admin_Settings {
 
 				break;
 		}
-
 	}
 
 	/**
@@ -789,7 +786,6 @@ class LLMS_Admin_Settings {
 		);
 
 		return $field;
-
 	}
 
 	/**
@@ -854,7 +850,6 @@ class LLMS_Admin_Settings {
 		}
 
 		return compact( 'description', 'tooltip' );
-
 	}
 
 	/**
@@ -876,7 +871,6 @@ class LLMS_Admin_Settings {
 		}
 
 		return $custom_attributes;
-
 	}
 
 
@@ -920,7 +914,6 @@ class LLMS_Admin_Settings {
 		}
 
 		return null === $option_value ? $default : $option_value;
-
 	}
 
 	/**
@@ -1105,7 +1098,6 @@ class LLMS_Admin_Settings {
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		return true;
-
 	}
 
 	/**
@@ -1124,7 +1116,5 @@ class LLMS_Admin_Settings {
 		$posted  = llms_filter_input_sanitize_string( INPUT_POST, $opt_id, array( FILTER_REQUIRE_ARRAY ) );
 
 		return $posted[ $opt_key ] ?? '';
-
 	}
-
 }

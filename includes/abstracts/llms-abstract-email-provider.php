@@ -119,7 +119,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		 */
 		$priority = $this->is_connected() ? 5 : 10;
 		add_action( 'admin_init', array( $this, 'init' ), $priority );
-
 	}
 
 	/**
@@ -153,7 +152,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ) );
 		add_action( 'wp_ajax_llms_' . $this->id . '_remote_install', array( $this, 'ajax_callback_remote_install' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
-
 	}
 
 	/**
@@ -182,7 +180,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return $is_plugin_installed;
-
 	}
 
 	/**
@@ -215,7 +212,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		);
 
 		return array_merge( $settings, $new_settings );
-
 	}
 
 	/**
@@ -230,7 +226,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		$ret = $this->do_remote_install();
 		ob_clean();
 		wp_send_json( $ret, ! empty( $ret['status'] ) ? $ret['status'] : 200 );
-
 	}
 
 	/**
@@ -257,7 +252,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -273,7 +267,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		foreach ( $disable as $id ) {
 			add_filter( 'llms_disable_' . $id, '__return_true' );
 		}
-
 	}
 
 	/**
@@ -301,7 +294,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return $this->do_remote_install_success();
-
 	}
 
 	/**
@@ -328,7 +320,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -368,7 +359,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -388,7 +378,5 @@ abstract class LLMS_Abstract_Email_Provider {
 
 		$screen = get_current_screen();
 		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab' ) && ! $this->is_connected() );
-
 	}
-
 }

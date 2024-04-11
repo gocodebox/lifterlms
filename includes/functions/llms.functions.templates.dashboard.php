@@ -148,7 +148,6 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
 		 */
 		do_action( 'lifterlms_after_student_dashboard' );
-
 	}
 }
 
@@ -284,7 +283,6 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
 		}
-
 	}
 }
 
@@ -422,7 +420,6 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
 		}
-
 	}
 }
 
@@ -502,7 +499,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -554,7 +550,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -597,7 +592,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -627,7 +621,6 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 				'content' => ob_get_clean(),
 			)
 		);
-
 	}
 }
 
@@ -749,7 +742,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			);
 
 		}
-
 	}
 }
 
@@ -789,7 +781,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' )
 				'section_headings' => $section_headings,
 			)
 		);
-
 	}
 }
 
@@ -832,7 +823,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -949,7 +939,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 		llms_get_template( 'myaccount/my-notifications.php', $args );
 
 		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
-
 	}
 }
 
@@ -1072,7 +1061,6 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	}
 
 	return $link;
-
 }
 
 /**
@@ -1166,5 +1154,4 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
 	 */
 	return apply_filters( 'llms_sd_my_grades_table_content', $html, $id, $lesson, $student, $restrictions );
-
 }

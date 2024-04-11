@@ -122,7 +122,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 			'progress' => $progress,
 			'url'      => $this->get_export_file_url( $file_path ),
 		);
-
 	}
 
 	/**
@@ -152,7 +151,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $export;
-
 	}
 
 	/**
@@ -224,7 +222,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 * @param string[] $cols Array of file headers.
 		 */
 		return apply_filters( "llms_table_get_{$this->id}_export_header", $cols );
-
 	}
 
 	/**
@@ -268,7 +265,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 			$parts,
 			$this
 		);
-
 	}
 
 	/**
@@ -327,5 +323,4 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	public function is_export_locked() {
 		return llms()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
 	}
-
 }

@@ -27,5 +27,4 @@ interface LLMS_Interface_Notification_Controller {
 	 * @return void
 	 */
 	public function action_callback();
-
 }

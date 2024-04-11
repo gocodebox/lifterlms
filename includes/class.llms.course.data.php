@@ -32,7 +32,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		$this->course_id = $course_id;
 		$this->course    = llms_get_post( $this->course_id );
 		parent::__construct( $course_id );
-
 	}
 
 	/**
@@ -82,7 +81,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -113,7 +111,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -147,7 +144,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 	}
 
 	/**
@@ -186,7 +182,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 	}
 
 	/**
@@ -211,7 +206,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);
 		return $query->found_posts;
-
 	}
 
 	/**
@@ -258,7 +252,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		}
 
 		return apply_filters( 'llms_course_data_get_revenue', $revenue, $period, $this );
-
 	}
 
 	/**
@@ -288,7 +281,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -316,7 +308,5 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		}
 
 		return new WP_Query( $args );
-
 	}
-
 }

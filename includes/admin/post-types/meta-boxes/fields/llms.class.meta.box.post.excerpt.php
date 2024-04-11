@@ -56,7 +56,5 @@ class LLMS_Metabox_Post_Excerpt_Field extends LLMS_Metabox_Field implements Meta
 		echo '<div class="clear"></div>';
 
 		parent::close_output();
-
 	}
 }
-

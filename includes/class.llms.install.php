@@ -53,7 +53,6 @@ class LLMS_Install {
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'update_actions' ) );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Install {
 			self::install();
 			do_action( 'lifterlms_updated' );
 		}
-
 	}
 
 	/**
@@ -143,7 +141,6 @@ class LLMS_Install {
 				wp_schedule_event( time(), $data['interval'], $data['hook'] );
 			}
 		}
-
 	}
 
 	/**
@@ -164,7 +161,6 @@ class LLMS_Install {
 
 			}
 		}
-
 	}
 
 	/**
@@ -209,7 +205,6 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -343,7 +338,6 @@ class LLMS_Install {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		dbDelta( self::get_schema() );
-
 	}
 
 	/**
@@ -532,7 +526,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 * @param string $collate Database collation statement.
 		 */
 		return apply_filters( 'llms_install_get_schema', $tables, $collate );
-
 	}
 
 	/**
@@ -610,7 +603,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_after_install' );
-
 	}
 
 	/**
@@ -633,7 +625,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 			}
 		}
-
 	}
 
 	/**
@@ -659,7 +650,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		}
 
 		self::update_db_version();
-
 	}
 
 	/**
@@ -689,7 +679,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
 		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update' ) ) );
-
 	}
 
 	/**
@@ -746,7 +735,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 			}
 		}
-
 	}
 
 	/**
@@ -778,9 +766,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
 		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
-
 	}
-
 }
 
 LLMS_Install::init();

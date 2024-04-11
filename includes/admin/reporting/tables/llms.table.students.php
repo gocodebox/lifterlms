@@ -242,7 +242,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -340,7 +339,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
-
 	}
 
 	/**
@@ -423,7 +421,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -465,7 +462,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 	/**
@@ -524,7 +520,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $sort;
-
 	}
 
 	/**
@@ -561,7 +556,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		if ( isset( $args['search'] ) ) {
 			$this->search = $args['search'];
 		}
-
 	}
 
 	/**
@@ -731,5 +725,4 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	protected function set_title() {
 		return __( 'Students', 'lifterlms' );
 	}
-
 }

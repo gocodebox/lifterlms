@@ -113,7 +113,6 @@ final class LifterLMS {
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_loaded' );
-
 	}
 
 	/**
@@ -184,7 +183,6 @@ final class LifterLMS {
 		$this->notifications();
 
 		do_action( 'lifterlms_init' );
-
 	}
 
 	/**
@@ -202,7 +200,6 @@ final class LifterLMS {
 		$this->assets->define( 'styles', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php' );
 
 		return $this->assets;
-
 	}
 
 	/**
@@ -219,7 +216,6 @@ final class LifterLMS {
 		}
 
 		return $this->session;
-
 	}
 
 	/**
@@ -417,7 +413,5 @@ final class LifterLMS {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 		llms_load_textdomain( 'lifterlms' );
-
 	}
-
 }

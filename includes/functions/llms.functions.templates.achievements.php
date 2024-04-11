@@ -30,7 +30,6 @@ function llms_get_achievement( $achievement ) {
 	);
 
 	return ob_get_clean();
-
 }
 
 /**
@@ -118,6 +117,5 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			'achievements/loop.php',
 			compact( 'cols', 'achievements', 'pagination' )
 		);
-
 	}
 }

@@ -49,7 +49,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
 		return apply_filters( $this->get_filter( 'default_args' ), $args );
-
 	}
 
 	/**
@@ -76,7 +75,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		}
 
 		return apply_filters( $this->get_filter( 'get_metas' ), $metas );
-
 	}
 
 	/**
@@ -195,7 +193,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		if ( ! in_array( $this->arguments['query_compare'], array( 'AND', 'OR' ) ) ) {
 			$this->arguments['query_compare'] = 'OR';
 		}
-
 	}
 
 	/**
@@ -227,7 +224,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
-
 	}
 
 	/**
@@ -294,7 +290,5 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
-
 	}
-
 }

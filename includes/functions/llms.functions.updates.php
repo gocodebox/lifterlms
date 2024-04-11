@@ -60,7 +60,6 @@ function llms_update_util_post_duplicator( $id ) {
 	}
 
 	return $new_id;
-
 }
 
 /**
@@ -86,5 +85,4 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 			array( $new_key, $post_type, $old_key )
 		)
 	); // no-cache ok.
-
 }

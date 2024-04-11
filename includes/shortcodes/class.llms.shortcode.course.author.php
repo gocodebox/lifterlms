@@ -67,7 +67,6 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 			}
 		}
 		return $post->get( 'author' );
-
 	}
 
 	/**
@@ -89,9 +88,7 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 			)
 		);
 		echo '</div><!-- .llms-meta-info -->';
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Author::instance();

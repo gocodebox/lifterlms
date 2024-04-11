@@ -66,7 +66,6 @@ trait LLMS_Trait_Student_Awards {
 		}
 
 		return $query;
-
 	}
 
 	/**
@@ -107,7 +106,6 @@ trait LLMS_Trait_Student_Awards {
 			$type
 		);
 		return $query->get_found_results();
-
 	}
 
 	/**
@@ -160,7 +158,5 @@ trait LLMS_Trait_Student_Awards {
 		}
 
 		return $query;
-
 	}
-
 }

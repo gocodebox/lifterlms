@@ -35,7 +35,6 @@ class LLMS_Date {
 		} else {
 			return date( 'm/d/Y', strtotime( $date ) );
 		}
-
 	}
 
 	/**
@@ -127,7 +126,6 @@ class LLMS_Date {
 		);
 
 		return $date_range;
-
 	}
 
 	/**
@@ -155,7 +153,6 @@ class LLMS_Date {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -188,17 +185,14 @@ class LLMS_Date {
 			}
 
 			$hours_string = sprintf( __( '%1$d %2$s ', 'lifterlms' ), $hours, $hour_desc );
-		} else {
-			if ( ! empty( $seconds ) ) {
-				if ( $seconds > 1 ) {
-					$second_desc = __( 'seconds', 'lifterlms' );
-				} else {
-					$second_desc = __( 'second', 'lifterlms' );
-				}
+		} elseif ( ! empty( $seconds ) ) {
+			if ( $seconds > 1 ) {
+				$second_desc = __( 'seconds', 'lifterlms' );
+			} else {
+				$second_desc = __( 'second', 'lifterlms' );
+			}
 
 				$seconds_string = sprintf( ' %d %s', $seconds, $second_desc );
-
-			}
 		}
 
 		// Determine minutes vs minute in string.
@@ -215,9 +209,6 @@ class LLMS_Date {
 
 		return $hours_string . $minutes_string . $seconds_string;
 	}
-
-
-
 }
 
 return new LLMS_Date();

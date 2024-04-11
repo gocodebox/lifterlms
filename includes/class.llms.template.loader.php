@@ -80,7 +80,6 @@ class LLMS_Template_Loader {
 		}
 
 		add_action( 'wp', array( $this, 'maybe_redirect_to_sales_page' ) );
-
 	}
 
 	/**
@@ -105,7 +104,6 @@ class LLMS_Template_Loader {
 			wp_redirect( $redirect );
 			exit;
 		}
-
 	}
 
 	/**
@@ -149,7 +147,6 @@ class LLMS_Template_Loader {
 				'safe' => false,
 			)
 		);
-
 	}
 
 	/**
@@ -178,7 +175,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_track_prerequisite_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -207,7 +203,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_prerequisite_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -245,7 +240,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_time_period_redirect', $redirect, $info ),
 			'notice'
 		);
-
 	}
 
 	/**
@@ -270,7 +264,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_enrollment_lesson_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -298,7 +291,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_lesson_drip_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -322,7 +314,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_lesson_prerequisite_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -386,7 +377,6 @@ class LLMS_Template_Loader {
 			);
 
 		}
-
 	}
 
 	/**
@@ -425,7 +415,6 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info ),
 			'error'
 		);
-
 	}
 
 	/**
@@ -506,7 +495,6 @@ class LLMS_Template_Loader {
 			array(),
 			array( 'slug__in' => array( $template_slug ) )
 		);
-
 	}
 
 	/**
@@ -586,7 +574,6 @@ class LLMS_Template_Loader {
 		}
 
 		return $template;
-
 	}
 
 	/**
@@ -608,7 +595,6 @@ class LLMS_Template_Loader {
 		 */
 		$forced_template = apply_filters( 'llms_force_php_template_loading', true ) ? $this->get_maybe_forced_template() : false;
 		return $forced_template ? llms_template_file_path( "{$forced_template}.php" ) : $template;
-
 	}
 
 	/**
@@ -663,7 +649,6 @@ class LLMS_Template_Loader {
 		 * @param string $template The template slug to be loaded forced.
 		 */
 		return apply_filters( 'llms_forced_template', $template );
-
 	}
 
 	/**
@@ -679,7 +664,6 @@ class LLMS_Template_Loader {
 			// Prints notices on the page at loop start.
 			add_action( 'loop_start', 'llms_print_notices', 5 );
 		}
-
 	}
 
 	/**
@@ -774,9 +758,7 @@ class LLMS_Template_Loader {
 		}
 
 		$query->is_singular = $is_singular;
-
 	}
-
 }
 
 new LLMS_Template_Loader();

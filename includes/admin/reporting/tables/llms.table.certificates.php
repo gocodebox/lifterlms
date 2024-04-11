@@ -160,7 +160,6 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 		);
 
 		return $this->filter_get_data( $value, $key, $backwards_compat_obj );
-
 	}
 
 	/**
@@ -205,7 +204,6 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->get_awards();
-
 	}
 
 	/**
@@ -258,5 +256,4 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student has not yet earned any certificates.', 'lifterlms' );
 	}
-
 }

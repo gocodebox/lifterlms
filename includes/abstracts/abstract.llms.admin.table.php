@@ -220,7 +220,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $args;
-
 	}
 
 	/**
@@ -326,7 +325,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $cols;
-
 	}
 
 	/**
@@ -485,7 +483,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		} else {
 			return 'ASC';
 		}
-
 	}
 
 	/**
@@ -953,7 +950,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1020,5 +1016,4 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	protected function set_title() {
 		return '';
 	}
-
 }

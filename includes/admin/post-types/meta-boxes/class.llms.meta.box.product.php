@@ -39,7 +39,6 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 		// Output PHP variables for JS access.
 		add_action( 'admin_print_footer_scripts', array( $this, 'localize_js' ), 9 );
-
 	}
 
 	/**
@@ -132,7 +131,5 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/access-plans/metabox.php';
 		remove_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 		return apply_filters( 'llms_metabox_product_output', ob_get_clean(), $this );
-
 	}
-
 }

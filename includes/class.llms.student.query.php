@@ -62,7 +62,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_default_args', $args, $this );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_get_students', $students, $this );
-
 	}
 
 	/**
@@ -146,7 +144,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			}
 		}
 		$this->arguments['post_id'] = $post_ids;
-
 	}
 
 	/**
@@ -190,7 +187,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
-
 	}
 
 	/**
@@ -294,7 +290,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_join', $sql, $this );
-
 	}
 
 	/**
@@ -334,7 +329,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_search', $sql, $this );
-
 	}
 
 	/**
@@ -392,7 +386,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_select', $sql, $this );
-
 	}
 
 	/**
@@ -416,7 +409,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
-
 	}
 
 	/**
@@ -449,5 +441,4 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 				ORDER BY updated_date DESC
 				LIMIT 1";
 	}
-
 }

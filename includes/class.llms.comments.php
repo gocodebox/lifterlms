@@ -53,7 +53,6 @@ class LLMS_Comments {
 		if ( self::should_modify_comment_counts() ) {
 			add_filter( 'wp_count_comments', array( __CLASS__, 'wp_count_comments' ), 999, 2 );
 		}
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class LLMS_Comments {
 		$clauses['where'] .= " $wpdb->posts.post_type NOT IN ('" . implode( "','", array( 'llms_order' ) ) . "') ";
 
 		return $clauses;
-
 	}
 
 	/**
@@ -159,7 +157,6 @@ class LLMS_Comments {
 			'trash'        => 'trash',
 			'post-trashed' => 'post-trashed',
 		);
-
 	}
 
 	/**
@@ -181,7 +178,6 @@ class LLMS_Comments {
 			",
 			ARRAY_A
 		);
-
 	}
 
 	/**
@@ -219,7 +215,6 @@ class LLMS_Comments {
 		set_transient( self::$count_transient_key, $stats );
 
 		return $stats;
-
 	}
 
 	/**
@@ -311,8 +306,6 @@ class LLMS_Comments {
 
 		// Otherwise modify the existing stats object.
 		return self::modify_comment_stats( $stats );
-
 	}
-
 }
 return new LLMS_Comments();

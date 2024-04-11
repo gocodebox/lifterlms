@@ -24,7 +24,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'maybe_run_actions' ) );
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				$this->save_grade( $attempt );
 			}
 		}
-
 	}
 
 	/**
@@ -123,9 +121,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
 
 		// phpcs:enable
-
 	}
-
 }
 
 return new LLMS_Controller_Admin_Quiz_Attempts();

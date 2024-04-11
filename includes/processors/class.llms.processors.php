@@ -61,7 +61,6 @@ class LLMS_Processors {
 		// Processors may trigger a notice during a cron and notices might not be available.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 		$this->load_all();
-
 	}
 
 	/**
@@ -114,7 +113,6 @@ class LLMS_Processors {
 
 			}
 		}
-
 	}
 
 	/**

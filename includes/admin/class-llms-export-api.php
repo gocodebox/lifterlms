@@ -52,7 +52,6 @@ class LLMS_Export_API {
 
 		// If there's a body it's a json encoded error object, otherwise it's already an error object.
 		return $body && ! empty( $body['code'] ) ? new WP_Error( $body['code'], $body['message'], $body['data'] ) : $req;
-
 	}
 
 	/**
@@ -67,7 +66,6 @@ class LLMS_Export_API {
 
 		$ids = implode( ',', array_map( 'absint', $ids ) );
 		return self::call_api( compact( 'ids' ) );
-
 	}
 
 
@@ -83,5 +81,4 @@ class LLMS_Export_API {
 	public static function list( $page = 1, $per_page = 10 ) {
 		return self::call_api( compact( 'page', 'per_page' ) );
 	}
-
 }

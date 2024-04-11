@@ -88,7 +88,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 			),
 			parent::default_arguments()
 		);
-
 	}
 
 	/**
@@ -111,7 +110,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 				'templates__exclude' => 'post_parent__not_in',
 			)
 		);
-
 	}
 
 	/**
@@ -138,7 +136,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		 * @param LLMS_Awards_Query $query  Instance of the query class.
 		 */
 		return apply_filters( 'llms_awards_query_get_awards', $awards, $this );
-
 	}
 
 	/**
@@ -159,7 +156,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -191,7 +187,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		$this->arguments['per_page'] = intval( $this->arguments['per_page'] );
 
 		$this->arguments['no_found_rows'] = llms_parse_bool( $this->arguments['no_found_rows'] );
-
 	}
 
 	/**
@@ -214,7 +209,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		}
 
 		return $types;
-
 	}
 
 	/**
@@ -247,7 +241,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		}
 
 		return $this->prepare_meta_query_for_relationships();
-
 	}
 
 	/**
@@ -297,7 +290,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		}
 
 		return $meta_query;
-
 	}
 
 	/**
@@ -324,11 +316,9 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		// Remove empty arrays.
 		return array_filter(
 			$args,
-			function( $val ) {
+			function ( $val ) {
 				return ! is_array( $val ) || ! empty( $val );
 			}
 		);
-
 	}
-
 }

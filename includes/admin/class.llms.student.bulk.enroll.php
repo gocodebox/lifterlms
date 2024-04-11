@@ -127,7 +127,6 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		$this->enroll_users_in_product();
-
 	}
 
 	/**
@@ -269,7 +268,6 @@ class LLMS_Student_Bulk_Enroll {
 		}
 		echo implode( "\n", $this->admin_notices );
 	}
-
 }
 
 return new LLMS_Student_Bulk_Enroll();

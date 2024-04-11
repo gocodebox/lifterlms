@@ -39,7 +39,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 		$this->callback_args = array(
 			'__back_compat_meta_box' => true,
 		);
-
 	}
 
 	/**
@@ -88,5 +87,4 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 			),
 		);
 	}
-
 }

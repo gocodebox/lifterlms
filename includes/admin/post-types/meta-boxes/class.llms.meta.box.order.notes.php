@@ -34,7 +34,6 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'side';
 		$this->priority = 'default';
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 			_e( 'No order notes found.', 'lifterlms' );
 
 		}// End if().
-
 	}
 
 	/**
@@ -121,5 +119,4 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 	 * @return  void
 	 */
 	public function save( $post_id ) {}
-
 }

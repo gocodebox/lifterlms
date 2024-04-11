@@ -57,7 +57,6 @@ class LLMS_Admin_Page_Status {
 
 			)
 		);
-
 	}
 
 	/**
@@ -127,7 +126,6 @@ class LLMS_Admin_Page_Status {
 		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::do_tool();
 		}
-
 	}
 
 	/**
@@ -182,7 +180,6 @@ class LLMS_Admin_Page_Status {
 		}
 
 		return $result;
-
 	}
 
 	/**
@@ -283,7 +280,6 @@ class LLMS_Admin_Page_Status {
 				llms_redirect_and_exit( esc_url_raw( self::get_url( 'logs' ) ) );
 			}
 		}
-
 	}
 
 	/**
@@ -327,7 +323,6 @@ class LLMS_Admin_Page_Status {
 		} else {
 			echo '<div class="llms-log-viewer">' . __( 'There are currently no logs to view.', 'lifterlms' ) . '</div>';
 		}
-
 	}
 
 	/**
@@ -386,6 +381,5 @@ class LLMS_Admin_Page_Status {
 			</div>
 		</form>
 		<?php
-
 	}
 }

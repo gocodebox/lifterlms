@@ -155,7 +155,6 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		);
 
 		return $this->filter_get_data( $value, $key, (object) $backwards_compat_obj );
-
 	}
 
 	/**
@@ -201,7 +200,6 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->get_awards();
-
 	}
 
 	/**
@@ -255,5 +253,4 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student has not yet earned any achievements.', 'lifterlms' );
 	}
-
 }

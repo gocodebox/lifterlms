@@ -122,7 +122,6 @@ class LLMS_Assets {
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		$this->debugging_assets = apply_filters( 'llms_assets_debug', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ), $this->package_id );
-
 	}
 
 	/**
@@ -147,7 +146,6 @@ class LLMS_Assets {
 		}
 
 		return $this->$type;
-
 	}
 
 	/**
@@ -173,7 +171,6 @@ class LLMS_Assets {
 		$this->inline[ $handle ] = compact( 'handle', 'asset', 'location', 'priority' );
 
 		return $priority;
-
 	}
 
 	/**
@@ -206,7 +203,6 @@ class LLMS_Assets {
 		wp_enqueue_script( $handle );
 
 		return wp_script_is( $handle, 'enqueued' );
-
 	}
 
 	/**
@@ -239,7 +235,6 @@ class LLMS_Assets {
 		wp_enqueue_style( $handle );
 
 		return wp_style_is( $handle, 'enqueued' );
-
 	}
 
 	/**
@@ -325,7 +320,6 @@ class LLMS_Assets {
 		 * @param string      $handle The asset handle.
 		 */
 		return apply_filters( "llms_get_{$type}_asset", $asset, $handle );
-
 	}
 
 	/**
@@ -352,7 +346,6 @@ class LLMS_Assets {
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		return apply_filters( "llms_get_{$type}_asset_defaults", $defaults, $this->package_id );
-
 	}
 
 	/**
@@ -390,7 +383,6 @@ class LLMS_Assets {
 		 * @param string  $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		return apply_filters( "llms_get_{$type}_asset_definitions", $list, $this->package_id );
-
 	}
 
 
@@ -427,7 +419,6 @@ class LLMS_Assets {
 		);
 
 		return $assets;
-
 	}
 
 	/**
@@ -456,7 +447,6 @@ class LLMS_Assets {
 		}
 
 		return $priority;
-
 	}
 
 	/**
@@ -496,7 +486,6 @@ class LLMS_Assets {
 		}
 
 		return $asset;
-
 	}
 
 	/**
@@ -526,7 +515,6 @@ class LLMS_Assets {
 			echo $open . implode( '', $assets ) . $close;
 
 		}
-
 	}
 
 	/**
@@ -560,7 +548,6 @@ class LLMS_Assets {
 		}
 
 		return sprintf( $before, $asset['handle'] ) . $asset['asset'] . $after;
-
 	}
 
 	/**
@@ -598,7 +585,6 @@ class LLMS_Assets {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -644,7 +630,6 @@ class LLMS_Assets {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -698,7 +683,5 @@ class LLMS_Assets {
 				break;
 			}
 		}
-
 	}
-
 }

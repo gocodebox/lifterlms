@@ -45,7 +45,6 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -71,9 +70,7 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 				echo '</ul>';
 			echo '</div>';
 		}
-
 	}
-
 }
 
 return LLMS_BBP_Shortcode_Course_Forums_List::instance();

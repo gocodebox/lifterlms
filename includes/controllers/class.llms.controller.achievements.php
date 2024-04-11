@@ -95,7 +95,6 @@ class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagem
 		if ( isset( $_POST['llms_delete_achievement'] ) ) {
 			$this->delete( llms_filter_input( INPUT_POST, 'achievement_id', FILTER_SANITIZE_NUMBER_INT ) );
 		}
-
 	}
 }
 

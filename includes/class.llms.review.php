@@ -249,7 +249,7 @@ class LLMS_Reviews {
 		}
 
 		// Check if reviews are limited and the user has already written a review.
-		$args = array(
+		$args        = array(
 			'posts_per_page'   => 1,
 			'post_type'        => 'llms_review',
 			'post_status'      => 'publish',

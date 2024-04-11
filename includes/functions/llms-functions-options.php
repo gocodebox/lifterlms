@@ -42,7 +42,6 @@ function llms_get_secure_option( $secure_name, $default = false, $db_name = '' )
 
 	// Return the default value.
 	return $default;
-
 }
 
 /**

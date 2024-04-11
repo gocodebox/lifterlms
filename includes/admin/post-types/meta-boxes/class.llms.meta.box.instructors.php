@@ -31,7 +31,6 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 		$this->title      = __( 'Instructors', 'lifterlms' );
 		$this->screens    = array( 'course', 'llms_membership' );
 		$this->capability = 'publish_courses';
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 				),
 			),
 		);
-
 	}
 
 	/**
@@ -112,7 +110,6 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 * @version  3.13.0
 	 */
 	public function save( $post ) {}
-
 }
 
 return new LLMS_Metabox_Instructors();

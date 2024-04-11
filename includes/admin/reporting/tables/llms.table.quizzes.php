@@ -134,7 +134,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		};</script>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -265,7 +264,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $data );
-
 	}
 
 	/**
@@ -289,7 +287,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
 		return $instructors;
-
 	}
 
 	/**
@@ -383,7 +380,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->posts;
-
 	}
 
 	/**
@@ -403,7 +399,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		 * @param string $placeholder The placeholder string.
 		 */
 		return apply_filters( 'llms_table_get_quizzes_search_placeholder', __( 'Search quizzes...', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -466,5 +461,4 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			),
 		);
 	}
-
 }

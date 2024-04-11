@@ -107,10 +107,8 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 					$trigger = $student->get_enrollment_trigger( $this->post_id );
 					if ( false !== strpos( $trigger, 'order_' ) ) {
 						$value = '<a class="llms-action-icon tip--top-left" href="' . get_edit_post_link( $student->get_enrollment_trigger_id( $this->post_id ) ) . '" target="_blank" data-tip="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></a>';
-					} else {
-						if ( current_user_can( 'unenroll' ) ) {
+					} elseif ( current_user_can( 'unenroll' ) ) {
 							$value = '<a class="llms-action-icon llms-remove-student tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-remove" data-tip="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></a>';
-						}
 					}
 				} else {
 					if ( current_user_can( 'enroll' ) ) {
@@ -199,7 +197,6 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -231,12 +228,11 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 			if ( ! $courses['more'] ) {
 				break;
 			} else {
-				$page++;
+				++$page;
 			}
 		}
 
 		return $r;
-
 	}
 
 	/**
@@ -343,7 +339,6 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 
@@ -364,7 +359,6 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 		return array(
 			'post_id' => $this->post_id,
 		);
-
 	}
 
 	/**
@@ -422,5 +416,4 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 		}
 		return $cols;
 	}
-
 }

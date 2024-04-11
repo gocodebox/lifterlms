@@ -86,7 +86,6 @@ class LLMS_Person_Handler {
 		}
 
 		return $fields;
-
 	}
 
 	/**
@@ -120,7 +119,7 @@ class LLMS_Person_Handler {
 		while ( username_exists( $username ) ) {
 
 			$username = $orig_username . $i;
-			$i++;
+			++$i;
 
 		}
 
@@ -133,7 +132,6 @@ class LLMS_Person_Handler {
 		 * @param string $email    User's email address which was used to generate the username.
 		 */
 		return apply_filters( 'lifterlms_generated_username', $username, $email );
-
 	}
 
 	/**
@@ -202,7 +200,6 @@ class LLMS_Person_Handler {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -264,7 +261,6 @@ class LLMS_Person_Handler {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -313,7 +309,6 @@ class LLMS_Person_Handler {
 		);
 
 		return $fields;
-
 	}
 
 	/**
@@ -381,7 +376,6 @@ class LLMS_Person_Handler {
 		 *                          set of fields is generated programmatically.
 		 */
 		return apply_filters( 'llms_password_reset_fields', $fields, $key, $login, $location );
-
 	}
 
 	/**
@@ -483,7 +477,6 @@ class LLMS_Person_Handler {
 		}
 
 		return $signon->ID;
-
 	}
 
 	/**
@@ -533,7 +526,6 @@ class LLMS_Person_Handler {
 		 * @param array            $data  User submitted login data.
 		 */
 		return apply_filters( 'llms_after_user_login_data_validation', $valid, $data );
-
 	}
 
 	/**
@@ -551,5 +543,4 @@ class LLMS_Person_Handler {
 		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '5.0.0', 'LLMS_Forms::get_form_fields()' );
 		return LLMS_Forms::instance()->get_form_fields( $screen );
 	}
-
 }

@@ -83,7 +83,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
 
 		}
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		// Destroy the cookie.
 		return llms_setcookie( $this->cookie, '', time() - YEAR_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $this->use_secure_cookie(), true );
-
 	}
 
 	/**
@@ -148,7 +146,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return $parts;
-
 	}
 
 	/**
@@ -198,7 +195,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		if ( $set_cookie ) {
 			$this->set_cookie();
 		}
-
 	}
 
 	/**
@@ -220,7 +216,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -239,7 +234,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -261,7 +255,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -285,7 +278,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $init Whether or not initialization should take place.
 		 */
 		return apply_filters( 'llms_session_should_init', $init );
-
 	}
 
 	/**
@@ -309,7 +301,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -346,7 +337,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$this->expires  = time() + $duration;
 		$this->expiring = $this->expires - $variance;
-
 	}
 
 	/**
@@ -368,7 +358,5 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $secure Whether or not a secure cookie should be used.
 		 */
 		return apply_filters( 'llms_session_use_secure_cookie', $secure );
-
 	}
-
 }

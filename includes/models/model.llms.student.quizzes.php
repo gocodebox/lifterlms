@@ -39,7 +39,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		);
 
 		return $query->get_found_results();
-
 	}
 
 	/**
@@ -55,7 +54,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		$attempt = $this->get_attempt_by_id( $attempt_id );
 		return $attempt ? $attempt->delete() : false;
-
 	}
 
 	/**
@@ -86,7 +84,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		 * @param int[]|Int $quiz Array or single WP_Post ID for quizzes to retrieve attempts for.
 		 */
 		return apply_filters( 'llms_student_get_quiz_data', $query->get_attempts(), $quiz );
-
 	}
 
 	/**
@@ -115,7 +112,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -138,7 +134,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		}
 
 		return $attempt;
-
 	}
 
 	/**
@@ -157,7 +152,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			return false;
 		}
 		return $this->get_attempt_by_id( $id );
-
 	}
 
 	/**
@@ -206,7 +200,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		 * @param LLMS_Student_Quizzes $student_quizzes Student quizzes object.
 		 */
 		return apply_filters( 'llms_student_quiz_attempts_remaining_for_quiz', $ret, $quiz, $this );
-
 	}
 
 	/**
@@ -223,7 +216,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		if ( ! $id ) {
 			return false;
 		}
-
 	}
 
 	/**
@@ -256,7 +248,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -287,7 +278,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -334,5 +324,4 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	private function parse_attempt_key( $attempt_key ) {
 		return LLMS_Hasher::unhash( $attempt_key );
 	}
-
 }

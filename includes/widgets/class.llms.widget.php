@@ -89,7 +89,6 @@ class LLMS_Widget extends WP_Widget {
 
 		return $instance;
 	}
-
 }
 
 return new LLMS_Widget();

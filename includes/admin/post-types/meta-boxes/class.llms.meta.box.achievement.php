@@ -36,7 +36,6 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 			'llms_my_achievement',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -86,7 +85,6 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 				'fields' => $fields,
 			),
 		);
-
 	}
 
 	/**
@@ -116,7 +114,5 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 		}
 
 		return parent::save_field_db( $post_id, $field_id, $val );
-
 	}
-
 }

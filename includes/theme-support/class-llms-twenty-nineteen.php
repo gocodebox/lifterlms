@@ -35,7 +35,6 @@ class LLMS_Twenty_Nineteen {
 
 		add_action( 'lifterlms_before_main_content', array( __CLASS__, 'output_content_wrapper' ), 10 );
 		add_action( 'lifterlms_after_main_content', array( __CLASS__, 'output_content_wrapper_end' ), 10 );
-
 	}
 
 	/**
@@ -59,7 +58,6 @@ class LLMS_Twenty_Nineteen {
 	public static function output_content_wrapper_end() {
 		echo '</div></div></main></section>';
 	}
-
 }
 
 return LLMS_Twenty_Nineteen::init();

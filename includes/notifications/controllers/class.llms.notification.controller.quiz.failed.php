@@ -76,7 +76,6 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 		$this->course = $this->quiz->get_course();
 
 		$this->send();
-
 	}
 
 	/**
@@ -163,7 +162,6 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -226,9 +224,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Quiz_Failed::instance();

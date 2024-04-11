@@ -29,7 +29,7 @@ class LLMS_Form_Validator {
 		return array_values(
 			array_filter(
 				$fields,
-				function( $field ) {
+				function ( $field ) {
 					return ! empty( $field['required'] );
 				}
 			)
@@ -66,7 +66,6 @@ class LLMS_Form_Validator {
 		}
 
 		return is_array( $posted_value ) ? $sanitized : $sanitized[0];
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_Form_Validator {
 	 */
 	protected function sanitize_field_tel( $posted_value ) {
 		return preg_replace( '/[^\s\#0-9\-\+\(\)\.]/', '', $posted_value );
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ class LLMS_Form_Validator {
 		}
 
 		return $posted_data;
-
 	}
 
 	/**
@@ -170,7 +167,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -199,7 +195,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -218,7 +213,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -250,7 +244,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -291,7 +284,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -310,7 +302,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -369,7 +360,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -409,7 +399,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -466,7 +455,6 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -498,7 +486,5 @@ class LLMS_Form_Validator {
 		}
 
 		return true;
-
 	}
-
 }

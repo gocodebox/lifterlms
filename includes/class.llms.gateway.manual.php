@@ -50,7 +50,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 		add_filter( 'llms_get_gateway_settings_fields', array( $this, 'get_settings_fields' ), 10, 2 );
 		add_action( 'lifterlms_before_view_order_table', array( $this, 'before_view_order_table' ) );
-
 	}
 
 	/**
@@ -76,7 +75,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 				echo $this->get_payment_instructions();
 			}
 		}
-
 	}
 
 	/**
@@ -119,7 +117,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		);
 
 		return $fields;
-
 	}
 
 	/**
@@ -148,7 +145,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		$order->set( 'gateway_subscription_id', '' );
 
 		$order->add_note( sprintf( __( 'Payment method switched from "%1$s" to "%2$s"', 'lifterlms' ), $previous_gateway, $this->get_admin_title() ) );
-
 	}
 
 	/**
@@ -218,7 +214,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		do_action( 'lifterlms_handle_pending_order_complete', $order );
 
 		llms_redirect_and_exit( $order->get_view_link() );
-
 	}
 
 	/**
@@ -244,7 +239,6 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 			do_action( 'llms_manual_payment_due', $order, $this );
 
 		}
-
 	}
 
 	/**
@@ -257,6 +251,4 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	public function is_enabled() {
 		return ( 'yes' === $this->get_enabled() ) ? true : false;
 	}
-
-
 }

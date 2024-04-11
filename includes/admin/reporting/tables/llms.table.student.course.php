@@ -101,7 +101,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 		}
 		return $html;
-
 	}
 
 	/**
@@ -166,7 +165,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		}// End switch.
 
 		return $this->filter_get_data( $value, $key, $lesson );
-
 	}
 
 	/**
@@ -188,7 +186,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		$this->student = $args['student'];
 
 		$this->tbody_data = $course->get_lessons();
-
 	}
 
 	/**
@@ -210,7 +207,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 				$this->current_section = $sid;
 			}
 		}
-
 	}
 
 	/**
@@ -277,5 +273,4 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			),
 		);
 	}
-
 }

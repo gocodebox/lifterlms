@@ -151,7 +151,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		}
 
 		return llms()->assets->enqueue_script( 'llms-admin-wizard' ) && llms()->assets->enqueue_style( 'llms-admin-wizard' );
-
 	}
 
 	/**
@@ -276,7 +275,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		);
 
 		return esc_html( $text );
-
 	}
 
 	/**
@@ -317,7 +315,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		 *                        is the step's title displayed in the wizard's navigation.
 		 */
 		return apply_filters( "llms_{$this->id}_wizard_steps", $this->steps );
-
 	}
 
 	/**
@@ -361,7 +358,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		$step_html = apply_filters( "llms_{$this->id}_wizard_{$current}_html", $step_html, $this );
 
 		include $views_dir . 'main.php';
-
 	}
 
 	/**
@@ -403,7 +399,6 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		llms_redirect_and_exit( $url );
 
 		return null;
-
 	}
 
 	/**
@@ -416,5 +411,4 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	protected function get_transient(): array {
 		return array();
 	}
-
 }

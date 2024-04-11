@@ -33,7 +33,6 @@ class LLMS_Admin_Post_Table_Orders {
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
 		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
-
 	}
 
 	/**
@@ -252,7 +251,6 @@ class LLMS_Admin_Post_Table_Orders {
 		unset( $actions['inline hide-if-no-js'] );
 
 		return $actions;
-
 	}
 
 
@@ -327,7 +325,7 @@ class LLMS_Admin_Post_Table_Orders {
 			// @note we're not super proud of this incredible piece of duct tape.
 			add_filter(
 				'get_search_query',
-				function( $q ) {
+				function ( $q ) {
 					if ( '' === $q ) {
 						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
 					}
@@ -337,9 +335,7 @@ class LLMS_Admin_Post_Table_Orders {
 		}
 
 		return $query;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Orders();

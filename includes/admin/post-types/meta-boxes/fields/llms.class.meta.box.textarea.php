@@ -39,7 +39,7 @@ class LLMS_Metabox_Textarea_Field extends LLMS_Metabox_Field implements Meta_Box
 		parent::output(); ?>
 
 		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"
-								   <?php
+									<?php
 									if ( isset( $this->field['required'] ) && $this->field['required'] ) :
 										?>
 			required="required"<?php endif; ?>><?php echo $this->meta; ?></textarea>

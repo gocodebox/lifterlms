@@ -103,7 +103,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return $this->set( 'auto_enroll', array_unique( $course_ids ) );
-
 	}
 
 	/**
@@ -161,7 +160,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		// Remove empty arrays and return the rest.
 		return array_filter( $posts );
-
 	}
 
 	/**
@@ -183,7 +181,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		$courses = array_values(
 			array_filter(
 				$courses,
-				function( $id ) {
+				function ( $id ) {
 					return 'publish' === get_post_status( $id );
 				}
 			)
@@ -228,7 +226,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 			$this,
 			$exclude_hidden
 		);
-
 	}
 
 	/**
@@ -260,7 +257,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		);
 
 		return $query->get_found_results();
-
 	}
 
 	/**
@@ -327,7 +323,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return array_unique( $courses );
-
 	}
 
 	/**
@@ -386,7 +381,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return $ids;
-
 	}
 
 	/**
@@ -412,7 +406,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	public function set_instructors( $instructors = array() ) {
 
 		return $this->instructors()->set_instructors( $instructors );
-
 	}
 
 	/**
@@ -440,5 +433,4 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		return $arr;
 	}
-
 }

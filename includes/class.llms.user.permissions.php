@@ -35,7 +35,6 @@ class LLMS_User_Permissions {
 
 		add_filter( 'user_has_cap', array( $this, 'handle_caps' ), 10, 3 );
 		add_filter( 'editable_roles', array( $this, 'editable_roles' ) );
-
 	}
 
 	/**
@@ -98,7 +97,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $all_roles;
-
 	}
 
 	/**
@@ -137,7 +135,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -165,7 +162,6 @@ class LLMS_User_Permissions {
 		);
 
 		return $roles;
-
 	}
 
 	/**
@@ -216,7 +212,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -289,7 +284,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -302,7 +296,6 @@ class LLMS_User_Permissions {
 	public static function is_current_user_instructor() {
 
 		return ( current_user_can( 'lifterlms_instructor' ) && current_user_can( 'list_users' ) && ! current_user_can( 'manage_lifterlms' ) );
-
 	}
 
 	/**
@@ -378,9 +371,7 @@ class LLMS_User_Permissions {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_User_Permissions();

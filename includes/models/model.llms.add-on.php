@@ -49,7 +49,6 @@ class LLMS_Add_On {
 
 		$this->id   = ! empty( $addon['id'] ) ? $addon['id'] : '';
 		$this->data = $addon ? $addon : array();
-
 	}
 
 	/**
@@ -93,7 +92,6 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on name.
 		return new WP_Error( 'activation', sprintf( __( 'Could not activate %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
 	}
 
 	/**
@@ -118,7 +116,6 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on name.
 		return new WP_Error( 'deactivation', sprintf( __( 'Could not deactivate %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
 	}
 
 	/**
@@ -161,7 +158,6 @@ class LLMS_Add_On {
 		}
 
 		return $translate ? $this->get_l10n( $ret ) : $ret;
-
 	}
 
 	/**
@@ -229,7 +225,6 @@ class LLMS_Add_On {
 		);
 
 		return $strings[ $string ];
-
 	}
 
 	/**
@@ -249,7 +244,6 @@ class LLMS_Add_On {
 		}
 
 		return $translate ? $this->get_l10n( $ret ) : $ret;
-
 	}
 
 	/**
@@ -273,7 +267,6 @@ class LLMS_Add_On {
 		);
 
 		return $url;
-
 	}
 
 	/**
@@ -303,7 +296,6 @@ class LLMS_Add_On {
 		}
 
 		return $type;
-
 	}
 
 	/**
@@ -328,7 +320,6 @@ class LLMS_Add_On {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -387,7 +378,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -426,7 +416,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -471,7 +460,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -496,7 +484,6 @@ class LLMS_Add_On {
 		}
 
 		return $this->uninstall_real();
-
 	}
 
 	/**
@@ -530,7 +517,5 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on title.
 		return sprintf( __( '%s was successfully uninstalled.', 'lifterlms' ), $this->get( 'title' ) );
-
 	}
-
 }

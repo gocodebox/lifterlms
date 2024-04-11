@@ -56,7 +56,6 @@ class LLMS_Admin_Post_Table_Certificates {
 		}
 
 		add_filter( 'manage_llms_my_certificate_posts_columns', array( $this, 'mod_cols' ), 10, 1 );
-
 	}
 
 	/**
@@ -79,7 +78,6 @@ class LLMS_Admin_Post_Table_Certificates {
 		}
 
 		return $actions;
-
 	}
 
 	/**
@@ -100,7 +98,6 @@ class LLMS_Admin_Post_Table_Certificates {
 		}
 
 		return $states;
-
 	}
 
 	/**
@@ -127,7 +124,6 @@ class LLMS_Admin_Post_Table_Certificates {
 	public function upgrade_template( $version ) {
 		return 2;
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Certificates();

@@ -80,7 +80,6 @@ function llms_backup_log( $handle ) {
 	}
 
 	return null;
-
 }
 
 /**
@@ -108,7 +107,6 @@ function llms_backup_logs() {
 			llms_backup_log( implode( '-', array_slice( $parts, 0, -1 ) ) );
 		}
 	}
-
 }
 add_action( 'llms_backup_logs', 'llms_backup_logs' );
 
@@ -147,7 +145,6 @@ function llms_get_callable_name( $callable ) {
 	}
 
 	return 'Unknown';
-
 }
 
 /**
@@ -161,7 +158,6 @@ function llms_get_callable_name( $callable ) {
 function llms_get_log_path( $handle ) {
 
 	return trailingslashit( LLMS_LOG_DIR ) . $handle . '-' . sanitize_file_name( wp_hash( $handle ) ) . '.log';
-
 }
 
 /**
@@ -221,7 +217,6 @@ function llms_log( $message, $handle = 'llms' ) {
 	}
 
 	return $ret ? true : false;
-
 }
 
 /**
@@ -273,6 +268,5 @@ function _llms_secure_log_messages( $message, $handle ) {
 	$message = str_replace( $find, $replace, $message );
 
 	return $message;
-
 }
 add_filter( 'llms_log_message_string', '_llms_secure_log_messages', 999, 2 );

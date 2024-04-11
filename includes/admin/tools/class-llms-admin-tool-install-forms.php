@@ -82,7 +82,6 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 		);
 
 		return wp_list_pluck( $query->posts, 'ID' );
-
 	}
 
 	/**
@@ -109,9 +108,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 		LLMS_Forms::instance()->install( true );
 
 		return true;
-
 	}
-
 }
 
 return new LLMS_Admin_Tool_Install_Forms();

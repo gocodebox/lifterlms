@@ -57,7 +57,5 @@ class LLMS_L10n {
 			return $strings;
 
 		}
-
 	}
-
 }

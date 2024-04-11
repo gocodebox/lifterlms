@@ -28,7 +28,6 @@ class LLMS_Events_Core {
 
 		add_action( 'wp_login', array( $this, 'on_signon' ), 10, 2 );
 		add_action( 'clear_auth_cookie', array( $this, 'on_signout' ) );
-
 	}
 
 	/**
@@ -51,7 +50,6 @@ class LLMS_Events_Core {
 				'event_action' => 'signon',
 			)
 		);
-
 	}
 
 	/**
@@ -79,9 +77,7 @@ class LLMS_Events_Core {
 				'event_action' => 'signout',
 			)
 		);
-
 	}
-
 }
 
 return new LLMS_Events_Core();

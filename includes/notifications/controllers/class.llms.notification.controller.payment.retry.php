@@ -54,7 +54,6 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 		$this->post_id = $order->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -134,9 +132,7 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Payment_Retry::instance();

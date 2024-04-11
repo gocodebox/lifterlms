@@ -35,7 +35,7 @@ $show_button = apply_filters( 'llms_importable_course_show_action', true, $cours
 		do_action( 'llms_before_importable_course', $course );
 	?>
 
-	<img alt="<?php echo sprintf( esc_attr__( '%s featured image', 'lifterlms' ), $course['title'] ); ?>" src="<?php echo esc_url( $course['image'] ); ?>">
+	<img alt="<?php printf( esc_attr__( '%s featured image', 'lifterlms' ), $course['title'] ); ?>" src="<?php echo esc_url( $course['image'] ); ?>">
 
 	<h3><?php echo esc_html( $course['title'] ); ?></h3>
 	<p><?php echo esc_html( $course['description'] ); ?></p>

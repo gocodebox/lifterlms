@@ -58,7 +58,6 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 		}
 
 		return $course_id;
-
 	}
 
 	/**
@@ -137,9 +136,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 		ob_start();
 		llms_get_template( 'course/outline-list-small.php', $args );
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Outline::instance();

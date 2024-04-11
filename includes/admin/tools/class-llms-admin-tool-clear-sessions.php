@@ -76,9 +76,7 @@ class LLMS_Admin_Tool_Clear_Sessions extends LLMS_Abstract_Admin_Tool {
 
 		do_action( 'llms_delete_expired_session_data', false );
 		return true;
-
 	}
-
 }
 
 return new LLMS_Admin_Tool_Clear_Sessions();

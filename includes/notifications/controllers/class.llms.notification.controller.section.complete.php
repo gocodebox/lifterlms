@@ -62,7 +62,6 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 		$this->course  = $this->section->get_course();
 
 		$this->send();
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -132,9 +130,7 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Section_Complete::instance();

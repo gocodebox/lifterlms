@@ -45,5 +45,4 @@ function llms_update_380_set_access_plan_visibility() {
 function llms_update_380_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.8.0' );
-
 }

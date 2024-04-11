@@ -42,7 +42,6 @@ class LLMS_Roles {
 		$caps         = array_merge( $caps, self::get_post_type_caps( $role ) );
 
 		return apply_filters( 'llms_get_all_' . $role . '_caps', $caps );
-
 	}
 
 	/**
@@ -146,7 +145,6 @@ class LLMS_Roles {
 		 * @param string[] $all_caps Full list of all LifterLMS user capabilities.
 		 */
 		return apply_filters( "llms_get_{$role}_core_caps", $caps, $all_caps );
-
 	}
 
 	/**
@@ -241,7 +239,6 @@ class LLMS_Roles {
 		}
 
 		return apply_filters( 'llms_get_' . $role . '_post_type_caps', $caps );
-
 	}
 
 	/**
@@ -342,7 +339,6 @@ class LLMS_Roles {
 		}
 
 		return apply_filters( 'llms_get_' . $role . '_wp_caps', array_merge( $add, $caps ) );
-
 	}
 
 	/**
@@ -363,7 +359,6 @@ class LLMS_Roles {
 				'student'               => __( 'Student', 'lifterlms' ),
 			)
 		);
-
 	}
 
 	/**
@@ -399,7 +394,6 @@ class LLMS_Roles {
 			self::update_caps( $role_obj, 'add' );
 
 		}
-
 	}
 
 	/**
@@ -424,7 +418,6 @@ class LLMS_Roles {
 
 		// Remove custom caps from the WP core admin role.
 		self::update_caps( $wp_roles->get_role( 'administrator' ), 'remove', array( 'wp' ) );
-
 	}
 
 	/**
@@ -454,7 +447,6 @@ class LLMS_Roles {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -480,7 +472,5 @@ class LLMS_Roles {
 			),
 			self::get_roles() // So our roles are translated as well.
 		);
-
 	}
-
 }

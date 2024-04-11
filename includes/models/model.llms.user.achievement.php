@@ -95,7 +95,6 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
 		 */
 		return apply_filters( 'llms_achievement_get_image', $src, $this, $size );
-
 	}
 
 	/**
@@ -128,7 +127,5 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 			$this,
 			$size
 		);
-
 	}
-
 }

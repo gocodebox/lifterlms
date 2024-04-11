@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 			<div class="llms-voucher-email-wrapper">
 				<input type="checkbox" name="llms_voucher_export_send_email" id="llms_voucher_export_send_email"
-					   value="true">
+						value="true">
 				<label for="llms_voucher_export_send_email"><?php _e( 'Email CSV', 'lifterlms' ); ?></label>
 				<input type="text" placeholder="Email" name="llms_voucher_export_email">
 				<p><?php _e( 'Send to multiple emails by separating emails addresses with commas.', 'lifterlms' ); ?></p>
@@ -181,7 +181,6 @@ class LLMS_Meta_Box_Voucher_Export {
 				self::download_csv( $csv, $file_name );
 			}// End if().
 		}// End if().
-
 	}
 
 	public static function array_to_csv( $data, $delimiter = ',', $enclosure = '"' ) {
@@ -255,5 +254,4 @@ class LLMS_Meta_Box_Voucher_Export {
 
 		return $mail;
 	}
-
 }

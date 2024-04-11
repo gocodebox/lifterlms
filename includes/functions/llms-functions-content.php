@@ -70,7 +70,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		 * @param array   $restrictions Result from `llms_page_restricted()` for the current post.
 		 */
 		return apply_filters( 'llms_get_post_content', $content, $post, $restrictions );
-
 	}
 }
 
@@ -109,7 +108,6 @@ function llms_get_post_sales_page_content( $post, $default = '' ) {
 	 * @param string  $default Default content used when no override content can be found.
 	 */
 	return apply_filters( 'llms_post_sales_page_content', $content, $post, $default );
-
 }
 
 /**
@@ -146,7 +144,6 @@ function llms_post_content_init( $callback = 'llms_get_post_content', $priority 
 	}
 
 	return false;
-
 }
 
 llms_post_content_init();

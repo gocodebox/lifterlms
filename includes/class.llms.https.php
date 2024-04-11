@@ -31,7 +31,6 @@ class LLMS_HTTPS {
 			add_action( 'template_redirect', array( $this, 'unforce_https_redirect' ) );
 
 		}
-
 	}
 
 	/**
@@ -61,7 +60,6 @@ class LLMS_HTTPS {
 
 		$redirect .= $uri;
 		return $redirect;
-
 	}
 
 	/**
@@ -83,7 +81,6 @@ class LLMS_HTTPS {
 				)
 			);
 		}
-
 	}
 
 	/**
@@ -105,10 +102,7 @@ class LLMS_HTTPS {
 				)
 			);
 		}
-
 	}
-
-
 }
 
 return new LLMS_HTTPS();

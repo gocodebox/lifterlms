@@ -73,5 +73,4 @@ class LLMS_Notification_View_Quiz_Failed extends LLMS_Abstract_Notification_View
 	protected function set_title() {
 		return sprintf( __( '%s failed a quiz', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
-
 }

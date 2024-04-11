@@ -47,7 +47,6 @@ function llms_show_mark_complete_button( $lesson ) {
 	}
 
 	return apply_filters( 'llms_show_mark_complete_button', $show, $lesson );
-
 }
 
 /**
@@ -76,5 +75,4 @@ function llms_show_take_quiz_button( $lesson ) {
 
 	// allow 3rd parties to modify default behavior.
 	return apply_filters( 'llms_show_take_quiz_button', $show, $lesson );
-
 }

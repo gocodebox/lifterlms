@@ -28,7 +28,6 @@ class LLMS_Admin_Post_Table_Coupons {
 
 		add_filter( 'manage_llms_coupon_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_llms_coupon_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
-
 	}
 
 	/**
@@ -95,8 +94,6 @@ class LLMS_Admin_Post_Table_Coupons {
 				break;
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Post_Table_Coupons();

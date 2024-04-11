@@ -176,7 +176,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	/* This filter is documented above. */
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
-
 }
 
 /**
@@ -355,7 +354,6 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
-
 }
 
 /**
@@ -443,7 +441,6 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	// Otherwise return false: no prerequisite.
 	return false;
-
 }
 
 /**
@@ -491,7 +488,6 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 	$course = new LLMS_Course( $course_id );
 
 	return $course->is_open() ? false : $course_id;
-
 }
 
 /**
@@ -571,7 +567,6 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 	}
 
 	return false;
-
 }
 
 /**
@@ -635,7 +630,6 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 		return false;
 
 	}
-
 }
 
 /**
@@ -660,5 +654,4 @@ function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 	}
 
 	return false;
-
 }

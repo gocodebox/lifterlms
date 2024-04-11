@@ -58,4 +58,3 @@ if ( empty( $course_id ) ) {
 
 	}
 }
-

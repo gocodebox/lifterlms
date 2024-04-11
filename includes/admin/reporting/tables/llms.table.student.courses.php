@@ -126,7 +126,6 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $course_id );
-
 	}
 
 	/**
@@ -189,7 +188,6 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $courses['results'];
-
 	}
 
 	/**
@@ -260,5 +258,4 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student is not enrolled in any courses.', 'lifterlms' );
 	}
-
 }

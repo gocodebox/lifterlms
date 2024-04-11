@@ -29,8 +29,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Achievements {
 
-	use LLMS_Trait_Singleton,
-		LLMS_Trait_Award_Default_Images;
+	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Award_Default_Images;
 
 	/**
 	 * List of available achievement types.
@@ -154,7 +154,6 @@ class LLMS_Achievements {
 		}
 
 		return $achievements;
-
 	}
 
 	/**
@@ -174,5 +173,4 @@ class LLMS_Achievements {
 		_deprecated_function( 'LLMS_Achievements::trigger_engagement()', '6.0.0', 'LLMS_Engagement_Handler::handle_achievements()' );
 		LLMS_Engagement_Handler::handle_achievement( array( $person_id, $achievement_id, $related_post_id, null ) );
 	}
-
 }

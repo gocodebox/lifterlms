@@ -32,7 +32,6 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 		);
 
 		parent::__construct( 'llms_bbp_widget_course_forums_list', esc_html__( 'LifterLMS Course Forums List', 'lifterlms' ), $options );
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 			echo do_shortcode( '[lifterlms_bbp_course_forums]' );
 
 		echo $args['after_widget'];
-
 	}
 
 	/**
@@ -91,5 +89,4 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 		</p>
 		<?php
 	}
-
 }

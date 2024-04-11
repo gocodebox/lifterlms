@@ -42,9 +42,7 @@ class LLMS_Shortcode_Course_Meta_Info extends LLMS_Shortcode_Course_Element {
 		lifterlms_template_single_course_categories();
 		lifterlms_template_single_course_tags();
 		echo '</div><!-- .llms-meta-info -->';
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Meta_Info::instance();

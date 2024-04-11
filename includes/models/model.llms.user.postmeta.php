@@ -96,7 +96,6 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 		if ( $this->id && $hydrate ) {
 			$this->hydrate();
 		}
-
 	}
 
 	/**
@@ -159,7 +158,6 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 		}// End switch().
 
 		return $string;
-
 	}
 
 	/**
@@ -215,7 +213,6 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 		}
 
 		return $url;
-
 	}
 
 	/**
@@ -228,5 +225,4 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	public function get_student() {
 		return llms_get_student( $this->get( 'user_id' ) );
 	}
-
 }

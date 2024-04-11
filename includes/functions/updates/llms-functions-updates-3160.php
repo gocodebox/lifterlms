@@ -34,7 +34,6 @@ function llms_update_3160_update_quiz_settings() {
 			$quiz->set( 'limit_attempts', 'yes' );
 		}
 	}
-
 }
 
 /**
@@ -56,7 +55,6 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 			'meta_key' => '_llms_assigned_quiz',
 		)
 	); // db call ok; no-cache ok.
-
 }
 
 /**
@@ -183,7 +181,6 @@ function llms_update_3160_attempt_migration() {
 
 	// Needs to run again.
 	return true;
-
 }
 
 /**
@@ -298,7 +295,6 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 	// Need to run again.
 	return true;
-
 }
 
 /**
@@ -411,7 +407,6 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 
 	// Run it again.
 	return true;
-
 }
 
 /**
@@ -539,7 +534,6 @@ function llms_update_3160_update_question_data() {
 
 	// Run it again.
 	return true;
-
 }
 
 /**
@@ -595,7 +589,6 @@ function llms_update_3160_update_attempt_question_data() {
 	}
 
 	return true;
-
 }
 
 /**
@@ -625,7 +618,6 @@ function llms_update_3160_update_quiz_to_lesson_rels() {
 			}
 		}
 	}
-
 }
 
 /**
@@ -656,7 +648,6 @@ function llms_update_3160_builder_notice() {
 			'remindable'  => false,
 		)
 	);
-
 }
 
 /**
@@ -673,5 +664,4 @@ function llms_update_3160_update_db_version() {
 	}
 
 	LLMS_Install::update_db_version( '3.16.0' );
-
 }

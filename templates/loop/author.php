@@ -15,4 +15,3 @@ echo llms_get_author(
 		'avatar_size' => 28,
 	)
 );
-

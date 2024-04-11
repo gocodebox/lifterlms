@@ -48,7 +48,6 @@ class LLMS_Prevent_Concurrent_Logins {
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'init', array( $this, 'maybe_prevent_concurrent_logins' ) );
 		}
-
 	}
 
 	/**
@@ -67,7 +66,6 @@ class LLMS_Prevent_Concurrent_Logins {
 		}
 
 		$this->user_sessions = wp_get_all_sessions();
-
 	}
 
 	/**
@@ -104,7 +102,6 @@ class LLMS_Prevent_Concurrent_Logins {
 		$this->destroy_all_sessions_but_newest();
 
 		return true;
-
 	}
 
 	/**
@@ -125,7 +122,6 @@ class LLMS_Prevent_Concurrent_Logins {
 			wp_destroy_current_session();
 
 		return (int) $is_current_session_newest_session;
-
 	}
 
 	/**
@@ -139,7 +135,6 @@ class LLMS_Prevent_Concurrent_Logins {
 
 		$sessions = WP_Session_Tokens::get_instance( $this->user_id );
 		return $sessions->get( wp_get_session_token() )['login'];
-
 	}
 
 	/**
@@ -154,9 +149,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	private function current_user_newest_session_login_time() {
 
 		return max( array_column( $this->user_sessions, 'login' ) );
-
 	}
-
 }
 
 return LLMS_Prevent_Concurrent_Logins::instance();

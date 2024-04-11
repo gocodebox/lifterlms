@@ -30,7 +30,6 @@ function get_lifterlms_currency() {
 	 * @param string $currency Currency code.
 	 */
 	return apply_filters( 'lifterlms_currency', get_option( 'lifterlms_currency', 'USD' ) );
-
 }
 
 /**
@@ -85,7 +84,6 @@ function get_lifterlms_currencies() {
 	 * @param array $currencies A list of currency codes to currency names. See "languages/currencies.php" for details.
 	 */
 	return apply_filters( 'lifterlms_currencies', $currencies );
-
 }
 
 /**
@@ -213,7 +211,6 @@ function llms_get_currency_symbols() {
 	 * @param array $symbols List of currency codes to their symbol. See "languages/currency-symbols.php" for details.
 	 */
 	return apply_filters( 'lifterlms_currency_symbols', $symbols );
-
 }
 
 /**

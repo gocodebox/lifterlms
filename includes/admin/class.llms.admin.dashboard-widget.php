@@ -224,6 +224,5 @@ class LLMS_Admin_Dashboard_Widget {
 			)
 		);
 	}
-
 }
 return new LLMS_Admin_Dashboard_Widget();

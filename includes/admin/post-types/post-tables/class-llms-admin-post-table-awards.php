@@ -58,7 +58,6 @@ class LLMS_Admin_Post_Table_Awards {
 
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Admin_Post_Table_Awards {
 		$cols = llms_assoc_array_insert( $cols, 'user', 'template', __( 'Template', 'lifterlms' ) );
 
 		return $cols;
-
 	}
 
 	/**
@@ -98,7 +96,6 @@ class LLMS_Admin_Post_Table_Awards {
 		$selected = (int) llms_filter_input( INPUT_GET, self::TEMPLATE_FILTER_QUERY_VAR, FILTER_SANITIZE_NUMBER_INT );
 
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( self::TEMPLATE_FILTER_QUERY_VAR, $template_post_type, $selected );
-
 	}
 
 	/**
@@ -139,7 +136,6 @@ class LLMS_Admin_Post_Table_Awards {
 			return __( 'Awarded', 'lifterlms' );
 		}
 		return $text;
-
 	}
 
 	/**
@@ -195,7 +191,6 @@ class LLMS_Admin_Post_Table_Awards {
 		} elseif ( 'user' === $column ) {
 			$this->manage_cols_user( $post_id );
 		}
-
 	}
 
 	/**
@@ -300,7 +295,6 @@ class LLMS_Admin_Post_Table_Awards {
 		$query->set( 'post_parent', $template_id );
 
 		return $query;
-
 	}
 
 	/**
@@ -328,9 +322,7 @@ class LLMS_Admin_Post_Table_Awards {
 		}
 
 		return $actions;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Awards();

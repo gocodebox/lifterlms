@@ -36,9 +36,7 @@ class LLMS_Shortcode_Course_Reviews extends LLMS_Shortcode_Course_Element {
 	protected function template_function() {
 
 		lifterlms_template_single_reviews();
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Reviews::instance();

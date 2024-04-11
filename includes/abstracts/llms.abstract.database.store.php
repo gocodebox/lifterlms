@@ -119,7 +119,6 @@ abstract class LLMS_Abstract_Database_Store {
 				$this->set( $this->date_updated, llms_current_time( 'mysql' ), false );
 			}
 		}
-
 	}
 
 	/**
@@ -149,7 +148,6 @@ abstract class LLMS_Abstract_Database_Store {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -174,7 +172,6 @@ abstract class LLMS_Abstract_Database_Store {
 			return $res;
 		}
 		return $key_exists ? $this->$key : null;
-
 	}
 
 	/**
@@ -216,7 +213,6 @@ abstract class LLMS_Abstract_Database_Store {
 		}
 
 		return $this;
-
 	}
 
 	/**
@@ -235,7 +231,6 @@ abstract class LLMS_Abstract_Database_Store {
 		}
 
 		return $this;
-
 	}
 
 	/**
@@ -276,7 +271,6 @@ abstract class LLMS_Abstract_Database_Store {
 			return $this->id;
 		}
 		return false;
-
 	}
 
 	/**
@@ -318,7 +312,6 @@ abstract class LLMS_Abstract_Database_Store {
 			return true;
 		}
 		return false;
-
 	}
 
 	/**
@@ -340,7 +333,6 @@ abstract class LLMS_Abstract_Database_Store {
 			ARRAY_A
 		);
 		return ! $res ? false : $res;
-
 	}
 
 	/**
@@ -377,7 +369,6 @@ abstract class LLMS_Abstract_Database_Store {
 			return true;
 		}
 		return false;
-
 	}
 
 	/**
@@ -397,7 +388,6 @@ abstract class LLMS_Abstract_Database_Store {
 		}
 
 		return $this;
-
 	}
 
 	/**
@@ -421,7 +411,6 @@ abstract class LLMS_Abstract_Database_Store {
 		} else {
 			return $this->update( $this->data );
 		}
-
 	}
 
 	/**
@@ -438,7 +427,6 @@ abstract class LLMS_Abstract_Database_Store {
 			return $this->columns[ $key ];
 		}
 		return '%s';
-
 	}
 
 	/**
@@ -475,7 +463,6 @@ abstract class LLMS_Abstract_Database_Store {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->table_prefix . $this->table;
-
 	}
 
 	/**
@@ -491,7 +478,5 @@ abstract class LLMS_Abstract_Database_Store {
 
 		$this->hydrate();
 		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->data );
-
 	}
-
 }

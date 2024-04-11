@@ -59,7 +59,6 @@ class LLMS_Post_Instructors {
 			$this->post = $post;
 			$this->id   = $post->get( 'id' );
 		}
-
 	}
 
 	/**
@@ -107,7 +106,6 @@ class LLMS_Post_Instructors {
 		}
 
 		return $instructors;
-
 	}
 
 	/**
@@ -143,7 +141,6 @@ class LLMS_Post_Instructors {
 		}
 
 		return array_values( $instructors );
-
 	}
 
 	/**
@@ -165,7 +162,5 @@ class LLMS_Post_Instructors {
 		$this->post->set( 'instructors', $instructors );
 
 		return $instructors;
-
 	}
-
 }

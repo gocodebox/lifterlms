@@ -38,7 +38,6 @@ class LLMS_Admin_Post_Table_Instructors {
 		}
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
-
 	}
 
 	/**
@@ -58,7 +57,6 @@ class LLMS_Admin_Post_Table_Instructors {
 		);
 
 		return array_slice( $columns, 0, $offset + 1 ) + $add + array_slice( $columns, $offset );
-
 	}
 
 	/**
@@ -208,7 +206,6 @@ class LLMS_Admin_Post_Table_Instructors {
 				break;
 
 		}
-
 	}
 
 	/**
@@ -263,9 +260,7 @@ class LLMS_Admin_Post_Table_Instructors {
 			$query->set( 'author', '' );
 
 		}
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Instructors();

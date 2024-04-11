@@ -31,7 +31,6 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 				'description' => __( 'Displays All Course lessons on Course or Lesson page', 'lifterlms' ),
 			)
 		);
-
 	}
 
 	/**
@@ -100,5 +99,4 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 
 		return $instance;
 	}
-
 }

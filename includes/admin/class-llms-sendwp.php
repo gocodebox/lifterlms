@@ -66,7 +66,6 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 			__( '%s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
 			'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">' . $this->get_title() . '</a>'
 		);
-
 	}
 
 	/**
@@ -140,7 +139,6 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 		}
 
 		return '<button class="llms-button-outline" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
-
 	}
 
 	/**
@@ -185,9 +183,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 			} );
 		</script>
 		<?php
-
 	}
-
 }
 
 return new LLMS_SendWP();

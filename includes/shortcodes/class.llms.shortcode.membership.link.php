@@ -67,7 +67,6 @@ class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 	protected function get_default_content( $atts = array() ) {
 		return apply_filters( 'lifterlms_membership_link_text', get_the_title( $this->get_attribute( 'id' ) ), $this->get_attribute( 'id' ) );
 	}
-
 }
 
 return LLMS_Shortcode_Membership_Link::instance();

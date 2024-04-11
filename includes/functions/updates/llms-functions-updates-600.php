@@ -101,7 +101,6 @@ function migrate_award_templates() {
 
 	// If there was 50 results assume there's another page and run again, otherwise we're done.
 	return ( count( $query->posts ) === $per_page );
-
 }
 
 /**
@@ -145,7 +144,6 @@ function show_notice() {
 		)
 	);
 	return false;
-
 }
 
 /**
@@ -232,7 +230,6 @@ function _migrate_awards( $type ) {
 
 	// If there was 50 results assume there's another page and run again, otherwise we're done.
 	return ( count( $query->posts ) === $per_page );
-
 }
 
 /**
@@ -305,7 +302,6 @@ function _migrate_achievement_content( $post_id ) {
 	}
 
 	delete_post_meta( $post_id, $meta_key );
-
 }
 
 /**

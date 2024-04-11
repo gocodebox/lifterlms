@@ -46,7 +46,6 @@ class LLMS_Admin_Notices {
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
 		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
 		add_action( 'shutdown', array( __CLASS__, 'save_notices' ) );
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Admin_Notices {
 		} else {
 			add_action( 'admin_notices', array( __CLASS__, 'output_notices' ) );
 		}
-
 	}
 
 	/**
@@ -121,7 +119,6 @@ class LLMS_Admin_Notices {
 
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
-
 	}
 
 	/**
@@ -180,7 +177,7 @@ class LLMS_Admin_Notices {
 
 		// Increment the notice id so we can flash multiple notices on screen in one load if necessary.
 		while ( self::has_notice( $id . $i ) ) {
-			$i++;
+			++$i;
 		}
 
 		$id = $id . $i;
@@ -194,7 +191,6 @@ class LLMS_Admin_Notices {
 				'type'        => $type,
 			)
 		);
-
 	}
 
 	/**
@@ -286,11 +282,10 @@ class LLMS_Admin_Notices {
 		// Remove empty and non-string values.
 		return array_filter(
 			$notices,
-			function( $notice ) {
+			function ( $notice ) {
 				return ( ! empty( $notice ) && is_string( $notice ) );
 			}
 		);
-
 	}
 
 	/**
@@ -347,7 +342,6 @@ class LLMS_Admin_Notices {
 				self::delete_notice( $notice_id, 'delete' );
 			}
 		}
-
 	}
 
 	/**
@@ -366,7 +360,6 @@ class LLMS_Admin_Notices {
 			self::output_notice( $notice_id );
 			self::$printed_notices[] = $notice_id;
 		}
-
 	}
 
 	/**
@@ -379,7 +372,6 @@ class LLMS_Admin_Notices {
 	public static function save_notices() {
 		update_option( 'llms_admin_notices', self::get_notices() );
 	}
-
 }
 
 LLMS_Admin_Notices::init();

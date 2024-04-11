@@ -137,7 +137,6 @@ class LLMS_Hasher {
 		}
 		// 32 bit systems?
 		return fmod( $a, $b );
-
 	}
 
 	/**
@@ -183,7 +182,6 @@ class LLMS_Hasher {
 		$dec    = self::mod( ( $num * $prime ), $ceil );
 		$hash   = self::base62( $dec );
 		return str_pad( $hash, $len, '0', STR_PAD_LEFT );
-
 	}
 
 	/**
@@ -220,7 +218,5 @@ class LLMS_Hasher {
 		$num       = self::unbase62( $hash );
 		$dec       = self::mod( ( $num * $mmi ), $ceil );
 		return $dec;
-
 	}
-
 }

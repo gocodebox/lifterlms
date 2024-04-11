@@ -50,7 +50,6 @@ class LLMS_Question_Choice {
 				$this->hydrate( $data_or_id );
 			}
 		}
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Question_Choice {
 
 		$this->id = uniqid();
 		return $this->update( $data )->save();
-
 	}
 
 	/**
@@ -106,7 +104,6 @@ class LLMS_Question_Choice {
 		}
 
 		return $default;
-
 	}
 
 	/**
@@ -212,7 +209,6 @@ class LLMS_Question_Choice {
 		$update           = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
 
 		return ( $update );
-
 	}
 
 	/**
@@ -267,7 +263,6 @@ class LLMS_Question_Choice {
 
 		$this->data[ $key ] = $val;
 		return $this;
-
 	}
 
 	/**
@@ -287,7 +282,6 @@ class LLMS_Question_Choice {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -304,7 +298,5 @@ class LLMS_Question_Choice {
 			$this->set( $key, $val );
 		}
 		return $this;
-
 	}
-
 }

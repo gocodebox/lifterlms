@@ -34,9 +34,7 @@ class LLMS_Admin_Post_Table_Achievements {
 
 		$this->engagement_type = 'achievement';
 		$this->award_template_row_actions(); // defined in LLMS_Trait_Award_Templates_Post_List_Table.
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Achievements();

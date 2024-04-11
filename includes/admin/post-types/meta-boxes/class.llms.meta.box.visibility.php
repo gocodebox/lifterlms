@@ -30,7 +30,6 @@ class LLMS_Meta_Box_Visibility {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'output' ) );
 		add_action( 'save_post_course', array( $this, 'save' ), 10, 1 );
 		add_action( 'save_post_llms_membership', array( $this, 'save' ), 10, 1 );
-
 	}
 
 	/**
@@ -79,7 +78,6 @@ class LLMS_Meta_Box_Visibility {
 			</div>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -105,9 +103,7 @@ class LLMS_Meta_Box_Visibility {
 
 		$product = new LLMS_Product( $post_id );
 		$product->set_catalog_visibility( $visibility );
-
 	}
-
 }
 
 return new LLMS_Meta_Box_Visibility();

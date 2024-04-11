@@ -112,7 +112,6 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		}
 
 		return $post_type_args;
-
 	}
 
 	/**
@@ -145,7 +144,6 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		$cert = new LLMS_User_Certificate( $post_id );
 		$uid  = ( 'llms_certificate' === $post_type ) ? get_post_field( 'post_author', $post_id ) : $cert->get_user_id();
 		wp_set_current_user( $uid );
-
 	}
 
 	/**
@@ -178,7 +176,6 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) ) {
 			$this->change_sharing_settings( $cert_id, (bool) $_POST['llms_enable_cert_sharing'] );
 		}
-
 	}
 
 	/**
@@ -199,7 +196,6 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		}
 
 		return $cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
-
 	}
 
 	/**
@@ -232,7 +228,6 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		wp_delete_file( $filepath );
 		exit;
 	}
-
 }
 
 return new LLMS_Controller_Certificates();

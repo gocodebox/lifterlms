@@ -42,7 +42,6 @@ class LLMS_Twenty_Twenty_Two {
 		// Use theme colors for various LifterLMS elements.
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'add_inline_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'add_inline_editor_styles' ) );
-
 	}
 
 	/**
@@ -163,7 +162,6 @@ class LLMS_Twenty_Twenty_Two {
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
 
 		return implode( "\r", $styles );
-
 	}
 
 	/**
@@ -190,7 +188,6 @@ class LLMS_Twenty_Twenty_Two {
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_archive_description_wrapper' ), -1 );
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_archive_description_wrapper_end' ), 99999998 );
 		}
-
 	}
 
 	/**
@@ -248,7 +245,6 @@ class LLMS_Twenty_Twenty_Two {
 	public static function page_header_wrap_end() {
 		echo '</header><!-- .page-header -->';
 	}
-
 }
 
 return LLMS_Twenty_Twenty_Two::init();

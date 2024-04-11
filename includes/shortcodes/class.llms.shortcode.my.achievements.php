@@ -67,9 +67,7 @@ class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 		ob_start();
 		lifterlms_template_achievements_loop( $student, $this->get_attribute( 'count' ), $this->get_attribute( 'columns' ) );
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_My_Achievements::instance();

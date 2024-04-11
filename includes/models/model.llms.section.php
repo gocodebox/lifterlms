@@ -122,7 +122,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		 * @param LLMS_Section $section Instance of the section object.
 		 */
 		return apply_filters( 'llms_section_get_creation_args', $args, $this );
-
 	}
 
 	/**
@@ -147,7 +146,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		}
 
 		return llms_get_post( $siblings[ $index + 1 ] );
-
 	}
 
 	/**
@@ -169,7 +167,6 @@ class LLMS_Section extends LLMS_Post_Model {
 			return apply_filters( 'llms_student_get_progress', 0, $this->get( 'id' ), 'section', $user_id );
 		}
 		return $student->get_progress( $this->get( 'id' ), 'section', $use_cache );
-
 	}
 
 	/**
@@ -193,7 +190,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -232,7 +228,6 @@ class LLMS_Section extends LLMS_Post_Model {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -268,7 +263,5 @@ class LLMS_Section extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
-
 }

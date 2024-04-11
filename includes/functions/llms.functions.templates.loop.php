@@ -74,7 +74,6 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 		 * @param int|false $page_id WP_Post ID of the archive page being displayed.
 		 */
 		return apply_filters( 'llms_archive_description', llms_content( $content ), $page_id );
-
 	}
 }
 
@@ -128,7 +127,6 @@ function lifterlms_loop( $query = null ) {
 		$wp_query = $temp;
 		wp_reset_postdata();
 	}
-
 }
 
 /**
@@ -205,7 +203,6 @@ function llms_paginate_links( $args ) {
 		esc_attr( implode( ' ', $classes ) ),
 		$links
 	);
-
 }
 
 /**
@@ -240,7 +237,6 @@ function llms_get_loop_list_classes() {
 	$classes[] = sprintf( 'cols-%d', llms_get_loop_columns() );
 
 	return ' ' . implode( ' ', apply_filters( 'llms_get_loop_list_classes', $classes ) );
-
 }
 
 

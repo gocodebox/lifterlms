@@ -34,7 +34,6 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 			'llms_coupon',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -232,7 +231,6 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 				),
 			),
 		);
-
 	}
 
 	/**
@@ -300,7 +298,5 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 				$coupon->set( $field, llms_filter_input_sanitize_string( INPUT_POST, $this->prefix . $field ) );
 			}
 		}
-
 	}
-
 }

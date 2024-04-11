@@ -39,7 +39,6 @@ class LLMS_Forms_Unsupported_Versions {
 		}
 
 		add_action( 'current_screen', array( $this, 'init' ) );
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Forms_Unsupported_Versions {
 			llms_redirect_and_exit( admin_url( 'edit.php?post_type=llms_form' ) );
 
 		}
-
 	}
 
 	/**
@@ -99,7 +97,6 @@ class LLMS_Forms_Unsupported_Versions {
 	public function print_styles() {
 		echo '<style type="text/css" id="llms-forms-unsupported-styles">#the-list { pointer-events: none; filter: blur( 1px ); }</style>';
 	}
-
 }
 
 return new LLMS_Forms_Unsupported_Versions();

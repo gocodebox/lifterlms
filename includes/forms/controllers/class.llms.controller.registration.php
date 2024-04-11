@@ -28,7 +28,6 @@ class LLMS_Controller_Registration {
 
 		add_action( 'init', array( $this, 'register' ) );
 		add_action( 'lifterlms_user_registered', array( $this, 'voucher' ), 10, 3 );
-
 	}
 
 	/**
@@ -55,7 +54,6 @@ class LLMS_Controller_Registration {
 
 			}
 		}
-
 	}
 
 	/**
@@ -101,9 +99,7 @@ class LLMS_Controller_Registration {
 			llms_redirect_and_exit( apply_filters( 'lifterlms_registration_redirect', llms_get_page_url( 'myaccount' ) ) );
 
 		}
-
 	}
-
 }
 
 return new LLMS_Controller_Registration();

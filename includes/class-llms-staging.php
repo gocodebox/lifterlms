@@ -39,7 +39,6 @@ class LLMS_Staging {
 		}
 
 		add_action( 'admin_menu', array( __CLASS__, 'menu_warning' ) );
-
 	}
 
 	/**
@@ -56,7 +55,6 @@ class LLMS_Staging {
 			self::notice();
 			LLMS_Site::update_feature( 'recurring_payments', false );
 		}
-
 	}
 
 	/**
@@ -105,7 +103,6 @@ class LLMS_Staging {
 		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 			llms_redirect_and_exit( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		}
-
 	}
 
 
@@ -131,7 +128,6 @@ class LLMS_Staging {
 				$menu[ $index ][0] .= self::get_menu_warning_bubble();
 			}
 		}
-
 	}
 
 	/**
@@ -158,9 +154,7 @@ class LLMS_Staging {
 			);
 
 		}
-
 	}
-
 }
 
 return LLMS_Staging::init();

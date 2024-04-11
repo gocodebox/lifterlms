@@ -62,7 +62,6 @@ abstract class LLMS_Abstract_User_Data {
 			$this->id   = $user;
 			$this->user = get_user_by( 'ID', $user );
 		}
-
 	}
 
 	/**
@@ -113,7 +112,6 @@ abstract class LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_get_student_meta_' . $key, $this->user->get( $key ), $this );
-
 	}
 
 	/**
@@ -242,7 +240,6 @@ abstract class LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -259,5 +256,4 @@ abstract class LLMS_Abstract_User_Data {
 		$key = $prefix ? $this->meta_prefix . $key : $key;
 		update_user_meta( $this->get_id(), $key, $value );
 	}
-
 }

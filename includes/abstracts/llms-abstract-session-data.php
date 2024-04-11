@@ -65,7 +65,6 @@ abstract class LLMS_Abstract_Session_Data {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 		$hasher = new PasswordHash( 8, false );
 		return md5( $hasher->get_random_bytes( 32 ) );
-
 	}
 
 	/**
@@ -99,7 +98,6 @@ abstract class LLMS_Abstract_Session_Data {
 
 		$key = sanitize_key( $key );
 		return isset( $this->data[ $key ] ) ? maybe_unserialize( $this->data[ $key ] ) : $default;
-
 	}
 
 	/**
@@ -125,7 +123,6 @@ abstract class LLMS_Abstract_Session_Data {
 		}
 
 		return $this->get( $key );
-
 	}
 
 	/**
@@ -183,5 +180,4 @@ abstract class LLMS_Abstract_Session_Data {
 			$this->is_clean = false;
 		}
 	}
-
 }

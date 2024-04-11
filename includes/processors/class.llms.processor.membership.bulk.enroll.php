@@ -79,7 +79,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 					)
 				);
 
-				$args['page']++;
+				++$args['page'];
 
 			}
 
@@ -88,7 +88,6 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 			$this->log( sprintf( 'membership bulk enrollment started for membership %1$d into course %2$d', $membership_id, $course_id ) );
 
 		}
-
 	}
 
 	/**
@@ -111,7 +110,6 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 				'priority'  => 10,
 			),
 		);
-
 	}
 
 	/**
@@ -136,7 +134,6 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 			$this->log( sprintf( 'membership bulk enrollment scheduled for membership %1$d into course %2$d', $membership_id, $course_id ) );
 
 		}
-
 	}
 
 	/**
@@ -190,9 +187,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Processor_Membership_Bulk_Enroll();

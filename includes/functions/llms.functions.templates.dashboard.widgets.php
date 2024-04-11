@@ -60,7 +60,6 @@ function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
 	}
 
 	llms_sd_dashboard_widget( $title, $html, $empty_text );
-
 }
 
 /**
@@ -77,5 +76,4 @@ function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
 function llms_sd_dashboard_donut_widget( $title, $perc, $text = '', $size = 'medium' ) {
 
 	llms_sd_dashboard_widget( $title, llms_get_donut( $perc, $text, $size ) );
-
 }

@@ -32,9 +32,7 @@ class LLMS_OEmbed {
 		 * @since 1.4.6
 		 */
 		wp_oembed_add_provider( '/https?\:\/\/(.+)?(wistia\.com|wi\.st)\/.*/', 'https://fast.wistia.com/oembed', true );
-
 	}
-
 }
 
 return new LLMS_OEmbed();

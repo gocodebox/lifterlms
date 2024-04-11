@@ -36,7 +36,6 @@ function buddypress_profile_endpoints_bc() {
 	);
 
 	return false;
-
 }
 
 /**

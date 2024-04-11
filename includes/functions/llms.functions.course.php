@@ -28,7 +28,6 @@ function get_course( $the_course = false, $args = array() ) {
 	}
 
 	return new LLMS_Course( $the_course, $args );
-
 }
 
 /**
@@ -49,5 +48,4 @@ function get_lesson( $the_lesson = false, $args = array() ) {
 	}
 
 	return new LLMS_Lesson( $the_lesson, $args );
-
 }

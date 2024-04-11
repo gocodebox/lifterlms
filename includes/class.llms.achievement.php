@@ -269,8 +269,5 @@ class LLMS_Achievement {
 
 		// This hook is documented in includes/class-llms-engagement-handler.php.
 		do_action( 'llms_user_earned_achievement', $this->userid, $new_user_achievement_id, $this->lesson_id );
-
 	}
-
 }
-

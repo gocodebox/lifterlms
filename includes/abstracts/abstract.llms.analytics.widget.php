@@ -116,21 +116,18 @@ abstract class LLMS_Analytics_Widget {
 
 		$dates = llms_filter_input_sanitize_string( INPUT_POST, 'dates', array( FILTER_REQUIRE_ARRAY ) );
 		return $dates ? $dates : '';
-
 	}
 
 	protected function get_posted_courses() {
 
 		$courses = llms_filter_input( INPUT_POST, 'courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $courses ? $courses : array();
-
 	}
 
 	protected function get_posted_memberships() {
 
 		$memberships = llms_filter_input( INPUT_POST, 'memberships', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $memberships ? $memberships : array();
-
 	}
 
 	protected function get_posted_posts() {
@@ -140,7 +137,6 @@ abstract class LLMS_Analytics_Widget {
 	protected function get_posted_students() {
 		$students = llms_filter_input( INPUT_POST, 'students', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $students ? $students : array();
-
 	}
 
 	protected function get_prepared_query() {
@@ -176,13 +172,11 @@ abstract class LLMS_Analytics_Widget {
 		}
 
 		return $date;
-
 	}
 
 	protected function is_error() {
 
 		return ( $this->success ) ? false : true;
-
 	}
 
 	protected function set_order_data_query( $args = array() ) {
@@ -291,7 +285,6 @@ abstract class LLMS_Analytics_Widget {
 							{$wheres_clause}
 						{$order_clause}
 						;";
-
 	}
 
 	/**
@@ -333,7 +326,6 @@ abstract class LLMS_Analytics_Widget {
 			$this->message = $wpdb->last_error;
 
 		}
-
 	}
 
 	/**
@@ -384,7 +376,6 @@ abstract class LLMS_Analytics_Widget {
 			$widget_name,
 			$this
 		);
-
 	}
 
 	/**
@@ -409,8 +400,5 @@ abstract class LLMS_Analytics_Widget {
 		header( 'Content-Type: application/json' );
 		echo wp_json_encode( $this );
 		wp_die();
-
 	}
-
-
 }

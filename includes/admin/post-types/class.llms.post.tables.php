@@ -34,7 +34,6 @@ class LLMS_Admin_Post_Tables {
 
 		add_filter( 'post_row_actions', array( $this, 'add_links' ), 777, 2 );
 		add_action( 'admin_init', array( $this, 'handle_link_actions' ) );
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Admin_Post_Tables {
 		}
 
 		return $actions;
-
 	}
 
 	/**
@@ -147,7 +145,6 @@ class LLMS_Admin_Post_Tables {
 				exit;
 
 		}
-
 	}
 
 	/**
@@ -193,6 +190,5 @@ class LLMS_Admin_Post_Tables {
 		<?php
 		return ob_get_clean();
 	}
-
 }
 return new LLMS_Admin_Post_Tables();

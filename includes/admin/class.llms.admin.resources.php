@@ -32,7 +32,6 @@ class LLMS_Admin_Resources {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -82,7 +81,6 @@ class LLMS_Admin_Resources {
 		 * @since 7.4.1
 		 */
 		do_action( 'llms_resources_meta_boxes_added' );
-
 	}
 
 	/**
@@ -100,7 +98,6 @@ class LLMS_Admin_Resources {
 		if ( isset( $box['args']['view'] ) ) {
 			echo self::get_view( $box['args']['view'] );
 		}
-
 	}
 
 	/**
@@ -127,7 +124,5 @@ class LLMS_Admin_Resources {
 		ob_start();
 		include 'views/resources/' . $file . '.php';
 		return ob_get_clean();
-
 	}
-
 }

@@ -246,7 +246,6 @@ class LLMS_Admin_Reporting {
 				'cols'         => 'd-1of2',
 			)
 		);
-
 	}
 
 	/**

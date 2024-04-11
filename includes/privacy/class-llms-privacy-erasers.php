@@ -47,7 +47,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return self::get_return( $messages, true, ( $messages ) );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return self::get_return( $messages, true, ( $messages ) );
-
 	}
 
 	/**
@@ -148,7 +146,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return apply_filters( 'llms_privacy_erase_notification_data', $messages, $student );
-
 	}
 
 	/**
@@ -178,7 +175,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		$order->set( 'anonymized', 'yes' );
 		$order->add_note( __( 'Personal data removed during personal data erasure.', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -214,7 +210,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return apply_filters( 'llms_privacy_erase_student_data', $messages, $student );
-
 	}
 
 	/**
@@ -237,7 +232,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		$messages = self::erase_notification_data( $student );
 		return self::get_return( $messages, true, ( $messages ) );
-
 	}
 
 	/**
@@ -283,7 +277,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		$ret['done'] = isset( $orders['done'] ) ? $orders['done'] : true;
 
 		return $ret;
-
 	}
 
 	/**
@@ -328,7 +321,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -374,7 +366,6 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		$ret['done'] = $query->has_results() ? $query->is_last_page() : true;
 
 		return $ret;
-
 	}
 
 	/**
@@ -397,7 +388,5 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		$messages = self::erase_student_data( $student );
 		return self::get_return( $messages, true, ( $messages ) );
-
 	}
-
 }

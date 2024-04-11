@@ -144,7 +144,6 @@ class LLMS_Emails {
 			return $css[ $rule ];
 
 		}
-
 	}
 
 	/**
@@ -183,7 +182,6 @@ class LLMS_Emails {
 		$generic = new $emails['generic']( $args );
 		$generic->set_id( $id );
 		return $generic;
-
 	}
 
 	/**
@@ -250,7 +248,6 @@ class LLMS_Emails {
 		);
 
 		return array_values( $table_style );
-
 	}
 
 	/**
@@ -338,7 +335,5 @@ class LLMS_Emails {
 		<?php
 
 		return ob_get_clean();
-
 	}
-
 }

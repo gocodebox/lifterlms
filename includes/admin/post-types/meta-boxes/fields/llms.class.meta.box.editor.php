@@ -36,7 +36,6 @@ class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		$this->field    = $_field;
 		$this->settings = isset( $this->field['settings'] ) ? $this->field['settings'] : array();
-
 	}
 
 	/**
@@ -53,7 +52,5 @@ class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		wp_editor( $this->meta, $this->field['id'], $this->settings );
 
 		parent::close_output();
-
 	}
 }
-

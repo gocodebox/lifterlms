@@ -30,7 +30,6 @@ class LLMS_Widgets {
 	public function __construct() {
 
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
-
 	}
 
 	/**

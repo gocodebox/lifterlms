@@ -47,7 +47,6 @@ class LLMS_Post_Types {
 		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
-
 	}
 
 	/**
@@ -78,7 +77,6 @@ class LLMS_Post_Types {
 		foreach ( $post_types as $post_type ) {
 			add_post_type_support( $post_type, 'llms-membership-restrictions' );
 		}
-
 	}
 
 	/**
@@ -109,7 +107,6 @@ class LLMS_Post_Types {
 		}
 
 		add_image_size( 'llms_notification_icon', 64, 64, true );
-
 	}
 
 	/**
@@ -130,7 +127,6 @@ class LLMS_Post_Types {
 		);
 
 		return $post_types;
-
 	}
 
 	/**
@@ -207,7 +203,6 @@ class LLMS_Post_Types {
 		 * @param array[] $statuses Array of post status arrays.
 		 */
 		return apply_filters( 'lifterlms_register_order_post_statuses', $statuses );
-
 	}
 
 	/**
@@ -273,7 +268,6 @@ class LLMS_Post_Types {
 			"llms_get_{$singular}_post_type_caps",
 			$caps
 		);
-
 	}
 
 	/**
@@ -307,7 +301,6 @@ class LLMS_Post_Types {
 			'create_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
 
 		);
-
 	}
 
 	/**
@@ -347,7 +340,6 @@ class LLMS_Post_Types {
 				'assign_terms' => sprintf( 'assign_%s', $plural ),
 			)
 		);
-
 	}
 
 	/**
@@ -365,7 +357,6 @@ class LLMS_Post_Types {
 		}
 
 		return self::$templates[ $post_type ] ?? null;
-
 	}
 
 	/**
@@ -422,7 +413,6 @@ class LLMS_Post_Types {
 		}
 
 		return get_post_type_object( $name );
-
 	}
 
 	/**
@@ -1127,7 +1117,6 @@ class LLMS_Post_Types {
 				'has_archive'         => false,
 			)
 		);
-
 	}
 
 	/**
@@ -1179,7 +1168,6 @@ class LLMS_Post_Types {
 		);
 
 		self::register_post_type( $post_type, wp_parse_args( $args, $base_args ) );
-
 	}
 
 	/**
@@ -1237,7 +1225,6 @@ class LLMS_Post_Types {
 			register_post_status( $status, $values );
 
 		}
-
 	}
 
 	/**
@@ -1261,7 +1248,6 @@ class LLMS_Post_Types {
 				apply_filters( 'lifterlms_register_taxonomy_args_' . $filter_name, $data )
 			);
 		}
-
 	}
 
 	/**
@@ -1499,9 +1485,7 @@ class LLMS_Post_Types {
 				'public'            => false,
 			)
 		);
-
 	}
-
 }
 
 LLMS_Post_Types::init();

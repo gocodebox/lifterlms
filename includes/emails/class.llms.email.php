@@ -123,7 +123,6 @@ class LLMS_Email {
 		);
 
 		$this->init( $args );
-
 	}
 
 	/**
@@ -137,7 +136,6 @@ class LLMS_Email {
 	public function add_attachment( $attachment ) {
 
 		array_push( $this->attachments, $attachment );
-
 	}
 
 	/**
@@ -151,7 +149,6 @@ class LLMS_Email {
 	public function add_header( $key, $val ) {
 
 		array_push( $this->headers, sprintf( '%1$s: %2$s', $key, $val ) );
-
 	}
 
 	/**
@@ -171,7 +168,6 @@ class LLMS_Email {
 			array_push( $this->replace, $replace );
 
 		}
-
 	}
 
 	/**
@@ -220,7 +216,6 @@ class LLMS_Email {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -248,7 +243,6 @@ class LLMS_Email {
 				$this->add_recipient( $data['address'], $data['type'], $data['name'] );
 			}
 		}
-
 	}
 
 	/**
@@ -299,7 +293,6 @@ class LLMS_Email {
 
 		$content = apply_filters( 'llms_email_content_get_content', $this->get_content_html(), $this );
 		return wordwrap( $content, 70 );
-
 	}
 
 	/**
@@ -338,7 +331,6 @@ class LLMS_Email {
 		}
 
 		return $html;
-
 	}
 
 	/**
@@ -508,7 +500,5 @@ class LLMS_Email {
 		do_action( 'lifterlms_email_' . $this->id . '_after_send', $this, $return );
 
 		return $return;
-
 	}
-
 }

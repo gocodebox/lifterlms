@@ -66,7 +66,6 @@ class LLMS_Form_Post_Type {
 		 * @param string $capability The user capability. Default: "manage_lifterlms".
 		 */
 		$this->capability = apply_filters( 'llms_forms_managment_capability', $this->capability );
-
 	}
 
 	/**
@@ -85,7 +84,6 @@ class LLMS_Form_Post_Type {
 			$response->data['viewable'] = true;
 		}
 		return $response;
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ class LLMS_Form_Post_Type {
 		 * @param WP_Post      $post     The form post object.
 		 */
 		return apply_filters( 'llms_form_permalink', $url, $location, $post );
-
 	}
 
 	/**
@@ -158,7 +155,6 @@ class LLMS_Form_Post_Type {
 		}
 
 		return LLMS_View_Manager::get_url( 'visitor', $url, $args );
-
 	}
 
 	/**
@@ -171,7 +167,6 @@ class LLMS_Form_Post_Type {
 	private function get_permalink_for_registration() {
 
 		return LLMS_View_Manager::get_url( 'visitor', llms_get_page_url( 'myaccount' ) );
-
 	}
 
 	/**
@@ -212,7 +207,6 @@ class LLMS_Form_Post_Type {
 		}
 
 		return $this->get_permalink( $post );
-
 	}
 
 	/**
@@ -270,7 +264,6 @@ class LLMS_Form_Post_Type {
 		);
 
 		LLMS_Post_Types::register_post_type( $this->post_type, $args );
-
 	}
 
 	/**
@@ -319,7 +312,6 @@ class LLMS_Form_Post_Type {
 			);
 
 		}
-
 	}
 
 	/**
@@ -338,5 +330,4 @@ class LLMS_Form_Post_Type {
 	public function meta_auth_callback( $allowed, $meta_key, $object_id, $user_id, $cap, $caps ) {
 		return user_can( $user_id, $this->capability, $object_id );
 	}
-
 }

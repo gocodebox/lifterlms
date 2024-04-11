@@ -94,7 +94,6 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
 							{$txn_meta_where}
 						;";
-
 	}
 
 	protected function format_response() {
@@ -104,7 +103,5 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 			return llms_price_raw( floatval( $this->get_results() ) );
 
 		}
-
 	}
-
 }

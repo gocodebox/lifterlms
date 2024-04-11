@@ -50,7 +50,6 @@ abstract class LLMS_Abstract_Post_Data {
 
 		$this->post_id = $post_id;
 		$this->post    = llms_get_post( $this->post_id );
-
 	}
 
 	/**
@@ -102,7 +101,6 @@ abstract class LLMS_Abstract_Post_Data {
 	protected function get_date( $period, $date ) {
 
 		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
-
 	}
 
 	/**
@@ -221,7 +219,6 @@ abstract class LLMS_Abstract_Post_Data {
 				'end'   => strtotime( 'tomorrow', $prev_end ) - 1,
 			),
 		);
-
 	}
 
 	/**
@@ -253,7 +250,5 @@ abstract class LLMS_Abstract_Post_Data {
 		$query = new LLMS_Query_User_Postmeta( $query_args );
 
 		return $query->get_metas();
-
 	}
-
 }

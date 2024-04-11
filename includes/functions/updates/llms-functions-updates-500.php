@@ -39,7 +39,6 @@ function llms_update_500_legacy_options_autoload_off() {
 	); // db call ok; no-cache ok.
 
 	return false;
-
 }
 
 /**
@@ -101,5 +100,4 @@ function llms_update_500_add_admin_notice() {
 function llms_update_500_update_db_version() {
 
 	LLMS_Install::update_db_version( '5.0.0' );
-
 }

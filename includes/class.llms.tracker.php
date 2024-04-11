@@ -98,7 +98,5 @@ class LLMS_Tracker {
 			return $r;
 
 		}
-
 	}
-
 }

@@ -69,7 +69,6 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $data );
-
 	}
 
 	/**
@@ -138,5 +137,4 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	public function sort_rows( $row_a, $row_b ) {
 		return strcmp( $row_a['notification'], $row_b['notification'] );
 	}
-
 }

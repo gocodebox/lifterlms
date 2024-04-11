@@ -73,7 +73,6 @@ abstract class LLMS_Update {
 				break;
 
 		}
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ abstract class LLMS_Update {
 			add_action( $this->get_hook( $func ), array( $this, $func ), 10, 1 );
 
 		}
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ abstract class LLMS_Update {
 			$this->log( sprintf( 'Progress: %d completed, %d remaining', $completed, $remaining ) );
 
 		}
-
 	}
 
 	/**
@@ -132,7 +129,6 @@ abstract class LLMS_Update {
 		$this->log( sprintf( 'LLMS update tasks completed for version %s', $this->version ) );
 		LLMS_Install::update_db_version( $this->version );
 		delete_option( 'llms_update_' . $this->version );
-
 	}
 
 	/**
@@ -150,7 +146,6 @@ abstract class LLMS_Update {
 		}
 
 		$this->log( sprintf( 'LLMS update tasks enqueued for version %s', $this->version ) );
-
 	}
 
 	/**
@@ -168,7 +163,6 @@ abstract class LLMS_Update {
 		$progress['functions'][ $function ] = 'done';
 		update_option( 'llms_update_' . $this->version, $progress );
 		$this->log( sprintf( '%s::%s() is complete', get_class( $this ), $function ) );
-
 	}
 
 	/**
@@ -198,7 +192,6 @@ abstract class LLMS_Update {
 		);
 
 		return get_option( 'llms_update_' . $this->version, $default );
-
 	}
 
 	/**
@@ -242,7 +235,6 @@ abstract class LLMS_Update {
 		$p           = $this->get_progress();
 		$p['status'] = $status;
 		update_option( 'llms_update_' . $this->version, $p );
-
 	}
 
 	/**
@@ -258,7 +250,6 @@ abstract class LLMS_Update {
 		if ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG ) {
 			llms_log( $msg, 'updater' );
 		}
-
 	}
 
 
@@ -297,7 +288,5 @@ abstract class LLMS_Update {
 				'type'        => 'info',
 			)
 		);
-
 	}
-
 }

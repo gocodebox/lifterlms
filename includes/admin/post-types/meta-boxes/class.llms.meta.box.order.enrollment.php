@@ -37,7 +37,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'side';
 		$this->priority = 'default';
-
 	}
 
 	/**
@@ -113,7 +112,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		if ( $current_status && 'enrolled' !== $current_status ) {
 			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . __( 'Delete Enrollment', 'lifterlms' ) . '">';
 		}
-
 	}
 
 	/**
@@ -137,7 +135,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		if ( ! empty( $delete ) ) {
 			$this->save_delete_enrollment( $post_id );
 		}
-
 	}
 
 	/**
@@ -165,7 +162,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 			$order->add_note( __( 'Student enrollment records have been deleted.', 'lifterlms' ), true );
 
 		}
-
 	}
 
 	/**
@@ -208,7 +204,5 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		}
 
 		$order->add_note( $note, true );
-
 	}
-
 }

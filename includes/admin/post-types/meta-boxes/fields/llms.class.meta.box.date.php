@@ -38,7 +38,6 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		);
 
 		$this->field = $_field;
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			}
 		}
 		return $data_attrs;
-
 	}
 
 	/**

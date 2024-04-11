@@ -35,7 +35,6 @@ class LLMS_Admin_Review {
 		add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
 
 		add_action( 'wp_ajax_llms_review_dismiss', array( $this, 'dismiss' ) );
-
 	}
 
 	/**
@@ -110,7 +109,6 @@ class LLMS_Admin_Review {
 		}
 
 		return $text;
-
 	}
 
 	/**
@@ -141,7 +139,6 @@ class LLMS_Admin_Review {
 		);
 
 		wp_die();
-
 	}
 
 	/**
@@ -196,7 +193,6 @@ class LLMS_Admin_Review {
 		$enrollments = self::round_down( $enrollments );
 
 		include 'views/notices/review-request.php';
-
 	}
 
 	/**
@@ -225,9 +221,7 @@ class LLMS_Admin_Review {
 		}
 
 		return $number;
-
 	}
-
 }
 
 return new LLMS_Admin_Review();

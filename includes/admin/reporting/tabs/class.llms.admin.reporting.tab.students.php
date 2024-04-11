@@ -28,7 +28,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 		add_action( 'llms_reporting_content_students', array( $this, 'output' ) );
 		add_action( 'llms_reporting_student_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
-
 	}
 
 	/**
@@ -86,7 +85,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
 
 		}
-
 	}
 
 	/**
@@ -137,8 +135,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 			llms_get_template( 'admin/reporting/tabs/students/students.php' );
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Reporting_Tab_Students();

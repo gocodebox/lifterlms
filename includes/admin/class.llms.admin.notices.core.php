@@ -33,7 +33,6 @@ class LLMS_Admin_Notices_Core {
 		add_action( 'current_screen', array( __CLASS__, 'maybe_hide_notices' ), 999 );
 
 		add_action( 'current_screen', array( __CLASS__, 'add_init_actions' ) );
-
 	}
 
 	/**
@@ -59,7 +58,6 @@ class LLMS_Admin_Notices_Core {
 		}
 
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
-
 	}
 
 	/**
@@ -121,7 +119,6 @@ class LLMS_Admin_Notices_Core {
 			remove_action( 'admin_print_styles', array( 'LLMS_Admin_Notices', 'output_notices' ) ); // Notices output by LifterLMS.
 
 		}
-
 	}
 
 	/**
@@ -169,7 +166,6 @@ class LLMS_Admin_Notices_Core {
 			LLMS_Admin_Notices::delete_notice( $id );
 
 		}
-
 	}
 
 	/**
@@ -192,7 +188,6 @@ class LLMS_Admin_Notices_Core {
 			delete_transient( 'llms_admin_notice_sidebars_delay' );
 		}
 	}
-
 }
 
 LLMS_Admin_Notices_Core::init();

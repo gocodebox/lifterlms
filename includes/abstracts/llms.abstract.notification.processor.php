@@ -40,7 +40,6 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 		}
 
 		$this->enable_logging = ( defined( 'LLMS_NOTIFICATIONS_LOGGING' ) && LLMS_NOTIFICATIONS_LOGGING );
-
 	}
 
 	/**
@@ -54,7 +53,6 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 		$this->log( sprintf( 'Processing for %s finished', $this->action ) );
 		parent::complete();
-
 	}
 
 	/**
@@ -88,7 +86,6 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 		}
 
 		return $dispatched;
-
 	}
 
 	/**
@@ -141,7 +138,5 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 		if ( $this->enable_logging ) {
 			llms_log( $data, 'notifications' );
 		}
-
 	}
-
 }

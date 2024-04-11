@@ -76,7 +76,6 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		$this->course = $this->quiz->get_course();
 
 		$this->send();
-
 	}
 
 	/**
@@ -164,7 +163,6 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -201,7 +199,6 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		$this->quiz    = llms_get_post( $attempt->get( 'quiz_id' ) );
 		$this->course  = $this->quiz->get_course();
 		return parent::send_test( $type );
-
 	}
 
 	/**
@@ -230,9 +227,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Quiz_Passed::instance();

@@ -53,7 +53,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		);
 
 		return $desc;
-
 	}
 
 	/**
@@ -96,7 +95,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		}
 
 		return $orders;
-
 	}
 
 	/**
@@ -132,7 +130,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		wp_cache_delete( sprintf( '%s-total-results', $this->id ), 'llms_tool_data' );
 
 		return $orders;
-
 	}
 
 	/**
@@ -170,7 +167,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		wp_cache_set( sprintf( '%s-total-results', $this->id ), $wpdb->get_var( 'SELECT FOUND_ROWS()' ), 'llms_tool_data' );
 
 		return $orders;
-
 	}
 
 	/**
@@ -185,7 +181,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	protected function should_load() {
 		return count( $this->get_orders() ) > 0;
 	}
-
 }
 
 return new LLMS_Admin_Tool_Recurring_Payment_Rescheduler();

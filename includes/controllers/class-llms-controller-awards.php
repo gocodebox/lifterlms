@@ -48,7 +48,6 @@ class LLMS_Controller_Awards {
 		}
 
 		add_action( 'rest_after_insert_llms_my_certificate', array( __CLASS__, 'on_rest_insert' ), 20, 3 );
-
 	}
 
 	/**
@@ -81,7 +80,6 @@ class LLMS_Controller_Awards {
 
 		$class_name = sprintf( 'LLMS_User_%s', ucwords( self::strip_prefix( $post_type ) ) );
 		return new $class_name( $post_id );
-
 	}
 
 	/**
@@ -105,7 +103,6 @@ class LLMS_Controller_Awards {
 		$obj->set( 'awarded', $ts );
 
 		return $ts;
-
 	}
 
 	/**
@@ -146,7 +143,6 @@ class LLMS_Controller_Awards {
 		remove_filter( 'llms_certificate_merge_data', array( __CLASS__, 'on_rest_insert_merge_data' ) );
 
 		return 2;
-
 	}
 
 	/**
@@ -225,9 +221,7 @@ class LLMS_Controller_Awards {
 		add_action( "save_post_{$post_type}", array( __CLASS__, 'on_save' ), 20 );
 
 		return true;
-
 	}
-
 }
 
 return LLMS_Controller_Awards::init();

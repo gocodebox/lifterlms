@@ -192,7 +192,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
 		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
-
 	}
 
 	/**
@@ -288,7 +287,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$html = trim( preg_replace( '/\s+/S', ' ', ob_get_clean() ) );
 
 		return apply_filters( $this->get_filter( 'get_basic_html' ), $html, $this );
-
 	}
 
 	/**
@@ -322,7 +320,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return date_i18n( $format, strtotime( $this->notification->get( $date ) ) );
-
 	}
 
 	/**
@@ -348,7 +345,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return $this->get_date( 'created' );
-
 	}
 
 	/**
@@ -491,7 +487,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return apply_filters( $this->get_filter( 'get_html' ), $html, $this );
-
 	}
 
 	/**
@@ -566,7 +561,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->merge_codes, $this );
-
 	}
 
 	/**
@@ -591,7 +585,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return $codes;
-
 	}
 
 	/**
@@ -631,7 +624,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
-
 	}
 
 	/**
@@ -653,7 +645,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 				ARRAY_FILTER_USE_KEY
 			)
 		);
-
 	}
 
 	/**
@@ -773,7 +764,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return trim( $new_string );
-
 	}
 
 	/**
@@ -797,7 +787,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -824,5 +813,4 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			),
 		);
 	}
-
 }

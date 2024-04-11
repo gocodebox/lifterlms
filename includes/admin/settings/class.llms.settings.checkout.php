@@ -44,7 +44,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		add_action( 'lifterlms_sections_' . $this->id, array( $this, 'output_sections_nav' ) );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -98,7 +97,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_checkout_settings_sections', $sections );
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_gateway_settings_' . $curr_section, $this->get_settings_gateway( $curr_section ) );
-
 	}
 
 	/**
@@ -221,7 +217,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'default' => 'yes',
 				'desc'    => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
-							  '<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_recurring_payment_retry',
 				'title'   => __( 'Retry Failed Payments', 'lifterlms' ),
 				'type'    => 'checkbox',
@@ -342,7 +338,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			),
 
 		);
-
 	}
 
 	/**
@@ -396,7 +391,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		);
 
 		return $settings;
-
 	}
 
 	/**
@@ -444,9 +438,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		}
 
 		return $a_order < $b_order ? -1 : 1;
-
 	}
-
 }
 
 return new LLMS_Settings_Checkout();

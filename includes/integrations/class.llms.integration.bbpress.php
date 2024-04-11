@@ -78,7 +78,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			add_action( 'llms_content_restricted_by_bbp_course_forum', array( $this, 'handle_course_forum_restriction' ), 10, 1 );
 
 		}
-
 	}
 
 	/**
@@ -176,7 +175,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -205,7 +203,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		llms_add_notice( $msg, 'error' );
 		llms_redirect_and_exit( get_permalink( $restriction['restriction_id'] ) );
-
 	}
 
 	/**
@@ -237,7 +234,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		 * @param LLMS_Course $course LifterLMS course object.
 		 */
 		return apply_filters( 'llms_bbp_get_course_forum_ids', $ids, $course );
-
 	}
 
 	/**
@@ -268,7 +264,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		$query = array_map( 'absint', $query );
 
 		return $query;
-
 	}
 
 	/**
@@ -347,7 +342,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
-
 	}
 
 	/**
@@ -389,7 +383,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
-
 	}
 
 	/**
@@ -435,7 +428,5 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		update_post_meta( $post_id, '_llms_bbp_forum_ids', $ids );
 
 		return $ids;
-
 	}
-
 }

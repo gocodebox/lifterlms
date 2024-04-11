@@ -37,7 +37,6 @@ class LLMS_Question_Manager {
 	public function __construct( $parent ) {
 
 		$this->parent = $parent;
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Question_Manager {
 			return $this->parent;
 		}
 		return $this->parent->get_quiz();
-
 	}
 
 	/**
@@ -97,7 +95,6 @@ class LLMS_Question_Manager {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -123,7 +120,6 @@ class LLMS_Question_Manager {
 
 		// Deleted.
 		return true;
-
 	}
 
 	/**
@@ -157,7 +153,6 @@ class LLMS_Question_Manager {
 
 		// Success.
 		return $question;
-
 	}
 
 	/**
@@ -198,7 +193,6 @@ class LLMS_Question_Manager {
 		}
 
 		return apply_filters( 'llms_quiz_get_questions', $ret, $this, $return );
-
 	}
 
 	/**
@@ -245,8 +239,5 @@ class LLMS_Question_Manager {
 
 		// Return question ID.
 		return $question->get( 'id' );
-
 	}
-
-
 }

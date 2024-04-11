@@ -46,7 +46,5 @@ class LLMS_Metabox_Hidden_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		<?php
 		parent::close_output();
-
 	}
-
 }

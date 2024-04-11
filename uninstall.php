@@ -27,8 +27,8 @@ wp_clear_scheduled_hook( 'llms_end_idle_sessions' );
  */
 if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 
-	include_once dirname( __FILE__ ) . '/includes/class.llms.roles.php';
-	include_once dirname( __FILE__ ) . '/includes/class.llms.post-types.php';
+	include_once __DIR__ . '/includes/class.llms.roles.php';
+	include_once __DIR__ . '/includes/class.llms.post-types.php';
 
 	global $wpdb, $wp_version;
 

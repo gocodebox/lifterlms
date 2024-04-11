@@ -45,5 +45,4 @@ interface LLMS_Interface_Post_Instructors {
 	 * @return array
 	 */
 	public function set_instructors( $instructors = array() );
-
 }

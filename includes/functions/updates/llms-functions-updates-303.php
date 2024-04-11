@@ -49,7 +49,6 @@ function llms_update_303_update_students_role() {
 
 	// Remove the bugged role when finished.
 	remove_role( 'studnet' );
-
 }
 
 /**

@@ -34,7 +34,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'normal';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -87,7 +86,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 				'transactions' => $transactions,
 			)
 		);
-
 	}
 
 	/**
@@ -105,7 +103,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 			return;
 		}
 		do_action( 'lifterlms_resend_transaction_receipt', llms_get_post( $txn_id ) );
-
 	}
 
 	/**
@@ -138,7 +135,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 				break;
 			}
 		}
-
 	}
 
 	/**
@@ -176,7 +172,6 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		}
 
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
 
 
@@ -220,7 +215,5 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		}
 
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
-
 }

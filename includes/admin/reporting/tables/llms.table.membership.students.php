@@ -172,7 +172,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -211,7 +210,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
-
 	}
 
 
@@ -348,7 +346,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 
@@ -368,7 +365,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		return array(
 			'membership_id' => $this->membership_id,
 		);
-
 	}
 
 	/**
@@ -418,7 +414,5 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		);
 
 		return $cols;
-
 	}
-
 }

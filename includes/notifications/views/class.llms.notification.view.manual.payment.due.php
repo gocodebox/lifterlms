@@ -54,7 +54,6 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 			return $this->set_body_email();
 		}
 		return $this->set_body_basic();
-
 	}
 
 	/**
@@ -213,7 +212,6 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -242,5 +240,4 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 		// Translators: %s = The product title.
 		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
-
 }

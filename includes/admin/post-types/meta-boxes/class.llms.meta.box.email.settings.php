@@ -39,7 +39,6 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 			'llms_email',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -119,7 +118,5 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 				),
 			),
 		);
-
 	}
-
 }

@@ -35,7 +35,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		);
 		$this->context    = 'side';
 		$this->capability = 'edit_course';
-
 	}
 
 	/**
@@ -62,7 +61,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 
 		return $url;
-
 	}
 
 	/**
@@ -92,7 +90,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 
 		return $title;
-
 	}
 
 	/**
@@ -140,7 +137,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -202,9 +198,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 			</ol>
 			<?php
 		endif;
-
 	}
-
 }
 
 return new LLMS_Metabox_Course_Builder();

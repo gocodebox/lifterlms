@@ -145,7 +145,6 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -186,5 +185,4 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			),
 		);
 	}
-
 }

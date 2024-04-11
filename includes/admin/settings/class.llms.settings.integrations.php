@@ -36,7 +36,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		add_action( 'lifterlms_sections_' . $this->id, array( $this, 'output_sections_nav' ) );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -69,7 +68,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_integrations_settings_default', $settings );
-
 	}
 
 	/**
@@ -97,7 +95,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_integration_settings_sections', $sections );
-
 	}
 
 	/**
@@ -118,7 +115,6 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_integrations_settings_' . $curr_section, array() );
-
 	}
 
 	/**
@@ -180,9 +176,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		<?php
 		return ob_get_clean();
-
 	}
-
 }
 
 return new LLMS_Settings_Integrations();

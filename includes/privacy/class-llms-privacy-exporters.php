@@ -57,7 +57,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data );
-
 	}
 
 	/**
@@ -98,7 +97,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data );
-
 	}
 
 	/**
@@ -134,7 +132,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		);
 
 		return $data;
-
 	}
 
 
@@ -170,7 +167,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -232,7 +228,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return apply_filters( 'llms_privacy_export_enrollment_data', $data, $post_id, $student, $post_type_object );
-
 	}
 
 	/**
@@ -366,7 +361,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return apply_filters( 'llms_privacy_export_student_data', $data, $student );
-
 	}
 
 	/**
@@ -423,7 +417,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data, $enrollments['done'] );
-
 	}
 
 	/**
@@ -478,7 +471,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			wp_delete_file( $path );
 			delete_post_meta( $id, '_llms_export_filepath' );
 		}
-
 	}
 
 	/**
@@ -530,7 +522,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data, $orders['done'] );
-
 	}
 
 	/**
@@ -561,7 +552,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		);
 
 		return self::get_return( $data );
-
 	}
 
 	/**
@@ -606,7 +596,5 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data, $done );
-
 	}
-
 }

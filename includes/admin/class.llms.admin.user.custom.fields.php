@@ -55,7 +55,6 @@ class LLMS_Admin_User_Custom_Fields {
 
 		// Add personal options.
 		add_action( 'personal_options', array( $this, 'output_personal_options' ) );
-
 	}
 
 
@@ -98,7 +97,6 @@ class LLMS_Admin_User_Custom_Fields {
 		if ( $update ) {
 			$this->save( $user );
 		}
-
 	}
 
 	/**
@@ -122,7 +120,6 @@ class LLMS_Admin_User_Custom_Fields {
 		);
 
 		return $this->fields;
-
 	}
 
 	/**
@@ -152,7 +149,6 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		return $this->fields;
-
 	}
 
 	/**
@@ -184,7 +180,6 @@ class LLMS_Admin_User_Custom_Fields {
 				'fields'        => $this->fields,
 			)
 		);
-
 	}
 
 	/**
@@ -217,7 +212,6 @@ class LLMS_Admin_User_Custom_Fields {
 			</td>
 		</tr>
 		<?php
-
 	}
 
 	/**
@@ -281,7 +275,6 @@ class LLMS_Admin_User_Custom_Fields {
 			 */
 			echo '<input type="hidden" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
 		}
-
 	}
 
 	/**
@@ -360,7 +353,6 @@ class LLMS_Admin_User_Custom_Fields {
 			$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
 			update_user_meta( $user->ID, 'llms_builder_autosave', $autosave );
 		}
-
 	}
 
 	/**
@@ -413,9 +405,7 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Admin_User_Custom_Fields();

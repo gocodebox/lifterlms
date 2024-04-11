@@ -31,7 +31,6 @@ if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 				'attempt'  => $args['attempt'],
 			)
 		);
-
 	}
 }
 

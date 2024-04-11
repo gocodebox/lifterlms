@@ -30,7 +30,6 @@ class LLMS_Forms_Classic_Editor {
 
 		add_filter( 'use_block_editor_for_post_type', array( __CLASS__, 'force_block_editor' ), 200, 2 );
 		add_filter( 'classic_editor_enabled_editors_for_post_type', array( __CLASS__, 'disable_classic_editor' ), 20, 2 );
-
 	}
 
 	/**
@@ -71,7 +70,6 @@ class LLMS_Forms_Classic_Editor {
 		}
 		return $editors;
 	}
-
 }
 
 return LLMS_Forms_Classic_Editor::init();

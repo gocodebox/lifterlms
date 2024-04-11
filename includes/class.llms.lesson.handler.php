@@ -47,7 +47,6 @@ class LLMS_Lesson_Handler {
 		}
 
 		return $options;
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_Lesson_Handler {
 		}
 
 		return $lesson_id;
-
 	}
 
 	public static function duplicate_lesson( $course_id, $section_id, $lesson_id ) {
@@ -112,7 +110,6 @@ class LLMS_Lesson_Handler {
 		update_post_meta( $new_lesson_id, '_llms_parent_course', $course_id );
 
 		return $new_lesson_id;
-
 	}
 
 	public static function duplicate( $post_id ) {
@@ -171,7 +168,6 @@ class LLMS_Lesson_Handler {
 		}
 
 		return $new_post_id;
-
 	}
 
 	public static function duplicate_meta( $post_id, $new_post_id ) {
@@ -218,5 +214,4 @@ class LLMS_Lesson_Handler {
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
-
 }

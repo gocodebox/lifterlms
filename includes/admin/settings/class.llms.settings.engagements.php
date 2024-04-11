@@ -81,7 +81,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				$this->get_settings_group_certs()
 			)
 		);
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -225,7 +223,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			$settings
 		);
-
 	}
 
 	/**
@@ -272,7 +269,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -305,7 +301,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			$services
 		);
-
 	}
 
 	/**
@@ -336,7 +331,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		}
 
 		return $sizes;
-
 	}
 
 	/**
@@ -359,7 +353,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			);
 		}
 		return $opts;
-
 	}
 
 	/**
@@ -377,7 +370,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			$post_type
 		);
 		return '<p class="description">' . $desc . '</p>';
-
 	}
 
 	/**
@@ -414,7 +406,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		}
 
 		return llms_parse_bool( get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ) );
-
 	}
 
 	/**
@@ -453,7 +444,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		})();</script>
 		<?php
 	}
-
 }
 
 return new LLMS_Settings_Engagements();

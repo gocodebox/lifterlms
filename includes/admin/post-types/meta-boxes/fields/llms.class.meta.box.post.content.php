@@ -25,7 +25,6 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 	public function __construct( $_field ) {
 
 		$this->field = $_field;
-
 	}
 
 	/**
@@ -57,4 +56,3 @@ class LLMS_Metabox_Post_Content_Field extends LLMS_Metabox_Field implements Meta
 		parent::close_output();
 	}
 }
-

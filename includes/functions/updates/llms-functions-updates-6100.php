@@ -90,7 +90,6 @@ function migrate_spanish_users() {
 
 	// If there was `$per_page` results assume there's another page and run again, otherwise we're done.
 	return ( count( $users ) === $per_page );
-
 }
 
 /**

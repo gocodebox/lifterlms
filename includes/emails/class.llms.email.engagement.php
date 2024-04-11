@@ -82,7 +82,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 				$this->add_recipient( $email, $type );
 			}
 		}
-
 	}
 
 	/**
@@ -109,7 +108,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$merged = str_replace( $codes, $addresses, $list );
 		$array  = explode( ',', $merged );
 		return array_map( 'trim', $array );
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
 
 		return $ret;
-
 	}
 
 	/**
@@ -142,5 +139,4 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	public function set_shortcode_user( $uid ) {
 		return $this->student->ID;
 	}
-
 }

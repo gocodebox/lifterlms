@@ -67,7 +67,6 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 		$this->post_id = null;
 
 		$this->send();
-
 	}
 
 	/**
@@ -92,7 +91,6 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -152,7 +150,6 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 				'type'              => 'select',
 			),
 		);
-
 	}
 
 	/**
@@ -188,7 +185,6 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 		$this->post_id = null;
 
 		return parent::send_test( $type );
-
 	}
 
 	/**
@@ -213,9 +209,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Student_Welcome::instance();

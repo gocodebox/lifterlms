@@ -45,7 +45,6 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
@@ -76,7 +75,6 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
@@ -100,7 +98,6 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 			1
 		);
 		return $query->found_posts;
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 		}
 
 		return apply_filters( 'llms_membership_data_get_revenue', $revenue, $period, $this );
-
 	}
 
 	/**
@@ -179,7 +175,6 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
@@ -209,7 +204,5 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 		$query = new WP_Query( $args );
 
 		return $query;
-
 	}
-
 }

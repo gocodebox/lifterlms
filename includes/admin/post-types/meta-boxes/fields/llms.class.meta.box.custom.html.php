@@ -41,4 +41,3 @@ class LLMS_Metabox_Custom_Html_Field extends LLMS_Metabox_Field implements Meta_
 		parent::close_output();
 	}
 }
-

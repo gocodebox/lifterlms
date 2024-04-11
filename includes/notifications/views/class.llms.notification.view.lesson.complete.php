@@ -133,7 +133,6 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -157,5 +156,4 @@ class LLMS_Notification_View_Lesson_Complete extends LLMS_Abstract_Notification_
 	protected function set_title() {
 		return sprintf( __( '%s Completed a Lesson', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
-
 }

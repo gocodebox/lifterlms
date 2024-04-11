@@ -109,7 +109,6 @@ class LLMS_DOM_Document {
 		libxml_use_internal_errors( $libxml_state );
 
 		return is_wp_error( $this->error ) && $this->error->has_errors() ? $this->error : true;
-
 	}
 
 	/**
@@ -122,7 +121,6 @@ class LLMS_DOM_Document {
 	public function dom() {
 
 		return $this->dom;
-
 	}
 
 	/**
@@ -156,7 +154,5 @@ class LLMS_DOM_Document {
 		if ( $meta ) {
 			$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
-
 	}
-
 }

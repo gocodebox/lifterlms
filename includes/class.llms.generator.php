@@ -85,7 +85,6 @@ class LLMS_Generator {
 
 		// Add hooks.
 		$this->add_hooks();
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ class LLMS_Generator {
 		foreach ( array( 'access_plan', 'course', 'section', 'lesson', 'quiz', 'question', 'term', 'user' ) as $type ) {
 			add_action( 'llms_generator_new_' . $type, array( $this, 'object_created' ) );
 		}
-
 	}
 
 	/**
@@ -154,7 +152,6 @@ class LLMS_Generator {
 		} else {
 			$wpdb->query( 'COMMIT' ); // db call ok; no-cache ok.
 		}
-
 	}
 
 	/**
@@ -191,7 +188,6 @@ class LLMS_Generator {
 		 * @param obj    $class Generator class instance.
 		 */
 		return apply_filters( 'llms_generator_get_error_code', $ret, $code, $class );
-
 	}
 
 	/**
@@ -268,7 +264,6 @@ class LLMS_Generator {
 		}
 
 		return $this->get_stats();
-
 	}
 
 	/**
@@ -301,7 +296,6 @@ class LLMS_Generator {
 		}
 
 		return $stats;
-
 	}
 
 	/**
@@ -327,7 +321,6 @@ class LLMS_Generator {
 	protected function is_generator_valid( $generator ) {
 
 		return in_array( $generator, array_keys( $this->get_generators() ), true );
-
 	}
 
 	/**
@@ -360,7 +353,6 @@ class LLMS_Generator {
 				break;
 
 		}
-
 	}
 
 	/**
@@ -378,7 +370,6 @@ class LLMS_Generator {
 		}
 
 		return (array) $raw;
-
 	}
 
 	/**
@@ -404,7 +395,6 @@ class LLMS_Generator {
 
 		// Record the ID.
 		$this->generated[ $key ][] = $id;
-
 	}
 
 	/**
@@ -460,7 +450,5 @@ class LLMS_Generator {
 
 		// Return the generator name.
 		return $generator;
-
 	}
-
 }

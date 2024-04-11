@@ -128,7 +128,6 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
 		$func( $location, $options['status'] );
 		exit();
-
 	}
 }
 
@@ -162,4 +161,3 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 		return setcookie( $name, $value, $expires, $path, $domain, $secure, $httponly );
 	}
 }
-

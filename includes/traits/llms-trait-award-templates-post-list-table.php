@@ -30,7 +30,6 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 		if ( "llms_{$this->engagement_type}" === llms_filter_input( INPUT_GET, 'post_type' ) ) {
 			add_filter( 'post_row_actions', array( $this, 'add_post_actions' ), 20, 2 );
 		}
-
 	}
 
 	/**
@@ -91,7 +90,5 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 		$actions[ $sync_action ] = '<a href="' . esc_html( $sync_url ) . '">' . $text . '</a>';
 
 		return $actions;
-
 	}
-
 }

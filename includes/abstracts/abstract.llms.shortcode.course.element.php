@@ -92,7 +92,5 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 		}
 
 		return ob_get_clean();
-
 	}
-
 }

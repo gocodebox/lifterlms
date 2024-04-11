@@ -44,7 +44,6 @@ class LLMS_Analytics_Discounts_Widget extends LLMS_Analytics_Widget {
 				),
 			)
 		);
-
 	}
 
 	protected function format_response() {
@@ -54,7 +53,5 @@ class LLMS_Analytics_Discounts_Widget extends LLMS_Analytics_Widget {
 			return llms_price_raw( floatval( $this->get_results() ) );
 
 		}
-
 	}
-
 }

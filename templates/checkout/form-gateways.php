@@ -82,7 +82,7 @@ $gateways_array      = array_values( $gateways );
 						<div class="llms-gateway-fields"><?php echo $gateway->get_fields(); ?></div>
 					<?php endif; ?>
 					</li>
-					<?php $supporting_gateways++; ?>
+					<?php ++$supporting_gateways; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
 

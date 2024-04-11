@@ -53,7 +53,5 @@ class LLMS_Shortcode_My_Account {
 		);
 
 		lifterlms_student_dashboard( $atts );
-
 	}
-
 }

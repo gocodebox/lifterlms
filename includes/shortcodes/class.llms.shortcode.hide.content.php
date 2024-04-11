@@ -85,7 +85,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 			$inc = 0;
 			foreach ( $ids as $id ) {
 				if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
-					$inc++;
+					++$inc;
 				}
 			}
 
@@ -95,9 +95,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 		}
 
 		return ! $hidden ? do_shortcode( $this->get_content() ) : $this->get_attribute( 'message' );
-
 	}
-
 }
 
 return LLMS_Shortcode_Hide_Content::instance();

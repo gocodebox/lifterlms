@@ -183,7 +183,6 @@ class LLMS_Coupon extends LLMS_Post_Model {
 			return $limit - $this->get_uses();
 
 		}
-
 	}
 
 	/**
@@ -210,7 +209,6 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		);
 
 		return $query->post_count;
-
 	}
 
 	/**
@@ -310,7 +308,5 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_coupon_is_valid', $ret, $plan, $this );
-
 	}
-
 }

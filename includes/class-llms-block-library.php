@@ -29,7 +29,6 @@ class LLMS_Block_Library {
 		add_action( 'init', array( $this, 'register' ) );
 
 		add_filter( 'block_editor_settings_all', array( $this, 'modify_editor_settings' ), 100, 2 );
-
 	}
 
 	/**
@@ -59,7 +58,6 @@ class LLMS_Block_Library {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -80,7 +78,7 @@ class LLMS_Block_Library {
 
 			$fonts        = llms_get_certificate_fonts();
 			$custom_fonts = array_map(
-				function( $slug, $font_data ) {
+				function ( $slug, $font_data ) {
 					unset( $font_data['href'] );
 					$font_data['slug'] = $slug;
 					return $font_data;
@@ -105,7 +103,6 @@ class LLMS_Block_Library {
 		}
 
 		return $settings;
-
 	}
 
 	/**
@@ -123,7 +120,6 @@ class LLMS_Block_Library {
 				register_block_type( $block['path'] );
 			}
 		}
-
 	}
 
 	/**
@@ -175,9 +171,7 @@ class LLMS_Block_Library {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Block_Library();

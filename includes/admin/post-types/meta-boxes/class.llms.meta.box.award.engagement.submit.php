@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$this->context  = 'side';
 		$this->priority = 'high';
 
-		$this->callback_args = function() {
+		$this->callback_args = function () {
 			return 'llms_my_certificate' === get_post_type() ?
 				array(
 					'__back_compat_meta_box' => true,
@@ -67,7 +67,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				:
 				array();
 		};
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$fields                 = $this->student_fields();
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-award-engagement-submit.php';
-
 	}
 
 	/**
@@ -123,7 +121,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$fields .= $this->student_information();
 
 		return $fields;
-
 	}
 
 	/**
@@ -214,7 +211,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				$student->get( 'user_email' )
 			)
 		);
-
 	}
 
 	/**
@@ -242,7 +238,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$this->student_id = $student;
 
 		return $this->student_id;
-
 	}
 
 	/**
@@ -279,5 +274,4 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 </script>
 		<?php
 	}
-
 }

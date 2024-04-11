@@ -66,7 +66,6 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
 		 */
 		return apply_filters( 'llms_events_query_default_args', $args, $this );
-
 	}
 
 	/**
@@ -102,7 +101,6 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
 		 */
 		return apply_filters( 'llms_events_query_get_events', $events, $this );
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 				$this->arguments[ $key ] = date( 'Y-m-d H:i:s', $date );
 			}
 		}
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 				{$this->sql_where()}
 				{$this->sql_orderby()}
 				{$this->sql_limit()};";
-
 	}
 
 	/**
@@ -227,7 +223,5 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
 		 */
 		return apply_filters( 'llms_events_query_where', $sql, $this );
-
 	}
-
 }

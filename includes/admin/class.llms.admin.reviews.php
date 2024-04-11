@@ -196,7 +196,6 @@ class LLMS_Admin_Reviews {
 			update_post_meta( $post_id, '_llms_multiple_reviews_disabled', $multiple );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
 }
 

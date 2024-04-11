@@ -89,7 +89,7 @@ class LLMS_Admin_Header {
 					<a href="https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Admin%20Header&utm_content=LifterLMS%20Logo" target="_blank"><img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo-black.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>"></a>
 					<div class="llms-meta">
 						<div class="llms-meta-left">
-							<span class="llms-version"><?php echo sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></span>
+							<span class="llms-version"><?php printf( __( 'Version: %s', 'lifterlms' ), llms()->version ); ?></span>
 						</div>
 						<div class="llms-meta-right">
 							<?php

@@ -61,7 +61,6 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		$limit    = $this->get_attribute( 'limit' );
 
 		return $student->get_favorites( $order_by, $order, $limit );
-
 	}
 
 	/**
@@ -93,9 +92,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		}
 
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Favorites::instance();

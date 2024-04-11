@@ -88,7 +88,6 @@ abstract class LLMS_Abstract_Admin_Tool {
 
 		add_action( 'llms_status_tool', array( $this, 'maybe_handle' ) );
 		add_filter( 'llms_status_tools', array( $this, 'register' ), $this->priority );
-
 	}
 
 	/**
@@ -135,7 +134,6 @@ abstract class LLMS_Abstract_Admin_Tool {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -161,7 +159,6 @@ abstract class LLMS_Abstract_Admin_Tool {
 		);
 
 		return $tools;
-
 	}
 
 	/**
@@ -177,5 +174,4 @@ abstract class LLMS_Abstract_Admin_Tool {
 	protected function should_load() {
 		return true;
 	}
-
 }

@@ -46,7 +46,6 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 		$this->is_rest = $is_rest;
 		parent::__construct( $resource, $data, $method );
-
 	}
 
 	/**
@@ -82,7 +81,6 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 			$this->set_result( $body );
 
 		}
-
 	}
 
 	/**
@@ -146,5 +144,4 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	protected function set_user_agent( $user_agent, $resource, $method ) {
 		return sprintf( 'LifterLMS/%1$s (%2$s)', LLMS_VERSION, get_site_url() );
 	}
-
 }

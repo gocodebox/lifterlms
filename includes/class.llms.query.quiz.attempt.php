@@ -67,7 +67,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
 		return apply_filters( $this->get_filter( 'default_args' ), $args );
-
 	}
 
 	/**
@@ -94,7 +93,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		}
 
 		return apply_filters( $this->get_filter( 'get_attempts' ), $attempts );
-
 	}
 
 	/**
@@ -129,7 +127,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 				$this->arguments[ $key ] = array_intersect( $valid_statuses, $this->arguments[ $key ] );
 			}
 		}
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 				{$this->sql_where()}
 				{$this->sql_orderby()}
 				{$this->sql_limit()};";
-
 	}
 
 	/**
@@ -201,7 +197,5 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
-
 	}
-
 }

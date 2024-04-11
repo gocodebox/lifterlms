@@ -87,7 +87,6 @@ class LLMS_Data {
 		$data['template_overrides'] = self::get_templates_data();
 
 		return $data;
-
 	}
 
 	/**
@@ -106,7 +105,6 @@ class LLMS_Data {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -133,7 +131,6 @@ class LLMS_Data {
 		}
 
 		return $data;
-
 	}
 
 	/**
@@ -156,7 +153,6 @@ class LLMS_Data {
 		$data['course_completions'] = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' " ) );
 
 		return $data;
-
 	}
 
 	/**
@@ -193,7 +189,6 @@ class LLMS_Data {
 		}
 
 		return $version;
-
 	}
 
 	/**
@@ -222,7 +217,6 @@ class LLMS_Data {
 		}
 
 		return $data;
-
 	}
 
 	/**
@@ -249,7 +243,6 @@ class LLMS_Data {
 		}
 
 		return $data;
-
 	}
 
 	/**
@@ -331,7 +324,6 @@ class LLMS_Data {
 		$data['cert_legacy_compat'] = get_option( 'lifterlms_certificate_legacy_image_size' );
 
 		return $data;
-
 	}
 
 	/**
@@ -354,7 +346,6 @@ class LLMS_Data {
 		}
 
 		return $data;
-
 	}
 
 	/**
@@ -405,7 +396,6 @@ class LLMS_Data {
 			'active'   => $active,
 			'inactive' => $inactive,
 		);
-
 	}
 
 	/**
@@ -445,7 +435,6 @@ class LLMS_Data {
 		}
 
 		return $data;
-
 	}
 
 	/**
@@ -523,7 +512,6 @@ class LLMS_Data {
 		}
 
 		return $overrides;
-
 	}
 
 	/**
@@ -547,7 +535,6 @@ class LLMS_Data {
 		$data['llms_support'] = ( ! current_theme_supports( 'lifterlms' ) ) ? 'No' : 'Yes';
 
 		return $data;
-
 	}
 
 	/**
@@ -567,7 +554,6 @@ class LLMS_Data {
 		$data['total'] = $users['total_users'];
 
 		return $data;
-
 	}
 
 	/**
@@ -598,7 +584,5 @@ class LLMS_Data {
 		$data['wp_cron']             = ! ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ? 'Yes' : 'No';
 
 		return $data;
-
 	}
-
 }

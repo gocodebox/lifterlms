@@ -35,7 +35,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			'lesson',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -192,7 +191,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			),
 		);
 	}
-
 }
 
 new LLMS_Meta_Box_Lesson();

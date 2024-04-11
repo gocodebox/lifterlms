@@ -52,7 +52,6 @@ if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 		}
 
 		return $ret;
-
 	}
 endif;
 
@@ -88,7 +87,6 @@ if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
 		}
 
 		return $err ? $res : true;
-
 	}
 endif;
 
@@ -129,7 +127,6 @@ if ( ! function_exists( 'llms_get_user_postmeta' ) ) :
 		}
 
 		return $res;
-
 	}
 endif;
 
@@ -176,7 +173,6 @@ if ( ! function_exists( 'llms_update_user_postmeta' ) ) :
 		$meta_value   = maybe_serialize( $meta_value );
 		$item->setup( compact( 'user_id', 'post_id', 'meta_key', 'meta_value', 'updated_date' ) );
 		return $item->save();
-
 	}
 endif;
 
@@ -209,7 +205,6 @@ if ( ! function_exists( 'llms_bulk_update_user_postmeta' ) ) :
 		}
 
 		return $err ? $res : true;
-
 	}
 endif;
 
@@ -247,6 +242,5 @@ if ( ! function_exists( '_llms_query_user_postmeta' ) ) :
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $res;
-
 	}
 endif;

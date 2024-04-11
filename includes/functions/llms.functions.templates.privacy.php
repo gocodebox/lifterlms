@@ -60,7 +60,6 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 		}
 
 		return $ret;
-
 	}
 }
 
@@ -111,6 +110,5 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 		}
 
 		return $ret;
-
 	}
 }

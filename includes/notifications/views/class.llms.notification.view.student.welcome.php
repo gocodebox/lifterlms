@@ -42,7 +42,6 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 		<p><?php _e( 'If you forgot or don\'t have a password you can reset it now so you can login and get started:', 'lifterlms' ); ?> <a href="{{PASSWORD_RESET_URL}}">{{PASSWORD_RESET_URL}}</a></p>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -120,7 +119,6 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -144,5 +142,4 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	protected function set_title() {
 		return sprintf( __( 'Let\'s get started %s', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
-
 }

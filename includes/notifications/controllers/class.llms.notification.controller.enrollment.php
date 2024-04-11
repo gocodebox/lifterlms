@@ -57,7 +57,6 @@ class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification
 		$this->course  = llms_get_post( $post_id );
 
 		$this->send();
-
 	}
 
 	/**
@@ -86,7 +85,6 @@ class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -128,9 +126,7 @@ class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Enrollment::instance();

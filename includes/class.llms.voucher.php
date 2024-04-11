@@ -76,7 +76,6 @@ class LLMS_Voucher {
 		global $wpdb;
 
 		return $wpdb->prefix . $this->codes_table_name;
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ class LLMS_Voucher {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->product_to_voucher_table;
-
 	}
 
 	/**
@@ -104,7 +102,6 @@ class LLMS_Voucher {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->redemptions_table;
-
 	}
 
 	/**
@@ -365,7 +362,6 @@ class LLMS_Voucher {
 			return $voucher;
 
 		}
-
 	}
 
 	/**
@@ -415,7 +411,6 @@ class LLMS_Voucher {
 				array( $user_id, $code_id )
 			)
 		);
-
 	}
 
 	/**

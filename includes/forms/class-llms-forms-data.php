@@ -36,7 +36,6 @@ class LLMS_Forms_Data {
 		$this->forms = LLMS_Forms::instance();
 
 		add_action( "save_post_{$this->forms->get_post_type()}", array( $this, 'save_username_locations' ), 10, 2 );
-
 	}
 
 	/**
@@ -63,7 +62,6 @@ class LLMS_Forms_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -102,9 +100,7 @@ class LLMS_Forms_Data {
 		update_option( 'llms_forms_username_locations', $locations );
 
 		return $locations;
-
 	}
-
 }
 
 return new LLMS_Forms_Data();

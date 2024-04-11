@@ -78,7 +78,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 
 		// Adds created and updated dates on instantiation.
 		parent::__construct();
-
 	}
 
 	/**
@@ -99,7 +98,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 		$all = $this->get_meta( null, false );
 		unset( $all[ $key ] );
 		return $this->set_unencoded_metas( $all, $save );
-
 	}
 
 	/**
@@ -121,7 +119,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 		}
 
 		return isset( $all[ $key ] ) ? $all[ $key ] : null;
-
 	}
 
 	/**
@@ -139,7 +136,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 		$all         = $this->get_meta();
 		$all[ $key ] = $val;
 		return $this->set_unencoded_metas( $all, $save );
-
 	}
 
 	/**
@@ -162,7 +158,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 		}
 
 		return $this;
-
 	}
 
 	/**
@@ -177,5 +172,4 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	protected function set_unencoded_metas( $metas, $save = false ) {
 		return $this->set( 'meta', wp_json_encode( $metas ), $save );
 	}
-
 }

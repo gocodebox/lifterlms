@@ -115,7 +115,6 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 		$this->skip_cache = true;
 
 		return true;
-
 	}
 
 	/**
@@ -142,7 +141,6 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 		}
 
 		return ( 'not-set' !== get_option( 'lifterlms_registration_generate_username', 'not-set' ) );
-
 	}
 }
 

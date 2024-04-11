@@ -71,7 +71,6 @@ class LLMS_Settings_Page {
 			add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
 
 		}
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ class LLMS_Settings_Page {
 
 		// Flush rewrite rules.
 		flush_rewrite_rules();
-
 	}
 
 	/**
@@ -163,7 +161,6 @@ class LLMS_Settings_Page {
 		);
 
 		return array_merge( $start, $settings, $end );
-
 	}
 
 	/**
@@ -248,7 +245,5 @@ class LLMS_Settings_Page {
 		if ( $this->flush ) {
 			add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 		}
-
 	}
-
 }

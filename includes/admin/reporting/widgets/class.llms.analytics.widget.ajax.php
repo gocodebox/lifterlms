@@ -95,9 +95,7 @@ class LLMS_Analytics_Widget_Ajax {
 		}
 
 		$widget->output();
-
 	}
-
 }
 
 return new LLMS_Analytics_Widget_Ajax();

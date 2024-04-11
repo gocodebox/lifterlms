@@ -100,7 +100,6 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";
-
 	}
 
 	/**
@@ -117,7 +116,5 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
 
 		}
-
 	}
-
 }

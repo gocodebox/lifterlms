@@ -30,7 +30,6 @@ class LLMS_Forms_Dynamic_Fields {
 		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10, 2 );
 		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_block_fields' ), 10, 3 );
 		add_filter( 'llms_get_form_blocks', array( $this, 'modify_account_form' ), 15, 2 );
-
 	}
 
 	/**
@@ -55,7 +54,6 @@ class LLMS_Forms_Dynamic_Fields {
 		array_splice( $blocks, $index + 1, 0, $add_block );
 
 		return $blocks;
-
 	}
 
 	/**
@@ -117,7 +115,6 @@ class LLMS_Forms_Dynamic_Fields {
 		$meter_settings = apply_filters( 'llms_password_strength_meter_field_settings', $meter_settings );
 
 		return $this->add_block( $blocks, $meter_settings, $index );
-
 	}
 
 	/**
@@ -153,7 +150,6 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -189,7 +185,6 @@ class LLMS_Forms_Dynamic_Fields {
 		 * @param array   $args     Additional arguments passed to the short-circuit filter.
 		 */
 		return apply_filters( 'llms_forms_required_block_fields', $fields, $location, $args );
-
 	}
 
 	/**
@@ -208,7 +203,6 @@ class LLMS_Forms_Dynamic_Fields {
 		$cancel_text = esc_attr_x( 'Cancel', 'Cancel password or email address change button text', 'lifterlms' );
 
 		return '<a class="llms-toggle-fields" data-fields="' . $fields . '" data-change-text="' . $change_text . '" data-cancel-text="' . $cancel_text . '" href="#">' . $change_text . '</a>';
-
 	}
 
 	/**
@@ -243,7 +237,6 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -280,7 +273,6 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return $this->add_required_block_fields( $fields_to_require, $blocks, $location );
-
 	}
 
 	/**
@@ -322,7 +314,6 @@ class LLMS_Forms_Dynamic_Fields {
 			$blocks,
 			$blocks_to_add
 		);
-
 	}
 
 	/**
@@ -362,7 +353,6 @@ class LLMS_Forms_Dynamic_Fields {
 		array_splice( $blocks, $block_index, (int) ( ! empty( $replace ) ), array( $block_to_add ) );
 
 		return $blocks;
-
 	}
 
 	/**
@@ -398,7 +388,6 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -424,7 +413,6 @@ class LLMS_Forms_Dynamic_Fields {
 				break;
 			}
 		}
-
 	}
 
 	/**
@@ -445,7 +433,6 @@ class LLMS_Forms_Dynamic_Fields {
 		$block['attrs']['llms_visibility'] = '';
 
 		return $block;
-
 	}
 
 	/**
@@ -528,7 +515,6 @@ class LLMS_Forms_Dynamic_Fields {
 			),
 			$email[0]
 		);
-
 	}
 
 
@@ -575,9 +561,7 @@ class LLMS_Forms_Dynamic_Fields {
 			)
 		);
 		return $this->add_block( $blocks, $current_password, $password[0] - 1 );
-
 	}
-
 }
 
 return new LLMS_Forms_Dynamic_Fields();

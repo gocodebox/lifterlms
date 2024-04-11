@@ -24,7 +24,6 @@ function llms_are_terms_and_conditions_required() {
 	$page_id = absint( get_option( 'lifterlms_terms_page_id', false ) );
 
 	return ( 'yes' === $enabled && $page_id );
-
 }
 
 /**
@@ -69,7 +68,6 @@ function llms_get_privacy_notice( $merge = false ) {
 	}
 
 	return apply_filters( 'llms_get_privacy_notice', $ret, $text );
-
 }
 
 /**
@@ -120,5 +118,4 @@ function llms_get_terms_notice( $merge = false ) {
 	}
 
 	return apply_filters( 'llms_get_terms_notice', $ret, $text );
-
 }

@@ -109,7 +109,6 @@ class LLMS_Engagement_Handler {
 		 * }
 		 */
 		return apply_filters( "llms_proccess_{$type}_engagement", count( $errors ) ? $errors : true, $user_id, $template_id, $related_id, $engagement_id );
-
 	}
 
 	/**
@@ -134,7 +133,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return apply_filters_deprecated( $hook[0], array( $args ), '6.0.0', $hook[1] );
-
 	}
 
 	/**
@@ -187,7 +185,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return $args;
-
 	}
 
 	/**
@@ -240,7 +237,6 @@ class LLMS_Engagement_Handler {
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
 		return new $model_class( $generated->get( 'id' ) );
-
 	}
 
 	/**
@@ -290,7 +286,6 @@ class LLMS_Engagement_Handler {
 			$related_id,
 			$engagement_id
 		);
-
 	}
 
 	/**
@@ -326,7 +321,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -352,7 +346,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -425,7 +418,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return is_wp_error( $is_duplicate ) ? $is_duplicate : true;
-
 	}
 
 	/**
@@ -460,7 +452,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return 0;
-
 	}
 
 	/**
@@ -492,7 +483,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return self::create( $type, ...$args );
-
 	}
 
 	/**
@@ -595,7 +585,5 @@ class LLMS_Engagement_Handler {
 		// Error sending email.
 		llms_log( $msg . ' ' . __( 'not sent due to email sending issues.', 'lifterlms' ), 'engagement-emails' );
 		return array( new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args ) );
-
 	}
-
 }

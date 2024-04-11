@@ -236,5 +236,4 @@ class LLMS_Mime_Type_Extractor {
 
 		return $mime_type ? $mime_type : self::DEFAULT_MIME_TYPE;
 	}
-
 }

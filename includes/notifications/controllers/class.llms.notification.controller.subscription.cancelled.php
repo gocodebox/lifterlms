@@ -53,7 +53,6 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 		$this->post_id = $order->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -86,7 +85,6 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -123,7 +121,6 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 		}
 
 		return $options;
-
 	}
 
 	/**
@@ -140,7 +137,6 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 			'email' => __( 'Email', 'lifterlms' ),
 		);
 	}
-
 }
 
 return LLMS_Notification_Controller_Subscription_Cancelled::instance();

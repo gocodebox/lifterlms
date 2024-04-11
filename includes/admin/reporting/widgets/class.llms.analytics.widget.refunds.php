@@ -52,7 +52,6 @@ class LLMS_Analytics_Refunds_Widget extends LLMS_Analytics_Widget {
 				),
 			)
 		);
-
 	}
 
 	protected function format_response() {
@@ -62,7 +61,5 @@ class LLMS_Analytics_Refunds_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }

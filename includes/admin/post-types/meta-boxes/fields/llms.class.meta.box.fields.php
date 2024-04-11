@@ -92,7 +92,6 @@ abstract class LLMS_Metabox_Field {
 			</div>
 			<?php
 			endif;
-
 	}
 
 	/**
@@ -105,7 +104,6 @@ abstract class LLMS_Metabox_Field {
 	public function close_output() {
 
 		echo '<div class="clear"></div></li>';
-
 	}
 
 	/**
@@ -129,6 +127,5 @@ abstract class LLMS_Metabox_Field {
 		} else {
 			return get_post_meta( $post_id, $field_id, true );
 		}
-
 	}
 }

@@ -186,7 +186,6 @@ if ( ! function_exists( 'llms_template_product_not_purchasable' ) ) {
 			'product/not-purchasable.php',
 			compact( 'product' )
 		);
-
 	}
 }
 
@@ -230,6 +229,5 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 			'product/pricing-table.php',
 			compact( 'product', 'is_enrolled', 'purchasable', 'has_free', 'has_restrictions' )
 		);
-
 	}
 }

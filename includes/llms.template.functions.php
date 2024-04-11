@@ -138,7 +138,6 @@ if ( ! function_exists( 'lifterlms_template_single_course_content' ) ) {
 		} else {
 			llms_get_template( 'course/full-description.php' );
 		}
-
 	}
 }
 
@@ -355,7 +354,6 @@ if ( ! function_exists( 'lifterlms_template_single_prerequisites' ) ) {
 				'course' => new LLMS_Course( $post ),
 			)
 		);
-
 	}
 }
 
@@ -500,7 +498,6 @@ function llms_setup_course_data( $post ) {
 
 		}
 	}
-
 }
 add_action( 'the_post', 'llms_setup_course_data' );
 
@@ -535,7 +532,6 @@ function llms_setup_lesson_data( $post ) {
 			return $GLOBALS['lesson'];
 		}
 	}
-
 }
 add_action( 'the_post', 'llms_setup_lesson_data' );
 
@@ -571,7 +567,6 @@ function get_section_data( $sections ) {
 	endforeach;
 
 	return $array;
-
 }
 
 /**
@@ -651,7 +646,6 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 			return $page_title;
 
 		}
-
 	}
 }
 
@@ -700,7 +694,6 @@ function llms_get_progress_bar_html( $percentage ) {
 		</div></div>';
 
 	return $html;
-
 }
 
 
@@ -777,7 +770,6 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 				<?php
 			}
 		}
-
 	}
 }
 
@@ -923,7 +915,6 @@ function llms_get_author( $args = array() ) {
 	$html = ob_get_clean();
 
 	return apply_filters( 'llms_get_author', $html );
-
 }
 
 /**
@@ -986,7 +977,6 @@ function llms_person_redeem_voucher_url() {
 	$url = llms_get_endpoint_url( 'redeem-voucher', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_redeem_voucher_url', $url );
-
 }
 
 /**
@@ -1001,7 +991,6 @@ function llms_person_my_courses_url() {
 	$url = llms_get_endpoint_url( 'my-courses', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_my_courses_url', $url );
-
 }
 
 
@@ -1175,7 +1164,6 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 	}
 
 	return $classes;
-
 }
 
 /**

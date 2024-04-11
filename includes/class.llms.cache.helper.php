@@ -28,7 +28,6 @@ class LLMS_Cache_Helper {
 	public function __construct() {
 
 		add_action( 'wp', array( $this, 'maybe_no_cache' ) );
-
 	}
 
 	/**
@@ -88,7 +87,6 @@ class LLMS_Cache_Helper {
 		}
 
 		return sprintf( 'llms_cache_%s_', $prefix );
-
 	}
 
 	/**
@@ -160,7 +158,6 @@ class LLMS_Cache_Helper {
 			remove_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
 		}
-
 	}
 
 	/**
@@ -199,9 +196,7 @@ class LLMS_Cache_Helper {
 		$headers['Cache-Control'] = implode( ', ', $nocache_headers_cache_control );
 
 		return $headers;
-
 	}
-
 }
 
 return new LLMS_Cache_Helper();

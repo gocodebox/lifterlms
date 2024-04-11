@@ -37,7 +37,6 @@ class LLMS_Grades {
 	private function __construct() {
 
 		$this->rounding_precision = apply_filters( 'llms_grade_rounding_precision', $this->rounding_precision );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Grades {
 		}
 
 		return $grade;
-
 	}
 
 	/**
@@ -120,7 +118,6 @@ class LLMS_Grades {
 			$course,
 			$student
 		);
-
 	}
 
 	/**
@@ -172,7 +169,6 @@ class LLMS_Grades {
 		}
 
 		return apply_filters( 'llms_calculate_grade', $grade, $post, $student );
-
 	}
 
 	/**
@@ -195,7 +191,6 @@ class LLMS_Grades {
 		}
 
 		return apply_filters( 'llms_calculate_lesson_grade', $grade, $lesson, $student );
-
 	}
 
 	/**
@@ -233,7 +228,6 @@ class LLMS_Grades {
 		}
 
 		return apply_filters( 'llms_get_grade', $grade, $post, $student );
-
 	}
 
 	/**
@@ -253,7 +247,6 @@ class LLMS_Grades {
 			sprintf( '%d_grade', $post->get( 'id' ) ),
 			sprintf( 'student_%d', $student->get( 'id' ) )
 		);
-
 	}
 
 	/**
@@ -267,7 +260,5 @@ class LLMS_Grades {
 	public function round( $grade ) {
 
 		return round( $grade, $this->rounding_precision );
-
 	}
-
 }

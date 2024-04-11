@@ -41,7 +41,6 @@ class LLMS_Admin_System_Report {
 		}
 
 		echo '</div>';
-
 	}
 
 	/**
@@ -180,12 +179,11 @@ class LLMS_Admin_System_Report {
 		$key = ucwords( str_replace( '_', ' ', $key ) );
 
 		// Fix for capital P.
-		if ( 'Wordpress' === $key ) { // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+		if ( 'WordPress' === $key ) { // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
 			$key = 'WordPress';
 		}
 
 		echo $key;
-
 	}
 
 	/**
@@ -199,7 +197,5 @@ class LLMS_Admin_System_Report {
 	private static function value( $val ) {
 
 		echo $val;
-
 	}
-
 }

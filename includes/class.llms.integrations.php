@@ -93,7 +93,6 @@ class LLMS_Integrations {
 		}
 
 		do_action( 'llms_integrations_init', $this );
-
 	}
 
 	/**
@@ -139,7 +138,5 @@ class LLMS_Integrations {
 	 */
 	public function integrations() {
 		return $this->get_integrations();
-
 	}
-
 }

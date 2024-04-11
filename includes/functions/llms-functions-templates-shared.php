@@ -38,6 +38,5 @@ if ( ! function_exists( 'llms_template_instructors' ) ) {
 		$count = count( $instructors );
 
 		llms_get_template( 'shared/instructors.php', compact( 'llms_post', 'instructors', 'count' ) );
-
 	}
 }

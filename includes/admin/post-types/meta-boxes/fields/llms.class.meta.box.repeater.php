@@ -43,7 +43,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		}
 
 		$this->field = $_field;
-
 	}
 
 	/**
@@ -72,14 +71,12 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		}
 
 		return '<button class="' . $classes . '" type="button">' . $icon . $btn['text'] . '</button>';
-
 	}
 
 	private function get_rows() {
 
 		$rows = '';
 		return $rows;
-
 	}
 
 	private function get_row( $index ) {
@@ -119,7 +116,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -141,7 +137,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			strtr(
 				preg_replace_callback(
 					'/(\w+)/',
-					function( $m ) {
+					function ( $m ) {
 						return ucfirst( $m[1] );
 					},
 					$field['type']
@@ -156,7 +152,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		ob_start();
 		$field_class->output();
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -183,7 +178,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		echo '<input class="llms-repeater-field-handler" type="hidden" value="' . $this->field['handler'] . '">';
 
 		parent::close_output();
-
 	}
 }
 

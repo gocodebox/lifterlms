@@ -61,7 +61,6 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 		$this->track   = new LLMS_Track( $course_track_id );
 
 		$this->send();
-
 	}
 
 	/**
@@ -86,7 +85,6 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -126,9 +124,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Course_Track_Complete::instance();

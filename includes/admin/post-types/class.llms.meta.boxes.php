@@ -105,7 +105,6 @@ class LLMS_Admin_Meta_Boxes {
 
 		// Add default image information for achievement and certificate templates.
 		add_filter( 'admin_post_thumbnail_html', array( $this, 'maybe_modify_post_thumbnail_html' ), 10, 3 );
-
 	}
 
 	/**
@@ -145,7 +144,6 @@ class LLMS_Admin_Meta_Boxes {
 		echo '</p></div>';
 
 		delete_option( 'lifterlms_errors' );
-
 	}
 
 	/**
@@ -163,7 +161,6 @@ class LLMS_Admin_Meta_Boxes {
 		 * @todo Transition to new style metaboxes.
 		 */
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
-
 	}
 
 	/**
@@ -186,7 +183,6 @@ class LLMS_Admin_Meta_Boxes {
 		// Remove some defaults from the course.
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty', 'course', 'side' );
-
 	}
 
 	/**
@@ -232,7 +228,6 @@ class LLMS_Admin_Meta_Boxes {
 		}
 
 		return $content;
-
 	}
 
 	/**
@@ -361,9 +356,7 @@ class LLMS_Admin_Meta_Boxes {
 
 			}
 		}
-
 	}
-
 }
 
 new LLMS_Admin_Meta_Boxes();

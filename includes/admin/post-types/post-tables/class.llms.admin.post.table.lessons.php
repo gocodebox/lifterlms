@@ -36,7 +36,6 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
 		add_filter( 'parse_query', array( $this, 'parse_query_filters' ), 10, 1 );
-
 	}
 
 	/**
@@ -77,7 +76,6 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 
 		return $actions;
-
 	}
 
 	/**
@@ -124,7 +122,6 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		$selected = isset( $_GET['llms_filter_course_id'] ) ? absint( $_GET['llms_filter_course_id'] ) : false;
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( 'llms_filter_course_id', 'course', $selected );
-
 	}
 
 	/**
@@ -215,7 +212,6 @@ class LLMS_Admin_Post_Table_Lessons {
 				break;
 
 		}
-
 	}
 
 	/**
@@ -265,8 +261,6 @@ class LLMS_Admin_Post_Table_Lessons {
 		$query->set( 'meta_query', $meta_query );
 
 		return $query;
-
 	}
-
 }
 return new LLMS_Admin_Post_Table_Lessons();

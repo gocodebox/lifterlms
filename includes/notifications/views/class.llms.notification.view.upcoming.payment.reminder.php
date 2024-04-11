@@ -55,7 +55,6 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 			return $this->set_body_email();
 		}
 		return $this->set_body_basic();
-
 	}
 
 	/**
@@ -232,7 +231,6 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -257,5 +255,4 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	protected function set_title() {
 		return __( 'Upcoming Subscription Payment', 'lifterlms' );
 	}
-
 }

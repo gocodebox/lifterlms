@@ -29,7 +29,6 @@ class LLMS_Admin_Post_Table_Engagements {
 
 		add_filter( 'manage_llms_engagement_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_llms_engagement_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
-
 	}
 
 	/**
@@ -52,7 +51,6 @@ class LLMS_Admin_Post_Table_Engagements {
 		$columns['date'] = $date;
 
 		return $columns;
-
 	}
 
 
@@ -129,8 +127,6 @@ class LLMS_Admin_Post_Table_Engagements {
 				break;
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Post_Table_Engagements();

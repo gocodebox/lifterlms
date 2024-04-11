@@ -41,7 +41,6 @@ class LLMS_Form_Handler {
 		add_action( 'lifterlms_before_user_update', array( $this, 'maybe_modify_edit_account_field_settings' ), 10, 3 );
 		add_action( 'lifterlms_before_user_update', array( $this, 'maybe_modify_required_address_fields' ), 10, 3 );
 		add_action( 'lifterlms_before_user_registration', array( $this, 'maybe_modify_required_address_fields' ), 10, 3 );
-
 	}
 
 	/**
@@ -71,7 +70,6 @@ class LLMS_Form_Handler {
 		}
 
 		return $fields;
-
 	}
 
 	/**
@@ -99,7 +97,6 @@ class LLMS_Form_Handler {
 		}
 
 		return $user_id;
-
 	}
 
 	/**
@@ -156,7 +153,6 @@ class LLMS_Form_Handler {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -199,7 +195,6 @@ class LLMS_Form_Handler {
 				$fields[ $index ]['required'] = false;
 			}
 		}
-
 	}
 
 	/**
@@ -296,7 +291,6 @@ class LLMS_Form_Handler {
 		$prepared['usermeta'] = apply_filters( "lifterlms_user_{$action}_insert_user_meta", $prepared['usermeta'], $posted_data, $action );
 
 		return $prepared;
-
 	}
 
 	/**
@@ -340,7 +334,6 @@ class LLMS_Form_Handler {
 		}
 
 		return $this->submit_fields( $posted_data, $location, $fields, $action );
-
 	}
 
 	/**
@@ -421,7 +414,6 @@ class LLMS_Form_Handler {
 		}
 
 		return $user_id;
-
 	}
 
 	/**
@@ -449,7 +441,6 @@ class LLMS_Form_Handler {
 		 * @param string   $action      Submission action, either "registration" or "update"!
 		 */
 		return apply_filters( "lifterlms_user_{$action}_failure", $error, $posted_data, $action );
-
 	}
 
 	/**
@@ -548,7 +539,5 @@ class LLMS_Form_Handler {
 		do_action( "lifterlms_user_{$action}_after_validation", $posted_data, $location, $fields );
 
 		return true;
-
 	}
-
 }

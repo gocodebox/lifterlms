@@ -33,7 +33,6 @@ function llms_get_countries_address_info() {
 	 * @param array $info Multi-dimensional array. See "languages/address-countries-address-info.php" for details.
 	 */
 	return apply_filters( 'llms_countries_address_info', $info );
-
 }
 
 /**
@@ -96,7 +95,6 @@ function llms_get_states() {
 	 * @param array $states Multi-dimensional array. See "languages/states.php" for details.
 	 */
 	return apply_filters( 'lifterlms_states', $states );
-
 }
 
 /**
@@ -143,7 +141,6 @@ function llms_get_time_period_l10n( $period, $length = 1 ) {
 	 * @param int    $length Period length, used for pluralization.
 	 */
 	return apply_filters( 'llms_time_period_l10n', $period, $length );
-
 }
 
 /**
@@ -170,7 +167,6 @@ function get_lifterlms_countries() {
 	$countries = apply_filters( 'lifterlms_countries', $countries );
 
 	return array_unique( $countries );
-
 }
 
 /**

@@ -64,7 +64,6 @@ class LLMS_Payment_Gateways {
 		}
 
 		ksort( $this->payment_gateways );
-
 	}
 
 	/**
@@ -104,7 +103,6 @@ class LLMS_Payment_Gateways {
 		 * @param LLMS_Payment_Gateway[] $gateways List of enabled gateways.
 		 */
 		return apply_filters( 'lifterlms_enabled_payment_gateways', $gateways );
-
 	}
 
 	/**
@@ -121,7 +119,6 @@ class LLMS_Payment_Gateways {
 		$gateways = $this->get_enabled_payment_gateways();
 		$ids      = array_keys( $gateways );
 		return array_shift( $ids );
-
 	}
 
 	/**
@@ -141,7 +138,6 @@ class LLMS_Payment_Gateways {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -158,7 +154,6 @@ class LLMS_Payment_Gateways {
 			$gateways[ $gateway->id ] = $gateway;
 		}
 		return $gateways;
-
 	}
 
 	/**
@@ -191,7 +186,6 @@ class LLMS_Payment_Gateways {
 		 * @param string                 $feature  The requested gateway feature string.
 		 */
 		return apply_filters( 'lifterlms_supporting_payment_gateways', $gateways, $feature );
-
 	}
 
 	/**
@@ -207,5 +201,4 @@ class LLMS_Payment_Gateways {
 		$method = $enabled ? 'get_enabled_payment_gateways' : 'get_payment_gateways';
 		return count( $this->{$method}() ) >= 1;
 	}
-
 }

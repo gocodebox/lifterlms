@@ -39,7 +39,6 @@ if ( ! function_exists( 'llms_template_view_order' ) ) {
 		$transactions = _llms_template_view_order_get_transactions( $order );
 
 		llms_get_template( 'myaccount/view-order.php', compact( 'order', 'transactions', 'layout_class' ) );
-
 	}
 }
 
@@ -98,7 +97,6 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
 		}
 
 		llms_get_template( 'myaccount/view-order-transactions.php', compact( 'transactions' ) );
-
 	}
 }
 
@@ -131,5 +129,4 @@ function _llms_template_view_order_get_transactions( $order, $per_page = 20, $pa
 			'paged'    => $page ? $page : 1,
 		)
 	);
-
 }

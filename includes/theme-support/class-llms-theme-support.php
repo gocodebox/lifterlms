@@ -59,7 +59,6 @@ class LLMS_Theme_Support {
 
 		// Return the formatted CSS.
 		return implode( ', ', $selectors ) . ' { ' . implode( ' ', $rules_list ) . ' }';
-
 	}
 
 	/**
@@ -121,7 +120,6 @@ class LLMS_Theme_Support {
 
 			)
 		);
-
 	}
 
 	/**
@@ -166,7 +164,6 @@ class LLMS_Theme_Support {
 
 			)
 		);
-
 	}
 
 
@@ -207,7 +204,6 @@ class LLMS_Theme_Support {
 				'.llms-lesson-preview.is-complete .llms-lesson-complete',
 			)
 		);
-
 	}
 
 	/**
@@ -239,9 +235,7 @@ class LLMS_Theme_Support {
 				require_once 'class-llms-twenty-twenty-two.php';
 				break;
 		}
-
 	}
-
 }
 
 return new LLMS_Theme_Support();

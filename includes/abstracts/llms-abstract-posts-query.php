@@ -74,7 +74,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 		$this->number_results = $this->wp_query->post_count;
 		$this->found_results  = $this->found_results();
 		$this->max_pages      = (int) $this->wp_query->max_num_pages;
-
 	}
 
 	/**
@@ -98,7 +97,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 			),
 			parent::default_arguments()
 		);
-
 	}
 
 	/**
@@ -129,7 +127,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 			'sort'       => 'orderby',
 			'status'     => 'post_status',
 		);
-
 	}
 
 	/**
@@ -154,7 +151,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 
 		$this->wp_query = new WP_Query( $this->query );
 		return $this->wp_query->posts;
-
 	}
 
 	/**
@@ -178,7 +174,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 		}
 
 		return $args;
-
 	}
 
 	/**
@@ -199,7 +194,6 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 		}
 
 		parent::set( $key, $val );
-
 	}
 
 	/**
@@ -226,7 +220,5 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 		}
 
 		return array_values( $val );
-
 	}
-
 }

@@ -50,9 +50,7 @@ class LLMS_Shortcode_Course_Continue_Button extends LLMS_Shortcode_Course_Elemen
 	protected function template_function() {
 
 		lifterlms_course_continue_button( $this->get_attribute( 'course_id' ) );
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Continue_Button::instance();

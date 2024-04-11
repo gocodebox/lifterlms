@@ -116,7 +116,6 @@ class LLMS_Notification implements JsonSerializable {
 		if ( is_numeric( $notification ) ) {
 			$this->id = $notification;
 		}
-
 	}
 
 	/**
@@ -181,7 +180,6 @@ class LLMS_Notification implements JsonSerializable {
 		$this->id = $wpdb->insert_id;
 
 		return $this->id;
-
 	}
 
 	/**
@@ -219,7 +217,6 @@ class LLMS_Notification implements JsonSerializable {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );  // db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -309,7 +306,6 @@ class LLMS_Notification implements JsonSerializable {
 		}
 
 		return $this;
-
 	}
 
 	/**
@@ -350,7 +346,6 @@ class LLMS_Notification implements JsonSerializable {
 			break;
 
 		}
-
 	}
 
 	/**
@@ -364,5 +359,4 @@ class LLMS_Notification implements JsonSerializable {
 	public function toArray() {
 		return get_object_vars( $this->load() );
 	}
-
 }

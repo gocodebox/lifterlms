@@ -33,7 +33,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'normal';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		}
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-order-details.php';
-
 	}
 
 	/**
@@ -119,7 +117,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		$this->save_remaining_payments( $order );
 
 		return 1;
-
 	}
 
 	/**
@@ -181,7 +178,5 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		}
 
 		return 1;
-
 	}
-
 }

@@ -31,7 +31,6 @@ function llms_update_3130_create_default_instructors() {
 		$course = llms_get_post( $post );
 		$course->set_instructors();
 	}
-
 }
 
 /**
@@ -59,7 +58,6 @@ function llms_update_3130_builder_notice() {
 			'remindable'  => false,
 		)
 	);
-
 }
 
 /**
@@ -72,5 +70,4 @@ function llms_update_3130_builder_notice() {
 function llms_update_3130_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.13.0' );
-
 }

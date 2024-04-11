@@ -29,7 +29,6 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 
 		add_action( 'llms_reporting_content_memberships', array( $this, 'output' ) );
 		add_action( 'llms_reporting_membership_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
-
 	}
 
 	/**
@@ -54,7 +53,6 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
 
 		}
-
 	}
 
 	/**
@@ -99,9 +97,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 			echo $table->get_table_html();
 
 		}
-
 	}
-
 }
 
 return new LLMS_Admin_Reporting_Tab_Memberships();

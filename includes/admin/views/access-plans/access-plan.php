@@ -176,7 +176,7 @@ if ( ! isset( $plan ) ) {
 						<?php $i = 1; while ( $i <= 6 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ), $i ); ?></option>
 							<?php
-							$i++;
+							++$i;
 endwhile;
 						?>
 					</select>
@@ -186,7 +186,7 @@ endwhile;
 						<?php $i = 1; while ( $i <= 24 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ), $i ); ?></option>
 							<?php
-							$i++;
+							++$i;
 endwhile;
 						?>
 					</select>
@@ -196,7 +196,7 @@ endwhile;
 						<?php $i = 1; while ( $i <= 52 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ), $i ); ?></option>
 							<?php
-							$i++;
+							++$i;
 endwhile;
 						?>
 					</select>
@@ -206,7 +206,7 @@ endwhile;
 						<?php $i = 1; while ( $i <= 90 ) : ?>
 							<option value="<?php echo $i; ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ), $i ); ?></option>
 							<?php
-							$i++;
+							++$i;
 endwhile;
 						?>
 					</select>

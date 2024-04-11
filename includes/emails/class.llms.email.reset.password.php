@@ -41,7 +41,6 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 				'{user_login}' => $args['login_display'],
 			)
 		);
-
 	}
 
 	/**
@@ -72,7 +71,5 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 			)
 		);
 		return ob_get_clean();
-
 	}
-
 }

@@ -26,7 +26,6 @@ class LLMS_Admin_Export_Download {
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'maybe_serve_export' ) );
-
 	}
 
 	/**
@@ -72,9 +71,7 @@ class LLMS_Admin_Export_Download {
 		unlink( $path );
 		echo $file;
 		exit;
-
 	}
-
 }
 
 return new LLMS_Admin_Export_Download();

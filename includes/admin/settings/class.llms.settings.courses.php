@@ -34,7 +34,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -156,7 +155,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		$deprecated = apply_filters( 'lifterlms_catalog_settings', array() );
 
 		return array_merge( $course, $deprecated );
-
 	}
 
 	/**
@@ -183,7 +181,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		LLMS_Admin_Settings::output_fields( $settings );
 		add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 	}
-
 }
 
 return new LLMS_Settings_Courses();

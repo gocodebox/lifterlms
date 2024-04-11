@@ -41,9 +41,7 @@ class LLMS_Shortcode_Lesson_Mark_Complete extends LLMS_Shortcode {
 		ob_start();
 		lifterlms_template_complete_lesson_link();
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Lesson_Mark_Complete::instance();

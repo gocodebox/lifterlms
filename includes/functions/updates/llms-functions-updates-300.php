@@ -131,7 +131,7 @@ function llms_update_300_create_access_plans() {
 				}
 
 				unset( $plan );
-				$order++;
+				++$order;
 
 			}
 
@@ -156,7 +156,7 @@ function llms_update_300_create_access_plans() {
 				}
 
 				unset( $plan );
-				$order++;
+				++$order;
 
 			}
 
@@ -173,7 +173,7 @@ function llms_update_300_create_access_plans() {
 				}
 
 				unset( $plan );
-				$order++;
+				++$order;
 
 			}
 
@@ -200,7 +200,7 @@ function llms_update_300_create_access_plans() {
 				}
 
 				unset( $plan );
-				$order++;
+				++$order;
 
 			}
 
@@ -233,7 +233,6 @@ function llms_update_300_create_access_plans() {
 			}
 		}
 	}
-
 }
 
 /**
@@ -279,7 +278,6 @@ function llms_update_300_del_deprecated_options() {
 	delete_option( 'lifterlms_course_display_outline_lesson_thumbnails' );
 	delete_option( 'lifterlms_display_lesson_complete_placeholders' );
 	delete_option( 'redirect_to_checkout' );
-
 }
 
 /**
@@ -347,7 +345,6 @@ function llms_update_300_migrate_account_field_options() {
 	delete_option( 'lifterlms_registration_require_name' );
 	delete_option( 'lifterlms_registration_require_address' );
 	delete_option( 'lifterlms_registration_add_phone' );
-
 }
 
 /**
@@ -384,7 +381,6 @@ function llms_update_300_migrate_coupon_data() {
 		delete_post_meta( $obj->post_id, '_llms_coupon_title' );
 
 	}
-
 }
 
 /**
@@ -464,7 +460,6 @@ function llms_update_300_migrate_course_postmeta() {
 		 SET m.meta_value = 'no'
 	 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_has_prerequisite' AND m.meta_value = '';"
 	); // db call ok; no-cache ok.
-
 }
 
 /**
@@ -478,7 +473,6 @@ function llms_update_300_migrate_email_postmeta() {
 
 	llms_update_util_rekey_meta( 'llms_email', '_llms_email_subject', '_email_subject' );
 	llms_update_util_rekey_meta( 'llms_email', '_llms_email_heading', '_email_heading' );
-
 }
 
 /**
@@ -536,7 +530,6 @@ function llms_update_300_migrate_lesson_postmeta() {
 	foreach ( $drips as $r ) {
 		add_post_meta( $r->post_id, '_llms_drip_method', 'enrollment' );
 	}
-
 }
 
 /**
@@ -577,7 +570,6 @@ function llms_update_300_migrate_order_data() {
 	llms_update_util_rekey_meta( 'llms_order', '_llms_trial_total', '_llms_order_first_payment' );
 
 	llms_update_util_rekey_meta( 'llms_order', '_llms_start_date', '_llms_order_date' );
-
 }
 
 /**
@@ -687,5 +679,4 @@ function llms_update_300_update_orders() {
 function llms_update_300_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.0.0' );
-
 }

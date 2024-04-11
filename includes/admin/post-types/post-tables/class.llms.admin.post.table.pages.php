@@ -50,7 +50,6 @@ class LLMS_Admin_Post_Table_Pages {
 			add_filter( 'display_post_states', array( $this, 'post_states' ), 10, 2 );
 
 		}
-
 	}
 
 	/**
@@ -71,10 +70,7 @@ class LLMS_Admin_Post_Table_Pages {
 		}
 
 		return $states;
-
 	}
-
-
 }
 
 return new LLMS_Admin_Post_Table_Pages();

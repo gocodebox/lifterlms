@@ -97,7 +97,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		 * @param LLMS_Transaction $transaction     The transaction object.
 		 */
 		return apply_filters( 'llms_transaction_can_be_refunded', $can_be_refunded, $this );
-
 	}
 
 	/**
@@ -152,7 +151,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		return $refund_id;
-
 	}
 
 	/**
@@ -256,7 +254,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				$this->get( 'payment_gateway' )
 			)
 		);
-
 	}
 
 	/**
@@ -312,7 +309,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		return $method_title;
-
 	}
 
 	/**
@@ -395,7 +391,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		return $id;
-
 	}
 
 	/**
@@ -433,7 +428,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		return $gateway->process_refund( $this, $amount, $note );
-
 	}
 
 	/**
@@ -502,7 +496,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		// Update status.
 		$this->set( 'status', 'llms-txn-refunded' );
-
 	}
 
 	/**
@@ -548,7 +541,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		// Record the note.
 		return $this->get_order()->add_note( $note, true );
-
 	}
 
 	/**
@@ -580,7 +572,5 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		}
 
 		return $val;
-
 	}
-
 }

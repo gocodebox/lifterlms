@@ -117,7 +117,6 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -141,5 +140,4 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 	protected function set_title() {
 		return sprintf( __( '%1$s enrollment success!', 'lifterlms' ), '{{TYPE}}' );
 	}
-
 }

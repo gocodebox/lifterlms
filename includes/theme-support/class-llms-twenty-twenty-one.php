@@ -51,7 +51,6 @@ class LLMS_Twenty_Twenty_One {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'add_inline_editor_styles' ) );
 
 		add_action( 'wp', array( __CLASS__, 'handle_certificate_title' ) );
-
 	}
 
 	/**
@@ -251,7 +250,6 @@ class LLMS_Twenty_Twenty_One {
 		$styles[] = '.is-dark-theme .llms-progress .progress-bar-complete { opacity: 0.5; }';
 
 		return implode( "\r", $styles );
-
 	}
 
 	/**
@@ -269,7 +267,6 @@ class LLMS_Twenty_Twenty_One {
 		if ( in_array( get_post_type(), array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			remove_filter( 'the_title', 'twenty_twenty_one_post_title' );
 		}
-
 	}
 
 	/**
@@ -296,7 +293,6 @@ class LLMS_Twenty_Twenty_One {
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_archive_description_wrapper' ), -1 );
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_archive_description_wrapper_end' ), 99999998 );
 		}
-
 	}
 
 	/**
@@ -325,7 +321,6 @@ class LLMS_Twenty_Twenty_One {
 			return '';
 		}
 		return $html;
-
 	}
 
 	/**
@@ -371,7 +366,6 @@ class LLMS_Twenty_Twenty_One {
 	public static function page_header_wrap_end() {
 		echo '</header><!-- .page-header -->';
 	}
-
 }
 
 return LLMS_Twenty_Twenty_One::init();

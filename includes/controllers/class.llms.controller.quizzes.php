@@ -30,7 +30,6 @@ class LLMS_Controller_Quizzes {
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'maybe_handle_reporting_actions' ) );
-
 	}
 
 	/**
@@ -60,9 +59,7 @@ class LLMS_Controller_Quizzes {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Controller_Quizzes();

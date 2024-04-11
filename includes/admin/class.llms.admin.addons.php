@@ -49,7 +49,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section', $section );
-
 	}
 
 	/**
@@ -107,7 +106,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $this->data;
-
 	}
 
 	/**
@@ -132,7 +130,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $all;
-
 	}
 
 	/**
@@ -171,7 +168,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $features;
-
 	}
 
 	/**
@@ -201,7 +197,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -232,7 +227,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $products;
-
 	}
 
 	/**
@@ -250,7 +244,6 @@ class LLMS_Admin_AddOns {
 			$this->handle_manage_addons();
 			LLMS_Admin_Notices::output_notices();
 		}
-
 	}
 
 	/**
@@ -300,7 +293,6 @@ class LLMS_Admin_AddOns {
 		}
 
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
 
 	/**
@@ -436,7 +428,6 @@ class LLMS_Admin_AddOns {
 
 		}
 		$this->output_content();
-
 	}
 
 	/**
@@ -467,5 +458,4 @@ class LLMS_Admin_AddOns {
 		</nav>
 		<?php
 	}
-
 }

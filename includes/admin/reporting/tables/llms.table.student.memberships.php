@@ -68,7 +68,6 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $membership_id );
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 		$this->student = $args['student'];
 
 		$this->tbody_data = $this->student->get_membership_levels();
-
 	}
 
 	/**
@@ -149,5 +147,4 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student is not enrolled in any memberships.', 'lifterlms' );
 	}
-
 }

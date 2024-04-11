@@ -72,7 +72,6 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		</div>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -144,7 +143,6 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -245,5 +243,4 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 			),
 		);
 	}
-
 }

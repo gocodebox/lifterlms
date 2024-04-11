@@ -192,7 +192,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return date_i18n( $format, $available );
-
 	}
 
 	/**
@@ -210,7 +209,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return llms_get_post( $course_id );
-
 	}
 
 	/**
@@ -262,7 +260,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		 * @param LLMS_Lesson $lesson Instance of the LLMS_Lesson.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
-
 	}
 
 	/**
@@ -358,7 +355,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_get_preview_icon_html', $html );
-
 	}
 
 	/**
@@ -376,7 +372,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return llms_get_post( $section_id );
-
 	}
 
 	/**
@@ -408,7 +403,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function has_prerequisite() {
 
 		return ( 'yes' === $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
-
 	}
 
 	/**
@@ -425,7 +419,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		$default = sanitize_title( __( 'New Lesson', 'lifterlms' ) );
 		return ( false === strpos( $this->get( 'name' ), $default ) );
-
 	}
 
 	/**
@@ -463,7 +456,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$now       = llms_current_time( 'timestamp' );
 
 		return ( $now > $available );
-
 	}
 
 	/**
@@ -489,7 +481,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$student = new LLMS_Student( $user_id );
 
 		return $student->is_complete( $this->get( 'id' ), 'lesson' );
-
 	}
 
 
@@ -528,7 +519,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -567,7 +557,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -594,7 +583,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return $updated_values;
-
 	}
 
 	/**
@@ -613,7 +601,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function set_title( $title ) {
 
 		return LLMS_Post_Handler::update_title( $this->id, $title );
-
 	}
 
 	/**
@@ -632,7 +619,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function set_excerpt( $excerpt ) {
 
 		return LLMS_Post_Handler::update_excerpt( $this->id, $excerpt );
-
 	}
 
 	/**
@@ -649,7 +635,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function set_parent_section( $section_id ) {
 
 		return update_post_meta( $this->id, '_llms_parent_section', $section_id );
-
 	}
 
 	/**
@@ -666,7 +651,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function set_order( $order ) {
 
 		return update_post_meta( $this->id, '_llms_order', $order );
-
 	}
 
 	/**
@@ -686,7 +670,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::set( \'parent_course\', $course_id )' );
 
 		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
-
 	}
 
 	/**
@@ -735,7 +718,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function get_next_lesson() {
 
 		return $this->get_sibling( 'next' );
-
 	}
 
 	/**
@@ -754,7 +736,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	public function get_previous_lesson() {
 
 		return $this->get_sibling( 'prev' );
-
 	}
 
 	/**
@@ -775,7 +756,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return $lesson;
-
 	}
 
 	/**
@@ -851,7 +831,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		$lessons = get_posts( $args );
 
 		return empty( $lessons ) ? false : $lessons[0]->ID;
-
 	}
 
 	/**
@@ -933,7 +912,5 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		}
 
 		return $sibling_lesson instanceof WP_Post ? $sibling_lesson->ID : $sibling_lesson;
-
 	}
-
 }

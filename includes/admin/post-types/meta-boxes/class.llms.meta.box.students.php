@@ -43,7 +43,6 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 			'llms_membership',
 		);
 		$this->priority = 'default';
-
 	}
 
 	/**
@@ -84,7 +83,5 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 			);
 
 		}
-
 	}
-
 }

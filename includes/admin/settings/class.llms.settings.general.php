@@ -35,7 +35,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -121,7 +120,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'lifterlms_general_settings', $settings );
-
 	}
 
 	/**
@@ -133,9 +131,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
-
 	}
-
 }
 
 return new LLMS_Settings_General();

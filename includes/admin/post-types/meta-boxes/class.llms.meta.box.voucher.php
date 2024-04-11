@@ -37,7 +37,6 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			'llms_voucher',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -113,7 +112,6 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				),
 			),
 		);
-
 	}
 
 	/**

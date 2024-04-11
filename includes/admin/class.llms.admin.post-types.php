@@ -37,7 +37,6 @@ class LLMS_Admin_Post_Types {
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
 
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
-
 	}
 
 	/**
@@ -67,7 +66,6 @@ class LLMS_Admin_Post_Types {
 		}
 
 		return $use_block_editor;
-
 	}
 
 	/**
@@ -165,7 +163,6 @@ class LLMS_Admin_Post_Types {
 
 		return $messages;
 	}
-
 }
 
 return new LLMS_Admin_Post_Types();

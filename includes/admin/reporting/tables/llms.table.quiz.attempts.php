@@ -176,7 +176,6 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
 		return $instructors;
-
 	}
 
 	/**
@@ -237,7 +236,6 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_attempts();
-
 	}
 
 	/**
@@ -299,7 +297,5 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		);
 
 		return $cols;
-
 	}
-
 }

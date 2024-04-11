@@ -104,7 +104,6 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		if ( ! empty( $this->plugin_basename ) ) {
 			add_action( "plugin_action_links_{$this->plugin_basename}", array( $this, 'plugin_action_links' ), 100, 4 );
 		}
-
 	}
 
 	/**
@@ -255,7 +254,6 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		}
 
 		return $default_value;
-
 	}
 
 	/**
@@ -323,7 +321,5 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		$links[] = '<a href="' . esc_url( $url ) . '">' . _x( 'Settings', 'Link text for integration plugin settings', 'lifterlms' ) . '</a>';
 
 		return $links;
-
 	}
-
 }

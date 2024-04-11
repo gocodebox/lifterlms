@@ -79,9 +79,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Notification_Processor_Email();

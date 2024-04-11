@@ -27,7 +27,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 
 		add_action( 'llms_reporting_after_nav', array( $this, 'output_filters' ), 10, 1 );
 		add_action( 'llms_reporting_content_sales', array( $this, 'output' ) );
-
 	}
 
 	public static function get_filter_data() {
@@ -49,7 +48,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 		$data['date_end']   = $data['dates']['end'];
 
 		return $data;
-
 	}
 
 	/**
@@ -129,7 +127,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 				'widget_data' => $this->get_widget_data(),
 			)
 		);
-
 	}
 
 	/**
@@ -146,8 +143,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 			llms_get_template( 'admin/reporting/nav-filters.php', self::get_filter_data() );
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Reporting_Tab_Sales();

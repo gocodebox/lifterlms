@@ -51,7 +51,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		}
 
 		$this->enable_logging = ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG );
-
 	}
 
 	/**
@@ -81,7 +80,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		if ( is_wp_error( $dispatched ) ) {
 			$this->log( sprintf( 'Unable to dispatch updater: %s' ), $dispatched->get_error_message() );
 		}
-
 	}
 
 	/**
@@ -136,7 +134,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		}
 
 		$this->handle();
-
 	}
 
 	/**
@@ -163,7 +160,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		if ( $this->enable_logging ) {
 			llms_log( $data, 'updater' );
 		}
-
 	}
 
 	/**
@@ -193,7 +189,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -215,5 +210,4 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 		return $this;
 	}
-
 }

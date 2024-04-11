@@ -173,7 +173,6 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
 		return $instructors;
-
 	}
 
 	/**
@@ -261,7 +260,6 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->posts;
-
 	}
 
 	/**
@@ -316,5 +314,4 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 			),
 		);
 	}
-
 }

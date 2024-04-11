@@ -64,7 +64,6 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 		$this->post_id = $attempt->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -143,7 +142,6 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -178,7 +176,6 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 		$this->user_id = $attempt->get( 'student_id' );
 		$this->post_id = $attempt->get( 'id' );
 		return parent::send_test( $type );
-
 	}
 
 	/**
@@ -207,9 +204,7 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Quiz_Graded::instance();

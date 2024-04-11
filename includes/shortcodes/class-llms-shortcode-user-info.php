@@ -43,7 +43,6 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		 * @param string[] $keys List of user and usermeta keys.
 		 */
 		return apply_filters( 'llms_user_info_shortcode_blocked_keys', array( 'user_pass' ) );
-
 	}
 
 	/**
@@ -97,7 +96,6 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		$val  = $user->exists() ? $user->get( $key ) : null;
 
 		return ! empty( $val ) && is_scalar( $val ) ? $val : $default;
-
 	}
 
 	/**
@@ -118,9 +116,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		}
 
 		return parent::set_attributes( $atts );
-
 	}
-
 }
 
 return LLMS_Shortcode_User_Info::instance();

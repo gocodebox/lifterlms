@@ -92,7 +92,6 @@ class LLMS_Block_Templates {
 		 * @param array $block_templates_config Block templates configuration array.
 		 */
 		$this->block_templates_config = apply_filters( 'llms_block_templates_config', $block_templates_config );
-
 	}
 
 	/**
@@ -149,7 +148,6 @@ class LLMS_Block_Templates {
 
 		// At this point we haven't had any luck finding a template. Give up and let Gutenberg take control again.
 		return $template;
-
 	}
 
 
@@ -193,7 +191,6 @@ class LLMS_Block_Templates {
 			$available_templates[0] : $template;
 
 		return $template;
-
 	}
 
 	/**
@@ -234,7 +231,7 @@ class LLMS_Block_Templates {
 		$templates = array_values(
 			array_filter(
 				$templates,
-				function( $template, $key ) use ( $templates, $post_type ) {
+				function ( $template, $key ) use ( $templates, $post_type ) {
 					return ( ! ( $post_type && isset( $template->post_types ) && ! in_array( $post_type, $template->post_types, true ) ) ) &&
 						array_search( $template->slug, array_unique( wp_list_pluck( $templates, 'slug' ) ), true ) === $key;
 				},
@@ -243,7 +240,6 @@ class LLMS_Block_Templates {
 		);
 
 		return $templates;
-
 	}
 
 	/**
@@ -268,7 +264,6 @@ class LLMS_Block_Templates {
 		}
 
 		return $templates;
-
 	}
 
 	/**
@@ -314,12 +309,11 @@ class LLMS_Block_Templates {
 		$templates = ( new WP_Query( $query_args ) )->posts;
 
 		return array_map(
-			function( $template ) {
+			function ( $template ) {
 				return $this->build_template_result_from_post( $template );
 			},
 			$templates
 		);
-
 	}
 
 	/**
@@ -343,7 +337,6 @@ class LLMS_Block_Templates {
 		}
 
 		return $block_template_paths;
-
 	}
 
 	/**
@@ -435,7 +428,6 @@ class LLMS_Block_Templates {
 		}
 
 		return $template;
-
 	}
 
 	/**
@@ -469,7 +461,6 @@ class LLMS_Block_Templates {
 				substr( $template_path_info['dirname'], 0, -1 * strlen( $template_blocks_dir ) ), // Looks like 'ABSPATH/wp-content/plugins/lifterlms-groups/templates/'.
 				true
 			);
-
 	}
 
 	/**
@@ -485,10 +476,9 @@ class LLMS_Block_Templates {
 	 */
 	private function generate_template_slug_from_path( $path ) {
 
-		$prefix  = $this->block_template_config_property_from_path( $path, 'slug_prefix' );
+		$prefix = $this->block_template_config_property_from_path( $path, 'slug_prefix' );
 
 		return $prefix . basename( $path, '.html' );
-
 	}
 
 	/**
@@ -502,7 +492,6 @@ class LLMS_Block_Templates {
 	private function generate_template_namespace_from_path( $path ) {
 
 		return $this->block_template_config_property_from_path( $path, 'namespace' );
-
 	}
 
 	/**
@@ -517,7 +506,6 @@ class LLMS_Block_Templates {
 	private function generate_template_prefix_from_path( $path ) {
 
 		return $this->block_template_config_property_from_path( $path, 'slug_prefix' );
-
 	}
 
 	/**
@@ -531,7 +519,6 @@ class LLMS_Block_Templates {
 	private function generate_template_blocks_dir_from_path( $path ) {
 
 		return $this->block_template_config_property_from_path( $path, 'blocks_dir' );
-
 	}
 
 	/**
@@ -555,7 +542,6 @@ class LLMS_Block_Templates {
 			}
 		}
 		return $prop_value;
-
 	}
 
 	/**
@@ -575,7 +561,6 @@ class LLMS_Block_Templates {
 			:
 			// Replace all hyphens and underscores with spaces.
 			ucwords( preg_replace( '/[\-_]/', ' ', $template_slug ) );
-
 	}
 
 	/**
@@ -614,7 +599,7 @@ class LLMS_Block_Templates {
 		$query_result = array_values(
 			array_filter(
 				$query_result,
-				function( $template ) use ( $templates ) {
+				function ( $template ) use ( $templates ) {
 					$slugs = wp_list_pluck( $templates, 'slug' );
 					return ( ! in_array( $template->slug, $slugs, true ) );
 				}
@@ -622,7 +607,6 @@ class LLMS_Block_Templates {
 		);
 
 		return array_merge( $query_result, $templates );
-
 	}
 
 	/**
@@ -663,7 +647,6 @@ class LLMS_Block_Templates {
 		 * }
 		 */
 		return apply_filters( 'lifterlms_block_templates_titles', $template_titles );
-
 	}
 
 	/**
@@ -687,7 +670,6 @@ class LLMS_Block_Templates {
 			'taxonomy-membership_cat'    => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
 			'taxonomy-membership_tag'    => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
 		);
-
 	}
 
 	/**
@@ -705,5 +687,4 @@ class LLMS_Block_Templates {
 			array_merge( ...array_column( $this->block_templates_config, 'admin_blocks_l10n' ) )
 		);
 	}
-
 }

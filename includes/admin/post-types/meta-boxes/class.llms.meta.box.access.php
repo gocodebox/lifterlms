@@ -32,7 +32,6 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 		$this->title   = __( 'Membership Access', 'lifterlms' );
 		$this->screens = $this->get_screens();
 		$this->context = 'side';
-
 	}
 
 	/**
@@ -80,7 +79,6 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 				),
 			),
 		);
-
 	}
 
 	/**
@@ -117,7 +115,5 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 		}
 
 		return $screens;
-
 	}
-
 }

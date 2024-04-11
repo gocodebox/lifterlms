@@ -65,7 +65,6 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -171,7 +170,5 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		}
 
 		return $code;
-
 	}
-
 }

@@ -41,7 +41,6 @@ function llms_update_3120_update_order_end_dates() {
 		$order->maybe_schedule_payment( true );
 
 	}
-
 }
 
 /**
@@ -73,7 +72,6 @@ function llms_update_3120_update_integration_options() {
 			'option_name' => 'lifterlms_buddypress_enabled',
 		)
 	); // db call ok; no-cache ok.
-
 }
 
 /**
@@ -86,5 +84,4 @@ function llms_update_3120_update_integration_options() {
 function llms_update_3120_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.12.0' );
-
 }

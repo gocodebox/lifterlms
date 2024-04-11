@@ -38,7 +38,6 @@ function llms_get_locale( $domain = 'lifterlms' ) {
 	 * @param string $domain The textdomain.
 	 */
 	return apply_filters( 'plugin_locale', $locale, $domain );
-
 }
 
 function llms_l10n_get_safe_directory() {
@@ -57,7 +56,6 @@ function llms_l10n_get_safe_directory() {
 	 * @param string $path Full server path to the safe directory.
 	 */
 	return apply_filters( 'llms_l10n_safe_directory', WP_LANG_DIR . '/lifterlms' );
-
 }
 
 /**
@@ -110,5 +108,4 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	 * 2. wp-content/plugins/lifterlms/languages/lifterlms-en_US.mo
 	 */
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
-
 }

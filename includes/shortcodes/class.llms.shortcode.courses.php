@@ -148,7 +148,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		}
 
 		return $has_tax_query ? $tax_query : '';
-
 	}
 
 	/**
@@ -174,7 +173,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		);
 
 		return new WP_Query( $args );
-
 	}
 
 	/**
@@ -203,23 +201,17 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 				'</a>'
 			);
 
-		} else {
-
-			if ( 'no' !== $this->get_attribute( 'mine' ) && ! $this->get_post__in() ) {
+		} elseif ( 'no' !== $this->get_attribute( 'mine' ) && ! $this->get_post__in() ) {
 
 				printf( '<p>%s</p>', __( 'No courses found.', 'lifterlms' ) );
 
-			} else {
+		} else {
 
-				lifterlms_loop( $this->get_wp_query() );
-
-			}
+			lifterlms_loop( $this->get_wp_query() );
 		}
 
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Courses::instance();

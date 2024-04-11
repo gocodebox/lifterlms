@@ -41,7 +41,6 @@ class LLMS_Quiz_Attempt_Question {
 				'correct' => null,
 			)
 		);
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -115,7 +113,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
-
 	}
 
 	/**
@@ -150,7 +147,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer_array', $ret, $answers, $question, $this );
-
 	}
 
 	/**
@@ -177,7 +173,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer', $ret, $answers, $this->get_question(), $this );
-
 	}
 
 	/**
@@ -206,7 +201,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
-
 	}
 
 	/**
@@ -254,7 +248,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return '';
-
 	}
 
 	/**
@@ -305,7 +298,6 @@ class LLMS_Quiz_Attempt_Question {
 	public function has_remarks() {
 
 		return ( $this->get( 'remarks' ) );
-
 	}
 
 	/**
@@ -322,7 +314,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -337,5 +328,4 @@ class LLMS_Quiz_Attempt_Question {
 	public function set( $key, $val ) {
 		$this->data[ $key ] = $val;
 	}
-
 }

@@ -38,7 +38,6 @@ function llms_update_343_update_relationships() {
 		 WHERE m.meta_key = '_parent_section'
 		   AND p.post_type = 'lesson';"
 	);
-
 }
 
 /**
@@ -51,5 +50,4 @@ function llms_update_343_update_relationships() {
 function llms_update_343_update_db_version() {
 
 	LLMS_Install::update_db_version( '3.4.3' );
-
 }

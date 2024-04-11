@@ -53,7 +53,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 		// Remove duplicates and save.
 		return $this->set( 'parent_instructors', array_unique( $parents ) );
-
 	}
 
 	/**
@@ -77,7 +76,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		); // db call ok; no-cache ok.
 
 		return $results;
-
 	}
 
 	/**
@@ -99,7 +97,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			)
 		);
 		return $this->get_posts( $args, $return );
-
 	}
 
 	/**
@@ -121,7 +118,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			)
 		);
 		return $this->get_posts( $args, $return );
-
 	}
 
 	/**
@@ -173,7 +169,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 		// If 'query' === $return.
 		return $query;
-
 	}
 
 	/**
@@ -214,7 +209,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		}
 
 		return new LLMS_Student_Query( $args );
-
 	}
 
 	/**
@@ -244,7 +238,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		}
 
 		return $student->is_enrolled( $ids, 'any' );
-
 	}
 
 	/**
@@ -315,7 +308,6 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_instructor_is_instructor', $ret, $post_id, $check_id, $this );
-
 	}
 
 	/**
@@ -335,5 +327,4 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			'last_name'   => $this->get( 'last_name' ),
 		);
 	}
-
 }

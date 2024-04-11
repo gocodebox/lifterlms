@@ -86,7 +86,6 @@ class LLMS_Notifications {
 
 		add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
 		add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
-
 	}
 
 	/**
@@ -112,7 +111,6 @@ class LLMS_Notifications {
 
 		// Translators: %s = Processor ID.
 		return new WP_Error( 'invalid-processor', sprintf( __( 'The processor "%s" does not exist.', 'lifterlms' ), $id ) );
-
 	}
 
 	/**
@@ -152,7 +150,6 @@ class LLMS_Notifications {
 			'window.llms.queued_notifications = ' . wp_json_encode( $this->displayed ) . ';',
 			'footer'
 		);
-
 	}
 
 	/**
@@ -171,7 +168,6 @@ class LLMS_Notifications {
 				$notification->set( 'status', 'read' );
 			}
 		}
-
 	}
 
 	/**
@@ -259,7 +255,6 @@ class LLMS_Notifications {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -277,7 +272,6 @@ class LLMS_Notifications {
 		$prefix = $prefix ? $prefix : 'LLMS';
 		$name   = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
 		return sprintf( '%1$s_Notification_View_%2$s', $prefix, $name );
-
 	}
 
 	/**
@@ -337,7 +331,6 @@ class LLMS_Notifications {
 		 * @param LLMS_Notifications $this Instance of the notifications singleton.
 		 */
 		do_action( 'llms_notifications_loaded', $this );
-
 	}
 
 	/**
@@ -364,7 +357,6 @@ class LLMS_Notifications {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -455,7 +447,6 @@ class LLMS_Notifications {
 			$this->processors_to_dispatch[] = $id;
 
 		}
-
 	}
 
 	/**
@@ -492,7 +483,6 @@ class LLMS_Notifications {
 		}
 
 		return $scheduled;
-
 	}
 
 	/**
@@ -531,7 +521,5 @@ class LLMS_Notifications {
 		}
 
 		return $timestamp;
-
 	}
-
 }

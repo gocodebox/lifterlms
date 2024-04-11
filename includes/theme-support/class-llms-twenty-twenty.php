@@ -54,7 +54,6 @@ class LLMS_Twenty_Twenty {
 		add_filter( 'twentytwenty_get_elements_array', array( __CLASS__, 'add_elements' ) );
 
 		add_action( 'wp_head', array( __CLASS__, 'add_inline_styles' ), 100 );
-
 	}
 
 	/**
@@ -123,7 +122,6 @@ class LLMS_Twenty_Twenty {
 		<?php endif; ?>
 		</style>
 		<?php
-
 	}
 
 	/**
@@ -179,7 +177,6 @@ class LLMS_Twenty_Twenty {
 		);
 
 		return $elements;
-
 	}
 
 	/**
@@ -257,7 +254,6 @@ class LLMS_Twenty_Twenty {
 			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
 
 		);
-
 	}
 
 	/**
@@ -276,7 +272,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $classes;
-
 	}
 
 	/**
@@ -297,7 +292,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $page_id;
-
 	}
 
 	/**
@@ -321,7 +315,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $template_class;
-
 	}
 
 	/**
@@ -335,7 +328,6 @@ class LLMS_Twenty_Twenty {
 	public static function hide_meta_output( $post_types ) {
 
 		return array_merge( $post_types, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ) );
-
 	}
 
 	/**
@@ -349,7 +341,6 @@ class LLMS_Twenty_Twenty {
 	protected static function is_page_full_width( $page_id ) {
 
 		return 'templates/template-full-width.php' === get_page_template_slug( $page_id );
-
 	}
 
 	/**
@@ -369,7 +360,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $cols;
-
 	}
 
 	/**
@@ -435,7 +425,6 @@ class LLMS_Twenty_Twenty {
 			// Otherwise output the wrapper after the end wrapper for the description wrapper div.
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_content_wrapper_part_two' ), 99999999 );
 		}
-
 	}
 
 	/**
@@ -470,7 +459,6 @@ class LLMS_Twenty_Twenty {
 		</main><!-- #site-content -->
 		<?php
 	}
-
 }
 
 return LLMS_Twenty_Twenty::init();

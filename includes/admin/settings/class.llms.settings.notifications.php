@@ -48,7 +48,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'after_save' ), 15 );
 		add_filter( 'llms_settings_' . $this->id . '_has_save_button', array( $this, 'maybe_disable_save' ) );
-
 	}
 
 	/**
@@ -142,7 +141,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'llms_notification_settings_' . $controller->id . '_' . $type, $settings, $controller, $view );
-
 	}
 
 	/**
@@ -202,7 +200,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'lifterlms_notifications_settings', $settings );
-
 	}
 
 	/**
@@ -216,7 +213,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	public function maybe_disable_save( $bool ) {
 
 		return ( isset( $_GET['notification'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
 	}
 
 	/**
@@ -229,7 +225,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	public function merge_code_button() {
 
 		llms_merge_code_button( $this->view->get_option_name( 'body' ), true, $this->view->get_merge_codes() );
-
 	}
 
 	/**
@@ -252,7 +247,6 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 			unset( $_POST['llms_notification_test_data'] );
 
 		}
-
 	}
 
 	/**
@@ -283,9 +277,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			}
 		}
-
 	}
-
 }
 
 return new LLMS_Settings_Notifications();

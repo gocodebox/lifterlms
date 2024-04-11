@@ -85,7 +85,6 @@ abstract class LLMS_Shortcode {
 		}
 
 		return self::$_instances[ $class ];
-
 	}
 
 	/**
@@ -113,7 +112,6 @@ abstract class LLMS_Shortcode {
 			wp_enqueue_script( $handle );
 
 		}
-
 	}
 
 	/**
@@ -195,7 +193,6 @@ abstract class LLMS_Shortcode {
 		$this->content = $content;
 
 		return apply_filters( $this->get_filter( 'output' ), $this->get_output(), $this );
-
 	}
 
 	/**
@@ -214,7 +211,5 @@ abstract class LLMS_Shortcode {
 			$atts,
 			$this->tag
 		);
-
 	}
-
 }

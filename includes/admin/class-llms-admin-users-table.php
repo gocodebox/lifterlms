@@ -48,7 +48,6 @@ class LLMS_Admin_Users_Table {
 		add_filter( 'views_users', array( $this, 'modify_views' ) );
 
 		add_filter( 'user_row_actions', array( $this, 'add_actions' ), 20, 2 );
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class LLMS_Admin_Users_Table {
 		);
 		$actions['llms-reporting'] = '<a href="' . esc_url( $url ) . '">' . __( 'Reports', 'lifterlms' ) . '</a>';
 		return $actions;
-
 	}
 
 	/**
@@ -100,7 +98,6 @@ class LLMS_Admin_Users_Table {
 		}
 
 		return $this->login_date_format;
-
 	}
 
 	/**
@@ -136,7 +133,6 @@ class LLMS_Admin_Users_Table {
 		}
 
 		return implode( '<br>', $info );
-
 	}
 
 	/**
@@ -232,9 +228,7 @@ class LLMS_Admin_Users_Table {
 		}
 
 		return $output;
-
 	}
-
 }
 
 return new LLMS_Admin_Users_Table();

@@ -68,7 +68,6 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['start'], 'start' ),
 			$this->format_date( $dates['end'], 'end' ),
 		);
-
 	}
 
 	protected function format_response() {
@@ -78,7 +77,5 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }

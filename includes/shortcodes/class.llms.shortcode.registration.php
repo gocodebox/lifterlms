@@ -53,9 +53,7 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 		ob_start();
 		include llms_get_template_part_contents( 'global/form', 'registration' );
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Registration::instance();

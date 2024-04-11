@@ -115,7 +115,6 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -139,5 +138,4 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	protected function set_title() {
 		return sprintf( __( '%s Completed a Course', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
-
 }

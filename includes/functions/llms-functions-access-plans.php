@@ -235,7 +235,6 @@ function llms_insert_access_plan( $props = array() ) {
 	do_action( 'llms_access_plan_after_' . $action, $plan, $props );
 
 	return $plan;
-
 }
 
 /**

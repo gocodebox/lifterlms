@@ -54,7 +54,6 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 			return $this->set_body_email();
 		}
 		return $this->set_body_basic();
-
 	}
 
 	/**
@@ -217,7 +216,6 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -246,5 +244,4 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		// Translators: %s = The product title.
 		return sprintf( __( 'An automatic payment failed for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
-
 }

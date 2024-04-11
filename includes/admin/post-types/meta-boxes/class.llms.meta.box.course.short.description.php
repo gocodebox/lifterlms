@@ -40,5 +40,4 @@ class LLMS_Meta_Box_Course_Short_Description {
 
 		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', apply_filters( 'lifterlms_course_short_description_editor_settings', $settings ) );
 	}
-
 }

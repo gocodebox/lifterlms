@@ -27,7 +27,6 @@ class LLMS_Forms_Admin_Bar {
 	public function __construct() {
 
 		add_action( 'admin_bar_menu', array( $this, 'add_menu_items' ), 999 );
-
 	}
 
 	/**
@@ -63,7 +62,6 @@ class LLMS_Forms_Admin_Bar {
 				'href'   => get_edit_post_link( $form->ID ),
 			)
 		);
-
 	}
 
 	/**
@@ -97,7 +95,6 @@ class LLMS_Forms_Admin_Bar {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -119,9 +116,7 @@ class LLMS_Forms_Admin_Bar {
 		 * @param boolean $display Whether or not to display the node.
 		 */
 		return apply_filters( 'llms_should_display_wp_admin_bar_nodes_for_forms', $display );
-
 	}
-
 }
 
 return new LLMS_Forms_Admin_Bar();

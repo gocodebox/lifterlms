@@ -70,7 +70,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		return array_filter( $csv );
-
 	}
 
 	/**
@@ -106,7 +105,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -141,7 +139,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		);
 
 		return $desc;
-
 	}
 
 	/**
@@ -192,7 +189,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -215,7 +211,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		);
 
 		return $txns['total'];
-
 	}
 
 	/**
@@ -245,7 +240,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		return $csv;
-
 	}
 
 	/**
@@ -267,7 +261,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		llms_exit( $file );
-
 	}
 
 	/**
@@ -282,7 +275,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	protected function should_load() {
 		return count( $this->get_csv() ) > 0;
 	}
-
 }
 
 return new LLMS_Admin_Tool_Limited_Billing_Order_Locator();

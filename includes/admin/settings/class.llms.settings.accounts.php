@@ -372,7 +372,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 		 * @param array $account_settings The account page settings.
 		 */
 		return apply_filters( "lifterlms_{$this->id}_settings", $account_settings );
-
 	}
 
 	/**
@@ -385,7 +384,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	protected function set_label() {
 		return __( 'Accounts', 'lifterlms' );
 	}
-
 }
 
 return new LLMS_Settings_Accounts();

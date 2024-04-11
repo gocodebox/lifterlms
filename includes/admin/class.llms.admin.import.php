@@ -41,7 +41,6 @@ class LLMS_Admin_Import {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 
 		add_action( 'current_screen', array( $this, 'add_help_tabs' ) );
-
 	}
 
 	/**
@@ -69,7 +68,6 @@ class LLMS_Admin_Import {
 		$screen->set_help_sidebar( $this->get_view( 'help-sidebar' ) );
 
 		return $screen;
-
 	}
 
 	/**
@@ -96,7 +94,6 @@ class LLMS_Admin_Import {
 		}
 
 		return $this->handle_generation( $res );
-
 	}
 
 	/**
@@ -113,7 +110,6 @@ class LLMS_Admin_Import {
 		}
 
 		return llms()->assets->enqueue_style( 'llms-admin-importer' );
-
 	}
 
 	/**
@@ -143,7 +139,6 @@ class LLMS_Admin_Import {
 		}
 
 		return implode( ', ', $list );
-
 	}
 
 	/**
@@ -161,7 +156,6 @@ class LLMS_Admin_Import {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -177,7 +171,6 @@ class LLMS_Admin_Import {
 		ob_start();
 		include 'views/import/' . $file . '.php';
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -207,7 +200,6 @@ class LLMS_Admin_Import {
 		$msg .= '</ul>';
 
 		return $msg;
-
 	}
 
 	/**
@@ -232,7 +224,6 @@ class LLMS_Admin_Import {
 
 		LLMS_Admin_Notices::flash_notice( $this->get_success_message( $generator ), 'success' );
 		return true;
-
 	}
 
 	/**
@@ -298,7 +289,6 @@ class LLMS_Admin_Import {
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitizedr
 
 		return $this->handle_generation( $raw );
-
 	}
 
 	/**
@@ -364,9 +354,7 @@ class LLMS_Admin_Import {
 		}
 
 		return true;
-
 	}
-
 }
 
 return new LLMS_Admin_Import();

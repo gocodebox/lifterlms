@@ -41,5 +41,4 @@ interface LLMS_Interface_Notification_Manager {
 	 * @return void
 	 */
 	public function callback();
-
 }
