@@ -139,8 +139,10 @@ class LLMS_Twenty_Twenty_One {
 			$styles[] = LLMS_Theme_Support::get_css(
 				array( '.llms-form-field.type-radio input[type=radio]:checked+label:before' ),
 				array(
-					'background-image' => '-webkit-radial-gradient(center,ellipse,var( --global--color-secondary ) 0,var( --global--color-secondary ) 40%,#fafafa 45%)',
-					'background-image' => 'radial-gradient(ellipse at center,var( --global--color-secondary ) 0,var( --global--color-secondary ) 40%,#fafafa 45%)',
+					'background-image' => array(
+						'-webkit-radial-gradient(center,ellipse,var( --global--color-secondary ) 0,var( --global--color-secondary ) 40%,#fafafa 45%)',
+						'background-image' => 'radial-gradient(ellipse at center,var( --global--color-secondary ) 0,var( --global--color-secondary ) 40%,#fafafa 45%)',
+					),
 				)
 			);
 			// Darkmode fix.

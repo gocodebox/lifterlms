@@ -144,9 +144,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		$track_options = array();
 		$tracks        = get_terms(
-			'course_track',
 			array(
-				'hide_empty' => '0',
+				'taxonomy'   => 'course_track',
+				'hide_empty' => false,
 			)
 		);
 		foreach ( $tracks as $track ) {

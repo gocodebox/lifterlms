@@ -242,7 +242,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		$gateways = llms()->payment_gateways();
 		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
-		if ( $gateway && $gateway->is_enabled() || is_admin() ) {
+		if ( ( $gateway && $gateway->is_enabled() ) || is_admin() ) {
 			return $gateway;
 		}
 

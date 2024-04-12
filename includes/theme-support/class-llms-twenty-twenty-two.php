@@ -98,8 +98,10 @@ class LLMS_Twenty_Twenty_Two {
 			$styles[] = LLMS_Theme_Support::get_css(
 				array( '.llms-form-field.type-radio:not(.is-group) input[type=radio]:checked+label:before' ),
 				array(
-					'background-image' => '-webkit-radial-gradient(center,ellipse,var(--wp--preset--color--primary) 0,var(--wp--preset--color--primary) 40%,#fafafa 45%)',
-					'background-image' => 'radial-gradient(ellipse at center,var(--wp--preset--color--primary) 0,var(--wp--preset--color--primary) 40%,#fafafa 45%)',
+					'background-image' => array(
+						'-webkit-radial-gradient(center,ellipse,var(--wp--preset--color--primary) 0,var(--wp--preset--color--primary) 40%,#fafafa 45%)',
+						'radial-gradient(ellipse at center,var(--wp--preset--color--primary) 0,var(--wp--preset--color--primary) 40%,#fafafa 45%)',
+					),
 				)
 			);
 			// Completed lesson check.

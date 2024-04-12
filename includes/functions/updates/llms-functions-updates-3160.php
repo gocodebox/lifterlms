@@ -123,23 +123,22 @@ function llms_update_3160_attempt_migration() {
 						$insert_key = 'status';
 						if ( $val ) {
 							$insert_val = 'pass';
-						} else {
 							// Quiz has been initialized but hasn't been started yet,
 							// we don't need to migrate these.
-							if ( ! $start && ! $end ) {
-								// $insert_val = 'new';
+						} elseif ( ! $start && ! $end ) {
+
+							// $insert_val = 'new';
 								continue;
-							} elseif ( $start && ! $end ) {
-								// sSill taking the quiz.
-								if ( isset( $attempt['current'] ) && $attempt['current'] ) {
-									$insert_val = 'current';
-								}
-								// Quiz was abandoned.
-								$insert_val = 'incomplete';
-								// Actual failure.
-							} else {
-								$insert_val = 'fail';
+						} elseif ( $start && ! $end ) {
+							// sSill taking the quiz.
+							if ( isset( $attempt['current'] ) && $attempt['current'] ) {
+								$insert_val = 'current';
 							}
+							// Quiz was abandoned.
+							$insert_val = 'incomplete';
+							// Actual failure.
+						} else {
+							$insert_val = 'fail';
 						}
 					}
 
