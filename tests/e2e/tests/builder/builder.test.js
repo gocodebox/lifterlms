@@ -81,7 +81,7 @@ describe( 'Builder', () => {
 		// Launch the builder.
 		await clickAndWait( '.llms-builder-launcher .llms-button-primary' );
 
-		expect( await page.$eval( '.llms-course-header h1.llms-headline .llms-input', el => el.textContent ) ).toBe( 'Test Course Builder' );
+		expect( await page.$eval( '.llms-course-header h1.llms-headline', el => el.textContent.trim() ) ).toBe( 'Test Course Builder' );
 
 	} );
 
