@@ -11,7 +11,7 @@
 	<header class="llms-builder-header llms-course-header">
 
 		<h1 class="llms-headline">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required" type="text">{{{ data.get( 'title' ) }}}</span>
+			<span data-original-content="{{{ data.get( 'title' ) }}}" data-required="required" type="text">{{{ data.get( 'title' ) }}}</span>
 		</h1>
 
 		<div class="llms-action-icons static">
