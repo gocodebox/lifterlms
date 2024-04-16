@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixes XSS, sanitization, and other security issues reported by Signal Labs.
