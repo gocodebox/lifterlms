@@ -13,42 +13,58 @@
 	<header class="llms-builder-header">
 
 		<h2 class="llms-headline">
-			<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> {{{ data.order }}}:
 			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.title }}}" data-required="required">{{{ data.title }}}</span>
 		</h2>
 
 		<div class="llms-action-icons">
 
-			<# if ( ! data._expanded ) { #>
-				<a class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" href="#llms-toggle">
-					<span class="fa fa-plus-circle"></span>
-				</a>
-			<# } #>
+			<div class="llms-action-icons-left">
 
-			<# if ( data._expanded ) { #>
-				<a class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" href="#llms-toggle">
-					<span class="fa fa-minus-circle"></span>
-				</a>
-			<# } #>
+				<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
+					<button class="llms-action-icon llms-trash-model trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete section', 'lifterlms' ); ?>">
+						<span class="fa fa-trash"></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'Delete section', 'lifterlms' ); ?></span>
+					</button>
+				<?php endif; ?>
 
-			<a class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" href="#llms-shift">
-				<span class="fa fa-caret-square-o-up"></span>
-			</a>
+			</div>
 
-			<a class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" href="#llms-shift">
-				<span class="fa fa-caret-square-o-down"></span>
-			</a>
+			<div class="llms-action-icons-right">
 
-			<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-				<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash-model">
-					<span class="fa fa-trash"></span>
-				</a>
-			<?php endif; ?>
+				<button class="llms-action-icon shift-up--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift up', 'lifterlms' ); ?>">
+					<span class="fa fa-chevron-up"></span>
+				</button>
+
+				<button class="llms-action-icon shift-down--section tip--top-right" data-tip="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Shift down', 'lifterlms' ); ?>">
+					<span class="fa fa-chevron-down"></span>
+				</button>
+
+				<# if ( ! data._expanded ) { #>
+					<button class="llms-action-icon expand tip--top-right" data-tip="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Expand section', 'lifterlms' ); ?>">
+						<span class="fa fa-caret-down"></span>
+					</button>
+				<# } #>
+
+				<# if ( data._expanded ) { #>
+					<button class="llms-action-icon collapse tip--top-right" data-tip="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>" aria-label="<?php esc_attr_e( 'Collapse section', 'lifterlms' ); ?>">
+						<span class="fa fa-caret-up"></span>
+					</button>
+				<# } #>
+
+			</div>
 
 		</div>
 
 	</header>
 
 	<ul class="llms-lessons<# if ( data._expanded ) { #> expanded<# } #>" id="llms-lessons-{{{ data.id }}}"></ul>
+
+	<# if ( data._expanded ) { #>
+		<div class="llms-builder-footer">
+			<button class="llms-button-secondary small new-lesson">
+				<span class="fa fa-file"></span> <?php esc_html_e( 'Add New Lesson', 'lifterlms' ); ?>
+			</button>
+		</div>
+	<# } #>
 
 </script>

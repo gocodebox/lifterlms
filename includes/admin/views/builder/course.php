@@ -16,12 +16,15 @@
 
 		<div class="llms-action-icons static">
 			<# if ( data.get_edit_post_link() ) { #>
-				<a class="llms-action-icon tip--bottom-right" data-tip="<?php esc_attr_e( 'Open WordPress course editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}">
-					<i class="fa fa-wordpress" aria-hidden="true"></i>
-					<span class="screen-reader-text"><?php _e( 'Open WordPress course editor', 'lifterlms' ); ?></span>
+				<a class="llms-button-secondary small" href="{{{ data.get_edit_post_link() }}}">
+					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+					<?php esc_html_e( 'Edit Course Page', 'lifterlms' ); ?>
 				</a>
 			<# } #>
-			<a class="llms-action-icon tip--bottom-right" data-tip="<?php esc_attr_e( 'View course', 'lifterlms' ); ?>" href="{{{ data.get( 'permalink' ) }}}"><i class="fa fa-external-link"></i></a>
+			<a class="llms-button-secondary small" href="{{{ data.get( 'permalink' ) }}}">
+				<i class="fa fa-external-link"></i>
+				<?php esc_html_e( 'View Course', 'lifterlms' ); ?>
+			</a>
 		</div>
 
 	</header>
@@ -29,6 +32,10 @@
 	<section class="llms-outline" id="llms-outline">
 		<div class="llms-builder-tutorial" id="llms-builder-tutorial"></div>
 		<ul class="llms-sections" id="llms-sections"></ul>
+		<button class="llms-button-secondary small new-section">
+			<span class="fa fa-file"></span> <?php esc_html_e( 'Add New Section', 'lifterlms' ); ?>
+		</button>
+
 	</section>
 
 </script>
