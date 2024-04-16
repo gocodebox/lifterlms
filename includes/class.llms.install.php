@@ -578,6 +578,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
+		self::verify_permalinks();
+
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
@@ -611,6 +613,24 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 */
 		do_action( 'lifterlms_after_install' );
 
+	}
+
+	/**
+	 * Retrieve permalinks structure to verify if they are set, and any new defaults are saved
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function verify_permalinks() {
+		if ( ! get_option( 'lifterlms_permalinks' ) ) {
+			llms_switch_to_site_locale();
+
+			// Retrieve the permalink structure, which will also save the default structure if it's not set.
+			llms_get_permalink_structure();
+
+			llms_restore_locale();
+		}
 	}
 
 	/**
