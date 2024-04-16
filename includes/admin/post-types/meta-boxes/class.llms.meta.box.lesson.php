@@ -213,7 +213,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 */
 	public function get_drip_course_settings_info_html( $course ) {
 		$output = 'yes' === $course->get( 'lesson_drip' ) && $course->get( 'drip_method' ) ?
-			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.', 'lifterlms' )
+			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first.', 'lifterlms' )
 		:
 			__( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.', 'lifterlms' );
 
