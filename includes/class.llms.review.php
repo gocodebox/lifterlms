@@ -232,7 +232,7 @@ class LLMS_Reviews {
 	 * @param int $parent_id The ID of the parent post.
 	 * @return bool True if the user can write a review, false if not.
 	 */
-	public function current_user_can_write_review( $parent_id ) {
+	public static function current_user_can_write_review( $parent_id ) {
 		// Make sure the user is logged in.
 		if ( ! is_user_logged_in() ) {
 			return false;

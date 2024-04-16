@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2607"
+entry: Removes non-working editing of course title in the Course Builder.
