@@ -349,7 +349,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'value'            => array(
 							array(
 								'key' => 'start',
-								'title' => __( 'After course start', 'lifterlms' ),
+								'title' => __( 'After course start or enrollment', 'lifterlms' ),
 							),
 						),
 					),
