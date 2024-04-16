@@ -187,18 +187,21 @@ class LLMS_User_Permissions {
 	 *     @type string $0 Requested capability: 'view_grades'.
 	 *     @type int    $1 Current User ID.
 	 *     @type int    $2 Requested User ID.
-	 *     @type int    $3 WP_Post ID of the quiz.
+	 *     @type int    $3 WP_Post ID of the quiz (optional)
 	 * }
 	 * @return array
 	 */
 	private function handle_cap_view_grades( $allcaps, $args ) {
 
 		// Logged out user or missing required args.
-		if ( empty( $args[1] ) || empty( $args[2] ) || empty( $args[3] ) ) {
+		if ( empty( $args[1] ) || empty( $args[2] ) ) {
 			return $allcaps;
 		}
 
-		list( $requested_cap, $current_user_id, $requested_user_id, $post_id ) = $args;
+		$requested_cap = $args[0];
+		$current_user_id = intval( $args[1] );
+		$requested_user_id = intval( $args[2] );
+		$post_id = isset( $args[3] ) ? intval( $args[3] ) : false;
 
 		// Administrators and LMS managers explicitly have the cap so we don't need to perform any further checks.
 		if ( ! empty( $allcaps[ $requested_cap ] ) ) {
@@ -208,9 +211,12 @@ class LLMS_User_Permissions {
 		// Users can view their own grades.
 		if ( $current_user_id === $requested_user_id ) {
 			$allcaps[ $requested_cap ] = true;
-		} elseif ( current_user_can( 'edit_post', $post_id ) ) {
-			$instructor = llms_get_instructor( $current_user_id );
-			if ( $instructor && $instructor->has_student( $requested_user_id ) ) {
+		} elseif ( $post_id && current_user_can( 'edit_post', $post_id ) ) {
+			if ( $this->instructor_has_student( $current_user_id, $requested_user_id ) ) {
+				$allcaps[ $requested_cap ] = true;
+			}
+		} elseif ( ! $post_id && current_user_can( 'view_students', $requested_user_id ) ) {
+			if ( $this->instructor_has_student( $current_user_id, $requested_user_id ) ) {
 				$allcaps[ $requested_cap ] = true;
 			}
 		}
@@ -378,6 +384,23 @@ class LLMS_User_Permissions {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Determine if an instructor has a student.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $current_user_id WP User ID of the user requesting to perform the action.
+	 * @param int $requested_user_id WP User ID of the user the action will be performed on.
+	 * @return bool Returns true if the user has the student, false if it doesn't
+	 */
+	protected function instructor_has_student( $current_user_id, $requested_user_id )
+	{
+
+		$instructor = llms_get_instructor( $current_user_id );
+		return $instructor && $instructor->has_student( $requested_user_id );
 
 	}
 
