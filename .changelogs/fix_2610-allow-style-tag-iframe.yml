@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2610"
+entry: Allows the style tag when embedding content (iframe), in order to support
+  more services.

@@ -10,6 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once 'functions/llms-functions-l10n.php';
+
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
 require_once 'functions/llms-functions-forms.php';
