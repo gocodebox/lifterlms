@@ -6,6 +6,24 @@ node_modules/
 # This follows the precedent put forth by the WordPress core {@link https://github.com/WordPress/wordpress-develop/commit/0e442c4615bdcdc1c2e4f8db6f88f57e6859c2ff}
 composer.lock
 
+# Ignore built files
+assets/css/admin.css
+assets/css/admin.min.css
+assets/css/admin-rtl.css
+assets/css/admin-rtl.min.css
+assets/css/builder.css
+assets/css/builder.min.css
+assets/css/builder-rtl.css
+assets/css/builder-rtl.min.css
+assets/css/lifterlms-rtl.css
+assets/css/lifterlms-rtl.min.css
+assets/css/lifterlms.css
+assets/css/lifterlms.min.css
+assets/js/llms-builder.js
+assets/js/llms-builder.min.js
+includes/class.llms.l10n.js.php
+languages/lifterlms.pot
+
 # Ignore composer-installed libs.
 /libraries/*
 !/libraries/index.php
