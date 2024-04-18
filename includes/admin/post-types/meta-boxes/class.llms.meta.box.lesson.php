@@ -206,7 +206,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	/**
 	 * Helpful messaging depending on whether the course for this lesson has drip settings enabled or not.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @param LLMS_Course $course Course object.
 	 * @return string

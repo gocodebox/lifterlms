@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2324"
-entry: Fixed user's language setting not honored on backend.

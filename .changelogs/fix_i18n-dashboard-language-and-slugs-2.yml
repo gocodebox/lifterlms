@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2525"
-entry: LifterLMS block editor strings now appear in the user's language.

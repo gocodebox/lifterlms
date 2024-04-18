@@ -1,7 +1,0 @@
-significance: minor
-type: added
-links:
-  - "#2429"
-  - "#2525"
-entry: Loads translation files later for compatibility with plugins like Loco
-  Translate.
