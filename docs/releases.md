@@ -12,6 +12,8 @@ Make sure you have your local repository up to date. If your origin is set to th
 1. `git checkout dev` and `git pull`
 2. `git checkout trunk` and `git pull`
 
+Make sure your @lifterlms/dev package in package.json is on the latest version. If it needs to be updated, update it, commit to the dev branch, and then run `npm install`.
+
 Make sure you are back on the dev branch.
 
 1. `git checkout dev`
