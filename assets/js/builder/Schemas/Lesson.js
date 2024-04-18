@@ -36,14 +36,14 @@ define( [], function() {
 						attribute: 'free_lesson',
 						id: 'free-lesson',
 						label: LLMS.l10n.translate( 'Free Lesson' ),
-						tip: LLMS.l10n.translate( "Free lessons can be accessed without enrollment." ),
+						tip: LLMS.l10n.translate( 'Free lessons can be accessed without enrollment.' ),
 						type: 'switch',
 			},
 					{
 						attribute: 'require_passing_grade',
 						id: 'require-passing-grade',
 						label: LLMS.l10n.translate( 'Require Passing Grade on Quiz' ),
-						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's quiz before the lesson can be completed." ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this quiz before the lesson can be completed.' ),
 						type: 'switch',
 						condition: function() {
 							return ( 'yes' === this.get( 'quiz_enabled' ) );
@@ -53,7 +53,7 @@ define( [], function() {
 						attribute: 'require_assignment_passing_grade',
 						id: 'require-assignment-passing-grade',
 						label: LLMS.l10n.translate( 'Require Passing Grade on Assignment' ),
-						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's assignment before the lesson can be completed." ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this assignment before the lesson can be completed.' ),
 						type: 'switch',
 						condition: function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
@@ -89,11 +89,34 @@ define( [], function() {
 			},
 				], [
 					{
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
+						condition: function() {
+							return ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) );
+						},
+						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
+					},
+				], [
+					{
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
+						condition: function() {
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+						},
+						detail: LLMS.l10n.translate( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
+					},
+				], [
+					{
 						attribute: 'drip_method',
 						id: 'drip-method',
 						label: LLMS.l10n.translate( 'Drip Method' ),
 						switch_attribute: 'drip_method',
 						type: 'select',
+						condition: function() {
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+						},
 						options: function() {
 
 							var options = [
@@ -132,6 +155,10 @@ define( [], function() {
 					{
 						attribute: 'days_before_available',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( -1 !== [ 'enrollment', 'start', 'prerequisite' ].indexOf( this.get( 'drip_method' ) ) );
 						},
 						id: 'days-before-available',
@@ -143,6 +170,10 @@ define( [], function() {
 						attribute: 'date_available',
 						date_format: 'Y-m-d',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( 'date' === this.get( 'drip_method' ) );
 						},
 						id: 'date-available',
@@ -153,6 +184,10 @@ define( [], function() {
 					{
 						attribute: 'time_available',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( 'date' === this.get( 'drip_method' ) );
 						},
 						datepicker: 'false',
