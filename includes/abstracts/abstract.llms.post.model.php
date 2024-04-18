@@ -231,6 +231,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'height'          => true,
 			'src'             => true,
 			'width'           => true,
+			'style'           => true,
 		);
 	}
 

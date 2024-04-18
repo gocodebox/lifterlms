@@ -702,8 +702,8 @@
 .llms-quiz-wrapper [data-title-active]:hover:before,
 .llms-quiz-wrapper [data-title-active]:hover:after {
   opacity: 1;
-  -webkit-transition: all 0.2s 0.6s ease;
-  transition: all 0.2s 0.6s ease;
+  -webkit-transition: all 0 0.1s ease;
+  transition: all 0 0.1s ease;
   visibility: visible;
   z-index: 99999999;
 }

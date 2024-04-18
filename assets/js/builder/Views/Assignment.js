@@ -327,6 +327,8 @@ define( [
 						// placement: 'left',
 						width: 380,
 						title: LLMS.l10n.translate( 'Unlock LifterLMS Assignments' ),
+						// This is here for translation but not actually used by the popover.
+						closeLabel: LLMS.l10n.translate( 'Close' ),
 						content: '<h3>' + h3 + '</h3><p>' + p + '</p><br><p><a class="llms-button-primary" href="' + url + '" target="_blank">' + btn + '</a></p>'
 					}
 				} );

@@ -674,6 +674,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			}
 			$parts = explode( '_', $sort );
 
+			// Validate sort.
+			$parts[0] = llms_sanitize_with_safelist( $parts[0], array( 'date', 'title' ) );
+			$parts[1] = llms_sanitize_with_safelist( $parts[1], array( 'desc', 'asc' ) );
+
 			$courses = $student->get_courses(
 				array(
 					'limit'   => $per_page,

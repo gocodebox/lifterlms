@@ -38,7 +38,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 				title: LLMS.l10n.translate( 'New Section' ),
 				type: 'section',
 
-				_expanded: false,
+				// Expand the first 100 sections by default to avoid timeout issues.
+				_expanded: ! this.collection || this.collection.length <= 100 ? true : false,
 				_selected: false,
 			};
 		},
