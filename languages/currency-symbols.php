@@ -64,7 +64,7 @@ return array(
 	'BZD' => __( '&#36;', 'lifterlms' ),
 	'CAD' => __( '&#36;', 'lifterlms' ),
 	'CDF' => __( 'FC', 'lifterlms' ),
-	'CHF' => __( 'CHf', 'lifterlms' ),
+	'CHF' => __( 'CHF', 'lifterlms' ),
 	'CLP' => __( '&#36;', 'lifterlms' ),
 	'CNY' => __( '&#165;', 'lifterlms' ),
 	'COP' => __( '&#36;', 'lifterlms' ),

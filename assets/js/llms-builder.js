@@ -3709,11 +3709,36 @@ define( 'Schemas/Lesson',[], function() {
 			},
 				], [
 					{
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
+						condition: function() {
+							return ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) );
+						},
+						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
+						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
+					},
+				], [
+					{
+						label: LLMS.l10n.translate( 'Course Drip Method' ),
+						id: 'course-drip',
+						type: 'heading',
+						condition: function() {
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+						},
+						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
+						detail: LLMS.l10n.translate( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
+					},
+				], [
+					{
 						attribute: 'drip_method',
 						id: 'drip-method',
 						label: LLMS.l10n.translate( 'Drip Method' ),
 						switch_attribute: 'drip_method',
 						type: 'select',
+						condition: function() {
+							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
+						},
 						options: function() {
 
 							var options = [
@@ -3752,6 +3777,10 @@ define( 'Schemas/Lesson',[], function() {
 					{
 						attribute: 'days_before_available',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( -1 !== [ 'enrollment', 'start', 'prerequisite' ].indexOf( this.get( 'drip_method' ) ) );
 						},
 						id: 'days-before-available',
@@ -3763,6 +3792,10 @@ define( 'Schemas/Lesson',[], function() {
 						attribute: 'date_available',
 						date_format: 'Y-m-d',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( 'date' === this.get( 'drip_method' ) );
 						},
 						id: 'date-available',
@@ -3773,6 +3806,10 @@ define( 'Schemas/Lesson',[], function() {
 					{
 						attribute: 'time_available',
 						condition: function() {
+							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
+								return false;
+							}
+
 							return ( 'date' === this.get( 'drip_method' ) );
 						},
 						datepicker: 'false',
