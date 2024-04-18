@@ -115,7 +115,7 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
  *
  * Note: this should be called on install or update of LifterLMS at a time when the site language is known and set.
  *
- * @since [version]
+ * @since 7.6.0
  *
  * @return array
  */
@@ -153,7 +153,7 @@ function llms_get_permalink_structure() {
 /**
  * Set the permalink structure and only allow keys we know about.
  *
- * @since [version]
+ * @since 7.6.0
  *
  * @param array $permalinks
  *
@@ -180,7 +180,7 @@ function llms_set_permalink_structure( $permalinks ) {
  * @param string $plugin_dir Plugin directory. Defaults to null.
  * @param string $language_dir Language directory. Defaults to null.
  *
- * @since [version]
+ * @since 7.6.0
  */
 function llms_switch_to_site_locale( $textdomain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
 	global $wp_locale_switcher;
@@ -202,7 +202,7 @@ function llms_switch_to_site_locale( $textdomain = 'lifterlms', $plugin_dir = nu
  * @param string $plugin_dir Plugin directory. Defaults to null.
  * @param string $language_dir Language directory. Defaults to null.
  *
- * @since [version]
+ * @since 7.6.0
  */
 function llms_restore_locale( $textdomain = 'lifterlms', $plugin_dir = null, $language_dir = null ) {
 	global $wp_locale_switcher;

@@ -94,7 +94,7 @@ define( [
 		/**
 		 * Events
 		 * @type  {Object}
-		 * @version  [version]
+		 * @version  7.6.0
 		 */
 		events: _.defaults( {
 			'click .new-section': 'add_new_section',
@@ -178,8 +178,8 @@ define( [
 		 *
 		 * @param    obj   model  toggled section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    7.6.0
+		 * @version  7.6.0
 		 */
 		on_section_select: function( model ) {
 

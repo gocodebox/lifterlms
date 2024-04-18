@@ -1342,7 +1342,7 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
  * @param mixed $needle Value to be tested.
  * @param array $safelist Array of safelist values.
  * @param mixed $default Default value to return if the needle is not in the safelist. Defaults to the first value in the safelist array if not provided.
- * @since [version]
+ * @since 7.6.0
  */
 function llms_sanitize_with_safelist( $needle, $safelist, $default = null ) {
 	if ( ! in_array( $needle, $safelist ) ) {

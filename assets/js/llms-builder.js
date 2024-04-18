@@ -3656,14 +3656,14 @@ define( 'Schemas/Lesson',[], function() {
 						attribute: 'free_lesson',
 						id: 'free-lesson',
 						label: LLMS.l10n.translate( 'Free Lesson' ),
-						tip: LLMS.l10n.translate( "Free lessons can be accessed without enrollment." ),
+						tip: LLMS.l10n.translate( 'Free lessons can be accessed without enrollment.' ),
 						type: 'switch',
 			},
 					{
 						attribute: 'require_passing_grade',
 						id: 'require-passing-grade',
 						label: LLMS.l10n.translate( 'Require Passing Grade on Quiz' ),
-						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's quiz before the lesson can be completed." ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this quiz before the lesson can be completed.' ),
 						type: 'switch',
 						condition: function() {
 							return ( 'yes' === this.get( 'quiz_enabled' ) );
@@ -3673,7 +3673,7 @@ define( 'Schemas/Lesson',[], function() {
 						attribute: 'require_assignment_passing_grade',
 						id: 'require-assignment-passing-grade',
 						label: LLMS.l10n.translate( 'Require Passing Grade on Assignment' ),
-						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's assignment before the lesson can be completed." ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this assignment before the lesson can be completed.' ),
 						type: 'switch',
 						condition: function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
@@ -3715,7 +3715,6 @@ define( 'Schemas/Lesson',[], function() {
 						condition: function() {
 							return ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) );
 						},
-						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
 						detail: LLMS.l10n.translate( 'Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
 				], [
@@ -3726,7 +3725,6 @@ define( 'Schemas/Lesson',[], function() {
 						condition: function() {
 							return ( ! this.get_course() || 'yes' !== this.get_course().get( 'lesson_drip' ) || ! this.get_course().get( 'drip_method' ) );
 						},
-						// TODO: see if we can get rid of this hack. this.get_course() is not available at this point to use window.llms_builder.admin_url.
 						detail: LLMS.l10n.translate( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.' ) + ' <a href=\"javascript:document.getElementById(\'llms-exit-button\').click()\">' + LLMS.l10n.translate( 'Edit Course' ) + '</a>',
 					},
 				], [
@@ -4455,7 +4453,8 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 				title: LLMS.l10n.translate( 'New Section' ),
 				type: 'section',
 
-				_expanded: false,
+				// Expand the first 100 sections by default to avoid timeout issues.
+				_expanded: ! this.collection || this.collection.length <= 100 ? true : false,
 				_selected: false,
 			};
 		},
@@ -5006,6 +5005,7 @@ define( 'Views/_Detachable',[], function() {
 		 */
 		events: {
 			'click a[href="#llms-detach-model"]': 'detach_model',
+			'click button.llms-detach-model': 'detach_model',
 		},
 
 		/**
@@ -6066,6 +6066,7 @@ define( 'Views/_Trashable',[], function() {
 		 */
 		events: {
 			'click a[href="#llms-trash-model"]': 'trash_model',
+			'click button.llms-trash-model': 'trash_model',
 		},
 
 		/**
@@ -6443,7 +6444,7 @@ define( 'Controllers/Sync',[], function() {
 		var self              = this,
 			autosave          = ( 'yes' === window.llms_builder.autosave ),
 			check_interval    = null,
-			check_interval_ms = settings.check_interval_ms || 10000,
+			check_interval_ms = settings.check_interval_ms || ( ( 'yes' === window.llms_builder.autosave ) ? 10000 : 1000 ),
 			detached          = new Backbone.Collection(),
 			trashed           = new Backbone.Collection();
 
@@ -7242,6 +7243,7 @@ define( 'Views/Lesson',[
 		 */
 		events: _.defaults( {
 			'click .edit-lesson': 'open_lesson_editor',
+			'click .llms-headline': 'open_lesson_editor',
 			'click .edit-quiz': 'open_quiz_editor',
 			'click .edit-assignment': 'open_assignment_editor',
 			'click .section-prev': 'section_prev',
@@ -7594,7 +7596,8 @@ define( 'Views/Section',[
 			'click .collapse': 'collapse',
 			'click .shift-up--section': 'shift_up',
 			'click .shift-down--section': 'shift_down',
-
+			'click .new-lesson': 'add_new_lesson',
+			'click .llms-builder-header': 'toggle',
 			'mouseenter .llms-lessons': 'on_mouseenter',
 
 		}, Editable.events, Trashable.events ),
@@ -7671,12 +7674,36 @@ define( 'Views/Section',[
 
 		},
 
+		add_new_lesson: function( event ) {
+
+			event.preventDefault();
+
+			Backbone.pubSub.trigger( 'section-select', this.model );
+			Backbone.pubSub.trigger( 'add-new-lesson' );
+
+		},
+
 		active_lesson_change: function( current, previous ) {
 
 			Backbone.pubSub.trigger( 'active-lesson-change', {
 				current: current,
 				previous: previous,
 			} );
+
+		},
+
+		toggle: function( event, update ) {
+
+			// We only want to expand/collapse when the actual header div is clicked, not an element inside it.
+			if ( 'llms-builder-header' !== event.target.className ) {
+				return;
+			}
+
+			if ( this.model.get( '_expanded' ) ) {
+				this.collapse( event, update );
+			} else {
+				this.expand( event, update );
+			}
 
 		},
 
@@ -7878,7 +7905,19 @@ define( 'Views/SectionList',[ 'Views/Section', 'Views/_Receivable' ], function( 
  * @since    3.13.0
  * @version  3.16.0
  */
-define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, Editable ) {
+define( 'Views/Course',[
+	'Views/SectionList',
+	'Views/_Detachable',
+	'Views/_Editable',
+	'Views/_Shiftable',
+	'Views/_Trashable'
+], function(
+	  SectionListView,
+	  Detachable,
+	  Editable,
+	  Shiftable,
+	  Trashable
+) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -7945,11 +7984,22 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 			Backbone.pubSub.on( 'section-toggle', this.on_section_toggle, this );
 
+			Backbone.pubSub.on( 'section-select', this.on_section_select, this );
+
 			Backbone.pubSub.on( 'expand-section', this.expand_section, this );
 
 			Backbone.pubSub.on( 'lesson-selected', this.active_lesson_change, this );
 
 		},
+
+		/**
+		 * Events
+		 * @type  {Object}
+		 * @version  7.6.0
+		 */
+		events: _.defaults( {
+			'click .new-section': 'add_new_section',
+		}, Detachable.events, Editable.events, Trashable.events ),
 
 		/**
 		 * Compiles the template and renders the view
@@ -8021,7 +8071,29 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 			var selected = model.get( '_expanded' ) ? [ model ] : [];
 			this.sectionListView.setSelectedModels( selected );
 
-		}
+		},
+
+
+		/**
+		 * When doing things like adding a lesson, seelct the section.
+		 *
+		 * @param    obj   model  toggled section
+		 * @return   void
+		 * @since    7.6.0
+		 * @version  7.6.0
+		 */
+		on_section_select: function( model ) {
+
+			this.sectionListView.setSelectedModel( model );
+
+		},
+
+		add_new_section: function( event ) {
+
+			event.preventDefault();
+			Backbone.pubSub.trigger( 'add-new-section' );
+		},
+
 
 	}, Editable ) );
 
@@ -8283,7 +8355,7 @@ define( 'Views/SettingsFields',[], function() {
 
 			function option_html( label, val ) {
 
-				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label + '</option>';
+				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label.substring( 0, 100 ) + ( label.length > 100 ? '...' : '' ) + '</option>';
 
 			}
 
@@ -10517,6 +10589,8 @@ define( 'Views/Assignment',[
 						// placement: 'left',
 						width: 380,
 						title: LLMS.l10n.translate( 'Unlock LifterLMS Assignments' ),
+						// This is here for translation but not actually used by the popover.
+						closeLabel: LLMS.l10n.translate( 'Close' ),
 						content: '<h3>' + h3 + '</h3><p>' + p + '</p><br><p><a class="llms-button-primary" href="' + url + '" target="_blank">' + btn + '</a></p>'
 					}
 				} );
@@ -10771,7 +10845,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 			this.$el.html( this.template() );
 			this.draggable();
-			this.maybe_disable_buttons();
+			this.maybe_add_initial_section();
 
 			return this;
 		},
@@ -10868,12 +10942,15 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		maybe_disable_buttons: function() {
+		maybe_add_initial_section: function() {
 
 			var $els = $( '#llms-new-lesson, #llms-existing-lesson' );
 
 			if ( ! this.SidebarView.CourseView.model.get( 'sections' ).length ) {
-				$els.attr( 'disabled', 'disabled' );
+				Backbone.pubSub.trigger( 'add-new-section' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
+				Backbone.pubSub.trigger( 'add-new-lesson' );
 			} else {
 				$els.removeAttr( 'disabled' );
 			}
@@ -10973,99 +11050,6 @@ define( 'Views/Utilities',[], function() {
 } );
 
 /**
- * Sidebar Utilities View
- *
- * @since 7.2.0
- * @version 7.2.0
- */
-define( 'Views/VideoExplainer',[], function() {
-	return Backbone.View.extend( {
-
-		/**
-		 * HTML element selector.
-		 *
-		 * @type {string}
-		 */
-		el: '#llms-video-explainer',
-
-		/**
-		 * Wrapper Tag name.
-		 *
-		 * @type {string}
-		 */
-		tagName: 'div',
-
-		/**
-		 * Events.
-		 *
-		 * @type {Object}
-		 */
-		events: {
-			'click .llms-video-explainer-trigger': 'openPopup',
-			'click .llms-video-explainer-close': 'closePopup',
-			'click .llms-video-explainer-wrapper': 'closePopup',
-		},
-
-		/**
-		 * Get the underscore template.
-		 */
-		template: wp.template( 'llms-video-explainer-template' ),
-
-		/**
-		 * Compiles the template and renders the view.
-		 *
-		 * @since 7.2.0
-		 *
-		 * @return {self}
-		 */
-		render: function() {
-			this.$el.html( this.template() );
-			return this;
-		},
-
-		/**
-		 * Open the popup.
-		 *
-		 * @since 7.2.0
-		 *
-		 * @param {Object} event JS event object.
-		 * @return {void}
-		 */
-		openPopup: function( event ) {
-			event.preventDefault();
-
-			$( '.llms-video-explainer-wrapper' ).css( {
-				display: 'flex',
-				opacity: '1',
-			} );
-		},
-
-		/**
-		 * Close the popup.
-		 *
-		 * @since 7.2.0
-		 *
-		 * @param {Object} event JS event object.
-		 * @return {void}
-		 */
-		closePopup: function( event ) {
-			event.preventDefault();
-
-			$( '.llms-video-explainer-wrapper' ).css( {
-				display: 'none',
-				opacity: '0',
-			} );
-
-			const iframe = $( '.llms-video-explainer-iframe' );
-			const src = iframe.attr( 'src' );
-
-			iframe.attr( 'src', '' ).attr( 'src', src );
-		},
-
-	} );
-} );
-
-/**
  * Main sidebar view
  *
  * @since 3.16.0
@@ -11075,13 +11059,11 @@ define( 'Views/Sidebar',[
 	'Views/Editor',
 	'Views/Elements',
 	'Views/Utilities',
-	'Views/VideoExplainer',
 	'Views/_Subview'
 ], function(
 	Editor,
 	Elements,
 	Utilities,
-	VideoExplainer,
 	Subview
 ) {
 
@@ -11105,11 +11087,6 @@ define( 'Views/Sidebar',[
 			},
 			utilities: {
 				class: Utilities,
-				instance: null,
-				state: 'builder',
-			},
-			video_explainer: {
-				class: VideoExplainer,
 				instance: null,
 				state: 'builder',
 			},

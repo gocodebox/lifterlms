@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.6.0
+ * @version 7.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ class LLMS_Admin_Permalinks {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Admin_Permalinks {
 	/**
 	 * Ensure we're on the permalinks screen.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @return void
 	 */
