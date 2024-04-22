@@ -161,7 +161,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) ) {
+		if ( ! $course || 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) )  {
 			$fields['drip']['fields'][] = array(
 				'class'         => 'llms-select2',
 				'desc_class'    => 'd-all',
@@ -212,6 +212,10 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * @return string
 	 */
 	public function get_drip_course_settings_info_html( $course ) {
+		if ( ! $course ) {
+			return '';
+		}
+
 		$output = 'yes' === $course->get( 'lesson_drip' ) && $course->get( 'drip_method' ) ?
 			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first.', 'lifterlms' )
 		:
