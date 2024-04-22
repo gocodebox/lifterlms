@@ -37,7 +37,8 @@
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "^4.3",
-    "lifterlms/lifterlms-cs": "dev-trunk"
+    "lifterlms/lifterlms-cs": "dev-trunk",
+    "lucatume/wp-browser": "^4.1"
   },
   "archive": {
     "exclude": [
