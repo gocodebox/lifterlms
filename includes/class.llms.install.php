@@ -596,6 +596,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 
+		LLMS_Install::create_pages();
+
 		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 			update_option( '_llms_first_time_setup_redirect', 'yes', false );
