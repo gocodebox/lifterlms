@@ -47,11 +47,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
 				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),
-			'pages'    => array(
-				'title' => esc_html__( 'Page Setup', 'lifterlms' ),
-				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
-				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
-			),
 			'payments' => array(
 				'title' => esc_html__( 'Payments', 'lifterlms' ),
 				'save'  => esc_html__( 'Save & Continue', 'lifterlms' ),
@@ -181,19 +176,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		}
 
 		return $ret;
-
-	}
-
-	/**
-	 * Save the "Pages" creation step
-	 *
-	 * @since 4.8.0
-	 *
-	 * @return WP_Error|boolean Returns `true` on success otherwise returns a WP_Error.
-	 */
-	protected function save_pages() {
-
-		return LLMS_Install::create_pages() ? true : new WP_Error( 'llms-setup-pages-save', esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 	}
 
