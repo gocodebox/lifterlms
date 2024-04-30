@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+entry: Reusable blocks are now unsynced on new installs, so they can be easily
+  customized in the Forms area. Clicking the Detach option can be used on
+  existing LifterLMS installs.
