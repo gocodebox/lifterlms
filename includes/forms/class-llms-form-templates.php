@@ -83,6 +83,7 @@ class LLMS_Form_Templates {
 			'post_type'    => 'wp_block',
 			'meta_input'   => array(
 				'_is_llms_field' => 'yes',
+				'wp_pattern_sync_status' => 'unsynced',
 				'_llms_field_id' => $field_id,
 			),
 		);
