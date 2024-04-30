@@ -390,7 +390,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Determine if an instructor has a student.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @param int $current_user_id WP User ID of the user requesting to perform the action.
 	 * @param int $requested_user_id WP User ID of the user the action will be performed on.

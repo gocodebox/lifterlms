@@ -618,7 +618,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Retrieve permalinks structure to verify if they are set, and any new defaults are saved
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @return void
 	 */

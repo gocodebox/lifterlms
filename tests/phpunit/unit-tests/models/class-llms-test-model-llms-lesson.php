@@ -181,7 +181,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get available date when the course has "After course starts" delay in days set.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test get available date when the course has "After course starts" delay in days set and
 	 * the course has a fixed start date.
 	 *
-	 * @since [version]
+	 * @since 7.6.0
 	 *
 	 * @return void
 	 */

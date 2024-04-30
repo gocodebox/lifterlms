@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.5.3';
+	public $version = '7.6.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -68,7 +68,7 @@ final class LifterLMS {
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
 	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
-	 * @since [version] Lood locale textdomain on `init` instead of immediately
+	 * @since 7.6.0 Lood locale textdomain on `init` instead of immediately
 	 *
 	 * @return void
 	 */

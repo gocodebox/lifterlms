@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2606"
-entry: Avoid issue with lost content when the course builder is launched
-  immediately after creating a new course.
