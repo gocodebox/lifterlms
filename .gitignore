@@ -7,6 +7,7 @@ node_modules/
 composer.lock
 
 # Ignore built files
+/readme.txt
 assets/css/admin.css
 assets/css/admin.min.css
 assets/css/admin-rtl.css
