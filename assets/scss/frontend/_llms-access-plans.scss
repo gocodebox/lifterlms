@@ -77,124 +77,128 @@
 		line-height: 1;
 		padding: 5px 8px 4px;
 	}
+}
 
-	.llms-access-plan-restrictions ul { margin: 0; }
+.llms-access-plan-featured {
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	margin: 0 2px 0 2px;
+	padding: 5px 0 0;
+}
+
+.llms-access-plan-content {
+	border-top-right-radius: $radius-small;
+	border-top-left-radius: $radius-small;
+	margin: 0 2px 0;
+	overflow: hidden;
+
+	.llms-access-plan-pricing {
+		color: $color-black;
+		padding: 20px 0 0;
+	}
+}
+
+.llms-access-plan-title {
+	background: $color-brand-blue;
+	color: $color-white;
+	margin: 0;
+	padding: 10px 15px;
+}
+
+.llms-access-plan-pricing {
+
+	.llms-price-currency-symbol {
+		font-size: 14px;
+		vertical-align: top;
+	}
 
 }
-	.llms-access-plan-featured {
-		color: #fff;
-		font-size: 14px;
+
+.llms-access-plan-price {
+
+	.lifterlms-price {
 		font-weight: 700;
-		letter-spacing: 1px;
-		margin: 0 2px 0 2px;
-		padding: 5px 0 0;
 	}
 
-	.llms-access-plan-content {
-		border-top-right-radius: $radius-small;
-		border-top-left-radius: $radius-small;
-		margin: 0 2px 0;
-		overflow: hidden;
+	&.sale {
+		padding: 5px 0;
+		border-top: 1px solid #d0d0d0;
+		border-bottom: 1px solid #d0d0d0;
+	}
+}
 
-		.llms-access-plan-pricing {
-			color: $color-black;
-			padding: 20px 0 0;
+.llms-access-plan-trial,
+.llms-access-plan-schedule,
+.llms-access-plan-sale-end,
+.llms-access-plan-expiration {
+	font-size: 16px;
+}
+
+.llms-access-plan-description {
+	color: $color-black;
+	font-size: 16px;
+	padding: 10px 10px 0;
+
+	ul {
+		margin: 0;
+		li {
+			border-bottom: 1px solid #d0d0d0;
+			list-style-type: none;
+			&:last-child {
+				border-bottom: none;
+			}
 		}
 	}
 
-		.llms-access-plan-title {
-			background: $color-brand-blue;
-			color: $color-white;
+	div, img, p, ul, li {
+		&:last-child { margin-bottom: 0; }
+	}
+}
+
+.llms-access-plan-restrictions {
+	margin-top: 20px;
+
+	.stamp {
+		vertical-align: baseline;
+	}
+
+	ul {
+		margin: 5px 0 0 0;
+		padding: 0;
+
+		li {
+			font-size: 14px;
+			list-style-type: none;
 			margin: 0;
-			padding: 10px 15px;
-		}
-
-		.llms-access-plan-pricing {
-
-			.llms-price-currency-symbol {
-				font-size: 14px;
-				vertical-align: top;
-			}
-
-		}
-
-			.llms-access-plan-price {
-
-				.lifterlms-price {
-					font-weight: 700;
-				}
-
-				&.sale {
-					padding: 5px 0;
-					border-top: 1px solid #d0d0d0;
-					border-bottom: 1px solid #d0d0d0;
-				}
-			}
-
-			.llms-access-plan-trial,
-			.llms-access-plan-schedule,
-			.llms-access-plan-sale-end,
-			.llms-access-plan-expiration {
-				font-size: 16px;
-			}
-
-		.llms-access-plan-description {
-			color: $color-black;
-			font-size: 16px;
-			padding: 10px 10px 0;
-
-			ul {
-				margin: 0;
-				li {
-					border-bottom: 1px solid #d0d0d0;
-					list-style-type: none;
-					&:last-child {
-						border-bottom: none;
-					}
-				}
-			}
-
-			div, img, p, ul, li {
-				&:last-child { margin-bottom: 0; }
-			}
-		}
-
-		.llms-access-plan-restrictions {
-			.stamp {
-				vertical-align: baseline;
-			}
-			ul {
-				margin: 0;
-				li {
-					font-size: 12px;
-					line-height: 14px;
-					list-style-type: none;
-				}
-			}
-			a {
-				color: $color-orange;
-				&:hover {
-					color: $color-brand-orange-dark;
-				}
-			}
-		}
-
-	.llms-access-plan-footer {
-		border-bottom: 3px solid #f1f1f1;
-		border-bottom-left-radius: $radius-small;
-		border-bottom-right-radius: $radius-small;
-		padding: 15px;
-		margin: 0 2px 2px 2px;
-
-		.button {
-			display: inline-block;
-		}
-
-		.llms-access-plan-pricing {
-			padding: 0 0 10px;
+			padding: 0;
 		}
 	}
 
+	a {
+		color: $color-orange;
+		&:hover {
+			color: $color-brand-orange-dark;
+		}
+	}
+}
+
+.llms-access-plan-footer {
+	border-bottom: 3px solid #f1f1f1;
+	border-bottom-left-radius: $radius-small;
+	border-bottom-right-radius: $radius-small;
+	padding: 15px;
+	margin: 0 2px 2px 2px;
+
+	.button {
+		display: inline-block;
+	}
+
+	.llms-access-plan-pricing {
+		padding: 0 0 10px;
+	}
+}
 
 .webui-popover-content .llms-members-only-restrictions {
 	text-align: center;
