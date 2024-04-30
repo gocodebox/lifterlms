@@ -66,6 +66,9 @@ jobs:
           docker-pass: ${{ secrets.DOCKER_PASSWORD }}
           node-version: '16'
 
+      - name: Install dependencies
+        run: npm run build
+
       - name: Run test suite
         run: npm run test -- --verbose
 
