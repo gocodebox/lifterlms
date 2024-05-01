@@ -1,3 +1,10 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+.distignore
+.gitignore
+/.wordpress-org-readme
 .*
 *.lock
 *.xml
@@ -12,7 +19,7 @@ package-lock.json
 README.md
 /assets/scss
 _private
-dist
+/dist
 docs
 gulpfile.js
 node_modules
@@ -21,8 +28,6 @@ src
 tests
 tmp
 wordpress
-!/vendor
-!/libraries
 /libraries/README.md
 /libraries/**/composer.*
 /libraries/**/i18n
