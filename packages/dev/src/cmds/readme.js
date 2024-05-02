@@ -78,7 +78,7 @@ Merge codes:
  *
  * @since 0.0.1
  * @since 0.1.0 Added the `--main-file` option as well as additional merge codes derived from metadata found in the main file's header comment.
- *              Exits with a warning and exit code `0` (instead of an error and exit code `1`) when running this command against a prerelease.
+ *              Exits with a warning and exit code `0` (instead of an error and exit code `1`) when running this command against a prerelease. 
  *
  * @type {Object}
  */
@@ -89,7 +89,7 @@ module.exports = {
 		[ '-o, --output-file <filename>', 'Specify the output readme file name.', 'readme.txt' ],
 		[ '-i, --input-file <filename>', 'Specify the input changelog file name.', 'CHANGELOG.md' ],
 		[ '-m, --main-file <filename>', 'Specify the project main file name where metadata is stored.', `${ getProjectSlug() }.php` ],
-		[ '-d, --dir <directory>', 'Directory where the readme part files are stored', '.wordpress-org-readme' ],
+		[ '-d, --dir <directory>', 'Directory where the readme part files are stored', '.wordpress-org/readme' ],
 		[ '-l, --changelog-length <number>', 'Specify the number of versions to display before truncating the changelog.', 10 ],
 		[ '-r, --read-more <url>', 'Specify the "Read More" url where changelogs are published.', `https://make.lifterlms.com/tag/${ getProjectSlug() }` ],
 	],
