@@ -75,6 +75,9 @@ jobs:
           secrets: ${{ toJSON( secrets ) }}
           cache-suffix: ${{ inputs.cache-suffix }}
 
+      - name: Install NPM Dependencies
+        run: npm ci && npm run build
+
       - name: Run Tests
         run: composer run tests
 
