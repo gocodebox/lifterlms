@@ -2,21 +2,20 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.6.0\n"
+"Project-Id-Version: LifterLMS 7.6.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-18T14:41:26+00:00\n"
+"POT-Creation-Date: 2024-05-02T19:34:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: llms/dev 0.2.1\n"
+"X-Generator: llms/dev 0.2.2\n"
 "X-Domain: lifterlms\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: lifterlms.php
 #: includes/class.llms.nav.menus.php:73
 #: includes/privacy/class-llms-privacy.php:33
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
@@ -26,12 +25,10 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
-#: lifterlms.php
 msgid "https://lifterlms.com/"
 msgstr ""
 
 #. Description of the plugin
-#: lifterlms.php
 msgid "Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students."
 msgstr ""
 
@@ -912,31 +909,31 @@ msgid "New Course"
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:693
+#: includes/admin/class.llms.admin.builder.php:695
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:773
+#: includes/admin/class.llms.admin.builder.php:775
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:853
+#: includes/admin/class.llms.admin.builder.php:855
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:891
+#: includes/admin/class.llms.admin.builder.php:893
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. Translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:915
+#: includes/admin/class.llms.admin.builder.php:917
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1047
+#: includes/admin/class.llms.admin.builder.php:1049
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:372
 #: includes/class.llms.post-types.php:538
@@ -945,27 +942,27 @@ msgid "New Lesson"
 msgstr ""
 
 #. Translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:1063
+#: includes/admin/class.llms.admin.builder.php:1065
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. Translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1176
+#: includes/admin/class.llms.admin.builder.php:1178
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1215
+#: includes/admin/class.llms.admin.builder.php:1217
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. Translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1276
+#: includes/admin/class.llms.admin.builder.php:1278
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. Translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1356
+#: includes/admin/class.llms.admin.builder.php:1358
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -2504,17 +2501,17 @@ msgstr ""
 msgid "Time Available"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:216
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:220
 msgid "Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:218
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:222
 #: includes/class.llms.l10n.js.php:152
 #: includes/class.llms.l10n.js.php:362
 msgid "Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:220
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:224
 #: includes/class.llms.l10n.js.php:151
 #: includes/class.llms.l10n.js.php:361
 #: includes/class.llms.post-types.php:463
@@ -2860,6 +2857,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
+#. Translators: %s: Post title.
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:117
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:325
 msgid "Delete Permanently"
@@ -4353,6 +4351,7 @@ msgstr ""
 msgid "Deletes pending batches generated by LifterLMS background processors."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-batch-eraser.php:44
 msgid "There is currently %d pending batch that will be deleted."
 msgid_plural "There are currently %d pending batches that will be deleted."
@@ -4396,6 +4395,7 @@ msgstr ""
 msgid "The method used to determine when a limited-billing recurring order has completed its payment plan changed during version 5.3.0. This tool provides a report of orders which may been affected by this change. %1$sRead more%2$s about this change."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:134
 msgid "There is %d order that should be reviewed."
 msgid_plural "There are %d orders that should be reviewed."
@@ -4414,6 +4414,7 @@ msgstr ""
 msgid "Check active recurring orders to ensure their recurring payment action is properly scheduled for the next payment. If a recurring payment is due and not scheduled it will be rescheduled."
 msgstr ""
 
+#. Translators: %d = the number of pending batches.
 #: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:46
 msgid "There is %d order that will be checked."
 msgid_plural "There are %d orders that will be checked in batches of 50."

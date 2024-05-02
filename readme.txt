@@ -5,9 +5,9 @@ Tags: lms, course, elearning, learning management system, quiz
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.9
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 7.6.0
+Stable tag: 7.6.1
 
 Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students.
 
@@ -504,6 +504,15 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v7.6.1 - 2024-05-02 =
+
+##### Bug Fixes
+
++ Fix error when trying to add a new lesson outside the course builder. [#2636](https://github.com/gocodebox/lifterlms/issues/2636)
++ Show correct course title when launching Course Builder immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ Updating lifter blocks version for the Launch Course Builder button to appear on the Course edit page.
+
+
 = v7.6.0 - 2024-04-18 =
 
 ##### New Features
@@ -725,13 +734,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/admin/reporting/tabs/widgets.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/admin/reporting/tabs/widgets.php)
 + [templates/global/sidebar.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/global/sidebar.php)
 + [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.3.0/templates/quiz/results-attempt-questions-list.php)
-
-
-= v7.2.1 - 2023-06-13 =
-
-##### Updates and Enhancements
-
-+ Updated LifterLMS Blocks to [2.5.1](https://make.lifterlms.com/2023/06/13/lifterlms-blocks-version-2-5-1/). [#2461](https://github.com/gocodebox/lifterlms/issues/2461)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
