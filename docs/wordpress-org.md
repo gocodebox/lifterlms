@@ -5,7 +5,7 @@ This directory contains the text content and assets used on the LifterLMS plugin
 
 ## README
 
-The [readme](./readme) directory contains the markdown files representing the sections (and tabs) used on the listing.
+The [.wordpress-org-readme](../.wordpress-org-readme) directory contains the markdown files representing the sections (and tabs) used on the listing.
 
 These files are combined during a build step prior distribution and output as the [readme.txt](../readme.txt) file distributed with the LifterLMS plugin. Generally we do not ship updates for changes to the readme directory. These changes will be included in the next release which contains code changes.
 
@@ -28,8 +28,8 @@ Various merge codes are available for use in the readme file parts. See the [@li
 
 ## Assets
 
-The [assets](./assets) directory contains the images used in the listing: banners, icons, and screenshots.
+The [.wordpress-org](../.wordpress-org) directory contains the images used in the listing: banners, icons, and screenshots.
 
 See also: [How Your Plugin Assets Work](https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/).
 
-Assets are manually synced to WordPress.org via SVN @thomasplevy and will be updated in conjunction with the next release following their update in this directory.
+Assets are updated via the 10up Github action during a release. See the release-svn.md for more information.
