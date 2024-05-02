@@ -1,8 +1,6 @@
-/.wordpress-org
 /.git
 /.github
 /node_modules
-.distignore
 .gitignore
 /.wordpress-org-readme
 .*
