@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2606"
+entry: Show correct course title when launching Course Builder immediately after
+  creating a new course.

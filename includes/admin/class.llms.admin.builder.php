@@ -574,6 +574,8 @@ class LLMS_Admin_Builder {
 					'post_title'  => __( 'New Course', 'lifterlms' ),
 				)
 			);
+
+			$post = get_post( $course_id );
 		}
 
 		$course = llms_get_post( $post );
