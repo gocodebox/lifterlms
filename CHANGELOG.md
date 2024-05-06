@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v7.6.1 - 2024-05-02
+-------------------
+
+##### Bug Fixes
+
++ Fix error when trying to add a new lesson outside the course builder. [#2636](https://github.com/gocodebox/lifterlms/issues/2636)
++ Show correct course title when launching Course Builder immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ Updating lifter blocks version for the Launch Course Builder button to appear on the Course edit page.
+
+
 v7.6.0 - 2024-04-18
 -------------------
 
