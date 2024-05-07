@@ -231,7 +231,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 		// Text symbols.
 		$this->assertEquals( 'P', $res['BWP'] );
-		$this->assertEquals( 'CHf', $res['CHF'] );
+		$this->assertEquals( 'CHF', $res['CHF'] );
 
 	}
 
