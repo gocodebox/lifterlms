@@ -5,10 +5,12 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
+
+require_once 'functions/llms-functions-l10n.php';
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
@@ -32,6 +34,7 @@ require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
 require_once 'functions/llms.functions.user.postmeta.php';
+require_once 'functions/llms.functions.favorite.php';
 
 if ( ! function_exists( 'llms_anonymize_string' ) ) {
 	/**
@@ -1331,4 +1334,24 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
 
+}
+
+/**
+ * Check that the test value is a member of a specific array for sanitization purposes.
+ *
+ * @param mixed $needle Value to be tested.
+ * @param array $safelist Array of safelist values.
+ * @param mixed $default Default value to return if the needle is not in the safelist. Defaults to the first value in the safelist array if not provided.
+ * @since 7.6.0
+ */
+function llms_sanitize_with_safelist( $needle, $safelist, $default = null ) {
+	if ( ! in_array( $needle, $safelist ) ) {
+		if ( isset( $default ) ) {
+			return $default;
+		} else {
+			return $safelist[0];
+		}
+	} else {
+		return $needle;
+	}
 }

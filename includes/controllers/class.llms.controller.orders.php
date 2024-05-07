@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -269,7 +269,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Potentially allow recurring payment to go ahead even if access plans expired.
+	 * @since 7.5.0 Potentially allow recurring payment to go ahead even if access plans expired.
 	 *
 	 * @param int $order_id WP_Post ID of the LLMS Order.
 	 * @return void
@@ -299,7 +299,7 @@ class LLMS_Controller_Orders {
 		 *
 		 * By default when an access plan expires, recurring payments are stopped.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param bool
 		 * @param LLMS_Order $order             Instance of the order.

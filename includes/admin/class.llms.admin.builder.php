@@ -81,7 +81,7 @@ class LLMS_Admin_Builder {
 	protected static function get_autosave_status() {
 
 		$autosave = get_user_option( 'llms_builder_autosave' );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		/**
 		 * Gets the status of autosave for the builder
@@ -326,7 +326,6 @@ class LLMS_Admin_Builder {
 	 */
 	public static function handle_ajax( $request ) {
 
-		// @todo Do some real error handling here.
 		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
 			return array();
 		}
@@ -546,6 +545,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.19.2 Unknown.
 	 * @since 4.14.0 Added builder autosave preference defaults.
 	 * @since 7.2.0 Added video explainer template.
+	 * @since 7.6.0 Removed video explainer template.
 	 *
 	 * @return void
 	 */
@@ -561,12 +561,24 @@ class LLMS_Admin_Builder {
 
 		$post = get_post( $course_id );
 
-		$course = llms_get_post( $post );
-
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
 			_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
+
+		if ( 'auto-draft' === $post->post_status ) {
+			wp_update_post(
+				array(
+					'ID'          => $course_id,
+					'post_status' => 'draft',
+					'post_title'  => __( 'New Course', 'lifterlms' ),
+				)
+			);
+
+			$post = get_post( $course_id );
+		}
+
+		$course = llms_get_post( $post );
 
 		remove_all_actions( 'the_title' );
 		remove_all_actions( 'the_content' );
@@ -599,7 +611,6 @@ class LLMS_Admin_Builder {
 					'settings-fields',
 					'sidebar',
 					'utilities',
-					'video-explainer',
 				);
 
 				foreach ( $templates as $template ) {
@@ -644,7 +655,7 @@ class LLMS_Admin_Builder {
 							 */
 							'llms_builder_sync_settings',
 							array(
-								'check_interval_ms' => 10000,
+								'check_interval_ms' => ( 'yes' === self::get_autosave_status() ? 10000 : 1000 ),
 							)
 						),
 						'enable_video_explainer' => true,

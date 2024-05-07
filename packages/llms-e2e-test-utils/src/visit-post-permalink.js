@@ -8,9 +8,7 @@ import { toggleSidebarPanel } from './toggle-sidebar-panel';
  * @return {Promise} A promise representing the link click.
  */
 export async function visitPostPermalink() {
-	await toggleSidebarPanel( 'Permalink' );
-
-	const SELECTOR = 'a.edit-post-post-link__link';
+	const SELECTOR = '.edit-post-header__settings a[aria-label="View Certificate Template"]';
 
 	await page.waitForSelector( SELECTOR );
 	const permalink = await page.$eval( SELECTOR, ( el ) => el.href );

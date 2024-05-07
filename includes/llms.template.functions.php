@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 7.1.2
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -382,6 +382,46 @@ if ( ! function_exists( 'lifterlms_template_single_parent_course' ) ) {
 	function lifterlms_template_single_parent_course() {
 
 		llms_get_template( 'course/parent-course.php' );
+	}
+}
+
+if ( ! function_exists( 'llms_template_favorite' ) ) {
+
+	/**
+	 * Favorite Lesson Template Include.
+	 *
+	 * @since 7.5.0
+	 *
+	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
+	 * @param string $object_type The object type, currently only 'lesson'.
+	 * @return void
+	 */
+	function llms_template_favorite( $object_id = null, $object_type = 'lesson' ) {
+
+		llms()->assets->enqueue_script( 'llms-favorites' );
+		llms_get_template(
+			'course/favorite.php',
+			array(
+				'object_id'   => $object_id,
+				'object_type' => $object_type,
+			)
+		);
+	}
+}
+
+if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
+
+	/**
+	 * Favorite Lesson Template Include when displayed in the syllabus lesson preview.
+	 *
+	 * @since 7.5.0
+	 *
+	 * @return void
+	 */
+	function llms_template_syllabus_favorite_lesson_preview( $lesson ) {
+		if ( 'course' === get_post_type( get_the_ID() ) ) {
+			llms_template_favorite( $lesson->get( 'id' ) );
+		}
 	}
 }
 
