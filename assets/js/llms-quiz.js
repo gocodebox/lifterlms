@@ -231,6 +231,11 @@
 
 					}
 
+				},
+				error: function ( jqXHR, status, error ) {
+					self.reload_question();
+					self.add_error( LLMS.l10n.translate( 'An unknown error occurred. Please try again.' ) );
+					console.log( error );
 				}
 
 			} );
@@ -312,6 +317,19 @@
 			this.toggle_loader( 'show', 'Grading Quiz...' );
 			this.status          = null;
 			window.location.href = url;
+
+		},
+
+		reload_question: function() {
+			var self = this;
+
+			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
+			self.update_progress_bar( 'reload' );
+
+			setTimeout( function() {
+				self.toggle_loader( 'hide' );
+				self.load_question( self.questions[ 'q-' + self.current_question ] );
+			}, 100 );
 
 		},
 
@@ -696,7 +714,7 @@
 		/**
 		 * Increase progress bar ui element
 		 *
-		 * @param    string   dir  update direction [increment|decrement]
+		 * @param    string   dir  update direction [increment|decrement|reload]
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -704,10 +722,15 @@
 		update_progress_bar: function( dir ) {
 
 			var index = this.get_question_index( this.current_question );
-			if ( 'increment' === dir ) {
-				index++;
-			} else {
-				index--;
+			switch ( dir ) {
+				case 'increment':
+					index++;
+					break;
+				case 'decrement':
+					index--;
+					break;
+				case 'reload':
+					break;
 			}
 
 			progress = ( index / this.total_questions ) * 100;

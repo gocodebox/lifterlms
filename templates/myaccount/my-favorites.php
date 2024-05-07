@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/MyAccount
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;

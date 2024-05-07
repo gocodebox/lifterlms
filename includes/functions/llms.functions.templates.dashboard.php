@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -293,7 +293,7 @@ if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
 	/**
 	 * Get student's favorites.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param LLMS_Student $student   Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param array        $favorites Optional. Array of favorites (current student's favorites if none supplied). Default `null`.
@@ -606,7 +606,7 @@ if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
 	/**
 	 * Template for My Favorites section on dashboard index.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return void
 	 */
@@ -673,6 +673,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$sort = 'date_desc';
 			}
 			$parts = explode( '_', $sort );
+
+			// Validate sort.
+			$parts[0] = llms_sanitize_with_safelist( $parts[0], array( 'date', 'title' ) );
+			$parts[1] = llms_sanitize_with_safelist( $parts[1], array( 'desc', 'asc' ) );
 
 			$courses = $student->get_courses(
 				array(

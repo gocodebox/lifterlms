@@ -19,8 +19,8 @@ on:
         type: string
   pull_request:
   # Once daily at 01:00 UTC.
-  schedule:
-    - cron: '0 1 * * *'
+  # schedule:
+  #  - cron: '0 1 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
@@ -74,6 +74,9 @@ jobs:
           deploy-key: ${{ secrets.LLMS_DEPLOY_KEY }}
           secrets: ${{ toJSON( secrets ) }}
           cache-suffix: ${{ inputs.cache-suffix }}
+
+      - name: Install NPM Dependencies
+        run: npm ci && npm run build
 
       - name: Run Tests
         run: composer run tests

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -390,7 +390,7 @@ if ( ! function_exists( 'llms_template_favorite' ) ) {
 	/**
 	 * Favorite Lesson Template Include.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 	 * @param string $object_type The object type, currently only 'lesson'.
@@ -414,7 +414,7 @@ if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
 	/**
 	 * Favorite Lesson Template Include when displayed in the syllabus lesson preview.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return void
 	 */

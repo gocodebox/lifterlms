@@ -2,7 +2,7 @@
  * Quiz Model.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.5.0
  */
 define( [
 		'Collections/Questions',
@@ -51,7 +51,7 @@ define( [
 		 *
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
-		 * @since [version] Replaced unused `random_answers` property with `random_questions`.
+		 * @since 7.5.0 Replaced unused `random_answers` property with `random_questions`.
 		 *
 		 * @return {Object}
 		 */
@@ -75,6 +75,7 @@ define( [
 				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
+				disable_retake: 'no',
 
 				questions: [],
 

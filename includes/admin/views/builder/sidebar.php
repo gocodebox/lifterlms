@@ -4,6 +4,7 @@
  *
  * @since 3.16.0
  * @since 7.2.0 Added video explainer wrapper element.
+ * @since 7.6.0 Removed video explainer wrapper element.
  * @version 7.2.0
  */
 ?>
@@ -12,7 +13,6 @@
 
 	<div class="llms-elements" id="llms-elements"></div>
 	<div class="llms-utilities" id="llms-utilities"></div>
-	<div class="llms-video-explainer" id="llms-video-explainer"></div>
 
 	<div class="llms-editor" id="llms-editor"></div>
 

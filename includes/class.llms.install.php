@@ -578,6 +578,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
+		self::verify_permalinks();
+
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
@@ -596,7 +598,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
-			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
+			update_option( '_llms_first_time_setup_redirect', 'yes', false );
 		}
 
 		self::run_db_updates( $db_version );
@@ -611,6 +613,24 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 */
 		do_action( 'lifterlms_after_install' );
 
+	}
+
+	/**
+	 * Retrieve permalinks structure to verify if they are set, and any new defaults are saved
+	 *
+	 * @since 7.6.0
+	 *
+	 * @return void
+	 */
+	public static function verify_permalinks() {
+		if ( ! get_option( 'lifterlms_permalinks' ) ) {
+			llms_switch_to_site_locale();
+
+			// Retrieve the permalink structure, which will also save the default structure if it's not set.
+			llms_get_permalink_structure();
+
+			llms_restore_locale();
+		}
 	}
 
 	/**
@@ -731,9 +751,9 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function wizard_redirect() {
 
-		if ( get_transient( '_llms_first_time_setup_redirect' ) ) {
+		if ( 'yes' === get_option( '_llms_first_time_setup_redirect', 'no' ) ) {
 
-			delete_transient( '_llms_first_time_setup_redirect' );
+			update_option( '_llms_first_time_setup_redirect', 'no' );
 
 			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ), true ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
 				return;

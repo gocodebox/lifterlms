@@ -40,7 +40,7 @@ module.exports = {
 		[ '-p, --prerelease', 'Mark the GitHub release as a prerelease and skip merging.' ],
 		[ '-P, --prerelease-branch <branch>', 'When creating a prerelease, use this branch as the target branch in favor of the default branch specified via the --branch option.', 'prerelease' ],
 		[ '-D, --draft', 'Create the release as an unpublished draft and skip merging.' ],
-		[ '-M, --merge <branch>', 'Merge open PRs on the specified branch before creating the release. If publishing a prerelease, or draft merging is automatically disabled as if passing "--no-merge".', 'dev' ],
+		[ '-M, --merge <branch>', 'Merge open PRs on the specified branch before creating the release. If publishing a prerelease, or draft merging is automatically disabled as if passing "--no-merge".', '' ],
 		[ '-n, --no-merge', 'Disable merging before release creation. Automatically passed when publishing a prerelease.' ],
 		[ '-Y, --yes', 'Skip confirmations.' ],
 		[ '-v, --verbose', 'Output extra information with result messages.' ],

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get Favorites Count.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @param bool|int $object_id WP Post ID of the Lesson. If not supplied it will default to the current post ID.
  * @return int
@@ -43,7 +43,7 @@ function llms_get_object_total_favorites( $object_id = false ) {
 /**
  * Filter Hook to enable the Favorite feature.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @return bool True if favorites are enabled, false otherwise.
  */
@@ -54,7 +54,7 @@ function llms_is_favorites_enabled() {
 	/**
 	 * Filter to enable/disable the Favorite feature.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param bool $favorite_enabled True if favorites are enabled, false otherwise.
 	 */
