@@ -245,7 +245,8 @@
             "status": "publish",
             "time_limit": 300,
             "title": "New Lesson Quiz",
-            "type": "llms_quiz"
+            "type": "llms_quiz",
+            "disable_retake": "yes"
           },
           "quiz_enabled": "yes",
           "require_assignment_passing_grade": "yes",
