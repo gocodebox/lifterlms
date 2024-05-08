@@ -29,6 +29,7 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		$options = wp_parse_args(
 			$options,
 			array(
+				'layout'         => 'stacked',
 				'login_redirect' => get_permalink( llms_get_page_id( 'myaccount' ) ),
 			)
 		);
@@ -36,11 +37,13 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		/**
 		 * Fires before the student dashboard output.
 		 *
-		 * @since Unknown
+		 * @since [version]
+		 *
+		 * @param string $layout The layout of the dashboard.
 		 *
 		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
 		 */
-		do_action( 'lifterlms_before_student_dashboard' );
+		do_action( 'lifterlms_before_student_dashboard', $options['layout'] );
 
 		/**
 		 * Filters whether or not to display the student dashboard
@@ -1014,12 +1017,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
+	 * @since [version]
+	 *
+	 * @param string $layout Dashboard layout. Accepts "stacked" (default) or "columns".
 	 *
 	 * @return void
 	 */
-	function lifterlms_template_student_dashboard_wrapper_open() {
+	function lifterlms_template_student_dashboard_wrapper_open( $layout ) {
 		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
+		echo '<div class="llms-student-dashboard ' . $current . ' llms-sd-layout-' . esc_attr( $layout ) . '" data-current="' . $current . '">';
 	}
 endif;
 
