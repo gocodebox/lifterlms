@@ -46,6 +46,7 @@ class LLMS_Shortcode_My_Account {
 
 		$atts = shortcode_atts(
 			array(
+				'layout'         => 'stacked',
 				'login_redirect' => null,
 			),
 			$atts,
