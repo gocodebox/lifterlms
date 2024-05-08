@@ -132,7 +132,8 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 			 *
 			 * @since unknown
 			 *
-			 * @hooked lifterlms_template_student_dashboard_header - 10
+			 * @hooked lifterlms_template_student_dashboard_navigation - 10
+			 * @hooked lifterlms_template_student_dashboard_header - 20
 			 */
 			do_action( 'lifterlms_before_student_dashboard_content' );
 
