@@ -77,6 +77,7 @@
 .llms-quiz-question-wrapper {
 	min-height: 140px;
 	position: relative;
+
 	.llms-quiz-loading {
 		bottom: 20px;
 		left: 0;
@@ -84,6 +85,15 @@
 		right: 0;
 		text-align: center;
 		z-index: 1;
+	}
+
+	.llms-question-image {
+
+		img {
+			height: auto;
+			max-width: 100%;
+		}
+
 	}
 }
 
@@ -191,6 +201,7 @@
 					transition: background 0.4s ease;
 					img {
 						display: block;
+						height: auto;
 						width: 100%;
 					}
 				}

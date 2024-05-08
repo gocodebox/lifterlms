@@ -204,7 +204,7 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		$autosave = get_user_option( 'llms_builder_autosave', $user->ID );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		?>
 		<tr class="llms-builder-autosave llms-builder-autosave-wrap">

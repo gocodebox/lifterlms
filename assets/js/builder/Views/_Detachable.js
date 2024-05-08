@@ -20,6 +20,7 @@ define( [], function() {
 		 */
 		events: {
 			'click a[href="#llms-detach-model"]': 'detach_model',
+			'click button.llms-detach-model': 'detach_model',
 		},
 
 		/**
