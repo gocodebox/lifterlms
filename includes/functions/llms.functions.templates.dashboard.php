@@ -29,7 +29,7 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		$options = wp_parse_args(
 			$options,
 			array(
-				'layout'         => 'stacked',
+				'layout'         => 'columns',
 				'login_redirect' => get_permalink( llms_get_page_id( 'myaccount' ) ),
 			)
 		);

@@ -286,7 +286,7 @@ class LLMS_Install {
 					'docs_url'     => 'https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page',
 				),
 				array(
-					'content'      => '[lifterlms_my_account layout="columns"]',
+					'content'      => '[lifterlms_my_account]',
 					'option'       => 'lifterlms_myaccount_page_id',
 					'slug'         => 'dashboard',
 					'title'        => __( 'Dashboard', 'lifterlms' ),
