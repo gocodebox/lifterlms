@@ -28,7 +28,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 		add_action( 'llms_reporting_content_students', array( $this, 'output' ) );
 		add_action( 'llms_reporting_student_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
-
 	}
 
 	/**
@@ -83,10 +82,9 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 		foreach ( $links as $url => $title ) {
 
-			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
+			echo '<a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a>';
 
 		}
-
 	}
 
 	/**
@@ -105,11 +103,11 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 			$student_id = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
 			if ( ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
-				wp_die( __( "You do not have permission to access this student's reports", 'lifterlms' ) );
+				wp_die( esc_attr__( "You do not have permission to access this student's reports", 'lifterlms' ) );
 			}
 			$student = llms_get_student( $student_id );
 			if ( ! $student ) {
-				wp_die( __( "This student doesn't exist.", 'lifterlms' ) );
+				wp_die( esc_attr__( "This student doesn't exist.", 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
@@ -137,8 +135,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 			llms_get_template( 'admin/reporting/tabs/students/students.php' );
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Reporting_Tab_Students();
