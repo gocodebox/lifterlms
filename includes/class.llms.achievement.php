@@ -118,7 +118,7 @@ class LLMS_Achievement {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
+		_deprecated_function( __CLASS__ . '::' . esc_attr( $name ), '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -269,8 +269,5 @@ class LLMS_Achievement {
 
 		// This hook is documented in includes/class-llms-engagement-handler.php.
 		do_action( 'llms_user_earned_achievement', $this->userid, $new_user_achievement_id, $this->lesson_id );
-
 	}
-
 }
-
