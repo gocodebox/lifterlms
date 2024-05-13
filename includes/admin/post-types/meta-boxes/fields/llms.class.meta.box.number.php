@@ -36,7 +36,7 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		parent::output();
 
-		// Clear an invalid value, usually from a clone or import
+		// Clear an invalid value, usually from a clone or import.
 		if (
 			is_numeric( $this->meta ) &&
 			isset( $this->field['min'] ) &&
