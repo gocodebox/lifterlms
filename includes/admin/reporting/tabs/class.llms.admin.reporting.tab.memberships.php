@@ -29,7 +29,6 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 
 		add_action( 'llms_reporting_content_memberships', array( $this, 'output' ) );
 		add_action( 'llms_reporting_membership_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
-
 	}
 
 	/**
@@ -51,10 +50,9 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 
 		foreach ( $links as $url => $title ) {
 
-			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
+			echo '<a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a>';
 
 		}
-
 	}
 
 	/**
@@ -72,7 +70,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 		if ( isset( $_GET['membership_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
-				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
+				wp_die( esc_attr__( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
@@ -96,12 +94,10 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 
 			$table = new LLMS_Table_Memberships();
 			$table->get_results();
-			echo $table->get_table_html();
+			$table->output_table_html();
 
 		}
-
 	}
-
 }
 
 return new LLMS_Admin_Reporting_Tab_Memberships();
