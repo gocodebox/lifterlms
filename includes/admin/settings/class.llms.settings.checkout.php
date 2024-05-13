@@ -44,7 +44,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		add_action( 'lifterlms_sections_' . $this->id, array( $this, 'output_sections_nav' ) );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -67,9 +66,9 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			<thead>
 				<tr>
 					<th class="sort"></th>
-					<th><?php _e( 'Gateway', 'lifterlms' ); ?></th>
-					<th><?php _e( 'Gateway ID', 'lifterlms' ); ?></th>
-					<th><?php _e( 'Enabled', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Gateway', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Gateway ID', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -77,14 +76,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				<tr>
 					<td class="sort">
 						<i class="fa fa-bars llms-action-icon" aria-hidden="true"></i>
-						<input type="hidden" name="<?php echo $gateway->get_option_name( 'display_order' ); ?>" value="<?php echo $gateway->get_display_order(); ?>">
+						<input type="hidden" name="<?php echo esc_attr( $gateway->get_option_name( 'display_order' ) ); ?>" value="<?php echo esc_attr( $gateway->get_display_order() ); ?>">
 					</td>
-					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo $gateway->get_admin_title(); ?></a></td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $gateway->get_admin_title() ); ?></a></td>
 					<td><?php echo $gateway->get_id(); ?></td>
 					<td class="status">
 						<?php if ( $gateway->is_enabled() ) : ?>
 							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php _e( 'Enabled', 'lifterlms' ); ?></span>
+								<span class="screen-reader-text"><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></span>
 								<i class="fa fa-check-circle" aria-hidden="true"></i>
 							</span>
 						<?php else : ?>
@@ -98,7 +97,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_checkout_settings_sections', $sections );
-
 	}
 
 	/**
@@ -149,7 +146,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_gateway_settings_' . $curr_section, $this->get_settings_gateway( $curr_section ) );
-
 	}
 
 	/**
@@ -221,7 +217,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'default' => 'yes',
 				'desc'    => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
-							  '<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_recurring_payment_retry',
 				'title'   => __( 'Retry Failed Payments', 'lifterlms' ),
 				'type'    => 'checkbox',
@@ -342,7 +338,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			),
 
 		);
-
 	}
 
 	/**
@@ -396,7 +391,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		);
 
 		return $settings;
-
 	}
 
 	/**
@@ -444,9 +438,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		}
 
 		return $a_order < $b_order ? -1 : 1;
-
 	}
-
 }
 
 return new LLMS_Settings_Checkout();
