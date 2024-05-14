@@ -928,7 +928,9 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		?>
 		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
 			<?php foreach ( $this->get_columns() as $id => $title ) : ?>
-				<td class="<?php echo esc_attr( $id ); ?>"><?php echo wp_kses_post( $this->get_data( $id, $row ) ); ?></td>
+				<td class="<?php echo esc_attr( $id ); ?>">
+					<?php echo $this->get_data( $id, $row ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</td>
 			<?php endforeach; ?>
 		</tr>
 		<?php
