@@ -79,7 +79,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 						<input type="hidden" name="<?php echo esc_attr( $gateway->get_option_name( 'display_order' ) ); ?>" value="<?php echo esc_attr( $gateway->get_display_order() ); ?>">
 					</td>
 					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $gateway->get_admin_title() ); ?></a></td>
-					<td><?php echo $gateway->get_id(); ?></td>
+					<td><?php echo esc_html( $gateway->get_id() ); ?></td>
 					<td class="status">
 						<?php if ( $gateway->is_enabled() ) : ?>
 							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
