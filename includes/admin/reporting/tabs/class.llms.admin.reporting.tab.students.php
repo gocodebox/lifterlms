@@ -103,7 +103,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 			$student_id = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
 			if ( ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
-				wp_die( esc_attr__( "You do not have permission to access this student's reports", 'lifterlms' ) );
+				wp_die( esc_html__( "You do not have permission to access this student's reports", 'lifterlms' ) );
 			}
 			$student = llms_get_student( $student_id );
 			if ( ! $student ) {
