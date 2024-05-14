@@ -691,7 +691,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
+			wp_die( esc_html__( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
 		}
 
 		LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
