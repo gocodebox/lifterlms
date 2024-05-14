@@ -69,7 +69,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 		if ( isset( $_GET['course_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
-				wp_die( esc_attr__( 'You do not have permission to access this content.', 'lifterlms' ) );
+				wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
