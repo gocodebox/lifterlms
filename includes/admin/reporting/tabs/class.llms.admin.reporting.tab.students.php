@@ -107,7 +107,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 			}
 			$student = llms_get_student( $student_id );
 			if ( ! $student ) {
-				wp_die( esc_attr__( "This student doesn't exist.", 'lifterlms' ) );
+				wp_die( esc_html__( "This student doesn't exist.", 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
