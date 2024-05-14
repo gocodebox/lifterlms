@@ -70,7 +70,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 		if ( isset( $_GET['membership_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
-				wp_die( esc_attr__( 'You do not have permission to access this content.', 'lifterlms' ) );
+				wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
