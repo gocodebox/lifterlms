@@ -687,7 +687,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		}
 
 		if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
-			wp_die( esc_attr__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
