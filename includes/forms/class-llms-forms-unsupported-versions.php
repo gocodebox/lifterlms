@@ -79,7 +79,7 @@ class LLMS_Forms_Unsupported_Versions {
 		?>
 		<div class="notice notice-error">
 			<p><b><?php esc_html_e( 'Minimum Version Requirements Error', 'lifterlms' ); ?></b></p>
-			<p><?php printf( esc_html__( 'In order to manage LifterLMS Forms you must upgrade to at least WordPress version %s or later or install the latest version of the Gutenberg plugin.', 'lifterlms' ), esc_attr( LLMS_Forms::instance()::MIN_WP_VERSION ) ); ?></p>
+			<p><?php printf( esc_html__( 'In order to manage LifterLMS Forms you must upgrade to at least WordPress version %s or later or install the latest version of the Gutenberg plugin.', 'lifterlms' ), esc_html( LLMS_Forms::instance()::MIN_WP_VERSION ) ); ?></p>
 			<p><?php esc_html_e( 'If you do not upgrade, your forms will display properly on the frontend and users will be able to create accounts, enroll, and checkout but you will be unable to customize them.', 'lifterlms' ); ?></p>
 		</div>
 		<?php
