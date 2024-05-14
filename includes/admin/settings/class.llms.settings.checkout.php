@@ -217,7 +217,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'default' => 'yes',
 				'desc'    => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
-								'<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf( esc_html__( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_recurring_payment_retry',
 				'title'   => __( 'Retry Failed Payments', 'lifterlms' ),
 				'type'    => 'checkbox',
