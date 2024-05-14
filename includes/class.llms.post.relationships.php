@@ -201,7 +201,7 @@ class LLMS_Post_Relationships {
 			add_filter( 'rest_request_after_callbacks', array( __CLASS__, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
 			wp_die(
-				esc_attr( self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) ) )
+				esc_html( self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) ) )
 			);
 		}
 
