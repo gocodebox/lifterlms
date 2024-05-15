@@ -218,6 +218,7 @@ class LLMS_Meta_Box_Voucher_Export {
 		header( 'Content-Type: application/csv' );
 		header( 'Content-Disposition: attachment; filename="' . $name . '";' );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSV output.
 		echo $csv;
 		exit;
 	}
