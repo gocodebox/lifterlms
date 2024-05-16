@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<section>
 
-				<p><?php echo esc_html( llms_trim_string( $addon->get( 'description' ), 180 ) ); ?></p>
+				<p><?php echo wp_kses_post( llms_trim_string( $addon->get( 'description' ), 180 ) ); ?></p>
 
 				<ul>
 					<?php if ( $addon->get( 'author' )['name'] ) : ?>
