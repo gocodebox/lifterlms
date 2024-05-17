@@ -996,6 +996,15 @@ class LLMS_Form_Field {
 		}
 
 		$allowed_html = array(
+			'a'        => array(
+				'href'    => true,
+				'onclick' => true,
+				'class'   => true,
+				'id'      => true,
+				'style'   => true,
+				'target'  => true,
+				'title'   => true,
+			),
 			'form'     => array(
 				'action'  => true,
 				'method'  => true,
@@ -1004,6 +1013,7 @@ class LLMS_Form_Field {
 				'target'  => true,
 			),
 			'input'    => array(
+				'checked'     => true,
 				'name'        => true,
 				'id'          => true,
 				'class'       => true,
@@ -1070,6 +1080,11 @@ class LLMS_Form_Field {
 			),
 			'span'     => array(
 				'class' => true,
+			),
+			'img'      => array(
+				'src'      => true,
+				'alt'      => true,
+				'decoding' => true,
 			),
 		);
 
