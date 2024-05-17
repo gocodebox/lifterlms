@@ -1046,6 +1046,22 @@ class LLMS_Form_Field {
 				'checked'  => true,
 				'disabled' => true,
 			),
+			'radio'    => array(
+				'name'     => true,
+				'id'       => true,
+				'class'    => true,
+				'type'     => true,
+				'value'    => true,
+				'checked'  => true,
+				'disabled' => true,
+			),
+			'optgroup' => array(
+				'label' => true,
+			),
+			'div'      => array(
+				'class' => true,
+				'id'    => true,
+			),
 			'label'    => array(
 				'for' => true,
 			),
