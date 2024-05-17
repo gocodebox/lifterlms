@@ -1032,6 +1032,20 @@ class LLMS_Form_Field {
 				'id'    => true,
 				'class' => true,
 			),
+			'option'   => array(
+				'value'    => true,
+				'selected' => true,
+				'disabled' => true,
+			),
+			'checkbox' => array(
+				'name'     => true,
+				'id'       => true,
+				'class'    => true,
+				'type'     => true,
+				'value'    => true,
+				'checked'  => true,
+				'disabled' => true,
+			),
 			'label'    => array(
 				'for' => true,
 			),
