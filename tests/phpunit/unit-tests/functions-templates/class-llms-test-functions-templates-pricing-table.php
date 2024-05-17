@@ -94,7 +94,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 
 		// purchase button link
 		$this->assertTrue( false !== strpos( $ob['html'], '<a class="llms-button-action button"' ) );
-		$this->assertTrue( false !== strpos( $ob['html'], sprintf( 'href="%s"', $ob['plan']->get_checkout_url() ) ) );
+		$this->assertTrue( false !== strpos( $ob['html'], sprintf( 'href="%s"', esc_url( $ob['plan']->get_checkout_url() ) ) ) );
 
 		// check free enroll form
 		$student = $this->get_mock_student();
