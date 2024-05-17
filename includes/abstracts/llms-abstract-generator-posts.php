@@ -205,7 +205,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		if ( ! $post->get( 'id' ) ) {
 			// Translators: %s = post type name.
-			throw new Exception( esc_html( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ) ), $type ), intval( self::ERROR_CREATE_POST ) );
+			throw new Exception( esc_html( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ), $type ) ), intval( self::ERROR_CREATE_POST ) );
 		}
 
 		// Store the temp id if it exists.
