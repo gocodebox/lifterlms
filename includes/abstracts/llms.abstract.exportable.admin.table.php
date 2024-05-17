@@ -308,9 +308,9 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 				// Translators: %s = the name of the method.
 					__( "Method '%s' must be overridden.", 'lifterlms' ),
 					__METHOD__
-				),
-				'[version]'
-			)
+				)
+			),
+			'[version]'
 		);
 		return $this->id;
 	}
