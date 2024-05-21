@@ -54,6 +54,17 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 
 register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 
+function llms_change_media_upload_directory( $params ) {
+	if ( isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
+		$params['path']   = $params['basedir'] . '/lifterlms/' . date( 'Y/m' );
+		$params['url']    = $params['baseurl'] . '/lifterlms/' . date( 'Y/m' );
+		$params['subdir'] = '/lifterlms/' . date( 'Y/m' );
+	}
+
+	return $params;
+}
+add_filter( 'upload_dir', 'llms_change_media_upload_directory', 10, 1 );
+
 /**
  * Returns the main instance of LifterLMS
  *

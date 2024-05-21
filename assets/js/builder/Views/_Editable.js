@@ -439,6 +439,9 @@ define( [], function() {
 
 			}
 
+			// TODO: Only add this param for certain files we want to protect?
+			self.media_lib.uploader.options.uploader.params.llms = 1;
+
 			self.media_lib.open();
 
 		},
