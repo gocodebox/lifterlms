@@ -1,4 +1,4 @@
-=== LifterLMS - WordPress LMS Plugin for eLearning ===
+=== LifterLMS - WordPress LMS for eLearning ===
 Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc
 Donate link: {{__PROJECT_URI__}}
 Tags: lms, course, elearning, learning management system, quiz
