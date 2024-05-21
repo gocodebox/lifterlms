@@ -800,9 +800,11 @@ class LLMS_Media_Protector {
 			 * @see https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 			 * @see https://woocommerce.com/document/digital-downloadable-product-handling/#nginx-setting
 			 */
+			error_log( 'nginx for ' . $file_name );
 			// NGINX requires a URI without the server's root path.
 			$nginx_file_name = substr( $file_name, strlen( ABSPATH ) - 1 );
-			header( "X-Accel-Redirect: $nginx_file_name" );
+			header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
+			error_log( 'nginx header for ' . $nginx_file_name );
 
 		} else {
 			$this->read_file( $file_name );
