@@ -77,6 +77,7 @@ class LLMS_Loader {
 		'llms_admin_reporting'               => 'includes/admin/reporting/class.llms.admin.reporting.php',
 		'llms_admin_system_report'           => 'includes/admin/class.llms.admin.system-report.php',
 		'llms_bbp_widget_course_forums_list' => 'includes/widgets/class.llms.bbp.widget.course.forums.list.php',
+		'llms_media_protection'              => 'includes/class-llms-media-protection.php',
 		'llms_db_upgrader'                   => 'includes/class-llms-db-ugrader.php',
 		'llms_emails'                        => 'includes/class.llms.emails.php',
 		'llms_payment_gateway_manual'        => 'includes/class.llms.gateway.manual.php',
