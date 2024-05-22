@@ -66,7 +66,6 @@ class LLMS_Admin_Builder {
 			wp_admin_bar_appearance_menu( $wp_admin_bar );
 
 		}
-
 	}
 
 	/**
@@ -93,7 +92,6 @@ class LLMS_Admin_Builder {
 		 * @param string $autosave Status of autosave for the current user. Either "yes" or "no".
 		 */
 		return apply_filters( 'llms_builder_autosave_enabled', $autosave );
-
 	}
 
 	/**
@@ -270,7 +268,6 @@ class LLMS_Admin_Builder {
 		);
 
 		return $ret;
-
 	}
 
 	/**
@@ -292,7 +289,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $where;
-
 	}
 
 	/**
@@ -309,7 +305,6 @@ class LLMS_Admin_Builder {
 		extract( $vars );
 		include 'views/builder/' . $template . '.php';
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -386,7 +381,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -417,7 +411,6 @@ class LLMS_Admin_Builder {
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
-
 	}
 
 	/**
@@ -496,7 +489,6 @@ class LLMS_Admin_Builder {
 		$res['llms_builder'] = $ret;
 
 		return $res;
-
 	}
 
 	/**
@@ -513,7 +505,6 @@ class LLMS_Admin_Builder {
 	public static function is_temp_id( $id ) {
 
 		return ( ! is_numeric( $id ) && 0 === strpos( $id, 'temp_' ) );
-
 	}
 
 	/**
@@ -535,7 +526,6 @@ class LLMS_Admin_Builder {
 			),
 			admin_url( 'admin.php' )
 		);
-
 	}
 
 	/**
@@ -672,7 +662,6 @@ class LLMS_Admin_Builder {
 		<?php
 		$llms_builder_lazy_load = false;
 		self::handle_post_locking( $course_id );
-
 	}
 
 	/**
@@ -732,7 +721,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -754,7 +742,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -818,7 +805,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
@@ -857,7 +843,6 @@ class LLMS_Admin_Builder {
 
 		// Success.
 		return true;
-
 	}
 
 	/**
@@ -918,7 +903,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -947,7 +931,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -993,12 +976,10 @@ class LLMS_Admin_Builder {
 
 							if ( isset( $field['sanitize_callback'] ) ) {
 								$val = call_user_func( $field['sanitize_callback'], $post_data[ $attr ] );
-							} else {
-								if ( is_array( $post_data[ $attr ] ) ) {
+							} elseif ( is_array( $post_data[ $attr ] ) ) {
 									$val = array_map( 'sanitize_text_field', $post_data[ $attr ] );
-								} else {
-									$val = sanitize_text_field( $post_data[ $attr ] );
-								}
+							} else {
+								$val = sanitize_text_field( $post_data[ $attr ] );
 							}
 
 							$attr = isset( $field['attribute_prefix'] ) ? $field['attribute_prefix'] . $attr : $attr;
@@ -1009,7 +990,6 @@ class LLMS_Admin_Builder {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1130,7 +1110,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -1217,6 +1196,23 @@ class LLMS_Admin_Builder {
 							$choice_res['error'] = sprintf( esc_html__( 'Unable to update choice "%s". Invalid choice ID.', 'lifterlms' ), $c_data['id'] );
 						} else {
 							$choice_res['id'] = $choice_id;
+
+							if ( isset( $c_data['choice']['id'] ) ) {
+								// update the quiz id for the Picture Choice as an array of quiz IDs,
+								// as the choice attachment/image could be in multiple quizzes.
+
+								// TODO: Verify if this attachment is protected? If not we don't need the meta.
+								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
+								if ( ! is_array( $quiz_ids ) ) {
+									$quiz_ids = array();
+								}
+								// TODO: Verify if we need this ternary operator, as it's likely always a question group (ie. use parent_id)
+								$quiz_id = $parent->get( 'parent_id' ) ? $parent->get( 'parent_id' ) : $parent->get( 'id' );
+								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
+									$quiz_ids[] = $quiz_id;
+								}
+								update_post_meta( $c_data['choice']['id'], '_llms_quiz_id', $quiz_ids );
+							}
 						}
 
 						array_push( $ret['choices'], $choice_res );
@@ -1234,7 +1230,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
@@ -1317,7 +1312,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
@@ -1380,7 +1374,5 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
-
 }

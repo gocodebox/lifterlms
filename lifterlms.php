@@ -81,7 +81,6 @@ add_filter( 'upload_dir', 'llms_change_media_upload_directory', 10, 1 );
 function llms_add_authorization_meta_on_attachment_add( $post_id ) {
 	$attachment = get_post( $post_id );
 	if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
-		error_log( 'adding attachment meta!' );
 		update_post_meta( $post_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
 	}
 }
