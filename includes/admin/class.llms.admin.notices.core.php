@@ -103,11 +103,9 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Check for gateways and output gateway notice
+	 * Check for Nginx and output a notice about media protection.
 	 *
-	 * @since 3.0.0
-	 * @since 3.13.0 Unknown.
-	 * @since 4.5.0 Dismiss notice for 2 years instead of 7 days.
+	 * @since [version]
 	 *
 	 * @return void
 	 */
