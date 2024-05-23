@@ -560,6 +560,24 @@ class LLMS_Media_Protector {
 			$is_authorized = in_array( 'llms_manager', $user->roles, true );
 		}
 
+		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
+		if ( ! $is_authorized && llms_get_student() ) {
+			// TODO: Check an attempt ID passed as a param instead of getting all quizzes
+			$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+			$student_quizzes     = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
+			// TODO: verify there's no attempt after this attempt ID?
+			foreach ( $student_quizzes as $student_quiz_attempt ) {
+				$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
+				if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
+					continue;
+				}
+				if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
+					$is_authorized = true;
+					break;
+				}
+			}
+		}
+
 		/**
 		 * Allow the plugin that is protecting the file to authorize access to it.
 		 *
