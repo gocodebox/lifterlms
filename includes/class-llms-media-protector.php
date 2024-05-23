@@ -709,7 +709,7 @@ class LLMS_Media_Protector {
 		) {
 			add_action( 'init', array( $this, 'serve_file' ), 10 );
 		} else {
-			add_filter( 'flush_rewrite_rules_hard', array( $this, 'save_mod_rewrite_rules' ), 10, 1 );
+			add_filter( 'admin_init', array( $this, 'save_mod_rewrite_rules' ), 10, 1 );
 			add_filter( 'wp_prepare_attachment_for_js', array( $this, 'prepare_attachment_for_js' ), 99, 3 );
 			add_filter( 'wp_get_attachment_image_src', array( $this, 'authorize_media_image_src' ), 10, 4 );
 			add_filter( 'wp_get_attachment_url', array( $this, 'authorize_media_url' ), 10, 2 );
@@ -719,65 +719,76 @@ class LLMS_Media_Protector {
 	}
 
 	/**
-	 * Adds mod_rewrite and mod_xsendfile directives to the Apache .htaccess file.
+	 * Adds .htaccess and blank index.php/html files to the upload directory to protect the files from being listed.
 	 *
 	 * Hooked to the {@see 'flush_rewrite_rules_hard'} filter in {@see WP_Rewrite::flush_rules()}
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since [version]
 	 *
-	 * @param bool $hard Whether to flush rewrite rules "hard".
 	 * @return bool
 	 */
-	public function save_mod_rewrite_rules( $hard ) {
-		if ( is_multisite() ) {
-			return $hard;
+	public function save_mod_rewrite_rules() {
+		// TODO: Different for multi-site?
+
+		if ( false === get_transient( 'lifterlms_check_media_protection_files' ) ) {
+			global $wp_filesystem;
+			/** @var WP_Filesystem_Base $wp_filesystem */
+
+			/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+
+			WP_Filesystem();
+
+			$uploads = wp_get_upload_dir();
+
+			$upload_path   = $uploads['basedir'] . $this->get_base_upload_path();
+			$htaccess_file = $upload_path . '/.htaccess';
+
+			$upload_path_writeable = $wp_filesystem->is_writable( $upload_path );
+
+			$rules  = "Options -Indexes\n";
+			$rules .= "deny from all\n";
+
+			if ( false === $wp_filesystem->exists( $htaccess_file ) ) {
+				$contents = $wp_filesystem->get_contents( $htaccess_file );
+				if ( $upload_path_writeable && ( ! $contents || $contents !== $rules ) ) {
+					$wp_filesystem->put_contents( $htaccess_file, $rules, 0644 );
+				}
+			}
+
+			if ( $upload_path_writeable && ! $wp_filesystem->exists( $upload_path . '/index.php' ) ) {
+				$wp_filesystem->put_contents( $upload_path . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
+			}
+
+			if ( $upload_path_writeable && ! $wp_filesystem->exists( $upload_path . '/index.html' ) ) {
+				$wp_filesystem->put_contents( $upload_path . '/index.html', '' );
+			}
+
+			// Get the main directories in the root of the directory we're scanning.
+			$upload_root_dirs = glob( $upload_path . '/*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK );
+
+			// Now get all the recursive directories.
+			$upload_sub_dirs = glob( $upload_path . '/*/**', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK );
+
+			// Merge the two arrays together, and avoid any possible duplicates.
+			foreach ( array_unique( array_merge( $upload_root_dirs, $upload_sub_dirs ) ) as $dir ) {
+				if ( ! wp_is_writable( $dir ) ) {
+					continue;
+				}
+
+				// Create index.php, if it doesn't exist.
+				if ( ! $wp_filesystem->exists( $dir . 'index.php' ) ) {
+					$wp_filesystem->put_contents( $dir . 'index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
+				}
+
+				if ( ! $wp_filesystem->exists( $dir . 'index.html' ) ) {
+					$wp_filesystem->put_contents( $dir . 'index.html', '' );
+				}
+			}
+
+			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
 		}
-
-		// Ensure get_home_path() is declared.
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		$htaccess_file    = get_home_path() . '.htaccess';
-		$base_upload_path = ltrim( $this->base_upload_path, '/' );
-		$url_parameter    = self::URL_PARAMETER_PROTECTED_URL;
-
-		$rewrite_note = sprintf(
-		/* translators: 1: Base upload path. */
-			__( 'Rewrite \'%1$s\' directory URLs to use the LifterLMS Media Protector class.', 'lifterlms' ),
-			$base_upload_path
-		);
-
-		$rule_note = __(
-			'The \'nosubreq\' flag prevents the rule from being used while mod_xsendfile is sending a file.',
-			'lifterlms'
-		);
-
-		$xsendfile_note = __(
-			'Allow PHP scripts to detect and use mod_xsendfile. https://tn123.org/mod_xsendfile/',
-			'lifterlms'
-		);
-
-		$directives = "
-# $rewrite_note
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-
-	# $rule_note
-	RewriteRule .+?/($base_upload_path/.+) /index.php?$url_parameter=$1 [nosubreq]
-</IfModule>
-
-# $xsendfile_note
-<IfModule mod_xsendfile.c>
-  <Files *.php>
-    XSendFile On
-    SetEnv MOD_X_SENDFILE_ENABLED 1
-  </Files>
-</IfModule>
-";
-
-		insert_with_markers( $htaccess_file, 'LifterLMS', $directives );
-
-		return $hard;
 	}
 
 	/**
