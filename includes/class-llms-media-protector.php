@@ -478,7 +478,7 @@ class LLMS_Media_Protector {
 	 */
 	protected function get_size() {
 
-		$size = llms_filter_input( INPUT_GET, self::URL_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
+		$size = ( isset( $_GET[ self::URL_PARAMETER_SIZE ] ) ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_SIZE ] ) : null;
 		if ( false === $size ) {
 			$size = null;
 		} elseif ( is_string( $size ) && '[' === $size[0] ) {
@@ -598,7 +598,7 @@ class LLMS_Media_Protector {
 		$is_modified = true;
 
 		$file_modified     = filemtime( $file_name );
-		$if_modified_since = llms_filter_input( INPUT_SERVER, 'HTTP_IF_MODIFIED_SINCE', FILTER_SANITIZE_STRING );
+		$if_modified_since = ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) ? sanitize_text_field( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) : '';
 		if ( strtotime( $if_modified_since ) === $file_modified ) {
 			$is_modified = false;
 		}
@@ -784,7 +784,7 @@ class LLMS_Media_Protector {
 	 * @return void
 	 */
 	protected function send_file( string $file_name, int $media_id ): void {
-		$server_software = llms_filter_input( INPUT_SERVER, 'SERVER_SOFTWARE', FILTER_SANITIZE_STRING );
+		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '' );
 
 		if (
 			( array_key_exists( 'MOD_X_SENDFILE_ENABLED', $_SERVER ) && '1' === $_SERVER['MOD_X_SENDFILE_ENABLED'] ) ||
@@ -800,12 +800,9 @@ class LLMS_Media_Protector {
 			 * @see https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 			 * @see https://woocommerce.com/document/digital-downloadable-product-handling/#nginx-setting
 			 */
-			error_log( 'nginx for ' . $file_name );
 			// NGINX requires a URI without the server's root path.
 			$nginx_file_name = substr( $file_name, strlen( ABSPATH ) - 1 );
 			header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
-			error_log( 'nginx header for ' . $nginx_file_name );
-
 		} else {
 			$this->read_file( $file_name );
 		}
@@ -912,7 +909,7 @@ class LLMS_Media_Protector {
 		if ( ! isset( $size ) ) {
 			$size = $this->get_size();
 		}
-		$icon = (bool) llms_filter_input( INPUT_GET, self::URL_PARAMETER_ICON, FILTER_SANITIZE_STRING );
+		$icon = (bool) ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
 		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
