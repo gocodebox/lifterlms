@@ -567,8 +567,8 @@ class LLMS_Media_Protector {
 	 * @return bool|null
 	 */
 	public function is_authorized_to_view( int $user_id, int $media_id ): ?bool {
-
-		$authorization = wp_cache_get( $media_id, 'llms_media_authorization', false, $found );
+		$cache_key     = 'llms-media-auth-' . $media_id . '-' . $user_id;
+		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
 			return $authorization;
 		}
@@ -629,7 +629,18 @@ class LLMS_Media_Protector {
 			$is_authorized = (bool) $is_authorized;
 		}
 
-		wp_cache_add( $media_id, $is_authorized, 'llms_media_authorization' );
+		/**
+		 * Determine how long the media authorization is valid for.
+		 *
+		 * @since [version]
+		 *
+		 * @param int   $cache_expiration    Time in seconds to cache the authorization for this media file and user.
+		 * @param int   $media_id            The post ID of the media file.
+		 * @param int   $user_id             The ID of the user wanting to view the media file.
+		 */
+		$cache_expiration = apply_filters( 'llms_media_protection_cache_expiration_time', MINUTE_IN_SECONDS * 1, $media_id, $user_id );
+
+		wp_cache_add( $cache_key, $is_authorized, 'llms_media_authorization', $cache_expiration );
 
 		return $is_authorized;
 	}
