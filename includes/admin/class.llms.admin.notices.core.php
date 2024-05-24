@@ -111,7 +111,13 @@ class LLMS_Admin_Notices_Core {
 	 */
 	public static function media_protection() {
 		$id = 'using-nginx';
-		if ( apply_filters( 'llms_admin_notice_using_nginx', ! empty( $GLOBALS['is_nginx'] && $GLOBALS['is_nginx'] ) ) ) {
+		if (
+			apply_filters(
+				'llms_admin_notice_using_nginx',
+				( ! empty( $GLOBALS['is_nginx'] && $GLOBALS['is_nginx'] ) )
+				||
+				( function_exists( 'is_wpe' ) && is_wpe() )
+			) ) {
 			$html = sprintf(
 				/* translators: 1. opening link tag; 2. closing link tag */
 				__( 'For the best protection for your media files, you should use this doc to add this %1$sNGINX redirect rule%2$s.', 'lifterlms' ),
