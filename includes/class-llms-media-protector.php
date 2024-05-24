@@ -308,6 +308,35 @@ class LLMS_Media_Protector {
 	}
 
 	/**
+	 * Modify the media upload directory if this is a LifterLMS request.
+	 *
+	 * @param $params
+	 *
+	 * @return array
+	 */
+	public function change_media_upload_directory( $params ) {
+		if ( isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
+			$params = $this->upload_dir( $params );
+		}
+
+		return $params;
+	}
+
+	/**
+	 * Adds authorization meta after an attachment is added.
+	 *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	public function add_authorization_meta_after_attachment_added( $post_id ) {
+		$attachment = get_post( $post_id );
+		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
+			update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
+		}
+	}
+
+	/**
 	 * Returns a path path with a leading slash and without a trailing slash, or if the given path is empty, an empty string.
 	 *
 	 * @since [version]
@@ -702,7 +731,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @return self
 	 */
-	public function register_callbacks(): self {
+	public function register_callbacks() {
 
 		if (
 			// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -716,6 +745,8 @@ class LLMS_Media_Protector {
 			add_filter( 'wp_prepare_attachment_for_js', array( $this, 'prepare_attachment_for_js' ), 99, 3 );
 			add_filter( 'wp_get_attachment_image_src', array( $this, 'authorize_media_image_src' ), 10, 4 );
 			add_filter( 'wp_get_attachment_url', array( $this, 'authorize_media_url' ), 10, 2 );
+			add_filter( 'upload_dir', array( $this, 'change_media_upload_directory' ), 10, 1 );
+			add_action( 'add_attachment', array( $this, 'add_authorization_meta_after_attachment_added' ), 10, 1 );
 		}
 
 		return $this;
@@ -1082,9 +1113,9 @@ class LLMS_Media_Protector {
 	 * @return array
 	 */
 	public function upload_dir( $uploads ) {
-
-		$uploads['path'] = $uploads['basedir'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
-		$uploads['url']  = $uploads['baseurl'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
+		$uploads['subdir'] = trailingslashit( $this->base_upload_path . $this->additional_upload_path ) . date( 'Y/m' );
+		$uploads['path']   = $uploads['basedir'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
+		$uploads['url']    = $uploads['baseurl'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
 
 		return $uploads;
 	}
