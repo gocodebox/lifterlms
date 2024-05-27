@@ -1,6 +1,209 @@
 LifterLMS Changelog
 ===================
 
+v7.6.1 - 2024-05-02
+-------------------
+
+##### Bug Fixes
+
++ Fix error when trying to add a new lesson outside the course builder. [#2636](https://github.com/gocodebox/lifterlms/issues/2636)
++ Show correct course title when launching Course Builder immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ Updating lifter blocks version for the Launch Course Builder button to appear on the Course edit page.
+
+
+v7.6.0 - 2024-04-18
+-------------------
+
+##### New Features
+
++ Adds course-level lesson drip settings.
++ Loads translation files later for compatibility with plugins like Loco Translate. [#2429](https://github.com/gocodebox/lifterlms/issues/2429), [#2525](https://github.com/gocodebox/lifterlms/issues/2525)
++ Adds settings in the Permalinks page to edit the custom post type and taxonomy slugs. Slugs are saved in the site language on install on update.
++ Adds `llms_switch_to_site_locale` and `llms_restore_locale` to help LifterLMS add-ons switch to the site language when getting translation strings.
+
+##### Updates and Enhancements
+
++ Improved the Course Builder UI.
++ Updating the Blocks and Helpers libraries to the latest version.
+
+##### Bug Fixes
+
++ Allows the style tag when embedding content (iframe), in order to support more services. [#2610](https://github.com/gocodebox/lifterlms/issues/2610)
++ Removes non-working editing of course title in the Course Builder. [#2607](https://github.com/gocodebox/lifterlms/issues/2607)
++ Avoid issue with lost content when the course builder is launched immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ LifterLMS block editor strings now appear in the user's language. [#2525](https://github.com/gocodebox/lifterlms/issues/2525)
++ Fixed user's language setting not honored on backend. [#2324](https://github.com/gocodebox/lifterlms/issues/2324)
++ Fixes XSS, sanitization, and other security issues reported by Signal Labs.
++ Fixes typo with CHF currency.
+
+##### Updated Templates
+
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/7.6.0/templates/myaccount/my-orders.php)
+
+
+v7.5.3 - 2024-02-22
+-------------------
+
+##### Bug Fixes
+
++ Fix fatal error when rendering single course page with reviews enabled. [#2604](https://github.com/gocodebox/lifterlms/issues/2604)
+
+
+v7.5.2 - 2024-02-16
+-------------------
+
+##### Updates and Enhancements
+
++ Added product images for Aircraft and Memberlite.
++ Updates LifterLMS Rest to [v1.0.0](https://make.lifterlms.com/2024/01/22/lifterlms-rest-api-version-1-0-0/).
+
+##### Bug Fixes
+
++ Adds error handling when taking a quiz in case of temporary server error or internet issue.
+
+##### Security Fixes
+
++ Reviews handler now checks nonces and user limits. Thanks, Francesco Carlucci at Wordfence.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.2/templates/emails/footer.php)
+
+
+v7.5.1 - 2024-01-24
+-------------------
+
+##### Updates and Enhancements
+
++ Added action and description links to the plugins page.
+
+##### Bug Fixes
+
++ Style updates for buttons in editor.
++ Fixed logic to validate that the terms page exists before adding to email footer.
++ Removed .clear styles since WordPress already sets them by default. [#2573](https://github.com/gocodebox/lifterlms/issues/2573)
++ Improved image appearance in quiz multiple choice and image choice question types. [#2588](https://github.com/gocodebox/lifterlms/issues/2588)
+
+##### Security Fixes
+
++ Added nonce for course clone link. Thanks, Dhabaleshwar Das.
+
+##### Updated Templates
+
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/7.5.1/templates/emails/footer.php)
+
+
+v7.5.0 - 2023-11-05
+-------------------
+
+##### New Features
+
++ Added `LLMS_Add_On::get_image()` method to get the addon and author image. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Added a paragraph to show Number of lessons in a course at Course Catalog and My Courses. [#2434](https://github.com/gocodebox/lifterlms/issues/2434)
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Blocks to [v2.5.2](https://make.lifterlms.com/2023/11/01/lifterlms-blocks-version-2-5-2/).
++ Bundled Add-ons & More Banners/Author Images in Core LifterLMS. [#2511](https://github.com/gocodebox/lifterlms/issues/2511)
++ Updates LifterLMS Rest to [v1.0.0-beta.29](https://make.lifterlms.com/2023/10/24/lifterlms-rest-api-version-1-0-0-beta-29/).
++ Update Action Scheduler to version 3.5.4. To improve compatibility with PHP 8.2.
+
+##### Bug Fixes
+
++ Fixed checking for the wrong function name when defining the pluggable function `lifterlms_student_dashboard`. [#2550](https://github.com/gocodebox/lifterlms/issues/2550)
++ Only show LifterLMS-authored Addons in All section.
++ Improved compatibility with WordPress 6.4 by using `traverse_and_serialize_blocks` in place of the deprecated `_inject_theme_attribute_in_block_template_content`.
++ PHP 8.2 compatibility fix: Fixed creation of dynamic property `LLMS_Meta_Box_Access::$_saved`.
+
+##### Developer Notes
+
++ Added `LLMS_Payment_Gateway::can_process_access_plan()` method to determine if an access plan can be processed by the gateway. Also added the filter hook `llms_can_gateway_process_access_plan` to filter its result.
++ Added a check on whether the gateway can process a specific plan when purchasing a plan, or switching the payment gateway of a recurring payment.
++ Added action hook `llms_checkout_form_gateway_cant_process_plan` fired on the checkout form gateways section, when a gateway cannot process a specific plan.
++ Added new filter hook `llms_unschedule_recurring_payment_on_access_pan_expiration` to control whether or not the recurring payments fo an order need to be unscheduled when the related access plan expires (`true` by default).
++ Added 'favorites' in User postmeta for getting all user's favorites.
++ Added filter `llms_course_syllabus_lesson_favorite_visibility` for disabling favorites in syllabus view.
++ Added filter `llms_is_$object_type_favorite` to change object's (lesson, student, course) favorite boolean value.
++ Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
++ Added function `llms_template_syllabus_favorite_lesson_preview`.
++ Added filter `llms_favorites_enabled` to enable/disable Favorites feature.
++ Removed references to the unused quiz's property `random_answers`. Thanks [@AlexVCS](https://github.com/AlexVCS)! [#2552](https://github.com/gocodebox/lifterlms/issues/2552)
++ Improved some unit tests compatibility with PHP 8.2.
+
+##### Security Fixes
+
++ Improved security when exporting a reporting table: make sure to avoid path traversals. Thanks [Huseyin Tintas (stif)](https://linkedin.com/in/huseyintintas)!
+
+##### Updated Templates
+
++ [templates/checkout/form-gateways.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-gateways.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/checkout/form-switch-source.php)
++ [templates/content-single-lesson-before.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/content-single-lesson-before.php)
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/favorite.php)
++ [templates/course/length.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/length.php)
++ [templates/course/lesson-count.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-count.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/course/lesson-preview.php)
++ [templates/loop/content.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/loop/content.php)
++ [templates/myaccount/dashboard.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/dashboard.php)
++ [templates/myaccount/my-favorites.php](https://github.com/gocodebox/lifterlms/blob/7.5.0/templates/myaccount/my-favorites.php)
+
+
+v7.4.2 - 2023-10-06
+-------------------
+
+##### Developer Notes
+
++ Fixing issues in the 7.4.1 release.
+
+
+v7.4.1 - 2023-10-06
+-------------------
+
+##### New Features
+
++ Added new admin Resources page.
+
+##### Bug Fixes
+
++ Fixed possible issues when cloning a course containing a quiz built with the Advanced Quizzes addon, after disabling it.
+
+##### Developer Notes
+
++ Moved attempt randomization logic into the new static method `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
++ Added filter hook `llms_quiz_attempt_questions_array` to allow filtering the quiz attempt's question arrays.
+
+
+v7.4.0 - 2023-10-03
+-------------------
+
+##### New Features
+
++ Added method `LLMS_Quiz::get_questions_count()` for getting count of questions.
++ Added support for the upcoming "Question Bank" feature of the LifterLMS Advanced Quizzes add-on.
+
+##### Updates and Enhancements
+
++ Added `nocache_headers()` to prevent browser caching for temporary redirects.
+
+##### Bug Fixes
+
++ Added "Chaiyaphum" province for the Thailand. [#2527](https://github.com/gocodebox/lifterlms/issues/2527)
+
+##### Developer Notes
+
++ Course Builder: Correctly get/set (and track changes of) Backbone's model properties which are objects.
++ Added filter hook `llms_admin_show_header` to allow 3rd parties filtering whether or not to show the branded header in the admin.
++ Added filter `llms_generator_new_post_data`, to allow third parties to filter the data used when creating a new post while cloning/exporting a course or lesson.
++ Abstracted the `LLMS_Admin_Setup_Wizard` class, added the class `LLMS_Abstract_Admin_Wizard`.
++ Added filter `llms_quiz_attempt_questions_randomize` to enable/disable questions randomize.
++ Added filter `llms_quiz_attempt_questions` to modify the questions array for the quiz.
++ Added filter `llms_quiz_questions_count` to filter the quiz's question count.
+
+##### Updated Templates
+
++ [templates/quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/7.4.0/templates/quiz/meta-information.php)
+
+
 v7.3.0 - 2023-08-08
 -------------------
 

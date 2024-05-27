@@ -31,7 +31,7 @@
             height: 'auto',
             trigger: 'click', //hover,click,sticky,manual
             style: '',
-            selector: false, // jQuery selector, if a selector is provided, popover objects will be delegated to the specified. 
+            selector: false, // jQuery selector, if a selector is provided, popover objects will be delegated to the specified.
             delay: {
                 show: null,
                 hide: 300
@@ -56,7 +56,7 @@
             template: '<div class="webui-popover">' +
                 '<div class="webui-arrow"></div>' +
                 '<div class="webui-popover-inner">' +
-                '<a href="#" class="close"></a>' +
+                '<a href="#" aria-label="' + LLMS.l10n.translate( 'Close' ) + '" class="close"></a>' +
                 '<h3 class="webui-popover-title"></h3>' +
                 '<div class="webui-popover-content"><i class="icon-refresh"></i> <p>&nbsp;</p></div>' +
                 '</div>' +

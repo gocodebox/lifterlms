@@ -374,7 +374,7 @@ class LLMS_Post_Types {
 	 * Automatically checks for duplicates and filters data.
 	 *
 	 * @since 3.13.0
-	 * @since 5.5.0 Added `lifterlms_register_post_type_${name}` filters deprecation
+	 * @since 5.5.0 Added `lifterlms_register_post_type_{$name}` filters deprecation
 	 *              where `$name` is the the post type name, if the unprefixed name (removing 'llms_')
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
@@ -394,10 +394,10 @@ class LLMS_Post_Types {
 
 			if ( $unprefixed_name !== $name ) {
 				$data = apply_filters_deprecated(
-					"lifterlms_register_post_type_${name}",
+					"lifterlms_register_post_type_{$name}",
 					array( $data ),
 					'5.5.0',
-					"lifterlms_register_post_type_${unprefixed_name}"
+					"lifterlms_register_post_type_{$unprefixed_name}"
 				);
 			}
 
@@ -416,7 +416,7 @@ class LLMS_Post_Types {
 			 *
 			 * @param array $data Post type registration arguments passed to `register_post_type()`.
 			 */
-			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
+			$data = apply_filters( "lifterlms_register_post_type_{$unprefixed_name}", $data );
 			return register_post_type( $name, $data );
 
 		}
@@ -446,6 +446,7 @@ class LLMS_Post_Types {
 	 * @return void
 	 */
 	public static function register_post_types() {
+		$permalinks = llms_get_permalink_structure();
 
 		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -477,13 +478,13 @@ class LLMS_Post_Types {
 				'exclude_from_search' => false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'course', 'course url slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : $permalinks['courses_base'],
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -552,7 +553,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+					'slug'       => $permalinks['lesson_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -591,7 +592,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=course',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+					'slug'       => $permalinks['quiz_base'],
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -673,7 +674,7 @@ class LLMS_Post_Types {
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
-				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : $permalinks['memberships_base'],
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -902,7 +903,7 @@ class LLMS_Post_Types {
 			array(
 				'map_meta_cap' => true,
 			),
-			_x( 'certificate-template', 'slug', 'lifterlms' ),
+			$permalinks['certificate_template_base'],
 			/**
 			 * Filters the WordPress user capability required for a user to manage certificate templates on the admin panel.
 			 *
@@ -935,7 +936,7 @@ class LLMS_Post_Types {
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
 				'map_meta_cap' => false,
 			),
-			_x( 'certificate', 'slug', 'lifterlms' ),
+			$permalinks['certificate_base'],
 			/**
 			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *
@@ -1275,6 +1276,8 @@ class LLMS_Post_Types {
 	 */
 	public static function register_taxonomies() {
 
+		$permalinks = llms_get_permalink_structure();
+
 		// Course cat.
 		self::register_taxonomy(
 			'course_cat',
@@ -1300,7 +1303,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-category', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['course_category_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1333,7 +1336,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_difficulty_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1365,7 +1368,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'course-tag', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['course_tag_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,
@@ -1397,7 +1400,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-track', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['course_track_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1431,7 +1434,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'membership-category', 'slug', 'lifterlms' ),
+					'slug'         => $permalinks['membership_category_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
@@ -1465,7 +1468,7 @@ class LLMS_Post_Types {
 				'query_var'         => true,
 				'show_admin_column' => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'membership-tag', 'slug', 'lifterlms' ),
+					'slug'       => $permalinks['membership_tag_base'],
 					'with_front' => false,
 				),
 				'show_in_llms_rest' => true,

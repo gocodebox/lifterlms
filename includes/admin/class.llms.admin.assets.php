@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,6 @@ class LLMS_Admin_Assets {
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
-
 	}
 
 	/**
@@ -72,7 +71,6 @@ class LLMS_Admin_Assets {
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
 		}
-
 	}
 
 	/**
@@ -138,7 +136,6 @@ class LLMS_Admin_Assets {
 			$styles,
 			'style'
 		);
-
 	}
 
 	/**
@@ -168,7 +165,6 @@ class LLMS_Admin_Assets {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -200,7 +196,6 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-dashboard' === $screen->id ) {
 			llms()->assets->enqueue_style( 'llms-admin-add-ons' );
 		}
-
 	}
 
 	/**
@@ -220,6 +215,7 @@ class LLMS_Admin_Assets {
 	 * @since 7.1.0 Enqueue `postbox` script on the new dashboard page.
 	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *              Enqueue reporting scripts on dashboard page.
+	 * @since 7.4.1 Enqueue `postbox` script on the new resources page.
 	 *
 	 * @return void
 	 */
@@ -350,7 +346,7 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
-		} elseif ( 'lifterlms_page_llms-dashboard' === $screen->id ) {
+		} elseif ( in_array( $screen->id, array( 'lifterlms_page_llms-dashboard', 'lifterlms_page_llms-resources' ), true ) ) {
 			wp_enqueue_script( 'postbox' );
 		}
 
@@ -365,7 +361,6 @@ class LLMS_Admin_Assets {
 			llms()->assets->enqueue_script( 'llms-admin-award-certificate' );
 			wp_enqueue_style( 'wp-editor' );
 		}
-
 	}
 
 	/**
@@ -421,7 +416,6 @@ class LLMS_Admin_Assets {
 		if ( ! empty( $screen->is_block_editor ) || 'customize' === $screen->base ) {
 			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_slash( wp_json_encode( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
 		}
-
 	}
 
 	/**
@@ -451,7 +445,6 @@ class LLMS_Admin_Assets {
 		 * @param array $opts Associative array of option data.
 		 */
 		return apply_filters( 'llms_get_analytics_js_options', compact( 'currency_format' ) );
-
 	}
 
 	/**
@@ -488,7 +481,6 @@ class LLMS_Admin_Assets {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -503,16 +495,14 @@ class LLMS_Admin_Assets {
 	public static function register_quill( $modules = array() ) {
 
 		if ( ! wp_script_is( 'llms-quill', 'registered' ) ) {
-			wp_register_script( 'llms-quill', LLMS_PLUGIN_URL . 'assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', array(), '1.3.5', true );
+			wp_register_script( 'llms-quill', LLMS_PLUGIN_URL . 'assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', array(), '2.0.2', true );
 			wp_register_style( 'llms-quill-bubble', LLMS_PLUGIN_URL . 'assets/vendor/quill/quill.bubble' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.3.5', 'screen' );
 		}
 
 		foreach ( $modules as $module ) {
 			llms()->assets->register_script( "llms-quill-{$module}" );
 		}
-
 	}
-
 }
 
 return new LLMS_Admin_Assets();

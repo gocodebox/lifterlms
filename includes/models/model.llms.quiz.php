@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property $passing_percent (float) Grade required for a student to "pass" the quiz.
- * @property $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
  * @property $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
  * @property $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
  * @property $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
@@ -48,10 +47,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	/**
-	 * Post type meta properties
+	 * Post type meta properties.
 	 *
 	 * Array key is the meta_key and array values is property's type.
 	 *
+	 * @since Unknown.
+	 * @since [version] Added the `disable_retake` property.
 	 * @var string[]
 	 */
 	protected $properties = array(
@@ -63,6 +64,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'disable_retake'      => 'yesno',
 	);
 
 	/**
@@ -106,6 +108,26 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function get_questions( $return = 'questions' ) {
 		return $this->questions()->get_questions( $return );
+	}
+
+	/**
+	 * Get questions count.
+	 *
+	 * @since 7.4.0
+	 *
+	 * @return int Question Count.
+	 */
+	public function get_questions_count() {
+
+		/**
+		 * Filter the count of questions in a quiz.
+		 *
+		 * @since 7.4.0
+		 *
+		 * @param int       $questions_count Number of questions in a quiz.
+		 * @param LLMS_Quiz $quiz            Current quiz object.
+		 */
+		return apply_filters( 'llms_quiz_questions_count', count( $this->get_questions( 'ids' ) ), $this );
 	}
 
 	/**
@@ -198,6 +220,20 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 			// string for "unlimited" or number of attempts.
 			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
+
+			// Check for a passed attempt and disable the quiz.
+			if ( $quiz_open && llms_parse_bool( $this->get( 'disable_retake' ) ) ) {
+				$passed_attempts = $student->quizzes()->get_attempts_by_quiz(
+					$this->get( 'id' ),
+					array(
+						'status' => array( 'pass' ),
+					)
+				);
+
+				if ( count( $passed_attempts ) ) {
+					$quiz_open = false;
+				}
+			}
 		}
 
 		/**

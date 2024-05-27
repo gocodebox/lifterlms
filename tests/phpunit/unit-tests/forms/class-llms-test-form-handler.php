@@ -268,7 +268,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$ret = $this->handler->submit( $this->get_data_for_form_submit( array( 'llms_voucher' => $code->code ) ) , 'registration' );
 		$this->assertIsWPError( $ret );
 		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
-		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" is no longer valid.', $code->code ), $ret );
+		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" could not be found.', $code->code ), $ret );
 
 	}
 

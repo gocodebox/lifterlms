@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.0.2
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -293,6 +293,7 @@ class LLMS_Query {
 	 * collisions which are theoretically possible, though probably unlikely.
 	 *
 	 * @since 6.0.0
+	 * @since 7.5.0 Fixed passing null to parameter #1 ($haystack) using `strpos`.
 	 *
 	 * @return void
 	 */
@@ -302,7 +303,7 @@ class LLMS_Query {
 
 		$old  = sprintf( '/%s/', _x( 'my_certificate', 'slug', 'lifterlms' ) );
 		$path = wp_parse_url( home_url( $wp->request ), PHP_URL_PATH );
-		if ( $wp_query->is_404() && 0 === strpos( $path, $old ) ) {
+		if ( $wp_query->is_404() && $path && 0 === strpos( $path, $old ) ) {
 			$slug     = str_replace( $old, '', $path );
 			$new_post = get_page_by_path( $slug, 'OBJECT', 'llms_my_certificate' );
 			if ( $new_post ) {

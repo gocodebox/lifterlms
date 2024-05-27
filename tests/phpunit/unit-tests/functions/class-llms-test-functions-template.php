@@ -8,7 +8,7 @@
  * @group functions_template
  *
  * @since 4.8.0
- * @version 7.2.0
+ * @version 7.5.0
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -35,15 +35,21 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_get_template_override_directories() when only parent theme override dir is present
+	 * Test `llms_get_template_override_directories()` when only parent theme override dir is present.
 	 *
 	 * @since 4.8.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path` since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_template_override_directories_only_parent_theme() {
-		$original_template = get_option( 'template', '' );
+
+		global $wp_template_path;
+		$original_template = get_option( 'template' );
+
 		update_option( 'template', 'fake_parent' );
+		$wp_template_path = null;
+
 		$this->_create_theme_override_directory( 'fake_parent' );
 		$template_directories = llms_get_template_override_directories();
 
@@ -56,22 +62,29 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		$this->_delete_theme_override_directory( 'fake_parent' );
 		update_option( 'template', $original_template );
+		$wp_template_path = null;
 	}
 
 	/**
-	 * Test llms_get_template_override_directories() when parent and child theme override dir are present
+	 * Test llms_get_template_override_directories() when parent and child theme override dir are present.
 	 *
 	 * @since 4.8.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_template_override_directories_parent_and_child_theme() {
+
+		global $wp_template_path, $wp_stylesheet_path;
+
 		$original_template   = get_option( 'template', '' );
 		$original_stylesheet = get_option( 'stylesheet', '' );
 		update_option( 'template', 'fake_parent' );
 		update_option( 'stylesheet', 'fake_child' );
 		$this->_create_theme_override_directory( 'fake_parent' );
 		$this->_create_theme_override_directory( 'fake_child' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		$template_directories = llms_get_template_override_directories();
 
@@ -85,23 +98,31 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
 	/**
-	 * Test llms_get_template_override_directories() when parent and child theme are present but only parent overrides
+	 * Test llms_get_template_override_directories() when parent and child theme are present but only parent overrides.
 	 *
 	 * @since 4.8.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_template_override_directories_parent_and_child_theme_parent_overrides() {
+
+		global $wp_template_path, $wp_stylesheet_path;
+
 		$original_template   = get_option( 'template', '' );
 		$original_stylesheet = get_option( 'stylesheet', '' );
 		update_option( 'template', 'fake_parent' );
 		update_option( 'stylesheet', 'fake_child' );
 		$this->_create_theme_override_directory( 'fake_parent' );
 		$this->_create_theme_override_directory( 'fake_child' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		rmdir(  get_theme_root() . '/fake_child/lifterlms' );
 
@@ -116,23 +137,31 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
 	/**
-	 * Test llms_get_template_override_directories() when parent and child theme are present but only child overrides
+	 * Test llms_get_template_override_directories() when parent and child theme are present but only child overrides.
 	 *
 	 * @since 4.8.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_template_override_directories_parent_and_child_theme_child_overrides() {
+
+		global $wp_template_path, $wp_stylesheet_path;
+
 		$original_template   = get_option( 'template', '' );
 		$original_stylesheet = get_option( 'stylesheet', '' );
 		update_option( 'template', 'fake_parent' );
 		update_option( 'stylesheet', 'fake_child' );
 		$this->_create_theme_override_directory( 'fake_parent' );
 		$this->_create_theme_override_directory( 'fake_child' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		rmdir(  get_theme_root() . '/fake_parent/lifterlms' );
 
@@ -147,23 +176,31 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
 	/**
-	 * Test llms_get_template_override_directories() when parent and child theme are present but none of them overrides
+	 * Test llms_get_template_override_directories() when parent and child theme are present but none of them overrides.
 	 *
 	 * @since 4.8.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_template_override_directories_parent_and_child_theme_no_override() {
+
+		global $wp_template_path, $wp_stylesheet_path;
+
 		$original_template   = get_option( 'template', '' );
 		$original_stylesheet = get_option( 'stylesheet', '' );
 		update_option( 'template', 'fake_parent' );
 		update_option( 'stylesheet', 'fake_child' );
 		$this->_create_theme_override_directory( 'fake_parent' );
 		$this->_create_theme_override_directory( 'fake_child' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		rmdir(  get_theme_root() . '/fake_parent/lifterlms' );
 		rmdir(  get_theme_root() . '/fake_child/lifterlms' );
@@ -177,6 +214,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
@@ -184,10 +223,13 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() passing an empty template file.
 	 *
 	 * @since 5.9.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_template_file_path_empty_template_file_passed() {
+
+		global $wp_template_path, $wp_stylesheet_path;
 
 		$this->assertEquals(
 			llms()->plugin_path() . '/templates/',
@@ -203,6 +245,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 		update_option( 'template', 'fake' );
 		update_option( 'stylesheet', 'fake' );
 		$this->_create_theme_override_directory( 'fake' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		$this->assertEquals(
 			get_theme_root() . '/fake/lifterlms/',
@@ -213,6 +257,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
@@ -220,10 +266,13 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() passing a template file that doesn't exist in the theme.
 	 *
 	 * @since 5.9.0
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_template_file_path_template_file_not_in_theme() {
+
+		global $wp_template_path, $wp_stylesheet_path;
 
 		/**
 		 * Simulate the activation of a theme with the templates directory overridden.
@@ -233,6 +282,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 		update_option( 'template', 'fake' );
 		update_option( 'stylesheet', 'fake' );
 		$this->_create_theme_override_directory( 'fake' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		$this->assertEquals(
 			llms()->plugin_path() . '/templates/single-certificate.php',
@@ -243,6 +294,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
@@ -251,10 +304,14 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 *
 	 * @since 5.9.0
 	 * @since 7.2.0 Stop expecting leading slash added to absolute paths.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
 	public function test_llms_template_file_path_template_directory_absolute() {
+
+		global $wp_template_path, $wp_stylesheet_path;
+
 		$this->_delete_theme_override_directory( 'fake' );
 
 		$this->assertEquals(
@@ -271,6 +328,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 		update_option( 'stylesheet', 'fake' );
 		$this->_create_theme_override_directory( 'fake' );
 		wp_cache_delete( 'theme-override-directories', 'llms_template_functions' );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 		$this->assertEquals(
 			get_theme_root() . '/fake/lifterlms/',
@@ -281,6 +340,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
 		update_option( 'template', $original_template );
 		update_option( 'stylesheet', $original_stylesheet );
+		$wp_template_path = null;
+		$wp_stylesheet_path = null;
 
 	}
 
@@ -288,7 +349,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Creates a theme and override lifterlms template directory.
 	 *
 	 * @since 4.8.0
-	 * @since 5.9.0 always remove the theme directory if it already exists.
+	 * @since 5.9.0 Always remove the theme directory if it already exists.
 	 *
 	 * @param string $theme_dir_name Theme directory name.
 	 * @return void

@@ -182,14 +182,26 @@ abstract class LLMS_Abstract_Generator_Posts {
 		// Insert the object.
 		$post = new $class_name(
 			'new',
-			array(
-				'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
+			/**
+			 * Filter the data used to generate a new post.
+			 *
+			 * @since 7.4.0
+			 *
+			 * @param array $new_post_data New post data array.
+			 * @param array $raw           Original raw post data array.
+			 */
+			apply_filters(
+				'llms_generator_new_post_data',
+				array(
+					'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
+					'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
+					'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+					'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
+					'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+					'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+					'post_title'    => $raw['title'],
+				),
+				$raw
 			)
 		);
 

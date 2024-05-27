@@ -204,7 +204,7 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		$autosave = get_user_option( 'llms_builder_autosave', $user->ID );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		?>
 		<tr class="llms-builder-autosave llms-builder-autosave-wrap">
@@ -402,7 +402,7 @@ class LLMS_Admin_User_Custom_Fields {
 				 * @param string      $field         Field id.
 				 * @param WP_User|int $user          Instance of WP_User or WP User ID.
 				 */
-				$error_msg = apply_filters( "lifterlms_validate_custom_user_field_${field}", false, $field, $user );
+				$error_msg = apply_filters( "lifterlms_validate_custom_user_field_{$field}", false, $field, $user );
 
 				if ( $error_msg ) {
 
