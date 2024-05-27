@@ -111,9 +111,9 @@ class LLMS_Admin_Post_Table_Orders {
 				if ( $ts ) {
 
 					if ( $ts < current_time( 'timestamp' ) ) {
-						esc_html_ex( 'Expired:', 'access plan expiration', 'lifterlms' );
+						echo esc_html_x( 'Expired:', 'access plan expiration', 'lifterlms' );
 					} else {
-						esc_html_ex( 'Expires:', 'access plan expiration', 'lifterlms' );
+						echo esc_html_x( 'Expires:', 'access plan expiration', 'lifterlms' );
 					}
 
 					echo ' ' . esc_html( $date );
