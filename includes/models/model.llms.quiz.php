@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,7 +52,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Array key is the meta_key and array values is property's type.
 	 *
 	 * @since Unknown.
-	 * @since [version] Added the `disable_retake` property.
+	 * @since 7.6.2 Added the `disable_retake` property.
 	 * @var string[]
 	 */
 	protected $properties = array(

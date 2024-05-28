@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2649"
-entry: Fixes issue of not being able to save an imported or cloned course using
-  Divi or the Classic Editor plugin.

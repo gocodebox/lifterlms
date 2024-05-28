@@ -3,8 +3,8 @@
  *
  * @since 3.17.6
  * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
- * @since [version] Added `disable_retake` schema.
- * @version [version]
+ * @since 7.6.2 Added `disable_retake` schema.
+ * @version 7.6.2
  */
 define( [], function() {
 
