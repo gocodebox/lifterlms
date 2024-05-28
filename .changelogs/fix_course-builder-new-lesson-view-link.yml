@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2662"
+entry: Fixes broken View link after creating a new lesson using the Course Builder.
