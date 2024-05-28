@@ -33,7 +33,6 @@ class LLMS_Admin_Post_Table_Orders {
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
 		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
-
 	}
 
 	/**
@@ -252,7 +251,6 @@ class LLMS_Admin_Post_Table_Orders {
 		unset( $actions['inline hide-if-no-js'] );
 
 		return $actions;
-
 	}
 
 
@@ -275,6 +273,25 @@ class LLMS_Admin_Post_Table_Orders {
 
 			// What we are searching for.
 			$term = $query->query_vars['s'];
+
+			// We have to kill this value so that the query actually works.
+			$query->query_vars['s'] = '';
+
+			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
+			// @note we're not super proud of this incredible piece of duct tape.
+			add_filter(
+				'get_search_query',
+				function ( $q ) {
+					if ( '' === $q ) {
+						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
+					}
+				}
+			);
+
+			if ( is_numeric( $term ) ) {
+				$query->query_vars['p'] = trim( intval( $term ) );
+				return $query;
+			}
 
 			// Search wp_users.
 			$user_query = new WP_User_Query(
@@ -317,29 +334,13 @@ class LLMS_Admin_Post_Table_Orders {
 				),
 			);
 
-			// We have to kill this value so that the query actually works.
-			$query->query_vars['s'] = '';
-
 			// Set the query.
 			$query->set( 'meta_query', $meta_query );
-
-			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
-			// @note we're not super proud of this incredible piece of duct tape.
-			add_filter(
-				'get_search_query',
-				function( $q ) {
-					if ( '' === $q ) {
-						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
-					}
-				}
-			);
 
 		}
 
 		return $query;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Orders();

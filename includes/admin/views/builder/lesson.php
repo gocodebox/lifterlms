@@ -31,7 +31,7 @@
 				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
-					<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.get( 'permalink' ) }}}" target="_blank">
+					<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'View lesson', 'lifterlms' ); ?>" href="{{{ data.get_view_post_link() }}}" target="_blank">
 						<span class="fa fa-external-link"></span>
 						<?php esc_html_e( 'View', 'lifterlms' ); ?>
 					</a>

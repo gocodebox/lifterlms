@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 7.6.1\n"
+"Project-Id-Version: LifterLMS 7.6.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-02T19:34:27+00:00\n"
+"POT-Creation-Date: 2024-05-28T14:15:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.2.2\n"
 "X-Domain: lifterlms\n"
@@ -18,8 +18,6 @@ msgstr ""
 #. Author of the plugin
 #: includes/class.llms.nav.menus.php:73
 #: includes/privacy/class-llms-privacy.php:33
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "LifterLMS"
 msgstr ""
 
@@ -99,10 +97,7 @@ msgstr ""
 msgid "You are not authorized to access the requested widget"
 msgstr ""
 
-#. Translators: %s = method name.
 #: includes/abstracts/abstract.llms.database.query.php:407
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:56
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:72
 msgid "Method '%s' not implemented. Must be overridden in subclass."
 msgstr ""
 
@@ -164,10 +159,8 @@ msgstr ""
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:47
 #: includes/admin/views/builder/question.php:68
 #: includes/class.llms.l10n.js.php:170
-#: includes/class.llms.l10n.js.php:330
+#: includes/class.llms.l10n.js.php:332
 #: includes/privacy/class-llms-privacy-exporters.php:122
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:71
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:149
 msgid "Description"
 msgstr ""
 
@@ -299,15 +292,7 @@ msgid "export"
 msgstr ""
 
 #. Translators: %s = the name of the method.
-#. Translators: %s = method name.
 #: includes/abstracts/llms.abstract.exportable.admin.table.php:312
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:90
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:119
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:138
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:156
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:182
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:238
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller-stubs.php:270
 msgid "Method '%s' must be overridden."
 msgstr ""
 
@@ -325,7 +310,6 @@ msgstr ""
 #: includes/llms.functions.core.php:672
 #: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Author"
 msgstr ""
 
@@ -371,7 +355,6 @@ msgstr ""
 #: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:124
 #: includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:110
 #: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:140
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Email"
 msgstr ""
 
@@ -437,7 +420,6 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:77
 #: templates/myaccount/my-grades.php:19
 #: blocks/pricing-table/index.js:5
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Course"
 msgstr ""
 
@@ -470,8 +452,6 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:134
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:79
 #: includes/privacy/class-llms-privacy-exporters.php:314
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:69
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:137
 #: templates/admin/post-types/order-transactions.php:27
 #: templates/admin/reporting/tabs/quizzes/attempt.php:97
 #: templates/myaccount/view-order-information.php:23
@@ -575,7 +555,6 @@ msgid "No License"
 msgstr ""
 
 #: includes/admin/class-llms-admin-header.php:110
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:282
 msgid "My License Keys"
 msgstr ""
 
@@ -725,10 +704,9 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.courses.php:32
 #: includes/class.llms.post-types.php:457
 #: templates/admin/analytics/analytics.php:97
-#: templates/admin/reporting/nav-filters.php:79
+#: templates/admin/reporting/nav-filters.php:78
 #: templates/admin/reporting/tabs/courses/course.php:21
 #: blocks/courses/index.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Courses"
 msgstr ""
 
@@ -743,9 +721,8 @@ msgstr ""
 #: includes/admin/views/access-plans/access-plan.php:281
 #: includes/class.llms.post-types.php:646
 #: templates/admin/analytics/analytics.php:109
-#: templates/admin/reporting/nav-filters.php:91
+#: templates/admin/reporting/nav-filters.php:97
 #: templates/admin/reporting/tabs/memberships/membership.php:19
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Memberships"
 msgstr ""
 
@@ -814,37 +791,32 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:346
 #: includes/admin/views/builder/editor.php:33
-#: includes/class.llms.l10n.js.php:222
-#: includes/class.llms.l10n.js.php:405
+#: includes/class.llms.l10n.js.php:224
+#: includes/class.llms.l10n.js.php:409
 msgid "Close"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:352
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:155
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:156
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:375
 #: templates/myaccount/my-grades.php:72
 msgid "Update"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:357
 #: includes/models/model.llms.add-on.php:222
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:341
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:129
 msgid "Install"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:362
 #: includes/admin/views/addons/addon-item.php:104
 #: includes/models/model.llms.add-on.php:220
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:127
 msgid "Activate"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:367
 #: includes/admin/views/addons/addon-item.php:96
 #: includes/models/model.llms.add-on.php:221
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:128
 msgid "Deactivate"
 msgstr ""
 
@@ -856,113 +828,113 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:97
+#: includes/admin/class.llms.admin.assets.php:95
 msgid "White"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:102
+#: includes/admin/class.llms.admin.assets.php:100
 msgid "White Smoke"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:107
+#: includes/admin/class.llms.admin.assets.php:105
 msgid "Ivory"
 msgstr ""
 
 #. Translators: %s = Theme name.
-#: includes/admin/class.llms.admin.builder.php:136
+#: includes/admin/class.llms.admin.builder.php:134
 msgid "%s Theme Settings"
 msgstr ""
 
 #. Translators: %1$s = Lesson title; %2$d = Lesson id.
-#: includes/admin/class.llms.admin.builder.php:246
+#: includes/admin/class.llms.admin.builder.php:244
 msgid "Lesson: %1$s (#%2$d)"
 msgstr ""
 
 #. Translators: %1$s = Course title; %2$d - Course id.
-#: includes/admin/class.llms.admin.builder.php:250
+#: includes/admin/class.llms.admin.builder.php:248
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:452
+#: includes/admin/class.llms.admin.builder.php:445
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:459
+#: includes/admin/class.llms.admin.builder.php:452
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:464
+#: includes/admin/class.llms.admin.builder.php:457
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:558
+#: includes/admin/class.llms.admin.builder.php:548
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:565
+#: includes/admin/class.llms.admin.builder.php:555
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:574
+#: includes/admin/class.llms.admin.builder.php:564
 #: includes/class.llms.post-types.php:464
 msgid "New Course"
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:695
+#: includes/admin/class.llms.admin.builder.php:685
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:775
+#: includes/admin/class.llms.admin.builder.php:763
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:855
+#: includes/admin/class.llms.admin.builder.php:842
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:893
+#: includes/admin/class.llms.admin.builder.php:879
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. Translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:917
+#: includes/admin/class.llms.admin.builder.php:903
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1049
+#: includes/admin/class.llms.admin.builder.php:1030
 #: includes/class.llms.l10n.js.php:94
-#: includes/class.llms.l10n.js.php:372
+#: includes/class.llms.l10n.js.php:376
 #: includes/class.llms.post-types.php:538
 #: includes/models/model.llms.lesson.php:455
 msgid "New Lesson"
 msgstr ""
 
 #. Translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:1065
+#: includes/admin/class.llms.admin.builder.php:1046
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. Translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1178
+#: includes/admin/class.llms.admin.builder.php:1158
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1217
+#: includes/admin/class.llms.admin.builder.php:1197
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. Translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1278
+#: includes/admin/class.llms.admin.builder.php:1257
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. Translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1358
+#: includes/admin/class.llms.admin.builder.php:1336
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -1141,7 +1113,6 @@ msgstr ""
 #: includes/admin/class.llms.admin.menus.php:181
 #: includes/admin/class.llms.admin.menus.php:218
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Course Builder"
 msgstr ""
 
@@ -1420,8 +1391,7 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.settings.php:739
 #: includes/class.llms.l10n.js.php:154
-#: includes/class.llms.l10n.js.php:364
-#: libraries/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
+#: includes/class.llms.l10n.js.php:368
 msgid "None"
 msgstr ""
 
@@ -1632,7 +1602,6 @@ msgstr ""
 #: includes/class.llms.post-types.php:1100
 #: includes/class.llms.post-types.php:1156
 #: includes/forms/class-llms-form-post-type.php:235
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Edit"
 msgstr ""
 
@@ -1643,8 +1612,8 @@ msgstr ""
 
 #: includes/admin/post-types/class.llms.post.tables.php:62
 #: includes/class-llms-generator-courses.php:677
-#: includes/class.llms.l10n.js.php:241
-#: includes/class.llms.l10n.js.php:390
+#: includes/class.llms.l10n.js.php:243
+#: includes/class.llms.l10n.js.php:394
 msgid "Clone"
 msgstr ""
 
@@ -1957,13 +1926,12 @@ msgid "Course: %s"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:139
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Launch Course Builder"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:177
 #: includes/class.llms.l10n.js.php:97
-#: includes/class.llms.l10n.js.php:375
+#: includes/class.llms.l10n.js.php:379
 #: templates/myaccount/my-grades-single-table.php:18
 msgid "Section %1$d: %2$s"
 msgstr ""
@@ -2062,8 +2030,6 @@ msgid "Paste the url for a SoundCloud or Spotify song or a hosted audio file. Fo
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:186
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:349
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:360
 msgid "You must enroll in this course to access course content."
 msgstr ""
 
@@ -2204,7 +2170,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:348
 #: includes/class.llms.l10n.js.php:153
-#: includes/class.llms.l10n.js.php:363
+#: includes/class.llms.l10n.js.php:367
 msgid "Drip Method"
 msgstr ""
 
@@ -2365,8 +2331,6 @@ msgstr ""
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.instructors.php:57
 #: includes/admin/reporting/tables/llms.table.courses.php:311
 #: includes/admin/reporting/tables/llms.table.memberships.php:311
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Instructors"
 msgstr ""
 
@@ -2389,26 +2353,22 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:83
 #: blocks/navigation-link/index.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Label"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:92
 #: includes/admin/views/access-plans/access-plan.php:107
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Visibility"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:94
 #: includes/functions/llms-functions-access-plans.php:271
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Visible"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 #: includes/functions/llms-functions-access-plans.php:272
 #: includes/llms.functions.core.php:612
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Hidden"
 msgstr ""
 
@@ -2418,7 +2378,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:58
 #: includes/class.llms.l10n.js.php:155
-#: includes/class.llms.l10n.js.php:365
+#: includes/class.llms.l10n.js.php:369
 msgid "On a specific date"
 msgstr ""
 
@@ -2448,7 +2408,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:102
 #: includes/class.llms.l10n.js.php:139
-#: includes/class.llms.l10n.js.php:349
+#: includes/class.llms.l10n.js.php:353
 msgid "Free Lesson"
 msgstr ""
 
@@ -2507,13 +2467,13 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:222
 #: includes/class.llms.l10n.js.php:152
-#: includes/class.llms.l10n.js.php:362
+#: includes/class.llms.l10n.js.php:366
 msgid "Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:224
 #: includes/class.llms.l10n.js.php:151
-#: includes/class.llms.l10n.js.php:361
+#: includes/class.llms.l10n.js.php:365
 #: includes/class.llms.post-types.php:463
 msgid "Edit Course"
 msgstr ""
@@ -2528,14 +2488,14 @@ msgid "No automatic enrollment courses found. Add a course below."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:73
-#: includes/class.llms.l10n.js.php:436
-#: includes/class.llms.l10n.js.php:505
+#: includes/class.llms.l10n.js.php:440
+#: includes/class.llms.l10n.js.php:509
 msgid "Remove course"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:74
-#: includes/class.llms.l10n.js.php:437
-#: includes/class.llms.l10n.js.php:506
+#: includes/class.llms.l10n.js.php:441
+#: includes/class.llms.l10n.js.php:510
 msgid "Enroll All Members"
 msgstr ""
 
@@ -2776,8 +2736,8 @@ msgid "OK"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:74
-#: includes/class.llms.l10n.js.php:438
-#: includes/class.llms.l10n.js.php:507
+#: includes/class.llms.l10n.js.php:442
+#: includes/class.llms.l10n.js.php:511
 #: assets/js/llms-admin-award-certificate.js:1
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Cancel"
@@ -2833,20 +2793,15 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.certificates.php:75
 #: includes/admin/reporting/tables/llms.table.quizzes.php:124
 #: includes/admin/views/status/view-log.php:47
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:125
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:51
 msgid "Delete"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:36
 #: includes/admin/views/access-plans/metabox.php:31
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:308
 msgid "Add New"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:74
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:82
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:151
 #: blocks/my-achievements/index.js:1
 msgid "User"
 msgstr ""
@@ -2883,7 +2838,6 @@ msgid "Legacy"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Location"
 msgstr ""
 
@@ -2894,8 +2848,8 @@ msgstr ""
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:120
 #: includes/admin/reporting/tables/llms.table.certificates.php:58
 #: includes/admin/views/builder/lesson.php:36
-#: includes/class.llms.l10n.js.php:442
-#: includes/class.llms.l10n.js.php:511
+#: includes/class.llms.l10n.js.php:446
+#: includes/class.llms.l10n.js.php:515
 #: templates/myaccount/my-orders.php:53
 msgid "View"
 msgstr ""
@@ -2979,15 +2933,15 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:100
 #: includes/class.llms.l10n.js.php:148
-#: includes/class.llms.l10n.js.php:358
+#: includes/class.llms.l10n.js.php:362
 msgid "Prerequisite"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:103
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:58
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:57
 #: includes/class.llms.l10n.js.php:160
-#: includes/class.llms.l10n.js.php:319
-#: includes/class.llms.l10n.js.php:370
+#: includes/class.llms.l10n.js.php:321
+#: includes/class.llms.l10n.js.php:374
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:41
 #: templates/admin/post-types/order-transactions.php:28
 #: templates/myaccount/my-orders.php:24
@@ -3008,7 +2962,7 @@ msgstr ""
 msgid "Add Quiz"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:51
 #: includes/class.llms.post-types.php:725
 #: templates/myaccount/my-orders.php:23
 #: templates/myaccount/my-orders.php:33
@@ -3017,59 +2971,59 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:53
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
 msgid "Payment Status"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:54
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:53
 msgid "Access Status"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:54
 #: includes/privacy/class-llms-privacy.php:99
 #: templates/myaccount/view-order-information.php:33
 msgid "Product"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:56
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
 msgid "Revenue"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:57
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:56
 msgid "Order Type"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:85
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:84
 msgctxt "order number display"
 msgid "#%d"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:88
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:87
 msgid "by"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:115
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:114
 msgctxt "access plan expiration"
 msgid "Expired:"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:117
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:116
 msgctxt "access plan expiration"
 msgid "Expires:"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:134
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:133
 #: includes/admin/views/metaboxes/view-order-details.php:78
 #: templates/myaccount/view-order-information.php:38
 msgid "[DELETED]"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:154
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:153
 #: includes/models/model.llms.transaction.php:572
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:156
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:155
 #: includes/admin/views/metaboxes/view-order-details.php:166
 #: templates/myaccount/view-order-information.php:118
 msgid "One-time"
@@ -3142,8 +3096,8 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.courses.php:228
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:128
 #: includes/admin/reporting/tables/llms.table.students.php:595
-#: includes/class.llms.l10n.js.php:242
-#: includes/class.llms.l10n.js.php:391
+#: includes/class.llms.l10n.js.php:244
+#: includes/class.llms.l10n.js.php:395
 #: templates/admin/post-types/order-transactions.php:26
 #: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
@@ -3157,13 +3111,9 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.courses.php:231
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:131
 #: includes/admin/reporting/tables/llms.table.students.php:604
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:55
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
 #: assets/js/llms-admin-certificate-editor.js:1
 #: blocks/courses/index.js:3
 #: blocks/memberships/index.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Name"
 msgstr ""
 
@@ -3211,19 +3161,19 @@ msgstr ""
 
 #: includes/admin/reporting/class.llms.admin.reporting.php:266
 #: templates/admin/analytics/analytics.php:48
-#: templates/admin/reporting/nav-filters.php:28
+#: templates/admin/reporting/nav-filters.php:29
 msgid "This Month"
 msgstr ""
 
 #: includes/admin/reporting/class.llms.admin.reporting.php:267
 #: templates/admin/analytics/analytics.php:44
-#: templates/admin/reporting/nav-filters.php:24
+#: templates/admin/reporting/nav-filters.php:25
 msgid "Last Month"
 msgstr ""
 
 #: includes/admin/reporting/class.llms.admin.reporting.php:268
 #: templates/admin/analytics/analytics.php:40
-#: templates/admin/reporting/nav-filters.php:20
+#: templates/admin/reporting/nav-filters.php:21
 msgid "This Year"
 msgstr ""
 
@@ -3244,7 +3194,7 @@ msgstr ""
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:107
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:82
 #: templates/admin/analytics/analytics.php:78
-#: templates/admin/reporting/nav-filters.php:60
+#: templates/admin/reporting/nav-filters.php:61
 #: templates/admin/reporting/tabs/students/student.php:20
 msgid "Students"
 msgstr ""
@@ -3323,7 +3273,6 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:395
 #: includes/admin/reporting/tables/llms.table.students.php:609
 #: includes/schemas/llms-user-information-fields.php:76
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Last Name"
 msgstr ""
 
@@ -3331,7 +3280,6 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:400
 #: includes/admin/reporting/tables/llms.table.students.php:614
 #: includes/schemas/llms-user-information-fields.php:68
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "First Name"
 msgstr ""
 
@@ -3411,7 +3359,6 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.student.course.php:89
 #: templates/course/complete-lesson-link.php:91
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Mark Complete"
 msgstr ""
 
@@ -3954,7 +3901,6 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:249
 #: includes/schemas/llms-user-information-fields.php:120
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Country"
 msgstr ""
 
@@ -4229,14 +4175,13 @@ msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.general.php:71
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:175
 msgid "Disabled"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.general.php:87
 #: includes/class.llms.l10n.js.php:136
 #: includes/class.llms.l10n.js.php:169
-#: includes/class.llms.l10n.js.php:329
+#: includes/class.llms.l10n.js.php:331
 msgid "General Settings"
 msgstr ""
 
@@ -4278,7 +4223,6 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.integrations.php:158
 #: includes/admin/settings/class.llms.settings.integrations.php:159
 #: includes/models/model.llms.add-on.php:217
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:124
 msgid "Installed"
 msgstr ""
 
@@ -4740,8 +4684,6 @@ msgstr ""
 #: includes/admin/views/access-plans/metabox.php:32
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:25
 #: includes/admin/views/metaboxes/view-order-details.php:195
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:186
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:122
 #: templates/certificates/actions.php:33
 #: templates/myaccount/form-edit-account.php:52
 msgid "Save"
@@ -4770,8 +4712,8 @@ msgid "Create New Assignment"
 msgstr ""
 
 #: includes/admin/views/builder/assignment.php:25
-#: includes/class.llms.l10n.js.php:217
-#: includes/class.llms.l10n.js.php:400
+#: includes/class.llms.l10n.js.php:219
+#: includes/class.llms.l10n.js.php:404
 msgid "Add Existing Assignment"
 msgstr ""
 
@@ -4811,8 +4753,8 @@ msgid "Add New Lesson"
 msgstr ""
 
 #: includes/admin/views/builder/elements.php:39
-#: includes/class.llms.l10n.js.php:230
-#: includes/class.llms.l10n.js.php:406
+#: includes/class.llms.l10n.js.php:232
+#: includes/class.llms.l10n.js.php:410
 msgid "Add Existing Lesson"
 msgstr ""
 
@@ -5023,13 +4965,13 @@ msgid "Delete question"
 msgstr ""
 
 #: includes/admin/views/builder/question.php:53
-#: includes/class.llms.l10n.js.php:451
+#: includes/class.llms.l10n.js.php:455
 msgid "points"
 msgstr ""
 
 #: includes/admin/views/builder/question.php:122
-#: includes/class.llms.l10n.js.php:280
-#: includes/class.llms.l10n.js.php:387
+#: includes/class.llms.l10n.js.php:282
+#: includes/class.llms.l10n.js.php:391
 msgid "Use YouTube, Vimeo, or Wistia video URLS."
 msgstr ""
 
@@ -5062,8 +5004,8 @@ msgid "Create New Quiz"
 msgstr ""
 
 #: includes/admin/views/builder/quiz.php:25
-#: includes/class.llms.l10n.js.php:268
-#: includes/class.llms.l10n.js.php:396
+#: includes/class.llms.l10n.js.php:270
+#: includes/class.llms.l10n.js.php:400
 msgid "Add Existing Quiz"
 msgstr ""
 
@@ -5334,9 +5276,7 @@ msgid "Draft"
 msgstr ""
 
 #. translators: Award box date string. 1: Date, 2: Time. See https://www.php.net/manual/datetime.format.php
-#. Translators: %1$s: Last access date; %2$s: Last access time.
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:65
-#: libraries/lifterlms-rest/includes/models/class-llms-rest-api-key.php:132
 msgid "%1$s at %2$s"
 msgstr ""
 
@@ -5632,7 +5572,6 @@ msgid "Key Documentation"
 msgstr ""
 
 #: includes/admin/views/resources/resource-links.php:17
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Shortcodes"
 msgstr ""
 
@@ -5681,7 +5620,6 @@ msgid "Code Reference"
 msgstr ""
 
 #: includes/admin/views/resources/resource-links.php:33
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:31
 msgid "REST API"
 msgstr ""
 
@@ -6434,513 +6372,519 @@ msgid "You are not allowed to perform the requested action."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:48
-#: includes/class.llms.l10n.js.php:477
+#: includes/class.llms.l10n.js.php:481
 msgid "This is a %2$s %1$s String"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:56
-#: includes/class.llms.l10n.js.php:478
+#: includes/class.llms.l10n.js.php:482
 #: includes/functions/llms.functions.access.php:198
 msgid "You do not have permission to access this content"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:64
-#: includes/class.llms.l10n.js.php:479
+#: includes/class.llms.l10n.js.php:483
 msgid "There is an issue with your chosen password."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:65
-#: includes/class.llms.l10n.js.php:480
+#: includes/class.llms.l10n.js.php:484
 msgid "Too Short"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:66
-#: includes/class.llms.l10n.js.php:481
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
+#: includes/class.llms.l10n.js.php:485
 msgid "Very Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:67
-#: includes/class.llms.l10n.js.php:482
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
+#: includes/class.llms.l10n.js.php:486
 msgid "Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:68
-#: includes/class.llms.l10n.js.php:483
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
+#: includes/class.llms.l10n.js.php:487
 msgid "Medium"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:69
-#: includes/class.llms.l10n.js.php:484
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
+#: includes/class.llms.l10n.js.php:488
 msgid "Strong"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:70
-#: includes/class.llms.l10n.js.php:485
+#: includes/class.llms.l10n.js.php:489
 msgid "Mismatch"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:78
-#: includes/class.llms.l10n.js.php:486
+#: includes/class.llms.l10n.js.php:490
 msgid "Members Only Pricing"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:86
-#: includes/class.llms.l10n.js.php:487
+#: includes/class.llms.l10n.js.php:491
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:95
-#: includes/class.llms.l10n.js.php:373
+#: includes/class.llms.l10n.js.php:377
 msgid "lessons"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:96
-#: includes/class.llms.l10n.js.php:374
+#: includes/class.llms.l10n.js.php:378
 msgid "lesson"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:98
-#: includes/class.llms.l10n.js.php:376
+#: includes/class.llms.l10n.js.php:380
 #: templates/myaccount/my-grades-single-table.php:36
 msgid "Lesson %1$d: %2$s"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:99
-#: includes/class.llms.l10n.js.php:377
+#: includes/class.llms.l10n.js.php:381
 msgid "%1$s Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:107
-#: includes/class.llms.l10n.js.php:327
+#: includes/class.llms.l10n.js.php:329
 msgid "questions"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:108
-#: includes/class.llms.l10n.js.php:328
+#: includes/class.llms.l10n.js.php:330
 msgid "question"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:116
-#: includes/class.llms.l10n.js.php:344
+#: includes/class.llms.l10n.js.php:348
 #: includes/class.llms.post-types.php:577
 msgid "New Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:117
-#: includes/class.llms.l10n.js.php:345
+#: includes/class.llms.l10n.js.php:349
 msgid "quizzes"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:118
-#: includes/class.llms.l10n.js.php:346
+#: includes/class.llms.l10n.js.php:350
 #: includes/models/model.llms.user.postmeta.php:118
 msgid "quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:126
-#: includes/class.llms.l10n.js.php:378
+#: includes/class.llms.l10n.js.php:382
 #: includes/class.llms.post-types.php:504
 msgid "New Section"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:127
-#: includes/class.llms.l10n.js.php:379
+#: includes/class.llms.l10n.js.php:383
 msgid "sections"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:128
-#: includes/class.llms.l10n.js.php:380
+#: includes/class.llms.l10n.js.php:384
 msgid "section"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:137
-#: includes/class.llms.l10n.js.php:347
+#: includes/class.llms.l10n.js.php:351
 msgid "Video Embed URL"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:138
-#: includes/class.llms.l10n.js.php:348
+#: includes/class.llms.l10n.js.php:352
 msgid "Audio Embed URL"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:140
-#: includes/class.llms.l10n.js.php:350
+#: includes/class.llms.l10n.js.php:354
 msgid "Free lessons can be accessed without enrollment."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:141
-#: includes/class.llms.l10n.js.php:351
+#: includes/class.llms.l10n.js.php:355
 msgid "Require Passing Grade on Quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:142
-#: includes/class.llms.l10n.js.php:352
+#: includes/class.llms.l10n.js.php:356
 msgid "When enabled, students must pass this quiz before the lesson can be completed."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:143
-#: includes/class.llms.l10n.js.php:353
+#: includes/class.llms.l10n.js.php:357
 msgid "Require Passing Grade on Assignment"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:144
-#: includes/class.llms.l10n.js.php:354
+#: includes/class.llms.l10n.js.php:358
 msgid "When enabled, students must pass this assignment before the lesson can be completed."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:145
-#: includes/class.llms.l10n.js.php:355
+#: includes/class.llms.l10n.js.php:359
 msgid "Lesson Weight"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:146
-#: includes/class.llms.l10n.js.php:356
+#: includes/class.llms.l10n.js.php:360
 msgid "POINTS"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:147
-#: includes/class.llms.l10n.js.php:357
+#: includes/class.llms.l10n.js.php:361
 msgid "Determines the weight of the lesson when calculating the overall grade of the course."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:149
-#: includes/class.llms.l10n.js.php:359
+#: includes/class.llms.l10n.js.php:363
 msgid "Course Drip Method"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:150
-#: includes/class.llms.l10n.js.php:360
+#: includes/class.llms.l10n.js.php:364
 msgid "Drip settings are currently set at the course level, under the Restrictions settings tab. Disable to allow lesson level drip settings."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:156
-#: includes/class.llms.l10n.js.php:366
+#: includes/class.llms.l10n.js.php:370
 msgid "# of days after course enrollment"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:157
-#: includes/class.llms.l10n.js.php:367
+#: includes/class.llms.l10n.js.php:371
 msgid "# of days after course start date"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:158
-#: includes/class.llms.l10n.js.php:368
+#: includes/class.llms.l10n.js.php:372
 msgid "# of days after prerequisite lesson completion"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:159
-#: includes/class.llms.l10n.js.php:369
+#: includes/class.llms.l10n.js.php:373
 msgid "# of days"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:161
-#: includes/class.llms.l10n.js.php:371
+#: includes/class.llms.l10n.js.php:375
 msgid "Time"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:171
-#: includes/class.llms.l10n.js.php:331
+#: includes/class.llms.l10n.js.php:333
 msgid "Passing Percentage"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:172
-#: includes/class.llms.l10n.js.php:332
+#: includes/class.llms.l10n.js.php:334
 msgid "Minimum percentage of total points required to pass the quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:173
-#: includes/class.llms.l10n.js.php:333
+#: includes/class.llms.l10n.js.php:335
 msgid "Limit Attempts"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:174
-#: includes/class.llms.l10n.js.php:334
+#: includes/class.llms.l10n.js.php:336
 msgid "Limit the maximum number of times a student can take this quiz"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:175
-#: includes/class.llms.l10n.js.php:335
+#: includes/class.llms.l10n.js.php:337
 msgid "Time Limit"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:176
-#: includes/class.llms.l10n.js.php:336
+#: includes/class.llms.l10n.js.php:338
 msgid "Enforce a maximum number of minutes a student can spend on each attempt"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:177
-#: includes/class.llms.l10n.js.php:337
+#: includes/class.llms.l10n.js.php:339
 msgid "Show Correct Answers"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:178
-#: includes/class.llms.l10n.js.php:338
+#: includes/class.llms.l10n.js.php:340
 msgid "When enabled, students will be shown the correct answer to any question they answered incorrectly."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:179
-#: includes/class.llms.l10n.js.php:339
+#: includes/class.llms.l10n.js.php:341
 msgid "Randomize Question Order"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:180
-#: includes/class.llms.l10n.js.php:340
+#: includes/class.llms.l10n.js.php:342
 msgid "Display questions in a random order for each attempt. Content questions are locked into their defined positions."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:181
-#: includes/class.llms.l10n.js.php:341
-msgid "Question Bank"
+#: includes/class.llms.l10n.js.php:343
+msgid "Disable Retake"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:182
-#: includes/class.llms.l10n.js.php:342
-msgid "A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)"
+#: includes/class.llms.l10n.js.php:344
+msgid "Prevent quiz retake after student passed the quiz."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:183
-#: includes/class.llms.l10n.js.php:343
+#: includes/class.llms.l10n.js.php:345
+msgid "Question Bank"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:184
+#: includes/class.llms.l10n.js.php:346
+msgid "A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:185
+#: includes/class.llms.l10n.js.php:347
 msgid "Get LifterLMS Advanced Quizzes"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:191
-#: includes/class.llms.l10n.js.php:381
+#: includes/class.llms.l10n.js.php:193
+#: includes/class.llms.l10n.js.php:385
 msgid "Are you sure you want to detach this %s?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:199
-#: includes/class.llms.l10n.js.php:382
+#: includes/class.llms.l10n.js.php:201
+#: includes/class.llms.l10n.js.php:386
 msgid "Select an image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:200
-#: includes/class.llms.l10n.js.php:383
+#: includes/class.llms.l10n.js.php:202
+#: includes/class.llms.l10n.js.php:387
 msgid "Use this image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:208
-#: includes/class.llms.l10n.js.php:384
+#: includes/class.llms.l10n.js.php:210
+#: includes/class.llms.l10n.js.php:388
 msgid "Are you sure you want to move this %s to the trash?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:216
-#: includes/class.llms.l10n.js.php:399
+#: includes/class.llms.l10n.js.php:218
+#: includes/class.llms.l10n.js.php:403
 msgid "%1$s Assignment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:218
-#: includes/class.llms.l10n.js.php:401
+#: includes/class.llms.l10n.js.php:220
+#: includes/class.llms.l10n.js.php:405
 msgid "Search for existing assignments..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:219
-#: includes/class.llms.l10n.js.php:402
+#: includes/class.llms.l10n.js.php:221
+#: includes/class.llms.l10n.js.php:406
 msgid "Get Your Students Taking Action"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:220
-#: includes/class.llms.l10n.js.php:403
+#: includes/class.llms.l10n.js.php:222
+#: includes/class.llms.l10n.js.php:407
 msgid "Get Assignments Now!"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:221
-#: includes/class.llms.l10n.js.php:404
+#: includes/class.llms.l10n.js.php:223
+#: includes/class.llms.l10n.js.php:408
 msgid "Unlock LifterLMS Assignments"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:231
-#: includes/class.llms.l10n.js.php:407
+#: includes/class.llms.l10n.js.php:233
+#: includes/class.llms.l10n.js.php:411
 msgid "Search for existing lessons..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:239
-#: includes/class.llms.l10n.js.php:388
+#: includes/class.llms.l10n.js.php:241
+#: includes/class.llms.l10n.js.php:392
 msgid "Searching..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:240
-#: includes/class.llms.l10n.js.php:389
+#: includes/class.llms.l10n.js.php:242
+#: includes/class.llms.l10n.js.php:393
 msgid "Attach"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:250
-#: includes/class.llms.l10n.js.php:394
+#: includes/class.llms.l10n.js.php:252
+#: includes/class.llms.l10n.js.php:398
 msgid "Are you sure you want to delete this question?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:258
-#: includes/class.llms.l10n.js.php:392
+#: includes/class.llms.l10n.js.php:260
+#: includes/class.llms.l10n.js.php:396
 #: includes/class.llms.question.types.php:157
 msgid "Add Existing Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:259
-#: includes/class.llms.l10n.js.php:393
+#: includes/class.llms.l10n.js.php:261
+#: includes/class.llms.l10n.js.php:397
 msgid "Search for existing questions..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:267
-#: includes/class.llms.l10n.js.php:395
+#: includes/class.llms.l10n.js.php:269
+#: includes/class.llms.l10n.js.php:399
 msgid "An error occurred while trying to load the questions. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:269
-#: includes/class.llms.l10n.js.php:397
+#: includes/class.llms.l10n.js.php:271
+#: includes/class.llms.l10n.js.php:401
 msgid "Search for existing quizzes..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:270
-#: includes/class.llms.l10n.js.php:398
+#: includes/class.llms.l10n.js.php:272
+#: includes/class.llms.l10n.js.php:402
 msgid "Add a Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:278
-#: includes/class.llms.l10n.js.php:385
+#: includes/class.llms.l10n.js.php:280
+#: includes/class.llms.l10n.js.php:389
 msgid "Use SoundCloud or Spotify audio URLS."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:279
-#: includes/class.llms.l10n.js.php:386
+#: includes/class.llms.l10n.js.php:281
+#: includes/class.llms.l10n.js.php:390
 msgid "Permalink"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:288
+#: includes/class.llms.l10n.js.php:290
 msgid "Select an Image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:289
+#: includes/class.llms.l10n.js.php:291
 msgid "Select Image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:297
+#: includes/class.llms.l10n.js.php:299
 msgid "An error was encountered generating the export"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:305
+#: includes/class.llms.l10n.js.php:307
 msgid "Select a Course/Membership"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:306
+#: includes/class.llms.l10n.js.php:308
 msgid "Select a student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:307
+#: includes/class.llms.l10n.js.php:309
 msgid "Error: %s"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:315
+#: includes/class.llms.l10n.js.php:317
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:316
+#: includes/class.llms.l10n.js.php:318
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:317
+#: includes/class.llms.l10n.js.php:319
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:318
+#: includes/class.llms.l10n.js.php:320
 msgid "Retry"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:415
+#: includes/class.llms.l10n.js.php:419
 msgid "There was an error loading the necessary resources. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:416
+#: includes/class.llms.l10n.js.php:420
 msgid "After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan's settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:417
+#: includes/class.llms.l10n.js.php:421
 msgid "An error was encountered during the save attempt. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:425
+#: includes/class.llms.l10n.js.php:429
 msgid "Please select a student to enroll"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:433
-#: includes/class.llms.l10n.js.php:495
+#: includes/class.llms.l10n.js.php:437
+#: includes/class.llms.l10n.js.php:499
 msgid "Are you sure you want to delete this row? This cannot be undone."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:434
-#: includes/class.llms.l10n.js.php:503
+#: includes/class.llms.l10n.js.php:438
+#: includes/class.llms.l10n.js.php:507
 msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
-msgstr ""
-
-#: includes/class.llms.l10n.js.php:435
-#: includes/class.llms.l10n.js.php:504
-msgid "\"%s\" is already in the course list."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:439
 #: includes/class.llms.l10n.js.php:508
+msgid "\"%s\" is already in the course list."
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:443
+#: includes/class.llms.l10n.js.php:512
 #: templates/admin/post-types/order-transactions.php:89
 msgid "Refund"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:440
-#: includes/class.llms.l10n.js.php:509
+#: includes/class.llms.l10n.js.php:444
+#: includes/class.llms.l10n.js.php:513
 #: templates/admin/post-types/order-transactions.php:113
 msgid "Record a Manual Payment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:441
-#: includes/class.llms.l10n.js.php:510
+#: includes/class.llms.l10n.js.php:445
+#: includes/class.llms.l10n.js.php:514
 msgid "Copy this code and paste it into the desired area"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:450
+#: includes/class.llms.l10n.js.php:454
 msgid "Remarks to Student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:459
+#: includes/class.llms.l10n.js.php:463
 msgid "Are you sure you wish to quit this quiz attempt?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:460
+#: includes/class.llms.l10n.js.php:464
 msgid "Grading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:461
+#: includes/class.llms.l10n.js.php:465
 msgid "Loading Question..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:462
+#: includes/class.llms.l10n.js.php:466
 msgid "An unknown error occurred. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:463
+#: includes/class.llms.l10n.js.php:467
 msgid "Loading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:464
+#: includes/class.llms.l10n.js.php:468
 msgid "Time Remaining"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:465
+#: includes/class.llms.l10n.js.php:469
 msgid "Next Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:466
+#: includes/class.llms.l10n.js.php:470
 msgid "Complete Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:467
+#: includes/class.llms.l10n.js.php:471
 msgid "Previous Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:468
+#: includes/class.llms.l10n.js.php:472
 msgid "Loading..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:469
+#: includes/class.llms.l10n.js.php:473
 msgid "You must select an answer to continue."
 msgstr ""
 
@@ -6980,7 +6924,6 @@ msgstr ""
 #: includes/class.llms.person.handler.php:165
 #: includes/class.llms.person.handler.php:255
 #: includes/schemas/llms-user-information-fields.php:39
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Email Address"
 msgstr ""
 
@@ -6992,7 +6935,6 @@ msgstr ""
 #: includes/class.llms.person.handler.php:173
 #: includes/class.llms.person.handler.php:290
 #: includes/schemas/llms-user-information-fields.php:47
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Password"
 msgstr ""
 
@@ -8294,16 +8236,16 @@ msgstr ""
 msgid "New Membership Tag Name"
 msgstr ""
 
-#: includes/class.llms.post.relationships.php:135
+#: includes/class.llms.post.relationships.php:145
 msgid "Use WordPress core  `before_delete_post` action hook"
 msgstr ""
 
-#: includes/class.llms.post.relationships.php:161
+#: includes/class.llms.post.relationships.php:171
 msgid "Use WordPress core `deleted_post` action hook."
 msgstr ""
 
 #. Translators: %s = The post type plural name.
-#: includes/class.llms.post.relationships.php:253
+#: includes/class.llms.post.relationships.php:263
 msgid "Sorry, you are not allowed to delete %s with active subscriptions."
 msgstr ""
 
@@ -8549,7 +8491,6 @@ msgid "Missing gateway information."
 msgstr ""
 
 #: includes/controllers/class-llms-controller-checkout.php:582
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:95
 msgid "Invalid action."
 msgstr ""
 
@@ -8758,21 +8699,17 @@ msgstr ""
 msgid "Determines if the form is a core form required for basic site functionality."
 msgstr ""
 
-#. Translators: %s label of the controller field.
 #: includes/forms/class-llms-form-templates.php:198
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Confirm %s"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:420
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Have a voucher?"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:421
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Voucher Code"
 msgstr ""
 
@@ -9540,12 +9477,10 @@ msgid "Catalog &amp; Search"
 msgstr ""
 
 #: includes/llms.functions.core.php:610
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Catalog only"
 msgstr ""
 
 #: includes/llms.functions.core.php:611
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Search only"
 msgstr ""
 
@@ -9569,7 +9504,6 @@ msgstr ""
 
 #: includes/llms.template.functions.php:681
 #: includes/llms.template.functions.php:771
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Continue"
 msgstr ""
 
@@ -9638,34 +9572,26 @@ msgid "Could not deactivate %s."
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:214
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:121
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:173
 msgid "Active"
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:215
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:122
 msgid "Inactive"
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:218
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:125
 msgid "Not Installed"
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:224
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:131
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:75
 msgid "N/A"
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:226
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:133
 msgid "Licensed"
 msgstr ""
 
 #: includes/models/model.llms.add-on.php:227
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:134
 msgid "Unlicensed"
 msgstr ""
 
@@ -10000,7 +9926,6 @@ msgid "%1$s <%2$s>"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:145
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:91
 msgid "Select a user"
 msgstr ""
 
@@ -10387,7 +10312,6 @@ msgid "%s passed a quiz"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.section.complete.php:92
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:243
 msgid "Section Title"
 msgstr ""
 
@@ -10874,7 +10798,6 @@ msgid "Phone Number (Reusable)"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:31
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Username"
 msgstr ""
 
@@ -10884,12 +10807,10 @@ msgid "A %s password is required with at least 8 characters. To make it stronger
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:84
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Display Name"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:94
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Address"
 msgstr ""
 
@@ -11136,12 +11057,10 @@ msgstr ""
 #: languages/countries-address-info.php:1275
 #: languages/countries-address-info.php:1280
 #: languages/countries-address-info.php:1285
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "City"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:124
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Select a Country"
 msgstr ""
 
@@ -11281,22 +11200,18 @@ msgstr ""
 #: languages/countries-address-info.php:1266
 #: languages/countries-address-info.php:1281
 #: languages/countries-address-info.php:1286
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:135
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Select a State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:142
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Postal / Zip Code"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:150
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Phone Number"
 msgstr ""
 
@@ -11370,7 +11285,6 @@ msgid "Title:"
 msgstr ""
 
 #: includes/widgets/class.llms.widget.course.progress.php:36
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Course Progress"
 msgstr ""
 
@@ -33131,1776 +33045,6 @@ msgstr ""
 msgid "Midlands Province"
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-course-information-block.php:62
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Course Information"
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-course-syllabus-block.php:104
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-abstract-block.php:113
-msgid "No HTML was returned."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-instructors-block.php:96
-msgid "No visible instructors were found."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/blocks/class-llms-blocks-pricing-table-block.php:94
-msgid "No access plans found."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:137
-msgid "Sorry, you are not allowed to edit the object instructors."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-types.php:87
-msgid "Add a short description of your course visible to all visitors..."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-types.php:117
-msgid "Add a short description of your membership visible to all visitors..."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-types.php:142
-msgid "Add your lesson content..."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-visibility.php:82
-msgid "Sorry, you are not allowed to edit the object visibility."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-visibility.php:116
-msgid "Post visibility."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:51
-msgid "Removes block editor code from all courses and lessons which were migrated to the block editor during an upgrade to WordPress 5.0 or later. If you installed the Classic Editor plugin after upgrading and see duplicate content items (such as the course syllabus or lesson mark complete button) this tool will remove the duplicates."
-msgstr ""
-
-#. Translators: %d = number of affected courses/lessons.
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:54
-msgid "Currently %d courses and/or lessons are affected."
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:58
-msgid "Remove LifterLMS Block Code"
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:59
-msgid "Remove Block Code"
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:58
-msgid "LifterLMS Blocks"
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:65
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Custom User Information"
-msgstr ""
-
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:73
-msgid "User Information"
-msgstr ""
-
-#. Translators: %s = License key.
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:195
-msgid "\"%s\" has been saved!"
-msgstr ""
-
-#. Translators: %s = License Key
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:236
-msgid "License key \"%s\" was removed from this site."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:289
-msgid "Manage Saved License Keys"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:301
-msgid "Remove Selected"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:305
-msgid "Add New License Keys"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:306
-msgid "Enter each license on a new line"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:343
-msgid "View add-on details"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:377
-msgid "View update details"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:401
-msgid "My Add-Ons"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-betas.php:46
-msgid "Beta Testing"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-install.php:106
-msgid "Welcome to the LifterLMS Helper"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-install.php:107
-msgid "This plugin allows your website to interact with your subscriptions at LifterLMS.com to ensure your add-ons stay up to date."
-msgstr ""
-
-#. Translators: %1$s = Opening anchor tag; %2$s = closing anchor tag.
-#: libraries/lifterlms-helper/includes/class-llms-helper-install.php:109
-msgid "You can activate your add-ons from the %1$sAdd-Ons & More%2$s screen."
-msgstr ""
-
-#. Translators: %d = Number of keys that have been migrated.
-#: libraries/lifterlms-helper/includes/class-llms-helper-install.php:145
-msgid "%d license has been automatically migrated from the previous version of the LifterLMS Helper"
-msgid_plural "%d licenses have been automatically migrated from the previous version of the LifterLMS Helper."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: %s = License Key
-#: libraries/lifterlms-helper/includes/class-llms-helper-keys.php:145
-msgid "The license \"%s\" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:91
-msgid "Invalid add-on ID."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:99
-msgid "Add-on cannot be installable."
-msgstr ""
-
-#. Translators: %s = Add-on name.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:105
-msgid "%s is already installed"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:114
-msgid "An error occured while attempting to retrieve add-on download information. Please try again."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:133
-msgid "The requested action is not possible."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:150
-msgid "Unable to connect to the filesystem. Please confirm your credentials."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:174
-msgid "Your LifterLMS add-on is currently unlicensed and cannot be updated!"
-msgstr ""
-
-#. Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:179
-msgid "If you already have a license, you can activate it on the %1$sadd-ons management screen%2$s."
-msgstr ""
-
-#. Translators: %s = URI to licensing FAQ.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:184
-msgid "Learn more about LifterLMS add-on licensing at %s."
-msgstr ""
-
-#. Translators: %s = URL for the changelog website.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:410
-msgid "There was an error retrieving the changelog.<br>Try visiting %s for recent changelogs."
-msgstr ""
-
-#. Translators: %1$s - Version number; %2$s - Release date.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:448
-msgid "Version %1$s - %2$s"
-msgstr ""
-
-#. Translators: %s = URL to the full changelog.
-#: libraries/lifterlms-helper/includes/class-llms-helper-upgrader.php:455
-msgid "View the full changelog at %s."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:80
-msgid "Unable to locate a license key for the selected add-on."
-msgstr ""
-
-#. Translators: %s = Add-on name
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:176
-msgid "%s was successfully installed."
-msgstr ""
-
-#. Translators: %s = Add-on name
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:185
-msgid "Could not install %s."
-msgstr ""
-
-#. Translators: %s = Add-on name
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:240
-msgid "%s was successfully updated."
-msgstr ""
-
-#. Translators: %s = Add-on name
-#: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:249
-msgid "Could not update %s."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:17
-msgid "Beta Testing Warnings and FAQs"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:19
-msgid "Always test with caution!"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:20
-msgid "Beta releases may not be stable. We may not be able to fix issues caused by using a beta release. We urge you to only use beta versions in testing environments!"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:21
-msgid "Subscribing to the <em>beta channel</em> for LifterLMS or any available add-ons will allow you to automatically update to the latest beta release for the given plugin or theme."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:22
-msgid "When no beta versions are available, automatic updates will be to the latest stable version of the plugin or theme."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:24
-msgid "Rolling back and restoring data"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:25
-msgid "This plugin does not provide you with the ability to rollback from a beta version."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:26
-msgid "To rollback you should subscribe to the stable channel, delete the beta version of the plugin, and then re-install the latest version. If a database migration was run you should also restore your database from a backup."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:28
-msgid "Reporting bugs and contributing"
-msgstr ""
-
-#. Translators: %1$s = Opening anchor link; %2$s = closing anchor link.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:32
-msgid "We welcome contributions of all kinds, review our contribution guidelines on %1$sGitHub%2$s to get started."
-msgstr ""
-
-#. Translators: %s = Link to bug report.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:38
-msgid "If you encounter a bug while beta testing, please report it at %s."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:42
-msgid "Still have questions?"
-msgstr ""
-
-#. Translators: %s = Link to guide.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:46
-msgid "Check out our Guide to Beta Testing at %s."
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:56
-msgid "Channel"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:57
-msgid "Installed Version"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:58
-msgid "Beta Version"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:70
-msgid "Stable"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:71
-msgid "Beta"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:81
-msgid "Save & Update"
-msgstr ""
-
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:88
-msgid "Are you sure you want to enable or disable beta testing for these plugins and themes?"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:87
-msgid "Cannot create an existing resource."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:234
-msgid "Column names to be searched. Accepts a single column or a comma separated list of columns."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:246
-msgid "Order sort attribute ascending or descending."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:254
-msgid "Sort collection by object attribute."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:262
-msgid "Limit results to a list of ids. Accepts a single id or a comma separated list of ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:271
-msgid "Exclude a list of ids from results. Accepts a single id or a comma separated list of ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:336
-msgid "The page number requested is larger than the number of pages available."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:413
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:445
-msgid "You must provide a valid set of columns to search into."
-msgstr ""
-
-#. Translators: %1$s comma separated list of search columns.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:428
-msgid "You are not allowed to search into the provided column(s): %1$s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:456
-msgid "You need to define a search term to order by relevance."
-msgstr ""
-
-#. translators: %s: register_rest_field
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:811
-msgid "Please use %s to add new schema properties."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-controller.php:958
-msgid "Unique identifier for the resource."
-msgstr ""
-
-#. Translators: %s = name of the resource type (for example: "API Key").
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-database-resource.php:105
-msgid "Cannot create a new %s with a pre-defined ID."
-msgstr ""
-
-#. Translators: %1$s = name of the resource type; %2$s = field name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-database-resource.php:118
-msgid "%1$s \"%2$s\" is required."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-database-resource.php:193
-msgid "Resource"
-msgstr ""
-
-#. Translators: %s = name of the resource type (for example: "API Key").
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-database-resource.php:212
-msgid "No %s ID was supplied."
-msgstr ""
-
-#. Translators: %s = name of the resource type (for example: "API Key").
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-database-resource.php:218
-msgid "The requested %s could not be located."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:107
-msgid "Bypass the trash and force course deletion."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:129
-msgid "Post password. Required if the post is password protected."
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:211
-msgid "Cannot create existing %s."
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:216
-msgid "Sorry, you are not allowed to create %s as this user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:220
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:517
-msgid "Sorry, you are not allowed to assign the provided terms."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:365
-msgid "Incorrect password."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:396
-msgid "Limit result set to posts assigned one or more statuses."
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:513
-msgid "Sorry, you are not allowed to update %s as this user."
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:669
-msgid "Sorry, you are not allowed to delete %s as this user."
-msgstr ""
-
-#. translators: %1$s: post type name, %2$s: force=true
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:720
-msgid "The %1$s does not support trashing. Set '%2$s' to delete."
-msgstr ""
-
-#. translators: %s: post type name
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:744
-msgid "The %s cannot be deleted."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1114
-msgid "Unique Identifier. The WordPress Post ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1120
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:229
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
-msgid "Creation date. Format: Y-m-d H:i:s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1125
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1142
-msgid "Creation date (in GMT). Format: Y-m-d H:i:s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1130
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:238
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
-msgid "Date last modified. Format: Y-m-d H:i:s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1136
-msgid "Date last modified (in GMT). Format: Y-m-d H:i:s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1151
-msgid "Post title."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1161
-msgid "Raw title. Useful when displaying title in the WP Block Editor. Only returned in edit context."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1166
-msgid "Rendered title."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1175
-msgid "The HTML content of the post."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1184
-msgid "Rendered HTML content."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1190
-msgid "Raw HTML content. Useful when displaying title in the WP Block Editor. Only returned in edit context."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1195
-msgid "Whether the content is protected with a password."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1204
-msgid "The HTML excerpt of the post."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1212
-msgid "Rendered HTML excerpt."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1218
-msgid "Raw HTML excerpt. Useful when displaying title in the WP Block Editor. Only returned in edit context."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1223
-msgid "Whether the excerpt is protected with a password."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1231
-msgid "Post URL."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1238
-msgid "Post URL slug."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1246
-msgid "LifterLMS custom post type"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1252
-msgid "The publication status of the post."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1266
-msgid "Password used to protect access to the content."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1271
-msgid "Featured image ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1276
-msgid "Post comment status. Default comment status dependent upon general WordPress post discussion settings."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1283
-msgid "Post ping status. Default ping status dependent upon general WordPress post discussion settings."
-msgstr ""
-
-#. translators: %s: post type
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1324
-msgid "The %s cannot be retrieved."
-msgstr ""
-
-#. translators: %s: post type
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1350
-msgid "The %s cannot be created."
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1532
-msgid "Sorry, you are not allowed to create private %s."
-msgstr ""
-
-#. Translators: $s = The post type name.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1539
-msgid "Sorry, you are not allowed to publish %s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1572
-msgid "Invalid featured media ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1847
-msgid "Status is forbidden."
-msgstr ""
-
-#. Translators: %s = role key.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:101
-msgid "The role %s does not exist."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:115
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:125
-msgid "You are not allowed to give users this role."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:174
-msgid "Invalid user ID for reassignment."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:184
-msgid "The user could not be deleted."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:215
-msgid "Include only users keys matching matching a specific role. Accepts a single role or a comma separated list of roles."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:238
-msgid "Reassign the deleted user's posts and links to this user ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:274
-msgid "Unique identifier for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:280
-msgid "Login name for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:288
-msgid "Display name for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:296
-msgid "First name for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:304
-msgid "Last name for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:312
-msgid "The email address for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:319
-msgid "URL of the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:325
-msgid "Description of the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:330
-msgid "The nickname for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:338
-msgid "Registration date for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:345
-msgid "Roles assigned to the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:355
-msgid "Password for the user (never included)."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:363
-msgid "User address line 1."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:371
-msgid "User address line 2."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:379
-msgid "User address city name."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:387
-msgid "User address ISO code for the state, province, or district."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:395
-msgid "User address postal code."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:403
-msgid "User address ISO code for the country."
-msgstr ""
-
-#. Translators: %d = avatar image size in pixels.
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:419
-msgid "Avatar URL with image size of %d pixels."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:427
-msgid "Avatar URLs for the user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:641
-msgid "Passwords cannot contain the \"\\\" character."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:665
-msgid "Username contains invalid characters."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:677
-msgid "Username is not allowed."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:752
-msgid "Invalid email address."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:757
-msgid "Username is not editable."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:47
-msgid "The API Key has been successfully deleted."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:55
-msgid "The webhook has been successfully deleted."
-msgstr ""
-
-#. Translators: %s = Consumer Key.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:86
-msgid "Consumer Key: %s"
-msgstr ""
-
-#. Translators: %s = Consumer Secret.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:89
-msgid "Consumer Secret: %s"
-msgstr ""
-
-#. Translators: %s = Webhook ID.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:130
-msgid "\"%s\" is not a valid Webhook."
-msgstr ""
-
-#. Translators: %1$s = error message; %2$s = error code.
-#. Translators: %1$s = Error message; %2$s = Error code.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-form-controller.php:142
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:249
-msgid "Error: %1$s [Code: %2$s]"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:54
-msgid "API Key Details"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:54
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:81
-msgid "API Keys"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:57
-msgid "Add API Key"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:72
-msgid "A friendly, human-readable, name used to identify the key."
-msgstr ""
-
-#. Translators: %1$s = opening anchor tag to capabilities doc; %2$s closing anchor tag.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:86
-msgid "The owner is used to determine what user %1$scapabilities%2$s are available to the API key."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:99
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:152
-msgid "Permissions"
-msgstr ""
-
-#. Translators: %1$s = opening anchor tag to doc; %2$s closing anchor tag.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:102
-msgid "Determines what kind of requests can be made with the API key. %1$sRead more%2$s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:115
-msgid "Consumer key ending in"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:126
-msgid "Last accessed at"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:140
-msgid "Make sure to copy or download the consumer key and consumer secret. After leaving this page they will not be displayed again."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:144
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:150
-msgid "Consumer key"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:156
-msgid "Consumer secret"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:184
-msgid "Download Keys"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:190
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:50
-msgid "Revoke"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:205
-msgid "Invalid api key."
-msgstr ""
-
-#. Translators: %s = Invalid API Key ID.
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:296
-msgid "\"%s\" is not a valid API Key."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-page.php:85
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:44
-msgid "Webhooks"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:44
-msgid "Webhook Details"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:47
-msgid "Add Webhook"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:61
-msgid "A friendly, human-readable, name used to identify the webhook."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:83
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:138
-msgid "Topic"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:238
-#: blocks/access-plan-button/index.js:1
-msgid "Action"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:94
-msgid "Any registered WordPress, plugin, or theme action hook."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:100
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:139
-msgid "Delivery URL"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:102
-msgid "URL where the webhook payload will be delivered."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:113
-msgid "Secret Key"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:115
-msgid "The secret key can be used to verify received payloads originated from this website."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:152
-msgid "Invalid webhook."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:49
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:50
-msgid "View/Edit"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:153
-msgid "Last Access"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:138
-msgid "API Key"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:150
-msgid "Read"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:151
-msgid "Write"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:152
-msgid "Read / Write"
-msgstr ""
-
-#. Translators: %s = Invalid user id.
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:176
-msgid "\"%s\" is not a valid user ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:181
-msgid "An API Description is required."
-msgstr ""
-
-#. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-api-keys.php:187
-msgid "\"%s\" is not a valid permission."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-authentication.php:286
-msgid "LifterLMS REST API"
-msgstr ""
-
-#. Translators: %1$s = created date.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:127
-msgid "Webhook created on %1$s"
-msgstr ""
-
-#. Translators: %1$s Date format as specified in the WordPress General Settings, %1$s Time format as specified in the WordPress General Settings.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:131
-msgctxt "Webhook created on date parsed by wp_date"
-msgid "%1$s @ %2$s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:151
-msgid "Webhook"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:174
-msgid "Paused"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
-msgid "Course created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
-msgid "Course updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
-msgid "Course deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
-msgid "Course restored"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
-msgid "Section created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
-msgid "Section updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
-msgid "Section deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
-msgid "Lesson created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
-msgid "Lesson updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
-msgid "Lesson deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
-msgid "Lesson restored"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
-msgid "Membership created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
-msgid "Membership updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
-msgid "Membership deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
-msgid "Membership restored"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
-msgid "Access Plan created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
-msgid "Access Plan updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
-msgid "Access Plan deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
-msgid "Order created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
-msgid "Order updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
-msgid "Order deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
-msgid "Order restored"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
-msgid "Transaction created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
-msgid "Transaction updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
-msgid "Transaction deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
-msgid "Student created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
-msgid "Student updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:229
-msgid "Student deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:230
-msgid "Enrollment created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:231
-msgid "Enrollment updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:232
-msgid "Enrollment deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:233
-msgid "Progress updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:234
-msgid "Progress deleted"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:235
-msgid "Instructor created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:236
-msgid "Instructor updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:237
-msgid "Instructor deleted"
-msgstr ""
-
-#. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:442
-msgid "\"%s\" is not a valid status."
-msgstr ""
-
-#. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:448
-msgid "\"%s\" is not a valid topic."
-msgstr ""
-
-#. Translators: %s = field name.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:455
-msgid "\"%s\" is required."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/models/class-llms-rest-webhook.php:128
-msgid "M j, Y @ H:i"
-msgstr ""
-
-#. Translators: %s = Error message.
-#: libraries/lifterlms-rest/includes/models/class-llms-rest-webhook.php:386
-msgid "Could not reach the delivery url: \"%s\"."
-msgstr ""
-
-#. Translators: %d = Response code.
-#: libraries/lifterlms-rest/includes/models/class-llms-rest-webhook.php:391
-msgid "The delivery url returned the response code \"%d\"."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-access-plans-controller.php:87
-msgid "Retrieve access plans for a specific list of one or more posts. Accepts a course/membership id or comma separated list of course/membership ids."
-msgstr ""
-
-#. Translators: %1$d = access plans limit per product, %2$s access plan post type plural name, %3$s product post type singular name.
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-access-plans-controller.php:771
-msgid "Only %1$d %2$s allowed per %3$s"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:86
-msgid "Include only API keys matching a specific permission."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:92
-msgid "Include only keys for the specified user(s). Accepts a single id or a comma separated list of ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:97
-msgid "Exclude keys for the specified user(s). Accepts a single id or a comma separated list of ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:120
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:147
-msgid "Friendly, human-readable name or description."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:129
-msgid "Determines the capabilities and permissions of the key."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:136
-msgid "The WordPress User ID of the key owner."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:146
-msgid "The last 7 characters of the Consumer Key."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:152
-msgid "The date the key was last used. Format: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:133
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:153
-msgid "Unique Course Identifier. The WordPress Post ID"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:197
-msgid "Visibility of the course in catalogs and search results."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:205
-msgid "List of course categories."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:213
-msgid "List of course tags."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:221
-msgid "List of course difficulties."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:229
-msgid "List of course tracks."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:237
-msgid "List of course instructors. Defaults to current user when creating a new post."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:248
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:370
-msgid "URL to an oEmbed enable audio URL."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:257
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:379
-msgid "URL to an oEmbed enable video URL."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:266
-msgid "Determines if an enrollment capacity limit is enabled."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:271
-msgid "Number of students who can be enrolled in the course before enrollment closes."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:279
-msgid "Message displayed when enrollment capacity has been reached."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:288
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:348
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:383
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:417
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:451
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:485
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:205
-msgid "Raw message content."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:293
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:354
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:388
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:422
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:456
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:490
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:210
-msgid "Rendered message content."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:301
-msgid "Course ID of the prerequisite course."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:309
-msgid "Term ID of a prerequisite track."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:317
-msgid "User defined course length."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:326
-msgid "Raw length description."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:331
-msgid "Rendered length description."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:339
-msgid "Message displayed when non-enrolled visitors try to access restricted course content (lessons, quizzes, etc..) directly."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:363
-msgid ""
-"Date when the course closes. After this date enrolled students may no longer view and interact with the restricted course content.\n"
-"\t\t\t\t\tIf blank the course is open indefinitely after the the access_opens_date has passed.\n"
-"\t\t\t\t\tDoes not affect course enrollment, see enrollment_opens_date to control the course enrollment close date.\n"
-"\t\t\t\t\tFormat: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:374
-msgid "Message displayed to enrolled students when the course is accessed after the access_closes_date has passed."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:394
-msgid "This course closed on [lifterlms_course_info id=\"{{course_id}}\" key=\"end_date\"]."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:397
-msgid ""
-"Date when the course opens, allowing enrolled students to begin to view and interact with the restricted course content.\n"
-"\t\t\t\t\tIf blank the course is open until after the access_closes_date has passed.\n"
-"\t\t\t\t\tDoes not affect course enrollment, see enrollment_opens_date to control the course enrollment start date.\n"
-"\t\t\t\t\tFormat: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:408
-msgid "Message displayed to enrolled students when the course is accessed before the access_opens_date has passed."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:428
-msgid "This course opens on [lifterlms_course_info id=\"{{course_id}}\" key=\"start_date\"]."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:431
-msgid ""
-"Date when the course enrollment closes.\n"
-"\t\t\t\t\tIf blank course enrollment is open indefinitely after the the enrollment_opens_date has passed.\n"
-"\t\t\t\t\tDoes not affect course content access, see access_opens_date to control course access close date.\n"
-"\t\t\t\t\tFormat: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:442
-msgid "Message displayed to visitors when attempting to enroll into a course after the enrollment_closes_date has passed."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:462
-msgid "Enrollment in this course closed on [lifterlms_course_info id=\"{{course_id}}\" key=\"enrollment_end_date\"]."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:465
-msgid ""
-"Date when the course enrollment opens.\n"
-"\t\t\t\t\tIf blank course enrollment is open until after the enrollment_closes_date has passed.\n"
-"\t\t\t\t\tDoes not affect course content access, see access_opens_date to control course access start date.\n"
-"\t\t\t\t\tFormat: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:476
-msgid "Message displayed to visitors when attempting to enroll into a course before the enrollment_opens_date has passed."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:496
-msgid "Enrollment in this course opens on [lifterlms_course_info id=\"{{course_id}}\" key=\"enrollment_start_date\"]."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:499
-msgid "The WordPress page ID of the sales page. Required when sales_page_type equals page. Only returned when the sales_page_type equals page."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:510
-msgid "Determines the type of sales page content to display.<br> - <code>none</code> displays the course content.<br> - <code>content</code> displays alternate content from the <code>excerpt</code> property.<br> - <code>page</code> redirects to the WordPress page defined in <code>content_page_id</code>.<br> - <code>url</code> redirects to the URL defined in <code>content_page_url</code>"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:520
-msgid "The URL of the sales page content. Required when <code>content_type</code> equals <code>url</code>. Only returned when the <code>content_type</code> equals <code>url</code>."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:532
-msgid "When true the video_embed will be used on the course tiles (on the catalog, for example) instead of the featured image."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:1199
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:79
-msgid "Limit results to a specific student or a list of students. Accepts a single student id or a comma separated list of student ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:91
-msgid "The trigger of the enrollment to act on."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:138
-msgid "Unique course or membership Identifier. The WordPress Post `ID.`"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:281
-msgid "Cannot create existing enrollment. Use the PATCH method if you want to update an existing enrollment"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:285
-msgid "Sorry, you are not allowed to create an enrollment as this user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:333
-msgid "The enrollment could not be created"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:375
-msgid "Sorry, you are not allowed to update an enrollment as this user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:427
-msgid "The enrollment status could not be updated"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:441
-msgid "The enrollment creation date could not be updated"
-msgstr ""
-
-#. Translators: %s = The post type name.
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:487
-msgid "Sorry, you are not allowed to delete enrollments as this user."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:527
-msgid "The enrollment cannot be deleted."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:660
-msgid "Filter results to records matching the specified status."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:667
-msgid "Limit results to a specific course or membership or a list of courses and/or memberships. Accepts a single post id or a comma separated list of post ids."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:690
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:223
-msgid "The ID of the course/membership."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:696
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:217
-msgid "The ID of the student."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:702
-msgid "Creation date. Format: `Y-m-d H:i:s`"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:707
-msgid "Date last modified. Format: `Y-m-d H:i:s`"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:713
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:245
-msgid "The status of the enrollment."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:719
-msgid "The enrollment trigger. Default is `any`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:65
-msgid "You are not allowed to create new instructors."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:83
-msgid "You are not allowed to delete this instructor."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:102
-msgid "Retrieve only instructors for the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:110
-msgid "Exclude instructors who do not have permissions for the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:132
-msgid "You are not allowed to view this instructor."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:168
-msgid "You are not allowed to list instructors."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-instructors-controller.php:256
-msgid "You are not allowed to edit this instructor."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:169
-msgid "Invalid course_id param. It must be a valid Course ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:180
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:221
-msgid "Invalid order param. It must be greater than 0."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:201
-msgid "Invalid drip_days param. It must be greater than 0."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:326
-msgid "WordPress post ID of the parent item. Must be a Section ID. 0 indicates an \"orphaned\" lesson which can be edited and viewed by instructors and admins but cannot be read by students."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:334
-msgid "WordPress post ID of the lesson's parent course."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:343
-msgid "Order of the lesson within its immediate parent."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:353
-msgid "Lesson ID of the prerequisite lesson."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:361
-msgid "Determines the weight of the lesson when grading the course."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:388
-msgid "The date and time when the lesson becomes available. Applicable only when drip_method is date. Format: Y-m-d H:i:s."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:396
-msgid "Number of days to wait before allowing access to the lesson. Applicable only when drip_method is enrollment, start, or prerequisite."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:405
-msgid ""
-"Determine the method with which to make the lesson content available.\n"
-"\t\t\t\t\t<ul>\n"
-"\t\t\t\t\t\t<li>none: Drip is disabled; the lesson is immediately available.</li>\n"
-"\t\t\t\t\t\t<li>date: Lesson is made available at a specific date and time.</li>\n"
-"\t\t\t\t\t\t<li>enrollment: Lesson is made available a specific number of days after enrollment into the course.</li>\n"
-"\t\t\t\t\t\t<li>start: Lesson is made available a specific number of days after the course's start date. Only available on courses with a access_opens_date.</li>\n"
-"\t\t\t\t\t\t<li>prerequisite: Lesson is made available a specific number of days after the prerequisite lesson is completed.</li>\n"
-"\t\t\t\t\t</ul>"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:422
-msgid "Denotes a lesson that's publicly accessible regardless of course enrollment."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:428
-msgid "Associate a quiz with this lesson."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:437
-msgid "Determines if a quiz is enabled for the lesson."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:443
-msgid "The post ID of the associated quiz."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:452
-msgid ""
-"Determines lesson progression requirements related to the quiz.\n"
-"\t\t\t\t\t\t\t<ul>\n"
-"\t\t\t\t\t\t\t\t<li>complete: The quiz must be completed (with any grade) to progress the lesson.</li>\n"
-"\t\t\t\t\t\t\t\t<li>pass: A passing grade must be earned to progress the lesson.</li>\n"
-"\t\t\t\t\t\t\t</ul>"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:510
-msgid "Filter lessons by the parent post (section) ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:138
-msgid "List of courses to automatically enroll students into when they're enrolled into the membership."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:150
-msgid "Visibility of the membership in catalogs and search results."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:158
-msgid "List of membership categories."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:167
-msgid "List of post instructors. Defaults to current user when creating a new post."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:182
-msgid "Determines the action to take when content restricted by the membership is accessed by a non-member. - `none`: Remain on page and display the message `restriction_message`. - `membership`: Redirect to the membership's permalink. - `page`: Redirect to the permalink of the page identified by `restriction_page_id`. - `custom`: Redirect to the URL identified by `restriction_url`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:193
-msgid "Message to display to non-members after a `restriction_action` redirect. When `restriction_action` is `none` replaces the page content with this message."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:216
-msgid "You must belong to the [lifterlms_membership_link id=\"{{membership_id}}\"] membership to access this content."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:223
-msgid "WordPress page ID used for redirecting non-members when `restriction_action` is `page`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:235
-msgid "URL used for redirecting non-members when `restriction_action` is `custom`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:248
-msgid "The WordPress page ID of the sales page. Required when `sales_page_type` equals `page`. Only returned when the `sales_page_type` equals `page`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:260
-msgid "Defines alternate content displayed to visitors and non-enrolled students when accessing the post. - `none` displays the post content. - `content` displays alternate content from the `excerpt` property. - `page` redirects to the WordPress page defined in `content_page_id`. - `url` redirects to the URL defined in `content_page_url`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:271
-msgid "The URL of the sales page content. Required when `sales_page_type` equals `url`. Only returned when the `sales_page_type` equals `url`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:284
-msgid "List of membership tags."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-memberships-controller.php:572
-msgid "Unique Membership Identifier. The WordPress Post ID"
-msgstr ""
-
-#. translators: %1$s the post type name.
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:117
-msgid "Unique %1$s Identifier. The WordPress Post ID"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:210
-msgid "Invalid parent_id param. It must be a valid Course ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:247
-msgid "WordPress post ID of the parent item. Must be a Course ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:258
-msgid "Order of the section within the course."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:326
-msgid "Filter sections by the parent post (course) ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:75
-msgid "You are not allowed to create new students."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:93
-msgid "You are not allowed to delete this student."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:112
-msgid "Retrieve only students enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:120
-msgid "Retrieve only students not enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:158
-msgid "You are not allowed to view this student."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:176
-msgid "You are not allowed to filter students by role."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:180
-msgid "You are not allowed to list students."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-controller.php:377
-msgid "You are not allowed to edit this student."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:252
-msgid "Student's progress as a percentage."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:418
-msgid "Unique identifier for the student. The WP User ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:422
-msgid "Unique course, lesson, or section Identifer. The WordPress Post ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:516
-msgid "Created date cannot be in the future."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:117
-msgid "Include only webhooks matching a specific status."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:141
-msgid "Webhook ID."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:155
-msgid "The status of the webhook."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:162
-msgid "The webhook topic"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:171
-msgid "The webhook payload delivery URL."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:177
-msgid "An optional secret key used to generate the delivery signature."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:196
-msgid "The parsed resource from the `topic`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:202
-msgid "The parsed event from the `topic`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:208
-msgid "List of WordPress action hook associated with the webhook."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/llms-rest-server-functions.php:29
-msgid "You are not authorized to perform this request."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/llms-rest-server-functions.php:34
-msgid "The API credentials were invalid."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/llms-rest-server-functions.php:53
-msgid "Invalid or malformed request syntax."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/llms-rest-server-functions.php:68
-msgid "The requested resource could not be found."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/llms-rest-server-functions.php:82
-msgid "Internal Server Error."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:19
-msgid "Access plan price."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:28
-msgid "Access expiration type. `lifetime` provides access until cancelled or until a recurring payment fails. `limited-period` provides access for a limited period as specified by `access_length` and `access_period` `limited-date` provides access until the date specified by access_expires_date`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:39
-msgid "Date when access expires. Only applicable when `access_expiration` is `limited-date`. `Format: Y-m-d H:i:s`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:44
-msgid "Determine the length of access from time of purchase. Only applicable when `access_expiration` is `limited-period`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:54
-msgid "Determine the length of access from time of purchase. Only applicable when `access_expiration` is `limited-period`"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:61
-msgid "Restrict usage of this access plan to students enrolled in at least one of the specified memberships. Applicable only when `post_id` refers to a Course."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:75
-msgid "Text of the \"Purchase\" button"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:77
-#: templates/checkout/form-checkout.php:133
-msgid "Buy Now"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:81
-msgid "Billing frequency [0-6]. `0` denotes a one-time payment. `>= 1` denotes a recurring plan."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:89
-msgid "Must be an integer in the range 0-6"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:96
-msgid "For recurring plans only. Determines the number of intervals a plan should run for. `0` denotes the plan should run until cancelled."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:105
-msgid "For recurring plans only. Determines the interval of recurring payments."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:112
-msgid "Determines the course or membership which can be accessed through the plan."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:120
-msgid "Must be a valid course or membership ID"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:127
-msgid "Use this plans's redirect settings when purchasing a Membership this plan is restricted to. Applicable only when `availability_restrictions` exist for the plan"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:133
-msgid "WordPress page ID to use for checkout success redirection. Applicable only when `redirect_type` is page."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:142
-msgid "Determines the redirection behavior of the user's browser upon successful checkout or registration through the plan. `self`: Redirect to the permalink of the specified `post_id`. `page`: Redirect to the permalink of the WordPress page specified by `redirect_page_id`. `url`: Redirect to the URL specified by `redirect_url`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:153
-msgid "URL to use for checkout success redirection. Applicable only when `redirect_type` is `url`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:162
-msgid "Used to automatically end a scheduled sale. If empty, the plan remains on sale indefinitely. Only applies when `sale_enabled` is `true`. Format: `Y-m-d H:i:s`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:167
-msgid "Used to automatically start a scheduled sale. If empty, the plan is on sale immediately. Only applies when `sale_enabled` is `true`. Format: `Y-m-d H:i:s`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:172
-msgid "Mark the plan as \"On Sale\" allowing for temporary price adjustments."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:178
-msgid "Sale price. Only applies when `sale_enabled` is `true`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:186
-msgid "External identifier"
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:191
-msgid "Enable a trial period for a recurring access plan."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:197
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:207
-msgid "Determines the length of trial access. Only applies when `trial_enabled` is `true`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:219
-msgid "Determines the price of the trial period. Only applies when `trial_enabled` is `true`."
-msgstr ""
-
-#: libraries/lifterlms-rest/includes/server/schemas/schema-access-plans.php:228
-msgid "Access plan visibility."
-msgstr ""
-
 #: templates/achievements/loop.php:64
 msgid "You do not have any achievements yet. Enroll in a course to get started!"
 msgstr ""
@@ -34911,44 +33055,46 @@ msgid "Awarded on %s"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:52
-#: templates/admin/reporting/nav-filters.php:32
+#: templates/admin/reporting/nav-filters.php:33
 msgid "Last 7 Days"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:58
-#: templates/admin/reporting/nav-filters.php:38
+#: templates/admin/reporting/nav-filters.php:39
 msgid "Custom"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:62
-#: templates/admin/reporting/nav-filters.php:42
+#: templates/admin/reporting/nav-filters.php:43
 msgid "Go"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:66
-#: templates/admin/reporting/nav-filters.php:46
+#: templates/admin/reporting/nav-filters.php:47
 msgid "Toggle Filters"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:99
-#: templates/admin/reporting/nav-filters.php:81
+#: templates/admin/reporting/nav-filters.php:79
 msgid "Filter by Course(s)"
 msgstr ""
 
+#. Translators: %d = Course ID.
+#. Translators: %d = Membership ID.
 #: templates/admin/analytics/analytics.php:101
 #: templates/admin/analytics/analytics.php:113
-#: templates/admin/reporting/nav-filters.php:83
-#: templates/admin/reporting/nav-filters.php:95
+#: templates/admin/reporting/nav-filters.php:85
+#: templates/admin/reporting/nav-filters.php:105
 msgid "(ID# %d)"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:111
-#: templates/admin/reporting/nav-filters.php:93
+#: templates/admin/reporting/nav-filters.php:99
 msgid "Filter by Memberships(s)"
 msgstr ""
 
 #: templates/admin/analytics/analytics.php:120
-#: templates/admin/reporting/nav-filters.php:101
+#: templates/admin/reporting/nav-filters.php:115
 msgid "Apply Filters"
 msgstr ""
 
@@ -35248,6 +33394,10 @@ msgid "Enrollment Confirmation"
 msgstr ""
 
 #: templates/checkout/form-checkout.php:133
+msgid "Buy Now"
+msgstr ""
+
+#: templates/checkout/form-checkout.php:133
 msgid "Enroll Now"
 msgstr ""
 
@@ -35325,7 +33475,6 @@ msgid "Categories: "
 msgstr ""
 
 #: templates/course/complete-lesson-link.php:113
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Take Quiz"
 msgstr ""
 
@@ -35684,7 +33833,6 @@ msgid "Search for a certificate template…"
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Insert"
 msgstr ""
 
@@ -35787,17 +33935,14 @@ msgstr ""
 #: assets/js/llms-components.js:17
 #: assets/js/llms-spinner.js:1
 #: assets/js/llms.js:2468
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Loading…"
 msgstr ""
 
 #: assets/js/llms-components.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Click to copy."
 msgstr ""
 
 #: assets/js/llms-components.js:13
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Search…"
 msgstr ""
 
@@ -35817,7 +33962,6 @@ msgstr ""
 
 #. Translators: %1$s = User's name; %2$s = User's id.
 #: assets/js/llms-components.js:17
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
@@ -35881,11 +34025,14 @@ msgid "Secondary"
 msgstr ""
 
 #: blocks/access-plan-button/index.js:1
+msgid "Action"
+msgstr ""
+
+#: blocks/access-plan-button/index.js:1
 msgid "Danger"
 msgstr ""
 
 #: blocks/access-plan-button/index.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
 msgid "Text"
 msgstr ""
 
@@ -36260,7 +34407,6 @@ msgid "Number of achievements to display. Leave empty to display all achievement
 msgstr ""
 
 #: blocks/my-achievements/index.js:1
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Columns"
 msgstr ""
 
@@ -36290,800 +34436,6 @@ msgstr ""
 
 #: blocks/registration/index.js:1
 msgid "Registration form preview not available. This block will not be displayed."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
-msgid "everyone"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
-msgid "enrolled users"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
-msgid "non-enrolled users or visitors"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
-msgid "logged in users"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
-msgid "logged out users"
-msgstr ""
-
-#. Translators: %s = visibility setting label.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-msgid "This block is only visible to %s"
-msgstr ""
-
-#. Translators: %1$s = Post title; %2$ = post id.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgctxt "Search result label"
-msgid "%1$s (ID# %2$d)"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in this course"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in any course"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in this membership"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in any membership"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in any course or membership"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in all of the selected courses or memberships"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "in any of the selected courses or memberships"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Enrollment Visibility"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display to"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Enrolled In"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Not Enrolled In"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Search by course title…"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Search by membership title…"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "User Email is a required field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Restore user email field?"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Course Continue Button"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Course Information Options"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Title Headline Size"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Headline size for the information title element."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Estimated Completion Time"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "How many hours, days, weeks, etc… should a student expect to spend in order to complete this course."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display Estimated Time"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Displaying estimated time"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Hiding estimated time"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display Difficulty"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Displaying difficulty"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Hiding difficulty"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display Tracks"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Displaying tracks list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Hiding tracks list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display Categories"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Displaying categories list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Hiding categories list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Display Tags"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Displaying tags list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Hiding tags list"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Estimated Time"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Difficulty"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Tracks"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Categories"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Tags"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Memebership"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Lesson Navigation"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Lesson Progression (Mark Complete)"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Validation errors were encountered while attempting to save your access plans."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "LifterLMS Pricing Table"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "LifterLMS PHP Template"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Attention: Do not remove this block!"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-msgid "Removal will cause unintended effects on your LMS site."
-msgstr ""
-
-#. translators: %s is the template title
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
-msgid "This is an editor placeholder for the %s. On your site this will be replaced by the relevant template. You can move this placeholder around and add further blocks around it to extend the template."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
-msgid "Add optional placeholder text"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Reorder instructor"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-msgid "Reorder option"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-msgid "Make default"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-msgid "Option label"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-msgid "Database key value"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
-msgid "Delete Option"
-msgstr ""
-
-#. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:10
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
-msgid "Option %d"
-msgstr ""
-
-#. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:26
-msgid "option_%d"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Options"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Add option"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Hide keys"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Show keys"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "100%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "75%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "66.66%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "50%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "33.33%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "25%"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Select a field"
-msgstr ""
-
-#. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:14
-msgid "The value \"%s\" contains invalid characters. Only letters, numbers, underscores, and hyphens are allowed."
-msgstr ""
-
-#. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:16
-msgid "The user meta key \"%s\" is not unique. Please choose a unique value."
-msgstr ""
-
-#. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:18
-msgid "The ID \"%s\" is not unique. Please choose a unique field ID."
-msgstr ""
-
-#. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:20
-msgid "The name \"%s\" is not unique. Please choose a globally unique field name."
-msgstr ""
-
-#. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "The chosen value \"%s\" is invalid."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "The value cannot be blank."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Required"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field is required."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field is optional."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field Width"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Determines the width of the form field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Placeholder"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Displays a placeholder option as the selected instead of a default value."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Confirmation Field"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "A Confirmation field is active."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "No confirmation field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Data Storage"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Usermeta Key"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Database field key name. Only accepts alphanumeric characters, hyphens, and underscores."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field Name"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "The field's HTML name attribute."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field ID"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "The field's HTML id attribute."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Field Layout"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
-msgid "Stacked"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Input Confirmation Group"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Adds a required confirmation field to an input field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Remove confirmation field"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Checkboxes"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A single checkbox toggle or a group of multiple checkboxes."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Radio"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A group of radio inputs which can be populated with any number of options."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Dropdown"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A select field which can be populated with any number of options."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "An input field which accepts any form of text."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A text input field which only accepts an email address."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User password confirmation field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Number"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "An input field which only accepts numeric input."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "An input field which only accepts phone numbers."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Website Address / URL"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "An input field which only accepts a website address or URL."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A simple text input field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Minimum Value"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Specify the minimum allowed value. Leave blank for no minimum."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Maximum Value"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Specify the maximum allowed value. Leave blank for no maximum."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Textarea"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A text field accepting multiple lines of user information."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Rows"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Specify the number of text rows for the textarea input."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Voucher Code Redemption"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Allows user to redeem a voucher code during account registration."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Toggleable"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Field is revealed when the toggle is clicked."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Field is always visible."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Display Name"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Allows a user to choose how their name will be displayed publicly on the site."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Login"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Field used to collect a user's account username. If this field is omitted a username will be automatically generated based off their email address. Users can always login using either their email address or username."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Email"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's account email address."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's first name."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's last name."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User name"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's first and last name."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Password"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's account password."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A strong password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Password strength meter description"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Enter a description for the password strength meter"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Password strength meter"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Password strength meter is enabled."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Password strength meter is disabled."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Minimum Password Strength"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Minimum Password Length"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Address"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A group of fields used to collect a user's full address."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Street Address"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Collect a user's street address."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's street address."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Street Address Additional Information"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Apartment, suite, etc…"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User City"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's billing city."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Country"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's billing country."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Postal Code"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A special field used to collect a user's postal or zip code."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "User Phone"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "A field used to collect a user's phone number."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Visible in the catalog and search results."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Only visible in the catalog."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Only visible in search results."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Hidden from catalog and search results."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Catalog & Search Visibility"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Catalog Visibility"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "No fields found matching your search but you can use the shortcode below if the meta information exists in the database."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Shortcode"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "LifterLMS User Information Shortcodes"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Filter by label, key, or ID…"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Default value"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Optional text displayed when no information exists or the user is logged out."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Primary Instructor"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Edit instructor"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Instructor is visible on frontend"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Instructor is hidden on frontend"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Remove"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "The form has been restored to the default template."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Undo"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Form Settings"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Display Form Title"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Displaying form title."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Not displaying form title."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Free Access Plan Form Title"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "The form title to be shown for free access plans."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Revert to Default"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:28
-msgid "Replace the existing content of the form with the original default content."
 msgstr ""
 
 #: blocks/access-plan-button/block.json
