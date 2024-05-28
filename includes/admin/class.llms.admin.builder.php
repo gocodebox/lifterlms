@@ -649,6 +649,7 @@ class LLMS_Admin_Builder {
 							)
 						),
 						'enable_video_explainer' => true,
+						'home_url'               => home_url(),
 					)
 				)
 			);
