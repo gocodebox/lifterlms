@@ -118,7 +118,7 @@ class LLMS_Achievement {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . esc_attr( $name ), '6.0.0' );
+		_deprecated_function( __CLASS__ . '::' . esc_html( $name ), '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
