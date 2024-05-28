@@ -587,7 +587,7 @@ class LLMS_Media_Protector {
 			$is_authorized = true;
 		} else {
 			$user          = wp_get_current_user();
-			$is_authorized = in_array( 'llms_manager', $user->roles, true );
+			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || intval( get_post_field( 'post_author', $media_id ) ) === $user_id;
 		}
 
 		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
@@ -1140,6 +1140,10 @@ class LLMS_Media_Protector {
 	 * @return void
 	 */
 	private function add_authorization_meta_to_media_post( $post_id ): void {
+		if ( ! is_numeric( $post_id ) ) {
+			return;
+		}
+
 		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
 	}
 }
