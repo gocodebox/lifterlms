@@ -325,14 +325,14 @@ class LLMS_Media_Protector {
 	/**
 	 * Adds authorization meta after an attachment is added.
 	 *
-	 * @param $post_id
+	 * @param $media_id
 	 *
 	 * @return void
 	 */
-	public function add_authorization_meta_after_attachment_added( $post_id ) {
-		$attachment = get_post( $post_id );
+	public function add_authorization_meta_after_attachment_added( $media_id ) {
+		$attachment = get_post( $media_id );
 		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
-			update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
+			$this->add_authorization_meta_to_media_post( $media_id );
 		}
 	}
 
@@ -550,6 +550,7 @@ class LLMS_Media_Protector {
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ), 10, 1 );
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
+		$this->add_authorization_meta_to_media_post( $media_id );
 
 		return $media_id;
 	}
@@ -1129,5 +1130,16 @@ class LLMS_Media_Protector {
 		$uploads['url']    = $uploads['baseurl'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
 
 		return $uploads;
+	}
+
+	/**
+	 * Add authorization meta to the post.
+	 *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	private function add_authorization_meta_to_media_post( $post_id ): void {
+		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
 	}
 }
