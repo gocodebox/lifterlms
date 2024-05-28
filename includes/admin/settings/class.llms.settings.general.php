@@ -45,6 +45,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @since 3.13.0 Unknown.
 	 * @since 5.6.0 use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
 	 *              Add content protection setting.
+	 * @since [version] Add communication settings.
 	 *
 	 * @return array
 	 */
@@ -117,6 +118,35 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$settings[] = array(
 			'id'   => 'general_settings',
+			'type' => 'sectionend',
+		);
+
+		$settings[] = array(
+			'id'    => 'section_communication',
+			'type'  => 'sectionstart',
+			'class' => 'top',
+		);
+
+		$settings[] = array(
+			'id'    => 'communication',
+			'title' => __( 'Communication Settings', 'lifterlms' ),
+			'type'  => 'title',
+		);
+
+		$settings[] = array(
+			'title'   => __( 'Notifications', 'lifterlms' ),
+			'type'    => 'select',
+			'default' => 5,
+			'desc'    => __( 'Control the display of the notifications occasionally shown on the LifterLMS settings pages.', 'lifterlms' ),
+			'id'      => 'lifterlms_max_notifications_priority',
+			'options' => array(
+				5 => __( 'All (security and marketing)', 'lifterlms' ),
+				1 => __( 'Security only', 'lifterlms' ),
+			),
+		);
+
+		$settings[] = array(
+			'id'   => 'section_communication',
 			'type' => 'sectionend',
 		);
 
