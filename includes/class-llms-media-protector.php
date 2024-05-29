@@ -164,7 +164,7 @@ class LLMS_Media_Protector {
 	 *                                       `WP_CONTENT_DIR . '/uploads'` in {@see _wp_upload_dir()}.
 	 * @return void
 	 */
-	public function __construct( string $additional_upload_path = '', string $base_upload_path = '/lifterlms' ) {
+	public function __construct( $additional_upload_path = '', $base_upload_path = '/lifterlms' ) {
 
 		$this->set_base_upload_path( $base_upload_path );
 		$this->set_additional_upload_path( $additional_upload_path );
@@ -179,7 +179,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @return int The post ID of the attachment image or 0 on failure.
 	 */
-	protected function add_unauthorized_placeholder_image_to_media_library(): int {
+	protected function add_unauthorized_placeholder_image_to_media_library() {
 
 		global $wp_filesystem;
 		/** @var WP_Filesystem_Base $wp_filesystem */
@@ -291,7 +291,7 @@ class LLMS_Media_Protector {
 	 * @param int    $media_id The post ID of the media file.
 	 * @return string
 	 */
-	public function authorize_media_url( $url, $media_id ): string {
+	public function authorize_media_url( $url, $media_id ) {
 
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( true === $is_authorized ) {
@@ -344,7 +344,7 @@ class LLMS_Media_Protector {
 	 * @param string $path The path to be formatted.
 	 * @return string An empty string or a path with a leading slash and without a trailing slash.
 	 */
-	protected function format_path( string $path ): string {
+	protected function format_path( $path ) {
 
 		if ( '' === $path ) {
 			return $path;
@@ -368,7 +368,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @return string
 	 */
-	public function get_additional_upload_path(): string {
+	public function get_additional_upload_path() {
 
 		return $this->additional_upload_path;
 	}
@@ -380,7 +380,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @return string
 	 */
-	public function get_base_upload_path(): string {
+	public function get_base_upload_path() {
 
 		return $this->base_upload_path;
 	}
@@ -393,7 +393,7 @@ class LLMS_Media_Protector {
 	 * @param int $media_id The media post ID.
 	 * @return string
 	 */
-	public function get_media_path( int $media_id ): string {
+	public function get_media_path( $media_id ) {
 
 		$upload_dir = wp_upload_dir();
 		$file_name  = get_post_meta( $media_id, '_wp_attached_file', true );
@@ -409,7 +409,7 @@ class LLMS_Media_Protector {
 	 * @param int $media_id The post ID of the media file.
 	 * @return int
 	 */
-	protected function get_placeholder_id( int $media_id ): int {
+	protected function get_placeholder_id( $media_id ): int {
 
 		// @todo Prevent an infinite loop if the placeholder file somehow gets protected.
 
@@ -449,7 +449,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @return int
 	 */
-	protected function get_placeholder_image_id(): int {
+	protected function get_placeholder_image_id() {
 
 		$query = new WP_Query( array( 'pagename' => 'lifterlms-unauthorized-placeholder-image' ) );
 
@@ -471,7 +471,7 @@ class LLMS_Media_Protector {
 	 * @param int    $media_id  The post ID of the media file.
 	 * @return string
 	 */
-	protected function get_placeholder_url( string $media_url, int $media_id ): string {
+	protected function get_placeholder_url( $media_url, $media_id ) {
 
 		$placeholder_id  = $this->get_placeholder_id( $media_id );
 		$placeholder_url = wp_get_attachment_url( $placeholder_id );
@@ -539,11 +539,11 @@ class LLMS_Media_Protector {
 	 * @return int|WP_Error Post ID of the media file or a WP_Error object on failure.
 	 */
 	public function handle_upload(
-		string $file_id,
-		int $post_id,
-		string $hook_name,
-		array $post_data = array(),
-		array $overrides = array( 'test_form' => false )
+		$file_id,
+		$post_id,
+		$hook_name,
+		$post_data = array(),
+		$overrides = array( 'test_form' => false )
 	) {
 
 		$post_data['meta_input'][ self::AUTHORIZATION_FILTER_KEY ] = $hook_name;
@@ -567,7 +567,7 @@ class LLMS_Media_Protector {
 	 * @param int $media_id The post ID of the media file.
 	 * @return bool|null
 	 */
-	public function is_authorized_to_view( int $user_id, int $media_id ): ?bool {
+	public function is_authorized_to_view( $user_id, $media_id ): ?bool {
 		$cache_key     = 'llms-media-auth-' . $media_id . '-' . $user_id;
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
@@ -655,7 +655,7 @@ class LLMS_Media_Protector {
 	 * @param string $entity_tag {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag}.
 	 * @return bool
 	 */
-	protected function is_requested_file_modified( string $file_name, string $entity_tag ): bool {
+	protected function is_requested_file_modified( $file_name, $entity_tag ): bool {
 
 		$is_modified = true;
 
@@ -717,7 +717,7 @@ class LLMS_Media_Protector {
 	 * @param string $file_name The file path and name.
 	 * @return void
 	 */
-	protected function read_file( string $file_name ): void {
+	protected function read_file( $file_name ): void {
 
 		// @todo What about the web server time limit?
 		set_time_limit( 0 );
@@ -858,7 +858,7 @@ class LLMS_Media_Protector {
 	 *                          with the other "serve" methods and may be useful in an overriding this method.
 	 * @return void
 	 */
-	protected function send_file( string $file_name, int $media_id ): void {
+	protected function send_file( $file_name, $media_id ) {
 		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '' );
 
 		if (
@@ -892,7 +892,7 @@ class LLMS_Media_Protector {
 	 * @param int    $media_id  The post ID of the media file.
 	 * @return void
 	 */
-	protected function send_headers( string $file_name, int $media_id ): void {
+	protected function send_headers( $file_name, $media_id ) {
 
 		$file_size = @filesize( $file_name ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! $file_size ) {
@@ -917,7 +917,7 @@ class LLMS_Media_Protector {
 	 * @param bool|null         $icon     Whether the image should fall back to a mime type icon.
 	 * @return void
 	 */
-	protected function send_redirect( int $media_id, ?string $size, ?bool $icon ): void {
+	protected function send_redirect( $media_id, $size, $icon ): void {
 
 		if ( is_null( $size ) && is_null( $icon ) ) {
 			$url = wp_get_attachment_url( $media_id );
@@ -1071,7 +1071,7 @@ class LLMS_Media_Protector {
 	 * @param string $additional_upload_path
 	 * @return self
 	 */
-	public function set_additional_upload_path( string $additional_upload_path ): self {
+	public function set_additional_upload_path( $additional_upload_path ): self {
 
 		$this->additional_upload_path = $this->format_path( $additional_upload_path );
 
@@ -1086,7 +1086,7 @@ class LLMS_Media_Protector {
 	 * @param string $base_upload_path
 	 * @return self
 	 */
-	public function set_base_upload_path( string $base_upload_path ): self {
+	public function set_base_upload_path( $base_upload_path ): self {
 
 		$this->base_upload_path = $this->format_path( $base_upload_path );
 
@@ -1102,7 +1102,7 @@ class LLMS_Media_Protector {
 	 * @param string $authorization_filter The hook name of the filter that authorizes users to view media files.
 	 * @return bool True on success, false on failure.
 	 */
-	public function unprotect( int $media_id, string $authorization_filter ): bool {
+	public function unprotect( $media_id, $authorization_filter ): bool {
 
 		return delete_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, $authorization_filter );
 	}
