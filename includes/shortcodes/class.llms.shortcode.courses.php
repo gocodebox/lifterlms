@@ -148,7 +148,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		}
 
 		return $has_tax_query ? $tax_query : '';
-
 	}
 
 	/**
@@ -174,7 +173,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		);
 
 		return new WP_Query( $args );
-
 	}
 
 	/**
@@ -198,28 +196,22 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		if ( 'no' !== $this->get_attribute( 'mine' ) && ! llms_get_student() ) {
 
 			printf(
-				__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
-				'<a href="' . llms_get_page_url( 'myaccount' ) . '">',
+				esc_html__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
+				'<a href="' . esc_url( llms_get_page_url( 'myaccount' ) ) . '">',
 				'</a>'
 			);
 
+		} elseif ( 'no' !== $this->get_attribute( 'mine' ) && ! $this->get_post__in() ) {
+
+				printf( '<p>%s</p>', esc_html__( 'No courses found.', 'lifterlms' ) );
+
 		} else {
 
-			if ( 'no' !== $this->get_attribute( 'mine' ) && ! $this->get_post__in() ) {
-
-				printf( '<p>%s</p>', __( 'No courses found.', 'lifterlms' ) );
-
-			} else {
-
-				lifterlms_loop( $this->get_wp_query() );
-
-			}
+			lifterlms_loop( $this->get_wp_query() );
 		}
 
 		return ob_get_clean();
-
 	}
-
 }
 
 return LLMS_Shortcode_Courses::instance();

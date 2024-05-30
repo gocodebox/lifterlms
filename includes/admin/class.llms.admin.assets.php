@@ -396,8 +396,8 @@ class LLMS_Admin_Assets {
 		echo '
 			<script type="text/javascript">
 				window.llms = window.llms || {};
-				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
-				window.llms.admin_url = "' . admin_url() . '";
+				window.llms.ajax_nonce = "' . esc_attr( wp_create_nonce( LLMS_AJAX::NONCE ) ) . '";
+				window.llms.admin_url = "' . esc_url( admin_url() ) . '";
 				window.llms.home_url = "' . esc_url( home_url() ) . '";
 				window.llms.post = ' . wp_json_encode( $postdata ) . ';
 				window.llms.analytics = ' . wp_json_encode( $this->get_analytics_options() ) . ';
@@ -410,10 +410,12 @@ class LLMS_Admin_Assets {
 		$forms = LLMS_Forms::instance()->get_post_type();
 
 		if ( $forms === $screen->id ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in `wp_slash()`.and wp_json_encode()
 			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_slash( wp_json_encode( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
 		}
 
 		if ( ! empty( $screen->is_block_editor ) || 'customize' === $screen->base ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in `wp_slash()`.and wp_json_encode()
 			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_slash( wp_json_encode( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
 		}
 	}

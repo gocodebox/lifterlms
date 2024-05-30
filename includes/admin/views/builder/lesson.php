@@ -88,7 +88,7 @@
 				'tip'              => '',
 				'tip_active'       => esc_attr__( 'Edit lesson settings', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-cog"></i>' . __( 'Settings', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-cog"></i>' . esc_html__( 'Settings', 'lifterlms' ),
 			),
 
 			'assignment'  => array(
@@ -96,8 +96,8 @@
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip'              => esc_attr__( 'Add an assignment', 'lifterlms' ),
 				'tip_active'       => sprintf( esc_attr__( 'Edit assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
-				'icon'             => '<i class="fa fa-check-square-o"></i> ' . __( 'Add assignment', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . __( 'Edit assignment', 'lifterlms' ),
+				'icon'             => '<i class="fa fa-check-square-o"></i> ' . esc_html__( 'Add assignment', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . esc_html__( 'Edit assignment', 'lifterlms' ),
 			),
 
 			'quiz'        => array(
@@ -105,8 +105,8 @@
 				'active_condition' => "'yes' === data.get( 'quiz_enabled' )",
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
 				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
-				'icon'             => '<i class="fa fa-question-circle"></i> ' . __( 'Add quiz', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-question-circle"></i>' . __( 'Edit quiz', 'lifterlms' ),
+				'icon'             => '<i class="fa fa-question-circle"></i> ' . esc_html__( 'Add quiz', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ),
 			),
 
 			'video'       => array(
@@ -115,7 +115,7 @@
 				'tip'              => esc_attr__( 'No video', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Has video', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-play-circle"></i>' . __( 'Video', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-play-circle"></i>' . esc_html__( 'Video', 'lifterlms' ),
 			),
 
 			'audio'       => array(
@@ -124,7 +124,7 @@
 				'tip'              => esc_attr__( 'No audio', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Has audio', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-volume-up"></i>' . __( 'Audio', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-volume-up"></i>' . esc_html__( 'Audio', 'lifterlms' ),
 			),
 
 			'free'        => array(
@@ -133,7 +133,7 @@
 				'tip'              => esc_attr__( 'Enrolled students only', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Free lesson', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-unlock"></i>' . __( 'Free lesson', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-unlock"></i>' . esc_html__( 'Free lesson', 'lifterlms' ),
 			),
 
 			'prereq'      => array(
@@ -142,7 +142,7 @@
 				'tip'              => esc_attr__( 'No prerequisite', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Prerequisite enabled', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-link"></i>' . __( 'Prerequisite enabled', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-link"></i>' . esc_html__( 'Prerequisite enabled', 'lifterlms' ),
 			),
 
 			'drip_method' => array(
@@ -151,11 +151,12 @@
 				'tip'              => esc_attr__( 'Drip disabled', 'lifterlms' ),
 				'tip_active'       => esc_attr__( 'Drip enabled', 'lifterlms' ),
 				'icon'             => '',
-				'icon_active'      => '<i class="fa fa-calendar"></i>' . __( 'Drip enabled', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-calendar"></i>' . esc_html__( 'Drip enabled', 'lifterlms' ),
 			),
 
 		);
 
+		// phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped -- Escaped above.
 		foreach ( $icons as $icon ) :
 			?>
 
@@ -183,7 +184,7 @@
 			<?php endif; ?>
 
 		<?php endforeach; ?>
-
+		<?php // phpcs:enable WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
 	</ul>
 
 </script>
