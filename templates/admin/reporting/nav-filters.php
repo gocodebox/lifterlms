@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since Unknown
- * @since [version] Added `data-post-statuses` attribute to the course and membership filters.
- * @version [version]
+ * @since 7.6.2 Added `data-post-statuses` attribute to the course and membership filters.
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;

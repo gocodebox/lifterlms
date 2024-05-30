@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version [version]
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ class LLMS_Post_Relationships {
 	 * Configure relationships.
 	 *
 	 * @since Unknown.
-	 * @since [version] Added `llms_voucher` relationship.
+	 * @since 7.6.2 Added `llms_voucher` relationship.
 	 * @var array
 	 */
 	private $relationships = array(
