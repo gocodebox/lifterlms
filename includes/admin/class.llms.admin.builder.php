@@ -545,14 +545,14 @@ class LLMS_Admin_Builder {
 
 		$course_id = isset( $_GET['course_id'] ) ? absint( $_GET['course_id'] ) : null;
 		if ( ! $course_id || ( $course_id && 'course' !== get_post_type( $course_id ) ) ) {
-			_e( 'Invalid course ID', 'lifterlms' );
+			esc_html_e( 'Invalid course ID', 'lifterlms' );
 			return;
 		}
 
 		$post = get_post( $course_id );
 
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
-			_e( 'You cannot edit this course!', 'lifterlms' );
+			esc_html_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
 
@@ -604,6 +604,7 @@ class LLMS_Admin_Builder {
 				);
 
 				foreach ( $templates as $template ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the template file.
 					echo self::get_template(
 						$template,
 						array(

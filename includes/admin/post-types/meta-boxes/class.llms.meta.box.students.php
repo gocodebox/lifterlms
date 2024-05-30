@@ -43,7 +43,6 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 			'llms_membership',
 		);
 		$this->priority = 'default';
-
 	}
 
 	/**
@@ -70,7 +69,7 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 		if ( 'add' === $screen->action ) {
 
-			_e( 'You must publish this post before you can manage students.', 'lifterlms' );
+			esc_html_e( 'You must publish this post before you can manage students.', 'lifterlms' );
 
 		} else {
 
@@ -84,7 +83,5 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 			);
 
 		}
-
 	}
-
 }

@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2490"
-entry: Added support for showing Private, Drafts and Pending Courses/Memberships
-  in Reporting > Sales Page.

@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 <div class="llms-certificate-wrapper">
-	<div id="certificate-<?php echo $certificate->get( 'id' ); ?>" <?php post_class( array( 'llms-certificate-container', 'cert-template-v2' ) ); ?>>
+	<div id="certificate-<?php echo esc_attr( $certificate->get( 'id' ) ); ?>" <?php post_class( array( 'llms-certificate-container', 'cert-template-v2' ) ); ?>>
 
 		<?php llms_print_notices(); ?>
 
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 			do_action( 'before_lifterlms_certificate_main_content', $certificate );
 		?>
 
-		<?php echo llms_get_certificate_content(); ?>
+		<?php echo wp_kses_post( llms_get_certificate_content() ); ?>
 
 		<?php
 			/**

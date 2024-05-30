@@ -434,11 +434,11 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
 	$classes    = implode( ' ', $classes );
 	$percentage = 'mini' === $size ? round( $percentage, 0 ) : llms()->grades()->round( $percentage );
 	return '
-		<div class="' . $classes . '" data-perc="' . $percentage . '">
+		<div class="' . esc_attr( $classes ) . '" data-perc="' . esc_attr( $percentage ) . '">
 			<div class="inside">
 				<div class="percentage">
-					' . $percentage . '<small>%</small>
-					<div class="caption">' . $text . '</div>
+					' . esc_html( $percentage ) . '<small>%</small>
+					<div class="caption">' . esc_html( $text ) . '</div>
 				</div>
 			</div>
 		</div>';

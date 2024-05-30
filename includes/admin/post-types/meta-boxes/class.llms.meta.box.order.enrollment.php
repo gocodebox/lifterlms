@@ -37,7 +37,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'side';
 		$this->priority = 'default';
-
 	}
 
 	/**
@@ -66,7 +65,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		$order = llms_get_post( $this->post );
 
 		if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) {
-			_e( 'Cannot manage enrollment status for anonymized orders.', 'lifterlms' );
+			esc_html_e( 'Cannot manage enrollment status for anonymized orders.', 'lifterlms' );
 			return;
 		}
 
@@ -79,7 +78,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		// No student, show a message.
 		if ( empty( $student ) ) {
-			_e( "The student who placed the order doesn't exist anymore.", 'lifterlms' );
+			esc_html_e( "The student who placed the order doesn't exist anymore.", 'lifterlms' );
 			return;
 		}
 
@@ -89,22 +88,23 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		$select .= '<option value="">-- ' . esc_html__( 'Select', 'lifterlms' ) . ' --</option>';
 
 		foreach ( llms_get_enrollment_statuses() as $val => $name ) {
-			$select .= '<option value="' . $val . '"' . selected( $val, strtolower( $current_status ), false ) . '>' . $name . '</option>';
+			$select .= '<option value="' . esc_attr( $val ) . '"' . selected( $val, strtolower( $current_status ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 		$select .= '</select>';
 
 		echo '<p>';
-		printf( _x( 'Status: %s', 'enrollment status', 'lifterlms' ), $select );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
+		printf( esc_html_x( 'Status: %s', 'enrollment status', 'lifterlms' ), $select );
 		echo '</p>';
 
 		echo '<p>';
-		printf( _x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) );
+		printf( esc_html_x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) ) );
 		echo '</p>';
 		echo '<p>';
-		printf( _x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) );
+		printf( esc_html_x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) ) );
 		echo '</p>';
 		echo '<p>';
-		printf( _x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_trigger( $order->get( 'product_id' ) ) );
+		printf( esc_html_x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_trigger( $order->get( 'product_id' ) ) ) );
 		echo '</p>';
 
 		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
@@ -113,7 +113,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		if ( $current_status && 'enrolled' !== $current_status ) {
 			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . __( 'Delete Enrollment', 'lifterlms' ) . '">';
 		}
-
 	}
 
 	/**
@@ -137,7 +136,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		if ( ! empty( $delete ) ) {
 			$this->save_delete_enrollment( $post_id );
 		}
-
 	}
 
 	/**
@@ -165,7 +163,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 			$order->add_note( __( 'Student enrollment records have been deleted.', 'lifterlms' ), true );
 
 		}
-
 	}
 
 	/**
@@ -208,7 +205,5 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		}
 
 		$order->add_note( $note, true );
-
 	}
-
 }
