@@ -1126,8 +1126,8 @@ class LLMS_Media_Protector {
 	 */
 	public function upload_dir( $uploads ) {
 		$uploads['subdir'] = trailingslashit( $this->base_upload_path . $this->additional_upload_path ) . date( 'Y/m' );
-		$uploads['path']   = $uploads['basedir'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
-		$uploads['url']    = $uploads['baseurl'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
+		$uploads['path']   = $uploads['basedir'] . $uploads['subdir'];
+		$uploads['url']    = $uploads['baseurl'] . $uploads['subdir'];
 
 		return $uploads;
 	}
