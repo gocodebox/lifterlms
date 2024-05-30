@@ -105,7 +105,6 @@ final class LifterLMS {
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_loaded' );
-
 	}
 
 	/**
@@ -145,24 +144,123 @@ final class LifterLMS {
 		}
 
 		// For use in escaping and sanitizing.
-		llms_maybe_define_constant( 'LLMS_ALLOWED_HTML_PRICES', array(
-			'div' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'span' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'strong' => array(
-				'class' => array(),
-				'id' => array(),
-			),
-			'sup' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-		) );
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_PRICES',
+			array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'span'   => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'strong' => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'sup'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+			)
+		);
+
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_FORM_FIELDS',
+			array(
+				'a'        => array(
+					'href'    => true,
+					'onclick' => true,
+					'class'   => true,
+					'id'      => true,
+					'style'   => true,
+					'target'  => true,
+					'title'   => true,
+				),
+				'form'     => array(
+					'action'  => true,
+					'method'  => true,
+					'enctype' => true,
+					'name'    => true,
+					'target'  => true,
+				),
+				'input'    => array(
+					'checked'     => true,
+					'name'        => true,
+					'id'          => true,
+					'class'       => true,
+					'type'        => true,
+					'value'       => true,
+					'placeholder' => true,
+					'disabled'    => true,
+					'pattern'     => true,
+					'required'    => true,
+				),
+				'textarea' => array(
+					'name'  => true,
+					'id'    => true,
+					'class' => true,
+					'value' => true,
+				),
+				'button'   => array(
+					'name'     => true,
+					'id'       => true,
+					'class'    => true,
+					'type'     => true,
+					'disabled' => true,
+				),
+				'select'   => array(
+					'name'  => true,
+					'id'    => true,
+					'class' => true,
+				),
+				'option'   => array(
+					'value'    => true,
+					'selected' => true,
+					'disabled' => true,
+				),
+				'checkbox' => array(
+					'name'     => true,
+					'id'       => true,
+					'class'    => true,
+					'type'     => true,
+					'value'    => true,
+					'checked'  => true,
+					'disabled' => true,
+				),
+				'radio'    => array(
+					'name'     => true,
+					'id'       => true,
+					'class'    => true,
+					'type'     => true,
+					'value'    => true,
+					'checked'  => true,
+					'disabled' => true,
+				),
+				'optgroup' => array(
+					'label' => true,
+				),
+				'div'      => array(
+					'class' => true,
+					'id'    => true,
+				),
+				'label'    => array(
+					'for' => true,
+				),
+				'div'      => array(
+					'class' => true,
+				),
+				'span'     => array(
+					'class' => true,
+				),
+				'img'      => array(
+					'src'      => true,
+					'alt'      => true,
+					'decoding' => true,
+				),
+			)
+		);
 	}
 
 	/**
@@ -197,7 +295,6 @@ final class LifterLMS {
 		$this->notifications();
 
 		do_action( 'lifterlms_init' );
-
 	}
 
 	/**
@@ -215,7 +312,6 @@ final class LifterLMS {
 		$this->assets->define( 'styles', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php' );
 
 		return $this->assets;
-
 	}
 
 	/**
@@ -232,7 +328,6 @@ final class LifterLMS {
 		}
 
 		return $this->session;
-
 	}
 
 	/**
@@ -429,9 +524,5 @@ final class LifterLMS {
 	public function localize() {
 
 		llms_load_textdomain( 'lifterlms' );
-
 	}
-
 }
-
-
