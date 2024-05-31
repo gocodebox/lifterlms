@@ -275,14 +275,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$limit_clause = $limit < 1 ? '' : "LIMIT 0, {$limit}";
+		$limit_clause = $limit < 1 ? '' : 'LIMIT 0, ' . intval( $limit );
 
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d ORDER BY {$order_by} {$order} {$limit_clause};",
+					WHERE meta_key = %s AND user_id = %d ORDER BY %s %s %s;",
 				'_favorite',
-				get_current_user_id()
+				get_current_user_id(),
+				$order_by,
+				'DESC' === $order ? 'DESC' : 'ASC',
+				$limit_clause
 			)
 		);
 
