@@ -38,7 +38,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 <?php else : ?>
 
-	<form action="" class="llms-checkout llms-confirm llms-checkout-cols-<?php echo esc_attr( $cols ); ?>" method="POST" id="llms-product-purchase-confirm-form">
+	<form action="" class="llms-checkout llms-confirm llms-checkout-cols-<?php echo $cols; ?>" method="POST" id="llms-product-purchase-confirm-form">
 
 		<?php do_action( 'lifterlms_before_checkout_confirm_form' ); ?>
 
@@ -46,14 +46,14 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 			<section class="llms-checkout-section">
 
-				<h4 class="llms-form-heading"><?php echo esc_html( llms_get_form_title( 'checkout', array( 'plan' => $plan ) ) ); ?></h4>
+				<h4 class="llms-form-heading"><?php echo llms_get_form_title( 'checkout', array( 'plan' => $plan ) ); ?></h4>
 
 				<div class="llms-checkout-section-content llms-form-fields">
 					<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
 					<?php foreach ( $fields as $field ) : ?>
 							<?php if ( ! empty( $field['value'] ) && ! empty( $field['label'] ) ) : ?>
-								<div class="llms-form-field llms-field-display <?php echo esc_attr( $field['id'] ); ?>">
-									<strong><?php echo esc_html( $field['label'] ); ?></strong>: <?php echo esc_html( $field['value'] ); ?>
+								<div class="llms-form-field llms-field-display <?php echo $field['id']; ?>">
+									<strong><?php echo $field['label']; ?></strong>: <?php echo $field['value']; ?>
 								</div>
 							<?php endif; ?>
 					<?php endforeach; ?>
@@ -68,7 +68,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 			<section class="llms-checkout-section">
 
-				<h4 class="llms-form-heading"><?php esc_html_e( 'Order Summary', 'lifterlms' ); ?></h4>
+				<h4 class="llms-form-heading"><?php _e( 'Order Summary', 'lifterlms' ); ?></h4>
 
 				<div class="llms-checkout-section-content">
 
@@ -89,17 +89,17 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 			<section class="llms-checkout-section">
 
-				<h4 class="llms-form-heading"><?php esc_html_e( 'Payment Details', 'lifterlms' ); ?></h4>
+				<h4 class="llms-form-heading"><?php _e( 'Payment Details', 'lifterlms' ); ?></h4>
 				<div class="llms-checkout-section-content llms-form-fields">
 
 					<div class="llms-payment-method">
 						<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $gateway_id ); ?>
-						<span class="llms-gateway-title"><span class="llms-label"><?php esc_html_e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo esc_html( $selected_gateway->get_title() ); ?></span>
+						<span class="llms-gateway-title"><span class="llms-label"><?php _e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo $selected_gateway->get_title(); ?></span>
 						<?php if ( $selected_gateway->get_icon() ) : ?>
-							<span class="llms-gateway-icon"><?php echo wp_kses_post( $selected_gateway->get_icon() ); ?></span>
+							<span class="llms-gateway-icon"><?php echo $selected_gateway->get_icon(); ?></span>
 						<?php endif; ?>
 						<?php if ( $selected_gateway->get_description() ) : ?>
-							<div class="llms-gateway-description"><?php echo wp_kses_post( wpautop( wptexturize( $selected_gateway->get_description() ) ) ); ?></div>
+							<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $selected_gateway->get_description() ) ); ?></div>
 						<?php endif; ?>
 						<?php do_action( 'lifterlms_checkout_confirm_after_payment_method', $gateway_id ); ?>
 					</div>
@@ -124,7 +124,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 						<?php endif; ?>
 
-						<input id="llms-payment-gateway" type="hidden" readonly="readonly" value="<?php echo esc_attr( $gateway_id ); ?>">
+						<input id="llms-payment-gateway" type="hidden" readonly="readonly" value="<?php echo $gateway_id; ?>">
 
 					</footer>
 
@@ -136,7 +136,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 		<?php wp_nonce_field( 'confirm_pending_order' ); ?>
 		<input name="action" type="hidden" value="confirm_pending_order">
-		<input name="llms_order_key" type="hidden" value="<?php echo esc_attr( $order_key ); ?>">
+		<input name="llms_order_key" type="hidden" value="<?php echo $order_key; ?>">
 
 		<?php do_action( 'lifterlms_after_checkout_confirm_form' ); ?>
 

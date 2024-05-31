@@ -10,4 +10,4 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<p class="lifterlms-info"><?php esc_html_e( 'No products were found matching your selection.', 'lifterlms' ); ?></p>
+<p class="lifterlms-info"><?php _e( 'No products were found matching your selection.', 'lifterlms' ); ?></p>

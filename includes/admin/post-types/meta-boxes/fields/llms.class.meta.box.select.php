@@ -43,9 +43,12 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		parent::output();
 
-		$name = $this->field['id'];
+		$id   = esc_attr( $this->field['id'] );
+		$name = $id;
 
 		$allow_null = ( isset( $this->field['allow_null'] ) ) ? $this->field['allow_null'] : true;
+
+		$controls = isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : '';
 
 		if ( array_key_exists( 'multi', $this->field ) ) {
 			$name .= '[]';
@@ -59,9 +62,9 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		?>
 
 		<select
-			<?php echo isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : ''; ?>
-			id="<?php echo esc_attr( $this->field['id'] ); ?>"
-			name="<?php echo esc_attr( $name ); ?>"
+			<?php echo $controls; ?>
+			id="<?php echo $id; ?>"
+			name="<?php echo $name; ?>"
 		<?php if ( ! empty( $this->field['required'] ) && ! $allow_null ) : ?>
 			required="required"
 		<?php endif; ?>
@@ -71,7 +74,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php endif; ?>
 			<?php
 			foreach ( $attrs as $attr => $attr_val ) {
-				echo ' data-' . esc_attr( $attr ) . '="' . esc_attr( $attr_val ) . '"'; }
+				echo ' data-' . $attr . '="' . $attr_val . '"'; }
 			?>
 			>
 			<?php if ( $allow_null ) : ?>
@@ -93,7 +96,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 						$selected_text = ' selected="selected" ';
 					}
 					?>
-					<option value="<?php echo isset( $option['key'] ) ? esc_attr( $option['key'] ) : esc_attr( $key ); ?>"<?php echo esc_html( $selected_text ); ?>><?php echo isset( $option['title'] ) ? esc_html( $option['title'] ) : esc_html( $option ); ?></option>
+					<option value="<?php echo isset( $option['key'] ) ? $option['key'] : $key; ?>"<?php echo $selected_text; ?>><?php echo isset( $option['title'] ) ? $option['title'] : $option; ?></option>
 
 				<?php endforeach; ?>
 
@@ -102,4 +105,5 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		<?php
 		parent::close_output();
 	}
+
 }

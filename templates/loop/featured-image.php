@@ -21,11 +21,7 @@ if ( 'course' === $post->post_type ) {
 }
 
 if ( has_post_thumbnail( $post->ID ) ) {
-	// Generated HTML is escaped inside the function.
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo llms_featured_img( $post->ID, 'full' );
 } elseif ( llms_placeholder_img_src() ) {
-	// Generated HTML is escaped inside the function.
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo llms_placeholder_img();
 }

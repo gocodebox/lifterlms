@@ -41,10 +41,7 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-setup-content">
 			<form action="" method="POST">
 
-				<?php
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template files.
-					echo $step_html;
-				?>
+				<?php echo $step_html; ?>
 
 				<?php if ( is_wp_error( $this->error ) ) : ?>
 					<p class="error"><?php echo esc_html( $this->error->get_error_message() ); ?></p>

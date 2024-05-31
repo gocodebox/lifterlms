@@ -23,4 +23,4 @@
  */
 defined( 'ABSPATH' ) || exit; ?>
 
-<p><?php echo wp_kses_post( $email_message ); ?></p>
+<p><?php echo $email_message; ?></p>

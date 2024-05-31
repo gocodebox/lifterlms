@@ -33,30 +33,30 @@ $gfonts_preconnet = false;
 			<link rel="preconnect" href="https://fonts.googleapis.com">
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<?php endif; ?>
-	<link id="llms-font--<?php echo esc_attr( $font['id'] ); ?>" href="<?php echo esc_url( $font['href'] ); ?>" rel="stylesheet">
+	<link id="llms-font--<?php echo $font['id']; ?>" href="<?php echo $font['href']; ?>" rel="stylesheet">
 	<?php endif; ?>
 <?php endforeach; ?>
 <style type="text/css">
 	html, body {
-		background-color: <?php echo esc_html( $background_color ); ?> !important;
+		background-color: <?php echo $background_color; ?> !important;
 	}
 	.llms-certificate-wrapper {
-		height: <?php echo esc_html( $height ); ?>;
-		width: <?php echo esc_html( $width ); ?>;
+		height: <?php echo $height; ?>;
+		width: <?php echo $width; ?>;
 	}
 	.llms-certificate-container {
-		background-image: <?php echo "url( " . esc_url( $background_img ) . " )"; ?> !important;
-		padding: <?php echo esc_html( $padding ); ?>;
+		background-image: <?php echo "url( {$background_img} )"; ?> !important;
+		padding: <?php echo $padding; ?>;
 	}
 	<?php foreach ( $fonts as $font ) : ?>
-	.has-<?php echo esc_html( $font['id'] ); ?>-font-family {
-		font-family: <?php echo esc_html( $font['fontFamily'] ); ?>;
+	.has-<?php echo $font['id']; ?>-font-family {
+		font-family: <?php echo $font['fontFamily']; ?>;
 	}
 	<?php endforeach; ?>
 </style>
 <style type="text/css" media="print">
 	@page {
-		size: <?php echo esc_html( $width ); ?> <?php echo esc_html( $height ); ?>;
+		size: <?php echo $width; ?> <?php echo $height; ?>;
 		margin: 0;
 	}
 </style>

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <?php if ( $plan->has_availability_restrictions() ) : ?>
 	<div class="llms-access-plan-restrictions">
-		<em class="stamp"><?php esc_html_e( 'MEMBER PRICING', 'lifterlms' ); ?></em>
+		<em class="stamp"><?php _e( 'MEMBER PRICING', 'lifterlms' ); ?></em>
 		<ul>
 			<?php
 			foreach ( $plan->get_array( 'availability_restrictions' ) as $mid ) :
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
 					);
 				}
 				?>
-				<li><a href="<?php echo esc_url( $membership_link ); ?>"><?php echo esc_html( get_the_title( $mid ) ); ?></a></li>
+				<li><a href="<?php echo $membership_link; ?>"><?php echo get_the_title( $mid ); ?></a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

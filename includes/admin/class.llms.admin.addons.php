@@ -49,6 +49,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section', $section );
+
 	}
 
 	/**
@@ -106,6 +107,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $this->data;
+
 	}
 
 	/**
@@ -130,6 +132,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $all;
+
 	}
 
 	/**
@@ -168,6 +171,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $features;
+
 	}
 
 	/**
@@ -197,6 +201,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -227,6 +232,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		return $products;
+
 	}
 
 	/**
@@ -244,6 +250,7 @@ class LLMS_Admin_AddOns {
 			$this->handle_manage_addons();
 			LLMS_Admin_Notices::output_notices();
 		}
+
 	}
 
 	/**
@@ -293,6 +300,7 @@ class LLMS_Admin_AddOns {
 		}
 
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
 	}
 
 	/**
@@ -307,7 +315,7 @@ class LLMS_Admin_AddOns {
 	public function output() {
 
 		if ( is_wp_error( $this->get_data() ) ) {
-			esc_html_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
+			_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
 			return;
 		}
 		?>
@@ -315,7 +323,7 @@ class LLMS_Admin_AddOns {
 
 			<div class="llms-subheader">
 
-				<h1><?php esc_html_e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+				<h1><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 				<?php do_action( 'llms_addons_page_after_title' ); ?>
 
 			</div>
@@ -335,31 +343,31 @@ class LLMS_Admin_AddOns {
 					<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
 
 						<a class="llms-bulk-close" href="#">
-							<span class="screen-reader-text"><?php esc_html_e( 'Close', 'lifterlms' ); ?></span>
+							<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
 							<i class="fa fa-times-circle" aria-hidden="true"></i>
 						</a>
 
 						<div class="llms-bulk-desc update">
 							<i class="fa fa-cloud-download" aria-hidden="true"></i>
-							<?php esc_html_e( 'Update', 'lifterlms' ); ?> <span></span>
+							<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
 						</div>
 
 						<div class="llms-bulk-desc install">
 							<i class="fa fa-cloud-download" aria-hidden="true"></i>
-							<?php esc_html_e( 'Install', 'lifterlms' ); ?> <span></span>
+							<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
 						</div>
 
 						<div class="llms-bulk-desc activate">
 							<i class="fa fa-plug" aria-hidden="true"></i>
-							<?php esc_html_e( 'Activate', 'lifterlms' ); ?> <span></span>
+							<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
 						</div>
 
 						<div class="llms-bulk-desc deactivate">
 							<i class="fa fa-plug" aria-hidden="true"></i>
-							<?php esc_html_e( 'Deactivate', 'lifterlms' ); ?> <span></span>
+							<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
 						</div>
 
-						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
+						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
 
 					</div>
 
@@ -423,11 +431,12 @@ class LLMS_Admin_AddOns {
 
 		if ( is_wp_error( $this->get_data() ) ) {
 
-			esc_html_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
+			_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
 			return;
 
 		}
 		$this->output_content();
+
 	}
 
 	/**
@@ -449,13 +458,14 @@ class LLMS_Admin_AddOns {
 					$title  = sanitize_text_field( $title );
 					$active = ( $this->get_current_section() === $name ) ? ' llms-active' : '';
 					?>
-					<li class="llms-nav-item<?php echo esc_attr( $active ); ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo esc_html( $title ); ?></a></li>
+					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
-				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php esc_html_e( 'All', 'lifterlms' ); ?></a></li>
+				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 
 			<?php do_action( 'lifterlms_after_addons_nav', $curr_section ); ?>
 			</ul>
 		</nav>
 		<?php
 	}
+
 }

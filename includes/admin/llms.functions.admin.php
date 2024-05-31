@@ -130,6 +130,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 	}
 
 	return $page_id;
+
 }
 
 /**
@@ -162,6 +163,7 @@ function llms_get_add_ons( $use_cache = true ) {
 	}
 
 	return $data;
+
 }
 
 /**
@@ -220,6 +222,7 @@ function llms_get_dashicon_link( $url, $args = array() ) {
 		esc_attr( $args['title'] ),
 		$dashicon
 	);
+
 }
 
 /**
@@ -327,11 +330,11 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 	}
 
 	if ( $echo ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - Escaped in the view file.
 		echo $html;
 	}
 
 	return $html;
+
 }
 
 /**
@@ -358,4 +361,5 @@ function llms_get_floats_rounding_precision() {
 	}
 
 	return $precision;
+
 }

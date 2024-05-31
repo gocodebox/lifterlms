@@ -106,7 +106,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . esc_html( $name ), '6.0.0' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -155,6 +155,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		 * Allow 3rd parties to override default dupcheck functionality for achievements
 		 */
 		return apply_filters( 'llms_achievement_has_user_earned', ( $count >= 1 ), $this );
+
 	}
 
 	/**
@@ -189,6 +190,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$this->user_email              = $this->user_data->data->user_email;
 		$this->template_html           = 'achievements/template.php';
 		$this->account_link            = get_permalink( llms_get_page_id( 'myaccount' ) );
+
 	}
 
 	/**
@@ -225,6 +227,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		}
 
 		$this->create( $this->get_content() );
+
 	}
 
 	/**
@@ -268,7 +271,9 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 			)
 		);
 		return ob_get_clean();
+
 	}
+
 }
 
 return new LLMS_Achievement_User();

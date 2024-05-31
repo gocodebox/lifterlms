@@ -57,6 +57,9 @@ abstract class LLMS_Metabox_Field {
 			$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
 		}
 
+		$controller       = isset( $this->field['controller'] ) ? ' data-controller="' . $this->field['controller'] . '"' : '';
+		$controller_value = isset( $this->field['controller_value'] ) ? ' data-controller-value="' . $this->field['controller_value'] . '"' : '';
+
 		if ( ! isset( $this->field['group'] ) ) {
 			$this->field['group'] = '';
 		}
@@ -75,19 +78,13 @@ abstract class LLMS_Metabox_Field {
 		$wrapper_classes   = array_merge( $wrapper_classes, explode( ' ', $this->field['group'] ) );
 
 		?>
-		<li
-			class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>"
-								<?php
-								echo isset( $this->field['controller'] ) ? ' data-controller="' . esc_attr( $this->field['controller'] ) . '"' : '';
-								echo isset( $this->field['controller_value'] ) ? ' data-controller-value="' . esc_attr( $this->field['controller_value'] ) . '"' : '';
-								?>
-		>
+		<li class="<?php echo implode( ' ', $wrapper_classes ); ?>"<?php echo $controller . $controller_value; ?>>
 		<?php if ( ! empty( $this->field['desc'] ) || ! empty( $this->field['label'] ) ) : ?>
-			<div class="description <?php echo esc_attr( $this->field['desc_class'] ); ?>">
+			<div class="description <?php echo $this->field['desc_class']; ?>">
 			<?php if ( ! empty( $this->field['label'] ) ) : ?>
-				<label for="<?php echo esc_attr( $this->field['id'] ); ?>"><?php echo esc_html( $this->field['label'] ); ?></label>
+				<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
 			<?php endif; ?>
-				<?php echo wp_kses_post( $this->field['desc'] ); ?>
+				<?php echo $this->field['desc']; ?>
 				<?php
 				if ( isset( $this->field['required'] ) && $this->field['required'] ) :
 					?>
@@ -95,6 +92,7 @@ abstract class LLMS_Metabox_Field {
 			</div>
 			<?php
 			endif;
+
 	}
 
 	/**
@@ -107,6 +105,7 @@ abstract class LLMS_Metabox_Field {
 	public function close_output() {
 
 		echo '<div class="clear"></div></li>';
+
 	}
 
 	/**
@@ -130,5 +129,6 @@ abstract class LLMS_Metabox_Field {
 		} else {
 			return get_post_meta( $post_id, $field_id, true );
 		}
+
 	}
 }

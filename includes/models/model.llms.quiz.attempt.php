@@ -100,6 +100,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			parent::__construct();
 
 		}
+
 	}
 
 	/**
@@ -141,6 +142,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$this->set_questions( $questions )->save();
 
 		return $this;
+
 	}
 
 	/**
@@ -171,6 +173,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$this->set_status( $status );
 
 		return $this;
+
 	}
 
 	/**
@@ -217,6 +220,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				break;
 
 		}
+
 	}
 
 	/**
@@ -245,6 +249,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$this->get_student()->set( 'overall_grade', '' );
 
 		return $this;
+
 	}
 
 	/**
@@ -304,7 +309,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					// Get the total number of correct answers.
 					if ( 'correct_answers' === $key ) {
 						if ( 'yes' === $data['correct'] ) {
-							++$count;
+							$count++;
 						}
 					} elseif ( 'earned' === $key || 'points' === $key ) {
 						$count += $data['earned'];
@@ -313,7 +318,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 						$count += $data['points'];
 					} elseif ( 'gradeable_questions' === $key ) {
 						if ( $data['points'] ) {
-							++$count;
+							$count++;
 						}
 					}
 				}
@@ -326,6 +331,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return $count;
+
 	}
 
 	/**
@@ -344,6 +350,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$date   = strtotime( $this->get( $key . '_date' ) );
 		$format = ! $format ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : $format;
 		return date_i18n( $format, $date );
+
 	}
 
 	/**
@@ -363,6 +370,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -385,6 +393,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return 0;
+
 	}
 
 	/**
@@ -469,6 +478,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return $questions;
+
 	}
 
 	/**
@@ -497,6 +507,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -528,6 +539,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			return unserialize( $questions );
 		}
 		return array();
+
 	}
 
 	/**
@@ -551,6 +563,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			}
 		}
 		return $questions;
+
 	}
 
 	/**
@@ -622,7 +635,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
-			throw new Exception( esc_html__( 'You must be logged in to take a quiz!', 'lifterlms' ) );
+			throw new Exception( __( 'You must be logged in to take a quiz!', 'lifterlms' ) );
 		}
 
 		// Initialize a new attempt.
@@ -642,6 +655,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$attempt->set( 'attempt', $number );
 
 		return $attempt;
+
 	}
 
 
@@ -682,9 +696,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			if ( $j >= $le || $i < $locks[ $j ] ) {
 				$inc[] = $i;
 			} else {
-				++$j;
+				$j++;
 			}
-			++$i;
+			$i++;
 		}
 
 		// Fisher-yates-knuth shuffle variation O(n).
@@ -697,6 +711,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return $questions;
+
 	}
 
 	/**
@@ -716,6 +731,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return true;
+
 	}
 
 	/**
@@ -756,6 +772,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return $tkey;
+
 	}
 
 	/**
@@ -788,6 +805,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			return false;
 		}
 		return $this->set( 'status', $status );
+
 	}
 
 	/**
@@ -802,6 +820,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$this->set( 'start_date', current_time( 'mysql' ) );
 		$this->save();
 		return $this;
+
 	}
 
 	/**
@@ -870,4 +889,5 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		return parent::delete();
 	}
+
 }

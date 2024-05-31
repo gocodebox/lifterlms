@@ -21,14 +21,14 @@ $svg = file_get_contents( LLMS_PLUGIN_DIR . '/assets/images/lifterlms-icon-grey.
 <div class="llms-merge-code-wrapper">
 
 	<button class="button llms-merge-code-button" type="button">
-		<?php echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-		<?php esc_html_e( 'Merge Codes', 'lifterlms' ); ?>
+		<?php echo $svg; ?>
+		<?php _e( 'Merge Codes', 'lifterlms' ); ?>
 	</button>
 
-	<div class="llms-merge-codes" data-target="<?php echo esc_attr( $target ); ?>">
+	<div class="llms-merge-codes" data-target="<?php echo $target; ?>">
 		<ul>
 			<?php foreach ( $codes as $code => $desc ) : ?>
-				<li data-code="<?php echo esc_attr( $code ); ?>"><?php echo wp_kses_post( $desc ); ?></li>
+				<li data-code="<?php echo $code; ?>"><?php echo $desc; ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

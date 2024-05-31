@@ -10,4 +10,4 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="llms-access-plan-description"><?php echo wp_kses_post( $plan->get( 'content' ) ); ?></div>
+<div class="llms-access-plan-description"><?php echo $plan->get( 'content' ); ?></div>

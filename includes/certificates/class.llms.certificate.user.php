@@ -108,7 +108,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . esc_html( $name ), '6.0.0' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -153,6 +153,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		 * @param LLMS_Certificate_User $user_cert  The user certificate object.
 		 */
 		return apply_filters_deprecated( 'llms_certificate_has_user_earned', array( ( $count >= 1 ), $this ), 'llms_earned_certificate_dupcheck' );
+
 	}
 
 	/**
@@ -191,6 +192,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->account_link            = get_permalink( llms_get_page_id( 'myaccount' ) );
 
 		$this->user_login = $this->user_data->user_login;
+
 	}
 
 	/**
@@ -277,6 +279,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
 
 		return ob_get_clean();
+
 	}
 
 	/**
@@ -291,6 +294,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	private function set_shortcode_user( $uid ) {
 		return $this->userid;
 	}
+
 }
 
 return new LLMS_Certificate_User();

@@ -36,6 +36,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
 		add_filter( 'parse_query', array( $this, 'parse_query_filters' ), 10, 1 );
+
 	}
 
 	/**
@@ -76,6 +77,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 
 		return $actions;
+
 	}
 
 	/**
@@ -121,8 +123,8 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 
 		$selected = isset( $_GET['llms_filter_course_id'] ) ? absint( $_GET['llms_filter_course_id'] ) : false;
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the function.
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( 'llms_filter_course_id', 'course', $selected );
+
 	}
 
 	/**
@@ -151,7 +153,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {
-					printf( '<a href="%1$s">%2$s</a>', esc_url( $edit_link ), esc_html( get_the_title( $course ) ) );
+					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $course ) );
 				}
 
 				break;
@@ -159,7 +161,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			case 'section':
 				$section = $lesson->get_parent_section();
 				if ( ! empty( $section ) ) {
-					echo esc_html( get_the_title( $section ) );
+					echo get_the_title( $section );
 				}
 
 				break;
@@ -172,7 +174,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 					if ( $prereq ) {
 
-						printf( '<a href="%1$s">%2$s</a>', esc_url( $edit_link ), esc_html( get_the_title( $prereq ) ) );
+						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
 
 					} else {
 
@@ -213,6 +215,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				break;
 
 		}
+
 	}
 
 	/**
@@ -262,6 +265,8 @@ class LLMS_Admin_Post_Table_Lessons {
 		$query->set( 'meta_query', $meta_query );
 
 		return $query;
+
 	}
+
 }
 return new LLMS_Admin_Post_Table_Lessons();

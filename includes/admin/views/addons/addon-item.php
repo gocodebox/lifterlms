@@ -17,12 +17,12 @@ defined( 'ABSPATH' ) || exit;
 		<a class="llms-add-on-link" href="<?php echo esc_url( $addon->get_permalink() ); ?>" target="_blank">
 			<header>
 				<img alt="<?php echo esc_attr( $addon->get( 'title' ) ); ?> Banner" src="<?php echo esc_url( $addon->get_image() ); ?>">
-				<h4><?php echo esc_html( $addon->get( 'title' ) ); ?></h4>
+				<h4><?php echo $addon->get( 'title' ); ?></h4>
 			</header>
 
 			<section>
 
-				<p><?php echo wp_kses_post( llms_trim_string( $addon->get( 'description' ), 180 ) ); ?></p>
+				<p><?php echo llms_trim_string( $addon->get( 'description' ), 180 ); ?></p>
 
 				<ul>
 					<?php if ( $addon->get( 'author' )['name'] ) : ?>
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 							<span>
 							<?php
 								// Translators: %s = Author Name.
-								printf( esc_html__( 'Author: %s', 'lifterlms' ), esc_html( $addon->get( 'author' )['name'] ) );
+								printf( __( 'Author: %s', 'lifterlms' ), $addon->get( 'author' )['name'] );
 							?>
 							</span>
 							<?php if ( 'LifterLMS' === $addon->get( 'author' )['name'] && $addon->get( 'author' )['image'] ) : ?>
@@ -43,14 +43,14 @@ defined( 'ABSPATH' ) || exit;
 						<li>
 						<?php
 							// Translators: %s = Current Version Number.
-							printf( esc_html__( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? esc_html( $addon->get_installed_version() ) : esc_html( $addon->get_latest_version() ) );
+							printf( __( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? $addon->get_installed_version() : $addon->get_latest_version() );
 						?>
 						</li>
 						<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
 							<li><strong>
 							<?php
 								// Translators: %s = Available Version Number.
-								printf( esc_html__( 'Update Available: %s', 'lifterlms' ), esc_html( $addon->get_latest_version() ) );
+								printf( __( 'Update Available: %s', 'lifterlms' ), $addon->get_latest_version() );
 							?>
 							</strong></li>
 						<?php endif; ?>
@@ -69,7 +69,7 @@ defined( 'ABSPATH' ) || exit;
 				<a href="<?php echo esc_url( $addon->get_permalink() ); ?>" class="llms-status-icon external status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-info-circle hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>
-					<span class="llms-status-text"><?php esc_html_e( 'Learn more', 'lifterlms' ); ?></span>
+					<span class="llms-status-text"><?php _e( 'Learn more', 'lifterlms' ); ?></span>
 				</a>
 				<?php
 			else :
@@ -78,7 +78,7 @@ defined( 'ABSPATH' ) || exit;
 				<a href="<?php echo esc_url( $url ); ?>" class="llms-status-icon status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-key hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>
-					<span class="llms-status-text"><?php echo wp_kses_post( $addon->get_license_status( true ) ); ?></span>
+					<span class="llms-status-text"><?php echo $addon->get_license_status( true ); ?></span>
 				</a>
 			<?php endif; ?>
 
@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 								<input class="llms-bulk-check" data-action="deactivate" name="llms_deactivate[]" id="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 								<i class="fa fa-check-square-o" aria-hidden="true"></i>
 								<i class="fa fa-plug" aria-hidden="true"></i>
-								<span class="llms-status-text"><?php esc_html_e( 'Deactivate', 'lifterlms' ); ?></span>
+								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?></span>
 							</label>
 						<?php endif; ?>
 					<?php else : ?>
@@ -101,7 +101,7 @@ defined( 'ABSPATH' ) || exit;
 							<input class="llms-bulk-check" data-action="activate" name="llms_activate[]" id="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 							<i class="fa fa-check-square-o" aria-hidden="true"></i>
 							<i class="fa fa-plug" aria-hidden="true"></i>
-							<span class="llms-status-text"><?php esc_html_e( 'Activate', 'lifterlms' ); ?></span>
+							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?></span>
 						</label>
 					<?php endif; ?>
 				<?php endif; ?>

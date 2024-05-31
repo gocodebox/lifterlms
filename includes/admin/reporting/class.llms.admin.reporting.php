@@ -246,6 +246,7 @@ class LLMS_Admin_Reporting {
 				'cols'         => 'd-1of2',
 			)
 		);
+
 	}
 
 	/**
@@ -412,7 +413,7 @@ class LLMS_Admin_Reporting {
 	public function output() {
 
 		if ( ! current_user_can( $this->get_tab_cap() ) ) {
-			wp_die( esc_html__( 'You don\'t have permission to do that', 'lifterlms' ) );
+			wp_die( __( 'You don\'t have permission to do that', 'lifterlms' ) );
 		}
 
 		llms_get_template( 'admin/reporting/reporting.php', $this->get_template_data() );
@@ -438,18 +439,18 @@ class LLMS_Admin_Reporting {
 		$url = $event->get_link( $context );
 
 		?>
-		<div class="llms-reporting-event <?php echo esc_attr( $event->get( 'meta_key' ) ); ?> <?php echo esc_attr( $event->get( 'meta_value' ) ); ?>">
+		<div class="llms-reporting-event <?php echo $event->get( 'meta_key' ); ?> <?php echo $event->get( 'meta_value' ); ?>">
 
 			<?php if ( $url ) : ?>
 				<a href="<?php echo esc_url( $url ); ?>">
 			<?php endif; ?>
 
 				<?php if ( 'course' === $context || 'membership' === $context || 'quiz' === $context ) : ?>
-					<?php echo esc_html( $student->get_avatar( 24 ) ); ?>
+					<?php echo $student->get_avatar( 24 ); ?>
 				<?php endif; ?>
 
-				<?php echo esc_html( $event->get_description( $context ) ); ?>
-				<time datetime="<?php echo esc_attr( $event->get( 'updated_date' ) ); ?>"><?php echo esc_attr( llms_get_date_diff( current_time( 'timestamp' ), $event->get( 'updated_date' ), 1 ) ); ?></time>
+				<?php echo $event->get_description( $context ); ?>
+				<time datetime="<?php echo $event->get( 'updated_date' ); ?>"><?php echo llms_get_date_diff( current_time( 'timestamp' ), $event->get( 'updated_date' ), 1 ); ?></time>
 
 			<?php if ( $url ) : ?>
 				</a>
@@ -554,13 +555,13 @@ class LLMS_Admin_Reporting {
 			<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" method="GET">
 				<select class="llms-select2" name="period" onchange="this.form.submit();">
 					<?php foreach ( self::get_period_filters() as $val => $text ) : ?>
-						<option value="<?php echo esc_attr( $val ); ?>"<?php selected( $val, $selected_period ); ?>><?php echo esc_html( $text ); ?></option>
+						<option value="<?php echo $val; ?>"<?php selected( $val, $selected_period ); ?>><?php echo $text; ?></option>
 					<?php endforeach; ?>
 				</select>
 				<input type="hidden" name="page" value="llms-reporting">
-				<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>">
+				<input type="hidden" name="tab" value="<?php echo $tab; ?>">
 				<?php foreach ( $args as $key => $val ) : ?>
-					<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $val ); ?>">
+					<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $val; ?>">
 				<?php endforeach; ?>
 			</form>
 		</div>

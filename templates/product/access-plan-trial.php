@@ -13,10 +13,10 @@ defined( 'ABSPATH' ) || exit;
 <div class="llms-access-plan-pricing trial">
 	<?php if ( $plan->has_trial() ) : ?>
 		<div class="llms-access-plan-price">
-			<em class="stamp"><?php esc_html_e( 'TRIAL', 'lifterlms' ); ?></em>
-			<?php echo wp_kses( $plan->get_price( 'trial_price' ), LLMS_ALLOWED_HTML_PRICES ); ?>
+			<em class="stamp"><?php _e( 'TRIAL', 'lifterlms' ); ?></em>
+			<?php echo $plan->get_price( 'trial_price' ); ?>
 		</div>
-		<div class="llms-access-plan-trial"><?php echo esc_html( $plan->get_trial_details() ); ?></div>
+		<div class="llms-access-plan-trial"><?php echo $plan->get_trial_details(); ?></div>
 	<?php else : ?>
 		&nbsp;
 	<?php endif; ?>

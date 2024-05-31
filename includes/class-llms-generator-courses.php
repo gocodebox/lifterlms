@@ -77,6 +77,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
 			}
 		}
+
 	}
 
 	/**
@@ -132,6 +133,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$courses            = $this->generate_courses( $new_raw );
 
 		return is_array( $courses ) ? $courses[0] : null;
+
 	}
 
 	/**
@@ -151,9 +153,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	public function generate_courses( $raw ) {
 
 		if ( empty( $raw['courses'] ) ) {
-			throw new Exception( esc_attr__( 'Raw data is missing the required "courses" array.', 'lifterlms' ), intval( self::ERROR_GEN_MISSING_REQUIRED ) );
+			throw new Exception( __( 'Raw data is missing the required "courses" array.', 'lifterlms' ), self::ERROR_GEN_MISSING_REQUIRED );
 		} elseif ( ! is_array( $raw['courses'] ) ) {
-			throw new Exception( esc_attr__( 'The raw "courses" item must be an array.', 'lifterlms' ), intval( self::ERROR_GEN_INVALID_FORMAT ) );
+			throw new Exception( __( 'The raw "courses" item must be an array.', 'lifterlms' ), self::ERROR_GEN_INVALID_FORMAT );
 		}
 
 		$courses = array();
@@ -166,6 +168,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$this->handle_prerequisites();
 
 		return $courses;
+
 	}
 
 	/**
@@ -214,6 +217,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_access_plan', $plan, $raw, $this );
 
 		return $plan->get( 'id' );
+
 	}
 
 	/**
@@ -282,6 +286,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_course', $course, $raw, $this );
 
 		return $course->get( 'id' );
+
 	}
 
 	/**
@@ -345,6 +350,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_lesson', $lesson, $raw, $this );
 
 		return $lesson->get( 'id' );
+
 	}
 
 	/**
@@ -397,6 +403,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_quiz', $quiz, $raw, $this );
 
 		return $quiz->get( 'id' );
+
 	}
 
 	/**
@@ -441,7 +448,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		);
 
 		if ( ! $question_id ) {
-			throw new Exception( esc_attr__( 'Error creating the question post object.', 'lifterlms' ), intval( self::ERROR_CREATE_POST ) );
+			throw new Exception( __( 'Error creating the question post object.', 'lifterlms' ), self::ERROR_CREATE_POST );
 		}
 
 		$question = llms_get_post( $question_id );
@@ -477,6 +484,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_question', $question, $raw, $manager, $this );
 
 		return $question->get( 'id' );
+
 	}
 
 	/**
@@ -535,6 +543,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		do_action( 'llms_generator_new_section', $section, $raw, $this );
 
 		return $section->get( 'id' );
+
 	}
 
 	/**
@@ -612,6 +621,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -638,6 +648,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$choice['choice']['src'] = wp_get_attachment_url( $id );
 
 		return $choice;
+
 	}
 
 
@@ -677,6 +688,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$raw['status'] = apply_filters( 'llms_generator_cloned_post_status', 'draft', $raw, $this );
 
 		return $raw;
+
 	}
 
 	/**
@@ -717,5 +729,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		}
 
 		return parent::set_metadata( $post, $raw );
+
 	}
+
 }

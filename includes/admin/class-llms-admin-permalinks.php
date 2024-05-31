@@ -60,7 +60,7 @@ class LLMS_Admin_Permalinks {
 
 	public function settings() {
 		?>
-		<p><?php esc_html_e( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ); ?></p>
+		<p><?php _e( 'LifterLMS uses custom post types and taxonomies to organize your courses and memberships. You can customize the URLs for these items here.', 'lifterlms' ); ?></p>
 
 		<?php
 		$course_catalog_id = llms_get_page_id( 'courses' );
@@ -245,19 +245,19 @@ class LLMS_Admin_Permalinks {
 
 			$permalinks = llms_get_permalink_structure();
 
-			$permalinks['course_base']               = isset( $_POST['llms_course_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_base'] ) ) : $permalinks['course_base'];
-			$permalinks['courses_base']              = isset( $_POST['llms_courses_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_courses_base'] ) ) : $permalinks['courses_base'];
-			$permalinks['memberships_base']          = isset( $_POST['llms_memberships_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_memberships_base'] ) ) : $permalinks['memberships_base'];
-			$permalinks['lesson_base']               = isset( $_POST['llms_lesson_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_lesson_base'] ) ) : $permalinks['lesson_base'];
-			$permalinks['quiz_base']                 = isset( $_POST['llms_quiz_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_quiz_base'] ) ) : $permalinks['quiz_base'];
+			$permalinks['course_base'] = isset( $_POST['llms_course_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_base'] ) ) : $permalinks['course_base'];
+			$permalinks['courses_base'] = isset( $_POST['llms_courses_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_courses_base'] ) ) : $permalinks['courses_base'];
+			$permalinks['memberships_base'] = isset( $_POST['llms_memberships_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_memberships_base'] ) ) : $permalinks['memberships_base'];
+			$permalinks['lesson_base'] = isset( $_POST['llms_lesson_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_lesson_base'] ) ) : $permalinks['lesson_base'];
+			$permalinks['quiz_base'] = isset( $_POST['llms_quiz_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_quiz_base'] ) ) : $permalinks['quiz_base'];
 			$permalinks['certificate_template_base'] = isset( $_POST['llms_certificate_template_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_template_base'] ) ) : $permalinks['certificate_template_base'];
-			$permalinks['certificate_base']          = isset( $_POST['llms_certificate_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_base'] ) ) : $permalinks['certificate_base'];
-			$permalinks['course_category_base']      = isset( $_POST['llms_course_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_category_base'] ) ) : $permalinks['course_category_base'];
-			$permalinks['course_tag_base']           = isset( $_POST['llms_course_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_tag_base'] ) ) : $permalinks['course_tag_base'];
-			$permalinks['course_track_base']         = isset( $_POST['llms_course_track_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_track_base'] ) ) : $permalinks['course_track_base'];
-			$permalinks['course_difficulty_base']    = isset( $_POST['llms_course_difficulty_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_difficulty_base'] ) ) : $permalinks['course_difficulty_base'];
-			$permalinks['membership_category_base']  = isset( $_POST['llms_membership_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_category_base'] ) ) : $permalinks['membership_category_base'];
-			$permalinks['membership_tag_base']       = isset( $_POST['llms_membership_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_tag_base'] ) ) : $permalinks['membership_tag_base'];
+			$permalinks['certificate_base'] = isset( $_POST['llms_certificate_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_certificate_base'] ) ) : $permalinks['certificate_base'];
+			$permalinks['course_category_base'] = isset( $_POST['llms_course_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_category_base'] ) ) : $permalinks['course_category_base'];
+			$permalinks['course_tag_base'] = isset( $_POST['llms_course_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_tag_base'] ) ) : $permalinks['course_tag_base'];
+			$permalinks['course_track_base'] = isset( $_POST['llms_course_track_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_track_base'] ) ) : $permalinks['course_track_base'];
+			$permalinks['course_difficulty_base'] = isset( $_POST['llms_course_difficulty_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_course_difficulty_base'] ) ) : $permalinks['course_difficulty_base'];
+			$permalinks['membership_category_base'] = isset( $_POST['llms_membership_category_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_category_base'] ) ) : $permalinks['membership_category_base'];
+			$permalinks['membership_tag_base'] = isset( $_POST['llms_membership_tag_base'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_membership_tag_base'] ) ) : $permalinks['membership_tag_base'];
 
 			llms_set_permalink_structure( $permalinks );
 

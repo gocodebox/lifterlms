@@ -10,8 +10,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Generated HTML is escaped inside the function.
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 echo llms_get_author(
 	array(
 		'avatar_size' => 28,

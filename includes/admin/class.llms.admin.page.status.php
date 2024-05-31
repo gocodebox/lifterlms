@@ -57,6 +57,7 @@ class LLMS_Admin_Page_Status {
 
 			)
 		);
+
 	}
 
 	/**
@@ -75,7 +76,7 @@ class LLMS_Admin_Page_Status {
 	private static function do_tool() {
 
 		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) || ! current_user_can( 'manage_lifterlms' ) ) {
-			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		$tool = llms_filter_input_sanitize_string( INPUT_POST, 'llms_tool' );
@@ -126,6 +127,7 @@ class LLMS_Admin_Page_Status {
 		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::do_tool();
 		}
+
 	}
 
 	/**
@@ -180,6 +182,7 @@ class LLMS_Admin_Page_Status {
 		}
 
 		return $result;
+
 	}
 
 	/**
@@ -217,7 +220,7 @@ class LLMS_Admin_Page_Status {
 				foreach ( $tabs as $name => $label ) :
 					$active = ( $current_tab === $name ) ? ' llms-active' : '';
 					?>
-					<li class="llms-nav-item<?php echo esc_attr( $active ); ?>"><a class="llms-nav-link" href="<?php echo esc_url( self::get_url( $name ) ); ?>"><?php echo esc_html( $label ); ?></a></li>
+					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( self::get_url( $name ) ); ?>"><?php echo $label; ?></a></li>
 				<?php endforeach; ?>
 				</ul>
 			</nav>
@@ -266,7 +269,7 @@ class LLMS_Admin_Page_Status {
 	private static function remove_log_file() {
 
 		if ( ! llms_verify_nonce( '_wpnonce', 'delete_log', 'GET' ) || ! current_user_can( 'manage_lifterlms' ) ) {
-			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) {
@@ -280,6 +283,7 @@ class LLMS_Admin_Page_Status {
 				llms_redirect_and_exit( esc_url_raw( self::get_url( 'logs' ) ) );
 			}
 		}
+
 	}
 
 	/**
@@ -321,8 +325,9 @@ class LLMS_Admin_Page_Status {
 			include_once 'views/status/view-log.php';
 
 		} else {
-			echo '<div class="llms-log-viewer">' . esc_html__( 'There are currently no logs to view.', 'lifterlms' ) . '</div>';
+			echo '<div class="llms-log-viewer">' . __( 'There are currently no logs to view.', 'lifterlms' ) . '</div>';
 		}
+
 	}
 
 	/**
@@ -369,10 +374,10 @@ class LLMS_Admin_Page_Status {
 				<table class="llms-table text-left zebra">
 				<?php foreach ( $tools as $slug => $data ) : ?>
 					<tr>
-						<th><?php echo esc_html( $data['label'] ); ?></th>
+						<th><?php echo $data['label']; ?></th>
 						<td>
-							<p><?php echo wp_kses_post( $data['description'] ); ?></p>
-							<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $data['text'] ); ?></button>
+							<p><?php echo $data['description']; ?></p>
+							<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo $slug; ?>"><?php echo $data['text']; ?></button>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -381,5 +386,6 @@ class LLMS_Admin_Page_Status {
 			</div>
 		</form>
 		<?php
+
 	}
 }

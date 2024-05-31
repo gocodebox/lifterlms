@@ -15,9 +15,6 @@ global $post;
 ?>
 <div class="llms-full-description">
 
-	<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ) );
-	?>
+	<?php echo apply_filters( 'the_content', apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ) ); ?>
 
 </div>

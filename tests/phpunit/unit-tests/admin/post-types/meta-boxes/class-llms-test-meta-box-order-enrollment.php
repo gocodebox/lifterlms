@@ -143,7 +143,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		wp_delete_user( $student_id );
 
-		$this->assertOutputEquals( "The student who placed the order doesn&#039;t exist anymore.", array( $this->metabox, 'output' ) );
+		$this->assertOutputEquals( "The student who placed the order doesn't exist anymore.", array( $this->metabox, 'output' ) );
 
 	}
 

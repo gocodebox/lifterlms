@@ -63,6 +63,7 @@ class LLMS_Frontend_Assets {
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
 		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'output_footer_scripts' ), 1 );
 		add_action( 'wp', array( __CLASS__, 'enqueue_content_protection' ) );
+
 	}
 
 	/**
@@ -102,7 +103,7 @@ class LLMS_Frontend_Assets {
 			}
 			document.addEventListener( 'copy', function( event ) {
 				event.preventDefault();
-				event.clipboardData.setData( 'text/plain', '<?php echo esc_html__( 'Copying is not allowed.', 'lifterlms' ); ?>' );
+				event.clipboardData.setData( 'text/plain', '<?php echo __( 'Copying is not allowed.', 'lifterlms' ); ?>' );
 				dispatchEvent( 'llms-copy-prevented' );
 			}, false );
 			document.addEventListener( 'contextmenu', function( event ) {
@@ -115,6 +116,7 @@ class LLMS_Frontend_Assets {
 		<?php
 		$script = ob_get_clean();
 		llms()->assets->enqueue_inline( 'llms-integrity', $script, 'header' );
+
 	}
 
 	/**
@@ -148,6 +150,7 @@ class LLMS_Frontend_Assets {
 		if ( is_llms_account_page() || is_llms_checkout() ) {
 			llms()->assets->enqueue_style( 'llms-select2-styles' );
 		}
+
 	}
 
 	/**
@@ -210,6 +213,7 @@ class LLMS_Frontend_Assets {
 
 		self::enqueue_inline_scripts();
 		self::enqueue_locale_scripts();
+
 	}
 
 	/**
@@ -243,6 +247,7 @@ class LLMS_Frontend_Assets {
 		foreach ( $scripts as $handle => $script ) {
 			llms()->assets->enqueue_inline( $handle, $script, 'footer' );
 		}
+
 	}
 
 	/**
@@ -263,6 +268,7 @@ class LLMS_Frontend_Assets {
 				20
 			);
 		}
+
 	}
 
 	/**
@@ -288,6 +294,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		return $urls;
+
 	}
 
 	/**
@@ -313,6 +320,7 @@ class LLMS_Frontend_Assets {
 	public static function output_header_scripts() {
 		llms()->assets->output_inline( 'header' );
 	}
+
 }
 
 return LLMS_Frontend_Assets::init();

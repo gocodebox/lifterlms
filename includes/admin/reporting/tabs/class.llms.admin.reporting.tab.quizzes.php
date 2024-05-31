@@ -29,6 +29,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 		add_action( 'llms_reporting_content_quizzes', array( $this, 'output' ) );
 		add_action( 'llms_reporting_quiz_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
+
 	}
 
 	/**
@@ -57,9 +58,10 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 		foreach ( $links as $url => $title ) {
 
-			echo '<a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a>';
+			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
 
 		}
+
 	}
 
 	/**
@@ -77,7 +79,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 		if ( isset( $_GET['quiz_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
-				wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
+				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
@@ -102,9 +104,11 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 			$table = new LLMS_Table_Quizzes();
 			$table->get_results();
-			$table->output_table_html();
+			echo $table->get_table_html();
 
 		}
+
 	}
+
 }
 return new LLMS_Admin_Reporting_Tab_Quizzes();

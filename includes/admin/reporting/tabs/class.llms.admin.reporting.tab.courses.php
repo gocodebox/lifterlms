@@ -28,6 +28,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 		add_action( 'llms_reporting_content_courses', array( $this, 'output' ) );
 		add_action( 'llms_reporting_course_tab_breadcrumbs', array( $this, 'breadcrumbs' ) );
+
 	}
 
 	/**
@@ -45,13 +46,40 @@ class LLMS_Admin_Reporting_Tab_Courses {
 		if ( isset( $_GET['course_id'] ) ) {
 			$course = llms_get_post( absint( $_GET['course_id'] ) );
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'overview' ) ] = $course->get( 'title' );
+			// phpcs:disable -- commented out code
+			// if ( isset( $_GET['stab'] ) && 'courses' === $_GET['stab'] ) {
+			// $links[ LLMS_Admin_Reporting::get_stab_url( 'courses' ) ] = __( 'All Courses', 'lifterlms' );
+
+			// if ( isset( $_GET['course_id'] ) ) {
+			// $url = LLMS_Admin_Reporting::get_current_tab_url( array(
+			// 'stab' => 'courses',
+			// 'course_id' => $_GET['course_id'],
+			// 'course_id' => $_GET['course_id'],
+			// ) );
+			// $links[ $url ] = get_the_title( $_GET['course_id'] );
+
+			// if ( isset( $_GET['quiz_id'] ) ) {
+			// $url = LLMS_Admin_Reporting::get_current_tab_url( array(
+			// 'stab' => 'courses',
+			// 'course_id' => $_GET['course_id'],
+			// 'course_id' => $_GET['course_id'],
+			// 'quiz_id' => $_GET['quiz_id'],
+			// ) );
+			// $links[ $url ] = get_the_title( $_GET['quiz_id'] );
+
+			// }
+
+			// }
+			// }
+			// phpcs:enable
 		}
 
 		foreach ( $links as $url => $title ) {
 
-			echo '<a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a>';
+			echo '<a href="' . esc_url( $url ) . '">' . $title . '</a>';
 
 		}
+
 	}
 
 	/**
@@ -69,7 +97,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 		if ( isset( $_GET['course_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
-				wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
+				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
 			$tabs = apply_filters(
@@ -77,6 +105,8 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				array(
 					'overview' => __( 'Overview', 'lifterlms' ),
 					'students' => __( 'Students', 'lifterlms' ),
+				// phpcs:ignore -- commented out code
+				// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
 				)
 			);
 
@@ -93,9 +123,11 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 			$table = new LLMS_Table_Courses();
 			$table->get_results();
-			$table->output_table_html();
+			echo $table->get_table_html();
 
 		}
+
 	}
+
 }
 return new LLMS_Admin_Reporting_Tab_Courses();

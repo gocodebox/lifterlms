@@ -38,18 +38,20 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	public function output() {
 
 		global $post;
+		$image;
+		$imgclass;
 
 		parent::output();
 
 		if ( 'achievement_meta_box' === $this->field['section'] ) {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
-			<img id="<?php echo esc_attr( $this->field['id'] ); ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo esc_url( $image ); ?>">
+			<img id="<?php echo $this->field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_achievement_image';
 		} else {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_certificate.png' );
 			?>
-			<img id="<?php echo esc_attr( $this->field['id'] ); ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo esc_url( $image ); ?>">
+			<img id="<?php echo $this->field['id']; ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_certificate_image';
 		} // End if().
@@ -58,11 +60,11 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			$image = $image[0];
 		}
 		?>
-				<img src="<?php echo esc_url( $image ); ?>" id="<?php echo esc_attr( $this->field['id'] ); ?>" class="<?php echo esc_attr( $imgclass ); ?>" /><br />
-				<input name="<?php echo esc_attr( $this->field['id'] ); ?>" id="<?php echo esc_attr( $this->field['id'] ); ?>" type="hidden" class="upload_<?php echo esc_attr( $this->field['class'] ); ?>_image" type="text" size="36" name="ad_image" value="<?php echo esc_attr( $this->meta ); ?>" />
-				<input id="<?php echo esc_attr( $this->field['id'] ); ?>" class="button <?php echo esc_attr( $this->field['class'] ); ?>_image_button" type="button" value="Upload Image" />
-				<small> <a href="#" id="<?php echo esc_attr( $this->field['id'] ); ?>" class="llms_<?php echo esc_attr( $this->field['class'] ); ?>_clear_image_button">Remove Image</a></small>
-				<br /><span class="description"><?php echo wp_kses_post( $this->field['desc'] ); ?></span>
+				<img src="<?php echo $image; ?>" id="<?php echo $this->field['id']; ?>" class="<?php echo $imgclass; ?>" /><br />
+				<input name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" type="hidden" class="upload_<?php echo $this->field['class']; ?>_image" type="text" size="36" name="ad_image" value="<?php echo $this->meta; ?>" />
+				<input id="<?php echo $this->field['id']; ?>" class="button <?php echo $this->field['class']; ?>_image_button" type="button" value="Upload Image" />
+				<small> <a href="#" id="<?php echo $this->field['id']; ?>" class="llms_<?php echo $this->field['class']; ?>_clear_image_button">Remove Image</a></small>
+				<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
 		parent::close_output();
 	}

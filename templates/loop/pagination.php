@@ -25,10 +25,8 @@ if ( $wp_query->max_num_pages < 2 ) {
 $classes = apply_filters( 'llms_get_pagination_wrapper_classes', array( 'llms-pagination' ) );
 ?>
 
-<nav class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+<nav class="<?php echo implode( ' ', $classes ); ?>">
 <?php
-// Generated HTML is escaped inside the function.
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 echo paginate_links(
 	array(
 		'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),

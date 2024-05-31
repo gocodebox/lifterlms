@@ -162,7 +162,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 */
 	public function test_generate_courses_missing_courses() {
 
-		$this->setExpectedException( Exception::class, 'Raw data is missing the required &quot;courses&quot; array.', 2000 );
+		$this->setExpectedException( Exception::class, 'Raw data is missing the required "courses" array.', 2000 );
 		$this->main->generate_courses( array() );
 
 	}
@@ -176,7 +176,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 */
 	public function test_generate_courses_invalid_courses() {
 
-		$this->setExpectedException( Exception::class, 'The raw &quot;courses&quot; item must be an array.', 2001 );
+		$this->setExpectedException( Exception::class, 'The raw "courses" item must be an array.', 2001 );
 		$this->main->generate_courses( array( 'courses' => 'invalid' ) );
 
 	}

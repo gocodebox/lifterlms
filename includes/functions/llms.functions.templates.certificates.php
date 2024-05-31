@@ -87,6 +87,7 @@ function llms_certificate_actions( $certificate ) {
 		'certificates/actions.php',
 		compact( 'certificate', 'back_link', 'back_text', 'is_sharing_enabled', 'is_template' )
 	);
+
 }
 
 /**
@@ -109,6 +110,7 @@ function llms_get_certificate_preview( $certificate ) {
 	);
 
 	return ob_get_clean();
+
 }
 /**
  * Output the content of a single certificate
@@ -119,7 +121,6 @@ function llms_get_certificate_preview( $certificate ) {
  * @return void
  */
 function llms_the_certificate_preview( $certificate ) {
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template file.
 	echo llms_get_certificate_preview( $certificate );
 }
 
@@ -198,6 +199,7 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 			'certificates/loop.php',
 			compact( 'cols', 'certificates', 'pagination' )
 		);
+
 	}
 }
 
@@ -237,5 +239,6 @@ function llms_certificates_remove_print_styles() {
 	}
 
 	return true;
+
 }
 add_action( 'wp_enqueue_scripts', 'llms_certificates_remove_print_styles', 999 );

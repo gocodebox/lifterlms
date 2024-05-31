@@ -36,6 +36,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		add_action( 'lifterlms_sections_' . $this->id, array( $this, 'output_sections_nav' ) );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+
 	}
 
 	/**
@@ -68,6 +69,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_integrations_settings_default', $settings );
+
 	}
 
 	/**
@@ -95,6 +97,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'llms_integration_settings_sections', $sections );
+
 	}
 
 	/**
@@ -115,6 +118,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		}
 
 		return apply_filters( 'lifterlms_integrations_settings_' . $curr_section, array() );
+
 	}
 
 	/**
@@ -133,10 +137,10 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		<table class="llms-table zebra text-left size-large llms-integrations-table">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Integration', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Integration ID', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Installed', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Integration', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Integration ID', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Installed', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Enabled', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -147,12 +151,12 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				}
 				?>
 				<tr>
-					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo esc_html( $integration->title ); ?></a></td>
-					<td><?php echo esc_html( $integration->id ); ?></td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo $integration->title; ?></a></td>
+					<td><?php echo $integration->id; ?></td>
 					<td class="status available">
 						<?php if ( $integration->is_installed() ) : ?>
 							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Installed', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Installed', 'lifterlms' ); ?></span>
+								<span class="screen-reader-text"><?php _e( 'Installed', 'lifterlms' ); ?></span>
 								<i class="fa fa-check-circle" aria-hidden="true"></i>
 							</span>
 						<?php else : ?>
@@ -162,7 +166,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 					<td class="status enabled">
 						<?php if ( $integration->is_enabled() ) : ?>
 							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></span>
+								<span class="screen-reader-text"><?php _e( 'Enabled', 'lifterlms' ); ?></span>
 								<i class="fa fa-check-circle" aria-hidden="true"></i>
 							</span>
 						<?php else : ?>
@@ -176,7 +180,9 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		<?php
 		return ob_get_clean();
+
 	}
+
 }
 
 return new LLMS_Settings_Integrations();

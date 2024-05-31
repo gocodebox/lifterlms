@@ -33,6 +33,7 @@ class LLMS_Admin_Post_Table_Forms {
 		add_action( 'manage_llms_form_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 
 		add_action( 'pre_get_posts', array( 'LLMS_Admin_Post_Table_Forms', 'pre_get_posts' ) );
+
 	}
 
 	/**
@@ -50,6 +51,7 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		return llms_assoc_array_insert( $columns, 'title', 'location', __( 'Location', 'lifterlms' ) );
+
 	}
 
 	/**
@@ -81,11 +83,12 @@ class LLMS_Admin_Post_Table_Forms {
 			$loc  = get_post_meta( $post_id, '_llms_form_location', true );
 
 			if ( isset( $locs[ $loc ] ) ) {
-				printf( '<strong>%1$s</strong><br><em>%2$s</em>', esc_html( $locs[ $loc ]['name'] ), esc_html( $locs[ $loc ]['description'] ) );
+				printf( '<strong>%1$s</strong><br><em>%2$s</em>', $locs[ $loc ]['name'], $locs[ $loc ]['description'] );
 			} else {
-				echo esc_html( $loc );
+				echo $loc;
 			}
 		}
+
 	}
 
 
@@ -118,6 +121,7 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		return $actions;
+
 	}
 
 	/**
@@ -141,6 +145,8 @@ class LLMS_Admin_Post_Table_Forms {
 
 		$query->set( 'meta_key', '_llms_form_is_core' );
 		$query->set( 'meta_value', 'yes' );
+
 	}
+
 }
 return new LLMS_Admin_Post_Table_Forms();
