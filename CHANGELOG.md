@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v7.6.3 - 2024-05-31
+-------------------
+
+##### Bug Fixes
+
++ Adds additional filtering when using the lifterlms_favorites shortcode. Thanks, Peter Thaleikis.
+
+##### Updated Templates
+
++ [templates/admin/reporting/nav-filters.php](https://github.com/gocodebox/lifterlms/blob/7.6.3/templates/admin/reporting/nav-filters.php)
+
+
 v7.6.2 - 2024-05-28
 -------------------
 

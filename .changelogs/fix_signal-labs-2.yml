@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Adds additional filtering when using the lifterlms_favorites shortcode.
-  Thanks, Peter Thaleikis.
