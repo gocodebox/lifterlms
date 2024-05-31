@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-access-plan-featured">
 	<?php if ( $plan->is_featured() ) : ?>
-		<?php echo wp_kses_post( apply_filters( 'lifterlms_featured_access_plan_text', __( 'FEATURED', 'lifterlms' ), $plan ) ); ?>
+		<?php echo apply_filters( 'lifterlms_featured_access_plan_text', __( 'FEATURED', 'lifterlms' ), $plan ); ?>
 	<?php else : ?>
 		&nbsp;
 	<?php endif; ?>

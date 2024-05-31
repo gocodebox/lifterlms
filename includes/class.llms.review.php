@@ -119,13 +119,13 @@ class LLMS_Reviews {
 				}
 
 				if ( $inline_styles ) {
-					echo '<style id="llms_review_custom_styles">' . esc_html( $inline_styles ) . '</style>';
+					echo '<style id="llms_review_custom_styles">' . $inline_styles . '</style>';
 				}
 
 				foreach ( $posts_array as $post ) {
 					?>
 					<div class="llms_review">
-						<h5><strong><?php echo esc_html( get_the_title( $post->ID ) ); ?></strong></h5>
+						<h5><strong><?php echo get_the_title( $post->ID ); ?></strong></h5>
 						<h6>
 							<?php
 							// Translators: %s = The author display name.
@@ -172,7 +172,7 @@ class LLMS_Reviews {
 					<textarea name="review_text" placeholder="<?php esc_attr_e( 'Review Text', 'lifterlms' ); ?>" id="review_text"></textarea>
 					<h5 id="review_text_error"><?php esc_html_e( 'Review Text is required.', 'lifterlms' ); ?></h5>
 					<input name="action" value="submit_review" type="hidden">
-					<input name="post_ID" value="<?php echo esc_attr( get_the_ID() ); ?>" type="hidden" id="post_ID">
+					<input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
 					<?php wp_nonce_field( 'llms-review', 'llms_review_nonce' ); ?>
 					<input type="submit" class="button" value="<?php esc_attr_e( 'Leave Review', 'lifterlms' ); ?>" id="llms_review_submit_button">
 					<!--</form>	-->
@@ -249,7 +249,7 @@ class LLMS_Reviews {
 		}
 
 		// Check if reviews are limited and the user has already written a review.
-		$args        = array(
+		$args = array(
 			'posts_per_page'   => 1,
 			'post_type'        => 'llms_review',
 			'post_status'      => 'publish',

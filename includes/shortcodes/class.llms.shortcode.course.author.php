@@ -67,6 +67,7 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 			}
 		}
 		return $post->get( 'author' );
+
 	}
 
 	/**
@@ -80,7 +81,6 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	protected function template_function() {
 
 		echo '<div class="llms-meta-info">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
 		echo llms_get_author(
 			array(
 				'avatar_size' => $this->get_attribute( 'avatar_size' ),
@@ -89,7 +89,9 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 			)
 		);
 		echo '</div><!-- .llms-meta-info -->';
+
 	}
+
 }
 
 return LLMS_Shortcode_Course_Author::instance();

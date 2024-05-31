@@ -59,13 +59,13 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		);
 
 		ob_start();
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped by the mailer.
 		echo $mailer->get_table_html( $rows );
 		?>
-		<p><a href="{{REVIEW_URL}}" style="<?php echo esc_attr( $btn_style ); ?>"><?php esc_html_e( 'View the quiz attempt and leave remarks', 'lifterlms' ); ?></a></p>
-		<p><small><?php esc_html_e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
+		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the quiz attempt and leave remarks', 'lifterlms' ); ?></a></p>
+		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
+
 	}
 
 	/**
@@ -171,5 +171,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		}
 
 		return $code;
+
 	}
+
 }

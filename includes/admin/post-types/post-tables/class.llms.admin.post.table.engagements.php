@@ -29,6 +29,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 		add_filter( 'manage_llms_engagement_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_llms_engagement_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
+
 	}
 
 	/**
@@ -51,6 +52,7 @@ class LLMS_Admin_Post_Table_Engagements {
 		$columns['date'] = $date;
 
 		return $columns;
+
 	}
 
 
@@ -72,7 +74,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				$trigger = get_post_meta( $post_id, '_llms_trigger_type', true );
 
-				echo isset( $triggers[ $trigger ] ) ? esc_html( $triggers[ $trigger ] ) : esc_html( $trigger );
+				echo isset( $triggers[ $trigger ] ) ? $triggers[ $trigger ] : $trigger;
 
 				$tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true );
 				if ( $tid ) {
@@ -88,7 +90,7 @@ class LLMS_Admin_Post_Table_Engagements {
 						$link  = get_edit_post_link( $tid );
 					}
 
-					printf( '<a href="%s">%s (ID# %d)</a>', esc_url( $link ), esc_html( $title ), esc_html( $tid ) );
+					printf( '<a href="%s">%s (ID# %d)</a>', $link, $title, $tid );
 
 				}
 
@@ -99,13 +101,13 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				$type = get_post_meta( $post_id, '_llms_engagement_type', true );
 
-				echo isset( $types[ $type ] ) ? esc_html( $types[ $type ] ) : esc_html( $type );
+				echo isset( $types[ $type ] ) ? $types[ $type ] : $type;
 
 				$eid = get_post_meta( $post_id, '_llms_engagement', true );
 				if ( $eid ) {
 
 					echo '<br>';
-					printf( '<a href="%s">%s (ID# %d)</a>', esc_url( get_edit_post_link( $eid ) ), esc_html( get_the_title( $eid ) ), esc_html( $eid ) );
+					printf( '<a href="%s">%s (ID# %d)</a>', get_edit_post_link( $eid ), get_the_title( $eid ), $eid );
 
 				}
 
@@ -116,7 +118,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				if ( $delay ) {
 
-					printf( esc_html__( '%d days', 'lifterlms' ), esc_html( $delay ) );
+					printf( __( '%d days', 'lifterlms' ), $delay );
 
 				} else {
 
@@ -127,6 +129,8 @@ class LLMS_Admin_Post_Table_Engagements {
 				break;
 
 		}
+
 	}
+
 }
 return new LLMS_Admin_Post_Table_Engagements();

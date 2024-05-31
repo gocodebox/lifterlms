@@ -23,7 +23,7 @@ $llms_product = new LLMS_Product( $post->ID );
 
 			<?php if ( 'single' === $option || 'free' === $option ) : ?>
 
-				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', wp_kses( $llms_product->get_single_price_html(), LLMS_ALLOWED_HTML_PRICES ), $llms_product ); ?></span></h4>
+				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ); ?></span></h4>
 
 			<?php elseif ( 'recurring' === $option ) : ?>
 
@@ -31,11 +31,11 @@ $llms_product = new LLMS_Product( $post->ID );
 
 					<?php if ( count( $llms_product->get_payment_options() ) > 1 ) : ?>
 
-						<span class="llms-price-option-separator"><?php echo esc_html( apply_filters( 'lifterlms_price_option_separator', __( 'or', 'lifterlms' ), $llms_product ) ); ?></span>
+						<span class="llms-price-option-separator"><?php echo apply_filters( 'lifterlms_price_option_separator', __( 'or', 'lifterlms' ), $llms_product ); ?></span>
 
 					<?php endif; ?>
 
-					<h4 class="llms-price"><span><?php echo wp_kses( $llms_product->get_subscription_price_html( $sub ), LLMS_ALLOWED_HTML_PRICES ); ?></span></h4>
+					<h4 class="llms-price"><span><?php echo $llms_product->get_subscription_price_html( $sub ); ?></span></h4>
 
 				<?php endforeach; ?>
 

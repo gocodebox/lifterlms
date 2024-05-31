@@ -46,10 +46,10 @@ class LLMS_Test_Functions_Deprecated extends LLMS_UnitTestCase {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @expectedDeprecated LLMS_User_Certificate meta key &#039;certificate_content&#039;
-	 * @expectedDeprecated LLMS_User_Certificate meta key &#039;certificate_image&#039;
-	 * @expectedDeprecated LLMS_User_Certificate meta key &#039;certificate_title&#039;
-	 * @expectedDeprecated LLMS_User_Certificate meta key &#039;certificate_template&#039;
+	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_content'
+	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_image'
+	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_title'
+	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_template'
 	 *
 	 * @return void
 	 */
@@ -90,10 +90,10 @@ class LLMS_Test_Functions_Deprecated extends LLMS_UnitTestCase {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @expectedDeprecated LLMS_User_Achievement meta key &#039;achievement_content&#039;
-	 * @expectedDeprecated LLMS_User_Achievement meta key &#039;achievement_image&#039;
-	 * @expectedDeprecated LLMS_User_Achievement meta key &#039;achievement_title&#039;
-	 * @expectedDeprecated LLMS_User_Achievement meta key &#039;achievement_template&#039;
+	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_content'
+	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_image'
+	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_title'
+	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_template'
 	 *
 	 * @return void
 	 */

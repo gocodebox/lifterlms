@@ -74,6 +74,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @version 3.29.0
 	 */
 	private function get_actions_html( $lesson ) {
+
 		$html = '';
 
 		if ( llms_show_mark_complete_button( $lesson ) ) {
@@ -100,6 +101,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 		}
 		return $html;
+
 	}
 
 	/**
@@ -164,6 +166,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		}// End switch.
 
 		return $this->filter_get_data( $value, $key, $lesson );
+
 	}
 
 	/**
@@ -185,6 +188,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		$this->student = $args['student'];
 
 		$this->tbody_data = $course->get_lessons();
+
 	}
 
 	/**
@@ -202,10 +206,11 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			$sid = $lesson->get_parent_section();
 
 			if ( $this->current_section !== $sid ) {
-				echo '<tr><td class="id">' . esc_html( $sid ) . '</td><td class="section-title" colspan="' . esc_attr( $this->get_columns_count() - 1 ) . '">' . esc_html( sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) ) . '</td></tr>';
+				echo '<tr><td class="id">' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
 				$this->current_section = $sid;
 			}
 		}
+
 	}
 
 	/**
@@ -272,4 +277,5 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			),
 		);
 	}
+
 }

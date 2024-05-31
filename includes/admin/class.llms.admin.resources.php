@@ -32,6 +32,7 @@ class LLMS_Admin_Resources {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -81,6 +82,7 @@ class LLMS_Admin_Resources {
 		 * @since 7.4.1
 		 */
 		do_action( 'llms_resources_meta_boxes_added' );
+
 	}
 
 	/**
@@ -96,9 +98,9 @@ class LLMS_Admin_Resources {
 	public static function meta_box( $data_object, $box ) {
 
 		if ( isset( $box['args']['view'] ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the view file.
 			echo self::get_view( $box['args']['view'] );
 		}
+
 	}
 
 	/**
@@ -125,5 +127,7 @@ class LLMS_Admin_Resources {
 		ob_start();
 		include 'views/resources/' . $file . '.php';
 		return ob_get_clean();
+
 	}
+
 }

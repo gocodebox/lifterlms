@@ -100,6 +100,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @return string
 	 */
 	private function get_actions_html( $quiz ) {
+
 		if ( ! $quiz->is_orphan( true ) && $quiz->get_course() ) {
 			return '';
 		}
@@ -119,20 +120,21 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		?>
 		<form action="" method="POST" style="display:inline;">
 
-			<button type="submit" class="llms-button-danger small" id="llms-del-quiz-<?php echo esc_attr( $quiz->get( 'id' ) ); ?>" name="llms_del_quiz" value="<?php echo esc_attr( $quiz->get( 'id' ) ); ?>">
-				<?php esc_html_e( 'Delete', 'lifterlms' ); ?>
+			<button type="submit" class="llms-button-danger small" id="llms-del-quiz-<?php echo $quiz->get( 'id' ); ?>" name="llms_del_quiz" value="<?php echo $quiz->get( 'id' ); ?>">
+				<?php _e( 'Delete', 'lifterlms' ); ?>
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			</button>
 
-			<input type="hidden" name="_llms_quiz_actions_nonce" value="<?php echo esc_attr( wp_create_nonce( 'llms-quiz-actions' ) ); ?>">
+			<input type="hidden" name="_llms_quiz_actions_nonce" value="<?php echo wp_create_nonce( 'llms-quiz-actions' ); ?>">
 
 		</form>
 
-		<script>document.getElementById( 'llms-del-quiz-<?php echo esc_attr( $quiz->get( 'id' ) ); ?>' ).onclick = function( e ) {
+		<script>document.getElementById( 'llms-del-quiz-<?php echo $quiz->get( 'id' ); ?>' ).onclick = function( e ) {
 			return window.confirm( '<?php echo esc_attr( $msg ); ?>' );
 		};</script>
 		<?php
 		return ob_get_clean();
+
 	}
 
 	/**
@@ -263,6 +265,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $data );
+
 	}
 
 	/**
@@ -286,6 +289,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
 		return $instructors;
+
 	}
 
 	/**
@@ -379,6 +383,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->posts;
+
 	}
 
 	/**
@@ -398,6 +403,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		 * @param string $placeholder The placeholder string.
 		 */
 		return apply_filters( 'llms_table_get_quizzes_search_placeholder', __( 'Search quizzes...', 'lifterlms' ) );
+
 	}
 
 	/**
@@ -460,4 +466,5 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			),
 		);
 	}
+
 }

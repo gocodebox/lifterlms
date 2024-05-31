@@ -59,7 +59,7 @@ $gateways_array      = array_values( $gateways );
 						continue;
 					}
 					?>
-					<li class="llms-payment-gateway <?php echo esc_attr( $gateway->get_id() ); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
+					<li class="llms-payment-gateway <?php echo $gateway->get_id(); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
 					<?php
 					llms_form_field(
 						array(
@@ -76,13 +76,10 @@ $gateways_array      = array_values( $gateways );
 					);
 					?>
 					<?php if ( $gateway->get_description() ) : ?>
-						<div class="llms-gateway-description"><?php echo wp_kses_post( wpautop( wptexturize( $gateway->get_description() ) ) ); ?></div>
+						<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $gateway->get_description() ) ); ?></div>
 					<?php endif; ?>
 					<?php if ( $gateway->supports( 'checkout_fields' ) ) : ?>
-						<div class="llms-gateway-fields"><?php
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							echo $gateway->get_fields();
-						?></div>
+						<div class="llms-gateway-fields"><?php echo $gateway->get_fields(); ?></div>
 					<?php endif; ?>
 					</li>
 					<?php $supporting_gateways++; ?>

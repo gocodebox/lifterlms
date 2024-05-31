@@ -259,7 +259,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		// Output the HTML.
 		echo '<div class="llms-mb-container">';
 		do_action( 'llms_metabox_before_content', $this->id );
-		echo wp_kses_post( $sync_action );
+		echo $sync_action;
 		do_action( 'llms_metabox_after_content', $this->id );
 		echo '</div>';
 	}

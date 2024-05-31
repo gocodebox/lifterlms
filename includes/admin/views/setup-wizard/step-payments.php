@@ -42,7 +42,7 @@ $payments = get_option( 'llms_gateway_manual_enabled', 'no' );
 			<p>
 				<select id="llms_currency" name="currency" class="llms-select2">
 				<?php foreach ( get_lifterlms_currencies() as $code => $name ) : ?>
-					<option value="<?php echo esc_attr( $code ); ?>"<?php selected( $code, $currency ); ?>><?php echo esc_html( $name ); ?> (<?php echo esc_html( get_lifterlms_currency_symbol( $code ) ); ?>)</option>
+					<option value="<?php echo $code; ?>"<?php selected( $code, $currency ); ?>><?php echo $name; ?> (<?php echo get_lifterlms_currency_symbol( $code ); ?>)</option>
 				<?php endforeach; ?>
 				</select>
 				<i><?php printf( esc_html__( 'If your currency is not listed you can %1$sadd it later%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/how-can-i-add-my-currency-to-lifterlms/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Add%20Currency" target="_blank">', '</a>' ); ?></i>

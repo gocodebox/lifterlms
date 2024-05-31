@@ -18,4 +18,4 @@ if ( ! $question->has_description() ) {
 }
 ?>
 
-<div class="llms-question-description"><?php echo wp_kses_post( $question->get_description() ); ?></div>
+<div class="llms-question-description"><?php echo $question->get_description(); ?></div>

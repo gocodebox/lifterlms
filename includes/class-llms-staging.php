@@ -39,6 +39,7 @@ class LLMS_Staging {
 		}
 
 		add_action( 'admin_menu', array( __CLASS__, 'menu_warning' ) );
+
 	}
 
 	/**
@@ -55,6 +56,7 @@ class LLMS_Staging {
 			self::notice();
 			LLMS_Site::update_feature( 'recurring_payments', false );
 		}
+
 	}
 
 	/**
@@ -85,7 +87,7 @@ class LLMS_Staging {
 		}
 
 		if ( ! llms_verify_nonce( '_llms_staging_nonce', 'llms_staging_status', 'GET' ) || ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		$action = llms_filter_input( INPUT_GET, 'llms-staging-status' );
@@ -103,6 +105,7 @@ class LLMS_Staging {
 		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 			llms_redirect_and_exit( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		}
+
 	}
 
 
@@ -128,6 +131,7 @@ class LLMS_Staging {
 				$menu[ $index ][0] .= self::get_menu_warning_bubble();
 			}
 		}
+
 	}
 
 	/**
@@ -154,7 +158,9 @@ class LLMS_Staging {
 			);
 
 		}
+
 	}
+
 }
 
 return LLMS_Staging::init();

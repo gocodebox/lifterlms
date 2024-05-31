@@ -36,6 +36,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		add_filter( 'bulk_actions-edit-course', array( $this, 'register_bulk_actions' ) );
 		add_filter( 'handle_bulk_actions-edit-course', array( $this, 'handle_bulk_actions' ), 10, 3 );
+
 	}
 
 	/**
@@ -68,6 +69,7 @@ class LLMS_Admin_Post_Table_Courses {
 		}
 
 		return $actions;
+
 	}
 
 	/**
@@ -114,6 +116,7 @@ class LLMS_Admin_Post_Table_Courses {
 		echo json_encode( $data );
 
 		die;
+
 	}
 
 	/**
@@ -128,6 +131,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		$actions['llms_export'] = __( 'Export', 'lifterlms' );
 		return $actions;
+
 	}
 
 
@@ -171,26 +175,30 @@ class LLMS_Admin_Post_Table_Courses {
 		$course       = llms_get_post( $post_id );
 		$lesson_count = $course->get_lessons_count();
 
-		if ( ! $lesson_count ) {
-			echo '&ndash;';
+		$column_content = '&ndash;';
 
-			return;
+		if ( $lesson_count ) {
+
+			// Build the URL to link to lesson post type filtered for course ID.
+			$url = add_query_arg(
+				array(
+					'post_status'           => 'all',
+					'post_type'             => 'lesson',
+					'llms_filter_course_id' => $post_id,
+				),
+				admin_url( 'edit.php' )
+			);
+
+			// Translators: %d = Number of lessons in the specified course.
+			$label          = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
+			$column_content = '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
+
 		}
 
-		// Build the URL to link to lesson post type filtered for course ID.
-		$url = add_query_arg(
-			array(
-				'post_status'           => 'all',
-				'post_type'             => 'lesson',
-				'llms_filter_course_id' => $post_id,
-			),
-			admin_url( 'edit.php' )
-		);
+		echo $column_content;
 
-		// Translators: %d = Number of lessons in the specified course.
-		$label = sprintf( _n( '%d Lesson', '%d Lessons', $lesson_count, 'lifterlms' ), $lesson_count );
-		echo '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 	}
+
 }
 
 return new LLMS_Admin_Post_Table_Courses();

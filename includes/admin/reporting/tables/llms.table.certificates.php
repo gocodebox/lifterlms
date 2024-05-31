@@ -55,24 +55,24 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 		ob_start();
 		?>
 		<a class="llms-button-secondary small" href="<?php echo esc_url( get_permalink( $certificate_id ) ); ?>" target="_blank">
-			<?php esc_html_e( 'View', 'lifterlms' ); ?>
+			<?php _e( 'View', 'lifterlms' ); ?>
 			<i class="fa fa-external-link" aria-hidden="true"></i>
 		</a>
 		<?php if ( get_edit_post_link( $certificate_id ) ) : ?>
 		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $certificate_id ) ); ?>">
-			<?php esc_html_e( 'Edit', 'lifterlms' ); ?>
+			<?php _e( 'Edit', 'lifterlms' ); ?>
 			<i class="fa fa-pencil" aria-hidden="true"></i>
 		</a>
 		<?php endif; ?>
 		<form action="" method="POST" style="display:inline;">
 
 			<button type="submit" class="llms-button-secondary small" name="llms_generate_cert">
-				<?php esc_html_e( 'Download', 'lifterlms' ); ?>
+				<?php _e( 'Download', 'lifterlms' ); ?>
 				<i class="fa fa-cloud-download" aria-hidden="true"></i>
 			</button>
 
 			<button type="submit" class="llms-button-danger small" id="llms_delete_cert" name="llms_delete_cert">
-				<?php esc_html_e( 'Delete', 'lifterlms' ); ?>
+				<?php _e( 'Delete', 'lifterlms' ); ?>
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			</button>
 
@@ -160,6 +160,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 		);
 
 		return $this->filter_get_data( $value, $key, $backwards_compat_obj );
+
 	}
 
 	/**
@@ -204,6 +205,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->get_awards();
+
 	}
 
 	/**
@@ -256,4 +258,5 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student has not yet earned any certificates.', 'lifterlms' );
 	}
+
 }

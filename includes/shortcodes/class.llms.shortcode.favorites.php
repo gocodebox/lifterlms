@@ -61,6 +61,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		$limit    = $this->get_attribute( 'limit' );
 
 		return $student->get_favorites( $order_by, $order, $limit );
+
 	}
 
 	/**
@@ -83,7 +84,7 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 			printf(
 				// Translators: 1%$s = Opening anchor tag; %2$s = Closing anchor tag.
 				esc_html__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
-				'<a href="' . esc_url( llms_get_page_url( 'myaccount' ) ) . '">',
+				'<a href="' . llms_get_page_url( 'myaccount' ) . '">',
 				'</a>'
 			);
 		} else {
@@ -92,7 +93,9 @@ class LLMS_Shortcode_Favorites extends LLMS_Shortcode {
 		}
 
 		return ob_get_clean();
+
 	}
+
 }
 
 return LLMS_Shortcode_Favorites::instance();

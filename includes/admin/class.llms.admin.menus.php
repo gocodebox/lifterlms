@@ -44,6 +44,7 @@ class LLMS_Admin_Menus {
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
 
 		add_filter( 'action_scheduler_post_type_args', array( $this, 'action_scheduler_menu' ) );
+
 	}
 
 	/**
@@ -72,6 +73,7 @@ class LLMS_Admin_Menus {
 				'show_in_admin_bar' => false,
 			)
 		);
+
 	}
 
 	/**
@@ -124,6 +126,7 @@ class LLMS_Admin_Menus {
 		}
 
 		return $flag;
+
 	}
 
 	/**
@@ -161,6 +164,7 @@ class LLMS_Admin_Menus {
 		}
 
 		add_action( 'admin_bar_menu', array( 'LLMS_Admin_Builder', 'admin_bar_menu' ), 100, 1 );
+
 	}
 
 	/**
@@ -212,6 +216,7 @@ class LLMS_Admin_Menus {
 
 		// Passing '' to register the page without actually adding a menu item.
 		add_submenu_page( '', __( 'LifterLMS Course Builder', 'lifterlms' ), __( 'Course Builder', 'lifterlms' ), 'edit_courses', 'llms-course-builder', array( $this, 'builder_init' ) );
+
 	}
 
 	/**
@@ -236,6 +241,7 @@ class LLMS_Admin_Menus {
 		}
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons, Courses, and Resources', 'lifterlms' ), __( 'Add-ons & more', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+
 	}
 
 	/**
@@ -358,11 +364,12 @@ class LLMS_Admin_Menus {
 	public function reporting_page_init() {
 
 		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
+			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 
 		$reporting = new LLMS_Admin_Reporting();
 		$reporting->output();
+
 	}
 
 	/**
@@ -427,6 +434,7 @@ class LLMS_Admin_Menus {
 		LLMS_Admin_Resources::register_meta_boxes();
 		LLMS_Admin_Resources::output();
 	}
+
 }
 
 return new LLMS_Admin_Menus();

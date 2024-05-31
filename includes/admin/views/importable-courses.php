@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 	<p class="llms-error">
 		<?php
 			// Translators: %s = Text of the HTTP Request error message.
-			printf( esc_html__( 'There was an error loading importable courses. Please reload the page to try again. [%s]', 'lifterlms' ), wp_kses_post( $courses->get_error_message() ) );
+			printf( __( 'There was an error loading importable courses. Please reload the page to try again. [%s]', 'lifterlms' ), $courses->get_error_message() );
 		?>
 	</p>
 

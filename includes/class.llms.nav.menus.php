@@ -58,6 +58,7 @@ class LLMS_Nav_Menus {
 
 		// Load menu items data in block editor.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+
 	}
 
 	/**
@@ -71,6 +72,7 @@ class LLMS_Nav_Menus {
 
 		add_meta_box( 'llms-nav-menu', __( 'LifterLMS', 'lifterlms' ), array( $this, 'output' ), 'nav-menus', 'side', 'default' );
 		add_action( 'admin_print_footer_scripts', array( $this, 'output_scripts' ) );
+
 	}
 
 	/**
@@ -227,6 +229,7 @@ class LLMS_Nav_Menus {
 		 * @param array $items Array of custom LifterLMS nav menu items.
 		 */
 		return apply_filters( 'llms_nav_menu_items', $items );
+
 	}
 
 	/**
@@ -312,14 +315,14 @@ class LLMS_Nav_Menus {
 							<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" value="<?php echo esc_attr( 'llms-nav-item-' . $key ); ?>" />
 						</li>
 						<?php
-						--$i;
+						$i--;
 					endforeach;
 					?>
 				</ul>
 			</div>
 			<p class="button-controls">
 				<span class="list-controls">
-					<a href="<?php echo esc_url( admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ) ); ?>" class="select-all"><?php esc_html_e( 'Select all', 'lifterlms' ); ?></a>
+					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ); ?>" class="select-all"><?php _e( 'Select all', 'lifterlms' ); ?></a>
 				</span>
 				<span class="add-to-menu">
 					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'lifterlms' ); ?>" name="add-post-type-menu-item" id="submit-posttype-llms-nav-items">
@@ -377,7 +380,7 @@ class LLMS_Nav_Menus {
 	 * @param array  $block Block data.
 	 * @return string
 	 */
-	public function render_block( string $block_content, array $block ): string {
+	public function render_block( string $block_content, array $block ) : string {
 
 		if ( 'llms/navigation-link' !== $block['blockName'] ) {
 			return $block_content;
@@ -428,6 +431,7 @@ class LLMS_Nav_Menus {
 			$links
 		);
 	}
+
 }
 
 return new LLMS_Nav_Menus();

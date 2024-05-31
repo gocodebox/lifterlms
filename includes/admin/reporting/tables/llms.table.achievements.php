@@ -55,14 +55,14 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		?>
 		<?php if ( get_edit_post_link( $achievement_id ) ) : ?>
 		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $achievement_id ) ); ?>">
-			<?php esc_html_e( 'Edit', 'lifterlms' ); ?>
+			<?php _e( 'Edit', 'lifterlms' ); ?>
 			<i class="fa fa-pencil" aria-hidden="true"></i>
 		</a>
 		<?php endif; ?>
 		<form action="" method="POST" style="display:inline;">
 
 			<button type="submit" class="llms-button-danger small" id="llms_delete_achievement" name="llms_delete_achievement">
-				<?php esc_html_e( 'Delete', 'lifterlms' ); ?>
+				<?php _e( 'Delete', 'lifterlms' ); ?>
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			</button>
 
@@ -155,6 +155,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		);
 
 		return $this->filter_get_data( $value, $key, (object) $backwards_compat_obj );
+
 	}
 
 	/**
@@ -200,6 +201,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $query->get_awards();
+
 	}
 
 	/**
@@ -253,4 +255,5 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	protected function set_empty_message() {
 		return __( 'This student has not yet earned any achievements.', 'lifterlms' );
 	}
+
 }

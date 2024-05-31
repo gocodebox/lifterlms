@@ -12,21 +12,25 @@
 
 		<ul class="llms-editor-menu">
 
+<!-- 			<li class="llms-editor-menu-item<# if ( 'course' === data.state ) { print( ' active' ); } #>">
+				<a href="#llms-editor-course" data-view="course"><?php _e( 'Course', 'lifterlms' ); ?></a>
+			</li> -->
+
 			<li class="llms-editor-menu-item<# if ( 'lesson' === data.state ) { print( ' active' ); } #>">
-				<a href="#llms-editor-lesson" data-view="lesson"><?php esc_html_e( 'Lesson', 'lifterlms' ); ?></a>
+				<a href="#llms-editor-lesson" data-view="lesson"><?php _e( 'Lesson', 'lifterlms' ); ?></a>
 			</li>
 
 			<li class="llms-editor-menu-item<# if ( 'assignment' === data.state ) { print( ' active' ); } #>">
-				<a href="#llms-editor-assignment" data-view="assignment"><?php esc_html_e( 'Assignment', 'lifterlms' ); ?></a>
+				<a href="#llms-editor-assignment" data-view="assignment"><?php _e( 'Assignment', 'lifterlms' ); ?></a>
 			</li>
 
 			<li class="llms-editor-menu-item<# if ( 'quiz' === data.state ) { print( ' active' ); } #>">
-				<a href="#llms-editor-quiz" data-view="quiz"><?php esc_html_e( 'Quiz', 'lifterlms' ); ?></a>
+				<a href="#llms-editor-quiz" data-view="quiz"><?php _e( 'Quiz', 'lifterlms' ); ?></a>
 			</li>
 
 			<li class="llms-editor-menu-item right">
 				<a href="#llms-editor-close">
-					<span class="screen-reader-text"><?php esc_html_e( 'Close', 'lifterlms' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
 					<i class="fa fa-close" aria-hidden="true"></i>
 				</a>
 			</li>

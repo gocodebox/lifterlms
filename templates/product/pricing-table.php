@@ -33,7 +33,7 @@ $free_only = ( $has_free && ! $purchasable );
 		do_action( 'lifterlms_before_access_plans', $product->get( 'id' ) );
 	?>
 
-	<section class="llms-access-plans cols-<?php echo esc_attr( $product->get_pricing_table_columns_count( $free_only ) ); ?>">
+	<section class="llms-access-plans cols-<?php echo $product->get_pricing_table_columns_count( $free_only ); ?>">
 
 		<?php
 			/**

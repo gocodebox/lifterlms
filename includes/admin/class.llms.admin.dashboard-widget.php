@@ -66,7 +66,7 @@ class LLMS_Admin_Dashboard_Widget {
 			</a>
 		</div>
 		<div class="activity-block">
-			<?php echo $this->get_widgets(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template file. ?>
+			<?php echo $this->get_widgets(); ?>
 		</div>
 		<div class="activity-block">
 			<h3><?php esc_html_e( 'LifterLMS News & Podcasts', 'lifterlms' ); ?></h3>
@@ -224,5 +224,6 @@ class LLMS_Admin_Dashboard_Widget {
 			)
 		);
 	}
+
 }
 return new LLMS_Admin_Dashboard_Widget();

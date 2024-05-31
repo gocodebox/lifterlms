@@ -97,6 +97,7 @@ class LLMS_Form_Field {
 		$this->define_data_source( $data_source );
 
 		$this->prepare();
+
 	}
 
 	/**
@@ -123,6 +124,7 @@ class LLMS_Form_Field {
 			$this->data_source      = $data_source;
 			$this->data_source_type = 'wp_user';
 		}
+
 	}
 
 	/**
@@ -143,6 +145,7 @@ class LLMS_Form_Field {
 		$classes = array_merge( $defaults, $classes );
 
 		return array_filter( $classes );
+
 	}
 
 	/**
@@ -167,7 +170,7 @@ class LLMS_Form_Field {
 			$checked = $value === $key;
 
 			if ( 'checkbox' === $this->settings['type'] ) {
-				$name   .= '[]';
+				$name    .= '[]';
 				$value   = is_array( $value ) ? $value : array( $value );
 				$checked = in_array( $key, $value, true );
 			}
@@ -226,6 +229,7 @@ class LLMS_Form_Field {
 			'value'            => '',
 			'wrapper_classes'  => array(), // Or string of space-separated classes.
 		);
+
 	}
 
 	/**
@@ -248,6 +252,7 @@ class LLMS_Form_Field {
 		}
 
 		return $attrs;
+
 	}
 
 	/**
@@ -260,6 +265,7 @@ class LLMS_Form_Field {
 	protected function get_description_html() {
 
 		return $this->settings['description'] ? sprintf( '<span class="llms-description">%s</span>', $this->settings['description'] ) : '';
+
 	}
 
 	/**
@@ -367,6 +373,7 @@ class LLMS_Form_Field {
 		$close = $self_closing ? ' />' : sprintf( '</%s>', $tag );
 
 		return sprintf( '%1$s%2$s%3$s', $open, $inner_html, $close );
+
 	}
 
 	/**
@@ -411,6 +418,7 @@ class LLMS_Form_Field {
 		}
 
 		return array_merge( $attrs, $this->get_deprecated_html_attributes() );
+
 	}
 
 	/**
@@ -467,6 +475,7 @@ class LLMS_Form_Field {
 		$this->html = $before . $this->get_field_html() . $after;
 
 		return apply_filters( 'llms_form_field', $this->html, $this->settings );
+
 	}
 
 	/**
@@ -499,6 +508,7 @@ class LLMS_Form_Field {
 		}
 
 		return sprintf( '<label for="%1$s">%2$s%3$s</label>', esc_attr( $this->settings['id'] ), $this->settings['label'], $required );
+
 	}
 
 	/**
@@ -517,6 +527,7 @@ class LLMS_Form_Field {
 		}
 
 		return $pos;
+
 	}
 
 	/**
@@ -551,6 +562,7 @@ class LLMS_Form_Field {
 		}
 
 		return $html;
+
 	}
 
 	/**
@@ -572,6 +584,7 @@ class LLMS_Form_Field {
 		$html        .= $this->get_option_list_html( $this->settings['options'], $selected_val );
 
 		return $html;
+
 	}
 
 	/**
@@ -595,6 +608,7 @@ class LLMS_Form_Field {
 	protected function is_input_group() {
 
 		return in_array( $this->settings['type'], array( 'checkbox', 'radio' ), true ) && ! empty( $this->settings['options'] );
+
 	}
 
 	/**
@@ -649,6 +663,7 @@ class LLMS_Form_Field {
 		} elseif ( 'llms_voucher' === $this->settings['id'] ) {
 			$this->prepare_voucher();
 		}
+
 	}
 
 	/**
@@ -711,6 +726,7 @@ class LLMS_Form_Field {
 		}
 
 		return $prepared;
+
 	}
 
 	/**
@@ -755,6 +771,7 @@ class LLMS_Form_Field {
 		if ( isset( $default ) && ! $this->settings['default'] ) {
 			$this->settings['default'] = $default;
 		}
+
 	}
 
 	/**
@@ -798,10 +815,11 @@ class LLMS_Form_Field {
 		// Otherwise add it whe `wp_enqueue_scripts` is fired.
 		add_action(
 			'wp_enqueue_scripts',
-			function () use ( $meter_settings ) {
+			function() use ( $meter_settings ) {
 				$this->enqueue_strength_meter( $meter_settings );
 			}
 		);
+
 	}
 
 	/**
@@ -828,6 +846,7 @@ class LLMS_Form_Field {
 			'footer',
 			15
 		);
+
 	}
 
 	/**
@@ -871,6 +890,7 @@ class LLMS_Form_Field {
 		}
 
 		$this->settings['data_store_key'] = $name;
+
 	}
 
 	/**
@@ -922,6 +942,7 @@ class LLMS_Form_Field {
 		if ( ! $this->settings['value'] && ! is_array( $this->settings['value'] ) && '' !== $this->settings['default'] ) {
 			$this->settings['value'] = $this->settings['default'];
 		}
+
 	}
 
 	/**
@@ -942,6 +963,7 @@ class LLMS_Form_Field {
 			$this->settings['data_store_key'] = false;
 
 		}
+
 	}
 
 	/**
@@ -980,6 +1002,7 @@ class LLMS_Form_Field {
 			$this->settings['wrapper_classes'],
 			$defaults
 		);
+
 	}
 
 	/**
@@ -995,99 +1018,8 @@ class LLMS_Form_Field {
 			$this->get_html();
 		}
 
-		$allowed_html = array(
-			'a'        => array(
-				'href'    => true,
-				'onclick' => true,
-				'class'   => true,
-				'id'      => true,
-				'style'   => true,
-				'target'  => true,
-				'title'   => true,
-			),
-			'form'     => array(
-				'action'  => true,
-				'method'  => true,
-				'enctype' => true,
-				'name'    => true,
-				'target'  => true,
-			),
-			'input'    => array(
-				'checked'     => true,
-				'name'        => true,
-				'id'          => true,
-				'class'       => true,
-				'type'        => true,
-				'value'       => true,
-				'placeholder' => true,
-				'disabled'    => true,
-				'pattern'     => true,
-				'required'    => true,
-			),
-			'textarea' => array(
-				'name'  => true,
-				'id'    => true,
-				'class' => true,
-				'value' => true,
-			),
-			'button'   => array(
-				'name'     => true,
-				'id'       => true,
-				'class'    => true,
-				'type'     => true,
-				'disabled' => true,
-			),
-			'select'   => array(
-				'name'  => true,
-				'id'    => true,
-				'class' => true,
-			),
-			'option'   => array(
-				'value'    => true,
-				'selected' => true,
-				'disabled' => true,
-			),
-			'checkbox' => array(
-				'name'     => true,
-				'id'       => true,
-				'class'    => true,
-				'type'     => true,
-				'value'    => true,
-				'checked'  => true,
-				'disabled' => true,
-			),
-			'radio'    => array(
-				'name'     => true,
-				'id'       => true,
-				'class'    => true,
-				'type'     => true,
-				'value'    => true,
-				'checked'  => true,
-				'disabled' => true,
-			),
-			'optgroup' => array(
-				'label' => true,
-			),
-			'div'      => array(
-				'class' => true,
-				'id'    => true,
-			),
-			'label'    => array(
-				'for' => true,
-			),
-			'div'      => array(
-				'class' => true,
-			),
-			'span'     => array(
-				'class' => true,
-			),
-			'img'      => array(
-				'src'      => true,
-				'alt'      => true,
-				'decoding' => true,
-			),
-		);
+		echo $this->html;
 
-		echo wp_kses( $this->html, $allowed_html );
 	}
+
 }

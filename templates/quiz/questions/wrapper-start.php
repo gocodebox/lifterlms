@@ -14,4 +14,4 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<div class="llms-question-wrapper type--<?php echo esc_attr( $question->get( 'question_type' ) ); ?>" data-id="<?php echo esc_attr( $question->get( 'id' ) ); ?>" data-type="<?php echo esc_attr( $question->get( 'question_type' ) ); ?>" id="llms-question-<?php echo esc_attr( $question->get( 'id' ) ); ?>">
+<div class="llms-question-wrapper type--<?php echo $question->get( 'question_type' ); ?>" data-id="<?php echo $question->get( 'id' ); ?>" data-type="<?php echo $question->get( 'question_type' ); ?>" id="llms-question-<?php echo $question->get( 'id' ); ?>">

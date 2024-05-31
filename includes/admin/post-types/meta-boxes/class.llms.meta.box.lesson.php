@@ -35,6 +35,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			'lesson',
 		);
 		$this->priority = 'high';
+
 	}
 
 	/**
@@ -137,8 +138,8 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				'title'  => __( 'Drip Settings', 'lifterlms' ),
 				'fields' => array(
 					array(
-						'type'  => 'custom-html',
-						'id'    => $this->prefix . 'drip_course_settings_info',
+						'type' => 'custom-html',
+						'id' => $this->prefix . 'drip_course_settings_info',
 						'value' => $this->get_drip_course_settings_info_html( $course ),
 					),
 				),
@@ -160,7 +161,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( ! $course || 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) ) {
+		if ( ! $course || 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) )  {
 			$fields['drip']['fields'][] = array(
 				'class'         => 'llms-select2',
 				'desc_class'    => 'd-all',
@@ -216,11 +217,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		}
 
 		$output = 'yes' === $course->get( 'lesson_drip' ) && $course->get( 'drip_method' ) ?
-			esc_html__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first.', 'lifterlms' )
+			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first.', 'lifterlms' )
 		:
-			esc_html__( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.', 'lifterlms' );
+			__( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.', 'lifterlms' );
 
-		$output .= ' <a href="' . esc_url( admin_url( 'post.php?post=' . $course->get( 'id' ) . '&action=edit#lifterlms-course-options' ) ) . '">' . esc_html__( 'Edit Course', 'lifterlms' ) . '</a>';
+		$output .= ' <a href="' . admin_url( 'post.php?post=' . $course->get( 'id' ) . '&action=edit#lifterlms-course-options' ) . '">' . __( 'Edit Course', 'lifterlms' ) . '</a>';
 
 		return $output;
 	}

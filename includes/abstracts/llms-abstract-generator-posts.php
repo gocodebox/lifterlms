@@ -100,6 +100,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		// Load deps.
 		$this->load_dependencies();
+
 	}
 
 	/**
@@ -150,6 +151,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		add_post_meta( $post_id, $key, maybe_unserialize( $val ) );
+
 	}
 
 	/**
@@ -171,7 +173,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
 		if ( ! class_exists( $class_name ) ) {
-			throw new Exception( esc_html( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ) ), intval( self::ERROR_INVALID_POST ) );
+			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
 		}
 
 		// Don't create useless revision on "cloning".
@@ -205,7 +207,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		if ( ! $post->get( 'id' ) ) {
 			// Translators: %s = post type name.
-			throw new Exception( esc_html( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ), $type ) ), intval( self::ERROR_CREATE_POST ) );
+			throw new Exception( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ), $type ), self::ERROR_CREATE_POST );
 		}
 
 		// Store the temp id if it exists.
@@ -229,6 +231,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 		return $post;
+
 	}
 
 	/**
@@ -264,6 +267,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		// Don't return 0 if `wp_insert_post()` fails.
 		return $id ? $id : false;
+
 	}
 
 	/**
@@ -330,6 +334,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $author_id;
+
 	}
 
 	/**
@@ -351,6 +356,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return date( 'Y-m-d H:i:s', strtotime( $raw_date ) );
+
 	}
 
 	/**
@@ -421,7 +427,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 				$author_id = $this->create_user( $raw );
 
 				if ( is_wp_error( $author_id ) ) {
-					throw new Exception( esc_html( $author_id->get_error_message() ), intval( self::ERROR_CREATE_USER ) );
+					throw new Exception( $author_id->get_error_message(), self::ERROR_CREATE_USER );
 				}
 			}
 		}
@@ -435,6 +441,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 * @param array $raw       Original raw author data.
 		 */
 		return apply_filters( 'llms_generator_get_author_id', $author_id, $raw );
+
 	}
 
 	/**
@@ -465,6 +472,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $author_id;
+
 	}
 
 	/**
@@ -487,6 +495,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 * @param LLMS_Generator $generator   Generator instance.
 		 */
 		return apply_filters( 'llms_generator_default_post_status', $this->default_post_status, $this );
+
 	}
 
 	/**
@@ -514,7 +523,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			$term = wp_insert_term( $term_name, $tax );
 
 			if ( is_wp_error( $term ) ) {
-				throw new Exception( esc_html( sprintf( __( 'Error creating new term "%s".', 'lifterlms' ), $term_name ) ), intval( self::ERROR_CREATE_TERM ) );
+				throw new Exception( sprintf( __( 'Error creating new term "%s".', 'lifterlms' ), $term_name ), self::ERROR_CREATE_TERM );
 			}
 
 			/**
@@ -530,6 +539,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $term['term_id'];
+
 	}
 
 	/**
@@ -573,6 +583,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -617,6 +628,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $id;
+
 	}
 
 	/**
@@ -637,6 +649,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 * @param LLMS_Generator $generator Generator instance.
 		 */
 		return apply_filters( 'llms_generator_is_image_sideloading_enabled', true, $this );
+
 	}
 
 	/**
@@ -657,6 +670,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 * @param LLMS_Generator $generator Generator instance.
 		 */
 		return apply_filters( 'llms_generator_is_reusable_block_importing_enabled', true, $this );
+
 	}
 
 	/**
@@ -672,6 +686,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
+
 	}
 
 	/**
@@ -704,6 +719,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -737,6 +753,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 				$post->set( $key, $raw[ $key ] );
 			}
 		}
+
 	}
 
 	/**
@@ -769,6 +786,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return 'src' === $return ? wp_get_attachment_url( $id ) : $id;
+
 	}
 
 	/**
@@ -838,6 +856,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -867,5 +886,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$this->tempids[ $obj->get( 'type' ) ][ $raw['id'] ] = $obj->get( 'id' );
 
 		return $raw['id'];
+
 	}
+
 }

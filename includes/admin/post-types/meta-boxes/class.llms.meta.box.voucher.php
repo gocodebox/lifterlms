@@ -37,6 +37,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			'llms_voucher',
 		);
 		$this->priority = 'high';
+
 	}
 
 	/**
@@ -112,6 +113,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				),
 			),
 		);
+
 	}
 
 	/**
@@ -126,8 +128,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	private function codes_section_html() {
 
 		global $post;
-		$voucher = new LLMS_Voucher( $post->ID );
-		$codes   = $voucher->get_voucher_codes();
+		$voucher     = new LLMS_Voucher( $post->ID );
+		$codes       = $voucher->get_voucher_codes();
+		$delete_icon = '<span class="dashicons dashicons-no"></span><span class="screen-reader-text">' . __( 'Delete', 'lifterlms' ) . '</span>';
 
 		ob_start(); ?>
 		<div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
@@ -142,7 +145,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				</tr>
 				</thead>
 
-				<script>var delete_icon = '<span class="dashicons dashicons-no"></span><span class="screen-reader-text"><?php echo esc_js( __( 'Delete', 'lifterlms' ) ); ?></span>';</script>
+				<script>var delete_icon = '<?php echo $delete_icon; ?>';</script>
 
 				<tbody id="llms_voucher_tbody">
 				<?php
@@ -160,7 +163,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 							</td>
 							<td>
 								<a href="#" data-id="<?php echo esc_attr( $code->id ); ?>" class="llms-voucher-delete">
-									<span class="dashicons dashicons-no"></span><span class="screen-reader-text"><?php echo esc_html__( 'Delete', 'lifterlms' ); ?></span>
+									<?php echo $delete_icon; ?>
 								</a>
 							</td>
 						</tr>
