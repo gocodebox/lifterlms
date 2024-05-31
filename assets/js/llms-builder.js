@@ -2755,6 +2755,23 @@ define( 'Models/_Utilities',[], function() {
 
 		},
 
+		get_view_post_link: function() {
+			if ( this.has_temp_id() ) {
+				return '';
+			}
+
+			if ( this.get( 'permalink' ) ) {
+				return this.get( 'permalink' );
+			}
+
+			if ( this.get( 'status' ) === 'publish' ) {
+				return window.llms_builder.home_url + '?p=' + this.get( 'id' );
+			}
+
+			return window.llms_builder.home_url + '?p=' + this.get( 'id' ) + '&preview=true&post_type=' + this.get( 'type' );
+
+		},
+
 		/**
 		 * Retrieve schema fields defined for the model
 		 *
@@ -3295,7 +3312,8 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
  *
  * @since 3.17.6
  * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
- * @version 7.4.0
+ * @since 7.6.2 Added `disable_retake` schema.
+ * @version 7.6.2
  */
 define( 'Schemas/Quiz',[], function() {
 
@@ -3363,6 +3381,13 @@ define( 'Schemas/Quiz',[], function() {
 						condition: function() {
 							return 'yes' === this.get( 'question_bank' ) ? false : true;
 						}
+			},
+					{
+						attribute: 'disable_retake',
+						id: 'disable-retake',
+						label: LLMS.l10n.translate( 'Disable Retake' ),
+						tip: LLMS.l10n.translate( 'Prevent quiz retake after student passed the quiz.' ),
+						type: 'switch',
 			},
 				], [
 					{
@@ -3459,6 +3484,7 @@ define( 'Models/Quiz',[
 				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
+				disable_retake: 'no',
 
 				questions: [],
 
@@ -4490,9 +4516,11 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 			options = options || {};
 
 			if ( data instanceof Backbone.Model ) {
+				data.set( 'status', 'publish' );
 				data.set( 'parent_section', this.get( 'id' ) );
 				data.set_parent( this );
 			} else {
+				data.status = 'publish';
 				data.parent_section = this.get( 'id' );
 			}
 

@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  7.5.0
+ * @version  7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  7.5.0
+	 * @version  7.6.2
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -164,7 +164,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Schemas/Quiz.js.
 			 *
 			 * @since    3.17.6
-			 * @version  7.4.0
+			 * @version  7.6.2
 			 */
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Description' => esc_html__( 'Description', 'lifterlms' ),
@@ -178,6 +178,8 @@ class LLMS_L10n_JS {
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
 			'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
+			'Disable Retake' => esc_html__( 'Disable Retake', 'lifterlms' ),
+			'Prevent quiz retake after student passed the quiz.' => esc_html__( 'Prevent quiz retake after student passed the quiz.', 'lifterlms' ),
 			'Question Bank' => esc_html__( 'Question Bank', 'lifterlms' ),
 			'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' => esc_html__( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)', 'lifterlms' ),
 			'Get LifterLMS Advanced Quizzes' => esc_html__( 'Get LifterLMS Advanced Quizzes', 'lifterlms' ),
@@ -338,6 +340,8 @@ class LLMS_L10n_JS {
 			'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
 			'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
 			'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
+			'Disable Retake' => esc_html__( 'Disable Retake', 'lifterlms' ),
+			'Prevent quiz retake after student passed the quiz.' => esc_html__( 'Prevent quiz retake after student passed the quiz.', 'lifterlms' ),
 			'Question Bank' => esc_html__( 'Question Bank', 'lifterlms' ),
 			'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)' => esc_html__( 'A question bank helps prevent cheating and reinforces learning by allowing instructors to create assessments with randomized questions pulled from a bank of questions. (Available in Advanced Quizzes addon)', 'lifterlms' ),
 			'Get LifterLMS Advanced Quizzes' => esc_html__( 'Get LifterLMS Advanced Quizzes', 'lifterlms' ),

@@ -83,7 +83,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			}
 		}
-
 	}
 
 	/**
@@ -180,7 +179,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	public function get_avatar( $size = 96 ) {
@@ -248,7 +246,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Couldn't find an order, return false.
 		return false;
-
 	}
 
 	/**
@@ -262,7 +259,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_courses( $args = array() ) {
 
 		return $this->get_enrollments( 'course', $args );
-
 	}
 
 	/**
@@ -279,20 +275,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$limit_clause = $limit < 1 ? '' : "LIMIT 0, {$limit}";
+		$limit_clause = $limit < 1 ? '' : 'LIMIT 0, ' . intval( $limit );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d ORDER BY {$order_by} {$order} {$limit_clause};",
+					WHERE meta_key = %s AND user_id = %d ORDER BY %s %s %s;",
 				'_favorite',
-				get_current_user_id()
+				get_current_user_id(),
+				$order_by,
+				'DESC' === $order ? 'DESC' : 'ASC',
+				$limit_clause
 			)
 		);
 
 		return empty( $res ) ? false : $res;
-
 	}
 
 	/**
@@ -323,7 +320,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		// Add one to the limit to see if there's pagination.
-		$args['limit']++;
+		++$args['limit'];
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$q = $wpdb->get_results(
@@ -358,7 +355,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// Reset args to pass back for pagination.
-		$args['limit']--;
+		--$args['limit'];
 
 		$r = array(
 			'limit'   => $args['limit'],
@@ -368,7 +365,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		return $r;
-
 	}
 
 	/**
@@ -392,7 +388,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		); // db call ok; no-cache ok.
 
 		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
-
 	}
 
 	/**
@@ -501,7 +496,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'skip'    => $args['skip'],
 			'results' => array_keys( $query ),
 		);
-
 	}
 
 	/**
@@ -543,7 +537,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return ( $res ) ? date_i18n( $format, strtotime( $res ) ) : false;
-
 	}
 
 	/**
@@ -628,7 +621,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param boolean      $use_cache  Whether or not to use the local cache.
 		 */
 		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id, $use_cache );
-
 	}
 
 	/**
@@ -643,7 +635,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
 		return $trigger ? $trigger : false;
-
 	}
 
 	/**
@@ -669,7 +660,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$id = absint( str_replace( 'admin_', '', $trigger ) );
 		}
 		return $id;
-
 	}
 
 	/**
@@ -694,7 +684,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		return $query->get_metas();
-
 	}
 
 	/**
@@ -726,7 +715,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_memberships( $args = array() ) {
 
 		return $this->get_enrollments( 'membership', $args );
-
 	}
 
 	/**
@@ -751,7 +739,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $default;
-
 	}
 
 	/**
@@ -823,7 +810,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_overall_grade', $grade, $this );
-
 	}
 
 	/**
@@ -884,7 +870,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_overall_progress', $progress, $this );
-
 	}
 
 	/**
@@ -907,7 +892,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -928,7 +912,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $levels;
-
 	}
 
 	/**
@@ -947,7 +930,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_name', $name, $this->get_id(), $this );
-
 	}
 
 	/**
@@ -970,7 +952,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	public function get_orders( $params = array() ) {
@@ -1022,7 +1003,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'pages'  => $q->max_num_pages,
 			'orders' => $orders,
 		);
-
 	}
 
 	/**
@@ -1054,7 +1034,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			} elseif ( 'course_track' === $type ) {
@@ -1064,7 +1044,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $courses );
 				foreach ( $courses as $course ) {
 					if ( $this->is_complete( $course->ID, 'course' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			} elseif ( 'section' === $type ) {
@@ -1074,7 +1054,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			}
@@ -1097,7 +1077,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @version  3.24.0
 		 */
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
-
 	}
 
 	/**
@@ -1116,7 +1095,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return wp_date( $format, strtotime( $this->get( 'user_registered' ) ) );
-
 	}
 
 	/**
@@ -1147,7 +1125,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Not active.
 		return false;
-
 	}
 
 	/**
@@ -1186,7 +1163,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_is_' . $type . '_complete', $ret, $object_id, $type, $this );
-
 	}
 
 	/**
@@ -1223,7 +1199,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns an array with errored keys or true on success.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1281,7 +1256,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1300,7 +1274,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns boolean if postmeta update is successful.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1317,7 +1290,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns boolean if postmeta update is successful.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1342,7 +1314,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns an array with errored keys or true on success.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1387,7 +1358,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
-
 	}
 
 	/**
@@ -1439,7 +1409,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_is_user_enrolled', $ret, $this, $product_ids, $relation, $use_cache );
-
 	}
 
 	/**
@@ -1463,7 +1432,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_completion_status( 'complete', $object_id, $object_type, $trigger );
-
 	}
 
 	/**
@@ -1483,7 +1451,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
 		return $this->update_completion_status( 'incomplete', $object_id, $object_type, $trigger );
-
 	}
 
 	/**
@@ -1531,7 +1498,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1640,7 +1606,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Update was prevented.
 		return false;
-
 	}
 
 	/**
@@ -1723,7 +1688,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Nothing was deleted.
 		return false;
-
 	}
 
 	/**
@@ -1905,7 +1869,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
-
 	}
 
 	/**
@@ -1944,7 +1907,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param LLMS_Student $instance    The Student Instance
 		 */
 		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
-
 	}
 
 	/**
@@ -1966,7 +1928,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_favorite_status( 'favorite', $object_id, $object_type );
-
 	}
 
 	/**
@@ -1988,7 +1949,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_favorite_status( 'unfavorite', $object_id, $object_type );
-
 	}
 
 	/**
@@ -2060,7 +2020,5 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
 
 		return true;
-
 	}
-
 }
