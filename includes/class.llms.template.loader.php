@@ -393,7 +393,7 @@ class LLMS_Template_Loader {
 
 				// Translators: %s = Membership links.
 				$msg = sprintf(
-					__( 'You must belong to one of the following memberships to access this content: %s', 'lifterlms' ),
+					esc_html__( 'You must belong to one of the following memberships to access this content: %s', 'lifterlms' ),
 					wp_kses_post( $restricted_memberships )
 				);
 
