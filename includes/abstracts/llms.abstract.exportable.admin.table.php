@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -122,7 +122,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 			'progress' => $progress,
 			'url'      => $this->get_export_file_url( $file_path ),
 		);
-
 	}
 
 	/**
@@ -152,7 +151,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $export;
-
 	}
 
 	/**
@@ -174,7 +172,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.28.0
 	 * @since 3.28.1 Unknown.
-	 * @since [version] Add nonce to export file url.
+	 * @since 7.5.0 Add nonce to export file url.
 	 *
 	 * @param string $file_path Full path to a download file.
 	 * @return string
@@ -224,7 +222,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 * @param string[] $cols Array of file headers.
 		 */
 		return apply_filters( "llms_table_get_{$this->id}_export_header", $cols );
-
 	}
 
 	/**
@@ -268,7 +265,6 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 			$parts,
 			$this
 		);
-
 	}
 
 	/**
@@ -307,10 +303,12 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	public function get_title() {
 		_doing_it_wrong(
 			__METHOD__,
-			sprintf(
+			esc_html(
+				sprintf(
 				// Translators: %s = the name of the method.
-				__( "Method '%s' must be overridden.", 'lifterlms' ),
-				__METHOD__
+					__( "Method '%s' must be overridden.", 'lifterlms' ),
+					__METHOD__
+				)
 			),
 			'[version]'
 		);
@@ -327,5 +325,4 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	public function is_export_locked() {
 		return llms()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
 	}
-
 }

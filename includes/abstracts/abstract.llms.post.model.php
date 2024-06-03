@@ -162,7 +162,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( $created ) {
 			$this->after_create();
 		}
-
 	}
 
 
@@ -213,7 +212,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	protected function add_properties( $props = array() ) {
 
 		$this->properties = array_merge( $this->properties, $props );
-
 	}
 
 	/**
@@ -231,6 +229,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'height'          => true,
 			'src'             => true,
 			'width'           => true,
+			'style'           => true,
 		);
 	}
 
@@ -283,7 +282,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function _e( $key ) { // phpcs:ignore -- This is to mimic localization functions.
-		echo $this->translate( $key );
+		echo esc_html( $this->translate( $key ) );
 	}
 
 	/**
@@ -365,7 +364,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return new WP_Error( 'generator-error', __( 'An unknown error occurred during post cloning. Please try again.', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -418,7 +416,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$this->allowed_post_tags_unset();
 
 		die();
-
 	}
 
 	/**
@@ -526,7 +523,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// Shouldn't ever get here.
 		return false;
-
 	}
 
 	/**
@@ -545,7 +541,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $this->$key;
-
 	}
 
 	/**
@@ -758,7 +753,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
 		 */
 		return apply_filters( "llms_get_{$this->model_post_type}_{$key}_price", $price, $key, $price_args, $format, $this );
-
 	}
 
 	/**
@@ -881,7 +875,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param string          $prop      Postmeta property name.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_{$type}", $ret, $this, $type, $prop );
-
 	}
 
 	/**
@@ -906,7 +899,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $type;
-
 	}
 
 	/**
@@ -1028,7 +1020,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$props,
 			$this
 		);
-
 	}
 
 	/**
@@ -1087,7 +1078,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $terms ? $terms : array();
-
 	}
 
 	/**
@@ -1212,7 +1202,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param mixed           $val       The original property value.
 		 */
 		return apply_filters( "llms_scrub_{$this->model_post_type}_field_{$key}", $this->scrub_field( $val, $type ), $this, $key, $val );
-
 	}
 
 	/**
@@ -1278,7 +1267,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $val;
-
 	}
 
 	/**
@@ -1306,7 +1294,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $this->set_bulk( $model_array, false, $allow_same_meta_value );
-
 	}
 
 
@@ -1352,7 +1339,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1479,7 +1465,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// Update this post.
 		$this->post = get_post( $this->get( 'id' ) );
-
 	}
 
 
@@ -1530,7 +1515,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( $error->has_errors() ) {
 			return $error;
 		}
-
 	}
 
 	/**
@@ -1695,7 +1679,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param LLMS_Post_Model $model Post model instance.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_to_array", $arr, $this );
-
 	}
 
 	/**
@@ -1763,7 +1746,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		);
 
 		return $arr;
-
 	}
 
 	/**
@@ -1801,7 +1783,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -1831,7 +1812,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return array_values( array_unique( $images ) );
-
 	}
 
 	/**
@@ -1889,5 +1869,4 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		return $arr;
 	}
-
 }

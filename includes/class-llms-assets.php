@@ -122,7 +122,6 @@ class LLMS_Assets {
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		$this->debugging_assets = apply_filters( 'llms_assets_debug', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ), $this->package_id );
-
 	}
 
 	/**
@@ -147,7 +146,6 @@ class LLMS_Assets {
 		}
 
 		return $this->$type;
-
 	}
 
 	/**
@@ -173,7 +171,6 @@ class LLMS_Assets {
 		$this->inline[ $handle ] = compact( 'handle', 'asset', 'location', 'priority' );
 
 		return $priority;
-
 	}
 
 	/**
@@ -206,7 +203,6 @@ class LLMS_Assets {
 		wp_enqueue_script( $handle );
 
 		return wp_script_is( $handle, 'enqueued' );
-
 	}
 
 	/**
@@ -239,7 +235,6 @@ class LLMS_Assets {
 		wp_enqueue_style( $handle );
 
 		return wp_style_is( $handle, 'enqueued' );
-
 	}
 
 	/**
@@ -325,7 +320,6 @@ class LLMS_Assets {
 		 * @param string      $handle The asset handle.
 		 */
 		return apply_filters( "llms_get_{$type}_asset", $asset, $handle );
-
 	}
 
 	/**
@@ -352,7 +346,6 @@ class LLMS_Assets {
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		return apply_filters( "llms_get_{$type}_asset_defaults", $defaults, $this->package_id );
-
 	}
 
 	/**
@@ -390,7 +383,6 @@ class LLMS_Assets {
 		 * @param string  $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
 		return apply_filters( "llms_get_{$type}_asset_definitions", $list, $this->package_id );
-
 	}
 
 
@@ -427,7 +419,6 @@ class LLMS_Assets {
 		);
 
 		return $assets;
-
 	}
 
 	/**
@@ -456,7 +447,6 @@ class LLMS_Assets {
 		}
 
 		return $priority;
-
 	}
 
 	/**
@@ -496,7 +486,6 @@ class LLMS_Assets {
 		}
 
 		return $asset;
-
 	}
 
 	/**
@@ -523,10 +512,10 @@ class LLMS_Assets {
 			$open  = 'style' === $location ? '<style id="llms-inline-styles" type="text/css">' : sprintf( '<script id="llms-inline-%s-scripts" type="text/javascript">', $location );
 			$close = 'style' === $location ? '</style>' : '</script>';
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $open . implode( '', $assets ) . $close;
 
 		}
-
 	}
 
 	/**
@@ -560,7 +549,6 @@ class LLMS_Assets {
 		}
 
 		return sprintf( $before, $asset['handle'] ) . $asset['asset'] . $after;
-
 	}
 
 	/**
@@ -598,7 +586,6 @@ class LLMS_Assets {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -644,7 +631,6 @@ class LLMS_Assets {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -680,10 +666,6 @@ class LLMS_Assets {
 		$plugin_data = get_plugin_data( $script['base_file'], false, false );
 		$domain      = $plugin_data['TextDomain'];
 
-		// Setup the script's filename based on the md5 of it's relative path.
-		$relative_path = sprintf( '%1$s/%2$s%3$s', $script['path'], $script['file_name'], $script['extension'] );
-		$file          = sprintf( '%1$s-%2$s-%3$s.json', $domain, llms_get_locale(), md5( $relative_path ) );
-
 		// Possible directories where the language files may be found.
 		$dirs = array(
 			llms_l10n_get_safe_directory(),
@@ -692,13 +674,7 @@ class LLMS_Assets {
 		);
 
 		foreach ( $dirs as $dir ) {
-			// If the file exists, set the script translations.
-			if ( file_exists( sprintf( '%1$s/%2$s', $dir, $file ) ) ) {
-				wp_set_script_translations( $script['handle'], $domain, $dir );
-				break;
-			}
+			wp_set_script_translations( $script['handle'], $domain, $dir );
 		}
-
 	}
-
 }

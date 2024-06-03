@@ -5,10 +5,12 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
+
+require_once 'functions/llms-functions-l10n.php';
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
@@ -432,11 +434,11 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
 	$classes    = implode( ' ', $classes );
 	$percentage = 'mini' === $size ? round( $percentage, 0 ) : llms()->grades()->round( $percentage );
 	return '
-		<div class="' . $classes . '" data-perc="' . $percentage . '">
+		<div class="' . esc_attr( $classes ) . '" data-perc="' . esc_attr( $percentage ) . '">
 			<div class="inside">
 				<div class="percentage">
-					' . $percentage . '<small>%</small>
-					<div class="caption">' . $text . '</div>
+					' . esc_html( $percentage ) . '<small>%</small>
+					<div class="caption">' . esc_html( $text ) . '</div>
 				</div>
 			</div>
 		</div>';
@@ -1332,4 +1334,24 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
 
+}
+
+/**
+ * Check that the test value is a member of a specific array for sanitization purposes.
+ *
+ * @param mixed $needle Value to be tested.
+ * @param array $safelist Array of safelist values.
+ * @param mixed $default Default value to return if the needle is not in the safelist. Defaults to the first value in the safelist array if not provided.
+ * @since 7.6.0
+ */
+function llms_sanitize_with_safelist( $needle, $safelist, $default = null ) {
+	if ( ! in_array( $needle, $safelist ) ) {
+		if ( isset( $default ) ) {
+			return $default;
+		} else {
+			return $safelist[0];
+		}
+	} else {
+		return $needle;
+	}
 }

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,7 +140,7 @@ class LLMS_Student_Dashboard {
 	 * @since 3.0.0
 	 * @since 3.28.2 Unknown.
 	 * @since 6.0.0 Add pagination to the view-achievements and view-certificates tabs.
-	 * @since [version] Add view-favorites tab.
+	 * @since 7.5.0 Add view-favorites tab.
 	 *
 	 * @return array
 	 */

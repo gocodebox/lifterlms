@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version 6.0.0
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,8 +21,10 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Post_Relationships {
 
 	/**
-	 * Configure relationships
+	 * Configure relationships.
 	 *
+	 * @since Unknown.
+	 * @since 7.6.2 Added `llms_voucher` relationship.
 	 * @var array
 	 */
 	private $relationships = array(
@@ -83,6 +85,14 @@ class LLMS_Post_Relationships {
 			),
 		),
 
+		'llms_voucher'    => array(
+			array(
+				'action'     => 'delete',
+				'table_name' => 'lifterlms_vouchers_codes',
+				'table_key'  => 'voucher_id',
+			),
+		),
+
 	);
 
 	/**
@@ -100,7 +110,6 @@ class LLMS_Post_Relationships {
 		add_action( 'pre_delete_post', array( __CLASS__, 'maybe_prevent_product_deletion' ), 10, 2 );
 
 		add_action( 'before_delete_post', array( __CLASS__, 'maybe_clean_earned_engagments_related_user_post_meta' ) );
-
 	}
 
 	/**
@@ -148,7 +157,7 @@ class LLMS_Post_Relationships {
 
 		add_action(
 			'after_delete_post',
-			function( $post_id ) use ( $earned_engagement, $post_type ) {
+			function ( $post_id ) use ( $earned_engagement, $post_type ) {
 
 				if ( $earned_engagement->get( 'id' ) === $post_id ) {
 					do_action_deprecated(
@@ -161,7 +170,6 @@ class LLMS_Post_Relationships {
 						__( 'Use WordPress core `deleted_post` action hook.', 'lifterlms' )
 					);
 				}
-
 			}
 		);
 	}
@@ -193,12 +201,11 @@ class LLMS_Post_Relationships {
 			add_filter( 'rest_request_after_callbacks', array( __CLASS__, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
 			wp_die(
-				self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) )
+				esc_html( self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) ) )
 			);
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -227,7 +234,6 @@ class LLMS_Post_Relationships {
 		}
 
 		return $response;
-
 	}
 
 	/**
@@ -253,7 +259,6 @@ class LLMS_Post_Relationships {
 			__( 'Sorry, you are not allowed to delete %s with active subscriptions.', 'lifterlms' ),
 			$post_type_name
 		);
-
 	}
 
 	/**
@@ -277,7 +282,6 @@ class LLMS_Post_Relationships {
 			$this->delete_table_records( $post, $data );
 
 		}
-
 	}
 
 	/**
@@ -299,7 +303,6 @@ class LLMS_Post_Relationships {
 			),
 			'%d'
 		);
-
 	}
 
 	/**
@@ -320,7 +323,6 @@ class LLMS_Post_Relationships {
 		foreach ( $relationships as $id ) {
 			wp_delete_post( $id, $force );
 		}
-
 	}
 
 	/**
@@ -372,7 +374,6 @@ class LLMS_Post_Relationships {
 				$post_id
 			)
 		); // db-call ok; no-cache ok.
-
 	}
 
 	/**
@@ -412,7 +413,6 @@ class LLMS_Post_Relationships {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -439,9 +439,7 @@ class LLMS_Post_Relationships {
 				}
 			}
 		}
-
 	}
-
 }
 
 return new LLMS_Post_Relationships();

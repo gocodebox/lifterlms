@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 	 * @return void
 	 */
 	function lifterlms_archive_description() {
-		echo lifterlms_get_archive_description();
+		echo wp_kses_post( lifterlms_get_archive_description() );
 	}
 }
 
@@ -74,7 +74,6 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 		 * @param int|false $page_id WP_Post ID of the archive page being displayed.
 		 */
 		return apply_filters( 'llms_archive_description', llms_content( $content ), $page_id );
-
 	}
 }
 
@@ -128,7 +127,6 @@ function lifterlms_loop( $query = null ) {
 		$wp_query = $temp;
 		wp_reset_postdata();
 	}
-
 }
 
 /**
@@ -205,7 +203,6 @@ function llms_paginate_links( $args ) {
 		esc_attr( implode( ' ', $classes ) ),
 		$links
 	);
-
 }
 
 /**
@@ -240,7 +237,6 @@ function llms_get_loop_list_classes() {
 	$classes[] = sprintf( 'cols-%d', llms_get_loop_columns() );
 
 	return ' ' . implode( ' ', apply_filters( 'llms_get_loop_list_classes', $classes ) );
-
 }
 
 
@@ -273,6 +269,7 @@ function lifterlms_loop_featured_video() {
 		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
 			$video = $course->get_video();
 			if ( $video ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo '<div class="llms-video-wrapper">' . $video . '</div>';
 			}
 		}
@@ -301,7 +298,7 @@ if ( ! function_exists( 'lifterlms_loop_link_end' ) ) {
  */
 if ( ! function_exists( 'lifterlms_loop_link_start' ) ) {
 	function lifterlms_loop_link_start() {
-		echo '<a class="llms-loop-link" href="' . get_the_permalink() . '">';
+		echo '<a class="llms-loop-link" href="' . esc_url( get_the_permalink() ) . '">';
 	}
 }
 
@@ -351,7 +348,7 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 /**
  * Count of total lessons in a course.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @return void.
  */

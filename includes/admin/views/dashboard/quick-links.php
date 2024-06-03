@@ -84,7 +84,7 @@ defined( 'ABSPATH' ) || exit;
 		<ul class="llms-checklist">
 			<?php
 			foreach ( $checklist as $item ) {
-				echo '<li>' . $item . '</li>';
+				echo '<li>' . wp_kses_post( $item ) . '</li>';
 			}
 			?>
 		</ul>

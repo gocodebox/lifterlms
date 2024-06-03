@@ -10,4 +10,4 @@
  */
 defined( 'ABSPATH' ) || exit;
 ?>
-<h4 class="llms-access-plan-title"><?php echo $plan->get( 'title' ); ?></h4>
+<h4 class="llms-access-plan-title"><?php echo esc_html( $plan->get( 'title' ) ); ?></h4>

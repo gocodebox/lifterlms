@@ -156,7 +156,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Used to prevent save action from running
 	 * multiple times on a single load.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 * @var bool
 	 */
 	private $_saved;
@@ -192,7 +192,6 @@ abstract class LLMS_Admin_Metabox {
 
 		// Save errors.
 		add_action( 'shutdown', array( $this, 'save_errors' ) );
-
 	}
 
 	/**
@@ -288,7 +287,6 @@ abstract class LLMS_Admin_Metabox {
 		do_action( 'llms_metabox_after_content', $this->id );
 		echo '</div>';
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
-
 	}
 
 	/**
@@ -316,7 +314,6 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		delete_option( $this->error_opt_key );
-
 	}
 
 	/**
@@ -352,12 +349,12 @@ abstract class LLMS_Admin_Metabox {
 
 		foreach ( $fields as $i => $tab ) {
 
-			$i++;
+			++$i;
 			$current = 1 === $i ? ' llms-active' : '';
 
-			$this->navigation .= '<li class="llms-nav-item tab-link ' . $current . '" data-tab="' . $this->id . '-tab-' . $i . '"><span class="llms-nav-link">' . $tab['title'] . '</span></li>';
+			$this->navigation .= '<li class="llms-nav-item tab-link ' . esc_attr( $current ) . '" data-tab="' . $this->id . '-tab-' . esc_attr( $i ) . '"><span class="llms-nav-link">' . wp_kses_post( $tab['title'] ) . '</span></li>';
 
-			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . $current . '"><ul>';
+			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . esc_attr( $current ) . '"><ul>';
 
 			foreach ( $tab['fields'] as $field ) {
 				$this->content .= $this->process_field( $field );
@@ -366,7 +363,6 @@ abstract class LLMS_Admin_Metabox {
 			$this->content .= '</ul></div>';
 
 		}
-
 	}
 
 	/**
@@ -383,7 +379,7 @@ abstract class LLMS_Admin_Metabox {
 			strtr(
 				preg_replace_callback(
 					'/(\w+)/',
-					function( $m ) {
+					function ( $m ) {
 						return ucfirst( $m[1] );
 					},
 					$field['type']
@@ -401,7 +397,6 @@ abstract class LLMS_Admin_Metabox {
 		unset( $field_class );
 
 		return $field_html;
-
 	}
 
 	/**
@@ -441,7 +436,6 @@ abstract class LLMS_Admin_Metabox {
 			);
 
 		}
-
 	}
 
 	/**
@@ -504,7 +498,6 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		return 1;
-
 	}
 
 	/**
@@ -538,7 +531,6 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		return $this->save_field_db( $post_id, $field['id'], $val );
-
 	}
 
 	/**
@@ -622,5 +614,4 @@ abstract class LLMS_Admin_Metabox {
 			update_option( $this->error_opt_key, $this->errors );
 		}
 	}
-
 }

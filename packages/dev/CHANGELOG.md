@@ -1,5 +1,11 @@
 @lifterlms/dev CHANGELOG
 ========================
+v0.2.2 - 2024-04-18
+----------
+
+* Changes the default to not merge PRs against dev.
+
+
 v0.2.1 - 2023-04-18
 ----------
 

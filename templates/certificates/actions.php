@@ -19,29 +19,29 @@ defined( 'ABSPATH' ) || exit;
 <div class="llms-print-certificate no-print" id="llms-print-certificate">
 
 	<?php if ( ! $is_template ) : ?>
-		<a class="llms-cert-return-link" href="<?php echo esc_url( $back_link ); ?>">&larr; <?php echo $back_text; ?></a>
+		<a class="llms-cert-return-link" href="<?php echo esc_url( $back_link ); ?>">&larr; <?php echo esc_html( $back_text ); ?></a>
 	<?php endif; ?>
 
 	<button class="llms-button-secondary" onClick="window.print()" type="button">
-		<?php echo _e( 'Print', 'lifterlms' ); ?>
+		<?php esc_html_e( 'Print', 'lifterlms' ); ?>
 		<i class="fa fa-print" aria-hidden="true"></i>
 	</button>
 
 	<form action="" method="POST">
 
 		<button class="llms-button-secondary" type="submit" name="llms_generate_cert">
-			<?php echo _e( 'Save', 'lifterlms' ); ?>
+			<?php esc_html_e( 'Save', 'lifterlms' ); ?>
 			<i class="fa fa-cloud-download" aria-hidden="true"></i>
 		</button>
 
 		<?php if ( ! $is_template ) : ?>
-			<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing" value="<?php echo ! $is_sharing_enabled; ?>">
-			<?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
+			<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing" value="<?php echo esc_attr( ! $is_sharing_enabled ); ?>">
+			<?php echo ( $is_sharing_enabled ? esc_html__( 'Disable sharing', 'lifterlms' ) : esc_html__( 'Enable sharing', 'lifterlms' ) ); ?>
 				<i class="fa fa-share-alt" aria-hidden="true"></i>
 			</button>
 		<?php endif; ?>
 
-		<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
+		<input type="hidden" name="certificate_id" value="<?php echo esc_attr( get_the_ID() ); ?>">
 		<?php wp_nonce_field( 'llms-cert-actions', '_llms_cert_actions_nonce' ); ?>
 
 	</form>
