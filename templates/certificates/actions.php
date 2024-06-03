@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 	<form action="" method="POST">
 
 		<button class="llms-button-secondary" type="submit" name="llms_generate_cert">
-			<?php esc_html_e( 'Save', 'lifterlms' ); ?>
+			<?php esc_html_e( 'Download', 'lifterlms' ); ?>
 			<i class="fa fa-cloud-download" aria-hidden="true"></i>
 		</button>
 
@@ -39,6 +39,10 @@ defined( 'ABSPATH' ) || exit;
 			<?php echo ( $is_sharing_enabled ? esc_html__( 'Disable sharing', 'lifterlms' ) : esc_html__( 'Enable sharing', 'lifterlms' ) ); ?>
 				<i class="fa fa-share-alt" aria-hidden="true"></i>
 			</button>
+		<?php endif; ?>
+
+		<?php if ( $is_sharing_enabled ) : ?>
+			<input readonly="readonly" id="llms_sharing_permalink" onfocus="this.select();" value="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
 		<?php endif; ?>
 
 		<input type="hidden" name="certificate_id" value="<?php echo esc_attr( get_the_ID() ); ?>">
