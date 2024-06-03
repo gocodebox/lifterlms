@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
- * @since [version] Added the logic to add and remove lesson favorite.
+ * @since 7.5.0 Added the logic to add and remove lesson favorite.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -83,7 +83,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			}
 		}
-
 	}
 
 	/**
@@ -180,7 +179,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	public function get_avatar( $size = 96 ) {
@@ -248,7 +246,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Couldn't find an order, return false.
 		return false;
-
 	}
 
 	/**
@@ -262,13 +259,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_courses( $args = array() ) {
 
 		return $this->get_enrollments( 'course', $args );
-
 	}
 
 	/**
 	 * Retrieve user's favorites based on supplied criteria.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param string $order_by Result set ordering field. Default "updated_date".
 	 * @param string $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
@@ -279,20 +275,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$limit_clause = $limit < 1 ? '' : "LIMIT 0, {$limit}";
+		$limit_clause = $limit < 1 ? '' : 'LIMIT 0, ' . intval( $limit );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-					WHERE meta_key = %s AND user_id = %d ORDER BY {$order_by} {$order} {$limit_clause};",
+					WHERE meta_key = %s AND user_id = %d ORDER BY %s %s %s;",
 				'_favorite',
-				get_current_user_id()
+				get_current_user_id(),
+				$order_by,
+				'DESC' === $order ? 'DESC' : 'ASC',
+				$limit_clause
 			)
 		);
 
 		return empty( $res ) ? false : $res;
-
 	}
 
 	/**
@@ -323,7 +320,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		// Add one to the limit to see if there's pagination.
-		$args['limit']++;
+		++$args['limit'];
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$q = $wpdb->get_results(
@@ -358,7 +355,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// Reset args to pass back for pagination.
-		$args['limit']--;
+		--$args['limit'];
 
 		$r = array(
 			'limit'   => $args['limit'],
@@ -368,7 +365,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		return $r;
-
 	}
 
 	/**
@@ -392,7 +388,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		); // db call ok; no-cache ok.
 
 		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
-
 	}
 
 	/**
@@ -501,7 +496,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'skip'    => $args['skip'],
 			'results' => array_keys( $query ),
 		);
-
 	}
 
 	/**
@@ -543,7 +537,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return ( $res ) ? date_i18n( $format, strtotime( $res ) ) : false;
-
 	}
 
 	/**
@@ -628,7 +621,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param boolean      $use_cache  Whether or not to use the local cache.
 		 */
 		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id, $use_cache );
-
 	}
 
 	/**
@@ -643,7 +635,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
 		return $trigger ? $trigger : false;
-
 	}
 
 	/**
@@ -669,7 +660,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$id = absint( str_replace( 'admin_', '', $trigger ) );
 		}
 		return $id;
-
 	}
 
 	/**
@@ -694,7 +684,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		);
 
 		return $query->get_metas();
-
 	}
 
 	/**
@@ -726,7 +715,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_memberships( $args = array() ) {
 
 		return $this->get_enrollments( 'membership', $args );
-
 	}
 
 	/**
@@ -751,7 +739,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $default;
-
 	}
 
 	/**
@@ -823,7 +810,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_overall_grade', $grade, $this );
-
 	}
 
 	/**
@@ -884,7 +870,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_overall_progress', $progress, $this );
-
 	}
 
 	/**
@@ -907,7 +892,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -928,7 +912,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $levels;
-
 	}
 
 	/**
@@ -947,7 +930,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_student_get_name', $name, $this->get_id(), $this );
-
 	}
 
 	/**
@@ -970,7 +952,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return false;
-
 	}
 
 	public function get_orders( $params = array() ) {
@@ -1022,7 +1003,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'pages'  => $q->max_num_pages,
 			'orders' => $orders,
 		);
-
 	}
 
 	/**
@@ -1054,7 +1034,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			} elseif ( 'course_track' === $type ) {
@@ -1064,7 +1044,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $courses );
 				foreach ( $courses as $course ) {
 					if ( $this->is_complete( $course->ID, 'course' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			} elseif ( 'section' === $type ) {
@@ -1074,7 +1054,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
-						$completed++;
+						++$completed;
 					}
 				}
 			}
@@ -1097,7 +1077,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @version  3.24.0
 		 */
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
-
 	}
 
 	/**
@@ -1116,7 +1095,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return wp_date( $format, strtotime( $this->get( 'user_registered' ) ) );
-
 	}
 
 	/**
@@ -1147,7 +1125,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Not active.
 		return false;
-
 	}
 
 	/**
@@ -1186,7 +1163,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_is_' . $type . '_complete', $ret, $object_id, $type, $this );
-
 	}
 
 	/**
@@ -1223,7 +1199,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns an array with errored keys or true on success.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1281,13 +1256,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return true;
-
 	}
 
 	/**
 	 * Add student postmeta data when lesson is favorited.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see LLMS_Student->mark_favorite()
 	 *
@@ -1300,13 +1274,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns boolean if postmeta update is successful.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
 	 * Remove student postmeta data when lesson is unfavorited.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int $object_id WP Post ID of the object to mark/unmark as favorite.
 	 * @return bool
@@ -1317,7 +1290,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns boolean if postmeta update is successful.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1342,7 +1314,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Returns an array with errored keys or true on success.
 		return is_array( $update ) ? false : true;
-
 	}
 
 	/**
@@ -1387,7 +1358,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
-
 	}
 
 	/**
@@ -1439,7 +1409,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return apply_filters( 'llms_is_user_enrolled', $ret, $this, $product_ids, $relation, $use_cache );
-
 	}
 
 	/**
@@ -1463,7 +1432,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_completion_status( 'complete', $object_id, $object_type, $trigger );
-
 	}
 
 	/**
@@ -1483,7 +1451,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
 		return $this->update_completion_status( 'incomplete', $object_id, $object_type, $trigger );
-
 	}
 
 	/**
@@ -1531,7 +1498,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1640,7 +1606,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Update was prevented.
 		return false;
-
 	}
 
 	/**
@@ -1723,7 +1688,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Nothing was deleted.
 		return false;
-
 	}
 
 	/**
@@ -1905,13 +1869,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $update;
-
 	}
 
 	/**
 	 * Determine if the student has favorited a lesson.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 	 * @param string $object_type The object type, currently only 'lesson'.
@@ -1936,7 +1899,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 *
 		 * The dynamic portion of this filter, `{$object_type}`, refers to the Lesson.
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param array|false  $ret         Array of favorite data or `false` if no favorite is found.
 		 * @param int          $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -1944,13 +1907,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param LLMS_Student $instance    The Student Instance
 		 */
 		return apply_filters( 'llms_is_' . $object_type . '_favorite', $ret, $object_id, $object_type, $this );
-
 	}
 
 	/**
 	 * Mark a lesson favorite for the given user.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see llms_mark_favorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1966,13 +1928,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_favorite_status( 'favorite', $object_id, $object_type );
-
 	}
 
 	/**
 	 * Mark a lesson unfavorite for the given user.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @see llms_mark_unfavorite() calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1988,7 +1949,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return $this->update_favorite_status( 'unfavorite', $object_id, $object_type );
-
 	}
 
 	/**
@@ -1997,7 +1957,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Update the favorite status of a lesson for the current student.
 	 * Inserts / updates necessary user postmeta data.
 	 *
-	 * @since [version] Use filterable functions to determine if the object can be marked favorite.
+	 * @since 7.5.0 Use filterable functions to determine if the object can be marked favorite.
 	 *
 	 * @param string $status      New status to update to, either "favorite" or "unfavorite".
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2014,7 +1974,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2035,7 +1995,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new favorite status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int    $student_id  WP_User ID of the student.
 		 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
@@ -2052,7 +2012,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
 		 * either "favorite" or "unfavorite".
 		 *
-		 * @since [version]
+		 * @since 7.5.0
 		 *
 		 * @param int $student_id WP_User ID of the student.
 		 * @param int $object_id  WP_Post ID of the object.
@@ -2060,7 +2020,5 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
 
 		return true;
-
 	}
-
 }

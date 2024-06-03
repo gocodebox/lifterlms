@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -390,7 +390,7 @@ if ( ! function_exists( 'llms_template_favorite' ) ) {
 	/**
 	 * Favorite Lesson Template Include.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
 	 * @param string $object_type The object type, currently only 'lesson'.
@@ -414,7 +414,7 @@ if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
 	/**
 	 * Favorite Lesson Template Include when displayed in the syllabus lesson preview.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @return void
 	 */
@@ -836,7 +836,7 @@ function llms_placeholder_img_src() {
  * @return string
  */
 function llms_placeholder_img( $size = 'full' ) {
-	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . llms_placeholder_img_src() . '" alt="placeholder" class="llms-placeholder llms-featured-image wp-post-image" />' );
+	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . esc_url( llms_placeholder_img_src() ) . '" alt="placeholder" class="llms-placeholder llms-featured-image wp-post-image" />' );
 }
 
 /**
@@ -856,7 +856,7 @@ function llms_featured_img( $post_id, $size ) {
 	$html = '';
 
 	if ( isset( $img[0] ) ) {
-		$html = '<img src="' . $img[0] . '" alt="' . get_the_title( $post_id ) . '" class="llms-featured-image wp-post-image">';
+		$html = '<img src="' . esc_url( $img[0] ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="llms-featured-image wp-post-image">';
 	}
 
 	/**
@@ -910,13 +910,16 @@ function llms_get_author( $args = array() ) {
 	ob_start();
 	?>
 	<div class="llms-author">
-		<?php echo $img; ?>
-		<span class="llms-author-info name"><?php echo $name; ?></span>
+		<?php
+			// Escaping, but allowing flexibility for the filter above.
+			echo wp_kses_post( $img );
+		?>
+		<span class="llms-author-info name"><?php echo esc_html( $name ); ?></span>
 		<?php if ( $args['label'] ) : ?>
-			<span class="llms-author-info label"><?php echo $args['label']; ?></span>
+			<span class="llms-author-info label"><?php echo esc_html( $args['label'] ); ?></span>
 		<?php endif; ?>
 		<?php if ( $desc ) : ?>
-			<p class="llms-author-info bio"><?php echo $desc; ?></p>
+			<p class="llms-author-info bio"><?php echo wp_kses( $desc, wp_kses_allowed_html( 'user_description' ) ); ?></p>
 		<?php endif; ?>
 	</div>
 	<?php

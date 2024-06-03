@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
+ * @since 7.5.0
  * @version [versoin]]
  */
 
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @access private
  *
@@ -28,7 +28,7 @@ function _get_db_version() {
 /**
  * Disable favorites feature for old users.
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @return void
  */
@@ -39,7 +39,7 @@ function favorites_feature_bc() {
 /**
  * Update db version to 7.5.0
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @return false.
  */

@@ -13,6 +13,10 @@ $mailer = llms()->mailer();
 $terms = false;
 if ( 'yes' === get_option( 'lifterlms_registration_require_agree_to_terms', 'no' ) ) {
 	$terms = get_option( 'lifterlms_terms_page_id', false );
+	// Unset terms if the page is not published.
+	if ( $terms && 'publish' !== get_post_status( $terms ) ) {
+		$terms = false;
+	}
 }
 ?>
 								</td>

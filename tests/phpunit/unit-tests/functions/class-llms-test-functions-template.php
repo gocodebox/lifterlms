@@ -8,7 +8,7 @@
  * @group functions_template
  *
  * @since 4.8.0
- * @version [version]
+ * @version 7.5.0
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -38,7 +38,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test `llms_get_template_override_directories()` when only parent theme override dir is present.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Clear cache globals `$wp_template_path` since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path` since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_get_template_override_directories() when parent and child theme override dir are present.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_get_template_override_directories() when parent and child theme are present but only parent overrides.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_get_template_override_directories() when parent and child theme are present but only child overrides.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -185,7 +185,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_get_template_override_directories() when parent and child theme are present but none of them overrides.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() passing an empty template file.
 	 *
 	 * @since 5.9.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -266,7 +266,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Test llms_template_file_path() passing a template file that doesn't exist in the theme.
 	 *
 	 * @since 5.9.0
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */
@@ -304,7 +304,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 *
 	 * @since 5.9.0
 	 * @since 7.2.0 Stop expecting leading slash added to absolute paths.
-	 * @since [version] Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
+	 * @since 7.5.0 Clear cache globals `$wp_template_path`, `$wp_stylesheet_path' since WP 6.4.
 	 *
 	 * @return void
 	 */

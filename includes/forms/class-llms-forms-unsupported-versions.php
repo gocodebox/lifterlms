@@ -39,7 +39,6 @@ class LLMS_Forms_Unsupported_Versions {
 		}
 
 		add_action( 'current_screen', array( $this, 'init' ) );
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Forms_Unsupported_Versions {
 			llms_redirect_and_exit( admin_url( 'edit.php?post_type=llms_form' ) );
 
 		}
-
 	}
 
 	/**
@@ -80,9 +78,9 @@ class LLMS_Forms_Unsupported_Versions {
 	public function output_notice() {
 		?>
 		<div class="notice notice-error">
-			<p><b><?php _e( 'Minimum Version Requirements Error', 'lifterlms' ); ?></b></p>
-			<p><?php printf( __( 'In order to manage LifterLMS Forms you must upgrade to at least WordPress version %s or later or install the latest version of the Gutenberg plugin.', 'lifterlms' ), LLMS_Forms::instance()::MIN_WP_VERSION ); ?></p>
-			<p><?php _e( 'If you do not upgrade, your forms will display properly on the frontend and users will be able to create accounts, enroll, and checkout but you will be unable to customize them.', 'lifterlms' ); ?></p>
+			<p><b><?php esc_html_e( 'Minimum Version Requirements Error', 'lifterlms' ); ?></b></p>
+			<p><?php printf( esc_html__( 'In order to manage LifterLMS Forms you must upgrade to at least WordPress version %s or later or install the latest version of the Gutenberg plugin.', 'lifterlms' ), esc_html( LLMS_Forms::instance()::MIN_WP_VERSION ) ); ?></p>
+			<p><?php esc_html_e( 'If you do not upgrade, your forms will display properly on the frontend and users will be able to create accounts, enroll, and checkout but you will be unable to customize them.', 'lifterlms' ); ?></p>
 		</div>
 		<?php
 	}
@@ -99,7 +97,6 @@ class LLMS_Forms_Unsupported_Versions {
 	public function print_styles() {
 		echo '<style type="text/css" id="llms-forms-unsupported-styles">#the-list { pointer-events: none; filter: blur( 1px ); }</style>';
 	}
-
 }
 
 return new LLMS_Forms_Unsupported_Versions();

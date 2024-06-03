@@ -33,7 +33,6 @@ class LLMS_Admin_Post_Table_Orders {
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
 		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
-
 	}
 
 	/**
@@ -81,26 +80,26 @@ class LLMS_Admin_Post_Table_Orders {
 		switch ( $column ) {
 
 			case 'order':
-				echo '<a href="' . admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">';
-					printf( _x( '#%d', 'order number display', 'lifterlms' ), $post_id );
+				echo '<a href="' . esc_url( admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ) . '">';
+					printf( esc_html_x( '#%d', 'order number display', 'lifterlms' ), esc_html( $post_id ) );
 				echo '</a> ';
 
-				_e( 'by', 'lifterlms' );
+				esc_html_e( 'by', 'lifterlms' );
 				echo ' ';
 
 				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
-					echo $order->get_customer_name();
+					echo esc_html( $order->get_customer_name() );
 				} else {
 					$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
-					echo ! $edit_user_link ? $order->get_customer_name() . '<br>' : '<a href="' . $edit_user_link . '">' . $order->get_customer_name() . '</a><br>';
-					echo '<a href="mailto:' . $order->get( 'billing_email' ) . '">' . $order->get( 'billing_email' ) . '</a>';
+					echo ! $edit_user_link ? esc_html( $order->get_customer_name() ) . '<br>' : '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $order->get_customer_name() ) . '</a><br>';
+					echo '<a href="' . esc_url( 'mailto:' . $order->get( 'billing_email' ) ) . '">' . esc_html( $order->get( 'billing_email' ) ) . '</a>';
 				}
 
 				break;
 
 			case 'payment_status':
 				$status = $order->get( 'status' );
-				echo '<span class="llms-status llms-size--large ' . $status . ' ">' . llms_get_order_status_name( $status ) . '</span>';
+				echo '<span class="llms-status llms-size--large ' . esc_attr( $status ) . ' ">' . esc_html( llms_get_order_status_name( $status ) ) . '</span>';
 
 				break;
 
@@ -112,16 +111,16 @@ class LLMS_Admin_Post_Table_Orders {
 				if ( $ts ) {
 
 					if ( $ts < current_time( 'timestamp' ) ) {
-						_ex( 'Expired:', 'access plan expiration', 'lifterlms' );
+						echo esc_html_x( 'Expired:', 'access plan expiration', 'lifterlms' );
 					} else {
-						_ex( 'Expires:', 'access plan expiration', 'lifterlms' );
+						echo esc_html_x( 'Expires:', 'access plan expiration', 'lifterlms' );
 					}
 
-					echo ' ' . $date;
+					echo ' ' . esc_html( $date );
 
 				} else {
 
-					echo $date;
+					echo esc_html( $date );
 
 				}
 
@@ -129,11 +128,11 @@ class LLMS_Admin_Post_Table_Orders {
 
 			case 'product':
 				if ( llms_get_post( $order->get( 'product_id' ) ) ) {
-					echo '<a href="' . get_edit_post_link( $order->get( 'product_id' ) ) . '">' . $order->get( 'product_title' ) . '</a>';
+					echo '<a href="' . esc_url( get_edit_post_link( $order->get( 'product_id' ) ) ) . '">' . esc_html( $order->get( 'product_title' ) ) . '</a>';
 				} else {
-					echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' );
+					echo esc_html__( '[DELETED]', 'lifterlms' ) . ' ' . esc_html( $order->get( 'product_title' ) );
 				}
-				echo ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
+				echo ' (' . esc_html( ucfirst( $order->get( 'product_type' ) ) ) . ')';
 
 				break;
 
@@ -142,24 +141,24 @@ class LLMS_Admin_Post_Table_Orders {
 				$net    = $order->get_revenue( 'net' );
 
 				if ( $grosse !== $net ) {
-					echo '<del>' . llms_price( $grosse ) . '</del> ';
+					echo '<del>' . wp_kses( llms_price( $grosse ), LLMS_ALLOWED_HTML_PRICES ) . '</del> ';
 				}
 
-				echo llms_price( $net );
+				echo wp_kses( llms_price( $net ), LLMS_ALLOWED_HTML_PRICES );
 
 				break;
 
 			case 'type':
 				if ( $order->is_recurring() ) {
-					_e( 'Recurring', 'lifterlms' );
+					esc_html_e( 'Recurring', 'lifterlms' );
 				} else {
-					_e( 'One-time', 'lifterlms' );
+					esc_html_e( 'One-time', 'lifterlms' );
 				}
 
 				break;
 
 			case 'order_date':
-				echo $order->get_date( 'date' );
+				echo esc_html( $order->get_date( 'date' ) );
 
 				break;
 
@@ -252,7 +251,6 @@ class LLMS_Admin_Post_Table_Orders {
 		unset( $actions['inline hide-if-no-js'] );
 
 		return $actions;
-
 	}
 
 
@@ -275,6 +273,25 @@ class LLMS_Admin_Post_Table_Orders {
 
 			// What we are searching for.
 			$term = $query->query_vars['s'];
+
+			// We have to kill this value so that the query actually works.
+			$query->query_vars['s'] = '';
+
+			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
+			// @note we're not super proud of this incredible piece of duct tape.
+			add_filter(
+				'get_search_query',
+				function ( $q ) {
+					if ( '' === $q ) {
+						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
+					}
+				}
+			);
+
+			if ( is_numeric( $term ) ) {
+				$query->query_vars['p'] = trim( intval( $term ) );
+				return $query;
+			}
 
 			// Search wp_users.
 			$user_query = new WP_User_Query(
@@ -317,29 +334,13 @@ class LLMS_Admin_Post_Table_Orders {
 				),
 			);
 
-			// We have to kill this value so that the query actually works.
-			$query->query_vars['s'] = '';
-
 			// Set the query.
 			$query->set( 'meta_query', $meta_query );
-
-			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
-			// @note we're not super proud of this incredible piece of duct tape.
-			add_filter(
-				'get_search_query',
-				function( $q ) {
-					if ( '' === $q ) {
-						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
-					}
-				}
-			);
 
 		}
 
 		return $query;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Orders();

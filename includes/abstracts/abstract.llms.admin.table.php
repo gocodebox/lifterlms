@@ -220,7 +220,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $args;
-
 	}
 
 	/**
@@ -326,7 +325,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return $cols;
-
 	}
 
 	/**
@@ -485,7 +483,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		} else {
 			return 'ASC';
 		}
-
 	}
 
 	/**
@@ -538,18 +535,31 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.4.0
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_table_filters_html() instead.
 	 */
 	public function get_table_filters_html() {
 		ob_start();
+		$this->output_table_filters_html();
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output HTML for the filters displayed in the head of the table.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function output_table_filters_html() {
 		?>
 		<div class="llms-table-filters">
 			<?php foreach ( $this->get_columns() as $id => $data ) : ?>
 				<?php if ( is_array( $data ) && isset( $data['filterable'] ) && is_array( $data['filterable'] ) ) : ?>
 					<div class="llms-table-filter-wrap">
-						<select class="llms-select2 llms-table-filter" id="<?php printf( '%1$s-%2$s-filter', $this->id, $id ); ?>" name="<?php echo $id; ?>">
-							<option value="<?php echo $this->get_filter(); ?>"><?php echo $this->get_filter_placeholder( $id, $data ); ?></option>
+						<select class="llms-select2 llms-table-filter" id="<?php echo esc_attr( sprintf( '%1$s-%2$s-filter', $this->id, $id ) ); ?>" name="<?php echo esc_attr( $id ); ?>">
+							<option value="<?php echo esc_attr( $this->get_filter() ); ?>"><?php echo esc_html( $this->get_filter_placeholder( $id, $data ) ); ?></option>
 							<?php foreach ( $data['filterable'] as $val => $name ) : ?>
-								<option value="<?php echo $val; ?>"><?php echo $name; ?></option>
+								<option value="<?php echo esc_attr( $val ); ?>"><?php echo esc_html( $name ); ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -557,47 +567,60 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			<?php endforeach; ?>
 		</div>
 		<?php
-		return ob_get_clean();
 	}
 
+
 	/**
-	 * Get the HTML for the entire table.
+	 * Return the HTML for the entire table.
 	 *
 	 * @since 3.2.0
 	 * @since 3.17.8 Unknown.
 	 * @since 3.37.7 Use correct argument order for implode to fix php 7.4 deprecation.
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_table_html() instead.
 	 */
 	public function get_table_html() {
+		ob_start();
+		$this->output_table_html();
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output the HTML for the entire table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_table_html() {
 
 		$classes = $this->get_table_classes();
 
-		ob_start();
 		?>
 		<div class="llms-table-wrap">
 			<header class="llms-table-header">
-				<?php echo $this->get_table_title_html(); ?>
+				<?php $this->output_table_title_html(); ?>
 				<?php if ( $this->is_searchable ) : ?>
-					<?php echo $this->get_table_search_form_html(); ?>
+					<?php $this->output_table_search_form_html(); ?>
 				<?php endif; ?>
 				<?php if ( $this->is_filterable ) : ?>
-					<?php echo $this->get_table_filters_html(); ?>
+					<?php $this->output_table_filters_html(); ?>
 				<?php endif; ?>
 			</header>
 			<table
-				class="<?php echo implode( ' ', $classes ); ?>"
-				data-args='<?php echo wp_json_encode( $this->get_args() ); ?>'
-				data-handler="<?php echo $this->get_handler(); ?>"
-				id="llms-gb-table-<?php echo $this->id; ?>"
+				class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"
+				data-args='<?php echo esc_attr( wp_json_encode( $this->get_args() ) ); ?>'
+				data-handler="<?php echo esc_attr( $this->get_handler() ); ?>"
+				id="llms-gb-table-<?php echo esc_attr( $this->id ); ?>"
 			>
-				<?php echo $this->get_thead_html(); ?>
-				<?php echo $this->get_tbody_html(); ?>
-				<?php echo $this->get_tfoot_html(); ?>
+				<?php $this->output_thead_html(); ?>
+				<?php $this->output_tbody_html(); ?>
+				<?php $this->output_tfoot_html(); ?>
 			</table>
 		</div>
 		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -606,16 +629,29 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_table_search_form_html() instead.
 	 */
 	public function get_table_search_form_html() {
 		ob_start();
-		?>
-		<div class="llms-table-search">
-			<input class="regular-text" id="<?php echo $this->id; ?>-search-input" placeholder="<?php echo $this->get_table_search_form_placeholder(); ?>" type="text">
-		</div>
-		<?php
+		$this->output_table_search_form_html();
 		return ob_get_clean();
 	}
+
+	/**
+	 * Output the HTML of the search form for a searchable table.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @return string
+	 */
+	public function output_table_search_form_html() {
+		?>
+		<div class="llms-table-search">
+			<input class="regular-text" id="<?php echo esc_attr( $this->id ); ?>-search-input" placeholder="<?php echo esc_attr( $this->get_table_search_form_placeholder() ); ?>" type="text">
+		</div>
+		<?php
+	}
+
 
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input.
@@ -645,13 +681,25 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_table_title_html() instead.
 	 */
 	public function get_table_title_html() {
+		ob_start();
+		$this->output_table_title_html();
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output the HTML for the table's title.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_table_title_html() {
 		$title = $this->get_title();
 		if ( $title ) {
-			return '<h2 class="llms-table-title">' . $title . '</h2>';
-		} else {
-			return '';
+			echo '<h2 class="llms-table-title">' . esc_html( $title ) . '</h2>';
 		}
 	}
 
@@ -682,22 +730,34 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_tbody_html() instead.
 	 */
 	public function get_tbody_html() {
-		$data = $this->get_tbody_data();
 		ob_start();
+		$this->output_tbody_html();
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output a tbody element for the table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_tbody_html() {
+		$data = $this->get_tbody_data();
 		?>
 		<tbody>
-			<?php if ( $data ) : ?>
-				<?php foreach ( $data as $row ) : ?>
-					<?php echo $this->get_tr_html( $row ); ?>
-				<?php endforeach; ?>
-			<?php else : ?>
-				<tr><td class="llms-gb-table-empty" colspan="<?php echo $this->get_columns_count(); ?>"><p><?php echo $this->get_empty_message(); ?></p></td></tr>
-			<?php endif; ?>
+		<?php if ( $data ) : ?>
+			<?php foreach ( $data as $row ) : ?>
+				<?php $this->output_tr_html( $row ); ?>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<tr><td class="llms-gb-table-empty" colspan="<?php echo esc_attr( $this->get_columns_count() ); ?>"><p><?php echo esc_html( $this->get_empty_message() ); ?></p></td></tr>
+		<?php endif; ?>
 		</tbody>
 		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -707,47 +767,59 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.28.0 Unknown.
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_tfoot_html() instead.
 	 */
 	public function get_tfoot_html() {
 		ob_start();
+		$this->output_tfoot_html();
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output a tfoot element for the table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_tfoot_html() {
 		?>
 		<tfoot>
-			<tr>
-				<th colspan="<?php echo $this->get_columns_count(); ?>">
-					<?php if ( $this->is_exportable ) : ?>
-						<div class="llms-table-export">
-							<button class="llms-button-primary small" name="llms-table-export">
-								<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
-							</button>
-							<?php echo $this->get_progress_bar_html( 0 ); ?>
-							<em><small class="llms-table-export-msg"></small></em>
-						</div>
-					<?php endif; ?>
+		<tr>
+			<th colspan="<?php echo esc_attr( $this->get_columns_count() ); ?>">
+				<?php if ( $this->is_exportable ) : ?>
+					<div class="llms-table-export">
+						<button class="llms-button-primary small" name="llms-table-export">
+							<span class="dashicons dashicons-download"></span> <?php esc_html_e( 'Export', 'lifterlms' ); ?>
+						</button>
+						<?php $this->output_progress_bar_html( 0 ); ?>
+						<em><small class="llms-table-export-msg"></small></em>
+					</div>
+				<?php endif; ?>
 
-					<?php if ( $this->is_paginated ) : ?>
-						<div class="llms-table-pagination">
+				<?php if ( $this->is_paginated ) : ?>
+					<div class="llms-table-pagination">
 						<?php if ( $this->max_pages ) : ?>
-							<span class="llms-table-page-count"><?php printf( _x( '%1$d of %2$d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ); ?></span>
+							<span class="llms-table-page-count"><?php echo esc_html( sprintf( esc_html_x( '%1$d of %2$d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ) ); ?></span>
 						<?php endif; ?>
 						<?php if ( 1 !== $this->get_current_page() ) : ?>
 							<?php if ( $this->max_pages ) : ?>
-								<button class="llms-button-primary small" data-page="1" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt"></span> <?php _e( 'First', 'lifterlms' ); ?></button>
+								<button class="llms-button-primary small" data-page="1" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt"></span> <?php esc_html_e( 'First', 'lifterlms' ); ?></button>
 							<?php endif; ?>
-							<button class="llms-button-primary small" data-page="<?php echo $this->current_page - 1; ?>" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt2"></span> <?php _e( 'Back', 'lifterlms' ); ?></button>
+							<button class="llms-button-primary small" data-page="<?php echo esc_attr( $this->current_page - 1 ); ?>" name="llms-table-paging"><span class="dashicons dashicons-arrow-left-alt2"></span> <?php esc_html_e( 'Back', 'lifterlms' ); ?></button>
 						<?php endif; ?>
 						<?php if ( ! $this->is_last_page ) : ?>
-							<button class="llms-button-primary small" data-page="<?php echo $this->current_page + 1; ?>" name="llms-table-paging"><?php _e( 'Next', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></button>
+							<button class="llms-button-primary small" data-page="<?php echo esc_attr( $this->current_page + 1 ); ?>" name="llms-table-paging"><?php esc_html_e( 'Next', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt2"></span></button>
 							<?php if ( $this->max_pages ) : ?>
-								<button class="llms-button-primary small" data-page="<?php echo $this->max_pages; ?>" name="llms-table-paging"><?php _e( 'Last', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt"></span></button>
+								<button class="llms-button-primary small" data-page="<?php echo esc_attr( $this->max_pages ); ?>" name="llms-table-paging"><?php esc_html_e( 'Last', 'lifterlms' ); ?> <span class="dashicons dashicons-arrow-right-alt"></span></button>
 							<?php endif; ?>
 						<?php endif; ?>
-						</div>
-					<?php endif; ?>
-				</th>
-			</tr>
+					</div>
+				<?php endif; ?>
+			</th>
+		</tr>
 		</tfoot>
 		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -756,33 +828,45 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
+	 * @deprecated [version] Use output_thead_html() instead.
 	 */
 	public function get_thead_html() {
 		ob_start();
+		$this->output_thead_html();
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output the thead element for the table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_thead_html() {
 		?>
 		<thead>
-			<tr>
+		<tr>
 			<?php foreach ( $this->get_columns() as $id => $data ) : ?>
-				<th class="<?php echo $id; ?>">
+				<th class="<?php echo esc_attr( $id ); ?>">
 					<?php if ( is_array( $data ) ) : ?>
 						<?php if ( isset( $data['sortable'] ) && $data['sortable'] ) : ?>
-							<a class="llms-sortable<?php echo ( $this->get_orderby() === $id ) ? ' active' : ''; ?>" data-order="<?php echo $this->get_new_order( $id ); ?>" data-orderby="<?php echo $id; ?>" href="#llms-gb-table-resort">
-								<?php echo $data['title']; ?>
+							<a class="llms-sortable<?php echo ( $this->get_orderby() === $id ) ? ' active' : ''; ?>" data-order="<?php echo esc_attr( $this->get_new_order( $id ) ); ?>" data-orderby="<?php echo esc_attr( $id ); ?>" href="#llms-gb-table-resort">
+								<?php echo esc_html( $data['title'] ); ?>
 								<span class="dashicons dashicons-arrow-up asc"></span>
 								<span class="dashicons dashicons-arrow-down desc"></span>
 							</a>
 						<?php else : ?>
-							<?php echo $data['title']; ?>
+							<?php echo esc_html( $data['title'] ); ?>
 						<?php endif; ?>
 					<?php else : ?>
-						<?php echo $data; ?>
+						<?php echo esc_html( $data ); ?>
 					<?php endif; ?>
 				</th>
 			<?php endforeach; ?>
-			</tr>
+		</tr>
 		</thead>
 		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -815,9 +899,23 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @param mixed $row Array/object of data describing a single row in the table.
 	 * @return string
+	 * @deprecated [version] Use output_tr_html() instead.
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
+		$this->output_tr_html( $row );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Output the HTML for a single row in the body of the table.
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed $row Array/object of data describing a single row in the table.
+	 * @return void
+	 */
+	public function output_tr_html( $row ) {
 		/**
 		 * Fired before a table `<tr>`.
 		 *
@@ -829,9 +927,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		do_action( 'llms_table_before_tr', $row, $this );
 		?>
 		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
-		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
-			<td class="<?php echo $id; ?>"><?php echo $this->get_data( $id, $row ); ?></td>
-		<?php endforeach; ?>
+			<?php foreach ( $this->get_columns() as $id => $title ) : ?>
+				<td class="<?php echo esc_attr( $id ); ?>">
+					<?php echo $this->get_data( $id, $row ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</td>
+			<?php endforeach; ?>
 		</tr>
 		<?php
 		/**
@@ -843,8 +943,9 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
 		 */
 		do_action( 'llms_table_after_tr', $row, $this );
-		return ob_get_clean();
 	}
+
+
 
 	/**
 	 * Get the total number of columns in the table.
@@ -871,14 +972,37 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @param float  $percentage The percentage to be displayed.
 	 * @param string $text       Text to display over the progress bar, defaults to $percentage.
 	 * @return string
+	 * @deprecated [version] Use output_progress_bar_html() instead.
 	 */
 	public function get_progress_bar_html( $percentage, $text = '' ) {
-		$text = $text ? $text : $percentage . '%';
-		return '<div class="llms-table-progress">
-			<div class="llms-table-progress-bar"><div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div></div>
-			<span class="llms-table-progress-text">' . $text . '</span>
-		</div>';
+		ob_start();
+		$this->output_progress_bar_html( $percentage, $text );
+		return ob_get_clean();
 	}
+
+	/**
+	 * Output the HTML to output a progress bar within a td.
+	 *
+	 * Improve ugly tables with a small visual flourish.
+	 * Useful when displaying a percentage within a table!
+	 * Bonus if the table sorts by that percentage column.
+	 *
+	 * @since [version]
+	 *
+	 * @param float  $percentage The percentage to be displayed.
+	 * @param string $text       Text to display over the progress bar, defaults to $percentage.
+	 * @return void
+	 */
+	public function output_progress_bar_html( $percentage, $text = '' ) {
+		$text = $text ? $text : $percentage . '%';
+		?>
+		<div class="llms-table-progress">
+			<div class="llms-table-progress-bar"><div class="llms-table-progress-inner" style="width:<?php echo esc_attr( $percentage ); ?>%"></div></div>
+			<span class="llms-table-progress-text"><?php echo esc_html( $text ); ?></span>
+		</div>
+		<?php
+	}
+
 
 	/**
 	 * Get the HTML for a WP Post Link.
@@ -953,7 +1077,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1020,5 +1143,4 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	protected function set_title() {
 		return '';
 	}
-
 }

@@ -90,7 +90,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	 */
 	public function test_create_post_invalid_type() {
 
-		$this->setExpectedException( Exception::class, 'The class "LLMS_Fake_Type" does not exist.', 1100 );
+		$this->setExpectedException( Exception::class, esc_html( 'The class "LLMS_Fake_Type" does not exist.' ), 1100 );
 		LLMS_Unit_Test_Util::call_method( $this->stub, 'create_post', array( 'fake_type' ) );
 
 	}
@@ -390,7 +390,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 			return new WP_Error( 'mock-term-insert-err', 'Error' );
 		};
 		add_filter( 'pre_insert_term', $handler );
-		$this->setExpectedException( Exception::class, 'Error creating new term "mock gen term".', 1001 );
+		$this->setExpectedException( Exception::class, esc_html( 'Error creating new term "mock gen term".' ), 1001 );
 		LLMS_Unit_Test_Util::call_method( $this->stub, 'get_term_id', array( 'mock gen term', 'course_cat' ) );
 		remove_filter( 'pre_insert_term', $handler );
 
