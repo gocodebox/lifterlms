@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +46,7 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
  * Single Lesson
  *
  * @since Unknown
- * @since [version] Maybe add favorite template.
+ * @since 7.5.0 Maybe add favorite template.
  */
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_parent_course', 10 );
 if ( llms_is_favorites_enabled() ) {
@@ -90,7 +90,7 @@ add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 /**
  * Course Syllabus
  *
- * @since [version]
+ * @since 7.5.0
  */
 if ( llms_is_favorites_enabled() ) {
 	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_favorite_lesson_preview', 10 );

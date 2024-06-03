@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-entry: Added action hook `llms_checkout_form_gateway_cant_process_plan` fired on
-  the checkout form gateways section, when a gateway cannot process a specific
-  plan.

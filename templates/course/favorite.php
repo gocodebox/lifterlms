@@ -5,7 +5,7 @@
  * @author LifterLMS
  * @package LifterLMS/Templates
  *
- * @since [version]
+ * @since 7.5.0
  *
  * @param int    $object_id   WP Post ID of the object to mark/unmark as favorite.
  * @param string $object_type The object type, currently only 'lesson'.
@@ -34,7 +34,7 @@ $can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->
 	/**
 	 * Action fired before Favorite Button Hook.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param LLMS_Lesson  $lesson  Lesson object.
 	 * @param LLMS_Student $student Student object.
@@ -68,7 +68,7 @@ $can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->
 	/**
 	 * Action fired after Favorite Button Hook.
 	 *
-	 * @since [version]
+	 * @since 7.5.0
 	 *
 	 * @param LLMS_Lesson  $lesson  Lesson object.
 	 * @param LLMS_Student $student Student object.

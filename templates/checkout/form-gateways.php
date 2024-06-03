@@ -7,9 +7,9 @@
  * @since Unknown
  * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
  * @since 7.0.0 Disable data-source loading for gateway radio fields.
- * @since [version] Added check on whether a gateway can or cannot process a plan, or an order's plan (source switching).
+ * @since 7.5.0 Added check on whether a gateway can or cannot process a plan, or an order's plan (source switching).
  *              Escaped localized strings.
- * @version [version]
+ * @version 7.5.0
  *
  * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
  * @param string                 $selected_gateway ID of the currently selected/default payment gateway.
@@ -49,7 +49,7 @@ $gateways_array      = array_values( $gateways );
 						/**
 						 * Fired when a gateway cannot process a specific plan.
 						 *
-						 * @since [version]
+						 * @since 7.5.0
 						 *
 						 * @param LLMS_Payment_Gateway  $gateway Payment gateway instance.
 						 * @param LLMS_Access_Plan|null $plan    Access plan object.
@@ -59,7 +59,7 @@ $gateways_array      = array_values( $gateways );
 						continue;
 					}
 					?>
-					<li class="llms-payment-gateway <?php echo $gateway->get_id(); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
+					<li class="llms-payment-gateway <?php echo esc_attr( $gateway->get_id() ); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
 					<?php
 					llms_form_field(
 						array(
@@ -76,10 +76,13 @@ $gateways_array      = array_values( $gateways );
 					);
 					?>
 					<?php if ( $gateway->get_description() ) : ?>
-						<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $gateway->get_description() ) ); ?></div>
+						<div class="llms-gateway-description"><?php echo wp_kses_post( wpautop( wptexturize( $gateway->get_description() ) ) ); ?></div>
 					<?php endif; ?>
 					<?php if ( $gateway->supports( 'checkout_fields' ) ) : ?>
-						<div class="llms-gateway-fields"><?php echo $gateway->get_fields(); ?></div>
+						<div class="llms-gateway-fields"><?php
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo $gateway->get_fields();
+						?></div>
 					<?php endif; ?>
 					</li>
 					<?php $supporting_gateways++; ?>

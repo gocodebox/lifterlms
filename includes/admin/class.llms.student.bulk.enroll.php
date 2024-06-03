@@ -79,11 +79,11 @@ class LLMS_Student_Bulk_Enroll {
 		?>
 		<div class="alignleft actions">
 			<label class="screen-reader-text" for="_llms_bulk_enroll_product">
-				<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Choose Course/Membership', 'lifterlms' ); ?>
 			</label>
-			<select id="<?php echo $id; ?>" class="llms-posts-select2 llms-bulk-enroll-product" data-post-type="llms_membership,course" name="<?php echo $id; ?>" style="min-width:200px;max-width:auto;">
+			<select id="<?php echo esc_attr( $id ); ?>" class="llms-posts-select2 llms-bulk-enroll-product" data-post-type="llms_membership,course" name="<?php echo esc_attr( $id ); ?>" style="min-width:200px;max-width:auto;">
 			</select>
-			<input type="submit" name="<?php echo $submit; ?>" id="<?php echo $submit; ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
+			<input type="submit" name="<?php echo esc_attr( $submit ); ?>" id="<?php echo esc_attr( $submit ); ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
 		</div>
 		<?php
 	}
@@ -127,7 +127,6 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		$this->enroll_users_in_product();
-
 	}
 
 	/**
@@ -248,8 +247,8 @@ class LLMS_Student_Bulk_Enroll {
 	public function generate_notice( $type, $message ) {
 		ob_start();
 		?>
-		<div class="notice notice-<?php echo $type; ?> is-dismissible">
-			<p><?php echo $message; ?></p>
+		<div class="notice notice-<?php echo esc_attr( $type ); ?> is-dismissible">
+			<p><?php echo wp_kses_post( $message ); ?></p>
 		</div>
 		<?php
 		$notice                = ob_get_clean();
@@ -267,9 +266,9 @@ class LLMS_Student_Bulk_Enroll {
 		if ( empty( $this->admin_notices ) ) {
 			return;
 		}
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Notices are escaped in generate_notice().
 		echo implode( "\n", $this->admin_notices );
 	}
-
 }
 
 return new LLMS_Student_Bulk_Enroll();

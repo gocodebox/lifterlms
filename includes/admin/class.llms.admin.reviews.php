@@ -91,7 +91,7 @@ class LLMS_Admin_Reviews {
 
 		switch ( $column ) {
 			case 'course':
-				echo ( wp_get_post_parent_id( $post_id ) != 0 ) ? get_the_title( wp_get_post_parent_id( $post_id ) ) : '';
+				echo ( wp_get_post_parent_id( $post_id ) != 0 ) ? esc_html( get_the_title( wp_get_post_parent_id( $post_id ) ) ) : '';
 				break;
 		}
 	}
@@ -196,7 +196,6 @@ class LLMS_Admin_Reviews {
 			update_post_meta( $post_id, '_llms_multiple_reviews_disabled', $multiple );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
 }
 
