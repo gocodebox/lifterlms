@@ -1,0 +1,45 @@
+name: Contributors
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trunk
+
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+    name: Update contributors
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ORG_WORKFLOWS }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install contributor-faces
+
+      - name: Update README.md
+        run: ./node_modules/.bin/contributor-faces -e '*\[bot\]' -l 100
+
+      - name: Commit Updates
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update contributors list
+          branch: trunk
+          file_pattern: README.md
+          commit_user_name: contributors-workflow[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 4.3.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,15 +19,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Added `store_tracking_events()` method.
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Events::$_instance` property.
  */
 class LLMS_Events {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * List of registered event types.
@@ -35,20 +32,6 @@ class LLMS_Events {
 	 * @var array
 	 */
 	protected $registered_events = array();
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return LLMS_Events
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private Constructor
@@ -115,7 +98,7 @@ class LLMS_Events {
 	 * @since 3.36.0
 	 * @since 3.36.1 Use more performant `array_key_exists( $key, $array_assoc )` in place of `in_array( $key, array_keys( $array_assoc ), true )`.
 	 *
-	 * @param string $event Event string (${event_type}.${event_action}). EG: "account.signon".
+	 * @param string $event Event string ({$event_type}.{$event_action}). EG: "account.signon".
 	 * @return bool
 	 */
 	protected function is_event_valid( $event ) {

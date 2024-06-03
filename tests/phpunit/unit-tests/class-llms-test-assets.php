@@ -1,12 +1,13 @@
 <?php
 /**
- * Test AJAX Handler
+ * Test LLMS_Assets
  *
  * @package LifterLMS/Tests
  *
  * @group assets
  *
  * @since 4.4.0
+ * @version 7.2.0
  */
 class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
@@ -14,12 +15,13 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 4.4.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
 
 	}
@@ -30,12 +32,13 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Dequeue and deregister all assets that may have been registered/enqueued during the test.
 	 *
 	 * @since 4.4.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'scripts' ) ) as $handle ) {
 			wp_dequeue_script( $handle );
@@ -46,6 +49,59 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			wp_dequeue_style( $handle );
 			wp_deregister_style( $handle );
 		}
+
+	}
+
+	/**
+	 * Test merging of defaults during construction
+	 *
+	 * @since 4.9.0
+	 * @since 5.5.0 Add `asset_file`.
+	 *
+	 * @return void
+	 */
+	public function test_default_merge() {
+
+		$defaults = array(
+			// Base defaults shared by all asset types.
+			'base'   => array(
+				'base_file' => 'Some/Custom/Plugin/File.php',
+				'base_url'  => 'https://mock.tld/wp-content/plugins/custom-plugin',
+				'version'   => '93.29.107',
+				'suffix'    => '.custom',
+			),
+			// Script specific defaults.
+			'script' => array(
+				'translate' => true, // All scripts in this plugin are translated.
+			),
+		);
+
+		$expected = array(
+			'base' => array(
+				'base_file' => 'Some/Custom/Plugin/File.php',
+				'base_url' => 'https://mock.tld/wp-content/plugins/custom-plugin',
+				'suffix' => '.custom',
+				'dependencies' => array(),
+				'version' => '93.29.107',
+			),
+			'script' => array(
+				'path'       => 'assets/js',
+				'extension'  => '.js',
+				'in_footer'  => true,
+				'translate'  => true,
+				'asset_file' => false,
+			),
+			'style' => array(
+				'path' => 'assets/css',
+				'extension' => '.css',
+				'media' => 'all',
+				'rtl' => true,
+			),
+		);
+
+
+		$assets = new LLMS_Assets( 'mock-package-id', $defaults );
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::get_private_property_value( $assets, 'defaults' ) );
 
 	}
 
@@ -216,6 +272,27 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get() method for an asset with an asset.php file
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function test_get_with_asset_file() {
+
+		$definition = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'scripts' )['llms-addons'];
+		$asset_file = include LLMS_PLUGIN_DIR . 'assets/js/llms-admin-addons.asset.php';
+
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'script', 'llms-addons' ) );
+
+		$this->assertArrayHasKey( 'src', $asset );
+
+		$this->assertEquals( $asset_file['version'], $asset['version'] );
+		$this->assertEqualSets( $asset_file['dependencies'], $asset['dependencies'] );
+
+	}
+
+	/**
 	 * Test get() method for an undefined asset.
 	 *
 	 * @since 4.4.0
@@ -318,19 +395,24 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_scripts()
 	 *
 	 * @since 4.4.0
+	 * @since 5.5.0 Add `asset_file`.
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @return void
 	 */
 	public function test_get_defaults_for_scripts() {
 
 		$expect = array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
-			'version'      => llms()->version,
+			'version'      => LLMS_ASSETS_VERSION,
 			'extension'    => '.js',
 			'in_footer'    => true,
 			'path'         => 'assets/js',
+			'translate'    => false,
+			'asset_file'   => false,
 		);
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'script' ) ) );
 
@@ -340,16 +422,18 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_styles()
 	 *
 	 * @since 4.4.0
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for asset versions.
 	 *
 	 * @return void
 	 */
 	public function test_get_defaults_for_styles() {
 
 		$expect = array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
-			'version'      => llms()->version,
+			'version'      => LLMS_ASSETS_VERSION,
 			'extension'    => '.css',
 			'media'        => 'all',
 			'path'         => 'assets/css',
@@ -414,6 +498,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_inline_priority()
 	 *
 	 * @since 4.4.0
+	 * @since 7.0.0 Round mock priorities to nearest 2 decimals.
 	 *
 	 * @return void
 	 */
@@ -427,7 +512,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			$this->assertEquals( $i, LLMS_Unit_Test_Util::call_method( $this->main, 'get_inline_priority', array( 5, $existing_priorties ) ) );
 
 			$existing_priorties[] = array( 'priority' => $i );
-			$i += .01;
+			$i = round( $i + 0.01, 2 );
 
 		}
 
@@ -450,6 +535,25 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 		// Is enqueued.
 		$this->assertTrue( $this->main->is_inline_enqueued( 'is-inline-enqueued' ) );
+
+	}
+
+	/**
+	 * Test merge_asset_file() when `asset_file` is `false`.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function test_merge_asset_file_disabled() {
+
+		$asset = array(
+			'base_file'    => 'fake.php',
+			'asset_file'   => false,
+			'dependencies' => array(),
+		);
+
+		$this->assertEquals( $asset, LLMS_Unit_Test_Util::call_method( $this->main, 'merge_asset_file', array( $asset ) ) );
 
 	}
 
@@ -571,7 +675,6 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
-
 	/**
 	 * Test register_script() for a defined asset.
 	 *
@@ -582,6 +685,26 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_register_script_defined() {
 
 		$this->assertTrue( $this->main->register_script( 'llms' ) );
+		$this->assertAssetIsRegistered( 'script', 'llms' );
+
+	}
+
+	/**
+	 * Test register_script() for a defined asset with defined dependencies.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function test_register_script_defined_with_deps() {
+
+		// Dependency is not registered.
+		$this->assertAssetNotRegistered( 'script', 'llms' );
+
+		$this->assertTrue( $this->main->register_script( 'llms-quiz' ) );
+		$this->assertAssetIsRegistered( 'script', 'llms-quiz' );
+
+		// Dependency was automatically registered.
 		$this->assertAssetIsRegistered( 'script', 'llms' );
 
 	}
@@ -646,6 +769,33 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'suffix' => LLMS_ASSETS_SUFFIX,
 		);
 		$this->assertEquals( $expect, $wp_styles->registered['lifterlms-styles']->extra );
+
+	}
+
+	/**
+	 * Test register_style() for an asset with defined dependencies
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function test_register_style_with_deps() {
+
+		$this->markTestIncomplete( 'Need to rework this test when a qualifying asset is defined.' );
+
+		// Deps are not registered.
+		$deps = array( 'llms-datetimepicker', 'llms-quill-bubble', 'webui-popover' );
+		foreach ( $deps as $dep ) {
+			$this->assertAssetNotRegistered( 'style', $dep );
+		}
+
+		$this->assertTrue( $this->main->register_style( 'llms-builder-styles' ) );
+		$this->assertAssetIsRegistered( 'style', 'llms-builder-styles' );
+
+		// Deps are registered.
+		foreach ( $deps as $dep ) {
+			$this->assertAssetIsRegistered( 'style', $dep );
+		}
 
 	}
 

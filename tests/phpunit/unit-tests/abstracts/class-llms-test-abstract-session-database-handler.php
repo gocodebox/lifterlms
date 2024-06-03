@@ -16,12 +16,13 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 4.0.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_sessions" );

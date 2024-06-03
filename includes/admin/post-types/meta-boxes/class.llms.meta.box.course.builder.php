@@ -126,7 +126,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php if ( $lesson && $section ) : ?>
 
-				<h4><?php printf( __( 'Course: %s', 'lifterlms' ), $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ); ?></h4>
+				<p><strong><?php printf( __( 'Course: %s', 'lifterlms' ), $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ); ?></strong></p>
 
 				<?php $this->output_section( $section, 'previous' ); ?>
 
@@ -156,7 +156,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		$url = false;
 
-		if ( 'previous' == $which ) {
+		if ( 'previous' === $which ) {
 			$section = $section->get_previous();
 		} elseif ( 'next' === $which ) {
 			$section = $section->get_next();
@@ -166,7 +166,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 			return;
 		}
 
-		if ( 'previous' == $which || 'next' === $which ) {
+		if ( 'previous' === $which || 'next' === $which ) {
 			$lessons = $section->get_lessons( 'ids' );
 			if ( $lessons ) {
 				$url = get_edit_post_link( $lessons[0] );
@@ -174,7 +174,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 		?>
 
-		<h5><?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $this->get_title_html( $section->get( 'title' ), $url ) ); ?></h5>
+		<p><strong><?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $this->get_title_html( $section->get( 'title' ), $url ) ); ?></strong></p>
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>
@@ -183,7 +183,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 				$hash = 'lesson:' . $lesson->get( 'id' );
 				?>
 				<li>
-					<?php if ( $this->post->ID != $lesson->get( 'id' ) ) : ?>
+					<?php if ( $this->post->ID !== $lesson->get( 'id' ) ) : ?>
 						<?php echo $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ); ?>
 					<?php else : ?>
 						<?php echo $lesson->get( 'title' ); ?>

@@ -3,14 +3,14 @@
  *
  * @since 3.16.0
  * @since 3.30.1 Fixed issue causing multiple binds for add_existing_question events.
- * @version 3.27.0
+ * @version 5.4.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
 	return Backbone.View.extend( {
 
 		/**
-		 * HTML class names
+		 * HTML class names.
 		 *
 		 * @type  {String}
 		 */
@@ -21,36 +21,36 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		},
 
 		/**
-		 * HTML element wrapper ID attribute
+		 * HTML element wrapper ID attribute.
 		 *
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {String}
 		 */
 		id: function() {
 			return 'llms-question-type-' + this.model.id;
 		},
 
 		/**
-		 * Wrapper Tag name
+		 * Wrapper Tag name.
 		 *
-		 * @type  {String}
+		 * @type {String}
 		 */
 		tagName: 'li',
 
 		/**
-		 * Get the underscore template
+		 * Get the underscore template.
 		 *
-		 * @type  {[type]}
+		 * @type {[type]}
 		 */
 		template: wp.template( 'llms-question-type-template' ),
 
 		/**
-		 * Initialization callback func (renders the element on screen)
+		 * Initialization callback func (renders the element on screen).
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		initialize: function() {
 
@@ -59,11 +59,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		},
 
 		/**
-		 * Compiles the template and renders the view
+		 * Compiles the template and renders the view.
 		 *
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Self} For chaining.
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model ) );
@@ -71,11 +71,12 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		},
 
 		/**
-		 * Add a question of the selected type to the current quiz
+		 * Add a question of the selected type to the current quiz.
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.27.0
+		 * @since 3.16.0
+		 * @since 3.27.0 Unknown.
+		 *
+		 * @return {Void}
 		 */
 		add_question: function() {
 
@@ -88,12 +89,12 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		},
 
 		/**
-		 * Add a new question to the quiz
+		 * Add a new question to the quiz.
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Fixed issue causing multiple binds.
 		 *
-		 * @return  void
+		 * @return {Void}
 		 */
 		add_existing_question_click: function() {
 
@@ -129,9 +130,10 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
 		 *
 		 * @since 3.27.0
-		 * @version 3.27.0
+		 * @since 5.4.0 Use author id instead of the question author object.
 		 *
-		 * @return  void
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_question: function( event ) {
 
@@ -140,6 +142,8 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 			if ( 'clone' === event.action ) {
 				question = _.prepareQuestionObjectForCloning( question );
 			} else {
+				// Use author id instead of the question author object.
+				question = _.prepareExistingPostObjectDataForAddingOrCloning( question );
 				question._forceSync = true;
 			}
 
@@ -151,11 +155,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		},
 
 		/**
-		 * Add a new question to the quiz
+		 * Add a new question to the quiz.
 		 *
-		 * @return  void
-		 * @since   3.27.0
-		 * @version 3.27.0
+		 * @since 3.27.0
+		 *
+		 * @return {Void}
 		 */
 		add_new_question: function() {
 

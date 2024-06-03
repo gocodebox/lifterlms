@@ -9,29 +9,20 @@
  *
  * @since 3.36.0
  * @since 4.3.0 Add assertions to test against hooks and deprecated hooks.
+ * @since 5.3.3 Removed empty `setUp()` method.
  */
 class LLMS_Test_Event extends LLMS_Unit_Test_Case {
-
-	/**
-	 * Setup the test case.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return void
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
 
 	/**
 	 * Teardown the test case.
 	 *
 	 * @since 3.36.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
 	}
@@ -76,14 +67,12 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		}
 
 		$this->assertEquals( ++$actions, did_action( 'llms_event_created' ) );
-		$this->assertEquals( 0, did_action( 'llms___created' ) );
 
 		// Update.
 		$actions = did_action( 'llms_event_updated' );
 		$event->set( 'actor_id', 2, true );
 
 		$this->assertEquals( ++$actions, did_action( 'llms_event_updated' ) );
-		$this->assertEquals( 0, did_action( 'llms__updated' ) );
 
 		$event = new LLMS_Event( $id );
 		$this->assertEquals( 2, $event->get( 'actor_id' ) );
@@ -92,7 +81,6 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		$actions = did_action( 'llms_event_deleted' );
 		$this->assertTrue( $event->delete() );
 		$this->assertEquals( ++$actions, did_action( 'llms_event_deleted' ) );
-		$this->assertEquals( 0, did_action( 'llms__deleted' ) );
 
 	}
 

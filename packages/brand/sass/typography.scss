@@ -1,0 +1,13 @@
+$fonts: (
+	llms-sans: 'Montserrat, sans-serif',
+	llms-mono: monospace,
+);
+
+@function llms-font( $key ) {
+  @if map-has-key( $fonts, $key ) {
+    @return map-get( $fonts, $key );
+  }
+
+  @warn "Unknown `#{$key}` in $fonts.";
+  @return null;
+}

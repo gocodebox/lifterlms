@@ -4,20 +4,45 @@
 
 	<file>.</file>
 
-    <!-- Exclude Compiled JS files -->
+    <!-- Exclude project directories -->
+    <exclude-pattern>.bin/</exclude-pattern>
+    <exclude-pattern>.config/</exclude-pattern>
+    <exclude-pattern>.github/</exclude-pattern>
+    <exclude-pattern>.wordpress-org/</exclude-pattern>
+
+    <!-- Exclude compile or minified JS files -->
     <exclude-pattern>assets/js/llms.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-admin-addons.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-admin-certificate-editor.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-builder.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-components.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-icons.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-metaboxes.js</exclude-pattern>
+    <exclude-pattern>assets/js/llms-spinner.js</exclude-pattern>
+    <exclude-pattern>blocks/**/*.js</exclude-pattern>
+
+    <!-- Exclude PHP asset files -->
+    <exclude-pattern>*.asset.php</exclude-pattern>
+
+    <!-- Let ESLint handle ESNext JS -->
+    <exclude-pattern type="relative">src/**/*</exclude-pattern>
+    <exclude-pattern>webpack.config.js</exclude-pattern>
 
     <!-- Exclude node packages -->
     <exclude-pattern>packages/</exclude-pattern>
 
+    <!-- Exclude external libraries -->
+    <exclude-pattern>libraries/</exclude-pattern>
+
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
 
-	<!-- Don't throw errors for this 3rd party library -->
-	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
-		<exclude-pattern>includes/libraries/wp-background-processing/wp-background-process.php</exclude-pattern>
+    <!-- Exclude locale files that take forever to process -->
+    <exclude-pattern>languages/*.php</exclude-pattern>
+
+    <!-- Allow dynamic styles on the certificate template. -->
+	<rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet">
+		<exclude-pattern>templates/certificates/dynamic-styles.php</exclude-pattern>
 	</rule>
 
 	<rule ref="LifterLMS">
@@ -56,7 +81,10 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase">
 			<exclude-pattern>templates/taxonomy-*.php</exclude-pattern>
 		</exclude>
-
+		
+		<!-- This rule is for PHP versions less than 7.3, but we require an higher PHP version. -->
+		<exclude name="PHPCompatibility.Classes.NewTypedProperties.Found" />
+		
 	</rule>
 
 	<!--
@@ -87,52 +115,14 @@
 	</rule>
 
 	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-		<!-- Permanently excluded library files -->
-		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
-
 		<!-- To be fixed -->
-		<exclude-pattern>includes/emails/class.llms.email.engagement.php</exclude-pattern>
-		<exclude-pattern>includes/forms/controllers/class.llms.controller.login.php</exclude-pattern>
-		<exclude-pattern>includes/forms/controllers/class.llms.controller.registration.php</exclude-pattern>
-		<exclude-pattern>includes/forms/frontend/class.llms.frontend.forms.php</exclude-pattern>
-		<exclude-pattern>includes/forms/frontend/class.llms.frontend.password.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms-functions-access-plans.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.certificate.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.currency.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.log.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.notice.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.order.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.privacy.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.quiz.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.template.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.achievements.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.certificates.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.privacy.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-300.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-303.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-3160.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-343.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.access.plan.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.coupon.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.course.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.instructor.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.notification.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.order.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.question.choice.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.quiz.attempt.question.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.section.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.student.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.transaction.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/class.llms.notifications.query.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy-exporters.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy.php</exclude-pattern>
-		<exclude-pattern>includes/processors/class.llms.processor.course.data.php</exclude-pattern>
 		<exclude-pattern>includes/processors/class.llms.processor.membership.bulk.enroll.php</exclude-pattern>
 		<exclude-pattern>includes/processors/class.llms.processor.table.to.csv.php</exclude-pattern>
-		<exclude-pattern>includes/processors/class.llms.processors.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.course.outline.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.hide.content.php</exclude-pattern>
-		<exclude-pattern>includes/widgets/class.llms.widget.course.syllabus.php</exclude-pattern>
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">

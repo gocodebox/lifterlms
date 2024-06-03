@@ -2,10 +2,9 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @since 3.30.0 Made autoenroll table sortable, added AJAX save for adding new courses.
- * @version 3.30.0
+ * @version 7.1.1
  */
-( function( $ ) {
+ ( function( $ ) {
 
 	/**
 	 * jQuery plugin to allow "collapsible" sections
@@ -50,9 +49,12 @@
 		/**
 		 * Initialize
 		 *
+		 * @since 3.0.0
+		 * @since 3.13.0 Unknown.
+		 * @since 4.19.0 Add `this.bind_mce_fixes()`.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
+		 *
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.13.0
 		 */
 		this.init = function() {
 
@@ -65,6 +67,8 @@
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
 			this.bind_tabs();
+
+			this.bind_mce_fixes();
 
 			// bind everything better and less repetitively...
 			var bindings = [
@@ -103,7 +107,7 @@
 					func: 'bind_merge_code_buttons',
 			},
 				{
-					selector: $( 'a.llms-editable' ),
+					selector: $( 'a.llms-editable, button.llms-editable' ),
 					func: 'bind_editables',
 			},
 			];
@@ -290,9 +294,11 @@
 		/**
 		 * Bind llms-editable metabox fields and related dom interactions
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.28.0
+		 * @since 3.10.0
+		 * @since 3.28.0 Unknown.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
+		 *
+		 * @return void
 		 */
 		this.bind_editables = function() {
 
@@ -352,7 +358,7 @@
 
 			};
 
-			$( 'a.llms-editable' ).on( 'click', function( e ) {
+			$( 'a.llms-editable, button.llms-editable' ).on( 'click', function( e ) {
 
 				e.preventDefault();
 
@@ -587,9 +593,9 @@
 				var $table = $( '.llms-mb-list._llms_content_table' );
 					$tr    = $( '<tr />' );
 
-				$tr.append( '<td><span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span></td>' );
+				$tr.append( '<td><span class="dashicons dashicons-menu llms-drag-handle ui-sortable-handle"></span></td>' );
 				$tr.append( '<td><a href="' + window.llms.admin_url + 'post.php?action=edit&post=' + id + '">' + title + '</a></td>' );
-				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
+				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;margin-right:5px;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
 
 				// append the element to the table.
 				$table.find( 'table tbody' ).append( $tr );
@@ -766,6 +772,88 @@
 		};
 
 		/**
+		 * Re-initializes TinyMCE Editors found within metaboxes
+		 *
+		 * @since 4.19.0
+		 * @since 4.21.2 Improve early return dependency check.
+		 * @since 7.0.1 Add `undefined` condition on early return check.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1553
+		 * @link https://github.com/gocodebox/lifterlms/pull/1618
+		 * @link https://github.com/gocodebox/lifterlms/issues/2298
+		 *
+		 * @return {void}
+		 */
+		 this.bind_mce_fixes = function() {
+
+			// We need `wp.data` to proceed.
+			if ( undefined === wp.data || [ null, undefined ].includes( wp.data.select( 'core/edit-post' ) ) ) {
+				return;
+			}
+
+			LLMS.wait_for(
+				function() {
+					return undefined !== wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+				},
+				function() {
+
+					var shouldRun = false;
+						find      = [ 'lifterlms-product', 'lifterlms-membership', 'lifterlms-course-options' ];
+						metaboxes = wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+
+					// Determine if we should run the fixer.
+					for ( var key in metaboxes ) {
+						if ( -1 !== find.indexOf( metaboxes[ key ].id ) ) {
+							shouldRun = true;
+							break;
+						}
+					}
+
+					if ( ! shouldRun ) {
+						return;
+					}
+
+					// Fix them.
+					var toFix = {};
+
+					/**
+					 * Determines if the TinyMCE instance should be fixed.
+					 *
+					 * @since 4.19.0
+					 *
+					 * @param {string} key Editor Key. This is the HTML id attribute of the textarea powering the editor instance.
+					 * @return {Boolean} Returns `true` if the editor should be fixed.
+					 */
+					function llmsShouldFixTinyMCEEditor( key ) {
+						return ( 'excerpt' === key || -1 !== key.indexOf( 'llms' ) || -1 !== key.indexOf( 'lifterlms' ) )
+					};
+
+					// Loop through all the loaded editors.
+					for ( var key in tinyMCE.EditorManager.editors ) {
+
+						// Mark LifterLMS editors to be fixed & de-init the editor.
+						if ( llmsShouldFixTinyMCEEditor( key ) ) {
+
+							toFix[ key ] = tinyMCE.EditorManager.get( key );
+							tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, key );
+
+						}
+
+					}
+
+					// If we remove and re-init immediately it doesn't work, so we'll wait a bit and then re-init them all.
+					setTimeout( function() {
+						for ( var key in toFix ) {
+							tinyMCE.EditorManager.init( toFix[ key ].settings || tinyMCE.EditorManager.settings );
+						}
+					}, 500 );
+
+				}
+			);
+
+		};
+
+		/**
 		 * Binds custom llms merge code buttons
 		 *
 		 * @return   void
@@ -841,19 +929,23 @@
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 *
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.21.0
+		 * @since 3.0.0
+		 * @since 3.21.0 Unknown.
+		 * @since 6.0.0 Show element at 100% width if not displaying a view button.
+		 * @since 7.1.1 Fixed `home_url` for view button.
+		 *
+		 * @return void
 		 */
 		this.post_select = function( $el ) {
 
-			var multi = 'multiple' === $el.attr( 'multiple' );
+			var multi = 'multiple' === $el.attr( 'multiple' ),
+				noViewBtn = $el.attr( 'data-no-view-button' );
 
 			$el.llmsPostsSelect2( {
-				width: multi ? '100%' : '65%',
+				width: multi || noViewBtn ? '100%' : '65%',
 			} );
 
-			if ( multi || $el.attr( 'data-no-view-button' ) ) {
+			if ( multi || noViewBtn ) {
 				return;
 			}
 
@@ -865,7 +957,7 @@
 			$el.on( 'change', function() {
 				var id = $( this ).val();
 				if ( id ) {
-					$btn.attr( 'href', '/?p=' + id ).show();
+					$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
 				} else {
 					$btn.hide();
 				}

@@ -1,17 +1,17 @@
 <?php
 /**
- * LifterLMS Notification Model
+ * LLMS_Notification class file
  *
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.8.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Notification model class
+ * LLMS_Notification model class.
  *
  * Used for notification CRUD and Display.
  *
@@ -100,7 +100,7 @@ class LLMS_Notification implements JsonSerializable {
 	 * Merged HTML for the notification
 	 * used for displaying a notification view
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	private $html;
 
@@ -159,20 +159,21 @@ class LLMS_Notification implements JsonSerializable {
 			)
 		);
 
-		ksort( $data ); // maintain alpha sort you savages
+		ksort( $data ); // Maintain alpha sort you savages.
 
 		$format = array(
-			'%s', // created
-			'%d', // post_id
-			'%s', // status
-			'%s', // subscriber
-			'%s', // trigger_id
-			'%s', // type
-			'%s', // updated
-			'%d', // user_id
+			'%s', // For created.
+			'%d', // For post_id.
+			'%s', // For status.
+			'%s', // For subscriber.
+			'%s', // For trigger_id.
+			'%s', // For type.
+			'%s', // For updated.
+			'%d', // For user_id.
 		);
 
 		global $wpdb;
+
 		if ( 1 !== $wpdb->insert( $this->get_table(), $data, $format ) ) {
 			return false;
 		}
@@ -204,19 +205,20 @@ class LLMS_Notification implements JsonSerializable {
 	 */
 	public function get( $key, $skip_cache = false ) {
 
-		// id will always be accessed from the object
+		// Id will always be accessed from the object.
 		if ( 'id' === $key ) {
 			return $this->id;
 		}
 
-		// return cached values if they exist
+		// Return cached values if they exist.
 		if ( ! is_null( $this->$key ) && ! $skip_cache ) {
 			return $this->$key;
 		}
 
-		// get the value from the database
+		// get the value from the database.
 		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );  // db call ok; no-cache ok.
 
 	}
 
@@ -255,26 +257,32 @@ class LLMS_Notification implements JsonSerializable {
 	 * @version  3.8.0
 	 */
 	public function get_view() {
-		return LLMS()->notifications()->get_view( $this );
+		return llms()->notifications()->get_view( $this );
 	}
 
 	/**
 	 * Called when converting a notification to JSON
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @todo The `mixed` return type declared by the parent method, which should be defined here as well,
+	 *       is not available until PHP 8.0. Once support is dropped for 7.4 we can add the return type declaration
+	 *       and remove the `#[ReturnTypeWillChange]` attribute. This *must* happen before the release of PHP 9.0.
+	 *
+	 * @return array
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return $this->toArray();
 	}
 
 	/**
-	 * Load all notification data into the instance
+	 * Load all notification data into the instance.
 	 *
-	 * @return   self
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 7.1.0 Catch possible fatals while generating the notification HTML and log them.
+	 *
+	 * @return LLMS_Notification
 	 */
 	public function load() {
 
@@ -283,7 +291,7 @@ class LLMS_Notification implements JsonSerializable {
 		$notification = $wpdb->get_row(
 			$wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
-		);
+		); // db call ok; no-cache ok.
 
 		if ( $notification ) {
 
@@ -291,8 +299,13 @@ class LLMS_Notification implements JsonSerializable {
 				$this->$key = $val;
 			}
 
-			$this->html = $this->get_html();
-
+			try {
+				$this->html = $this->get_html();
+			} catch ( Error $e ) {
+				llms_log( sprintf( 'Error generating the HTML for the notification ID #%d', $this->id ) );
+				llms_log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
+				$this->set( 'status', 'error' );
+			}
 		}
 
 		return $this;
@@ -330,7 +343,7 @@ class LLMS_Notification implements JsonSerializable {
 							current_time( 'mysql' ),
 							$this->id
 						)
-					);
+					); // db call ok; no-cache ok.
 					// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				}
 				return true;

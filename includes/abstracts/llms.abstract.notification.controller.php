@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,39 +21,41 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $id;
 
 	/**
 	 * Number of accepted arguments passed to the callback function
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $action_hooks = array();
 
 	/**
 	 * Priority used when adding action hook
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $action_priority = 15;
 
 	/**
 	 * If true, will automatically dupcheck before sending
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $auto_dupcheck = false;
 
 	/**
+	 * Course associated with the notification
+	 *
 	 * @var LLMS_Course
 	 * @since 3.8.0
 	 */
@@ -62,7 +64,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * WP Post ID associated with the triggering action
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $post_id = null;
 
@@ -77,21 +79,21 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Array of subscriptions for the notification
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $subscriptions = array();
 
 	/**
 	 * Array of supported notification types
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $supported_types = array();
 
 	/**
 	 * Determines if test notifications can be sent
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $testable = array(
 		'basic' => false,
@@ -101,37 +103,38 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * WP User ID associated with the triggering action
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $user_id = null;
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 *
-	 * @param    string $subscriber  subscriber type string
-	 * @return   int|false
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *  @since 3.8.0
+	 *
+	 * @param string $subscriber Subscriber type string.
+	 * @return int|false
 	 */
 	abstract protected function get_subscriber( $subscriber );
 
 	/**
 	 * Get the translatable title for the notification
-	 * used on settings screens
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Used on settings screens.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract public function get_title();
 
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @param    string $type  notification type id
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Notification type id.
+	 * @return array
 	 */
 	abstract protected function set_subscriber_options( $type );
 
@@ -139,16 +142,16 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Holds singletons for extending classes
 	 *
-	 * @var  LLMS_Abstract_Notification_Controller[]
+	 * @var LLMS_Abstract_Notification_Controller[]
 	 */
 	private static $_instances = array();
 
 	/**
 	 * Get the singleton instance for the extending class
 	 *
-	 * @return   LLMS_Abstract_Notification_Controller
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return LLMS_Abstract_Notification_Controller
 	 */
 	public static function instance() {
 
@@ -165,8 +168,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Constructor
 	 *
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
@@ -177,9 +181,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Add an action to trigger the notification to send
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return void
 	 */
 	protected function add_actions() {
 
@@ -189,6 +193,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	}
 
+	/**
+	 * Add custom subscriptions
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	private function add_custom_subscriptions( $type ) {
 		$option      = $this->get_option( $type . '_custom_subscribers' );
 		$subscribers = explode( ',', $option );
@@ -203,13 +214,19 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Adds subscribers before sending a notifications
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 5.2.0 Added parameter to only send notifications of specific types.
+	 *
+	 * @param null|string[] $filter_types Optional. Array of notification types to be sent. Default is `null`.
+	 *                                    When not provided (`null`) all the types.
+	 * @return void
 	 */
-	private function add_subscriptions() {
+	private function add_subscriptions( $filter_types = null ) {
 
 		foreach ( array_keys( $this->get_supported_types() ) as $type ) {
+			if ( ! is_null( $filter_types ) && ! in_array( $type, $filter_types, true ) ) {
+				continue;
+			}
 
 			foreach ( $this->get_subscribers_settings( $type ) as $subscriber_key => $enabled ) {
 
@@ -234,13 +251,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Get a fake instance of a view, used for managing options & customization on the admin panel
 	 *
-	 * @param    string $type        notification type
-	 * @param    int    $subscriber  subscriber id
-	 * @param    int    $user_id     user id
-	 * @param    int    $post_id     post id
-	 * @return   LLMS_Abstract_Notification_View|false
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type       Optional. Notification type. Default is 'basic'.
+	 * @param int    $subscriber Optional. Subscriber id. When not provided the current user id will be used.
+	 * @param int    $user_id    Optional. User id. When not provided the current user id will be used.
+	 * @param int    $post_id    Optional. Post id. When not provided the post_id (`$this->post_id`) associated with the notification will be used.
+	 * @return LLMS_Abstract_Notification_View|false
 	 */
 	public function get_mock_view( $type = 'basic', $subscriber = null, $user_id = null, $post_id = null ) {
 
@@ -251,17 +268,18 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$notification->set( 'post_id', $post_id );
 		$notification->set( 'trigger_id', $this->id );
 
-		return LLMS()->notifications()->get_view( $notification );
+		return llms()->notifications()->get_view( $notification );
 
 	}
 
 	/**
 	 * Retrieve a prefix for options related to the notification
-	 * This overrides the LLMS_Abstract_Options_Data method
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * This overrides the LLMS_Abstract_Options_Data method.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function get_option_prefix() {
 		return sprintf( '%1$snotification_%2$s_', $this->option_prefix, $this->id );
@@ -270,22 +288,31 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Retrieve get an array of subscriber options for the current notification by type
 	 *
-	 * @param    string $type    notification type [basic|email]
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_subscriber_options( $type ) {
-		return apply_filters( 'llms_notification_' . $this->id . '_subscriber_options', $this->set_subscriber_options( $type ), $type, $this );
+		/**
+		 * Filters the subscriber options
+		 *
+		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
+		 *
+		 * @param array                                 An array of subscriber options for this notification.
+		 * @param string                                The notification type [basic|email].
+		 * @param LLMS_Abstract_Notification_Controller The notification controller instance.
+		 */
+		return apply_filters( "llms_notification_{$this->id}_subscriber_options", $this->set_subscriber_options( $type ), $type, $this );
 	}
 
 	/**
 	 * Get an array of saved subscriber settings prefilled with defaults for the current notification
 	 *
-	 * @param    string $type  notification type
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_subscribers_settings( $type ) {
 		$defaults = wp_list_pluck( $this->get_subscriber_options( $type ), 'enabled', 'id' );
@@ -298,8 +325,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @since 3.8.0
 	 * @since 3.30.3 Fixed typo in default description string.
 	 *
-	 * @param string $id Id of the subscriber type
-	 * @param string $enabled Whether or not the subscription should be enabled by default [yes|no]
+	 * @param string $id      Id of the subscriber type.
+	 * @param string $enabled Optional. Whether or not the subscription should be enabled by default [yes|no]. Default is 'yes'.
 	 * @return array
 	 */
 	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
@@ -335,10 +362,10 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Get a subscriptions array for a specific subscriber
 	 *
-	 * @param    mixed $subscriber  WP User ID, email address, etc...
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param mixed $subscriber WP User ID, email address, etc...
+	 * @return array
 	 */
 	public function get_subscriber_subscriptions( $subscriber ) {
 		$subscriptions = $this->get_subscriptions();
@@ -348,9 +375,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Retrieve subscribers
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	public function get_subscriptions() {
 		return $this->subscriptions;
@@ -359,58 +386,92 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Get an array of supported notification types
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	public function get_supported_types() {
-		return apply_filters( 'llms_notification_' . $this->id . '_supported_types', $this->set_supported_types(), $this );
+		/**
+		 * Filters the supported notification types
+		 *
+		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
+		 *
+		 * @param string[]                              An array of supported types for the notification.
+		 * @param string                                The notification type [basic|email].
+		 * @param LLMS_Abstract_Notification_Controller The notification controller instance.
+		 */
+		return apply_filters( "llms_notification_{$this->id}_supported_types", $this->set_supported_types(), $this );
+	}
+
+	/**
+	 * Get an array of additional options to be added to the notification view in the admin panel
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $type Type of the notification.
+	 * @return array
+	 */
+	public function get_additional_options( $type ) {
+		/**
+		 * Filters the notification additional options
+		 *
+		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
+		 *
+		 * @param array                                 An array of additional options for the notification.
+		 * @param LLMS_Abstract_Notification_Controller The notification controller instance.
+		 * @param string                                The notification type [basic|email].
+		 */
+		return apply_filters( "llms_notification_{$this->id}_additional_options", $this->set_additional_options( $type ), $this, $type );
 	}
 
 	/**
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_test_settings( $type ) {
 		return array();
 	}
 
 	/**
-	 * Determine if the notification is a potential duplicate
+	 * Determine if the notification is a potential duplicate.
 	 *
-	 * @param    string $type        notification type id
-	 * @param    mixed  $subscriber  WP User ID for the subscriber, email address, phone number, etc...
-	 * @return   boolean
-	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @since 3.11.0
+	 * @since 6.0.0 Fixed how the protected {@see LLMS_Notifications_Query::$found_results} property is accessed.
+	 * @since 7.1.0 Improve the query performance by fetching only one result.
+	 *
+	 * @param string $type       Notification type id.
+	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...
+	 * @return boolean
 	 */
 	public function has_subscriber_received( $type, $subscriber ) {
 
 		$query = new LLMS_Notifications_Query(
 			array(
-				'post_id'    => $this->post_id,
-				'subscriber' => $subscriber,
-				'types'      => $type,
-				'trigger_id' => $this->id,
-				'user_id'    => $this->user_id,
+				'post_id'       => $this->post_id,
+				'subscriber'    => $subscriber,
+				'types'         => $type,
+				'trigger_id'    => $this->id,
+				'user_id'       => $this->user_id,
+				'per_page'      => 1,
+				'no_found_rows' => true,
 			)
 		);
 
-		return $query->found_results ? true : false;
+		return $query->has_results();
 
 	}
 
 	/**
 	 * Determine if the notification type support tests
 	 *
-	 * @param    string $type  notification type [email|basic]
-	 * @return   bool
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param string $type Notification type [email|basic].
+	 * @return bool
 	 */
 	public function is_testable( $type ) {
 
@@ -425,18 +486,21 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Send all the subscriptions
 	 *
-	 * @param    bool $force  if true, will force a send even if duplicate's
-	 *                        only applies to controllers that flag $this->auto_dupcheck to true
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.11.0
+	 * @since 3.8.0
+	 * @since 3.11.0 Unknown.
+	 * @since 5.2.0 Added parameter to only send notifications of specific types.
+	 *
+	 * @param bool          $force        Optional. If true, will force a send even if duplicates. Default is `false`.
+	 *                                    Only applies to controllers that flag $this->auto_dupcheck to true.
+	 * @param null|string[] $filter_types Optional. Array of notification types to be sent. Default is `null`.
+	 *                                    When not provided (`null`) all the types.
+	 * @return void
 	 */
-	public function send( $force = false ) {
+	public function send( $force = false, $filter_types = null ) {
 
-		$this->add_subscriptions();
+		$this->add_subscriptions( $filter_types );
 
 		foreach ( $this->get_subscriptions() as $subscriber => $types ) {
-
 			foreach ( $types as $type ) {
 
 				$this->send_one( $type, $subscriber, $force );
@@ -447,8 +511,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		/**
 		 * Cleanup subscriptions so if the notification
 		 * is triggered again we don't have incorrect subscribers
-		 * on the next trigger
-		 * this happens when receipts are triggered in bulk by action scheduler.
+		 * on the next trigger.
+		 * This happens when receipts are triggered in bulk by action scheduler.
 		 */
 		$this->unset_subscriptions();
 
@@ -457,13 +521,14 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Send a notification for a subscriber
 	 *
-	 * @param    string $type        notification type id
-	 * @param    mixed  $subscriber  WP User ID for the subscriber, email address, phone number, etc...
-	 * @param    bool   $force       if true, will force a send even if duplicate's
-	 *                               only applies to controllers that flag $this->auto_dupcheck to true
-	 * @return   int|false
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $type       Notification type id.
+	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...
+	 * @param bool   $force      Optional. If true, will force a send even if duplicates. Default is `false`.
+	 *                           Only applies to controllers that flag $this->auto_dupcheck to true.
+	 * @return int|false
 	 */
 	protected function send_one( $type, $subscriber, $force = false ) {
 
@@ -493,12 +558,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		// If successful, push to the processor where processing is supported.
 		if ( $id ) {
 
-			$processor = LLMS()->notifications()->get_processor( $type );
+			$processor = llms()->notifications()->get_processor( $type );
 			if ( $processor ) {
 
 				$processor->log( sprintf( 'Queuing %1$s notification ID #%2$d', $type, $id ) );
 				$processor->push_to_queue( $id );
-				LLMS()->notifications()->schedule_processing( $type );
+				llms()->notifications()->schedule_processing( $type );
 
 			}
 		}
@@ -509,13 +574,14 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Send a test notification to the currently logged in users
-	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @param    array  $data  array of test notification data as specified by $this->get_test_data()
-	 * @return   int|false
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data.
+
+	 * @since 3.24.0
+	 *
+	 * @param string $type Notification type [basic|email]
+	 * @param array  $data Optional. Array of test notification data as specified by $this->get_test_data(). Defalt is empty array.
+	 * @return int|false
 	 */
 	public function send_test( $type, $data = array() ) {
 		return $this->send_one( $type, get_current_user_id(), true );
@@ -523,12 +589,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Determine what types are supported
-	 * Extending classes can override this function in order to add or remove support
-	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * Extending classes can override this function in order to add or remove support.
+	 * 3rd parties should add support via filter on $this->get_supported_types().
+	 *
+	 * @return array Associative array, keys are the ID/db type, values should be translated display types.
 	 */
 	protected function set_supported_types() {
 		return array(
@@ -537,14 +604,28 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		);
 	}
 
+
+	/**
+	 * Set additional options to be added to the notification view in the admin panel
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $type Type of the notification.
+	 * @return array
+	 */
+	protected function set_additional_options( $type ) {
+		return array();
+	}
+
 	/**
 	 * Subscribe a user to a notification type
 	 *
-	 * @param    mixed  $subscriber  WP User ID, email address, etc...
-	 * @param    string $type        Identifier for a subscription type eg: basic
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 5.2.0 Use strict type comparison.
+	 *
+	 * @param mixed  $subscriber WP User ID, email address, etc...
+	 * @param string $type       Identifier for a subscription type eg: basic.
+	 * @return void
 	 */
 	public function subscribe( $subscriber, $type ) {
 
@@ -555,7 +636,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		$subscriptions = $this->get_subscriber_subscriptions( $subscriber );
 
-		if ( ! in_array( $type, $subscriptions ) ) {
+		if ( ! in_array( $type, $subscriptions, true ) ) {
 			array_push( $subscriptions, $type );
 		}
 
@@ -566,21 +647,22 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Determine if a given notification type is supported
 	 *
-	 * @param    string $type  notification type id
-	 * @return   boolean
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since 5.2.0 Use strict type comparison.
+	 *
+	 * @param string $type Notification type id.
+	 * @return boolean
 	 */
 	public function supports( $type ) {
-		return in_array( $type, array_keys( $this->get_supported_types() ) );
+		return in_array( $type, array_keys( $this->get_supported_types() ), true );
 	}
 
 	/**
 	 * Reset the subscriptions array
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return void
 	 */
 	public function unset_subscriptions() {
 		$this->subscriptions = array();

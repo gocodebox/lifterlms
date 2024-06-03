@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 4.4.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,15 +19,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.24.0 Unknown.
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Notifications::dispatch_processors()` method
+ *              - `LLMS_Notifications::$_instance` property
  */
 class LLMS_Notifications {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var LLMS_Notifications
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Controller instances
@@ -65,26 +64,14 @@ class LLMS_Notifications {
 	private $views = array();
 
 	/**
-	 * Main Instance
-	 *
-	 * @since 3.8.0
-	 *
-	 * @return LLMS_Notifications
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
 	 * Constructor
 	 *
 	 * @since 3.8.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
 	 * @since 3.38.0 Schedule processors using an async scheduled action.
+	 * @since 6.0.0 Do not load / enqueue basic notifications on the admin panel.
+	 *              Removed the deprecated `llms_processors_async_dispatching` filter hook.
 	 *
 	 * @return void
 	 */
@@ -92,47 +79,13 @@ class LLMS_Notifications {
 
 		$this->load();
 
-		add_action( 'wp', array( $this, 'enqueue_basic' ) );
-		add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
-
-		/**
-		 * Customize whether or not async notification dispatching should be used.
-		 *
-		 * @since 3.38.0
-		 *
-		 * @param boolean $use_async Whether or not to use async processor dispatching.
-		 */
-		$use_async = apply_filters( 'llms_processors_async_dispatching', true );
-		if ( $use_async ) {
-			add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
-			add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
-		} else {
-			add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
+		if ( ! is_admin() ) {
+			add_action( 'wp', array( $this, 'enqueue_basic' ) );
+			add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
 		}
 
-	}
-
-	/**
-	 * On shutdown, check for processors that have items in the queue that need to be saved
-	 *
-	 * Saves & dispatches those processors.
-	 *
-	 * @since 3.8.0
-	 * @deprecated 3.38.0 Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
-	 *
-	 * @return void
-	 */
-	public function dispatch_processors() {
-
-		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_processors_dispatch() instead.' );
-
-		foreach ( $this->processors_to_dispatch as $key => $name ) {
-			$processor = $this->get_processor( $name );
-			if ( $processor ) {
-				unset( $this->processors_to_dispatch[ $key ] );
-				$processor->save()->dispatch();
-			}
-		}
+		add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
+		add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
 
 	}
 
@@ -163,12 +116,13 @@ class LLMS_Notifications {
 	}
 
 	/**
-	 * Enqueue basic notifications for onscreen display
+	 * Enqueue basic notifications for onscreen display.
 	 *
 	 * @since 3.22.0
 	 * @since 3.36.1 Don't automatically mark notifications as read.
 	 * @since 3.38.0 Use `wp_json_decode()` in favor of `json_decode()`.
 	 * @since 4.4.0 Use `LLMS_Assets::enqueue_inline()` in favor of deprecated `LLMS_Frontend_Assets::enqueue_inline_script()`.
+	 * @since 7.1.0 Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @return void
 	 */
@@ -182,10 +136,11 @@ class LLMS_Notifications {
 		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => $user_id,
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => $user_id,
+				'no_found_rows' => true,
 			)
 		);
 
@@ -330,6 +285,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since 5.2.0 Added 'upcoming_payment_reminder'.
 	 *
 	 * @return void
 	 */
@@ -351,6 +307,7 @@ class LLMS_Notifications {
 			'section_complete',
 			'student_welcome',
 			'subscription_cancelled',
+			'upcoming_payment_reminder',
 		);
 
 		foreach ( $triggers as $name ) {
@@ -371,7 +328,7 @@ class LLMS_Notifications {
 		/**
 		 * Run an action after all core notification classes are loaded.
 		 *
-		 * Third party notifications can hook into this action
+		 * Third party notifications can hook into this action.
 		 * Use `load_view()`, `load_controller()`, and `load_processor()` methods
 		 * to load notifications into the class and be auto-called by the core APIs.
 		 *
@@ -437,10 +394,11 @@ class LLMS_Notifications {
 	}
 
 	/**
-	 * Load a single view
+	 * Validate trigger and load its view.
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param  string $trigger Trigger id (eg: lesson_complete).
 	 * @param  string $path    Full path to the view file, allows third parties to load external views.
@@ -457,14 +415,14 @@ class LLMS_Notifications {
 
 		if ( file_exists( $path ) ) {
 
-			require_once $path;
+			if ( ! is_null( $prefix ) ) {
+				require_once $path;
+			}
 			$this->views[ $this->get_view_classname( $trigger, $prefix ) ] = $trigger;
 			return true;
-
 		}
 
 		return false;
-
 	}
 
 	/**

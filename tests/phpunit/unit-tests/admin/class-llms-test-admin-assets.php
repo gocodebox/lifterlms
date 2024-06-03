@@ -9,12 +9,22 @@
  * @group assets
  *
  * @since 4.3.3
+ * @since 7.1.0 Turn `test_maybe_enqueue_reporting_general_settings_assumed()` into ` test_maybe_enqueue_reporting_dashboard_assumed()`.
+ *              Removed outdated `test_maybe_enqueue_reporting_general_settings_explicit()`.
  */
 class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since 4.3.3
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Assets();
 
 	}
@@ -22,15 +32,16 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down test case
 	 *
-	 * Dequeue & Dereqister all assets that may have been enqueued during tests.
+	 * Dequeue & Deregister all assets that may have been enqueued during tests.
 	 *
 	 * @since 4.3.3
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		/**
 		 * List of asset handles that may have been enqueued or registered during the test
@@ -48,6 +59,60 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 			wp_dequeue_script( $handle );
 			wp_deregister_script( $handle );
 		}
+
+	}
+
+	/**
+	 * Test block_editor_assets()
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_block_editor_assets_for_certificates() {
+
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'Block editor is not supported for certificates on this version of WordPress.' );
+		}
+
+		$handle    = 'llms-admin-certificate-editor';
+		$inline_id = 'llms-admin-certificate-settings';
+
+		$reset = function() use ( $handle ) {
+			LLMS_Unit_Test_Util::set_private_property( llms()->assets, 'inline', array() );
+			wp_dequeue_script( $handle );
+		};
+		$reset();
+
+		// Wrong screen.
+		set_current_screen( 'fake' );
+		$this->main->block_editor_assets();
+		$this->assertAssetNotEnqueued( 'script', $handle );
+		$this->assertArrayNotHasKey(
+			$inline_id,
+			LLMS_Unit_Test_Util::get_private_property_value( llms()->assets, 'inline' ) );
+
+		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
+
+			$reset();
+
+			set_current_screen( $post_type );
+			global $current_screen;
+			$current_screen->is_block_editor = true;
+
+			$this->main->block_editor_assets();
+
+			$this->assertAssetIsEnqueued( 'script', $handle );
+
+			$this->assertArrayHasKey(
+				$inline_id,
+				LLMS_Unit_Test_Util::get_private_property_value( llms()->assets, 'inline' )
+			);
+
+		}
+
+		llms_tests_reset_current_screen();
+		$current_screen->is_block_editor = false;
 
 	}
 
@@ -104,17 +169,17 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on the general settings page where analytics are required for the data widgets
+	 * Test maybe_enqueue_reporting() on the dashboard page where analytics are required for the data widgets
 	 *
 	 * This test tests the default "assumed" tab when there's no `tab` set in the $_GET array.
 	 *
-	 * @since 4.3.3
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
-	public function test_maybe_enqueue_reporting_general_settings_assumed() {
+	public function test_maybe_enqueue_reporting_dashboard_assumed() {
 
-		$screen = (object) array( 'base' => 'lifterlms_page_llms-settings' );
+		$screen = (object) array( 'base' => 'lifterlms_page_llms-dashboard' );
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
 
@@ -126,18 +191,18 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on the general settings page where analytics are required for the data widgets
+	 * Test maybe_enqueue_reporting() on the dashboard page where analytics are required for the data widgets
 	 *
-	 * This test is the same as test_maybe_enqueue_reporting_general_settings_assumed() except this one explicitly
+	 * This test is the same as test_maybe_enqueue_reporting_dashboard_assumed() except this one explicitly
 	 * tests for the presence of the `tab=general` in the $_GET array.
 	 *
-	 * @since 4.3.3
+	 * @since 7.1.0
 	 *
 	 * @return void
 	 */
-	public function test_maybe_enqueue_reporting_general_settings_explicit() {
+	public function test_maybe_enqueue_reporting_dashbord_explicit() {
 
-		$screen = (object) array( 'base' => 'lifterlms_page_llms-settings' );
+		$screen = (object) array( 'base' => 'lifterlms_page_llms-dashboard' );
 		$this->mockGetRequest( array( 'tab' => 'general' ) );
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
@@ -150,9 +215,10 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will be registered but not enqueued.
+	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will not be registered.
 	 *
 	 * @since 4.3.3
+	 * @since 7.1.0 Updated to reflect that `llms-google-charts` and `llms-analytics` are not registered on settings screens.
 	 *
 	 * @return void
 	 */
@@ -163,10 +229,9 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
 		LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_enqueue_reporting', array( $screen ) );
 
-		$this->assertAssetIsRegistered( 'script', 'llms-google-charts' );
-		$this->assertAssetIsRegistered( 'script', 'llms-analytics' );
+		$this->assertAssetNotRegistered( 'script', 'llms-google-charts' );
+		$this->assertAssetNotRegistered( 'script', 'llms-analytics' );
 
-		$this->assertAssetNotEnqueued( 'script', 'llms-analytics' );
 
 	}
 
@@ -276,5 +341,25 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Tets {@see LLMS_Admin_Assets:register_quill}.
+	 *
+	 * @since 6.10.0
+	 *
+	 * @return void
+	 */
+	public function test_register_quill() {
+
+		wp_deregister_script( 'llms-quill' );
+		wp_deregister_script( 'llms-quill-wordcount' );
+		wp_deregister_style( 'llms-quill-bubble' );
+
+		LLMS_Admin_Assets::register_quill( array( 'wordcount' ) );
+
+		$this->assertAssetIsRegistered( 'script', 'llms-quill' );
+		$this->assertAssetIsRegistered( 'script', 'llms-quill-wordcount' );
+		$this->assertAssetIsRegistered( 'style', 'llms-quill-bubble' );
+
+	}
 
 }

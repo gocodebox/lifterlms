@@ -4,24 +4,40 @@
  *
  * @package LifterLMS/Tests/Notifications
  *
+ * @group notifications
+ *
  * @since 3.8.0
  * @since 3.38.0 "DRY"ed existing tests and added tests for processor scheduling related functions.
- *
- * @group notifications
  */
 class LLMS_Test_Notifications extends LLMS_UnitTestCase {
+
+
+	/**
+	 * Setup before class.
+	 *
+	 * Forces notifications debugging on so that we can make assertions against logged data.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
+		llms_maybe_define_constant( 'LLMS_NOTIFICATIONS_LOGGING', true );
+	}
 
 	/**
 	 * Setup the test case
 	 *
 	 * @since 3.38.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
-		$this->main = LLMS()->notifications();
+		parent::set_up();
+		$this->main = llms()->notifications();
 
 	}
 
@@ -29,12 +45,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Tear down the test case
 	 *
 	 * @since 3.38.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		// Clear data for later tests.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'processors_to_dispatch', array() );
@@ -171,10 +188,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_processors_dispatch()
 	 *
 	 * @since 3.38.0
+	 * @since 6.0.0 Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */
 	public function test_schedule_processors_dispatch() {
+
+		as_unschedule_action( 'llms_dispatch_notification_processor_async', 'email' );
 
 		$now = time();
 		llms_tests_mock_current_time( $now );
@@ -236,10 +256,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_single_processor() when an existing event does not already exist.
 	 *
 	 * @since 3.38.0
+	 * @since 6.0.0 Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */
 	public function test_schedule_single_processor_new() {
+
+		as_unschedule_action( 'llms_dispatch_notification_processor_async', 'email' );
 
 		$email = $this->main->get_processor( 'email' )->push_to_queue( 1 );
 
@@ -248,6 +271,115 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'schedule_single_processor', array( $email, 'email' ) );
 		$this->assertEquals( $now, $res );
+
+	}
+
+	/**
+	 * Test email processor task's method on errored notification.
+	 *
+	 * @since 7.1.0
+	 *
+	 * @return void
+	 */
+	public function test_email_processor_errored_notification_task() {
+
+		$email = $this->main->get_processor( 'email' );
+		$user  = $this->factory->user->create();
+
+		$order = $this->get_mock_order();
+		$txn   = $order->record_transaction(
+			array(
+				'amount'             => $order->get_initial_price(
+					array(),
+					'float'
+				),
+				'source_description' => 'Mock Payment',
+				'transaction_id'     => uniqid( 'mock-' ),
+				'status'             => 'llms-txn-succeeded',
+				'payment_gateway'    => 'manual',
+			)
+		);
+		$txn2  = $order->record_transaction(
+			array(
+				'amount'             => $order->get_initial_price(
+					array(),
+					'float'
+				),
+				'source_description' => 'Mock Payment',
+				'transaction_id'     => uniqid( 'mock-' ),
+				'status'             => 'llms-txn-succeeded',
+				'payment_gateway'    => 'manual',
+			)
+		);
+
+		// Create a notification for a purchase receipt on txn.
+		$n1    = new LLMS_Notification();
+		$nid_1 = $n1->create(
+			array(
+				'post_id'    => $txn->get( 'id' ),
+				'subscriber' => $user,
+				'type'       => 'basic',
+				'trigger_id' => 'purchase_receipt',
+				'user_id'    => 1,
+			)
+		);
+		$this->assertEquals( 'new', $n1->get( 'status' ) );
+
+		// Create a notification for a purchase receipt on txn2.
+		$n2    = new LLMS_Notification();
+		$nid_2 = $n2->create(
+			array(
+				'post_id'    => $txn2->get( 'id' ),
+				'subscriber' => $user,
+				'type'       => 'basic',
+				'trigger_id' => 'purchase_receipt',
+				'user_id'    => 1,
+			)
+		);
+
+		// Process notification email for the first transaction.
+		$email_processor = $this->main->get_processor( 'email' );
+		$res = LLMS_Unit_Test_Util::call_method(
+			$email_processor, 'task',
+			array( $nid_1 )
+		);
+		$this->assertEquals( false, $res );
+		$this->assertEquals( 'sent', $n1->get('status') );
+
+		// Delete the first transaction so that a fatal will be triggered.
+		wp_delete_post( $txn->get( 'id' ) );
+		$res = LLMS_Unit_Test_Util::call_method(
+			$email_processor,
+			'task',
+			array( $nid_1 )
+		);
+
+		$this->assertEquals( false, $res );
+		$this->assertEquals( 'error', $n1->get('status') );
+
+		$this->assertStringContainsString(
+			'Error caught Call to a member function get_order() on null',
+			implode( $this->logs->get( 'notifications' ) )
+		);
+
+		$this->logs->clear( 'notifications' );
+
+		// Process notification email for the second transaction.
+		$email_processor = $this->main->get_processor( 'email' );
+		$res = LLMS_Unit_Test_Util::call_method(
+			$email_processor, 'task',
+			array( $nid_2 )
+		);
+		$this->assertEquals( false, $res );
+		// Check the previous error didn't prevent this notification to be sent.
+		$this->assertEquals( 'sent', $n2->get('status') );
+
+		$this->assertStringNotContainsString(
+			'Error caught Call to a member function get_order() on null',
+			implode( $this->logs->get( 'notifications' ) )
+		);
+
+		$this->logs->clear( 'notifications' );
 
 	}
 

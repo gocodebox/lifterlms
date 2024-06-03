@@ -2,8 +2,10 @@
 /**
  * Builder sidebar view template
  *
- * @since   3.16.0
- * @version 3.16.7
+ * @since 3.16.0
+ * @since 7.2.0 Added video explainer wrapper element.
+ * @since 7.6.0 Removed video explainer wrapper element.
+ * @version 7.2.0
  */
 ?>
 

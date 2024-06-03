@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 4.4.1
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Assets Class
  *
  * @since 4.4.0
+ * @since 4.9.0 Added new default values related to script localization.
+ * @since 5.5.0 Added new script default for `asset_file`.
  */
 class LLMS_Assets {
 
@@ -42,23 +44,28 @@ class LLMS_Assets {
 	protected $debugging_assets = false;
 
 	/**
-	 * List of default asset definitions
+	 * List of default asset definitions.
+	 *
+	 * @since 7.2.0 Use `LLMS_ASSETS_VERSION` for default asset version.
 	 *
 	 * @var array[]
 	 */
 	protected $defaults = array(
 		// Base defaults shared by all asset types.
 		'base'   => array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
-			'version'      => LLMS_VERSION,
+			'version'      => LLMS_ASSETS_VERSION,
 		),
 		// Script specific defaults.
 		'script' => array(
-			'path'      => 'assets/js',
-			'extension' => '.js',
-			'in_footer' => true,
+			'path'       => 'assets/js',
+			'extension'  => '.js',
+			'in_footer'  => true,
+			'translate'  => false,
+			'asset_file' => false,
 		),
 		// Stylesheet specific defaults.
 		'style'  => array(
@@ -93,6 +100,7 @@ class LLMS_Assets {
 	 * Constructor
 	 *
 	 * @since 4.4.0
+	 * @since 4.9.0 Replace defaults instead of merging them.
 	 *
 	 * @param string  $package_id An ID used to identify the originating package (plugin or theme) of the asset handler instance.
 	 * @param array[] $defaults   Array of asset definitions values. Accepts a partial list of values that is merged with the default defaults.
@@ -100,7 +108,7 @@ class LLMS_Assets {
 	public function __construct( $package_id, $defaults = array() ) {
 
 		$this->package_id = $package_id;
-		$this->defaults   = array_merge_recursive( $defaults, $this->defaults );
+		$this->defaults   = array_replace_recursive( $this->defaults, $defaults );
 
 		/**
 		 * Filter asset debug mode.
@@ -242,6 +250,7 @@ class LLMS_Assets {
 	 *
 	 * @since 4.4.0
 	 * @since 4.4.1 Replace truthy check with an strict check against `false` to ensure assets defined with an empty array signifying all default values should be used.
+	 * @since 5.5.0 Load dependency and version info from an asset.php file when `$asset_file` is `true`.
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
@@ -254,9 +263,11 @@ class LLMS_Assets {
 	 *     @type string   $extension    The filename extension for the asset. Defaults to `.js` for scripts and `.css` for styles.
 	 *     @type string   $suffix       The file suffix for the asset, for example `.min` for minified files. Defaults to `LLMS_ASSETS_SUFFIX`.
 	 *     @type string[] $dependencies An array of asset handles the asset depends on. These assets do not necessarily need to be assets defined by LifterLMS, for example WP Core scripts, such as `jquery`, can be used.
-	 *     @type string   $version      The asset version. Defaults to `LLMS_VERSION`.
+	 *     @type string   $version      The asset version. Defaults to `LLMS_ASSETS_VERSION`.
 	 *     @type string   $package_id   An ID used to identify the originating plugin or theme that defined the asset.
 	 *     @type boolean  $in_footer    (For `script` assets only) Whether or not the script should be output in the footer. Defaults to `true`.
+	 *     @type boolean  $translate    (For `script` assets only) Whether or not script translations should be set. Defaults to `false`.
+	 *     @type boolean  $asset_file   (For `script` assets only) Whether or not the script has an asset file (generated via the @wordpress/dependency-extraction-webpack-plugin).
 	 *     @type boolean  $rtl          (For `style` assets only) Whether or not to automatically add RTL style data for the stylesheet. Defaults to `true`.
 	 *     @type boolean  $media        (For `style` assets only) The stylesheet's media type. Defaults to `all`.
 	 * }
@@ -298,6 +309,8 @@ class LLMS_Assets {
 					$asset['extension'],
 				)
 			);
+
+			$asset = $this->merge_asset_file( $asset );
 
 		}
 
@@ -424,6 +437,7 @@ class LLMS_Assets {
 	 * location.
 	 *
 	 * @since 4.4.0
+	 * @since 7.0.0 When increasing priorities, round to the nearest two decimals.
 	 *
 	 * @param float $priority      Requested enqueue priority.
 	 * @param array $inline_assets List of existing inline assets for the requested location.
@@ -437,7 +451,7 @@ class LLMS_Assets {
 
 			$priorities = wp_list_pluck( $inline_assets, 'priority' );
 			while ( in_array( $priority, $priorities, true ) ) {
-				$priority += 0.01;
+				$priority = round( $priority + 0.01, 2 );
 			}
 		}
 
@@ -455,6 +469,34 @@ class LLMS_Assets {
 	 */
 	public function is_inline_enqueued( $handle ) {
 		return in_array( $handle, array_keys( $this->inline ), true );
+	}
+
+	/**
+	 * Retrieve dependency and version info from a script asset's asset.php file
+	 *
+	 * Loads the asset.php file (generated via the @wordpress/dependency-extraction-webpack-plugin) and merges it
+	 * into an existing asset array.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param array $asset An asset definition array.
+	 * @return array
+	 */
+	protected function merge_asset_file( $asset ) {
+
+		if ( empty( $asset['asset_file'] ) ) {
+			return $asset;
+		}
+
+		$asset_file_path = plugin_dir_path( $asset['base_file'] ) . trailingslashit( $asset['path'] ) . $asset['file_name'] . '.asset.php';
+		if ( file_exists( $asset_file_path ) ) {
+			$info                  = include $asset_file_path;
+			$asset['dependencies'] = array_merge( $asset['dependencies'], $info['dependencies'] );
+			$asset['version']      = $info['version'];
+		}
+
+		return $asset;
+
 	}
 
 	/**
@@ -533,6 +575,8 @@ class LLMS_Assets {
 	 * If the script is *not defined* this function will return `false`.
 	 *
 	 * @since 4.4.0
+	 * @since 4.9.0 Automatically set script translations when `translate=true`.
+	 * @since 5.5.0 Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -541,7 +585,16 @@ class LLMS_Assets {
 
 		$script = $this->get( 'script', $handle );
 		if ( $script ) {
-			return wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
+
+			array_map( array( $this, 'register_script' ), $script['dependencies'] );
+
+			$reg = wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
+			if ( $reg && $script['translate'] ) {
+				$this->set_script_translations( $script );
+			}
+
+			return $reg;
+
 		}
 
 		return false;
@@ -567,6 +620,7 @@ class LLMS_Assets {
 	 * `llms.css` (or `llms.min.css`) would add the RTL stylesheet `llms-rtl.css` (or `llms-rtl.min.css`).
 	 *
 	 * @since 4.4.0
+	 * @since 5.5.0 Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
@@ -575,6 +629,8 @@ class LLMS_Assets {
 
 		$style = $this->get( 'style', $handle );
 		if ( $style ) {
+
+			array_map( array( $this, 'register_style' ), $style['dependencies'] );
 
 			$reg = wp_register_style( $handle, $style['src'], $style['dependencies'], $style['version'], $style['media'] );
 
@@ -588,6 +644,52 @@ class LLMS_Assets {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Load JSON format localization files for a registered script
+	 *
+	 * This method mimics the behavior of PO/MO pot files loaded for PHP localization.
+	 *
+	 * Language files can be found in the following locations (The first loaded file takes priority):
+	 *
+	 *   1. wp-content/languages/{$textdomain}/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is recommended "safe" location where custom language files can be stored. A file
+	 *      stored in this directory will never be automatically overwritten.
+	 *
+	 *   2. wp-content/languages/plugins/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is the default directory where WordPress will download language files from the
+	 *      WordPress GlotPress server during updates. If you store a custom language file in this
+	 *      directory it will be overwritten during updates.
+	 *
+	 *   3. wp-content/plugins/{$textdomain}/languages/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+	 *      be removed from the server during a LifterLMS plugin update.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $script An asset definition array from the return of `LLMS_Assets::get()`.
+	 * @return void
+	 */
+	protected function set_script_translations( $script ) {
+
+		$plugin_data = get_plugin_data( $script['base_file'], false, false );
+		$domain      = $plugin_data['TextDomain'];
+
+		// Possible directories where the language files may be found.
+		$dirs = array(
+			llms_l10n_get_safe_directory(),
+			WP_LANG_DIR . '/plugins', // Default language directory.
+			trailingslashit( plugin_dir_path( $script['base_file'] ) ) . untrailingslashit( ltrim( $plugin_data['DomainPath'], '/' ) ), // Language directory within the plugin.
+		);
+
+		foreach ( $dirs as $dir ) {
+			wp_set_script_translations( $script['handle'], $domain, $dir );
+		}
 
 	}
 

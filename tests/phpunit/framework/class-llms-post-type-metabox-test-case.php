@@ -1,14 +1,12 @@
 <?php
+// Require main test case.
+require_once 'class-llms-unit-test-case.php';
+
 /**
  * Unit Test Case with tests and utilities specific to testing LifterLMS post type Metabox classes.
  *
  * @since 3.33.0
- * @since 3.36.1 Unknown.
- * @since 3.37.12 Call parent method in setUpBeforeClass().
- */
-
-require_once 'class-llms-unit-test-case.php';
-
+*/
 class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 
 	/**
@@ -17,17 +15,16 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 * @since 3.33.0
 	 * @since 3.36.1 Conditionally require LLMS_Admin_Meta_Boxes.
 	 * @since 3.37.12 Call parent method.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
-		// manually include required files.
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
-		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
+		// Manually include required files.
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		if ( ! class_exists( 'LLMS_Admin_Meta_Boxes' ) ) {
 			( new LLMS_Admin_Post_Types() )->include_post_type_metabox_class();

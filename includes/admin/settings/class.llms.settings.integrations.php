@@ -83,7 +83,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		$sections = array();
 
-		$integrations = LLMS()->integrations()->get_integrations();
+		$integrations = llms()->integrations()->get_integrations();
 
 		foreach ( $integrations as $int ) {
 			$sections[ $int->id ] = trim( str_replace( 'LifterLMS', '', $int->title ) );
@@ -130,7 +130,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	 */
 	private function get_table_html() {
 
-		$integrations = LLMS()->integrations()->get_integrations();
+		$integrations = llms()->integrations()->get_integrations();
 		ob_start();
 		?>
 

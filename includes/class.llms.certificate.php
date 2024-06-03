@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class property `$enabled`.
+ * @deprecated 6.0.0 Class `LLMS_Certificate` is deprecated with no direct replacement.
  */
 class LLMS_Certificate {
 
@@ -106,7 +107,35 @@ class LLMS_Certificate {
 	public $userid;
 
 	/**
-	 * Constructor
+	 * Alert when deprecated methods are used.
+	 *
+	 * This class as well as core classes extending it have been deprecated. All public and protected methods
+	 * have been changed to private and will be made accessible through this magic method which also emits a
+	 * deprecation warning.
+	 *
+	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
+	 * removed alongside this class in the next major release.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $name Name of the method being called.
+	 * @param array  $args Arguments provided to the method.
+	 * @return void
+	 */
+	public function __call( $name, $args ) {
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
+		if ( method_exists( $this, $name ) ) {
+			$this->$name( ...$args );
+		}
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @since Unknown.
+	 * @deprecated 6.0.0 `LLMS_Certificate::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
 
@@ -121,46 +150,61 @@ class LLMS_Certificate {
 	/**
 	 * Is Enabled
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::is_enabled()` is deprecated with no replacement.
+	 *
 	 * @return boolean
 	 */
-	public function is_enabled() {
+	private function is_enabled() {
 		return true;
 	}
 
 	/**
 	 * Get Blog Name
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_blogname()` is deprecated with no replacement.
+	 *
 	 * @return string [blog name]
 	 */
-	public function get_blogname() {
+	private function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
 	/**
 	 * Format String
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::format_string()` is deprecated with no replacement.
+	 *
 	 * @param  string $string [Find and replace merge fields]
 	 * @return string [formatted string]
 	 */
-	public function format_string( $string ) {
+	private function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
 	}
 
 	/**
 	 * Get Blog Title
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_title()` is deprecated with no replacement.
+	 *
 	 * @return string [Blog title]
 	 */
-	public function get_title() {
+	private function get_title() {
 		return apply_filters( '_llms_certificate_title' . $this->id, $this->title, $this->object );
 	}
 
 	/**
 	 * Get Content
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_content()` is deprecated with no replacement.
+	 *
 	 * @return string [Post Content]
 	 */
-	public function get_content() {
+	private function get_content() {
 
 		$this->sending = true;
 
@@ -172,19 +216,24 @@ class LLMS_Certificate {
 	/**
 	 * Get Content HTML
 	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_content_html()` is deprecated with no replacement.
+	 *
 	 * @return void
 	 */
-	public function get_content_html() {}
+	private function get_content_html() {}
 
 	/**
 	 * Create Certificate
 	 *
-	 * @param    string $content [html formatted post content]
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_title()` is deprecated with no replacement.
+	 *
+	 * @param string $content HTML formatted post content.
+	 * @return void
 	 */
-	public function create( $content ) {
+	private function create( $content ) {
 		global $wpdb;
 
 		$new_user_certificate = apply_filters(
@@ -221,11 +270,7 @@ class LLMS_Certificate {
 			);
 		}
 
-		/**
-		 * Allow 3rd parties to hook into the generation of an achievement
-		 * Notifications uses this
-		 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
-		 */
+		// This hook is documented in includes/class-llms-engagement-handler.php.
 		do_action( 'llms_user_earned_certificate', $this->userid, $new_user_certificate_id, $this->lesson_id );
 
 	}

@@ -1,31 +1,30 @@
 <?php
 /**
- * Notification View: Payment Retry
+ * Notification View: Payment Retry.
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version 3.10.0
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification View: Payment Retry
+ * Notification View: Payment Retry.
  *
  * @since 3.10.0
  */
 class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_View {
 
 	/**
-	 * Settings for basic notifications
+	 * Settings for basic notifications.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
-		 * Time in milliseconds to show a notification
-		 * before automatically dismissing it
+		 * Time in milliseconds to show a notification before automatically dismissing it.
 		 */
 		'auto_dismiss' => 10000,
 		/**
@@ -36,18 +35,18 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 
 	/**
-	 * Notification Trigger ID
+	 * Notification Trigger ID.
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'payment_retry';
 
 	/**
-	 * Setup body content for output
+	 * Setup body content for output.
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 
@@ -59,32 +58,26 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	}
 
 	/**
-	 * Setup default notification body for basic notifications
+	 * Setup default notification body for basic notifications.
 	 *
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	private function set_body_basic() {
 		return esc_html__( 'Head over to the order to see what went wrong and update your payment method to reactivate your subscription.', 'lifterlms' );
 	}
 
 	/**
-	 * Setup default notification body for email notifications
+	 * Setup default notification body for email notifications.
 	 *
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 * @since 5.2.0 Build the table with mailer helper.
+	 *
+	 * @return void
 	 */
 	private function set_body_email() {
-		$mailer = LLMS()->mailer();
-
-		$table_style = sprintf(
-			'border-collapse:collapse;color:%1$s;font-family:%2$s;font-size:%3$s;Margin-bottom:15px;text-align:left;width:100%%;',
-			$mailer->get_css( 'font-color', false ),
-			$mailer->get_css( 'font-family', false ),
-			$mailer->get_css( 'font-size', false )
-		);
-		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
+		$mailer = llms()->mailer();
 
 		$rows = array(
 			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),
@@ -98,25 +91,18 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		<p><?php printf( __( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
 		<p><?php printf( __( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
 		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
-		<table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		<?php echo $mailer->get_table_html( $rows ); ?>
 		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
 	}
 
 	/**
-	 * Setup footer content for output
+	 * Setup footer content for output.
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
@@ -124,22 +110,22 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	}
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification icon for output.
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
 	}
 
 	/**
-	 * Setup merge codes that can be used with the notification
+	 * Setup merge codes that can be used with the notification.
 	 *
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -158,12 +144,14 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	}
 
 	/**
-	 * Replace merge codes with actual values
+	 * Replace merge codes with actual values.
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
+	 * @since 5.4.0 Account for deleted products.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -172,21 +160,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		switch ( $code ) {
 
 			case '{{CUSTOMER_ADDRESS}}':
-				$code = '';
-				if ( isset( $order->billing_address_1 ) ) {
-					$code .= $order->get( 'billing_address_1' );
-					if ( isset( $order->billing_address_2 ) ) {
-						$code .= ' ';
-						$code .= $order->get( 'billing_address_2' );
-					}
-					$code .= ', ';
-					$code .= $order->get( 'billing_city' );
-					$code .= $order->get( 'billing_state' );
-					$code .= ', ';
-					$code .= $order->get( 'billing_zip' );
-					$code .= ', ';
-					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
-				}
+				$code = $order->get_customer_full_address();
 				break;
 
 			case '{{CUSTOMER_NAME}}':
@@ -231,41 +205,45 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( is_a( $obj, 'WP_Post' ) ) {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED ITEM]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				} else {
 					$code = $obj->get_post_type_label( 'singular_name' );
 				}
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
 	}
 
 	/**
-	 * Setup notification subject for output
+	 * Setup notification subject for output.
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Automatic payment for %1$s failed, retry scheduled for %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
 	}
 
 	/**
-	 * Setup notification title for output
+	 * Setup notification title for output.
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
+			// Translators: %s = The order ID.
 			return sprintf( __( 'Automatic payment failed for order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 		}
+		// Translators: %s = The product title.
 		return sprintf( __( 'An automatic payment failed for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 

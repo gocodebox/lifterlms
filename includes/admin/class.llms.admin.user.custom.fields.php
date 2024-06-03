@@ -1,19 +1,19 @@
 <?php
 /**
- * Add Custom User Fields to user admin panel screens
- *
- * Applies to edit-user.php, user-new.php, & profile.php.
+ * LLMS_Admin_User_Custom_Fields class file
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version 3.37.15
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_User_Custom_Fields class.
+ * Add custom user fields to user admin panel screens
+ *
+ * Applies to edit-user.php, user-new.php, & profile.php.
  *
  * @since 2.7.0
  * @since 3.35.0 Sanitize input data.
@@ -28,7 +28,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
-	 *
+	 * @since 4.14.0 Add personal options hook.
+	 * @since 5.0.0 Custom fields (legacy), are now printed with priority 11 instead of 10.
 	 * @return void
 	 */
 	public function __construct() {
@@ -39,8 +40,9 @@ class LLMS_Admin_User_Custom_Fields {
 			'edit_user_profile',
 			'user_new_form',
 		);
+
 		foreach ( $field_actions as $action ) {
-			add_action( $action, array( $this, 'output_custom_fields' ), 10, 1 );
+			add_action( $action, array( $this, 'output_custom_fields' ), 11, 1 );
 			add_action( $action, array( $this, 'output_instructors_assistant_fields' ), 10, 1 );
 		}
 
@@ -51,7 +53,11 @@ class LLMS_Admin_User_Custom_Fields {
 		// Save data when a new user is created.
 		add_action( 'edit_user_created_user', array( $this, 'save' ) );
 
+		// Add personal options.
+		add_action( 'personal_options', array( $this, 'output_personal_options' ) );
+
 	}
+
 
 	/**
 	 * Validate custom fields
@@ -100,75 +106,20 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
+	 * @since 5.0.0 Removed LLMS core fields and deprecate the filter usage.
 	 *
 	 * @return array
 	 */
 	public function get_fields() {
 
-		$fields = apply_filters(
+		$this->fields = apply_filters_deprecated(
 			'lifterlms_get_user_custom_fields',
 			array(
-
-				'llms_billing_address_1' => array(
-					'description' => '',
-					'label'       => __( 'Billing Address 1', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_address_2' => array(
-					'description' => '',
-					'label'       => __( 'Billing Address 2', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_city'      => array(
-					'description' => '',
-					'label'       => __( 'Billing City', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_state'     => array(
-					'description' => '',
-					'label'       => __( 'Billing State', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_zip'       => array(
-					'description' => '',
-					'label'       => __( 'Billing Zip Code', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_country'   => array(
-					'description' => '',
-					'label'       => __( 'Billing Country', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_phone'             => array(
-					'description' => '',
-					'label'       => __( 'Phone', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-			)
+				array(),
+			),
+			'5.0.0',
+			'llms_admin_profile_fields'
 		);
-
-		$this->fields = $fields;
 
 		return $this->fields;
 
@@ -209,6 +160,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.24.0 Unknown.
+	 * @since 5.0.0 Do not include user-edit template if no fields to show.
 	 *
 	 * @param WP_User|int $user Instance of WP_User or WP User ID.
 	 * @return void
@@ -221,13 +173,50 @@ class LLMS_Admin_User_Custom_Fields {
 			$this->get_fields();
 		}
 
+		if ( empty( $this->fields ) ) {
+			return;
+		}
+
 		llms_get_template(
 			'admin/user-edit.php',
 			array(
-				'section_title' => __( 'LifterLMS Profile', 'lifterlms' ),
+				'section_title' => __( 'LifterLMS Profile (legacy fields)', 'lifterlms' ),
 				'fields'        => $this->fields,
 			)
 		);
+
+	}
+
+	/**
+	 * Output personal option fields
+	 *
+	 * Currently adds a single option row for controlling auto-save behavior on the course builder.
+	 *
+	 * @since 4.14.0
+	 *
+	 * @param WP_User $user Viewed user object.
+	 * @return void
+	 */
+	public function output_personal_options( $user ) {
+
+		if ( ! user_can( $user, 'edit_courses' ) ) {
+			return;
+		}
+
+		$autosave = get_user_option( 'llms_builder_autosave', $user->ID );
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
+
+		?>
+		<tr class="llms-builder-autosave llms-builder-autosave-wrap">
+			<th scope="row"><?php _e( 'Course Builder Autosave', 'lifterlms' ); ?></th>
+			<td>
+				<label for="llms_builder_autosave">
+					<input name="llms_builder_autosave" type="checkbox" id="llms_builder_autosave" value="yes"<?php checked( 'yes', $autosave ); ?>>
+					<?php _e( 'Automatically save changes when using the course builder', 'lifterlms' ); ?>
+				</label><br>
+			</td>
+		</tr>
+		<?php
 
 	}
 
@@ -298,9 +287,9 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Output JS to handle user interaction with the instructor's parent field
 	 *
-	 * @since 3.13.0
-	 *
 	 * Display custom field ONLY when creating/editing an instructor's assistant.
+	 *
+	 * @since 3.13.0
 	 *
 	 * @return void
 	 */
@@ -329,6 +318,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.13.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.15 Use strict comparisons.
+	 * @since 4.14.0 Save builder autosave personal options.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void
@@ -336,16 +327,22 @@ class LLMS_Admin_User_Custom_Fields {
 	public function save( $user ) {
 
 		if ( is_numeric( $user ) ) {
-			$user = new WP_User( $user );
+
+			// Numeric ID is passed in during creations.
+			$user   = new WP_User( $user );
+			$action = 'create';
+
 		} elseif ( isset( $user->ID ) ) {
+
 			// An object that's not a WP_User gets passed in during updates.
-			$user = new WP_User( $user->ID );
+			$user   = new WP_User( $user->ID );
+			$action = 'update';
 		}
 
 		// Saves custom fields.
 		foreach ( $this->fields as $field => $data ) {
 
-			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING ), $user, $field );
+			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input_sanitize_string( INPUT_POST, $field ), $user, $field );
 			update_user_meta( $user->ID, $field, $value );
 
 		}
@@ -356,6 +353,12 @@ class LLMS_Admin_User_Custom_Fields {
 			$instructor = llms_get_instructor( $user );
 			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
 
+		}
+
+		// Save personal options.
+		if ( user_can( $user, 'edit_courses' ) && 'create' !== $action ) {
+			$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
+			update_user_meta( $user->ID, 'llms_builder_autosave', $autosave );
 		}
 
 	}
@@ -399,7 +402,7 @@ class LLMS_Admin_User_Custom_Fields {
 				 * @param string      $field         Field id.
 				 * @param WP_User|int $user          Instance of WP_User or WP User ID.
 				 */
-				$error_msg = apply_filters( "lifterlms_validate_custom_user_field_${field}", false, $field, $user );
+				$error_msg = apply_filters( "lifterlms_validate_custom_user_field_{$field}", false, $field, $user );
 
 				if ( $error_msg ) {
 

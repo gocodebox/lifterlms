@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,20 +14,30 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Shortcodes
  *
  * @since 1.0.0
- * @since 3.11.1 Unknown.
- * @since 3.23.0 Unknown.
- * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
- *               Use strict comparisons where possible/needed.
  * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
 
 	/**
-	 * Init shortcodes array
+	 * Constructor.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+	}
+
+	/**
+	 * Initialize shortcodes array.
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
+	 * @since 7.5.0 Added `LLMS_Shortcode_Favorites` class in shortcodes array.
 	 *
 	 * @return void
 	 */
@@ -36,11 +46,11 @@ class LLMS_Shortcodes {
 		// New method.
 		$scs = apply_filters(
 			/**
-			 * Filters the shortcodes to initialize
+			 * Filters the shortcodes to initialize.
 			 *
-			 * @since unknown
+			 * @since Unknown
 			 *
-			 * @param string[] $shortcodes Array of shortcodes class names to initialize.
+			 * @param string[] $shortcodes Array of shortcode class names to initialize.
 			 */
 			'llms_load_shortcodes',
 			array(
@@ -58,30 +68,39 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Membership_Link',
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
+				'LLMS_Shortcode_User_Info',
+				'LLMS_Shortcode_Favorites',
 			)
 		);
 
-		// Include abstracts.
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
+		$hyphenated_file_classes = array(
+			'LLMS_Shortcode_User_Info',
+		);
 
 		foreach ( $scs as $class ) {
 
-			$filename = strtolower( str_replace( '_', '.', $class ) );
+			$separator = in_array( $class, $hyphenated_file_classes, true ) ? '-' : '.';
+			$filename  = "class{$separator}" . strtolower( str_replace( '_', $separator, $class ) );
 			/**
-			 * Filters the path of the shortcode class file
+			 * Filters the path of the shortcode class file.
 			 *
-			 * @since unknown
+			 * @since Unknown
 			 *
-			 * @param string $file The shortcode class file name.
+			 * @param string $file  The shortcode class file name.
 			 * @param string $class The shortcode class name.
 			 */
-			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
+			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . "includes/shortcodes/{$filename}.php", $class );
 
 			if ( file_exists( $path ) ) {
 				require_once $path;
 			}
 		}
+
+		/**
+		 * @deprecated 2.0.0
+		 * @todo       deprecate
+		 */
+		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
 		// Old method.
 		$shortcodes = array(
@@ -95,27 +114,24 @@ class LLMS_Shortcodes {
 			'lifterlms_login'              => __CLASS__ . '::login',
 			'lifterlms_pricing_table'      => __CLASS__ . '::pricing_table',
 			'lifterlms_memberships'        => __CLASS__ . '::memberships',
-
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
 
 			add_shortcode(
 				/**
-				 * Filters the shortcode tag
+				 * Filters the shortcode tag.
 				 *
-				 * The dynamic portion fo the hook name, `$shortcode` refers to the shortcode tag itself.
+				 * The dynamic portion of the hook name, `$shortcode` refers to the shortcode tag itself.
 				 *
-				 * @since unknown
+				 * @since Unknown
 				 *
 				 * @param string $shortcode The shortcode tag.
 				 */
 				apply_filters( "{$shortcode}_shortcode_tag", $shortcode ),
 				$function
 			);
-
 		}
-
 	}
 
 	/**
@@ -293,6 +309,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.4.4
 	 * @since 3.0.2
+	 * @since 4.12.0 Handle pagination when the shortcode is used on the static front page.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
@@ -313,7 +330,7 @@ class LLMS_Shortcodes {
 		}
 
 		$args = array(
-			'paged'          => get_query_var( 'paged' ),
+			'paged'          => is_front_page() ? get_query_var( 'page' ) : get_query_var( 'paged' ),
 			'post_type'      => 'llms_membership',
 			'post_status'    => 'publish',
 			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
@@ -361,7 +378,7 @@ class LLMS_Shortcodes {
 					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
 					'format'    => '?page=%#%',
 					'total'     => $query->max_num_pages,
-					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'current'   => max( 1, $args['paged'] ),
 					'prev_next' => true,
 					'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
 					'next_text' => __( 'Next', 'lifterlms' ) . '»',
@@ -557,7 +574,7 @@ class LLMS_Shortcodes {
 	 * Output a Pricing Table anywhere a shortcode can be output
 	 *
 	 * @since 3.2.5
-	 * @since 3.23.0 Unknown
+	 * @since 3.23.0 Unknown.
 	 * @since 3.38.0 Use `in_array()` with strict comparison.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
@@ -606,3 +623,5 @@ class LLMS_Shortcodes {
 	}
 
 }
+
+return new LLMS_Shortcodes();

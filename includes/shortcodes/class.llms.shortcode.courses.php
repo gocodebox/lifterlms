@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 3.14.0
- * @version 3.31.0
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_courses';
 
@@ -33,11 +33,11 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * Get shortcode attributes
 	 *
 	 * Retrieves an array of default attributes which are automatically merged
-	 * with the user submitted attributes and passed to $this->get_output()
+	 * with the user submitted attributes and passed to $this->get_output().
 	 *
-	 * @return   array
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return array
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -86,7 +86,16 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		}
 
-		return $ids;
+		/**
+		 * Filter the array of IDs returned for use in querying courses to display.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @param array        $ids     The IDs of courses that will be displayed.
+		 * @param LLMS_Student $student The student object for the current user.
+		 * @param string       $mine    The "mine" attribute of the shortcode.
+		 */
+		return apply_filters( 'llms_courses_shortcode_get_post__in', $ids, $student, $mine );
 	}
 
 	/**
@@ -147,13 +156,14 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 *
 	 * @since 3.14.0
 	 * @since 3.31.0 Changed access from private to protected.
+	 * @since 4.12.0 Handle pagination when the shortcode is used on the static front page.
 	 *
 	 * @return WP_Query
 	 */
 	protected function get_wp_query() {
 
 		$args = array(
-			'paged'          => get_query_var( 'paged' ),
+			'paged'          => is_front_page() ? get_query_var( 'page' ) : get_query_var( 'paged' ),
 			'post__in'       => $this->get_post__in(),
 			'post_type'      => 'course',
 			'post_status'    => $this->get_attribute( 'post_status' ),
@@ -171,7 +181,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * Retrieve the actual content of the shortcode
 	 *
 	 * $atts & $content are both filtered before being passed to get_output()
-	 * output is filtered so the return of get_output() doesn't need its own filter
+	 * output is filtered so the return of get_output() doesn't need its own filter.
 	 *
 	 * @since 3.14.0
 	 * @since 3.30.2 Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.

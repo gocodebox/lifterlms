@@ -5,6 +5,7 @@
  * @since 3.5.0
  * @since 3.33.0 Add delete enrollment tests.
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
+ * @since 5.2.0 Added tests on `get_registration_date`.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -99,10 +100,13 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test whether a user is_enrolled() in a course or membership
+	 * Test whether a user is_enrolled() in a course or membership.
+	 *
+	 * @since 3.5.0
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
+	 *
 	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.28.0
 	 */
 	public function test_enrollment() {
 
@@ -154,7 +158,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 
 		// check access after an access plan has expired access
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
 
 		// new student
@@ -190,7 +194,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 
 		// fast forward
-		llms_mock_current_time( date( 'Y-m-d', current_time( 'timestamp' ) + YEAR_IN_SECONDS ) );
+		llms_tests_mock_current_time( date( 'Y-m-d', current_time( 'timestamp' ) + YEAR_IN_SECONDS ) );
 
 		sleep( 1 ); // so the expiration status is later than the enrollment
 
@@ -212,6 +216,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -229,7 +235,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			$ts = $now + ( DAY_IN_SECONDS * rand( 1, 50 ) );
 			$date = date( $format, $ts );
 
-			llms_mock_current_time( $date );
+			llms_tests_mock_current_time( $date );
 
 			// enrollment date should match currently mocked date
 			$student->enroll( $cid );
@@ -237,7 +243,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 			$ts += HOUR_IN_SECONDS;
 			$new_date = date( $format, $ts );
-			llms_mock_current_time( $new_date );
+			llms_tests_mock_current_time( $new_date );
 
 			// updated date should be an hour later
 			$student->unenroll( $cid );
@@ -316,6 +322,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
 	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
+	 * @since 4.18.0 Removed the sleep delay between status changes to test statuses with the same date & time.
 	 *
 	 * @return void
 	 */
@@ -336,14 +343,10 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ) );
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ), false );
 
-		sleep( 1 );
-
 		// expired
 		$student->unenroll( $course_id );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id, false ) );
-
-		sleep( 1 );
 
 		// deleted
 		$student->delete_enrollment( $course_id );
@@ -421,9 +424,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_progress()
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @since 3.15.0
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_progress() {
 
@@ -453,9 +458,9 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		}
 
 		// check track progress
-		$this->assertEquals( 33.33, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+		$this->assertEqualsWithDelta( 33.33, $student->get_progress( $track_id, 'course_track' ), 0.01 );
 		$this->complete_courses_for_student( $student->get( 'id' ), array( $courses[1], $courses[2] ), 100 );
-		$this->assertEquals( 100, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+		$this->assertEqualsWithDelta( 100, $student->get_progress( $track_id, 'course_track' ), 0.01 );
 
 		// test the progress through a section
 		$student = $this->get_mock_student();
@@ -471,6 +476,84 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 				$this->assertEquals( 60, $student->get_progress( $section_id, 'section' ) );
 			}
 
+		}
+
+	}
+
+	/**
+	 * Test LLMS_Student::get_registration_date().
+	 *
+	 * @since 5.2.0
+	 */
+	public function test_get_registration_date() {
+
+		$tests = array(
+			'UTC@20' => array(
+				'timezone_string'            => 'UTC',
+				'user_registered'            => '2021-01-10 20:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'UTC@04' => array(
+				'timezone_string'            => 'UTC',
+				'user_registered'            => '2021-01-10 04:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'-5@20' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 20:00:00',
+				'expected_registration_date' => '2021-06-10',
+			),
+			'-5@04' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 04:00:00',
+				'expected_registration_date' => '2021-06-09',
+			),
+			'-5@05' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 05:00:00',
+				'expected_registration_date' => '2021-06-10',
+			),
+			'-6@20' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 20:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'-6@04' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 04:00:00',
+				'expected_registration_date' => '2021-01-09',
+			),
+			'-6@06' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 06:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'+9@20' => array(
+				'timezone_string'            => 'Asia/Tokyo',
+				'user_registered'            => '2021-08-10 20:00:00',
+				'expected_registration_date' => '2021-08-11',
+			),
+			'+9@04' => array(
+				'timezone_string'            => 'Asia/Tokyo',
+				'user_registered'            => '2021-08-10 04:00:00',
+				'expected_registration_date' => '2021-08-10',
+			),
+		);
+
+		foreach ( $tests as $test_name => $test ) {
+			# Set the server's local time zone.
+			update_option( 'timezone_string', $test['timezone_string'] );
+
+			# Register a new student.
+			$user_id = $this->factory->user->create( array(
+				'role'            => 'student',
+				'user_registered' => $test['user_registered'],
+			) );
+			$student = llms_get_student( $user_id );
+
+			# Test.
+			$actual_registration_date = $student->get_registration_date( 'Y-m-d' );
+			$this->assertEquals( $test['expected_registration_date'], $actual_registration_date, $test_name );
 		}
 
 	}

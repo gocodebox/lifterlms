@@ -7,19 +7,20 @@
  * @group reporting_tables
  *
  * @since 3.28.0
- * @since 3.36.0 Add "last_seen" col.
- * @since 3.37.15 Add additional tests for new conditions in `generate_export_file()` method.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 *
+	 * @since 3.28.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/llms.table.students.php';
 		$this->table = new LLMS_Table_Students();
 
@@ -29,9 +30,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * test the get_export() method.
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return void
 	 */
 	public function test_get_export() {
 
@@ -52,7 +53,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * test the generate_export_file() method.
 	 *
-	 * @return  void
+	 * @return void
 	 * @since   3.28.0
 	 * @version 3.28.1
 	 */
@@ -108,9 +109,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * test the get_results() method.
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return void
 	 */
 	public function test_get_results() {
 
@@ -198,9 +199,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the set_args() method.
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return void
 	 */
 	public function test_set_args() {
 
@@ -256,9 +257,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test that variables are setup correctly during construction.
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return void
 	 */
 	public function test_variables() {
 

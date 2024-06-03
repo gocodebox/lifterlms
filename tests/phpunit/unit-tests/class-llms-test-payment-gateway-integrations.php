@@ -8,23 +8,30 @@
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
  * @since 3.37.14 Reduce number of tests run for monthly and yearly chaotic simulations.
  * @since 4.3.1 Increased delta for `test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency()` and `test_recurring_lifecycle_for_month_plan_with_chaos()`.
+ * @since 5.3.1 Declare the `$gateway` property.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
+
+	/**
+	 * @var LLMS_Payment_Gateway|false
+	 */
+	protected $gateway;
 
 	/**
 	 * Before the class runs, register the mock gateway.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		add_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
 		// We shouldn't be able to do this but currently we can so whatever.
-		LLMS()->payment_gateways()->__construct();
+		llms()->payment_gateways()->__construct();
 
 	}
 
@@ -32,21 +39,22 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * After the class runs, remove the mock gateway.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `tearDownAfterClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 
 		remove_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
 		// The gateways class is a bit messed up and loads gateways weird.
 		// we need to remove the gateway manually so other tests don't break.
-		foreach ( LLMS()->payment_gateways()->payment_gateways as $i => $gateway ) {
+		foreach ( llms()->payment_gateways()->payment_gateways as $i => $gateway ) {
 			if ( 'mock' === $gateway->id ) {
-				unset( LLMS()->payment_gateways()->payment_gateways[ $i ] );
+				unset( llms()->payment_gateways()->payment_gateways[ $i ] );
 			}
 		}
-		parent::tearDownAfterClass();
+		parent::tear_down_after_class();
 
 	}
 
@@ -54,12 +62,13 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
-		$this->gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'mock' );
+	public function set_up() {
+		parent::set_up();
+		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( 'mock' );
 	}
 
 	/**
@@ -108,6 +117,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run some tests on the initial setup of the order and the first payment.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order The order.
 	 * @return void
@@ -131,7 +141,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 		// Next payment date.
 		$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
-		$this->assertEquals( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, $period, 5 ); // 5 seconds tolerance.
+		$this->assertEqualsWithDelta( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, 5, $period ); // 5 seconds tolerance.
 
 	}
 
@@ -142,6 +152,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
+	 * @since 5.3.1 If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
@@ -161,13 +173,13 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$i       = 2;
 		while ( $i <= $num + 1 && $elapsed <= $limit ) {
 
-			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
+			$scheduled_payment_time = (int) $order->get_date( 'date_next_payment', 'U' );
 
 			// Run the recurring payment randomly between 12 hours before and 12 hours after the scheduled payment time.
 			$chaos = rand( 0, HOUR_IN_SECONDS * $chaos_hours ) * ( rand( 0, 1 ) ? -1 : 1 );
 
 			// Time travel.
-			llms_mock_current_time( $next_payment_time + $chaos );
+			llms_tests_mock_current_time( $scheduled_payment_time + $chaos );
 
 			// Run the transaction.
 			$this->gateway->handle_recurring_transaction( $order );
@@ -180,11 +192,15 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			$this->assertEquals( $i, $txns['total'] );
 
 			// Last transaction date should equal the chaos time, this way we can be sure it was the payment we thought it was.
-			$this->assertEquals( $last_txn->get_date( 'date', 'U' ), $next_payment_time + $chaos );
+			$this->assertEquals( $last_txn->get_date( 'date', 'U' ), $scheduled_payment_time + $chaos );
 
 			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
-			$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
+			if ( $chaos < 0 ) {
+				$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
+			} else {
+				$expect = strtotime( "+{$frequency} {$period}", $scheduled_payment_time );
+			}
 			$msg = sprintf(
 				'%1$s Payment #%2$d: Got %3$s and expected %4$s ( $chaos_hours = %5$d | $chaos = %6$s )',
 				ucfirst( $period ),
@@ -196,7 +212,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			);
 
 			// Ensure that the calculated next payment time is 1 period +/- 23:59:59 from the previous transaction.
-			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
+			$this->assertEqualsWithDelta( $expect, $next_payment_time, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0, $msg );
 
 			++$i;
 			$elapsed = microtime( true ) - $start;

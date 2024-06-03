@@ -14,15 +14,15 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Creates access plans for each course & membership
  *
- * Creates up to 3 plans per course and up to two plans per membership
+ * Creates up to 3 plans per course and up to two plans per membership.
  *
- * Migrates price & subscription data to a single & recurring plan where applicable
+ * Migrates price & subscription data to a single & recurring plan where applicable.
  *
- * if course is restricted to a membership a free members only plan will be created
- * in addition to paid open recurring & single plans
+ * If course is restricted to a membership a free members only plan will be created
+ * in addition to paid open recurring & single plans.
  *
- * if course is restricted to a membership and no price is found
- * only one free members only plan will be created
+ * If course is restricted to a membership and no price is found
+ * only one free members only plan will be created.
  *
  * @since 3.0.0
  *
@@ -51,7 +51,7 @@ function llms_update_300_create_access_plans() {
 				$members_only = false;
 			}
 
-			// base plan for single & recurring
+			// Base plan for single & recurring.
 			$base_plan = array(
 
 				'access_expiration'         => 'lifetime',
@@ -83,10 +83,10 @@ function llms_update_300_create_access_plans() {
 			);
 
 			/**
-			 * determine what kinds of plans to create
+			 * Determine what kinds of plans to create
 			 */
 
-			// free and members only, only available to members
+			// Free and members only, only available to members.
 			if ( $is_free && $members_only ) {
 
 				$free_members_only = true;
@@ -102,7 +102,7 @@ function llms_update_300_create_access_plans() {
 				$recurring_paid    = $has_recurring;
 
 			} else {
-				// no restrictions, normal settings apply
+				// No restrictions, normal settings apply.
 
 				$free_members_only = false;
 				$single_paid_open  = ! $is_free ? true : false;
@@ -231,8 +231,8 @@ function llms_update_300_create_access_plans() {
 			foreach ( $keys as $key ) {
 				delete_post_meta( $post->ID, $key );
 			}
-		}// End foreach().
-	}// End if().
+		}
+	}
 
 }
 
@@ -369,10 +369,10 @@ function llms_update_300_migrate_coupon_data() {
 
 	foreach ( $coupon_title_metas as $obj ) {
 
-		// update new description field with the title b/c the title previously acted as a description
+		// Update new description field with the title b/c the title previously acted as a description.
 		update_post_meta( $obj->post_id, '_llms_description', get_the_title( $obj->post_id ) );
 
-		// update the post title to be the value of the old meta field
+		// Update the post title to be the value of the old meta field.
 		wp_update_post(
 			array(
 				'ID'         => $obj->post_id,
@@ -380,7 +380,7 @@ function llms_update_300_migrate_coupon_data() {
 			)
 		);
 
-		// clean up
+		// Clean up.
 		delete_post_meta( $obj->post_id, '_llms_coupon_title' );
 
 	}
@@ -398,7 +398,7 @@ function llms_update_300_migrate_course_postmeta() {
 
 	global $wpdb;
 
-	// rekey meta fields
+	// Rekey meta fields.
 	llms_update_util_rekey_meta( 'course', '_llms_audio_embed', '_audio_embed' );
 	llms_update_util_rekey_meta( 'course', '_llms_video_embed', '_video_embed' );
 	llms_update_util_rekey_meta( 'course', '_llms_has_prerequisite', '_has_prerequisite' );
@@ -410,15 +410,15 @@ function llms_update_300_migrate_course_postmeta() {
 	llms_update_util_rekey_meta( 'course', '_llms_start_date', '_course_dates_from' );
 	llms_update_util_rekey_meta( 'course', '_llms_end_date', '_course_dates_to' );
 
-	// updates course enrollment settings and reformats existing dates
+	// Updates course enrollment settings and reformats existing dates.
 	$dates = $wpdb->get_results(
 		"SELECT m.meta_id, m.post_id, m.meta_value
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
 	 	 WHERE p.post_type = 'course' AND ( m.meta_key = '_llms_start_date' OR m.meta_key = '_llms_end_date' );"
-	);
+	); // db call ok; no-cache ok.
 	foreach ( $dates as $r ) {
-		// if no value in the field skip it otherwise we end up with start of the epoch
+		// If no value in the field skip it otherwise we end up with start of the epoch.
 		if ( ! $r->meta_value ) {
 			continue; }
 		$wpdb->update(
@@ -429,19 +429,19 @@ function llms_update_300_migrate_course_postmeta() {
 			array(
 				'meta_id' => $r->meta_id,
 			)
-		);
+		); // db call ok; no-cache ok.
 		add_post_meta( $r->post_id, '_llms_time_period', 'yes' );
 		add_post_meta( $r->post_id, '_llms_course_opens_message', sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $r->post_id ) );
 		add_post_meta( $r->post_id, '_llms_course_closed_message', sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $r->post_id ) );
 	}
 
-	// update course capacity bool and related settings
+	// Update course capacity bool and related settings.
 	$capacity = $wpdb->get_results(
 		"SELECT m.post_id, m.meta_value
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
 	 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_capacity';"
-	);
+	); // db call ok; no-cache ok.
 	foreach ( $capacity as $r ) {
 		if ( $r->meta_value ) {
 			add_post_meta( $r->post_id, '_llms_enable_capacity', 'yes' );
@@ -449,21 +449,21 @@ function llms_update_300_migrate_course_postmeta() {
 		}
 	}
 
-	// convert numeric has_preqeq to "yes"
+	// Convert numeric has_preqeq to "yes".
 	$prereq = $wpdb->query(
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'yes'
 	 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_has_prerequisite' AND m.meta_value = 1;"
-	);
+	); // db call ok; no-cache ok.
 
-	// convert empty has_prereq to "no"
+	// Convert empty has_prereq to "no".
 	$prereq = $wpdb->query(
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'no'
 	 	 WHERE p.post_type = 'course' AND m.meta_key = '_llms_has_prerequisite' AND m.meta_value = '';"
-	);
+	); // db call ok; no-cache ok.
 
 }
 
@@ -498,9 +498,9 @@ function llms_update_300_migrate_lesson_postmeta() {
 	llms_update_util_rekey_meta( 'lesson', '_llms_prerequisite', '_prerequisite' );
 	llms_update_util_rekey_meta( 'lesson', '_llms_days_before_available', '_days_before_avalailable' );
 
-	// convert numeric has_preqeq to "yes"
-	// convert numeric free_lesson to "yes"
-	// convert numeric require_passing_grade to "yes"
+	// Convert numeric has_preqeq to "yes".
+	// Convert numeric free_lesson to "yes".
+	// Convert numeric require_passing_grade to "yes".
 	$wpdb->query(
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
@@ -510,11 +510,11 @@ function llms_update_300_migrate_lesson_postmeta() {
 	 	 	OR ( m.meta_key = '_llms_free_lesson' AND m.meta_value = 1 )
 	 	 	OR ( m.meta_key = '_llms_require_passing_grade' AND m.meta_value = 1 )
 	 	 );"
-	);
+	); // db call ok; no-cache ok.
 
-	// convert empty has_prereq to "no"
-	// convert empty free_lesson to "no"
-	// convert empty require_passing_grade to "no"
+	// Convert empty has_prereq to "no".
+	// Convert empty free_lesson to "no".
+	// Convert empty require_passing_grade to "no".
 	$wpdb->query(
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
@@ -524,15 +524,15 @@ function llms_update_300_migrate_lesson_postmeta() {
 	 	 	OR ( m.meta_key = '_llms_free_lesson' AND m.meta_value = '' )
 	 	 	OR ( m.meta_key = '_llms_require_passing_grade' AND m.meta_value = '' )
 	 	 );"
-	);
+	); // db call ok; no-cache ok.
 
-	// updates course enrollment settings and reformats existing dates
+	// Updates course enrollment settings and reformats existing dates.
 	$drips = $wpdb->get_results(
 		"SELECT m.post_id
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
 	 	 WHERE p.post_type = 'lesson' AND m.meta_key = '_llms_days_before_available';"
-	);
+	); // db call ok; no-cache ok.
 	foreach ( $drips as $r ) {
 		add_post_meta( $r->post_id, '_llms_drip_method', 'enrollment' );
 	}
@@ -550,14 +550,14 @@ function llms_update_300_migrate_order_data() {
 
 	global $wpdb;
 
-	// prefix the old unprefixed order post type
+	// Prefix the old unprefixed order post type.
 	$wpdb->query(
 		"UPDATE {$wpdb->posts}
 		 SET post_type = 'llms_order'
 		 WHERE post_type = 'order';"
 	);
 
-	// rekey postmetas
+	// Rekey postmetas.
 	llms_update_util_rekey_meta( 'llms_order', '_llms_payment_gateway', '_llms_payment_method' );
 	llms_update_util_rekey_meta( 'llms_order', '_llms_product_id', '_llms_order_product_id' );
 	llms_update_util_rekey_meta( 'llms_order', '_llms_currency', '_llms_order_currency' );
@@ -602,16 +602,16 @@ function llms_update_300_update_orders() {
 
 			$order = new LLMS_Order( $post );
 
-			// add an order key
+			// Add an order key.
 			$order->set( 'order_key', $order->generate_order_key() );
 
 			$order->set( 'access_expiration', 'lifetime' );
 
-			// add coupon used info
+			// Add coupon used info.
 			$coupon_used = $order->get( 'coupon_id' ) ? 'yes' : 'no';
 			$order->set( 'coupon_used', $coupon_used );
 
-			// add data about the user to the order if we can find it
+			// Add data about the user to the order if we can find it.
 			if ( isset( $order->user_id ) ) {
 
 				$id = $order->get( 'user_id' );
@@ -644,7 +644,7 @@ function llms_update_300_update_orders() {
 				}
 			}
 
-			// setup trial info if there was a first payment recorded
+			// Setup trial info if there was a first payment recorded.
 			if ( $order->get( 'trial_total' ) ) {
 
 				$order->set( 'trial_offer', 'yes' );
@@ -664,7 +664,7 @@ function llms_update_300_update_orders() {
 
 			$order->add_note( sprintf( __( 'This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-orders#migration" target="_blank">', '</a>' ) );
 
-			// remove deprecated
+			// Remove deprecated.
 			delete_post_meta( $post->ID, '_llms_order_recurring_price' );
 			delete_post_meta( $post->ID, '_llms_order_total' );
 			delete_post_meta( $post->ID, '_llms_order_coupon_limit' );
@@ -673,8 +673,8 @@ function llms_update_300_update_orders() {
 			delete_post_meta( $post->ID, '_llms_order_coupon_value' );
 			delete_post_meta( $post->ID, '_llms_order_original_total' );
 
-		}// End foreach().
-	}// End if().
+		}
+	}
 }
 
 /**

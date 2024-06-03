@@ -1,8 +1,8 @@
 /**
  * Lesson Model
  *
- * @since    3.13.0
- * @version  3.27.0
+ * @since 3.13.0
+ * @version 4.20.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -11,7 +11,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Model relationships
 		 *
-		 * @type  {Object}
+		 * @type {Object}
 		 */
 		relationships: {
 			parents: {
@@ -34,16 +34,17 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Lesson Settings Schema
 		 *
-		 * @type  {Object}
+		 * @type {Object}
 		 */
 		schema: LessonSchema,
 
 		/**
 		 * New lesson defaults
 		 *
-		 * @return   obj
-		 * @since    3.13.0
-		 * @version  3.24.0
+		 * @since 3.13.0
+		 * @since 3.24.0 Unknown.
+		 *
+		 * @return {Object} Default options associative array (js object).
 		 */
 		defaults: function() {
 			return {
@@ -54,11 +55,11 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				parent_course: window.llms_builder.course.id,
 				parent_section: '',
 
-				// urls
+				// Urls.
 				edit_url: '',
 				view_url: '',
 
-				// editable fields
+				// Editable fields.
 				content: '',
 				audio_embed: '',
 				has_prerequisite: 'no',
@@ -68,11 +69,11 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				free_lesson: '',
 				points: 1,
 
-				// other fields
-				assignment: {}, // assignment model/data
+				// Other fields.
+				assignment: {}, // Assignment model/data.
 				assignment_enabled: 'no',
 
-				quiz: {}, // quiz model/data
+				quiz: {}, // Quiz model/data.
 				quiz_enabled: 'no',
 
 				_forceSync: false,
@@ -83,9 +84,10 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Initializer
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.17.0
+		 * @since 3.16.0
+		 * @since 3.17.0 Unknown
+		 *
+		 * @return {void}
 		 */
 		initialize: function() {
 
@@ -94,7 +96,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.maybe_init_assignments();
 			this.init_relationships();
 
-			// if the lesson ID isn't set on a quiz, set it
+			// If the lesson ID isn't set on a quiz, set it.
 			var quiz = this.get( 'quiz' );
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
 				quiz.set( 'lesson_id', this.get( 'id' ) );
@@ -107,21 +109,22 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Retrieve a reference to the parent course of the lesson
 		 *
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Use Section.get_course() in favor of Section.get_parent().
+		 *
+		 * @return {Object} The parent course model of the lesson.
 		 */
 		get_course: function() {
-			return this.get_parent().get_parent();
+			return this.get_parent().get_course();
 		},
 
 		/**
 		 * Retrieve the translated post type name for the model's type
 		 *
-		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
-		 * @return   string
-		 * @since    3.16.12
-		 * @version  3.16.12
+		 * @since  3.16.12
+		 *
+		 * @param bool plural If true, returns the plural, otherwise returns singular.
+		 * @return string The translated post type name.
 		 */
 		get_l10n_type: function( plural ) {
 
@@ -135,9 +138,9 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Override default get_parent to grab from collection if models parent isn't set
 		 *
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @since 3.17.0
+		 *
+		 * @return {Object}|false The parent model or false if not available.
 		 */
 		get_parent: function() {
 
@@ -154,9 +157,9 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Retrieve the questions percentage value within the quiz
 		 *
-		 * @return   string
-		 * @since    3.24.0
-		 * @version  3.24.0
+		 * @since 3.24.0
+		 *
+		 * @return {String} Questions percentage value within the quiz.
 		 */
 		get_points_percentage: function() {
 
@@ -178,9 +181,9 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Retrieve an array of prerequisite options available for the current lesson
 		 *
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @since 3.17.0
+		 *
+		 * @return {Object} Prerequisite options.
 		 */
 		get_available_prereq_options: function() {
 
@@ -191,7 +194,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.get_course().get( 'sections' ).each( function( section, curr_sec_index ) {
 				if ( curr_sec_index <= parent_section_index ) {
 					var group = {
-							/* translators: %1$d = section order number, %2$s = section title */
+							// Translators: %1$d = section order number, %2$s = section title.
 						label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
 							'%1$d': section.get( 'order' ),
 							'%2$s': section.get( 'title' )
@@ -201,7 +204,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 					section.get( 'lessons' ).each( function( lesson, curr_les_index ) {
 						if ( curr_sec_index !== parent_section_index || curr_les_index < lesson_index_in_section ) {
-							/* translators: %1$d = lesson order number, %2$s = lesson title */
+							// Translators: %1$d = lesson order number, %2$s = lesson title.
 							group.options.push( {
 								key: lesson.get( 'id' ),
 								val: LLMS.l10n.replace( 'Lesson %1$d: %2$s', {
@@ -223,10 +226,11 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Add a new quiz to the lesson
 		 *
-		 * @param    obj   data   object of quiz data used to construct a new quiz model
-		 * @return   obj          model for the created quiz
-		 * @since    3.16.0
-		 * @version  3.27.0
+		 * @since 3.16.0
+		 * @since 3.27.0 Unknown.
+		 *
+		 * @param {Object} data Object of quiz data used to construct a new quiz model.
+		 * @return {Object} Model for the created quiz.
 		 */
 		add_quiz: function( data ) {
 
@@ -258,34 +262,164 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Determine if this is the first lesson
 		 *
-		 * @return   {Boolean}
-		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @since 3.17.0
+		 * @since 4.20.0 Use is_first_in_section() new method.
+		 *
+		 * @return {Boolean} Whether this is the first lesson of its course.
 		 */
 		is_first_in_course: function() {
 
-			// if it's not the first item in the section it cant be the first lesson
-			if ( this.collection.indexOf( this ) ) {
+			// If it's not the first item in the section it cant be the first lesson.
+			if ( ! this.is_first_in_section() ) {
 				return false;
 			}
 
-			// if it's not the first section it cant' be first lesson
+			// If it's not the first section it cant' be first lesson.
 			var section = this.get_parent();
 			if ( section.collection.indexOf( section ) ) {
 				return false;
 			}
 
-			// it's first lesson in first section
+			// It's first lesson in first section.
 			return true;
+
+		},
+
+		/**
+		 * Determine if this is the last lesson of the course
+		 *
+		 * @since 4.20.0
+		 *
+		 * @return {Boolean} Whether this is the last lesson of its course.
+		 */
+		 is_last_in_course: function() {
+
+			// If it's not last item in the section it cant be the last lesson.
+			if ( ! this.is_last_in_section() ) {
+				return false;
+			}
+
+			// If it's not the last section it cant' be last lesson.
+			var section = this.get_parent();
+			if ( section.collection.indexOf( section ) < ( section.collection.size() - 1 ) ) {
+				return false;
+			}
+
+			// It's last lesson in last section.
+			return true;
+
+		},
+
+		/**
+		 * Determine if this is the first lesson within its section
+		 *
+		 * @since 4.20.0
+		 *
+		 * @return {Boolean} Whether this is the first lesson of its section.
+		 */
+		is_first_in_section: function() {
+			return 0 === this.collection.indexOf( this );
+		},
+
+		/**
+		 * Determine if this is the last lesson within its section
+		 *
+		 * @since 4.20.0
+		 *
+		 * @return {Boolean} Whether this is the last lesson of its section.
+		 */
+		is_last_in_section: function() {
+			return this.collection.indexOf( this ) === ( this.collection.size() - 1 );
+		},
+
+		/**
+		 * Get prev lesson in a course
+		 *
+		 * @since 4.20.0
+		 *
+		 * @param {String} status Prev lesson post status. If not specified any status will be taken into account.
+		 * @return {Object}|false Previous lesson model or `false` if no previous lesson could be found.
+		 */
+		get_prev: function( status ) {
+			return this.get_sibling( 'prev', status );
+		},
+
+		/**
+		 * Get next lesson in a course
+		 *
+		 * @since 4.20.0
+		 *
+		 * @param {String} status Next lesson post status. If not specified any status will be taken into account.
+		 * @return {Object}|false Next lesson model or `false` if no next lesson could be found.
+		 */
+		get_next: function( status ) {
+			return this.get_sibling( 'next', status );
+		},
+
+		/**
+		 * Get a sibling lesson
+		 *
+		 * @param {String} direction Siblings direction [next|prev]. If not specified will fall back on 'prev'.
+		 * @param {String} status    Sibling lesson post status. If not specified any status will be taken into account.
+		 * @return {Object}|false Sibling lesson model, in the specified direction, or `false` if no sibling lesson could be found.
+		 */
+		get_sibling: function( direction, status ) {
+
+			direction = 'next' === direction ? direction : 'prev';
+
+			// Functions and vars to use when direction is 'prev' (default).
+			var is_course_limit_reached_f               = 'is_first_in_course',
+				is_section_limit_reached_f              = 'is_first_in_section',
+				sibling_index_increment                 = -1,
+				get_sibling_lesson_in_sibling_section_f = 'last';
+
+			if ( 'next' === direction ) {
+				is_course_limit_reached_f               = 'is_last_in_course';
+				is_section_limit_reached_f              = 'is_last_in_section';
+				sibling_index_increment                 = 1,
+				get_sibling_lesson_in_sibling_section_f = 'first';
+			}
+
+			if ( this[ is_course_limit_reached_f ]() ) {
+				return false;
+			}
+
+			var sibling_index  = this.collection.indexOf( this ) + sibling_index_increment,
+				sibling_lesson = this.collection.at( sibling_index );
+
+			if ( this[ 'next' === direction ? 'is_last_in_section' : 'is_first_in_section' ]() ) {
+				var cur_section     = this.get_parent(),
+					sibling_section = cur_section[ 'get_' + direction ]( false );
+
+				// Skip sibling empty sections.
+				while ( sibling_section && ! sibling_section.get( 'lessons' ).size() ) {
+					sibling_section = sibling_section[ 'get_' + direction ]( false );
+				}
+
+				// Couldn't find any suitable lesson.
+				if ( ! sibling_section || ! sibling_section.get( 'lessons' ).size() ) {
+					return false;
+				}
+
+				sibling_lesson = sibling_section.get( 'lessons' )[ get_sibling_lesson_in_sibling_section_f ]();
+
+			}
+
+			// If we need a specific lesson status.
+			if ( status && status !== sibling_lesson.get( 'status' ) ) {
+				return sibling_lesson.get_sibling( direction, status );
+			}
+
+			return sibling_lesson;
 
 		},
 
 		/**
 		 * Initialize lesson assignments *if* the assignments addon is available and enabled
 		 *
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @since 3.17.0
+		 *
+		 * @return {Void}
 		 */
 		maybe_init_assignments: function() {
 
@@ -296,7 +430,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.relationships.children.assignment = {
 				class: 'Assignment',
 				conditional: function( model ) {
-					// if assignment is enabled OR not enabled but we have some assignment data as an obj
+					// If assignment is enabled OR not enabled but we have some assignment data as an obj.
 					return ( 'yes' === model.get( 'assignment_enabled' ) || ! _.isEmpty( model.get( 'assignment' ) ) );
 				},
 				model: 'llms_assignment',

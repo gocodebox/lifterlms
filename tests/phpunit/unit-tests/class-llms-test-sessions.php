@@ -15,12 +15,13 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.36.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->sessions = LLMS_Sessions::instance();
 
 
@@ -262,7 +263,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	public function test_get_session_events() {
 
 		add_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
-		LLMS()->events()->register_events();
+		llms()->events()->register_events();
 
 		$start_time = time() - HOUR_IN_SECONDS;
 		llms_tests_mock_current_time( $start_time );
@@ -276,7 +277,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		llms_tests_mock_current_time( $start_time + MINUTE_IN_SECONDS );
 
 		// Create events.
-		LLMS()->events()->record( array(
+		llms()->events()->record( array(
 			'actor_id' => $user,
 			'object_type' => 'post',
 			'object_id' => 1,
@@ -286,7 +287,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
 		llms_tests_mock_current_time( $start_time + ( MINUTE_IN_SECONDS * 2 ) );
 
-		LLMS()->events()->record( array(
+		llms()->events()->record( array(
 			'actor_id' => $user,
 			'object_type' => 'post',
 			'object_id' => 1,
@@ -312,7 +313,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		$this->sessions->end_current();
 
 		// Add a new event (new session)
-		LLMS()->events()->record( array(
+		llms()->events()->record( array(
 			'actor_id' => $user,
 			'object_type' => 'post',
 			'object_id' => 1,
@@ -402,7 +403,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	public function test_is_session_idle_old_with_events_within_window() {
 
 		add_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
-		LLMS()->events()->register_events();
+		llms()->events()->register_events();
 
 		$user = $this->factory->user->create();
 		wp_set_current_user( $user );
@@ -413,7 +414,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		llms_tests_mock_current_time( time() + ( 10 * MINUTE_IN_SECONDS ) );
 
 		// Add a new
-		LLMS()->events()->record( array(
+		llms()->events()->record( array(
 			'actor_id' => $user,
 			'object_type' => 'post',
 			'object_id' => 1,
@@ -446,7 +447,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		llms_tests_mock_current_time( time() + ( 15 * MINUTE_IN_SECONDS ) );
 
 		// Add a new
-		LLMS()->events()->record( array(
+		llms()->events()->record( array(
 			'actor_id' => $user,
 			'object_type' => 'post',
 			'object_id' => 1,

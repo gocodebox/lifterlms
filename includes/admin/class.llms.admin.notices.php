@@ -1,40 +1,47 @@
 <?php
 /**
- * LifterLMS Admin Notices
+ * LLMS_Admin_Notices class file.
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Notices class
+ * LifterLMS Admin Notices.
  *
  * @since 3.0.0
- * @since 3.35.0 Unslash input data.
  */
 class LLMS_Admin_Notices {
 
 	/**
-	 * Array of messages to display
+	 * Array of messages to display.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private static $notices = array();
 
 	/**
+	 * Array of messages already displayed in the current request.
+	 *
+	 * @var array
+	 */
+	private static $printed_notices = array();
+
+	/**
 	 * Static constructor
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 4.13.0 Populate the `self::$notices` using `self::load_notices()`.
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
-		self::$notices = get_option( 'llms_admin_notices', array() );
+		self::$notices = self::load_notices();
 
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
 		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
@@ -43,11 +50,15 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Add output notice actions depending on the current screen
-	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
+	 * Add output notice actions depending on the current screen.
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Notices are added later for LifterLMS settings screens to accommodate
+	 * settings that are updated later in the load cycle.
+	 *
+	 * @since 3.0.0
+	 * @since 5.9.0 Output notices at `admin_notices` in favor of `admin_print_styles`.
+	 *
+	 * @return void
 	 */
 	public static function add_output_actions() {
 
@@ -55,28 +66,30 @@ class LLMS_Admin_Notices {
 		if ( ! empty( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
 			add_action( 'lifterlms_settings_notices', array( __CLASS__, 'output_notices' ) );
 		} else {
-			add_action( 'admin_print_styles', array( __CLASS__, 'output_notices' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'output_notices' ) );
 		}
 
 	}
 
 	/**
 	 * Add a notice
+	 *
 	 * Saves options to the database to be output later
 	 *
-	 * @param    string $notice_id        unique id of the notice
-	 * @param    string $html_or_options  html content of the notice for short notices that don't need a template
-	 *                                      or array of options, html of the notice will be in a template
-	 *                                      passed as the "template" param of this array
-	 * @param    array  $options          array of options, when passing html directly via $html_or_options
-	 *                                      notice options should be passed in this array
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.3.0 - added "flash" option
+	 * @since 3.0.0
+	 * @since 3.3.0 Added "flash" option.
+	 *
+	 * @param string $notice_id       Unique id of the notice.
+	 * @param string $html_or_options Html content of the notice for short notices that don't need a template
+	 *                                or an array of options, html of the notice will be in a template
+	 *                                passed as the "template" param of this array.
+	 * @param array  $options         Array of options, when passing html directly via $html_or_options.
+	 *                                Notice options should be passed in this array.
+	 * @return void
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
-		// Don't add the notice if we've already dismissed of delayed it.
+		// Don't add the notice if we've already dismissed or delayed it.
 		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
 			return;
 		}
@@ -101,8 +114,8 @@ class LLMS_Admin_Notices {
 				'remindable'       => false,
 				'type'             => 'info', // Info, warning, success, error.
 				'template'         => false, // Template name, eg "admin/notices/notice.php".
-				'template_path'    => '', // Allow override of default LLMS()->template_path().
-				'default_path'     => '', // Allow override of default path LLMS()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
+				'template_path'    => '', // Allow override of default llms()->template_path().
+				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
 			)
 		);
 
@@ -114,10 +127,12 @@ class LLMS_Admin_Notices {
 	/**
 	 * Delete a notice by id
 	 *
-	 * @param    string $notice_id  unique id of the notice
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.4.3
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 *
+	 * @param string $notice_id Unique id of the notice.
+	 * @param string $trigger   Deletion action/trigger, accepts 'delete' (default), 'hide', or 'remind'.
+	 * @return void
 	 */
 	public static function delete_notice( $notice_id, $trigger = 'delete' ) {
 		self::$notices = array_diff( self::get_notices(), array( $notice_id ) );
@@ -134,18 +149,29 @@ class LLMS_Admin_Notices {
 			if ( $delay ) {
 				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
 			}
-			do_action( 'lifterlms_' . $trigger . '_' . $notice_id . '_notice' );
+
+			/**
+			 * Hook run when a notice is dismissed.
+			 *
+			 * The dynamic portion of this hook `{$trigger}` refers to the deletion trigger, either 'delete',
+			 * 'hide', or 'remind'.
+			 *
+			 * The dynamic portion of this hook, `{$notice_id}` refers to the ID of the notice being dismissed.
+			 *
+			 * @since 4.10.0
+			 */
+			do_action( "lifterlms_{$trigger}_{$notice_id}_notice" );
 		}
 	}
 
 	/**
 	 * Flash a notice on screen, isn't saved and is automatically deleted after being displayed
 	 *
-	 * @param    string $message  Message text / html to display onscreen
-	 * @param    string $type     notice type [info|warning|success|error]
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @param string $message Message text / html to display onscreen.
+	 * @param string $type    Notice type [info|warning|success|error].
+	 * @return void
 	 */
 	public static function flash_notice( $message, $type = 'info' ) {
 
@@ -174,21 +200,22 @@ class LLMS_Admin_Notices {
 	/**
 	 * Get notice details array from the DB
 	 *
-	 * @param    string $notice_id  notice id
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 4.13.0 When the notice cannot be found, return an empty array in favor of an empty string.
+	 *
+	 * @param string $notice_id Notice id.
+	 * @return array
 	 */
 	public static function get_notice( $notice_id ) {
-		return get_option( 'llms_admin_notice_' . $notice_id, '' );
+		return get_option( 'llms_admin_notice_' . $notice_id, array() );
 	}
 
 	/**
 	 * Get notices
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return array
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	public static function get_notices() {
 		return self::$notices;
@@ -197,21 +224,24 @@ class LLMS_Admin_Notices {
 	/**
 	 * Determine if a notice is already set
 	 *
-	 * @param    string $notice_id   id of the notice
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 4.10.0 Use a strict comparison.
+	 *
+	 * @param string $notice_id Id of the notice.
+	 * @return boolean
 	 */
 	public static function has_notice( $notice_id ) {
-		return in_array( $notice_id, self::get_notices() );
+		return in_array( $notice_id, self::get_notices(), true );
 	}
 
 	/**
 	 * Called when "Dismiss X" or "Remind Me" is clicked on a notice
-	 * Validates request and deletes the notice
+	 *
+	 * Validates request and deletes the notice.
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Unslash input data.
+	 * @since 5.2.0 Remove notice and notice query string vars and redirect after clearing.
 	 *
 	 * @return void
 	 */
@@ -231,16 +261,48 @@ class LLMS_Admin_Notices {
 				$action = 'remind';
 			}
 			self::delete_notice( $notice, $action );
+			llms_redirect_and_exit( remove_query_arg( array( 'llms-hide-notice', 'llms-remind-notice', '_llms_notice_nonce' ) ) );
 		}
+	}
+
+	/**
+	 * Loads stored notice IDs from the database
+	 *
+	 * Handles potentially malformed data by ensuring that only an array of strings
+	 * can be loaded.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return string[]
+	 */
+	protected static function load_notices() {
+
+		$notices = get_option( 'llms_admin_notices', array() );
+
+		if ( ! is_array( $notices ) ) {
+			$notices = array( $notices );
+		}
+
+		// Remove empty and non-string values.
+		return array_filter(
+			$notices,
+			function( $notice ) {
+				return ( ! empty( $notice ) && is_string( $notice ) );
+			}
+		);
+
 	}
 
 	/**
 	 * Output a single notice by ID
 	 *
-	 * @param    string $notice_id  notice id
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.7.4
+	 * @since 3.0.0
+	 * @since 3.7.4 Unknown.
+	 * @since 5.2.0 Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
+	 * @since 5.3.1 Delete empty notices and do not display them.
+	 *
+	 * @param string $notice_id Notice id.
+	 * @return void
 	 */
 	public static function output_notice( $notice_id ) {
 
@@ -248,69 +310,76 @@ class LLMS_Admin_Notices {
 
 			$notice = self::get_notice( $notice_id );
 
-			if ( empty( $notice ) ) {
-				return;
-			}
-
 			// Don't output those rogue empty notices I can't find.
 			// @todo find the source.
-			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
+			if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
 				self::delete_notice( $notice_id );
+
+				return;
 			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
-				<?php if ( $notice['dismissible'] ) : ?>
-					<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
-						<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
-					</a>
-				<?php endif; ?>
+				<div class="llms-admin-notice-icon"></div>
+				<div class="llms-admin-notice-content">
+					<?php if ( $notice['dismissible'] ) : ?>
+						<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-hide-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>">
+							<span class="screen-reader-text"><?php _e( 'Dismiss', 'lifterlms' ); ?></span>
+						</a>
+					<?php endif; ?>
+					<?php if ( ! empty( $notice['template'] ) ) : ?>
 
-				<?php if ( ! empty( $notice['template'] ) ) : ?>
+						<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
 
-					<?php llms_get_template( $notice['template'], $notice['template_path'], $notice['default_path'] ); ?>
+					<?php elseif ( ! empty( $notice['html'] ) ) : ?>
 
-				<?php elseif ( ! empty( $notice['html'] ) ) : ?>
+						<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
 
-					<?php echo wpautop( wp_kses_post( $notice['html'] ) ); ?>
+					<?php endif; ?>
 
-				<?php endif; ?>
-
-				<?php if ( $notice['remindable'] ) : ?>
-					<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
-				<?php endif; ?>
+					<?php if ( $notice['remindable'] ) : ?>
+						<p style="text-align:right;"><a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'llms-remind-notice', $notice_id ), 'llms_hide_notices_nonce', '_llms_notice_nonce' ) ); ?>"><?php _e( 'Remind me later', 'lifterlms' ); ?></a></p>
+					<?php endif; ?>
+				</div>
 			</div>
 			<?php
 
 			if ( isset( $notice['flash'] ) && $notice['flash'] ) {
 				self::delete_notice( $notice_id, 'delete' );
 			}
-		}// End if().
+		}
 
 	}
 
 	/**
-	 * Output all saved notices
+	 * Output all saved notices.
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 7.1.0 Made sure to print the notices only once.
+	 *
+	 * @return void
 	 */
 	public static function output_notices() {
-		foreach ( self::get_notices() as $notice_id ) {
+
+		$notices_to_print = array_diff( self::get_notices(), self::$printed_notices );
+
+		foreach ( $notices_to_print as $notice_id ) {
 			self::output_notice( $notice_id );
+			self::$printed_notices[] = $notice_id;
 		}
+
 	}
 
 	/**
 	 * Save notices in the database
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	public static function save_notices() {
 		update_option( 'llms_admin_notices', self::get_notices() );
 	}
 
 }
+
 LLMS_Admin_Notices::init();

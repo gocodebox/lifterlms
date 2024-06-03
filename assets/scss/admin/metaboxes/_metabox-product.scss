@@ -6,7 +6,7 @@
 
 	.llms-access-plans {
 		@extend %clearfix;
-		margin-top: 25px;
+		margin-top: 10px;
 
 		> .llms-no-plans-msg { display: none; }
 		> .llms-no-plans-msg:last-child {
@@ -31,11 +31,12 @@
 				display: inline;
 			}
 		}
-
+		.llms-needs-attention .dashicons-warning.medium-danger {
+			display: inline;
+		}
 		.dashicons-warning {
 			display: none;
 		}
-
 	}
 
 	.llms-access-plan {
@@ -66,7 +67,9 @@
 			color: $color-danger;
 			margin-left: 3px;
 		}
-
+		.notice {
+			margin-left: 0;
+		}
 	}
 
 }

@@ -1,37 +1,43 @@
 <?php
 /**
  * Tests for the LLMS_Payment_Gateways class
- * @since    3.10.0
- * @version  3.10.0
+ *
+ * @group payment_gateways
+ *
+ * @since 3.10.0
  */
 class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Enable or disable a payment gateway by ID
-	 * @param    string     $id       gateway id
-	 * @param    string     $enabled  on|off
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @param string $id      Gateway id.
+	 * @param string $enabled Whether the gateway should be enabled or disabled. Accepts on or off.
+	 * @return void
 	 */
 	private function toggle_gateway( $id, $enabled = 'on' ) {
 
 		$enabled = 'on' === $enabled ? 'yes' : 'no';
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), $enabled );
 
 	}
 
 	/**
 	 * Test get_enabled_payment_gateways function
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_enabled_payment_gateways() {
 
-		$gways = LLMS()->payment_gateways();
+		$gways = llms()->payment_gateways();
 
 		$this->toggle_gateway( 'manual', 'off' );
 
@@ -49,27 +55,31 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_default_gateway() function
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_default_gateway() {
 
 		// enable the manual gateway
 		$this->toggle_gateway( 'manual', 'on' );
-		$this->assertEquals( 'manual', LLMS()->payment_gateways()->get_default_gateway() );
+		$this->assertEquals( 'manual', llms()->payment_gateways()->get_default_gateway() );
 
 	}
 
 	/**
 	 * Test get_payment_gateways() method
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_payment_gateways() {
 
-		$gways = LLMS()->payment_gateways();
+		$gways = llms()->payment_gateways();
 
 		$this->assertTrue( is_array( $gways->get_payment_gateways() ) );
 		$this->assertTrue( array_key_exists( 'manual', $gways->get_payment_gateways() ) );
@@ -79,13 +89,15 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test has_gateways() method
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @return void
 	 */
 	public function test_has_gateways() {
 
-		$gways = LLMS()->payment_gateways();
+		$gways = llms()->payment_gateways();
 
 		// check all gateways (default)
 		$this->assertTrue( $gways->has_gateways() );
@@ -103,13 +115,15 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_gateway_by_id()
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_gateway_by_id() {
 
-		$gways = LLMS()->payment_gateways();
+		$gways = llms()->payment_gateways();
 		$manual = $gways->get_gateway_by_id( 'manual' );
 		$this->assertTrue( is_a( $manual, 'LLMS_Payment_Gateway' ) );
 		$this->assertEquals( 'manual', $manual->get_id() );

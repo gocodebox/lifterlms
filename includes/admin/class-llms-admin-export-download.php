@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.28.1
- * @version 3.28.1
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,17 +30,24 @@ class LLMS_Admin_Export_Download {
 	}
 
 	/**
-	 * Serve an export file as a download
+	 * Serve an export file as a download.
 	 *
-	 * @return  void
-	 * @since   3.28.1
-	 * @version 3.28.1
+	 * @since 3.28.1
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 7.5.0 Check nonce and only consider the basename of the file to be downloaded.
+	 *
+	 * @return void
 	 */
 	public function maybe_serve_export() {
 
-		$export = filter_input( INPUT_GET, 'llms-dl-export', FILTER_SANITIZE_STRING );
+		$export = llms_filter_input( INPUT_GET, 'llms-dl-export', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! $export ) {
 			return;
+		}
+
+		// Verify nonce.
+		if ( ! llms_verify_nonce( 'llms_dl_export_nonce', LLMS_Abstract_Exportable_Admin_Table::EXPORT_NONCE_ACTION, 'GET' ) ) {
+			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}
 
 		// Only allow people who can view reports view exports.
@@ -48,7 +55,7 @@ class LLMS_Admin_Export_Download {
 			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}
 
-		$path = LLMS_TMP_DIR . $export;
+		$path = LLMS_TMP_DIR . basename( $export );
 		if ( ! file_exists( $path ) ) {
 			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}

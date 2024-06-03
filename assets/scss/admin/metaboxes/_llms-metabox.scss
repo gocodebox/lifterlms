@@ -3,9 +3,15 @@
 .llms-mb-list {
 
 	label {
-		font-weight: bold;
-		width: 100%;
+		font-size: 15px;
+		font-weight: 700;
+		line-height: 1.5;
 		display: block;
+		width: 100%;
+	}
+
+	.description {
+		margin-bottom: 8px;
 	}
 
 	.input-full {
@@ -19,13 +25,13 @@
 	@extend %cf;
 
 	h2, h3, h6 {
-		font-weight: 300;
 		margin: 0;
 		padding: 0;
 	}
 
 	h2 {
-		font-size: 22px;
+		font-size: 18px;
+		font-weight: 700;
 	}
 
 	h3 {
@@ -50,7 +56,9 @@
 		text-align: center;
 	}
 
-	a.llms-editable {
+	a.llms-editable,
+	.llms-metabox-icon,
+	button.llms-editable {
 		color: $color-grey;
 		text-decoration: none;
 		&:hover {
@@ -58,8 +66,22 @@
 		}
 	}
 
-	h4 a.llms-editable { float: right; }
+	button.llms-editable {
+		border: none;
+		background: none;
+		cursor: pointer;
+		padding: 0;
+		vertical-align: top;
+	}
 
+	h4 button.llms-editable {
+		float: right;
+	}
+
+	.llms-table {
+		margin-top: 10px;
+
+	}
 }
 
 .llms-metabox-section {
@@ -173,6 +195,12 @@
 			&.dashicons-trash:hover,
 			&.dashicons-no:hover {
 				color: $color-danger;
+			}
+			&.dashicons-warning.medium-danger {
+				&,
+				&:hover {
+					color: $color-orange;
+				}
 			}
 		}
 

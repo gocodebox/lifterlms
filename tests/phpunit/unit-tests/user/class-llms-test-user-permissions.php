@@ -2,17 +2,24 @@
 /**
  * Test User Permissions and capabilities
  *
- * @package  LifterLMS_Tests/Tests
+ * @package LifterLMS_Tests/Tests
  *
  * @group user_permissions
  *
  * @since 3.34.0
- * @since 3.41.0 Add new tests to better handle users with multiple roles.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	/**
+	 * Setup the test case
+	 *
+	 * @since 3.34.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
 		$this->obj = new LLMS_User_Permissions();
 	}
 
@@ -26,14 +33,14 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	private function create_mock_users() {
 
 		return array(
-			'student' => $this->factory->student->create(),
-			'admin' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
-			'admin2' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
-			'editor' => $this->factory->user->create( array( 'role' => 'editor' ) ),
-			'subscriber' => $this->factory->user->create( array( 'role' => 'subscriber' ) ),
+			'student'     => $this->factory->student->create(),
+			'admin'       => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+			'admin2'      => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+			'editor'      => $this->factory->user->create( array( 'role' => 'editor' ) ),
+			'subscriber'  => $this->factory->user->create( array( 'role' => 'subscriber' ) ),
 			'lms_manager' => $this->factory->user->create( array( 'role' => 'lms_manager' ) ),
-			'instructor' => $this->factory->user->create( array( 'role' => 'instructor' ) ),
-			'assistant' => $this->factory->user->create( array( 'role' => 'instructors_assistant' ) ),
+			'instructor'  => $this->factory->user->create( array( 'role' => 'instructor' ) ),
+			'assistant'   => $this->factory->user->create( array( 'role' => 'instructors_assistant' ) ),
 		);
 
 	}
@@ -164,6 +171,104 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test the editable_roles() filter for users with single roles.
+	 *
+	 * @since 4.10.0
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_single_role() {
+
+		$users = $this->create_mock_users();
+
+		$all_roles = wp_roles()->roles;
+
+		$editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'get_editable_roles');
+
+		wp_set_current_user( $users['lms_manager'] );
+		$lms_manager_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that lms_managers can edit mapped roles.
+		foreach ( $editable_roles['lms_manager'] as $editable_role ) {
+			$this->assertContains( $editable_role, $lms_manager_editable_roles );
+		}
+
+		wp_set_current_user( $users['instructor'] );
+		$instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that instructor can edit mapped roles.
+		foreach ( $editable_roles['instructor'] as $editable_role ) {
+			$this->assertContains( $editable_role, $instructor_editable_roles );
+		}
+
+		wp_set_current_user( $users['assistant'] );
+		$assistant_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that assistants can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $assistant_editable_roles );
+		}
+
+		wp_set_current_user( $users['admin'] );
+		$administrator_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that administrator can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_editable_roles );
+		}
+	}
+
+	/**
+	 * Test the editable_roles() filter for users with multiple roles.
+	 *
+	 * @since 4.10.0
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_multiple_roles() {
+
+		$users = $this->create_mock_users();
+
+		$all_roles = wp_roles()->roles;
+
+		wp_set_current_user( $users['lms_manager'] );
+		$lms_manager_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		wp_set_current_user( $users['instructor'] );
+		$instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		wp_set_current_user( $users['lms_manager'] );
+		$user = wp_get_current_user();
+		$user->add_role( 'instructor' );
+		$lms_manager_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that lms_manager with instructor role has editable roles from both roles.
+		foreach ( $lms_manager_editable_roles as $lms_manager_editable_role ) {
+			$this->assertContains( $lms_manager_editable_role, $lms_manager_instructor_editable_roles );
+		}
+		foreach ( $instructor_editable_roles as $instructor_editable_role ) {
+			$this->assertContains( $instructor_editable_role, $lms_manager_instructor_editable_roles );
+		}
+
+		wp_set_current_user( $users['admin'] );
+		$user = wp_get_current_user();
+		$user->add_role( 'instructor' );
+		$administrator_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that administrator with instructor role can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_instructor_editable_roles );
+		}
+	}
+
+	/**
+	 * Test student CRUD capabilities
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
+	 */
 	public function test_student_crud_caps() {
 
 		$users = $this->create_mock_users();
@@ -237,8 +342,93 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 		}
 
+	}
 
+	/**
+	 * Test view_grades capability errors
+	 *
+	 * @since 4.21.2
+	 *
+	 * @return void
+	 */
+	public function test_view_grades_cap_errs() {
+
+		// Logged out user.
+		$this->assertFalse( current_user_can( 'view_grades' ) );
+
+		wp_set_current_user( $this->factory->user->create() );
+
+		// Missing required args.
+		$this->assertFalse( current_user_can( 'view_grades' ) );
 
 	}
+
+	/**
+	 * Test view_grades cap in various scenarios and different user types
+	 *
+	 * @since 4.21.2
+	 *
+	 * @return void
+	 */
+	public function test_view_grades_cap() {
+
+		$users   = $this->create_mock_users();
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$quiz    = $course->get_lessons()[0]->get_quiz();
+		$quiz_id = $quiz->get( 'id' );
+
+		$users['student2'] = $this->factory->user->create( array( 'role' => 'student' ) );
+		$users['student3'] = $this->factory->user->create( array( 'role' => 'student' ) );
+
+		llms_enroll_student( $users['student'], $course->get( 'id' ) );
+		llms_enroll_student( $users['student2'], $course->get( 'id' ) );
+
+		// Can view anyone's grades.
+		foreach ( array( 'admin', 'lms_manager' ) as $current_role ) {
+			wp_set_current_user( $users[ $current_role ] );
+			foreach ( $users as $uid ) {
+				$this->assertTrue( current_user_can( 'view_grades', $uid, $quiz_id ) );
+				$this->assertTrue( current_user_can( 'view_grades', $uid ) );
+			}
+		}
+
+		// Can't view other people's grades.
+		foreach ( array( 'editor', 'subscriber', 'instructor', 'assistant', 'student2' ) as $role ) {
+			wp_set_current_user( $users[ $role ] );
+
+			// No for others.
+			$this->assertFalse( current_user_can( 'view_grades', $users['student'], $quiz_id ), $role );
+			$this->assertFalse( current_user_can( 'view_grades', $users['student'] ), $role );
+
+			// Yes for their own.
+			$this->assertTrue( current_user_can( 'view_grades', $users[ $role ], $quiz_id ), $role );
+			$this->assertTrue( current_user_can( 'view_grades', $users[ $role ] ), $role );
+
+		}
+
+		// Instructors can view their own students.
+		$assistant = llms_get_instructor( $users['assistant'] );
+		$assistant->add_parent( $users['instructor'] );
+
+		$course->instructors()->set_instructors( array(
+			array( 'id' => $users['instructor'] ),
+			array( 'id' => $users['assistant'] ),
+		) );
+
+		// Can view grades for their students.
+		foreach ( array( 'instructor', 'assistant' ) as $role ) {
+
+			wp_set_current_user( $users[ $role ] );
+
+			$this->assertTrue( current_user_can( 'view_grades', $users['student'], $quiz_id ), $role );
+			$this->assertTrue( current_user_can( 'view_grades', $users['student2'], $quiz_id ), $role );
+
+			$this->assertFalse( current_user_can( 'view_grades', $users['student3'], $quiz_id ), $role );
+
+			$this->assertTrue( current_user_can( 'view_grades', $users['student'] ), $role );
+
+		}
+	}
+
 
 }

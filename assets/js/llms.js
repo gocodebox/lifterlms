@@ -10,17 +10,17 @@
 /**
  * Main LLMS Namespace
  *
- * @type     {Object}
- * @since    1.0.0
- * @version  3.24.3
+ * @since 1.0.0
+ * @version 5.3.3
  */
+
 var LLMS = window.LLMS || {};
-(function($){
+( function( $ ){
 
 	'use strict';
 
 	/**
-	 * load all app modules
+	 * Load all app modules
 	 */
 	/**
 	 * Front End Achievements
@@ -28,7 +28,7 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 3.14.0
-	 * @version 4.5.1
+	 * @version 6.10.2
 	 */
 	
 	LLMS.Achievements = {
@@ -39,7 +39,7 @@ var LLMS = window.LLMS || {};
 		 * @since 3.14.0
 		 * @since 4.5.1 Fix conditional loading check.
 		 *
-		 * @return void
+		 * @return {void}
 		 */
 		init: function() {
 	
@@ -60,7 +60,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.14.0
 		 *
-		 * @return void
+		 * @return {void}
 		 */
 		bind: function() {
 	
@@ -94,7 +94,7 @@ var LLMS = window.LLMS || {};
 		 * @since 3.14.0
 		 *
 		 * @param obj $el The jQuery selector for the modal card.
-		 * @return void
+		 * @return {void}
 		 */
 		create_modal: function( $el ) {
 	
@@ -135,15 +135,28 @@ var LLMS = window.LLMS || {};
 		 * On page load, opens a modal if the URL contains an achievement in the location hash
 		 *
 		 * @since 3.14.0
+		 * @since 6.10.2 Sanitize achievement IDs before using window.location.hash to trigger the modal open.
 		 *
-		 * @return void
+		 * @return {void}
 		 */
 		maybe_open: function() {
 	
-			var hash = window.location.hash;
-			if ( hash && -1 !== hash.indexOf( 'achievement-' ) ) {
-				$( 'a[href="' + hash + '"]' ).first().trigger( 'click' );
+			let hash = window.location.hash.split( '-' );
+			if ( 2 !== hash.length ) {
+				return;
 			}
+	
+			hash[1] = parseInt( hash[1] );
+			if ( '#achievement-' !== hash[0] || ! Number.isInteger( hash[1] ) ) {
+				return;
+			}
+	
+			const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` )
+			if ( ! a ) {
+				return;
+			}
+	
+			a.click();
 	
 		}
 	
@@ -289,16 +302,25 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @package LifterLMS/Scripts
 	 *
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 * @version 4.15.0
 	 *
-	 * @link  https://gist.github.com/joeyinbox/8205962
+	 * @link https://gist.github.com/joeyinbox/8205962
 	 *
-	 * @param    obj   $el  jQuery element to draw a chart within
+	 * @param {Object} $el jQuery element to draw a chart within.
 	 */
 	
 	LLMS.Donut = function( $el ) {
 	
+		/**
+		 * Constructor
+		 *
+		 * @since 3.9.0
+		 * @since 4.15.0 Flip animation in RTL.
+		 *
+		 * @param {Object} options Donut options.
+		 * @return {Void}
+		 */
 		function Donut(options) {
 	
 			this.settings = $.extend( {
@@ -309,16 +331,17 @@ var LLMS = window.LLMS || {};
 			this.circle                = this.settings.element.find( 'path' );
 			this.settings.stroke_width = parseInt( this.circle.css( 'stroke-width' ) );
 			this.radius                = ( parseInt( this.settings.element.css( 'width' ) ) - this.settings.stroke_width ) / 2;
-			this.angle                 = -97.5; // Origin of the draw at the top of the circle
+			this.angle                 = $( 'body' ).hasClass( 'rtl' ) ? 82.5 : 97.5; // Origin of the draw at the top of the circle
 			this.i                     = Math.round( 0.75 * this.settings.percent );
 			this.first                 = true;
+			this.increment             = $( 'body' ).hasClass( 'rtl' ) ? -5 : 5;
 	
 			this.animate = function() {
 				this.timer = setInterval( this.loop.bind( this ), 10 );
 			};
 	
 			this.loop = function() {
-				this.angle += 5;
+				this.angle += this.increment;
 				this.angle %= 360;
 				var radians = ( this.angle / 180 ) * Math.PI,
 					x       = this.radius + this.settings.stroke_width / 2 + Math.cos( radians ) * this.radius,
@@ -339,6 +362,14 @@ var LLMS = window.LLMS || {};
 			};
 		}
 	
+		/**
+		 * Draw donut element
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param {Object} $el jQuery element to draw a chart within.
+		 * @return {Void}
+		 */
 		function draw( $el ) {
 			var path = '<path d="M100,100" />';
 			$el.append( '<svg preserveAspectRatio="xMidYMid" xmlns:xlink="http://www.w3.org/1999/xlink">' + path + '</svg>' );
@@ -350,6 +381,423 @@ var LLMS = window.LLMS || {};
 		}
 	
 		draw( $el );
+	
+	};
+	
+		/**
+	 * Forms
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since 5.0.0
+	 * @version 7.0.0
+	 */
+	
+	LLMS.Forms = {
+	
+		/**
+		 * Stores locale information.
+		 *
+		 * Added via PHP.
+		 *
+		 * @type {Object}
+		 */
+		address_info: {},
+	
+		/**
+		 * jQuery ref. to the city text field.
+		 *
+		 * @type {Object}
+		 */
+		$cities: null,
+	
+		/**
+		 * jQuery ref. to the countries select field.
+		 *
+		 * @type {Object}
+		 */
+		$countries: null,
+	
+		/**
+		 * jQuery ref. to the states select field.
+		 *
+		 * @type {Object}
+		 */
+		$states: null,
+	
+		/**
+		 * jQuery ref. to the hidden states holder field.
+		 *
+		 * @type {Object}
+		 */
+		$states_holder: null,
+	
+		/**
+		 * Init
+		 *
+	 	 * @since 5.0.0
+	 	 * @since 5.3.3 Move select2 dependency check into the `bind_l10_selects()` method.
+	 	 *
+	 	 * @return {void}
+		 */
+		init: function() {
+	
+			if ( $( 'body' ).hasClass( 'wp-admin' ) ) {
+				if ( ! ( $( 'body' ).hasClass( 'profile-php' ) || $( 'body' ).hasClass( 'user-edit-php' ) ) ) {
+					return;
+				}
+			}
+	
+			var self = this;
+	
+			self.bind_matching_fields();
+			self.bind_voucher_field();
+			self.bind_edit_account();
+			self.bind_l10n_selects();
+	
+		},
+	
+		/**
+		 * Bind DOM events for the edit account screen.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return {void}
+		 */
+		bind_edit_account: function() {
+	
+			// Not an edit account form.
+			if ( ! $( 'form.llms-person-form.edit-account' ).length ) {
+				return;
+			}
+	
+			$( '.llms-toggle-fields' ).on( 'click', this.handle_toggle_click );
+	
+		},
+	
+		/**
+		 * Bind DOM Events fields with dynamic localization values and language.
+		 *
+		 * @since 5.0.0
+		 * @since 5.3.3 Bind select2-related events after ensuring select2 is available.
+		 *
+		 * @return {void}
+		 */
+		bind_l10n_selects: function() {
+	
+			var self = this;
+	
+			self.$cities    = $( '#llms_billing_city' );
+			self.$countries = $( '.llms-l10n-country-select select' );
+			self.$states    = $( '.llms-l10n-state-select select' );
+			self.$zips      = $( '#llms_billing_zip' );
+	
+			if ( ! self.$countries.length ) {
+				return;
+			}
+	
+			var isSelect2Available = function() {
+				return ( undefined !== $.fn.llmsSelect2 );
+			};
+	
+			LLMS.wait_for( isSelect2Available, function() {
+	
+				if ( self.$states.length ) {
+					self.prep_state_field();
+				}
+	
+				self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
+	
+				if ( window.llms.address_info ) {
+					self.address_info = JSON.parse( window.llms.address_info );
+				}
+	
+				self.$countries.on( 'change', function() {
+	
+					var val = $( this ).val();
+					self.update_locale_info( val );
+	
+				} ).trigger( 'change' );
+	
+			}, 'llmsSelect2' );
+	
+		},
+	
+		/**
+		 * Ensure "matching" fields match.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return {Void}
+		 */
+		bind_matching_fields: function() {
+	
+			var $fields = $( 'input[data-match]' ).not( '[type="password"]' );
+	
+			$fields.each( function() {
+	
+				var $field = $( this ),
+					$match = $( '#' + $field.attr( 'data-match' ) ),
+					$parents;
+	
+				if ( $match.length ) {
+	
+					$parents = $field.closest( '.llms-form-field' ).add( $match.closest( '.llms-form-field' ) );
+	
+					$field.on( 'input change', function() {
+	
+						var val_1 = $field.val(),
+							val_2 = $match.val();
+	
+						if ( val_1 && val_2 && val_1 !== val_2 ) {
+							$parents.addClass( 'invalid' );
+						} else {
+							$parents.removeClass( 'invalid' );
+						}
+	
+					} );
+	
+				}
+	
+			} );
+	
+		},
+	
+		/**
+		 * Bind DOM events for voucher toggles UX.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return {void}
+		 */
+		bind_voucher_field: function() {
+	
+			$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
+				e.preventDefault();
+				$( '#llms_voucher' ).toggle();
+			} );
+	
+		},
+	
+		/**
+		 * Retrieve the parent element for a given field.
+		 *
+		 * The parent element is hidden when the field isn't required.
+		 *
+		 * @since 5.0.0
+		 * @since 7.0.0 Do not look for a WP column wrapper anymore, always return the field's wrapper div.
+		 *
+		 * @param {Object} $field jQuery dom object.
+		 * @return {Object}
+		 */
+		get_field_parent: function( $field ) {
+	
+			return $field.closest( '.llms-form-field' );
+	
+		},
+	
+		/**
+		 * Retrieve the text of a label
+		 *
+		 * Removes any children HTML elements (eg: required span elements) and returns only the labels text.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object} $label jQuery object for a label element.
+		 * @return {String}
+		 */
+		get_label_text: function( $label ) {
+	
+			var $clone = $label.clone();
+			$clone.find( '*' ).remove();
+			return $clone.text().trim();
+	
+		},
+	
+		/**
+		 * Callback function to handle the "toggle" button links for changing email address and password on account edit forms
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object} event Native JS event object.
+		 * @return {void}
+		 */
+		handle_toggle_click: function( event ) {
+	
+			event.preventDefault();
+	
+			var $this       = $( this ),
+				$fields     = $( $( this ).attr( 'data-fields' ) ),
+				isShowing   = $this.attr( 'data-is-showing' ) || 'no',
+				displayFunc = 'yes' === isShowing ? 'hide' : 'show',
+				disabled    = 'yes' === isShowing ? 'disabled' : null,
+				textAttr    = 'yes' === isShowing ? 'data-change-text' : 'data-cancel-text';
+	
+			$fields.each( function() {
+	
+				$( this ).closest( '.llms-form-field' )[ displayFunc ]();
+				$( this ).attr( 'disabled', disabled );
+	
+			} );
+	
+			$this.text( $this.attr( textAttr ) );
+			$this.attr( 'data-is-showing', 'yes' === isShowing ? 'no' : 'yes' );
+	
+		},
+	
+		/**
+		 * Prepares the state select field.
+		 *
+		 * Moves All optgroup elements into a hidden & disabled select element.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return {void}
+		 */
+		prep_state_field: function() {
+	
+			var $parent = this.$states.closest( '.llms-form-field' );
+	
+			this.$holder = $( '<select disabled style="display:none !important;" />' );
+	
+			this.$holder.appendTo( $parent );
+			this.$states.find( 'optgroup' ).appendTo( this.$holder );
+	
+		},
+	
+		/**
+		 * Updates the text of a label for a given field.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object} $field jQuery object of the form field.
+		 * @param {String} text Label text.
+		 * @return {void}
+		 */
+		update_label: function( $field, text ) {
+	
+			var $label = this.get_field_parent( $field ).find( 'label' ),
+				$required = $label.find( '.llms-required' ).clone();
+	
+			$label.html( text );
+			$label.append( $required );
+	
+		},
+	
+		/**
+		 * Update form fields based on selected country
+		 *
+		 * Replaces label text with locale-specific language and
+		 * hides or shows zip fields based on whether or not
+		 * they are required for the given country.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {String} country_code Currently selected country code.
+		 * @return {void}
+		 */
+		update_locale_info: function( country_code ) {
+	
+			if ( ! this.address_info || ! this.address_info[ country_code ] ) {
+				return;
+			}
+	
+			var info = this.address_info[ country_code ];
+	
+			this.update_state_options( country_code );
+			this.update_label( this.$states, info.state );
+	
+			this.update_locale_info_for_field( this.$cities, info.city );
+			this.update_locale_info_for_field( this.$zips, info.postcode );
+	
+		},
+	
+		/**
+		 * Update locale info for a given field.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object}         $field The jQuery object for the field.
+		 * @param {String|Boolean} label  The text of the label, or `false` when the field isn't supported.
+		 * @return {Void}
+		 */
+		update_locale_info_for_field: function( $field, label ) {
+	
+			if ( label ) {
+				this.update_label( $field, label );
+				this.enable_field( $field );
+			} else {
+				this.disable_field( $field );
+			}
+	
+		},
+	
+		/**
+		 * Update the available options in the state field
+		 *
+		 * Removes existing options and copies the options
+		 * for the requested country from the hidden select field.
+		 *
+		 * If there are no states for the given country the state
+		 * field will be hidden.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {String} country_code Currently selected country code.
+		 * @return {void}
+		 */
+		update_state_options: function( country_code ) {
+	
+			if ( ! this.$states.length ) {
+				return;
+			}
+	
+			var opts = this.$holder.find( 'optgroup[data-key="' + country_code + '"] option' ).clone();
+	
+			if ( ! opts.length ) {
+				this.$states.html( '<option>&nbsp</option>' );
+				this.disable_field( this.$states );
+			} else {
+				this.enable_field( this.$states );
+				this.$states.html( opts );
+			}
+	
+		},
+	
+		/**
+		 * Disable a given field
+		 *
+		 * It also hides the parent element, and adds an empty hidden input field
+		 * with the same 'name' as teh being disabled field so to be sure to clear the field.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object} $field The jQuery object for the field.
+		 */
+		disable_field: function( $field ) {
+			$(
+				'<input>',
+				{ name: $field.attr('name'), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
+			).insertAfter( $field );
+			$field.attr( 'disabled', 'disabled' );
+			this.get_field_parent( $field ).hide();
+		},
+	
+		/**
+		 * Enable a given field
+		 *
+		 * It also shows the parent element, and removes the empty hidden input field
+		 * previously added by disable_field().
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {Object} $field The jQuery object for the field.
+		 */
+		enable_field: function( $field ) {
+			$field.removeAttr( 'disabled' );
+			$field.next( '.hidden[name='+$field.attr('name')+']' ).detach();
+			this.get_field_parent( $field ).show();
+		}
 	
 	};
 	
@@ -787,22 +1235,49 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 3.0.0
-	 * @version  3.7.0
+	 * @version 5.0.0
 	 */
 	
 	$.extend( LLMS.PasswordStrength, {
 	
-		$pass: $( '.llms-password' ),
-		$conf: $( '.llms-password-confirm' ),
+		/**
+		 * jQuery ref for the password strength meter object.
+		 *
+		 * @type {Object}
+		 */
 		$meter: $( '.llms-password-strength-meter' ),
+	
+		/**
+		 * jQuery ref for the password field.
+		 *
+		 * @type {Object}
+		 */
+		$pass: null,
+	
+		/**
+		 * jQuery ref for the password confirmation field
+		 *
+		 * @type {Object}
+		 */
+		$conf: null,
+	
+		/**
+		 * jQuery ref for form element.
+		 *
+		 * @type {Object}
+		 */
 		$form: null,
 	
 		/**
 		 * Init
 		 * loads class methods
 		 *
-		 * @since    3.0.0
-		 * @version  3.7.0
+		 * @since 3.0.0
+		 * @since 3.7.0 Unknown
+		 * @since 5.0.0 Move reference setup to `setup_references()`.
+		 *              Use `LLMS.wait_for()` for dependency waiting.
+		 *
+		 * @return {Void}
 		 */
 		init: function() {
 	
@@ -810,53 +1285,27 @@ var LLMS = window.LLMS || {};
 				return;
 			}
 	
-			if ( this.$meter.length ) {
-	
-				this.$form = this.$pass.closest( 'form' );
-	
-				// our asset enqueue is all screwed up and I'm too tired to fix it
-				// so we're going to run this little dependency check
-				// and wait for matchHeight to be available before binding
-				var self    = this,
-					counter = 0,
-					interval;
-	
-				interval = setInterval( function() {
-	
-					// if we get to 30 seconds log an error message
-					// and really who cares if the element heights aren't matched
-					if ( counter >= 300 ) {
-	
-						console.log( 'cannot do password strength meter.' );
-	
-						// if we can't access ye, increment and wait...
-					} else if ( 'undefined' === typeof wp && 'undefined' === typeof wp.passwordStrength ) {
-	
-						counter++;
-						return;
-	
-						// bind the events, we're good!
-					} else {
-	
-						self.bind();
-						self.$form.trigger( 'llms-password-strength-ready' );
-	
-					}
-	
-					clearInterval( interval );
-	
-				}, 100 );
-	
+			if ( ! this.setup_references() ) {
+				return;
 			}
+	
+			var self = this;
+	
+			LLMS.wait_for( function() {
+				return ( 'undefined' !== typeof wp && 'undefined' !== typeof wp.passwordStrength );
+			}, function() {
+				self.bind();
+				self.$form.trigger( 'llms-password-strength-ready' );
+			} );
 	
 		},
 	
 		/**
-		 * Bind Method
-		 * Handles dom binding on load
+		 * Bind DOM Events
+		 *
+		 * @since 3.0.0
 		 *
 		 * @return void
-		 * @since 3.0.0
 		 */
 		bind: function() {
 	
@@ -864,7 +1313,7 @@ var LLMS = window.LLMS || {};
 	
 			// add submission event handlers when not on a checkout form
 			if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
-				this.$form.on( 'submit', self, self.submit );
+				self.$form.on( 'submit', self, self.submit );
 			}
 	
 			// check password strength on keyup
@@ -878,21 +1327,24 @@ var LLMS = window.LLMS || {};
 		 * Check the strength of a user entered password
 		 * and update elements depending on the current strength
 		 *
-		 * @return void
 		 * @since 3.0.0
-		 * @version 3.0.0
+		 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
+		 *
+		 * @return void
 		 */
 		check_strength: function() {
 	
 			var $pass_field = this.$pass.closest( '.llms-form-field' ),
-				$conf_field = this.$conf.closest( '.llms-form-field' ),
+				$conf_field = this.$conf && this.$conf.length ? this.$conf.closest( '.llms-form-field' ) : null,
 				pass_length = this.$pass.val().length,
-				conf_length = this.$conf.val().length;
+				conf_length = this.$conf && this.$conf.length ? this.$conf.val().length : 0;
 	
 			// hide the meter if both fields are empty
 			if ( ! pass_length && ! conf_length ) {
 				$pass_field.removeClass( 'valid invalid' );
-				$conf_field.removeClass( 'valid invalid' );
+				if ( $conf_field ) {
+					$conf_field.removeClass( 'valid invalid' );
+				}
 				this.$meter.hide();
 				return;
 			}
@@ -918,11 +1370,11 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Form submission action called during registration on checkout screen
 		 *
+		 * @since    3.0.0
+		 *
 		 * @param    obj       self      instance of this class
 		 * @param    Function  callback  callback function, passes error message or success back to checkout handler
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
 		 */
 		checkout: function( self, callback ) {
 	
@@ -935,41 +1387,53 @@ var LLMS = window.LLMS || {};
 				callback( LLMS.l10n.translate( 'There is an issue with your chosen password.' ) );
 	
 			}
-	
 		},
 	
 		/**
-		 * Get the list of blacklisted strings
-		 * We'll add a filter to this later so that developers can add their own blacklist to the default WP list
+		 * Get the list of blocklisted strings
+		 *
+		 * @since 5.0.0
 		 *
 		 * @return array
-		 * @since 3.0.0
 		 */
-		get_blacklist: function() {
-			var blacklist = wp.passwordStrength.userInputBlacklist();
-			return blacklist;
+		get_blocklist: function() {
+	
+			// Default values from WP Core + any values added via settings filter..
+			var blocklist = wp.passwordStrength.userInputDisallowedList().concat( this.get_setting( 'blocklist', [] ) );
+	
+			// Add values from all text fields in the form.
+			this.$form.find( 'input[type="text"], input[type="email"], input[type="tel"], input[type="number"]' ).each( function() {
+				var val = $( this ).val();
+				if ( val ) {
+					blocklist.push( val );
+				}
+			} );
+	
+			return blocklist;
+	
 		},
 	
 		/**
 		 * Retrieve current strength as a number, a slug, or a translated text string
 		 *
-		 * @param    string   format  derived return format [int|slug|text] defaults to int
-		 * @return   mixed
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
+		 *
+		 * @param {String} format Derived return format [int|slug|text] defaults to int.
+		 * @return mixed
 		 */
 		get_current_strength: function( format ) {
 	
 			format   = format || 'int';
 			var pass = this.$pass.val(),
-				conf = this.$conf.val(),
+				conf = this.$conf && this.$conf.length ? this.$conf.val() : '',
 				val;
 	
 			// enforce custom length requirement
-			if ( pass.length < 6 ) {
+			if ( pass.length < this.get_setting( 'min_length', 6 ) ) {
 				val = -1;
 			} else {
-				val = wp.passwordStrength.meter( pass, this.get_blacklist(), conf );
+				val = wp.passwordStrength.meter( pass, this.get_blocklist(), conf );
 				// 0 & 1 are both very-weak
 				if ( 0 === val ) {
 					val = 1;
@@ -989,9 +1453,9 @@ var LLMS = window.LLMS || {};
 		 * Determines if the current password strength meets the user-defined
 		 * minimum password strength requirements
 		 *
+		 * @since 3.0.0
+		 *
 		 * @return   boolean
-		 * @since    3.0.0
-		 * @version  3.0.0
 		 */
 		get_current_strength_status: function() {
 			var curr = this.get_current_strength(),
@@ -1000,12 +1464,38 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
+		 * Retrieve the minimum password strength for the current form.
+		 *
+		 * @since 3.0.0
+		 * @since 5.0.0 Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
+		 *
+		 * @return {string}
+		 */
+		get_minimum_strength: function() {
+			return this.get_setting( 'min_strength', 'strong' );
+		},
+	
+		/**
+		 * Get a setting and fallback to a default value.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param {String} key Setting key.
+		 * @param {mixed} default_val Default value when the requested setting cannot be located.
+		 * @return {mixed}
+		 */
+		get_setting: function( key, default_val ) {
+			var settings = this.get_settings();
+			return settings[ key ] ? settings[ key ] : default_val;
+		},
+	
+		/**
 		 * Get the slug associated with a strength value
 		 *
-		 * @param    int   strength_val  strength value number
-		 * @return   string
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since  3.0.0
+		 *
+		 * @param int strength_val Strength value number.
+		 * @return string
 		 */
 		get_strength_slug: function( strength_val ) {
 	
@@ -1025,10 +1515,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Gets the translated text associated with a strength value
 		 *
-		 * @param    int  strength_val  strength value
-		 * @return   string
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since  3.0.0
+		 *
+		 * @param {Integer} strength_val Strength value
+		 * @return {String}
 		 */
 		get_strength_text: function( strength_val ) {
 	
@@ -1048,10 +1538,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the value associated with a strength slug
 		 *
-		 * @param    string   strength_slug  a strength slug
-		 * @return   int
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 *
+		 * @param string strength_slug A strength slug.
+		 * @return {Integer}
 		 */
 		get_strength_value: function( strength_slug ) {
 	
@@ -1069,12 +1559,37 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
+		 * Setup jQuery references to DOM elements needed to power the password meter.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return {Boolean} Returns `true` if a meter element and password field are found, otherwise returns `false`.
+		 */
+		setup_references: function() {
+	
+			if ( ! this.$meter.length ) {
+				return false;
+			}
+	
+			this.$form = this.$meter.closest( 'form' );
+			this.$pass = this.$form.find( 'input#password' );
+	
+			if ( this.$pass.length && this.$pass.attr( 'data-match' ) ) {
+				this.$conf = this.$form.find( '#' + this.$pass.attr( 'data-match' ) );
+			}
+	
+			return ( this.$pass.length > 0 );
+	
+		},
+	
+		/**
 		 * Form submission handler for registration and update forms
 		 *
-		 * @param    obj    e         event data
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 * @since 5.0.0 Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
+		 *
+		 * @param obj e Event data.
+		 * @return void
 		 */
 		submit: function( e ) {
 	
@@ -1082,7 +1597,8 @@ var LLMS = window.LLMS || {};
 			e.preventDefault();
 			self.$pass.trigger( 'keyup' );
 	
-			if ( self.get_current_strength_status() ) {
+			// Meets the status requirements OR we're on the account edit form and the password field is disabled.
+			if ( self.get_current_strength_status() || ( self.$form.hasClass( 'edit-account' ) && 'disabled' === self.$pass.attr( 'disabled' ) ) ) {
 				self.$form.off( 'submit', self.submit );
 				self.$form.trigger( 'submit' );
 			} else {
@@ -1094,7 +1610,20 @@ var LLMS = window.LLMS || {};
 					self.$meter.fadeIn( 400 );
 				}, 220 );
 			}
-		}
+		},
+	
+		/**
+		 * Get the list of blocklist strings
+		 *
+		 * @since 3.0.0
+		 * @deprecated 5.0.0 `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
+		 *
+		 * @return array
+		 */
+		get_blacklist: function() {
+			console.log( 'Method `get_blacklist()` is deprecated in favor of `get_blocklist()`.' );
+			return this.get_blacklist();
+		},
 	
 	} );
 	
@@ -1185,6 +1714,42 @@ var LLMS = window.LLMS || {};
 	};
 	
 		/**
+	 * Quiz Attempt
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since 7.3.0
+	 * @version 7.3.0
+	 */
+	
+	LLMS.Quiz_Attempt = {
+		/**
+		 * Initialize
+		 *
+		 * @return void
+		 */
+		init: function() {
+	
+			$( '.llms-quiz-attempt-question-header a.toggle-answer' ).on( 'click', function( e ) {
+	
+				e.preventDefault();
+	
+				var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
+	
+				$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
+	
+				if ( $curr.is( ':visible' ) ) {
+					$curr.slideUp( 200 );
+				}  else {
+					$curr.slideDown( 200 );
+				}
+	
+			} );
+		}
+	
+	}
+	
+		/**
 	 * LifterLMS Reviews JS
 	 *
 	 * @package LifterLMS/Scripts
@@ -1218,7 +1783,8 @@ var LLMS = window.LLMS || {};
 							action : 'LLMSSubmitReview',
 							review_title: $( '#review_title' ).val(),
 							review_text: $( '#review_text' ).val(),
-							pageID : $( '#post_ID' ).val()
+							pageID : $( '#post_ID' ).val(),
+							llms_review_nonce: $( '#llms_review_nonce' ).val()
 						},
 						success: function()
 						{
@@ -1264,97 +1830,6 @@ var LLMS = window.LLMS || {};
 			});
 	
 		},
-	};
-	
-		/**
-	 * Add Spinners for AJAX events
-	 *
-	 * @package LifterLMS/Scripts
-	 *
-	 * @since 3.0.0
-	 * @version 3.0.0
-	 */
-	
-	LLMS.Spinner = {
-	
-		/**
-		 * Get an exiting spinner element or create a new one
-		 *
-		 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
-		 * @param    string   size  size or the spinner [default|small]
-		 *                          default is 40px
-		 *                          small is 20px
-		 * @return   obj
-		 * @since 3.0.0
-		 * @version 3.0.0
-		 */
-		get: function( $el, size ) {
-	
-			// look for an existing spinner
-			var $spinner = $el.find( '.llms-spinning' ).first();
-	
-			// no spinner inside $el
-			if ( ! $spinner.length ) {
-	
-				size = ( size ) ? size : 'default';
-	
-				// create the spinner
-				$spinner = $( '<div class="llms-spinning"><i class="llms-spinner ' + size + '"></i></div>' );
-	
-				// add it to the dom
-				$el.append( $spinner );
-	
-			}
-	
-			// return it
-			return $spinner;
-	
-		},
-	
-		/**
-		 * Start spinner(s) inr=side a given element
-		 * Creates them if they don't exist!
-		 *
-		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
-		 * @param   string   size  size or the spinner [default|small]
-		 *                          default is 40px
-		 *                          small is 20px
-		 * @return  void
-		 * @since   3.0.0
-		 * @version 3.0.0
-		 */
-		start: function( $el, size ) {
-	
-			var self = this;
-	
-			$el.each( function() {
-	
-				self.get( $( this ), size ).show();
-	
-			} );
-	
-		},
-	
-		/**
-		 * Store spinners within an element
-		 *
-		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
-		 * @return  void
-		 * @since   3.0.0
-		 * @version 3.0.0
-		 */
-		stop: function( $el ) {
-	
-			var self = this;
-	
-			$el.each( function() {
-	
-				self.get( $( this ) ).hide();
-	
-			} );
-	
-		}
-	
 	};
 	
 		/* global LLMS, $ */
@@ -1616,10 +2091,11 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @package LifterLMS/Scripts
 	 *
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Bind events on the orders screen.
+	 * @since 5.0.0 Removed redundant password toggle logic for edit account screen.
+	 * @version 5.0.0
 	 */
-	
 	LLMS.StudentDashboard = {
 	
 		/**
@@ -1630,34 +2106,21 @@ var LLMS = window.LLMS || {};
 		screen: '',
 	
 		/**
-		 * Will show the number of meters on the page
-		 * Used to conditionally bind meter-related events only when meters
-		 * actually exist
-		 *
-		 * @type  int
-		 */
-		meter_exists: 0,
-	
-		/**
 		 * Init
 		 *
-		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.10.0
+		 * @since 3.7.0
+		 * @since 3.10.0 Unknown
+		 * @since 5.0.0 Removed password toggle logic.
+		 *
+		 * @return void
 		 */
 		init: function() {
 	
 			if ( $( '.llms-student-dashboard' ).length ) {
-	
-				this.meter_exists = $( '.llms-password-strength-meter' ).length;
 				this.bind();
-	
 				if ( 'orders' === this.get_screen() ) {
-	
 					this.bind_orders();
-	
 				}
-	
 			}
 	
 		},
@@ -1665,54 +2128,13 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind DOM events
 		 *
+		 * @since 3.7.0
+		 * @since 3.7.4 Unknown.
+		 * @since 5.0.0 Removed password toggle logic.
+		 *
 		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.7.4
 		 */
 		bind: function() {
-	
-			var self    = this,
-				$toggle = $( '.llms-student-dashboard a[href="#llms-password-change-toggle"]' );
-	
-			// click event for the change password link
-			$toggle.on( 'click', function( e ) {
-	
-				e.preventDefault();
-	
-				var $this       = $( this ),
-					curr_text   = $this.text(),
-					curr_action = $this.attr( 'data-action' ),
-					new_action  = 'hide' === curr_action ? 'show' : 'hide',
-					new_text    = $this.attr( 'data-text' );
-	
-				self.password_toggle( curr_action );
-	
-				// prevent accidental cancels when users tab out of the confirm password field
-				// and expect to hit submit with enter key immediately after
-				if ( 'show' === curr_action ) {
-					$this.attr( 'tabindex', '-777' );
-				} else {
-					$this.removeAttr( 'tabindex' );
-				}
-	
-				$this.attr( 'data-action', new_action ).attr( 'data-text', curr_text ).text( new_text );
-	
-			} );
-	
-			// this will remove the required by default without having to mess with
-			// conditionals in PHP and still allows the required * to show in the label
-	
-			if ( this.meter_exists ) {
-	
-				$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
-					self.password_toggle( 'hide' );
-				} );
-	
-			} else {
-	
-				self.password_toggle( 'hide' );
-	
-			}
 	
 			$( '.llms-donut' ).each( function() {
 				LLMS.Donut( $( this ) );
@@ -1723,9 +2145,9 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind events related to the orders screen on the dashboard
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @return void
 		 */
 		bind_orders: function() {
 	
@@ -1740,9 +2162,9 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the current dashboard endpoint/tab slug
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @return void
 		 */
 		get_screen: function() {
 			if ( ! this.screen ) {
@@ -1754,10 +2176,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Show a confirmation warning when Cancel Subscription form is submitted
 		 *
-		 * @param    obj   e  JS event data
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @param obj e JS event data.
+		 * @return void
 		 */
 		order_cancel_warning: function( e ) {
 			e.preventDefault();
@@ -1766,54 +2188,6 @@ var LLMS = window.LLMS || {};
 				$( this ).off( 'submit', this.order_cancel_warning );
 				$( this ).submit();
 			}
-		},
-	
-		/**
-		 * Toggle password related fields on the account edit page
-		 *
-		 * @param    string   action  [show|hide]
-		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.7.4
-		 */
-		password_toggle: function( action ) {
-	
-			if ( ! action ) {
-				action = 'show';
-			}
-	
-			var self  = this,
-				$pwds = $( '#password, #password_confirm, #current_password' ),
-				$form = $( '#password' ).closest( 'form' );
-	
-			// hide or show the fields
-			$( '.llms-change-password' )[ action ]();
-	
-			if ( 'show' === action ) {
-				// make passwords required
-				$pwds.attr( 'required', 'required' );
-	
-				if ( self.meter_exists ) {
-					// add the strength check on form submission
-					$form.on( 'submit', LLMS.PasswordStrength, LLMS.PasswordStrength.submit );
-				}
-	
-			} else {
-				// remove requirement so form can be submitted while fields are hidden
-				// and clear the password out of the fields if typing started
-				$pwds.removeAttr( 'required' ).val( '' );
-	
-				if ( self.meter_exists ) {
-	
-					// remove the password strength submission check
-					$form.off( 'submit', LLMS.PasswordStrength.submit );
-					// clears the meter
-					LLMS.PasswordStrength.check_strength();
-	
-				}
-	
-			}
-	
 		},
 	
 	};
@@ -1828,8 +2202,12 @@ var LLMS = window.LLMS || {};
 	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
 	 * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
 	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
+	 * @since 5.0.0 Set `settings` as an empty object when no settings supplied.
+	 * @since 7.1.0 Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 	 */
 	LLMS.Tracking = function( settings ) {
+	
+		settings = settings || {};
 	
 		var self = this,
 			store = new LLMS.Storage( 'llms-tracking' );
@@ -1840,13 +2218,13 @@ var LLMS = window.LLMS || {};
 		 * Initialize / Bind all tracking event listeners.
 		 *
 		 * @since 3.36.0
+		 * @since 5.0.0 Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+		 * @since 7.1.0 Do not add a nonce to the datastore by default, will be added/updated
+		 *              when storing an event to track.
 		 *
 		 * @return {void}
 		 */
 		function init() {
-	
-			// Set the nonce for server-side verification.
-			store.set( 'nonce', settings.nonce );
 	
 			self.addEvent( 'page.load' );
 	
@@ -1864,6 +2242,7 @@ var LLMS = window.LLMS || {};
 		 * @since 3.36.2 Fix error when settings aren't loaded.
 		 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
 		 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
+		 * @since 7.1.0 Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 		 *
 		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -1882,7 +2261,9 @@ var LLMS = window.LLMS || {};
 			}
 	
 			// Make sure the nonce is set for server-side verification.
-			store.set( 'nonce', settings.nonce );
+			if ( settings.nonce ) {
+				store.set( 'nonce', settings.nonce );
+			}
 	
 			event = self.makeEventObj( args );
 	
@@ -2084,10 +2465,14 @@ var LLMS = window.LLMS || {};
 	};
 	
 
+	(()=>{"use strict";var t={d:(n,e)=>{for(var r in e)t.o(e,r)&&!t.o(n,r)&&Object.defineProperty(n,r,{enumerable:!0,get:e[r]})},o:(t,n)=>Object.prototype.hasOwnProperty.call(t,n),r:t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})}},n={};t.r(n),t.d(n,{get:()=>d,start:()=>p,stop:()=>c});const e="llms-spinning",r="default",o=window.wp.i18n;function i(t){let n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:r;const i=document.createElement("div"),l=(0,o.__)("Loading…","lifterlms");return i.innerHTML=`<i class="llms-spinner ${n}" role="alert" aria-live="assertive"><span class="screen-reader-text">${l}</span></i>`,i.classList.add(e),t.appendChild(i),i}function l(t){if((t="string"==typeof t?document.querySelectorAll(t):t)instanceof NodeList)return Array.from(t);const n=[];return t instanceof Element?n.push(t):"undefined"!=typeof jQuery&&t instanceof jQuery&&t.toArray().forEach((t=>n.push(t))),n}function s(t){const n=t.querySelectorAll(".llms-spinning");return n.length?Array.from(n).find((n=>t===n.parentNode)):null}function a(){const t="llms-spinner-styles";if(!document.getElementById(t)){const n=document.createElement("style");n.textContent="\n\t.llms-spinning {\n\t\tbackground: rgba( 250, 250, 250, 0.7 );\n\t\tbottom: 0;\n\t\tdisplay: none;\n\t\tleft: 0;\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: 0;\n\t\tz-index: 2;\n\t}\n\n\t.llms-spinner {\n\t\tanimation: llms-spinning 1.5s linear infinite;\n\t\tbox-sizing: border-box;\n\t\tborder: 4px solid #313131;\n\t\tborder-radius: 50%;\n\t\theight: 40px;\n\t\tleft: 50%;\n\t\tmargin-left: -20px;\n\t\tmargin-top: -20px;\n\t\tposition: absolute;\n\t\ttop: 50%;\n\t\twidth: 40px;\n\n\t}\n\n\t.llms-spinner.small {\n\t\tborder-width: 2px;\n\t\theight: 20px;\n\t\tmargin-left: -10px;\n\t\tmargin-top: -10px;\n\t\twidth: 20px;\n\t}\n\n\t@keyframes llms-spinning {\n\t\t0% {\n\t\t\ttransform: rotate( 0deg )\n\t\t}\n\t\t50% {\n\t\t\tborder-radius: 5%;\n\t\t}\n\t\t100% {\n\t\t\ttransform: rotate( 220deg) \n\t\t}\n\t}\n".replace(/\n/g,"").replace(/\t/g," ").replace(/\s\s+/g," "),n.id=t,document.head.appendChild(n)}}function d(t){let n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:r,e=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];a();const o=l(t);if(!o.length)return null;const d=o[0],p=s(d)||i(d,n);return e&&"undefined"!=typeof jQuery?jQuery(p):p}function p(t){let n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:r;l(t).forEach((t=>{const e=d(t,n,!1);e&&(e.style.display="block")}))}function c(t){l(t).forEach((t=>{const n=d(t,r,!1);n&&(n.style.display="none")}))}window.LLMS=window.LLMS||{},window.LLMS.Spinner=n})();
+
 	/**
 	 * Initializes all classes within the LLMS Namespace
 	 *
-	 * @return {[type]} [description]
+	 * @since Unknown
+	 *
+	 * @return {void}
 	 */
 	LLMS.init = function() {
 
@@ -2112,10 +2497,11 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Determine if the current device is touch-enabled
 	 *
-	 * @see     https://stackoverflow.com/a/4819886/400568 [2018 Update]
-	 * @return  {Boolean}
-	 * @since   3.24.3
-	 * @version 3.24.3
+	 * @since 3.24.3
+	 *
+	 * @see {@link https://stackoverflow.com/a/4819886/400568}
+	 *
+	 * @return {Boolean} Whether or not the device is touch-enabled.
 	 */
 	LLMS.is_touch_device = function() {
 
@@ -2128,8 +2514,11 @@ var LLMS = window.LLMS || {};
 			return true;
 		}
 
-		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
-		// https://git.io/vznFH
+		/**
+		 * Include the 'heartz' as a way to have a non matching MQ to help terminate the join.
+		 *
+		 * @see {@link https://git.io/vznFH}
+		 */
 		var query = ['(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')'].join( '' );
 		return mq( query );
 
@@ -2138,67 +2527,71 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Wait for matchHeight to load
 	 *
-	 * @param    {Function}  cb  callback function to run when matchheight is ready
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.16.6
+	 * @since 3.0.0
+	 * @since 3.16.6 Unknown.
+	 * @since 5.3.3 Pass a dependency name to `wait_for()`.
+	 *
+	 * @param {Function} cb Callback function to run when matchheight is ready.
+	 * @return {void}
 	 */
 	LLMS.wait_for_matchHeight = function( cb ) {
 		this.wait_for( function() {
 			return ( undefined !== $.fn.matchHeight );
-		}, cb );
+		}, cb, 'matchHeight' );
 	}
 
 	/**
 	 * Wait for webuiPopover to load
 	 *
-	 * @param    {Function}  cb  callback function to run when matchheight is ready
-	 * @return   void
-	 * @since    3.9.1
-	 * @version  3.16.6
+	 * @since 3.9.1
+	 * @since 3.16.6 Unknown.
+	 *
+	 * @param {Function} cb Callback function to run when matchheight is ready.
+	 * @return {void}
 	 */
 	LLMS.wait_for_popover = function( cb ) {
 		this.wait_for( function() {
 			return ( undefined !== $.fn.webuiPopover );
-		}, cb );
+		}, cb, 'webuiPopover' );
 	}
 
 	/**
 	 * Wait for a dependency to load and then run a callback once it has
-	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things
 	 *
-	 * @param    {Function}    test  a function that returns a truthy if the dependency is loaded
-	 * @param    {Function}    cb    a callback function executed once the dependency is loaded
-	 * @return   void
-	 * @since    3.9.1
-	 * @version  3.9.1
+	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things.
+	 *
+	 * @since 3.9.1
+	 * @since 5.3.3 Added optional `name` parameter.
+	 *
+	 * @param {Function} test A function that returns a truthy if the dependency is loaded.
+	 * @param {Function} cb   A callback function executed once the dependency is loaded.
+	 * @param {string}   name The dependency name.
+	 * @return {void}
 	 */
-	LLMS.wait_for = function( test, cb ) {
+	LLMS.wait_for = function( test, cb, name ) {
 
 		var counter = 0,
 			interval;
 
+		name = name ? name : 'unnamed';
+
 		interval = setInterval( function() {
 
-			// if we get to 30 seconds log an error message
+			// If we get to 30 seconds log an error message.
 			if ( counter >= 300 ) {
 
-				console.log( 'could not load dependency' );
+				console.log( 'Unable to load dependency: ' + name );
 
-				// if we can't access ye, increment and wait...
+				// If we can't access yet, increment and wait...
 			} else {
 
-				// bind the events, we're good!
+				// Bind the events, we're good!
 				if ( test() ) {
-
 					cb();
-
 				} else {
-
-					console.log( 'waiting...' );
+					// console.log( 'Waiting for dependency: ' + name );
 					counter++;
 					return;
-
 				}
 
 			}
@@ -2211,6 +2604,6 @@ var LLMS = window.LLMS || {};
 
 	LLMS.init( $ );
 
-})( jQuery );
+} )( jQuery );
 
 //# sourceMappingURL=../maps/js/llms.js.map

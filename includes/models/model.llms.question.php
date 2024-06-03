@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -190,7 +190,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			)
 		);
 
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
 
 	}
 
@@ -407,17 +407,21 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the next marker for question choices
+	 * Retrieve the next marker for question choices.
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.1 Fixed bug which caused the next marker to be 1 index too high.
+	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
 	 *
 	 * @return string
 	 */
 	protected function get_next_choice_marker() {
 		$next_index = count( $this->get_choices( 'ids', false ) );
 		$type       = $this->get_question_type();
-		$markers    = $type['choices']['markers'];
+		if ( ! is_array( $type['choices'] ?? false ) ) {
+			return false;
+		}
+		$markers = $type['choices']['markers'];
 		return $next_index > count( $markers ) ? false : $markers[ $next_index ];
 	}
 

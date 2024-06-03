@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.37.19
- * @version 3.37.19
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -95,6 +95,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 * Processes the tool if the submitted tool matches the tool's ID.
 	 *
 	 * @since 3.37.19
+	 * @since 5.0.0 Add before and after action hooks.
 	 *
 	 * @param string tool_id ID of the submitted tool.
 	 * @return mixed|false
@@ -102,7 +103,35 @@ abstract class LLMS_Abstract_Admin_Tool {
 	public function maybe_handle( $tool_id ) {
 
 		if ( $this->should_load() && $this->id === $tool_id ) {
-			return $this->handle();
+
+			/**
+			 * Action run prior to running an admin tool's main `handle()` method.
+			 *
+			 * The dynamic portion of this hook `{$tool_id}` refers to the unique ID
+			 * of the admin tool.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @param object $tool_class Instance of the extending tool class.
+			 */
+			do_action( "llms_before_handle_tool_{$tool_id}", $this );
+
+			$handled = $this->handle();
+
+			/**
+			 * Action run prior to running an admin tool's main `handle()` method.
+			 *
+			 * The dynamic portion of this hook `{$tool_id}` refers to the unique ID
+			 * of the admin tool.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @param object $tool_class Instance of the extending tool class.
+			 */
+			do_action( "llms_after_handle_tool_{$tool_id}", $this );
+
+			return $handled;
+
 		}
 
 		return false;

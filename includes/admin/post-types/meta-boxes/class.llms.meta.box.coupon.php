@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.19
+ * @version 6.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,6 +45,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership
 	 *               via the `<select />` data attribute 'post-statuses' (data-post-status).
 	 * @since 3.37.19 Localize strings that were missing translation functions.
+	 * @since 6.9.0 Add step definitions for discount amount and trial discount amount to allow float values to be used.
 	 *
 	 * @return array
 	 */
@@ -136,6 +137,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'class'      => 'code input-full',
 						'desc_class' => 'd-all',
 						'required'   => true,
+						'step'       => '0.01',
 					),
 					array(
 						'type'       => 'checkbox',
@@ -155,6 +157,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group'      => '',
 						'value'      => '',
+						'step'       => '0.01',
 					),
 				),
 			),
@@ -237,6 +240,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void
@@ -256,7 +260,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		}
 
 		// Trial validation.
-		$trial_discount = llms_filter_input( INPUT_POST, $this->prefix . 'enable_trial_discount', FILTER_SANITIZE_STRING );
+		$trial_discount = llms_filter_input_sanitize_string( INPUT_POST, $this->prefix . 'enable_trial_discount' );
 		$trial_amount   = llms_filter_input( INPUT_POST, $this->prefix . 'trial_amount', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! $trial_discount ) {
 			$trial_discount = 'no';
@@ -293,7 +297,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		);
 		foreach ( $fields as $field ) {
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
-				$coupon->set( $field, llms_filter_input( INPUT_POST, $this->prefix . $field, FILTER_SANITIZE_STRING ) );
+				$coupon->set( $field, llms_filter_input_sanitize_string( INPUT_POST, $this->prefix . $field ) );
 			}
 		}
 

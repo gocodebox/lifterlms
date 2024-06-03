@@ -1,11 +1,11 @@
 <?php
 /**
- * LifterLMS Uninstall
+ * LifterLMS Uninstall.
  *
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.5.0
+ * @version 7.2.0
  */
 
 // If uninstall not called from WordPress exit.
@@ -57,8 +57,8 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_events" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_events_open_sessions" );
 
-	// delete all post types & related meta data.
-	$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'course', 'section', 'lesson', 'llms_quiz', 'llms_question', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_transaction', 'llms_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email', 'llms_coupon', 'llms_voucher', 'llms_review', 'llms_access_plan' );" );
+	// Delete all post types & related meta data.
+	$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'course', 'section', 'lesson', 'llms_quiz', 'llms_question', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_transaction', 'llms_achievement', 'llms_my_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email', 'llms_coupon', 'llms_voucher', 'llms_review', 'llms_access_plan', 'llms_form' );" );
 	$wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
 
 	// Delete terms if > WP 4.2 (term splitting was added in 4.2).
@@ -85,4 +85,8 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 			$wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
 		}
 	}
+
+	// Delete order notes comments.
+	$wpdb->query( "DELETE FROM {$wpdb->comments} WHERE comment_type IN ( 'llms_order_note' );" );
+	$wpdb->query( "DELETE meta FROM {$wpdb->commentmeta} meta LEFT JOIN {$wpdb->comments} comments ON comments.comment_ID = meta.comment_id WHERE comments.comment_ID IS NULL;" );
 }

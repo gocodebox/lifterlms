@@ -4,41 +4,51 @@
  *
  * @group controllers
  * @group registration
+ * @group controller_registration
  *
  * @since 3.19.4
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since 5.0.0 Install forms during setup.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
 	/**
-	 * Test order completion actions
+	 * Test registration form submission.
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
-	 *
+	 * @since 5.0.0 Install forms during setup.
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
+	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
+	 * @since 6.10.0 Call the tested method directly instead of indirectly via `do_action( 'init' )`.
+	 * 
 	 * @return void
 	 */
 	public function test_register() {
 
+		$main = new LLMS_Controller_Registration();
+
 		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install( true );
 
 		// form not submitted
-		$this->setup_post( array() );
-		do_action( 'init' );
+		$this->mockPostRequest( array() );
+		$main->register();
 		$this->assertEquals( 0, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
 
 		// not submitted
-		$this->setup_get( array() );
-		do_action( 'init' );
+		$this->mockGetRequest( array() );
+		$main->register();
 		$this->assertEquals( 0, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
 
 		// form submitted but missing things
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 		) );
-		do_action( 'init' );
+		$main->register();
 		$this->assertEquals( 1, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
@@ -48,10 +58,10 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		$uid = $this->factory->user->create();
 		wp_set_current_user( $uid );
 		// form submitted but missing things
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 		) );
-		do_action( 'init' );
+		$main->register();
 		$this->assertEquals( 2, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
@@ -61,23 +71,24 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		wp_set_current_user( null );
 
 		// incomplete form
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 			'user_login' => '',
 			'email_address' => 'fake@mock.org',
 			'password' => 'owb2g1pICH82',
 		) );
-		do_action( 'init' );
+		$main->register();
 		$this->assertEquals( 3, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
 		llms_clear_notices();
 
 		// this should register a user
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 			'user_login' => '',
 			'email_address' => 'fake@mock.org',
+			'email_address_confirm' => 'fake@mock.org',
 			'password' => 'owb2g1pICH82',
 			'password_confirm' => 'owb2g1pICH82',
 			'first_name' => 'David',
@@ -107,7 +118,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 			$this->assertEquals( 1, did_action( 'lifterlms_user_registered' ) );
 		} );
 
-		do_action( 'init' );
+		$main->register();
 
 	}
 

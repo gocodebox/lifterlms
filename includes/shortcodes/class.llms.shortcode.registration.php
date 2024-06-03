@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.0.0
- * @version 3.4.3
+ * @version 5.0.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,17 +30,25 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 	/**
 	 * Retrieve the actual content of the shortcode
 	 *
-	 * $atts & $content are both filtered before being passed to get_output()
-	 * output is filtered so the return of get_output() doesn't need its own filter
+	 * The variables `$atts` & `$content` are both filtered before being passed to get_output()
+	 * output is filtered so the return of get_output() doesn't need its own filter.
 	 *
 	 * @since 3.4.3
+	 * @since 5.0.0 Remove password strength enqueue script.
+	 * @since 5.0.2 Added select enqueue script and inline script for address info.
 	 *
 	 * @return string
 	 */
 	protected function get_output() {
-
-		$this->enqueue_script( 'password-strength-meter' );
-		LLMS_Frontend_Assets::enqueue_inline_pw_script();
+		/**
+		 * Enqueue select2 scripts and styles.
+		 */
+		llms()->assets->enqueue_script( 'llms-select2' );
+		llms()->assets->enqueue_style( 'llms-select2-styles' );
+		wp_add_inline_script(
+			'llms',
+			"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';"
+		);
 
 		ob_start();
 		include llms_get_template_part_contents( 'global/form', 'registration' );

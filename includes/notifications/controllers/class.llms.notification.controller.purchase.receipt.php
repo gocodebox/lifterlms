@@ -21,21 +21,21 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $id = 'purchase_receipt';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $action_hooks = array(
 		'lifterlms_resend_transaction_receipt',
@@ -45,7 +45,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Determines if test notifications can be sent
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $testable = array(
 		'basic' => false,
@@ -55,10 +55,10 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Callback function called when a lesson is completed by a student
 	 *
-	 * @param    int $transaction   Instance of a LLMS_Transaction
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param int $transaction Instance of a LLMS_Transaction.
+	 * @return void
 	 */
 	public function action_callback( $transaction = null ) {
 
@@ -73,10 +73,11 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 *
-	 * @param    string $subscriber  subscriber type string
-	 * @return   int|false
-	 * @since    3.8.0
-	 * @version  3.10.2
+	 * @since 3.8.0
+	 * @since 3.10.2 Unknown.
+	 *
+	 * @param string $subscriber Subscriber type string.
+	 * @return int|false
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -110,12 +111,13 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 	/**
 	 * Determine what types are supported
-	 * Extending classes can override this function in order to add or remove support
-	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Extending classes can override this function in order to add or remove support.
+	 * 3rd parties should add support via filter on $this->get_supported_types().
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array Associative array, keys are the ID/db type, values should be translated display types.
 	 */
 	protected function set_supported_types() {
 		return array(
@@ -126,10 +128,10 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_test_settings( $type ) {
 
@@ -148,7 +150,15 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 			$order       = $transaction->get_order();
 			$student     = llms_get_student( $order->get( 'user_id' ) );
 			if ( $transaction && $student ) {
-				$options[ $transaction->get( 'id' ) ] = esc_attr( sprintf( __( 'Order #%1$d from %2$s for "%3$s"', 'lifterlms' ), $order->get( 'id' ), $student->get_name(), $order->get( 'product_title' ) ) );
+				$options[ $transaction->get( 'id' ) ] = esc_attr(
+					sprintf(
+						// Translators: %1$d = The Order ID; %2$s The customer's full name; %3$s The product title.
+						__( 'Order #%1$d from %2$s for "%3$s"', 'lifterlms' ),
+						$order->get( 'id' ),
+						$student->get_name(),
+						$order->get( 'product_title' )
+					)
+				);
 			}
 		}
 
@@ -173,11 +183,12 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 	/**
 	 * Get the translatable title for the notification
-	 * used on settings screens
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Used on settings screens.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_title() {
 		return __( 'Purchase Receipt', 'lifterlms' );
@@ -185,13 +196,14 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 
 	/**
 	 * Send a test notification to the currently logged in users
-	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @param    array  $data  array of test notification data as specified by $this->get_test_data()
-	 * @return   int|false
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data.
+	 *
+	 * @since 3.24.0
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @param array  $data Array of test notification data as specified by $this->get_test_data().
+	 * @return int|false
 	 */
 	public function send_test( $type, $data = array() ) {
 
@@ -211,10 +223,10 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @param    string $type  notification type id
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Notification type id.
+	 * @return array
 	 */
 	protected function set_subscriber_options( $type ) {
 

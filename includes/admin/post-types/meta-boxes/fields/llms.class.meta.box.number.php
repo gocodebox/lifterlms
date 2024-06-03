@@ -34,7 +34,18 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		global $post;
 
-		parent::output(); ?>
+		parent::output();
+
+		// Clear an invalid value, usually from a clone or import.
+		if (
+			is_numeric( $this->meta ) &&
+			isset( $this->field['min'] ) &&
+			is_numeric( $this->field['min'] ) &&
+			$this->field['min'] > 0 &&
+			$this->meta < $this->field['min'] ) {
+			$this->meta = '';
+		}
+		?>
 
 		<input type="number"
 		<?php
@@ -48,7 +59,7 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			name="<?php echo $this->field['id']; ?>"
 			id="<?php echo $this->field['id']; ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			value="<?php echo $this->meta; ?>" size="30"
+			value="<?php echo esc_attr( $this->meta ); ?>" size="30"
 			<?php if ( isset( $this->field['step'] ) ) : ?>
 			step="<?php echo $this->field['step']; ?>"
 			<?php endif; ?>

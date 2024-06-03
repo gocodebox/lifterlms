@@ -12,7 +12,15 @@
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
-	public static function setUpBeforeClass() {
+	/**
+	 * Set up before class
+	 *
+	 * @since Unknown
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.page.status.php';
 
@@ -22,12 +30,13 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 3.37.14
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = 'LLMS_Admin_Page_Status';
 
 	}
@@ -36,15 +45,14 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_no_nonce() {
 
+		$this->expectException( 'WPDieException' );
 		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
-
 
 	}
 
@@ -52,12 +60,13 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when invalid nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_invalid_nonce() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockPostRequest( array(
 			'_wpnonce' => 'fake',
@@ -70,12 +79,13 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no user permissions
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_no_user_caps() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockPostRequest( array(
 			'_wpnonce' => wp_create_nonce( 'llms_tool' ),
@@ -104,36 +114,6 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
 
 		$this->assertEquals( ++$actions, did_action( 'llms_status_tool' ) );
-
-	}
-
-	/**
-	 * Test the automatic payments reset tool.
-	 *
-	 * @since 3.37.14
-	 *
-	 * @return void
-	 */
-	public function test_do_tool_reset_auto_payments() {
-
-		// Get the original values of options to be cleared.
-		$orig_url    = get_option( 'llms_site_url' );
-		$orig_ignore = get_option( 'llms_site_url_ignore' );
-
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
-
-		$this->mockPostRequest( array(
-			'_wpnonce'  => wp_create_nonce( 'llms_tool' ),
-			'llms_tool' => 'automatic-payments',
-		) );
-		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
-
-		$this->assertEquals( '', get_option( 'llms_site_url' ) );
-		$this->assertEquals( 'no', get_option( 'llms_site_url_ignore' ) );
-
-		// Reset to the orig values.
-		update_option( 'llms_site_url', $orig_url );
-		update_option( 'llms_site_url_ignore', $orig_ignore );
 
 	}
 
@@ -194,13 +174,14 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test the setup wizard redirect tool.
 	 *
 	 * @since 3.37.14
+	 * @since 4.13.0 Fix expected redirect URL.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_setup_wizard() {
 
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
-		$this->expectExceptionMessage( sprintf( '%s?page=llms-setup [302] YES', admin_url() ) );
+		$this->expectExceptionMessage( sprintf( '%s [302] YES', admin_url( 'admin.php?page=llms-setup') ) );
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 

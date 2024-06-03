@@ -5,15 +5,21 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
+require_once 'functions/llms-functions-l10n.php';
+
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-forms.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
+require_once 'functions/llms-functions-user-information-fields.php';
+require_once 'functions/llms-functions-wrappers.php';
 
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
@@ -28,19 +34,78 @@ require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
 require_once 'functions/llms.functions.user.postmeta.php';
+require_once 'functions/llms.functions.favorite.php';
+
+if ( ! function_exists( 'llms_anonymize_string' ) ) {
+	/**
+	 * Anonymize a string.
+	 *
+	 * Masks the characters in a string with the specified character leaving a small number
+	 * of characters visible. For example `llms_anonymize_string( 'MY_SECRET_STRING' ) will return
+	 * 'MY************NG'.
+	 *
+	 * The number of retained original characters is dependent on the string's length:
+	 *
+	 * | Length        | At start | At end | Example      |
+	 * | ------------- | -------- | ------ | ------------ |
+	 * | 1             | 0        | 0      | *            |
+	 * | >= 2 && <= 6  | 0        | 1      | *****A       |
+	 * | >= 7 && <= 10 | 0        | 2      | ********AA   |
+	 * | >= 11         | 2        | 2      | AA*******AA  |
+	 *
+	 * Any string that validates as an email address using `is_email()` will be split at the `@` symbol
+	 * and each part of the email address will be anonymized separately, for example:
+	 * `llms_anonymize_string( 'help@lifterlms.com' )` will return '***p@li*********om'.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $string The input string to be anonymized.
+	 * @param string $char   The character used to mask the string.
+	 * @return string
+	 */
+	function llms_anonymize_string( $string, $char = '*' ) {
+
+		if ( is_email( $string ) ) {
+			$parts = explode( '@', $string );
+			return llms_anonymize_string( $parts[0] ) . '@' . llms_anonymize_string( $parts[1] );
+		}
+
+		$len = strlen( $string );
+
+		$at_front = 2;
+		$at_back  = 2;
+		if ( 1 === $len ) {
+			return $char;
+		} elseif ( $len <= 6 ) {
+			$at_front = 0;
+			$at_back  = 1;
+		} elseif ( $len <= 10 ) {
+			$at_front = 0;
+		}
+
+		$start = substr( $string, 0, $at_front );
+		$body  = str_repeat( $char, strlen( $string ) - ( $at_front + $at_back ) );
+		$end   = substr( $string, - $at_back );
+
+		return "{$start}{$body}{$end}";
+
+	}
+}
+
 
 /**
  * Insert elements into an associative array after a specific array key
- * If the requested key doesn't exit, the new item will be added to the end of the array
- * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item );
  *
- * @param    array  $array        original associative array
- * @param    string $after_key    key name in original array to insert new item after
- * @param    string $insert_key   key name of the item to be inserted
- * @param    mixed  $insert_item  value to be inserted
- * @return   array
- * @since    3.21.0
- * @version  3.21.0
+ * If the requested key doesn't exit, the new item will be added to the end of the array.
+ * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item ).
+ *
+ * @since 3.21.0
+ *
+ * @param array  $array       Original associative array.
+ * @param string $after_key   Key name in original array to insert new item after.
+ * @param string $insert_key  Key name of the item to be inserted.
+ * @param mixed  $insert_item Value to be inserted.
+ * @return array
  */
 function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
 
@@ -68,38 +133,12 @@ function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item 
 }
 
 /**
- * Retrieve the current time based on specified type.
- *
- * This is a wrapper for the WP Core current_time which can be plugged
- * We plug this during unit testing to allow mocking the current time
- *
- * The 'mysql' type will return the time in the format for MySQL DATETIME field.
- * The 'timestamp' type will return the current timestamp.
- * Other strings will be interpreted as PHP date formats (e.g. 'Y-m-d').
- *
- * If $gmt is set to either '1' or 'true', then both types will use GMT time.
- * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
- *
- * @param  string       $type   Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
- * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
- * @return int|string           Integer if $type is 'timestamp', string otherwise.
- *
- * @since    3.4.0
- * @version  3.4.0
- */
-if ( ! function_exists( 'llms_current_time' ) ) {
-	function llms_current_time( $type, $gmt = 0 ) {
-		return current_time( $type, $gmt );
-	}
-}
-
-/**
  * Do apply_filters( 'the_content', $content ) without actions adding their own content onto us...
  *
- * @param    string     $content  [description]
- * @return   string
- * @since    3.16.10
- * @version  3.19.2
+ * @param string $content Optional. The content. Default is empty string.
+ * @return string
+ * @since 3.16.10
+ * @version 3.19.2
  */
 if ( ! function_exists( 'llms_content' ) ) {
 	function llms_content( $content = '' ) {
@@ -113,7 +152,7 @@ if ( ! function_exists( 'llms_content' ) ) {
 }
 
 /**
- * Provide deprecation warnings
+ * Mark a function as deprecated and inform when it is used.
  *
  * This function uses WP core's `_deprecated_function()`, logging to the LifterLMS log file
  * located at `wp-content/updloads/llms-logs/llms-{$hash}.log` instead of `wp-content/debug.log`.
@@ -135,11 +174,13 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 /**
  * Cron function to cleanup files in the LLMS_TMP_DIR
- * Removes any files that are more than a day old
  *
- * @return   void
- * @since    3.18.0
- * @version  3.18.0
+ * Removes any files that are more than a day old.
+ *
+ * @since 3.18.0
+ * @since 4.10.1 Use strict type comparisons.
+ *
+ * @return void
  */
 function llms_cleanup_tmp() {
 
@@ -150,7 +191,7 @@ function llms_cleanup_tmp() {
 	foreach ( glob( LLMS_TMP_DIR . '*' ) as $file ) {
 
 		// Don't cleanup index and .htaccess.
-		if ( in_array( basename( $file ), $exclude ) ) {
+		if ( in_array( basename( $file ), $exclude, true ) ) {
 			continue;
 		}
 
@@ -162,27 +203,16 @@ function llms_cleanup_tmp() {
 }
 add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
 
-if ( ! function_exists( 'llms_filter_input' ) ) {
-
-	/**
-	 * Gets a specific external variable by name and optionally filters it
-	 *
-	 * This is a pluggable wrapper around native `filter_input` which is plugged in the testing framework
-	 * to allow easy mocking of form variables when testing form controller functions and methods
-	 *
-	 * @param   int    $type           One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
-	 * @param   string $variable_name  Name of a variable to get.
-	 * @param   int    $filter         The ID of the filter to apply.
-	 * @param   mixed  $options        Associative array of options or bitwise disjunction of flags. If filter accepts options, flags can be provided in "flags" field of array.
-	 * @return  mixed  Value of the requested variable on success, FALSE if the filter fails, or NULL if
-	 *                 the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used,
-	 *                 it returns FALSE if the variable is not set and NULL if the filter fails.
-	 * @since   3.29.0
-	 * @version 3.29.0
-	 */
-	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
-		return filter_input( $type, $variable_name, $filter, $options );
-	}
+/**
+ * Escape and add quotes to a string, useful for array mapping when building queries.
+ *
+ * @since 6.0.0
+ *
+ * @param string $str Input string.
+ * @return string Escaped string wrapped in quotation marks.
+ */
+function llms_esc_and_quote_str( $str ) {
+	return "'" . esc_sql( $str ) . "'";
 }
 
 /**
@@ -226,11 +256,31 @@ function llms_get_completable_taxonomies() {
 }
 
 /**
+ * Retrieve an array of post types whose name doesn't start with the prefix 'llms_'.
+ *
+ * @since 4.10.1
+ *
+ * @return string[]
+ */
+function llms_get_unprefixed_post_types() {
+
+	/**
+	 * Filter the list of post types whose name doesn't start with the prefix 'llms_'.
+	 *
+	 * @since 4.10.1
+	 *
+	 * @param string[] $post_types WP_Post post type names.
+	 */
+	return apply_filters( 'llms_unprefixed_post_types', array( 'course', 'section', 'lesson' ) );
+
+}
+
+/**
  * Get themes natively supported by LifterLMS
  *
- * @return array
  * @since 3.0.0
- * @version 3.0.1
+ *
+ * @return array
  */
 function llms_get_core_supported_themes() {
 	return array(
@@ -256,16 +306,17 @@ function llms_get_core_supported_themes() {
  * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
  * - with precision = 1 : 3 days
  * - with precision = 2 : 3 days, 4 hours
- * - with precision = 3 : 3 days, 4 hours, 12 minutes
+ * - with precision = 3 : 3 days, 4 hours, 12 minutes.
  *
- * @param mixed   $time1 a time (string or timestamp)
- * @param mixed   $time2 a time (string or timestamp)
- * @param integer $precision Optional precision
- * @return string time difference
+ * @since Unknown
+ * @since 3.24.0 Unknown.
+ *
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
- * @since    ??
- * @version  3.24.0
+ * @param mixed   $time1     A time (string or timestamp).
+ * @param mixed   $time2     A time (string or timestamp).
+ * @param integer $precision Optional precision. Default is 2.
+ * @return string time difference
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps.
@@ -338,22 +389,50 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 }
 
 /**
+ * Instantiate an instance of DOMDocument with an HTML string
+ *
+ * This function suppresses PHP warnings that would be thrown by DOMDocument when
+ * loading a partial string or an HTML string with errors.
+ *
+ * @see LLMS_DOM_Document->load().
+ *
+ * @since 4.7.0
+ * @since 4.8.0 Remove reliance on `mb_convert_encoding()`.
+ * @since 4.13.0 Add back partial reliance on `mb_convert_encoding()` but keep the previous implementation as a fall-back.
+ *               Also fix a potential fatal in the fall-back which tried to manipulate a non existent node.
+ *               Wrapper for `LLMS_Dom_Document:load()`.
+ *
+ * @param string $string An HTML string, either a full HTML document or a partial string.
+ * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it
+ *                              or an error object when DOMDocument isn't available or an error is encountered during loading.
+ */
+function llms_get_dom_document( $string ) {
+
+	$llms_dom = new LLMS_DOM_Document( $string );
+	$load     = $llms_dom->load();
+
+	return is_wp_error( $load ) ? $load : $llms_dom->dom();
+}
+
+/**
  * Retrieve the HTML for a donut chart
+ *
  * Note that this must be used in conjunction with some JS to initialize the chart!
  *
- * @param    mixed  $percentage  percentage to display
- * @param    string $text        optional text/caption to display (short)
- * @param    string $size        size of the chart (mini, small, default, large)
- * @param    array  $classes     additional custom css classes to add to the chart element
- * @return   string
- * @since    3.9.0
- * @version  3.24.0
+ * @since 3.9.0
+ * @since 3.24.0 Unknown.
+ *
+ * @param mixed  $percentage Percentage to display
+ * @param string $text       Optional. Text/caption to display (short). Default is empty string.
+ * @param string $size       Optional. Size of the chart (mini, small, default, large). Default is 'default'.
+ * @param array  $classes    Optional. Additional custom css classes to add to the chart element. Default is empty array.
+ * @return string
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
 	$percentage = is_numeric( $percentage ) ? $percentage : 0;
 	$classes    = array_merge( array( 'llms-donut', $size ), $classes );
 	$classes    = implode( ' ', $classes );
-	$percentage = 'mini' === $size ? round( $percentage, 0 ) : LLMS()->grades()->round( $percentage );
+	$percentage = 'mini' === $size ? round( $percentage, 0 ) : llms()->grades()->round( $percentage );
 	return '
 		<div class="' . $classes . '" data-perc="' . $percentage . '">
 			<div class="inside">
@@ -368,11 +447,18 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
 /**
  * Get a list of registered engagement triggers
  *
- * @return   array
- * @since    3.1.0
- * @version  3.24.1
+ * @return array
+ * @since 3.1.0
+ * @since 3.24.1
  */
 function llms_get_engagement_triggers() {
+	/**
+	 * Filter the engagement triggers
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $engagement_triggers An associative array of engagement triggers. Keys are the engagement trigger slugs, values are their description.
+	 */
 	return apply_filters(
 		'lifterlms_engagement_triggers',
 		array(
@@ -397,11 +483,18 @@ function llms_get_engagement_triggers() {
 /**
  * Get a list of registered engagement types
  *
- * @return   array
- * @since    3.1.0
- * @version  3.24.0
+ * @return array
+ * @since 3.1.0
+ * @version 3.24.0
  */
 function llms_get_engagement_types() {
+	/**
+	 * Filter the engagement types
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $engagement_types An associative array of engagement types. Keys are the engagement type slugs, values are their description.
+	 */
 	return apply_filters(
 		'lifterlms_engagement_types',
 		array(
@@ -470,11 +563,11 @@ function llms_get_enrollable_status_check_post_types() {
 /**
  * Retrieve an HTML anchor for an option page
  *
- * @param    string $option_name
- * @param    string $target      HTML target attribute, defaults to _blank
- * @return   string
- * @since    3.18.0
- * @version  3.18.0
+ * @since 3.18.0
+ *
+ * @param string $option_name Option name.
+ * @param string $target      Optional. HTML target attribute. Defaults to _blank.
+ * @return string
  */
 function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
 
@@ -498,11 +591,18 @@ function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
 /**
  * Get a list of available product (course & membership) catalog visibility options
  *
- * @return   array
- * @since    3.6.0
- * @version  3.6.0
+ * @since 3.6.0
+ *
+ * @return array
  */
 function llms_get_product_visibility_options() {
+	/**
+	 * Filter the product visibility options
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array $product_visibility_options. An associative array representing of visibility options. Keys are the engagement type slugs, values are their description.
+	 */
 	return apply_filters(
 		'lifterlms_product_visibility_options',
 		array(
@@ -517,31 +617,35 @@ function llms_get_product_visibility_options() {
 /**
  * Get an array of student IDs based on enrollment status a course or membership
  *
- * @param    int          $post_id   WP_Post id of a course or membership
- * @param    string|array $statuses  list of enrollment statuses to query by
- *                                   status query is an OR relationship
- * @param    integer      $limit        number of results
- * @param    integer      $skip         number of results to skip (for pagination)
- * @return   array
- * @since    3.0.0
- * @version  3.8.0
+ * @since 3.0.0
+ * @since 3.8.0 Unknown.
+ * @since 4.10.2 Instantiate the student query passing `no_found_rows` arg as `true`,
+ *               as we don't need (and do not return) pagination info, e.g. max_pages.
+ * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+ *
+ * @param int          $post_id  WP_Post id of a course or membership.
+ * @param string|array $statuses List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
+ * @param integer      $limit    Number of results.
+ * @param integer      $skip     Number of results to skip (for pagination).
+ * @return array
  */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
 	$query = new LLMS_Student_Query(
 		array(
-			'post_id'  => $post_id,
-			'statuses' => $statuses,
-			'page'     => ( 0 === $skip ) ? 1 : ( $skip / $limit ) + 1,
-			'per_page' => $limit,
-			'sort'     => array(
+			'post_id'       => $post_id,
+			'statuses'      => $statuses,
+			'page'          => ( 0 === $skip ) ? 1 : ( $skip / $limit ) + 1,
+			'per_page'      => $limit,
+			'sort'          => array(
 				'id' => 'ASC',
 			),
+			'no_found_rows' => true,
 		)
 	);
 
-	if ( $query->results ) {
-		return wp_list_pluck( $query->results, 'id' );
+	if ( $query->has_results() ) {
+		return wp_list_pluck( $query->get_results(), 'id' );
 	}
 
 	return array();
@@ -550,11 +654,18 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 /**
  * Retrieve default instructor data structure.
  *
- * @return  array
- * @since   3.25.0
- * @version 3.25.0
+ * @since 3.25.0
+ *
+ * @return array
  */
 function llms_get_instructors_defaults() {
+	/**
+	 * Filter the instructor's default data structure.
+	 *
+	 * @since 3.25.0
+	 *
+	 * @param array $product_visibility_options. An associative array representing the instructor's default data structure.
+	 */
 	return apply_filters(
 		'llms_post_instructors_get_defaults',
 		array(
@@ -566,12 +677,58 @@ function llms_get_instructors_defaults() {
 }
 
 /**
+ * Function used to sanitize user input in a manner similar to the (deprecated) FILTER_SANITIZE_STRING.
+ *
+ * This function retrieves the raw user input via `llms_filter_input()` using the FILTER_UNSAFE_RAW filter, strips
+ * all tags, and then encodes single and double quotes with the relevant HTML entity codes.
+ *
+ * In many cases, the usage of `FILTER_SANITIZE_STRING` can be easily replaced with `FILTER_SANITIZE_FULL_SPECIAL_CHARS` but
+ * in some cases, especially when storing the user input, encoding all special characters can result in an stored XSS injection
+ * so this function can be used to preserve the pre PHP 8.1 behavior where sanitization is expected during the retrieval
+ * of user input.
+ *
+ * @since 5.9.0
+ *
+ * @param int    $type          One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
+ * @param string $variable_name Name of a variable to retrieve.
+ * @param int[]  $flags         Array of supported filter options and flags.
+ *                              Accepts `FILTER_REQUIRE_ARRAY` in order to require the input to be an array.
+ *                              Accepts `FILTER_FLAG_NO_ENCODE_QUOTES` to prevent encoding of quotes.
+ * @return string|string[]|null|boolean Value of the requested variable on success, `false` if the filter fails, or `null` if the `$variable_name` variable is not set.
+ */
+function llms_filter_input_sanitize_string( $type, $variable_name, $flags = array() ) {
+
+	$require_array = in_array( FILTER_REQUIRE_ARRAY, $flags, true );
+
+	$string = llms_filter_input( $type, $variable_name, FILTER_UNSAFE_RAW, $require_array ? FILTER_REQUIRE_ARRAY : array() );
+
+	// If we have an empty string or the input var isn't found we can return early.
+	if ( empty( $string ) ) {
+		return $string;
+	}
+
+	$string = $require_array ? array_map( 'wp_strip_all_tags', $string ) : wp_strip_all_tags( $string );
+
+	if ( ! in_array( FILTER_FLAG_NO_ENCODE_QUOTES, $flags, true ) ) {
+		$string = str_replace(
+			array( "'", '"' ),
+			array( '&#39;', '&#34;' ),
+			$string
+		);
+	}
+
+	return $string;
+
+}
+
+
+/**
  * Get the most recently created coupon ID for a given code
  *
- * @param   string $code        the coupon's code (title)
- * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
- *                              this is used to dupcheck the coupon code during coupon creation
- * @return  int
+ * @param string $code        Optional. The coupon's code (title). Default is empty string.
+ * @param int    $dupcheck_id Optional. Coupon id that can be passed which will be excluded during the query
+ *                            this is used to dupcheck the coupon code during coupon creation. Default is 0.
+ * @return int
  * @since   3.0.0
  * @version 3.0.0
  */
@@ -590,190 +747,25 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 		",
 			array( $code, $dupcheck_id )
 		)
-	);
-
-}
-
-/**
- * Generate the HTML for a form field
- *
- * @since 3.0.0
- * @since 3.19.4 Unknown
- * @since 4.3.0 Escape field values during output.
- *              Added filter `llms_form_field_args`.
- *
- * @param array   $field Field data.
- * @param boolean $echo  Whether or not to output (echo) the HTML.
- * @return string
- */
-function llms_form_field( $field = array(), $echo = true ) {
-
-	$field = wp_parse_args(
-		$field,
-		array(
-			'columns'         => 12,
-			'classes'         => '',
-			'description'     => '',
-			'default'         => '',
-			'disabled'        => false,
-			'id'              => '',
-			'label'           => '',
-			'last_column'     => true,
-			'match'           => '',
-			'max_length'      => '',
-			'min_length'      => '',
-			'name'            => '',
-			'options'         => array(),
-			'placeholder'     => '',
-			'required'        => false,
-			'selected'        => '',
-			'style'           => '',
-			'type'            => 'text',
-			'value'           => '',
-			'wrapper_classes' => '',
-		)
-	);
-
-	/**
-	 * Filter arguments used to generate a LifterLMS form field
-	 *
-	 * This filter runs after submitted fields arguments are merged with defaults
-	 * and the field attributes are generated and rendered.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param array $field Field data arguments.
-	 */
-	$field = apply_filters( 'llms_form_field_args', $field );
-
-	// Setup the field value (if one exists).
-	if ( '' !== $field['value'] ) {
-		$field['value'] = $field['value'];
-	} elseif ( '' !== $field['default'] ) {
-		$field['value'] = $field['default'];
-	}
-	$value_attr = ( '' !== $field['value'] ) ? ' value="' . esc_attr( $field['value'] ) . '"' : '';
-
-	// Use id as the name if name isn't specified.
-	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
-
-	/**
-	 * Allow items to not have a name attr (eg: not be posted via form submission).
-	 *
-	 * Example use case found in Stripe CC fields which are excluded from $_POST.
-	 */
-	$name_attr = false === $field['name'] ? '' : ' name="' . $field['name'] . '"';
-
-	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
-
-	// Add inline css if set.
-	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
-
-	// Add space to classes.
-	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
-	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
-
-	// Add column information to the wrapper.
-	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
-	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
-
-	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
-
-	// Required attributes and content.
-	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
-	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
-	$required_attr = $field['required'] ? ' required="required"' : '';
-
-	// Setup the label.
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
-
-	// Disabled field.
-	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
-
-	// Min & Max values.
-	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
-	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
-
-	// Setup the return value.
-	$html = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
-
-	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
-		$html .= $label;
-	}
-
-	switch ( $field['type'] ) {
-
-		case 'button':
-		case 'reset':
-		case 'submit':
-			$html .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
-			break;
-
-		case 'checkbox':
-		case 'radio':
-			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$html   .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
-			$html   .= $label;
-			break;
-
-		case 'html':
-			$html .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
-			break;
-
-		case 'select':
-			$html .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
-			foreach ( $field['options'] as $k => $v ) {
-				$html .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
-			}
-			$html .= '</select>';
-			break;
-
-		case 'textarea':
-			$html .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . esc_html( $field['value'] ) . '</textarea>';
-			break;
-
-		default:
-			$html .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
-
-	}
-
-	if ( 'hidden' !== $field['type'] ) {
-		$html .= $desc;
-	}
-
-	$html .= '</div>';
-
-	if ( $field['last_column'] ) {
-		$html .= '<div class="clear"></div>';
-	}
-
-	/**
-	 * Modify the HTML output of a form field
-	 *
-	 * @since Unknown
-	 *
-	 * @param string $html  HTML string for the field.
-	 * @param array  $field Form field options used to generate the field.
-	 */
-	$html = apply_filters( 'llms_form_field', $html, $field );
-
-	if ( $echo ) {
-		echo $html;
-	}
-
-	return $html;
+	); // no-cache ok.
 
 }
 
 /**
  * Get a list of available course / membership enrollment statuses
  *
- * @return   array
- * @since    3.0.0
- * @version  3.0.0
+ * @since 3.0.0
+ *
+ * @return array
  */
 function llms_get_enrollment_statuses() {
-
+	/**
+	 * Filter the enrollment statuses
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $enrollment_statuses An associative array representing the enrollment statuses. Keys are the statuses, values are their human readable labels (names).
+	 */
 	return apply_filters(
 		'llms_get_enrollment_statuses',
 		array(
@@ -788,10 +780,11 @@ function llms_get_enrollment_statuses() {
 /**
  * Get the human readable (and translated) name of an enrollment status
  *
- * @param    string $status  enrollment status key
- * @return   string
- * @since    3.0.0
- * @version  3.6.0
+ * @since 3.0.0
+ * @since 3.6.0 Unknown.
+ *
+ * @param string $status Enrollment status key.
+ * @return string
  */
 function llms_get_enrollment_status_name( $status ) {
 
@@ -800,6 +793,13 @@ function llms_get_enrollment_status_name( $status ) {
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
 	}
+	/**
+	 * Filter the enrollment status name
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $enrollment_status The enrollment status name.
+	 */
 	return apply_filters( 'lifterlms_get_enrollment_status_name', $status );
 
 }
@@ -818,7 +818,6 @@ function llms_get_ip_address() {
 
 	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Look below you.
 	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Look below you.
-
 	if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 		$ip = $_SERVER['HTTP_X_REAL_IP'];
 	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
@@ -828,7 +827,6 @@ function llms_get_ip_address() {
 	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-
 	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
@@ -843,18 +841,42 @@ function llms_get_ip_address() {
 }
 
 /**
+ * Retrieves and filters the value open registration option
+ *
+ * @since 5.0.0
+ *
+ * @return string The value of the open registration status. Either "yes" for enabled or "no" for disabled.
+ */
+function llms_get_open_registration_status() {
+
+	$status = get_option( 'lifterlms_enable_myaccount_registration', 'no' );
+
+	/**
+	 * Filter the value of the open registration setting
+	 *
+	 * @since 3.37.10
+	 *
+	 * @param string $status The current value of the open registration option. Either "yes" for enabled or "no" for disabled.
+	 */
+	return apply_filters( 'llms_enable_open_registration', $status );
+
+}
+
+/**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  *
- * @param    WP_Post|int $post  instance of WP_Post or a WP Post ID
- * @param    mixed       $error determine what to return if the LLMS class isn't found
- *                              post  = WP_Post
- *                              falsy = false
- * @return   LLMS_Post_Model|WP_Post|null|false LLMS_Post_Model extended object,
- *                                              null if WP get_post() fails,
- *                                              WP_Post if LLMS_Post_Model extended class isn't found and $error = 'post'
- *                                              false if LLMS_Post_Model extended class isn't found and $error != 'post'
- * @since    3.3.0
- * @version  3.16.11
+ * @since 3.3.0
+ * @since 3.16.11 Unknown.
+ * @since 4.10.1 Made sure to only instantiate LifterLMS classes.
+ *
+ * @param WP_Post|int $post  Instance of WP_Post or a WP Post ID.
+ * @param mixed       $error Determine what to return if the LLMS class isn't found.
+ *                           post  = WP_Post
+ *                           falsy = false.
+ * @return LLMS_Post_Model|WP_Post|null|false LLMS_Post_Model extended object,
+ *                                            null if WP get_post() fails,
+ *                                            WP_Post if LLMS_Post_Model extended class isn't found and $error = 'post'
+ *                                            false if LLMS_Post_Model extended class isn't found and $error != 'post'.
  */
 function llms_get_post( $post, $error = false ) {
 
@@ -863,13 +885,18 @@ function llms_get_post( $post, $error = false ) {
 		return $post;
 	}
 
-	$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
-	$class     = 'LLMS';
-	foreach ( $post_type as $part ) {
-		$class .= '_' . ucfirst( $part );
+	$class = '';
+
+	// Check whether it's an llms post candidate: `post_type` starts with the 'llms_' prefix, or is one of the unprefixed ones.
+	if ( 0 === strpos( $post->post_type, 'llms_' ) || in_array( $post->post_type, llms_get_unprefixed_post_types(), true ) ) {
+		$post_type = explode( '_', str_replace( 'llms_', '', $post->post_type ) );
+		$class     = 'LLMS';
+		foreach ( $post_type as $part ) {
+			$class .= '_' . ucfirst( $part );
+		}
 	}
 
-	if ( class_exists( $class ) ) {
+	if ( $class && class_exists( $class ) ) {
 		return new $class( $post );
 	} elseif ( 'post' === $error ) {
 		return $post;
@@ -919,11 +946,18 @@ function llms_get_post_parent_course( $post ) {
 /**
  * Retrieve an array of existing transaction statuses
  *
- * @return   array
- * @since    3.0.0
- * @version  3.0.0
+ * @since 3.0.0
+ *
+ * @return array
  */
 function llms_get_transaction_statuses() {
+	/**
+	 * Filter the transaction statuses
+	 *
+	 * @since Unknown
+	 *
+	 * @param $statuses string[] Names of the possible transaction statuses.
+	 */
 	return apply_filters(
 		'llms_get_transaction_statuses',
 		array(
@@ -950,37 +984,109 @@ function llms_is_ajax() {
 /**
  * Determine if request is a REST request
  *
- * @return   bool
- * @since    3.27.0
- * @version  3.27.0
+ * @since 3.27.0
+ *
+ * @return bool
  */
 function llms_is_rest() {
-	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
+	/**
+	 * Filters whether the current request is a REST request.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param $is_rest Whether the current request is a REST request.
+	 */
+	return apply_filters( 'llms_is_rest', ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
+}
+
+/**
+ * Determine whether the current theme is a block theme.
+ *
+ * Just a wrapper for WordPress core `wp_is_block_theme()` so to filter for testing purposes.
+ *
+ * @since 6.0.0
+ *
+ * @return string
+ */
+function llms_is_block_theme() {
+	/**
+	 * Filters whether the current theme is a block theme.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param $is_block_theme Whether the current theme is a block theme.
+	 */
+	return apply_filters( 'llms_is_block_theme', function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() );
+}
+
+/**
+ * Checks if the current admin page is the block editor.
+ *
+ * @since 7.2.0
+ *
+ * @return bool
+ */
+function llms_is_block_editor(): bool {
+	if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+		return true;
+	}
+
+	$current_screen = get_current_screen();
+
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Determine if the current request is a block rendering request in the editor.
+ *
+ * @since 7.2.0
+ *
+ * @return bool
+ */
+function llms_is_editor_block_rendering() {
+	if ( ! defined( 'REST_REQUEST' ) || ! is_user_logged_in() ) {
+		return false;
+	}
+
+	global $wp;
+
+	if ( ! $wp instanceof WP || empty( $wp->query_vars['rest_route'] ) ) {
+		return false;
+	}
+
+	$route = $wp->query_vars['rest_route'];
+
+	return false !== strpos( $route, '/block-renderer/' );
 }
 
 /**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
- * @thanks woocommerce <3
- * @return   bool
- * @since    3.0.0
- * @version  3.0.0
+ * @thanks woocommerce <3.
+ *
+ * @since 3.0.0
+ *
+ * @return bool
  */
 function llms_is_site_https() {
 	return false !== strstr( get_option( 'home' ), 'https:' );
 }
 
 /**
- * Create an array that can be passed to metabox select elements
- * configured as an llms-select2-post query-ier
+ * Create an array that can be passed to metabox select elements configured as an llms-select2-post query-ier
  *
- * @param    array  $post_ids  indexed array of WordPress Post IDs
- * @param    string $template  an optional template to customize the way the results look
- *                             {title} and {id} can be passed into the template
- *                             and will be replaced with the post title and post id respectively
- * @return   array
- * @since    3.0.0
- * @version  3.6.0
+ * @since 3.0.0
+ * @since 3.6.0 Unknown
+ *
+ * @param array  $post_ids  Optional. Indexed array of WordPress Post IDs. Defayult is empty array.
+ * @param string $template  Optional. A template to customize the way the results look. Default is empty string.
+ *                          {title} and {id} can be passed into the template
+ *                          and will be replaced with the post title and post id respectively.
+ * @return array
  */
 function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 
@@ -1002,21 +1108,29 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 			'title' => $title,
 		);
 	}
+	/**
+	 * Filter the select2 post array
+	 *
+	 * @since Unknown
+	 *
+	 * @param array Associative array of representing select2 post elements.
+	 * @param array $post_ids  Optional. Indexed array of WordPress Post IDs.
+	 */
 	return apply_filters( 'llms_make_select2_post_array', $ret, $post_ids );
 
 }
 
 /**
- * Create an array that can be passed to metabox select elements
- * configured as an llms-select2-student query-ier
+ * Create an array that can be passed to metabox select elements configured as an llms-select2-student query-ier.
  *
- * @param    array  $user_ids  indexed array of WordPress User IDs
- * @param    string $template  an optional template to customize the way the results look
- *                             %1$s = student name
- *                             %2$s = student email
- * @return   array
- * @since    3.10.1
- * @version  3.23.0
+ * @since 3.10.1
+ * @version 3.23.0
+ *
+ * @param array  $user_ids Optional. Indexed array of WordPress User IDs. Default is empty array.
+ * @param string $template Optional. A template to customize the way the results look. Default is empty string.
+ *                         %1$s = student name
+ *                         %2$s = student email.
+ * @return array
  */
 function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
 	if ( ! $template ) {
@@ -1036,17 +1150,26 @@ function llms_make_select2_student_array( $user_ids = array(), $template = '' ) 
 			'title' => sprintf( $template, $student->get_name(), $student->get( 'user_email' ) ),
 		);
 	}
+
+	/**
+	 * Filter the select2 student array
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $elements  Associative array representing select2 student elements.
+	 * @param array $post_ids  Optional. Indexed array of WordPress Post IDs.
+	 */
 	return apply_filters( 'llms_make_select2_student_array', $ret, $user_ids );
 }
 
 /**
  * Define a constant if it's not already defined
  *
- * @param    string $name   constant name
- * @param    mixed  $value  constant values
- * @return   void
- * @since    3.15.0
- * @version  3.15.0
+ * @since 3.15.0
+ *
+ * @param string $name  Constant name.
+ * @param mixed  $value Constant values.
+ * @return void
  */
 function llms_maybe_define_constant( $name, $value ) {
 	if ( ! defined( $name ) ) {
@@ -1056,108 +1179,123 @@ function llms_maybe_define_constant( $name, $value ) {
 
 /**
  * Parse booleans
+ *
  * Mostly used to parse yes/no bools stored in various meta data fields
  *
- * @param    mixed $val      value to parse
- * @return   bool
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ *
+ * @param mixed $val Value to parse.
+ * @return bool
  */
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 }
 
 /**
- * Redirect and exit
- * Wrapper for WP core redirects which automatically calls `exit();`
- * and is pluggable (mainly for unit testing purposes)
+ * Convert a PHP error constant to a human readable error code
  *
- * @param    string     $location  full URL to redirect to
- * @param    array      $options   array of options
- *                                 $status  int   HTTP status code of the redirect [default: 302]
- *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
- * @return   void
- * @since    3.19.4
- * @version  3.19.4
+ * @since 4.9.0
+ *
+ * @link https://www.php.net/manual/en/errorfunc.constants.php
+ *
+ * @param int $code A predefined php error constant.
+ * @return string A human readable string version of the constant.
  */
-if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
-	function llms_redirect_and_exit( $location, $options = array() ) {
+function llms_php_error_constant_to_code( $code ) {
 
-		$options = wp_parse_args(
-			$options,
-			array(
-				'status' => 302,
-				'safe'   => true,
-			)
-		);
+	$codes = array(
+		E_ERROR             => 'E_ERROR', // 1.
+		E_WARNING           => 'E_WARNING', // 2.
+		E_PARSE             => 'E_PARSE', // 4.
+		E_NOTICE            => 'E_NOTICE', // 8.
+		E_CORE_ERROR        => 'E_CORE_ERROR', // 16.
+		E_CORE_WARNING      => 'E_CORE_WARNING', // 32.
+		E_COMPILE_ERROR     => 'E_COMPILE_ERROR', // 64.
+		E_COMPILE_WARNING   => 'E_COMPILE_WARNING', // 128.
+		E_USER_ERROR        => 'E_USER_ERROR', // 256.
+		E_USER_WARNING      => 'E_USER_WARNING', // 512.
+		E_USER_NOTICE       => 'E_USER_NOTICE', // 1024.
+		E_STRICT            => 'E_STRICT', // 2048.
+		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR', // 4096.
+		E_DEPRECATED        => 'E_DEPRECATED', // 8192.
+		E_USER_DEPRECATED   => 'E_USER_DEPRECATED', // 16384.
+	);
 
-		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
-		call_user_func( $func, $location, $options['status'] );
-		exit();
+	return isset( $codes[ $code ] ) ? $codes[ $code ] : $code;
 
-	}
 }
-
-if ( ! function_exists( 'llms_setcookie' ) ) {
-	/**
-	 * Set a cookie.
-	 *
-	 * A pluggable wrapper for the native PHP function `set_cookie()`.
-	 *
-	 * The lifterlms-tests library plugs this function during unit testing so we can mock
-	 * the returns of methods that set cookies and write tests for those functions.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @link https://www.php.net/manual/en/function.setcookie.php
-	 *
-	 * @param string $name     The name of the cookie.
-	 * @param string $value    The value of the cookie.
-	 * @param int    $expires  The time wehn the cookie expires as a Unix timestamp.
-	 * @param string $path     The path on the server where the cookie will be available.
-	 * @param string $domain   The (sub)domain that the cookie is available to.
-	 * @param bool   $secure   Indicates the cookie should only be transmitted over a secure HTTPS connection.
-	 * @param bool   $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
-	 *                         preventing it from being accessed by scripting languages (such as Javascript).
-	 *
-	 * @return boolean
-	 */
-	function llms_setcookie( $name, $value = '', $expires = 0, $path = '', $domain = '', $secure = false, $httponly = false ) {
-		return setcookie( $name, $value, $expires, $path, $domain, $secure, $httponly );
-	}
-}
-
 
 /**
  * Wrapper for set_time_limit to ensure it's enabled before calling
  *
- * @param    int $limit  script time limit
- *                       0 = no time limit
- * @return   void
- * @source   thanks WooCommerce <3
- * @since    3.16.5
- * @version  3.16.5
+ * @since 3.16.5
+ *
+ * @source thanks WooCommerce <3
+ *
+ * @param int $limit  Optional. Script time limit. Default is 0 = no time limit.
+ * @return void
  */
 function llms_set_time_limit( $limit = 0 ) {
 
 	if ( function_exists( 'set_time_limit' ) && false === strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
 
-		@set_time_limit( $limit ); // @codingStandardsIgnoreLine
+		@set_time_limit( $limit ); // @phpcs:ignore
 
 	}
 
 }
 
 /**
- * Trim a string and append a suffix.
+ * Strips a list of prefixes from the start of a string.
+ *
+ * By default, strips `llms_`, `lifterlms_`, 'llms-', or 'lifterlms-'. Other prefixes may be provided.
+ *
+ * Will strip only the first prefix found from the list of supplied prefixes.
+ *
+ * @since 6.0.0
+ * @since 7.0.0 Added `llms-` and `lifterlms-` as additional default prefixes to strip.
+ *
+ * @param string   $string   String to modify.
+ * @param string[] $prefixes List of prefixs.
+ * @return string The modified string. If no prefixes were found, the original string is returned without modification.
+ */
+function llms_strip_prefixes( $string, $prefixes = array() ) {
+
+	$prefixes = empty( $prefixes ) ? array( 'llms_', 'lifterlms_', 'llms-', 'lifterlms-' ) : $prefixes;
+
+	foreach ( $prefixes as $prefix ) {
+		if ( 0 === strpos( $string, $prefix ) ) {
+			$string = substr( $string, strlen( $prefix ) );
+
+			/**
+			 * Most of the time we'll be using this to replace `llms_` as we don't often use `lifterlms_` for
+			 * prefixing (anymore).
+			 *
+			 * Also, while it's probably not ever in use, this will prevent double-stripping if, for example,
+			 * the string was `llms_lifterlms_something`. If we did want to strip that, the `$prefixes` should
+			 * be overwritten to have both these items stripped.
+			 *
+			 * So once we find a prefix, we'll break the loop and return the string with the stripped prefix.
+			 */
+			break;
+		}
+	}
+
+	return $string;
+
+}
+
+/**
+ * Trim a string and append a suffix
+ *
+ * @since 3.0.0
  *
  * @source thank you WooCommerce <3
- * @param  string $string  input string
- * @param  int    $chars   max number of characters
- * @param  string $suffix  optionally append a suffix
+ *
+ * @param string $string Input string.
+ * @param int    $chars  Optional. Max number of characters. Default is 200.
+ * @param string $suffix Optional. A suffix to append. Default is '...'.
  * @return string
- * @since  3.0.0
- * @version  3.0.0
  */
 function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 	if ( strlen( $string ) > $chars ) {
@@ -1172,16 +1310,17 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
 
 /**
  * Verify nonce with additional checks to confirm request method
+ *
  * Skips verification if the nonce is not set
- * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
+ * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions.
  *
  * @since 3.8.0
  * @since 3.35.0 Sanitize nonce field before verification.
  *
- * @param    string $nonce           name of the nonce field
- * @param    string $action          name of the action
- * @param    string $request_method  name of the intended request method
- * @return   null|false|int
+ * @param string $nonce          Name of the nonce field.
+ * @param string $action         Name of the action.
+ * @param string $request_method Optional. Name of the intended request method. Default is 'POST'.
+ * @return null|false|int
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
@@ -1195,4 +1334,24 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
 
+}
+
+/**
+ * Check that the test value is a member of a specific array for sanitization purposes.
+ *
+ * @param mixed $needle Value to be tested.
+ * @param array $safelist Array of safelist values.
+ * @param mixed $default Default value to return if the needle is not in the safelist. Defaults to the first value in the safelist array if not provided.
+ * @since 7.6.0
+ */
+function llms_sanitize_with_safelist( $needle, $safelist, $default = null ) {
+	if ( ! in_array( $needle, $safelist ) ) {
+		if ( isset( $default ) ) {
+			return $default;
+		} else {
+			return $safelist[0];
+		}
+	} else {
+		return $needle;
+	}
 }

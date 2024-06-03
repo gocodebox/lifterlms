@@ -7,8 +7,6 @@
  * @group access_plan
  *
  * @since 3.23.0
- * @since 3.30.1 Add tests for get_initial_price() method.
- * @since 3.40.0 Improved tests for the `requires_payment()` method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -123,11 +121,12 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 3.23.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->create();
 	}
 
@@ -155,7 +154,37 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_get_access_period_name() {}
+	/**
+	 * Override to prevent output of skipped test since the test doesn't matter for this class.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return void
+	 */
+	public function test_edit_date() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Test get_access_period_name()
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return void
+	 */
+	public function test_get_access_period_name() {
+
+		//  Use values from the plan.
+		$this->obj->set( 'access_period', 'week' );
+		$this->obj->set( 'access_length', 2 );
+		$this->assertEquals( 'weeks', $this->obj->get_access_period_name() );
+
+		// Pass in values.
+		$this->assertEquals( 'day', $this->obj->get_access_period_name( 'day', 1 ) );
+		$this->assertEquals( 'month', $this->obj->get_access_period_name( 'month', 1 ) );
+		$this->assertEquals( 'years', $this->obj->get_access_period_name( 'years', 25 ) );
+
+	}
 
 	/**
 	 * Test get_checkout_url()
@@ -186,6 +215,87 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( '#llms-plan-locked', $this->obj->get_checkout_url() );
 
 		// bypass availability checks
+		$this->assertEquals( $url, $this->obj->get_checkout_url( false ) );
+
+	}
+
+	/**
+	 * Test get_checkout_url() with redirection.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_checkout_url_with_redirection() {
+
+		$this->set_obj_product();
+		LLMS_Install::create_pages();
+
+		// No restrictions.
+		$url = add_query_arg( 'plan', $this->obj->get( 'id' ), get_permalink( get_option( 'lifterlms_checkout_page_id' ) ) );
+		$this->assertEquals( $url, $this->obj->get_checkout_url() );
+
+		// Add redirect.
+		$this->obj->set( 'checkout_redirect_type', 'url' );
+		$this->obj->set( 'checkout_redirect_url', 'https://example.com' );
+		// No redirect query arg added to the checkout url, the redirect will be added to the checkout form as hidden input field.
+		$this->assertEquals( $url, $this->obj->get_checkout_url() );
+
+		// 1 restriction returns link to that membership.
+		$membership_id = $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) );
+		$this->obj->set( 'availability', 'members' );
+		$this->obj->set( 'availability_restrictions', array( $membership_id ) );
+		// No redirect query arg added to the checkout url, the redirect will be added to the checkout form as hidden input field.
+		$this->assertEquals( get_permalink( $membership_id ), $this->obj->get_checkout_url() );
+
+		// Force the redirect via INPUT_GET
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example-redirect-get.com',
+			)
+		);
+		// Expect the redirect URL via INPUT_GET to be added to the membership's permalink.
+		$this->assertEquals(
+			add_query_arg(
+				'redirect',
+				urlencode( 'https://example-redirect-get.com' ),
+				get_permalink( $membership_id )
+			),
+			$this->obj->get_checkout_url()
+		);
+
+		// Enable the option that forces the access plan redirection settings to take over the membership redirections.
+		$this->obj->set( 'checkout_redirect_forced', 'yes' );
+		// The INPUT_GET will win.
+		// Expect the redirect URL to be added to the membership's permalink.
+		$this->assertEquals(
+			add_query_arg(
+				'redirect',
+				urlencode( 'https://example-redirect-get.com' ),
+				get_permalink( $membership_id )
+			),
+			$this->obj->get_checkout_url()
+		);
+
+		// Reset the INPUT_GET
+		$this->mockGetRequest( array() );
+		// Expect the redirect URL to be added to the membership's permalink.
+		$this->assertEquals(
+			add_query_arg(
+				'redirect',
+				urlencode( $this->obj->get( 'checkout_redirect_url' ) ),
+				get_permalink( $membership_id )
+			),
+			$this->obj->get_checkout_url()
+		);
+
+		// Multiple returns the hash for popover display.
+		$this->obj->set( 'availability_restrictions', array( $membership_id, 1234 ) );
+		$this->assertEquals( '#llms-plan-locked', $this->obj->get_checkout_url() );
+
+		// Bypass availability checks.
 		$this->assertEquals( $url, $this->obj->get_checkout_url( false ) );
 
 	}
@@ -1176,6 +1286,101 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'trial_offer', 'yes' );
 
 		$this->assertFalse( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test method `get_redirection_url()` when there's no 'redirect' $_GET variable.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_redirection_url_no_input_get() {
+
+		$this->set_obj_product( 'course' );
+		$this->obj->set( 'checkout_redirect_type', 'url' );
+		$this->obj->set( 'checkout_redirect_url', 'https://example.com' );
+
+		// Expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( $this->obj->get( 'checkout_redirect_url' ) ) );
+		// Require only querystring, expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url( true, true ) );
+
+		// Expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), $this->obj->get( 'checkout_redirect_url' ) );
+		// Require only querystring, expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url( false, true ) );
+
+
+		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
+		$this->obj->set( 'checkout_redirect_url', '' );
+
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+		$this->assertEmpty( $this->obj->get_redirection_url( true, false ) );
+	}
+
+	/**
+	 * Test method `get_redirection_url()` when there's a 'redirect' $_GET variable.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_redirection_url_with_input_get() {
+
+		$this->set_obj_product( 'course' );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => '',
+			)
+		);
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example-redirect-get.com',
+			)
+		);
+		// Expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
+		// Require only querystring, expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
+
+		// Expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+		// Require only querystring, expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
+
+		// Set access plan redirect options, still the $_GET variable will win.
+		$this->obj->set( 'checkout_redirect_type', 'url' );
+		$this->obj->set( 'checkout_redirect_url', 'https://example.com' );
+
+		// Expect the encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
+		// Require only querystring, expect the encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
+
+		// Expect the not-encoded url.
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
+		// Require only querystring, expect the not-encoded URL.
+		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
+
+		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
+		$this->obj->set( 'checkout_redirect_url', '' );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => '',
+			)
+		);
+
+		// Expect empty string.
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+		$this->assertEmpty( $this->obj->get_redirection_url( true, false ) );
 
 	}
 

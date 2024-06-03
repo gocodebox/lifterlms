@@ -43,7 +43,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 	 */
 	public function form( $instance ) {
 
-		// call widget defaults from parent
+		// Call widget defaults from parent.
 		parent::form( $instance );
 
 		$collapse       = ( ! empty( $instance['collapse'] ) ) ? $instance['collapse'] : 0;

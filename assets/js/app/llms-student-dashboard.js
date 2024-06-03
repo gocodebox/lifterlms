@@ -3,10 +3,11 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.7.0
- * @version  3.10.0
+ * @since 3.7.0
+ * @since 3.10.0 Bind events on the orders screen.
+ * @since 5.0.0 Removed redundant password toggle logic for edit account screen.
+ * @version 5.0.0
  */
-
 LLMS.StudentDashboard = {
 
 	/**
@@ -17,34 +18,21 @@ LLMS.StudentDashboard = {
 	screen: '',
 
 	/**
-	 * Will show the number of meters on the page
-	 * Used to conditionally bind meter-related events only when meters
-	 * actually exist
-	 *
-	 * @type  int
-	 */
-	meter_exists: 0,
-
-	/**
 	 * Init
 	 *
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Unknown
+	 * @since 5.0.0 Removed password toggle logic.
+	 *
+	 * @return void
 	 */
 	init: function() {
 
 		if ( $( '.llms-student-dashboard' ).length ) {
-
-			this.meter_exists = $( '.llms-password-strength-meter' ).length;
 			this.bind();
-
 			if ( 'orders' === this.get_screen() ) {
-
 				this.bind_orders();
-
 			}
-
 		}
 
 	},
@@ -52,54 +40,13 @@ LLMS.StudentDashboard = {
 	/**
 	 * Bind DOM events
 	 *
+	 * @since 3.7.0
+	 * @since 3.7.4 Unknown.
+	 * @since 5.0.0 Removed password toggle logic.
+	 *
 	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.7.4
 	 */
 	bind: function() {
-
-		var self    = this,
-			$toggle = $( '.llms-student-dashboard a[href="#llms-password-change-toggle"]' );
-
-		// click event for the change password link
-		$toggle.on( 'click', function( e ) {
-
-			e.preventDefault();
-
-			var $this       = $( this ),
-				curr_text   = $this.text(),
-				curr_action = $this.attr( 'data-action' ),
-				new_action  = 'hide' === curr_action ? 'show' : 'hide',
-				new_text    = $this.attr( 'data-text' );
-
-			self.password_toggle( curr_action );
-
-			// prevent accidental cancels when users tab out of the confirm password field
-			// and expect to hit submit with enter key immediately after
-			if ( 'show' === curr_action ) {
-				$this.attr( 'tabindex', '-777' );
-			} else {
-				$this.removeAttr( 'tabindex' );
-			}
-
-			$this.attr( 'data-action', new_action ).attr( 'data-text', curr_text ).text( new_text );
-
-		} );
-
-		// this will remove the required by default without having to mess with
-		// conditionals in PHP and still allows the required * to show in the label
-
-		if ( this.meter_exists ) {
-
-			$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
-				self.password_toggle( 'hide' );
-			} );
-
-		} else {
-
-			self.password_toggle( 'hide' );
-
-		}
 
 		$( '.llms-donut' ).each( function() {
 			LLMS.Donut( $( this ) );
@@ -110,9 +57,9 @@ LLMS.StudentDashboard = {
 	/**
 	 * Bind events related to the orders screen on the dashboard
 	 *
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	bind_orders: function() {
 
@@ -127,9 +74,9 @@ LLMS.StudentDashboard = {
 	/**
 	 * Get the current dashboard endpoint/tab slug
 	 *
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	get_screen: function() {
 		if ( ! this.screen ) {
@@ -141,10 +88,10 @@ LLMS.StudentDashboard = {
 	/**
 	 * Show a confirmation warning when Cancel Subscription form is submitted
 	 *
-	 * @param    obj   e  JS event data
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param obj e JS event data.
+	 * @return void
 	 */
 	order_cancel_warning: function( e ) {
 		e.preventDefault();
@@ -153,54 +100,6 @@ LLMS.StudentDashboard = {
 			$( this ).off( 'submit', this.order_cancel_warning );
 			$( this ).submit();
 		}
-	},
-
-	/**
-	 * Toggle password related fields on the account edit page
-	 *
-	 * @param    string   action  [show|hide]
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.7.4
-	 */
-	password_toggle: function( action ) {
-
-		if ( ! action ) {
-			action = 'show';
-		}
-
-		var self  = this,
-			$pwds = $( '#password, #password_confirm, #current_password' ),
-			$form = $( '#password' ).closest( 'form' );
-
-		// hide or show the fields
-		$( '.llms-change-password' )[ action ]();
-
-		if ( 'show' === action ) {
-			// make passwords required
-			$pwds.attr( 'required', 'required' );
-
-			if ( self.meter_exists ) {
-				// add the strength check on form submission
-				$form.on( 'submit', LLMS.PasswordStrength, LLMS.PasswordStrength.submit );
-			}
-
-		} else {
-			// remove requirement so form can be submitted while fields are hidden
-			// and clear the password out of the fields if typing started
-			$pwds.removeAttr( 'required' ).val( '' );
-
-			if ( self.meter_exists ) {
-
-				// remove the password strength submission check
-				$form.off( 'submit', LLMS.PasswordStrength.submit );
-				// clears the meter
-				LLMS.PasswordStrength.check_strength();
-
-			}
-
-		}
-
 	},
 
 };

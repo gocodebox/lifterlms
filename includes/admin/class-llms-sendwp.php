@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version 3.40.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,12 +16,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
- * @since 3.40.0 Refactor to utiize `LLMS_Abstract_Email_Provider`.
+ * @since 3.40.0 Refactor to utilize `LLMS_Abstract_Email_Provider`.
+ * @since 6.0.0 Removed `LLMS_SendWP::do_remote_install()` in favor of `LLMS_Abstract_Email_Provider::do_remote_install()`.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
 	/**
-	 * LifterLMS MailHawk Partner ID.
+	 * LifterLMS SendWP Partner ID.
 	 *
 	 * @var int
 	 */
@@ -33,24 +34,6 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 * @var string
 	 */
 	protected $id = 'sendwp';
-
-	/**
-	 * Validate installation request and perform the plugin install or return errors.
-	 *
-	 * This method overrides the parent in order to keep the method public to maintain
-	 * backwards compatibility.
-	 *
-	 * @since 3.36.1
-	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
-	 * @deprecated 3.40.0 Method to be made protected and should not be called publicly.
-	 *
-	 * @return array
-	 */
-	public function do_remote_install() { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found -- Intentional for backwards compat.
-
-		return parent::do_remote_install();
-
-	}
 
 	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
@@ -124,6 +107,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.40.0 Abstract methods used to determine if SendWP is connected.
+	 * @since 5.3.2 Update the URL for managing an account.
 	 *
 	 * @return string
 	 */
@@ -139,7 +123,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 				$ret[] = sprintf(
 					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
 					__( '%1$sManage your account%2$s.', 'lifterlms' ),
-					'<a href="https://sendwp.com/account/" target="_blank" rel="noopener noreferrer">',
+					'<a href="https://app.sendwp.com/dashboard" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
 			} else {
@@ -155,7 +139,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
 		}
 
-		return '<button class="button button-primary" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
+		return '<button class="llms-button-outline" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
 
 	}
 

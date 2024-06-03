@@ -1,28 +1,28 @@
 <?php
 /**
- * Students Tab on Reporting Screen
+ * LLMS_Admin_Reporting_Tab_Students class file
  *
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Reporting_Tab_Students class
+ * Students Tab on Reporting Screen
  *
  * @since 3.2.0
- * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Students {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -37,7 +37,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function breadcrumbs() {
 
@@ -92,14 +92,25 @@ class LLMS_Admin_Reporting_Tab_Students {
 	/**
 	 * Output HTML for the current view within the students tab
 	 *
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 * @since 4.20.0 Added a report permission check and a user existence check.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
 		// Single student.
 		if ( isset( $_GET['student_id'] ) ) {
+
+			$student_id = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+			if ( ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+				wp_die( __( "You do not have permission to access this student's reports", 'lifterlms' ) );
+			}
+			$student = llms_get_student( $student_id );
+			if ( ! $student ) {
+				wp_die( __( "This student doesn't exist.", 'lifterlms' ) );
+			}
 
 			$tabs = apply_filters(
 				'llms_reporting_tab_student_tabs',
@@ -115,9 +126,9 @@ class LLMS_Admin_Reporting_Tab_Students {
 			llms_get_template(
 				'admin/reporting/tabs/students/student.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'information',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input_sanitize_string( INPUT_GET, 'stab' ) ) : 'information',
 					'tabs'        => $tabs,
-					'student'     => new LLMS_Student( intval( $_GET['student_id'] ) ),
+					'student'     => $student,
 				)
 			);
 

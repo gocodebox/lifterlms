@@ -1,24 +1,30 @@
 <?php
 /**
- * LifterLMS Custom Roles and Capabilities
+ * LLMS_Roles class.
  *
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 4.5.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Roles class.
+ * LifterLMS Custom Roles and Capabilities.
  *
  * @since 3.13.0
- * @since 3.14.0 Add the `lifterlms_instructor` capability.
- * @since 3.34.0 Added the `list_users` capability to instructors.
- *               Added capabilities for student management.
  */
 class LLMS_Roles {
+
+	/**
+	 * The capability name to manage earned engagament.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @var string
+	 */
+	const MANAGE_EARNED_ENGAGEMENT_CAP = 'manage_earned_engagement';
 
 	/**
 	 * Retrieve an array of all capabilities for a role
@@ -40,25 +46,39 @@ class LLMS_Roles {
 	}
 
 	/**
-	 * Get an array of registered core lifterlms caps
+	 * Get an array of registered core lifterlms caps.
 	 *
 	 * @since 3.13.0
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
 	 * @since 3.34.0 Added capabilities for student management.
+	 * @since 4.21.2 Added the `view_grades` capability.
+	 * @since 6.0.0 Added `manage_earned_engagement` capability.
+	 *
+	 * @link https://lifterlms.com/docs/roles-and-capabilities/
 	 *
 	 * @return string[]
 	 */
 	public static function get_all_core_caps() {
+
+		/**
+		 * Filters the list of available LifterLMS core user capabilities
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param string[] $capabilities List of LifterLMS user capabilities.
+		 */
 		return apply_filters(
 			'llms_get_all_core_caps',
 			array(
 				'lifterlms_instructor',
 				'manage_lifterlms',
+				self::MANAGE_EARNED_ENGAGEMENT_CAP,
 				'view_lifterlms_reports',
 				'view_others_lifterlms_reports',
 				'enroll',
 				'unenroll',
 				'create_students',
+				'view_grades',
 				'view_students',
 				'view_others_students',
 				'edit_students',
@@ -74,9 +94,11 @@ class LLMS_Roles {
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Added student management capabilities.
+	 * @since 4.21.2 Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
+	 * @since 6.0.0 Added `manage_earned_engagement` to the list of instructor/assistant caps which are not automatically available.
 	 *
 	 * @param string $role Name of the role.
-	 * @return array
+	 * @return string[]
 	 */
 	private static function get_core_caps( $role ) {
 
@@ -91,13 +113,15 @@ class LLMS_Roles {
 					$caps['enroll'],
 					$caps['unenroll'],
 					$caps['manage_lifterlms'],
+					$caps[ self::MANAGE_EARNED_ENGAGEMENT_CAP ],
 					$caps['view_others_lifterlms_reports'],
 					$caps['create_students'],
 					$caps['view_others_students'],
 					$caps['edit_students'],
 					$caps['edit_others_students'],
 					$caps['delete_students'],
-					$caps['delete_others_students']
+					$caps['delete_others_students'],
+					$caps['view_grades']
 				);
 				break;
 
@@ -111,14 +135,25 @@ class LLMS_Roles {
 
 		}
 
-		return apply_filters( 'llms_get_' . $role . '_core_caps', $caps, $all_caps );
+		/**
+		 * Filters the LifterLMS capabilities added to a LifterLMS user role.
+		 *
+		 * The dynamic portion of this hook `$role` refers to the user's role name.
+		 *
+		 * @since 4.21.2
+		 *
+		 * @param string[] $caps     List of capabilities provided to the role.
+		 * @param string[] $all_caps Full list of all LifterLMS user capabilities.
+		 */
+		return apply_filters( "llms_get_{$role}_core_caps", $caps, $all_caps );
 
 	}
 
 	/**
-	 * Retrieve the post type specific capabilities for a give role
+	 * Retrieve the post type specific capabilities for a give role.
 	 *
 	 * @since 3.13.0
+	 * @since 4.21.2 Use strict comparisons for `in_array()`.
 	 *
 	 * @param string $role Name of the role
 	 * @return array
@@ -142,7 +177,7 @@ class LLMS_Roles {
 				$post_caps = LLMS_Post_Types::get_post_type_caps( $names );
 
 				// Filter the caps down for these roles.
-				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
+				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ), true ) ) {
 
 					$allowed = array(
 						'instructor'            => array(
@@ -163,7 +198,7 @@ class LLMS_Roles {
 
 					foreach ( $post_caps as $post_cap => $cpt_cap ) {
 
-						if ( ! in_array( $post_cap, $allowed[ $role ] ) ) {
+						if ( ! in_array( $post_cap, $allowed[ $role ], true ) ) {
 							unset( $post_caps[ $post_cap ] );
 						}
 					}
@@ -186,7 +221,7 @@ class LLMS_Roles {
 				$tax_caps = LLMS_Post_Types::get_tax_caps( $names );
 
 				// Filter the caps down for these roles.
-				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
+				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ), true ) ) {
 
 					$allowed = array(
 						'assign_terms',
@@ -194,7 +229,7 @@ class LLMS_Roles {
 
 					foreach ( $tax_caps as $tax_cap => $ct_cap ) {
 
-						if ( ! in_array( $tax_cap, $allowed ) ) {
+						if ( ! in_array( $tax_cap, $allowed, true ) ) {
 							unset( $tax_caps[ $tax_cap ] );
 						}
 					}
@@ -419,6 +454,32 @@ class LLMS_Roles {
 				}
 			}
 		}
+
+	}
+
+	/**
+	 * Returns an array of role names.
+	 *
+	 * LLMS roles and WP core roles are translated.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return array
+	 */
+	public static function get_all_role_names() {
+
+		$all_roles = wp_roles()->roles;
+
+		return array_merge(
+			array_combine(
+				array_keys( $all_roles ),
+				array_map(
+					'translate_user_role', // Translates WP Core roles.
+					array_column( $all_roles, 'name' )
+				)
+			),
+			self::get_roles() // So our roles are translated as well.
+		);
 
 	}
 

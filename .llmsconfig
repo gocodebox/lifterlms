@@ -35,12 +35,23 @@
 	"scripts": {
 		"src": [
 			"assets/js/**/*.js",
+			"!assets/js/llms-admin-addons.js",
+			"!assets/js/llms-admin-award-certificate.js",
+			"!assets/js/llms-admin-certificate-editor.js",
+
 			"!assets/js/**/*.min.js",
 			"!assets/js/llms-builder*.js",
 			"!assets/js/app/**/*.js",
 			"!assets/js/builder/**/*.js",
 			"!assets/js/partials/**/*.js",
-			"!assets/js/private/**/*.js"
+			"!assets/js/private/**/*.js",
+
+
+			"!assets/js/llms-components.js",
+			"!assets/js/llms-icons.js",
+			"!assets/js/llms-quill-wordcount.js",
+			"!assets/js/llms-spinner.js",
+			"!assets/js/llms-utils.js"
 		],
 		"dest": "assets/js/"
 	},

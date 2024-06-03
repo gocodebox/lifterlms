@@ -3,11 +3,10 @@
  *
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
+ * @since 5.5.0 Use user created via setup-e2e.sh in favor of `createUser()`.
  */
 
 import {
-	// clickAndWait,
-	createUser,
 	loginStudent,
 	logoutUser,
 	visitPage,
@@ -41,11 +40,7 @@ describe( 'StudentDashboardLogin', () => {
 
 	it ( 'should allow a user with valid credentials to login.', async () => {
 
-		const student = await createUser( student );
-		await logoutUser();
-
-		await loginStudent( student.email, student.password );
-
+		await loginStudent( 'validcreds@email.tld', 'password' );
 		expect( await page.$eval( 'h2.llms-sd-title', el => el.textContent ) ).toBe( 'Dashboard' );
 
 	} );

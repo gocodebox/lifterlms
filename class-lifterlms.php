@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,22 +23,18 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Update session management.
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 final class LifterLMS {
+
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * LifterLMS Plugin Version.
 	 *
 	 * @var string
 	 */
-	public $version = '4.5.1';
-
-	/**
-	 * Singleton instance of LifterLMS.
-	 *
-	 * @var LifterLMS
-	 */
-	protected static $_instance = null;
+	public $version = '7.6.3';
 
 	/**
 	 * LLMS_Assets instance
@@ -62,43 +58,21 @@ final class LifterLMS {
 	public $session = null;
 
 	/**
-	 * Main Instance of LifterLMS
-	 * Ensures only one instance of LifterLMS is loaded or can be loaded.
-	 *
-	 * @see      LLMS()
-	 * @return   LifterLMS - Main instance
-	 * @since    1.0.0
-	 * @version  1.0.0
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
 	 * LifterLMS Constructor.
 	 *
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown
 	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
+	 * @since 4.13.0 Check site duplicate status on `admin_init`.
+	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
+	 * @since 6.1.0 Automatically load payment gateways.
+	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since 7.6.0 Lood locale textdomain on `init` instead of immediately
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
-		/**
-		 * Localize as early as possible.
-		 *
-		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load first.
-		 */
-		$this->localize();
-
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
 		$this->define_constants();
 
@@ -107,16 +81,18 @@ final class LifterLMS {
 		$this->query = new LLMS_Query();
 
 		// Hooks.
-		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
+		add_action( 'init', array( $this, 'localize' ), 0 );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
 		add_action( 'init', array( $this, 'init_session' ), 6 ); // After table installation which happens at init 5.
+		add_action( 'init', array( $this, 'payment_gateways' ) );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
-		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+
+		add_action( 'admin_init', array( 'LLMS_Site', 'check_status' ) );
 
 		// Tracking.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
@@ -139,6 +115,7 @@ final class LifterLMS {
 	 * @since 3.17.8 Added `LLMS_PLUGIN_URL` && `LLMS_ASSETS_SUFFIX`.
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
+	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
 	 *
 	 * @return void
 	 */
@@ -152,18 +129,19 @@ final class LifterLMS {
 		llms_maybe_define_constant( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
 		llms_maybe_define_constant( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 
+		// If we're loading in debug mode.
+		$script_debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
+		$wp_debug     = defined( 'WP_DEBUG' ) && WP_DEBUG;
+
+		// If debugging, load the unminified version otherwise load minified.
 		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
-
-			// If we're loading in debug mode.
-			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
-
-			// If debugging, load the unminified version otherwiser load minified.
-			$min = ( $debug ) ? '' : '.min';
-
-			define( 'LLMS_ASSETS_SUFFIX', $min );
-
+			define( 'LLMS_ASSETS_SUFFIX', $script_debug ? '' : '.min' );
 		}
 
+		// If debugging, use time for asset version otherwise use plugin version.
+		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
+			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
+		}
 	}
 
 	/**
@@ -183,6 +161,9 @@ final class LifterLMS {
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown.
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
+	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
+	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
+	 * @since 5.8.0 Initialize block templates.
 	 *
 	 * @return void
 	 */
@@ -190,6 +171,7 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
 
@@ -304,6 +286,17 @@ final class LifterLMS {
 	}
 
 	/**
+	 * Block templates instance.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @return LLMS_Block_Templates
+	 */
+	public function block_templates() {
+		return LLMS_Block_Templates::instance();
+	}
+
+	/**
 	 * Events instance.
 	 *
 	 * @since 3.36.0
@@ -355,8 +348,7 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Load all background processors and
-	 * access to them programmatically a processor via LLMS()->processors()->get( $processor )
+	 * Load all background processors.
 	 *
 	 * @since    3.15.0
 	 *
@@ -388,27 +380,37 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Load Localization files
+	 * Localize the plugin
 	 *
-	 * The first loaded file takes priority
+	 * Language files can be found in the following locations (The first loaded file takes priority):
 	 *
-	 * Files can be found in the following order:
-	 *      WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
-	 *      WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
+	 *   1. wp-content/languages/lifterlms/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is recommended "safe" location where custom language files can be stored. A file
+	 *      stored in this directory will never be automatically overwritten.
+	 *
+	 *   2. wp-content/languages/plugins/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is the default directory where WordPress will download language files from the
+	 *      WordPress GlotPress server during updates. If you store a custom language file in this
+	 *      directory it will be overwritten during updates.
+	 *
+	 *   3. wp-content/plugins/lifterlms/languages/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+	 *      be removed from the server during a LifterLMS plugin update.
+	 *
+	 * @since Unknown
+	 * @since 4.9.0 Use `llms_load_textdomain()`.
 	 *
 	 * @return void
 	 */
 	public function localize() {
 
-		// Load locale.
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'lifterlms' );
-
-		// Load a lifterlms specific locale file if one exists.
-		load_textdomain( 'lifterlms', WP_LANG_DIR . '/lifterlms/lifterlms-' . $locale . '.mo' );
-
-		// Load localization files.
-		load_plugin_textdomain( 'lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		llms_load_textdomain( 'lifterlms' );
 
 	}
 
 }
+
+

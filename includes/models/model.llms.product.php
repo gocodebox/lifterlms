@@ -1,22 +1,22 @@
 <?php
 /**
- * LifterLMS Product Model
+ * LifterLMS Product Model.
  *
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 3.38.0
+ * @version 6.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Product model class
+ * LLMS_Product model class.
  *
  * Both Courses and Memberships are sellable and can be instantiated as a product.
  *
  * @since 1.0.0
- * @since 3.25.2  Unknown.
+ * @since 3.25.2 Unknown.
  * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
  *                Use `in_array` with strict comparison where possible.
  * @since 3.38.0 Add `get_restrictions()` and `has_restrictions()` methods.
@@ -47,7 +47,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	protected $model_post_type = 'product';
 
 	/**
-	 * Retrieve the max number of access plans that can be created for this product
+	 * Retrieve the max number of access plans that can be created for this product.
 	 *
 	 * @since 3.0.0
 	 *
@@ -56,7 +56,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_access_plan_limit() {
 
 		/**
-		 * Determine the number of access plans allowed on the product
+		 * Determine the number of access plans allowed on the product.
 		 *
 		 * This is a (somewhat) arbitrary limit chosen mostly based on the following 2 factors:
 		 *
@@ -84,7 +84,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get all access plans for the product
+	 * Get all access plans for the product.
 	 *
 	 * @since 3.0.0
 	 * @since 3.25.2 Unknown.
@@ -129,7 +129,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Filter the product's access plan query args
+		 * Filter the product's access plan query args.
 		 *
 		 * @since Unknown
 		 *
@@ -150,7 +150,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Filter the product's access plans
+		 * Filter the product's access plans.
 		 *
 		 * @since Unknown
 		 *
@@ -164,7 +164,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the product's catalog visibility term
+	 * Retrieve the product's catalog visibility term.
 	 *
 	 * @since 3.6.0
 	 *
@@ -185,7 +185,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the product's catalog visibility name for display
+	 * Retrieve the product's catalog visibility name for display.
 	 *
 	 * @since 3.6.0
 	 *
@@ -204,7 +204,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 
 	/**
-	 * Get the number of columns for the pricing table
+	 * Get the number of columns for the pricing table.
 	 *
 	 * @since 3.0.0
 	 *
@@ -230,7 +230,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Filter the number of columns of the product's pricing table
+		 * Filter the number of columns of the product's pricing table.
 		 *
 		 * @since 3.0.0
 		 *
@@ -243,14 +243,14 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve a list of restrictions on the product
+	 * Retrieve a list of restrictions on the product.
 	 *
 	 * Restrictions are used to in conjunction with "is_purchasable()" to
 	 * determine if purchase/enrollment should be allowed for a given product.
 	 *
 	 * Restrictions in the core currently only exist on courses:
-	 * + Enrollment time period
-	 * + Student capacity
+	 * + Enrollment time period.
+	 * + Student capacity.
 	 *
 	 * @since 3.38.0
 	 *
@@ -276,20 +276,20 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Filter whether the product has any purchase restrictions
+		 * Filter the product's restrictions.
 		 *
-		 * @since 3.38.0
+		 * @since 6.8.0
 		 *
 		 * @param string[]     $restrictions An array of strings describing the restrictions placed on the product.
 		 * @param LLMS_Product $product      The LLMS_Product object.
 		 */
-		return apply_filters( 'llms_product_has_restrictions', $restrictions, $this );
+		return apply_filters( 'llms_product_get_restrictions', $restrictions, $this );
 
 	}
 
 
 	/**
-	 * Determine if the product has at least one free access plan
+	 * Determine if the product has at least one free access plan.
 	 *
 	 * @since 3.0.0
 	 * @since 3.25.2 Unknown.
@@ -299,7 +299,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function has_free_access_plan() {
 
 		/**
-		 * Filter whether the product has free access plans
+		 * Filter whether the product has free access plans.
 		 *
 		 * @since Unknown
 		 * @since 3.37.17 Added the `$product` param.
@@ -326,7 +326,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		$has_restrictions = count( $restrictions ) > 0;
 
 		/**
-		 * Filter whether the product has any purchase restrictions
+		 * Filter whether the product has any purchase restrictions.
 		 *
 		 * @since 3.38.0
 		 *
@@ -339,7 +339,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if the product is purchasable
+	 * Determine if the product is purchasable.
 	 *
 	 * At least one gateway must be enabled and at least one access plan must exist.
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity.
@@ -357,12 +357,12 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// If the product doesn't have any purchase restrictions, make sure we have a purchasable plan & active gateways.
 		if ( ! $this->has_restrictions() ) {
-			$gateways    = LLMS()->payment_gateways();
+			$gateways    = llms()->payment_gateways();
 			$purchasable = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
 		}
 
 		/**
-		 * Filter whether the product is purchasable
+		 * Filter whether the product is purchasable.
 		 *
 		 * @since Unknown
 		 *
@@ -374,7 +374,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Update the product's catalog visibility setting
+	 * Update the product's catalog visibility setting.
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.17 Use `in_array` with strict comparison.
@@ -387,6 +387,54 @@ class LLMS_Product extends LLMS_Post_Model {
 			return;
 		}
 		wp_set_object_terms( $this->get( 'id' ), $visibility, 'llms_product_visibility', false );
+	}
+
+	/**
+	 * Check if there are active subscriptions for this product.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param boolean $use_cache Whether or not leveraging the cache.
+	 * @return boolean
+	 */
+	public function has_active_subscriptions( $use_cache = true ) {
+
+		$found = false;
+		if ( $use_cache ) {
+			$subscriptions_count = wp_cache_get( $this->get( 'id' ), 'llms_product_subscriptions_count', true, $found );
+		}
+
+		if ( false === $found ) {
+
+			global $wpdb;
+
+			$subscriptions_count = $wpdb->get_var(
+				$wpdb->prepare(
+					"
+					SELECT COUNT(*) FROM {$wpdb->posts} as p
+					JOIN {$wpdb->postmeta} as pm1
+					JOIN {$wpdb->postmeta} as pm2
+					WHERE p.ID=pm1.post_id
+					AND p.post_type='llms_order'
+					AND pm1.post_id=pm2.post_id
+					AND pm1.meta_key='_llms_product_id' AND pm1.meta_value=%d
+					AND pm2.meta_key='_llms_order_type' AND pm2.meta_value='recurring'
+					AND p.post_status IN ( 'llms-active', 'llms-pending-cancel', 'llms-on-hold' )
+					",
+					$this->get( 'id' )
+				)
+			);
+
+			wp_cache_set(
+				$this->get( 'id' ),
+				$subscriptions_count,
+				'llms_product_subscriptions_count'
+			);
+
+		}
+
+		return (bool) $subscriptions_count;
+
 	}
 
 }

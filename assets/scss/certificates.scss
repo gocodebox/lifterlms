@@ -1,32 +1,11 @@
+/**
+ * Reset.
+ */
 body {
 	background-color: #fff;
 	background-image: none;
 	margin: 0 auto;
 }
-
-// .header {
-//   display: none;
-// }
-
-// #content {
-//   background: none;
-// }
-
-// .entry {
-//   top: 120px;
-//   width: 100%;
-//   margin-bottom: 40px !important;
-//   background: none;
-// }
-
-// .hentry,
-// .llms_certificate.hentry,
-// .llms_my_certificate.hentry {
-//   margin-bottom: 40px !important;
-//   padding: 50px 90px !important;
-//   background: none;
-//   border: none;
-// }
 
 .header, .footer,
 .wrap-header, .wrap-footer,
@@ -35,31 +14,15 @@ body {
 	display: none;
 }
 
-// .llms-certificate-container {
-//   position: relative;
-//   padding: 20px;
-//   margin: auto;
-//   margin-bottom: 20px;
-//   -webkit-print-color-adjust: exact;
-//   overflow: hidden;
-// }
-
-.llms-certificate-container h1:first-child {
-  text-align: center;
-}
-
-.llms-print-certificate {
-	margin-top: 40px;
-	text-align: center;
-
-	form {
-		display: inline;
-	}
-}
-
 .llms-certificate-container {
+	margin: 40px auto 0;
+}
 
-	margin: 0 auto;
+/**
+ * Legacy Template.
+ */
+.llms-certificate-container:not(.cert-template-v2) {
+
 	padding: 0;
 	overflow: hidden;
 
@@ -68,28 +31,61 @@ body {
 		z-index: 1;
 		width: 100%;
 		display: block;
-		// position: absolute;
-		// z-index: 1;
-		// top: 0;
-		// left: 0;
-		// right: 0;
-		// margin: 0 auto;
 	}
 
 	.llms_certificate,
 	.llms_my_certificate {
 		margin: 80px;
 		position: relative;
-		// top: -100%;
-		// width: 100%;
 		z-index: 2;
 	}
 
+	h1:first-child {
+		text-align: center;
+	}
+
+}
+
+/**
+ * V2 Template
+ */
+.llms-certificate-wrapper {
+	margin: 0 auto;
+}
+.llms-certificate-container.cert-template-v2 {
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100% !important;
+	box-sizing: border-box; 
+
+	.wp-block-columns .wp-block-column > * {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}
+
+/**
+ * Certificate Actions Footer.
+ */
+.llms-print-certificate {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	text-align: center;
+
+	form {
+		display: inline;
+	}
 }
 
 
 
 @media print {
+
+	html, body {
+		print-color-adjust: exact !important;
+		height: 100%;
+		overflow: hidden;
+	}
 
 	@page { size: auto; }
 
@@ -97,7 +93,7 @@ body {
 		display: none;
 	}
 
-	/* Make everything on the page invisible */
+	// Make everything on the page invisible.
 	body * {
 		visibility: hidden !important;
 		background: #fff none;
@@ -107,29 +103,38 @@ body {
 		overflow: visible;
 	}
 
-	/* remove all headers, menus and footers */
+	// Remove all headers, menus and footers.
 	header, aside, nav, footer {
 		display: none !important;
 	}
 
-	/* make sure a .container parent doesn't shif the certificate see: https://github.com/gocodebox/lifterlms/issues/1163 */
+	// Make sure a .container parent doesn't shift the certificate see: https://github.com/gocodebox/lifterlms/issues/1163.
+	.single-llms_my_certificate .container,
 	.single-llms_certificate .container {
 		width: 100%;
 	}
 
-	/* make only the certificate container and its children visible */
-	.llms-certificate-container, .llms-certificate-container * {
+	// Make only the certificate container and its children visible.
+	.llms-certificate-container,
+	.llms-certificate-container * {
 		visibility: visible !important;
+		background: transparent none;
 	}
 
-	/* position certificate absolutely and center horizontally */
-	.llms-certificate-container {
+ 	// Position certificate absolutely and center horizontally.
+	.llms-certificate-container:not(.cert-template-v2) {
 		position: absolute;
 		top: 0;
 		left: 0;
 		right: 0;
 		margin: 0 auto;
 		background: #fff none;
+	}
+
+	.llms-certificate-container.cert-template-v2 {
+		margin: 0 auto !important;
+		print-color-adjust: exact !important;
+		transform: scale( 0.95 ); // Don't ram the edge of the paper.
 	}
 
 }

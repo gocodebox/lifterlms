@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 4.5.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,15 +15,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.36.0
  * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Sessions::$_instance` property.
  */
 class LLMS_Sessions {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Current user id.
@@ -31,20 +28,6 @@ class LLMS_Sessions {
 	 * @var null
 	 */
 	protected $user_id = null;
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return LLMS_Sessions
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private Constructor.
@@ -122,7 +105,7 @@ class LLMS_Sessions {
 	 */
 	protected function end( $start ) {
 
-		$end = LLMS()->events()->record(
+		$end = llms()->events()->record(
 			array(
 				'actor_id'     => $start->get( 'actor_id' ),
 				'object_type'  => 'session',
@@ -134,7 +117,7 @@ class LLMS_Sessions {
 
 		if ( ! is_wp_error( $end ) ) {
 			global $wpdb;
-			$wpdb->query( // db call ok; no-cache ok.
+			$wpdb->query(
 				$wpdb->prepare(
 					"
 					DELETE FROM {$wpdb->prefix}lifterlms_events_open_sessions
@@ -142,7 +125,7 @@ class LLMS_Sessions {
 					",
 					$start->get( 'id' )
 				)
-			);
+			); // db call ok; no-cache ok.
 		}
 
 		return $end;
@@ -205,6 +188,8 @@ class LLMS_Sessions {
 	 * in the last 30 minutes.
 	 *
 	 * @since 3.36.0
+	 * @since 4.7.0 When retrieving the last event, instantiate the events query passing `no_found_rows` arg as `true`,
+	 *              to improve performance.
 	 *
 	 * @param LLMS_Event $start Event record for the start of the session.
 	 * @return bool
@@ -233,10 +218,11 @@ class LLMS_Sessions {
 		$events = $this->get_session_events(
 			$start,
 			array(
-				'per_page' => 1,
-				'sort'     => array(
+				'per_page'      => 1,
+				'sort'          => array(
 					'date' => 'DESC',
 				),
+				'no_found_rows' => true,
 			)
 		);
 
@@ -290,7 +276,7 @@ class LLMS_Sessions {
 			  LIMIT 1;",
 				$user_id
 			)
-		);
+		); // db call ok; no-cache ok.
 
 	}
 
@@ -307,7 +293,7 @@ class LLMS_Sessions {
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col( // db call ok; no-cache ok.
+		$sessions = $wpdb->get_col(
 			$wpdb->prepare(
 				"
 			   SELECT event_id
@@ -318,7 +304,7 @@ class LLMS_Sessions {
 				$skip,
 				$limit
 			)
-		);
+		); // db call ok; no-cache ok.
 
 		$ret = array();
 		if ( count( $sessions ) ) {
@@ -392,7 +378,7 @@ class LLMS_Sessions {
 				$start->get( 'actor_id' ),
 				$start->get( 'object_id' )
 			)
-		);
+		); // db call ok; no-cache ok.
 
 		if ( ! $end ) {
 			return null;
@@ -443,7 +429,7 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		$start = LLMS()->events()->record(
+		$start = llms()->events()->record(
 			array(
 				'actor_id'     => $user_id,
 				'object_type'  => 'session',

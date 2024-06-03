@@ -7,8 +7,8 @@
  *
  * @since 3.20.0
  * @since 3.36.3 Remove redundant test method `test_get_sections()`,
- *                @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
- * @version 3.36.3
+ *               @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
+ * @since 5.2.1 Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
@@ -69,6 +69,71 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test CRUD functions for auto enroll courses.
+	 *
+	 * Tests the following three methods:
+	 *
+	 *   + add_auto_enroll_courses()
+	 *   + get_auto_enroll_courses()
+	 *   + remoe_auto_enroll_course()
+	 *
+	 * @since 4.15.0
+	 *
+	 * @return void
+	 */
+	public function test_crud_auto_enroll() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		// No posts.
+		$this->assertSame( array(), $membership->get_auto_enroll_courses() );
+
+		// Add a single course (not an array).
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$this->assertTrue( $membership->add_auto_enroll_courses( $course ) );
+		$this->assertSame( array( $course ), $membership->get_auto_enroll_courses() );
+
+		// Add multiple courses (as an array).
+		$courses = $this->factory->post->create_many( 2, array( 'post_type' => 'course' ) );
+		$this->assertTrue( $membership->add_auto_enroll_courses( $courses ) );
+		$this->assertEqualSets( array_merge( array( $course ), $courses ), $membership->get_auto_enroll_courses() );
+
+		// Remove a course.
+		$this->assertTrue( $membership->remove_auto_enroll_course( $course ) );
+		$this->assertEqualSets( $courses, $membership->get_auto_enroll_courses() );
+
+		// Add a course that already exists (should remove duplicates).
+		$this->assertTrue( $membership->add_auto_enroll_courses( $courses[1] ) );
+		$this->assertEqualSets( $courses, $membership->get_auto_enroll_courses() );
+
+		// Add & replace.
+		$this->assertTrue( $membership->add_auto_enroll_courses( $course, true ) );
+		$this->assertEquals( array( $course ), $membership->get_auto_enroll_courses() );
+
+	}
+
+	/**
+	 * Ensure only published courses
+	 *
+	 * @since 4.15.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms-groups/issues/135
+	 *
+	 * @return void
+	 */
+	public function test_get_auto_enroll_courses_published_only() {
+
+		$membership = $this->factory->membership->create_and_get();
+		$draft      = $this->factory->post->create( array( 'post_type' => 'course', 'post_status' => 'draft' ) );
+		$private    = $this->factory->post->create( array( 'post_type' => 'course', 'post_status' => 'private' ) );
+		$published  = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		$this->assertTrue( $membership->add_auto_enroll_courses( array( $draft, $private, $published ) ) );
+		$this->assertEqualSets( array( $published ), $membership->get_auto_enroll_courses() );
+
+	}
+
+	/**
 	 * Test get_associated_posts() when none exist for the membership.
 	 *
 	 * @since 3.38.1
@@ -92,6 +157,8 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	 * Test get_associated_posts() when associations do exist.
 	 *
 	 * @since 3.38.1
+	 * @since 4.15.0 Test equal sets instead of strict equals because we don't really care about the returned order.
+	 *               Added tests to check when querying for a single post type.
 	 *
 	 * @return void
 	 */
@@ -122,11 +189,29 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
 		$membership->set( 'auto_enroll', array( $course, $plan->get( 'product_id' ) ) );
 
+		// Get all associations.
 		$res = $membership->get_associated_posts();
 
 		$this->assertEquals( array( $post ), $res['post'] );
-		$this->assertEquals( array( $page1, $page2 ), $res['page'] );
-		$this->assertEquals( array( $plan->get( 'product_id' ), $course ), $res['course'] );
+		$this->assertEqualSets( array( $page1, $page2 ), $res['page'] );
+		$this->assertEqualSets( array( $plan->get( 'product_id' ), $course ), $res['course'] );
+
+		// Get only course associations.
+		$res = $membership->get_associated_posts( 'course' );
+		$this->assertEqualSets( array( $plan->get( 'product_id' ), $course ), $res );
+
+		// Get posts.
+		$res = $membership->get_associated_posts( 'post' );
+		$this->assertEquals( array( $post ), $res );
+
+		// Get pages.
+		$res = $membership->get_associated_posts( 'page' );
+		$this->assertEqualSets( array( $page1, $page2 ), $res );
+
+		// Fake post type.
+		$res = $membership->get_associated_posts( 'fake' );
+		$this->assertEqualSets( array(), $res );
+
 
 	}
 
@@ -134,6 +219,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	 * Test LLMS_Membership->get_categories() method.
 	 *
 	 * @since 3.36.3
+	 *
 	 * @return void
 	 */
 	public function test_get_categories() {
@@ -165,6 +251,21 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
 		// compare array values while ignoring keys and order
 		$this->assertEqualSets( $created_term_ids, $membership_term_ids );
+	}
+
+	/**
+	 * Test get_product()
+	 *
+	 * @since 4.15.0
+	 *
+	 * @return void
+	 */
+	public function test_get_product() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		$this->assertInstanceOf( 'LLMS_Product', $membership->get_product() );
+
 	}
 
 	/**
@@ -256,29 +357,59 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the has_sales_page_redirect method.
+	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0
-	 *
-	 * @return void
+	 * @since 5.2.1 Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 
-		$course = new LLMS_Membership( 'new', 'Membership Title' );
+		$membership = new LLMS_Membership( 'new', 'Membership Title' );
 
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'none' );
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'none' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'content' );
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'content' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'url' );
-		$this->assertEquals( true, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'url' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'page' );
-		$this->assertEquals( true, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_url', 'https://lifterlms.com' );
+		$this->assertEquals( true, $membership->has_sales_page_redirect() );
+
+		$membership->set( 'sales_page_content_type', 'page' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
+
+		$page_id = $this->factory()->post->create( array( 'post_type' => 'page' ) );
+		$membership->set( 'sales_page_content_page_id', $page_id );
+		$this->assertEquals( true, $membership->has_sales_page_redirect() );
+
+	}
+
+	/**
+	 * Test query_associated_courses() to ensure only plan associations from published courses are returned.
+	 *
+	 * @since 4.15.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms-groups/issues/135
+	 *
+	 * @return void
+	 */
+	public function test_query_associated_courses_published_only() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		$plan = $this->get_mock_plan();
+		$plan->set( 'availability', 'members' );
+		$plan->set( 'availability_restrictions', array( 1, $membership->get( 'id' ) ) );
+
+		$course = llms_get_post( $plan->get( 'product_id' ) );
+		$course->set( 'status', 'draft' );
+
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $membership, 'query_associated_courses' ) );
 
 	}
 

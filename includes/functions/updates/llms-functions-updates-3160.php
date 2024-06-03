@@ -55,7 +55,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 		array(
 			'meta_key' => '_llms_assigned_quiz',
 		)
-	);
+	); // db call ok; no-cache ok.
 
 }
 
@@ -70,9 +70,9 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 function llms_update_3160_attempt_migration() {
 
 	global $wpdb;
-	$query = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" );
+	$query = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" ); // db call ok; no-cache ok.
 
-	// finished
+	// Finished.
 	if ( ! $query ) {
 		set_transient( 'llms_update_3160_attempt_migration', 'complete', DAY_IN_SECONDS );
 		return false;
@@ -126,24 +126,24 @@ function llms_update_3160_attempt_migration() {
 						if ( $val ) {
 							$insert_val = 'pass';
 						} else {
-							// quiz has been initialized but hasn't been started yet
-							// we don't need to migrate these
+							// Quiz has been initialized but hasn't been started yet,
+							// we don't need to migrate these.
 							if ( ! $start && ! $end ) {
 								// $insert_val = 'new';
 								continue;
 							} elseif ( $start && ! $end ) {
-								// still taking the quiz
+								// sSill taking the quiz.
 								if ( isset( $attempt['current'] ) && $attempt['current'] ) {
 									$insert_val = 'current';
 								}
-								// quiz was abandoned
+								// Quiz was abandoned.
 								$insert_val = 'incomplete';
-								// actual failure
+								// Actual failure.
 							} else {
 								$insert_val = 'fail';
 							}
 						}
-					}// End if().
+					}
 
 					switch ( $insert_key ) {
 
@@ -166,22 +166,22 @@ function llms_update_3160_attempt_migration() {
 					$to_insert[ $insert_key ] = $insert_val;
 					$format[]                 = $insert_format;
 
-				}// End foreach().
+				}
 
-				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format );
+				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format ); // db call ok; no-cache ok.
 
-			} // End foreach().
-		}// End if().
+			}
+		}
 
-		// backup original
+		// Backup original.
 		update_user_meta( $record->user_id, 'llms_legacy_quiz_data', $record->meta_value );
 
-		// delete the original so it's not there on the next run
+		// Selete the original so it's not there on the next run.
 		delete_user_meta( $record->user_id, 'llms_quiz_data' );
 
-	}// End foreach().
+	}
 
-	// needs to run again
+	// Needs to run again.
 	return true;
 
 }
@@ -215,7 +215,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 		 LIMIT %d, 20;",
 			$skip
 		)
-	);
+	); // db call ok; no-cache ok.
 
 	if ( ! $question_ids ) {
 		set_transient( 'llms_update_3160_ensure_no_dupe_question_rels_status', 'complete', DAY_IN_SECONDS );
@@ -248,18 +248,18 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 			FROM {$wpdb->postmeta}
 			WHERE meta_key = '_llms_questions'
 			  AND ( meta_value LIKE '%{$parts[0]}%' OR meta_value LIKE '%{$parts[1]}%' );"
-		);
+		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		// question is attached to 2 or more quizzes
+		// Question is attached to 2 or more quizzes.
 		if ( count( $quiz_ids ) >= 2 ) {
 
-			// remove the first quiz and duplicate questions for the remaining quizzes
+			// Remove the first quiz and duplicate questions for the remaining quizzes.
 			array_shift( $quiz_ids );
 
 			foreach ( $quiz_ids as $quiz_id ) {
 
-				// copy the question and add update the reference on the quiz
+				// Copy the question and add update the reference on the quiz.
 				$question_copy_id = llms_update_util_post_duplicator( $qid );
 				$questions        = get_post_meta( $quiz_id, '_llms_questions', true );
 				foreach ( $questions as &$qdata ) {
@@ -269,7 +269,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 				}
 				update_post_meta( $quiz_id, '_llms_questions', $questions );
 
-				// update references to the quiz in quiz attempts
+				// Update references to the quiz in quiz attempts.
 				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$attempt_ids = $wpdb->get_col(
 					"
@@ -277,7 +277,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 					FROM {$wpdb->prefix}lifterlms_quiz_attempts
 					WHERE quiz_id = {$quiz_id}
 					  AND ( questions LIKE '%{$parts[0]}%' OR questions LIKE '%{$parts[1]}%' );"
-				);
+				); // db call ok; no-cache ok.
 				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 				foreach ( $attempt_ids as $aid ) {
@@ -293,10 +293,10 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 				}
 			}
-		}// End if().
-	}// End foreach().
+		}
+	}
 
-	// need to run again
+	// Need to run again.
 	return true;
 
 }
@@ -332,7 +332,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 		;",
 			$skip
 		)
-	);
+	); // db call ok; no-cache ok.
 
 	if ( ! $res ) {
 		set_transient( 'llms_update_3160_ensure_no_lesson_dupe_rels', 'complete', DAY_IN_SECONDS );
@@ -348,7 +348,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 			continue;
 		}
 
-		// quiz no longer exists, unset the data from the lesson
+		// Quiz no longer exists, unset the data from the lesson.
 		$quiz = llms_get_post( $data->quiz_id );
 		if ( ! $quiz ) {
 			$lesson->set( 'quiz', 0 );
@@ -356,13 +356,14 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 			continue;
 		}
 
-		// quiz already attached to a lesson
-		// + duplicate it
-		// + assign lesson/quiz relationships off new quiz
-		// + find quiz attempts by old quiz / lesson
-		// + update attempt quiz id
-		// + update attempt question ids
-		//
+		/**
+		 * Quiz already attached to a lesson
+		 * + duplicate it
+		 * + assign lesson/quiz relationships off new quiz
+		 * + find quiz attempts by old quiz / lesson
+		 * + update attempt quiz id
+		 * + update attempt question ids
+		 */
 		if ( in_array( $data->quiz_id, $quizzes_set ) ) {
 
 			$orig_questions = get_post_meta( $data->quiz_id, '_llms_questions', true );
@@ -384,7 +385,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 				SELECT id
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
 				WHERE quiz_id = {$data->quiz_id} AND lesson_id = {$data->lesson_id}"
-			);
+			); // db call ok; no-cache ok.
 			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			foreach ( $attempt_ids as $aid ) {
@@ -404,11 +405,11 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 		}
 
 		$quizzes_set[] = $data->quiz_id;
-		$lesson->set( 'quiz_enabled', 'yes' ); // ensure the new quiz enabled key is set
+		$lesson->set( 'quiz_enabled', 'yes' ); // Ensure the new quiz enabled key is set.
 
-	}// End foreach().
+	}
 
-	// run it again
+	// Run it again.
 	return true;
 
 }
@@ -442,9 +443,9 @@ function llms_update_3160_update_question_data() {
 		 LIMIT %d, 100;",
 			$skip
 		)
-	);
+	); // db call ok; no-cache ok.
 
-	// finished
+	// Finished.
 	if ( ! $res ) {
 		set_transient( 'llms_update_3160_update_question_data', 'complete', DAY_IN_SECONDS );
 		return false;
@@ -488,22 +489,24 @@ function llms_update_3160_update_question_data() {
 					}
 
 					$correct = false;
-					// no correct_option set for the choice, set it to false
+					// No correct_option set for the choice, set it to false.
 					if ( ! isset( $option['correct_option'] ) ) {
 						$correct = false;
-						// handle bool strings like "on" "off" "yes" "no"
-						// and questions imported from a 3rd party Excel to LifterLMS plugin
-						// that doesn't save options in the expected format...
-						// dev if you're reading this I love you but you caused me a pretty large headache
-						// trying to figure out where in our codebase we went wrong...
+						/**
+						 * Handle bool strings like "on" "off" "yes" "no"
+						 * and questions imported from a 3rd party Excel to LifterLMS plugin
+						 * that doesn't save options in the expected format...
+						 *  dev if you're reading this I love you but you caused me a pretty large headache
+						 * trying to figure out where in our codebase we went wrong...
+						 */
 					} elseif ( is_string( $option['correct_option'] ) && '' !== $option['correct_option'] ) {
 						$correct = true;
-						// catch everything else and filter var it
+						// Catch everything else and filter var it.
 					} else {
 
 						$correct = filter_var( $option['correct_option'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
-						// nothing should get here but I'm tired...
+						// Nothing should get here but I'm tired...
 						if ( is_null( $correct ) ) {
 							$correct = true;
 						}
@@ -517,24 +520,24 @@ function llms_update_3160_update_question_data() {
 						)
 					);
 
-					// if an option desc is set
+					// If an option desc is set.
 					if ( ! empty( $option['option_description'] ) ) {
-						// if the description hasn't already been added to the new clarification
+						// If the description hasn't already been added to the new clarification.
 						if ( false === strpos( $clarify, $option['option_description'] ) ) {
 							$clarify .= $option['option_description'] . '<br><br>';
 						}
 					}
-				}// End foreach().
+				}
 
 				if ( $clarify ) {
 					$question->set( 'clarifications', trim( rtrim( $clarify, '<br><br>' ) ) );
 					$question->set( 'clarifications_enabled', 'yes' );
 				}
-			}// End foreach().
-		}// End if().
-	}// End foreach().
+			}
+		}
+	}
 
-	// run it again
+	// Run it again.
 	return true;
 
 }
@@ -559,9 +562,9 @@ function llms_update_3160_update_attempt_question_data() {
 	set_transient( 'llms_update_3160_skipper', $skip + 500, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}lifterlms_quiz_attempts ORDER BY id ASC LIMIT %d, 500", $skip ) );
+	$res = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}lifterlms_quiz_attempts ORDER BY id ASC LIMIT %d, 500", $skip ) ); // db call ok; no-cache ok.
 
-	// finished
+	// Finished.
 	if ( ! $res ) {
 		set_transient( 'llms_update_3160_update_attempt_question_data', 'complete', DAY_IN_SECONDS );
 		return false;

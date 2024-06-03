@@ -1,10 +1,14 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
+ *
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
- * @since    3.4.0
- * @version  3.24.0
+ *
+ * @since 3.4.0
+ * @since 3.24.0 Add tests for the `get_available_points()` method.
+ * @since 4.7.0 Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
+ * @since 5.2.1 Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -23,36 +27,43 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.20.0
+	 *
+	 * @since 3.4.0
+	 * @since 3.20.0 Unknown.
+	 * @since 4.12.0 Added missing values.
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
-			'audio_embed' => 'text',
-			'capacity' => 'absint',
-			'capacity_message' => 'text',
-			'course_closed_message' => 'text',
-			'course_opens_message' => 'text',
+			// Public.
+			'audio_embed'                => 'text',
+			'average_grade'              => 'float',
+			'average_progress'           => 'float',
+			'capacity'                   => 'absint',
+			'capacity_message'           => 'text',
+			'course_closed_message'      => 'text',
+			'course_opens_message'       => 'text',
 			'content_restricted_message' => 'text',
-			'enable_capacity' => 'yesno',
-			'end_date' => 'text',
-			'enrollment_closed_message' => 'text',
-			'enrollment_end_date' => 'text',
-			'enrollment_opens_message' => 'text',
-			'enrollment_period' => 'yesno',
-			'enrollment_start_date' => 'text',
-			'has_prerequisite' => 'yesno',
-			'length' => 'text',
-			'prerequisite' => 'absint',
-			'prerequisite_track' => 'absint',
+			'enable_capacity'            => 'yesno',
+			'end_date'                   => 'text',
+			'enrolled_students'          => 'absint',
+			'enrollment_closed_message'  => 'text',
+			'enrollment_end_date'        => 'text',
+			'enrollment_opens_message'   => 'text',
+			'enrollment_period'          => 'yesno',
+			'enrollment_start_date'      => 'text',
+			'has_prerequisite'           => 'yesno',
+			'length'                     => 'text',
+			'prerequisite'               => 'absint',
+			'prerequisite_track'         => 'absint',
 			'sales_page_content_page_id' => 'absint',
-			'sales_page_content_type' => 'string',
-			'sales_page_content_url' => 'string',
-			'tile_featured_video' => 'yesno',
-			'time_period' => 'yesno',
-			'start_date' => 'text',
-			'video_embed' => 'text',
+			'sales_page_content_type'    => 'string',
+			'sales_page_content_url'     => 'string',
+			'tile_featured_video'        => 'yesno',
+			'time_period'                => 'yesno',
+			'start_date'                 => 'text',
+			'video_embed'                => 'text',
 		);
 	}
 
@@ -66,6 +77,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'audio_embed' => 'http://example.tld/audio_embed',
+			'average_grade' => 25.55,
+			'average_progress' => 99.32,
 			'capacity' => 25,
 			'capacity_message' => 'Capacity Reached',
 			'course_closed_message' => 'Course has closed',
@@ -73,6 +86,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'content_restricted_message' => 'You cannot access this content',
 			'enable_capacity' => 'yes',
 			'end_date' => '2017-05-05',
+			'enrolled_students' => 25,
 			'enrollment_closed_message' => 'Enrollment is closed',
 			'enrollment_end_date' => '2017-05-05',
 			'enrollment_opens_message' => 'Enrollment opens later',
@@ -118,18 +132,29 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test Audio and Video Embeds
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 *
+	 * @since 3.4.0
+	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
+	 * @since 6.0.0 Mock oembed results to prevent rate limiting issues causing tests to fail.
+	 *
+	 * @return void
 	 */
 	public function test_get_embeds() {
 
-		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
-		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
+		$iframe = '<iframe src="%s"></iframe>';
+
+		$handler = function( $html, $url ) use ( $iframe ) {
+			return sprintf( $iframe, $url );
+		};
+
+		add_filter( 'pre_oembed_result', $handler, 10, 2 );
 
 		$course = new LLMS_Course( 'new', 'Course With Embeds' );
 
-		// empty string when none set
+		$audio_url = 'http://example.tld/audio_embed';
+		$video_url = 'http://example.tld/video_embed';
+
+		// Empty string when none set.
 		$this->assertEmpty( $course->get_audio() );
 		$this->assertEmpty( $course->get_video() );
 
@@ -139,19 +164,26 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$audio_embed = $course->get_audio();
 		$video_embed = $course->get_video();
 
-		// string
-		$this->assertTrue( is_string( $audio_embed ) );
-		$this->assertTrue( is_string( $video_embed ) );
+		// Should be an iframe for valid embeds.
+		$this->assertEquals( sprintf( $iframe, $audio_url ),$audio_embed );
+		$this->assertEquals( sprintf( $iframe, $video_url ),$video_embed );
 
-		// should be an iframe for valid embeds
-		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
+		remove_filter( 'pre_oembed_result', $handler, 10, 2 );
 
-		// fallbacks should be a link to the URL
-		$course->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
-		$course->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
-		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+		// Fallbacks should be a link to the URL.
+		$not_embeddable_url = 'http://lifterlms.com/not/embeddable';
+
+		$course->set( 'audio_embed', $not_embeddable_url );
+		$course->set( 'video_embed', $not_embeddable_url );
+		$audio_embed = $course->get_audio();
+		$video_embed = $course->get_video();
+
+		$this->assertSame( 0, strpos( $audio_embed, '<a' ) );
+		$this->assertSame( 0, strpos( $video_embed, '<a' ) );
+
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
+
 
 	}
 
@@ -357,6 +389,39 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_student_count()
+	 *
+	 * @since 4.12.0
+	 *
+	 * @return void
+	 */
+	public function test_get_student_count() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course    = llms_get_post( $course_id );
+
+		// No value, uses default from course default property value (instead of using an empty string).
+		$this->assertSame( 0, $course->get_student_count() );
+
+		// Cached 0.
+		$this->assertSame( 0, $course->get_student_count() );
+
+		// Fake cache hit.
+		$course->set( 'enrolled_students', 52 );
+		$this->assertSame( 52, $course->get_student_count() );
+
+		// Use real data.
+		$this->factory->student->create_and_enroll_many( 2, $course_id );
+
+		// Skip cache.
+		$this->assertSame( 2, $course->get_student_count( true ) );
+
+		// Cached.
+		$this->assertSame( 2, $course->get_student_count() );
+
+	}
+
+	/**
 	 * Test the get students function
 	 * @return   void
 	 * @since    3.12.0
@@ -414,10 +479,10 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the has_sales_page_redirect method
-	 * @return   void
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Test the `has_sales_page_redirect` method.
+	 *
+	 * @since 3.20.0
+	 * @since 5.2.1 Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 
@@ -432,10 +497,151 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( false, $course->has_sales_page_redirect() );
 
 		$course->set( 'sales_page_content_type', 'url' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_url', 'https://lifterlms.com' );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
 
 		$course->set( 'sales_page_content_type', 'page' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$page_id = $this->factory()->post->create( array( 'post_type' => 'page' ) );
+		$course->set( 'sales_page_content_page_id', $page_id );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
+
+	}
+
+	/**
+	 * Test to_array_extra_blocks()
+	 *
+	 * @since 4.7.0
+	 *
+	 * @return void
+	 */
+	public function test_to_array_extra_blocks() {
+
+		// Mock reusable block.
+		$block_title   = 'Reusable block title';
+		$block_content = '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->';
+		$block         = $this->factory->post->create( array(
+			'post_content' => $block_content,
+			'post_title'   => $block_title,
+			'post_type'    => 'wp_block',
+		) );
+
+		// Get the HTML of the reusable block to use in our mock course content..
+		$html  = serialize_block( array(
+			'blockName' => 'core/block',
+			'innerContent' => array( '' ),
+			'attrs' => array(
+				'ref' => $block,
+			)
+		) );
+		$html .= serialize_block( array(
+			'blockName'    => 'core/paragraph',
+			'innerContent' => array( 'Lorem ipsum dolor sit.' ),
+			'attrs'        => array(),
+		) );
+
+		// Mock course.
+		$post   = $this->factory->post->create_and_get( array(
+			'post_type'    => 'course',
+			'post_content' => $html,
+		) );
+		$course = llms_get_post( $post );
+
+		$expect = array(
+			$block => array(
+				'title'   => $block_title,
+				'content' => $block_content,
+			),
+		);
+
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $course, 'to_array_extra_blocks', array( $post->post_content ) ) );
+
+	}
+
+	/**
+	 * Test to_array_extra_images()
+	 *
+	 * @since 4.7.0
+	 *
+	 * @return void
+	 */
+	public function test_to_array_extra_images() {
+
+		$post = $this->factory->post->create_and_get( array(
+			'post_type'    => 'course',
+			'post_content' => '<!-- wp:image {"id":552,"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" class="wp-image-1" /></figure>
+<!-- /wp:image -->
+<!-- wp:gallery {"ids":[1,2]} -->
+<figure class="wp-block-gallery columns-2 is-cropped"><ul class="blocks-gallery-grid">
+<li class="blocks-gallery-item"><figure><img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" data-id="1" data-full-url="http://example.org/wp-content/uploads/2020/09/image1.png" data-link="http://example.org/wp-content/uploads/2020/09/image1.png" class="wp-image-1" /></figure></li>
+<li class="blocks-gallery-item"><figure><img src="http://example.org/wp-content/uploads/2020/09/image2.jpg" alt="" data-id="2" data-full-url="http://example.org/wp-content/uploads/2020/09/image2.jpg" data-link="http://example.org/wp-content/uploads/2020/09/image2.jpg" class="wp-image-2" /></figure></li></ul></figure>
+<!-- /wp:gallery -->
+<img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" class="wp-image-1"  />
+<img src="http://cdn.tld/image3.png"  />'
+		) );
+
+		$expect = array(
+			'http://example.org/wp-content/uploads/2020/09/image1.png',
+			'http://example.org/wp-content/uploads/2020/09/image2.jpg',
+		);
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( llms_get_post( $post ), 'to_array_extra_images', array( $post->post_content ) ) );
+
+	}
+
+	/**
+	 * Test summary get_to_array_excluded_properties()
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return void
+	 */
+	public function test_get_to_array_excluded_properties() {
+
+		// Default behavior
+		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+		$expect = array(
+			'average_grade',
+			'average_progress',
+			'enrolled_students',
+			'last_data_calc_run',
+			'temp_calc_data'
+		);
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $course, 'get_to_array_excluded_properties' ) );
+
+		// Disabled via filter.
+		add_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $course, 'get_to_array_excluded_properties' ) );
+		remove_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );
+
+	}
+
+	/**
+	 * Test toArray to ensure no excluded properties are included.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return void
+	 */
+	public function test_toArray_exclusion() {
+
+		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+
+		$arr = $course->toArray();
+
+		$excluded = array(
+			'average_grade',
+			'average_progress',
+			'enrolled_students',
+			'last_data_calc_run',
+			'temp_calc_data'
+		);
+
+		// Shouldn't contain any excluded props.
+		$this->assertEquals( array(), array_intersect( $excluded, array_keys( $arr ) ) );
 
 	}
 

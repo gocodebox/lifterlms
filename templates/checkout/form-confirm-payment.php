@@ -1,20 +1,25 @@
 <?php
 /**
- * Checkout Form
+ * Payment gateways area of the checkout form
  *
- * @package  LifterLMS/Templates
+ * @package LifterLMS/Templates/Checkout
  *
- * @since 1.0.0
- * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
- * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
- * @version 3.34.5
+ * @since Unknown
+ * @since 5.0.0 Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
+ * @since 7.0.0 Disable data-source loading for gateway radio fields.
+ * @version 7.0.0
+ *
+ * @param LLMS_Payment_Gateway[] $gateways         Array of enabled payment gateway instances.
+ * @param string                 $selected_gateway ID of the currently selected/default payment gateway.
+ * @param LLMS_Coupon|false      $coupon           Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan       $plan             Access plan object.
  */
+defined( 'ABSPATH' ) || exit;
 
-$order_key  = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
+$order_key  = llms_filter_input_sanitize_string( INPUT_GET, 'order' );
 $order      = llms_get_order_by_key( $order_key );
 $gateway_id = $selected_gateway->get_id();
-
-defined( 'ABSPATH' ) || exit;
+$fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan' => $plan ) );
 ?>
 
 <?php if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $gateway_id ) ) : ?>
@@ -41,12 +46,16 @@ defined( 'ABSPATH' ) || exit;
 
 			<section class="llms-checkout-section">
 
-				<h4 class="llms-form-heading"><?php _e( 'Billing Information', 'lifterlms' ); ?></h4>
+				<h4 class="llms-form-heading"><?php echo llms_get_form_title( 'checkout', array( 'plan' => $plan ) ); ?></h4>
 
-				<div class="llms-checkout-section-content">
+				<div class="llms-checkout-section-content llms-form-fields">
 					<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
-					<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ) : ?>
-						<span class="llms-field-display <?php echo $field['id']; ?>"><?php echo ! empty( $field['value'] ) ? $field['value'] : ''; ?></span><?php echo $field['last_column'] ? '<br>' : ' '; ?>
+					<?php foreach ( $fields as $field ) : ?>
+							<?php if ( ! empty( $field['value'] ) && ! empty( $field['label'] ) ) : ?>
+								<div class="llms-form-field llms-field-display <?php echo $field['id']; ?>">
+									<strong><?php echo $field['label']; ?></strong>: <?php echo $field['value']; ?>
+								</div>
+							<?php endif; ?>
 					<?php endforeach; ?>
 					<?php do_action( 'lifterlms_checkout_confirm_after_billing_info' ); ?>
 				</div>

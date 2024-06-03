@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version 3.35.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,21 +30,22 @@ class LLMS_Admin_AddOns {
 	public $data = array();
 
 	/**
-	 * Get the current section from the query string
-	 * defaults to "all"
+	 * Retrieves the current section from the query string.
 	 *
-	 * @return   string
-	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @since 3.5.0
+	 * @since 3.22.0 Unknown.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return string
 	 */
 	private function get_current_section() {
 
 		$section = 'all';
 
-		if ( isset( $_GET['page'] ) && 'llms-settings' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'llms-dashboard' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$section = 'featured';
-		} elseif ( isset( $_GET['section'] ) ) {
-			$section = llms_filter_input( INPUT_GET, 'section', FILTER_SANITIZE_STRING );
+		} elseif ( isset( $_GET['section'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$section = llms_filter_input_sanitize_string( INPUT_GET, 'section' );
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section', $section );
@@ -67,7 +68,7 @@ class LLMS_Admin_AddOns {
 		if ( ! $content ) {
 
 			if ( 'all' === $sec ) {
-				$content = $this->data['items'];
+				$content = $this->get_all();
 			} elseif ( 'featured' === $sec ) {
 				$content = $this->get_features();
 			} else {
@@ -79,26 +80,58 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Retrieve remote json data
+	 * Retrieve remote json data.
 	 *
-	 * @return   null|WP_Error
-	 * @since    3.5.0
-	 * @version  3.22.2
+	 * @since 3.5.0
+	 * @since 3.22.2 Unknown.
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @return array|WP_Error
 	 */
 	private function get_data() {
 
 		$this->data = llms_get_add_ons();
 
 		if ( ! is_wp_error( $this->data ) ) {
-
 			foreach ( $this->data['items'] as $key => $addon ) {
-				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
+				// Exclude the core plugin and helper plugin.
+				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ), true ) ) {
+					unset( $this->data['items'][ $key ] );
+				}
+
+				// Exclude uncategorized Add-ons.
+				if ( array_key_exists( 'uncategorized', $addon['categories'] ) ) {
 					unset( $this->data['items'][ $key ] );
 				}
 			}
 		}
 
 		return $this->data;
+
+	}
+
+	/**
+	 * Retrieve a list of addons for use on the All section
+	 *
+	 * @return   array
+	 * @since    7.5.0
+	 * @version  7.5.0
+	 */
+	private function get_all() {
+
+		$all = array();
+
+		$addons = $this->data['items'];
+
+		foreach ( $addons as $addon ) {
+			// Exclude third-party Addons from the All section.
+			if ( in_array( 'third-party', array_keys( $addon['categories'] ), true ) ) {
+					continue;
+			}
+			$all[] = $addon;
+		}
+
+		return $all;
 
 	}
 
@@ -142,13 +175,14 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Get a random product from a category that doesn't exist in the list of excluded product ids
+	 * Get a random product from a category that doesn't exist in the list of excluded product ids.
 	 *
-	 * @param    string $cat       category slug
-	 * @param    array  $excludes  list of product ids to exclude
-	 * @return   array|false
-	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @since 3.22.0
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @param  string $cat      Category slug.
+	 * @param  array  $excludes List of product ids to exclude.
+	 * @return array|false
 	 */
 	public function get_product_from_cat( $cat, $excludes ) {
 
@@ -157,11 +191,11 @@ class LLMS_Admin_AddOns {
 
 		foreach ( $addons as $addon ) {
 
-			if ( in_array( 'third-party', array_keys( $addon['categories'] ) ) ) {
+			if ( in_array( 'third-party', array_keys( $addon['categories'] ), true ) ) {
 				continue;
 			}
 
-			if ( ! in_array( $addon['id'], $excludes ) ) {
+			if ( ! in_array( $addon['id'], $excludes, true ) ) {
 				return $addon;
 			}
 		}
@@ -171,12 +205,13 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Retrieve products for a specific category
+	 * Retrieve products for a specific category.
 	 *
-	 * @param    string $cat  category slug
-	 * @return   array
-	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @since 3.22.0
+	 * @since 7.1.0 Use strict comparisons for `in_array()`.
+	 *
+	 * @param string $cat Category slug.
+	 * @return array
 	 */
 	private function get_products_for_cat( $cat, $include_bundles = true ) {
 
@@ -187,11 +222,11 @@ class LLMS_Admin_AddOns {
 			$cats = array_keys( $item['categories'] );
 
 			// Exclude bundles if bundles are not being included or requested.
-			if ( 'bundles' !== $cat && ! $include_bundles && in_array( 'bundles', $cats ) ) {
+			if ( 'bundles' !== $cat && ! $include_bundles && in_array( 'bundles', $cats, true ) ) {
 				continue;
 			}
 
-			if ( in_array( $cat, $cats ) ) {
+			if ( in_array( $cat, $cats, true ) ) {
 				$products[] = $item;
 			}
 		}
@@ -223,8 +258,9 @@ class LLMS_Admin_AddOns {
 	 *
 	 * @since 3.22.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	private function handle_manage_addons() {
 
@@ -247,7 +283,7 @@ class LLMS_Admin_AddOns {
 				continue;
 			}
 
-			foreach ( llms_filter_input( INPUT_POST, 'llms_' . $action, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) as $id ) {
+			foreach ( llms_filter_input( INPUT_POST, 'llms_' . $action, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) as $id ) {
 
 				$addon = llms_get_add_on( $id );
 				if ( ! method_exists( $addon, $action ) ) {
@@ -270,9 +306,11 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Output HTML for the current screen
 	 *
-	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.28.0
+	 * @since 3.5.0
+	 * @since 3.28.0 Unknown.
+	 * @since 4.10.1 Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
@@ -283,49 +321,62 @@ class LLMS_Admin_AddOns {
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 
-			<h1 class="wp-heading-inline"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
-			<?php do_action( 'llms_addons_page_after_title' ); ?>
-			<h1 class="screen-reader-text"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+			<div class="llms-subheader">
 
-			<?php $this->output_navigation(); ?>
-			<form action="" method="POST">
+				<h1><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+				<?php do_action( 'llms_addons_page_after_title' ); ?>
 
-				<?php $this->output_content(); ?>
+			</div>
 
-				<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
+			<div class="llms-inside-wrap">
 
-				<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
+				<?php $this->output_navigation(); ?>
 
-					<a class="llms-bulk-close" href="#">
-						<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
-						<i class="fa fa-times-circle" aria-hidden="true"></i>
-					</a>
+				<hr class="wp-header-end">
 
-					<div class="llms-bulk-desc update">
-						<i class="fa fa-cloud-download" aria-hidden="true"></i>
-						<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
+				<form action="" method="POST">
+
+					<?php $this->output_content(); ?>
+
+					<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
+
+					<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
+
+						<a class="llms-bulk-close" href="#">
+							<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
+							<i class="fa fa-times-circle" aria-hidden="true"></i>
+						</a>
+
+						<div class="llms-bulk-desc update">
+							<i class="fa fa-cloud-download" aria-hidden="true"></i>
+							<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc install">
+							<i class="fa fa-cloud-download" aria-hidden="true"></i>
+							<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc activate">
+							<i class="fa fa-plug" aria-hidden="true"></i>
+							<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<div class="llms-bulk-desc deactivate">
+							<i class="fa fa-plug" aria-hidden="true"></i>
+							<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
+						</div>
+
+						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
+
 					</div>
 
-					<div class="llms-bulk-desc install">
-						<i class="fa fa-cloud-download" aria-hidden="true"></i>
-						<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
-					</div>
+				</form>
 
-					<div class="llms-bulk-desc activate">
-						<i class="fa fa-plug" aria-hidden="true"></i>
-						<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
-					</div>
+			</div>
 
-					<div class="llms-bulk-desc deactivate">
-						<i class="fa fa-plug" aria-hidden="true"></i>
-						<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
-					</div>
-
-					<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
-				</div>
-
-			</form>
 		</div>
+
 		<?php
 	}
 
@@ -398,10 +449,9 @@ class LLMS_Admin_AddOns {
 	private function output_navigation() {
 		$curr_section = $this->get_current_section();
 		?>
-		<nav class="llms-nav-tab-wrapper llms-nav-text">
+		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav', $curr_section ); ?>
-				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 				<?php
 				foreach ( $this->data['categories'] as $name => $title ) :
 					$name   = sanitize_title( $name );
@@ -410,6 +460,7 @@ class LLMS_Admin_AddOns {
 					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
+				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 
 			<?php do_action( 'lifterlms_after_addons_nav', $curr_section ); ?>
 			</ul>

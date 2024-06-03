@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version 3.37.12
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,25 +26,38 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.14.7
 	 * @since 3.22.0 Unknown.
+	 * @since 7.1.0 Postpone the LifterLMS menu meta box addition to `admin_head-nav-menus.php`
+	 *               rather than `load-nav-menus.php` it's not initially hidden (for new users).
+	 * @since 7.2.0 Add navigation link block and enqueue block editor assets.
+	 * @since 7.3.0 Change `render_block_llms/navigation-link` to `render_block` for compatibility with LLMS block visibility.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		// filter menu items on frontend to add real URLs to menu items.
+		// Filter menu items on frontend to add real URLs to menu items.
 		add_filter( 'wp_nav_menu_objects', array( $this, 'filter_nav_items' ) );
 
-		// add meta box to the Appearance -> Menus screen on admin panel.
-		add_action( 'load-nav-menus.php', array( $this, 'add_metabox' ) );
+		// Add meta box to the Appearance -> Menus screen on admin panel.
+		add_action( 'admin_head-nav-menus.php', array( $this, 'add_metabox' ) );
 
-		// add LifterLMS menu item type section to customizer.
+		// Add LifterLMS menu item type section to customizer.
 		add_filter( 'customize_nav_menu_available_item_types', array( $this, 'customize_add_type' ) );
 
-		// add LifterLMS menu items links to the customizer.
+		// Add LifterLMS menu items links to the customizer.
 		add_filter( 'customize_nav_menu_available_items', array( $this, 'customize_add_items' ), 10, 4 );
 
-		// add active classes for nav items for catalog pages.
+		// Add active classes for nav items for catalog pages.
 		add_filter( 'wp_nav_menu_objects', array( $this, 'menu_item_classes' ) );
+
+		// Register block.
+		add_action( 'init', array( $this, 'register_block' ) );
+
+		// Render block.
+		add_filter( 'render_block', array( $this, 'render_block' ), 10, 2 );
+
+		// Load menu items data in block editor.
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 
 	}
 
@@ -116,10 +129,11 @@ class LLMS_Nav_Menus {
 	/**
 	 * Filters Nav Menu Items to convert #llms- urls into actual URLs.
 	 *
-	 * Also hides URLs that should only be available to logged in users.
+	 * Also hides URLs that should only be available to logged-in users.
 	 *
 	 * @since 3.14.7
 	 * @since 3.37.12 Use `in_array` with strict types comparison.
+	 * @since 7.2.0 Remove passing item data by reference and improve URL checks.
 	 *
 	 * @param array $items Nav menu items.
 	 * @return array
@@ -131,24 +145,27 @@ class LLMS_Nav_Menus {
 			'#llms-signin',
 		);
 
-		foreach ( $items as $i => &$data ) {
+		foreach ( $items as $i => $data ) {
+			$is_object = is_object( $data ) && property_exists( $data, 'url' );
+			$url       = $is_object ? $data->url : $data['url'] ?? '';
 
-			if ( in_array( $data->url, $urls, true ) ) {
-
-				if ( '#llms-signin' === $data->url ) {
-					if ( is_user_logged_in() ) {
-						unset( $items[ $i ] );
-					} else {
-						$data->url = llms_get_page_url( 'myaccount' );
-					}
-				} elseif ( '#llms-signout' === $data->url ) {
-					if ( is_user_logged_in() ) {
-						$data->url = wp_logout_url( llms_get_page_url( 'myaccount' ) );
-					} else {
-						unset( $items[ $i ] );
-					}
-				}
+			if ( ! in_array( $url, $urls, true ) ) {
+				continue;
 			}
+
+			$data      = (object) $data;
+			$logged_in = is_user_logged_in();
+
+			if ( '#llms-signin' === $url && ! $logged_in ) {
+				$data->url = llms_get_page_url( 'myaccount' );
+			} elseif ( '#llms-signout' === $url && $logged_in ) {
+				$data->url = wp_logout_url( llms_get_page_url( 'myaccount' ) );
+			} else {
+				unset( $items[ $i ] );
+				continue;
+			}
+
+			$items[ $i ] = $is_object ? $data : (array) $data;
 		}
 
 		return $items;
@@ -173,7 +190,7 @@ class LLMS_Nav_Menus {
 
 				$url = ! empty( $data['endpoint'] ) ? llms_get_endpoint_url( $data['endpoint'], '', llms_get_page_url( 'myaccount' ) ) : '';
 
-				// no URL no nav item.
+				// No URL no nav item.
 				if ( empty( $url ) ) {
 					if ( empty( $data['url'] ) ) {
 						continue;
@@ -204,6 +221,13 @@ class LLMS_Nav_Menus {
 			'title' => __( 'Sign Out', 'lifterlms' ),
 		);
 
+		/**
+		 * Filters array of custom LifterLMS nav menu items
+		 *
+		 * @since 3.14.7
+		 *
+		 * @param array $items Array of custom LifterLMS nav menu items.
+		 */
 		return apply_filters( 'llms_nav_menu_items', $items );
 
 	}
@@ -214,13 +238,14 @@ class LLMS_Nav_Menus {
 	 * @since 3.22.0
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
+	 * @since 4.12.0 Make sure `is_lifterlms()` exists before calling it.
 	 *
 	 * @param array $menu_items Menu items.
 	 * @return array
 	 */
 	public function menu_item_classes( $menu_items ) {
 
-		if ( ! is_lifterlms() ) {
+		if ( ! function_exists( 'is_lifterlms' ) || ! is_lifterlms() ) {
 			return $menu_items;
 		}
 
@@ -233,7 +258,7 @@ class LLMS_Nav_Menus {
 			$classes   = $item->classes;
 			$object_id = absint( $item->object_id );
 
-			// remove active class from blog archive.
+			// Remove active class from blog archive.
 			if ( $blog_id === $object_id ) {
 
 				$menu_items[ $key ]->current = false;
@@ -248,7 +273,7 @@ class LLMS_Nav_Menus {
 				$classes[]                   = 'current-menu-item';
 				$classes[]                   = 'current_page_item';
 
-				// set parent links for courses & memberships.
+				// Set parent links for courses & memberships.
 			} elseif ( ( $courses_id === $object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id === $object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
 
 				$classes[] = 'current_page_parent';
@@ -328,6 +353,83 @@ class LLMS_Nav_Menus {
 		} );
 		</script>
 		<?php
+	}
+
+	/**
+	 * Register navigation link block.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return void
+	 */
+	public function register_block() {
+		$block_dir = LLMS_PLUGIN_DIR . 'blocks/navigation-link';
+
+		if ( file_exists( "$block_dir/block.json" ) ) {
+			register_block_type( $block_dir );
+		}
+	}
+
+	/**
+	 * Render the navigation link block.
+	 *
+	 * @since 7.2.0
+	 * @since 7.3.0 Add block name check since filter changed.
+	 *
+	 * @param string $block_content Block content.
+	 * @param array  $block Block data.
+	 * @return string
+	 */
+	public function render_block( string $block_content, array $block ) : string {
+
+		if ( 'llms/navigation-link' !== $block['blockName'] ) {
+			return $block_content;
+		}
+
+		$items = $this->filter_nav_items( $this->get_nav_items() );
+		$page  = $block['attrs']['page'] ?? 'dashboard';
+
+		if ( ! $page ) {
+			return '';
+		}
+
+		$url = $items[ $page ]['url'] ?? '';
+
+		// Support conditional URLs, e.g. when user logged in or not.
+		if ( ! $url ) {
+			return '';
+		}
+
+		$label = $block['attrs']['label'] ?? $items[ $page ]['label'] ?? '';
+
+		$html  = '<li class="wp-block-navigation-item">';
+		$html .= '<a href="' . esc_url( $url ) . '" class="wp-block-navigation-item__content">';
+		$html .= '<span class="wp-block-navigation-item__label">';
+		$html .= esc_html( $label );
+		$html .= '</span></a></li>';
+
+		return $html;
+	}
+
+	/**
+	 * Add LifterLMS nav menu item data to block editor.
+	 *
+	 * @since 7.2.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		$links = array();
+
+		foreach ( $this->get_nav_items() as $key => $data ) {
+			$links[ $key ] = $data['label'];
+		}
+
+		wp_localize_script(
+			'llms-navigation-link-editor-script',
+			'llmsNavMenuItems',
+			$links
+		);
 	}
 
 }

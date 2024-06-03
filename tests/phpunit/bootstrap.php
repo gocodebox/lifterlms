@@ -83,40 +83,11 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 */
 	public function load() {
 
+		// Assets are shared between phpunit and e2e tests.
 		$this->assets_dir = dirname( $this->tests_dir ) . '/assets/';
 
-		$files = array(
-			array(
-				'orig' => $this->assets_dir . 'custom-lifterlms-en_US.mo',
-				'dest' => WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo',
-			),
-			array(
-				'orig' => $this->assets_dir . 'lifterlms-en_US.mo',
-				'dest' => WP_LANG_DIR . '/plugins/lifterlms-en_US.mo',
-			),
-		);
-
-		foreach ( $files as $file ) {
-
-			// remove the destination file to replace it each time we run a test
-			// copy fails if the dest file already exists
-			if ( file_exists( $file['dest'] ) ) {
-				unlink( $file['dest'] );
-			}
-
-			// make sure the destination dir exists
-			$path = pathinfo( $file['dest'] );
-		    if ( ! file_exists( $path['dirname'] ) ) {
-		        mkdir( $path['dirname'], 0777, true );
-		    }
-
-		    // copy the original to the destination
-		    copy( $file['orig'], $file['dest'] );
-
-		}
-
 		// override this constant otherwise a bunch of includes will fail when running tests
-		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
+		// define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
 
 		parent::load();
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.8.0
- * @version 3.35.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,19 +23,21 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * @var LLMS_Abstract_Notification_View
+	 *
 	 * @since 3.8.0
 	 */
 	public $view;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/settings/tables/class.llms.table.notification.settings.php';
 
 		$this->id    = 'notifications';
 		$this->label = __( 'Notifications', 'lifterlms' );
@@ -52,10 +54,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Get a breadcrumb custom html for use on notification settings screens (not on the table)
 	 *
-	 * @param    string $current_title  the title of the current notification
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $current_title The title of the current notification.
+	 * @return array
 	 */
 	private function get_breadcrumbs( $current_title ) {
 		return array(
@@ -68,17 +70,20 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Get settings specific to the current notification type
 	 *
-	 * @param    obj $controller  instance of an LLMS_Notification_Controller
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 * @since 5.2.0 Merge controller additional options.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @param LLMS_Abstract_Notification_Controller $controller Instance of an LLMS_Abstract_Notification_Controller extending class.
+	 * @return array
 	 */
 	private function get_notification_settings( $controller ) {
 
 		$settings = array();
 
 		// Setup vars.
-		$type  = llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+		$type  = llms_filter_input_sanitize_string( INPUT_GET, 'type' );
 		$types = $controller->get_supported_types();
 		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
 		$view  = $controller->get_mock_view( $type );
@@ -119,12 +124,15 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( 'custom' === $data['id'] ) {
 				$settings[] = array(
-					'desc' => '<br>' . $data['description'],
+					'desc' => $data['description'],
 					'id'   => $controller->get_option_name( $type . '_custom_subscribers' ),
 					'type' => 'text',
 				);
 			}
 		}
+
+		// Add additional controller options.
+		$settings = array_merge( $settings, $controller->get_additional_options( $type ) );
 
 		if ( $controller->is_testable( $type ) ) {
 			foreach ( $controller->get_test_settings( $type ) as $setting ) {
@@ -163,7 +171,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+			$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( $controller ) {
 
@@ -200,23 +208,23 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Disable save button on the main notification tab (list)
 	 *
-	 * @param    bool $bool  default display value (true)
-	 * @return   boolean
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param bool $bool Default display value (true).
+	 * @return boolean
 	 */
 	public function maybe_disable_save( $bool ) {
 
-		return ( isset( $_GET['notification'] ) );
+		return ( isset( $_GET['notification'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 	}
 
 	/**
 	 * Output a merge code button in the WYSIWYG editor
 	 *
-	 * @since    3.8.0
+	 * @since 3.8.0
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function merge_code_button() {
 
@@ -230,7 +238,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function before_save() {
 
@@ -252,8 +260,9 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 *
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function after_save() {
 
@@ -265,9 +274,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+				$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+
 				$controller->send_test(
-					llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ),
+					llms_filter_input_sanitize_string( INPUT_GET, 'type' ),
 					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				);
 

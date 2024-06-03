@@ -7,29 +7,31 @@
  * @group install
  *
  * @since 3.3.1
- * @since 3.37.8 Fix directory path to uninstall.php
+ * @since 3.37.8 Fix directory path to uninstall.php.
  * @since 4.0.0 Test creation of all tables; fix caching issue when testing full install; add new cron test.
  * @since 4.5.0 Test log backup cron.
+ * @since 5.0.0 Added tests for the get_can_install_user_id() method.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for check_version()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_check_version() {
 
-		// ensure the database update runs
-		update_option( 'lifterlms_current_version', (float) LLMS()->version - 1 );
-		update_option( 'lifterlms_db_version', LLMS()->version );
+		// Ensure the database update runs.
+		update_option( 'lifterlms_current_version', (float) llms()->version - 1 );
+		update_option( 'lifterlms_db_version', llms()->version );
 		LLMS_Install::check_version();
 		$this->assertTrue( did_action( 'lifterlms_updated' ) === 1 );
 
-		// ensure that if both are equal the database doesn't run again
-		update_option( 'lifterlms_current_version', LLMS()->version );
-		update_option( 'lifterlms_db_version', LLMS()->version );
+		// Ensure that if both are equal the database doesn't run again.
+		update_option( 'lifterlms_current_version', llms()->version );
+		update_option( 'lifterlms_db_version', llms()->version );
 		LLMS_Install::check_version();
 		$this->assertTrue( did_action( 'lifterlms_updated' ) === 1 );
 
@@ -71,25 +73,26 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_difficulties() & remove_difficulties()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_create_difficulties_crud() {
 
-		// terms may or may not exist and should exist after creation
+		// Terms may or may not exist and should exist after creation.
 		LLMS_Install::create_difficulties();
 		foreach( LLMS_Install::get_difficulties() as $name ) {
 			$this->assertInstanceOf( 'WP_Term', get_term_by( 'name', $name, 'course_difficulty' ) );
 		}
 
-		// terms should not exist after deleting terms
+		// Terms should not exist after deleting terms.
 		LLMS_Install::remove_difficulties();
 		foreach( LLMS_Install::get_difficulties() as $name ) {
 			$this->assertFalse( get_term_by( 'name', $name, 'course_difficulty' ) );
 		}
 
-		// terms should exist after creating difficulties
+		// Terms should exist after creating difficulties.
 		LLMS_Install::create_difficulties();
 		foreach( LLMS_Install::get_difficulties() as $name ) {
 			$this->assertInstanceOf( 'WP_Term', get_term_by( 'name', $name, 'course_difficulty' ) );
@@ -99,9 +102,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Test create_files()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_create_files() {
 
@@ -115,24 +119,26 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_options()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.5.1
+	 *
+	 * @since 3.3.1
+	 * @since 3.5.1 Unknown.
+	 *
+	 * @return void
 	 */
 	public function test_create_options() {
 
-		// clear options
+		// Clear options.
 		global $wpdb;
 		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'lifterlms\_%';" );
 
-		// install options
+		// Install options.
 		LLMS_Install::create_options();
 
-		// check they exist
+		// Check they exist.
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
 		foreach ( $settings as $section ) {
-			// skip general settings since this screen doesn't actually have any settings on it
+			// Skip general settings since this screen doesn't actually have any settings on it.
 			if ( 'general' === $section->id ) {
 				continue;
 			}
@@ -147,13 +153,14 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_pages()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_create_pages() {
 
-		// clear options
+		// Clear options.
 		delete_option( 'lifterlms_shop_page_id' );
 		delete_option( 'lifterlms_memberships_page_id' );
 		delete_option( 'lifterlms_checkout_page_id' );
@@ -166,13 +173,13 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertGreaterThan( 0, get_option( 'lifterlms_checkout_page_id' ) );
 		$this->assertGreaterThan( 0, get_option( 'lifterlms_myaccount_page_id' ) );
 
-		// Delete pages
+		// Delete pages.
 		wp_delete_post( get_option( 'lifterlms_shop_page_id' ), true );
 		wp_delete_post( get_option( 'lifterlms_memberships_page_id' ), true );
 		wp_delete_post( get_option( 'lifterlms_checkout_page_id' ), true );
 		wp_delete_post( get_option( 'lifterlms_myaccount_page_id' ), true );
 
-		// Clear options
+		// Clear options.
 		delete_option( 'lifterlms_shop_page_id' );
 		delete_option( 'lifterlms_memberships_page_id' );
 		delete_option( 'lifterlms_checkout_page_id' );
@@ -225,13 +232,14 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Test create_visibilities()
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return void
 	 */
 	public function test_create_visibilities() {
 
-		// terms may or may not exist and should exist after creation
+		// Terms may or may not exist and should exist after creation.
 		LLMS_Install::create_visibilities();
 		foreach( array_keys( llms_get_product_visibility_options() ) as $name ) {
 			$this->assertInstanceOf( 'WP_Term', get_term_by( 'name', $name, 'llms_product_visibility' ) );
@@ -241,9 +249,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_difficulties()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_get_difficulties() {
 
@@ -254,9 +263,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Test update_db_version()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_update_db_version() {
 
@@ -264,7 +274,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( '1', get_option( 'lifterlms_db_version' ) );
 
 		LLMS_Install::update_db_version();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_db_version' ) );
 
 		LLMS_Install::update_db_version( '1.2.3' );
 		$this->assertEquals( '1.2.3', get_option( 'lifterlms_db_version' ) );
@@ -273,9 +283,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Test update_llms_version()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_update_llms_version() {
 
@@ -283,7 +294,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		$this->assertEquals( '1', get_option( 'lifterlms_current_version' ) );
 
 		LLMS_Install::update_llms_version();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_current_version' ) );
 
 		LLMS_Install::update_llms_version( '1.2.3' );
 		$this->assertEquals( '1.2.3', get_option( 'lifterlms_current_version' ) );
@@ -312,7 +323,56 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		wp_cache_flush();
 
 		LLMS_Install::install();
-		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
+		$this->assertEquals( llms()->version, get_option( 'lifterlms_current_version' ) );
+
+	}
+
+	/**
+	 * Test get_can_install_user_id() method
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_can_install_user_id() {
+
+		// Clean user* tables.
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
+		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
+
+		// No users, expect 0.
+		$this->assertEquals( 0, LLMS_Install::get_can_install_user_id() );
+
+		// Create a subscriber.
+		$subscriber = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		// No admin users, expect 0.
+		$this->assertEquals( 0, LLMS_Install::get_can_install_user_id() );
+
+		// Create two admins.
+		$admins = $this->factory->user->create_many( 2, array( 'role' => 'administrator' ) );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as subscriber.
+		wp_set_current_user( $subscriber );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as first admin.
+		wp_set_current_user( $admins[0] );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as second admin.
+		wp_set_current_user( $admins[1] );
+
+		// Expect the second admin to be returned.
+		$this->assertEquals( $admins[1], LLMS_Install::get_can_install_user_id() );
 
 	}
 

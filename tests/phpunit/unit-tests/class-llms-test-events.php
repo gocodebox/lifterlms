@@ -15,12 +15,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.36.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
-		$this->events = LLMS()->events();
+	public function set_up() {
+		parent::set_up();
+		$this->events = llms()->events();
 	}
 
 	/**
@@ -28,11 +29,12 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.0
 	 * @since 4.5.0 Truncate open sessions table.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );

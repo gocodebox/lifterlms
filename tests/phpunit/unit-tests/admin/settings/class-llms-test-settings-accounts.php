@@ -48,7 +48,8 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 			$this->factory->post->create( array( 'post_type' => 'page' ) ),
 		);
 
-		return array(
+
+		$settings = array(
 			'lifterlms_myaccount_page_id' => $pages,
 			'lifterlms_myaccount_courses_in_progress_sorting' => array(
 				'title,ASC',
@@ -56,6 +57,16 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'date,DESC',
 				'order,ASC',
 				'order,DESC',
+			),
+			'lifterlms_enable_myaccount_registration' => array(
+				'yes',
+			),
+			'lifterlms_prevent_concurrent_logins' => array(
+				'yes',
+			),
+			'lifterlms_prevent_concurrent_logins_roles' => array(
+				array( '' ),
+				array( 'student' ),
 			),
 			'lifterlms_myaccount_grades_endpoint' => array(
 				'my-grades',
@@ -77,6 +88,10 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'my-certificates',
 				'custom-endpoint-certificates',
 			),
+			'lifterlms_myaccount_favorites_endpoint' => array(
+				'my-favorites',
+				'custom-endpoint-favorites',
+			),
 			'lifterlms_myaccount_notifications_endpoint' => array(
 				'notifications',
 				'custom-endpoint-notifications',
@@ -97,17 +112,6 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'orders',
 				'custom-order-history',
 			),
-			'lifterlms_registration_generate_username' => array(
-				'yes',
-			),
-			'lifterlms_registration_password_strength' => array(
-				'yes',
-			),
-			'lifterlms_registration_password_min_strength' => array(
-				'weak',
-				'medium',
-				'strong',
-			),
 			'lifterlms_registration_require_agree_to_terms' => array(
 				'yes',
 			),
@@ -127,69 +131,13 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 			'llms_erasure_request_removes_lms_data' => array(
 				'yes',
 			),
-			'lifterlms_user_info_field_names_checkout_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_address_checkout_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_phone_checkout_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_email_confirmation_checkout_visibility' => array(
-				'yes',
-			),
-			'lifterlms_enable_myaccount_registration' => array(
-				'yes',
-			),
-			'lifterlms_user_info_field_names_registration_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_address_registration_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_phone_registration_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_email_confirmation_registration_visibility' => array(
-				'yes',
-			),
-			'lifterlms_voucher_field_registration_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_names_account_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_address_account_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_phone_account_visibility' => array(
-				'required',
-				'optional',
-				'hidden',
-			),
-			'lifterlms_user_info_field_email_confirmation_account_visibility' => array(
-				'yes',
-			),
 		);
+
+		if ( ! llms_is_favorites_enabled() ) {
+			unset( $settings['lifterlms_myaccount_favorites_endpoint'] );
+		}
+
+		return $settings;
 	}
 
 }

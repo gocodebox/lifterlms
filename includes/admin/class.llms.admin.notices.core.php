@@ -5,24 +5,25 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.5.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Manage core admin notices class
+ * Manage core admin notices class.
  *
  * @since 3.0.0
- * @since 3.32.0 Moved staging notice logic to `LLMS_Staging::handle_staging_notice_actions()`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
  */
 class LLMS_Admin_Notices_Core {
 
 	/**
-	 * Constructor
+	 * Init.
 	 *
 	 * @since 3.0.0
 	 * @since 3.14.8 Add handler for removing dismissed notices.
+	 * @since 7.1.0 Do not add a callback to remove sidebar notice on `switch_theme` anymore.
 	 *
 	 * @return void
 	 */
@@ -32,16 +33,18 @@ class LLMS_Admin_Notices_Core {
 		add_action( 'current_screen', array( __CLASS__, 'maybe_hide_notices' ), 999 );
 
 		add_action( 'current_screen', array( __CLASS__, 'add_init_actions' ) );
-		add_action( 'switch_theme', array( __CLASS__, 'clear_sidebar_notice' ) );
 
 	}
 
 	/**
-	 * Add actions on different hooks depending on the current screen
+	 * Add actions on different hooks depending on the current screen.
 	 *
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
 	 *
-	 * @version 3.0.0
+	 * @since 3.0.0
+	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
+	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
+	 *
 	 * @return void
 	 */
 	public static function add_init_actions() {
@@ -55,45 +58,7 @@ class LLMS_Admin_Notices_Core {
 			$priority = 77;
 		}
 
-		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
-		add_action( $action, array( __CLASS__, 'check_staging' ), $priority );
-
-	}
-
-	/**
-	 * Outputs a notice that allows users to enable or disable automated recurring payments
-	 *
-	 * Appears when we identify that the url has changed or when an admin resets the settings
-	 * from the button on the general settings tab.
-	 *
-	 * @since 3.0.0
-	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
-	 *
-	 * @return void
-	 */
-	public static function check_staging() {
-
-		$id = 'maybe-staging';
-
-		if ( ! LLMS_Site::is_clone_ignored() && ! LLMS_Admin_Notices::has_notice( $id ) && LLMS_Site::is_clone() ) {
-
-			do_action( 'llms_site_clone_detected' );
-
-			// Disable recurring payments immediately.
-			LLMS_Site::update_feature( 'recurring_payments', false );
-
-			LLMS_Admin_Notices::add_notice(
-				$id,
-				array(
-					'type'        => 'info',
-					'dismissible' => false,
-					'remindable'  => false,
-					'template'    => 'admin/notices/staging.php',
-				)
-			);
-
-		}
 
 	}
 
@@ -109,7 +74,7 @@ class LLMS_Admin_Notices_Core {
 	public static function gateways() {
 		$id = 'no-gateways';
 
-		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', LLMS()->payment_gateways()->has_gateways( true ) ) ) {
+		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', llms()->payment_gateways()->has_gateways( true ) ) ) {
 			$html  = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
 			$html .= sprintf(
 				__( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ),
@@ -160,15 +125,18 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Check theme support for LifterLMS Sidebars
+	 * Check theme support for LifterLMS Sidebars.
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
 	 * @since 4.5.0 Use strict comparison for `in_array()`.
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function sidebar_support() {
+
+		_deprecated_function( __METHOD__, '7.1.0' );
 
 		$theme = wp_get_theme();
 
@@ -205,15 +173,19 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Removes the current sidebar notice (if present) and clears notice delay transients
+	 * Removes the current sidebar notice (if present) and clears notice delay transients.
 	 *
 	 * Called when theme is switched.
 	 *
 	 * @since 3.14.7
+	 * @deprecated 7.1.0
 	 *
 	 * @return void
 	 */
 	public static function clear_sidebar_notice() {
+
+		_deprecated_function( __METHOD__, '7.1.0' );
+
 		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {
 			LLMS_Admin_Notices::delete_notice( 'sidebars' );
 		} else {

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 3.38.2
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,10 +34,11 @@ class LLMS_Admin_Builder {
 	/**
 	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboard from the course builder
 	 *
-	 * @param    obj $wp_admin_bar  Instance of WP_Admin_Bar
-	 * @return   void
-	 * @since    3.16.7
-	 * @version  3.24.0
+	 * @since 3.16.7
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param  WP_Admin_Bar $wp_admin_bar Instance of WP_Admin_Bar
+	 * @return void
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
@@ -65,7 +66,32 @@ class LLMS_Admin_Builder {
 			wp_admin_bar_appearance_menu( $wp_admin_bar );
 
 		}
+	}
 
+	/**
+	 * Retrieve the current user's builder autosave preferences
+	 *
+	 * Defaults to enabled for users who have never configured a setting value.
+	 *
+	 * @since 4.14.0
+	 *
+	 * @return string Either "yes" or "no".
+	 */
+	protected static function get_autosave_status() {
+
+		$autosave = get_user_option( 'llms_builder_autosave' );
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
+
+		/**
+		 * Gets the status of autosave for the builder
+		 *
+		 * This can be configured on a per-user basis in the user's profile screen on the WP Admin Panel.
+		 *
+		 * @since 4.14.0
+		 *
+		 * @param string $autosave Status of autosave for the current user. Either "yes" or "no".
+		 */
+		return apply_filters( 'llms_builder_autosave_enabled', $autosave );
 	}
 
 	/**
@@ -132,17 +158,20 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * Retrieve a list of lessons the current user is allowed to clone/attach
-	 * Used for ajax searching to add existing lessons
 	 *
-	 * @param    int     $course_id    WP Post ID of the course
-	 * @param    string  $post_type    optionally search specific post type(s)
-	 * @param    string  $search_term  optional search term (searches post_title)
-	 * @param    integer $page         page, used when paginating search results
-	 * @return   array
-	 * @since    3.14.8
-	 * @version  3.16.12
+	 * Used for ajax searching to add existing lessons.
+	 *
+	 * @since 3.14.8
+	 * @since 3.16.12 Unknown.
+	 * @since 5.8.0 Allow LMS managers to get all lessons. {@link https://github.com/gocodebox/lifterlms/issues/1849}.
+	 *              Removed unused `$course_id` parameter.
+	 *
+	 * @param string $post_type   Optional. Search specific post type(s). By default searches for all post types.
+	 * @param string $search_term Optional. Search term (searches post_title). Default is empty string.
+	 * @param int    $page        Optional. Used when paginating search results. Default is `1`.
+	 * @return array
 	 */
-	private static function get_existing_posts( $course_id, $post_type = '', $search_term = '', $page = 1 ) {
+	private static function get_existing_posts( $post_type = '', $search_term = '', $page = 1 ) {
 
 		$args = array(
 			'order'          => 'ASC',
@@ -156,7 +185,7 @@ class LLMS_Admin_Builder {
 			$args['post_type'] = $post_type;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
 
 			$instructor = llms_get_instructor();
 			$parents    = $instructor->get( 'parent_instructors' );
@@ -239,7 +268,6 @@ class LLMS_Admin_Builder {
 		);
 
 		return $ret;
-
 	}
 
 	/**
@@ -261,16 +289,15 @@ class LLMS_Admin_Builder {
 		}
 
 		return $where;
-
 	}
 
 	/**
 	 * Retrieve the HTML of a JS template
 	 *
-	 * @param    [type] $template  [description]
-	 * @return   [type]
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param string $template Template file slug.
+	 * @return string
 	 */
 	private static function get_template( $template, $vars = array() ) {
 
@@ -278,21 +305,22 @@ class LLMS_Admin_Builder {
 		extract( $vars );
 		include 'views/builder/' . $template . '.php';
 		return ob_get_clean();
-
 	}
 
 	/**
 	 * A terrible Rest API for the course builder
 	 *
-	 * @shame    gimme a break pls
-	 * @param    array $request  $_REQUEST
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.19.2
+	 * @since 3.13.0
+	 * @since 3.19.2 Unknown.
+	 * @since 4.16.0 Remove all filters/actions applied to the title/content when handling the ajax_save by deafault.
+	 *               This is specially to prevent plugin conflicts, see https://github.com/gocodebox/lifterlms/issues/1530.
+	 * @since 4.17.0 Remove `remove_all_*` hooks added in version 4.16.0.
+	 *
+	 * @param array $request $_REQUEST
+	 * @return array
 	 */
 	public static function handle_ajax( $request ) {
 
-		// @todo do some real error handling here
 		if ( ! $request['course_id'] || ! current_user_can( 'edit_course', $request['course_id'] ) ) {
 			return array();
 		}
@@ -347,24 +375,24 @@ class LLMS_Admin_Builder {
 						$post_type = sanitize_text_field( $request['post_type'] );
 					}
 				}
-				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
+				wp_send_json( self::get_existing_posts( $post_type, $term, $page ) );
 				break;
 
 		}
 
 		return array();
-
 	}
 
 	/**
 	 * Do post locking stuff on the builder
+	 *
 	 * Locking the course edit main screen will lock the builder and vice versa... probably need to find a way
 	 * to fix that but for now this'll work just fine and if you're unhappy about it, well, sorry...
 	 *
-	 * @param    int $course_id  WP Post ID
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param int $course_id WP Post ID.
+	 * @return void
 	 */
 	private static function handle_post_locking( $course_id ) {
 
@@ -383,19 +411,20 @@ class LLMS_Admin_Builder {
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
-
 	}
 
 	/**
 	 * Handle AJAX Heartbeat received calls
-	 * All builder data is sent through the heartbeat
 	 *
-	 * @param    array $res   response data
-	 * @param    array $data  data from the heartbeat api
-	 *                        builder data will be in the "llms_builder" array
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.24.2
+	 * All builder data is sent through the heartbeat.
+
+	 * @since 3.16.0
+	 * @since 3.24.2 Unknown.
+	 *
+	 * @param array $res  Response data.
+	 * @param array $data Data from the heartbeat api.
+	 *                    Builder data will be in the "llms_builder" array.
+	 * @return array
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -460,33 +489,33 @@ class LLMS_Admin_Builder {
 		$res['llms_builder'] = $ret;
 
 		return $res;
-
 	}
 
 	/**
-	 * Determine if an ID submitted via heartbeat data is a temporary id
-	 * if so the object must be created rather than updated
+	 * Determine if an ID submitted via heartbeat data is a temporary id.
 	 *
-	 * @param    string $id  an ID string
-	 * @return   bool
-	 * @since    3.16.0
-	 * @version  3.17.0
+	 * If so the object must be created rather than updated
+	 *
+	 * @since 3.16.0
+	 * @since 3.17.0
+	 *
+	 * @param string $id An ID string.
+	 * @return bool
 	 */
 	public static function is_temp_id( $id ) {
 
 		return ( ! is_numeric( $id ) && 0 === strpos( $id, 'temp_' ) );
-
 	}
 
 	/**
 	 * Modify the "Take Over" link on the post locked modal to send users to the builder when taking over a course
 	 *
-	 * @param    string $link     default post edit link
-	 * @param    int    $post_id  WP Post ID of the course
-	 * @param    string $context  display context
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $link    Default post edit link.
+	 * @param int    $post_id WP Post ID of the course.
+	 * @param string $context Display context.
+	 * @return string
 	 */
 	public static function modify_take_over_link( $link, $post_id, $context ) {
 
@@ -497,15 +526,18 @@ class LLMS_Admin_Builder {
 			),
 			admin_url( 'admin.php' )
 		);
-
 	}
 
 	/**
 	 * Output the page content
 	 *
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.19.2
+	 * @since 3.13.0
+	 * @since 3.19.2 Unknown.
+	 * @since 4.14.0 Added builder autosave preference defaults.
+	 * @since 7.2.0 Added video explainer template.
+	 * @since 7.6.0 Removed video explainer template.
+	 *
+	 * @return void
 	 */
 	public static function output() {
 
@@ -519,12 +551,24 @@ class LLMS_Admin_Builder {
 
 		$post = get_post( $course_id );
 
-		$course = llms_get_post( $post );
-
 		if ( ! current_user_can( 'edit_course', $course_id ) ) {
 			_e( 'You cannot edit this course!', 'lifterlms' );
 			return;
 		}
+
+		if ( 'auto-draft' === $post->post_status ) {
+			wp_update_post(
+				array(
+					'ID'          => $course_id,
+					'post_status' => 'draft',
+					'post_title'  => __( 'New Course', 'lifterlms' ),
+				)
+			);
+
+			$post = get_post( $course_id );
+		}
+
+		$course = llms_get_post( $post );
 
 		remove_all_actions( 'the_title' );
 		remove_all_actions( 'the_content' );
@@ -573,20 +617,40 @@ class LLMS_Admin_Builder {
 			<script>window.llms_builder =
 			<?php
 			echo json_encode(
-				array(
-					'admin_url' => admin_url(),
-					'course'    => $course->toArray(),
-					'debug'     => array(
-						'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
-					),
-					'questions' => array_values( llms_get_question_types() ),
-					'schemas'   => self::get_custom_schemas(),
-					'sync'      => apply_filters(
-						'llms_builder_sync_settings',
-						array(
-							'check_interval_ms' => 10000,
-						)
-					),
+				/**
+				 * Filters the settings passed to the builder.
+				 *
+				 * @since 7.2.0
+				 *
+				 * @param array $settings Associative array of settings passed to the LifterLMS course builder.
+				 */
+				apply_filters(
+					'llms_builder_settings',
+					array(
+						'autosave'               => self::get_autosave_status(),
+						'admin_url'              => admin_url(),
+						'course'                 => $course->toArray(),
+						'debug'                  => array(
+							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
+						),
+						'questions'              => array_values( llms_get_question_types() ),
+						'schemas'                => self::get_custom_schemas(),
+						'sync'                   => apply_filters(
+							/**
+							 * Filters the sync builder settings.
+							 *
+							 * @since 3.16.0
+							 *
+							 * @param array $settings Associative array of settings passed to the LifterLMS course builder used for the sync.
+							 */
+							'llms_builder_sync_settings',
+							array(
+								'check_interval_ms' => ( 'yes' === self::get_autosave_status() ? 10000 : 1000 ),
+							)
+						),
+						'enable_video_explainer' => true,
+						'home_url'               => home_url(),
+					)
 				)
 			);
 			?>
@@ -599,16 +663,16 @@ class LLMS_Admin_Builder {
 		<?php
 		$llms_builder_lazy_load = false;
 		self::handle_post_locking( $course_id );
-
 	}
 
 	/**
 	 * Process lesson detachments from the heartbeat data
 	 *
-	 * @param    array $data  array of lesson ids
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.27.0
+	 * @since 3.16.0
+	 * @since 3.27.0 Unknown.
+	 *
+	 * @param array $data Array of lesson ids.
+	 * @return array
 	 */
 	private static function process_detachments( $data ) {
 
@@ -658,7 +722,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -680,7 +743,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -744,7 +806,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
@@ -755,7 +816,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @param  string $id Custom item ID. This should be a question choice id in the format of "${question_id}:{$choice_id}".
+	 * @param string $id Custom item ID. This should be a question choice id in the format of "{$question_id}:{$choice_id}".
 	 * @return null|true|WP_Error `null` when the $id cannot be parsed into a question choice id.
 	 *                            `true` on success.
 	 *                            `WP_Error` when an error is encountered.
@@ -783,7 +844,6 @@ class LLMS_Admin_Builder {
 
 		// Success.
 		return true;
-
 	}
 
 	/**
@@ -844,16 +904,15 @@ class LLMS_Admin_Builder {
 		}
 
 		return true;
-
 	}
 
 	/**
 	 * Process all the update data from the heartbeat
 	 *
-	 * @param    array $data  array of course updates (all the way down the tree)
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param array $data Array of course updates (all the way down the tree).
+	 * @return array
 	 */
 	private static function process_updates( $data ) {
 
@@ -873,7 +932,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -882,11 +940,10 @@ class LLMS_Admin_Builder {
 	 * @since 3.17.0
 	 * @since 3.30.0 Fixed typo preventing fields specifying a custom callback from working.
 	 * @since 3.30.0 Array fields will run field values through `sanitize_text_field()` instead of requiring a custom sanitization callback.
-	 * @version 3.30.0
 	 *
-	 * @param string $type Model type (lesson, quiz, etc...).
-	 * @param obj    $post LLMS_Post_Model object for the model being updated.
-	 * @param array  $post_data Assoc array of raw data to update the model with.
+	 * @param string          $type Model type (lesson, quiz, etc...).
+	 * @param LLMS_Post_Model $post LLMS_Post_Model object for the model being updated.
+	 * @param array           $post_data Assoc array of raw data to update the model with.
 	 * @return void
 	 */
 	public static function update_custom_schemas( $type, $post, $post_data ) {
@@ -920,12 +977,10 @@ class LLMS_Admin_Builder {
 
 							if ( isset( $field['sanitize_callback'] ) ) {
 								$val = call_user_func( $field['sanitize_callback'], $post_data[ $attr ] );
-							} else {
-								if ( is_array( $post_data[ $attr ] ) ) {
+							} elseif ( is_array( $post_data[ $attr ] ) ) {
 									$val = array_map( 'sanitize_text_field', $post_data[ $attr ] );
-								} else {
-									$val = sanitize_text_field( $post_data[ $attr ] );
-								}
+							} else {
+								$val = sanitize_text_field( $post_data[ $attr ] );
 							}
 
 							$attr = isset( $field['attribute_prefix'] ) ? $field['attribute_prefix'] . $attr : $attr;
@@ -936,17 +991,18 @@ class LLMS_Admin_Builder {
 				}
 			}
 		}
-
 	}
 
 	/**
-	 * Update lesson from heartbeat data
+	 * Update lesson from heartbeat data.
 	 *
-	 * @param    array $lessons  lesson data from heartbeat
-	 * @param    obj   $section  instance of the parent LLMS_Section
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.17.0
+	 * @since 3.16.0
+	 * @since 5.1.3 Made sure a lesson moved in a just created section is correctly assigned to it.
+	 * @since 7.3.0 Skip revision creation when creating a brand new lesson.
+	 *
+	 * @param array        $lessons Lesson data from heartbeat.
+	 * @param LLMS_Section $section instance of the parent LLMS_Section.
+	 * @return array
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -975,14 +1031,6 @@ class LLMS_Admin_Builder {
 					)
 				);
 
-				/**
-				 * If the parent section was just created the lesson will have a temp id
-				 * replace it with the newly created section's real ID.
-				 */
-				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
-					$lesson_data['parent_section'] = $section->get( 'id' );
-				}
-
 				$created = true;
 
 			} else {
@@ -999,6 +1047,17 @@ class LLMS_Admin_Builder {
 
 			} else {
 
+				// Don't create useless revision on "creating".
+				add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
+
+				/**
+				 * If the parent section was just created the lesson will have a temp id
+				 * replace it with the newly created section's real ID.
+				 */
+				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
+					$lesson_data['parent_section'] = $section->get( 'id' );
+				}
+
 				// Return the real ID (important when creating a new lesson).
 				$res['id'] = $lesson->get( 'id' );
 
@@ -1014,7 +1073,7 @@ class LLMS_Admin_Builder {
 
 				// Update all updatable properties.
 				foreach ( $properties as $prop ) {
-					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props ) ) {
+					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props, true ) ) {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
@@ -1036,6 +1095,9 @@ class LLMS_Admin_Builder {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
+				// Remove revision prevention.
+				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
+
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
@@ -1049,7 +1111,6 @@ class LLMS_Admin_Builder {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -1059,8 +1120,8 @@ class LLMS_Admin_Builder {
 	 * @since 3.16.11 Unknown.
 	 * @since 3.38.2 Make sure that a question as a type set, otherwise set it by default to `'choice'`.
 	 *
-	 * @param array $questions Question data array.
-	 * @param obj   $parent    Instance of an LLMS_Quiz or LLMS_Question (group).
+	 * @param array                   $questions Question data array.
+	 * @param LLMS_Quiz|LLMS_Question $parent    Instance of an LLMS_Quiz or LLMS_Question (group).
 	 * @return array
 	 */
 	private static function update_questions( $questions, $parent ) {
@@ -1153,17 +1214,17 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
 	 * Update quizzes during heartbeats
 	 *
-	 * @param    array $quiz_data  array of quiz updates
-	 * @param    obj   $lesson     instance of the parent LLMS_Lesson
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.17.6
+	 * @since 3.16.0
+	 * @since 3.17.6 Unknown.
+	 *
+	 * @param array       $quiz_data Array of quiz updates.
+	 * @param LLMS_Lesson $lesson    Instance of the parent LLMS_Lesson.
+	 * @return array
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -1235,17 +1296,17 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
 
 	/**
 	 * Update a section with data from the heartbeat
 	 *
-	 * @param    array $section_data  array of section data
-	 * @param    obj   $course_id     instance of the parent LLMS_Course
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.11
+	 * @since 3.16.0
+	 * @since 3.16.11 Unknown.
+	 *
+	 * @param array       $section_data Array of section data.
+	 * @param LLMS_Course $course_id    Instance of the parent LLMS_Course.
+	 * @return array
 	 */
 	private static function update_section( $section_data, $course_id ) {
 
@@ -1297,7 +1358,5 @@ class LLMS_Admin_Builder {
 		}
 
 		return $res;
-
 	}
-
 }

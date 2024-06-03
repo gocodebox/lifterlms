@@ -7,7 +7,7 @@
 		background: #efefef;
 		margin: 0 0 10px;
 		position: relative;
-
+		list-style-type: none;
 		.toggle-answer {
 			@include clearfix();
 			color: inherit;
@@ -17,7 +17,7 @@
 		}
 
 		&.status--waiting.correct,
-		&.status--waiting.incorrect, {
+		&.status--waiting.incorrect {
 			background: rgba( $color-orange, 0.2 );
 			.llms-status-icon {
 				background-color: $color-orange;
@@ -36,7 +36,9 @@
 				background-color: $color-red;
 			}
 		}
-
+		pre {
+			overflow: auto;
+		}
 		.llms-question-title {
 			float: left;
 			margin: 0;
@@ -118,6 +120,14 @@
 					padding: 5px;
 				}
 			}
+		}
+
+		&.type--removed {
+			.llms-question-title {
+				font-style: italic;
+				font-weight: normal;
+			}
+			opacity: .5;
 		}
 
 	}

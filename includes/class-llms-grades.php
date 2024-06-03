@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.24.0
- * @version 4.4.4
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,15 +14,12 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Grades
  *
  * @since 3.24.0
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Grades::$_instance` property.
  */
 class LLMS_Grades {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var  null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Determines the rounding precision used by grading functions
@@ -30,20 +27,6 @@ class LLMS_Grades {
 	 * @var  int
 	 */
 	private $rounding_precision = 2;
-
-	/**
-	 * Get Main Singleton Instance
-	 *
-	 * @return   LLMS_Grades
-	 * @since    3.24.0
-	 * @version  3.24.0
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private constructor

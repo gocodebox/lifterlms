@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version 4.5.1
+ * @version 7.3.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -15,10 +15,6 @@
 
 		this.$widgets      = $( '.llms-widget' );
 		this.$info_toggles = $( '.llms-widget-info-toggle' );
-
-
-
-
 
 		this.init = function() {
 			this.bind();
@@ -156,11 +152,19 @@
 	 * @since Unknown
 	 * @since 3.17.5 Unknown.
 	 * @since 4.4.0 Update ajax nonce source.
+	 * @since 6.2.0 Use the LifterLMS REST API "list students" endpoint
+	 *              instead of the `LLMS_AJAX_Handler::query_students()` PHP function.
+	 * @since 6.3.0 Fixed student's REST API URL.
+	 * @since 7.3.0 Early bail when the element doesn't exist.
 	 *
-	 * @param obj options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
-	 * @return void
+	 * @param {Object} options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
+	 * @return {jQuery}
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
+
+		if ( ! this.length ) {
+			return this;
+		}
 
 		var self = this,
 			options = options || {},
@@ -187,34 +191,37 @@
 			ajax: {
 				dataType: 'JSON',
 				delay: 250,
-				method: 'POST',
-				url: window.ajaxurl,
+				method: 'GET',
+				url: window.wpApiSettings.root + 'llms/v1/students',
 				data: function( params ) {
 					return {
-						_ajax_nonce: window.llms.ajax_nonce,
-						action: 'query_students',
-						page: params.page,
+						_wpnonce: window.wpApiSettings.nonce,
+						context: 'edit',
+						page: params.page || 1,
+						per_page: 10,
 						not_enrolled_in: params.not_enrolled_in || options.not_enrolled_in,
 						enrolled_in: params.enrolled_in || options.enrolled_in,
 						roles: params.roles || options.roles,
-						term: params.term,
+						search: params.term,
+						search_columns: 'email,name,username',
 					};
 				},
 				processResults: function( data, params ) {
+					var page       = params.page || 1;
+					var totalPages = this._request.getResponseHeader( 'X-WP-TotalPages' );
 					return {
-						results: $.map( data.items, function( item ) {
+						results: $.map( data, function( item ) {
 
 							return {
-								text: item.name + ' <' + item.email +'>',
+								text: item.name + ' <' + item.email + '>',
 								id: item.id,
 							};
 
 						} ),
 						pagination: {
-							more: data.more
+							more: page < totalPages
 						}
 					};
-
 				},
 			},
 			cache: true,

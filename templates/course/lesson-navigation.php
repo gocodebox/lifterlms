@@ -1,7 +1,12 @@
 <?php
 /**
- * @author      codeBOX
- * @package     lifterLMS/Templates
+ * Lesson navigation template
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since Unknown Introduced.
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,10 +40,10 @@ $next_id = $lesson->get_next_lesson();
 	<?php if ( ! $prev_id || ! $next_id ) : ?>
 		<div class="llms-course-nav llms-back-to-course">
 			<div class="llms-lesson-preview">
-				<a class="llms-lesson-link" href="<?php echo get_permalink( $lesson->get_parent_course() ); ?>">
+				<a class="llms-lesson-link" href="<?php echo get_permalink( $lesson->get( 'parent_course' ) ); ?>">
 					<section class="llms-main">
 						<h6 class="llms-pre-text"><?php echo __( 'Back to Course', 'lifterlms' ); ?></h6>
-						<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get_parent_course() ); ?></h5>
+						<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'parent_course' ) ); ?></h5>
 					</section>
 				</a>
 			</div>

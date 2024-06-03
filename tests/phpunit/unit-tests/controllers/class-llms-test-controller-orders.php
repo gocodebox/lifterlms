@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the LLMS_Controller_Orders class
+ * Tests for the LLMS_Controller_Orders class.
  *
  * @package LifterLMS/Tests
  *
@@ -13,17 +13,24 @@
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
  * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
- *
- * @version 4.2.0
+ * @since 5.4.0 Added test on recurring_charge attempts on orders when related product manually removed.
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
-	// consider dates equal within 60 seconds
+	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since Unknown
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		LLMS_Site::update_feature( 'recurring_payments', true );
 
 	}
@@ -33,7 +40,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.32.0
 	 *
-	 * @param array $supports Gateway features array.
+	 * @param array  $supports   Gateway features array.
 	 * @param string $gateway_id Gateway ID.
 	 * @return array
 	 */
@@ -48,10 +55,11 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test order completion actions
+	 * Test order completion actions.
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of `assertEquals()` with 4th parameter.
 	 *
 	 * @return void
 	 */
@@ -63,22 +71,22 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '25.99', 0 );
 		$order = $this->get_mock_order( $plan );
 
-		// student not yet enrolled
+		// Student not yet enrolled.
 		$this->assertFalse( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// complete the order
+		// Complete the order.
 		$order->set( 'status', 'llms-completed' );
 
-		// student gets enrolled
+		// Student gets enrolled.
 		$this->assertTrue( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// student now has lifetime access
+		// Student now has lifetime access.
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
-		// no next payment date
+		// No next payment date.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
 
-		// actions were run
+		// Actions were run.
 		$this->assertEquals( 1, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 1, did_action( 'lifterlms_access_plan_purchased' ) );
 
@@ -88,22 +96,22 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 
-		// student not yet enrolled
+		// Student not yet enrolled.
 		$this->assertFalse( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// complete the order
+		// Complete the order.
 		$order->set( 'status', 'llms-completed' );
 
-		// student gets enrolled
+		// Student gets enrolled.
 		$this->assertTrue( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// student will expire based on expiration settings
+		// Student will expire based on expiration settings.
 		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date() );
 
-		// no next payment date
+		// No next payment date.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
 
-		// actions were run
+		// Actions were run.
 		$this->assertEquals( 2, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 2, did_action( 'lifterlms_access_plan_purchased' ) );
 
@@ -113,56 +121,93 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '25.99', 1 );
 		$order = $this->get_mock_order( $plan );
 
-		// student not yet enrolled
+		// Student not yet enrolled.
 		$this->assertFalse( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// complete the order
+		// Complete the order.
 		$order->set( 'status', 'llms-active' );
 
-		// student gets enrolled
+		// Student gets enrolled.
 		$this->assertTrue( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// student now has lifetime access
+		// Student now has lifetime access.
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
-		// no next payment date
-		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
+		// Next payment date.
+		$this->assertEqualsWithDelta( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), $this->date_delta );
 
-		// actions were run
+		// Actions were run.
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 3, did_action( 'lifterlms_access_plan_purchased' ) );
 
-		// cancel the order to test reactivation
+		// Cancel the order to test reactivation.
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 		$order->set( 'status', 'llms-pending-cancel' );
 		$order->set( 'status', 'llms-active' );
-		// should still have lifetime access after reactivation
+
+		// Should still have lifetime access after reactivation.
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
-		// expiration event should be cleared
+
+		// Expiration event should be cleared.
 		$this->assertFalse( as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ) );
 
-		// test a limited date order for reactivation events
+		// Test a limited date order for reactivation events.
 		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 		$order->set( 'status', 'llms-pending-cancel' );
 		$order->set( 'status', 'llms-active' );
 		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date( 'Y-m-d' ) );
-		// expiration event should be reset
-		$this->assertEquals( (float) $order->get_access_expiration_date( 'U' ), (float) as_next_scheduled_action( 'llms_access_plan_expiration', array(
-			'order_id' => $order->get( 'id' ),
-		) ), '', $this->date_delta );
+
+		// Expiration event should be reset.
+		$this->assertEqualsWithDelta(
+			(float) $order->get_access_expiration_date( 'U' ),
+			(float) as_next_scheduled_action(
+				'llms_access_plan_expiration',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+		), $this->date_delta );
 
 	}
 
 	/**
-	 * test order error statuses
+	 * Test deprecated create_pending_order().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::create_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$res = $controller->create_pending_order();
+	}
+
+	/**
+	 * Test deprecated confirm_pending_order().
+	 *
+	 * @since 7.0.0
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::confirm_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_confirm_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$controller->confirm_pending_order();
+	}
+
+	/**
+	 * Test order error statuses.
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 3.36.1 Make sure to schedule a recurring payment when setting an order as active so that,
-	 *               when subsequently we error the order, checking the recurring payment is unscheduled maskes sense.
+	 *               when subsequently we error the order, checking the recurring payment is unscheduled makes sense.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -183,39 +228,61 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 			$student = llms_get_student( $order->get( 'user_id' ) );
 
-			// schedule payments & enroll the student
+			// Schedule payments & enroll the student.
 			$order->set( 'status', 'llms-active' );
 
 			$order->maybe_schedule_payment();
 
-			// recurring payment is scheduled
-			$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-				'order_id' => $order->get( 'id' ),
-			) ) );
+			// Recurring payment is scheduled.
+			$this->assertEquals(
+				$order->get_next_payment_due_date( 'U' ),
+				as_next_scheduled_action(
+					'llms_charge_recurring_payment',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
 
-			// error the order
+			// Error the order.
 			$order->set( 'status', $status );
 
-			// student should be removed
+			// Student should be removed.
 			$this->assertFalse( $student->is_enrolled( $order->get( 'product_id' ) ) );
 
-			// status should be changed
+			// Status should be changed.
 			$this->assertEquals( $enrollment_status, $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 
-			// recurring payment is unscheduled
-			$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-				'order_id' => $order->get( 'id' ),
-			) ) );
+			// Recurring payment is unscheduled.
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_charge_recurring_payment',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
+
+			// Upcoming payment reminder is unscheduled.
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
 
 		}
 
 	}
 
 	/**
-	 * test delete order
+	 * Test delete order.
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.1 Check recurring payment is unscheduled.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -226,44 +293,65 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		$order_product_id = $order->get( 'product_id' );
 
-		// schedule payments & enroll the student
+		// Schedule payments & enroll the student.
 		$order->set( 'status', 'llms-active' );
 
 		$order->maybe_schedule_payment();
 
-		// recurring payment is scheduled
-		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+		// Recurring payment is scheduled.
+		$this->assertEquals(
+			$order->get_next_payment_due_date( 'U' ),
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 
-		// delete order
+		// Delete order.
 		wp_delete_post( $order->get( 'id' ), false );
 
-		// student should be removed
+		// Student should be removed.
 		$this->assertFalse( $student->is_enrolled( $order_product_id ) );
 
-		// more in depth checks
-		// enrollment status must be false
+		// More in depth checks.
+		// Enrollment status must be false.
 		$this->assertFalse( $student->get_enrollment_status( $order_product_id ) );
 
-		// enrollment trigger must be false
+		// Enrollment trigger must be false.
 		$this->assertFalse( $student->get_enrollment_trigger( $order_product_id ) );
 
-		// enrollment date must be false
+		// Enrollment date must be false.
 		$this->assertFalse( $student->get_enrollment_date( $order_product_id ) );
 
-		// recurring payment is unscheduled
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order_product_id,
-		) ) );
+		// Recurring payment is unscheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 
+		// Upcoming payment reminder is unscheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 	}
 
 	/**
-	 * test on user enrollment deleted.
+	 * Test on user enrollment deleted.
+	 *
 	 * The controller's `on_user_enrollment_deleted()` method is reponsible of changing the order status to `cancelled`
 	 * in reaction to the deletion of an enrollment with the same order as trigger.
-	 * @group whattino
+	 *
 	 * @since 4.2.0
 	 *
 	 * @return void
@@ -275,55 +363,56 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$order_product_id = $order->get( 'product_id' );
 		$order_id         = $order->get( 'id' );
 
-		// enroll the student.
+		// Enroll the student.
 		$order->set( 'status', 'llms-active' );
 
 		$order_cancelled_actions = did_action( 'lifterlms_order_status_cancelled' );
 
 		$fake_order_id = $order_id + 999;
 
-		// delete user enrollment passing a fake order as trigger.
+		// Delete user enrollment passing a fake order as trigger.
 		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$fake_order_id}" );
 		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
-		// check order status.
+		// Check order status.
 		$this->assertEquals( 'llms-active', llms_get_post( $order_id )->get( 'status' ) );
 
-		// delete user enrollment.
+		// Delete user enrollment.
 		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
 		$this->assertEquals( $order_cancelled_actions + 1, did_action( 'lifterlms_order_status_cancelled' ) );
-		// check order status.
+		// Check order status.
 		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
 
 		$order_cancelled_actions = did_action( 'lifterlms_order_status_cancelled' );
 
-		// check that trying to delete it again doesn't trigger the action again.
+		// Check that trying to delete it again doesn't trigger the action again.
 		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
 		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
-		// check order status.
+		// Check order status.
 		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
 
-		// enroll the student again on the same course with a different trigger.
+		// Enroll the student again on the same course with a different trigger.
 		$student = llms_get_student( $student_id );
 		llms_enroll_student( $student_id, $order_product_id );
 
 		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
 		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
-		// check order status.
+		// Check order status.
 		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
 
 	}
 
 	/**
-	 * Test expire access function
+	 * Test expire access function.
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
 	public function test_expire_access() {
 
-		// recurring -> expire via access settings
+		// Recurring -> expire via access settings.
 		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 		$order->set_status( 'active' );
@@ -332,13 +421,31 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		do_action( 'llms_access_plan_expiration', $order->get( 'id' ) );
 
 		$this->assertFalse( $student->is_enrolled( $order->get( 'product_id' ) ) );
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+
+		// Recurring payment is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Upcoming payment reminder is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
 
-		// simulate a pending-cancel -> cancel
+		// Simulate a pending-cancel -> cancel.
 		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 		$order->set_status( 'active' );
@@ -348,11 +455,58 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		do_action( 'llms_access_plan_expiration', $order->get( 'id' ) );
 
 		$this->assertFalse( $student->is_enrolled( $order->get( 'product_id' ) ) );
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+
+		// Recurring payment is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Upcoming payment reminder is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
 		$this->assertEquals( 'cancelled', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-cancelled', get_post_status( $order->get( 'id' ) ) );
+
+	}
+
+	/**
+	 * Test set_untrash_status().r
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_set_untrash_status() {
+
+		$controller = new LLMS_Controller_Orders();
+
+		$tests = array(
+			'post'       => 'draft',
+			'page'       => 'draft',
+			'course'     => 'draft',
+			'llms_order' => 'llms-pending',
+		);
+		foreach ( $tests as $post_type => $expected ) {
+			$post_id = $this->factory->post->create( compact( 'post_type' ) );
+
+			$this->assertEquals(
+				$expected,
+				$controller->set_untrash_status( 'draft', $post_id, 'publish' )
+			);
+
+		}
 
 	}
 
@@ -369,14 +523,14 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$order    = $this->get_mock_order( $plan );
 		$order_id = $order->get( 'id' );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$note_actions      = did_action( 'llms_new_order_note_added' );
 		$err_gw_actions    = did_action( 'llms_order_recurring_charge_gateway_error' );
 		$pdue_actions      = did_action( 'llms_manual_payment_due' );
 		$err_order_actions = did_action( 'llms_order_recurring_charge_gateway_error' );
 		$err_user_actions  = did_action( 'llms_order_recurring_charge_user_error' );
 
-		// emulate a manul order deletion from the db.
+		// Emulate a manul order deletion from the db.
 		global $wpdb;
 		$wpdb->delete( $wpdb->prefix . 'posts', array( 'id' => $order_id ) );
 		clean_post_cache( $order_id );
@@ -406,14 +560,14 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$order    = $this->get_mock_order( $plan );
 		$order_id = $order->get( 'id' );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$note_actions      = did_action( 'llms_new_order_note_added' );
 		$err_gw_actions    = did_action( 'llms_order_recurring_charge_gateway_error' );
 		$pdue_actions      = did_action( 'llms_manual_payment_due' );
 		$err_order_actions = did_action( 'llms_order_recurring_charge_gateway_error' );
 		$err_user_actions  = did_action( 'llms_order_recurring_charge_user_error' );
 
-		// emulate an user deletion.
+		// Emulate an user deletion.
 		wp_delete_user( $order->get( 'user_id' ) );
 
 		// Trigger recurring payment.
@@ -441,7 +595,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		$order->set( 'payment_gateway', 'fake-gateway' );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$note_actions = did_action( 'llms_new_order_note_added' );
 		$err_actions = did_action( 'llms_order_recurring_charge_gateway_error' );
 
@@ -468,7 +622,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '200.00', 1 );
 		$order = $this->get_mock_order( $plan );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$skip_actions = did_action( 'llms_order_recurring_charge_skipped' );
 		$note_actions = did_action( 'llms_new_order_note_added' );
 
@@ -495,7 +649,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// Disable recurring payments.
 		add_filter( 'llms_get_gateway_supported_features', array( $this, 'mod_gateway_features' ), 10, 2 );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$err_actions = did_action( 'llms_order_recurring_charge_gateway_payments_disabled' );
 		$note_actions = did_action( 'llms_new_order_note_added' );
 
@@ -511,6 +665,75 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test recurring_charge attempts on orders when related product manually removed.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_recurring_charge_on_manually_deleted_product() {
+
+		$plan = $this->get_mock_plan( '200.00', 1 );
+		$order = $this->get_mock_order( $plan );
+
+		$student = llms_get_student( $order->get( 'user_id' ) );
+
+		// Schedule payments & enroll the student.
+		$order->set( 'status', 'llms-active' );
+
+		// Recurring payment is scheduled.
+		$this->assertEquals(
+			$order->get_next_payment_due_date( 'U' ),
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Student gets enrolled.
+		$this->assertTrue( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
+
+		// Manually remove product.
+		global $wpdb;
+		$wpdb->delete(
+			$wpdb->posts,
+			array(
+				'ID' => $order->get( 'product_id' ),
+			),
+			array(
+				'%d',
+			)
+		);
+		clean_post_cache( $order->get( 'product_id' ) );
+
+		// Starting action numbers.
+		$err_actions  = did_action( 'llms_order_recurring_charge_aborted_product_deleted' );
+		$note_actions = did_action( 'llms_new_order_note_added' );
+
+		// Trigger recurring payment.
+		do_action( 'llms_charge_recurring_payment', $order->get( 'id' ) );
+
+		$this->assertSame( $note_actions + 1, did_action( 'llms_new_order_note_added' ) );
+		$this->assertSame( $err_actions + 1, did_action( 'llms_order_recurring_charge_aborted_product_deleted' ) );
+
+		// Recurring payment is unscheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Student unenrolled.
+		$this->assertFalse( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
+
+	}
+
+	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
 	 * @since 3.32.0
@@ -522,7 +745,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '200.00', 1 );
 		$order = $this->get_mock_order( $plan );
 
-		// starting action numbers.
+		// Starting action numbers.
 		$actions = did_action( 'llms_manual_payment_due' );
 
 		// Trigger recurring payment.

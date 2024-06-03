@@ -6,10 +6,13 @@
  * This allows us to do things like run the setup wizard tests to further bootstrap
  * the testing environment for other tests.
  *
- * @link https://jestjs.io/docs/en/next/configuration#testsequencer-string
+ * @since Unknown
+ * @version Unknown
+ *
+ * @see {@link https://jestjs.io/docs/en/next/configuration#testsequencer-string}
  */
 
-const Sequencer = require('@jest/test-sequencer').default;
+const Sequencer = require( '@jest/test-sequencer' ).default;
 
 class CustomSequencer extends Sequencer {
 	sort( tests ) {

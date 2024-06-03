@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 4.3.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -160,7 +160,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $this->is_auto_gradeable() ) {
 
-			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
+			$grade = llms()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz      = $this->get_quiz();
 			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;
@@ -409,10 +409,11 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Retrieve an array of blank questions for insertion into a new attempt during initialization
+	 * Retrieve an array of blank questions for insertion into a new attempt during initialization.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
+	 * @since 7.4.1 Moved randomization into `LLMS_Quiz_Attempt::randomize_attempt_questions()`.
 	 *
 	 * @return array
 	 */
@@ -424,17 +425,31 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $quiz ) {
 
-			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
+			/**
+			 * Filter randomize value for quiz questions.
+			 *
+			 * @since 7.4.0
+			 *
+			 * @param bool              $randomize The randomize boolean value.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$randomize = apply_filters( 'llms_quiz_attempt_questions_randomize', llms_parse_bool( $quiz->get( 'random_questions' ) ), $quiz, $this );
 
-			// Array of indexes that will be locked during shuffling.
-			$locks = array();
+			/**
+			 * Filter questions for the quiz.
+			 *
+			 * Sets the questions to be used for the quiz.
+			 *
+			 * @since 7.4.0
+			 *
+			 * @param array             $questions Array of LLMS_Question objects.
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$quiz_questions = apply_filters( 'llms_quiz_attempt_questions', $quiz->get_questions(), $quiz, $this );
 
-			foreach ( $quiz->get_questions() as $index => $question ) {
-
-				// If randomization is enabled, store the questions index so we can lock it during randomization.
-				if ( $randomize && $question->supports( 'random_lock' ) ) {
-					$locks[] = $index;
-				}
+			foreach ( $quiz_questions as $index => $question ) {
 
 				$questions[] = array(
 					'id'      => $question->get( 'id' ),
@@ -446,32 +461,19 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			}
 
+			/**
+			 * Filter attempt's questions array for the quiz.
+			 *
+			 * @since 7.4.1
+			 *
+			 * @param array             $questions Array of question (each question is an array itself).
+			 * @param LLMS_Quiz         $quiz      LLMS_Quiz instance.
+			 * @param LLMS_Quiz_Attempt $attempt   LLMS_Quiz_Attempt instance.
+			 */
+			$questions = apply_filters( 'llms_quiz_attempt_questions_array', $questions, $quiz, $this );
+
 			if ( $randomize ) {
-
-				// Lifted from https://stackoverflow.com/a/28491007/400568.
-				// I generally comprehend this code but also in a truer way i have no idea...
-				$inc = array();
-				$i   = 0;
-				$j   = 0;
-				$l   = count( $questions );
-				$le  = count( $locks );
-				while ( $i < $l ) {
-					if ( $j >= $le || $i < $locks[ $j ] ) {
-						$inc[] = $i;
-					} else {
-						$j++;
-					}
-					$i++;
-				}
-
-				// Fisher-yates-knuth shuffle variation O(n).
-				$num = count( $inc );
-				while ( $num-- ) {
-					$perm                       = rand( 0, $num );
-					$swap                       = $questions[ $inc[ $num ] ];
-					$questions[ $inc[ $num ] ]  = $questions[ $inc[ $perm ] ];
-					$questions[ $inc[ $perm ] ] = $swap;
-				}
+				$questions = self::randomize_attempt_questions( $questions );
 			}
 		}
 
@@ -544,15 +546,21 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Retrieve an array of attempt question objects
 	 *
 	 * @since 3.16.0
+	 * @since 5.3.0 Add a parameter to filter out removed questions.
 	 *
-	 * @param boolean $cache Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 * @param boolean $cache          Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 *                                Cached questions won't take into account the `$filte_removed` parameter.
+	 * @param boolean $filter_removed Optional. If `true`, removed questions will be filtered out. Default `false`.
 	 * @return array
 	 */
-	public function get_question_objects( $cache = true ) {
+	public function get_question_objects( $cache = true, $filter_removed = false ) {
 
 		$questions = array();
 		foreach ( $this->get_questions( $cache ) as $qdata ) {
-			$questions[] = new LLMS_Quiz_Attempt_Question( $qdata );
+			$question = new LLMS_Quiz_Attempt_Question( $qdata );
+			if ( ! $filter_removed || $question->get_question() instanceof LLMS_Question ) {
+				$questions[] = $question;
+			}
 		}
 		return $questions;
 
@@ -647,6 +655,62 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$attempt->set( 'attempt', $number );
 
 		return $attempt;
+
+	}
+
+
+	/**
+	 * Randomize attempt questions.
+	 *
+	 * Logic moved from `LLMS_Quiz_Attempt::get_new_questions()`.
+	 *
+	 * @since 7.4.1
+	 *
+	 * @param array $questions Array of attempt's questions (each question is an array itself).
+	 * @return array.
+	 */
+	public static function randomize_attempt_questions( $questions ) {
+
+		if ( empty( $questions ) ) {
+			return $questions;
+		}
+
+		// Array of indexes that will be locked during shuffling.
+		$locks = array();
+		foreach ( $questions as $index => $question_array ) {
+			$question = llms_get_post( $question_array['id'] );
+			// If randomization is enabled, store the questions index so we can lock it during randomization.
+			if ( $question->supports( 'random_lock' ) ) {
+				$locks[] = $index;
+			}
+		}
+
+		// Lifted from https://stackoverflow.com/a/28491007/400568.
+		// I generally comprehend this code but also in a truer way i have no idea...
+		$inc = array();
+		$i   = 0;
+		$j   = 0;
+		$l   = count( $questions );
+		$le  = count( $locks );
+		while ( $i < $l ) {
+			if ( $j >= $le || $i < $locks[ $j ] ) {
+				$inc[] = $i;
+			} else {
+				$j++;
+			}
+			$i++;
+		}
+
+		// Fisher-yates-knuth shuffle variation O(n).
+		$num = count( $inc );
+		while ( $num-- ) {
+			$perm                       = wp_rand( 0, $num );
+			$swap                       = $questions[ $inc[ $num ] ];
+			$questions[ $inc[ $num ] ]  = $questions[ $inc[ $perm ] ];
+			$questions[ $inc[ $perm ] ] = $swap;
+		}
+
+		return $questions;
 
 	}
 

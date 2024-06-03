@@ -13,11 +13,12 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 * Tear down
 	 *
 	 * @since 3.28.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$wp_roles = wp_roles();
 		LLMS_Roles::install();
 	}
@@ -133,6 +134,72 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 				}
 			}
 		}
+
+	}
+
+	/**
+	 * Test get_all_role_names() method.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return void
+	 */
+	public function test_get_all_role_names() {
+
+		$wp_roles = array(
+			'administrator'         => 'Administrator',
+			'editor'                => 'Editor',
+			'author'                => 'Author',
+			'contributor'           => 'Contributor',
+			'subscriber'            => 'Subscriber',
+		);
+		$llms_roles = array(
+			'lms_manager'           => 'LMS Manager',
+			'instructor'            => 'Instructor',
+			'instructors_assistant' => 'Instructor\'s Assistant',
+			'student'               => 'Student',
+		);
+
+		$expect = array_merge( $wp_roles, $llms_roles );
+
+		$translated_roles = array_combine(
+			array_keys( $expect ),
+			array_map(
+				function( $role_name ) {
+					return "Translated {$role_name}";
+				},
+				$expect
+			)
+		);
+
+		$translations = array_combine(
+			array_values( $expect ),
+			array_values( $translated_roles )
+		);
+
+		$this->assertEquals( $expect, LLMS_Roles::get_all_role_names() );
+
+		// Simulate a different language.
+		// For wp roles.
+		$gettext_with_context = function( $translation, $text, $context, $domain ) use ( $wp_roles, $translations ) {
+			if ( 'User role' === $context && 'default' === $domain && in_array( $text, $wp_roles, true ) ) {
+				return $translations[ $text ];
+			}
+			return $translation;
+		};
+		// For our roles.
+		$gettext = function( $translation, $text, $domain ) use ( $llms_roles, $translations ) {
+			if ( 'lifterlms' === $domain && in_array( $text, $llms_roles, true ) ) {
+				return $translations[ $text ];
+			}
+			return $translation;
+		};
+
+		add_filter( 'gettext_with_context', $gettext_with_context, 10, 4 );
+		add_filter( 'gettext', $gettext, 10, 3 );
+		$this->assertEquals( $translated_roles , LLMS_Roles::get_all_role_names() );
+		remove_filter( 'gettext_with_context', $gettext_with_context, 10, 4 );
+		remove_filter( 'gettext', $gettext, 10, 3 );
 
 	}
 

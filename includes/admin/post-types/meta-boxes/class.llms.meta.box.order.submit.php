@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,6 +99,8 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 3.36.0 Date fields require array when sanitized.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 7.0.0 Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null
@@ -113,7 +115,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 		if ( isset( $_POST['_llms_order_status'] ) ) {
 
-			$new_status = llms_filter_input( INPUT_POST, '_llms_order_status', FILTER_SANITIZE_STRING );
+			$new_status = llms_filter_input_sanitize_string( INPUT_POST, '_llms_order_status' );
 			$old_status = $order->get( 'status' );
 
 			if ( $old_status !== $new_status ) {
@@ -124,23 +126,26 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			}
 		}
 
-		/**
-		 * Order is important -- if both trial and next payment are updated
-		 * they should be saved in that order since next payment date
-		 * is automatically recalculated by trial end date update.
-		 */
 		$editable_dates = array(
-			'_llms_date_trial_end',
-			'_llms_date_next_payment',
 			'_llms_date_access_expires',
 		);
+
+		// Save recurring payments related dates if order's gateway supports recurring payments modification.
+		if ( $order->supports_modify_recurring_payments() ) {
+			/**
+			 * Order is important -- if both trial and next payment are updated
+			 * they should be saved in that order since next payment date
+			 * is automatically recalculated by trial end date update.
+			 */
+			array_push( $editable_dates, '_llms_date_trial_end', '_llms_date_next_payment' );
+		}
 
 		foreach ( $editable_dates as $id => $key ) {
 
 			if ( isset( $_POST[ $key ] ) ) {
 
 				// The array of date, hour, minute that was submitted.
-				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+				$dates = llms_filter_input_sanitize_string( INPUT_POST, $key, array( FILTER_REQUIRE_ARRAY ) );
 
 				// Format the array of data as a datetime string.
 				$new_date = $dates['date'] . ' ' . sprintf( '%02d', $dates['hour'] ) . ':' . sprintf( '%02d', $dates['minute'] );

@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add course and membership visibility settings
  *
- * Default course is catalog only and default membership is catalog & search
- * Courses were NOT SEARCHABLE in earlier versions
+ * Default course is catalog only and default membership is catalog & search.
+ * Courses were NOT SEARCHABLE in earlier versions.
  *
  * @since 3.6.0
  *

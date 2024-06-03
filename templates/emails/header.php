@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mailer       = LLMS()->mailer();
+$mailer       = llms()->mailer();
 $header_image = $mailer->get_header_image_src();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>

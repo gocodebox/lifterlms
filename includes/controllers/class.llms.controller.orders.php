@@ -1,17 +1,17 @@
 <?php
 /**
- * Order processing and related actions controller
+ * Order processing and related actions controller.
  *
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 4.2.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Orders class
+ * LLMS_Controller_Orders class.
  *
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
@@ -20,38 +20,35 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
  * @since 4.2.0 Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
  *              Also `llms_unenroll_on_error_order` fiter hook added.
+ * @since 5.0.0 Build customer data using LLMS_Forms fields information.
  */
 class LLMS_Controller_Orders {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Updated.
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
+	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
+	 * @since 7.0.0 Added callback for `wp_untrash_post_status` filter.
+	 *              Remove action callbacks for order confirm, create, and payment source switch in favor of hooks in `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		// Form actions.
-		add_action( 'init', array( $this, 'create_pending_order' ) );
-		add_action( 'init', array( $this, 'confirm_pending_order' ) );
-		add_action( 'init', array( $this, 'switch_payment_source' ) );
+		add_filter( 'wp_untrash_post_status', array( $this, 'set_untrash_status' ), 10, 3 );
 
 		// This action adds our lifterlms specific actions when order & transaction statuses change.
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
 
-		// This action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed..
+		// This action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed.
 		add_action( 'before_delete_post', array( $this, 'on_delete_order' ) );
 
-		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted..
+		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted.
 		add_action( 'llms_user_enrollment_deleted', array( $this, 'on_user_enrollment_deleted' ), 10, 3 );
-
-		/**
-		 * Status Change Actions for Orders and Transactions
-		 */
 
 		// Transaction status changes cascade up to the order to change the order status.
 		add_action( 'lifterlms_transaction_status_failed', array( $this, 'transaction_failed' ), 10, 1 );
@@ -73,6 +70,9 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_on-hold', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
+		// Detect a product deletion while processing a recurring charge.
+		add_action( 'llms_order_recurring_charge_aborted_product_deleted', array( $this, 'error_order' ), 10, 1 );
+
 		/**
 		 * Scheduler Actions
 		 */
@@ -86,72 +86,14 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Confirm order form post
-	 * User clicks confirm order or gateway determines the order is confirmed
+	 * Perform actions on a successful order completion.
 	 *
-	 * Executes payment gateway confirm order method and completes order.
-	 * Redirects user to appropriate page / post
+	 * @since 1.0.0
+	 * @since 3.19.0 Unknown.
 	 *
-	 * @since 3.0.0
-	 * @since 3.4.0 Unknown.
-	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
-	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
-	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
-	 *
+	 * @param LLMS_Order $order      Instance of an LLMS_Order.
+	 * @param string     $old_status Previous order status (eg: 'pending').
 	 * @return void
-	 */
-	public function confirm_pending_order() {
-
-		// Nonce the post.
-		if ( ! llms_verify_nonce( '_wpnonce', 'confirm_pending_order' ) ) {
-			return;
-		}
-
-		if ( empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] ) {
-			return;
-		}
-
-		// Ensure we have an order key we can locate the order with.
-		$key = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
-		if ( ! $key ) {
-			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
-		}
-
-		// Lookup the order & return error if not found.
-		$order = llms_get_order_by_key( $key );
-		if ( ! $order || ! $order instanceof LLMS_Order ) {
-			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
-		}
-
-		/**
-		 * Determine if the order can be confirmed.
-		 *
-		 * @since 3.34.4
-		 *
-		 * @param bool $can_be_confirmed True if the order can be confirmed, false otherwise.
-		 * @param LLMS_Order $order Order object.
-		 * @param string $gateway_id Payment gateway ID.
-		 */
-		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
-			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
-		}
-
-		// Get the gateway.
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
-
-		// Pass the order to the gateway.
-		$gateway->confirm_pending_order( $order );
-
-	}
-
-	/**
-	 * Perform actions on a successful order completion
-	 *
-	 * @param    obj    $order       Instance of an LLMS_Order
-	 * @param    string $old_status  Previous order status (eg: 'pending')
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.19.0
 	 */
 	public function complete_order( $order, $old_status ) {
 
@@ -167,16 +109,46 @@ class LLMS_Controller_Orders {
 		$product_id = $order->get( 'product_id' );
 		$user_id    = $order->get( 'user_id' );
 
-		unset( LLMS()->session->llms_coupon );
+		unset( llms()->session->llms_coupon );
 
-		// Trigger order complete action.
+		/**
+		 * Action fired on order complete.
+		 *
+		 * Prior to the students being enrolled.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param integer $order_id The WP_Post ID of the order.
+		 */
 		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP.
 
 		// Enroll student.
 		llms_enroll_student( $user_id, $product_id, 'order_' . $order_id );
 
 		// Trigger purchase action, used by engagements.
+
+		/**
+		 * Action fired on product purchased.
+		 *
+		 * After the student has been enrolled.
+		 *
+		 * @since Unknown
+		 *
+		 * @param integer $user_id    The WP_User ID of the buyer.
+		 * @param integer $product_id The WP_Post ID of the purchased product (course/membership).
+		 */
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+
+		/**
+		 * Action fired on access plan purchased.
+		 *
+		 * After the student has been enrolled.
+		 *
+		 * @since Unknown
+		 *
+		 * @param integer $user_id    The WP_User ID of the buyer.
+		 * @param integer $product_id The WP_Post ID of the purchased access plan.
+		 */
 		do_action( 'lifterlms_access_plan_purchased', $user_id, $order->get( 'plan_id' ) );
 
 		// Maybe schedule a payment.
@@ -184,151 +156,26 @@ class LLMS_Controller_Orders {
 
 	}
 
-
-	/**
-	 * Handle form submission of the checkout / payment form
-	 *
-	 *      1. Logs in or Registers a user
-	 *      2. Validates all fields
-	 *      3. Handles coupon pricing adjustments
-	 *      4. Creates a PENDING llms_order
-	 *
-	 *      If errors, returns error on screen to user
-	 *      If success, passes to the selected gateways "process_payment" method
-	 *          the process_payment method should complete by returning an error or
-	 *          triggering the "lifterlms_process_payment_redirect" // Todo check this last statement.
-	 *
-	 * @since 3.0.0
-	 * @since 3.27.0 Unknown.
-	 * @since 3.35.0 Sanitize `$_POST` data.
-	 *
-	 * @return void
-	 */
-	public function create_pending_order() {
-
-		if ( ! llms_verify_nonce( '_llms_checkout_nonce', 'create_pending_order', 'POST' ) ) {
-			return;
-		}
-
-		if ( empty( $_POST['action'] ) || 'create_pending_order' !== $_POST['action'] ) {
-			return;
-		}
-
-		// Prevent timeout.
-		@set_time_limit( 0 );
-
-		/**
-		 * Allow 3rd parties to perform their own validation prior to standard validation.
-		 *
-		 * If this returns a truthy, we'll stop processing
-		 *
-		 * The extension should add a notice in addition to returning the truthy.
-		 *
-		 * @since Unknown
-		 *
-		 * @param boolean $valid Validation status. If `true` ceases checkout execution. If `false` checkout proceeds.
-		 */
-		if ( apply_filters( 'llms_before_checkout_validation', false ) ) {
-			return;
-		}
-
-		// Setup data to pass to the pending order creation function.
-		$data = array();
-		$keys = array(
-			'llms_plan_id',
-			'llms_agree_to_terms',
-			'llms_payment_gateway',
-			'llms_coupon_code',
-		);
-
-		foreach ( $keys as $key ) {
-			if ( isset( $_POST[ $key ] ) ) {
-				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
-			}
-		}
-
-		$data['customer'] = array();
-		if ( get_current_user_id() ) {
-			$data['customer']['user_id'] = get_current_user_id();
-		}
-		foreach ( LLMS_Person_Handler::get_available_fields( 'checkout' ) as $cust_field ) {
-			$cust_key = $cust_field['id'];
-			if ( isset( $_POST[ $cust_key ] ) ) {
-				$data['customer'][ $cust_key ] = llms_filter_input( INPUT_POST, $cust_key, FILTER_SANITIZE_STRING );
-			}
-		}
-
-		$setup = llms_setup_pending_order( $data );
-
-		if ( is_wp_error( $setup ) ) {
-
-			foreach ( $setup->get_error_messages() as $msg ) {
-				llms_add_notice( $msg, 'error' );
-			}
-
-			// Existing user fails validation from the free checkout form.
-			if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['llms_plan_id'] ) ) {
-				$plan = llms_get_post( llms_filter_input( INPUT_POST, 'llms_plan_id', FILTER_SANITIZE_NUMBER_INT ) );
-				wp_redirect( $plan->get_checkout_url() );
-				exit;
-			}
-
-			return;
-
-		}
-
-		/**
-		 * Allow gateways, extensions, etc to do their own validation
-		 * after all standard validations are successfully
-		 * If this returns a truthy, we'll stop processing
-		 * The extension should add a notice in addition to returning the truthy
-		 */
-		if ( apply_filters( 'llms_after_checkout_validation', false ) ) {
-			return;
-		}
-
-		$order_id = 'new';
-
-		// Get order ID by Key if it exists..
-		if ( ! empty( $_POST['llms_order_key'] ) ) {
-			$locate = llms_get_order_by_key( llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING ), 'id' );
-			if ( $locate ) {
-				$order_id = $locate;
-			}
-		}
-
-		// Instantiate the order.
-		$order = new LLMS_Order( $order_id );
-
-		// If there's no id we can't proceed, return an error.
-		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lifterlms' ), 'error' );
-		}
-
-		// Add order key to globals so the order can be retried if processing errors occur.
-		$_POST['llms_order_key'] = $order->get( 'order_key' );
-
-		$order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
-
-		// Pass to the gateway to start processing.
-		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
-
-	}
-
 	/**
 	 * Called when an order's status changes to refunded, cancelled, expired, or failed.
 	 *
+	 * Also called on product deletion detected while processing a recurring charge.
+
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
+	 * @since 5.4.0 Unenroll with 'cancelled' status on 'llms_order_recurring_charge_aborted_product_deleted'.
+	 *              The `$order` param can be also a WP_Post or its `ID`.
 	 *
-	 * @param LLMS_Order $order Instance of an LLMS_Order.
+	 * @param int|WP_Post|LLMS_Order $order Instance of an LLMS_Order, WP_Post or WP_Post ID of the order.
 	 * @return void
-	 *
-	 * @since    3.0.0
-	 * @version  3.10.0
 	 */
 	public function error_order( $order ) {
+
+		$order = is_a( $order, 'LLMS_Order' ) ? $order : llms_get_post( $order );
+		if ( ! ( $order && is_a( $order, 'LLMS_Order' ) ) ) {
+			return;
+		}
 
 		$order->unschedule_recurring_payment();
 
@@ -350,6 +197,7 @@ class LLMS_Controller_Orders {
 			case 'lifterlms_order_status_cancelled':
 			case 'lifterlms_order_status_on-hold':
 			case 'lifterlms_order_status_refunded':
+			case 'llms_order_recurring_charge_aborted_product_deleted':
 				$status = 'cancelled';
 				break;
 
@@ -367,7 +215,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Called when a post is permanently deleted.
-	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post
+	 *
+	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post.
 	 *
 	 * @since 3.33.0
 	 *
@@ -385,6 +234,7 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Called when an user enrollment is deleted.
+	 *
 	 * Will set the related order status to 'cancelled'.
 	 *
 	 * @since 4.2.0
@@ -401,7 +251,7 @@ class LLMS_Controller_Orders {
 
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 
-			// No need to run an unenrollment as we're reacting to an enrollment deletion, user enrollments data already removed..
+			// No need to run an unenrollment as we're reacting to an enrollment deletion, user enrollments data already removed.
 			add_filter( 'llms_unenroll_on_error_order', '__return_false', 100 );
 			$order->set_status( 'cancelled' );
 			// Reset unenrollment's suspension..
@@ -412,38 +262,65 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Handle expiration & cancellation from a course / membership
-	 * Called via scheduled action set during order completion for plans with a limited access plan
-	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period
+	 * Handle expiration & cancellation from a course / membership.
 	 *
-	 * @param    int $order_id  WP Post ID of the LLMS Order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * Called via scheduled action set during order completion for plans with a limited access plan.
+	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period.
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 * @since 7.5.0 Potentially allow recurring payment to go ahead even if access plans expired.
+	 *
+	 * @param int $order_id WP_Post ID of the LLMS Order.
+	 * @return void
 	 */
 	public function expire_access( $order_id ) {
 
 		$order            = new LLMS_Order( $order_id );
 		$new_order_status = false;
 
-		// Pending cancel moves to cancelled.
+		// Pending cancel order moves to cancelled.
 		if ( 'llms-pending-cancel' === $order->get( 'status' ) ) {
 
-			$status           = 'cancelled';
+			$status           = 'cancelled'; // Enrollment status.
 			$note             = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
 			$new_order_status = 'cancelled';
 
 			// All others move to expired.
 		} else {
 
-			$status = 'expired';
+			$status = 'expired'; // Enrollment status.
 			$note   = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
 
 		}
 
+		/**
+		 * Filters whether or not recurring payments should be stopped on access plan expiration.
+		 *
+		 * By default when an access plan expires, recurring payments are stopped.
+		 *
+		 * @since 7.5.0
+		 *
+		 * @param bool
+		 * @param LLMS_Order $order             Instance of the order.
+		 * @param mixed      $new_order_status  New order status. If `false` it means that the new order status is not
+		 *                                      going to change. At this stage the orders status is not changed yet.
+		 * @param string     $enrollment_status The new enrollment status. At this stage the enrollment status is not changed yet.
+		 */
+		$unschedule_recurring_payment = apply_filters(
+			'llms_unschedule_recurring_payment_on_access_plan_expiration',
+			true,
+			$order,
+			$new_order_status,
+			$status
+		);
+
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 		$order->add_note( $note );
-		$order->unschedule_recurring_payment();
+
+		if ( $unschedule_recurring_payment ) {
+			$order->unschedule_recurring_payment();
+		}
 
 		if ( $new_order_status ) {
 			$order->set_status( $new_order_status );
@@ -452,12 +329,12 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Unschedule recurring payments and schedule access expiration
+	 * Unschedule recurring payments and schedule access expiration.
 	 *
-	 * @param    obj $order  LLMS_Order object
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @since 3.19.0
+	 *
+	 * @param LLMS_Order $order LLMS_Order object.
+	 * @return void
 	 */
 	public function pending_cancel_order( $order ) {
 
@@ -470,46 +347,74 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger a recurring payment
+	 * Trigger a recurring payment.
 	 *
 	 * Called by action scheduler.
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
+	 * @since 5.2.0 Fixed buggy logging on gateway error because it doesn't support recurring payments.
+	 * @since 5.4.0 Handle case when the order's related product has been removed.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.
 	 */
 	public function recurring_charge( $order_id ) {
 
-		// Make sure the order still exists..
+		// Make sure the order still exists.
 		$order = llms_get_post( $order_id );
 		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the order doesn't exist anymore
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_order_error', $order_id, $this );
 			llms_log( sprintf( 'Recurring charge for Order #%d could not be processed because the order no longer exists.', $order_id ), 'recurring-payments' );
 			return false;
 
 		}
 
-		// Check the user still exists..
+		// Check the user still exists.
 		$user_id = $order->get( 'user_id' );
 		if ( ! get_user_by( 'id', $user_id ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the user who placed the order doesn't exist anymore
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param int                    $user_id    WP User ID of the user who placed the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_user_error', $order_id, $user_id, $this );
 			llms_log( sprintf( 'Recurring charge for Order #%1$d could not be processed because the user (#%2$d) no longer exists.', $order_id, $user_id ), 'recurring-payments' );
 
-			// Translators: %d = The deleted user's ID..
+			// Translators: %d = The deleted user's ID.
 			$order->add_note( sprintf( __( 'Recurring charge skipped. The user (#%d) no longer exists.', 'lifterlms' ), $user_id ) );
 			return false;
 
 		}
 
-		// Ensure Gateway is still available..
+		// Ensure Gateway is still available.
 		$gateway = $order->get_gateway();
-		if ( is_wp_error( $gateway ) ) {
 
+		if ( is_wp_error( $gateway ) ) {
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because of a gateway error. E.g. it's not available anymore.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param WP_Error               $error      WP_Error instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_gateway_error', $order_id, $gateway, $this );
 
 			llms_log(
@@ -524,7 +429,7 @@ class LLMS_Controller_Orders {
 
 			$order->add_note(
 				sprintf(
-					// Translators: %s = error message encountered while loading the gateway..
+					// Translators: %s = error message encountered while loading the gateway.
 					__( 'Recurring charge was not processed due to an error encountered while loading the payment gateway: %s.', 'lifterlms' ),
 					$gateway->get_error_message()
 				)
@@ -533,82 +438,125 @@ class LLMS_Controller_Orders {
 
 		}
 
-		// Gateway doesn't support recurring payments..
+		// Gateway doesn't support recurring payments.
 		if ( ! $gateway->supports( 'recurring_payments' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the selected gateway doesn't support recurring payments.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Payment_Gateway   $gateway    LLMS_Payment_Gateway extending class instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_gateway_payments_disabled', $order_id, $gateway, $this );
-			llms_log( sprintf( 'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.', 'recurring-payments' ), $order_id );
+			llms_log(
+				sprintf(
+					'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.',
+					$order_id
+				),
+				'recurring-payments'
+			);
+
 			$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled for the payment gateway.', 'lifterlms' ) );
 			return false;
 
 		}
 
-		// Recurring payments disabled as a site feature when in staging mode..
+		// Recurring payments disabled as a site feature when in staging mode.
 		if ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the recurring payments site feature is disabled.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Payment_Gateway   $gateway    LLMS_Payment_Gateway extending class instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_skipped', $order_id, $gateway, $this );
 			$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in staging mode.', 'lifterlms' ) );
 			return false;
 
 		}
 
-		// Passed validation, hand off to the gateway..
+		// Related product removed.
+		if ( empty( $order->get_product() ) ) {
+
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the purchased product (Course/Membership) doesn't exist anymore.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
+			do_action( 'llms_order_recurring_charge_aborted_product_deleted', $order_id, $this );
+			llms_log(
+				sprintf(
+					'Recurring charge for order #%d could not be processed because the product #%d does not exist anymore.',
+					$order_id,
+					$order->get( 'product_id' )
+				),
+				'recurring-payments'
+			);
+
+			$order->add_note( __( 'Recurring charge aborted because the purchased product does not exist anymore.', 'lifterlms' ) );
+			return false;
+
+		}
+
+		// Passed validation, hand off to the gateway.
 		$gateway->handle_recurring_transaction( $order );
 		return true;
 
 	}
 
-
 	/**
-	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
+	 * Sets an order's post status to `llms-pending` when untrashing an order.
 	 *
-	 * @since 3.10.0
-	 * @since 3.19.0 Unknown.
-	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * This is a filter hook callback for the WP core filter `wp_untrash_post_status`.
 	 *
-	 * @return   void
+	 * @since 7.0.0
+	 *
+	 * @param string $new_status      The new status of the post after untrashing.
+	 * @param int    $post_id         The WP_Post ID of the order.
+	 * @param string $previous_status The status of the post at the point where it was trashed.
+	 * @return string
 	 */
-	public function switch_payment_source() {
+	public function set_untrash_status( $new_status, $post_id, $previous_status ) {
 
-		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
-			return;
-		} elseif ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
-			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
+		if ( 'llms_order' === get_post_type( $post_id ) ) {
+			/**
+			 * Filters the status that an order post gets assigned when it is restored from the trash.
+			 *
+			 * This is a filter nearly identical to `wp_untrash_post_status` applied specifically to `llms_order` posts.
+			 *
+			 * @since 7.0.0
+			 *
+			 * @link https://developer.wordpress.org/reference/hooks/wp_untrash_post_status/
+			 *
+			 * @param string $new_status      The new status of the post being restored.
+			 * @param int    $post_id         The ID of the post being restored.
+			 * @param string $previous_status The status of the post at the point where it was trashed.
+			 */
+			$new_status = apply_filters( 'llms_untrash_order_status', 'llms-pending', $post_id, $previous_status );
 		}
 
-		$order = llms_get_post( llms_filter_input( INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT ) );
-		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
-			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
-			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
-		}
-
-		$plan       = llms_get_post( $order->get( 'plan_id' ) );
-		$gateway_id = llms_filter_input( INPUT_POST, 'llms_payment_gateway', FILTER_SANITIZE_STRING );
-		$gateway    = $this->validate_selected_gateway( $gateway_id, $plan );
-
-		if ( is_wp_error( $gateway ) ) {
-			return llms_add_notice( $gateway->get_error_message(), 'error' );
-		}
-
-		// Handoff to the gateway.
-		$gateway->handle_payment_source_switch( $order, $_POST );
-
-		// If the order is pending cancel and there were no errors returned activate it.
-		if ( 'llms-pending-cancel' === $order->get( 'status' ) && ! llms_notice_count( 'error' ) ) {
-			$order->set_status( 'active' );
-		}
+		return $new_status;
 
 	}
 
 	/**
-	 * When a transaction fails, update the parent order's status
+	 * When a transaction fails, update the parent order's status.
 	 *
-	 * @param    obj $txn  Instance of the LLMS_Transaction
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @param LLMS_Transaction $txn Instance of the LLMS_Transaction.
+	 * @return void
 	 */
 	public function transaction_failed( $txn ) {
 
@@ -616,7 +564,8 @@ class LLMS_Controller_Orders {
 
 		// Halt if legacy.
 		if ( $order->is_legacy() ) {
-			return; }
+			return;
+		}
 
 		if ( $order->can_be_retried() ) {
 
@@ -631,12 +580,12 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * When a transaction is refunded, update the parent order's status
+	 * When a transaction is refunded, update the parent order's status.
 	 *
-	 * @param    obj $txn  Instance of the LLMS_Transaction
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param LLMS_Transaction $txn Instance of the LLMS_Transaction.
+	 * @return void
 	 */
 	public function transaction_refunded( $txn ) {
 
@@ -651,12 +600,13 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * When a transaction succeeds, update the parent order's status
+	 * When a transaction succeeds, update the parent order's status.
 	 *
-	 * @param    obj $txn  Instance of the LLMS_Transaction
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @param LLMS_Transaction $txn Instance of the LLMS_Transaction.
+	 * @return void
 	 */
 	public function transaction_succeeded( $txn ) {
 
@@ -665,7 +615,8 @@ class LLMS_Controller_Orders {
 
 		// Halt if legacy.
 		if ( $order->is_legacy() ) {
-			return; }
+			return;
+		}
 
 		// Update the status based on the order type.
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
@@ -678,14 +629,15 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
+	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status.
 	 *
-	 * @param    string $new_status  new status
-	 * @param    string $old_status  old status
-	 * @param    ojb    $post        WP_Post instance
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string  $new_status New status.
+	 * @param string  $old_status Old status.
+	 * @param WP_Post $post       WP_Post instance of the transaction.
+	 * @return void
 	 */
 	public function transition_status( $new_status, $old_status, $post ) {
 
@@ -711,23 +663,49 @@ class LLMS_Controller_Orders {
 		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
-		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj, $old_status, $new_status );
-		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj, $old_status, $new_status );
+		/**
+		 * Fired when a LifterLMS order or transaction changes status.
+		 *
+		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
+		 * The second dynamic portion of this hook, `$old_status`, refers to the previous object status.
+		 * The third dynamic portion of this hook, `$new_status`, refers to the new object status.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order|LLMS_Transaction $object     The LifterLMS order or transaction instance.
+		 * @param string                      $old_status The previous order or transaction status.
+		 * @param string                      $new_status The new order or transaction status.
+		 */
+		do_action( "lifterlms_{$post_type}_status_{$old_status}_to_{$new_status}", $obj, $old_status, $new_status );
+
+		/**
+		 * Fired when a LifterLMS order or transaction changes status.
+		 *
+		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
+		 * The second dynamic portion of this hook, `$new_status`, refers to the new object status.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order|LLMS_Transaction $object     The LifterLMS order or transaction instance.
+		 * @param string                      $old_status The previous order or transaction status.
+		 * @param string                      $new_status The new order or transaction status.
+		 */
+		do_action( "lifterlms_{$post_type}_status_{$new_status}", $obj, $old_status, $new_status );
 
 	}
 
 	/**
-	 * Validate a gateway can be used to process the current action / transaction
+	 * Validate a gateway can be used to process the current action / transaction.
 	 *
-	 * @param    string $gateway_id  gateway's id
-	 * @param    obj    $plan        instance of the LLMS_Access_Plan related to the action/transaction
-	 * @return   mixed                   WP_Error or LLMS_Payment_Gateway subclass
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param string           $gateway_id Gateway's id.
+	 * @param LLMS_Access_Plan $plan       Instance of the LLMS_Access_Plan related to the action/transaction.
+	 * @return WP_Error|LLMS_Payment_Gateway WP_Error or LLMS_Payment_Gateway subclass.
 	 */
 	private function validate_selected_gateway( $gateway_id, $plan ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 		$err     = new WP_Error();
 
 		// Valid gateway.
@@ -740,12 +718,12 @@ class LLMS_Controller_Orders {
 
 				// It's a recurring plan and the gateway doesn't support recurring.
 			} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-
+				// Translators: %s = The gateway display name.
 				return $err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 
 				// Not recurring and the gateway doesn't support single payments.
 			} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-
+				// Translators: %s = The gateway display name.
 				return $err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 
 			}
@@ -759,5 +737,74 @@ class LLMS_Controller_Orders {
 
 	}
 
+	/**
+	 * Confirm order form post.
+	 *
+	 * User clicks confirm order or gateway determines the order is confirmed.
+	 *
+	 * Executes payment gateway confirm order method and completes order.
+	 * Redirects user to appropriate page / post
+	 *
+	 * @since 3.0.0
+	 * @since 3.4.0 Unknown.
+	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
+	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
+	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::confirm_pending_order()}.
+	 *
+	 * @return void
+	 */
+	public function confirm_pending_order() {
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::confirm_pending_order' );
+		LLMS_Controller_Checkout::instance()->confirm_pending_order();
+	}
+
+	/**
+	 * Handle form submission of the checkout / payment form.
+	 *
+	 *      1. Logs in or Registers a user
+	 *      2. Validates all fields
+	 *      3. Handles coupon pricing adjustments
+	 *      4. Creates a PENDING llms_order
+	 *
+	 *      If errors, returns error on screen to user
+	 *      If success, passes to the selected gateways "process_payment" method
+	 *          the process_payment method should complete by returning an error or
+	 *          triggering the "lifterlms_process_payment_redirect" // Todo check this last statement.
+	 *
+	 * @since 3.0.0
+	 * @since 3.27.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
+	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order()}.
+	 *
+	 * @return void
+	 */
+	public function create_pending_order() {
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::create_pending_order' );
+		LLMS_Controller_Checkout::instance()->create_pending_order();
+	}
+
+
+	/**
+	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order.
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 7.0.0 Deprecated in favor of {@see LLMS_Controller_Checkout::switch_payment_source()}.
+	 *
+	 * @return void
+	 */
+	public function switch_payment_source() {
+		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::switch_payment_source' );
+		LLMS_Controller_Checkout::instance()->switch_payment_source();
+	}
+
 }
+
 return new LLMS_Controller_Orders();

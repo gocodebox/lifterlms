@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.2
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,12 +39,14 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function is where extending classes can configure all the fields within the metabox
-	 * The function must return an array which can be consumed by the "output" function
+	 * This function is where extending classes can configure all the fields within the metabox.
+	 *
+	 * The function must return an array which can be consumed by the "output" function.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.36.2 'start' drip method made available only if the parent course has a start date set.
+	 * @since 7.1.3 Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
 	 *
 	 * @return array
 	 */
@@ -71,13 +73,13 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			unset( $methods['start'] );
 		}
 
-		return array(
+		$fields = array(
 			array(
 				'title'  => __( 'General', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'video_embed',
 						'label'      => __( 'Video Embed Url', 'lifterlms' ),
@@ -85,7 +87,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 					),
 					array(
 						'class'      => 'code input-full',
-						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'       => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'audio_embed',
 						'type'       => 'text',
@@ -132,44 +134,13 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 					),
 				),
 			),
-			array(
+			'drip' => array(
 				'title'  => __( 'Drip Settings', 'lifterlms' ),
 				'fields' => array(
 					array(
-						'class'         => 'llms-select2',
-						'desc_class'    => 'd-all',
-						'id'            => $this->prefix . 'drip_method',
-						'is_controller' => true,
-						'label'         => __( 'Method', 'lifterlms' ),
-						'type'          => 'select',
-						'value'         => $methods,
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'lesson,enrollment,start,prerequisite',
-						'class'            => 'input-full',
-						'id'               => $this->prefix . 'days_before_available',
-						'label'            => __( 'Delay (in days) ', 'lifterlms' ),
-						'type'             => 'number',
-						'step'             => 1,
-						'min'              => 0,
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class'            => 'llms-datepicker',
-						'id'               => $this->prefix . 'date_available',
-						'label'            => __( 'Date Available', 'lifterlms' ),
-						'type'             => 'date',
-					),
-					array(
-						'controller'       => '#' . $this->prefix . 'drip_method',
-						'controller_value' => 'date',
-						'class'            => '',
-						'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
-						'id'               => $this->prefix . 'time_available',
-						'label'            => __( 'Time Available', 'lifterlms' ),
-						'type'             => 'text',
+						'type' => 'custom-html',
+						'id' => $this->prefix . 'drip_course_settings_info',
+						'value' => $this->get_drip_course_settings_info_html( $course ),
 					),
 				),
 			),
@@ -189,8 +160,71 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				),
 			),
 		);
+
+		if ( ! $course || 'yes' !== $course->get( 'lesson_drip' ) || ! $course->get( 'drip_method' ) )  {
+			$fields['drip']['fields'][] = array(
+				'class'         => 'llms-select2',
+				'desc_class'    => 'd-all',
+				'id'            => $this->prefix . 'drip_method',
+				'is_controller' => true,
+				'label'         => __( 'Method', 'lifterlms' ),
+				'type'          => 'select',
+				'value'         => $methods,
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'lesson,enrollment,start,prerequisite',
+				'class'            => 'input-full',
+				'id'               => $this->prefix . 'days_before_available',
+				'label'            => __( 'Delay (in days) ', 'lifterlms' ),
+				'type'             => 'number',
+				'step'             => 1,
+				'min'              => 0,
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'date',
+				'class'            => 'llms-datepicker',
+				'id'               => $this->prefix . 'date_available',
+				'label'            => __( 'Date Available', 'lifterlms' ),
+				'type'             => 'date',
+			);
+			$fields['drip']['fields'][] = array(
+				'controller'       => '#' . $this->prefix . 'drip_method',
+				'controller_value' => 'date',
+				'class'            => '',
+				'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
+				'id'               => $this->prefix . 'time_available',
+				'label'            => __( 'Time Available', 'lifterlms' ),
+				'type'             => 'text',
+			);
+		}
+
+		return $fields;
 	}
 
+	/**
+	 * Helpful messaging depending on whether the course for this lesson has drip settings enabled or not.
+	 *
+	 * @since 7.6.0
+	 *
+	 * @param LLMS_Course $course Course object.
+	 * @return string
+	 */
+	public function get_drip_course_settings_info_html( $course ) {
+		if ( ! $course ) {
+			return '';
+		}
+
+		$output = 'yes' === $course->get( 'lesson_drip' ) && $course->get( 'drip_method' ) ?
+			__( 'Drip settings are currently set at the course level, under the Restrictions settings tab. If you would like to set individual drip settings for each lesson, you must disable the course level drip settings first.', 'lifterlms' )
+		:
+			__( 'Drip settings can be set at the course level to release course content at a specified interval, in the Restrictions settings tab.', 'lifterlms' );
+
+		$output .= ' <a href="' . admin_url( 'post.php?post=' . $course->get( 'id' ) . '&action=edit#lifterlms-course-options' ) . '">' . __( 'Edit Course', 'lifterlms' ) . '</a>';
+
+		return $output;
+	}
 }
 
 new LLMS_Meta_Box_Lesson();

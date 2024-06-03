@@ -1,7 +1,7 @@
 LifterLMS Inline Documentation Standards
 ========================================
 
-The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards](wp-core-docs). We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
+The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards][wp-core-docs]. We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
 
 ## What should be documented
 
@@ -14,11 +14,10 @@ The following elements should be documented using formatted documentation blocks
 + Requires and includes
 + Hooks (actions and filters)
 + File headers
-+ Constants
 
 ## DocBlock Formatting Guidelines
 
-Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com](llms-dev). Adhering to these guidelines is essential to ensure optimum readability via the code reference.
+Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com][llms-dev]. Adhering to these guidelines is essential to ensure optimum readability via the code reference.
 
 
 ### Spacing
@@ -30,7 +29,7 @@ DocBlocks should directly precede the element (hook, function, method, class, et
 
 A short piece of text, usually one line, providing the basic function of the associated element. A good summary concisely describes what the element does and should not attempt to describe why the element exists.
 
-HTML may not be used in the summary. For example, if the function outputs an `<img>` tag the summary should read "Outputs an image tag" instead of "Outputs an `<img>`" tag
+HTML may not be used in the summary. For example, if the function outputs an `<img>` tag, the summary should read ```Outputs an image tag.``` instead of ```Outputs an `<img>` tag.```.
 
 
 ### Description
@@ -94,18 +93,18 @@ A link in the form of a URL, such as related GitHub issue or other documentation
 
 ### Changelogs
 
-Whenever any code is changed within an element, an `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
+Whenever any code is changed within an element, a `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
-#### Changes Warrating a Changelog Entry
+#### Changes Warranting a Changelog Entry
 
 Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
 
 + **Classes**: Any breaking changes, deprecations, or the introduction of new class elements (elements which do not have their own changelog, such as class properties) require an accompanying `@since` tag entry. Changes to a class method should be recorded on the method's changelog, not on the class changelog.
-+ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry 
++ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry
 
 Changes which do not affect the functionality or execution of the element *should not* be recorded on the element's changelog. For example, a coding standards change such as alignment or spacing should not be recorded.
 
@@ -162,7 +161,7 @@ When multiple lines are required for a single entry, subsequent lines should be 
                 A second entry aligned to with the first entry.
 ```
 
-Multiple logs with version numbers of differening lengths should not be alinged to one another.
+Multiple logs with version numbers of differing lengths should not be aligned to one another.
 
 ```
  * @since 3.3.0
@@ -202,7 +201,7 @@ All descriptions for any of these tags should be a full sentence ending with a f
 
 ```
  * @param string $var1 Description of the argument.
- * @param bool $var2 Description of the argument.
+ * @param bool   $var2 Description of the argument.
  * @return string
  */
 function my_function( $var1, $var2 = false ) {
@@ -230,7 +229,6 @@ A full array parameter would look like this:
  * }
 ```
 
-
 #### 2. Types
 
 Variables, constants, and class members should use the `@var` tag to describe the member's type.
@@ -245,6 +243,19 @@ public $var = 'text';
 
 Use `@see` to perform automatic links to other areas of the codebase. For example `{@see 'is_lifterlms'}` to link to the filter `is_lifterlms`.
 
+
+#### 4. Thrown Exceptions
+
+A function or method which throws an exception should document the thrown exception using an `@throws` tag.
+
+When present, the `@throws` tag should be added to the end of the docblock below the `@return` tag. An empty line should separate the `@return` and `@throws` tag.
+
+```
+ * @return string
+ *
+ * @throws Exception A description of the raised exception.
+ */
+```
 
 ## DocBlock Examples
 
@@ -262,7 +273,7 @@ Functions and class methods should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *
@@ -290,7 +301,7 @@ Class DocBlocks should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *
@@ -312,7 +323,7 @@ Class properties and constants should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * @since x.x.x
  * @since x.x.x Description of member changes.
@@ -334,7 +345,7 @@ Note that `@return` is not used for hook documentation, because action hooks ret
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *
@@ -380,5 +391,5 @@ The file header DocBlock is used to give an overview of what is contained in the
 ```
 
 
-[llms-dev]: https://developer.lifterlms.com
-[wp-core-docs]: https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/
+[llms-dev]: https://developer.lifterlms.com/reference/
+[wp-core-docs]: https://developer.wordpress.org/coding-standards/inline-documentation-standards/

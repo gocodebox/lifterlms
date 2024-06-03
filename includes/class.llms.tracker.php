@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,11 +47,11 @@ class LLMS_Tracker {
 	/**
 	 * Send data home
 	 *
-	 * @since    3.0.0
+	 * @since 3.0.0
+	 * @since 7.4.0 Fix return type.
 	 *
-	 * @param    boolean $force  force a send regardless or the last send time
-	 *
-	 * @return   void
+	 * @param bool $force Force send regardless or the last send time.
+	 * @return array|WP_Error|void
 	 */
 	public static function send_data( $force = false ) {
 

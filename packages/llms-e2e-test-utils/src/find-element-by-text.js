@@ -1,20 +1,18 @@
+const cssXPath = require( 'css-xpath' );
+
 /**
  * Find an element by Text
  *
- * @link https://stackoverflow.com/a/47829000/400568
+ * @since 2.2.0
  *
- * @param  {String} string   Case-insensitive string to search.
- * @param  {String} selector Selector to search. Default "*".
- * @param  {String} leaf     Leaf of the element. Accepts 'outerHTML' (default) or 'innerHTML'.
- * @return {Array}
+ * @see {@link https://stackoverflow.com/a/47829000/400568}
+ *
+ * @param {string} string   Case-insensitive string to search.
+ * @param {string} selector Selector to search. Default "*".
+ * @return {Array} Element.
  */
-export function findElementByText( string, selector = '*', leaf = 'outerHTML' ) {
-
-	const
-		regex = new RegExp( string, 'gmi' ),
-		matcher = e => ( regex.test( e[ leaf ] ) ),
-		elementArray = [ ...document.querySelectorAll( selector ) ];
-
-	return elementArray.filter( matcher )
-
+export async function findElementByText( string, selector = '*' ) {
+	return await page.waitForXPath(
+		`${ cssXPath( selector ) }[contains(text(), '${ string }')]`
+	);
 }

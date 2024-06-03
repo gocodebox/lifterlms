@@ -1,94 +1,22 @@
 <?php
 /**
  * Tests for LifterLMS Currency functions
- * @group	functions
- * @group	currency
- * @since   3.24.1
- * @version 3.28.2
+ *
+ * @group functions
+ * @group currency
+ *
+ * @since 3.24.1
+ * @since 5.0.0 Moved country-related function tests to locale functions test file.
+ * @since 6.0.0 Removed testing of the removed `llms_format_decimal()` function.
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
-	 * test the llms_format_decimal() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
-	 */
-	public function test_llms_format_decimal() {
-
-		// test the most trivial case
-		$this->assertEquals( 3.3333, llms_format_decimal( 3.3333 ) );
-
-		// test the $dp argument
-		$this->assertEquals( 3.33, llms_format_decimal( 3.3333 , true ) );
-
-		// test the $trim_zeros argument
-		$this->assertSame( '3.33', llms_format_decimal( '3.330' , false, true ) );
-		$this->assertSame( '3', llms_format_decimal( '3.0' , false, true ) );
-
-		// test localized decimal formatting
-		update_option( 'lifterlms_price_decimal_sep', ',' );
-		$this->assertSame( '3.0', llms_format_decimal( '3,0' ) );
-	}
-
-	/**
-	 * test the get_lifterlms_countries() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
-	 */
-	public function test_get_lifterlms_countries() {
-
-		// test unique and lifterlms_countries filters are applied
-		add_filter( 'lifterlms_countries', function() {
-			return array(
-				'AF' => 'Afghanistan',
-				'AL' => 'Albania',
-				'DZ' => 'Algeria',
-				'AS' => 'American Samoa',
-				'AD' => 'Andorra',
-				'AN' => 'Andorra',
-			);
-		} );
-
-		$test = array(
-			'AF' => 'Afghanistan',
-			'AL' => 'Albania',
-			'DZ' => 'Algeria',
-			'AS' => 'American Samoa',
-			'AD' => 'Andorra',
-		);
-
-		$this->assertEquals( $test, get_lifterlms_countries() );
-	}
-
-	/**
-	 * test the get_lifterlms_country() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
-	 */
-	public function test_get_lifterlms_country() {
-
-		// test default
-		$this->assertEquals( 'US', get_lifterlms_country() );
-
-		// test lifterlms_country option
-		update_option( 'lifterlms_country', 'GB' );
-		$this->assertEquals( 'GB', get_lifterlms_country() );
-
-		// test that the lifterlms_country filter is applied
-		add_filter( 'lifterlms_country', function() {
-			return 'FR';
-		} );
-		$this->assertEquals( 'FR', get_lifterlms_country() );
-	}
-
-	/**
 	 * test the get_lifterlms_currency() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_currency() {
 
@@ -108,61 +36,49 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_currency() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 * @since 5.0.0 Update language.
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_currency_name() {
 
 		// test default
-		$this->assertEquals( 'United States dollar', get_lifterlms_currency_name() );
+		$this->assertEquals( 'United States Dollar', get_lifterlms_currency_name() );
 
 		// test $currency argument
-		$this->assertEquals( 'Pound sterling', get_lifterlms_currency_name( 'GBP' ) );
+		$this->assertEquals( 'British Pound', get_lifterlms_currency_name( 'GBP' ) );
 
 		// test that the lifterlms_currency_name filter is applied
 		add_filter( 'lifterlms_currency_name', function( $name, $currency ) {
 			return sprintf( '%s (%s)', $name, $currency );
 		}, 10, 2 );
-		$this->assertEquals( 'United States dollar (USD)', get_lifterlms_currency_name() );
+		$this->assertEquals( 'United States Dollar (USD)', get_lifterlms_currency_name() );
 	}
 
 	/**
 	 * test the get_lifterlms_currencies() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 * @since 5.0.0 Update test to ensure result matches source data array.
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_currencies() {
 
-		// test unique and lifterlms_currencies filters are applied
-		add_filter( 'lifterlms_currencies', function() {
-			return array(
-				'AED' => 'United Arab Emirates dirham',
-				'AFN' => 'Afghan afghani',
-				'ALL' => 'Albanian lek',
-				'AMD' => 'Armenian dram',
-				'ANG' => 'Netherlands Antillean guilder',
-				'ANH' => 'Netherlands Antillean guilder',
-			);
-		} );
+		$expected = include LLMS_PLUGIN_DIR . 'languages/currencies.php';
+		$this->assertEquals( $expected, get_lifterlms_currencies() );
 
-		$test = array(
-			'AED' => 'United Arab Emirates dirham',
-			'AFN' => 'Afghan afghani',
-			'ALL' => 'Albanian lek',
-			'AMD' => 'Armenian dram',
-			'ANG' => 'Netherlands Antillean guilder',
-		);
-
-		$this->assertEquals( $test, get_lifterlms_currencies() );
 	}
 
 	/**
 	 * test the get_lifterlms_currency_symbol() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 * @since 5.0.0 Update character entity used for the pound.
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_currency_symbol() {
 
@@ -170,7 +86,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 		$this->assertEquals( '&#36;', get_lifterlms_currency_symbol() );
 
 		// test $currency argument
-		$this->assertEquals( '&pound;', get_lifterlms_currency_symbol( 'GBP' ) );
+		$this->assertEquals( '&#163;', get_lifterlms_currency_symbol( 'GBP' ) );
 
 		// test that the lifterlms_currency_symbol filter is applied
 		add_filter( 'lifterlms_currency_symbol', function( $currency_symbol, $currency ) {
@@ -181,9 +97,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_currency_symbol() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_decimals() {
 
@@ -203,9 +120,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_decimal_separator() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_decimal_separator() {
 
@@ -225,9 +143,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_trim_zero_decimals() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_trim_zero_decimals() {
 
@@ -247,9 +166,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_price_format() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_price_format() {
 
@@ -277,9 +197,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the get_lifterlms_thousand_separator() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_get_lifterlms_thousand_separator() {
 
@@ -297,26 +218,30 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 		$this->assertEquals( ':', get_lifterlms_thousand_separator() );
 	}
 
-	/**
-	 * test the llms_get_country_name() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.28.2
-	 */
-	public function test_llms_get_country_name() {
+	public function test_llms_get_currency_symbols() {
 
-		// test existing country definition
-		$this->assertEquals( 'United States (US)', llms_get_country_name( 'US' ) );
+		$expected = include LLMS_PLUGIN_DIR . 'languages/currency-symbols.php';
+		$res      = llms_get_currency_symbols();
+		$this->assertEquals( $expected, $res );
 
-		// test non-existing country definition
-		$this->assertEquals( 'XX', llms_get_country_name( 'XX' ) );
+		// Make sure entities decode to what's expected.
+		$this->assertEquals( '$', html_entity_decode( $res['USD'] ) );
+		$this->assertEquals( '£', html_entity_decode( $res['GBP'] ) );
+		$this->assertEquals( '€', html_entity_decode( $res['EUR'] ) );
+
+		// Text symbols.
+		$this->assertEquals( 'P', $res['BWP'] );
+		$this->assertEquals( 'CHF', $res['CHF'] );
+
 	}
 
 	/**
 	 * test the llms_price() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 * @since 5.0.0 Update currency symbol entities.
+	 *
+	 * @return void
 	 */
 	public function test_llms_price() {
 
@@ -365,7 +290,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 			'thousand_separator' => ',',
 			'trim_zeros' => 'no',
 		);
-		$this->assertEquals( '<span class="lifterlms-price"><div><span class="llms-price-currency-symbol">&pound;</span></div>1,003.00</span>', llms_price( '1002.999', $args ) );
+		$this->assertEquals( '<span class="lifterlms-price"><div><span class="llms-price-currency-symbol">&#163;</span></div>1,003.00</span>', llms_price( '1002.999', $args ) );
 
 		// test with custom arguments via llms_price_args filter
 		add_filter( 'llms_price_args', function() {
@@ -378,14 +303,15 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 				'trim_zeros' => 'no',
 			);
 		} );
-		$this->assertEquals( '<span class="lifterlms-price"><span class="llms-price-currency-symbol">&euro;</span> - 1.003:0</span>', llms_price( '1002.999', $args ) );
+		$this->assertEquals( '<span class="lifterlms-price"><span class="llms-price-currency-symbol">&#8364;</span> - 1.003:0</span>', llms_price( '1002.999', $args ) );
 	}
 
 	/**
 	 * test the llms_price_raw() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_price_raw() {
 
@@ -406,9 +332,10 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the llms_trim_zeros() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
+	 *
+	 * @since 3.24.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_trim_zeros() {
 

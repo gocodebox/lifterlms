@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.17.4 Unknown.
  * @since 3.24.0 Unknown.
  * @since 3.30.3 Explicitly define undefined properties.
+ * @deprecated 6.0.0 Class `LLMS_Achievement_User` is deprecated with no direct replacement.
  */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -87,6 +88,31 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	public $user_pass;
 
 	/**
+	 * Alert when deprecated methods are used.
+	 *
+	 * This class as well as core classes extending it have been deprecated. All public and protected methods
+	 * have been changed to private and will be made accessible through this magic method which also emits a
+	 * deprecation warning.
+	 *
+	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
+	 * removed alongside this class in the next major release.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $name Name of the method being called.
+	 * @param array  $args Arguments provided to the method.
+	 * @return void
+	 */
+	public function __call( $name, $args ) {
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
+		if ( method_exists( $this, $name ) ) {
+			$this->$name( ...$args );
+		}
+	}
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -95,12 +121,13 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	}
 
 	/**
-	 * Check if the user has already earned this achievement
-	 * used to prevent duplicates
+	 * Check if the user has already earned this achievement used to prevent duplicates
 	 *
-	 * @return   boolean
-	 * @since    3.4.1
-	 * @version  3.17.4
+	 * @since 3.4.1
+	 * @since 3.17.4 Unknown.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::has_user_earned()` is deprecated with no replacement.
+	 *
+	 * @return boolean
 	 */
 	private function has_user_earned() {
 
@@ -134,14 +161,16 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Initializes all of the variables needed to create the achievement post.
 	 *
-	 * @param    int $id         id of post
-	 * @param    int $person_id  id of user
-	 * @param    int $lesson_id  id of associated lesson
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::init()` is deprecated with no replacement.
+	 *
+	 * @param int $id        Id of post.
+	 * @param int $person_id Id of user.
+	 * @param int $lesson_id Id of associated lesson.
+	 * @return void
 	 */
-	public function init( $id, $person_id, $lesson_id ) {
+	private function init( $id, $person_id, $lesson_id ) {
 		global $wpdb;
 
 		$content = get_post( $id );
@@ -167,13 +196,15 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Creates new instance of WP_User and calls parent method create
 	 *
-	 * @param  int $user_id [id of user]
-	 * @param  int $id [id of post]
-	 * @param  int $lesson_id [id of associated lesson]
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::trigger()` is deprecated with no replacement.
 	 *
+	 * @param int $user_id   ID of user.
+	 * @param int $id        ID of post.
+	 * @param int $lesson_id ID of associated lesson.
 	 * @return void
 	 */
-	public function trigger( $user_id, $id, $lesson_id ) {
+	private function trigger( $user_id, $id, $lesson_id ) {
 
 		$this->init( $id, $user_id, $lesson_id );
 
@@ -202,9 +233,12 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Gets post content and replaces merge fields with user meta-data
 	 *
-	 * @return mixed [returns formatted post content]
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::get_content_html()` is deprecated with no replacement.
+	 *
+	 * @return string
 	 */
-	public function get_content_html() {
+	private function get_content_html() {
 
 		$this->find    = array(
 			'{site_title}',
@@ -237,6 +271,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 			)
 		);
 		return ob_get_clean();
+
 	}
 
 }

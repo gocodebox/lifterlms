@@ -7,6 +7,7 @@
  * @group metabox_access
  * @group admin
  * @group metaboxes
+ * @group metaboxes_post_type
  *
  * @since 3.36.1
  * @version 3.36.1
@@ -17,12 +18,13 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	 * Setup test
 	 *
 	 * @since 3.36.1
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->metabox = new LLMS_Meta_Box_Access();
 
 	}

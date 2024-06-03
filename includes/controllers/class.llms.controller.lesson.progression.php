@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version 3.29.0
+ * @version 6.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,7 +44,7 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @since 3.29.0
 	 *
-	 * @param tring $action Form action, either "complete" or "incomplete".
+	 * @param string $action Form action, either "complete" or "incomplete".
 	 * @return int|null Returns `null` when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success.
 	 */
 	private function get_lesson_id_from_form_data( $action ) {
@@ -79,6 +79,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle completion of lessons for a student.
 	 *
 	 * @since 3.29.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.10.0 Check the current user can edit the lesson they're going to mark complete/incomplete.
 	 *
 	 * @return void
 	 */
@@ -88,12 +90,12 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
-		$action     = llms_filter_input( INPUT_POST, 'llms-lesson-action', FILTER_SANITIZE_STRING );
+		$action     = llms_filter_input( INPUT_POST, 'llms-lesson-action' );
 		$lesson_id  = absint( llms_filter_input( INPUT_POST, 'lesson_id' ) );
 		$student_id = absint( llms_filter_input( INPUT_POST, 'student_id' ) );
 
 		// Missing required data.
-		if ( empty( $action ) || empty( $lesson_id ) || empty( $student_id ) ) {
+		if ( empty( $action ) || empty( $lesson_id ) || empty( $student_id ) || ! current_user_can( 'edit_post', $lesson_id ) ) {
 			return;
 		}
 
@@ -127,7 +129,16 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
-		do_action( 'llms_trigger_lesson_completion', get_current_user_id(), $lesson_id, 'lesson_' . $lesson_id );
+		/**
+		 * Filter to modify the user id instead of current logged in user id.
+		 *
+		 * @param int $user_id User id to mark lesson as complete.
+		 *
+		 * @since 5.4.0
+		 */
+		$user_id = apply_filters( 'llms_lesson_completion_user_id', get_current_user_id() );
+
+		do_action( 'llms_trigger_lesson_completion', $user_id, $lesson_id, 'lesson_' . $lesson_id );
 
 		if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 
@@ -162,8 +173,17 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
+		/**
+		 * Filter to modify the user id instead of current logged in user id.
+		 *
+		 * @param int $user_id User id to mark lesson as incomplete.
+		 *
+		 * @since 5.4.0
+		 */
+		$user_id = apply_filters( 'llms_lesson_incomplete_user_id', get_current_user_id() );
+
 		// Mark incomplete and add a notice on success.
-		if ( llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
+		if ( llms_mark_incomplete( $user_id, $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
 			// Translators: %s is the title of the lesson.
 			llms_add_notice( sprintf( __( 'The lesson %s is now marked as incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 		}

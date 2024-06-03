@@ -3,7 +3,7 @@
  *
  * @since 3.16.0
  * @since 3.37.11 Added `_.getEditor()` helper.
- * @version 3.37.11
+ * @version 5.4.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -34,14 +34,14 @@ require( [
 		window.llms_builder.schemas   = new Schemas( window.llms_builder.schemas );
 
 		/**
-		 * Compare values, used by _.checked & _.selected mixins
+		 * Compare values, used by _.checked & _.selected mixins.
 		 *
-		 * @param    mixed   expected  expected value, probably a string (the value of a select option or checkbox element)
-		 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
-		 *                             				 but could be an array like a multiselect
-		 * @return   boolean
-		 * @since    3.17.2
-		 * @version  3.17.2
+		 * @since 3.17.2
+		 *
+		 * @param {Mixed} expected expected Value, probably a string (the value of a select option or checkbox element).
+		 * @param {Mixed} mixed    actual   Actual value, probably a string (the return of model.get( 'something' ) )
+		 *                                  but could be an array like a multiselect.
+		 * @return {Bool}
 		 */
 		function value_compare( expected, actual ) {
 			return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
@@ -56,15 +56,17 @@ require( [
 		_.mixin( {
 
 			/**
-			 * Determine if two values are equal and output checked attribute if they are
-			 * Useful for templating checkboxes & radio elements
-			 * Like WP Core PHP checked() but in JS
+			 * Determine if two values are equal and output checked attribute if they are.
 			 *
-			 * @param    mixed   expected  expected element value
-			 * @param    mixed   actual    actual element value
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * Useful for templating checkboxes & radio elements
+			 * like WP Core PHP checked() but in JS.
+			 *
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @param {Mixed} expected Expected element value.
+			 * @param {Mixed} actual   Actual element value.
+			 * @return {String}
 			 */
 			checked: function( expected, actual ) {
 				if ( value_compare( expected, actual ) ) {
@@ -74,12 +76,12 @@ require( [
 			},
 
 			/**
-			 * Recursively clone an object via _.clone()
+			 * Recursively clone an object via _.clone().
 			 *
-			 * @param    obj   obj  object to clone
-			 * @return   obj
-			 * @since    3.17.7
-			 * @version  3.17.7
+			 * @since 3.17.7
+			 *
+			 * @param {Object} obj Object to clone.
+			 * @return {Object}
 			 */
 			deepClone: function( obj ) {
 
@@ -129,12 +131,14 @@ require( [
 			},
 
 			/**
-			 * Strips IDs & Parent References from quizzes and all quiz questions
+			 * Strips IDs & Parent References from quizzes and all quiz questions.
 			 *
-			 * @param    obj   quiz   raw quiz object (not a model)
-			 * @return   obj
-			 * @since    3.24.0
-			 * @version  3.27.0
+			 * @since 3.24.0
+			 * @since 3.27.0 Unknown.
+			 * @since 5.4.0 Use author id instead of the question author object.
+			 *
+			 * @param {Object} quiz Raw quiz object (not a model).
+			 * @return {Object}
 			 */
 			prepareQuizObjectForCloning: function( quiz ) {
 
@@ -147,17 +151,21 @@ require( [
 
 				} );
 
+				// Use author id instead of the quiz author object.
+				quiz = _.prepareExistingPostObjectDataForAddingOrCloning( quiz );
+
 				return quiz;
 
 			},
 
 			/**
-			 * Strips IDs & Parent References from a question
+			 * Strips IDs & Parent References from a question.
 			 *
-			 * @param    obj   question   raw question object (not a model).
-			 * @return   obj
-			 * @since    3.27.0
-			 * @version  3.27.0
+			 * @since 3.27.0
+			 * @since 5.4.0 Use author id instead of the question author object.
+			 *
+			 * @param {Object} question Raw question object (not a model).
+			 * @return {Object}
 			 */
 			prepareQuestionObjectForCloning: function( question ) {
 
@@ -182,20 +190,74 @@ require( [
 
 				}
 
+				// Use author id instead of the question author object.
+				question = _.prepareExistingPostObjectDataForAddingOrCloning( question );
+
 				return question;
 
 			},
 
 			/**
-			 * Determine if two values are equal and output selected attribute if they are
-			 * Useful for templating select elements
-			 * Like WP Core PHP selected() but in JS
+			 * Strips IDs & Parent References from assignments and all assignment tasks.
 			 *
-			 * @param    mixed   expected  expected element value
-			 * @param    mixed   actual    actual element value
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * @since 5.4.0
+			 *
+			 * @param {Object} assignment Raw assignment object (not a model).
+			 * @return {Object}
+			 */
+			 prepareAssignmentObjectForCloning: function( assignment ) {
+
+				delete assignment.id;
+				delete assignment.lesson_id;
+
+				// Clone tasks.
+				if ( 'tasklist' === assignment.assignment_type ) {
+					_.each( assignment.tasks, function( task ) {
+						delete task.id;
+						delete task.assignment_id;
+					} );
+				}
+
+				// Use author id instead of the quiz author object.
+				assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
+
+				return assignment;
+
+			},
+
+			/**
+			 * Prepare post object data for adding or cloning.
+			 *
+			 * Use author id instead of the post type author object.
+			 *
+			 * @since 5.4.0
+			 *
+			 * @param {Object} quiz Raw post object (not a model).
+			 * @return {Object}
+			 */
+			prepareExistingPostObjectDataForAddingOrCloning: function( post_data ) {
+
+				if ( post_data.author && _.isObject( post_data.author ) && post_data.author.id ) {
+					post_data.author = post_data.author.id;
+				}
+
+				return post_data;
+
+			},
+
+			/**
+			 * Determine if two values are equal and output selected attribute if they are.
+			 *
+			 * Useful for templating select elements
+			 * like WP Core PHP selected() but in JS.
+			 *
+			 *
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @param {Mixed} expected Expected element value.
+			 * @param {Mixed} actual   Actual element value.
+			 * @return {String}
 			 */
 			selected: function( expected, actual ) {
 				if ( value_compare( expected, actual ) ) {
@@ -205,13 +267,13 @@ require( [
 			},
 
 			/**
-			 * Generic function for stripping HTML tags from a string
+			 * Generic function for stripping HTML tags from a string.
 			 *
-			 * @param    string   content       raw string
-			 * @param    array   allowed_tags  array of allowed HTML tags
-			 * @return   string
-			 * @since    3.17.8
-			 * @version  3.17.8
+			 * @since 3.17.8
+			 *
+			 * @param {String} content      Raw string.
+			 * @param {Array}  allowed_tags Array of allowed HTML tags.
+			 * @return {String}
 			 */
 			stripFormatting: function( content, allowed_tags ) {
 
@@ -258,9 +320,10 @@ require( [
 		} );
 
 		/**
-		 * Do deep linking to Lesson / Quiz / Assignments
+		 * Do deep linking to Lesson / Quiz / Assignments.
+		 *
 		 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
-		 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
+		 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab.
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.

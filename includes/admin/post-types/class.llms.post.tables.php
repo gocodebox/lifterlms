@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 3.0.0
- * @version 3.33.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,7 +59,7 @@ class LLMS_Admin_Post_Tables {
 				),
 				admin_url( 'edit.php' )
 			);
-			$actions['llms-clone'] = '<a href="' . esc_url( $url ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
+			$actions['llms-clone'] = '<a href="' . esc_url( wp_nonce_url( $url, 'llms_clone_post', 'llms_clone_post_nonce' ) ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
 		}
 
 		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
@@ -84,6 +84,7 @@ class LLMS_Admin_Post_Tables {
 	 * @since 3.3.0
 	 * @since 3.33.1 Use `llms_filter_input` to access `$_GET` and `$_POST` data.
 	 * @since 3.33.1 Use `edit_course` cap instead of `edit_post` cap.
+	 * @since 7.5.1 Adding nonce to course clone links
 	 *
 	 * @return void
 	 */
@@ -91,43 +92,43 @@ class LLMS_Admin_Post_Tables {
 
 		$action = llms_filter_input( INPUT_GET, 'action' );
 
-		// bail early if request doesn't concern us.
+		// Bail early if request doesn't concern us.
 		if ( empty( $action ) ) {
 			return;
 		}
 
-		// bail early if it isn't a clone/ export request.
+		// Bail early if it isn't a clone/ export request.
 		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action ) {
 			return;
 		}
 
 		$post_id = llms_filter_input( INPUT_GET, 'post' );
 
-		// bail if there's no post ID.
+		// Bail if there's no post ID.
 		if ( empty( $post_id ) ) {
 			wp_die( __( 'Missing post ID.', 'lifterlms' ) );
 		}
 
 		$post = get_post( $post_id );
 
-		// bail if post ID is invalid.
+		// Bail if post ID is invalid.
 		if ( ! $post ) {
 			wp_die( __( 'Invalid post ID.', 'lifterlms' ) );
 		}
 
-		// bail if the action isn't supported on post type.
+		// Bail if the action isn't supported on post type.
 		if ( ! post_type_supports( $post->post_type, $action ) ) {
 			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
 		}
 
-		// bail if user doesn't have permissions.
+		// Bail if user doesn't have permissions.
 		if ( ! current_user_can( 'edit_course', $post->ID ) ) {
 			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 		}
 
 		$post = llms_get_post( $post );
 
-		// run export or clone action as needed.
+		// Run export or clone action as needed.
 		switch ( $action ) {
 
 			case 'llms-export-post':
@@ -135,13 +136,15 @@ class LLMS_Admin_Post_Tables {
 				break;
 
 			case 'llms-clone-post':
+				if ( ! isset( $_GET['llms_clone_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
+					wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+				}
 				$r = $post->clone_post();
 				if ( is_wp_error( $r ) ) {
 					LLMS_Admin_Notices::flash_notice( $r->get_error_message(), 'error' );
 				}
 				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
 				exit;
-			break;
 
 		}
 
@@ -151,22 +154,35 @@ class LLMS_Admin_Post_Tables {
 	 * Get the HTML for a post type select2 filter
 	 *
 	 * @since 3.12.0
+	 * @since 6.0.0 Don't display a dynamic view post button.
 	 *
-	 * @param string $name Name of the select element.
+	 * @param string $name      Name of the select element.
 	 * @param string $post_type Post type to search by.
-	 * @param int[]  $selected Array of POST IDs to use for the pre-selected options on page load.
+	 * @param int[]  $selected  Array of POST IDs to use for the pre-selected options on page load.
 	 * @return string
 	 */
 	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {
-		$obj   = get_post_type_object( $post_type );
-		$label = $obj->labels->singular_name;
+
+		$id = sprintf( 'filter-by-llms-post-%s', $post_type );
+
+		$obj = get_post_type_object( $post_type );
+		// Translators: %s = the singular post type name.
+		$label = sprintf( __( 'Filter by %s', 'lifterlms' ), $obj->labels->singular_name );
 		ob_start();
 		?>
 		<span class="llms-post-table-post-filter">
-			<label for="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>" class="screen-reader-text">
-				<?php printf( esc_html__( 'Filter by %s', 'lifterlms' ), $label ); ?>
+			<label for="<?php echo $id; ?>" class="screen-reader-text">
+				<?php echo esc_html( $label ); ?>
 			</label>
-			<select class="llms-select2-post" data-allow_clear="true" data-placeholder="<?php printf( esc_attr__( 'Filter by %s', 'lifterlms' ), $label ); ?>" data-post-type="<?php echo $post_type; ?>" name="<?php echo $name; ?>" id="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>">
+			<select
+				class="llms-select2-post"
+				data-allow_clear="true"
+				data-no-view-button="true"
+				data-placeholder="<?php echo esc_attr( $label ); ?>"
+				data-post-type="<?php echo $post_type; ?>"
+				name="<?php echo $name; ?>"
+				id="<?php echo $id; ?>"
+			>
 				<?php if ( $selected ) : ?>
 					<?php foreach ( llms_make_select2_post_array( $selected ) as $data ) : ?>
 						<option value="<?php echo $data['key']; ?>"><?php echo $data['title']; ?></option>
@@ -177,7 +193,6 @@ class LLMS_Admin_Post_Tables {
 		<?php
 		return ob_get_clean();
 	}
-
 
 }
 return new LLMS_Admin_Post_Tables();

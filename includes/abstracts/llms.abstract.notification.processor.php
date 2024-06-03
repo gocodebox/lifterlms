@@ -5,13 +5,10 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.38.0
+ * @version 6.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
-
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
 /**
  * LifterLMS Notification Background Processor abstract class
@@ -61,21 +58,33 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	}
 
 	/**
-	 * Starts the queue
+	 * Starts the queue.
 	 *
 	 * @since 3.8.0
 	 * @since 3.38.0 Added return from parent method.
+	 * @since 6.10.1 Fixed malformed sprintf when logging dispatch errors.
 	 *
 	 * @return array|WP_Error Response from `wp_remote_post()`.
 	 */
 	public function dispatch() {
 
-		$this->log( sprintf( 'Dispatching %s', $this->action ) );
+		$this->log(
+			sprintf(
+				'Dispatching %s',
+				$this->action
+			)
+		);
 
 		$dispatched = parent::dispatch();
 
 		if ( is_wp_error( $dispatched ) ) {
-			$this->log( sprintf( 'Unable to dispatch %1$s: %2$s' ), $this->action, $dispatched->get_error_message() );
+			$this->log(
+				sprintf(
+					'Unable to dispatch %1$s: %2$s',
+					$this->action,
+					$dispatched->get_error_message()
+				)
+			);
 		}
 
 		return $dispatched;

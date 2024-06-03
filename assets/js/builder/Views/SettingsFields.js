@@ -2,9 +2,7 @@
  * Model settings fields view
  *
  * @since 3.17.0
- * @since 3.24.0 Unknown.
- * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version 3.37.11
+ * @version 4.7.0
  */
 define( [], function() {
 
@@ -256,7 +254,7 @@ define( [], function() {
 
 			function option_html( label, val ) {
 
-				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label + '</option>';
+				return '<option value="' + val + '"' + _.selected( val, selected ) + '>' + label.substring( 0, 100 ) + ( label.length > 100 ? '...' : '' ) + '</option>';
 
 			}
 
@@ -288,6 +286,7 @@ define( [], function() {
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since 4.7.0 Ensure `switch-number` fields are set with the `number` type attribute.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
@@ -338,6 +337,7 @@ define( [], function() {
 				break;
 
 				case 'number':
+				case 'switch-number':
 					defaults.input_type = 'number';
 				break;
 

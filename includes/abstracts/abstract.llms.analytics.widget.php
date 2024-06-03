@@ -5,13 +5,13 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Analytics Widget abstract class
+ * Analytics Widget abstract class.
  *
  * @since 3.0.0
  * @since 3.30.3 Define undefined properties.
@@ -104,9 +104,17 @@ abstract class LLMS_Analytics_Widget {
 
 	public function __construct() {}
 
+	/**
+	 * Retrieve posted dates.
+	 *
+	 * @since 3.0.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return string[]|string
+	 */
 	protected function get_posted_dates() {
 
-		$dates = llms_filter_input( INPUT_POST, 'dates', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$dates = llms_filter_input_sanitize_string( INPUT_POST, 'dates', array( FILTER_REQUIRE_ARRAY ) );
 		return $dates ? $dates : '';
 
 	}
@@ -328,6 +336,65 @@ abstract class LLMS_Analytics_Widget {
 
 	}
 
+	/**
+	 * Whether or not the current widget can be processed/displayed.
+	 *
+	 * @since 7.3.0
+	 *
+	 * @return true|WP_Error True if the widget can be processed, `WP_Error` otherwise.
+	 */
+	protected function _can_be_processed() { // phpcs:ignore -- PSR2.Methods.MethodDeclaration.Underscore.
+
+		$can_be_processed = true;
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) ) {
+			$can_be_processed = new WP_Error(
+				WP_Http::FORBIDDEN, // 403.
+				esc_html__( 'You are not authorized to access the requested widget', 'lifterlms' )
+			);
+		}
+
+		return $can_be_processed;
+	}
+
+	/**
+	 * Whether or not the current widget can be processed/displayed.
+	 *
+	 * @since 7.3.0
+	 *
+	 * @return true|WP_Error
+	 */
+	public function can_be_processed() {
+
+		$widget_name = str_replace(
+			array( 'llms_analytics_', '_widget' ),
+			'',
+			strtolower( get_class( $this ) )
+		);
+
+		/**
+		 * Whether or not the current widget can be processed/displayed.
+		 *
+		 * @param true|WP_Error         True if the widget can be processed, `WP_Error` otherwise.
+		 * @param string                The widget name.
+		 * @param LLMS_Analytics_Widget The instance extending `LLMS_Analytics_Widget`.
+		 */
+		return apply_filters(
+			'llms_can_analytics_widget_be_processed',
+			$this->_can_be_processed(),
+			$widget_name,
+			$this
+		);
+
+	}
+
+	/**
+	 * Output widget.
+	 *
+	 * @since 3.0.0
+	 * @since 7.3.0 Use `wp_json_encode` in place of the deprecated `json_encode`.
+	 *
+	 * @return void
+	 */
 	public function output() {
 
 		$this->set_query();
@@ -340,7 +407,7 @@ abstract class LLMS_Analytics_Widget {
 		}
 
 		header( 'Content-Type: application/json' );
-		echo json_encode( $this );
+		echo wp_json_encode( $this );
 		wp_die();
 
 	}

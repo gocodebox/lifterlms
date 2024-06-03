@@ -11,8 +11,16 @@
  */
 class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	/**
+	 * Setup the test case
+	 *
+	 * @since 4.5.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
 		add_filter( 'llms_log_max_filesize', array( $this, 'shrink_max_log_size' ) );
 	}
 
@@ -26,12 +34,13 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	 * and this teardown prevents that.
 	 *
 	 * @since 4.5.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		foreach ( glob( LLMS_LOG_DIR . '*.log*' ) as $file ) {
 			unlink( $file );
 		}
@@ -80,6 +89,57 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	 */
 	public function shrink_max_log_size( $size ) {
 		return 1;
+	}
+
+	/**
+	 * Test llms_get_callable_name()
+	 *
+	 * @since 5.2.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_callable_name() {
+
+		$tests = array(
+			array(
+				'llms',
+				'llms',
+			),
+			array(
+				'LLMS_Install::install',
+				'LLMS_Install::install',
+			),
+			array(
+				array( llms(), 'init' ),
+				'LifterLMS->init',
+			),
+			array(
+				array( 'LLMS_Install', 'install' ),
+				'LLMS_Install::install',
+			),
+			array(
+				llms(),
+				'LifterLMS',
+			),
+			array(
+				function() {},
+				'Closure'
+			),
+			array(
+				array(),
+				'Unknown',
+			),
+		);
+
+		foreach ( $tests as $test ) {
+
+			$callable = $test[0];
+			$expected = $test[1];
+
+			$this->assertEquals( $expected, llms_get_callable_name( $callable ), $expected );
+
+		}
+
 	}
 
 	/**
@@ -253,6 +313,54 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
 		remove_action( 'llms_log_file_backup_created', $handler, 10 );
 
+	}
+
+	/**
+	 * Test _llms_secure_log_messages() when no secure strings are registered.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test__llms_secure_log_messages_no_strings_registered() {
+		$this->assertEquals( 'log', _llms_secure_log_messages( 'log', 'llms' ) );
+	}
+
+
+	/**
+	 * Test _llms_secure_log_messages() when no secure strings are registered.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test__llms_secure_log_messages() {
+
+
+		$handler = function( $strings ) {
+
+			$strings[] = 'abcd';
+			$strings[] = '1234567890';
+			$strings[] = 'xyz'; // Not found.
+
+			return $strings;
+		};
+
+		add_filter( 'llms_secure_strings', $handler );
+
+		$input_log = array(
+			'abcd',
+			'other stuff',
+			'1234567890',
+			'more logs',
+		); 
+
+		$this->assertEquals( 
+			'["***d","other stuff","********90","more logs"]',
+			_llms_secure_log_messages( json_encode( $input_log ), 'llms' )
+		);
+
+		remove_filter( 'llms_secure_strings', $handler );
 	}
 
 }

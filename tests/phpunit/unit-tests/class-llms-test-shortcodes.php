@@ -9,6 +9,7 @@
  * @since 3.4.3
  * @since 3.24.1 Unknown.
  * @since 4.0.0 Add tests for `get_course_id()` method.
+ * @since 5.0.0 Don't need to test for password strength enqueue anymore.
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
@@ -84,6 +85,8 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.4.3
 	 * @since 4.4.0 Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
+	 * @since 5.0.0 Don't need to test for password strength enqueue anymore.
+	 * @since 5.3.3 Use `assertStringContains()` in favor of `assertContains()`.
 	 *
 	 * @return void
 	 */
@@ -95,24 +98,22 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 		$obj = LLMS_Shortcode_Registration::instance();
 
 		// when logged out, there should be html content
-		$this->assertContains( 'llms-new-person-form-wrapper', $obj->output() );
+		$this->assertStringContains( 'llms-new-person-form-wrapper', $obj->output() );
 
 		// no html when logged in
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
 		$this->assertEmpty( $obj->output() );
 
-		// ensure required scripts are enqueued
-		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
-		$this->assertTrue( llms()->assets->is_inline_enqueued( 'llms-pw-strength' ) );
-
 	}
 
 	/**
 	 * Test lifterlms_membership_link shortcode
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 *
+	 * @since 3.4.3
+	 * @since 5.3.3 Use `assertStringContains()` in favor of `assertContains()`.
+	 *
+	 * @return void
 	 */
 	public function test_membership_link() {
 
@@ -125,15 +126,51 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 		$obj = LLMS_Shortcode_Membership_Link::instance();
 
 		// test default settings
-		$this->assertContains( get_permalink( $mid ), $obj->output( array( 'id' => $mid ) ) );
-		$this->assertContains( get_the_title( $mid ), $obj->output( array( 'id' => $mid ) ) );
+		$this->assertStringContains( get_permalink( $mid ), $obj->output( array( 'id' => $mid ) ) );
+		$this->assertStringContains( get_the_title( $mid ), $obj->output( array( 'id' => $mid ) ) );
 
 		$this->assertEquals( $mid, $obj->get_attribute( 'id' ) );
 
 		// check non default content
-		$this->assertContains( 'Alternate Text', $obj->output( array( 'id' => $mid ), 'Alternate Text' ) );
+		$this->assertStringContains( 'Alternate Text', $obj->output( array( 'id' => $mid ), 'Alternate Text' ) );
 		$this->assertEquals( 'Alternate Text', $obj->get_content( 'Alternate Text' ) );
 
+	}
+
+	/**
+	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_shortcodes_initialized_early() {
+
+		global $wp_filter;
+
+		$shortcodes_init_is_found = false;
+		foreach ( $wp_filter['init'][10] as $idx => $callback ) {
+
+			// $idx is a unique ID that for static methods will be class_name . '::' . method_name.
+			if ( 'LLMS_Shortcodes::init' === $idx ) {
+				$shortcodes_init_is_found = true;
+				continue;
+			}
+
+			if ( is_array( $callback['function'] ) ) {
+				$class = is_object( $callback['function'][0] ) ? get_class( $callback['function'][0] ) : $callback['function'][0];
+				$function = "{$class}::{$callback['function'][1]}";
+			} else {
+				$function = $callback['function'];
+			}
+
+			if ( 0 === strpos( $function, 'LLMS_' ) ) {
+				$this->assertTrue(
+					$shortcodes_init_is_found,
+					"Should find LLMS_Shortcodes::init callback before $function."
+				);
+			}
+		}
 	}
 
 }

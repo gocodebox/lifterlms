@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,8 +46,12 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
  * Single Lesson
  *
  * @since Unknown
+ * @since 7.5.0 Maybe add favorite template.
  */
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_parent_course', 10 );
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'lifterlms_single_lesson_before_summary', 'llms_template_favorite', 10 );
+}
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
@@ -79,8 +83,18 @@ add_action( 'lifterlms_before_loop_item_title', 'lifterlms_template_loop_progres
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_author', 10 );
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_length', 15 );
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_difficulty', 20 );
+add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_lesson_count', 22 );
 
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
+
+/**
+ * Course Syllabus
+ *
+ * @since 7.5.0
+ */
+if ( llms_is_favorites_enabled() ) {
+	add_action( 'llms_lesson_preview_after_title', 'llms_template_syllabus_favorite_lesson_preview', 10 );
+}
 
 /**
  * Emails
@@ -171,6 +185,10 @@ add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_das
 
 add_action( 'llms_my_grades_course_table', 'lifterlms_template_student_dashboard_my_grades_table', 10, 2 );
 
+add_action( 'llms_view_order_information', 'llms_template_view_order_information', 10 );
+add_action( 'llms_view_order_actions', 'llms_template_view_order_actions', 10 );
+add_action( 'llms_view_order_transactions', 'llms_template_view_order_transactions', 10, 2 );
+
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
 /**
@@ -192,6 +210,15 @@ add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pri
  * @since Unknown
  */
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
+
+/**
+ * Single Certificate
+ *
+ * @since 6.0.0
+ */
+add_action( 'wp_head', 'llms_certificate_styles' );
+add_action( 'llms_display_certificate', 'llms_certificate_content', 10 );
+add_action( 'llms_display_certificate', 'llms_certificate_actions', 20 );
 
 if ( ! is_admin() ) {
 	add_filter( 'post_class', 'llms_post_classes', 20, 3 );

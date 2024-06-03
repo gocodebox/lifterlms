@@ -56,7 +56,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 */
 	public function get_gateway_table_html() {
 
-		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+		$gateways = llms()->payment_gateways()->get_payment_gateways();
 
 		usort( $gateways, array( $this, 'sort_gateways' ) );
 
@@ -112,7 +112,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		$sections = array();
 
-		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+		$gateways = llms()->payment_gateways()->get_payment_gateways();
 
 		foreach ( $gateways as $id => $gateway ) {
 			$sections[ $id ] = $gateway->get_admin_title();
@@ -188,7 +188,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title'             => __( 'Checkout Page', 'lifterlms' ),
-				'desc'              => '<br/>' . __( 'Page used for displaying the checkout form.', 'lifterlms' ),
+				'desc'              => __( 'Page used for displaying the checkout form.', 'lifterlms' ),
 				'id'                => 'lifterlms_checkout_page_id',
 				'type'              => 'select',
 				'default'           => '',
@@ -201,7 +201,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title'    => __( 'Confirm Payment', 'lifterlms' ),
-				'desc'     => '<br>' . __( 'Payment confirmation endpoint slug', 'lifterlms' ),
+				'desc'     => __( 'Payment confirmation endpoint slug', 'lifterlms' ),
 				'id'       => 'lifterlms_myaccount_confirm_payment_endpoint',
 				'type'     => 'text',
 				'default'  => 'confirm-payment',
@@ -212,7 +212,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Force SSL', 'lifterlms' ),
 				'desc'    => __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
-							   '<br><span class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</span>',
+								'<p class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_checkout_force_ssl',
 				'type'    => 'checkbox',
 				'default' => 'no',
@@ -221,7 +221,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'default' => 'yes',
 				'desc'    => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
-							  '<br><span class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</span>',
+							  '<p class="description">' . sprintf( __( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_recurring_payment_retry',
 				'title'   => __( 'Retry Failed Payments', 'lifterlms' ),
 				'type'    => 'checkbox',
@@ -247,7 +247,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'class'    => 'llms-select2',
 				'title'    => __( 'Country', 'lifterlms' ),
-				'desc'     => '<br>' . __( 'Select the country LifterLMS should use as the default during transactions and registrations.', 'lifterlms' ),
+				'desc'     => __( 'Select the country LifterLMS should use as the default during transactions and registrations.', 'lifterlms' ),
 				'id'       => 'lifterlms_country',
 				'default'  => 'US',
 				'type'     => 'select',
@@ -258,7 +258,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'class'    => 'llms-select2',
 				'title'    => __( 'Currency', 'lifterlms' ),
-				'desc'     => '<br>' . __( 'Select the currency LifterLMS should use to display prices and process transactions.', 'lifterlms' ),
+				'desc'     => __( 'Select the currency LifterLMS should use to display prices and process transactions.', 'lifterlms' ),
 				'id'       => 'lifterlms_currency',
 				'default'  => 'USD',
 				'type'     => 'select',
@@ -268,7 +268,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title'   => __( 'Currency Position', 'lifterlms' ),
-				'desc'    => '<br>' . __( 'Customize the position and formatting of the currency symbol for displayed prices.', 'lifterlms' ),
+				'desc'    => __( 'Customize the position and formatting of the currency symbol for displayed prices.', 'lifterlms' ),
 				'id'      => 'lifterlms_currency_position',
 				'default' => 'left',
 				'type'    => 'select',
@@ -283,7 +283,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Thousand Separator', 'lifterlms' ),
 				'class'   => 'tiny',
-				'desc'    => '<br>' . __( 'Choose the character to display as the thousand\'s place separator for displayed prices.', 'lifterlms' ),
+				'desc'    => __( 'Choose the character to display as the thousand\'s place separator for displayed prices.', 'lifterlms' ),
 				'id'      => 'lifterlms_thousand_separator',
 				'type'    => 'text',
 				'default' => ',',
@@ -292,7 +292,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Decimal Separator', 'lifterlms' ),
 				'class'   => 'tiny',
-				'desc'    => '<br>' . __( 'Choose the character to display as the decimal separator for displayed prices.', 'lifterlms' ),
+				'desc'    => __( 'Choose the character to display as the decimal separator for displayed prices.', 'lifterlms' ),
 				'id'      => 'lifterlms_decimal_separator',
 				'type'    => 'text',
 				'default' => '.',
@@ -301,7 +301,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Decimal Places', 'lifterlms' ),
 				'class'   => 'tiny',
-				'desc'    => '<br>' . __( 'Customize the number of decimal places for prices.', 'lifterlms' ),
+				'desc'    => __( 'Customize the number of decimal places for prices.', 'lifterlms' ),
 				'id'      => 'lifterlms_decimals',
 				'type'    => 'number',
 				'default' => '2',
@@ -328,7 +328,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title' => __( 'Payment Gateways', 'lifterlms' ),
 				'type'  => 'title',
-				// 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
 				'id'    => 'checkout_settings_gateways_list_title',
 			),
 
@@ -364,7 +363,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			'class' => 'top',
 		);
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $curr_section );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $curr_section );
 		if ( ! $gateway ) {
 
 			$settings[] = array(
@@ -418,7 +417,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		parent::save();
 
 		// Save display order of gateways.
-		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
+		foreach ( llms()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
 			$option = $gateway->get_option_name( 'display_order' );
 			if ( isset( $_POST[ $option ] ) ) {
 				update_option( $option, absint( $_POST[ $option ] ) );

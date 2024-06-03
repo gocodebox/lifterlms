@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/scripts",
-  "version": "1.3.2",
+  "version": "4.0.1",
   "description": "Test, build, and development scripts for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -24,13 +24,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@wordpress/scripts": "^12.1.0",
-    "css-loader": "^3.5.3",
+    "@jest/test-sequencer": "^27.4.6",
+    "@wordpress/eslint-plugin": "^11.1.0",
+    "@wordpress/scripts": "^23.6.0",
     "dotenv": "^8.2.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "mkdirp": "^1.0.4",
-    "sass": "^1.26.8",
-    "sass-loader": "^8.0.2",
+    "eslint-import-resolver-node": "^0.3.6",
+    "fast-glob": "^3.2.11",
+    "mini-css-extract-plugin": "^2.6.1",
+    "webpack-remove-empty-scripts": "^0.8.1",
     "webpack-rtl-plugin": "^2.0.0"
+  },
+  "scripts": {
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./"
   }
 }

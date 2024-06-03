@@ -6,87 +6,19 @@
  *
  * @group admin
  * @group admin_tools
+ * @group clear_sessions
  *
  * @since 4.0.0
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
-class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
+class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_Admin_Tool_Test_Case {
 
 	/**
-	 * Setup before class
+	 * Name of the class being tested.
 	 *
-	 * Include abstract class.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
+	 * @var sting
 	 */
-	public static function setUpBeforeClass() {
-
-		parent::setUpBeforeClass();
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-clear-sessions.php';
-
-	}
-
-	/**
-	 * Setup the test case
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	public function setUp() {
-
-		parent::setUp();
-		$this->main = new LLMS_Admin_Tool_Clear_Sessions();
-
-	}
-
-	/**
-	 * Test get_description()
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_description() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_description' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_label()
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_label() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_label' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_text()
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_text() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_text' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
+	const CLASS_NAME = 'LLMS_Admin_Tool_Clear_Sessions';
 
 	/**
 	 * Test handle()

@@ -1,13 +1,8 @@
-/**
- * Test restrictions when a sitewide membership is enabled.
- *
- * @since 4.3.1
- */
-
 import {
 	clickAndWait,
 	createUser,
 	enrollStudent,
+	getPostTitleTextContent,
 	importCourse,
 	logoutUser,
 } from '@lifterlms/llms-e2e-test-utils';
@@ -15,7 +10,6 @@ import {
 import {
 	createURL,
 	loginUser,
-	visitAdminPage
 } from '@wordpress/e2e-test-utils';
 
 describe( 'CourseRestrictions', () => {
@@ -36,10 +30,9 @@ describe( 'CourseRestrictions', () => {
 	describe( 'Enrolled users', () => {
 
 		beforeAll( async () => {
-			const { id, email, password } = await createUser();
-			await enrollStudent( course.id, id );
+			await enrollStudent( course.id, 4 );
 			await logoutUser();
-			await loginUser( email, password );
+			await loginUser( 'restrictions@email.tld', 'password' );
 		} );
 
 		it ( 'should see enrolled user content on the course page', async () => {
@@ -54,7 +47,7 @@ describe( 'CourseRestrictions', () => {
 			await page.goto( lessons[0].permalink ); // Lesson: "Regular".
 
 			// On the right page.
-			expect( await page.$eval( '.entry-title', el => el.textContent ) ).toBe( 'Regular' );
+			expect( await getPostTitleTextContent() ).toBe( 'Regular' );
 
 			// Mark complete is visible.
 			expect( await page.$eval( '#llms_mark_complete', el => el.textContent ) ).toBe( 'Mark Complete' );
@@ -66,11 +59,10 @@ describe( 'CourseRestrictions', () => {
 			await page.goto( lessons[1].permalink ); // Lesson: "Has Prereq".
 
 			// Redirected to the prerequisite lesson.
-			expect( await page.url() ).toBe( lessons[0].permalink );
+			expect( page.url() ).toBe( lessons[0].permalink );
 
 			// Shown an error message.
-			expect( await page.$eval( '.llms-notice.llms-error li', el => el.textContent ) ).toBe( 'The lesson "Has Prereq" cannot be accessed until the required prerequisite "Regular" is completed.' );
-
+			expect( await page.$eval( '.llms-notice.llms-error li', el => el.textContent ) ).toMatchStringWithQuotes( 'The lesson "Has Prereq" cannot be accessed until the required prerequisite "Regular" is completed.' );
 
 		} );
 
@@ -84,10 +76,10 @@ describe( 'CourseRestrictions', () => {
 			expect( await page.url() ).toBe( lessons[1].permalink );
 
 			// On the right page.
-			expect( await page.$eval( '.entry-title', el => el.textContent ) ).toBe( 'Has Prereq' );
+			expect( await getPostTitleTextContent() ).toBe( 'Has Prereq' );
 
 			// Mark complete is visible.
-			expect( await page.$eval( '#llms_mark_complete', el => el.textContent ) ).toBe( 'Mark Complete' );
+			expect( await page.$eval( '#llms_mark_complete', el => el.textContent ) ).toMatchStringWithQuotes( 'Mark Complete' );
 
 		} );
 
@@ -99,14 +91,14 @@ describe( 'CourseRestrictions', () => {
 			expect( await page.url() ).toBe( course.permalink );
 
 			// Shown an error message.
-			expect( await page.$eval( '.llms-notice.llms-error li', el => el.textContent.includes( 'The lesson "Has Drip" will be available on ' ) ) ).toBe( true );
+			expect( await page.$eval( '.llms-notice.llms-error li', el => el.textContent.replace( /[“”‘’]/g, '"' ).includes( 'The lesson "Has Drip" will be available on ' ) ) ).toBe( true );
 
 		} );
 
 		it ( 'should be able to view free lessons', async () => {
 
 			await page.goto( lessons[3].permalink ); // Lesson: "Is Free".
-			expect( await page.$eval( '.entry-content #free-lesson-content', el => el.textContent ) ).toBe( 'Free lesson content.' );
+			expect( await page.$eval( '.entry-content #free-lesson-content', el => el.textContent ) ).toMatchStringWithQuotes( 'Free lesson content.' );
 
 		} );
 
@@ -115,7 +107,7 @@ describe( 'CourseRestrictions', () => {
 			await page.goto( lessons[4].permalink ); // Lesson: "Has Quiz"
 
 			// On the right page.
-			expect( await page.$eval( '.entry-title', el => el.textContent ) ).toBe( 'Has Quiz' );
+			expect( await getPostTitleTextContent() ).toBe( 'Has Quiz' );
 
 			// Take quiz button is visible.
 			expect( await page.$eval( '#llms_start_quiz', el => el.textContent.trim() ) ).toBe( 'Take Quiz' );

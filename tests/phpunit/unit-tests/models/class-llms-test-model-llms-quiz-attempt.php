@@ -10,8 +10,22 @@
  * @since 4.0.0 Add tests for the answer_question() method.
  * @since 4.2.0 Added tests for the get_siblings() method.
  *              Added tests on lesson completion status when deleting attempts.
+ * @since 5.3.0 Added tests on get_question_objects() when filtering out the removed questions.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
+
+	/**
+	 * Teardown the test case
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_quiz_attempts" );
+	}
 
 	/**
 	 * Get an initialized mock attempt
@@ -484,7 +498,6 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			$attempts
 		);
 
-
 		// Test get siblings of the first attempt equals to the created array of attempts (id).
 		$this->assertEquals(
 			array_reverse( $attempt_ids ),
@@ -635,4 +648,66 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_question_objects() method when filtering out the removed questions.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return void
+	 */
+	public function test_get_question_objects_filter_removed() {
+
+		$attempt   = $this->get_mock_attempt();
+		$questions = wp_list_pluck( $attempt->get_questions(), 'id' );
+
+		// Check `get_question_objects()` returns the same list of `get_questions()`.
+		$this->assertEqualSets(
+			$questions,
+			$this->question_object_ids_list_pluck( $attempt )
+		);
+
+		// Delete a question.
+		wp_delete_post( $questions[ 1 ] );
+
+		// Check `get_question_objects()` still returns the same list of `get_questions()`.
+		$this->assertEqualSets(
+			$questions,
+			$this->question_object_ids_list_pluck( $attempt )
+		);
+
+		// Check `get_question_objects()` returns the same list of `get_questions()` except for the removed question
+		// when the `$filter_remove` is passed as true.
+		$this->assertEqualSets(
+			array_merge(
+				array(
+					$questions[0]
+				),
+				array_slice(
+					$questions,
+					2
+				)
+			),
+			$this->question_object_ids_list_pluck( $attempt, true, true )
+		);
+
+	}
+
+	/**
+	 * Returns a question object id given a LLMS_Quiz_Attempt
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param LLMS_Quiz_Attempt $attemt Attempt object.
+	 * @return void
+	 */
+	private function question_object_ids_list_pluck( $attempt, $cache = true, $filter_removed = false  ) {
+		return array_filter(
+			array_map(
+				function( $qo ) {
+					return $qo->get('id');
+				},
+				$attempt->get_question_objects( $cache, $filter_removed )
+			)
+		);
+	}
 }

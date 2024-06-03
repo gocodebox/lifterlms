@@ -18,24 +18,26 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Setup function
 	 *
 	 * @since 3.3.1
+	 * @since 5.3.3 Use `llms()` in favor of `LLMS()` and renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
-		$this->llms = LLMS();
+	public function set_up() {
+		parent::set_up();
+		$this->llms = llms();
 	}
 
 	/**
-	 * test the _instance variable
+	 * Test the `instance` property.
 	 *
 	 * @since 3.3.1
+	 * @since 5.3.0 Rename `_instance` property to `instance`.
 	 *
 	 * @return void
 	 */
 	public function test_llms_instance() {
 
-		$this->assertClassHasStaticAttribute( '_instance', 'LifterLMS' );
+		$this->assertClassHasStaticAttribute( 'instance', 'LifterLMS' );
 
 	}
 
@@ -61,17 +63,32 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test main instances
 	 *
 	 * @since 3.3.1
+	 * @since 5.8.0 Added tests for additional instances.
 	 *
 	 * @return void
 	 */
 	public function test_instances() {
 
-		$this->assertInstanceOf( 'LLMS_Payment_Gateways', $this->llms->payment_gateways() );
-		$this->assertInstanceOf( 'LLMS_Emails', $this->llms->mailer() );
-		$this->assertInstanceOf( 'LLMS_Integrations', $this->llms->integrations() );
-		$this->assertInstanceOf( 'LLMS_Engagements', $this->llms->engagements() );
-		$this->assertInstanceOf( 'LLMS_Certificates', $this->llms->certificates() );
-		$this->assertInstanceOf( 'LLMS_Achievements', $this->llms->achievements() );
+		$tests = array(
+			array( 'LLMS_Achievements', 'achievements' ),
+			array( 'LLMS_Block_Templates', 'block_templates' ),
+			array( 'LLMS_Certificates', 'certificates' ),
+			array( 'LLMS_Engagements', 'engagements' ),
+			array( 'LLMS_Events', 'events' ),
+			array( 'LLMS_Grades', 'grades' ),
+			array( 'LLMS_Integrations', 'integrations' ),
+			array( 'LLMS_Emails', 'mailer' ),
+			array( 'LLMS_Notifications', 'notifications' ),
+			array( 'LLMS_Payment_Gateways', 'payment_gateways' ),
+			array( 'LLMS_Processors', 'processors' ),
+		);
+
+		foreach ( $tests as $test ) {
+
+			list( $expected_class, $func ) = $test;
+			$this->assertInstanceOf( $expected_class, $this->llms->$func() );
+
+		}
 
 	}
 
@@ -103,16 +120,16 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	public function test_init_session() {
 
 		// Clear the session.
-		LLMS()->session = null;
+		llms()->session = null;
 
 		// Initializes a new session.
-		$session = LLMS()->init_session();
+		$session = llms()->init_session();
 		$this->assertTrue( is_a( $session, 'LLMS_Session' ) );
 		$session->set( 'test', 'mock' );
 
 		// Call it again, should respond with the same session as before.
-		$this->assertEquals( $session->get_id(), LLMS()->init_session()->get_id() );
-		$this->assertEquals( 'mock', LLMS()->init_session()->get( 'test' ) );
+		$this->assertEquals( $session->get_id(), llms()->init_session()->get_id() );
+		$this->assertEquals( 'mock', llms()->init_session()->get( 'test' ) );
 
 	}
 
@@ -120,48 +137,36 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test plugin localization
 	 *
 	 * @since 3.21.1
+	 * @since 4.9.0 Improve tests.
 	 *
 	 * @return void
 	 */
 	public function test_localize() {
 
-		/**
-		 * custom-lifterlms-en_US.po/mo
-		 * Original  | Translation
-		 * -----------------------
-		 * LifterLMS | BetterLMS
-		 * Course    | Module
-		 */
+		$dirs = array(
+			WP_LANG_DIR . '/lifterlms', // "Safe" directory.
+			WP_LANG_DIR . '/plugins', // Default language directory.
+			WP_PLUGIN_DIR . '/lifterlms/languages', // Plugin language directory.
+		);
 
-		/**
-		 * lifterlms-en_US.po/mo
-		 * Original  | Translation
-		 * -----------------------
-		 * LifterLMS | MyLMS
-		 * Settings  | Options
-		 */
+		foreach ( $dirs as $dir ) {
 
+			// Make sure the initial strings work.
+			$this->assertEquals( 'LifterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
+			$this->assertEquals( 'Course', __( 'Course', 'lifterlms' ), $dir );
 
-		/**
-		 * Default order during initialization
-		 * Custom safe location
-		 * Default location (from community)
-		 */
+			// Load a language file.
+			$file = LLMS_Unit_Test_Files::copy_asset( 'lifterlms-en_US.mo', $dir );
+			$this->llms->localize();
 
-		// this is translated in both but should use the translation from the custom file
-		$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ) );
+			$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
+			$this->assertEquals( 'Module', __( 'Module', 'lifterlms' ), $dir );
 
-		// translated in only the custom file
-		$this->assertEquals( 'Module', __( 'Course', 'lifterlms' ) );
+			// Clean up.
+			LLMS_Unit_Test_Files::remove( $file );
+			unload_textdomain( 'lifterlms' );
 
-		// translated only in the default file
-		$this->assertEquals( 'Options', __( 'Settings', 'lifterlms' ) );
-
-		// not translated in either
-		$this->assertEquals( 'Lesson', __( 'Lesson', 'lifterlms' ) );
-
-		// fake string
-		$this->assertEquals( 'arstienarstyularst', __( 'arstienarstyularst', 'lifterlms' ) );
+		}
 
 	}
 

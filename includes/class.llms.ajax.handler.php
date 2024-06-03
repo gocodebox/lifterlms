@@ -1,11 +1,11 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.39.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,6 +31,9 @@ defined( 'ABSPATH' ) || exit;
  *                Used strict comparison where needed.
  * @since 3.37.15 Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
  * @since 3.39.0 Minor code readability updates to the `validate_coupon_code()` method.
+ * @since 5.7.0 Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
+ *              Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
+ *              Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -82,6 +85,54 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Determines if voucher codes already exist.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public static function check_voucher_duplicate() {
+
+		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
+
+		if ( ! $post_id || ! $codes ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return new WP_Error( 401, __( 'Missing required permissions to perform this action.', 'lifterlms' ) );
+		}
+
+		$codes = implode(
+			',',
+			array_map(
+				function( $code ) {
+					return sprintf( "'%s'", esc_sql( $code ) );
+				},
+				array_filter( $codes )
+			)
+		);
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+		$res   = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				array( $post_id )
+			),
+			ARRAY_A
+		);
+
+		wp_send_json(
+			array(
+				'success'    => true,
+				'duplicates' => $res,
+			)
+		);
+		wp_die();
+
+	}
+
+	/**
 	 * Move a Product Access Plan to the trash
 	 *
 	 * @since 3.0.0
@@ -112,13 +163,13 @@ class LLMS_AJAX_Handler {
 	 * Retrieve a new instance of admin table class from a handler string.
 	 *
 	 * @since 3.37.15
+	 * @since 4.7.0 Don't require `LLMS_Admin_Reporting`, it's loaded automatically.
 	 *
 	 * @param string $handler Unprefixed handler class string. For example "Students" or "Course_Students".
 	 * @return object|false Instance of the admin table class or false if the class can't be found.
 	 */
 	protected static function get_admin_table_instance( $handler ) {
 
-		require_once 'admin/reporting/class.llms.admin.reporting.php';
 		LLMS_Admin_Reporting::includes();
 
 		$handler = 'LLMS_Table_' . $handler;
@@ -266,10 +317,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle notification display & dismissal
+	 * Handle notification display & dismissal.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.14 Use strict comparison.
+	 * @since 7.1.0 Improve notifications query performance by not calculating unneeded found rows.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array
@@ -289,12 +341,14 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
+		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => get_current_user_id(),
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => get_current_user_id(),
+				'no_found_rows' => true,
 			)
 		);
 
@@ -329,7 +383,7 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Retrieve Students
+	 * Retrieve Students.
 	 *
 	 * Used by Select2 AJAX functions to load paginated student results.
 	 * Also allows querying by:
@@ -339,13 +393,18 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
+	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 6.2.0 `LLMS_AJAX_Handler::query_students()` is deprecated in favor of the REST API list students endpoint.
 	 *
 	 * @return void
 	 */
 	public static function query_students() {
 
-		// grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
+		_deprecated_function( __METHOD__, '6.2.0', 'the REST API list students endpoint' );
+
+		// Grab the search term if it exists.
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
@@ -544,10 +603,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Start a Quiz Attempt
+	 * Start a Quiz Attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -568,8 +628,14 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		// Limit reached?
+		if ( isset( $request['quiz_id'] ) && ! ( new LLMS_Quiz( $request['quiz_id'] ) )->is_open() ) {
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
+			return $err;
+		}
+
 		$attempt = false;
-		if ( isset( $request['attempt_key'] ) && $request['attempt_key'] ) {
+		if ( ! empty( $request['attempt_key'] ) ) {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
 		}
 
@@ -613,10 +679,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * AJAX Quiz answer question
+	 * AJAX Quiz answer question.
 	 *
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -643,9 +710,26 @@ class LLMS_AJAX_Handler {
 		$question_id = absint( $request['question_id'] );
 		$answer      = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
 
-		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
+		$student_quizzes = $student->quizzes();
+		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {
-			$err->add( 500, __( 'There was an error recording your answer the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		/**
+		 * Check limit not reached.
+		 *
+		 * First check whether the quiz is open (so to leverage the `llms_quiz_is_open` filter ),
+		 * if not, check also for remaining attempts.
+		 *
+		 * At this point the current attempt has already been counted (maybe the last allowed),
+		 * so we check that the remaining attempt is just greater than -1.
+		 */
+		$quiz_id = $attempt->get( 'quiz_id' );
+		if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() &&
+				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
 		}
 
@@ -680,13 +764,13 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * End a quiz attempt
+	 * End a quiz attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
 	 *
 	 * @param array                  $request $_POST data.
-	 * @param LLMS_Quiz_Attempt|null $attempt Optional. The quiz attempt. Default `null`.
+	 * @param LLMS_Quiz_Attempt|null $attempt The quiz attempt.
 	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
@@ -710,10 +794,10 @@ class LLMS_AJAX_Handler {
 
 		}
 
-		// record the attempt's completion.
+		// Record the attempt's completion.
 		$attempt->end();
 
-		// setup a redirect.
+		// Setup a redirect.
 		$url = add_query_arg(
 			array(
 				'attempt_key' => $attempt->get_key(),
@@ -723,15 +807,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			/**
-			 * Filter the quiz redirect URL on completion
-			 *
-			 * Return an associative array containing at least the `$id` to cease execution and have
-			 * the custom item returned via the `process_trash()` method.
-			 *
-			 * A successful deletion return should be: `array( 'id' => $id )`.
-			 *
-			 * A failure should contain an error message in a second array member:
-			 * `array( 'id' => $id, 'error' => esc_html__( 'My error message', 'my-domain' ) )`.
+			 * Filter the quiz redirect URL on completion.
 			 *
 			 * @since Unknown
 			 *
@@ -753,7 +829,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function remove_coupon_code( $request ) {
 
-		LLMS()->session->set( 'llms_coupon', false );
+		llms()->session->set( 'llms_coupon', false );
 
 		$plan = new LLMS_Access_Plan( $request['plan_id'] );
 
@@ -766,8 +842,8 @@ class LLMS_AJAX_Handler {
 			'checkout/form-gateways.php',
 			array(
 				'coupon'           => false,
-				'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-				'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+				'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+				'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 				'plan'             => $plan,
 			)
 		);
@@ -800,6 +876,8 @@ class LLMS_AJAX_Handler {
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
+	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -807,14 +885,14 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
-		// grab the search term if it exists.
-		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
+		// Grab the search term if it exists.
+		$term = llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 
-		// get the page.
+		// Get the page.
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Get post type(s).
-		$post_type        = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
+		$post_type        = sanitize_text_field( llms_filter_input_sanitize_string( INPUT_POST, 'post_type' ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
@@ -822,7 +900,7 @@ class LLMS_AJAX_Handler {
 		$post_types = implode( ',', $post_types_array );
 
 		// Get post status(es).
-		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = llms_filter_input_sanitize_string( INPUT_POST, 'post_statuses' );
 		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {
@@ -830,7 +908,7 @@ class LLMS_AJAX_Handler {
 		}
 		$post_statuses = implode( ',', $post_statuses_array );
 
-		// filter posts (llms posts) by instructor ID.
+		// Filter posts (llms posts) by instructor ID.
 		$instructor_id = llms_filter_input( INPUT_POST, 'instructor_id', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! empty( $instructor_id ) ) {
 			$serialized_iid = serialize(
@@ -872,8 +950,8 @@ class LLMS_AJAX_Handler {
 			 LIMIT %d, %d
 			",
 				$vars
-			)
-		);
+			) // phpcs:ignore -- The number of params is correct, $vars is an array of two elements.
+		);// no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$items = array();
@@ -889,7 +967,7 @@ class LLMS_AJAX_Handler {
 
 			if ( $grouping ) {
 
-				// setup an object for the optgroup if it's not already set up.
+				// Setup an object for the optgroup if it's not already set up.
 				if ( ! isset( $items[ $post->post_type ] ) ) {
 					$obj                       = get_post_type_object( $post->post_type );
 					$items[ $post->post_type ] = array(
@@ -972,6 +1050,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.39.0 Minor changes to code for readability with no changes to function behavior.
+	 * @since 4.21.1 Sanitize user-submitted coupon code before outputting in error messages.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array|WP_Error On success, returns an array containing HTML parts used to update the interface of the checkout screen.
@@ -980,6 +1059,8 @@ class LLMS_AJAX_Handler {
 	public static function validate_coupon_code( $request ) {
 
 		$error = new WP_Error();
+
+		$request['code'] = ! empty( $request['code'] ) ? sanitize_text_field( $request['code'] ) : '';
 
 		if ( empty( $request['code'] ) ) {
 
@@ -1009,7 +1090,7 @@ class LLMS_AJAX_Handler {
 
 				} else {
 
-					LLMS()->session->set(
+					llms()->session->set(
 						'llms_coupon',
 						array(
 							'plan_id'   => $request['plan_id'],
@@ -1033,8 +1114,8 @@ class LLMS_AJAX_Handler {
 						'checkout/form-gateways.php',
 						array(
 							'coupon'           => $coupon,
-							'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-							'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+							'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+							'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 							'plan'             => $plan,
 						)
 					);
@@ -1070,12 +1151,14 @@ class LLMS_AJAX_Handler {
 	 * Create course's section.
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function create_section( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
@@ -1134,12 +1217,14 @@ class LLMS_AJAX_Handler {
 	 * Create course's lesson.
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function create_lesson( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$lesson_id = LLMS_Post_Handler::create_lesson(
 			$request['post_id'],
 			$request['section_id'],
@@ -1171,12 +1256,14 @@ class LLMS_AJAX_Handler {
 	 * Add a lesson to a course
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function add_lesson_to_course( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
@@ -1318,18 +1405,17 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * "API" for the Admin Builder
+	 * "API" for the Admin Builder.
 	 *
 	 * @since 3.13.0
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array $request $_POST data.
-	 * @return mixed
+	 * @return array
 	 */
 	public static function llms_builder( $request ) {
 
-		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
-
 	}
 
 	/**
@@ -1429,7 +1515,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'error', __( 'Missing tracking data.', 'lifterlms' ) );
 		}
 
-		$success = LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+		$success = llms()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
 
 		if ( ! is_wp_error( $success ) ) {
 			$success = array(

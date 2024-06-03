@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since    3.4.0
- * @version  3.13.0
+ * @since 3.4.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,16 +21,17 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Identify the extending query
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'student';
 
 	/**
 	 * Retrieve default arguments for a student query
 	 *
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_student_query_default_args'`.
+	 *
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -52,17 +53,26 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
-		return apply_filters( $this->get_filter( 'default_args' ), $args );
+		/**
+		 * Filters the student query default args
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param array              $args          Array of default arguments to set up the query with.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_default_args', $args, $this );
 
 	}
 
 	/**
-	 * Retrieve an array of LLMS_Students for the given set of students
-	 * returned by the query
+	 * Retrieve an array of LLMS_Students for the given set of students returned by the query
 	 *
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.8.0
+	 * @since 3.4.0
+	 * @since 3.8.0 Unknown.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'get_students' )` in favor of `'llms_student_query_get_students'`.
+	 *
+	 * @return array
 	 */
 	public function get_students() {
 
@@ -80,18 +90,29 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			return $students;
 		}
 
-		return apply_filters( $this->get_filter( 'get_students' ), $students );
+		/**
+		 * Filters the list of students
+		 *
+		 * @since Unknown
+		 * @since 4.10.2 Pass this query instance as second parameter.
+		 *
+		 * @param LLMS_Student[]     $students      Array of LLMS_Student instances.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_get_students', $students, $this );
 
 	}
 
 	/**
 	 * Parses data passed to $statuses
-	 * Convert strings to array and ensure resulting array contains only valid statuses
-	 * If no valid statuses, returns to the default
 	 *
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * Convert strings to array and ensure resulting array contains only valid statuses
+	 * If no valid statuses, returns to the default.
+	 *
+	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return void
 	 */
 	protected function parse_args() {
 
@@ -129,13 +150,16 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
+	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
+	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 *
+	 * @return string
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 
@@ -152,9 +176,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$vars[] = $this->get( 'per_page' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS
-			{$this->sql_select()}
+			"SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
@@ -172,10 +196,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Determines if a field should be selected/joined based on searching and sorting arguments
 	 *
-	 * @param    string $field  field name/key
-	 * @return   bool
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $field Field name/key.
+	 * @return bool
 	 */
 	private function requires_field( $field ) {
 
@@ -200,9 +224,11 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve prepared SQL for the HAVING clause
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'having' )` in favor of `'llms_student_query_having'`.
+	 *
+	 * @return string
 	 */
 	private function sql_having() {
 
@@ -214,16 +240,24 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'having' ), $sql, $this );
-
+		/**
+		 * Filters the query HAVING clause
+		 *
+		 * @since Unknown
+		 *
+		 * @param string             $sql           The HAVING clause of the query.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_having', $sql, $this );
 	}
 
 	/**
 	 * Setup joins based on submitted sort and search args
 	 *
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'join' )` in favor of `'llms_student_query_join'`.
+	 *
+	 * @return string
 	 */
 	private function sql_joins() {
 
@@ -239,9 +273,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$joins[] = $statment;
+				$joins[] = $statement;
 			}
 		}
 
@@ -251,16 +285,26 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'join' ), $sql, $this );
+		/**
+		 * Filters the query JOIN clause
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param string             $sql           The JOIN clause of the query.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_join', $sql, $this );
 
 	}
 
 	/**
 	 * Retrieve the prepared SEARCH query for the WHERE clause
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.8.0
+	 * @since 3.4.0
+	 * @since 3.8.0 Unknown.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'search' )` in favor of `'llms_student_query_search'`.
+	 *
+	 * @return string
 	 */
 	private function sql_search() {
 
@@ -281,16 +325,27 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'search' ), $sql, $this );
+		/**
+		 * Filters the part of the SQL query that performs the search.
+		 *
+		 * @since Unknown
+		 *
+		 * @param string             $sql           The SQL part that performs the search.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_search', $sql, $this );
 
 	}
 
 	/**
-	 * Setup the SQL for the select statement
+	 * Set up the SQL for the select statement.
 	 *
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
+	 *               Use `$this->sql_select_columns({columns})` to determine additional columns to select.
+	 * @since 5.10.0 Add a subquery for completed date.
+	 *
+	 * @return string
 	 */
 	private function sql_select() {
 
@@ -304,9 +359,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		// All the possible fields.
 		$fields = array(
+			'completed'        => "( {$this->sql_subquery( 'updated_date', '_is_complete' )} ) AS completed",
 			'date'             => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
 			'last_name'        => 'm_last.meta_value AS last_name',
-			'first_name'       => 'm_last.meta_value AS first_name',
+			'first_name'       => 'm_first.meta_value AS first_name',
 			'email'            => 'u.user_email AS email',
 			'registered'       => 'u.user_registered AS registered',
 			'overall_progress' => 'CAST( m_o_p.meta_value AS decimal( 5, 2 ) ) AS overall_progress',
@@ -314,29 +370,38 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$selects[] = $statment;
+				$selects[] = $statement;
 			}
 		}
 
 		$sql = implode( ', ', $selects );
+		$sql = $this->sql_select_columns( $sql );
 
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'select' ), $sql, $this );
+		/**
+		 * Filters the query SELECT clause
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param string             $sql           The SELECT clause of the query.
+		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
+		 */
+		return apply_filters( 'llms_student_query_select', $sql, $this );
 
 	}
 
 	/**
 	 * Generate an SQL IN clause based on submitted status arguments
 	 *
-	 * @param    string $column  name of the column
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $column Name of the column.
+	 * @return string
 	 */
 	private function sql_status_in( $column = 'status' ) {
 		global $wpdb;
@@ -355,16 +420,18 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL subquery for the dynamic status or date values in the main query
+	 * Generate an SQL subquery for the meta key in the main query.
 	 *
-	 * @param    string $column  column name
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since 5.10.0 Add `$meta_key` argument.
+	 *
+	 * @param string $column   Column name.
+	 * @param string $meta_key Optional meta key to use in the WHERE condition. Defaults to '_status'.
+	 * @return string
 	 */
-	private function sql_subquery( $column ) {
+	private function sql_subquery( $column, $meta_key = '_status' ) {
 
-		$and = '';
+		global $wpdb;
 
 		$post_ids = $this->get( 'post_id' );
 		if ( $post_ids ) {
@@ -374,11 +441,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$and = "AND {$this->sql_status_in( 'meta_value' )}";
 		}
 
-		global $wpdb;
-
 		return "SELECT {$column}
 				FROM {$wpdb->prefix}lifterlms_user_postmeta
-				WHERE meta_key = '_status'
+				WHERE meta_key = '{$meta_key}'
 		  		  AND user_id = id
 		  		  {$and}
 				ORDER BY updated_date DESC

@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,24 +21,27 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
-	 * @var string
+	 * Email identifier
+	 *
 	 * @since 1.0.0
+	 * @var string
 	 */
 	protected $id = 'engagement';
 
 	/**
-	 * @var WP_User
 	 * @since 3.8.0
+	 * @var WP_User
 	 */
 	public $student;
 
 	/**
 	 * Initialize all variables
 	 *
-	 * @param    array $args   associative array of engagement args
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @param array $args Associative array of engagement args.
+	 * @return void
 	 */
 	public function init( $args ) {
 
@@ -56,17 +59,17 @@ class LLMS_Email_Engagement extends LLMS_Email {
 			)
 		);
 
-		// setup subject, headline, & body
+		// Setup subject, headline, & body.
 		$this->body    = $this->email_post->post_content;
 		$this->subject = get_post_meta( $this->email_post->ID, '_llms_email_subject', true );
 		$this->heading = get_post_meta( $this->email_post->ID, '_llms_email_heading', true );
 
-		// setup all the recipients
+		// Setup all the recipients.
 		foreach ( array( 'to', 'cc', 'bcc' ) as $type ) {
 
 			$list = get_post_meta( $this->email_post->ID, '_llms_email_' . $type, true );
 
-			// fall back to student email for existing emails with no definition
+			// Fall back to student email for existing emails with no definition.
 			if ( ! $list && 'to' === $type ) {
 				$list = '{student_email}';
 			}
@@ -85,10 +88,11 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	/**
 	 * Handles email merge codes that can be used in the to, cc, and bcc fields
 	 *
-	 * @param    string $list  unmerged, comma-separated list of emails
-	 * @return   array
-	 * @since    3.1.0
-	 * @version  3.8.0
+	 * @since 3.1.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @param string $list Unmerged, comma-separated list of emails
+	 * @return array
 	 */
 	private function merge_emails( $list ) {
 
@@ -106,6 +110,37 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$array  = explode( ',', $merged );
 		return array_map( 'trim', $array );
 
+	}
+
+	/**
+	 * Send email
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return boolean
+	 */
+	public function send() {
+
+		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+		$ret = parent::send();
+
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+		return $ret;
+
+	}
+
+	/**
+	 * Set the user ID used by [llms-user] to the user receiving the email.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param int $uid WP_User ID of the current user.
+	 * @return int
+	 */
+	public function set_shortcode_user( $uid ) {
+		return $this->student->ID;
 	}
 
 }

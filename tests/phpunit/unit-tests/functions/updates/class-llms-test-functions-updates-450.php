@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Order Functions
+* Test updates functions when updating to 4.5.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
@@ -9,6 +9,7 @@
  * @group updates_450
  *
  * @since 4.5.0
+ * @version 4.15.0
  */
 class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
@@ -20,11 +21,12 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 4.5.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-450.php';
 	}
 
@@ -32,23 +34,14 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.5.0
+	 * @since 5.3.3 Renamed setUp() to set_up() and moved teardown functions into here.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->sessions = LLMS_Sessions::instance();
-	}
 
-	/**
-	 * Teardown the test case
-	 *
-	 * @since 4.5.0
-	 *
-	 * @return void
-	 */
-	public function tearDown() {
-		parent::tearDown();
 		// Clean open sessions table.
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );
@@ -99,7 +92,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 		$open_session_ids  = $this->create_open_session_events( $num_open_sessions );
 
 		$loops = 1;
-		// Check how many times a the update function needs to run.
+		// Check how many times the update function needs to run.
 		// Internally we fetch 200 sessions at time, we expect it to run the following number of times:
 		$expected_loops = 3;
 		while ( llms_update_450_migrate_events_open_sessions() ) {
@@ -133,15 +126,16 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Test llms_update_450_update_db_version()
 	 *
 	 * @since 4.5.0
+	 * @since 4.15.0 Get original db_version before removing it.
 	 *
 	 * @return void
 	 */
 	public function test_update_db_version() {
 
+		$orig = get_option( 'lifterlms_db_version' );
+
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
-
-		$orig = get_option( 'lifterlms_db_version' );
 
 		llms_update_450_update_db_version();
 
@@ -182,7 +176,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
 			$object_id = LLMS_Unit_Test_Util::call_method( $this->sessions, 'get_new_id', array( $user ) );
 			// Record session start.
-			$session_start = LLMS()->events()->record(
+			$session_start = llms()->events()->record(
 				array(
 					'actor_id'     => $user,
 					'object_type'  => 'session',
@@ -201,7 +195,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 				$time += MINUTE_IN_SECONDS;
 				llms_tests_mock_current_time( $time );
 				// Record session end.
-				LLMS()->events()->record(
+				llms()->events()->record(
 					array(
 						'actor_id'     => $user,
 						'object_type'  => 'session',

@@ -7,25 +7,41 @@
  * @package LifterLMS/Functions
  *
  * @since 3.4.3
- * @version 4.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-require_once 'updates/llms-functions-updates-300.php';
-require_once 'updates/llms-functions-updates-303.php';
-require_once 'updates/llms-functions-updates-343.php';
-require_once 'updates/llms-functions-updates-3120.php';
-require_once 'updates/llms-functions-updates-360.php';
-require_once 'updates/llms-functions-updates-380.php';
-require_once 'updates/llms-functions-updates-3130.php';
-require_once 'updates/llms-functions-updates-3160.php';
-require_once 'updates/llms-functions-updates-3280.php';
-require_once 'updates/llms-functions-updates-400.php';
-require_once 'updates/llms-functions-updates-450.php';
+// Include all update function files.
+foreach ( glob( LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-*.php' ) as $filename ) {
+	require_once $filename;
+}
 
 /**
- * Duplicate a WP Post & all relate metadata
+ * Get the number of items per page used in paginated migration queries.
+ *
+ * @since 6.0.0
+ *
+ * @return int
+ */
+function llms_update_util_get_items_per_page() {
+	/**
+	 * Filters the number of items per page in migration queries.
+	 *
+	 * This filter exists primarily to allow phpunit tests for migration
+	 * functions and queries to reduce the number of items per query. In this
+	 * way pagination functionality can be tested without having to tests
+	 * a large number of items.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param int $per_page Number of items per page.
+	 */
+	return apply_filters( 'llms_update_items_per_page', 50 );
+}
+
+/**
+ * Duplicate a WP Post & all relate metadata.
  *
  * @since 3.16.0
  *
@@ -50,12 +66,12 @@ function llms_update_util_post_duplicator( $id ) {
 /**
  * Update the key of a postmeta item
  *
- * @param    string $post_type   post type
- * @param    string $new_key     new postmeta key
- * @param    string $old_key     old postmeta key
- * @return   void
- * @since    3.4.3
- * @version  3.4.3
+ * @since 3.4.3
+ *
+ * @param string $post_type Post type.
+ * @param string $new_key   New postmeta key.
+ * @param string $old_key   Old postmeta key.
+ * @return void
  */
 function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 
@@ -69,6 +85,6 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 	 	 WHERE p.post_type = %s AND m.meta_key = %s;",
 			array( $new_key, $post_type, $old_key )
 		)
-	);
+	); // no-cache ok.
 
 }

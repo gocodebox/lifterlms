@@ -1,11 +1,11 @@
 <?php
 /**
- * Filters and actions related to user permissions
+ * LLMS_User_Permissions class file
  *
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 3.41.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,6 +47,7 @@ class LLMS_User_Permissions {
 	 * @since 3.13.0
 	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
 	 * @since 3.37.14 Use strict comparison.
+	 * @since 4.10.0 Better handling of users with multiple roles.
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
@@ -55,19 +56,44 @@ class LLMS_User_Permissions {
 	 */
 	public function editable_roles( $all_roles ) {
 
-		$user = wp_get_current_user();
+		/**
+		 * Prevent issues when other plugins call get_editable_roles() before `init`.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1727
+		 */
+		if ( ! function_exists( 'wp_get_current_user' ) ) {
+			return $all_roles;
+		}
 
-		$lms_roles = self::get_editable_roles();
+		if ( is_multisite() && is_super_admin() ) {
+			return $all_roles;
+		}
 
-		foreach ( $lms_roles as $role => $allowed_roles ) {
+		$user       = wp_get_current_user();
+		$user_roles = $user->roles;
 
-			if ( in_array( $role, $user->roles, true ) ) {
+		if ( in_array( 'administrator', $user_roles, true ) ) {
+			return $all_roles;
+		}
 
-				foreach ( $all_roles as $the_role => $caps ) {
-					if ( ! in_array( $the_role, $allowed_roles, true ) ) {
-						unset( $all_roles[ $the_role ] );
-					}
-				}
+		$editable_roles = self::get_editable_roles();
+
+		if ( empty( array_intersect( $user_roles, array_keys( $editable_roles ) ) ) ) {
+			return $all_roles;
+		}
+
+		$roles = array();
+		foreach ( $user_roles as $user_role ) {
+			if ( isset( $editable_roles[ $user_role ] ) ) {
+				$roles = array_merge( $roles, $editable_roles[ $user_role ] );
+			}
+		}
+
+		$roles = array_unique( $roles );
+
+		foreach ( array_keys( $all_roles ) as $role ) {
+			if ( ! in_array( $role, $roles, true ) ) {
+				unset( $all_roles[ $role ] );
 			}
 		}
 
@@ -143,6 +169,63 @@ class LLMS_User_Permissions {
 	}
 
 	/**
+	 * Modify a users ability to `view_grades`
+	 *
+	 * Users can view the grades (quiz results) if one of the following conditions is met:
+	 *   + Users can view their own grades.
+	 *   + Admins and LMS Managers can view anyone's grade.
+	 *   + Any user who has been explicitly granted the `view_grades` cap can view anyone's grade (via custom code).
+	 *   + Any instructor/assistant who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
+	 *
+	 * @since 4.21.2
+	 *
+	 * @param bool[] $allcaps Array of key/value pairs where keys represent a capability name and boolean values
+	 *                        represent whether the user has that capability.
+	 * @param array  $args {
+	 *   Arguments that accompany the requested capability check.
+	 *
+	 *     @type string $0 Requested capability: 'view_grades'.
+	 *     @type int    $1 Current User ID.
+	 *     @type int    $2 Requested User ID.
+	 *     @type int    $3 WP_Post ID of the quiz (optional)
+	 * }
+	 * @return array
+	 */
+	private function handle_cap_view_grades( $allcaps, $args ) {
+
+		// Logged out user or missing required args.
+		if ( empty( $args[1] ) || empty( $args[2] ) ) {
+			return $allcaps;
+		}
+
+		$requested_cap = $args[0];
+		$current_user_id = intval( $args[1] );
+		$requested_user_id = intval( $args[2] );
+		$post_id = isset( $args[3] ) ? intval( $args[3] ) : false;
+
+		// Administrators and LMS managers explicitly have the cap so we don't need to perform any further checks.
+		if ( ! empty( $allcaps[ $requested_cap ] ) ) {
+			return $allcaps;
+		}
+
+		// Users can view their own grades.
+		if ( $current_user_id === $requested_user_id ) {
+			$allcaps[ $requested_cap ] = true;
+		} elseif ( $post_id && current_user_can( 'edit_post', $post_id ) ) {
+			if ( $this->instructor_has_student( $current_user_id, $requested_user_id ) ) {
+				$allcaps[ $requested_cap ] = true;
+			}
+		} elseif ( ! $post_id && current_user_can( 'view_students', $requested_user_id ) ) {
+			if ( $this->instructor_has_student( $current_user_id, $requested_user_id ) ) {
+				$allcaps[ $requested_cap ] = true;
+			}
+		}
+
+		return $allcaps;
+
+	}
+
+	/**
 	 * Custom capability checks for LifterLMS things
 	 *
 	 * @since 3.13.0
@@ -150,6 +233,7 @@ class LLMS_User_Permissions {
 	 *               Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
 	 * @since 3.37.14 Use strict comparison.
+	 * @since 4.21.2 Add logic to handle the `view_grades` capability.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
@@ -174,13 +258,17 @@ class LLMS_User_Permissions {
 		 */
 		$post_types = apply_filters( 'llms_user_caps_edit_others_posts_post_types', array( 'courses', 'lessons', 'sections', 'quizzes', 'questions', 'memberships' ) );
 		foreach ( $post_types as $cpt ) {
-			// allow any instructor to edit courses they're attached to.
+			// Allow any instructor to edit courses they're attached to.
 			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap, true ) ) {
 				$allcaps = $this->edit_others_lms_content( $allcaps, $cap, $args );
 			}
 		}
 
 		$required_cap = ! empty( $cap[0] ) ? $cap[0] : false;
+
+		if ( 'view_grades' === $required_cap ) {
+			return $this->handle_cap_view_grades( $allcaps, $args );
+		}
 
 		// We don't have a cap or the user doesn't have the requested cap.
 		if ( ! $required_cap || empty( $allcaps[ $required_cap ] ) ) {
@@ -296,6 +384,23 @@ class LLMS_User_Permissions {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Determine if an instructor has a student.
+	 *
+	 * @since 7.6.0
+	 *
+	 * @param int $current_user_id WP User ID of the user requesting to perform the action.
+	 * @param int $requested_user_id WP User ID of the user the action will be performed on.
+	 * @return bool Returns true if the user has the student, false if it doesn't
+	 */
+	protected function instructor_has_student( $current_user_id, $requested_user_id )
+	{
+
+		$instructor = llms_get_instructor( $current_user_id );
+		return $instructor && $instructor->has_student( $requested_user_id );
 
 	}
 

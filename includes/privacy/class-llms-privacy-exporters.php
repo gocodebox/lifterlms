@@ -5,7 +5,7 @@
  * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
- * @version 3.37.9
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,20 +140,21 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 
 	/**
-	 * Get data for a certificate
+	 * Get data for a certificate.
 	 *
 	 * @since 3.18.0
+	 * @since 6.0.0 Replaced the use of the deprecated `certificate_title` meta key with the post's title property.
 	 *
-	 * @param  LLMS_User_Certificate $cert Certificate object.
+	 * @param LLMS_User_Certificate $cert Certificate object.
 	 * @return array
 	 */
 	private static function get_certificate_data( $cert ) {
 
 		$data = array();
 
-		$title = $cert->get( 'certificate_title' );
+		$title = $cert->get( 'title' );
 
-		$filename = LLMS()->certificates()->get_export( $cert->get( 'id' ), true );
+		$filename = llms()->certificates()->get_export( $cert->get( 'id' ), true );
 		if ( ! is_wp_error( $filename ) ) {
 			$title = '<a href="certificates/' . basename( $filename ) . '">' . $title . '</a>';
 		}
@@ -426,16 +427,18 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	}
 
 	/**
-	 * Add files to the zip file for a data export request
-	 * Adds certificate files into the /certificates/ directory within the archive
+	 * Add files to the zip file for a data export request.
 	 *
-	 * @since    3.18.0
+	 * Adds certificate files into the `/certificates/` directory within the archive.
 	 *
-	 * @param    string $archive_pathname      full path to the zip archive
-	 * @param    string $archive_url           full uri to the zip archive
-	 * @param    string $html_report_pathname  full path to the .html file within the archive
-	 * @param    int    $request_id            WP Post ID of the export request
-	 * @return   void
+	 * @since 3.18.0
+	 * @since 6.0.0 Replaced the use of the deprecated `wp_get_user_request_data()` function with `wp_get_user_request()`.
+	 *
+	 * @param string $archive_pathname     Full path to the zip archive.
+	 * @param string $archive_url          Full URI to the zip archive.
+	 * @param string $html_report_pathname Full path to the .html file within the archive.
+	 * @param int    $request_id           WP Post ID of the export request.
+	 * @return void
 	 */
 	public static function maybe_add_export_files( $archive_pathname, $archive_url, $html_report_pathname, $request_id ) {
 
@@ -443,7 +446,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			return;
 		}
 
-		$request = wp_get_user_request_data( $request_id );
+		$request = wp_get_user_request( $request_id );
 		$student = self::get_student_by_email( $request->email );
 
 		if ( ! $student ) {
@@ -459,7 +462,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$delete = array();
 		if ( true === $zip->open( $archive_pathname ) ) {
 			foreach ( $certs as $cert ) {
-				$filepath                        = LLMS()->certificates()->get_export( $cert->get( 'id' ), true );
+				$filepath                        = llms()->certificates()->get_export( $cert->get( 'id' ), true );
 				$delete[ $cert->certificate_id ] = $filepath;
 				if ( is_wp_error( $filepath ) ) {
 					continue;

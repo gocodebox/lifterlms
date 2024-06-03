@@ -1,49 +1,46 @@
 <?php
 /**
- * LifterLMS Background Updater
- *
- * Process db updates in the background
- *
- * Replaces abstract updater and update classes from 3.4.2 and lower
+ * LLMS_Background_Updater
  *
  * @package LifterLMS/Classes
  *
  * @since 3.4.3
- * @version 3.16.10
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-
 /**
- * LLMS_Background_Updater
+ * Background database upgrader
+ *
+ * Process db updates in the background
+ *
+ * Replaces abstract updater and update classes from 3.4.2 and lower.
  *
  * @since 3.4.3
- * @since 3.16.10 Unknown.
  */
 class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
-	 * action name
+	 * Action name
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $action = 'llms_bg_updater';
 
 	/**
 	 * Enables event logging
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	private $enable_logging = true;
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -60,23 +57,22 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	/**
 	 * Called when queue is emptied and action is complete
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	protected function complete() {
 		$this->log( 'Update complete' );
 		LLMS_Install::update_db_version();
-		LLMS_Install::update_notice();
 		parent::complete();
 	}
 
 	/**
 	 * Starts the queue
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public function dispatch() {
 
@@ -91,9 +87,10 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	/**
 	 * Retrieve approximate progress of updates in the queue
 	 *
-	 * @return   int
-	 * @since    3.4.3
-	 * @version  3.16.10
+	 * @since 3.4.3
+	 * @since 3.16.10 Unknown.
+	 *
+	 * @return int
 	 */
 	public function get_progress() {
 
@@ -121,29 +118,33 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * Overridden to enable the "force" option to work, replaces "exit" with "return"
 	 * so that we can redirect and manually call the cronjob
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public function handle_cron_healthcheck() {
+
+		// Background process already running.
 		if ( $this->is_process_running() ) {
-			// Background process already running.
 			return;
 		}
+
+		// No data to process.
 		if ( $this->is_queue_empty() ) {
-			// No data to process.
 			$this->clear_scheduled_event();
 			return;
 		}
+
 		$this->handle();
+
 	}
 
 	/**
 	 * Returns true if the updater is running
 	 *
-	 * @return   boolean
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return boolean
 	 */
 	public function is_updating() {
 		return ( false === $this->is_queue_empty() );
@@ -152,10 +153,10 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	/**
 	 * Log event data to an update file when logging enabled
 	 *
-	 * @param    mixed $data  data to log
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @param mixed $data Data to log.
+	 * @return void
 	 */
 	public function log( $data ) {
 
@@ -168,30 +169,51 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	/**
 	 * Processes an item in the queue
 	 *
-	 * @param    string $callback  name of the callback function to execute
-	 * @return   mixed                 false removes item from the queue
-	 *                                 truthy (callback function name) leaves it in the queue for further processing
-	 * @since    3.4.3
-	 * @version  3.16.10
+	 * @since 3.4.3
+	 * @since 3.16.10 Unknown.
+	 * @since 5.2.0 Use `llms_get_callable_name()` to log callback.
+	 *
+	 * @param mixed $callback PHP callable (function name, callable array, etc...).
+	 * @return mixed Returns `false` when the callback is complete (removes it from the queue).
+	 *               Returns $callback to leave it in the queue.
 	 */
 	protected function task( $callback ) {
 
-		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms.functions.updates.php';
 
+		$callback_name = llms_get_callable_name( $callback );
 		if ( is_callable( $callback ) ) {
-			$this->log( sprintf( 'Running %s callback', $callback ) );
+			$this->log( sprintf( 'Running %s callback', $callback_name ) );
 			if ( call_user_func( $callback ) ) {
-				// $this->log( sprintf( '%s callback will rerun', $callback ) );
 				return $callback;
 			}
-			$this->log( sprintf( 'Finished %s callback', $callback ) );
-
+			$this->log( sprintf( 'Finished %s callback', $callback_name ) );
 		} else {
-			$this->log( sprintf( 'Could not find %s callback', $callback ) );
+			$this->log( sprintf( 'Could not find %s callback', $callback_name ) );
 		}
 
 		return false;
 
+	}
+
+	/**
+	 * Save queue
+	 *
+	 * Overwrites parent method to empty `$this->data` following a save.
+	 *
+	 * This ensures save() can be called multiple times without recording duplicates.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @return LLMS_Background_Updater
+	 */
+	public function save() {
+
+		parent::save();
+		// Reset data to avoid duplicates if save() is called more than once.
+		$this->data = array();
+
+		return $this;
 	}
 
 }

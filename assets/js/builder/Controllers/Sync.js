@@ -1,8 +1,8 @@
 /**
  * Sync builder data to the server
  *
- * @since    3.16.0
- * @version  3.19.4
+ * @since 3.16.0
+ * @version 4.17.0
  */
 define( [], function() {
 
@@ -11,18 +11,18 @@ define( [], function() {
 		this.saving = false;
 
 		var self              = this,
-			autosave          = true,
+			autosave          = ( 'yes' === window.llms_builder.autosave ),
 			check_interval    = null,
-			check_interval_ms = settings.check_interval_ms || 10000,
+			check_interval_ms = settings.check_interval_ms || ( ( 'yes' === window.llms_builder.autosave ) ? 10000 : 1000 ),
 			detached          = new Backbone.Collection(),
 			trashed           = new Backbone.Collection();
 
 		/**
 		 * init
 		 *
-		 * @return   void
-		 * @since    3.16.7
-		 * @version  3.16.7
+		 * @since 3.16.7
+		 *
+		 * @return {Void}
 		 */
 		function init() {
 
@@ -113,9 +113,10 @@ define( [], function() {
 		/**
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
 		 *
-		 * @return   void
-		 * @since    3.16.7
-		 * @version  3.16.7
+		 * @since 3.16.7
+		 * @since 4.17.0 Fixed undefined variable error when logging an error response.
+		 *
+		 * @return void
 		 */
 		function do_ajax_save() {
 
@@ -149,7 +150,7 @@ define( [], function() {
 					},
 					error: function( xhr, status, error ) {
 
-						window.llms_builder.debug.log( '==== start do_ajax_save error ====', data, '==== finish do_ajax_save error ====' );
+						window.llms_builder.debug.log( '==== start do_ajax_save error ====', xhr, '==== finish do_ajax_save error ====' );
 
 						self.saving = false;
 
@@ -658,13 +659,20 @@ define( [], function() {
 			|__/  |__/ \_______/ \_______/|__/         \___/  |_______/  \_______/ \_______/   \___/
 		*/
 
+
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.7
+		 * @since 3.16.0
+		 * @since 3.16.7 Unknown
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			// prevent simultaneous saves
 			if ( self.saving ) {
@@ -691,10 +699,15 @@ define( [], function() {
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			if ( ! data.llms_builder ) {
 				return;
@@ -714,10 +727,15 @@ define( [], function() {
 		/**
 		 * On heartbeat errors publish an error to the main builder application
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			window.llms_builder.debug.log( '==== start heartbeat-error ====', data, '==== finish heartbeat-error ====' );
 

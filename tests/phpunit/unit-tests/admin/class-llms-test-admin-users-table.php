@@ -15,11 +15,14 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.0.0
+	 * @since 4.7.0 Add `LLMS_Admin_Reporting` class.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 	}
 
@@ -27,12 +30,13 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 4.0.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		set_current_screen( 'users.php' );
 		$this->main = new LLMS_Admin_Users_Table();
 
@@ -43,12 +47,13 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Teardown the test case
 	 *
 	 * @since 4.0.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		/**
 		 * Reset current screen

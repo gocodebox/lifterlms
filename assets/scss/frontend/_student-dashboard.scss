@@ -204,6 +204,12 @@
 // grades table for a single course
 .llms-table.llms-single-course-grades {
 
+	tbody {
+		tr:first-child td, tr:first-child th {
+			background-color: #eaeaea;
+		}
+	}
+
 	th {
 		font-weight: 400;
 	}

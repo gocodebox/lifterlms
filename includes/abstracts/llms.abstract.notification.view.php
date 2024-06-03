@@ -5,13 +5,13 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.37.19
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Abstract_Notification_View class
+ * LLMS_Abstract_Notification_View class.
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
@@ -88,11 +88,18 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	protected $user;
 
 	/**
+	 * Merge codes.
+	 *
+	 * @var string[]
+	 */
+	protected $merge_codes;
+
+	/**
 	 * Replace merge codes with actual values
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	abstract protected function set_merge_data( $code );
@@ -159,6 +166,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
 	 * @since 3.37.19 Moved the retrieval of the associated llms post into a protected method.
+	 * @since 5.0.0 Force [llms-user] shortocde to the user ID of the user who triggered the notification.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.
@@ -183,6 +191,31 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
+		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+	}
+
+	/**
+	 * Destructor
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function __destruct() {
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+	}
+
+	/**
+	 * Set the user ID used by [llms-user] to the user triggering the notification.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param int $uid WP_User ID of the current user.
+	 * @return int
+	 */
+	public function set_shortcode_user( $uid ) {
+		return $this->user->get( 'id' );
 	}
 
 	/**
@@ -433,6 +466,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Retrieve the full HTML to be output for the notification type
 	 *
 	 * @since 3.8.0
+	 * @since 4.16.0 Pass `null` to the 3rd-party filter.
 	 *
 	 * @return string|WP_Error If the notification type is not supported, returns an error.
 	 */
@@ -452,7 +486,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 			// 3rd party/custom types.
 			default:
-				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), $html, $this );
+				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), null, $this );
 
 		}
 
@@ -488,7 +522,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		if ( ! in_array( $type, array( 'negative', 'positive', 'warning' ), true ) ) {
 			$ret = '';
 		} else {
-			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
+			$ret = llms()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
 		}
 		return apply_filters( 'llms_notification_get_icon_default', $ret, $type, $this );
 	}
@@ -515,17 +549,24 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Get available merge codes for the current notification
+	 * Get available merge codes for the current notification.
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
+	 * @since 6.4.0 Cache merge codes.
 	 *
 	 * @return array
 	 */
 	public function get_merge_codes() {
-		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
-		asort( $codes );
-		return apply_filters( $this->get_filter( 'get_merge_codes' ), $codes, $this );
+
+		if ( ! isset( $this->merge_codes ) ) {
+			$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
+			asort( $codes );
+			$this->merge_codes = $codes;
+		}
+
+		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->merge_codes, $this );
+
 	}
 
 	/**
@@ -554,27 +595,30 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Merge a string
+	 * Merge a string.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.19 Use `in_array` with strict comparison.
+	 * @since 6.4.0 Only populate effectively used merged data.
 	 *
 	 * @param string $string An unmerged string.
 	 * @return string
 	 */
 	private function get_merged_string( $string ) {
 
-		// only merge if there's codes in the string.
+		// Only merge if there are codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
-			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
+			$merge_code_defaults = $this->get_merge_code_defaults();
 
-				// set defaults.
-				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
+			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
+
+				// Set defaults.
+				if ( array_key_exists( $code, $merge_code_defaults ) ) {
 
 					$func = 'set_merge_data_default';
 
-					// set customs with extended class func.
+					// Set customs with extended class func.
 				} else {
 
 					$func = 'set_merge_data';
@@ -587,6 +631,28 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
+
+	}
+
+	/**
+	 * Retrieve merge codes used in a given string.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $string Text string whereto look for merge codes.
+	 * @return array Returns a list of merge codes actually used in the passed string.
+	 */
+	private function get_used_merge_codes( $string ) {
+
+		return array_keys(
+			array_filter(
+				$this->get_merge_codes(),
+				function ( $code ) use ( $string ) {
+					return false !== strpos( $string, $code );
+				},
+				ARRAY_FILTER_USE_KEY
+			)
+		);
 
 	}
 
@@ -715,12 +781,12 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.11.0
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data_default( $code ) {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		switch ( $code ) {
 

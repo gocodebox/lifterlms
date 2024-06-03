@@ -6,39 +6,31 @@
  *
  * @group admin
  * @group admin_tools
+ * @group batch_eraser
  *
  * @since 3.37.19
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
-class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
+class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_Admin_Tool_Test_Case {
 
 	/**
-	 * Setup before class
+	 * Name of the class being tested.
 	 *
-	 * Include abstract class.
-	 *
-	 * @since 3.37.19
-	 *
-	 * @return void
+	 * @var sting
 	 */
-	public static function setUpBeforeClass() {
-
-		parent::setUpBeforeClass();
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-batch-eraser.php';
-
-	}
+	const CLASS_NAME = 'LLMS_Admin_Tool_Batch_Eraser';
 
 	/**
 	 * Teardown the test case.
 	 *
 	 * @since 3.37.19
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->clear_cache();
 
 	}
@@ -52,65 +44,6 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	 */
 	private function clear_cache() {
 		wp_cache_delete( 'batch-eraser', 'llms_tool_data' );
-	}
-
-	/**
-	 * Setup the test case
-	 *
-	 * @since 3.37.19
-	 *
-	 * @return void
-	 */
-	public function setUp() {
-
-		parent::setUp();
-
-		$this->main = new LLMS_Admin_Tool_Batch_Eraser();
-	}
-
-	/**
-	 * Test get_description()
-	 *
-	 * @since 3.37.19
-	 *
-	 * @return void
-	 */
-	public function test_get_description() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_description' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_label()
-	 *
-	 * @since 3.37.19
-	 *
-	 * @return void
-	 */
-	public function test_get_label() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_label' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_text()
-	 *
-	 * @since 3.37.19
-	 *
-	 * @return void
-	 */
-	public function test_get_text() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_text' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
 	}
 
 	/**

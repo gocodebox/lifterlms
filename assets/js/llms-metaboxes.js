@@ -11,10 +11,9 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @since 3.30.0 Made autoenroll table sortable, added AJAX save for adding new courses.
- * @version 3.30.0
+ * @version 7.1.1
  */
-( function( $ ) {
+ ( function( $ ) {
 
 	/**
 	 * jQuery plugin to allow "collapsible" sections
@@ -59,8 +58,8 @@
 		 *
 		 * @package LifterLMS/Scripts/Partials
 		 *
-		 * @since    3.11.0
-		 * @version  3.23.0
+		 * @since 3.11.0
+		 * @version 5.3.2
 		 */
 		
 		this.repeaters = {
@@ -68,24 +67,24 @@
 			/**
 			 * Reference to the parent metabox class
 			 *
-			 * @type  obj
+			 * @type {Object}
 			 */
 			metaboxes: this,
 		
 			/**
 			 * A jQuery selector for all repeater elements on the current screen
 			 *
-			 * @type  {[type]}
+			 * @type {Object}
 			 */
 			$repeaters: null,
 		
 			/**
 			 * Init
 			 *
-			 * @since    3.11.0
-			 * @version  3.23.0
+			 * @since 3.11.0
+			 * @since 3.23.0 Unknown.
 			 *
-			 * @return   void
+			 * @return {void}
 			 */
 			init: function() {
 		
@@ -95,7 +94,7 @@
 		
 				if ( self.$repeaters.length ) {
 		
-					// wait for tinyMCE just in case their editors in the repeaters
+					// Wait for tinyMCE just in case their editors in the repeaters.
 					LLMS.wait_for(
 						function() {
 							return ( 'undefined' !== typeof tinyMCE );
@@ -106,13 +105,15 @@
 						}
 					);
 		
-					// on click of any post submit buttons add some data to the submit button
-					// so we can see which button to trigger after repeaters are finished
+					/**
+					 * On click of any post submit buttons add some data to the submit button
+					 * so we can see which button to trigger after repeaters are finished.
+					 */
 					$( '#post input[type="submit"], #post-preview' ).on( 'click', function() {
 						$( this ).attr( 'data-llms-clicked', 'yes' );
 					} );
 		
-					// handle post submission
+					// Handle post submission.
 					$( '#post' ).on( 'submit', self.handle_submit );
 		
 				}
@@ -122,9 +123,11 @@
 			/**
 			 * Bind DOM Events
 			 *
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.13.0
+			 * @since 3.11.0
+			 * @since 3.13.0 Unknown.
+			 * @since 5.3.2 Don't remove the model's mceEditor instance (it's removed before cloning a row now).
+			 *
+			 * @return {void}
 			 */
 			bind: function() {
 		
@@ -133,17 +136,14 @@
 				self.$repeaters.each( function() {
 		
 					var $repeater = $( this ),
-						$rows     = $repeater.find( '.llms-repeater-rows' ),
-						$model    = $repeater.find( '.llms-repeater-model' );
+						$rows     = $repeater.find( '.llms-repeater-rows' );
 		
-					tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, $model.find( '.llms-mb-list.editor textarea' ).attr( 'id' ) );
-		
-					// for the repeater + button
+					// For the repeater + button.
 					$repeater.find( '.llms-repeater-new-btn' ).on( 'click', function() {
 						self.add_row( $repeater, null, true );
 					} );
 		
-					// make repeater rows sortable
+					// Make repeater rows sortable.
 					$rows.sortable( {
 						handle: '.llms-drag-handle',
 						items: '.llms-repeater-row',
@@ -182,19 +182,20 @@
 			/**
 			 * Add a new row to a repeater rows group
 			 *
-			 * @param    obj    $repeater  jQuery selector for the repeater to add a row to
-			 * @param    obj    data       optional object of data to fill fields in the row with
-			 * @param    bool   expand     if true, will automatically open the row after adding it to the dom
-			 * @return 	 void
-			 * @since    3.11.0
-			 * @version  3.11.0
+			 * @since 3.11.0
+			 * @since 5.3.2 Use `self.clone_row()` to retrieve the model's base HTML for the row to be added.
+			 *
+			 * @param {Object}  $repeater A jQuery selector for the repeater to add a row to.
+			 * @param {Object}  data      Optional object of data to fill fields in the row with.
+			 * @param {Boolean} expand    If true, will automatically open the row after adding it to the dom.
+			 * @return {void}
 			 */
 			add_row: function( $repeater, data, expand ) {
 		
 				var self      = this,
 					$rows     = $repeater.find( '.llms-repeater-rows' ),
 					$model    = $repeater.find( '.llms-repeater-model' ),
-					$row      = $model.find( '.llms-repeater-row' ).clone(),
+					$row      = self.clone_row( $model.find( '.llms-repeater-row' ) ),
 					new_index = $repeater.find( '.llms-repeater-row' ).length,
 					editor    = self.reindex( $row, new_index );
 		
@@ -235,10 +236,11 @@
 			/**
 			 * Bind DOM events for a single repeater row
 			 *
-			 * @param    obj   $row  jQuery selector for the row
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.13.0
+			 * @since 3.11.0
+			 * @since 3.13.0 Unknown.
+			 *
+			 * @param {Object} $row A jQuery selector for the row.
+			 * @return {void}
 			 */
 			bind_row: function( $row ) {
 		
@@ -252,20 +254,20 @@
 		
 				this.metaboxes.bind_datepickers( $row.find( '.llms-datepicker' ) );
 				this.metaboxes.bind_controllers( $row.find( '[data-is-controller]' ) );
-				// this.metaboxes.bind_merge_code_buttons( $row.find( '.llms-merge-code-wrapper' ) );
+				// This.metaboxes.bind_merge_code_buttons( $row.find( '.llms-merge-code-wrapper' ) );.
 			},
 		
 			/**
 			 * Bind row header events
 			 *
-			 * @param    obj   $row  jQuery selector for the row
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.11.0
+			 * @since 3.11.0
+			 *
+			 * @param {Object} $row jQuery selector for the row.
+			 * @return {void}
 			 */
 			bind_row_header: function( $row ) {
 		
-				// handle the title field binding
+				// Handle the title field binding.
 				var $title = $row.find( '.llms-repeater-title' ),
 					$field = $row.find( '.llms-collapsible-header-title-field' );
 		
@@ -282,16 +284,36 @@
 			},
 		
 			/**
+			 * Create a copy of the model's row after removing any tinyMCE editor instances present in the model.
+			 *
+			 * @since 5.3.2
+			 *
+			 * @param {Object} $row A jQuery object of the row to be cloned.
+			 * @return {Object} A clone of the jQuery object.
+			 */
+			clone_row: function( $row ) {
+		
+				$ed = $row.find( '.editor textarea' );
+				if ( $ed.length ) {
+					tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, $ed.attr( 'id' ) );
+				}
+		
+				return $row.clone()
+		
+			},
+		
+			/**
 			 * Handle WP Post form submission to ensure repeaters are saved before submitting the form to save/publish the post
 			 *
-			 * @param    obj   e  JS event object
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.23.0
+			 * @since 3.11.0
+			 * @since 3.23.0 Unknown.
+			 *
+			 * @param {Object} e An event object.
+			 * @return {void}
 			 */
 			handle_submit: function( e ) {
 		
-				// get the button used to submit the form
+				// Get the button used to submit the form.
 				var $btn     = $( '#post [data-llms-clicked="yes"]' ),
 					$spinner = $btn.parent().find( '.spinner' );
 		
@@ -302,7 +324,7 @@
 		
 				e.preventDefault();
 		
-				// core UX to prevent multi-click/or the appearance of a delay
+				// Core UX to prevent multi-click/or the appearance of a delay.
 				$( '#post input[type="submit"]' ).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 				$spinner.addClass( 'is-active' );
 		
@@ -336,9 +358,10 @@
 			/**
 			 * Load repeater data from the server and create rows in the DOM
 			 *
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.12.1
+			 * @since 3.11.0
+			 * @since 3.12.1 Unknown.
+			 *
+			 * @return {void}
 			 */
 			load: function() {
 		
@@ -348,8 +371,8 @@
 		
 					var $repeater = $( this );
 		
-					// ensure the repeater is only loaded once to prevent duplicates resulting from duplicating binding
-					// on certain sites which I cannot quite explain...
+					// Ensure the repeater is only loaded once to prevent duplicates resulting from duplicating binding.
+					// On certain sites which I cannot quite explain...
 					if ( $repeater.hasClass( 'is-loaded' ) || $repeater.hasClass( 'processing' ) ) {
 						return;
 					}
@@ -362,7 +385,7 @@
 							self.add_row( $repeater, obj, false );
 						} );
 		
-						// for each row within the repeater
+						// For each row within the repeater.
 						$repeater.find( '.llms-repeater-rows .llms-repeater-row' ).each( function() {
 							self.bind_row( $( this ) );
 						} );
@@ -375,14 +398,16 @@
 		
 			/**
 			 * Reindex a row
-			 * renames ids, attrs, and etc...
-			 * Used when cloning the model for new rows
 			 *
-			 * @param    obj          $row  jQuery selector for the row
-			 * @param    int|string   index  index (or id) to use when renaming
-			 * @return   string
-			 * @since    3.11.0
-			 * @version  3.11.0
+			 * Renames ids, attrs, and etc...
+			 *
+			 * Used when cloning the model for new rows.
+			 *
+			 * @since 3.11.0
+			 *
+			 * @param {Object} $row  jQuery selector for the row.
+			 * @param {string} index The index (or id) to use when renaming.
+			 * @return {string}
 			 */
 			reindex: function( $row, index ) {
 		
@@ -420,10 +445,11 @@
 			/**
 			 * Save a single repeaters data to the server
 			 *
-			 * @param    obj   $repeater  jQuery selector for a repeater element
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.13.0
+			 * @since 3.11.0
+			 * @since 3.13.0 Unknown.
+			 *
+			 * @param {Object} $repeater jQuery selector for a repeater element.
+			 * @return {void}
 			 */
 			save: function( $repeater ) {
 				$repeater.trigger( 'llms-repeater-before-save', { $el: $repeater } );
@@ -433,10 +459,10 @@
 			/**
 			 * Convert a repeater element into an array of objects that can be saved to the database
 			 *
-			 * @param    obj   $repeater  jQuery selector for a repeater element
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.11.0
+			 * @since 3.11.0
+			 *
+			 * @param {Object} $repeater A jQuery selector for a repeater element.
+			 * @return {void}
 			 */
 			serialize: function( $repeater ) {
 		
@@ -446,20 +472,20 @@
 		
 					var obj = {};
 		
-					// easy...
+					// Easy...
 					$( this ).find( 'input[name^="_llms"], select[name^="_llms"]' ).each( function() {
 						obj[ $( this ).attr( 'name' ) ] = $( this ).val();
 					} );
 		
-					// check if the textarea is a tinyMCE instance
+					// Check if the textarea is a tinyMCE instance.
 					$( this ).find( 'textarea[name^="_llms"]' ).each( function() {
 		
 						var name = $( this ).attr( 'name' );
 		
-						// if it is an editor
+						// If it is an editor.
 						if ( tinyMCE.editors[ name ] ) {
 							obj[ name ] = tinyMCE.editors[ name ].getContent();
-							// grab the val of the textarea
+							// Grab the val of the textarea.
 						} else {
 							obj[ name ] = $( this ).val();
 						}
@@ -477,12 +503,12 @@
 			/**
 			 * AJAX method for interacting with the repeater's handler on the server
 			 *
-			 * @param    obj       $repeater  jQuery selector for the repeater element
-			 * @param    string    action     action to call [save|load]
-			 * @param    function  cb         callback function
-			 * @return   void
-			 * @since    3.11.0
-			 * @version  3.11.0
+			 * @since 3.11.0
+			 *
+			 * @param {Object}   $repeater jQuery selector for the repeater element.
+			 * @param {string}   action    Action to call [save|load].
+			 * @param {Function} cb        Callback function.
+			 * @return {void}
 			 */
 			store: function( $repeater, action, cb ) {
 		
@@ -524,9 +550,12 @@
 		/**
 		 * Initialize
 		 *
+		 * @since 3.0.0
+		 * @since 3.13.0 Unknown.
+		 * @since 4.19.0 Add `this.bind_mce_fixes()`.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
+		 *
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.13.0
 		 */
 		this.init = function() {
 
@@ -539,6 +568,8 @@
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
 			this.bind_tabs();
+
+			this.bind_mce_fixes();
 
 			// bind everything better and less repetitively...
 			var bindings = [
@@ -577,7 +608,7 @@
 					func: 'bind_merge_code_buttons',
 			},
 				{
-					selector: $( 'a.llms-editable' ),
+					selector: $( 'a.llms-editable, button.llms-editable' ),
 					func: 'bind_editables',
 			},
 			];
@@ -764,9 +795,11 @@
 		/**
 		 * Bind llms-editable metabox fields and related dom interactions
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.28.0
+		 * @since 3.10.0
+		 * @since 3.28.0 Unknown.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
+		 *
+		 * @return void
 		 */
 		this.bind_editables = function() {
 
@@ -826,7 +859,7 @@
 
 			};
 
-			$( 'a.llms-editable' ).on( 'click', function( e ) {
+			$( 'a.llms-editable, button.llms-editable' ).on( 'click', function( e ) {
 
 				e.preventDefault();
 
@@ -1061,9 +1094,9 @@
 				var $table = $( '.llms-mb-list._llms_content_table' );
 					$tr    = $( '<tr />' );
 
-				$tr.append( '<td><span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span></td>' );
+				$tr.append( '<td><span class="dashicons dashicons-menu llms-drag-handle ui-sortable-handle"></span></td>' );
 				$tr.append( '<td><a href="' + window.llms.admin_url + 'post.php?action=edit&post=' + id + '">' + title + '</a></td>' );
-				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
+				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;margin-right:5px;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
 
 				// append the element to the table.
 				$table.find( 'table tbody' ).append( $tr );
@@ -1240,6 +1273,88 @@
 		};
 
 		/**
+		 * Re-initializes TinyMCE Editors found within metaboxes
+		 *
+		 * @since 4.19.0
+		 * @since 4.21.2 Improve early return dependency check.
+		 * @since 7.0.1 Add `undefined` condition on early return check.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1553
+		 * @link https://github.com/gocodebox/lifterlms/pull/1618
+		 * @link https://github.com/gocodebox/lifterlms/issues/2298
+		 *
+		 * @return {void}
+		 */
+		 this.bind_mce_fixes = function() {
+
+			// We need `wp.data` to proceed.
+			if ( undefined === wp.data || [ null, undefined ].includes( wp.data.select( 'core/edit-post' ) ) ) {
+				return;
+			}
+
+			LLMS.wait_for(
+				function() {
+					return undefined !== wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+				},
+				function() {
+
+					var shouldRun = false;
+						find      = [ 'lifterlms-product', 'lifterlms-membership', 'lifterlms-course-options' ];
+						metaboxes = wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+
+					// Determine if we should run the fixer.
+					for ( var key in metaboxes ) {
+						if ( -1 !== find.indexOf( metaboxes[ key ].id ) ) {
+							shouldRun = true;
+							break;
+						}
+					}
+
+					if ( ! shouldRun ) {
+						return;
+					}
+
+					// Fix them.
+					var toFix = {};
+
+					/**
+					 * Determines if the TinyMCE instance should be fixed.
+					 *
+					 * @since 4.19.0
+					 *
+					 * @param {string} key Editor Key. This is the HTML id attribute of the textarea powering the editor instance.
+					 * @return {Boolean} Returns `true` if the editor should be fixed.
+					 */
+					function llmsShouldFixTinyMCEEditor( key ) {
+						return ( 'excerpt' === key || -1 !== key.indexOf( 'llms' ) || -1 !== key.indexOf( 'lifterlms' ) )
+					};
+
+					// Loop through all the loaded editors.
+					for ( var key in tinyMCE.EditorManager.editors ) {
+
+						// Mark LifterLMS editors to be fixed & de-init the editor.
+						if ( llmsShouldFixTinyMCEEditor( key ) ) {
+
+							toFix[ key ] = tinyMCE.EditorManager.get( key );
+							tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, key );
+
+						}
+
+					}
+
+					// If we remove and re-init immediately it doesn't work, so we'll wait a bit and then re-init them all.
+					setTimeout( function() {
+						for ( var key in toFix ) {
+							tinyMCE.EditorManager.init( toFix[ key ].settings || tinyMCE.EditorManager.settings );
+						}
+					}, 500 );
+
+				}
+			);
+
+		};
+
+		/**
 		 * Binds custom llms merge code buttons
 		 *
 		 * @return   void
@@ -1315,19 +1430,23 @@
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 *
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.21.0
+		 * @since 3.0.0
+		 * @since 3.21.0 Unknown.
+		 * @since 6.0.0 Show element at 100% width if not displaying a view button.
+		 * @since 7.1.1 Fixed `home_url` for view button.
+		 *
+		 * @return void
 		 */
 		this.post_select = function( $el ) {
 
-			var multi = 'multiple' === $el.attr( 'multiple' );
+			var multi = 'multiple' === $el.attr( 'multiple' ),
+				noViewBtn = $el.attr( 'data-no-view-button' );
 
 			$el.llmsPostsSelect2( {
-				width: multi ? '100%' : '65%',
+				width: multi || noViewBtn ? '100%' : '65%',
 			} );
 
-			if ( multi || $el.attr( 'data-no-view-button' ) ) {
+			if ( multi || noViewBtn ) {
 				return;
 			}
 
@@ -1339,7 +1458,7 @@
 			$el.on( 'change', function() {
 				var id = $( this ).val();
 				if ( id ) {
-					$btn.attr( 'href', '/?p=' + id ).show();
+					$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
 				} else {
 					$btn.hide();
 				}

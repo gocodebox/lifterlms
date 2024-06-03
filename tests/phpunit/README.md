@@ -36,4 +36,4 @@ Code coverage is available on [Code Climate](https://codeclimate.com/github/goco
 + Remember that only methods prefixed with test will be run so use helper methods liberally to keep test methods small and reduce code duplication.
 + If there is a common helper method used in multiple test files, consider adding it to the `LLMS_UnitTestCase` class so it can be shared by all test cases.
 + The test suite uses the `lifterlms-tests` library which is aimed to provide shared utilities for testing the LifterLMS core, as well as LifterLMS add-ons. Many methods and utilities are available and documented in the libraries GitHub repo: https://github.com/gocodebox/lifterlms-tests
-+ Filters, options, and actions persist between test cases so be sure to remove or reset them in your test method or in the `tearDown()` method.
++ Filters, options, and actions persist between test cases so be sure to remove or reset them in your test method or in the `tear_down()` method.

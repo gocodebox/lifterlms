@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.5.0
- * @version 3.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,14 +38,22 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get settings array
+	 * Get settings array.
+	 *
+	 * @since 3.5.0
+	 * @since 7.5.0 Added settings for enabling/disabling favorites.
 	 *
 	 * @return array
-	 * @since   3.5.0
-	 * @version 3.5.0
 	 */
 	public function get_settings() {
 
+		/**
+		 * Filter the course settings.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array $course_settings THe course Settings.
+		 */
 		$course = apply_filters(
 			'lifterlms_course_settings',
 			array(
@@ -67,6 +75,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'default' => 'no',
 					'id'      => 'lifterlms_retake_lessons',
 					'title'   => __( 'Retake Lessons', 'lifterlms' ),
+					'type'    => 'checkbox',
+				),
+
+				array(
+					'title'   => __( 'Lesson Favorites', 'lifterlms' ),
+					'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
+					'id'      => 'lifterlms_favorites',
+					'default' => 'yes',
 					'type'    => 'checkbox',
 				),
 
@@ -94,7 +110,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 						'data-post-type'   => 'page',
 						'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 					),
-					'desc'              => '<br/>' . sprintf( __( 'This page is where your visitors will find a list of all your available courses. %1$sMore information%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
+					'desc'              => sprintf( __( 'This page is where your visitors will find a list of all your available courses. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
 					'id'                => 'lifterlms_shop_page_id',
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_shop_page_id', '' ) ),
 					'title'             => __( 'Course Catalog', 'lifterlms' ),
@@ -103,7 +119,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 				array(
 					'default' => 9,
-					'desc'    => '<br/>' . __( 'To show all courses on one page, enter -1', 'lifterlms' ),
+					'desc'    => __( 'To show all courses on one page, enter -1.', 'lifterlms' ),
 					'id'      => 'lifterlms_shop_courses_per_page',
 					'title'   => __( 'Courses per page', 'lifterlms' ),
 					'type'    => 'number',
@@ -111,7 +127,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 				array(
 					'default' => 'menu_order',
-					'desc'    => '<br />' . __( 'Determines the display order for courses on the courses page.', 'lifterlms' ),
+					'desc'    => __( 'Determines the display order for courses on the courses page.', 'lifterlms' ),
 					'id'      => 'lifterlms_shop_ordering',
 					'options' => array(
 						'menu_order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
@@ -165,6 +181,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	public function output() {
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::output_fields( $settings );
+		add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 	}
 
 }

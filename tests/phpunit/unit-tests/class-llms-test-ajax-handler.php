@@ -10,16 +10,46 @@
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @since 3.37.14 Added tests on persisting tracking events.
  * @since 3.37.15 Added tests for admin table methods.
+ * @since 5.5.0 Added tests on select2_query_posts when searching terms with quotes.
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	/**
+	 * Setup before class
+	 *
+	 * @since 4.7.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
+	}
+
+	/**
+	 * Setup the test
+	 *
+	 * @since 3.32.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
 		add_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	/**
+	 * Teardown the test
+	 *
+	 * @since 3.32.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
 		remove_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
 	}
 
@@ -325,6 +355,34 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertSame( 'Memberships', $res['items']['llms_membership']['label'] );
 		$this->assertTrue( array_key_exists( 'items', $res['items']['llms_membership'] ) );
 		$this->assertSame( 2, count( $res['items']['llms_membership']['items'] ) );
+
+	}
+
+	/**
+	 * Test the select2_query_posts() ajax method with search term and quotes.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_search_term_quote() {
+
+		$course = $this->factory->post->create( array(
+			'post_title'  => 'search title with this quotes:\'" - :)',
+			'post_type'   => 'course',
+			'post_stauts' => 'publish',
+		));
+
+		$args = array(
+			'post_type'   => 'course',
+			'term'        => 'search title with this quotes:\'',
+		);
+
+		$res = $this->do_ajax( 'select2_query_posts', $args );
+		$this->assertSame( 1, count( $res['items'] ) );
+		$this->assertTrue( $res['success'] );
+		$this->assertSame( $course, (int) $res['items'][0]['id'] );
+		$this->assertSame( 'search title with this quotes:\'" - :)' .  " (ID# $course)", $res['items'][0]['name'] );
 
 	}
 

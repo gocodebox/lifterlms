@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version 3.16.0
+ * @version 7.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,16 +36,16 @@ class LLMS_Question_Choice {
 	 */
 	public function __construct( $question_id, $data_or_id = array() ) {
 
-		// ensure the question is valid
+		// Ensure the question is valid.
 		if ( $this->set_question( $question_id ) ) {
 
-			// if an ID is passed in, load the question data from post meta
+			// If an ID is passed in, load the question data from post meta.
 			if ( ! is_array( $data_or_id ) ) {
 				$data_or_id = str_replace( $this->prefix, '', $data_or_id );
 				$data_or_id = get_post_meta( $this->question_id, $this->prefix . $data_or_id, true );
 			}
 
-			// hydrate with postmeta data or array of data passed in
+			// Hydrate with postmeta data or array of data passed in.
 			if ( is_array( $data_or_id ) && isset( $data_or_id['id'] ) ) {
 				$this->hydrate( $data_or_id );
 			}
@@ -208,7 +208,7 @@ class LLMS_Question_Choice {
 	 */
 	public function save() {
 
-		$this->data['id'] = $this->id; // always ensure the ID is set when saving data
+		$this->data['id'] = $this->id; // Always ensure the ID is set when saving data.
 		$update           = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
 
 		return ( $update );
@@ -216,17 +216,18 @@ class LLMS_Question_Choice {
 	}
 
 	/**
-	 * Set a piece of data by key
+	 * Set a piece of data by key.
 	 *
-	 * @param    string $key  name of the key to set
-	 * @param    mixed  $val  value to set
-	 * @return   self
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
+	 *
+	 * @param string $key Name of the key to set.
+	 * @param mixed  $val Value to set.
+	 * @return self
 	 */
 	public function set( $key, $val ) {
 
-		// dont set the ID
+		// Don't set the ID.
 		if ( 'id' === $key ) {
 			return $this;
 		}
@@ -244,10 +245,12 @@ class LLMS_Question_Choice {
 				break;
 
 			case 'marker':
-				$type    = $this->get_question()->get_question_type();
-				$markers = $type['choices']['markers'];
-				if ( ! in_array( $val, $markers ) ) {
-					$val = $markers[0];
+				$type = $this->get_question()->get_question_type();
+				if ( is_array( $type['choices'] ?? false ) ) {
+					$markers = $type['choices']['markers'];
+					if ( ! in_array( $val, $markers ) ) {
+						$val = $markers[0];
+					}
 				}
 				break;
 

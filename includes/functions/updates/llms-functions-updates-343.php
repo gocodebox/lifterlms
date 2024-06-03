@@ -21,7 +21,7 @@ function llms_update_343_update_relationships() {
 
 	global $wpdb;
 
-	// update parent course key for courses and lessons
+	// Update parent course key for courses and lessons.
 	$wpdb->query(
 		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
@@ -30,7 +30,7 @@ function llms_update_343_update_relationships() {
 		   AND ( p.post_type = 'lesson' OR p.post_type = 'section' );"
 	);
 
-	// update parent section key for lessons
+	// Update parent section key for lessons.
 	$wpdb->query(
 		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id

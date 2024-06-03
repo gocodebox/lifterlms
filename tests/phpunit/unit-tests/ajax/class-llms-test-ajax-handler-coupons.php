@@ -21,7 +21,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	 */
 	public function test_remove_coupon_code() {
 
-		LLMS()->session->set( 'llms_coupon', 'this-will-be-cleared' );
+		llms()->session->set( 'llms_coupon', 'this-will-be-cleared' );
 
 		$res = LLMS_AJAX_Handler::remove_coupon_code( array(
 			'plan_id' => $this->get_mock_plan(),
@@ -30,7 +30,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 		// HTML returned.
 		$this->assertEquals( array( 'coupon_html', 'gateways_html', 'summary_html' ), array_keys( $res ) );
 
-		$this->assertFalse( LLMS()->session->get( 'llms_coupon' ) );
+		$this->assertFalse( llms()->session->get( 'llms_coupon' ) );
 
 	}
 
@@ -141,8 +141,52 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 			'plan_id'   => $request['plan_id'],
 			'coupon_id' => $coupon->get( 'id' ),
 		);
-		$this->assertEquals( $expect, LLMS()->session->get( 'llms_coupon' ) );
+		$this->assertEquals( $expect, llms()->session->get( 'llms_coupon' ) );
 
 	}
+
+	/**
+	 * Test validate_coupon_code(): prevent reflected xss
+	 *
+	 * Input is only a tag that will be stripped resulting in an empty response.
+	 *
+	 * @since 4.21.1
+	 *
+	 * @return void
+	 */
+	public function test_validate_coupon_code_sanitization_empty_result() {
+
+		$request = array(
+			'code' => '<img src="#">',
+		);
+		$res = LLMS_AJAX_Handler::validate_coupon_code( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'error', $res );
+		$this->assertWPErrorMessageEquals( 'Please enter a coupon code.', $res );
+
+	}
+
+	/**
+	 * Test validate_coupon_code(): prevent reflected xss
+	 *
+	 * Input is text mixed with a a tag that will be stripped resulting in a not found error.
+	 *
+	 * @since 4.21.1
+	 *
+	 * @return void
+	 */
+	public function test_validate_coupon_code_sanitization_mixed_result() {
+
+		$request = array(
+			'code'    => 'FAKE_CODE<script>alert(1);</script>_WITH_TAGS',
+			'plan_id' => 123,
+		);
+		$res = LLMS_AJAX_Handler::validate_coupon_code( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'error', $res );
+		$this->assertWPErrorMessageEquals( 'Coupon code "FAKE_CODE_WITH_TAGS" not found.', $res );
+
+	}
+
 
 }

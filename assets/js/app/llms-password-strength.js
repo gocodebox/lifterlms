@@ -4,22 +4,49 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.0.0
- * @version  3.7.0
+ * @version 5.0.0
  */
 
 $.extend( LLMS.PasswordStrength, {
 
-	$pass: $( '.llms-password' ),
-	$conf: $( '.llms-password-confirm' ),
+	/**
+	 * jQuery ref for the password strength meter object.
+	 *
+	 * @type {Object}
+	 */
 	$meter: $( '.llms-password-strength-meter' ),
+
+	/**
+	 * jQuery ref for the password field.
+	 *
+	 * @type {Object}
+	 */
+	$pass: null,
+
+	/**
+	 * jQuery ref for the password confirmation field
+	 *
+	 * @type {Object}
+	 */
+	$conf: null,
+
+	/**
+	 * jQuery ref for form element.
+	 *
+	 * @type {Object}
+	 */
 	$form: null,
 
 	/**
 	 * Init
 	 * loads class methods
 	 *
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown
+	 * @since 5.0.0 Move reference setup to `setup_references()`.
+	 *              Use `LLMS.wait_for()` for dependency waiting.
+	 *
+	 * @return {Void}
 	 */
 	init: function() {
 
@@ -27,53 +54,27 @@ $.extend( LLMS.PasswordStrength, {
 			return;
 		}
 
-		if ( this.$meter.length ) {
-
-			this.$form = this.$pass.closest( 'form' );
-
-			// our asset enqueue is all screwed up and I'm too tired to fix it
-			// so we're going to run this little dependency check
-			// and wait for matchHeight to be available before binding
-			var self    = this,
-				counter = 0,
-				interval;
-
-			interval = setInterval( function() {
-
-				// if we get to 30 seconds log an error message
-				// and really who cares if the element heights aren't matched
-				if ( counter >= 300 ) {
-
-					console.log( 'cannot do password strength meter.' );
-
-					// if we can't access ye, increment and wait...
-				} else if ( 'undefined' === typeof wp && 'undefined' === typeof wp.passwordStrength ) {
-
-					counter++;
-					return;
-
-					// bind the events, we're good!
-				} else {
-
-					self.bind();
-					self.$form.trigger( 'llms-password-strength-ready' );
-
-				}
-
-				clearInterval( interval );
-
-			}, 100 );
-
+		if ( ! this.setup_references() ) {
+			return;
 		}
+
+		var self = this;
+
+		LLMS.wait_for( function() {
+			return ( 'undefined' !== typeof wp && 'undefined' !== typeof wp.passwordStrength );
+		}, function() {
+			self.bind();
+			self.$form.trigger( 'llms-password-strength-ready' );
+		} );
 
 	},
 
 	/**
-	 * Bind Method
-	 * Handles dom binding on load
+	 * Bind DOM Events
+	 *
+	 * @since 3.0.0
 	 *
 	 * @return void
-	 * @since 3.0.0
 	 */
 	bind: function() {
 
@@ -81,7 +82,7 @@ $.extend( LLMS.PasswordStrength, {
 
 		// add submission event handlers when not on a checkout form
 		if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
-			this.$form.on( 'submit', self, self.submit );
+			self.$form.on( 'submit', self, self.submit );
 		}
 
 		// check password strength on keyup
@@ -95,21 +96,24 @@ $.extend( LLMS.PasswordStrength, {
 	 * Check the strength of a user entered password
 	 * and update elements depending on the current strength
 	 *
-	 * @return void
 	 * @since 3.0.0
-	 * @version 3.0.0
+	 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
+	 *
+	 * @return void
 	 */
 	check_strength: function() {
 
 		var $pass_field = this.$pass.closest( '.llms-form-field' ),
-			$conf_field = this.$conf.closest( '.llms-form-field' ),
+			$conf_field = this.$conf && this.$conf.length ? this.$conf.closest( '.llms-form-field' ) : null,
 			pass_length = this.$pass.val().length,
-			conf_length = this.$conf.val().length;
+			conf_length = this.$conf && this.$conf.length ? this.$conf.val().length : 0;
 
 		// hide the meter if both fields are empty
 		if ( ! pass_length && ! conf_length ) {
 			$pass_field.removeClass( 'valid invalid' );
-			$conf_field.removeClass( 'valid invalid' );
+			if ( $conf_field ) {
+				$conf_field.removeClass( 'valid invalid' );
+			}
 			this.$meter.hide();
 			return;
 		}
@@ -135,11 +139,11 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Form submission action called during registration on checkout screen
 	 *
+	 * @since    3.0.0
+	 *
 	 * @param    obj       self      instance of this class
 	 * @param    Function  callback  callback function, passes error message or success back to checkout handler
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	checkout: function( self, callback ) {
 
@@ -152,41 +156,53 @@ $.extend( LLMS.PasswordStrength, {
 			callback( LLMS.l10n.translate( 'There is an issue with your chosen password.' ) );
 
 		}
-
 	},
 
 	/**
-	 * Get the list of blacklisted strings
-	 * We'll add a filter to this later so that developers can add their own blacklist to the default WP list
+	 * Get the list of blocklisted strings
+	 *
+	 * @since 5.0.0
 	 *
 	 * @return array
-	 * @since 3.0.0
 	 */
-	get_blacklist: function() {
-		var blacklist = wp.passwordStrength.userInputBlacklist();
-		return blacklist;
+	get_blocklist: function() {
+
+		// Default values from WP Core + any values added via settings filter..
+		var blocklist = wp.passwordStrength.userInputDisallowedList().concat( this.get_setting( 'blocklist', [] ) );
+
+		// Add values from all text fields in the form.
+		this.$form.find( 'input[type="text"], input[type="email"], input[type="tel"], input[type="number"]' ).each( function() {
+			var val = $( this ).val();
+			if ( val ) {
+				blocklist.push( val );
+			}
+		} );
+
+		return blocklist;
+
 	},
 
 	/**
 	 * Retrieve current strength as a number, a slug, or a translated text string
 	 *
-	 * @param    string   format  derived return format [int|slug|text] defaults to int
-	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
+	 *
+	 * @param {String} format Derived return format [int|slug|text] defaults to int.
+	 * @return mixed
 	 */
 	get_current_strength: function( format ) {
 
 		format   = format || 'int';
 		var pass = this.$pass.val(),
-			conf = this.$conf.val(),
+			conf = this.$conf && this.$conf.length ? this.$conf.val() : '',
 			val;
 
 		// enforce custom length requirement
-		if ( pass.length < 6 ) {
+		if ( pass.length < this.get_setting( 'min_length', 6 ) ) {
 			val = -1;
 		} else {
-			val = wp.passwordStrength.meter( pass, this.get_blacklist(), conf );
+			val = wp.passwordStrength.meter( pass, this.get_blocklist(), conf );
 			// 0 & 1 are both very-weak
 			if ( 0 === val ) {
 				val = 1;
@@ -206,9 +222,9 @@ $.extend( LLMS.PasswordStrength, {
 	 * Determines if the current password strength meets the user-defined
 	 * minimum password strength requirements
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	get_current_strength_status: function() {
 		var curr = this.get_current_strength(),
@@ -217,12 +233,38 @@ $.extend( LLMS.PasswordStrength, {
 	},
 
 	/**
+	 * Retrieve the minimum password strength for the current form.
+	 *
+	 * @since 3.0.0
+	 * @since 5.0.0 Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
+	 *
+	 * @return {string}
+	 */
+	get_minimum_strength: function() {
+		return this.get_setting( 'min_strength', 'strong' );
+	},
+
+	/**
+	 * Get a setting and fallback to a default value.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param {String} key Setting key.
+	 * @param {mixed} default_val Default value when the requested setting cannot be located.
+	 * @return {mixed}
+	 */
+	get_setting: function( key, default_val ) {
+		var settings = this.get_settings();
+		return settings[ key ] ? settings[ key ] : default_val;
+	},
+
+	/**
 	 * Get the slug associated with a strength value
 	 *
-	 * @param    int   strength_val  strength value number
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param int strength_val Strength value number.
+	 * @return string
 	 */
 	get_strength_slug: function( strength_val ) {
 
@@ -242,10 +284,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Gets the translated text associated with a strength value
 	 *
-	 * @param    int  strength_val  strength value
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param {Integer} strength_val Strength value
+	 * @return {String}
 	 */
 	get_strength_text: function( strength_val ) {
 
@@ -265,10 +307,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get the value associated with a strength slug
 	 *
-	 * @param    string   strength_slug  a strength slug
-	 * @return   int
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string strength_slug A strength slug.
+	 * @return {Integer}
 	 */
 	get_strength_value: function( strength_slug ) {
 
@@ -286,12 +328,37 @@ $.extend( LLMS.PasswordStrength, {
 	},
 
 	/**
+	 * Setup jQuery references to DOM elements needed to power the password meter.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return {Boolean} Returns `true` if a meter element and password field are found, otherwise returns `false`.
+	 */
+	setup_references: function() {
+
+		if ( ! this.$meter.length ) {
+			return false;
+		}
+
+		this.$form = this.$meter.closest( 'form' );
+		this.$pass = this.$form.find( 'input#password' );
+
+		if ( this.$pass.length && this.$pass.attr( 'data-match' ) ) {
+			this.$conf = this.$form.find( '#' + this.$pass.attr( 'data-match' ) );
+		}
+
+		return ( this.$pass.length > 0 );
+
+	},
+
+	/**
 	 * Form submission handler for registration and update forms
 	 *
-	 * @param    obj    e         event data
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since 5.0.0 Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
+	 *
+	 * @param obj e Event data.
+	 * @return void
 	 */
 	submit: function( e ) {
 
@@ -299,7 +366,8 @@ $.extend( LLMS.PasswordStrength, {
 		e.preventDefault();
 		self.$pass.trigger( 'keyup' );
 
-		if ( self.get_current_strength_status() ) {
+		// Meets the status requirements OR we're on the account edit form and the password field is disabled.
+		if ( self.get_current_strength_status() || ( self.$form.hasClass( 'edit-account' ) && 'disabled' === self.$pass.attr( 'disabled' ) ) ) {
 			self.$form.off( 'submit', self.submit );
 			self.$form.trigger( 'submit' );
 		} else {
@@ -311,6 +379,19 @@ $.extend( LLMS.PasswordStrength, {
 				self.$meter.fadeIn( 400 );
 			}, 220 );
 		}
-	}
+	},
+
+	/**
+	 * Get the list of blocklist strings
+	 *
+	 * @since 3.0.0
+	 * @deprecated 5.0.0 `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
+	 *
+	 * @return array
+	 */
+	get_blacklist: function() {
+		console.log( 'Method `get_blacklist()` is deprecated in favor of `get_blocklist()`.' );
+		return this.get_blacklist();
+	},
 
 } );

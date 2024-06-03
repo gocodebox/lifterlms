@@ -1,11 +1,11 @@
 <?php
 /**
- * User Account Edit Forms
+ * Form submission handler for forms on the Student Dashboard.
  *
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 3.37.17
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,16 +23,20 @@ class LLMS_Controller_Account {
 	 * Constructor
 	 *
 	 * @since 3.7.0
-	 * @since 3.10.0 Added `cancel_subscription()` handler.
+	 * @since 3.10.0 Add student subscription cancellation handler.
+	 * @since 5.0.0 Add reset password link redirection handler.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
+		add_action( 'wp', array( $this, 'reset_password_link_redirect' ), 1 );
+
 		add_action( 'init', array( $this, 'update' ) );
 		add_action( 'init', array( $this, 'lost_password' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'cancel_subscription' ) );
+		add_action( 'init', array( $this, 'redeem_voucher' ) );
 
 	}
 
@@ -75,6 +79,14 @@ class LLMS_Controller_Account {
 		$order->set_status( $new_status );
 		$order->add_note( $note );
 
+		/**
+		 * Action triggered after a recurring subscription is cancelled from the student dashboard by the student.
+		 *
+		 * @since 3.17.8
+		 *
+		 * @param LLMS_Order $order The order object.
+		 * @param integer    $uid   The WP_User ID the student who cancelled the subscription.
+		 */
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 
 	}
@@ -135,6 +147,8 @@ class LLMS_Controller_Account {
 	 * @since 3.9.5 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Refactored for readability and added new hooks.
+	 * @since 4.21.3 Increase 3rd party support for WP core hooks.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error|true `null` when nonce cannot be verified.
 	 *                            `WP_Error` when an error is encountered.
@@ -156,7 +170,7 @@ class LLMS_Controller_Account {
 
 		$err   = new WP_Error();
 		$user  = false;
-		$login = llms_filter_input( INPUT_POST, 'llms_login', FILTER_SANITIZE_STRING );
+		$login = llms_filter_input_sanitize_string( INPUT_POST, 'llms_login' );
 
 		// Login is required.
 		if ( empty( $login ) ) {
@@ -172,6 +186,14 @@ class LLMS_Controller_Account {
 				$err->add( 'llms_pass_reset_invalid_login', __( 'Invalid username or e-mail address.', 'lifterlms' ) );
 			}
 		}
+
+		/**
+		 * Ensure 3rd parties that don't use the 2nd param of `lostpassword_post` still work with our reset functionality.
+		 *
+		 * This specifically adds support for WordFence's "max allowed password resets" under brute force protection, but
+		 * might be useful in other scenarios.
+		 */
+		$_POST['user_login'] = $login;
 
 		/**
 		 * Fires before errors are returned from a password reset request.
@@ -204,7 +226,7 @@ class LLMS_Controller_Account {
 		}
 
 		// Setup the email.
-		$email = LLMS()->mailer()->get_email(
+		$email = llms()->mailer()->get_email(
 			'reset_password',
 			array(
 				'key'           => $key,
@@ -229,6 +251,34 @@ class LLMS_Controller_Account {
 	}
 
 	/**
+	 * Redeem a voucher from the "Redeem Voucher" endpoint of the student dashboard
+	 *
+	 * @since 4.12.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return null|true|WP_Error Returns `null` when the form hasn't been submitted, there's a nonce error, or there's no logged in user.
+	 *                            Returns `true` on success and an error object when an error is encountered redeeming the voucher.
+	 */
+	public function redeem_voucher() {
+
+		if ( ! llms_verify_nonce( 'lifterlms_voucher_nonce', 'lifterlms_voucher_check' ) || ! get_current_user_id() ) {
+			return null;
+		}
+
+		$voucher  = new LLMS_Voucher();
+		$redeemed = $voucher->use_voucher( llms_filter_input_sanitize_string( INPUT_POST, 'llms_voucher_code' ), get_current_user_id() );
+
+		if ( is_wp_error( $redeemed ) ) {
+			llms_add_notice( $redeemed->get_error_message(), 'error' );
+			return $redeemed;
+		}
+
+		llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ), 'success' );
+		return true;
+
+	}
+
+	/**
 	 * Handle form submission of the Reset Password form
 	 *
 	 * This is the form that actually updates a users password.
@@ -236,39 +286,73 @@ class LLMS_Controller_Account {
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
+	 * @since 4.21.0 Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
+	 * @since 5.0.0 Refactored to move reset logic into it's own method.
 	 *
-	 * @return null|WP_Error|true `null` for nonce errors or when the form hasn't been submitted.
-	 *                            Error object when errors are encounterd.
-	 *                            `true` on success.
+	 * @return null|WP_Error|true Returns `null` for nonce errors or when the form hasn't been submitted, an error object when
+	 *                            errors are encountered, and `true` on success.
 	 */
 	public function reset_password() {
 
+		$result = $this->reset_password_handler();
+
+		if ( ! $result ) {
+			return null;
+		} elseif ( is_wp_error( $result ) ) {
+			llms_add_notice( implode( '<br>', $result->get_error_messages() ), 'error' );
+			return $result;
+		}
+
+		// Success.
+		llms_add_notice( __( 'Your password has been updated.', 'lifterlms' ) );
+		llms_redirect_and_exit( add_query_arg( 'password-reset', 1, llms_get_page_url( 'myaccount' ) ) );
+
+	}
+
+	/**
+	 * Handle the submission of the password reset form.
+	 *
+	 * @since 5.0.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
+	 */
+	private function reset_password_handler() {
+
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password', 'POST' ) ) {
+		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password' ) ) {
 			return null;
 		}
 
-		// Validate required fields.
-		$valid = LLMS_Person_Handler::validate_fields( $_POST, 'reset_password' );
+		/**
+		 * Fire an action before the user password reset form is handled.
+		 *
+		 * @since 5.0.0
+		 */
+		do_action( 'llms_before_user_reset_password_submit' );
+
+		/**
+		 * Add custom validations to the password reset form.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_Error|true $valid Whether or not the submitted data is valid. Return `true` for valid data or a `WP_Error` when invalid.
+		 */
+		$valid = apply_filters( 'llms_validate_password_reset_form', $this->validate_password_reset( wp_unslash( $_POST ) ) );
 		if ( is_wp_error( $valid ) ) {
-			foreach ( $valid->get_error_messages() as $msg ) {
-				llms_add_notice( $msg, 'error' );
-			}
 			return $valid;
 		}
 
-		$key   = llms_filter_input( INPUT_POST, 'llms_reset_key', FILTER_SANITIZE_STRING );
-		$login = llms_filter_input( INPUT_POST, 'llms_reset_login', FILTER_SANITIZE_STRING );
+		$login = llms_filter_input_sanitize_string( INPUT_POST, 'llms_reset_login' );
+		$key   = llms_filter_input_sanitize_string( INPUT_POST, 'llms_reset_key' );
+		$user  = check_password_reset_key( $key, $login );
 
-		// Check the reset key.
-		$user = check_password_reset_key( $key, $login );
 		if ( is_wp_error( $user ) ) {
-			llms_add_notice( $user->get_error_message(), 'error' );
-			return $user;
+			// Error code is either "llms_password_reset_invalid_key" or "llms_password_reset_expired_key".
+			return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
 		}
 
-		// Reset the password.
-		reset_password( $user, llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING ) );
+		reset_password( $user, addslashes( llms_filter_input( INPUT_POST, 'password' ) ) );
 
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.
@@ -283,14 +367,89 @@ class LLMS_Controller_Account {
 			wp_password_change_notification( $user );
 		}
 
-		llms_add_notice(
-			sprintf(
-				// Translators: %1$s = Opening anchor tag; $2$s = closing anchor tag.
-				__( 'Your password has been updated. %1$sClick here to login%2$s.', 'lifterlms' ),
-				'<a href="' . esc_url( llms_get_page_url( 'myaccount' ) ) . '">',
-				'</a>'
-			)
-		);
+		/**
+		 * Fire an action the the user's password is reset.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_User $user User object.
+		 */
+		do_action( 'llms_user_password_reset', $user );
+
+		return true;
+
+	}
+
+	/**
+	 * Automatically redirect password reset links to the password reset form page.
+	 *
+	 * Strips the `key` and `login` query string parameters and sets them in a cookie
+	 * (which is accessed later to populate the hidden fields on the reset form) and then
+	 * redirect to the password reset form.
+	 *
+	 * @since 5.0.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.6.0 Prevented client and server caching of the password reset form page.
+	 *
+	 * @return void
+	 */
+	public function reset_password_link_redirect() {
+
+		if ( is_llms_account_page() && isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+			$user = get_user_by( 'login', wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'login' ) ) );
+			$uid  = $user ? $user->ID : 0;
+			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'key' ) ) );
+
+			( new LLMS_Cache_Helper() )->maybe_no_cache();
+			llms_set_password_reset_cookie( $val );
+			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );
+		}
+
+	}
+
+	/**
+	 * Validates the password reset form.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $posted_data User submitted data.
+	 * @return WP_Error|true
+	 */
+	protected function validate_password_reset( $posted_data ) {
+
+		$err = new WP_Error();
+
+		$fields = LLMS_Person_Handler::get_password_reset_fields();
+
+		// Validate required fields.
+		foreach ( $fields as &$field ) {
+
+			$obj   = new LLMS_Form_Field( $field );
+			$field = $obj->get_settings();
+
+			// Field is required, submittable, and wasn't posted.
+			if ( ! empty( $field['required'] ) && ! empty( $field['name'] ) && empty( $posted_data[ $field['name'] ] ) ) {
+
+				// Translators: %s = field label or id.
+				$msg = sprintf( __( '%s is a required field.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'] );
+				$err->add( 'llms-password-reset-missing-field', $msg );
+
+			}
+		}
+
+		if ( count( $err->errors ) ) {
+			return $err;
+		}
+
+		// If we have a password and password confirm and they don't match.
+		if ( isset( $posted_data['password'] ) && isset( $posted_data['password_confirm'] ) && $posted_data['password'] !== $posted_data['password_confirm'] ) {
+
+			$msg = __( 'The submitted passwords do must match.', 'lifterlms' );
+			$err->add( 'llms-passwords-must-match', $msg );
+			return $err;
+
+		}
 
 		return true;
 

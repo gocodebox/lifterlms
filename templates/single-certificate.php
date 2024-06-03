@@ -1,22 +1,23 @@
 <?php
 /**
- * Template: Single Certificate
+ * Display a single certificate.
  *
  * @package LifterLMS/Templates
  *
  * @since Unknown
- * @version 3.35.0
+ * @since 6.0.0 Use custom header and footer templates in favor of the templates provided by the current theme.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-get_header();
+llms_get_template( 'certificates/header.php' );
 
 while ( have_posts() ) :
-	the_post();
 
+	the_post();
 	llms_get_template_part( 'content', 'certificate' );
 
 endwhile;
 
-get_footer();
+llms_get_template( 'certificates/footer.php' );

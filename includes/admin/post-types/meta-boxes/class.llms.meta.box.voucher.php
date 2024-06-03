@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
- * @version 4.0.0
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
  * @since 3.36.0 Remove superfluous code.
  * @since 4.0.0 Remove usage of `LLMS_Svg`.
+ * @since 7.1.3 Added `esc_attr()` and `esc_html()` for HTML attributes and HTML.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -120,6 +121,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 *
 	 * @since Unknown
 	 * @since 4.0.0 Replace SVG delete icon with a dashicon.
+	 * @since 7.1.3 Added `esc_attr()` for HTML attributes.
 	 *
 	 * @return string
 	 */
@@ -153,15 +155,14 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						<tr>
 							<td></td>
 							<td>
-								<input type="text" maxlength="20" placeholder="Code" value="<?php echo $code->code; ?>"
-									   name="llms_voucher_code[]">
-								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo $code->id; ?>">
+								<input type="text" maxlength="20" placeholder="Code" value="<?php echo esc_attr( $code->code ); ?>" name="llms_voucher_code[]">
+								<input type="hidden" name="llms_voucher_code_id[]" value="<?php echo esc_attr( $code->id ); ?>">
 							</td>
-							<td><span><?php echo $code->used; ?> / </span><input type="number" min="1" value="<?php echo $code->redemption_count; ?>"
-														placeholder="Uses" class="llms-voucher-uses"
-														name="llms_voucher_uses[]"></td>
 							<td>
-								<a href="#" data-id="<?php echo $code->id; ?>" class="llms-voucher-delete">
+								<span><?php echo esc_html( $code->used ); ?> / </span><input type="number" min="1" value="<?php echo esc_attr( $code->redemption_count ); ?>" placeholder="Uses" class="llms-voucher-uses" name="llms_voucher_uses[]">
+							</td>
+							<td>
+								<a href="#" data-id="<?php echo esc_attr( $code->id ); ?>" class="llms-voucher-delete">
 									<?php echo $delete_icon; ?>
 								</a>
 							</td>
@@ -192,6 +193,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * Retrieve the HTML for the redemption area.
 	 *
 	 * @since Unknown
+	 * @since 7.1.3 Added `esc_html()` for HTML output.
 	 *
 	 * @return string
 	 */
@@ -225,10 +227,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						$user = get_user_by( 'id', $redeemed_code->user_id );
 						?>
 						<tr>
-							<td><?php echo $user->data->display_name; ?></td>
-							<td><?php echo $user->data->user_email; ?></td>
-							<td><?php echo $redeemed_code->redemption_date; ?></td>
-							<td><?php echo $redeemed_code->code; ?></td>
+							<td><?php echo esc_html( $user->data->display_name ); ?></td>
+							<td><?php echo esc_html( $user->data->user_email ); ?></td>
+							<td><?php echo esc_html( $redeemed_code->redemption_date ); ?></td>
+							<td><?php echo esc_html( $redeemed_code->code ); ?></td>
 						</tr>
 						<?php
 					endforeach;
@@ -251,21 +253,21 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.
 	 * @version 3.36.0 Remove superfluous code.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param  int $post_id [id of post object]
-	 *
-	 * @return false|null
+	 * @param int $post_id [id of post object]
+	 * @return boolean|null
 	 */
 	public function save( $post_id ) {
 
-		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export', FILTER_SANITIZE_STRING ) ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
 			return false;
 		}
 
 		// Codes save.
 		$codes = array();
 
-		$llms_codes           = llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$llms_codes           = llms_filter_input_sanitize_string( INPUT_POST, 'llms_voucher_code', array( FILTER_REQUIRE_ARRAY ) );
 		$llms_uses            = llms_filter_input( INPUT_POST, 'llms_voucher_uses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		$llms_voucher_code_id = llms_filter_input( INPUT_POST, 'llms_voucher_code_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 
@@ -325,7 +327,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		}
 
 		// Set old codes as deleted.
-		$ids = llms_filter_input( INPUT_POST, 'delete_ids', FILTER_SANITIZE_STRING );
+		$ids = llms_filter_input( INPUT_POST, 'delete_ids' );
 		if ( $ids ) {
 			$delete_ids = array_map( 'absint', explode( ',', $ids ) );
 

@@ -2,10 +2,10 @@
 /**
  * LLMS Pagination Template
  *
- * @package LifterLMS/Templates
+ * @package LifterLMS/Templates/Loop
  *
- * @since    1.0.0
- * @version  3.16.0
+ * @since 1.0.0
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,9 +14,18 @@ global $wp_query;
 if ( $wp_query->max_num_pages < 2 ) {
 	return;
 }
+
+/**
+ * Filter the list of CSS classes on the pagination wrapper element.
+ *
+ * @since 4.10.0
+ *
+ * @param string[] $classes Array of CSS classes.
+ */
+$classes = apply_filters( 'llms_get_pagination_wrapper_classes', array( 'llms-pagination' ) );
 ?>
 
-<nav class="llms-pagination">
+<nav class="<?php echo implode( ' ', $classes ); ?>">
 <?php
 echo paginate_links(
 	array(

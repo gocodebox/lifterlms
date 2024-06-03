@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version 4.0.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +40,13 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @var boolean
 	 */
 	protected $is_exportable = true;
+
+	/**
+	 * Export download nonce action.
+	 *
+	 * @var string
+	 */
+	public const EXPORT_NONCE_ACTION = 'llms_export_table';
 
 	/**
 	 * Generate an export file for the current table.
@@ -167,6 +174,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.28.0
 	 * @since 3.28.1 Unknown.
+	 * @since 7.5.0 Add nonce to export file url.
 	 *
 	 * @param string $file_path Full path to a download file.
 	 * @return string
@@ -174,7 +182,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	protected function get_export_file_url( $file_path ) {
 		return add_query_arg(
 			array(
-				'llms-dl-export' => basename( $file_path ),
+				'llms-dl-export'       => basename( $file_path ),
+				'llms_dl_export_nonce' => wp_create_nonce( self::EXPORT_NONCE_ACTION ),
 			),
 			admin_url( 'admin.php' )
 		);
@@ -219,18 +228,46 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the file name for an export file
+	 * Retrieves the file name for an export file.
 	 *
 	 * @since 3.15.0
 	 * @since 3.28.0 Unknown.
+	 * @since 7.0.1 Fixed issue encountered when special characters are present in the table's title.
 	 *
 	 * @param array $args Optional arguments passed from table to csv processor.
 	 * @return string
 	 */
 	public function get_export_file_name( $args = array() ) {
 
-		$title = sprintf( '%1$s_export_%2$s_%3$s', sanitize_title( $this->get_export_title( $args ), 'llms-' . $this->id ), current_time( 'Y-m-d' ), wp_generate_password( 8, false, false ) );
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_file_name', $title );
+		$parts = array(
+			sanitize_file_name( strtolower( $this->get_export_title( $args ) ) ),
+			_x( 'export', 'Used in export filenames', 'lifterlms' ),
+			llms_current_time( 'Y-m-d' ),
+			wp_generate_password( 8, false, false ),
+		);
+
+		$filename = implode( '_', $parts );
+
+		/**
+		 * Filters the file name for an export file.
+		 *
+		 * The dynamic portion of this hook, `$this->id`, refers to the table's
+		 * `$id` property.
+		 *
+		 * @since Unknown
+		 * @since 7.0.1 Added the `$parts` and `$table` parameters.
+		 *
+		 * @param string                               $filename The generated filename.
+		 * @param string[]                             $parts    An array of strings that makeup the generated filename
+		 *                                                       when joined with the underscore separator character.
+		 * @param LLMS_Abstract_Exportable_Admin_Table $table    Instance of the table object.
+		 */
+		return apply_filters(
+			"llms_table_get_{$this->id}_export_file_name",
+			$filename,
+			$parts,
+			$this
+		);
 
 	}
 
@@ -259,6 +296,28 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
+	 * Retrieves the table's title.
+	 *
+	 * This method must be overwritten by extending classes.
+	 *
+	 * @since 7.0.1
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		_doing_it_wrong(
+			__METHOD__,
+			sprintf(
+				// Translators: %s = the name of the method.
+				__( "Method '%s' must be overridden.", 'lifterlms' ),
+				__METHOD__
+			),
+			'[version]'
+		);
+		return $this->id;
+	}
+
+	/**
 	 * Determine if the table is currently locked due to export generation.
 	 *
 	 * @since 3.28.0
@@ -266,7 +325,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @return bool
 	 */
 	public function is_export_locked() {
-		return LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
+		return llms()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
 	}
 
 }

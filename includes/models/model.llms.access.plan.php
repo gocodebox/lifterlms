@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 3.31.0
+ * @version 7.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -164,37 +164,20 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Get the translated and pluralized name of the plan's access period
 	 *
-	 * @since    3.4.6
-	 * @version  3.23.0
+	 * @since 3.4.6
+	 * @since 3.23.0 Unknown.
+	 * @since 5.3.0 Use llms_get_time_period_l10n().
 	 *
-	 * @param    string $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
-	 * @param    int    $length  (optional) access length (for pluralization), if not supplied uses stored value for the plan.
-	 * @return   string
+	 * @param string $period Untranslated access period, if not supplied uses stored value for the plan.
+	 * @param int    $length Access length (for pluralization), if not supplied uses stored value for the plan.
+	 * @return string
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
 		$period = $period ? $period : $this->get( 'access_period' );
 		$length = $length ? $length : $this->get( 'access_length' );
 
-		switch ( $period ) {
-
-			case 'year':
-				$period = _nx( 'year', 'years', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'month':
-				$period = _nx( 'month', 'months', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'week':
-				$period = _nx( 'week', 'weeks', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'day':
-				$period = _nx( 'day', 'days', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-		}
+		$period = llms_get_time_period_l10n( $period, $length );
 
 		/**
 		 * Filter the translated name of an access plan's billing period.
@@ -232,62 +215,68 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the full URL to redirect to after successful checkout
+	 * Retrieve the full URL to redirect to after successful checkout.
 	 *
-	 * @since    3.30.0
-	 * @version  3.30.0
+	 * @since 3.30.0
+	 * @since 7.0.0 Addeded `$encode` and `$querystring_only` parameters.
 	 *
-	 * @return   string
+	 * @param bool $encode           Whether or not encoding the URL.
+	 * @param bool $querystring_only Only return the redirect URL bassed by the querystring.
+	 * @return string
 	 */
-	public function get_redirection_url() {
+	public function get_redirection_url( $encode = true, $querystring_only = false ) {
 
-		// what type of redirection is set up by user?
+		// What type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
 
-		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
+		// Force redirect querystring parameter over all else.
+		$redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '';
 
-		// force redirect querystring parameter over all else.
-		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
+		if ( ! $redirection && ! $querystring_only ) {
+			$redirection = $this->calculate_redirection_url( $redirect_type );
+		}
 
 		/**
-		 * Filter the checkout redirection parameter
+		 * Filter the checkout redirection parameter.
 		 *
-		 * @since    3.30.0
-		 * @version  3.30.0
+		 * @since 3.30.0
+		 * @since 7.0.0 Added `$querystring_only` parameter.
 		 *
-		 * @param    string               $redirection The calculated url to redirect to.
-		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
-		 * @param    LLMS_Acccess_Plan    $this Current Access Plan object.
+		 * @param string            $redirection      The calculated url to redirect to.
+		 * @param string            $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
+		 * @param LLMS_Acccess_Plan $access_plan      Current Access Plan object.
+		 * @param bool              $querystring_only Whether or not it was requested to only return the redirect URL passed by querystring.
 		 */
-		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this ) );
+		$redirection = apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this, $querystring_only );
+
+		return $encode ? urlencode( $redirection ) : $redirection;
 
 	}
 
 	/**
-	 * Retrieve the full URL to the checkout screen for the plan
+	 * Retrieve the full URL to the checkout screen for the plan.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Added access plan redirection settings.
 	 * @since 3.31.0 The `$check_availability` parameter was added to the filter `llms_plan_get_checkout_url`
+	 * @since 7.0.0 No need to add the redirect querystring parameter if not already set, except for unavailable members only plans.
 	 *
-	 * @param    bool $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
-	 * @return   string
+	 * @param bool $check_availability Determine if availability checks should be made (allows retrieving plans on admin panel).
+	 * @return string
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 
 		$ret       = '#llms-plan-locked';
 		$available = $this->is_available_to_user( get_current_user_id() );
 
-		$redirection = $this->get_redirection_url();
-
 		// if bypassing availability checks OR plan is available to user.
 		if ( ! $check_availability || $available ) {
 
-			$ret_params = array(
+			$ret_params  = array(
 				'plan' => $this->get( 'id' ),
 			);
-
-			if ( ! empty( $redirection ) ) {
+			$redirection = $this->get_redirection_url( true, true );
+			if ( $redirection ) {
 				$ret_params['redirect'] = $redirection;
 			}
 
@@ -300,8 +289,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			// if there's only 1 plan associated with the membership return that url.
 			if ( 1 === count( $memberships ) ) {
-				$ret = get_permalink( $memberships[0] );
-				if ( ! empty( $redirection ) ) {
+				$ret         = get_permalink( $memberships[0] );
+				$redirection = $this->get_redirection_url();
+
+				if ( $redirection ) {
 					$ret = add_query_arg(
 						array(
 							'redirect' => $redirection,
@@ -403,7 +394,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @param string $text Displayed text.
 		 * @param LLMS_Access_Plan $this The access plan instance.
 		 */
-		return apply_filters( 'llms_get_free_' . $this->model_post_type . '_pricing_text', $text, $this );
+		return apply_filters( "llms_get_free_{$this->model_post_type}_pricing_text", $text, $this );
 	}
 
 	/**
@@ -466,7 +457,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
-		// allow id or instance to be passed for $coupon_id
+		// Allow id or instance to be passed for $coupon_id.
 		if ( $coupon_id instanceof LLMS_Coupon ) {
 			$coupon = $coupon_id;
 		} else {
@@ -475,14 +466,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$price = $this->get( $key );
 
-		// ensure the coupon *can* be applied to this plan
+		// Ensure the coupon *can* be applied to this plan.
 		if ( ! $coupon->is_valid( $this ) ) {
 			return $price;
 		}
 
 		$discount_type = $coupon->get( 'discount_type' );
 
-		// price and sale price are calculated of coupon amount
+		// Price and sale price are calculated of coupon amount.
 		if ( 'price' === $key || 'sale_price' === $key ) {
 
 			$coupon_amount = $coupon->get( 'coupon_amount' );
@@ -499,7 +490,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		if ( $coupon_amount ) {
 
-			// simple subtraction
+			// Simple subtraction.
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
 			} elseif ( 'percent' === $discount_type ) {
@@ -507,7 +498,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
-		// if price is less than 0 return the pricing text
+		// If price is less than 0 return the pricing text.
 		if ( $price <= 0 ) {
 
 			$price = $this->get_free_pricing_text( $format );
@@ -522,11 +513,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			} elseif ( 'float' === $format ) {
 				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
 			} else {
-				$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format . '_with_coupon', $price, $key, $price_args, $format, $this );
+				$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_{$format}_with_coupon", $price, $key, $price_args, $format, $this );
 			}
 		}
 
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_price_with_coupon', $price, $key, $price_args, $format, $this );
+		return apply_filters( "llms_get_{$this->model_post_type}_{$key}_price_with_coupon", $price, $key, $price_args, $format, $this );
 
 	}
 
@@ -563,7 +554,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function get_enroll_text() {
 
-		// user custom text option
+		// User custom text option.
 		$text = $this->get( 'enroll_text' );
 
 		if ( ! $text ) {
@@ -621,7 +612,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$frequency = $this->get( 'frequency' );
 		$length    = $this->get( 'length' );
 
-		// one-time payments don't display anything here unless filtered
+		// One-time payments don't display anything here unless filtered.
 		if ( $frequency > 0 ) {
 
 			if ( 1 === $frequency ) {
@@ -630,7 +621,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$ret = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 			}
 
-			// add length sentence if applicable
+			// Add length sentence if applicable.
 			if ( $length > 0 ) {
 
 				$ret .= ' ' . sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
@@ -679,12 +670,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the plan has availability restrictions
-	 * Related product must be a COURSE
-	 * Availability must be set to "members" and at least one membership must be selected
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Related product must be a COURSE.
+	 * Availability must be set to "members" and at least one membership must be selected.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_availability_restrictions() {
 		return ( 'course' === $this->get_product_type() && 'members' === $this->get( 'availability' ) && $this->get_array( 'availability_restrictions' ) );
@@ -731,12 +723,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$access = true;
 
-		// if there are membership restrictions, check the user is in at least one membership
+		// If there are membership restrictions, check the user is in at least one membership.
 		if ( $this->has_availability_restrictions() ) {
 			$access = false;
 			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
 
-				// once we find a membership, exit
+				// Once we find a membership, exit.
 				if ( llms_is_user_enrolled( $user_id, $mid ) ) {
 					$access = true;
 					break;
@@ -790,26 +782,26 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$start = $this->get( 'sale_start' );
 			$end   = $this->get( 'sale_end' );
 
-			// add times if the values exist (start of day & end of day)
+			// Add times if the values exist (start of day & end of day).
 			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
 			$end   = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
 
-			// no dates, the product is indefinitely on sale
+			// No dates, the product is indefinitely on sale.
 			if ( ! $start && ! $end ) {
 
 				$ret = true;
 
-				// start and end
+				// Start and end.
 			} elseif ( $start && $end ) {
 
 				$ret = ( $now < $end && $now > $start );
 
-				// only start
+				// Only start.
 			} elseif ( $start && ! $end ) {
 
 				$ret = ( $now > $start );
 
-				// only end
+				// Only end.
 			} elseif ( ! $start && $end ) {
 
 				$ret = ( $now < $end );

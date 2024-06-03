@@ -1,47 +1,79 @@
 <?php
 /**
- * Template functions for the student dashboard
+ * Template functions for loops (catalogs)
  *
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * If content added to the course/membership catalog page, output it as the archive description before the loop
- *
- * @return   void
- * @since    3.16.10
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_archive_description' ) ) {
+	/**
+	 * Output the archive description for LifterLMS catalogs pages and post type / tax archives.
+	 *
+	 * @since 3.16.10
+	 * @since 3.19.0 Unknown.
+	 * @since 4.10.0 Moved logic to `lifterlms_get_archive_description()` so the function can be called without outputting the content.
+	 *
+	 * @see lifterlms_get_archive_description()
+	 *
+	 * @return void
+	 */
 	function lifterlms_archive_description() {
+		echo lifterlms_get_archive_description();
+	}
+}
 
-		$page_id = false;
+if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
+	/**
+	 * Retrieve the archive description for LifterLMS catalogs pages and post type / tax archives.
+	 *
+	 * If content is added to the course/membership catalog page via the WP editor, output it as the archive description before the loop.
+	 *
+	 * @since 4.10.0 Moved from `lifterlms_archive_description()`.
+	 *               Adjusted filter `llms_archive_description` to always run instead of only running if content exists to display,
+	 *               this allows developers to filter the content even when an empty string is returned.
+	 * @since 7.3.0 Fixed PHP Warning when no course/membership catalog page was set or if the
+	 *              selected page doesn't exist anymore.
+	 *
+	 * @return string
+	 */
+	function lifterlms_get_archive_description() {
 
 		$content = '';
+		$page_id = false;
 
+		// Get the page id for the catalog page setup in LLMS settings.
 		if ( is_post_type_archive( 'course' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
 			$page_id = llms_get_page_id( 'courses' );
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 			$page_id = llms_get_page_id( 'memberships' );
 		}
 
+		// If a description is setup for the taxonomy term, use that description.
 		if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 			$content = get_the_archive_description();
 		}
 
-		if ( empty( $content ) && $page_id ) {
+		// If we don't have a description, try to pull it from the page's content area.
+		if ( empty( $content ) && (int) $page_id > 0 ) {
 			$page    = get_post( $page_id );
-			$content = $page->post_content;
+			$content = $page ? $page->post_content : $content;
 		}
 
-		if ( $content ) {
-			echo llms_content( apply_filters( 'llms_archive_description', $content ) );
-		}
+		/**
+		 * Filter the archive description
+		 *
+		 * @since Unknown
+		 * @since 4.10.0 Added `$page_id` parameter.
+		 *
+		 * @param string    $content HTML description string.
+		 * @param int|false $page_id WP_Post ID of the archive page being displayed.
+		 */
+		return apply_filters( 'llms_archive_description', llms_content( $content ), $page_id );
 
 	}
 }
@@ -100,6 +132,83 @@ function lifterlms_loop( $query = null ) {
 }
 
 /**
+ * Link pagination helper.
+ *
+ * This is a wrapper around WP's `paginate_links()` method with common styling
+ * and helpers for use within LifterLMS.
+ *
+ * @since 6.0.0
+ *
+ * @param array $args {
+ *     Pagination arguments.
+ *
+ *     @type integer $current Current page number. Defaults to `1` or the value of `get_query_var( 'paged' )`.
+ *     @type integer $total   Total number of pages to display. Defaults to `1` or `$wp_query->max_num_pages`.
+ *     @type string  $context Display context. Adds additional customization depending on the context. Supported
+ *                            contexts are "student_dashboard" which automatically filters links for use on the
+ *                            dashboard.
+ * }
+ * @return string
+ */
+function llms_paginate_links( $args ) {
+
+	global $wp_query;
+
+	$args = wp_parse_args(
+		$args,
+		array(
+			'current' => max( 1, get_query_var( 'paged' ) ),
+			'total'   => max( 1, $wp_query->max_num_pages ),
+			'context' => '',
+		)
+	);
+
+	// Don't display pagination if there's only one page of results and `show_for_single` isn't explicitly enabled.
+	if ( $args['total'] <= 1 ) {
+		return '';
+	}
+
+	/**
+	 * Filter the list of CSS classes on the pagination wrapper element.
+	 *
+	 * @since 4.10.0
+	 *
+	 * @param string[] $classes Array of CSS classes.
+	 */
+	$classes = apply_filters( 'llms_get_pagination_wrapper_classes', array( 'llms-pagination' ) );
+
+	if ( 'student_dashboard' === $args['context'] ) {
+		add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+	}
+
+	$links = paginate_links(
+		array(
+			'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+			'format'    => '?page=%#%',
+			'total'     => $args['total'],
+			'current'   => $args['current'],
+			'prev_next' => true,
+			// Translators: %s = Left double arrow character.
+			'prev_text' => sprintf( _x( '%s Previous', 'pagination link text', 'lifterlms' ), '«' ),
+			// Translators: %s = Right double arrow character.
+			'next_text' => sprintf( _x( 'Next %s', 'pagination link text', 'lifterlms' ), '»' ),
+			'type'      => 'list',
+		)
+	);
+
+	if ( 'student_dashboard' === $args['context'] ) {
+		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+	}
+
+	return sprintf(
+		'<nav class="%1$s">%2$s</nav>',
+		esc_attr( implode( ' ', $classes ) ),
+		$links
+	);
+
+}
+
+/**
  * Retrieve the number of columns for llms loops
  *
  * @return   int
@@ -148,12 +257,14 @@ if ( ! function_exists( 'lifterlms_loop_end' ) ) {
 	}
 }
 
+
 /**
- * Output a featured video on the course tile in a LifterLMS Loop
+ * Output a featured video on the course tile in a LifterLMS Loop.
  *
- * @return   void
- * @since    3.3.0
- * @version  3.3.0
+ * @since 3.3.0
+ * @since 7.1.3 Add div tag to wrap featured video output in loop.
+ *
+ * @return void
  */
 function lifterlms_loop_featured_video() {
 	global $post;
@@ -162,7 +273,7 @@ function lifterlms_loop_featured_video() {
 		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
 			$video = $course->get_video();
 			if ( $video ) {
-				echo $video;
+				echo '<div class="llms-video-wrapper">' . $video . '</div>';
 			}
 		}
 	}
@@ -233,6 +344,22 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 	function lifterlms_template_loop_difficulty() {
 		if ( 'course' === get_post_type( get_the_ID() ) ) {
 			llms_get_template( 'course/difficulty.php' );
+		}
+	}
+}
+
+/**
+ * Count of total lessons in a course.
+ *
+ * @since 7.5.0
+ *
+ * @return void.
+ */
+if ( ! function_exists( 'lifterlms_template_loop_lesson_count' ) ) {
+
+	function lifterlms_template_loop_lesson_count() {
+		if ( 'course' === get_post_type( get_the_ID() ) ) {
+			llms_get_template( 'course/lesson-count.php' );
 		}
 	}
 }

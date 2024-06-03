@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.37.2
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,16 +25,17 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Unique ID for the Table
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'students';
 
 	/**
 	 * Value of the field being filtered by
-	 * Only applicable if $filterby is set
+	 *
+	 * Only applicable if $filterby is set.
 	 *
 	 * @since 3.31.0
-	 * @var  string
+	 * @var string
 	 */
 	protected $filter = '';
 
@@ -42,14 +43,14 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Field results are filtered by
 	 *
 	 * @since 3.31.0
-	 * @var  string
+	 * @var string
 	 */
 	protected $filterby = 'course_membership';
 
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_exportable = true;
 
@@ -57,37 +58,38 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Determine if the table is filterable
 	 *
 	 * @since 3.31.0
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_searchable = true;
 
 	/**
 	 * Results sort order
-	 * 'ASC' or 'DESC'
-	 * Only applicable of $orderby is not set
 	 *
-	 * @var  string
+	 * 'ASC' or 'DESC'
+	 * Only applicable of $orderby is not set.
+	 *
+	 * @var string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $orderby = 'name';
 
@@ -105,10 +107,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
+	 * @since 4.7.0 Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
+	 * @since 6.0.0 Don't access `LLMS_Events_Query` properties directly
+	 *              Use `LLMS_Student::get_awards_count()` for retrieving the number of earned achievements and certificates.
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    obj    $student    Instance of the LLMS_Student
-	 * @return   mixed
+	 * @param string       $key     The column id / key.
+	 * @param LLMS_Student $student Instance of the LLMS_Student.
+	 * @return mixed
 	 */
 	public function get_data( $key, $student ) {
 
@@ -121,7 +126,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_achievements() ) . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'achievement' ) . '</a>';
 				break;
 
 			case 'certificates':
@@ -131,7 +136,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_certificates() ) . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'certificate' ) . '</a>';
 				break;
 
 			case 'completions':
@@ -166,15 +171,16 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			case 'last_seen':
 				$query = new LLMS_Events_Query(
 					array(
-						'actor'    => $student->get_id(),
-						'per_page' => 1,
-						'sort'     => array(
+						'actor'         => $student->get_id(),
+						'per_page'      => 1,
+						'sort'          => array(
 							'date' => 'DESC',
 						),
+						'no_found_rows' => true,
 					)
 				);
 
-				if ( $query->number_results ) {
+				if ( $query->has_results() ) {
 					$events = $query->get_events();
 					$last   = array_shift( $events );
 					$value  = $last->get( 'date' );
@@ -233,7 +239,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}
 
 		return $this->filter_get_data( $value, $key, $student );
 
@@ -241,13 +247,15 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve data for a cell in an export file
-	 * Should be overridden in extending classes
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    obj    $student    Instance of the LLMS_Student
-	 * @return   mixed
-	 * @since    3.15.0
-	 * @version  3.26.1
+	 * Should be overridden in extending classes.
+	 *
+	 * @since 3.15.0
+	 * @since 3.26.1 Unknown.
+	 *
+	 * @param string       $key     The column id / key.
+	 * @param LLMS_Student $student Instance of the LLMS_Student.
+	 * @return mixed
 	 */
 	public function get_export_data( $key, $student ) {
 
@@ -329,7 +337,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			default:
 				$value = $this->get_data( $key, $student );
 
-		}// End switch().
+		}
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
 
@@ -338,21 +346,22 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
 	/**
-	 * Get HTML for the filters displayed in the head of the table.
+	 * Get HTML for the filters displayed in the head of the table
 	 *
 	 * This overrides the LLMS_Admin_Table method.
 	 *
 	 * @since 3.31.0
-	 * @since 3.37.2
+	 * @since 3.37.2 Unknown.
 	 *
 	 * @return string
 	 */
@@ -420,10 +429,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.28.0
+	 * @since 3.2.0
+	 * @since 3.28.0 Unknown.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
@@ -450,7 +461,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		}
 
-		$this->max_pages    = $query->max_pages;
+		$this->max_pages    = $query->get_max_pages();
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
@@ -460,9 +471,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Setup the array of sort arguments to pass to the LLMS_Student_Query for the table
 	 *
-	 * @return  array
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return array
 	 */
 	private function get_sort() {
 
@@ -510,7 +521,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				);
 				break;
 
-		}// End switch().
+		}
 
 		return $sort;
 
@@ -522,8 +533,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.28.0
 	 * @since 3.31.0 Added logic to parse 'filterby' and 'filter' args when this table is filterable.
 	 *
-	 * @param   array $args array of arguments.
-	 * @return  void
+	 * @param array $args Array of arguments.
+	 * @return void
 	 */
 	protected function parse_args( $args = array() ) {
 
@@ -556,9 +567,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
-	 * @return   array
-	 * @since    2.3.0
-	 * @version  3.28.0
+	 * @since 2.3.0
+	 * @since 3.28.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function set_args() {
 		return array(
@@ -573,7 +585,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Add "Last Seen" column.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function set_columns() {
 		return array(

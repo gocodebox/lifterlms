@@ -8,10 +8,13 @@
  * @since 3.30.0 Added checkout redirect settings.
  * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
  * @since 3.37.18 Don't localize the price "step" html attribute.
+ * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
+ * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
+ * @version 7.3.0
  *
- * @var obj $course LLMS_Course.
- * @var array $checkout_redirection_types checkout redirect setting options.
- * @var obj $plan LLMS_Access_Plan.
+ * @var LLMS_Course      $course                     LLMS_Course.
+ * @var array            $checkout_redirection_types Checkout redirect setting options.
+ * @var LLMS_Access_Plan $plan                       LLMS_Access_Plan.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -55,6 +58,9 @@ if ( ! isset( $plan ) ) {
 			<?php endif; ?>
 		</h3>
 		<div class="d-1of2 d-right">
+			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'This access plan requires attention for possible misconfigurations', 'lifterlms' ); ?>">
+				<span class="dashicons dashicons-warning medium-danger"></span>
+			</span>
 			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
 				<span class="dashicons dashicons-warning"></span>
 			</span>
@@ -67,7 +73,18 @@ if ( ! isset( $plan ) ) {
 
 	<section class="llms-collapsible-body">
 
-		<?php do_action( 'llms_access_plan_mb_before_body', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired before access plan's meta box row two
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_before_body', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-1">
 
@@ -105,7 +122,18 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_one', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row two
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_one', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-2" data-controller="llms-plan-is-free" data-value-is-not="yes">
 
@@ -190,7 +218,18 @@ endwhile;
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_two', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row two
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_two', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-3">
 			<div class="d-1of2">
@@ -256,7 +295,18 @@ endwhile;
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_three', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row three
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_three', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-4" data-controller="llms-plan-frequency" data-value-is-not="0">
 			<div class="llms-metabox-field d-1of5">
@@ -290,7 +340,18 @@ endwhile;
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_four', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row four
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_four', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-5" data-controller="llms-plan-is-free" data-value-is-not="yes">
 			<div class="llms-metabox-field d-1of5">
@@ -319,14 +380,32 @@ endwhile;
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_five', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row five
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_five', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-6 llms-metabox-field d-all">
 			<label><?php _e( 'Plan Description', 'lifterlms' ); ?></label>
 			<?php
 			wp_editor(
-				htmlspecialchars_decode( $plan ? $plan->get( 'content' ) : '' ),
+				htmlspecialchars_decode( $plan ? $plan->get( 'content', true ) : '' ),
 				'_llms_plans_content_' . $id,
+				/**
+				 * Filters the access plan editor settings
+				 *
+				 * @since Unknown
+				 *
+				 * @param array $settings See _WP_Editors::parse_settings() for description.
+				 */
 				apply_filters(
 					'llms_access_plan_editor_settings',
 					array(
@@ -346,7 +425,18 @@ endwhile;
 
 		<div class="clear"></div>
 
-		<?php do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box row six
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order );
+		?>
 
 		<div class="llms-plan-row-7">
 			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
@@ -392,7 +482,18 @@ endwhile;
 		<input class="plan-order" name="_llms_plans[<?php echo $order; ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? $plan->get( 'menu_order' ) : $order; ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo $order; ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . $plan->get( 'id' ) . '"' : ' disabled="disabled"'; ?>>
 
-		<?php do_action( 'llms_access_plan_mb_after_body', $plan, $id, $order ); ?>
+		<?php
+			/**
+			 * Action hook fired after access plan's meta box body
+			 *
+			 * @since Unknown
+			 *
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 * @param integer          $order The order of the access plan.
+			 */
+			do_action( 'llms_access_plan_mb_after_body', $plan, $id, $order );
+		?>
 
 	</section>
 

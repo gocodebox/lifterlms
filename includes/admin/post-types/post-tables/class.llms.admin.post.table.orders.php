@@ -1,29 +1,29 @@
 <?php
 /**
- * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
+ * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns.
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version 3.24.0
+ * @version 7.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Post_Table_Orders class
+ * LLMS_Admin_Post_Table_Orders class.
  *
  * @since 3.0.0
- * @since 3.24.0 Unknown.
  */
 class LLMS_Admin_Post_Table_Orders {
 
 	/**
 	 * Constructor.
 	 *
-	 * @return  void
-	 * @since   3.0.0
-	 * @since   3.24.3
+	 * @since 3.0.0
+	 * @since 3.24.3 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -33,16 +33,16 @@ class LLMS_Admin_Post_Table_Orders {
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
 		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
-
 	}
 
 	/**
-	 * Order post. Appends custom columns to post grid/
+	 * Order post. Appends custom columns to post grid.
 	 *
-	 * @param   array $columns  array of columns
-	 * @return  array
-	 * @since   3.0.0
-	 * @version 3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param array $columns Array of columns.
+	 * @return array
 	 */
 	public function add_columns( $columns ) {
 
@@ -63,11 +63,14 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Queries data based on column name.
 	 *
-	 * @param    string $column  custom column name
-	 * @param    int    $post_id    ID of the individual post
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 * @since 5.4.0 Inform about deleted products.
+	 * @since 7.0.0 Treat the case when the order has no WordPress user associated yet.
+	 *
+	 * @param string $column  Custom column name.
+	 * @param int    $post_id ID of the individual post.
+	 * @return void
 	 */
 	public function manage_columns( $column, $post_id ) {
 		global $post;
@@ -84,10 +87,11 @@ class LLMS_Admin_Post_Table_Orders {
 				_e( 'by', 'lifterlms' );
 				echo ' ';
 
-				if ( 'yes' === $order->get( 'anonymized' ) ) {
+				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
 					echo $order->get_customer_name();
 				} else {
-					echo '<a href="' . get_edit_user_link( $order->get( 'user_id' ) ) . '">' . $order->get_customer_name() . '</a><br>';
+					$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+					echo ! $edit_user_link ? $order->get_customer_name() . '<br>' : '<a href="' . $edit_user_link . '">' . $order->get_customer_name() . '</a><br>';
 					echo '<a href="mailto:' . $order->get( 'billing_email' ) . '">' . $order->get( 'billing_email' ) . '</a>';
 				}
 
@@ -123,7 +127,11 @@ class LLMS_Admin_Post_Table_Orders {
 				break;
 
 			case 'product':
-				echo '<a href="' . admin_url( 'post.php?post=' . $order->get( 'product_id' ) . '&action=edit' ) . '">' . $order->get( 'product_title' ) . '</a>';
+				if ( llms_get_post( $order->get( 'product_id' ) ) ) {
+					echo '<a href="' . get_edit_post_link( $order->get( 'product_id' ) ) . '">' . $order->get( 'product_title' ) . '</a>';
+				} else {
+					echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' );
+				}
 				echo ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
 
 				break;
@@ -160,9 +168,10 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Creates array of columns that will be sortable.
 	 *
-	 * @param  array $columns  array of sortable columns
-	 * @return array $columns
-	 * @since  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array $columns Array of sortable columns.
+	 * @return array
 	 */
 	public function sortable_columns( $columns ) {
 
@@ -176,8 +185,9 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Adds custom sortable columns to WP request.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
-	 * @since  3.0.0
 	 */
 	public function edit_load() {
 		add_filter( 'request', array( $this, 'llms_sort_orders' ) );
@@ -186,9 +196,10 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Applies custom query variables for sorting custom columns.
 	 *
-	 * @param  array $vars  post query args
+	 * @since 3.0.0
+	 *
+	 * @param array $vars Fost query args.
 	 * @return array
-	 * @since  3.0.0
 	 */
 	public function llms_sort_orders( $vars ) {
 
@@ -227,9 +238,9 @@ class LLMS_Admin_Post_Table_Orders {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param    array $actions   existing actions
-	 * @param    obj   $post      WP_Post Object
-	 * @return   string[]
+	 * @param array   $actions Existing actions.
+	 * @param WP_Post $post    Post object.
+	 * @return string[]
 	 */
 	public function modify_actions( $actions, $post ) {
 
@@ -240,7 +251,6 @@ class LLMS_Admin_Post_Table_Orders {
 		unset( $actions['inline hide-if-no-js'] );
 
 		return $actions;
-
 	}
 
 
@@ -250,9 +260,10 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 2.5.0
 	 * @since 3.24.3 Unknown
 	 * @since 3.35.0 Sanitize $_GET data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param    obj $query  WP_Query
-	 * @return   obj
+	 * @param WP_Query $query Query object.
+	 * @return WP_Query
 	 */
 	public function modify_admin_search( $query ) {
 
@@ -262,6 +273,25 @@ class LLMS_Admin_Post_Table_Orders {
 
 			// What we are searching for.
 			$term = $query->query_vars['s'];
+
+			// We have to kill this value so that the query actually works.
+			$query->query_vars['s'] = '';
+
+			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
+			// @note we're not super proud of this incredible piece of duct tape.
+			add_filter(
+				'get_search_query',
+				function ( $q ) {
+					if ( '' === $q ) {
+						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
+					}
+				}
+			);
+
+			if ( is_numeric( $term ) ) {
+				$query->query_vars['p'] = trim( intval( $term ) );
+				return $query;
+			}
 
 			// Search wp_users.
 			$user_query = new WP_User_Query(
@@ -304,29 +334,13 @@ class LLMS_Admin_Post_Table_Orders {
 				),
 			);
 
-			// We have to kill this value so that the query actually works.
-			$query->query_vars['s'] = '';
-
 			// Set the query.
 			$query->set( 'meta_query', $meta_query );
 
-			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
-			// @note we're not super proud of this incredible piece of duct tape.
-			add_filter(
-				'get_search_query',
-				function( $q ) {
-					if ( '' === $q ) {
-						return llms_filter_input( INPUT_GET, 's', FILTER_SANITIZE_STRING );
-					}
-				}
-			);
-
-		} // End if().
+		}
 
 		return $query;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Orders();

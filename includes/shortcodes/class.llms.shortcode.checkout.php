@@ -1,19 +1,19 @@
 <?php
 /**
- * LifterLMS Checkout Page Shortcode.
+ * LifterLMS Checkout Page Shortcode
  *
  * Controls functionality associated with shortcode [llms_checkout].
  *
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 4.2.0
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcode_Checkout
+ * LLMS_Shortcode_Checkout class.
  *
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.36.3 Added l10n function to membership restriction error message.
  * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
+ * @since 5.0.0 Add support for LLMS_Form field management.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -122,9 +123,14 @@ class LLMS_Shortcode_Checkout {
 	 * @return void
 	 */
 	private static function error( $message ) {
-
+		/**
+		 * Filters error messages displayed on the checkout screen.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $message The error message.
+		 */
 		echo apply_filters( 'llms_checkout_error_output', $message );
-
 	}
 
 	/**
@@ -136,9 +142,7 @@ class LLMS_Shortcode_Checkout {
 	 * @return string
 	 */
 	public static function get( $atts ) {
-
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
-
 	}
 
 	/**
@@ -147,6 +151,10 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
+	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -161,8 +169,8 @@ class LLMS_Shortcode_Checkout {
 
 		self::$uid = get_current_user_id();
 
-		$atts['gateways']         = LLMS()->payment_gateways()->get_enabled_payment_gateways();
-		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
+		$atts['gateways']         = llms()->payment_gateways()->get_enabled_payment_gateways();
+		$atts['selected_gateway'] = llms()->payment_gateways()->get_default_gateway();
 
 		$atts['order_key'] = '';
 
@@ -173,13 +181,24 @@ class LLMS_Shortcode_Checkout {
 			$atts['field_data'] = get_current_user_id();
 		}
 
-		echo '<div class="llms-checkout-wrapper">';
+		self::checkout_wrapper_start();
 
-		// allow gateways to throw errors before outputting anything else.
-		// useful if you need to check for extra session or query string data.
+		/**
+		 * Allows gateways or third parties to output custom errors before
+		 * any core logic is executed.
+		 *
+		 * This filter returns `false` by default. To output custom errors return
+		 * the error message as a string that will be displayed on screen.
+		 *
+		 * @since Unknown
+		 *
+		 * @param bool|string $pre_error A custom error message.
+		 */
 		$err = apply_filters( 'lifterlms_pre_checkout_error', false );
 		if ( $err ) {
-			return self::error( $err );
+			self::error( $err );
+			self::checkout_wrapper_end();
+			return;
 		}
 
 		llms_print_notices();
@@ -192,13 +211,13 @@ class LLMS_Shortcode_Checkout {
 			// Only retrieve if plan is a llms_access_plan and is published.
 			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
 
-				$coupon = LLMS()->session->get( 'llms_coupon' );
+				$coupon = llms()->session->get( 'llms_coupon' );
 
 				if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
 					if ( $coupon['plan_id'] == $_GET['plan'] ) {
 						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
-						LLMS()->session->set( 'llms_coupon', false );
+						llms()->session->set( 'llms_coupon', false );
 						$atts['coupon'] = false;
 					}
 				} else {
@@ -207,9 +226,9 @@ class LLMS_Shortcode_Checkout {
 
 				// Use posted order key to resume a pending order.
 				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
+					$atts['order_key'] = llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' );
 
-					// Attempt to located a pending order.
+					// Attempt to locate a pending order.
 				} elseif ( self::$uid ) {
 					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $plan_id );
 					if ( $pending_order ) {
@@ -218,8 +237,19 @@ class LLMS_Shortcode_Checkout {
 					}
 				}
 
-				$atts['plan']    = new LLMS_Access_Plan( $plan_id );
-				$atts['product'] = $atts['plan']->get_product();
+				$atts = self::setup_plan_and_form_atts( $plan_id, $atts );
+
+				/**
+				 * Filter the number of columns used to render the checkout/enrollment form.
+				 *
+				 * @since Unknown.
+				 * @since 5.0.0 Added `$form_location` parameter.
+				 *
+				 * @param int $cols Number of columns. Accepts 1 or 2.
+				 * @param LLMS_Access_Plan $plan Access plan object.
+				 * @param string $form_location Form location ID.
+				 */
+				$atts['cols'] = apply_filters( 'llms_checkout_columns', ( $atts['is_free'] || ! $atts['form_fields'] ) ? 1 : $atts['cols'], $atts['plan'], $atts['form_location'] );
 
 				self::checkout( $atts );
 
@@ -230,15 +260,15 @@ class LLMS_Shortcode_Checkout {
 			}
 		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
-			if ( ! isset( $_GET['order'] ) ) {
-
-				return self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
-
+			$order_key = llms_filter_input_sanitize_string( INPUT_GET, 'order' );
+			$order     = $order_key ? llms_get_order_by_key( $order_key ) : false;
+			if ( ! $order ) {
+				self::error( __( 'Could not locate an order to confirm.', 'lifterlms' ) );
+				self::checkout_wrapper_end();
+				return;
 			}
 
-			$order           = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
-			$atts['plan']    = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
-			$atts['product'] = $atts['plan']->get_product();
+			$atts = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
 
 			if ( $order->get( 'coupon_id' ) ) {
 				$atts['coupon'] = new LLMS_Coupon( $order->get( 'coupon_id' ) );
@@ -246,18 +276,99 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+			$atts['selected_gateway'] = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
 			self::confirm_payment( $atts );
 
 		} else {
 
-			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
+			self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
-		}// End if().
+		}
 
+		self::checkout_wrapper_end();
+
+	}
+
+	/**
+	 * Setup attributes for plan and form information.
+	 *
+	 * @since 5.0.0
+	 * @since 5.1.0 Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
+	 * @since 7.0.0 Add 'redirect' hidden field to be used on purchase completion.
+	 *
+	 * @param int   $plan_id LLMS_Access_Plan post id.
+	 * @param array $atts    Existing attributes.
+	 * @return array Modified attributes array.
+	 */
+	protected static function setup_plan_and_form_atts( $plan_id, $atts ) {
+
+		$plan = new LLMS_Access_Plan( $plan_id );
+
+		$atts['plan']    = $plan;
+		$atts['product'] = $plan->get_product();
+		$atts['is_free'] = $plan->has_free_checkout();
+
+		$atts['form_location'] = 'checkout';
+		$atts['form_title']    = llms_get_form_title( $atts['form_location'], array( 'plan' => $plan ) );
+		$atts['form_fields']   = self::clean_form_fields( llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) ) );
+
+		// Add 'redirect' URL hidden field to be used on purchase completion.
+		$plan_redirection_url = $plan->get_redirection_url( false );
+		if ( $plan_redirection_url ) {
+			$atts['form_fields'] .= ( new LLMS_Form_Field(
+				array(
+					'id'             => 'llms-redirect',
+					'name'           => 'redirect',
+					'type'           => 'hidden',
+					'value'          => $plan_redirection_url,
+					'data_store_key' => false,
+				)
+			) )->get_html();
+		}
+
+		return $atts;
+	}
+
+	/**
+	 * Clean form fields html
+	 *
+	 * Properly detects empty form fields when the html is only composed of blanks and empty paragraphs.
+	 * In this case the form fields html is turned into an empty string.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $fields_html Form Fields.
+	 * @return array
+	 */
+	private static function clean_form_fields( $fields_html ) {
+		// If fields html has only blanks and emoty paragraphs (autop?), clean it.
+		if ( empty( preg_replace( '/(\s)*(<p><\/p>)*/m', '', $fields_html ) ) ) {
+			$fields_html = '';
+		}
+		return $fields_html;
+	}
+
+	/**
+	 * Output the checkout wrapper opening tags.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	private static function checkout_wrapper_start() {
+		echo '<div class="llms-checkout-wrapper">';
+	}
+
+	/**
+	 * Output the checkout wrapper closing tags.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	private static function checkout_wrapper_end() {
 		echo '</div><!-- .llms-checkout-wrapper -->';
-
 	}
 
 }

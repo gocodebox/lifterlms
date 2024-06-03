@@ -5,32 +5,17 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.0.0
- * @version 3.38.0
+ * @since 6.0.0 Removed the deprecated and misspelled `$purchaseable` global variable.
+ * @version 6.0.0
  *
- * @property LLMS_Product $product          Product object of the course or membership.
- * @property bool         $is_enrolled      Determines if current viewer is enrolled in $product.
- * @property bool         $purchasable      Determines if current product is purchasable.
- * @property bool         $has_free         Determines if any free access plans are available for the product.
- * @property bool         $has_restrictions Determines if any free access plans are available for the product.
+ * @var LLMS_Product $product          Product object of the course or membership.
+ * @var bool         $is_enrolled      Determines if current viewer is enrolled in $product.
+ * @var bool         $purchasable      Determines if current product is purchasable.
+ * @var bool         $has_free         Determines if any free access plans are available for the product.
+ * @var bool         $has_restrictions Determines if any free access plans are available for the product.
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * Fix variable spelling in a backwards compatible way
- *
- * If the function `lifterlms_template_pricing_table()` is plugged or this template is loaded
- * some other way, and the misspelled variable is still passed in this will ensure that the
- * template continues to function as expected.
- *
- * @link https://github.com/gocodebox/lifterlms/issues/1128
- *
- * @deprecated 3.38.0
- */
-if ( isset( $purchaseable ) && ! isset( $purchasable ) ) {
-	llms_deprecated_function( 'Passing variable `$purchaseable` to template "product/pricing-table.php"', '3.38.0', '`$purchasable`' );
-	$purchasable = $purchaseable;
-}
 
 $free_only = ( $has_free && ! $purchasable );
 ?>

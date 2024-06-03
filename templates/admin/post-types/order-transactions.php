@@ -5,7 +5,9 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.5.0
- * @version 3.26.1
+ * @since 3.26.1 Unknown.
+ * @since 4.21.2 Don't localize the price "step" html attribute.
+ * @version 4.21.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +17,7 @@ if ( ! is_admin() ) {
 }
 
 // Create a "step" attribute for price fields according to LLMS settings.
-$price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
+$price_step = number_format( 0.01, get_lifterlms_decimals() );
 
 ?>
 <table class="llms-table">

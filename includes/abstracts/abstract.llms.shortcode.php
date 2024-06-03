@@ -5,16 +5,15 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.4.3
- * @version 3.5.1
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Base Shortcode abstract class
+ * LLMS_Shortcode Abstract.
  *
  * @since 3.4.3
- * @since 3.5.1 Unknown.
  */
 abstract class LLMS_Shortcode {
 
@@ -92,8 +91,7 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Private constructor
 	 *
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
 	 */
 	private function __construct() {
 		add_shortcode( $this->tag, array( $this, 'output' ) );
@@ -178,19 +176,17 @@ abstract class LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
+	 * @since 3.4.3
+	 * @since 3.5.1 Unknown.
+	 * @since 5.0.0 Merge attributes in a separate method.
+	 *
 	 * @param    array  $atts     user submitted shortcode attributes
 	 * @param    string $content  user submitted content
 	 * @return   string
-	 * @since    3.4.3
-	 * @version  3.5.1
 	 */
 	public function output( $atts = array(), $content = '' ) {
 
-		$this->attributes = shortcode_atts(
-			apply_filters( $this->get_filter( 'get_default_attributes' ), $this->get_default_attributes(), $this ),
-			$atts,
-			$this->tag
-		);
+		$this->attributes = $this->set_attributes( $atts );
 
 		if ( ! $content ) {
 			$content = apply_filters( $this->get_filter( 'get_default_content' ), $this->get_default_content(), $this );
@@ -199,6 +195,25 @@ abstract class LLMS_Shortcode {
 		$this->content = $content;
 
 		return apply_filters( $this->get_filter( 'output' ), $this->get_output(), $this );
+
+	}
+
+	/**
+	 * Merge user attributes with default attributes.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $atts User-submitted shortcode attributes.
+	 *
+	 * @return array
+	 */
+	protected function set_attributes( $atts = array() ) {
+
+		return shortcode_atts(
+			apply_filters( $this->get_filter( 'get_default_attributes' ), $this->get_default_attributes(), $this ),
+			$atts,
+			$this->tag
+		);
 
 	}
 

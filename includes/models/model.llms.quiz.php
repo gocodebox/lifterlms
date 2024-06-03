@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 4.2.0
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property $passing_percent (float) Grade required for a student to "pass" the quiz.
- * @property $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
  * @property $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
  * @property $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
  * @property $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
@@ -29,6 +28,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
+ * @since 5.0.0 Remove previously deprecated method `LLMS_Quiz::get_lessons()`.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -47,10 +47,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	protected $model_post_type = 'quiz';
 
 	/**
-	 * Post type meta properties
+	 * Post type meta properties.
 	 *
 	 * Array key is the meta_key and array values is property's type.
 	 *
+	 * @since Unknown.
+	 * @since 7.6.2 Added the `disable_retake` property.
 	 * @var string[]
 	 */
 	protected $properties = array(
@@ -62,6 +64,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'disable_retake'      => 'yesno',
 	);
 
 	/**
@@ -105,6 +108,26 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function get_questions( $return = 'questions' ) {
 		return $this->questions()->get_questions( $return );
+	}
+
+	/**
+	 * Get questions count.
+	 *
+	 * @since 7.4.0
+	 *
+	 * @return int Question Count.
+	 */
+	public function get_questions_count() {
+
+		/**
+		 * Filter the count of questions in a quiz.
+		 *
+		 * @since 7.4.0
+		 *
+		 * @param int       $questions_count Number of questions in a quiz.
+		 * @param LLMS_Quiz $quiz            Current quiz object.
+		 */
+		return apply_filters( 'llms_quiz_questions_count', count( $this->get_questions( 'ids' ) ), $this );
 	}
 
 	/**
@@ -161,7 +184,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		/**
 		 * This is to take into account possible data inconsistency.
-		 * see https://github.com/gocodebox/lifterlms/issues/1039
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1039
 		 */
 		if ( $deep ) {
 			$lesson = llms_get_post( $parent_id );
@@ -196,6 +220,20 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 			// string for "unlimited" or number of attempts.
 			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
+
+			// Check for a passed attempt and disable the quiz.
+			if ( $quiz_open && llms_parse_bool( $this->get( 'disable_retake' ) ) ) {
+				$passed_attempts = $student->quizzes()->get_attempts_by_quiz(
+					$this->get( 'id' ),
+					array(
+						'status' => array( 'pass' ),
+					)
+				);
+
+				if ( count( $passed_attempts ) ) {
+					$quiz_open = false;
+				}
+			}
 		}
 
 		/**
@@ -257,43 +295,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		return $arr;
 
 	}
-
-	/**
-	 * Retrieve lessons this quiz is assigned to.
-	 *
-	 * @since Unknown.
-	 *
-	 * @param string $return Optional. Format of the return [ids|lessons]. Default `'ids'`.
-	 * @return array Array of WP_Post IDs (lesson post types).
-	 */
-	public function get_lessons( $return = 'ids' ) {
-
-		global $wpdb;
-		$query = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT post_id
-			 FROM {$wpdb->postmeta}
-			 WHERE meta_key = '_llms_assigned_quiz'
-			   AND meta_value = %d;",
-				$this->get( 'id' )
-			)
-		);
-
-		// return just the ids.
-		if ( 'ids' === $return ) {
-			return $query;
-		}
-
-		// setup lesson objects.
-		$ret = array();
-		foreach ( $query as $id ) {
-			$ret[] = llms_get_post( $id );
-		}
-
-		return $ret;
-
-	}
-
 
 	/**
 	 * Get the (points) value of a question.

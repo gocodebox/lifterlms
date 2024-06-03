@@ -71,11 +71,6 @@
   text-align: center;
 }
 
-/* Genesis Overrides */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 300;
-}
-
 #main-content .llms-payment-options p {
   margin: 0;
   font-size: 16px;
@@ -477,4 +472,31 @@ svg .llms-animated-circle {
 
 .llms-lesson-tooltip.active {
   display: inline-block;
+}
+
+// Favorites.
+.llms-favorite-wrapper {
+  cursor: pointer;
+
+  .fa-heart {
+    color: #EF476F;
+  }
+}
+
+.llms-has-favorite .llms-parent-course-link {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  + .llms-favorite-wrapper {
+    float: right;
+    margin: 0;
+  }
+}
+
+.llms-syllabus-wrapper .llms-has-favorite {
+  text-align: left;
+
+  .llms-favorite-wrapper {
+    display: inline-block;
+  }
 }

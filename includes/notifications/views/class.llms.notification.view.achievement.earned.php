@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
@@ -39,16 +39,16 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'achievement_earned';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		ob_start();
@@ -63,9 +63,9 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -74,9 +74,9 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return '';
@@ -103,10 +103,13 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @since 3.8.0
+	 * @since 3.8.2 Unknown.
+	 * @since 4.7.0 Use `achievement_title` in favor of `title` for the {{ACHIEVEMENT_TITLE}} merge code.
+	 * @since 6.0.0 Use `title` in favor of deprecated `achievement_title` meta key for the {{ACHIEVEMENT_TITLE}} merge code.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -127,7 +130,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			case '{{ACHIEVEMENT_IMAGE_URL}}':
 				$code = $achievement->get_image( 'medium', 'achievement_image' );
 				if ( ! $code ) {
-					$code = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
+					$code = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_achievement.png' );
 				}
 				break;
 
@@ -148,9 +151,9 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return '';
@@ -159,9 +162,9 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return __( 'You\'ve been awarded an achievement!', 'lifterlms' );
@@ -169,12 +172,10 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Define field support for the view
-	 * Extending classes can override this
-	 * 3rd parties should filter $this->get_supported_fields()
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_supported_fields() {
 		return array(

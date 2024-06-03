@@ -3,7 +3,7 @@ LifterLMS Coding Standards
 
 The purpose of the LifterLMS Coding Standards is to create a baseline for collaboration and review within the open source LifterLMS codebase, project, and community.
 
-The WordPress community has developed coding standards and documented them in the [WordPress codex](https://make.wordpress.org/core/handbook/best-practices/coding-standards/). Wherever possible, the LifterLMS Coding Standards aim to obey these coding standards.
+The WordPress community has developed coding standards and documented them in the [WordPress codex](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/). Wherever possible, the LifterLMS Coding Standards aim to obey these coding standards.
 
 ## Naming Conventions
 
@@ -22,11 +22,20 @@ class LLMS_Student extends LLMS_Abstract_User_Data { [...] }
 class LLMS_Data { [...] }
 ```
 
-LifterLMS add-on class names should be prefixed with with `LLMS_` as well as an additional add-on prefix.
+LifterLMS add-on class names should be prefixed with `LLMS_` as well as an additional add-on prefix.
 
 ```php
 class LLMS_AQ_Question_Types { [...] }
 class LLMS_SL_Story extends LLMS_Abstract_Database_Store { [...] }
+```
+
+### Trait Names
+
+Trait names should use capitalized words separated by underscores.
+LifterLMS core trait names should be prefixed with `LLMS_Trait`.
+
+```php
+trait LLMS_Trait_Singleton { [...] }
 ```
 
 ### Constants
@@ -38,7 +47,7 @@ LifterLMS core constants should be prefixed with `LLMS_`.
 define( 'LLMS_PLUGIN_FILE', __FILE__ );
 ```
 
-LifterLMS add-on class names should be prefixed with with `LLMS_` as well as an additional add-on prefix.
+LifterLMS add-on class names should be prefixed with `LLMS_` as well as an additional add-on prefix.
 
 ```php
 define( 'LLMS_FORMIDABLE_FORMS_PLUGIN_FILE', __FILE__ );
@@ -64,6 +73,13 @@ Files containing model classes should prepend `model-` instead of `class-`. For 
 model-llms-student.php
 ```
 
+Trait file names should be based on the trait name with underscores replaced by hyphens and the file stored in the
+`includes/traits` directory. For example `LLMS_Trait_Singleton` becomes:
+
+```
+includes/traits/llms-trait-singleton.php
+```
+
 ### Functions & Variables
 
 Lowercase letters should be used for function names and variables. Separate words with underscores.
@@ -73,7 +89,7 @@ LifterLMS core functions should be prepended with the prefix `llms_`.
 llms_current_time( $type, $gmt = 0 ) { [...] }
 ```
 
-LifterLMS add-on function names should be prefixed with with `llms_` as well as an additional add-on prefix.
+LifterLMS add-on function names should be prefixed with `llms_` as well as an additional add-on prefix.
 
 ```php
 llms_ck_consent_form_field() { [...] }
@@ -89,7 +105,7 @@ do_action( 'llms_user_enrolled_in_course', [...] );
 apply_filters( 'llms_get_enrollment_status', [...] );
 ```
 
-LifterLMS add-on hook names should be prefixed with with `llms_` as well as an additional add-on prefix.
+LifterLMS add-on hook names should be prefixed with `llms_` as well as an additional add-on prefix.
 
 ```php
 do_action( 'llms_pa_post_created_from_automation', [...] );

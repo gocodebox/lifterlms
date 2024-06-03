@@ -6,21 +6,17 @@
  *
  * @since 3.32.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @version 3.35.0
+ * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING` and validate the period exists before attempting to use it.
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 
 $data   = new LLMS_Membership_Data( $membership->get( 'id' ) );
-$period = llms_filter_input( INPUT_GET, 'period', FILTER_SANITIZE_STRING );
-if ( ! $period ) {
-	$period = 'today';
-}
+$period = $data->parse_period();
 $data->set_period( $period );
-
-$periods     = LLMS_Admin_Reporting::get_period_filters();
-$period_text = strtolower( $periods[ $period ] );
+$period_text = strtolower( LLMS_Admin_Reporting::get_period_filters()[ $period ] );
 $now         = current_time( 'timestamp' );
 ?>
 

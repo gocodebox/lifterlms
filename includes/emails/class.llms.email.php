@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -117,8 +117,8 @@ class LLMS_Email {
 			array(
 				'{blogname}'     => get_bloginfo( 'name', 'display' ),
 				'{site_title}'   => get_bloginfo( 'name', 'display' ),
-				'{divider}'      => LLMS()->mailer()->get_divider_html(),
-				'{button_style}' => LLMS()->mailer()->get_button_style(),
+				'{divider}'      => llms()->mailer()->get_divider_html(),
+				'{button_style}' => llms()->mailer()->get_button_style(),
 			)
 		);
 
@@ -253,15 +253,17 @@ class LLMS_Email {
 
 	/**
 	 *  Format string method
-	 *  Finds and replaces merge fields with appropriate data
 	 *
-	 * @param    string $string  string to be formatted
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  1.0.0
+	 *  Finds and replaces merge fields with appropriate data.
+	 *
+	 * @since 1.0.0
+	 * @since 5.0.0 Process shortocdes when formatting a string.
+	 *
+	 * @param string $string String to be formatted.
+	 * @return string
 	 */
 	public function format_string( $string ) {
-		return str_replace( $this->find, $this->replace, $string );
+		return do_shortcode( str_replace( $this->find, $this->replace, $string ) );
 	}
 
 	/**

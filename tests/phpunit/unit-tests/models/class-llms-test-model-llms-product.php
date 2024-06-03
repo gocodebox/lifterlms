@@ -10,26 +10,29 @@
  * @since 3.25.2
  * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
  * @since 3.38.0 Add tests for the get_restrictions() and has_restrictions() methods.
- *                Override unnecessary parent tests so they're not marked as skipped.
+ *               Override unnecessary parent tests so they're not marked as skipped.
+ * @since 5.4.0 Added tests for `has_active_subscriptions` method.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * class name for the model being tested by the class
-	 * @var  string
+	 * Class name for the model being tested by the class.
+	 *
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_Product';
 
 	/**
-	 * db post type of the model being tested
-	 * @var  string
+	 * DB post type of the model being tested.
+	 *
+	 * @var string
 	 */
 	protected $post_type = 'product';
 
 	/**
-	 * Get properties, used by test_getters_setters
+	 * Get properties, used by test_getters_setters.
 	 *
-	 This should match, exactly, the object's $properties array.
+	 * This should match, exactly, the object's $properties array.
 	 *
 	 * @since 3.24.0
 	 *
@@ -91,7 +94,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Override parent test
+	 * Override parent test.
 	 *
 	 * This model has no properties of it's own so we can safely skip this test
 	 * without outputting a warning.
@@ -165,10 +168,12 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
 
 	/**
-	 * test get_access_plan_limit() method
-	 * @return  void
-	 * @since   3.25.2
-	 * @version 3.25.2
+	 * Test get_access_plan_limit() method.
+	 *
+	 * @since 3.25.2
+	 * @since 5.4.0 Remove 'llms_get_product_access_plan_limit' filter callback after use.
+	 *
+	 * @return void
 	 */
 	public function test_get_access_plan_limit() {
 
@@ -177,14 +182,24 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( is_int( $product->get_access_plan_limit() ) );
 		$this->assertEquals( 6, $product->get_access_plan_limit() );
 
-		// Test the filter
-		add_filter( 'llms_get_product_access_plan_limit', function() {
+		// Test the filter.
+		$return_three = function() {
 			return 3;
-		} );
+		};
+
+		add_filter( 'llms_get_product_access_plan_limit', $return_three );
 		$this->assertEquals( 3, $product->get_access_plan_limit() );
+		remove_filter( 'llms_get_product_access_plan_limit', $return_three );
 
 	}
 
+	/**
+	 * Test get_access_plan_limit() method.
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	public function test_get_access_plans() {
 
 		$product = $this->get_product();
@@ -218,7 +233,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test get_restrictions(): no restrictions on product
+	 * Test get_restrictions(): no restrictions on product.
 	 *
 	 * @since 3.38.0
 	 *
@@ -234,7 +249,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test get_restrictions(): enrollment period
+	 * Test get_restrictions(): enrollment period.
 	 *
 	 * @since 3.38.0
 	 *
@@ -252,7 +267,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test get_restrictions(): max capacity
+	 * Test get_restrictions(): max capacity.
 	 *
 	 * @since 3.38.0
 	 *
@@ -273,7 +288,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test get_restrictions(): multiple restrictions
+	 * Test get_restrictions(): multiple restrictions.
 	 *
 	 * @since 3.38.0
 	 *
@@ -299,10 +314,11 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * test has_free_access_plan() method
-	 * @return  void
-	 * @since   3.25.2
-	 * @version 3.25.2
+	 * Test has_free_access_plan() method.
+	 *
+	 * @since 3.25.2
+	 *
+	 * @return void
 	 */
 	public function test_has_free_access_plan() {
 
@@ -345,14 +361,15 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the is_purchasable() method
-	 * @return  void
-	 * @since   3.25.2
-	 * @version 3.25.2
+	 * Test the is_purchasable() method.
+	 *
+	 * @since 3.25.2
+	 *
+	 * @return void
 	 */
 	public function test_is_purchasable() {
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), 'no' );
 
 		$product = $this->get_product();
@@ -395,6 +412,123 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		// No plans but has a gateway.
 		wp_delete_post( $plan->get( 'id' ), true );
 		$this->assertFalse( $product->is_purchasable() );
+
+	}
+
+	/**
+	 * Test `has_active_subscriptions()` on a product only related to a single order.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_has_active_subscriptions_single_order() {
+
+		$order   = $this->get_mock_order();
+		$product = $this->get_product();
+		$order->set( 'product_id', $product->get('id') );
+		$order->set( 'order_type', 'single' );
+
+		$this->assertFalse( $product->has_active_subscriptions( false ) );
+
+		$order->set( 'status', 'llms-active' );
+
+		$this->assertFalse( $product->has_active_subscriptions( false ) );
+
+	}
+
+	/**
+	 * Test `has_active_subscriptions()` on a product related to a single order and to an active subscription.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_has_active_subscriptions_single_and_recurring_order() {
+
+		$order   = $this->get_mock_order();
+		$product = $this->get_product();
+
+		// Single order.
+		$order->set( 'product_id', $product->get('id') );
+		$order->set( 'order_type', 'single' );
+
+		// Recurring order.
+		$order_recurring = $this->get_mock_order();
+		$order_recurring->set( 'product_id', $product->get('id') );
+
+		foreach ( array( 'active', 'pending-cancel', 'on-hold' ) as $status ) {
+			$order_recurring->set( 'status', "llms-{$status}" );
+			$this->assertTrue( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
+		}
+
+	}
+
+	/**
+	 * Test `has_active_subscriptions()` on a product related to a single order and to a not active subscription.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_has_active_subscriptions_single_and_recurring_order_inactive_status() {
+
+		$order   = $this->get_mock_order();
+		$product = $this->get_product();
+
+		// Single order.
+		$order->set( 'product_id', $product->get('id') );
+		$order->set( 'order_type', 'single' );
+
+		// Recurring order.
+		$order_recurring = $this->get_mock_order();
+		$order_recurring->set( 'product_id', $product->get('id') );
+
+		foreach ( array_keys( llms_get_order_statuses() ) as $status ) {
+
+			if ( in_array( $status, array( 'llms-active', 'llms-pending-cancel', 'llms-on-hold' ), true ) ) {
+				continue;
+			}
+
+			$order_recurring->set( 'status', $status );
+			$this->assertFalse( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
+
+		}
+
+	}
+
+	/**
+	 * Test `has_active_subscriptions()` using cache mechanism.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_has_active_subscriptions_use_cache() {
+
+		$order   = $this->get_mock_order();
+		$product = $this->get_product();
+
+		// Recurring order.
+		$order_recurring = $this->get_mock_order();
+		$order_recurring->set( 'product_id', $product->get('id') );
+		$order_recurring->set( 'status', 'llms-active' );
+
+		$this->assertTrue( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
+
+		// Cancel subscription.
+		$order_recurring->set( 'status', 'llms-cancelled' );
+		// Use cache, I expect an active subscription.
+		$this->assertTrue( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
+		// Do not use cache, I expect no active subscriptions.
+		$this->assertFalse( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
+
+		// Activate it again.
+		$order_recurring->set( 'status', 'llms-active' );
+		// Use cache, I expect no active subscriptions.
+		$this->assertFalse( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
+		// Do not use cache, I expect an active subscription.
+		$this->assertTrue( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
 
 	}
 

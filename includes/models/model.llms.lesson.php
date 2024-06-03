@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.2
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,31 +18,34 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
- *                  if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
- *                  Use strict comparisions where needed.
+ *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
+ *              Use strict comparisons where needed.
+ * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
+ * @since 5.7.0 Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
+ *              Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
+ *              Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
  *
- * @property $audio_embed (string) Audio embed URL
- * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
- * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
- * @property $free_lesson (yesno) Yes if the lesson is free
- * @property $has_prerequisite (yesno) Yes if the lesson has a prereq lesson
- * @property $order (int) Lesson's order within its parent section
- * @property $points (absint) Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
- * @property $prerequisite (int) WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
- * @property $parent_course (int) WP Post ID of the course the lesson belongs to
- * @property $parent_section (int) WP Post ID of the section the lesson belongs to
- * @property $quiz (int) WP Post ID of the llms_quiz
- * @property $quiz_enabled (yesno) Whether or not the attached quiz is enabled for students
- * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
- * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
- * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
- * @property $video_embed (string) Video embed URL
+ * @property string $audio_embed                      URL to an oEmbed enable audio URL.
+ * @property string $date_available                   Date when lesson becomes available, applies when $drip_method is "date".
+ * @property int    $days_before_available            The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start".
+ * @property string $drip_method                      What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite].
+ * @property string $free_lesson                      Yes if the lesson is free [yes|no].
+ * @property string $has_prerequisite                 Yes if the lesson has a prereq lesson [yes|no].
+ * @property int    $order                            Lesson's order within its parent section.
+ * @property int    $points                           Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses.
+ * @property int    $prerequisite                     WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'.
+ * @property int    $parent_course                    WP Post ID of the course the lesson belongs to.
+ * @property int    $parent_section                   WP Post ID of the section the lesson belongs to.
+ * @property int    $quiz                             WP Post ID of the llms_quiz.
+ * @property string $quiz_enabled                     Whether or not the attached quiz is enabled for students [yes|no].
+ * @property string $require_passing_grade            Whether of not students have to pass the quiz to advance to the next lesson [yes|no].
+ * @property string $require_assignment_passing_grade Whether of not students have to pass the assignment to advance to the next lesson [yes|no].
+ * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
+ * @property string $video_embed                      URL to an oEmbed enable video URL.
  */
-class LLMS_Lesson
-extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio
-		 , LLMS_Interface_Post_Video {
+class LLMS_Lesson extends LLMS_Post_Model {
+
+	use LLMS_Trait_Audio_Video_Embed;
 
 	protected $properties = array(
 
@@ -58,13 +61,11 @@ implements LLMS_Interface_Post_Audio
 		'parent_course'                    => 'absint',
 		'parent_section'                   => 'absint',
 
-		'audio_embed'                      => 'text',
 		'free_lesson'                      => 'yesno',
 		'has_prerequisite'                 => 'yesno',
 		'prerequisite'                     => 'absint',
 		'require_passing_grade'            => 'yesno',
 		'require_assignment_passing_grade' => 'yesno',
-		'video_embed'                      => 'text',
 		'points'                           => 'absint',
 
 		// Quizzes.
@@ -102,26 +103,27 @@ implements LLMS_Interface_Post_Audio
 	protected $model_post_type = 'lesson';
 
 	/**
-	 * Attempt to get oEmbed for an audio provider
+	 * Constructor for this class and the traits it uses.
 	 *
-	 * Falls back to the [audio] shortcode if the oEmbed fails.
+	 * @since 5.3.0
 	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown
-	 *
-	 * @return string
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
 	 */
-	public function get_audio() {
-		return $this->get_embed( 'audio' );
+	public function __construct( $model, $args = array() ) {
+
+		$this->construct_audio_video_embed();
+		parent::__construct( $model, $args );
 	}
 
 	/**
-	 * Get the date a course became or will become available according to element drip settings
+	 * Get the date a lesson became or will become available according to element drip settings
 	 *
 	 * If there are no drip settings, the published date of the element will be returned.
 	 *
 	 * @since 3.16.0
 	 * @since 3.36.2 Add available number of days to the course start date only if there's a course start date.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param string $format Optional. Date format (passed to date_i18n()). Default is empty string.
 	 *                       When not specified the WP Core date + time formats will be used.
@@ -139,6 +141,35 @@ implements LLMS_Interface_Post_Audio
 
 		// Default availability is the element's post date.
 		$available = $this->get_date( 'date', 'U' );
+
+		// get the course setting first, if any.
+		$course = $this->get_course();
+		if ( $course && 'yes' === $course->get( 'lesson_drip' ) ) {
+			$course_drip_method = $course->get( 'drip_method' );
+
+			switch ( $course_drip_method ) {
+				case 'start':
+					$ignore_lessons = intval( $course->get( 'ignore_lessons' ) );
+					$course_lessons = $course->get_lessons( 'ids' );
+					$lesson_number = array_search( $this->get( 'id' ), $course_lessons ) + 1;
+
+					$course_days = $course->get( 'days_before_available' ) * DAY_IN_SECONDS;
+					$course_start_date = $course->get_date( 'start_date', 'U' );
+					$course_enrollment_date = llms_get_student() ? llms_get_student()->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' ) : false;
+
+					// If it's one of the first X lessons in a course, return availability based on published date.
+					if ( $lesson_number <= $ignore_lessons ) {
+						return date_i18n( $format, $available );
+					}
+
+					if ( $course_start_date || $course_enrollment_date ) {
+						$available = ( ( $lesson_number - $ignore_lessons ) * $course_days ) + ( $course_start_date ? $course_start_date : $course_enrollment_date );
+
+						return date_i18n( $format, $available );
+					}
+					break;
+			}
+		}
 
 		switch ( $drip_method ) {
 
@@ -159,7 +190,7 @@ implements LLMS_Interface_Post_Audio
 			case 'enrollment':
 				$student = llms_get_student();
 				if ( $student ) {
-					$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
+					$available = $days + $student->get_enrollment_date( $this->get( 'parent_course' ), 'enrolled', 'U' );
 				}
 				break;
 
@@ -212,9 +243,10 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * An array of default arguments to pass to $this->create() when creating a new post
+	 * An array of default arguments to pass to $this->create() when creating a new post.
 	 *
 	 * @since 3.13.0
+	 * @since 6.3.0 Retrieve `comment_status` parameter value from the global discussion settings.
 	 *
 	 * @param array $args Optional. Args of data to be passed to `wp_insert_post()`. Default `null`.
 	 * @return array
@@ -233,17 +265,18 @@ implements LLMS_Interface_Post_Audio
 			);
 		}
 
-		$args = wp_parse_args(
+		$post_type = $this->get( 'db_post_type' );
+		$args      = wp_parse_args(
 			$args,
 			array(
-				'comment_status' => 'closed',
+				'comment_status' => get_default_comment_status( $post_type ),
 				'ping_status'    => 'closed',
 				'post_author'    => get_current_user_id(),
 				'post_content'   => '',
 				'post_excerpt'   => '',
 				'post_status'    => 'publish',
 				'post_title'     => '',
-				'post_type'      => $this->get( 'db_post_type' ),
+				'post_type'      => $post_type,
 			)
 		);
 
@@ -257,7 +290,7 @@ implements LLMS_Interface_Post_Audio
 		 * @param array       $args   Args of data to be passed to `wp_insert_post()`.
 		 * @param LLMS_Lesson $lesson Instance of the LLMS_Lesson.
 		 */
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
 
 	}
 
@@ -266,10 +299,14 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::get( 'order' )`, via {@see LLMS_Post_Model::get()}, instead.
 	 *
 	 * @return int
 	 */
 	public function get_order() {
+
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::get( \'order\' )' );
+
 		return $this->get( 'order' );
 	}
 
@@ -278,10 +315,14 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::get( 'parent_course' )`, via {@see LLMS_Post_Model::get()}, instead.
 	 *
 	 * @return int
 	 */
 	public function get_parent_course() {
+
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::get( \'parent_course\' )' );
+
 		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_course', true ) );
 	}
 
@@ -386,20 +427,6 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Attempt to get oEmbed for a video provider
-	 *
-	 * Falls back to the [video] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown.
-	 *
-	 * @return string
-	 */
-	public function get_video() {
-		return $this->get_embed( 'video' );
-	}
-
-	/**
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
 	 *
 	 * @since 3.0.0
@@ -455,16 +482,17 @@ implements LLMS_Interface_Post_Audio
 	public function is_available() {
 
 		$drip_method = $this->get( 'drip_method' );
+		$course_drip_method = $this->get_course() ? 'yes' === $this->get_course()->get( 'lesson_drip' ) && $this->get_course()->get( 'drip_method' ) : '';
 
-		// Drip is no enabled, so the element is available.
-		if ( ! $drip_method ) {
+		// Drip is not enabled, so the element is available.
+		if ( ! $drip_method && ! $course_drip_method ) {
 			return true;
 		}
 
 		$available = $this->get_available_date( 'U' );
 		$now       = llms_current_time( 'timestamp' );
 
-		return ( $now > $available );
+		return ( $now >= $available );
 
 	}
 
@@ -676,13 +704,16 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * Sets parent course in database
 	 *
-	 * @since unknown
+	 * @since Unknown Introduced.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::set( 'parent_course', $course_id )`, via {@see LLMS_Post_Model::set()}, instead.
 	 *
 	 * @param int $course_id The WP Post ID of the course to be set as parent.
-	 * @return mixed $meta If meta didn't exist returns the meta_id else t/f if update success.
-	 *                     Returns `false` if the course id value was already set.
+	 * @return int|bool If meta didn't exist returns the meta_id else t/f if update success.
+	 *                  Returns `false` if the course id value was already set.
 	 */
 	public function set_parent_course( $course_id ) {
+
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::set( \'parent_course\', $course_id )' );
 
 		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
@@ -726,84 +757,15 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
-	 * @since 4.4.2 Use a numeric comparison for the next position meta query.
+	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since 4.10.2 Refactor to use helper method `get_sibling()`.
 	 *
 	 * @return false|int ID of the next lesson, if any, `false` otherwise.
 	 */
 	public function get_next_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'next' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
-		$next_position    = $current_position + 1;
-
-		$args    = array(
-			'posts_per_page' => 1,
-			'post_type'      => 'lesson',
-			'nopaging'       => true,
-			'post_status'    => 'publish',
-			'meta_key'       => '_llms_order',
-			'meta_query'     => array(
-				'relation' => 'AND',
-				array(
-					'key'     => '_llms_parent_section',
-					'value'   => $parent_section,
-					'compare' => '=',
-				),
-				array(
-					'key'     => '_llms_order',
-					'value'   => $next_position,
-					'compare' => '>=',
-					'type'    => 'numeric',
-				),
-			),
-			'orderby'        => 'meta_value_num',
-			'order'          => 'ASC',
-		);
-		$lessons = get_posts( $args );
-
-		if ( empty( $lessons ) ) {
-			// See if there is another section after this section and get first lesson there.
-			$parent_course    = $this->get_parent_course();
-			$cursection       = new LLMS_Section( $this->get_parent_section() );
-			$current_position = $cursection->get_order();
-			$next_position    = $current_position + 1;
-
-			$args     = array(
-				'post_type'      => 'section',
-				'posts_per_page' => 500,
-				'meta_key'       => '_llms_order',
-				'order'          => 'ASC',
-				'orderby'        => 'meta_value_num',
-				'meta_query'     => array(
-					'relation' => 'AND',
-					array(
-						'key'     => '_llms_parent_course',
-						'value'   => $parent_course,
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_llms_order',
-						'value'   => $next_position,
-						'compare' => '=',
-					),
-				),
-			);
-			$sections = get_posts( $args );
-
-			if ( $sections ) {
-				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons    = $newsection->get_lessons( 'posts' );
-			}
-		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
-
-		return empty( $lessons ) ? false : $lessons[0]->ID;
 	}
 
 	/**
@@ -812,98 +774,196 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
-	 *              Use strict comparisions where needed.
+	 *              Use strict comparisons where needed.
 	 *              Make sure to always return `false` if no previous lesson is found.
-	 *              @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since 4.10.2 Refactor to use helper method `get_sibling()`.
 	 *
-	 * @return false|int ID of the previous lesson, if any, `false` otherwise.
+	 * @return false|int WP_Post ID of the previous lesson or `false` if one doesn't exist.
 	 */
 	public function get_previous_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'prev' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
+	}
 
-		$previous_position = $current_position - 1;
+	/**
+	 * Retrieve the sibling lesson in a specified direction
+	 *
+	 * @since 4.10.2
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling( $direction ) {
 
-		if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
+		$lesson = $this->get_sibling_lesson_query( $direction );
 
-			$args    = array(
+		// No lesson found within the section, look within the sibling section.
+		if ( ! $lesson ) {
+			$lesson = $this->get_sibling_section_query( $direction );
+		}
+
+		return $lesson;
+
+	}
+
+	/**
+	 * Performs a query to retrieve a sibling lesson in the specified direction
+	 *
+	 * This method tries to locate a sibling lesson in the next or previous position.
+	 *
+	 * It *does not* account for lessons in a sibling section. For example, if the lesson
+	 * is the last lesson in a section this function will *not* locate the first lesson
+	 * in the course's next section. For this reason this function should not be relied upon
+	 * alone.
+	 *
+	 * @since 4.10.2
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling_lesson_query( $direction ) {
+
+		$curr_position = $this->get( 'order' );
+
+		// First cannot have a previous.
+		if ( 1 === $curr_position && 'prev' === $direction ) {
+			return false;
+		}
+
+		if ( 'next' === $direction ) {
+			$sibling_position = $curr_position + 1;
+			$order            = 'ASC';
+			$comparator       = '>=';
+		} elseif ( 'prev' === $direction ) {
+			$sibling_position = $curr_position - 1;
+			$order            = 'DESC';
+			$comparator       = '<=';
+		}
+
+		$args = array(
+			'posts_per_page' => 1,
+			'post_type'      => 'lesson',
+			'nopaging'       => true,
+			'post_status'    => 'publish',
+			'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'        => 'meta_value_num',
+			'order'          => $order,
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				'relation' => 'AND',
+				array(
+					'key'     => '_llms_parent_section',
+					'value'   => $this->get_parent_section(),
+					'compare' => '=',
+				),
+				array(
+					'key'     => '_llms_order',
+					'value'   => $sibling_position,
+					'compare' => $comparator,
+					'type'    => 'numeric',
+				),
+			),
+		);
+
+		/**
+		 * Filter the WP_Query arguments used to locate a sibling lesson for the specified lesson.
+		 *
+		 * @since 4.10.2
+		 *
+		 * @param array       $args      WP_Query arguments array.
+		 * @param string      $direction Navigation direction. Either "prev" or "next".
+		 * @param LLMS_Lesson $lesson    Current lesson object.
+		 */
+		$args = apply_filters( 'llms_lesson_get_sibling_lesson_query_args', $args, $direction );
+
+		$lessons = get_posts( $args );
+
+		return empty( $lessons ) ? false : $lessons[0]->ID;
+
+	}
+
+	/**
+	 * Performs a query to retrieve sibling lessons from the lesson's adjacent section
+	 *
+	 * This will retrieve either the first lesson from the course's next section or the last
+	 * lesson from the course's previous section.
+	 *
+	 * @since 4.10.2
+	 * @since 4.11.0 Fix PHP Notice when trying to retrieve next lesson from an empty section.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Section::get_order()` method with `LLMS_Section::get( 'order' )`.
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling_section_query( $direction ) {
+
+		$sibling_lesson = false;
+		$curr_section   = $this->get_section();
+
+		// Ensure we're not working with an orphan.
+		if ( $curr_section ) {
+
+			$curr_position = $curr_section->get( 'order' );
+
+			// First cannot have a previous.
+			if ( 1 === $curr_position && 'prev' === $direction ) {
+				return false;
+			}
+
+			if ( 'next' === $direction ) {
+				$sibling_position = $curr_position + 1;
+				$order            = 'ASC';
+			} elseif ( 'prev' === $direction ) {
+				$sibling_position = $curr_position - 1;
+				$order            = 'DESC';
+			}
+
+			$args = array(
+				'post_type'      => 'section',
 				'posts_per_page' => 1,
-				'post_type'      => 'lesson',
 				'nopaging'       => true,
-				'post_status'    => 'publish',
-				'meta_key'       => '_llms_order',
-				'meta_query'     => array(
+				'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'orderby'        => 'meta_value_num',
+				'order'          => $order,
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
-						'key'     => '_llms_parent_section',
-						'value'   => $parent_section,
+						'key'     => '_llms_parent_course',
+						'value'   => $this->get( 'parent_course' ),
 						'compare' => '=',
 					),
 					array(
 						'key'     => '_llms_order',
-						'value'   => $previous_position,
-						'compare' => '<=',
-						'type'    => 'numeric',
+						'value'   => $sibling_position,
+						'compare' => '=',
 					),
 				),
-				'orderby'        => 'meta_value_num',
-				'order'          => 'DESC',
 			);
-			$lessons = get_posts( $args );
 
-		}
+			/**
+			 * Filter the WP_Query arguments used to locate a sibling lesson from a sibling section for the specified lesson.
+			 *
+			 * @since 4.10.2
+			 *
+			 * @param array       $args      WP_Query arguments array.
+			 * @param string      $direction Navigation direction. Either "prev" or "next".
+			 * @param LLMS_Lesson $lesson    Current lesson object.
+			 */
+			$args = apply_filters( 'llms_lesson_get_sibling_section_query_args', $args, $direction, $this );
 
-		// Either this lesson is the first lesson of its section or any previous section's lesson are not published.
-		if ( 0 === (int) $previous_position || ( isset( $lessons ) && empty( $lessons ) ) ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
+			$sections = get_posts( $args );
 
-			// See if there is a previous section.
-			$parent_course     = $this->get_parent_course();
-			$cursection        = new LLMS_Section( $this->get_parent_section() );
-			$current_position  = $cursection->get_order();
-			$previous_position = $current_position - 1;
-
-			if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
-				$args     = array(
-					'post_type'      => 'section',
-					'posts_per_page' => 500,
-					'meta_key'       => '_llms_order',
-					'order'          => 'ASC',
-					'orderby'        => 'meta_value_num',
-					'meta_query'     => array(
-						'relation' => 'AND',
-						array(
-							'key'     => '_llms_parent_course',
-							'value'   => $parent_course,
-							'compare' => '=',
-						),
-						array(
-							'key'     => '_llms_order',
-							'value'   => $previous_position,
-							'compare' => '=',
-						),
-					),
-				);
-				$sections = get_posts( $args );
-
-				if ( $sections ) {
-					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons    = $newsection->get_lessons( 'posts' );
-					if ( $lessons ) {
-						$lessons = array( $lessons[ count( $lessons ) - 1 ] );
-					}
-				}
+			if ( ! empty( $sections ) ) {
+				$sibling_section = llms_get_post( $sections[0]->ID );
+				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : array( false );
+				$sibling_lesson  = 'next' === $direction ? reset( $lessons ) : end( $lessons );
 			}
 		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 
-		return empty( $lessons ) ? false : $lessons[0]->ID;
+		return $sibling_lesson instanceof WP_Post ? $sibling_lesson->ID : $sibling_lesson;
+
 	}
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/llms-e2e-test-utils",
-  "version": "2.1.3",
+  "version": "4.0.1",
   "description": "E2E testing utilities for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -21,10 +21,19 @@
   },
   "main": "src/index.js",
   "dependencies": {
-    "@wordpress/e2e-test-utils": ">=4.1.0"
+    "@wordpress/e2e-test-utils": "^7.0.0",
+    "css-xpath": "^1.0.0",
+    "semver": "^7.3.5"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.21"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bb45d280205bf03c800934e9fb0bd66b3f1d795b"
+  "scripts": {
+    "docgen": "docgen src/index.js --output README.md --to-token",
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./ --config ../../.eslintrc.js"
+  }
 }

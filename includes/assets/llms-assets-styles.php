@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.4.4
+ * @version 7.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,28 +28,45 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.4.4 Added llms-admin-setup.
+ * @since 4.8.0 Added llms-admin-importer.
+ * @since 5.0.0 Added llms-select2.
+ * @since 5.5.0 Added llms-admin-add-ons.
+ * @since 7.4.0 Renamed llms-admin-setup to llms-admin-wizard.
  */
 return array(
 
 	// Core.
-	'lifterlms-styles' => array(
+	'lifterlms-styles'    => array(
 		'file_name' => 'lifterlms',
 	),
-	'certificates'     => array(),
+	'certificates'        => array(),
 
 	// Admin.
-	'llms-admin-setup' => array(
-		'file_name' => 'admin-setup',
+	'llms-admin-add-ons'  => array(
+		'file_name' => 'llms-admin-addons',
+		'suffix'    => '',
+	),
+	'llms-admin-wizard'   => array(
+		'file_name' => 'admin-wizard',
+	),
+	'llms-admin-importer' => array(
+		'file_name' => 'admin-importer',
 	),
 
 	// Vendor.
-	'llms-iziModal'    => array(
+	'llms-iziModal'       => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
 		'rtl'       => false,
 	),
-	'webui-popover'    => array(
+	'llms-select2-styles' => array(
+		'file_name' => 'select2',
+		'path'      => 'assets/vendor/select2/css',
+		'version'   => '4.0.3',
+		'rtl'       => false,
+	),
+	'webui-popover'       => array(
 		'file_name' => 'jquery.webui-popover',
 		'path'      => 'assets/vendor/webui-popover',
 		'version'   => '1.2.15',

@@ -1,17 +1,23 @@
 <?php
 /**
- * Recurring Payment Source Switching
- * Included on single order view pages via Student Dashboard
+ * User form used to switch the payment source for recurring payment orders.
+ *
+ * Included on single order view pages via Student Dashboard.
  *
  * @package LifterLMS/Templates
  *
  * @since 3.10.0
- * @version 3.19.0
+ * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
+ * @since 7.5.0 Pass the `LLMS_Order` instance to the form-gateways template.
+ * @version 7.0.0
+ *
+ * @var string     $confirm The ID of the payment gateway when confirming a switch.
+ * @var LLMS_Order $order   The order object.
  */
 defined( 'ABSPATH' ) || exit;
 
 $status  = $order->get( 'status' );
-$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
+$gateway = llms()->payment_gateways()->get_gateway_by_id( $confirm );
 $plan    = llms_get_post( $order->get( 'plan_id' ) );
 if ( ! $plan ) {
 	return;
@@ -49,9 +55,10 @@ if ( 'llms-active' === $status ) {
 			llms_get_template(
 				'checkout/form-gateways.php',
 				array(
-					'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+					'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
 					'selected_gateway' => $order->get( 'payment_gateway' ),
-					'plan'             => $plan,
+					'plan'             => null,
+					'order'            => $order,
 				)
 			);
 			?>
@@ -87,7 +94,7 @@ if ( 'llms-active' === $status ) {
 
 		<?php wp_nonce_field( 'llms_switch_order_source', '_switch_source_nonce' ); ?>
 		<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
-		<input name="llms_switch_action" type="hidden" value="<?php echo in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ? 'switch' : 'pay'; ?>">
+		<input name="llms_switch_action" type="hidden" value="<?php echo $order->get_switch_source_action(); ?>">
 
 		<?php
 		llms_form_field(

@@ -5,13 +5,15 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Course_Options class
+ * LLMS_Meta_Box_Course_Options class.
+ *
+ * Course Options meta box.
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -39,6 +41,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since 7.1.3 Fixed condition for unsetting fields when using Gutenberg.
+	 *              Replaced outdated URLs to WordPress' documentation about the list of sites you can embed from.
+	 * @since 7.1.4 Fixed issue that prevented the correct saving of the course length when using the block editor.
+	 * @since 7.2.0 Add function exists check for `llms_blocks_is_post_migrated`.
 	 *
 	 * @return array
 	 */
@@ -150,7 +156,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'video_embed',
 						'class' => 'code input-full',
 					),
@@ -165,7 +171,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Audio', 'lifterlms' ),
-						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">WordPress oEmbeds</a>' ),
+						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
 					),
@@ -322,7 +328,51 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Choose Prerequisite Course Track', 'lifterlms' ),
 						'value'            => $course_tracks,
 					),
-
+					array(
+						'type'          => 'checkbox',
+						'label'         => __( 'Enable Lesson Drip', 'lifterlms' ),
+						'desc'          => __( 'Set global drip restrictions so lesson content becomes available at an interval you define for the course.', 'lifterlms' ),
+						'id'            => $this->prefix . 'lesson_drip',
+						'is_controller' => true,
+						'value'         => 'yes',
+						'class'         => '',
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+					),
+					array(
+						'class'            => 'llms-select2',
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
+						'is_controller'    => true,
+						'type'             => 'select',
+						'id'               => $this->prefix . 'drip_method',
+						'label'            => __( 'Drip Method', 'lifterlms' ),
+						'value'            => array(
+							array(
+								'key' => 'start',
+								'title' => __( 'After course start or enrollment', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
+						'class'            => 'input-full',
+						'id'               => $this->prefix . 'ignore_lessons',
+						'label'            => __( 'Number of lessons to make immediately available on course start', 'lifterlms' ),
+						'type'             => 'number',
+						'step'             => 1,
+						'min'              => 1,
+					),
+					array(
+						'controller'       => '#' . $this->prefix . 'lesson_drip',
+						'controller_value' => 'yes',
+						'class'            => 'input-full',
+						'id'               => $this->prefix . 'days_before_available',
+						'label'            => __( 'Delay (in days) ', 'lifterlms' ),
+						'type'             => 'number',
+						'step'             => 1,
+						'min'              => 1,
+					),
 					array(
 						'is_controller' => true,
 						'type'          => 'checkbox',
@@ -356,7 +406,19 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+		$current_screen = get_current_screen();
+		$is_gutenberg   = is_object( $current_screen ) && method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor();
+
+		/**
+		 * Remove length and difficulty fields if
+		 * - the course is a new post and the editor is Gutenberg.
+		 * or
+		 * - the course is migrated to blocks used in the Gutenberg editor.
+		 */
+		if (
+			( $is_gutenberg && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
+			function_exists( 'llms_blocks_is_post_migrated' ) && llms_blocks_is_post_migrated( $this->post->ID )
+		) {
 			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
@@ -371,9 +433,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.26.3 Only save when using the classic editor.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param    int $post_id  WP Post ID of the course
-	 * @return   void
+	 * @param int $post_id  WP Post ID of the course
+	 * @return void
 	 */
 	protected function save_before( $post_id ) {
 
@@ -383,7 +446,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
 
-			wp_set_object_terms( $post_id, llms_filter_input( INPUT_POST, '_llms_post_course_difficulty', FILTER_SANITIZE_STRING ), 'course_difficulty', false );
+			wp_set_object_terms( $post_id, llms_filter_input_sanitize_string( INPUT_POST, '_llms_post_course_difficulty' ), 'course_difficulty', false );
 			unset( $_POST['_llms_post_course_difficulty'] ); // Don't save this to the postmeta table.
 
 		}

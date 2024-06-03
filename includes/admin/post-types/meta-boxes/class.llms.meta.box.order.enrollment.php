@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 4.2.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,15 +16,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status on save.
  * @since 4.2.0 In ` save_delete_enrollment()` removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
- *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
- *                Also, add order note about the enrollment deletion only if it actually occurred.
+ *              @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
+ *              Also, add order note about the enrollment deletion only if it actually occurred.
  */
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
 	 *
-	 * @since  3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
 	 *
-	 * @since  3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array
 	 */
@@ -52,7 +52,8 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Function to field WP::output() method call.
+	 * Function to field WP::output() method call
+	 *
 	 * Passes output instruction to parent.
 	 *
 	 * @since 3.0.0
@@ -66,15 +67,23 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) {
 			_e( 'Cannot manage enrollment status for anonymized orders.', 'lifterlms' );
-			return '';
+			return;
 		}
 
-		if ( $order->get( 'user_id' ) ) {
-			$student        = llms_get_student( $order->get( 'user_id' ) );
-			$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
-		} else {
-			$current_status = '';
+		$student_id = $order->get( 'user_id' );
+		if ( ! $student_id ) {// No user id, nothing to show.
+			return;
 		}
+
+		$student = llms_get_student( $student_id );
+
+		// No student, show a message.
+		if ( empty( $student ) ) {
+			_e( "The student who placed the order doesn't exist anymore.", 'lifterlms' );
+			return;
+		}
+
+		$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
 
 		$select  = '<select name="llms_student_new_enrollment_status">';
 		$select .= '<option value="">-- ' . esc_html__( 'Select', 'lifterlms' ) . ' --</option>';
@@ -88,17 +97,15 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		printf( _x( 'Status: %s', 'enrollment status', 'lifterlms' ), $select );
 		echo '</p>';
 
-		if ( $student ) {
-			echo '<p>';
-			printf( _x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) );
-			echo '</p>';
-			echo '<p>';
-			printf( _x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) );
-			echo '</p>';
-			echo '<p>';
-			printf( _x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_trigger( $order->get( 'product_id' ) ) );
-			echo '</p>';
-		}
+		echo '<p>';
+		printf( _x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) );
+		echo '</p>';
+		echo '<p>';
+		printf( _x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) );
+		echo '</p>';
+		echo '<p>';
+		printf( _x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_trigger( $order->get( 'product_id' ) ) );
+		echo '</p>';
 
 		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
 
@@ -110,22 +117,23 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save method.
+	 * Save method
 	 *
 	 * @since 3.0.0
 	 * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
 	 */
 	public function save( $post_id ) {
 
-		$update = llms_filter_input( INPUT_POST, 'llms_update_enrollment_status', FILTER_SANITIZE_STRING );
+		$update = llms_filter_input( INPUT_POST, 'llms_update_enrollment_status' );
 		if ( ! empty( $update ) ) {
 			$this->save_update_enrollment( $post_id );
 		}
 
-		$delete = llms_filter_input( INPUT_POST, 'llms_delete_enrollment_status', FILTER_SANITIZE_STRING );
+		$delete = llms_filter_input( INPUT_POST, 'llms_delete_enrollment_status' );
 		if ( ! empty( $delete ) ) {
 			$this->save_delete_enrollment( $post_id );
 		}
@@ -137,8 +145,8 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.33.0
 	 * @since 4.2.0 Removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
-	 *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
-	 *                Also, add order note about the enrollment deletion only if it actually occurred.
+	 *              @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
+	 *              Also, add order note about the enrollment deletion only if it actually occurred.
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void
@@ -164,14 +172,15 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Update enrollment data based on posted values.
 	 *
 	 * @since 3.33.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void
 	 */
 	private function save_update_enrollment( $post_id ) {
 
-		$old_status = llms_filter_input( INPUT_POST, 'llms_student_old_enrollment_status', FILTER_SANITIZE_STRING );
-		$new_status = llms_filter_input( INPUT_POST, 'llms_student_new_enrollment_status', FILTER_SANITIZE_STRING );
+		$old_status = llms_filter_input_sanitize_string( INPUT_POST, 'llms_student_old_enrollment_status' );
+		$new_status = llms_filter_input_sanitize_string( INPUT_POST, 'llms_student_new_enrollment_status' );
 
 		if ( ! $new_status || $old_status === $new_status ) {
 			return;

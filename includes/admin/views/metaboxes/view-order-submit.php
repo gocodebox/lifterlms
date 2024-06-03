@@ -1,18 +1,20 @@
 <?php
 /**
- * View for the LLMS_Meta_Box_Order_Submit metabox
+ * View for the LLMS_Meta_Box_Order_Submit metabox.
  *
- * @since     3.19.0
- * @version   3.19.0
+ * @since 3.19.0
+ * @since 5.4.0 The order status dropdown is now limited to a subset of possible status.
+ * @version 7.0.0
  *
- * @property  obj  $this   LLMS_Meta_Box_Order_Submit instance
- * @property  obj  $order  LLMS_Order instance
+ * @property LLMS_Meta_Box_Order_Submit $this  LLMS_Meta_Box_Order_Submit instance.
+ * @property LLMS_Order                 $order LLMS_Order instance.
  */
 defined( 'ABSPATH' ) || exit;
 
-$current_status = $order->get( 'status' );
-$date_format    = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-$statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
+$current_status                     = $order->get( 'status' );
+$date_format                        = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+$statuses                           = llms_get_possible_order_statuses( $order );
+$supports_modify_recurring_payments = $order->supports_modify_recurring_payments();
 ?>
 
 <div class="llms-metabox">
@@ -40,15 +42,19 @@ $statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' 
 			<?php if ( $order->has_trial() ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php _e( 'Trial End Date', 'lifterlms' ); ?>:</label>
-					<span
-						id="llms-editable-trial-end-date"
-						data-llms-editable="_llms_date_trial_end"
-						data-llms-editable-date-format="yy-mm-dd"
-						data-llms-editable-date-min="<?php echo $order->get_date( 'date', 'Y-m-d' ); ?>"
-						data-llms-editable-type="datetime"
-						data-llms-editable-value='<?php echo $this->get_editable_date_json( $order->get_trial_end_date( 'U' ) ); ?>'><?php echo $order->get_trial_end_date( $date_format ); ?></span>
-					<?php if ( ! $order->has_trial_ended() ) : ?>
-						<a class="llms-editable" data-fields="#llms-editable-trial-end-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+					<?php if ( $supports_modify_recurring_payments ) : ?>
+						<span
+							id="llms-editable-trial-end-date"
+							data-llms-editable="_llms_date_trial_end"
+							data-llms-editable-date-format="yy-mm-dd"
+							data-llms-editable-date-min="<?php echo $order->get_date( 'date', 'Y-m-d' ); ?>"
+							data-llms-editable-type="datetime"
+							data-llms-editable-value='<?php echo $this->get_editable_date_json( $order->get_trial_end_date( 'U' ) ); ?>'><?php echo $order->get_trial_end_date( $date_format ); ?></span>
+						<?php if ( ! $order->has_trial_ended() ) : ?>
+							<a class="llms-editable" data-fields="#llms-editable-trial-end-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+						<?php endif; ?>
+					<?php else : ?>
+						<span id="llms-trial-end-date"><?php echo $order->get_trial_end_date( $date_format ); ?></span>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
@@ -58,7 +64,7 @@ $statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' 
 				<label><?php _e( 'Next Payment Date', 'lifterlms' ); ?>:</label>
 				<?php if ( is_wp_error( $next_time ) ) : ?>
 					<?php echo $next_time->get_error_message(); ?>
-				<?php else : ?>
+				<?php elseif ( $supports_modify_recurring_payments ) : ?>
 					<span
 						id="llms-editable-next-payment-date"
 						data-llms-editable="_llms_date_next_payment"
@@ -67,6 +73,8 @@ $statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' 
 						data-llms-editable-type="datetime"
 						data-llms-editable-value='<?php echo $this->get_editable_date_json( $next_time ); ?>'><?php echo date_i18n( $date_format, $next_time ); ?></span>
 					<a class="llms-editable" data-fields="#llms-editable-next-payment-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+				<?php else : ?>
+					<span id="llms-next-payment-date"><?php echo date_i18n( $date_format, $next_time ); ?></span>
 				<?php endif; ?>
 			</div>
 			<?php endif; ?>

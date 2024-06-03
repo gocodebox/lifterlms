@@ -2,21 +2,37 @@
 /**
  * List of attempt questions/answers for a single attempt
  *
- * @since    3.16.0
- * @version  3.17.8
- * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
+ * @since 3.16.0
+ * @since 3.17.8 Unknown.
+ * @since 5.3.0 Display removed questions too.
+ * @since 7.3.0 Script moved into the main llms.js.
+ * @version 7.3.0
+ *
+ * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
+
 ?>
 
 <ol class="llms-quiz-attempt-results">
 <?php
 foreach ( $attempt->get_question_objects() as $attempt_question ) :
 	$quiz_question = $attempt_question->get_question();
-	if ( ! $quiz_question ) {
+	if ( ! $quiz_question ) { // Question missing/deleted.
+		?>
+		<li class="llms-quiz-attempt-question type--removed status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>">
+			<header class="llms-quiz-attempt-question-header">
+				<span class="toggle-answer">
+					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
+					<span class="llms-points">
+						<?php printf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
+					</span>
+					<?php echo $attempt_question->get_status_icon(); ?>
+				</span>
+			</header>
+		</li>
+		<?php
 		continue;
 	}
 	?>
@@ -88,23 +104,3 @@ foreach ( $attempt->get_question_objects() as $attempt_question ) :
 	</li>
 <?php endforeach; ?>
 </ol>
-
-<script>
-( function( $ ) {
-	$( '.llms-quiz-attempt-question-header .toggle-answer' ).on( 'click', function( e ) {
-
-		e.preventDefault();
-
-		var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
-
-		$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
-
-		if ( $curr.is( ':visible' ) ) {
-			$curr.slideUp( 200 );
-		}  else {
-			$curr.slideDown( 200 );
-		}
-
-	} );
-} )( jQuery );
-</script>

@@ -5,18 +5,20 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.37.10
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Determine if content should be restricted.
+ *
  * Called during "template_include" to determine if redirects
  * or template overrides are in order.
  *
  * @since 1.0.0
  * @since 3.16.11 Unknown.
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
  *
  * @param int      $post_id WordPress Post ID of the content.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -66,7 +68,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		if ( $lesson->is_free() ) {
 			return $results;
 		} else {
-			$restriction_id = $lesson->get_parent_course();
+			$restriction_id = $lesson->get( 'parent_course' );
 			$reason         = 'enrollment_lesson';
 		}
 	} elseif ( is_singular() && 'course' === $post_type ) {
@@ -310,6 +312,8 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.11 Unknown.
  * @since 3.37.10 Use strict comparison '===' in place of '=='.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
+ *                Bypass drip content restriction on already completed lessons.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -320,27 +324,37 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
-	// if we're on a lesson, lesson id is the post id.
-	if ( 'lesson' === $post_type ) {
-		$lesson_id = $post_id;
-	} elseif ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
+	switch ( $post_type ) {
+		// If we're on a lesson, lesson id is the post id.
+		case 'lesson':
+			$lesson_id = $post_id;
+			break;
+		case 'llms_quiz':
+			$quiz      = llms_get_post( $post_id );
+			$lesson_id = $quiz->get( 'lesson_id' );
+			if ( ! $lesson_id ) {
+				return false;
+			}
+			break;
+		default: // Don't pass other post types.
 			return false;
-		}
-	} else {
-		// dont pass other post types in here dumb dumb.
-		return false;
 	}
 
-	$lesson = new LLMS_Lesson( $lesson_id );
+	$lesson  = new LLMS_Lesson( $lesson_id );
+	$user_id = $user_id ?? get_current_user_id();
+	/**
+	 * Filters whether or not to bypass drip restrictions on completed lessons.
+	 *
+	 * @since 6.5.0
+	 *
+	 * @param boolean $drip_bypass Whether or not to bypass drip restrictions on completed lessons.
+	 * @param int     $post_id     WP Post ID of a lesson or quiz potentially restricted by drip settings.
+	 * @param int     $user_id     WP User ID.
+	 */
+	$drip_bypass  = apply_filters( 'llms_lesson_drip_bypass_if_completed', true, $post_id, $user_id );
+	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
-	if ( $lesson->is_available() ) {
-		return false;
-	} else {
-		return $lesson_id;
-	}
+	return $is_available ? false : $lesson_id;
 
 }
 
@@ -349,6 +363,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -363,16 +378,20 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
-	if ( 'lesson' === $post_type ) {
-		$lesson_id = $post_id;
-	} elseif ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
+	switch ( $post_type ) {
+		// If we're on a lesson, lesson id is the post id.
+		case 'lesson':
+			$lesson_id = $post_id;
+			break;
+		case 'llms_quiz':
+			$quiz      = llms_get_post( $post_id );
+			$lesson_id = $quiz->get( 'lesson_id' );
+			if ( ! $lesson_id ) {
+				return false;
+			}
+			break;
+		default: // Don't pass other post types.
 			return false;
-		}
-	} else {
-		return false;
 	}
 
 	$lesson = llms_get_post( $lesson_id );
@@ -382,7 +401,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 		return false;
 	}
 
-	// get an array of all possible prereqs.
+	// Get an array of all possible prerequisites.
 	$prerequisites = array();
 
 	if ( $course->has_prerequisite( 'course' ) ) {
@@ -406,12 +425,12 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 		);
 	}
 
-	// prereqs exist and user is not logged in, return the first prereq id.
+	// Prerequisites exist and user is not logged in, return the first prereq id.
 	if ( $prerequisites && ! $user_id ) {
 
 		return array_shift( $prerequisites );
 
-		// if incomplete, send the prereq id.
+		// If incomplete, send the prereq id.
 	} else {
 
 		$student = new LLMS_Student( $user_id );
@@ -422,8 +441,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 		}
 	}
 
-	// otherwise return false.
-	// no prereq.
+	// Otherwise return false: no prerequisite.
 	return false;
 
 }
@@ -433,6 +451,8 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
  *
  * @param int      $post_id WP Post ID of a course, lesson, or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -443,40 +463,34 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
-	// if we're on a lesson, get course information.
-	if ( 'lesson' === $post_type ) {
-
-		$lesson    = new LLMS_Lesson( $post_id );
-		$course_id = $lesson->get_parent_course();
-
-	} elseif ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
+	switch ( $post_type ) {
+		// If we're on a lesson, get course information.
+		case 'lesson':
+			$lesson    = new LLMS_Lesson( $post_id );
+			$course_id = $lesson->get( 'parent_course' );
+			break;
+		case 'llms_quiz':
+			$quiz      = llms_get_post( $post_id );
+			$lesson_id = $quiz->get( 'lesson_id' );
+			if ( ! $lesson_id ) {
+				return false;
+			}
+			$lesson = llms_get_post( $lesson_id );
+			if ( ! $lesson_id ) {
+				return false;
+			}
+			$course_id = $lesson->get( 'parent_course' );
+			break;
+		case 'course':
+			$course_id = $post_id;
+			break;
+		default: // Don't pass other post types.
 			return false;
-		}
-		$lesson = llms_get_post( $lesson_id );
-		if ( ! $lesson_id ) {
-			return false;
-		}
-		$course_id = $lesson->get_parent_course();
-
-	} elseif ( 'course' === $post_type ) {
-
-		$course_id = $post_id;
-
-	} else {
-
-		return false;
-
 	}
 
 	$course = new LLMS_Course( $course_id );
-	if ( $course->is_open() ) {
-		return false;
-	} else {
-		return $course_id;
-	}
+
+	return $course->is_open() ? false : $course_id;
 
 }
 
@@ -640,7 +654,7 @@ function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 	$quiz      = llms_get_post( $post_id );
 	$lesson_id = $quiz->get( 'lesson_id' );
 
-	// no lesson or the user is not enrolled.
+	// No lesson or the user is not enrolled.
 	if ( ! $lesson_id || ! llms_is_user_enrolled( $user_id, $lesson_id ) ) {
 		return $post_id;
 	}

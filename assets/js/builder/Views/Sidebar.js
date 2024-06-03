@@ -1,19 +1,20 @@
 /**
  * Main sidebar view
- * @since    3.16.0
- * @version  3.16.7
+ *
+ * @since 3.16.0
+ * @version 7.2.0
  */
 define( [
-		'Views/Editor',
-		'Views/Elements',
-		'Views/Utilities',
-		'Views/_Subview'
-	], function(
-		Editor,
-		Elements,
-		Utilities,
-		Subview
-	) {
+	'Views/Editor',
+	'Views/Elements',
+	'Views/Utilities',
+	'Views/_Subview'
+], function(
+	Editor,
+	Elements,
+	Utilities,
+	Subview
+) {
 
 	return Backbone.View.extend( _.defaults( {
 

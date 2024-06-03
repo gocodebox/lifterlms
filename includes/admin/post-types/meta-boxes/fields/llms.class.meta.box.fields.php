@@ -1,50 +1,57 @@
 <?php
 /**
- * Abstract Metabox_Field
+ * Abstract Metabox_Field.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
- * @since ??
- * @version 3.24.0
+ * @since unknown
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox_Field parent class
+ * Metabox_Field parent class.
  *
  * Contains base code for each of the Metabox Fields.
  *
- * @since ??
+ * @since unknown
  * @since 3.24.0 Unknown.
  */
 abstract class LLMS_Metabox_Field {
 
 	/**
-	 * Global array used in class instance to store field information
+	 * Global array used in class instance to store field information.
 	 *
 	 * @var array
 	 */
 	public $field;
 
 	/**
-	 * Global variable to contain meta information about $field
+	 * Global variable to contain meta information about $field.
 	 *
 	 * @var object
 	 */
 	public $meta;
 
 	/**
-	 * outputs the head for each of the field types
+	 * Outputs the head for each of the field types.
 	 *
-	 * @todo  all the unset variables here should be defaulted somewhere else probably
-	 * @since    ??
-	 * @version  3.11.0
+	 * @todo All the unset variables here should be defaulted somewhere else probably.
+	 *
+	 * @since unknown
+	 * @since 3.11.0 Unknown.
+	 * @since 6.0.0 Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
+	 *               Avoid retrieving the meta from the db if passed.
+	 * @return void
 	 */
 	public function output() {
 
 		global $post;
-		if ( ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) || 'auto-draft' === $post->post_status ) && ! empty( $this->field['default'] ) ) {
+
+		if ( isset( $this->field['meta'] ) ) {
+			$this->meta = $this->field['meta'];
+		} elseif ( ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) || 'auto-draft' === $post->post_status ) && ! empty( $this->field['default'] ) ) {
 			$this->meta = $this->field['default'];
 		} else {
 			$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );
@@ -72,8 +79,11 @@ abstract class LLMS_Metabox_Field {
 
 		?>
 		<li class="<?php echo implode( ' ', $wrapper_classes ); ?>"<?php echo $controller . $controller_value; ?>>
+		<?php if ( ! empty( $this->field['desc'] ) || ! empty( $this->field['label'] ) ) : ?>
 			<div class="description <?php echo $this->field['desc_class']; ?>">
+			<?php if ( ! empty( $this->field['label'] ) ) : ?>
 				<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
+			<?php endif; ?>
 				<?php echo $this->field['desc']; ?>
 				<?php
 				if ( isset( $this->field['required'] ) && $this->field['required'] ) :
@@ -81,10 +91,16 @@ abstract class LLMS_Metabox_Field {
 					<em>(required)</em><?php endif; ?>
 			</div>
 			<?php
+			endif;
+
 	}
 
 	/**
-	 * outputs the tail for each of the field types
+	 * Outputs the tail for each of the field types.
+	 *
+	 * @since unknown.
+	 *
+	 * @return void
 	 */
 	public function close_output() {
 
@@ -93,13 +109,14 @@ abstract class LLMS_Metabox_Field {
 	}
 
 	/**
-	 * Set the default meta value of a field
+	 * Set the default meta value of a field.
 	 *
-	 * @param    int    $post_id   WP Post ID
-	 * @param    string $field_id  ID/name of the field
-	 * @return   mixed
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param int    $post_id  WP Post ID.
+	 * @param string $field_id ID/name of the field.
+	 * @return mixed
 	 */
 	public static function get_post_meta( $post_id, $field_id ) {
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version 4.0.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,43 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Page_Status {
 
 	/**
+	 * Register "unclassed" core tools
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param array[] $tools List of tool definitions.
+	 * @return array[]
+	 */
+	public static function add_core_tools( $tools ) {
+
+		return array_merge(
+			$tools,
+			array(
+
+				'reset-tracking' => array(
+					'description' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
+					'label'       => __( 'Reset Tracking Settings', 'lifterlms' ),
+					'text'        => __( 'Reset Tracking Settings', 'lifterlms' ),
+				),
+
+				'clear-cache'    => array(
+					'description' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
+					'label'       => __( 'Student Progress Cache', 'lifterlms' ),
+					'text'        => __( 'Clear cache', 'lifterlms' ),
+				),
+
+				'setup-wizard'   => array(
+					'description' => __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ),
+					'label'       => __( 'Setup Wizard', 'lifterlms' ),
+					'text'        => __( 'Return to Setup Wizard', 'lifterlms' ),
+				),
+
+			)
+		);
+
+	}
+
+	/**
 	 * Handle tools actions
 	 *
 	 * @since 3.11.2
@@ -31,6 +68,8 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.37.14 Verify user capabilities when doing a tool action.
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
+	 * @since 4.13.0 The `automatic-payments` tool has been moved to `LLMS_Admin_Tool_Reset_Automatic_Payments`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -40,23 +79,20 @@ class LLMS_Admin_Page_Status {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
-		$tool = llms_filter_input( INPUT_POST, 'llms_tool', FILTER_SANITIZE_STRING );
+		$tool = llms_filter_input_sanitize_string( INPUT_POST, 'llms_tool' );
 
 		/**
 		 * Custom and 3rd party tools can use this action to perform the tool's action
 		 *
 		 * @since Unknown
 		 *
+		 * @see llms_status_tools For the filter used to register tools.
+		 *
 		 * @param string $tool Tool name or ID.
 		 */
 		do_action( 'llms_status_tool', $tool );
 
 		switch ( $tool ) {
-
-			case 'automatic-payments':
-				LLMS_Site::clear_lock_url();
-				update_option( 'llms_site_url_ignore', 'no' );
-				break;
 
 			case 'clear-cache':
 				global $wpdb;
@@ -71,7 +107,7 @@ class LLMS_Admin_Page_Status {
 				break;
 
 			case 'setup-wizard':
-				llms_redirect_and_exit( esc_url_raw( admin_url( '?page=llms-setup' ) ) );
+				llms_redirect_and_exit( esc_url_raw( admin_url( 'admin.php?page=llms-setup' ) ) );
 				break;
 
 		}
@@ -156,6 +192,8 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Use strict comparators.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -171,12 +209,12 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
+		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
 		?>
 
-		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
+		<div class="wrap lifterlms llms-status llms-status--<?php echo esc_attr( $current_tab ); ?>">
 
-			<nav class="llms-nav-tab-wrapper">
+			<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 				<ul class="llms-nav-items">
 				<?php
 				foreach ( $tabs as $name => $label ) :
@@ -203,14 +241,12 @@ class LLMS_Admin_Page_Status {
 					break;
 
 				case 'report':
-					include_once 'class.llms.admin.system-report.php';
 					LLMS_Admin_System_Report::output();
 					break;
 
 				case 'tools':
 					self::output_tools_content();
 					break;
-
 			}
 
 			do_action( 'llms_after_admin_page_status', $current_tab );
@@ -257,6 +293,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
 	 * @since 3.33.2 Fix undefined variable notice.
 	 * @since 3.37.14 Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -265,7 +302,7 @@ class LLMS_Admin_Page_Status {
 		$logs        = self::get_logs();
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		$current = sanitize_title( llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING ) );
+		$current = sanitize_title( llms_filter_input_sanitize_string( INPUT_POST, 'llms_log_file' ) );
 
 		if ( $logs && ! $current ) {
 			$log_keys = array_keys( $logs );
@@ -298,59 +335,57 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
+	 * @since 4.13.0 Move "unclassed" core actions to be added to the `llms_status_tools` filter at priority 5 via `LLMS_Admin_Page_Status::add_core_tools()`.
 	 *
 	 * @return void
 	 */
 	private static function output_tools_content() {
 
-		$tools = apply_filters(
-			'llms_status_tools',
-			array(
+		// Load unclassed core tools at priority 5 to "preserve" their original order before we started classing tools.
+		add_filter( 'llms_status_tools', array( __CLASS__, 'add_core_tools' ), 5 );
 
-				'automatic-payments' => array(
-					'description' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
-					'label'       => __( 'Automatic Payments', 'lifterlms' ),
-					'text'        => __( 'Reset Automatic Payments', 'lifterlms' ),
-				),
-
-				'reset-tracking'     => array(
-					'description' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
-					'label'       => __( 'Reset Tracking Settings', 'lifterlms' ),
-					'text'        => __( 'Reset Tracking Settings', 'lifterlms' ),
-				),
-
-				'clear-cache'        => array(
-					'description' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
-					'label'       => __( 'Student Progress Cache', 'lifterlms' ),
-					'text'        => __( 'Clear cache', 'lifterlms' ),
-				),
-
-				'setup-wizard'       => array(
-					'description' => __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ),
-					'label'       => __( 'Setup Wizard', 'lifterlms' ),
-					'text'        => __( 'Return to Setup Wizard', 'lifterlms' ),
-				),
-
-			)
-		);
+		/**
+		 * Register tools with the LifterLMS core
+		 *
+		 * When registering a custom tool you should additionally have an action triggered for the tool using the action
+		 * `llms_status_tool` which will be called to process or handle the action.
+		 *
+		 * @since Unknown
+		 *
+		 * @see llms_status_tool For the action called to handle a tool.
+		 *
+		 * @param array[] $tools {
+		 *     Associative array of status tool definitions.
+		 *
+		 *     The array key is a unique "id" for the tool and the array value should be an associative array
+		 *     as described below:
+		 *
+		 *     @type string $description Description of what the tool does.
+		 *     @type string $label       The title of the tool.
+		 *     @type string $text        The text displayed on the tool's button.
+		 * }
+		 */
+		$tools = apply_filters( 'llms_status_tools', array() );
 
 		?>
 		<form action="<?php echo esc_url( self::get_url( 'tools' ) ); ?>" method="POST">
-			<table class="llms-table text-left zebra">
-			<?php foreach ( $tools as $slug => $data ) : ?>
-				<tr>
-					<th><?php echo $data['label']; ?></th>
-					<td>
-						<p><?php echo $data['description']; ?></p>
-						<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo $slug; ?>"><?php echo $data['text']; ?></button>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-			</table>
-			<?php wp_nonce_field( 'llms_tool' ); ?>
+			<div class="llms-setting-group top">
+				<p class="llms-label"><?php esc_html_e( 'Tools & Utilities', 'lifterlms' ); ?></p>
+				<table class="llms-table text-left zebra">
+				<?php foreach ( $tools as $slug => $data ) : ?>
+					<tr>
+						<th><?php echo $data['label']; ?></th>
+						<td>
+							<p><?php echo $data['description']; ?></p>
+							<button class="llms-button-secondary small" name="llms_tool" type="submit" value="<?php echo $slug; ?>"><?php echo $data['text']; ?></button>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+				</table>
+				<?php wp_nonce_field( 'llms_tool' ); ?>
+			</div>
 		</form>
 		<?php
 
 	}
-
 }

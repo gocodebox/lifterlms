@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.24.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,18 +14,19 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Data
  *
  * @since 3.0.0
- * @since 3.35.0 Sanitize `$_SERVER` data.
  */
 class LLMS_Data {
 
 	/**
 	 * Get the data data
 	 *
+	 * @since 3.0.0
+	 * @since 3.17.0 Added browser/os data section.
+	 * @since 4.13.0 Added constant data.
+	 *
 	 * @param string $dataset Dataset to retrieve data for [tracker|system_report].
 	 * @param string $format  Data return format (unused for unrecalled reasons).
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @return array
 	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
@@ -44,6 +45,11 @@ class LLMS_Data {
 
 		// Llms settings.
 		$data['settings'] = self::get_llms_settings();
+
+		if ( 'system_report' === $dataset ) {
+			// Constants.
+			$data['constants'] = self::get_constants_data();
+		}
 
 		// Gateways.
 		$data['gateways'] = self::get_gateway_data();
@@ -104,11 +110,38 @@ class LLMS_Data {
 	}
 
 	/**
+	 * Retrieve data about LifterLMS constants
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return array
+	 */
+	private static function get_constants_data() {
+
+		$data = array(
+			'LLMS_REMOVE_ALL_DATA'                 => 'undefined',
+			'LLMS_REST_DISABLE'                    => 'undefined',
+			'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' => 'undefined',
+			'LLMS_SITE_IS_CLONE'                   => 'undefined',
+		);
+
+		foreach ( $data as $constant => &$value ) {
+
+			if ( defined( $constant ) ) {
+				$value = constant( $constant ) ? 'true' : 'false';
+			}
+		}
+
+		return $data;
+
+	}
+
+	/**
 	 * Get student engagement counts for various llms interactions
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	private static function get_engagement_counts() {
 
@@ -130,10 +163,10 @@ class LLMS_Data {
 	 * Retrieve metadata from a file.
 	 * Copied from WCs get_file_version which is based on WP Core's get_file_data function.
 	 *
-	 * @param string $file  Path to the file.
-	 * @return   string
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @param string $file Path to the file.
+	 * @return string
 	 */
 	private static function get_file_version( $file ) {
 
@@ -166,15 +199,16 @@ class LLMS_Data {
 	/**
 	 * Get data about llms payment gateways
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @since 3.0.0
+	 * @since 3.17.8 Unknown.
+	 *
+	 * @return array
 	 */
 	private static function get_gateway_data() {
 
 		$data = array();
 
-		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $obj ) {
+		foreach ( llms()->payment_gateways()->get_payment_gateways() as $obj ) {
 
 			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
 
@@ -194,20 +228,19 @@ class LLMS_Data {
 	/**
 	 * Get data about existing llms integrations
 	 *
-	 * @todo integration settings unique to the integration should be included here
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @since 3.0.0
+	 * @since 3.17.8 Unknown.
+	 *
+	 * @return array
 	 */
 	private static function get_integrations_data() {
 
 		$data = array();
 
-		$integrations = LLMS()->integrations();
+		$integrations = llms()->integrations();
 
 		foreach ( $integrations->integrations() as $obj ) {
 
-			// @todo Upgrade this when integration abstract is finished.
 			if ( method_exists( $obj, 'is_available' ) ) {
 
 				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
@@ -222,15 +255,16 @@ class LLMS_Data {
 	/**
 	 * Get LifterLMS settings
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return array
 	 */
 	private static function get_llms_settings() {
 
 		$data = array();
 
-		$data['version']    = LLMS()->version;
+		$data['version']    = llms()->version;
 		$data['db_version'] = get_option( 'lifterlms_db_version' );
 
 		$data['course_catalog']     = self::get_page_data( 'lifterlms_shop_page_id' );
@@ -303,9 +337,9 @@ class LLMS_Data {
 	/**
 	 * Get number of orders per order status
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	private static function get_order_counts() {
 
@@ -324,13 +358,12 @@ class LLMS_Data {
 	}
 
 	/**
-	 * Get an option that should return a page ID
-	 * and return the page name and ID as a formatted string
+	 * Get an option that should return a page ID and return the page name and ID as a formatted string
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $option Option name in the wp_options table.
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @return string
 	 */
 	private static function get_page_data( $option ) {
 		$id = get_option( $option );
@@ -343,9 +376,9 @@ class LLMS_Data {
 	/**
 	 * get an array of plugin data, sorted into two arrays (active and inactive)
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	private static function get_plugin_data() {
 
@@ -378,9 +411,9 @@ class LLMS_Data {
 	/**
 	 * Retrieve the number of published posts for various LLMS post types
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	private static function get_post_type_counts() {
 
@@ -463,13 +496,13 @@ class LLMS_Data {
 	/**
 	 * Retrieve information about template overrides
 	 *
-	 * @return   array
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @return array
 	 */
 	private static function get_templates_data() {
 
-		$path = LLMS()->plugin_path() . '/templates/';
+		$path = llms()->plugin_path() . '/templates/';
 
 		$templates = array_merge( glob( $path . '*.php' ), glob( $path . '**/*.php' ) );
 
@@ -496,9 +529,10 @@ class LLMS_Data {
 	/**
 	 * Get an array of theme data
 	 *
+	 * @since 3.0.0
+	 * @since 3.11.2 Unknown.
+	 *
 	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.11.2
 	 */
 	private static function get_theme_data() {
 
@@ -519,9 +553,9 @@ class LLMS_Data {
 	/**
 	 * Det the number of users and users by role registered on the site
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	private static function get_user_counts() {
 
@@ -539,9 +573,10 @@ class LLMS_Data {
 	/**
 	 * Get some WP core settings and info
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return array
 	 */
 	private static function get_wp_data() {
 

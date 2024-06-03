@@ -5,22 +5,23 @@
 	background: #fff;
 	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
 	border-top: 4px solid $color-blue;
-	left: 12px;
 	opacity: 0;
 	padding: 12px;
 	position: fixed;
-	right: 12px;
+	right: -800px;
 	top: 24px;
 	transition:
 		opacity 0.4s ease-in-out,
 		right 0.4s ease-in-out,
 	;
-	visibility: none;
+	visibility: hidden;
 	width: auto;
 	z-index: 9999999;
 
 	&.visible {
+		left: 12px;
 		opacity: 1;
+		right: 12px;
 		transition:
 			opacity 0.4s ease-in-out,
 			right 0.4s ease-in-out,
@@ -67,18 +68,45 @@
 
 				.llms-mini-cert {
 					background: #f6f6f6;
-					border: 4px double #b0b0b0;
-					padding: 24px 8px;
+					border: 1px solid #d0d0d0;
+					box-shadow: inset 0 0 0 3px #fefefe, inset 0 0 0 4px #dedede;
+					padding: 16px 16px 24px;
+					margin-top: 12px;
 					.llms-mini-cert-title {
 						font-size: 16px;
 						font-weight: 700;
-						margin-bottom: 8px;
+						margin: 12px auto;
 						text-align: center;
 					}
-					p,li {
-						font-size: 14px;
-						&:last-child { margin-bottom: 0; }
+					.llms-mini-cert--body {
+						width: 100%;
+						> div {
+							&:nth-child(1) { width:65%; }
+							&:nth-child(2) { width:35%; }
+							&:nth-child(3) { width:85%; }
+							&:nth-child(4) { width:75%; margin-top: 18px; }
+							&:nth-child(5) { width:70%; }
+							&:nth-child(6) { margin-left: 12px; margin-bottom:-24px; } // Dot.
+							&:nth-child(7) { width:65%; margin-right: 12px; }
+						}
 					}
+					.llms-mini-cert--mock-line {
+						border-radius: 2px;
+						height: 8px;
+						background: #b0b0b0;
+						background-image: linear-gradient( to right, #b0b0b0 0%, #a0a0a0 20%, #b0b0b0 40%, #b0b0b0 100% );
+						background-repeat: no-repeat;
+						margin: 4px auto;
+					}
+					.llms-mini-cert--mock-dot {
+						background: #b0b0b0;
+						border-radius: 50%;
+						display: inline-block;
+						content: '';
+						height: 24px;
+						width: 24px;
+					}
+					p { margin-bottom: 0; }
 				}
 			}
 
@@ -164,10 +192,10 @@
 
 @media all and (min-width: 480px) {
 	.llms-notification {
-		left: auto;
 		right: -800px;
 		width: 360px;
 		&.visible {
+			left: auto;
 			right: 24px;
 		}
 		.llms-notification-dismiss {

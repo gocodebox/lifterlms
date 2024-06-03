@@ -5,13 +5,13 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.2.0
- * @version 3.37.7
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Table abstract class
+ * LLMS_Admin_Table abstract class.
  *
  * @since 3.2.0
  * @since 3.34.0 Added get_table_classes().
@@ -20,180 +20,178 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = '';
 
 	/**
-	 * When pagination is enabled, the current page
+	 * When pagination is enabled, the current page.
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $current_page = 1;
 
 	/**
-	 * Value of the field being filtered by
-	 * Only applicable if $filterby is set
+	 * Value of the field being filtered by.
 	 *
-	 * @var  string
+	 * @var string Only applicable if $filterby is set.
 	 */
 	protected $filter = '';
 
 	/**
-	 * Field results are filtered by
+	 * Field results are filtered by.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $filterby = '';
 
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_exportable = false;
 
 	/**
-	 * When pagination enabled, determines if this is the last page of results
+	 * When pagination enabled, determines if this is the last page of results.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_last_page = true;
 
 	/**
-	 * If true, tfoot will add ajax pagination links
+	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_paginated = false;
 
 	/**
-	 * Determine if the table is filterable
+	 * Determine if the table is filterable.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_filterable = false;
 
 	/**
-	 * If true will be a table with a larger font size
+	 * If true will be a table with a larger font size.
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $is_large = false;
 
 	/**
-	 * Determine of the table is searchable
+	 * Determine of the table is searchable.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_searchable = false;
 
 	/**
-	 * If true, tbody will be zebra striped
+	 * If true, tbody will be zebra striped.
 	 *
-	 * @var  boolean
+	 * @var bool
 	 */
 	protected $is_zebra = true;
 
 	/**
-	 * If an integer supplied, used to jump to last page
+	 * If an integer supplied, used to jump to last page.
 	 *
-	 * @var  int
+	 * @var int
 	 */
 	protected $max_pages = null;
 
 	/**
-	 * Results sort order
-	 * 'ASC' or 'DESC'
-	 * Only applicable of $orderby is not set
+	 * Results sort order.
 	 *
-	 * @var  string
+	 * @var string 'ASC' or 'DESC'.
+	 *             Only applicable of $orderby is not set.
 	 */
 	protected $order = '';
 
 	/**
-	 * Field results are sorted by
+	 * Field results are sorted by.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $orderby = '';
 
 	/**
-	 * Number of records to display per page
+	 * Number of records to display per page.
 	 *
 	 * @var int
 	 */
 	protected $per_page = -1;
 
 	/**
-	 * The search query submitted for a searchable table
+	 * The search query submitted for a searchable table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $search = '';
 
 	/**
-	 * Table Data
-	 * Array of objects or arrays
-	 * each item represents as row in the table's body, each item is a cell
+	 * Table Data.
 	 *
-	 * @var  array
+	 * @var array Array of objects or arrays.
+	 *            Each item represents as row in the table's body, each item is a cell.
 	 */
 	protected $tbody_data = array();
 
 	/**
-	 * Table Title Displayed on Screen
+	 * Table Title Displayed on Screen.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $title = '';
 
 	/**
-	 * Retrieve data for a cell
+	 * Retrieve data for a cell.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object / array of data that the function can use to extract the data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param string $key  The column ID/key.
+	 * @param mixed  $data Object/array of data that the function can use to extract the data.
+	 * @return mixed
 	 */
 	abstract protected function get_data( $key, $data );
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param array $args Array of query args.
+	 * @return mixed
 	 */
 	abstract public function get_results( $args = array() );
 
 	/**
-	 * Define the structure of arguments used to pass to the get_results method
+	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @return   array
-	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @since 2.3.0
+	 *
+	 * @return array
 	 */
 	abstract public function set_args();
 
 	/**
-	 * Define the structure of the table
+	 * Define the structure of the table.
 	 *
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return array
 	 */
 	abstract protected function set_columns();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since    3.2.0
-	 * @version  3.28.0
+	 * @since 3.2.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		$this->title = $this->set_title();
@@ -201,14 +199,15 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Ensure that a valid array of data is passed to a query
-	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
-	 * to the get_results function
+	 * Ensure that a valid array of data is passed to a query.
 	 *
-	 * @param    array $args  array of arguments
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
+	 * to the get_results function.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param array $args Array of arguments
+	 * @return array
 	 */
 	protected function clean_args( $args = array() ) {
 
@@ -225,27 +224,42 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Ensures that all data requested by $this->get_data if filterable
-	 * before being output on screen / in the export file
+	 * Ensures that all data requested by $this->get_data is filterable
+	 * before being output on screen / in the export file.
 	 *
-	 * @param    mixed  $value     value to be displayed
-	 * @param    string $key       column key / id
-	 * @param    mixed  $data      original data object / array
-	 * @param    string $context   display context [display|export]
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.17.6
+	 * @since 3.2.0
+	 * @since 3.17.6 Unknown.
+	 *
+	 * @param mixed  $value   Value to be displayed.
+	 * @param string $key     Column key/ID.
+	 * @param mixed  $data    Original data object/array.
+	 * @param string $context Display context [display|export].
+	 * @return mixed
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
-		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context, $this );
+		/**
+		 * Filters the table data.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param mixed            $value        Value to be displayed.
+		 * @param string           $key          Column key/ID.
+		 * @param mixed            $data         Original data object/array.
+		 * @param string           $context      Display context [display|export].
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
+		return apply_filters( "llms_table_get_data_{$this->id}", $value, $key, $data, $context, $this );
 	}
 
 	/**
-	 * Retrieve the arguments defined in `set_args`
+	 * Retrieve the arguments defined in `set_args`.
 	 *
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Fix filter name.
+	 *
+	 * @return array
 	 */
 	public function get_args() {
 
@@ -266,19 +280,40 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 		$args = wp_parse_args( $this->set_args(), $default );
 
-		return apply_filters( 'llms_table_get_args_' . $this->id, $args );
+		/**
+		 * Filters the arguments used to build the query.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param array $args Arguments to build the query whose results will populate the table.
+		 */
+		return apply_filters( "llms_table_get_args_{$this->id}", $args );
 	}
 
 	/**
-	 * Retrieve the array of columns defined by set_columns
+	 * Retrieve the array of columns defined by set_columns.
+
+	 * @since 3.2.0
+	 * @since 3.24.0 Unknown.
 	 *
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.24.0
+	 * @param string $context Display context [display|export].
+	 * @return array
 	 */
 	public function get_columns( $context = 'display' ) {
 
-		$cols = apply_filters( 'llms_table_get_' . $this->id . '_columns', $this->set_columns(), $context );
+		/**
+		 * Filters the array of table columns.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array  $columns The array of table columns.
+		 * @param string $context Display context [display|export].
+		 */
+		$cols = apply_filters( "llms_table_get_{$this->id}_columns", $this->set_columns(), $context );
 
 		if ( $this->is_exportable ) {
 
@@ -295,129 +330,152 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current page
+	 * Get the current page.
 	 *
-	 * @return   int
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return int
 	 */
 	public function get_current_page() {
 		return $this->current_page;
 	}
 
 	/**
-	 * Get $this->empty_msg string
+	 * Get `$this->empty_msg` string.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Fix filter name.
+	 *
+	 * @return string
 	 */
 	public function get_empty_message() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_empty_message', $this->set_empty_message() );
+		/**
+		 * Filters the message displayed when the table is empty.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $columns The message displayed when the table is empty.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_empty_message", $this->set_empty_message() );
 	}
 
 	/**
-	 * Get the text for the default/placeholder for a filterable column
+	 * Get the text for the default/placeholder for a filterable column.
 	 *
-	 * @param    string $column_id  id of the column
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.15.0
+	 * @since 3.4.0
+	 * @since 3.15.0 Fix filter name.
+	 * @since 7.3.0 Fixed typo in function name (`is_strinp` => `is_string` ).
+	 *
+	 * @param string $column_id The ID of the column.
+	 * @return string
 	 */
 	public function get_filter_placeholder( $column_id, $column_data ) {
 		$placeholder = __( 'Any', 'lifterlms' );
 		if ( is_array( $column_data ) && isset( $column_data['title'] ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data['title'] );
-		} elseif ( is_strinp( $column_data ) ) {
+		} elseif ( is_string( $column_data ) ) {
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
 		}
-		return apply_filters( 'llms_table_get_' . $this->id . '_filter_placeholder', $placeholder, $column_id );
+		/**
+		 * Filters the placeholder string for a filterable column.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $placeholder Placeholder string.
+		 * @param string $column_id   The ID of the column.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_filter_placeholder", $placeholder, $column_id );
 	}
 
 	/**
-	 * Get the current filter
+	 * Get the current filter.
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @since 3.4.0
+	 *
+	 * @return string
 	 */
 	public function get_filter() {
 		return $this->filter;
 	}
 
 	/**
-	 * Get the current field results are filtered by
+	 * Get the current field results are filtered by.
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @since 3.4.0
+	 *
+	 * @return string
 	 */
 	public function get_filterby() {
 		return $this->filterby;
 	}
 
 	/**
-	 * Retrieve a modified classname that can be passed via AJAX for new queries
+	 * Retrieve a modified classname that can be passed via AJAX for new queries.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_handler() {
 		return str_replace( 'LLMS_Table_', '', get_class( $this ) );
 	}
 
 	/**
-	 * Retrieve the max number of pages for the table
+	 * Retrieve the max number of pages for the table.
 	 *
-	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return int
 	 */
 	public function get_max_pages() {
 		return $this->max_pages;
 	}
 
 	/**
-	 * Get the current sort order
+	 * Get the current sort order.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_order() {
 		return $this->order;
 	}
 
 	/**
-	 * Get the current field results are ordered by
+	 * Get the current field results are ordered by.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_orderby() {
 		return $this->orderby;
 	}
 
 	/**
-	 * Get the current number of results to display per page
+	 * Get the current number of results to display per page.
 	 *
-	 * @return  int
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return int
 	 */
 	public function get_per_page() {
 		return $this->per_page;
 	}
 
 	/**
-	 * Gets the opposite of the current order
-	 * Used to determine what order should be displayed when resorting
+	 * Gets the opposite of the current order.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * Used to determine what order should be displayed when resorting.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	protected function get_new_order( $orderby = '' ) {
 
@@ -431,11 +489,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieves the current search query
+	 * Retrieves the current search query.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_search() {
 		return esc_attr( trim( $this->search ) );
@@ -444,7 +502,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Returns an array of CSS class names to use on this table.
 	 *
-	 * @since  3.34.0
+	 * @since 3.34.0
 	 *
 	 * @return array
 	 */
@@ -475,11 +533,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get HTML for the filters displayed in the head of the table
+	 * Get HTML for the filters displayed in the head of the table.
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @since 3.4.0
+	 *
+	 * @return string
 	 */
 	public function get_table_filters_html() {
 		ob_start();
@@ -503,13 +561,13 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for the entire table
+	 * Get the HTML for the entire table.
 	 *
 	 * @since 3.2.0
 	 * @since 3.17.8 Unknown.
 	 * @since 3.37.7 Use correct argument order for implode to fix php 7.4 deprecation.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public function get_table_html() {
 
@@ -529,7 +587,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			</header>
 			<table
 				class="<?php echo implode( ' ', $classes ); ?>"
-				data-args='<?php echo json_encode( $this->get_args() ); ?>'
+				data-args='<?php echo wp_json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
 			>
@@ -543,11 +601,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML of the search form for a searchable table
+	 * Get the HTML of the search form for a searchable table.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_table_search_form_html() {
 		ob_start();
@@ -560,22 +618,33 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Fix filter name.
+	 *
+	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search', 'lifterlms' ) );
+		/**
+		 * Filters the text to be used as the placeholder in a searchable tables search input.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $text Text to be used as the placeholder in a searchable tables search input.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_search_placeholder", __( 'Search', 'lifterlms' ) );
 	}
 
 	/**
-	 * Get the HTML for the table's title
+	 * Get the HTML for the table's title.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_table_title_html() {
 		$title = $this->get_title();
@@ -587,22 +656,32 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get $this->tbody_data array
+	 * Get `$this->tbody_data` array.
+
+	 * @since 3.2.0
+	 * @since 3.15.0 Fix filter name.
 	 *
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @return array
 	 */
 	public function get_tbody_data() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_tbody_data', $this->tbody_data );
+		/**
+		 * Filters the array of tbody data.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param array $tbody_data Array of data that will be used to create the table body.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_tbody_data", $this->tbody_data );
 	}
 
 	/**
-	 * Get a tbody element for the table
+	 * Get a tbody element for the table.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_tbody_html() {
 		$data = $this->get_tbody_data();
@@ -622,11 +701,12 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a tfoot element for the table
+	 * Get a tfoot element for the table.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.28.0
+	 * @since 3.2.0
+	 * @since 3.28.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -671,11 +751,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a thead element for the table
+	 * Get a thead element for the table.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return string
 	 */
 	public function get_thead_html() {
 		ob_start();
@@ -706,27 +786,46 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a CSS class list (as a string) for each TR
+	 * Get a CSS class list (as a string) for each TR.
 	 *
-	 * @param    mixed $row  object / array of data that the function can use to extract the data
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param mixed $row Object/array of data that the function can use to extract the data.
+	 * @return string
 	 */
 	protected function get_tr_classes( $row ) {
-		return apply_filters( 'llms_table_get_' . $this->id . '_tr_classes', 'llms-table-tr', $row );
+		/**
+		 * Filters the CSS class of a table row.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.24.0
+		 *
+		 * @param string $class CSS class list (as a string) for a given TR.
+		 * @param mixed  $row   Object/array of data that the function can use to extract the data.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_tr_classes", 'llms-table-tr', $row );
 	}
 
 	/**
-	 * Get the HTML for a single row in the body of the table
+	 * Get the HTML for a single row in the body of the table.
 	 *
-	 * @param    mixed $row  array/object of data describing a single row in the table
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.21.0
+	 * @since 3.2.0
+	 * @since 3.21.0 Fix action hooks names.
+	 *
+	 * @param mixed $row Array/object of data describing a single row in the table.
+	 * @return string
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
+		/**
+		 * Fired before a table `<tr>`.
+		 *
+		 * @since 3.21.0
+		 *
+		 * @param string           $row          Array/object of data describing a single row in the table.
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
 		do_action( 'llms_table_before_tr', $row, $this );
 		?>
 		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
@@ -735,50 +834,60 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		<?php endforeach; ?>
 		</tr>
 		<?php
+		/**
+		 * Fired after a table `<tr>`.
+		 *
+		 * @since 3.21.0
+		 *
+		 * @param string           $row          Array/object of data describing a single row in the table.
+		 * @param LLMS_Admin_Table $table_object Instance of the class extending `LLMS_Admin_Table`.
+		 */
 		do_action( 'llms_table_after_tr', $row, $this );
 		return ob_get_clean();
 	}
 
 	/**
-	 * Get the total number of columns in the table
-	 * Useful for creating full with tds via colspan
+	 * Get the total number of columns in the table.
 	 *
-	 * @return   int
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * Useful for creating full width tds via colspan.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @return int
 	 */
 	public function get_columns_count() {
 		return count( $this->get_columns() );
 	}
 
 	/**
-	 * Get the HTML to output a progress bar within a td
-	 * Improve ugly tables with a small visual flourish
-	 * Useful when displaying a percentage within a table!
-	 * Bonus if the table sorts by that percentage column
+	 * Get the HTML to output a progress bar within a td.
 	 *
-	 * @param    float  $percentage  the percentage to be displayed
-	 * @param    string $text        text to display over the progress bar, defaults to $percentage
-	 * @return   string
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * Improve ugly tables with a small visual flourish.
+	 * Useful when displaying a percentage within a table!
+	 * Bonus if the table sorts by that percentage column.
+	 *
+	 * @since 3.4.1
+	 *
+	 * @param float  $percentage The percentage to be displayed.
+	 * @param string $text       Text to display over the progress bar, defaults to $percentage.
+	 * @return string
 	 */
 	public function get_progress_bar_html( $percentage, $text = '' ) {
 		$text = $text ? $text : $percentage . '%';
 		return '<div class="llms-table-progress">
+			<div class="llms-table-progress-bar"><div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div></div>
 			<span class="llms-table-progress-text">' . $text . '</span>
-			<div class="llms-table-progress-inner" style="width:' . $percentage . '%"></div>
 		</div>';
 	}
 
 	/**
-	 * Get the HTML for a WP Post Link
+	 * Get the HTML for a WP Post Link.
 	 *
-	 * @param    int    $post_id  WP Post ID
-	 * @param    string $text     Optional text to display within the anchor, if none supplied $post_id if used
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param int    $post_id WP Post ID.
+	 * @param string $text    Optional text to display within the anchor, if none supplied $post_id if used.
+	 * @return string
 	 */
 	public function get_post_link( $post_id, $text = '' ) {
 		if ( ! $text ) {
@@ -788,24 +897,33 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the title of the table
+	 * Get the title of the table.
 	 *
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return string
 	 */
 	public function get_title() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
+		/**
+		 * Filters the table title.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $title The title of the table.
+		 */
+		return apply_filters( "llms_table_get_{$this->id}_table_title", $this->title );
 	}
 
 	/**
-	 * Get the HTML for a WP User Link
+	 * Get the HTML for a WP User Link.
 	 *
-	 * @param    int    $user_id  WP User ID
-	 * @param    string $text     Optional text to display within the anchor, if none supplied $user_id if used
-	 * @return   string
-	 * @since    3.17.2
-	 * @version  3.17.2
+	 * @since 3.17.2
+	 *
+	 * @param int    $user_id WP User ID.
+	 * @param string $text    Optional text to display within the anchor, if none supplied $user_id if used.
+	 * @return string
 	 */
 	public function get_user_link( $user_id, $text = '' ) {
 		if ( ! $text ) {
@@ -815,13 +933,13 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Determine if a column is visible based on the current context
+	 * Determine if a column is visible based on the current context.
 	 *
-	 * @param    [type] $data     array of a single column's data from set_columns()
-	 * @param    string $context  context [display|export]
-	 * @return   bool
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param array  $data    Array of a single column's data from `set_columns()`.
+	 * @param string $context Context [display|export].
+	 * @return bool
 	 */
 	private function is_col_visible( $data, $context = 'display' ) {
 
@@ -839,54 +957,65 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Return protected is_last_page var
+	 * Return protected is_last_page var.
 	 *
-	 * @return   bool
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return bool
 	 */
 	public function is_last_page() {
 		return $this->is_last_page;
 	}
 
 	/**
-	 * Allow custom hooks to be registered for use within the class
+	 * Allow custom hooks to be registered for use within the class.
 	 *
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return void
 	 */
 	protected function register_hooks() {}
 
 	/**
-	 * Setter
+	 * Setter.
 	 *
-	 * @param    string $key  variable name
-	 * @param    mixed  $val  variable data
-	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @since 2.3.0
+	 *
+	 * @param string $key Variable name.
+	 * @param mixed  $val Variable data.
+	 * @return void
 	 */
 	public function set( $key, $val ) {
 		$this->$key = $val;
 	}
 
 	/**
-	 * Empty message displayed when no results are found
+	 * Empty message displayed when no results are found.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Fix filter name.
+	 *
+	 * @return string
 	 */
 	protected function set_empty_message() {
+		/**
+		 * Filters the default message displayed when the table is empty.
+		 *
+		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the table.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @param string $columns The default message displayed when the table is empty.
+		 */
 		return apply_filters( 'llms_table_default_empty_message', __( 'No results were found.', 'lifterlms' ) );
 	}
 
 	/**
 	 * Stub used to set the title during table construction.
 	 *
-	 * @return  string
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return '';

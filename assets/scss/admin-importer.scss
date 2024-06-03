@@ -1,0 +1,105 @@
+@import "_includes/vars";
+@import "_includes/mixins";
+
+.llms-import-file-wrap {
+    background: #fafafa;
+    border: 1px solid #ccd0d4;
+    padding: 10px;
+    margin: 20px auto;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.llms-cloud-import-help.button-link {
+	color: inherit;
+	vertical-align: top;
+	text-decoration: none;
+}
+
+.wrap.llms-import-export {
+
+	ul.llms-importable-courses {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		gap: 20px;
+
+		@media only screen and ( min-width: 680px ) {
+			flex-direction: row;
+		}
+
+		.llms-importable-course {
+			background-color: #FFF;
+			border: 1px solid #dedede;
+			border-radius: 12px;
+			box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+			list-style: none;
+			margin: 20px 0;
+			overflow: hidden;
+
+			@media only screen and ( min-width: 680px ) {
+				-webkit-box-flex: 0;
+				flex-grow: 0;
+				flex-shrink: 1;
+				flex-basis: calc(31%);
+			}
+
+			img {
+				display: block;
+				max-width: 100%;
+			}
+
+			h3 {
+				color: #1d2327;
+				font-size: 20px;
+				line-height: 1.5;
+				margin: 30px 20px 15px;
+			}
+
+			p {
+				font-size: 15px;
+				line-height: 1.5;
+				margin: 0 20px 15px;
+			}
+
+			&.has-action-button {
+				padding-bottom: 10px;
+				position: relative;
+				.button {
+					bottom: 20px;
+					right: 20px;
+					position: absolute;
+				}
+			}
+
+		}
+
+	}
+
+	@media only screen and (min-width: 600px) {
+		ul.llms-importable-courses {
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+
+	@media only screen and (min-width: 600px) and (max-width: 767px) {
+		ul.llms-importable-courses {
+			li.llms-importable-course {
+				flex: 1 0 calc( 50% - 20px );
+				max-width: calc( 50% - 20px );
+			}
+		}
+	}
+
+	@media only screen and (min-width: 768px) {
+		ul.llms-importable-courses {
+			li.llms-importable-course {
+				flex: 1 0 calc( 33% - 20px );
+				max-width: calc( 33% - 20px );
+			}
+		}
+	}
+
+}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version 3.16.15
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,9 +23,10 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Constructor
 	 *
-	 * @param    array $data   question data array from attempt record
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param array $data Question data array from attempt record.
+	 * @return void
 	 */
 	public function __construct( $data = array() ) {
 
@@ -46,17 +47,19 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Determine if it's possible to manually grade the question
 	 *
-	 * @return   boolean
-	 * @since    3.16.8
-	 * @version  3.16.9
+	 * @since 3.16.8
+	 * @since 3.16.9 Unknown.
+	 * @since 5.3.0 Early bail for deleted questions.
+	 *
+	 * @return boolean
 	 */
 	public function can_be_manually_graded() {
 
 		$question = $this->get_question();
 
-		if ( $this->get( 'points' ) >= 1 ) {
+		if ( $question && $this->get( 'points' ) >= 1 ) {
 
-			// the question is auto-gradable so it cannot be manually graded
+			// The question is auto-gradable so it cannot be manually graded.
 			if ( $question->get_auto_grade_type() ) {
 				return false;
 			} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
@@ -71,11 +74,11 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Getter
 	 *
-	 * @param    string $key      data key name
-	 * @param    mixed  $default  default fallback value if key is unset
-	 * @return   mixed
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param string $key     Data key name
+	 * @param mixed  $default Optional. Default fallback value if key is unset. Default is empty string.
+	 * @return mixed
 	 */
 	public function get( $key, $default = '' ) {
 		if ( isset( $this->data[ $key ] ) ) {
@@ -87,9 +90,10 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve answer HTML for the question answers
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @since 3.16.0
+	 * @since 3.16.15 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_answer() {
 
@@ -117,9 +121,10 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Get answer(s) as an array
 	 *
-	 * @return   array
-	 * @since    3.16.15
-	 * @version  3.27.0
+	 * @since 3.16.15
+	 * @since 3.27.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function get_answer_array() {
 
@@ -151,9 +156,10 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve answer HTML for the question correct answers
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @since 3.16.0
+	 * @since 3.16.15 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_correct_answer() {
 
@@ -177,9 +183,9 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Get correct answer(s) as an array
 	 *
-	 * @return   array
-	 * @since    3.16.15
-	 * @version  3.16.15
+	 * @since 3.16.15
+	 *
+	 * @return array
 	 */
 	public function get_correct_answer_array() {
 
@@ -206,9 +212,9 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve an instance of the LLMS_Question
 	 *
-	 * @return   obj
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return LLMS_Question
 	 */
 	public function get_question() {
 		return llms_get_post( $this->get( 'id' ) );
@@ -217,9 +223,9 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Retrieve the status icon HTML based on the question's status/answer
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return string
 	 */
 	public function get_status_icon() {
 
@@ -254,39 +260,47 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Receive the graded status of the question
 	 *
-	 * @return   string      [graded|waiting|none]
-	 * @since    3.16.0
-	 * @version  3.16.9
+	 * @since 3.16.0
+	 * @since 3.16.9 Unknown.
+	 * @since 5.3.0 Account for deleted questions.
+	 *
+	 * @return string Attempt's question status [graded|waiting|none].
 	 */
 	public function get_status() {
 
 		$question = $this->get_question();
 
+		if ( ! $question ) {
+			return 'graded';
+		}
+
+		$status = 'none';
+
 		if ( $this->get( 'points' ) >= 1 ) {
 
 			if ( $question->get_auto_grade_type() ) {
 
-				return 'graded';
+				$status = 'graded';
 
 			} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
 
 				if ( ! $this->get( 'correct' ) ) {
-					return 'waiting';
+					$status = 'waiting';
 				} else {
-					return 'graded';
+					$status = 'graded';
 				}
 			}
 		}
 
-		return 'none';
+		return $status;
 	}
 
 	/**
 	 * Determine if remarks are available for the question
 	 *
-	 * @return   bool
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return bool
 	 */
 	public function has_remarks() {
 
@@ -297,9 +311,9 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Determine if a question is correct
 	 *
-	 * @return   bool
-	 * @since    3.16.8
-	 * @version  3.16.8
+	 * @since 3.16.8
+	 *
+	 * @return bool
 	 */
 	public function is_correct() {
 
@@ -314,11 +328,11 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Setter
 	 *
-	 * @param    string $key  data key name
-	 * @param    mixed  $val  value
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param string $key Data key name.
+	 * @param mixed  $val Value.
+	 * @return void
 	 */
 	public function set( $key, $val ) {
 		$this->data[ $key ] = $val;

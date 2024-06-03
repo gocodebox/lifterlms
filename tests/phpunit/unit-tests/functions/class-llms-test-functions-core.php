@@ -15,8 +15,42 @@
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
+ * @since 4.7.0 Add test for `llms_get_dom_document()`.
+ * @since 4.10.1 Add test for possible 3rd party cpts conflicts using `llms_get_post()`.
+ * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
+
+	/**
+	 * Test llms_anonymize_string().
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_anonymize_string() {
+
+		$tests = array(
+			array( 'A', '*' ),
+			array( 'ABCD', '***D' ),
+			array( 'ABCDEF', '*****F' ),
+			array( 'ABCDEFG', '*****FG' ),
+			array( 'ABCDEFGHIJ', '********IJ' ),
+			array( 'ABCDEFGHIJK', 'AB*******JK' ),
+			array( 'ABCDE!FGHIJK.com', 'AB************om' ),
+			array( 'hello@lifterlms.com', '****o@li*********om' ),
+			array( '^|5M{Qx0Bq@)U*yPrgAc+({MBwSQUumW6', '^|*****************************W6' ),
+		);
+
+		foreach ( $tests as $i => $test ) {
+			list( $input, $expected ) = $test;
+			$this->assertEquals( $expected, llms_anonymize_string( $input ), "{$i}: {$input}" );
+		}
+
+		$this->assertEquals( 'TE%%%%%%%%%%%%%%%%%%%%AR', llms_anonymize_string( 'TEST WITH ALTERNATE CHAR', '%' ) );
+		$this->assertEquals( 'TEXXXXXXXXXXXXXXXXXXXXAR', llms_anonymize_string( 'TEST WITH ALTERNATE CHAR', 'X' ) );
+
+	}
 
 	/**
 	 * Test the llms_assoc_array_insert
@@ -117,6 +151,30 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_esc_and_quote_str()
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_esc_and_quote_str() {
+
+		$tests = array(
+			array( 'test', "'test'" ),
+			array( '1', "'1'" ),
+			array( 1, "'1'" ),
+			array( 0, "'0'" ),
+			array( false, "''" ),
+			array( "", "''" ),
+		);
+		foreach ( $tests as $test ) {
+			list( $input, $expected ) = $test;
+			$this->assertEquals( $expected, llms_esc_and_quote_str( $input ) );
+		}
+
+	}
+
+	/**
 	 * Test llms_get_completable_post_types()
 	 *
 	 * @since 4.2.0
@@ -179,6 +237,71 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_dom_document()
+	 *
+	 * @since 4.7.0
+	 * @since 4.8.0 Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
+	 * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
+	 *               Also, use `$this->assertStringContainsString()` in place of `$this->assertStringContainsString()` to get a better erro message on failures.
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_dom_document() {
+
+		/**
+		 * Array of test strings
+		 *
+		 * First value is the input string & the second value is the expected output string.
+		 *
+		 * @var array[]
+		 */
+		$tests = array(
+			array(
+				'simple text string',
+				'<p>simple text string</p>',
+			),
+			array(
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+			),
+			array(
+				'Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.',
+				'<p>&#7734;&#120644;&#120111;&#120462;&#625; &#301;&#120057;&#7540;&#472;&#625; &#1386;&#1257;&#7739;&#120648;&#589; &#120320;&#120258;&#7451;.</p>',
+			),
+			array(
+				'Contains &mdash; Char Codes and special – !',
+				'<p>Contains &mdash; Char Codes and special &ndash; !</p>',
+			),
+			array(
+				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>And &gt;>&gt; a <b>full</b> HTML docum𝞔nt!</body></html>',
+				'And &gt;&gt;&gt; a <b>full</b> HTML docum&#120724;nt!',
+			),
+		);
+
+		// Using `mb_convert_econding()`.
+		foreach ( $tests as $test ) {
+
+			$dom = llms_get_dom_document( $test[0] );
+			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
+			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+
+		}
+
+		// Repeat the same test using "the meta fixer".
+		add_filter( 'llms_dom_document_use_mb_convert_encoding', '__return_false' );
+
+		foreach ( $tests as $test ) {
+
+			$dom = llms_get_dom_document( $test[0] );
+			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
+			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+
+		}
+
+		remove_filter( 'llms_dom_document_use_mb_convert_encoding', '__return_false' );
+	}
+
+	/**
 	 * Test llms_get_engagement_triggers()
 	 *
 	 * @since 3.3.1
@@ -231,6 +354,37 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_open_registration_status()
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_open_registration_status() {
+
+		// No value, defaults to no.
+		delete_option( 'lifterlms_enable_myaccount_registration' );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+
+		// Explicitly no.
+		update_option( 'lifterlms_enable_myaccount_registration', 'no' );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+
+		// Explicitly yes.
+		update_option( 'lifterlms_enable_myaccount_registration', 'yes' );
+		$this->assertEquals( 'yes', llms_get_open_registration_status() );
+
+		// Explicitly yes but filtered off.
+		$handler = function( $val ) {
+			return 'no';
+		};
+		add_filter( 'llms_enable_open_registration', $handler );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+		remove_filter( 'llms_enable_open_registration', $handler );
+
+	}
+
+	/**
 	 * Test the llms_get_option_page_anchor() function
 	 *
 	 * @since 3.19.0
@@ -272,6 +426,176 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	public function test_llms_get_product_visibility_options() {
 		$this->assertFalse( empty( llms_get_product_visibility_options() ) );
 		$this->assertTrue( is_array( llms_get_product_visibility_options() ) );
+	}
+
+	/**
+	 * Test llms_filter_input_sanitize_string() when the input var isn't set.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string_var_not_set() {
+
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ) ) );
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ), array( FILTER_REQUIRE_ARRAY ) ) );
+
+	}
+
+
+	/**
+	 * Test llms_filter_input_sanitize_string() when the input var is "empty".
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string_var_empty() {
+
+		$tests = array(
+
+			array(
+				'',
+				'',
+			),
+			array(
+				false,
+				false,
+			),
+			array(
+				'0',
+				'0',
+			),
+			array(
+				null,
+				null,
+			),
+		);
+
+		foreach ( $tests as $test ) {
+			list( $input, $output ) = $test;
+			$this->mockPostRequest( compact( 'input' ) );
+			$this->assertEquals( $output, llms_filter_input_sanitize_string( INPUT_POST, 'input' ) );
+		}
+
+	}
+
+	/**
+	 * Test llms_filter_input_sanitize_string().
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string() {
+
+		$tests = array(
+			array(
+				'simple text input', // Input.
+				'simple text input', // Output with quotes encoded.
+				'simple text input', // Output without quotes encoded.
+			),
+			array(
+				'input "with" double quotes.',
+				'input &#34;with&#34; double quotes.',
+				'input "with" double quotes.',
+			),
+			array(
+				"input 'with' single quotes.",
+				"input &#39;with&#39; single quotes.",
+				"input 'with' single quotes.",
+			),
+			array(
+				'<a href="#">Solo Tag</a>',
+				'Solo Tag',
+				'Solo Tag',
+			),
+			array(
+				'Text and <a href="#">a tag</a> and more text',
+				'Text and a tag and more text',
+				'Text and a tag and more text',
+			),
+			array(
+				'Text and <a href="#">a tag</a> and <b>more tags</b> and "quotes".',
+				'Text and a tag and more tags and &#34;quotes&#34;.',
+				'Text and a tag and more tags and "quotes".',
+			),
+			array(
+				1,
+				'1',
+				'1',
+			),
+			array(
+				true,
+				'1',
+				'1',
+			),
+			array(
+				'234234',
+				'234234',
+				'234234',
+			),
+			array(
+				'true',
+				'true',
+				'true',
+			),
+			array(
+				'false',
+				'false',
+				'false',
+			),
+			array(
+				'null',
+				'null',
+				'null',
+			),
+		);
+
+		$types = array(
+			INPUT_GET  => 'mockGetRequest',
+			INPUT_POST => 'mockPostRequest',
+		);
+		foreach ( $types as $type => $mock_func ) {
+
+			// Setup FILTER_REQUIRE_ARRAY vars.
+			$arr_input            = array();
+			$arr_output           = array();
+			$arr_output_no_encode = array();
+
+			foreach ( $tests as $test ) {
+
+				list( $input, $output, $output_no_encode ) = $test;
+				$this->$mock_func( compact( 'input' ) );
+
+				// Test input with quotes encoded.
+				$this->assertEquals( $output, llms_filter_input_sanitize_string( $type, 'input' ), "Input string: {$input}" );
+
+				// Quotes not encoded.
+				$this->assertEquals( $output_no_encode, llms_filter_input_sanitize_string( $type, 'input', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ), "Input string: {$input}" );
+
+				// Requesting array when no array submitted results in the filter failing.
+				$this->assertFalse( llms_filter_input_sanitize_string( $type, 'input', array( FILTER_REQUIRE_ARRAY ) ), "Input string: {$input}" );
+
+				// Add to FILTER_REQUIRE_ARRAY vars.
+				$arr_input[]            = $input;
+				$arr_output[]           = $output;
+				$arr_output_no_encode[] = $output_no_encode;
+
+			}
+
+			// Test array-related input.
+			$this->$mock_func( compact( 'arr_input' ) );
+
+			// Array submitted but FILTER_REQUIRE_ARRAY not passed as an option.
+			$this->assertEquals( '', llms_filter_input_sanitize_string( $type, 'arr_input' ) );
+
+			// Array requested.
+			$this->assertEquals( $arr_output, llms_filter_input_sanitize_string( $type, 'arr_input', array( FILTER_REQUIRE_ARRAY ) ) );
+			$this->assertEquals( $arr_output_no_encode, llms_filter_input_sanitize_string( $type, 'arr_input', array( FILTER_REQUIRE_ARRAY, FILTER_FLAG_NO_ENCODE_QUOTES ) ) );
+
+		}
+
 	}
 
 	/**
@@ -391,10 +715,13 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.35.0 Test sanitization and ipv6 addresses.
+	 * @since 7.0.0 Reset the original `$_SERVER['REMOTE_ADDR']` value on test completion.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_ip_address() {
+
+		$orig_ip = $_SERVER['REMOTE_ADDR'];	
 
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
@@ -424,6 +751,9 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		$_SERVER['REMOTE_ADDR'] = '127\\/\/\/\.0.0.1';
 		$this->assertEquals( '', llms_get_ip_address() );
+
+		// Reset.
+		$_SERVER['REMOTE_ADDR'] = $orig_ip;
 
 	}
 
@@ -467,10 +797,39 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_post() with post types which don't have to be confused with LifterLMS post types
+	 *
+	 * @since 4.10.1
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_no_conflicts() {
+
+		$types = array(
+			'LLMS_Events'      => 'events',
+			'LLMS_Certificate' => 'certificate',
+			'LLMS_Transaction' => 'transaction',
+		);
+
+		foreach ( $types as $class => $type ) {
+			register_post_type( $type );
+			$id = $this->factory->post->create( array(
+				'post_type' => $type,
+			) );
+
+			$this->assertNotInstanceOf( $class, llms_get_post( $id ) );
+			unregister_post_type( $type );
+		}
+
+	}
+
+	/**
 	 * Test `llms_get_post_parent_course()`
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.14 Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+	 * @since 6.0.0 Replaced use of the deprecated `LLMS_Certificate` class, an LLMS post type class that is NOT
+	 *              extended from `LLMS_Post_Model`, with `LLMS_Email`.
 	 *
 	 * @return void
 	 */
@@ -507,14 +866,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$reg_post = $this->factory->post->create();
 		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
-		// make sure an LLMS post type, which is not an istance of `LLMS_Post_Model` doesn't have a parent course.
-		// and no fatals are produced.
-		$certificate_post = $this->factory->post->create(
+		// Make sure an LLMS post type, which is not an instance of `LLMS_Post_Model` doesn't have a parent course.
+		// and no fatal errors are produced.
+		$non_model_post = $this->factory->post->create(
 			array(
-				'post_type' => 'llms_certificate',
+				'post_type' => 'llms_email',
 			)
 		);
-		$this->assertNull( llms_get_post_parent_course( $certificate_post ) );
+		$this->assertNull( llms_get_post_parent_course( $non_model_post ) );
 	}
 
 
@@ -569,6 +928,40 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_php_error_constant_to_code()
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_php_error_constant_to_code() {
+
+		$errors = array(
+			E_ERROR             => 'E_ERROR',
+			E_WARNING           => 'E_WARNING',
+			E_PARSE             => 'E_PARSE',
+			E_NOTICE            => 'E_NOTICE',
+			E_CORE_ERROR        => 'E_CORE_ERROR',
+			E_CORE_WARNING      => 'E_CORE_WARNING',
+			E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+			E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
+			E_USER_ERROR        => 'E_USER_ERROR',
+			E_USER_WARNING      => 'E_USER_WARNING',
+			E_USER_NOTICE       => 'E_USER_NOTICE',
+			E_STRICT            => 'E_STRICT',
+			E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+			E_DEPRECATED        => 'E_DEPRECATED',
+			E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
+			9999                => 9999,
+		);
+
+		foreach ( $errors as $in => $out ) {
+			$this->assertEquals( $out, llms_php_error_constant_to_code( $in ) );
+		}
+
+	}
+
+	/**
 	 * Test llms_redirect_and_exit() func with safe on
 	 *
 	 * @since 3.19.4
@@ -611,6 +1004,56 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'https://lifterlms.com [301] YES' );
 		llms_redirect_and_exit( 'https://lifterlms.com', array( 'status' => 301 ) );
+
+	}
+
+	/**
+	 * Test llms_strip_prefixes().
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_strip_prefixes() {
+
+		$tests = array(
+			// Input string, prefixes list, expected output string.
+
+			// Default behaviors.
+			array( 'llms_test', null, 'test' ),
+			array( 'llms_test', array(), 'test' ),
+			array( 'lifterlms_test', null, 'test' ),
+			array( 'lifterlms_test', array(), 'test' ),
+			array( 'llms-test', null, 'test' ),
+			array( 'llms-test', array(), 'test' ),
+			array( 'lifterlms-test', null, 'test' ),
+			array( 'lifterlms-test', array(), 'test' ),
+
+
+			// Only strip from the start of the string.
+			array( 'test_llms_test', null, 'test_llms_test' ),
+			array( 'test_lifterlms_test', null, 'test_lifterlms_test' ),
+			array( 'test_llms_', null, 'test_llms_' ),
+			array( 'test_lifterlms_', null, 'test_lifterlms_' ),
+			array( 'test_llms-', null, 'test_llms-' ),
+			array( 'test_lifterlms-', null, 'test_lifterlms-' ),
+
+			// Don't strip multiple prefixes.
+			array( 'llms_lifterlms_test', null, 'lifterlms_test' ),
+			array( 'lifterlms_llms_test', null, 'llms_test' ),
+			array( 'llms-lifterlms-test', null, 'lifterlms-test' ),
+			array( 'lifterlms-llms-test', null, 'llms-test' ),
+
+			// Custom prefix.
+			array( 'test_llms_test', array( 'test_' ), 'llms_test' ),
+			array( 'test_llms_test', array( 'test_', 'llms_' ), 'llms_test' ),
+
+		);
+
+		foreach ( $tests as $data ) {
+			list( $input, $prefixes, $expect ) = $data;
+			$this->assertEquals( $expect, llms_strip_prefixes( $input, $prefixes ) );
+		}
 
 	}
 

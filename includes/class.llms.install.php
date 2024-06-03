@@ -1,103 +1,38 @@
 <?php
 /**
- * Plugin installation
+ * LLMS_Install class file
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.5.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Install
+ * Install LifterLMS
+ *
+ * Creates required pages, cronjobs, options, tables, and more.
+ *
+ * Additionally handles running database updates and migrations required with plugin updates.
  *
  * @since 1.0.0
- * @since 3.28.0 Unknown.
- * @since 3.34.0 Added filter to the return of the get_schema() method.
- * @since 3.36.0 Added `wp_lifterlms_events` table.
- * @since 4.0.0 Added `wp_lifterlms_sessions` table.
- *              Added session cleanup cron.
- *              Added db update functions for session manager library cleanup.
+ * @since 4.0.0 Added db update functions for session manager library cleanup.
+ * @since 4.15.0 Added db update functions for orphan access plans cleanup.
+ * @since 5.2.0 Removed private class property $db_updates.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Install::db_updates()` method
+ *              - `LLMS_Install::update_notice()` method
  */
 class LLMS_Install {
 
-	public static $background_updater;
-
 	/**
-	 * Database update functions
+	 * Instances of the bg updater.
 	 *
-	 * Array key is the database version and array values are
-	 * arrays of callback functions for the update.
-	 *
-	 * @var array
+	 * @var LLMS_Background_Updater
 	 */
-	private static $db_updates = array(
-		'3.0.0'  => array(
-			'llms_update_300_create_access_plans',
-			'llms_update_300_del_deprecated_options',
-			'llms_update_300_migrate_account_field_options',
-			'llms_update_300_migrate_coupon_data',
-			'llms_update_300_migrate_course_postmeta',
-			'llms_update_300_migrate_lesson_postmeta',
-			'llms_update_300_migrate_order_data',
-			'llms_update_300_migrate_email_postmeta',
-			'llms_update_300_update_orders',
-			'llms_update_300_update_db_version',
-		),
-		'3.0.3'  => array(
-			'llms_update_303_update_students_role',
-			'llms_update_303_update_db_version',
-		),
-		'3.4.3'  => array(
-			'llms_update_343_update_relationships',
-			'llms_update_343_update_db_version',
-		),
-		'3.6.0'  => array(
-			'llms_update_360_set_product_visibility',
-			'llms_update_360_update_db_version',
-		),
-		'3.8.0'  => array(
-			'llms_update_380_set_access_plan_visibility',
-			'llms_update_380_update_db_version',
-		),
-		'3.12.0' => array(
-			'llms_update_3120_update_order_end_dates',
-			'llms_update_3120_update_integration_options',
-			'llms_update_3120_update_db_version',
-		),
-		'3.13.0' => array(
-			'llms_update_3130_create_default_instructors',
-			'llms_update_3130_builder_notice',
-			'llms_update_3130_update_db_version',
-		),
-		'3.16.0' => array(
-			'llms_update_3160_update_quiz_settings',
-			'llms_update_3160_lesson_to_quiz_relationships_migration',
-			'llms_update_3160_attempt_migration',
-			'llms_update_3160_ensure_no_dupe_question_rels',
-			'llms_update_3160_ensure_no_lesson_dupe_rels',
-			'llms_update_3160_update_question_data',
-			'llms_update_3160_update_attempt_question_data',
-			'llms_update_3160_update_quiz_to_lesson_rels',
-			'llms_update_3160_builder_notice',
-			'llms_update_3160_update_db_version',
-		),
-		'3.28.0' => array(
-			'llms_update_3280_clear_session_cleanup_cron',
-			'llms_update_3280_update_db_version',
-		),
-		'4.0.0'  => array(
-			'llms_update_400_remove_session_options',
-			'llms_update_400_clear_session_cron',
-			'llms_update_400_update_db_version',
-		),
-		'4.5.0'  => array(
-			'llms_update_450_migrate_events_open_sessions',
-			'llms_update_450_update_db_version',
-		),
-	);
+	public static $background_updater;
 
 	/**
 	 * Initialize the install class
@@ -129,7 +64,7 @@ class LLMS_Install {
 	 * @return void
 	 */
 	public static function check_version() {
-		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== llms()->version ) {
 			self::install();
 			do_action( 'lifterlms_updated' );
 		}
@@ -267,10 +202,10 @@ class LLMS_Install {
 
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' );
+				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
 				if ( $file_handle ) {
-					fwrite( $file_handle, $file['content'] );
-					fclose( $file_handle );
+					fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
+					fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 				}
 			}
 		}
@@ -278,18 +213,16 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Store all default options in the DB
+	 * Store all default options in the DB.
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 4.0.0 Include abstract table file.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function create_options() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
@@ -301,47 +234,90 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
 
 	/**
-	 * Create essential starter pages
+	 * Get array of essential starter pages.
+	 *
+	 * @since 7.3.0
+	 *
+	 * @return array
+	 */
+	public static function get_pages() {
+		/**
+		 * Filters the essential starter pages.
+		 *
+		 * These are the pages that are going to be created when installing LifterLMS.
+		 * All these pages, as long as their `docs_url`, `description` and `wizard_title`
+		 * fields are defined, are going to be shown in the Setup Wizard.
+		 *
+		 * @since 7.3.0
+		 *
+		 * @param array $pages A multidimensional array defining the essential starter pages.
+		 */
+		return apply_filters(
+			'llms_install_get_pages',
+			array(
+				array(
+					'content'      => '',
+					'option'       => 'lifterlms_shop_page_id',
+					'slug'         => 'courses',
+					'title'        => __( 'Course Catalog', 'lifterlms' ),
+					'wizard_title' => __( 'Course Catalog', 'lifterlms' ),
+					'description'  => __( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/course-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Course%20Catalog',
+				),
+				array(
+					'content'      => '',
+					'option'       => 'lifterlms_memberships_page_id',
+					'slug'         => 'memberships',
+					'title'        => __( 'Membership Catalog', 'lifterlms' ),
+					'wizard_title' => __( 'Membership Catalog', 'lifterlms' ),
+					'description'  => __( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/membership-catalog/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Membership%20Catalog',
+				),
+				array(
+					'content'      => '[lifterlms_checkout]',
+					'option'       => 'lifterlms_checkout_page_id',
+					'slug'         => 'purchase',
+					'title'        => __( 'Purchase', 'lifterlms' ),
+					'wizard_title' => __( 'Checkout', 'lifterlms' ),
+					'description'  => __( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/checkout-page/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Checkout%20Page',
+				),
+				array(
+					'content'      => '[lifterlms_my_account]',
+					'option'       => 'lifterlms_myaccount_page_id',
+					'slug'         => 'dashboard',
+					'title'        => __( 'Dashboard', 'lifterlms' ),
+					'wizard_title' => __( 'Student Dashboard', 'lifterlms' ),
+					'description'  => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
+					'docs_url'     => 'https://lifterlms.com/docs/student-dashboard/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%20Student%20Dashboard',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Create essential starter pages.
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
+	 * @since 7.3.0 Using `$this->get_pages()` method now.
 	 *
 	 * @return boolean False on error, true on success.
 	 */
 	public static function create_pages() {
-		$pages = apply_filters(
-			'llms_install_create_pages',
-			array(
-				array(
-					'content' => '',
-					'option'  => 'lifterlms_shop_page_id',
-					'slug'    => 'courses',
-					'title'   => __( 'Course Catalog', 'lifterlms' ),
-				),
-				array(
-					'content' => '',
-					'option'  => 'lifterlms_memberships_page_id',
-					'slug'    => 'memberships',
-					'title'   => __( 'Membership Catalog', 'lifterlms' ),
-				),
-				array(
-					'content' => '[lifterlms_checkout]',
-					'option'  => 'lifterlms_checkout_page_id',
-					'slug'    => 'purchase',
-					'title'   => __( 'Purchase', 'lifterlms' ),
-				),
-				array(
-					'content' => '[lifterlms_my_account]',
-					'option'  => 'lifterlms_myaccount_page_id',
-					'slug'    => 'dashboard',
-					'title'   => __( 'Dashboard', 'lifterlms' ),
-				),
-			)
-		);
+		/**
+		 * Filters the essential pages to be installed.
+		 *
+		 * @since 3.0.0
+		 *
+		 * {@see `llms_install_get_pages} filter hook.
+		 *
+		 * @param array $pages A multidimensional array defining the essential starter pages to be installed.
+		 */
+		$pages = apply_filters( 'llms_install_create_pages', self::get_pages() );
 		foreach ( $pages as $page ) {
 			if ( ! llms_create_page( $page['slug'], $page['title'], $page['content'], $page['option'] ) ) {
 				return false;
@@ -392,45 +368,7 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Queue all required db updates into the bg update queue
-	 *
-	 * @since 3.0.0
-	 * @since 3.4.3 Unknown.
-	 *
-	 * @return void
-	 */
-	public static function db_updates() {
-
-		$current_db_version = get_option( 'lifterlms_db_version' );
-		$queued             = false;
-
-		foreach ( self::$db_updates as $version => $callbacks ) {
-
-			if ( version_compare( $current_db_version, $version, '<' ) ) {
-
-				foreach ( $callbacks as $callback ) {
-
-					self::$background_updater->log( sprintf( 'Queuing %s - %s', $version, $callback ) );
-					self::$background_updater->push_to_queue( $callback );
-					$queued = true;
-
-				}
-			}
-		}
-
-		if ( $queued ) {
-			add_action( 'shutdown', array( __CLASS__, 'dispatch_db_updates' ) );
-		}
-
-	}
-
-	/**
 	 * Dispatches the bg updater
-	 *
-	 * Prevents small database updates from displaying the "updating" admin notice
-	 * instead of the "completed" notice.
-	 * These small updates would finish on a second thread faster than the main
-	 * thread and the wrong notice would be displayed.
 	 *
 	 * @since 3.4.3
 	 *
@@ -602,14 +540,14 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 3.4.3
 	 * @since 3.6.0 Unknown.
+	 * @since 5.2.0 Use `LLMS_PLUGIN_DIR` to include required class file.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function init_background_updater() {
 
-		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
 		self::$background_updater = new LLMS_Background_Updater();
-
 	}
 
 	/**
@@ -617,6 +555,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
+	 * @since 5.0.0 Install forms.
+	 * @since 5.2.0 Moved DB update logic to LLMS_Install::run_db_updates().
 	 *
 	 * @return void
 	 */
@@ -626,6 +566,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 			return;
 		}
 
+		/**
+		 * Action run immediately prior to LLMS_Install::install() routine.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_before_install' );
 
 		LLMS_Site::set_lock_url();
@@ -633,45 +578,59 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
+		self::verify_permalinks();
+
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		LLMS()->query->init_query_vars();
-		LLMS()->query->add_endpoints();
+		llms()->query->init_query_vars();
+		llms()->query->add_endpoints();
 
 		self::create_cron_jobs();
 		self::create_files();
 		self::create_difficulties();
 		self::create_visibilities();
 
+		LLMS_Forms::instance()->install();
+
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 
 		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
-
-			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
-
+			update_option( '_llms_first_time_setup_redirect', 'yes', false );
 		}
 
-		// Show the update notice since there are db updates to run.
-		$versions = array_keys( self::$db_updates );
-		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
-
-			self::update_notice();
-
-		} else {
-
-			self::update_db_version();
-
-		}
-
+		self::run_db_updates( $db_version );
 		self::update_llms_version();
 
 		flush_rewrite_rules();
 
+		/**
+		 * Action run immediately after the LLMS_Install::install() routine has completed.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_after_install' );
 
+	}
+
+	/**
+	 * Retrieve permalinks structure to verify if they are set, and any new defaults are saved
+	 *
+	 * @since 7.6.0
+	 *
+	 * @return void
+	 */
+	public static function verify_permalinks() {
+		if ( ! get_option( 'lifterlms_permalinks' ) ) {
+			llms_switch_to_site_locale();
+
+			// Retrieve the permalink structure, which will also save the default structure if it's not set.
+			llms_get_permalink_structure();
+
+			llms_restore_locale();
+		}
 	}
 
 	/**
@@ -698,110 +657,58 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
+	 * Run database updates
+	 *
+	 * If no updates are required for the current version, records the DB version as the current
+	 * plugin version.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $db_version The DB version to upgrade from.
+	 * @return void
+	 */
+	private static function run_db_updates( $db_version ) {
+
+		if ( ! is_null( $db_version ) ) {
+
+			// Load the upgrader.
+			$upgrader = new LLMS_DB_Upgrader( $db_version );
+			if ( $upgrader->update() ) {
+				return;
+			}
+		}
+
+		self::update_db_version();
+
+	}
+
+	/**
 	 * Handle form submission of update related actions
 	 *
 	 * @since 3.4.3
+	 * @since 5.2.0 Use `LLMS_DB_Upgrader` and remove the "force upgrade" action handler.
 	 *
 	 * @return void
 	 */
 	public static function update_actions() {
 
-		// Start the updater if the run button was clicked.
-		if ( ! empty( $_GET['llms-db-update'] ) ) {
-
-			if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
-			}
-
-			// Prevent page refreshes from triggering a second queue / batch.
-			if ( ! self::$background_updater->is_updating() ) {
-				self::db_updates();
-			}
-
-			self::update_notice();
-
+		if ( empty( $_GET['llms-db-update'] ) ) {
+			return;
 		}
 
-		// Force update triggered.
-		if ( ! empty( $_GET['llms-force-db-update'] ) ) {
-
-			if ( ! llms_verify_nonce( 'llms-force-db-update', 'force_db_updates', 'GET' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
-			}
-
-			do_action( 'wp_llms_bg_updater_cron' );
-
-			wp_redirect( admin_url( 'admin.php?page=llms-settings' ) );
-
-			exit;
-
+		if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
+			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
-	}
-
-	/**
-	 * Stores an admin notice for the current state of the background updater
-	 *
-	 * @since 3.4.3
-	 *
-	 * @return void
-	 */
-	public static function update_notice() {
-
-		include_once 'admin/class.llms.admin.notices.php';
-
-		if ( LLMS_Admin_Notices::has_notice( 'bg-db-update' ) ) {
-			LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
 		}
 
-		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
+		LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
 
-			if ( ! self::$background_updater ) {
-				self::init_background_updater();
-			}
-
-			// Update is running or button was just pressed.
-			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
-
-				LLMS_Admin_Notices::add_notice(
-					'bg-db-update',
-					array(
-						'dismissible' => false,
-						'template'    => 'admin/notices/db-updating.php',
-					)
-				);
-
-			} else {
-
-				LLMS_Admin_Notices::add_notice(
-					'bg-db-update',
-					array(
-						'dismissible' => false,
-						'template'    => 'admin/notices/db-update.php',
-					)
-				);
-
-			}
-		} else {
-
-			LLMS_Admin_Notices::add_notice(
-				'bg-db-update',
-				__( 'The LifterLMS database update is complete.', 'lifterlms' ),
-				array(
-					'dismissible'      => true,
-					'dismiss_for_days' => 0,
-				)
-			);
-
-		}
+		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
+		$upgrader->enqueue_updates();
+		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update' ) ) );
 
 	}
 
@@ -816,7 +723,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_db_version( $version = null ) {
 		delete_option( 'lifterlms_db_version' );
-		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**
@@ -830,7 +737,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_llms_version( $version = null ) {
 		delete_option( 'lifterlms_current_version' );
-		add_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_current_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**
@@ -838,26 +745,59 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
+	 * @since 5.2.0 Use strict array comparison and `wp_safe_redirect()` in favor of `wp_redirect()`.
 	 *
 	 * @return void
 	 */
 	public static function wizard_redirect() {
 
-		if ( get_transient( '_llms_first_time_setup_redirect' ) ) {
+		if ( 'yes' === get_option( '_llms_first_time_setup_redirect', 'no' ) ) {
 
-			delete_transient( '_llms_first_time_setup_redirect' );
+			update_option( '_llms_first_time_setup_redirect', 'no' );
 
-			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
+			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ), true ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
 				return;
 			}
 
 			if ( current_user_can( 'install_plugins' ) ) {
 
-				wp_redirect( admin_url() . '?page=llms-setup' );
+				wp_safe_redirect( admin_url() . '?page=llms-setup' );
 				exit;
 
 			}
 		}
+
+	}
+
+	/**
+	 * Get the WP User ID of the first available user who can 'manage_options'
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return int Returns the ID of the current user if they can 'manage_options'.
+	 *             Otherwise returns the ID of the first Administrator if they can 'manage_options'.
+	 *             Returns 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+	 */
+	public static function get_can_install_user_id() {
+
+		$capability = 'manage_options';
+
+		if ( current_user_can( $capability ) ) {
+			return get_current_user_id();
+		}
+
+		// Get the first user with administrator role.
+		// Here, for simplicity, we're assuming the administrator's role capabilities are the original ones.
+		$first_admin_user = get_users(
+			array(
+				'role'    => 'Administrator',
+				'number'  => 1,
+				'orderby' => 'ID',
+			)
+		);
+
+		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
 
 	}
 

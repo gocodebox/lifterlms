@@ -29,7 +29,7 @@ function llms_update_3120_update_order_end_dates() {
 		 WHERE posts.post_type = 'llms_order'
 		   AND meta2.meta_value IS NULL
 		   AND meta1.meta_value > 0;"
-	);
+	); // db call ok; no-cache ok.
 
 	foreach ( $ids as $id ) {
 
@@ -62,7 +62,7 @@ function llms_update_3120_update_integration_options() {
 		array(
 			'option_name' => 'lifterlms_bbpress_enabled',
 		)
-	);
+	); // db call ok; no-cache ok.
 
 	$wpdb->update(
 		$wpdb->options,
@@ -72,7 +72,7 @@ function llms_update_3120_update_integration_options() {
 		array(
 			'option_name' => 'lifterlms_buddypress_enabled',
 		)
-	);
+	); // db call ok; no-cache ok.
 
 }
 

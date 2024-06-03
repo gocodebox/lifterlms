@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 4.0.0
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,35 @@ class LLMS_Cache_Helper {
 
 		add_action( 'wp', array( $this, 'maybe_no_cache' ) );
 
+	}
+
+	/**
+	 * Sets a browser cookie that tells WP Engine to exclude a page from server caching.
+	 *
+	 * @see https://wpengine.com/support/cache/#Default_Cache_Exclusions
+	 * @see https://wpengine.com/support/determining-wp-engine-environment/
+	 *
+	 * @since 6.6.0
+	 *
+	 * @param int|WP_Post $post Optional. Post ID or post object. Default is the global `$post`.
+	 *
+	 * @return void
+	 */
+	private function exclude_page_from_wpe_server_cache( $post = null ) {
+
+		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+			/*
+			 * If "Settings -> Permalinks" is "Plain", i.e. the `permalink_structure` option is '',
+			 * allow the entire site to be cached by WP Engine.
+			 * Note: This will prevent users from being able to successfully use the "Lost your password?" feature.
+			 */
+			if ( isset( $GLOBALS['wp_rewrite'] ) && ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
+				return;
+			}
+
+			$path = wp_parse_url( get_permalink( $post ), PHP_URL_PATH );
+			llms_setcookie( 'wordpress_wpe_no_cache', '1', 0, $path, COOKIE_DOMAIN, is_ssl(), true );
+		}
 	}
 
 	/**
@@ -82,6 +111,9 @@ class LLMS_Cache_Helper {
 	 * This prevents caching for the Checkout & Student Dashboard pages.
 	 *
 	 * @since 3.15.0
+	 * @since 6.4.0 Force no caching on quiz pages.
+	 *              Added 'no-store' to the default WordPress nocache headers.
+	 * @since 6.6.0 Added WP Engine server-side cache exclusions.
 	 *
 	 * @return void
 	 */
@@ -92,9 +124,9 @@ class LLMS_Cache_Helper {
 		}
 
 		/**
-		 * Filter the list of pages that LifterLMS will send nocache headers for
+		 * Filter the list of pages that LifterLMS will send nocache headers for.
 		 *
-		 * @since 3.15..0
+		 * @since 3.15.0
 		 *
 		 * @param int[] $ids List of WP_Post IDs.
 		 */
@@ -106,14 +138,67 @@ class LLMS_Cache_Helper {
 			)
 		);
 
-		if ( is_page( $ids ) ) {
+		/**
+		 * Filter whether or not LifterLMS will send nocache headers.
+		 *
+		 * @since 6.4.0
+		 *
+		 * @param bool $no_cache Whether or not LifterLMS will send nocache headers.
+		 */
+		$do_not_cache = apply_filters( 'llms_no_cache', is_page( $ids ) || is_quiz() );
+
+		if ( $do_not_cache ) {
+
+			add_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
 			llms_maybe_define_constant( 'DONOTCACHEPAGE', true );
 			llms_maybe_define_constant( 'DONOTCACHEOBJECT', true );
 			llms_maybe_define_constant( 'DONOTCACHEDB', true );
 			nocache_headers();
+			$this->exclude_page_from_wpe_server_cache();
+
+			remove_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
 		}
+
+	}
+
+	/**
+	 * Set additional nocache headers.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @see wp_get_nocache_headers()
+	 *
+	 * @param array $headers {
+	 *     Header names and field values.
+	 *
+	 *     @type string $Expires       Expires header.
+	 *     @type string $Cache-Control Cache-Control header.
+	 * }
+	 * @return array
+	 */
+	public static function additional_nocache_headers( $headers ) {
+
+		// First tree are the default ones.
+		$nocache_headers_cache_control = array(
+			'no-cache',
+			'must-revalidate',
+			'max-age=0',
+			'no-store',
+		);
+
+		if ( ! empty( $headers['Cache-Control'] ) ) {
+			$original_headers_cache_control = array_map( 'trim', explode( ',', $headers['Cache-Control'] ) );
+			// Merge original headers with our nocache headers.
+			$nocache_headers_cache_control = array_merge( $nocache_headers_cache_control, $original_headers_cache_control );
+			// Avoid duplicates.
+			$nocache_headers_cache_control = array_unique( $nocache_headers_cache_control );
+		}
+
+		$headers['Cache-Control'] = implode( ', ', $nocache_headers_cache_control );
+
+		return $headers;
 
 	}
 

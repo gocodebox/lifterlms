@@ -38,9 +38,10 @@ LifterLMS is a project that services a great many users. A feature which is attr
 + [Install LifterLMS for development](../docs/installing.md).
 + Create a new branch from the 'trunk' branch.
 + Make the changes to your forked repository.
-+ Ensure you stick to the [coding standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md) and have properly documented any new functions, actions and filters following the documentation standards.
++ Ensure you stick to our [coding standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md) and have properly documented new and updated functions, methods, actions, and filters following our [documentation standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/documentation-standards.md).
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
-+ Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
++ Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/phpunit/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
++ When making changes to (S)CSS and Javascript files, you should only modify the source files. The compiled and minified files *should not be committed* or included in your PR.
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork
 + Submit a pull request to the 'dev' branch of the LifterLMS repo.
@@ -53,7 +54,7 @@ All translations to LifterLMS can be made via our GlotPress project at [translat
 
 Anyone can contribute translations. All you need is to login to your wordpress.org account. If you have questions about how to submit translations please refer to the [Translator's Handbook](https://make.wordpress.org/polyglots/handbook/).
 
-We're always seeking Translation Editors who can manage and approve translations for their locale. If you're interested in becoming a translation editor for your locale please submit an application at [translate.lifterlms.com](https://translate.lifterlms.com/become-a-translator/).
+We're always seeking Translation Editors who can manage and approve translations for their locale. If you're interested in becoming a translation editor for your locale please [review the documentation about translations here](https://lifterlms.com/docs/how-can-i-contribute-translations-to-lifterlms/).
 
 
 ### Need Help Getting Started as a Contributor?
@@ -61,6 +62,6 @@ We're always seeking Translation Editors who can manage and approve translations
 A number of resources are available for first time contributors:
 
 + Join our [LifterLMS Community Slack Channel](https://lifterlms.com/slack) and hop into the `#developers` channel. Our core contributors and maintainers are there to help out and answer questions.
-+ Check out the [LifterLMS Contributor's Events Calendar](https://make.lifterlms.com/calendar/events/) for opportunities to interact with other contributors.
++ Check out the [LifterLMS Community Events Calendar](https://lifterlms.com/community-events/) for opportunities to interact with other contributors.
 + Check out [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) on how to submit pull requests on GitHub.
 + Grab an issue marked tagged as a [`good first issue`](https://github.com/gocodebox/lifterlms/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)

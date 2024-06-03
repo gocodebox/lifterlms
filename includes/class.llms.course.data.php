@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 4.0.0
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,9 +23,9 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 *
-	 * @param    int $course_id  WP Post ID of the course
+	 * @param int $course_id WP Post ID of the course
 	 */
 	public function __construct( $course_id ) {
 
@@ -37,12 +37,13 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve an array of all post ids in the course
-	 * Includes course id, all section ids, all lesson ids, and all quiz ids
+	 *
+	 * Includes course id, all section ids, all lesson ids, and all quiz ids.
 	 *
 	 * @since 3.15.0
 	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	private function get_all_ids() {
 		return array_merge(
@@ -59,8 +60,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * @since 3.15.0
 	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
 	 */
 	public function get_completions( $period = 'current' ) {
 
@@ -80,7 +81,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);
+		);// db call ok; no-cache ok.
 
 	}
 
@@ -90,8 +91,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * @since 3.15.0
 	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
 	 */
 	public function get_enrollments( $period = 'current' ) {
 
@@ -111,18 +112,18 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);
+		);// db call ok; no-cache ok.
 
 	}
 
 	/**
 	 * Retrieve # of engagements related to the course awarded within the period
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 *
-	 * @param    string $type    engagement type [email|certificate|achievement]
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $type   Engagement type [email|certificate|achievement].
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
 	 */
 	public function get_engagements( $type, $period = 'current' ) {
 
@@ -144,18 +145,19 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);
+		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
 	/**
-	 * retrieve # of lessons completed within the period
+	 * Retrieves and returns the number of lessons completed within the period.
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
+	 * @since 5.10.0 Fixed issue when the course has no lessons.
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
 	 */
 	public function get_lesson_completions( $period = 'current' ) {
 
@@ -163,6 +165,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		// Return early for courses without any lessons.
+		if ( empty( $lessons ) ) {
+			return 0;
+		}
+
 		return $wpdb->get_var(
 			$wpdb->prepare(
 				"
@@ -176,42 +184,43 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);
+		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
 	/**
-	 * retrieve # of orders placed for the course within the period
+	 * Retrieve # of orders placed for the course within the period
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
+	 * @since 4.21.0 Fixed order params passed to the `$this->orders_query()` method.
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
+	 * @return int
 	 */
 	public function get_orders( $period = 'current' ) {
 
 		$query = $this->orders_query(
+			1,
 			array(
 				array(
 					'after'     => $this->get_date( $period, 'start' ),
 					'before'    => $this->get_date( $period, 'end' ),
 					'inclusive' => true,
 				),
-			),
-			1
+			)
 		);
 		return $query->found_posts;
 
 	}
 
 	/**
-	 * retrieve total amount of transactions related to orders for the course completed within the period
+	 * Retrieve total amount of transactions related to orders for the course completed within the period
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   float
+	 * @param string $period Date period [current|previous].
+	 * @return float
 	 */
 	public function get_revenue( $period ) {
 
@@ -240,8 +249,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 					$this->get_date( $period, 'start' ),
 					$this->get_date( $period, 'end' )
 				)
-			);
-			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			);// db call ok; no-cache ok.
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $revenue ) ) {
 				$revenue = 0;
@@ -257,7 +266,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since 3.15.0
 	 *
-	 * @param  string $period Optional. Date period [current|previous]. Default 'current'.
+	 * @param  tring $period Optional. Date period [current|previous]. Default 'current'.
 	 * @return int
 	 */
 	public function get_unenrollments( $period = 'current' ) {
@@ -278,36 +287,35 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);
+		);// db call ok; no-cache ok.
 
 	}
 
 	/**
 	 * Execute a WP Query to retrieve orders within the given date range
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
+	 * @since 4.21.0 Fixed the post status for completed orders.
 	 *
-	 * @param    int   $num_orders  number of orders to retrieve
-	 * @param    array $dates       date range (passed to WP_Query['date_query'])
-	 * @return   obj
+	 * @param int   $num_orders Optional. Number of orders to retrieve. Default is `1`.
+	 * @param array $dates      Optional. Date range (passed to WP_Query['date_query']). Default is empty array.
+	 * @return WP_Query
 	 */
 	private function orders_query( $num_orders = 1, $dates = array() ) {
 
 		$args = array(
 			'post_type'      => 'llms_order',
-			'post_status'    => array( 'llms-active', 'llms-complete' ),
+			'post_status'    => array( 'llms-active', 'llms-completed' ),
 			'posts_per_page' => $num_orders,
 			'meta_key'       => '_llms_product_id',
 			'meta_value'     => $this->post_id,
 		);
 
-		if ( $dates ) {
+		if ( ! empty( $dates ) ) {
 			$args['date_query'] = $dates;
 		}
 
-		$query = new WP_Query( $args );
-
-		return $query;
+		return new WP_Query( $args );
 
 	}
 
