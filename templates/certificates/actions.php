@@ -30,19 +30,22 @@ defined( 'ABSPATH' ) || exit;
 	<form action="" method="POST">
 
 		<button class="llms-button-secondary" type="submit" name="llms_generate_cert">
-			<?php echo _e( 'Download', 'lifterlms' ); ?>
+			<?php echo esc_html_e( 'Download', 'lifterlms' ); ?>
 			<i class="fa fa-cloud-download" aria-hidden="true"></i>
 		</button>
 
 		<?php if ( ! $is_template ) : ?>
 			<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing" value="<?php echo ! $is_sharing_enabled; ?>">
-			<?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
+			<?php echo ( $is_sharing_enabled ? esc_html_e( 'Disable sharing', 'lifterlms' ) : esc_html_e( 'Enable sharing', 'lifterlms' ) ); ?>
 				<i class="fa fa-share-alt" aria-hidden="true"></i>
 			</button>
 		<?php endif; ?>
 
 		<?php if ( $is_sharing_enabled ) : ?>
-			<input readonly="readonly" id="llms_sharing_permalink" onfocus="this.select();" value="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
+			<button id="llms-copy-to-clipboard" class="llms-button-secondary" type="button" aria-disabled="false">
+				<?php echo esc_html__( 'Copy Shareable Link', 'lifterlms' ); ?>
+				<i class="fa fa-clipboard" aria-hidden="true"></i>
+			</button> <span id="llms-copy-to-clipboard-success" class="fa fa-check" role="alert" aria-live="polite" style="display: none;"><span class="sr-only"><?php echo esc_html__( 'Copied', 'lifterlms' ); ?></span></span>
 		<?php endif; ?>
 
 		<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
@@ -51,3 +54,31 @@ defined( 'ABSPATH' ) || exit;
 	</form>
 
 </div>
+
+<style>
+	#llms-copy-to-clipboard-success {
+		display: none;
+	}
+
+	.sr-only {
+		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+		margin: -1px;
+	}
+</style>
+
+<script type="text/javascript">
+	document.getElementById( 'llms-copy-to-clipboard' ).addEventListener( 'click', function() {
+		navigator.clipboard.writeText( window.location.href );
+		document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'inline-block';
+		setTimeout( function() {
+			document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'none';
+		}, 2000 );
+	} );
+</script>
+
