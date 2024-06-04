@@ -11,4 +11,4 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-loop">
-	<ul class="llms-loop-list<?php echo llms_get_loop_list_classes(); ?>">
+	<ul class="llms-loop-list<?php echo esc_attr( llms_get_loop_list_classes() ); ?>">

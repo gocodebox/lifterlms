@@ -1,6 +1,93 @@
 LifterLMS Changelog
 ===================
 
+v7.6.3 - 2024-05-31
+-------------------
+
+##### Bug Fixes
+
++ Adds additional filtering when using the lifterlms_favorites shortcode. Thanks, Peter Thaleikis.
+
+##### Updated Templates
+
++ [templates/admin/reporting/nav-filters.php](https://github.com/gocodebox/lifterlms/blob/7.6.3/templates/admin/reporting/nav-filters.php)
+
+
+v7.6.2 - 2024-05-28
+-------------------
+
+##### New Features
+
++ Added functionality to disable quiz retake after a passed attempt.
+
+##### Updates and Enhancements
+
++ Adds ability to search by an order ID number in the Orders table. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#1583](https://github.com/gocodebox/lifterlms/issues/1583)
++ Added support for showing Private, Drafts and Pending Courses/Memberships in Reporting > Sales Page. [#2490](https://github.com/gocodebox/lifterlms/issues/2490)
+
+##### Bug Fixes
+
++ Fixes issue of not being able to save an imported or cloned course using Divi or the Classic Editor plugin. [#2649](https://github.com/gocodebox/lifterlms/issues/2649)
++ Fixes broken View link after creating a new lesson using the Course Builder. [#2662](https://github.com/gocodebox/lifterlms/issues/2662)
++ Upgrading Quill text editor version. [#2655](https://github.com/gocodebox/lifterlms/issues/2655)
+
+##### Developer Notes
+
++ Added logic to delete vouchers data from table when vouchers are deleted. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#1087](https://github.com/gocodebox/lifterlms/issues/1087)
+
+##### Updated Templates
+
++ [templates/admin/reporting/nav-filters.php](https://github.com/gocodebox/lifterlms/blob/7.6.2/templates/admin/reporting/nav-filters.php)
+
+
+v7.6.1 - 2024-05-02
+-------------------
+
+##### Bug Fixes
+
++ Fix error when trying to add a new lesson outside the course builder. [#2636](https://github.com/gocodebox/lifterlms/issues/2636)
++ Show correct course title when launching Course Builder immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ Updating lifter blocks version for the Launch Course Builder button to appear on the Course edit page.
+
+
+v7.6.0 - 2024-04-18
+-------------------
+
+##### New Features
+
++ Adds course-level lesson drip settings.
++ Loads translation files later for compatibility with plugins like Loco Translate. [#2429](https://github.com/gocodebox/lifterlms/issues/2429), [#2525](https://github.com/gocodebox/lifterlms/issues/2525)
++ Adds settings in the Permalinks page to edit the custom post type and taxonomy slugs. Slugs are saved in the site language on install on update.
++ Adds `llms_switch_to_site_locale` and `llms_restore_locale` to help LifterLMS add-ons switch to the site language when getting translation strings.
+
+##### Updates and Enhancements
+
++ Improved the Course Builder UI.
++ Updating the Blocks and Helpers libraries to the latest version.
+
+##### Bug Fixes
+
++ Allows the style tag when embedding content (iframe), in order to support more services. [#2610](https://github.com/gocodebox/lifterlms/issues/2610)
++ Removes non-working editing of course title in the Course Builder. [#2607](https://github.com/gocodebox/lifterlms/issues/2607)
++ Avoid issue with lost content when the course builder is launched immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ LifterLMS block editor strings now appear in the user's language. [#2525](https://github.com/gocodebox/lifterlms/issues/2525)
++ Fixed user's language setting not honored on backend. [#2324](https://github.com/gocodebox/lifterlms/issues/2324)
++ Fixes XSS, sanitization, and other security issues reported by Signal Labs.
++ Fixes typo with CHF currency.
+
+##### Updated Templates
+
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/7.6.0/templates/myaccount/my-orders.php)
+
+
+v7.5.3 - 2024-02-22
+-------------------
+
+##### Bug Fixes
+
++ Fix fatal error when rendering single course page with reviews enabled. [#2604](https://github.com/gocodebox/lifterlms/issues/2604)
+
+
 v7.5.2 - 2024-02-16
 -------------------
 

@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.5.2';
+	public $version = '7.6.3';
 
 	/**
 	 * LLMS_Assets instance
@@ -68,19 +68,11 @@ final class LifterLMS {
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
 	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since 7.6.0 Lood locale textdomain on `init` instead of immediately
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
-		/**
-		 * Localize as early as possible.
-		 *
-		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load first.
-		 */
-		$this->localize();
 
 		$this->define_constants();
 
@@ -89,9 +81,9 @@ final class LifterLMS {
 		$this->query = new LLMS_Query();
 
 		// Hooks.
-		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
+		add_action( 'init', array( $this, 'localize' ), 0 );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
@@ -124,6 +116,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
+	 * @since [version] Added `LLMS_ALLOWED_HTML_PRICES` constant.
 	 *
 	 * @return void
 	 */
@@ -150,6 +143,26 @@ final class LifterLMS {
 		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
 			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
 		}
+
+		// For use in escaping and sanitizing.
+		llms_maybe_define_constant( 'LLMS_ALLOWED_HTML_PRICES', array(
+			'div' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+			'span' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+			'strong' => array(
+				'class' => array(),
+				'id' => array(),
+			),
+			'sup' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+		) );
 	}
 
 	/**
@@ -415,9 +428,10 @@ final class LifterLMS {
 	 */
 	public function localize() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 		llms_load_textdomain( 'lifterlms' );
 
 	}
 
 }
+
+

@@ -35,7 +35,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		);
 		$this->context    = 'side';
 		$this->capability = 'edit_course';
-
 	}
 
 	/**
@@ -62,7 +61,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 
 		return $url;
-
 	}
 
 	/**
@@ -92,7 +90,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 
 		return $title;
-
 	}
 
 	/**
@@ -112,7 +109,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		if ( 'lesson' === $this->post->post_type ) {
 			$course = llms_get_post_parent_course( $post_id );
 			if ( ! $course ) {
-				_e( 'This lesson is not attached to a course.', 'lifterlms' );
+				esc_html_e( 'This lesson is not attached to a course.', 'lifterlms' );
 				return;
 			}
 			$course_id = $course->get( 'id' );
@@ -126,7 +123,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php if ( $lesson && $section ) : ?>
 
-				<p><strong><?php printf( __( 'Course: %s', 'lifterlms' ), $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ); ?></strong></p>
+				<p><strong><?php printf( __( 'Course: %s', 'lifterlms' ), wp_kses_post( $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ) ); ?></strong></p>
 
 				<?php $this->output_section( $section, 'previous' ); ?>
 
@@ -136,11 +133,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php endif; ?>
 
-			<a class="llms-button-primary full" href="<?php echo esc_url( $this->get_builder_url( $course->get( 'id' ) ) ); ?>"><?php _e( 'Launch Course Builder', 'lifterlms' ); ?></a>
+			<a class="llms-button-primary full" href="<?php echo esc_url( $this->get_builder_url( $course->get( 'id' ) ) ); ?>"><?php esc_html_e( 'Launch Course Builder', 'lifterlms' ); ?></a>
 
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -174,7 +170,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 		?>
 
-		<p><strong><?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $this->get_title_html( $section->get( 'title' ), $url ) ); ?></strong></p>
+		<p><strong><?php printf( esc_html__( 'Section %1$d: %2$s', 'lifterlms' ), esc_html( $section->get( 'order' ) ), wp_kses_post( $this->get_title_html( $section->get( 'title' ), $url ) ) ); ?></strong></p>
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>
@@ -184,7 +180,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 				?>
 				<li>
 					<?php if ( $this->post->ID !== $lesson->get( 'id' ) ) : ?>
-						<?php echo $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ); ?>
+						<?php echo wp_kses_post( $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ) ); ?>
 					<?php else : ?>
 						<?php echo $lesson->get( 'title' ); ?>
 					<?php endif; ?>
@@ -194,7 +190,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 						$quiz = $lesson->get_quiz();
 						?>
 						<br>
-						<?php printf( '<span class="tip--top-right" data-tip="%1$s"><i class="fa fa-question-circle"></i></span> %2$s', __( 'Quiz', 'lifterlms' ), $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ); ?>
+						<?php printf( '<span class="tip--top-right" data-tip="%1$s"><i class="fa fa-question-circle"></i></span> %2$s', esc_attr__( 'Quiz', 'lifterlms' ), wp_kses_post( $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ) ); ?>
 					<?php endif; ?>
 					<?php do_action( 'llms_builder_mb_after_lesson', $lesson, $this ); ?>
 				</li>
@@ -202,9 +198,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 			</ol>
 			<?php
 		endif;
-
 	}
-
 }
 
 return new LLMS_Metabox_Course_Builder();

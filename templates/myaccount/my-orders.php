@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since    3.0.0
- * @version  3.17.6
+ * @version  7.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,11 +62,11 @@ defined( 'ABSPATH' ) || exit;
 				<?php if ( $orders['page'] > 1 ) : ?>
 					<a href="
 					<?php
-					echo add_query_arg(
+					echo esc_url( add_query_arg(
 						array(
 							'opage' => $orders['page'] - 1,
 						)
-					);
+					) );
 					?>
 					"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
@@ -74,11 +74,11 @@ defined( 'ABSPATH' ) || exit;
 				<?php if ( $orders['page'] < $orders['pages'] ) : ?>
 					<a href="
 					<?php
-					echo add_query_arg(
+					echo esc_url( add_query_arg(
 						array(
 							'opage' => $orders['page'] + 1,
 						)
-					);
+					) );
 					?>
 					"><?php _e( 'Next', 'lifterlms' ); ?></a>
 				<?php endif; ?>

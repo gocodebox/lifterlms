@@ -75,6 +75,7 @@ define( [
 				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
+				disable_retake: 'no',
 
 				questions: [],
 
