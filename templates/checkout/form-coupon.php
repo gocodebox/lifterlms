@@ -19,8 +19,8 @@ if ( isset( $plan ) && $plan->is_free() ) {
 
 	<?php if ( empty( $coupon ) ) : ?>
 
-		<?php _e( 'Have a coupon?', 'lifterlms' ); ?>
-		<a href="#llms-coupon-toggle"><?php _e( 'Click here to enter your code', 'lifterlms' ); ?></a>
+		<?php esc_html_e( 'Have a coupon?', 'lifterlms' ); ?>
+		<a href="#llms-coupon-toggle"><?php esc_html_e( 'Click here to enter your code', 'lifterlms' ); ?></a>
 
 		<div class="llms-coupon-entry llms-form-fields flush">
 
@@ -83,7 +83,7 @@ if ( isset( $plan ) && $plan->is_free() ) {
 
 		</div>
 
-		<input name="llms_coupon_code" type="hidden" value="<?php echo $coupon->get( 'title' ); ?>">
+		<input name="llms_coupon_code" type="hidden" value="<?php echo esc_attr( $coupon->get( 'title' ) ); ?>">
 
 	<?php endif; ?>
 

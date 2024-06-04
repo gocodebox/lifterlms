@@ -34,7 +34,6 @@ class LLMS_Admin_Post_Tables {
 
 		add_filter( 'post_row_actions', array( $this, 'add_links' ), 777, 2 );
 		add_action( 'admin_init', array( $this, 'handle_link_actions' ) );
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Admin_Post_Tables {
 		}
 
 		return $actions;
-
 	}
 
 	/**
@@ -106,24 +104,24 @@ class LLMS_Admin_Post_Tables {
 
 		// Bail if there's no post ID.
 		if ( empty( $post_id ) ) {
-			wp_die( __( 'Missing post ID.', 'lifterlms' ) );
+			wp_die( esc_html__( 'Missing post ID.', 'lifterlms' ) );
 		}
 
 		$post = get_post( $post_id );
 
 		// Bail if post ID is invalid.
 		if ( ! $post ) {
-			wp_die( __( 'Invalid post ID.', 'lifterlms' ) );
+			wp_die( esc_html__( 'Invalid post ID.', 'lifterlms' ) );
 		}
 
 		// Bail if the action isn't supported on post type.
 		if ( ! post_type_supports( $post->post_type, $action ) ) {
-			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
+			wp_die( esc_html__( 'Action cannot be executed on the current post.', 'lifterlms' ) );
 		}
 
 		// Bail if user doesn't have permissions.
 		if ( ! current_user_can( 'edit_course', $post->ID ) ) {
-			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+			wp_die( esc_html__( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 		}
 
 		$post = llms_get_post( $post );
@@ -137,7 +135,7 @@ class LLMS_Admin_Post_Tables {
 
 			case 'llms-clone-post':
 				if ( ! isset( $_GET['llms_clone_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
-					wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+					wp_die( esc_html__( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 				}
 				$r = $post->clone_post();
 				if ( is_wp_error( $r ) ) {
@@ -147,7 +145,6 @@ class LLMS_Admin_Post_Tables {
 				exit;
 
 		}
-
 	}
 
 	/**
@@ -180,12 +177,12 @@ class LLMS_Admin_Post_Tables {
 				data-no-view-button="true"
 				data-placeholder="<?php echo esc_attr( $label ); ?>"
 				data-post-type="<?php echo $post_type; ?>"
-				name="<?php echo $name; ?>"
-				id="<?php echo $id; ?>"
+				name="<?php echo esc_attr( $name ); ?>"
+				id="<?php echo esc_attr( $id ); ?>"
 			>
 				<?php if ( $selected ) : ?>
 					<?php foreach ( llms_make_select2_post_array( $selected ) as $data ) : ?>
-						<option value="<?php echo $data['key']; ?>"><?php echo $data['title']; ?></option>
+						<option value="<?php echo esc_attr( $data['key'] ); ?>"><?php echo esc_html( $data['title'] ); ?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</select>
@@ -193,6 +190,5 @@ class LLMS_Admin_Post_Tables {
 		<?php
 		return ob_get_clean();
 	}
-
 }
 return new LLMS_Admin_Post_Tables();

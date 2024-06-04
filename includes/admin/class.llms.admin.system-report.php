@@ -41,7 +41,6 @@ class LLMS_Admin_System_Report {
 		}
 
 		echo '</div>';
-
 	}
 
 	/**
@@ -57,12 +56,12 @@ class LLMS_Admin_System_Report {
 	public static function output_copy_box() {
 		?>
 		<div class="llms-setting-group top">
-			<p class="llms-label"><?php _e( 'Support', 'lifterlms' ); ?></p>
+			<p class="llms-label"><?php esc_html_e( 'Support', 'lifterlms' ); ?></p>
 			<div id="llms-debug-report">
 				<textarea style="display:none;width: 100%" rows="12" readonly="readonly"></textarea>
 				<p class="submit">
-					<button id="copy-for-support" class="llms-button-primary"><?php _e( 'Copy for Support', 'lifterlms' ); ?></button>
-					<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php _e( 'Get Help', 'lifterlms' ); ?></a>
+					<button id="copy-for-support" class="llms-button-primary"><?php esc_html_e( 'Copy for Support', 'lifterlms' ); ?></button>
+					<a class="llms-button-secondary" href="https://lifterlms.com/my-account/my-tickets/?utm_source=LifterLMS%20Plugin&utm_medium=System%20Report&utm_campaign=Get%20Help&utm_content=button001" target="_blank"><?php esc_html_e( 'Get Help', 'lifterlms' ); ?></a>
 				</p>
 			</div>
 		</div>
@@ -118,7 +117,7 @@ class LLMS_Admin_System_Report {
 
 		?>
 		<div class="llms-setting-group">
-			<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
+			<p class="llms-label"><?php echo esc_html( self::title( $section_title ) ); ?></p>
 			<div class="llms-list">
 				<ul>
 					<?php foreach ( $data as $key => $val ) : ?>
@@ -128,7 +127,7 @@ class LLMS_Admin_System_Report {
 						<?php elseif ( 'template_overrides' === $section_title ) : ?>
 							<?php self::template_item( $val ); ?>
 						<?php else : ?>
-							<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
+							<?php echo 'constants' === $section_title ? esc_html( $key ) : esc_html( self::title( $key ) ); ?>: <strong><?php echo esc_html( self::value( $val ) ); ?></strong>
 						<?php endif; ?>
 						</p></li>
 					<?php endforeach; ?>
@@ -148,7 +147,7 @@ class LLMS_Admin_System_Report {
 	 */
 	private static function plugin_item( $data ) {
 		?>
-		<a href="<?php echo $data['PluginURI']; ?>"><?php echo $data['Name']; ?></a>: <strong><?php echo $data['Version']; ?></strong>
+		<a href="<?php echo esc_url( $data['PluginURI'] ); ?>"><?php echo esc_html( $data['Name'] ); ?></a>: <strong><?php echo esc_html( $data['Version'] ); ?></strong>
 		<?php
 	}
 
@@ -161,45 +160,44 @@ class LLMS_Admin_System_Report {
 	 * @version  3.11.2
 	 */
 	private static function template_item( $data ) {
-		echo '<strong>' . $data['template'] . ' (ver: ' . $data['core_version'] . ')</strong>: ';
-		echo '<code>' . $data['location'] . '</code> (ver: ' . $data['version'] . ')';
+		echo '<strong>' . esc_html( $data['template'] ) . ' (ver: ' . esc_html( $data['core_version'] ) . ')</strong>: ';
+		echo '<code>' . esc_html( $data['location'] ) . '</code> (ver: ' . esc_html( $data['version'] ) . ')';
 	}
 
 
 	/**
-	 * Output the title for an item in the system report.
+	 * Return the title for an item in the system report.
 	 *
 	 * @since 3.0.0
 	 * @since 7.1.0 Fixed misspelled WordPress.
+	 * @since [version] Return the title.
 	 *
 	 * @param string $key Title.
-	 * @return void
+	 * @return string
 	 */
 	private static function title( $key ) {
 
 		$key = ucwords( str_replace( '_', ' ', $key ) );
 
 		// Fix for capital P.
-		if ( 'Wordpress' === $key ) { // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+		if ( 'Wordpress' === $key ) { // phpcs:ignore
 			$key = 'WordPress';
 		}
 
-		echo $key;
-
+		return $key;
 	}
 
 	/**
-	 * Output the value of an item in the system report
+	 * Return the value of an item in the system report
 	 *
 	 * @since 3.0.0
+	 * @since [version] Return the value.
 	 *
 	 * @param string $val Value.
-	 * @return void
+	 * @return string
 	 */
 	private static function value( $val ) {
 
-		echo $val;
-
+		return $val;
 	}
-
 }
