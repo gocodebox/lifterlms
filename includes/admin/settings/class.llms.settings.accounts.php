@@ -225,6 +225,29 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' => 'sectionend',
 			),
 
+			// Start Website Security & Spam Prevention options.
+			array(
+				'id'   => 'security_and_spam_options',
+				'type' => 'sectionstart',
+			),
+			array(
+				'title' => __( 'Website Security & Spam Prevention', 'lifterlms' ),
+				'type'  => 'title',
+				'id'    => 'security_and_spam_options_title',
+			),
+			array(
+				'autoload'          => false,
+				'default'           => 'no',
+				'id'                => 'lifterlms_spam_protection',
+				'desc'              => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
+				'title'             => __( 'Spam Protection', 'lifterlms' ),
+				'type'              => 'checkbox',				
+			),
+			array(
+				'id'   => 'security_and_spam_options_end',
+				'type' => 'sectionend',
+			),
+
 			// Start user info fields options.
 			array(
 				'id'   => 'user_info_field_options',
