@@ -18,6 +18,8 @@ Make sure you are back on the dev branch.
 
 1. `git checkout dev`
 
+Make sure you have installed composer requirements via `composer install`.
+
 Make sure you have the latest `@lifterlms` JS packages. Note that this will update node_modules using the latest published/stable version of the packages, and won't include any updates made to those packages by this release itself.
 
 1. `npm install`
@@ -109,3 +111,53 @@ After everything is complete, the final version of should be committed and pushe
 1. `git checkout trunk`
 2. `git merge dev`
 3. `git push`
+
+## 8. Push to WordPress.org (If Needed)
+
+As of this writing, only the core LifterLMS plugin, the LifterLMS Labs plugin, and the Lite LMS Prgress Tracker are hosted on wordpress.org.
+
+Note: The feature of the llms-releaser server that pushes updates to wordpress.org has been disabled due to some bugs there. The steps below can be used to "manually" push a release to wordpress.org.
+
+1. If you don't have a lifterlms-svn folder, create it. (The first time you create this, it will take many minutes to download.)
+  1. Navigate to your plugins folder.
+  1. `mkdir lifterlms-svn`
+  1. `cd lifterlms-svn`
+  1. `svn co http://plugins.svn.wordpress.org/lifterlms .`
+1. Make sure your svn repo is up to date with the remote repo by running `svn update`.
+1. Make room for the update by clearing out trunk: `rm -f -f trunk/*`
+1. Copy the new dist files into trunk. `cp -r -f ../lifterlms/dist/lifterlms/* trunk/`
+1. Check what has changed: `svn status`
+1. svn add any new files
+  1. If there are a lot of files to add, you can use `svn add --force trunk/*`
+1. svn rm any deleted files
+  1. If there are a lot of files to remove, you can use `svn st | grep ^! | awk '{print " --force "$2}' | xargs svn rm`
+1. Run `svn status` one more time to review changes and make sure all files are being properly modified, added, or removed from the repo.
+
+These next step is optional for point releases, but should be done for major and minor releases and whenever the deployment process is updated enough to warrant a double check.
+
+1. Update stable version in trunk readme to point to the last stable version.
+  1. `nano trunk/readme.txt`
+  1. Change stable to previous version. (not this version)
+
+1. Commit to SVN
+  1. `svn commit -m "7.6.2 - bug fixes and enhancements"`
+1. Run svn status again to make sure there are no files that still need to be added.
+  1. `svn status`
+1. Create a tag for the new version
+  1. `svn cp trunk/ tags/7.6.2`
+  1. `svn commit -m "tag for new version"`
+1. Wait (about 15min) for each commit to go out to WP repo.  
+
+If you updated the stable version to point to the previous version, test then update to the latest version.
+
+1. Test trunk by visiting [the Advanced Tab of the plugin page](https://wordpress.org/plugins/lifterlms/advanced/)
+  1. scroll to the bottom of the page
+  1. Choose "Development Version" from the dropdown.
+  1. Click download.
+  1. Install the zip on a fresh dev site and run the standard set up and enroll test or any other tests you want.
+1. If the test goes well, update the stable tag to the latest version.
+  1. `nano trunk/readme.txt`
+  1. `nano tags/7.6.2/readme.txt`
+  1. `commit -m "updating stable version"`
+
+

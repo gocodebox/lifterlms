@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.6.1';
+	public $version = '7.6.3';
 
 	/**
 	 * LLMS_Assets instance
@@ -116,6 +116,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
+	 * @since [version] Added `LLMS_ALLOWED_HTML_PRICES` constant.
 	 *
 	 * @return void
 	 */
@@ -142,6 +143,26 @@ final class LifterLMS {
 		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
 			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
 		}
+
+		// For use in escaping and sanitizing.
+		llms_maybe_define_constant( 'LLMS_ALLOWED_HTML_PRICES', array(
+			'div' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+			'span' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+			'strong' => array(
+				'class' => array(),
+				'id' => array(),
+			),
+			'sup' => array (
+				'class' => array(),
+				'id' => array(),
+			),
+		) );
 	}
 
 	/**

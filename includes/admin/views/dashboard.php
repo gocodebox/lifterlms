@@ -25,9 +25,10 @@ defined( 'ABSPATH' ) || exit;
 		<hr class="wp-header-end">
 
 		<div class="llms-dashboard-activity">
-			<h2><?php printf( esc_html__( 'Recent Activity: %1$1s to %2$2s', 'lifterlms' ), date( get_option( 'date_format' ), current_time( 'timestamp' ) - WEEK_IN_SECONDS ), date( get_option( 'date_format' ), current_time( 'timestamp' ) ) ); ?></h2>
+			<h2><?php printf( esc_html__( 'Recent Activity: %1$1s to %2$2s', 'lifterlms' ), esc_html( date( get_option( 'date_format' ), current_time( 'timestamp' ) - WEEK_IN_SECONDS ) ), esc_html( date( get_option( 'date_format' ), current_time( 'timestamp' ) ) ) ); ?></h2>
 			<?php echo '<style type="text/css">#llms-charts-wrapper{display:none;}</style>'; ?>
 			<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template.
 				echo llms_get_template(
 					'admin/reporting/tabs/widgets.php',
 					array(

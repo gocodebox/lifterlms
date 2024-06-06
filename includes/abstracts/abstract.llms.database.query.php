@@ -44,7 +44,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			),
 			parent::default_arguments()
 		);
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
 		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '6.0.0', "llms_{$this->id}_query_get_default_args" );
-
 	}
 
 	/**
@@ -129,7 +127,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 		global $wpdb;
 		return $wpdb->get_results( $this->query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-
 	}
 
 	/**
@@ -152,7 +149,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 		$this->found_results = $this->found_results();
 		$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
-
 	}
 
 	/**
@@ -166,7 +162,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 		global $wpdb;
 		return (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -198,7 +193,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 * @param LLMS_Database_Query $db_query       Instance of LLMS_Database_Query.
 		 */
 		return apply_filters( "llms_{$this->id}_query_select_columns", $select_columns, $this );
-
 	}
 
 	/**
@@ -270,7 +264,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
 		 */
 		return apply_filters( "llms_{$this->id}_query_orderby", $sql, $this );
-
 	}
 
 	/**
@@ -293,7 +286,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			'query_vars'     => array( 'query_vars', false ),
 			'results'        => array( 'get_results', true ),
 		);
-
 	}
 
 	/**
@@ -313,8 +305,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		$class     = get_called_class();
 		$is_method = method_exists( $this, $val );
 		$suffix    = $is_method ? '()' : '';
-		_deprecated_function( "Public access to property {$class}::{$prop}", '6.0.0', $has_replacement ? "{$class}::{$val}{$suffix}" : '' );
-
+		_deprecated_function( esc_html( "Public access to property {$class}::{$prop}" ), '6.0.0', $has_replacement ? esc_html( "{$class}::{$val}{$suffix}" ) : '' );
 	}
 
 	/**
@@ -335,10 +326,9 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			return method_exists( $this, $val ) ? $this->$val() : $this->$val;
 		} elseif ( 'sql' === $key ) {
 			$class = get_called_class();
-			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::get_query()" );
+			_deprecated_function( esc_html( "Property {$class}::sql" ), '6.0.0', esc_html( "{$class}::get_query()" ) );
 			return $this->query;
 		}
-
 	}
 
 	/**
@@ -358,10 +348,9 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			$this->$key = $val;
 		} elseif ( 'sql' === $key ) {
 			$class = get_called_class();
-			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::query" );
+			_deprecated_function( esc_html( "Property {$class}::sql" ), '6.0.0', esc_html( "{$class}::query" ) );
 			$this->query = $val;
 		}
-
 	}
 
 	/**
@@ -376,7 +365,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	public function __call( $name, $args ) {
 		if ( 'preprare_query' === $name ) {
 			$class = get_called_class();
-			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
+			_deprecated_function( esc_html( "{$class}::preprare_query()" ), '6.0.0', esc_html( "{$class}::prepare_query()" ) );
 			return $this->prepare_query();
 		}
 	}
@@ -399,15 +388,14 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	protected function prepare_query() {
 		if ( method_exists( $this, 'preprare_query' ) ) {
 			$class = get_called_class();
-			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
+			_deprecated_function( esc_html( "{$class}::preprare_query()" ), '6.0.0', esc_html( "{$class}::prepare_query()" ) );
 			return $this->preprare_query();
 		} else {
 			_doing_it_wrong(
 				__METHOD__,
-				sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ ),
+				esc_html( sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ ) ),
 				'6.0.0'
 			);
 		}
 	}
-
 }

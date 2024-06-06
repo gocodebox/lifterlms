@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<div class="llms-no-plans-msg">
-			<p><?php printf( __( 'Access plans define the payment options and access time-periods available for this %s.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
-			<p><?php printf( __( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), strtolower( $product->get_post_type_label( 'singular_name' ) ) ); ?></p>
+			<p><?php printf( esc_html__( 'Access plans define the payment options and access time-periods available for this %s.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p>
+			<p><?php printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p>
 		</div>
 		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>
 			<?php include 'access-plan.php'; ?>
@@ -28,8 +28,8 @@ defined( 'ABSPATH' ) || exit;
 	</section>
 
 	<div class="llms-metabox-section d-all d-right">
-		<button class="llms-button-secondary" id="llms-new-access-plan" type="button"><?php _e( 'Add New', 'lifterlms' ); ?></button>
-		<button class="llms-button-primary" id="llms-save-access-plans" type="button"><?php _e( 'Save', 'lifterlms' ); ?></button>
+		<button class="llms-button-secondary" id="llms-new-access-plan" type="button"><?php esc_html_e( 'Add New', 'lifterlms' ); ?></button>
+		<button class="llms-button-primary" id="llms-save-access-plans" type="button"><?php esc_html_e( 'Save', 'lifterlms' ); ?></button>
 	</div>
 
 	<?php

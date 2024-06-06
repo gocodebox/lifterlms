@@ -68,7 +68,7 @@ if ( 'llms-active' === $status ) {
 					<li>
 						<?php
 						// Translators: %s = formatted price / amount due.
-						printf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' );
+						echo wp_kses( sprintf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' ), LLMS_ALLOWED_HTML_PRICES );
 						?>
 					</li>
 				</ul>
@@ -78,23 +78,23 @@ if ( 'llms-active' === $status ) {
 
 			<div class="llms-payment-method">
 				<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $gateway->get_id(), 'switch' ); ?>
-				<span class="llms-gateway-title"><span class="llms-label"><?php _e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo $gateway->get_title(); ?></span>
+				<span class="llms-gateway-title"><span class="llms-label"><?php esc_html_e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo esc_html( $gateway->get_title() ); ?></span>
 				<?php if ( $gateway->get_icon() ) : ?>
-					<span class="llms-gateway-icon"><?php echo $gateway->get_icon(); ?></span>
+					<span class="llms-gateway-icon"><?php echo wp_kses_post( $gateway->get_icon() ); ?></span>
 				<?php endif; ?>
 				<?php if ( $gateway->get_description() ) : ?>
-					<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $gateway->get_description() ) ); ?></div>
+					<div class="llms-gateway-description"><?php echo wp_kses_post( wpautop( wptexturize( $gateway->get_description() ) ) ); ?></div>
 				<?php endif; ?>
 				<?php do_action( 'lifterlms_checkout_confirm_after_payment_method', $gateway->get_id(), 'switch' ); ?>
 			</div>
 
-			<input name="llms_payment_gateway" type="hidden" value="<?php echo $gateway->get_id(); ?>">
+			<input name="llms_payment_gateway" type="hidden" value="<?php echo esc_attr( $gateway->get_id() ); ?>">
 
 		<?php endif; ?>
 
 		<?php wp_nonce_field( 'llms_switch_order_source', '_switch_source_nonce' ); ?>
-		<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
-		<input name="llms_switch_action" type="hidden" value="<?php echo $order->get_switch_source_action(); ?>">
+		<input name="order_id" type="hidden" value="<?php echo esc_attr( $order->get( 'id' ) ); ?>">
+		<input name="llms_switch_action" type="hidden" value="<?php echo esc_attr( $order->get_switch_source_action() ); ?>">
 
 		<?php
 		llms_form_field(
