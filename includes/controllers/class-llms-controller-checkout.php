@@ -64,6 +64,9 @@ class LLMS_Controller_Checkout {
 		foreach ( $actions as $action ) {
 			add_action( 'init', array( $this, "{$action}_ajax" ), 5 );
 			add_action( 'init', array( $this, $action ) );
+
+			// Track spam activity.
+			add_action( 'init', 'llms_track_failed_checkouts_for_spam', 15 );
 		}
 
 	}

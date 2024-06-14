@@ -302,6 +302,9 @@ class LLMS_Loader {
 		// Privacy components.
 		require_once LLMS_PLUGIN_DIR . 'includes/privacy/class-llms-privacy.php';
 
+		// Spam stuff.
+		require_once LLMS_PLUGIN_DIR . 'includes/llms.spam.functions.php';
+
 		// Theme support.
 		require_once LLMS_PLUGIN_DIR . 'includes/theme-support/class-llms-theme-support.php';
 

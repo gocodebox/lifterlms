@@ -145,48 +145,49 @@ function llms_clear_spam_activity( $ip = null ) {
 
 /**
  * Track spam activity when checkouts or billing updates fail.
- *
+ * Hooked up in __construct in class-llms-controller-checkout.php.
+ * 
  * @since [version]
  * @param MemberOrder $morder The order object used at checkout. We ignore it.
  */
-function llms_track_failed_checkouts_for_spam( $morder ) {
+function llms_track_failed_checkouts_for_spam() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option("llms_spam_protection");	
+	$spam_protection = get_option("lifterlms_spam_protection");	
 	if ( empty( $spam_protection ) ) {
 		return;
+	}	
+
+	// Bail if there are no notices with type error.
+	$notices = llms()->session->get( 'llms_notices', array() );
+	$types = array_keys( $notices );
+	if ( in_array( 'error', $types ) ) {
+		llms_track_spam_activity();
 	}
-	
-	llms_track_spam_activity();
 }
-// NEED TO WRITE THE LLMS VERSION OF THIS
-add_action( 'llms_checkout_processing_failed', 'llms_track_failed_checkouts_for_spam' );
-add_action( 'llms_update_billing_failed', 'llms_track_failed_checkouts_for_spam' );
 
 /**
  * Disable checkout and billing update forms for spammers.
  *
- *
  * @since [version]
  *
- * @param array $required_fields The list of required fields.
- *
- * @return array The list of required fields.
+ * @return mixed Truthy means stop checkout.
  */
-function llms_disable_checkout_for_spammers( $required_fields ) {
+function llms_disable_checkout_for_spammers() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option("llms_spam_protection");	
+	$spam_protection = get_option("lifterlms_spam_protection");	
 	if ( empty( $spam_protection ) ) {
-		return $required_fields;
+		return false;
 	}
 	
-	/*
-    // NEED TO WRITE THE LLMS VERSION OF THIS
-    if ( llms_was_checkout_form_submitted() && llms_is_spammer() ) {
-		llms_setMessage( __( 'Suspicious activity detected. Try again in a few minutes.', 'lifterlms' ), 'llms_error' );
+	// Bail if the current visitor is not a spammer.
+	if ( ! llms_is_spammer() ) {
+		return false;
 	}
-    */
 
-	return $required_fields;
+	// Show a notice at LifterLMS checkout RE spam.
+	$notice = __( 'Suspicious activity detected. Try again in a few minutes.', 'lifterlms' );
+	llms_add_notice( $notice, 'error' );
+
+	return true;
 }
-// NEED TO WRITE THE LLMS VERSION OF THIS
-add_filter( 'llms_required_billing_fields', 'llms_disable_checkout_for_spammers' );
+add_filter( 'llms_before_checkout_validation', 'llms_disable_checkout_for_spammers' );
