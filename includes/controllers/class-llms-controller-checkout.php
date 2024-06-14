@@ -51,7 +51,7 @@ class LLMS_Controller_Checkout {
 	 * Constructor.
 	 *
 	 * @since 7.0.0
-	 *
+	 * @since [version] Tracking errors as spam activity.
 	 * @return void
 	 */
 	private function __construct() {
@@ -63,12 +63,8 @@ class LLMS_Controller_Checkout {
 		);
 		foreach ( $actions as $action ) {
 			add_action( 'init', array( $this, "{$action}_ajax" ), 5 );
-			add_action( 'init', array( $this, $action ) );
-
-			// Track spam activity.
-			add_action( 'init', 'llms_track_failed_checkouts_for_spam', 15 );
+			add_action( 'init', array( $this, $action ) );			
 		}
-
 	}
 
 	/**

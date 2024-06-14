@@ -145,25 +145,33 @@ function llms_clear_spam_activity( $ip = null ) {
 
 /**
  * Track spam activity when checkouts or billing updates fail.
- * Hooked up in __construct in class-llms-controller-checkout.php.
+ * Hooked on wp so the $post global is set up.
  * 
  * @since [version]
  * @param MemberOrder $morder The order object used at checkout. We ignore it.
  */
-function llms_track_failed_checkouts_for_spam() {
+function llms_track_failed_checkouts_for_spam() {	
 	// Bail if Spam Protection is disabled.
 	$spam_protection = get_option("lifterlms_spam_protection");	
-	if ( empty( $spam_protection ) ) {
+	if ( empty( $spam_protection ) ) {		
+		return;
+	}	
+
+	// Bail if we're not on the LifterLMS checkout page.
+	if ( is_admin() || ! is_llms_checkout() ) {		
 		return;
 	}	
 
 	// Bail if there are no notices with type error.
 	$notices = llms()->session->get( 'llms_notices', array() );
 	$types = array_keys( $notices );
-	if ( in_array( 'error', $types ) ) {
-		llms_track_spam_activity();
+	if ( ! in_array( 'error', $types ) ) {
+		return;
 	}
+
+	llms_track_spam_activity();
 }
+add_action( 'wp', 'llms_track_failed_checkouts_for_spam' );
 
 /**
  * Disable checkout and billing update forms for spammers.
