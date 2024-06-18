@@ -20,7 +20,13 @@
             factory(window.jQuery);
         }
     }(function($) {
-        // Create the defaults once
+		// verify that LLMS.l10n.translate is defined before using it to get the Close label
+		var closeLabel = 'Close';
+		if ( 'undefined' !== typeof LLMS && 'undefined' !== typeof LLMS.l10n && 'undefined' !== typeof LLMS.l10n.translate ) {
+			closeLabel = LLMS.l10n.translate( 'Close' );
+		}
+
+		// Create the defaults once
         var pluginName = 'webuiPopover';
         var pluginClass = 'webui-popover';
         var pluginType = 'webui.popover';
@@ -56,7 +62,7 @@
             template: '<div class="webui-popover">' +
                 '<div class="webui-arrow"></div>' +
                 '<div class="webui-popover-inner">' +
-                '<a href="#" aria-label="' + LLMS.l10n.translate( 'Close' ) + '" class="close"></a>' +
+                '<a href="#" aria-label="' + closeLabel + '" class="close"></a>' +
                 '<h3 class="webui-popover-title"></h3>' +
                 '<div class="webui-popover-content"><i class="icon-refresh"></i> <p>&nbsp;</p></div>' +
                 '</div>' +
