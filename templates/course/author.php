@@ -11,5 +11,4 @@
 
 defined( 'ABSPATH' ) || exit;
 
-
 llms_template_instructors();
