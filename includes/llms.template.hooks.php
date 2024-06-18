@@ -27,20 +27,20 @@ add_action( 'lifterlms_after_main_content', 'lifterlms_output_content_wrapper_en
  */
 add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_video', 20 );
 add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_audio', 30 );
-//
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty', 20 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks', 25 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories', 30 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags', 35 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author', 40 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end', 50 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites', 55 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
-// add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
+
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty', 20 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks', 25 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories', 30 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags', 35 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author', 40 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end', 50 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites', 55 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
 
 /**
  * Single Lesson

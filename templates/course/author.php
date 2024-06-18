@@ -11,4 +11,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$post_id = get_the_ID(); // Get the ID of the current post
+
+if ( class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor() ) {
+	return;
+}
 llms_template_instructors();
