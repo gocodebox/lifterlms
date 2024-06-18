@@ -20,7 +20,6 @@
             factory(window.jQuery);
         }
     }(function($) {
-		// verify that LLMS.l10n.translate is defined before using it to get the Close label
 		var closeLabel = 'Close';
 		if ( 'undefined' !== typeof LLMS && 'undefined' !== typeof LLMS.l10n && 'undefined' !== typeof LLMS.l10n.translate ) {
 			closeLabel = LLMS.l10n.translate( 'Close' );
