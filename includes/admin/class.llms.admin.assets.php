@@ -27,13 +27,13 @@ class LLMS_Admin_Assets {
 	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
 	}
 
 	/**
@@ -71,6 +71,12 @@ class LLMS_Admin_Assets {
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
 		}
+	}
+
+	public function elementor_editor_assets() {
+		// TODO: Add URL of the block editor to be used by the script (wp_localize_script?).
+		// TODO: Check that we're editing a course post type.
+		llms()->assets->enqueue_script( 'llms-admin-elementor-editor' );
 	}
 
 	/**
