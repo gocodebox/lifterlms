@@ -237,6 +237,70 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 			array(
 				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_captcha',
+				'desc'              => __( 'Choose a captcha service to require at checkout.', 'lifterlms' ),
+				'title'             => __( 'Captcha', 'lifterlms' ),
+				'type'              => 'select',
+				'options'           => array(
+					'' => __( 'None', 'lifterlms' ),
+					'recaptcha' => __( 'reCAPTCHA', 'lifterlms' ),
+					'turnstile' => __( 'Turnstile', 'lifterlms' )
+				),
+				'custom_attributes' => array(
+					'data-controller-id' => 'captcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_recaptcha_site_key',
+				'desc'              => '',
+				'title'             => __( 'reCAPTCHA Site Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'recaptcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_recaptcha_private_key',
+				'desc'              => '',
+				'title'             => __( 'reCAPTCHA Private Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'recaptcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_turnstile_site_key',
+				'desc'              => '',
+				'title'             => __( 'Turnstile Site Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'turnstile',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_turnstile_private_key',
+				'desc'              => '',
+				'title'             => __( 'Turnstile Private Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'turnstile',
+				),
+			),
+			array(
+				'autoload'          => false,
 				'default'           => 'no',
 				'id'                => 'lifterlms_spam_protection',
 				'desc'              => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
