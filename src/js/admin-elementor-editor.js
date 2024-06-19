@@ -8,6 +8,6 @@ jQuery(document).ready(function($) {
 		title:'Launch Course Builder',
 		icon: 'eicon-commenting-o',
 		callback: function callback() {
-			window.location.href = 'https://lifter2.test/wp-admin/admin.php?page=llms-course-builder&course_id=123';
+			window.location.href = llms_elementor.builder_url;
 		}}, 'navigate_from_page', 'finder');
 });
