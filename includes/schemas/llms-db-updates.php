@@ -172,11 +172,19 @@ return array(
 			'update_db_version',
 		),
 	),
-	'7.5.0' => array(
+	'7.5.0'  => array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
 			'favorites_feature_bc',
+			'update_db_version',
+		),
+	),
+	'7.7.0'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'elementor_migrate_courses',
 			'update_db_version',
 		),
 	),

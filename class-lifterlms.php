@@ -105,7 +105,6 @@ final class LifterLMS {
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_loaded' );
-
 	}
 
 	/**
@@ -145,24 +144,27 @@ final class LifterLMS {
 		}
 
 		// For use in escaping and sanitizing.
-		llms_maybe_define_constant( 'LLMS_ALLOWED_HTML_PRICES', array(
-			'div' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'span' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'strong' => array(
-				'class' => array(),
-				'id' => array(),
-			),
-			'sup' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-		) );
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_PRICES',
+			array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'span'   => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'strong' => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'sup'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+			)
+		);
 	}
 
 	/**
@@ -185,6 +187,7 @@ final class LifterLMS {
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 * @since 5.8.0 Initialize block templates.
+	 * @since [version] Initialize Elementor migration.
 	 *
 	 * @return void
 	 */
@@ -196,8 +199,9 @@ final class LifterLMS {
 		$this->engagements();
 		$this->notifications();
 
-		do_action( 'lifterlms_init' );
+		include_once 'includes/class-llms-elementor-migrate.php';
 
+		do_action( 'lifterlms_init' );
 	}
 
 	/**
@@ -215,7 +219,6 @@ final class LifterLMS {
 		$this->assets->define( 'styles', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php' );
 
 		return $this->assets;
-
 	}
 
 	/**
@@ -232,7 +235,6 @@ final class LifterLMS {
 		}
 
 		return $this->session;
-
 	}
 
 	/**
@@ -429,9 +431,5 @@ final class LifterLMS {
 	public function localize() {
 
 		llms_load_textdomain( 'lifterlms' );
-
 	}
-
 }
-
-

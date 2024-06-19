@@ -1,0 +1,267 @@
+<?php
+/**
+ * Handle post migration to the Elementor widgets.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Handle post migration to the new Elementor widgets.
+ *
+ * @since [version]
+ */
+class LLMS_Elementor_Migrate {
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 */
+	public function __construct() {
+
+		add_action( 'current_screen', array( $this, 'migrate_post' ) );
+		add_action( 'wp', array( $this, 'remove_template_hooks' ) );
+	}
+
+	/**
+	 * Retrieve the elementor data template.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public function get_elementor_data_template() {
+		$content = array();
+
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'title'       => esc_attr__( 'Course Information', 'lifterlms' ),
+						'header_size' => 'h3',
+					),
+					'elements'   => array(),
+					'widgetType' => 'heading',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_meta_info]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_author]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_pricing_table]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_progress]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_continue_button]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_syllabus]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
+
+		return $content;
+	}
+
+	/**
+	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
+	 *
+	 * @since [version]
+	 *
+	 * @return  void
+	 */
+	public function migrate_post() {
+
+		global $pagenow;
+
+		if ( 'post.php' !== $pagenow ) {
+			return;
+		}
+
+		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		$post    = $post_id ? get_post( $post_id ) : false;
+
+		if ( ! $post || ! isset( $_REQUEST['action'] ) || 'elementor' !== $_REQUEST['action'] || ! $this->should_migrate_post( $post_id ) || 'course' === get_post_type( $post_id ) ) {
+			return;
+		}
+
+		$this->add_template_to_post( $post_id );
+		$this->update_migration_status( $post_id );
+	}
+
+	public function add_template_to_post( $post_id ) {
+		$content = get_post_meta( $post_id, '_elementor_data', true );
+		if ( ! is_array( $content ) ) {
+			return;
+		}
+
+		$content = array_merge( $content, $this->get_elementor_data_template() );
+
+		// The trim and wp json encode are important. It doesn't seem to work with just json_encode, for example.
+		update_post_meta( $post_id, '_elementor_data', trim( wp_json_encode( $content ), '"' ) );
+	}
+
+	/**
+	 * Removes core template action hooks from posts which have been migrated to elementor widgets.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function remove_template_hooks() {
+
+		if ( ! function_exists( 'llms_is_elementor_post' ) || ! llms_is_elementor_post() ) {
+			return;
+		}
+
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty', 20 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks', 25 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories', 30 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags', 35 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end', 50 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author', 40 );
+		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
+	}
+
+	/**
+	 * Determine if a post should be migrated.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID.
+	 * @return bool
+	 */
+	public function should_migrate_post( $post_id ) {
+
+		$ret = llms_parse_bool( get_post_meta( $post_id, '_llms_elementor_migrated', true ) );
+
+		/**
+		 * Filters whether or not a post should be migrated
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $migrate Whether or not a post should be migrated.
+		 * @param int  $post_id WP_Post ID.
+		 */
+		return apply_filters( 'llms_elementor_should_migrate_post', $ret, $post_id );
+	}
+
+	/**
+	 * Update post meta data to signal status of the editor migration.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id WP_Post ID.
+	 * @param string $status  Yes or no.
+	 * @return void
+	 */
+	public function update_migration_status( $post_id, $status = 'yes' ) {
+		update_post_meta( $post_id, '_llms_elementor_migrated', $status );
+	}
+}
+
+global $llms_elementor_migrate;
+$llms_elementor_migrate = new LLMS_Elementor_Migrate();
+return $llms_elementor_migrate;
