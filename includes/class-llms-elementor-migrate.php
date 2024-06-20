@@ -108,11 +108,9 @@ class LLMS_Elementor_Migrate {
 				array(
 					'id'         => uniqid(),
 					'elType'     => 'widget',
-					'settings'   => array(
-						'shortcode' => '[lifterlms_course_progress]',
-					),
+					'settings'   => array(),
 					'elements'   => array(),
-					'widgetType' => 'shortcode',
+					'widgetType' => 'llms_course_progress_widget',
 				),
 			),
 			'isInner'  => false,
