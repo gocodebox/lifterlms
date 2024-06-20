@@ -179,16 +179,22 @@ class LLMS_Elementor_Migrate {
 		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		$post    = $post_id ? get_post( $post_id ) : false;
 
-		if ( ! $post || ! isset( $_REQUEST['action'] ) || 'elementor' !== $_REQUEST['action'] || ! $this->should_migrate_post( $post_id ) || 'course' === get_post_type( $post_id ) ) {
+		if ( ! $post || ! isset( $_REQUEST['action'] ) || 'elementor' !== $_REQUEST['action'] || ! $this->should_migrate_post( $post_id ) || 'course' !== get_post_type( $post_id ) ) {
 			return;
 		}
 
+		$this->ensure_elementor_data_present( $post_id );
 		$this->add_template_to_post( $post_id );
-		$this->update_migration_status( $post_id );
 	}
 
 	public function add_template_to_post( $post_id ) {
 		$content = get_post_meta( $post_id, '_elementor_data', true );
+		if ( ! $content ) {
+			return;
+		}
+
+		$content = json_decode( $content, true );
+
 		if ( ! is_array( $content ) ) {
 			return;
 		}
@@ -197,6 +203,7 @@ class LLMS_Elementor_Migrate {
 
 		// The trim and wp json encode are important. It doesn't seem to work with just json_encode, for example.
 		update_post_meta( $post_id, '_elementor_data', trim( wp_json_encode( $content ), '"' ) );
+		$this->update_migration_status( $post_id );
 	}
 
 	/**
@@ -235,7 +242,7 @@ class LLMS_Elementor_Migrate {
 	 */
 	public function should_migrate_post( $post_id ) {
 
-		$ret = llms_parse_bool( get_post_meta( $post_id, '_llms_elementor_migrated', true ) );
+		$ret = ! llms_parse_bool( get_post_meta( $post_id, '_llms_elementor_migrated', true ) );
 
 		/**
 		 * Filters whether or not a post should be migrated
@@ -259,6 +266,15 @@ class LLMS_Elementor_Migrate {
 	 */
 	public function update_migration_status( $post_id, $status = 'yes' ) {
 		update_post_meta( $post_id, '_llms_elementor_migrated', $status );
+	}
+
+	private function ensure_elementor_data_present( $post_id ): void {
+		$content = json_decode( get_post_meta( $post_id, '_elementor_data', true ) );
+
+		if ( ! is_array( $content ) ) {
+			$content = array();
+			update_post_meta( $post_id, '_elementor_data', trim( wp_json_encode( $content ), '"' ) );
+		}
 	}
 }
 
