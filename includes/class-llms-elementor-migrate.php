@@ -138,11 +138,9 @@ class LLMS_Elementor_Migrate {
 				array(
 					'id'         => uniqid(),
 					'elType'     => 'widget',
-					'settings'   => array(
-						'shortcode' => '[lifterlms_course_syllabus]',
-					),
+					'settings'   => array(),
 					'elements'   => array(),
-					'widgetType' => 'shortcode',
+					'widgetType' => 'llms_course_syllabus_widget',
 				),
 			),
 			'isInner'  => false,
