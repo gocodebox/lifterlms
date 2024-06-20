@@ -48,9 +48,8 @@ function elementor_migrate_courses() {
 			continue;
 		}
 
-		if ( $llms_elementor_migrate->should_migrate_post( $course->ID ) && llms_is_elementor_post( $course->ID ) ) {
+		if ( $llms_elementor_migrate->should_migrate_post( $course->ID ) ) {
 			$llms_elementor_migrate->add_template_to_post( $course->ID );
-			$llms_elementor_migrate->update_migration_status( $course->ID );
 		}
 	}
 }
