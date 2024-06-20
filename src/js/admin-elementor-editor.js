@@ -6,7 +6,7 @@ jQuery(document).ready(function($) {
 	elementor.modules.layouts.panel.pages.menu.Menu.addItem({
 		name:'Course Builder',
 		title:'Launch Course Builder',
-		icon: 'eicon-commenting-o',
+		icon: 'fas fa-rocket',
 		callback: function callback() {
 			window.location.href = llms_elementor.builder_url;
 		}}, 'navigate_from_page', 'finder');
