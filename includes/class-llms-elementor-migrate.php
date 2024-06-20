@@ -93,11 +93,9 @@ class LLMS_Elementor_Migrate {
 				array(
 					'id'         => uniqid(),
 					'elType'     => 'widget',
-					'settings'   => array(
-						'shortcode' => '[lifterlms_pricing_table]',
-					),
+					'settings'   => array(),
 					'elements'   => array(),
-					'widgetType' => 'shortcode',
+					'widgetType' => 'llms_pricing_table_widget',
 				),
 			),
 			'isInner'  => false,

@@ -33,9 +33,11 @@ class LLMS_Elementor_Widgets {
 	public function init() {
 		require_once LLMS_PLUGIN_DIR . 'includes/elementor/class-llms-elementor-widget-course-meta-info.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/elementor/class-llms-elementor-widget-course-instructors.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/elementor/class-llms-elementor-widget-pricing-table.php';
 
 		\Elementor\Plugin::instance()->widgets_manager->register( new LLMS_Elementor_Widget_Course_Meta_Info() );
 		\Elementor\Plugin::instance()->widgets_manager->register( new LLMS_Elementor_Widget_Course_Instructors() );
+		\Elementor\Plugin::instance()->widgets_manager->register( new LLMS_Elementor_Widget_Pricing_Table() );
 	}
 
 	public function add_widget_categories( $elements_manager ) {
