@@ -63,11 +63,9 @@ class LLMS_Elementor_Migrate {
 				array(
 					'id'         => uniqid(),
 					'elType'     => 'widget',
-					'settings'   => array(
-						'shortcode' => '[lifterlms_course_meta_info]',
-					),
+					'settings'   => array(),
 					'elements'   => array(),
-					'widgetType' => 'shortcode',
+					'widgetType' => 'llms_course_meta_information_widget',
 				),
 			),
 			'isInner'  => false,

@@ -7,7 +7,7 @@ class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
 	}
 
 	public function get_name() {
-		return 'llms_course_information_widget';
+		return 'llms_course_meta_information_widget';
 	}
 
 	public function get_title() {
