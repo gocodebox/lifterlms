@@ -72,23 +72,23 @@ class LLMS_Elementor_Migrate {
 			),
 			'isInner'  => false,
 		);
-		// $content[] = array(
-		// 'id'       => uniqid(),
-		// 'elType'   => 'container',
-		// 'settings' => array(),
-		// 'elements' => array(
-		// array(
-		// 'id'         => uniqid(),
-		// 'elType'     => 'widget',
-		// 'settings'   => array(
-		// 'shortcode' => '[lifterlms_course_author]',
-		// ),
-		// 'elements'   => array(),
-		// 'widgetType' => 'shortcode',
-		// ),
-		// ),
-		// 'isInner'  => false,
-		// );
+		$content[] = array(
+			'id'       => uniqid(),
+			'elType'   => 'container',
+			'settings' => array(),
+			'elements' => array(
+				array(
+					'id'         => uniqid(),
+					'elType'     => 'widget',
+					'settings'   => array(
+						'shortcode' => '[lifterlms_course_instructors]',
+					),
+					'elements'   => array(),
+					'widgetType' => 'shortcode',
+				),
+			),
+			'isInner'  => false,
+		);
 		$content[] = array(
 			'id'       => uniqid(),
 			'elType'   => 'container',
