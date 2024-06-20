@@ -1179,6 +1179,6 @@ if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 		if ( ! $post_id ) {
 			$post_id = get_the_ID();
 		}
-		return class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
+		return $post_id && class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
 	}
 }
