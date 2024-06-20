@@ -18,6 +18,10 @@ class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
 		return 'dashicons-before dashicons-welcome-learn-more';
 	}
 
+	public function get_categories() {
+		return array( 'lifterlms' );
+	}
+
 	protected function _register_controls() {
 		$this->start_controls_section(
 			'content_section',
