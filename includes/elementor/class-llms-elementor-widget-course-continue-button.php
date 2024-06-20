@@ -1,0 +1,55 @@
+<?php
+
+class LLMS_Elementor_Widget_Course_Continue_Button extends \Elementor\Widget_Base {
+
+	public function __construct( $data = array(), $args = null ) {
+		parent::__construct( $data, $args );
+	}
+
+	public function get_name() {
+		return 'llms_course_continue_button_widget';
+	}
+
+	public function get_title() {
+		return __( 'Course Continue Button', 'lifterlms' );
+	}
+
+	public function get_icon() {
+		return 'dashicons-before dashicons-welcome-learn-more';
+	}
+
+	public function get_categories() {
+		return array( 'lifterlms' );
+	}
+
+	protected function _register_controls() {
+		$this->start_controls_section(
+			'content_section',
+			array(
+				'label' => __( 'Course Continue Button', 'lifterlms' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'description',
+			array(
+				'label'     => esc_html__( 'Show course continue button to students for the current course.', 'lifterlms' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	protected function render() {
+		$settings = $this->get_settings_for_display();
+
+		echo do_shortcode( '[lifterlms_course_continue_button]' );
+	}
+
+	protected function _content_template() {
+		// Define your template variables here
+	}
+}

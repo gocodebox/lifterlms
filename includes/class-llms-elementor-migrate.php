@@ -123,11 +123,9 @@ class LLMS_Elementor_Migrate {
 				array(
 					'id'         => uniqid(),
 					'elType'     => 'widget',
-					'settings'   => array(
-						'shortcode' => '[lifterlms_course_continue_button]',
-					),
+					'settings'   => array(),
 					'elements'   => array(),
-					'widgetType' => 'shortcode',
+					'widgetType' => 'llms_course_continue_button_widget',
 				),
 			),
 			'isInner'  => false,
