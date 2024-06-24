@@ -74,8 +74,6 @@ class LLMS_Admin_Assets {
 	}
 
 	public function elementor_editor_assets() {
-		// TODO: Add URL of the block editor to be used by the script (wp_localize_script?).
-		// TODO: Check that we're editing a course post type.
 		if ( isset( $_REQUEST['post'] ) && 'course' === get_post_type( $_REQUEST['post'] ) ) {
 			llms()->assets->enqueue_script( 'llms-admin-elementor-editor' );
 			wp_localize_script( 'llms-admin-elementor-editor', 'llms_elementor', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $_REQUEST['post'] ) ) ) );
