@@ -252,6 +252,10 @@ class LLMS_Media_Protector {
 	public function authorize_media_image_src( $image, $media_id, $size, $icon ) {
 
 		// TODO: Check the source URL contains /lifterlms/ folder, and if not don't do anything.
+		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
+			// Nothing to verify.
+			return $image;
+		}
 
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( is_null( $is_authorized ) ) {
