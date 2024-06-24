@@ -120,7 +120,7 @@ if ( ! isset( $plan ) ) {
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][visibility]">
 					<?php esc_html_e( 'Visibility', 'lifterlms' ); ?>
 					<span class="screen-reader-text"><?php esc_html_e( 'Set whether this access plan is visible, hidden, or featured in the pricing table.', 'lifterlms' ); ?></span>
-					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Set whether this access plan is visible, hidden, or featured in the pricing table.', 'lifterlms' ); ?>">
+					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Set whether this access plan is visible, hidden, or featured in the pricing table.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
     				</span>
 				</label>
@@ -262,7 +262,7 @@ if ( ! isset( $plan ) ) {
 						<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][period]">
 							<?php esc_html_e( 'Plan Period', 'lifterlms' ); ?>
 							<span class="screen-reader-text"><?php esc_html_e( 'Define the billing cycle period for the recurring plan.', 'lifterlms' ); ?></span>
-							<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Define the billing cycle period for the recurring plan.', 'lifterlms' ); ?>">
+							<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Define the billing cycle period for the recurring plan.', 'lifterlms' ); ?>">
 								<i class="fa fa-question-circle"></i>
 							</span>
 						</label>
@@ -278,7 +278,7 @@ if ( ! isset( $plan ) ) {
 						<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][length]">
 							<?php esc_html_e( 'Plan Length', 'lifterlms' ); ?>
 							<span class="screen-reader-text"><?php esc_html_e( 'Specify the duration of the plan period.', 'lifterlms' ); ?></span>
-							<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify the duration of the plan period.', 'lifterlms' ); ?>">
+							<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Specify the duration of the plan period.', 'lifterlms' ); ?>">
 								<i class="fa fa-question-circle"></i>
 							</span>
 						</label>
@@ -360,7 +360,7 @@ if ( ! isset( $plan ) ) {
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_offer]">
 					<?php esc_html_e( 'Trial Offer', 'lifterlms' ); ?>
 					<span class="screen-reader-text"><?php esc_html_e( 'Enable or disable a free or paid trial period for this plan.', 'lifterlms' ); ?></span>
-					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Enable or disable a free or paid trial period for this plan.', 'lifterlms' ); ?>">
+					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Enable or disable a free or paid trial period for this plan.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
     				</span>
 				</label>
@@ -467,7 +467,7 @@ if ( ! isset( $plan ) ) {
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_end]">
 					<?php esc_html_e( 'Sale End Date', 'lifterlms' ); ?>
 					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period ends.', 'lifterlms' ); ?></span>
-					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify when the sale period ends.', 'lifterlms' ); ?>">
+					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Specify when the sale period ends.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
     				</span>
 				</label>

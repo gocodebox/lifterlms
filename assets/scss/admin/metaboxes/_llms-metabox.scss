@@ -132,10 +132,6 @@
 			width: 45px;
 		}
 
-		.wp-editor-wrap {
-			margin-top: -30px;
-		}
-
 		.llms-datetime-field {
 
 			.llms-date-input {
@@ -161,6 +157,15 @@
 
 	}
 
+	/* Fixes to tighten the space between tinymce editor and label */
+	.llms-metabox-field:has(.wp-editor-wrap) label {
+		position: relative;
+		z-index: 5;
+	}
+
+	.llms-metabox-field .wp-editor-wrap {
+		margin-top: -30px;
+	}
 
 }
 
