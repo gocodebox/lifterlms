@@ -568,6 +568,10 @@ class LLMS_Media_Protector {
 	 * @return bool|null
 	 */
 	public function is_authorized_to_view( $user_id, $media_id ): ?bool {
+		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
+			return null;
+		}
+
 		$cache_key     = 'llms-media-auth-' . $media_id . '-' . $user_id;
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
@@ -576,7 +580,7 @@ class LLMS_Media_Protector {
 
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 		if ( ! $authorization_filter ) {
-			wp_cache_add( $media_id, null, 'llms_media_authorization' );
+			wp_cache_add( $cache_key, null, 'llms_media_authorization' );
 
 			return null;
 		}
@@ -592,12 +596,10 @@ class LLMS_Media_Protector {
 
 		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
 		if ( ! $is_authorized && llms_get_student() ) {
-			// TODO: Check an attempt ID passed as a param instead of getting all quizzes
 			$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
 
 			if ( $authorized_quiz_ids ) {
 				$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
-				// TODO: verify there's no attempt after this attempt ID?
 				foreach ( $student_quizzes as $student_quiz_attempt ) {
 					$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
 					if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {

@@ -1200,15 +1200,11 @@ class LLMS_Admin_Builder {
 							$choice_res['id'] = $choice_id;
 
 							if ( isset( $c_data['choice']['id'] ) ) {
-								// update the quiz id for the Picture Choice as an array of quiz IDs,
-								// as the choice attachment/image could be in multiple quizzes.
-
-								// TODO: Verify if this attachment is protected? If not we don't need the meta.
+								// The quiz IDs are needed for later verification of access by the protected media filters.
 								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
 								if ( ! is_array( $quiz_ids ) ) {
 									$quiz_ids = array();
 								}
-								// TODO: Verify if we need this ternary operator, as it's likely always a question group (ie. use parent_id)
 								$quiz_id = $parent->get( 'parent_id' ) ? $parent->get( 'parent_id' ) : $parent->get( 'id' );
 								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
 									$quiz_ids[] = $quiz_id;
