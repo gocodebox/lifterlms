@@ -12,9 +12,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcode_Course_Element
+ * LLMS_Shortcode_Course_Instructors
  *
- * @since 3.11.1
+ * @since [version]
  */
 class LLMS_Shortcode_Course_Instructors extends LLMS_Shortcode_Course_Element {
 
