@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Adds additional protection for media files uploaded to quiz questions in the
+  Course Builder.
