@@ -46,7 +46,7 @@ class LLMS_Elementor_Widget_Course_Progress extends \Elementor\Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		echo do_shortcode( '[lifterlms_course_progress]' );
+		echo do_shortcode( '[lifterlms_course_progress check_enrollment="1"]' );
 	}
 
 	protected function _content_template() {
