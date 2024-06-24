@@ -43,6 +43,7 @@ class LLMS_Admin_Notices_Core {
 	 * @since 3.0.0
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
 	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
+	 * @since [version] Add notice for media protection on certain hosting servers.
 	 *
 	 * @return void
 	 */
