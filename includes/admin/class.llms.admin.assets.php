@@ -74,7 +74,7 @@ class LLMS_Admin_Assets {
 	}
 
 	public function elementor_editor_assets() {
-		if ( isset( $_REQUEST['post'] ) && 'course' === get_post_type( $_REQUEST['post'] ) ) {
+		if ( isset( $_REQUEST['post'] ) && is_numeric( $_REQUEST['post'] ) && 'course' === get_post_type( intval( $_REQUEST['post'] ) ) ) {
 			llms()->assets->enqueue_script( 'llms-admin-elementor-editor' );
 			wp_localize_script( 'llms-admin-elementor-editor', 'llms_elementor', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $_REQUEST['post'] ) ) ) );
 		}
