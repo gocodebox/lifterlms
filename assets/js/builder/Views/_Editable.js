@@ -439,7 +439,7 @@ define( [], function() {
 
 			}
 
-			// TODO: Only add this param for certain files we want to protect?
+			// This flag is used to protect the media files uploaded via places like the Quiz questions (Picture type)
 			self.media_lib.uploader.options.uploader.params.llms = 1;
 
 			self.media_lib.open();
