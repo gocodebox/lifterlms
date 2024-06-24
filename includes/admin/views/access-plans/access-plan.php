@@ -328,14 +328,49 @@ if ( ! isset( $plan ) ) {
 
 			</div>
 
-			
-			<div data-controller="llms-is-free" data-value-is="no">
 
-				<div class="d-all">
-					<?php esc_html_e( 'This is the price that will be charged to the student for this access plan.', 'lifterlms' ); ?>
-				</div>
+			<?php
+				// If only the manual gateway is enabled, show a notice and link to our Ecommerce Add-ons.
+				$active_gateways = llms()->payment_gateways()->get_enabled_payment_gateways();
+				if ( 1 === count( $active_gateways ) && array_key_exists( 'manual', $active_gateways ) ) :
+					?>
+					<div data-controller="llms-is-free" data-value-is="no">
 
-			</div>
+						<div class="d-all">
+
+							<div class="notice notice-warning inline llms-admin-notice">
+
+								<div class="llms-admin-notice-content">
+									<?php
+										$allowed_ecommerce_add_ons_html = array (
+											'a' => array (
+												'href' => array(),
+												'target' => array(),
+												'title' => array(),
+												'rel' => array(),
+											),
+											'em' => array(),
+										);
+										echo sprintf(
+											wp_kses(
+												/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
+												__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more.', 'lifterlms' ),
+												$allowed_ecommerce_add_ons_html
+											),
+											'https://lifterlms.com/product-category/e-commerce/'
+										);
+									?>
+									<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'llms-settings', 'tab' => 'checkout' ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'View Payment Gateway Settings', 'lifterlms' ); ?>
+									</a>
+								</div>
+
+						</div>
+
+					</div>
+
+					<?php
+				endif;
+			?>
 
 			<div class="clear"></div>
 
