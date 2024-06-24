@@ -2,19 +2,17 @@
 /**
  * LifterLMS Elementor Widgets
  *
- * @package LifterLMS/Classes/Shortcodes
+ * @package LifterLMS/Classes
  *
- * @since 1.0.0
- * @version 7.5.0
+ * @since [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcodes
+ * LLMS_Elementor_Widgets
  *
- * @since 1.0.0
- * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
+ * @since [version]
  */
 class LLMS_Elementor_Widgets {
 
