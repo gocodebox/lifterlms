@@ -46,8 +46,6 @@ class LLMS_Elementor_Widget_Pricing_Table extends \Elementor\Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		// We could add an option to pick course ID
-
 		echo do_shortcode( '[lifterlms_pricing_table]' );
 	}
 
