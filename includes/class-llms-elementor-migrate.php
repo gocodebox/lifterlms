@@ -46,11 +46,11 @@ class LLMS_Elementor_Migrate {
 					'id'         => uniqid(),
 					'elType'     => 'widget',
 					'settings'   => array(
-						'title'       => esc_attr__( 'Course Information', 'lifterlms' ),
-						'header_size' => 'h3',
+						'content_width' => 'full',
+						'html'          => '<h3>' . esc_attr__( 'Course Information', 'lifterlms' ) . '</h3>',
 					),
 					'elements'   => array(),
-					'widgetType' => 'heading',
+					'widgetType' => 'html',
 				),
 			),
 			'isInner'  => false,
@@ -203,7 +203,9 @@ class LLMS_Elementor_Migrate {
 	 */
 	public function remove_template_hooks() {
 
-		if ( ! function_exists( 'llms_is_elementor_post' ) || ! llms_is_elementor_post() ) {
+		if ( ! function_exists( 'llms_is_elementor_post' ) ||
+			! llms_is_elementor_post() ||
+			( get_the_ID() && ! llms_parse_bool( get_post_meta( get_the_ID(), '_llms_elementor_migrated', true ) ) ) ) {
 			return;
 		}
 
