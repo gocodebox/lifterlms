@@ -19,9 +19,9 @@ abstract class LLMS_Elementor_Widget_Base extends \Elementor\Widget_Base {
 		$this->add_control(
 			'llms_footer_promo',
 			array(
-				'label'           => '<hr><div style="margin-top: 20px;">' . esc_html__( 'Using LifterLMS with Elementor', 'lifterlms' ) . '</div>',
+				'label'           => '',
 				'type'            => \Elementor\Controls_Manager::RAW_HTML,
-				'raw'             => '<p style="margin-top: 10px;">' . sprintf( esc_html__( '%1$sRead more on creating and editing courses with Elementor%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-to-edit-courses-with-elementor/?utm_source=LifterLMS%20Plugin&utm_medium=Elementor%20Edit%20Panel%20&utm_campaign=Plugin%20to%20Sale">', '</a>' ) . '</p>',
+				'raw'             => '<hr><p style="margin-top: 20px;">' . sprintf( esc_html__( 'Learn more about %1$sediting LifterLMS courses with Elementor%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-to-edit-courses-with-elementor/?utm_source=LifterLMS%20Plugin&utm_medium=Elementor%20Edit%20Panel%20&utm_campaign=Plugin%20to%20Sale">', '</a>' ) . '</p>',
 				'content_classes' => 'lifterlms-notice',
 			)
 		);
