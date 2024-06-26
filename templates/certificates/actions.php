@@ -75,11 +75,15 @@ defined( 'ABSPATH' ) || exit;
 
 <script type="text/javascript">
 	document.getElementById( 'llms-copy-to-clipboard' ).addEventListener( 'click', function() {
-		navigator.clipboard.writeText( window.location.href );
-		document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'inline-block';
-		setTimeout( function() {
-			document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'none';
-		}, 2000 );
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard.writeText( window.location.href );
+			document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'inline-block';
+			setTimeout( function() {
+				document.getElementById( 'llms-copy-to-clipboard-success' ).style.display = 'none';
+			}, 2000 );
+		} else {
+			alert( <?php echo wp_json_encode( __( 'Copy to clipboard is not supported or not available. You can copy and share the URL of this page from the address bar.', 'lifterlms' ) ); ?> );
+		}
 	} );
 </script>
 
