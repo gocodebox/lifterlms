@@ -6,7 +6,14 @@
  */
  ( function( $ ) {
 
-	/**
+	 $( document ).ready( function() {
+		 // Avoid confusion by hiding the visibility option for coupons when the post is public.
+		 if ( $( 'input[name="visibility"]:checked' ).val() === 'public' ) {
+			 $( 'body.post-type-llms_coupon #visibility' ).hide();
+		 }
+	 } );
+
+	 /**
 	 * jQuery plugin to allow "collapsible" sections
 	 *
 	 * @return  jQuery object
