@@ -7,9 +7,9 @@
  ( function( $ ) {
 
 	 $( document ).ready( function() {
-		 // Avoid confusion by hiding the visibility option for coupons when the post is public.
+		 // Avoid confusion by hiding the visibility option for coupons and vouchers if currently set to public.
 		 if ( $( 'input[name="visibility"]:checked' ).val() === 'public' ) {
-			 $( 'body.post-type-llms_coupon #visibility' ).hide();
+			 $( 'body.post-type-llms_coupon #visibility, body.post-type-llms_voucher #visibility' ).hide();
 		 }
 	 } );
 
