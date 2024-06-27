@@ -1,10 +1,6 @@
 <?php
 
-class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
-
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-	}
+class LLMS_Elementor_Widget_Course_Meta_Info extends LLMS_Elementor_Widget_Base {
 
 	public function get_name() {
 		return 'llms_course_meta_information_widget';
@@ -12,14 +8,6 @@ class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
 
 	public function get_title() {
 		return __( 'Course Meta Information', 'lifterlms' );
-	}
-
-	public function get_icon() {
-		return 'dashicons-before dashicons-welcome-learn-more';
-	}
-
-	public function get_categories() {
-		return array( 'lifterlms' );
 	}
 
 	protected function _register_controls() {
@@ -40,6 +28,8 @@ class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_footer_promo_control();
+
 		$this->end_controls_section();
 	}
 
@@ -47,9 +37,5 @@ class LLMS_Elementor_Widget_Course_Meta_Info extends \Elementor\Widget_Base {
 		$settings = $this->get_settings_for_display();
 
 		echo do_shortcode( '[lifterlms_course_meta_info]' );
-	}
-
-	protected function _content_template() {
-		// Define your template variables here
 	}
 }
