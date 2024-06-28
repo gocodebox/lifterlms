@@ -181,6 +181,7 @@ final class LifterLMS {
 					'aria-*'  => true,
 				),
 				'form'     => array(
+					'id'      => true,
 					'action'  => true,
 					'method'  => true,
 					'enctype' => true,
@@ -220,6 +221,7 @@ final class LifterLMS {
 					'id'       => true,
 					'class'    => true,
 					'type'     => true,
+					'value'    => true,
 					'disabled' => true,
 					'style'    => true,
 					'data-*'   => true,
@@ -300,6 +302,7 @@ final class LifterLMS {
 					'decoding' => true,
 					'data-*'   => true,
 					'aria-*'   => true,
+					'border'   => true,
 				),
 			)
 		);
