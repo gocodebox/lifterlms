@@ -32,6 +32,6 @@ if ( isset( $_GET['attempt_id'] ) ) {
 			'quiz_id' => llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ),
 		)
 	);
-	echo $table->get_table_html();
+	$table->output_table_html();
 
 }
