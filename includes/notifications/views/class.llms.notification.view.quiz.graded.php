@@ -80,8 +80,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		);
 
 		ob_start();
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped by the mailer.
-		echo $mailer->get_table_html( $rows );
+		$mailer->output_table_html( $rows );
 		?>
 		<p><a href="{{REVIEW_URL}}" style="<?php echo esc_attr( $btn_style ); ?>"><?php esc_html_e( 'View the whole attempt', 'lifterlms' ); ?></a></p>
 		<p><small><?php esc_html_e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
