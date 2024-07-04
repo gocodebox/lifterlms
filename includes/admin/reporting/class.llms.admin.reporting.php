@@ -445,10 +445,10 @@ class LLMS_Admin_Reporting {
 			<?php endif; ?>
 
 				<?php if ( 'course' === $context || 'membership' === $context || 'quiz' === $context ) : ?>
-					<?php echo esc_html( $student->get_avatar( 24 ) ); ?>
+					<?php echo wp_kses_post( $student->get_avatar( 24 ) ); ?>
 				<?php endif; ?>
 
-				<?php echo esc_html( $event->get_description( $context ) ); ?>
+				<?php echo wp_kses_post( $event->get_description( $context ) ); ?>
 				<time datetime="<?php echo esc_attr( $event->get( 'updated_date' ) ); ?>"><?php echo esc_attr( llms_get_date_diff( current_time( 'timestamp' ), $event->get( 'updated_date' ), 1 ) ); ?></time>
 
 			<?php if ( $url ) : ?>
