@@ -848,7 +848,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
-		if ( $url ) {
+		if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
 
 			$this->get_provider_support( $url );
 
@@ -1257,6 +1257,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			case 'yesno':
 				$val = 'yes' === $val ? 'yes' : 'no';
+				break;
+
+			case 'url':
+				$val = sanitize_url( $val );
 				break;
 
 			case 'text':
