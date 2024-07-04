@@ -20,5 +20,4 @@ $table->get_results(
 		'student' => $student,
 	)
 );
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in method.
-echo $table->get_table_html();
+$table->output_table_html();
