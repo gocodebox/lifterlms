@@ -107,8 +107,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		?>
 		</h4>
 		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped by the mailer.
-		echo $mailer->get_table_html( $rows );
+		$mailer->output_table_html( $rows );
 		?>
 		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
