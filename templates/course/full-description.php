@@ -10,6 +10,6 @@ global $post;
 
 ?>
 <div class="llms-full-description">
-	<?php echo apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ); ?>
+	<?php echo wp_kses_post( apply_filters( 'lifterlms_full_description', do_shortcode( $post->post_content ) ) ); ?>
 </div>
 <div class="clear"></div>

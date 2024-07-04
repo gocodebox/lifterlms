@@ -17,7 +17,7 @@ if ( ! is_admin() ) {
 <section class="llms-reporting-tab llms-reporting-student">
 
 	<header class="llms-reporting-breadcrumbs">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><?php _e( 'Students', 'lifterlms' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting' ) ); ?>"><?php esc_html_e( 'Students', 'lifterlms' ); ?></a>
 		<?php do_action( 'llms_reporting_student_tab_breadcrumbs' ); ?>
 	</header>
 
@@ -26,11 +26,11 @@ if ( ! is_admin() ) {
 		<header class="llms-reporting-header">
 
 			<div class="llms-reporting-header-img">
-				<?php echo $student->get_avatar( 64 ); ?>
+				<?php echo wp_kses_post( $student->get_avatar( 64 ) ); ?>
 			</div>
 			<div class="llms-reporting-header-info">
-				<h2><a href="<?php echo get_edit_user_link( $student->get_id() ); ?>"><?php echo $student->get_name(); ?></a></h2>
-				<h5><a href="mailto:<?php echo $student->get( 'user_email' ); ?>"><?php echo $student->get( 'user_email' ); ?></a></h5>
+				<h2><a href="<?php echo esc_url( get_edit_user_link( $student->get_id() ) ); ?>"><?php echo esc_html( $student->get_name() ); ?></a></h2>
+				<h5><a href="<?php echo esc_url( 'mailto:' . $student->get( 'user_email' ) ); ?>"><?php echo esc_html( $student->get( 'user_email' ) ); ?></a></h5>
 			</div>
 
 		</header>
@@ -39,8 +39,8 @@ if ( ! is_admin() ) {
 			<ul class="llms-nav-items">
 			<?php foreach ( $tabs as $name => $label ) : ?>
 				<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
-						<?php echo $label; ?>
+					<a class="llms-nav-link" href="<?php echo esc_url( LLMS_Admin_Reporting::get_stab_url( $name ) ); ?>">
+						<?php echo wp_kses_post( $label ); ?>
 					</a>
 				</li>
 			<?php endforeach; ?>

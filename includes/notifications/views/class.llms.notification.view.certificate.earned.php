@@ -55,7 +55,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		?>
 		<div class="llms-mini-cert">
 
-			<h2 class="llms-mini-cert-title"><?php echo $title; ?></h2>
+			<h2 class="llms-mini-cert-title"><?php echo wp_kses_post( $title ); ?></h2>
 
 			<div class="llms-mini-cert--body ">
 				<div class="llms-mini-cert--mock-line"></div>
@@ -72,7 +72,6 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		</div>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -144,7 +143,6 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -245,5 +243,4 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 			),
 		);
 	}
-
 }

@@ -45,20 +45,24 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 			<h3>
 				<?php
 					// Translators: %s = Course title.
-					printf( __( 'Course: %s', 'lifterlms' ), $course->get( 'title' ) );
+					echo esc_html( sprintf( __( 'Course: %s', 'lifterlms' ), $course->get( 'title' ) ) );
 				?>
 				<?php
-					echo $table->get_post_link(
-						$course->get( 'id' ),
-						'<span class="tip--top-right" data-tip="' . esc_attr__( 'Edit course', 'lifterlms' ) . '"><i class="fa fa-pencil" aria-hidden="true"></i></span>'
+					echo wp_kses_post(
+						$table->get_post_link(
+							$course->get( 'id' ),
+							'<span class="tip--top-right" data-tip="' . esc_attr__( 'Edit course', 'lifterlms' ) . '"><i class="fa fa-pencil" aria-hidden="true"></i></span>'
+						)
 					);
 					?>
 				<a href="
 				<?php
-				echo LLMS_Admin_Reporting::get_current_tab_url(
-					array(
-						'tab'       => 'courses',
-						'course_id' => $course_id,
+				echo esc_url(
+					LLMS_Admin_Reporting::get_current_tab_url(
+						array(
+							'tab'       => 'courses',
+							'course_id' => $course_id,
+						)
 					)
 				);
 				?>
@@ -163,7 +167,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		do_action( 'llms_reporting_single_student_course_after_widgets', $student, $course );
 		?>
 
-		<?php echo $table->get_table_html(); ?>
+		<?php $table->output_table_html(); ?>
 
 	</section>
 
