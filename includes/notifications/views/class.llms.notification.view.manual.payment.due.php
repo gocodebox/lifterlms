@@ -87,8 +87,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 		<p><?php printf( esc_html__( 'Sign in to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
 		<h4><?php printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
 		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped by the mailer.
-		echo $mailer->get_table_html( $rows );
+		$mailer->output_table_html( $rows );
 		?>
 		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'Pay Invoice', 'lifterlms' ); ?></a></p>
 		<?php
