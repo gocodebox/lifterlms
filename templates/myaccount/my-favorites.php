@@ -12,6 +12,9 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <div class="llms-sd-section llms-my-favorites">
-	<?php echo $content; ?>
+	<?php
+	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in templates.
+	echo $content;
+	?>
 </div>
 

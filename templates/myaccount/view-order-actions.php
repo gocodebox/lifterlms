@@ -62,7 +62,7 @@ defined( 'ABSPATH' ) || exit;
 				?>
 
 				<?php wp_nonce_field( 'llms_cancel_subscription', '_cancel_sub_nonce' ); ?>
-				<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
+				<input name="order_id" type="hidden" value="<?php echo esc_attr( $order->get( 'id' ) ); ?>">
 
 			</form>
 

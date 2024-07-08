@@ -36,6 +36,7 @@ require 'functions/llms.functions.templates.quizzes.php';
 if ( ! function_exists( 'llms_email_body' ) ) {
 
 	function llms_email_body( $content = '' ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo apply_filters( 'the_content', $content );
 	}
 }
@@ -626,7 +627,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 
 		if ( $echo ) {
 
-			echo $page_title;
+			echo wp_kses_post( $page_title );
 
 		} else {
 
@@ -663,7 +664,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 		}
 
 		if ( $echo ) {
-			echo $html;
+			echo wp_kses_post( $html );
 		} else {
 			return $html;
 		}
@@ -740,15 +741,15 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
 			if ( $lesson ) { ?>
 
-				<a class="llms-button-primary llms-course-continue-button" href="<?php echo get_permalink( $lesson ); ?>">
+				<a class="llms-button-primary llms-course-continue-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
 
 					<?php if ( 0 == $progress ) : ?>
 
-						<?php _e( 'Get Started', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Get Started', 'lifterlms' ); ?>
 
 					<?php else : ?>
 
-						<?php _e( 'Continue', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Continue', 'lifterlms' ); ?>
 
 					<?php endif; ?>
 

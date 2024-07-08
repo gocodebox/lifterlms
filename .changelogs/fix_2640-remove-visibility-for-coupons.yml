@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#2640"
+entry: Removes the Visibility setting for Vouchers and Coupons.
