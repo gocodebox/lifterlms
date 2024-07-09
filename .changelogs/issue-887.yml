@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "#887"
+attributions:
+  - "@bsetiawan88"
+entry: Avoids saving review meta information for non-courses.

@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#2523"
+entry: Added support for mutliple membership restriction warning.

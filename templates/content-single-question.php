@@ -18,7 +18,12 @@ defined( 'ABSPATH' ) || exit;
  */
 do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-	<h3 class="llms-question-text"><?php echo $question->get_question(); ?></h3>
+	<h3 class="llms-question-text">
+	<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the question templates.
+			echo $question->get_question();
+	?>
+	</h3>
 
 	<?php
 		/**

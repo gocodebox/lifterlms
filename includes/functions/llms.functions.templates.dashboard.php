@@ -1130,7 +1130,7 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 
 		case 'overall_grade':
 			$grade = $student->get_grade( $lesson->get( 'id' ) );
-			echo is_numeric( $grade ) ? esc_html( llms_get_donut( $grade, '', 'mini' ) ) : '&ndash;';
+			echo is_numeric( $grade ) ? wp_kses_post( llms_get_donut( $grade, '', 'mini' ) ) : '&ndash;';
 			break;
 
 	}
