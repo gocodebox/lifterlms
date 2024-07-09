@@ -221,7 +221,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 
 		// no trial
 		$ob = $this->get_ob( 'llms_template_access_plan_trial' );
-		$this->assertTrue( 0 === strpos( $ob['html'], '<div class="llms-access-plan-pricing trial">' ) );
+		$this->assertTrue( false === strpos( $ob['html'], '<div class="llms-access-plan-pricing trial">' ) );
 		$this->assertTrue( false === strpos( $ob['html'], 'TRIAL' ) );
 
 		// has trial
