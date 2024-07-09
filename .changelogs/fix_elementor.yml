@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Adds native Elementor support for Courses, with a default Course template
+  and several basic widgets.

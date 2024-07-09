@@ -328,6 +328,7 @@ final class LifterLMS {
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 * @since 5.8.0 Initialize block templates.
+	 * @since [version] Initialize Elementor migration.
 	 *
 	 * @return void
 	 */
@@ -338,6 +339,8 @@ final class LifterLMS {
 		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
+
+		include_once 'includes/class-llms-elementor-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}

@@ -262,19 +262,6 @@ if ( ! function_exists( 'lifterlms_template_single_course_tracks' ) ) {
 }
 
 /**
- * Display a list of course tags
- *
- * @return  void
- * @since   3.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
-	function lifterlms_template_single_course_tags() {
-		llms_get_template( 'course/tags.php' );
-	}
-}
-
-/**
  * Course Video Embed Template Include
  *
  * @return void
@@ -340,7 +327,7 @@ if ( ! function_exists( 'lifterlms_template_single_difficulty' ) ) {
 }
 
 /**
- * Course Difficulty Template Include
+ * Course Prerequisites Template Include
  *
  * @return void
  */
@@ -1180,5 +1167,19 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
+	}
+}
+
+/**
+ * Function to check if a post is built with Elementor
+ *
+ * @since [version]
+ */
+if ( ! function_exists( 'llms_is_elementor_post' ) ) {
+	function llms_is_elementor_post( $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+		return $post_id && class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
 	}
 }
