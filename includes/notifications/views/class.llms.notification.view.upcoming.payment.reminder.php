@@ -55,7 +55,6 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 			return $this->set_body_email();
 		}
 		return $this->set_body_basic();
-
 	}
 
 	/**
@@ -92,23 +91,25 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		<p>
 		<?php
 			// Translators: %s= The customer name.
-			printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' );
+			printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' );
 		?>
 		</p>
 		<p>
 		<?php
 			// Translators: %1$s = The product title, %2$s The upcoming payment due date.
-			printf( __( 'You will be charged for your subscription to %1$s on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+			printf( esc_html__( 'You will be charged for your subscription to %1$s on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
 		?>
 		</p>
 		<h4>
 		<?php
 			// Translators: %s= The order ID.
-			printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
+			printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 		?>
 		</h4>
-		<?php echo $mailer->get_table_html( $rows ); ?>
-		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
+		<?php
+		$mailer->output_table_html( $rows );
+		?>
+		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
 	}
@@ -232,7 +233,6 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -257,5 +257,4 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	protected function set_title() {
 		return __( 'Upcoming Subscription Payment', 'lifterlms' );
 	}
-
 }

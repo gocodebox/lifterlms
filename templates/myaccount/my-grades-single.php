@@ -59,6 +59,6 @@ llms_print_notices();
 
 <?php else : ?>
 
-	<p><?php _e( 'Invalid course.', 'lifterlms' ); ?>
+	<p><?php esc_html_e( 'Invalid course.', 'lifterlms' ); ?>
 
 <?php endif; ?>

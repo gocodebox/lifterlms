@@ -22,7 +22,7 @@ $form_fields = llms_get_form_html( 'account' );
 <div class="llms-person-form-wrapper">
 
 	<?php if ( $form_title ) : ?>
-		<h4 class="llms-form-heading"><?php echo $form_title; ?></h4>
+		<h4 class="llms-form-heading"><?php echo wp_kses_post( $form_title ); ?></h4>
 	<?php endif; ?>
 
 	<form method="post" class="llms-person-form edit-account">
@@ -33,7 +33,7 @@ $form_fields = llms_get_form_html( 'account' );
 
 			<?php do_action( 'lifterlms_before_update_fields' ); ?>
 
-			<?php echo $form_fields; ?>
+			<?php echo wp_kses( $form_fields, LLMS_ALLOWED_HTML_FORM_FIELDS ); ?>
 
 			<?php do_action( 'lifterlms_after_update_fields' ); ?>
 

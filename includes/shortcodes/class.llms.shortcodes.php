@@ -57,6 +57,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Course_Author',
 				'LLMS_Shortcode_Course_Continue',
 				'LLMS_Shortcode_Course_Continue_Button',
+				'LLMS_Shortcode_Course_Instructors',
 				'LLMS_Shortcode_Course_Meta_Info',
 				'LLMS_Shortcode_Course_Outline',
 				'LLMS_Shortcode_Course_Prerequisites',
