@@ -146,7 +146,7 @@ class LLMS_Admin_Notices_Core {
 				$theme->get( 'Name' ),
 				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">',
 				'</a>',
-				'<a href="https://lifterlms.com/product/sky-pilot/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">',
+				'<a href="https://lifterlms.com/product/sky-pilot/?utm_source=notice&utm_medium=product&utm_content=skypilot&utm_campaign=lifterlmsplugin" target="_blank">',
 				'</a>'
 			);
 
