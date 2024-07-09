@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2678"
+entry: Avoids JS error on the front-end.

@@ -320,20 +320,29 @@ class LLMS_Emails {
 			return '';
 		}
 
-		list( $table_style, $tr_style, $td_style ) = $this->get_parsed_table_style();
-
 		ob_start();
-		?>
-		<table style="<?php echo esc_attr( $table_style ); ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo esc_attr( $tr_style ); ?>">
-				<th style="<?php echo esc_attr( $td_style ); ?>width:33.3333%;"><?php echo esc_html( $name ); ?></th>
-				<td style="<?php echo esc_attr( $td_style ); ?>">{{<?php echo esc_html( $code ); ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
-		<?php
+		$this->output_table_html( $rows );
 
 		return ob_get_clean();
+	}
+
+	public function output_table_html( $rows ) {
+
+		if ( empty( $rows ) ) {
+			return '';
+		}
+
+		list( $table_style, $tr_style, $td_style ) = $this->get_parsed_table_style();
+
+		?>
+		<table style="<?php echo esc_attr( $table_style ); ?>">
+			<?php foreach ( $rows as $code => $name ) : ?>
+				<tr style="<?php echo esc_attr( $tr_style ); ?>">
+					<th style="<?php echo esc_attr( $td_style ); ?>width:33.3333%;"><?php echo esc_html( $name ); ?></th>
+					<td style="<?php echo esc_attr( $td_style ); ?>">{{<?php echo esc_html( $code ); ?>}}</td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php
 	}
 }
