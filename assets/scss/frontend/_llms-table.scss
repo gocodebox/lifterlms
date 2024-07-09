@@ -1,5 +1,6 @@
 .llms-table {
-	border: 1px solid #efefef;
+	border: 1px solid $color-border;
+	border-spacing: 0;
 	width: 100%;
 
 	thead {
@@ -39,8 +40,8 @@
 	}
 
 	th, td {
-		border-bottom: 1px solid #efefef;
-		padding: 8px 12px;
+		border-bottom: 1px solid $color-border;
+		padding: 15px 20px;
 
 		// launchpad compat...
 		&:first-child { padding-left: 12px; }

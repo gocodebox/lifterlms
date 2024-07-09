@@ -308,6 +308,9 @@ class LLMS_Loader {
 		// Widgets.
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widget.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widgets.php';
+
+		// Elementor support.
+		require_once LLMS_PLUGIN_DIR . 'includes/elementor/class-llms-elementor-widgets.php';
 	}
 
 	/**

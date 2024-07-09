@@ -1,6 +1,55 @@
 LifterLMS Changelog
 ===================
 
+v7.6.3 - 2024-05-31
+-------------------
+
+##### Bug Fixes
+
++ Adds additional filtering when using the lifterlms_favorites shortcode. Thanks, Peter Thaleikis.
+
+##### Updated Templates
+
++ [templates/admin/reporting/nav-filters.php](https://github.com/gocodebox/lifterlms/blob/7.6.3/templates/admin/reporting/nav-filters.php)
+
+
+v7.6.2 - 2024-05-28
+-------------------
+
+##### New Features
+
++ Added functionality to disable quiz retake after a passed attempt.
+
+##### Updates and Enhancements
+
++ Adds ability to search by an order ID number in the Orders table. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#1583](https://github.com/gocodebox/lifterlms/issues/1583)
++ Added support for showing Private, Drafts and Pending Courses/Memberships in Reporting > Sales Page. [#2490](https://github.com/gocodebox/lifterlms/issues/2490)
+
+##### Bug Fixes
+
++ Fixes issue of not being able to save an imported or cloned course using Divi or the Classic Editor plugin. [#2649](https://github.com/gocodebox/lifterlms/issues/2649)
++ Fixes broken View link after creating a new lesson using the Course Builder. [#2662](https://github.com/gocodebox/lifterlms/issues/2662)
++ Upgrading Quill text editor version. [#2655](https://github.com/gocodebox/lifterlms/issues/2655)
+
+##### Developer Notes
+
++ Added logic to delete vouchers data from table when vouchers are deleted. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#1087](https://github.com/gocodebox/lifterlms/issues/1087)
+
+##### Updated Templates
+
++ [templates/admin/reporting/nav-filters.php](https://github.com/gocodebox/lifterlms/blob/7.6.2/templates/admin/reporting/nav-filters.php)
+
+
+v7.6.1 - 2024-05-02
+-------------------
+
+##### Bug Fixes
+
++ Fix error when trying to add a new lesson outside the course builder. [#2636](https://github.com/gocodebox/lifterlms/issues/2636)
++ Show correct course title when launching Course Builder immediately after creating a new course. [#2606](https://github.com/gocodebox/lifterlms/issues/2606)
++ Updating lifter blocks version for the Launch Course Builder button to appear on the Course edit page.
+
+
 v7.6.0 - 2024-04-18
 -------------------
 

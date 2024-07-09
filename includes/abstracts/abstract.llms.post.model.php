@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 6.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -162,7 +162,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( $created ) {
 			$this->after_create();
 		}
-
 	}
 
 
@@ -213,7 +212,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	protected function add_properties( $props = array() ) {
 
 		$this->properties = array_merge( $this->properties, $props );
-
 	}
 
 	/**
@@ -284,7 +282,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function _e( $key ) { // phpcs:ignore -- This is to mimic localization functions.
-		echo $this->translate( $key );
+		echo esc_html( $this->translate( $key ) );
 	}
 
 	/**
@@ -366,7 +364,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return new WP_Error( 'generator-error', __( 'An unknown error occurred during post cloning. Please try again.', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -419,7 +416,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$this->allowed_post_tags_unset();
 
 		die();
-
 	}
 
 	/**
@@ -527,7 +523,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// Shouldn't ever get here.
 		return false;
-
 	}
 
 	/**
@@ -546,7 +541,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $this->$key;
-
 	}
 
 	/**
@@ -759,7 +753,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
 		 */
 		return apply_filters( "llms_get_{$this->model_post_type}_{$key}_price", $price, $key, $price_args, $format, $this );
-
 	}
 
 	/**
@@ -838,10 +831,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Get media embeds
+	 * Get media embeds.
 	 *
 	 * @since 3.17.0
 	 * @since 3.17.5 Unknown.
+	 * @since [version] Added function to get provider support.
 	 *
 	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
 	 * @param string $prop Optional. Postmeta property name. Default is empty string.
@@ -854,7 +848,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
-		if ( $url ) {
+		if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+
+			$this->get_provider_support( $url );
 
 			$ret = wp_oembed_get( $url );
 
@@ -879,7 +875,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param string          $prop      Postmeta property name.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_{$type}", $ret, $this, $type, $prop );
-
 	}
 
 	/**
@@ -904,7 +899,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $type;
-
 	}
 
 	/**
@@ -1026,7 +1020,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$props,
 			$this
 		);
-
 	}
 
 	/**
@@ -1085,7 +1078,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $terms ? $terms : array();
-
 	}
 
 	/**
@@ -1210,7 +1202,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param mixed           $val       The original property value.
 		 */
 		return apply_filters( "llms_scrub_{$this->model_post_type}_field_{$key}", $this->scrub_field( $val, $type ), $this, $key, $val );
-
 	}
 
 	/**
@@ -1268,6 +1259,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				$val = 'yes' === $val ? 'yes' : 'no';
 				break;
 
+			case 'url':
+				$val = sanitize_url( $val );
+				break;
+
 			case 'text':
 			case 'string':
 			default:
@@ -1276,7 +1271,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $val;
-
 	}
 
 	/**
@@ -1304,7 +1298,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $this->set_bulk( $model_array, false, $allow_same_meta_value );
-
 	}
 
 
@@ -1350,7 +1343,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1477,7 +1469,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// Update this post.
 		$this->post = get_post( $this->get( 'id' ) );
-
 	}
 
 
@@ -1518,7 +1509,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				}
 			}
 
-			$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
+			$u = update_post_meta( $this->id, $this->meta_prefix . $key, wp_slash( $val ) );
 
 			if ( ! ( is_numeric( $u ) || true === $u ) ) {
 				$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
@@ -1528,7 +1519,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( $error->has_errors() ) {
 			return $error;
 		}
-
 	}
 
 	/**
@@ -1693,8 +1683,33 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param LLMS_Post_Model $model Post model instance.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_to_array", $arr, $this );
-
 	}
+
+	/**
+	 * Enqueues provider scripts for the URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url URL to check.
+	 * @return null If no provider is found.
+	 */
+	public function get_provider_support( $url ) {
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+
+		// VideoPress Provider.
+		if ( is_plugin_active( 'jetpack-videopress/jetpack-videopress.php' ) ) {
+			if ( strpos( $host, 'videopress.com' ) !== false || strpos( $host, 'video.wordpress.com' ) !== false ) {
+				wp_enqueue_script( 'videopress-token-bridge', plugins_url() . '/jetpack-videopress/jetpack_vendor/automattic/jetpack-videopress/src/../build/lib/token-bridge.js', array(), llms()->version, true );
+
+				wp_localize_script( 'videopress-token-bridge', 'videopressAjax', array() );
+			}
+		}
+
+		return null;
+	}
+
+
 
 	/**
 	 * Called before data is sorted and returned by $this->toArray()
@@ -1735,7 +1750,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		);
 
 		return $arr;
-
 	}
 
 	/**
@@ -1773,7 +1787,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -1803,7 +1816,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		return array_values( array_unique( $images ) );
-
 	}
 
 	/**
@@ -1861,5 +1873,4 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		return $arr;
 	}
-
 }

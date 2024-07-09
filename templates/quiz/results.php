@@ -66,13 +66,13 @@ if ( ! $attempt && ! $attempts ) {
 
 	<?php if ( $attempts ) : ?>
 		<section class="llms-quiz-results-history">
-			<h2 class="llms-quiz-results-title"><?php _e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
+			<h2 class="llms-quiz-results-title"><?php esc_html_e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
 			<select id="llms-quiz-attempt-select">
-				<option value="">-- <?php _e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
+				<option value="">-- <?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
 				<?php foreach ( $attempts as $attempt ) : ?>
 					<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
 						<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
-						<?php printf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ), 2 ) . '%', $attempt->l10n( 'status' ) ); ?>
+						<?php echo esc_html( sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ), 2 ) . '%', $attempt->l10n( 'status' ) ) ); ?>
 					</option>
 				<?php endforeach; ?>
 			</select>

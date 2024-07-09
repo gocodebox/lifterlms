@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 					<?php do_action( 'llms_before_admin_settings_save_button', $current_tab ); ?>
 
-					<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
+					<input name="save" class="llms-button-primary" type="submit" value="<?php echo esc_attr( apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ) ); ?>" />
 
 					<?php wp_nonce_field( 'lifterlms-settings' ); ?>
 
@@ -45,7 +45,7 @@ defined( 'ABSPATH' ) || exit;
 					$active = ( $current_tab === $name ) ? ' llms-active' : '';
 					?>
 
-					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-settings&tab=' . $name ); ?>"><?php echo $label; ?></a></li>
+					<li class="llms-nav-item<?php echo esc_attr( $active ); ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $name ) ); ?>"><?php echo wp_kses_post( $label ); ?></a></li>
 
 				<?php endforeach; ?>
 				</ul>
@@ -59,7 +59,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<hr class="wp-header-end">
 
-			<h1 class="screen-reader-text"><?php echo $tabs[ $current_tab ]; ?></h1>
+			<h1 class="screen-reader-text"><?php echo esc_html( $tabs[ $current_tab ] ); ?></h1>
 
 			<?php do_action( 'lifterlms_settings_notices' ); ?>
 

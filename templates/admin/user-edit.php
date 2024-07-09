@@ -11,23 +11,23 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<h2><?php echo $section_title; ?></h2>
+<h2><?php echo esc_html( $section_title ); ?></h2>
 
 <table class="form-table">
 	<tbody>
 
 		<?php foreach ( $fields as $field => $data ) : ?>
 
-			<tr class="user-<?php echo $field; ?>-wrap">
+			<tr class="user-<?php echo esc_attr( $field ); ?>-wrap">
 				<th>
-					<label for="<?php echo $field; ?>">
-						<?php echo $data['label']; ?>
-						<?php echo ( $data['required'] ) ? '<span class="description">(' . __( 'required', 'lifterlms' ) . ')</span>' : ''; ?>
+					<label for="<?php echo esc_attr( $field ); ?>">
+						<?php echo esc_html( $data['label'] ); ?>
+						<?php echo ( $data['required'] ) ? '<span class="description">(' . esc_html__( 'required', 'lifterlms' ) . ')</span>' : ''; ?>
 					</label>
 				</th>
 				<td>
-					<input type="<?php echo $data['type']; ?>" name="<?php echo $field; ?>" id="<?php echo $field; ?>" value="<?php echo $data['value']; ?>" class="regular-text">
-					<?php echo ( $data['description'] ) ? '<span class="description">' . $data['description'] . '</span>' : ''; ?>
+					<input type="<?php echo esc_attr( $data['type'] ); ?>" name="<?php echo esc_attr( $field ); ?>" id="<?php echo esc_attr( $field ); ?>" value="<?php echo esc_attr( $data['value'] ); ?>" class="regular-text">
+					<?php echo ( $data['description'] ) ? '<span class="description">' . wp_kses_post( $data['description'] ) . '</span>' : ''; ?>
 				</td>
 			</tr>
 

@@ -9,6 +9,12 @@
 defined( 'ABSPATH' ) || exit;
 
 global $post;
+
+// Return if the course doesn't have a course_tag.
+if ( ! has_term( '', 'course_tag', $post->ID ) ) {
+	return;
+}
+
 ?>
 
 <div class="llms-meta llms-tags">

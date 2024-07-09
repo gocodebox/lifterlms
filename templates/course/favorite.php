@@ -61,7 +61,7 @@ $can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->
 	<?php } ?>
 
 	<span class="llms-favorites-count" aria-label="<?php esc_attr_e( 'Total favorites for this lesson', 'lifterlms' ); ?>">
-		<?php echo $total_favorites; ?>
+		<?php echo esc_html( $total_favorites ); ?>
 	</span>
 
 	<?php

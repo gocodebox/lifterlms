@@ -20,6 +20,10 @@ if ( ! $lesson->get( 'audio_embed' ) ) {
 
 <div class="llms-audio-wrapper">
 	<div class="center-audio">
-		<?php echo $lesson->get_audio(); ?>
+		<?php
+			// Calls wp_oembed_get(); can't be escaped.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $lesson->get_audio();
+		?>
 	</div>
 </div>
