@@ -88,7 +88,6 @@ if ( ! function_exists( 'llms_anonymize_string' ) ) {
 		$end   = substr( $string, - $at_back );
 
 		return "{$start}{$body}{$end}";
-
 	}
 }
 
@@ -117,7 +116,7 @@ function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item 
 
 	$index = array_search( $after_key, array_keys( $array ) );
 	if ( false !== $index ) {
-		$index++;
+		++$index;
 
 		$res = array_merge(
 			array_slice( $array, 0, $index, true ),
@@ -129,7 +128,6 @@ function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item 
 	}
 
 	return $res;
-
 }
 
 /**
@@ -168,8 +166,7 @@ if ( ! function_exists( 'llms_content' ) ) {
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-	_deprecated_function( $function, $version, $replacement );
-
+	_deprecated_function( esc_html( $function ), esc_html( $version ), esc_html( $replacement ) );
 }
 
 /**
@@ -199,7 +196,6 @@ function llms_cleanup_tmp() {
 			wp_delete_file( $file );
 		}
 	}
-
 }
 add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
 
@@ -232,7 +228,6 @@ function llms_get_completable_post_types() {
 	 * @param string[] $post_types WP_Post post type names.
 	 */
 	return apply_filters( 'llms_completable_post_types', array( 'course', 'section', 'lesson' ) );
-
 }
 
 /**
@@ -252,7 +247,6 @@ function llms_get_completable_taxonomies() {
 	 * @param string[] $taxonomies Taxonomy names.
 	 */
 	return apply_filters( 'llms_completable_taxonomies', array( 'course_track' ) );
-
 }
 
 /**
@@ -272,7 +266,6 @@ function llms_get_unprefixed_post_types() {
 	 * @param string[] $post_types WP_Post post type names.
 	 */
 	return apply_filters( 'llms_unprefixed_post_types', array( 'course', 'section', 'lesson' ) );
-
 }
 
 /**
@@ -358,9 +351,9 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 		// Loop until temp time is smaller than time2.
 		while ( $time2 >= $ttime ) {
 			// Create new temp time from time1 and interval.
-			$add++;
+			++$add;
 			$ttime = strtotime( '+' . $add . ' ' . $interval, $time1 );
-			$looped++;
+			++$looped;
 		}
 		$time1              = strtotime( '+' . $looped . ' ' . $interval, $time1 );
 		$diffs[ $interval ] = $looped;
@@ -381,7 +374,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 			}
 			// Add value and interval to times array.
 			$times[] = $value . ' ' . $text;
-			$count++;
+			++$count;
 		}
 	}
 	// Return string with times.
@@ -529,7 +522,6 @@ function llms_get_enrollable_post_types() {
 	 * @param string[] $post_types Array of post type names.
 	 */
 	return apply_filters( 'llms_user_enrollment_allowed_post_types', array( 'course', 'llms_membership' ) );
-
 }
 
 /**
@@ -557,7 +549,6 @@ function llms_get_enrollable_status_check_post_types() {
 	 * @param string[] $post_types List of allowed post types names.
 	 */
 	return apply_filters( 'llms_user_enrollment_status_allowed_post_types', array( 'course', 'section', 'lesson', 'llms_membership' ) );
-
 }
 
 /**
@@ -585,7 +576,6 @@ function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
 		$target,
 		get_the_title( $page_id )
 	);
-
 }
 
 /**
@@ -718,7 +708,6 @@ function llms_filter_input_sanitize_string( $type, $variable_name, $flags = arra
 	}
 
 	return $string;
-
 }
 
 
@@ -748,7 +737,6 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 			array( $code, $dupcheck_id )
 		)
 	); // no-cache ok.
-
 }
 
 /**
@@ -774,7 +762,6 @@ function llms_get_enrollment_statuses() {
 			'expired'   => __( 'Expired', 'lifterlms' ),
 		)
 	);
-
 }
 
 /**
@@ -801,7 +788,6 @@ function llms_get_enrollment_status_name( $status ) {
 	 * @param array $enrollment_status The enrollment status name.
 	 */
 	return apply_filters( 'lifterlms_get_enrollment_status_name', $status );
-
 }
 
 /**
@@ -837,7 +823,6 @@ function llms_get_ip_address() {
 	}
 
 	return $ip;
-
 }
 
 /**
@@ -859,7 +844,6 @@ function llms_get_open_registration_status() {
 	 * @param string $status The current value of the open registration option. Either "yes" for enabled or "no" for disabled.
 	 */
 	return apply_filters( 'llms_enable_open_registration', $status );
-
 }
 
 /**
@@ -903,7 +887,6 @@ function llms_get_post( $post, $error = false ) {
 	}
 
 	return false;
-
 }
 
 /**
@@ -939,7 +922,6 @@ function llms_get_post_parent_course( $post ) {
 
 	/** @var LLMS_Section|LLMS_Lesson|LLMS_Quiz $post */
 	return $post->get_course();
-
 }
 
 
@@ -1117,7 +1099,6 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 	 * @param array $post_ids  Optional. Indexed array of WordPress Post IDs.
 	 */
 	return apply_filters( 'llms_make_select2_post_array', $ret, $post_ids );
-
 }
 
 /**
@@ -1222,7 +1203,6 @@ function llms_php_error_constant_to_code( $code ) {
 	);
 
 	return isset( $codes[ $code ] ) ? $codes[ $code ] : $code;
-
 }
 
 /**
@@ -1242,7 +1222,6 @@ function llms_set_time_limit( $limit = 0 ) {
 		@set_time_limit( $limit ); // @phpcs:ignore
 
 	}
-
 }
 
 /**
@@ -1282,7 +1261,6 @@ function llms_strip_prefixes( $string, $prefixes = array() ) {
 	}
 
 	return $string;
-
 }
 
 /**
@@ -1333,7 +1311,6 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 	}
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
-
 }
 
 /**

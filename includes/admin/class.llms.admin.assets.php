@@ -27,13 +27,13 @@ class LLMS_Admin_Assets {
 	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
 	}
 
 	/**
@@ -70,6 +70,13 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
+		}
+	}
+
+	public function elementor_editor_assets() {
+		if ( isset( $_REQUEST['post'] ) && is_numeric( $_REQUEST['post'] ) && 'course' === get_post_type( intval( $_REQUEST['post'] ) ) ) {
+			llms()->assets->enqueue_script( 'llms-admin-elementor-editor' );
+			wp_localize_script( 'llms-admin-elementor-editor', 'llms_elementor', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $_REQUEST['post'] ) ) ) );
 		}
 	}
 
