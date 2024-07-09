@@ -181,16 +181,15 @@ class LLMS_Elementor_Migrate {
 			return;
 		}
 
-		$content = json_decode( $content, true );
+		$decoded_content = json_decode( $content, true );
 
-		if ( ! is_array( $content ) ) {
+		if ( ! is_array( $decoded_content ) ) {
 			return;
 		}
 
-		$content = array_merge( $content, $this->get_elementor_data_template() );
+		$decoded_content = array_merge( $decoded_content, $this->get_elementor_data_template() );
 
-		// The trim and wp json encode are important. It doesn't seem to work with just json_encode, for example.
-		update_post_meta( $post_id, '_elementor_data', trim( wp_json_encode( $content ), '"' ) );
+		$this->update_elementor_data( $post_id, $decoded_content );
 		$this->update_migration_status( $post_id );
 	}
 
@@ -261,10 +260,32 @@ class LLMS_Elementor_Migrate {
 	private function ensure_elementor_data_present( $post_id ): void {
 		$content = json_decode( get_post_meta( $post_id, '_elementor_data', true ) );
 
-		if ( ! is_array( $content ) ) {
-			$content = array();
-			update_post_meta( $post_id, '_elementor_data', trim( wp_json_encode( $content ), '"' ) );
+		if ( ! is_array( $content ) && ( $post = get_post( $post_id ) ) ) {
+			$content   = array();
+			$content[] = array(
+				'id'       => uniqid(),
+				'elType'   => 'container',
+				'settings' => array(),
+				'elements' => array(
+					array(
+						'id'         => uniqid(),
+						'elType'     => 'widget',
+						'settings'   => array(
+							'editor' => $post->post_content,
+						),
+						'elements'   => array(),
+						'widgetType' => 'text-editor',
+					),
+				),
+				'isInner'  => false,
+			);
+			$this->update_elementor_data( $post_id, $content );
 		}
+	}
+
+	private function update_elementor_data( $post_id, $content ): void {
+		// The trim and wp json encode are important. It doesn't seem to work with just json_encode, for example.
+		update_post_meta( $post_id, '_elementor_data', trim( wp_slash( wp_json_encode( $content ) ), '"' ) );
 	}
 }
 
