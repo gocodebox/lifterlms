@@ -144,24 +144,168 @@ final class LifterLMS {
 		}
 
 		// For use in escaping and sanitizing.
-		llms_maybe_define_constant( 'LLMS_ALLOWED_HTML_PRICES', array(
-			'div' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'span' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-			'strong' => array(
-				'class' => array(),
-				'id' => array(),
-			),
-			'sup' => array (
-				'class' => array(),
-				'id' => array(),
-			),
-		) );
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_PRICES',
+			array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'span'   => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'strong' => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'sup'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+			)
+		);
+
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_FORM_FIELDS',
+			array(
+				'a'        => array(
+					'href'    => true,
+					'onclick' => true,
+					'class'   => true,
+					'id'      => true,
+					'style'   => true,
+					'target'  => true,
+					'title'   => true,
+					'data-*'  => true,
+					'aria-*'  => true,
+				),
+				'form'     => array(
+					'id'      => true,
+					'action'  => true,
+					'method'  => true,
+					'enctype' => true,
+					'name'    => true,
+					'target'  => true,
+					'data-*'  => true,
+					'aria-*'  => true,
+				),
+				'input'    => array(
+					'checked'     => true,
+					'name'        => true,
+					'id'          => true,
+					'class'       => true,
+					'type'        => true,
+					'value'       => true,
+					'placeholder' => true,
+					'disabled'    => true,
+					'pattern'     => true,
+					'required'    => true,
+					'style'       => true,
+					'data-*'      => true,
+					'aria-*'      => true,
+					'minlength'   => true,
+					'maxlegnth'   => true,
+				),
+				'textarea' => array(
+					'name'   => true,
+					'id'     => true,
+					'class'  => true,
+					'value'  => true,
+					'style'  => true,
+					'data-*' => true,
+					'aria-*' => true,
+				),
+				'button'   => array(
+					'name'     => true,
+					'id'       => true,
+					'class'    => true,
+					'type'     => true,
+					'value'    => true,
+					'disabled' => true,
+					'style'    => true,
+					'data-*'   => true,
+					'aria-*'   => true,
+				),
+				'select'   => array(
+					'name'        => true,
+					'id'          => true,
+					'class'       => true,
+					'value'       => true,
+					'disabled'    => true,
+					'placeholder' => true,
+					'required'    => true,
+					'style'       => true,
+					'data-*'      => true,
+					'aria-*'      => true,
+				),
+				'option'   => array(
+					'id'       => true,
+					'value'    => true,
+					'selected' => true,
+					'disabled' => true,
+					'style'    => true,
+					'data-*'   => true,
+					'aria-*'   => true,
+				),
+				'checkbox' => array(
+					'name'     => true,
+					'id'       => true,
+					'class'    => true,
+					'type'     => true,
+					'value'    => true,
+					'checked'  => true,
+					'disabled' => true,
+					'required' => true,
+					'style'    => true,
+					'data-*'   => true,
+					'aria-*'   => true,
+				),
+				'radio'    => array(
+					'name'      => true,
+					'id'        => true,
+					'class'     => true,
+					'type'      => true,
+					'value'     => true,
+					'checked'   => true,
+					'disabled'  => true,
+					'required'  => true,
+					'style'     => true,
+					'data-*'    => true,
+					'aria-live' => true,
+				),
+				'optgroup' => array(
+					'label'  => true,
+					'data-*' => true,
+					'aria*'  => true,
+				),
+				'div'      => array(
+					'class'     => true,
+					'id'        => true,
+					'data-*'    => true,
+					'aria-live' => true,
+					'aria-*'    => true,
+				),
+				'label'    => array(
+					'for'    => true,
+					'aria-*' => true,
+				),
+				'span'     => array(
+					'id'     => true,
+					'class'  => true,
+					'data-*' => true,
+					'aria-*' => true,
+				),
+				'img'      => array(
+					'src'      => true,
+					'alt'      => true,
+					'decoding' => true,
+					'data-*'   => true,
+					'aria-*'   => true,
+					'border'   => true,
+				),
+			)
+		);
 	}
 
 	/**
@@ -184,6 +328,7 @@ final class LifterLMS {
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 * @since 5.8.0 Initialize block templates.
+	 * @since [version] Initialize Elementor migration.
 	 *
 	 * @return void
 	 */
@@ -195,6 +340,8 @@ final class LifterLMS {
 		$this->engagements();
 		$this->notifications();
 		( new LLMS_Media_Protector() )->register_callbacks();
+
+		include_once 'includes/class-llms-elementor-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}

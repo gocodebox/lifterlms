@@ -32,7 +32,6 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 		);
 
 		parent::__construct( 'llms_bbp_widget_course_forums_list', esc_html__( 'LifterLMS Course Forums List', 'lifterlms' ), $options );
-
 	}
 
 	/**
@@ -61,16 +60,15 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 			return;
 		}
 
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
 
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+			echo wp_kses_post( $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] );
 		}
 
 			echo do_shortcode( '[lifterlms_bbp_course_forums]' );
 
-		echo $args['after_widget'];
-
+		echo wp_kses_post( $args['after_widget'] );
 	}
 
 	/**
@@ -86,10 +84,9 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 		$title = isset( $instance['title'] ) ? $instance['title'] : __( 'Course Forums', 'lifterlms' );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'lifterlms' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'lifterlms' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php
 	}
-
 }

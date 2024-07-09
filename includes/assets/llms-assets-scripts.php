@@ -76,6 +76,11 @@ return array(
 		'suffix'     => '',
 	),
 
+	'llms-admin-elementor-editor'   => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+
 	// Modules.
 	'llms-components'               => array(
 		'asset_file' => true,
