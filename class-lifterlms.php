@@ -304,6 +304,11 @@ final class LifterLMS {
 					'aria-*'   => true,
 					'border'   => true,
 				),
+				'i'        => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
 			)
 		);
 	}
