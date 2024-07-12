@@ -339,6 +339,7 @@ final class LifterLMS {
 		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
+		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
 
