@@ -412,6 +412,8 @@ class LLMS_Admin_Assets {
 		';
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
+		
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_js_strings returns json_encoded strings.
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
 
 		$forms = LLMS_Forms::instance()->get_post_type();
