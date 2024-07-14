@@ -608,7 +608,7 @@ class LLMS_Admin_Builder {
 					echo self::get_template(
 						$template,
 						array(
-							'course_id' => $course_id,
+							'course_id' => $course_id, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						)
 					);
 				}
