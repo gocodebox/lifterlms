@@ -102,7 +102,7 @@ defined( 'ABSPATH' ) || exit;
 			?>
 			<div class="misc-pub-section curtime misc-pub-curtime">
 				<span id="timestamp">
-					<?php wp_kses_post( printf( $stamp, '<b>' . $date . '</b>' ) ); ?>
+					<?php echo wp_kses_post( sprintf( $stamp, '<b>' . $date . '</b>' ) ); ?>
 				</span>
 				<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" role="button">
 					<span aria-hidden="true"><?php esc_html_e( 'Edit', 'lifterlms' ); ?></span>
