@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 		<footer class="llms-sd-pagination llms-my-notifications-pagination">
 			<nav class="llms-pagination">
 			<?php
-			echo paginate_links(
+			echo wp_kses_post( paginate_links(
 				array(
 					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
 					'format'    => '?page=%#%',
@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 					'next_text' => __( 'Next', 'lifterlms' ) . ' »',
 					'type'      => 'list',
 				)
-			);
+			) );
 			?>
 			</nav>
 		</footer>
