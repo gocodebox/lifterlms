@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2690"
+entry: Exclude hidden courses when toggled off in the Courses block.
