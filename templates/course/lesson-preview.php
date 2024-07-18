@@ -23,7 +23,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
-	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
+	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
