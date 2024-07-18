@@ -283,7 +283,8 @@ abstract class LLMS_Admin_Metabox {
 			echo '<nav class="llms-nav-tab-wrapper llms-nav-style-tabs"><ul class="tabs llms-nav-items">' . wp_kses_post( $this->navigation ) . '</ul></nav>';
 		}
 		do_action( 'llms_metabox_before_content', $this->id );
-		echo wp_kses_post( $this->content );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped via process_fields().
+		echo $this->content;
 		do_action( 'llms_metabox_after_content', $this->id );
 		echo '</div>';
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
