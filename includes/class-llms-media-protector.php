@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 7.7.0
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  *         return $is_authorized;
  *     }
  *
- * @since [version]
+ * @since 7.7.0
  *
  * @todo Add handling of HTTP range requests. See {@see https://datatracker.ietf.org/doc/html/rfc7233} and
  *       {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests}.
@@ -47,7 +47,7 @@ class LLMS_Media_Protector {
 	 * The key is protected by prefixing it with an underscore '_', which causes WordPress to not display it in
 	 * a custom fields interface. {@see is_protected_meta()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -60,7 +60,7 @@ class LLMS_Media_Protector {
 	 * For small files or a small number of protected files on a page, this may not be noticeable. However, the server's
 	 * configuration may need to be changed to allow more PHP processes to run, which will use more memory.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var int
 	 */
@@ -72,7 +72,7 @@ class LLMS_Media_Protector {
 	 * This is the least secure way to serve a file because an unprotected URL is given to the HTTP client.
 	 * It is unlikely, yet possible, that the URL could then be used by an unauthorized user to view the file.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var int
 	 */
@@ -87,7 +87,7 @@ class LLMS_Media_Protector {
 	 * - {@see https://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file lighttpd}
 	 * - {@see https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/ NGINX}
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var int
 	 */
@@ -96,7 +96,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The name of the URL parameter for whether the media image should be treated as an icon.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -105,7 +105,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The name of the URL parameter for the media post ID.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -115,7 +115,7 @@ class LLMS_Media_Protector {
 	 * The name of the URL parameter for when the LifterLMS rewrite rule changes a URL that directly accesses the
 	 * 'llms-uploads' directory into '/index.php?llms_protected_url=llms-uploads/PATH_TO_FILE'.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -124,7 +124,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The name of the URL parameter for the requested media image size.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -136,7 +136,7 @@ class LLMS_Media_Protector {
 	 * If it is not empty, it will have a leading slash and will not have a trailing slash.
 	 * Normally, the full path is `WP_CONTENT_DIR . "/uploads/$base/$additional/$year/$month/$file_name"`.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -148,7 +148,7 @@ class LLMS_Media_Protector {
 	 * If it is not empty, it will have a leading slash and will not have a trailing slash.
 	 * Normally, the full path is `WP_CONTENT_DIR . "/uploads/$base/$additional/$year/$month/$file_name"`.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @var string
 	 */
@@ -157,7 +157,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Set up this class.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $additional_upload_path This path is added to the base upload path.
 	 * @param string $base_upload_path       This path is appended to the WordPress upload path, which defaults to
@@ -173,7 +173,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Adds an image to the media library to use when the current user is not allowed to view an image.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Usually an instance of (@see WP_Filesystem_Direct}.
 	 *
@@ -233,7 +233,7 @@ class LLMS_Media_Protector {
 	 * Hooked to the {@see 'wp_get_attachment_image_src'} filter in {@see wp_get_attachment_image_src()}
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param array|false  $image    {
 	 *     Array of image data, or boolean false if no image is available.
@@ -288,7 +288,7 @@ class LLMS_Media_Protector {
 	 * Hooked to the {@see 'wp_get_attachment_url'} filter in {@see wp_get_attachment_url()}
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $url      URL for the given media file.
 	 * @param int    $media_id The post ID of the media file.
@@ -342,7 +342,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns a path path with a leading slash and without a trailing slash, or if the given path is empty, an empty string.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $path The path to be formatted.
 	 * @return string An empty string or a path with a leading slash and without a trailing slash.
@@ -367,7 +367,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns the additional path that is added onto the base path.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return string
 	 */
@@ -379,7 +379,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns the base upload path.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return string
 	 */
@@ -391,7 +391,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns the absolute path to the media file in the upload directory.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int $media_id The media post ID.
 	 * @return string
@@ -407,7 +407,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns the post ID of a placeholder media file.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @return int
@@ -434,7 +434,7 @@ class LLMS_Media_Protector {
 		/**
 		 * Allow the placeholder post ID to be filtered.
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param int $media_id The post ID of the media file.
 		 */
@@ -448,7 +448,7 @@ class LLMS_Media_Protector {
 	 *
 	 * If it does not exist, it is added to the media library. If adding it to the media library fails, 0 is returned.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return int
 	 */
@@ -468,7 +468,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns a URL to file that takes the place of a file that the user is not authorized to view.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $media_url URL for the given media file.
 	 * @param int    $media_id  The post ID of the media file.
@@ -482,7 +482,7 @@ class LLMS_Media_Protector {
 		/**
 		 * Allow the placeholder URL to be filtered.
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param string $placeholder_url The URL of the placeholder media file.
 		 * @param int    $placeholder_id  The post ID of the placeholder media file.
@@ -504,7 +504,7 @@ class LLMS_Media_Protector {
 	 * Gets the size from the URL query parameter.
 	 *
 	 * @see wp_create_image_subsizes()
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return string|int[]|null
 	 */
@@ -530,7 +530,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Saves a file submitted from a POST request and creates an attachment post for it.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $file_id   Index of the `$_FILES` array that the file was sent. Required.
 	 * @param int    $post_id   The post ID of a post to attach the media item to. Required, but can
@@ -564,7 +564,7 @@ class LLMS_Media_Protector {
 	 *
 	 * Authorization is handled by the callback added to the filter hook name given to {@see LLMS_Media_Protector::handle_upload()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int $user_id  The user ID.
 	 * @param int $media_id The post ID of the media file.
@@ -621,7 +621,7 @@ class LLMS_Media_Protector {
 		 *
 		 * The default is to allow the user to view the file in case there is a not a callback for the authorization hook.
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param bool|null $is_authorized True if the user is authorized to view the media file, false if not authorized,
 		 *                                 or null if the file is not protected.
@@ -638,7 +638,7 @@ class LLMS_Media_Protector {
 		/**
 		 * Determine how long the media authorization is valid for.
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param int   $cache_expiration    Time in seconds to cache the authorization for this media file and user.
 		 * @param int   $media_id            The post ID of the media file.
@@ -654,7 +654,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Returns true if the current request has a different modification date or entity tag than the requested file.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $file_name The complete path and file name that the request is for.
 	 * @param string $entity_tag {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag}.
@@ -684,7 +684,7 @@ class LLMS_Media_Protector {
 	 * Hooked to the {@see 'wp_prepare_attachment_for_js'} filter in {@see wp_prepare_attachment_for_js()}
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param array       $response   Array of prepared attachment data.
 	 * @param WP_Post     $attachment Attachment object.
@@ -717,7 +717,7 @@ class LLMS_Media_Protector {
 	 * This method sends the entire file and does not handle
 	 * {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests HTTP range requests}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $file_name The file path and name.
 	 * @return void
@@ -744,7 +744,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Registers the callback functions for action and filter hooks that allow this class to protect uploaded media files.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return self
 	 */
@@ -775,7 +775,7 @@ class LLMS_Media_Protector {
 	 * Hooked to the {@see 'flush_rewrite_rules_hard'} filter in {@see WP_Rewrite::flush_rules()}
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return bool
 	 */
@@ -856,7 +856,7 @@ class LLMS_Media_Protector {
 	 *
 	 * IIS administrators may want to use {@see https://github.com/stakach/IIS-X-Sendfile-plugin}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $file_name The file path and name.
 	 * @param int    $media_id  The post ID of the media file. Not used in this implementation, but here for consistency
@@ -891,7 +891,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Send headers for the download.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $file_name The file path and name.
 	 * @param int    $media_id  The post ID of the media file.
@@ -915,7 +915,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Sends a header that redirects the HTTP client to the media file's URL.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int               $media_id The post ID of the media file.
 	 * @param string|int[]|null $size     A registered image size name, or an array of width and height values in pixels.
@@ -940,7 +940,7 @@ class LLMS_Media_Protector {
 	 *
 	 * Hooked to the {@see 'init'} filter by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 * @throws LLMS_Unit_Test_Exception_Exit Thrown during unit testing instead of exiting.
@@ -1035,7 +1035,7 @@ class LLMS_Media_Protector {
 		/**
 		 * Determine how the media file should be served.
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param string    $serve_method  One of the LLMS_Media_Protector::SERVE_X constants, {@see LLMS_Media_Protector::SERVE_SEND_FILE}.
 		 * @param int       $media_id      The post ID of the media file.
@@ -1071,7 +1071,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Sanitizes and sets the additional upload path that is appended to the base upload path.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $additional_upload_path
 	 * @return self
@@ -1086,7 +1086,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Sanitizes and sets the base upload path relative to `WP_CONTENT_DIR . '/uploads'`.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $base_upload_path
 	 * @return self
@@ -1101,7 +1101,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Removes the authorization filter on the media file.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int    $media_id             The post ID of the media file.
 	 * @param string $authorization_filter The hook name of the filter that authorizes users to view media files.
@@ -1115,7 +1115,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Filters the 'uploads' directory data.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param array $uploads {
 	 *     Array of information about the upload directory.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -323,7 +323,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.10 Added Flag to print notices when landing on the redirected page.
-	 * @since [version] Added support for multiple memberships warning.
+	 * @since 7.7.0 Added support for multiple memberships warning.
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void
@@ -713,7 +713,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
-	 * @since [version] Added support for restricted membership IDs array.
+	 * @since 7.7.0 Added support for restricted membership IDs array.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
