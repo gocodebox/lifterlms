@@ -734,7 +734,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
 		if ( 100 == $progress ) {
 
-			echo '<p class="llms-course-complete-text">' . apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) . '</p>';
+			echo '<p class="llms-course-complete-text">' . wp_kses_post( apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) ) . '</p>';
 
 		} else {
 

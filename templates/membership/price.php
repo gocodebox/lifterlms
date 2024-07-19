@@ -23,7 +23,7 @@ $llms_product = new LLMS_Product( $post->ID );
 
 			<?php if ( 'single' === $option || 'free' === $option ) : ?>
 
-				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', wp_kses( $llms_product->get_single_price_html(), LLMS_ALLOWED_HTML_PRICES ), $llms_product ); ?></span></h4>
+				<h4 class="llms-price"><span><?php echo wp_kses( apply_filters( 'lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ), LLMS_ALLOWED_HTML_PRICES ); ?></span></h4>
 
 			<?php elseif ( 'recurring' === $option ) : ?>
 

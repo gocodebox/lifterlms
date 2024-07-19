@@ -123,7 +123,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php if ( $lesson && $section ) : ?>
 
-				<p><strong><?php printf( __( 'Course: %s', 'lifterlms' ), wp_kses_post( $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ) ); ?></strong></p>
+				<p><strong><?php printf( esc_html__( 'Course: %s', 'lifterlms' ), wp_kses_post( $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ) ); ?></strong></p>
 
 				<?php $this->output_section( $section, 'previous' ); ?>
 
@@ -182,7 +182,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 					<?php if ( $this->post->ID !== $lesson->get( 'id' ) ) : ?>
 						<?php echo wp_kses_post( $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ) ); ?>
 					<?php else : ?>
-						<?php echo $lesson->get( 'title' ); ?>
+						<?php echo wp_kses_post( $lesson->get( 'title' ) ); ?>
 					<?php endif; ?>
 					<a class="tip--top-left" href="<?php echo esc_url( $this->get_builder_url( $lesson->get( 'parent_course' ), $hash ) ); ?>" data-tip="<?php esc_attr_e( 'Edit lesson in builder', 'lifterlms' ); ?>"><i class="fa fa-cog"></i></a>
 					<?php
