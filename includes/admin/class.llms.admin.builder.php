@@ -604,13 +604,14 @@ class LLMS_Admin_Builder {
 				);
 
 				foreach ( $templates as $template ) {
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the template file.
+					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo self::get_template(
 						$template,
 						array(
 							'course_id' => $course_id,
 						)
 					);
+					// phpcs:enable
 				}
 
 				?>

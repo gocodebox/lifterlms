@@ -156,7 +156,7 @@
 
 		);
 
-		// phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped -- Escaped above.
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
 		foreach ( $icons as $icon ) :
 			?>
 
