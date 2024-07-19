@@ -138,5 +138,6 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "composer/installers": true
     }
-  }
+  },
+  "minimum-stability": "dev"
 }
