@@ -6,7 +6,7 @@
  *
  * @package LifterLMS/Shortcodes/Classes
  *
- * @since [version]
+ * @since 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Shortcode_Course_Instructors
  *
- * @since [version]
+ * @since 7.7.0
  */
 class LLMS_Shortcode_Course_Instructors extends LLMS_Shortcode_Course_Element {
 
@@ -29,7 +29,7 @@ class LLMS_Shortcode_Course_Instructors extends LLMS_Shortcode_Course_Element {
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return array
 	 */
@@ -40,7 +40,7 @@ class LLMS_Shortcode_Course_Instructors extends LLMS_Shortcode_Course_Element {
 	/**
 	 * Call the template function for the course element
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */

@@ -1173,7 +1173,7 @@ if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 /**
  * Function to check if a post is built with Elementor
  *
- * @since [version]
+ * @since 7.7.0
  */
 if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 	function llms_is_elementor_post( $post_id = false ) {

@@ -1,7 +1,0 @@
-significance: patch
-type: added
-links:
-  - "#1379"
-attributions:
-  - "@imknight"
-entry: Adding read-only input for easier sharing of a certificate.
