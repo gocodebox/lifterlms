@@ -170,7 +170,7 @@ class LLMS_Admin_System_Report {
 	 *
 	 * @since 3.0.0
 	 * @since 7.1.0 Fixed misspelled WordPress.
-	 * @since [version] Return the title.
+	 * @since 7.7.0 Return the title.
 	 *
 	 * @param string $key Title.
 	 * @return string
@@ -191,7 +191,7 @@ class LLMS_Admin_System_Report {
 	 * Return the value of an item in the system report
 	 *
 	 * @since 3.0.0
-	 * @since [version] Return the value.
+	 * @since 7.7.0 Return the value.
 	 *
 	 * @param string $val Value.
 	 * @return string

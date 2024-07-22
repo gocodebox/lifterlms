@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -502,7 +502,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.14 Unknown.
  * @since 3.37.10 Call `in_array()` with strict comparison.
- * @since [version] Added support for multiple membership restrictions.D
+ * @since 7.7.0 Added support for multiple membership restrictions.D
  *
  * @param int      $post_id WP_Post ID.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.

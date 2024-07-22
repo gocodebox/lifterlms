@@ -25,7 +25,7 @@ llms_print_notices();
 		<tbody>
 		<?php foreach ( $courses as $course ) : ?>
 			<tr>
-				<td><a href="<?php echo esc_url( llms_get_endpoint_url( 'my-grades', $course->get( 'name' ) ) ); ?>"><?php echo $course->get( 'title' ); ?></a></td>
+				<td><a href="<?php echo esc_url( llms_get_endpoint_url( 'my-grades', $course->get( 'name' ) ) ); ?>"><?php echo esc_html( $course->get( 'title' ) ); ?></a></td>
 				<td><?php echo esc_html( $student->get_enrollment_date( $course->get( 'id' ) ) ); ?></td>
 				<td><?php echo wp_kses_post( llms_get_progress_bar_html( $student->get_progress( $course->get( 'id' ) ) ) ); ?></td>
 				<td>

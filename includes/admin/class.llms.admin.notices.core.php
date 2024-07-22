@@ -43,6 +43,7 @@ class LLMS_Admin_Notices_Core {
 	 * @since 3.0.0
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
 	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
+	 * @since 7.7.0 Add notice for media protection on certain hosting servers.
 	 *
 	 * @return void
 	 */
@@ -58,6 +59,9 @@ class LLMS_Admin_Notices_Core {
 		}
 
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
+
+		add_action( $action, array( __CLASS__, 'media_protection' ), $priority );
+
 	}
 
 	/**
@@ -93,6 +97,44 @@ class LLMS_Admin_Notices_Core {
 				array(
 					'type'             => 'warning',
 					'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
+					'remindable'       => true,
+				)
+			);
+		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
+			LLMS_Admin_Notices::delete_notice( $id );
+		}
+	}
+
+	/**
+	 * Check for Nginx and output a notice about media protection.
+	 *
+	 * @since 7.7.0
+	 *
+	 * @return void
+	 */
+	public static function media_protection() {
+		$id = 'using-nginx';
+		if (
+			apply_filters(
+				'llms_admin_notice_using_nginx',
+				( ! empty( $GLOBALS['is_nginx'] && $GLOBALS['is_nginx'] ) )
+				||
+				( function_exists( 'is_wpe' ) && is_wpe() )
+			) ) {
+			$html = sprintf(
+				/* translators: 1. opening link tag; 2. closing link tag */
+				__( 'For the best protection for your media files, you should use this doc to add this %1$sNGINX redirect rule%2$s.', 'lifterlms' ),
+				'<a href="https://lifterlms.com/docs/protected-media-files-on-nginx/" target="_blank">',
+				'</a>'
+			);
+			$html .= '<br><br>' . __( 'If you have already reviewed these instructions you may dismiss this notice.', 'lifterlms' );
+
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				$html,
+				array(
+					'type'             => 'warning',
+					'dismiss_for_days' => 10000,
 					'remindable'       => true,
 				)
 			);

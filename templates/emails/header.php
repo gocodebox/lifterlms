@@ -104,7 +104,7 @@ $header_image = $mailer->get_header_image_src();
 			<!-- END HEADING AREA -->
 			<?php endif; ?>
 
-			<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php echo ! empty( $email_heading ) ? esc_attr( sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) ) : $mailer->get_css( 'border-radius' ); ?>;width:100%;">
+			<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php if ( ! empty( $email_heading ) ) { echo esc_attr( sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) ); } else { $mailer->get_css( 'border-radius' ); } ?>;width:100%;">
 				<tr>
 					<td class="wrapper" style="color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:20px;">
 						<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">

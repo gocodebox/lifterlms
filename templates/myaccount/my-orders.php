@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 				<tr class="llms-order-item <?php echo esc_attr( $order->get( 'status' ) ); ?>" id="llms-order-<?php esc_attr( $order->get( 'id' ) ); ?>">
 					<td data-label="<?php esc_attr_e( 'Order', 'lifterlms' ); ?>: ">
 						<a href="<?php echo esc_url( $order->get_view_link() ); ?>">#<?php echo esc_html( $order->get( 'id' ) ); ?></a>
-						<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo esc_html( $order->get_status_name() ); ?></span>
+						<span class="llms-status <?php echo esc_attr( $order->get( 'status' ) ); ?>"><?php echo esc_html( $order->get_status_name() ); ?></span>
 					</td>
 					<td data-label="<?php esc_attr_e( 'Date', 'lifterlms' ); ?>: "><?php echo esc_html( $order->get_date( 'date', 'F j, Y' ) ); ?></td>
 					<td data-label="<?php esc_attr_e( 'Expires', 'lifterlms' ); ?>: ">

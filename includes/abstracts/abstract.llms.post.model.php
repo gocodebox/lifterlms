@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -835,7 +835,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.17.0
 	 * @since 3.17.5 Unknown.
-	 * @since [version] Added function to get provider support.
+	 * @since 7.7.0 Added function to get provider support.
 	 *
 	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
 	 * @param string $prop Optional. Postmeta property name. Default is empty string.
@@ -1688,7 +1688,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Enqueues provider scripts for the URL.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param string $url URL to check.
 	 * @return null If no provider is found.

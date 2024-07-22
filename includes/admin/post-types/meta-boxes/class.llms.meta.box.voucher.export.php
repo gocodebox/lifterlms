@@ -45,7 +45,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 			<div class="llms-voucher-export-type">
 				<input type="radio" name="llms_voucher_export_type" id="vouchers_only_type" value="vouchers">
-				<label for="vouchers_only_type"><strong><?php _e( 'Vouchers only', 'lifterlms' ); ?></strong></label>
+				<label for="vouchers_only_type"><strong><?php esc_html_e( 'Vouchers only', 'lifterlms' ); ?></strong></label>
 				<p><?php esc_html_e( 'Generates a CSV of voucher codes, uses, and remaining uses.', 'lifterlms' ); ?></p>
 			</div>
 
@@ -63,7 +63,7 @@ class LLMS_Meta_Box_Voucher_Export {
 				<p><?php esc_html_e( 'Send to multiple emails by separating emails addresses with commas.', 'lifterlms' ); ?></p>
 			</div>
 
-			<button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php _e( 'Generate Export', 'lifterlms' ); ?></button>
+			<button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php esc_html_e( 'Generate Export', 'lifterlms' ); ?></button>
 			<?php wp_nonce_field( 'lifterlms_csv_export_data', 'lifterlms_export_nonce' ); ?>
 			<div class="clear"></div>
 		</div>
