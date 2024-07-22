@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.6.3';
+	public $version = '7.7.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -115,7 +115,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
-	 * @since [version] Added `LLMS_ALLOWED_HTML_PRICES` constant.
+	 * @since 7.7.0 Added `LLMS_ALLOWED_HTML_PRICES` constant.
 	 *
 	 * @return void
 	 */
@@ -304,6 +304,11 @@ final class LifterLMS {
 					'aria-*'   => true,
 					'border'   => true,
 				),
+				'i'        => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
 			)
 		);
 	}
@@ -328,7 +333,7 @@ final class LifterLMS {
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 * @since 5.8.0 Initialize block templates.
-	 * @since [version] Initialize Elementor migration.
+	 * @since 7.7.0 Initialize Elementor migration.
 	 *
 	 * @return void
 	 */
@@ -339,6 +344,7 @@ final class LifterLMS {
 		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
+		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
 

@@ -21,12 +21,12 @@ defined( 'ABSPATH' ) || exit;
 		<tbody>
 			<tr>
 				<th><?php esc_html_e( 'Status', 'lifterlms' ); ?></th>
-				<td><?php echo $order->get_status_name(); ?></td>
+				<td><?php echo esc_html( $order->get_status_name() ); ?></td>
 			</tr>
 
 			<tr>
 				<th><?php esc_html_e( 'Access Plan', 'lifterlms' ); ?></th>
-				<td><?php echo $order->get( 'plan_title' ); ?></td>
+				<td><?php echo esc_html( $order->get( 'plan_title' ) ); ?></td>
 			</tr>
 
 			<tr>

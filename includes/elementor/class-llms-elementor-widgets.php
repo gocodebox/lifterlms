@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
+ * @since 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Elementor_Widgets
  *
- * @since [version]
+ * @since 7.7.0
  */
 class LLMS_Elementor_Widgets {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
