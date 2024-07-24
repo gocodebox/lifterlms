@@ -182,6 +182,7 @@ final class LifterLMS {
 				),
 				'form'     => array(
 					'id'      => true,
+					'class'   => true,
 					'action'  => true,
 					'method'  => true,
 					'enctype' => true,
@@ -305,6 +306,36 @@ final class LifterLMS {
 					'border'   => true,
 				),
 				'i'        => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'h1'       => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'h2'       => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'h3'       => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'h4'       => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'h5'       => array(
+					'class'  => true,
+					'id'     => true,
+					'aria-*' => true,
+				),
+				'section'  => array(
 					'class'  => true,
 					'id'     => true,
 					'aria-*' => true,
