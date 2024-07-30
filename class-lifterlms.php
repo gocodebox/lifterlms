@@ -211,6 +211,8 @@ final class LifterLMS {
 			'pattern'     => true,
 			'enctype'     => true,
 			'role'        => true,
+			'selected'    => true,
+			'srcset'      => true,
 		);
 		llms_maybe_define_constant(
 			'LLMS_ALLOWED_HTML_FORM_FIELDS',
