@@ -192,7 +192,7 @@
 				dataType: 'JSON',
 				delay: 250,
 				method: 'GET',
-				url: window.wpApiSettings.root + 'llms/v1/students',
+				url: window.wpApiSettings.root + 'wp/v2/users',
 				data: function( params ) {
 					return {
 						_wpnonce: window.wpApiSettings.nonce,
