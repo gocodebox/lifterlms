@@ -83,6 +83,7 @@ class LLMS_Form_Templates {
 			'post_type'    => 'wp_block',
 			'meta_input'   => array(
 				'_is_llms_field' => 'yes',
+				'wp_pattern_sync_status' => 'unsynced',
 				'_llms_field_id' => $field_id,
 			),
 		);
@@ -338,7 +339,7 @@ class LLMS_Form_Templates {
 		 *
 		 * @param boolean $use_reusable Whether or not to use reusable blocks.
 		 */
-		$use_reusable = apply_filters( 'llms_blocks_template_use_reusable_blocks', ( 'not-set' === get_option( 'lifterlms_registration_generate_username', 'not-set' ) ) );
+		$use_reusable = apply_filters( 'llms_blocks_template_use_reusable_blocks', false );
 
 		$blocks = self::get_template_blocks( $location, $use_reusable );
 
