@@ -116,6 +116,37 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Enroll student in a two memberships with overlapping courses, and make sure they aren't un-enrolled from the course they should have access to.
+	 *
+	 * @return void
+	 */
+	public function test_auto_enroll_and_unenroll_with_overlapping_courses() {
+		$course_id = $this->factory->post->create( array(
+			'post_type' => 'course',
+		));
+		$course_id_2 = $this->factory->post->create( array(
+			'post_type' => 'course',
+		));
+		$memb_id = $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		));
+		$memb_id_2   = $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		));
+		$membership = new LLMS_Membership( $memb_id );
+		$membership->add_auto_enroll_courses( array( $course_id, $course_id_2 ) );
+		$membership_2 = new LLMS_Membership( $memb_id_2 );
+		$membership_2->add_auto_enroll_courses( array( $course_id_2 ) );
+		$this->student->enroll( $memb_id );
+		$this->student->enroll( $memb_id_2 );
+		$this->assertTrue( $this->student->is_enrolled( $course_id ) );
+		$this->assertTrue( $this->student->is_enrolled( $course_id_2 ) );
+		$this->student->unenroll( $memb_id );
+		$this->assertFalse( $this->student->is_enrolled( $course_id ) );
+		$this->assertTrue( $this->student->is_enrolled( $course_id_2 ) );
+	}
+
+	/**
 	 * Functional test for the delete_enrollment() method.
 	 *
 	 * @since 3.33.0

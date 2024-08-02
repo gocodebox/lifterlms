@@ -1491,6 +1491,30 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			// Loop through all the courses and update the enrollment status.
 			foreach ( $courses  as $course_id ) {
+				// See if they should continue to have access to this course via another membership's current auto-enroll settings.
+				$membership_levels    = $this->get_membership_levels();
+				$unenroll_from_course = true;
+
+				foreach ( $membership_levels as $membership_level_id ) {
+					if ( $membership_id === $membership_level_id ) {
+						continue;
+					}
+
+					$membership         = new LLMS_Membership( $membership_level_id );
+					$autoenroll_courses = $membership->get_auto_enroll_courses();
+
+					if ( $autoenroll_courses ) {
+						if ( in_array( $course_id, $autoenroll_courses ) ) {
+							$unenroll_from_course = false;
+							break;
+						}
+					}
+				}
+
+				if ( ! $unenroll_from_course ) {
+					continue;
+				}
+
 				if ( ! $delete ) {
 					$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
 				} else {
