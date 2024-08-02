@@ -1505,6 +1505,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 					if ( $autoenroll_courses ) {
 						if ( in_array( $course_id, $autoenroll_courses ) ) {
+							// Update the enrollment trigger to the membership that is keeping them enrolled in the course.
+							llms_update_user_postmeta( $this->get_id(), $course_id, '_enrollment_trigger', 'membership_' . $membership_level_id, false );
+
 							$unenroll_from_course = false;
 							break;
 						}

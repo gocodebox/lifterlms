@@ -141,9 +141,18 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		$this->student->enroll( $memb_id_2 );
 		$this->assertTrue( $this->student->is_enrolled( $course_id ) );
 		$this->assertTrue( $this->student->is_enrolled( $course_id_2 ) );
+
+		// With no sleep, the enrollment triggers are at the same time, so the test will fail since sorting by updated date returns the first trigger.
+		sleep(1);
+
+		// Unenrolling in the first membership should keep them in course 2, since they have access via membership 2's auto enroll courses.
 		$this->student->unenroll( $memb_id );
 		$this->assertFalse( $this->student->is_enrolled( $course_id ) );
 		$this->assertTrue( $this->student->is_enrolled( $course_id_2 ) );
+
+		// Unenrolling in the second membership should remove them from course 2.
+		$this->student->unenroll( $memb_id_2 );
+		$this->assertFalse( $this->student->is_enrolled( $course_id_2 ) );
 	}
 
 	/**
