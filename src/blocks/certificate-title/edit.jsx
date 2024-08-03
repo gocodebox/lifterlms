@@ -47,6 +47,8 @@ export default function Edit( {
 		return origSetAttributes( attrs );
 	};
 
+	const context = [];
+
 	return (
 		<>
 			<HeadingEdit { ...{
@@ -56,6 +58,7 @@ export default function Edit( {
 				onReplace,
 				style,
 				clientId,
+				context
 			} } />
 		</>
 	);

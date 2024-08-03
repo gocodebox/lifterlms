@@ -27,13 +27,13 @@ class LLMS_Admin_Assets {
 	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
 	}
 
 	/**
@@ -70,6 +70,13 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
+		}
+	}
+
+	public function elementor_editor_assets() {
+		if ( isset( $_REQUEST['post'] ) && is_numeric( $_REQUEST['post'] ) && 'course' === get_post_type( intval( $_REQUEST['post'] ) ) ) {
+			llms()->assets->enqueue_script( 'llms-admin-elementor-editor' );
+			wp_localize_script( 'llms-admin-elementor-editor', 'llms_elementor', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $_REQUEST['post'] ) ) ) );
 		}
 	}
 
@@ -405,7 +412,9 @@ class LLMS_Admin_Assets {
 		';
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
-		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_js_strings returns json_encoded strings.
+		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . wp_json_encode( LLMS_L10n::get_js_strings( false ) ) . ';</script>';
 
 		$forms = LLMS_Forms::instance()->get_post_type();
 

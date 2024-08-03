@@ -604,13 +604,14 @@ class LLMS_Admin_Builder {
 				);
 
 				foreach ( $templates as $template ) {
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the template file.
+					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo self::get_template(
 						$template,
 						array(
 							'course_id' => $course_id,
 						)
 					);
+					// phpcs:enable
 				}
 
 				?>
@@ -1198,6 +1199,19 @@ class LLMS_Admin_Builder {
 							$choice_res['error'] = sprintf( esc_html__( 'Unable to update choice "%s". Invalid choice ID.', 'lifterlms' ), $c_data['id'] );
 						} else {
 							$choice_res['id'] = $choice_id;
+
+							if ( isset( $c_data['choice']['id'] ) ) {
+								// The quiz IDs are needed for later verification of access by the protected media filters.
+								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
+								if ( ! is_array( $quiz_ids ) ) {
+									$quiz_ids = array();
+								}
+								$quiz_id = $parent->get( 'parent_id' ) ? $parent->get( 'parent_id' ) : $parent->get( 'id' );
+								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
+									$quiz_ids[] = $quiz_id;
+								}
+								update_post_meta( $c_data['choice']['id'], '_llms_quiz_id', $quiz_ids );
+							}
 						}
 
 						array_push( $ret['choices'], $choice_res );

@@ -1,21 +1,29 @@
 .llms-student-dashboard {
 
-	.llms-sd-nav {}
-
 	.llms-sd-title {
-		margin: 25px 0;
+		align-items: center;
+		display: flex;
+		gap: 15px;
+		margin: 40px 0 20px 0;
+
+		small {
+			font-size: 18px;
+
+			+ a {
+			text-decoration: none;
+			}
+		}
 	}
 
 	.llms-sd-items { // ul
-		@extend %clearfix;
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 	}
 		.llms-sd-item { // li
-			float: left;
+			display: inline-block;
 			list-style-type: none;
-			margin: 0;
+			margin: 5px 0;
 			padding: 0;
 
 			&:last-child {
@@ -25,21 +33,33 @@
 			}
 
 			.llms-sep {
-				color: #333;
+				color: $color-darkgrey;
 				margin: 0 5px;
 			}
 		}
 
 	.llms-sd-section {
-		margin-bottom: 25px;
+		h2 {
+			margin: 0 0 15px 0;
+		}
+
+		.llms-sd-section-title {
+			margin: 0;
+			padding: 0;
+		}
+
 		.llms-sd-section-footer {
 			margin-top: 10px;
+
+			.llms-button-secondary {
+				display: inline-block;
+			}
 		}
 	}
 
 	.orders-table {
-
-		border: 1px solid #f5f5f5;
+		border: 1px solid $color-border;
+		border-spacing: 0;
 		width: 100%;
 
 		thead {
@@ -53,14 +73,20 @@
 		}
 
 		tbody {
-			tr:nth-child( even ) {
+			tr:nth-child( odd ) {
 				td, th {
 					background: #f9f9f9;
 				}
 			}
+			tr:last-child {
+				border-bottom-width: 0;
+			}
 		}
 
 		tfoot {
+			tr {
+				background: #f9f9f9;
+			}
 			th, td {
 				padding: 10px;
 				text-align: right;
@@ -73,11 +99,11 @@
 		}
 
 		th, td {
-			border-color: #efefef;
+			border-color: $color-border;
 			border-style: solid;
 			border-width: 0;
 			display: block;
-			padding: 8px 12px;
+			padding: 15px 20px;
 			text-align: center;
 
 			.llms-button-primary {
@@ -109,6 +135,12 @@
 	}
 
 	@include order_status_badges();
+
+	.order-title {
+		.llms-status {
+			font-size: 18px;
+		}
+	}
 
 	.llms-person-form-wrapper {
 		.llms-change-password { display: none; }
@@ -174,6 +206,14 @@
 	/**
 	 * Dashboard Home
 	 */
+	&.dashboard {
+		.llms-sd-section {
+			border: 1px solid $color-border;
+			border-radius: $radius-small;
+			padding: 20px;
+			margin-bottom: 40px;
+		}
+	}
 	.llms-loop-list {
 		margin: 0 -10px;
 	}
@@ -212,6 +252,7 @@
 
 	th {
 		font-weight: 400;
+		text-align: left;
 	}
 
 	td {
@@ -233,7 +274,6 @@
 	}
 
 	td.llms-lesson_title {
-		padding-left: 36px;
 		max-width: 40%;
 	}
 	td.llms-associated_quiz {
@@ -265,7 +305,10 @@
 	display: flex;
 
 	.llms-sd-widget {
-		background: #f9f9f9;
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-bottom-right-radius: $radius-small;
+		border-bottom-left-radius: $radius-small;
 		flex: 1;
 		margin: 10px 10px 20px;
 		padding: 0 0 20px;
@@ -329,6 +372,26 @@
 
 }
 
+.redeem-voucher {
+	.form-row {
+		label {
+			display: block;
+			font-weight: 700;
+		}
+		input[type="text"] {
+			background-color: $color-white;
+			background-clip: padding-box;
+			border: 1px solid $color-grey;
+			border-radius: $radius-small;
+			box-sizing: border-box;
+			font-size: 16px;
+			line-height: 1;
+			padding: 8px 12px;
+			transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+		}
+	}
+}
+
 
 .llms-sd-pagination {
 	margin-top: 24px;
@@ -342,7 +405,17 @@
 
 
 .llms-sd-notification-center {
-	.llms-notification {
-		z-index: 1;
+	background: $color-white;
+	border: 1px solid $color-border;
+	border-radius: $radius-small;
+	padding: 20px;
+
+	.llms-notification-list-item {
+		.llms-notification {
+			z-index: 1;
+			&:hover {
+				background-color: inherit;
+			}	
+		}
 	}
 }

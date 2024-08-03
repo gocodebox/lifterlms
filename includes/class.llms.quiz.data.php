@@ -21,6 +21,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
+	 * Post ID of the quiz
+	 *
+	 * @var int
+	 */
+	protected $quiz_id;
+
+	/**
+	 * Post object of the quiz
+	 */
+	protected $quiz;
+
+	/**
 	 * Constructor
 	 *
 	 * @since    3.16.0
@@ -32,7 +44,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 		$this->quiz_id = $quiz_id;
 		$this->quiz    = llms_get_post( $this->quiz_id );
 		parent::__construct( $quiz_id );
-
 	}
 
 	/**
@@ -60,7 +71,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
@@ -90,7 +100,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 		);
 
 		return $grade ? $grade : 0;
-
 	}
 
 	/**
@@ -121,7 +130,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**

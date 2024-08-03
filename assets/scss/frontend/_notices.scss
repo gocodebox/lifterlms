@@ -2,9 +2,14 @@
 	background: rgba( $color-brand-blue, .3 );
 	border-color: $color-brand-blue;
 	border-style: solid;
-	border-width: 3px;
-	padding: 10px;
-	margin-bottom: 10px;
+	border-width: 1px;
+	border-radius: $radius-small;
+	padding: 15px;
+	margin-bottom: 40px;
+
+	a {
+		color: inherit;
+	}
 
 	p, ul {
 		&:last-child { margin-bottom: 0; }
@@ -20,12 +25,12 @@
 	}
 
 	&.llms-error {
-		background: rgba( $color-red, .3 );
+		background: rgba( $color-red, .15 );
 		border-color: $color-red;
 	}
 
 	&.llms-success {
-		background: rgba( $color-green, .3 );
+		background: rgba( $color-green, .15 );
 		border-color: $color-green;
 	}
 
@@ -34,7 +39,7 @@
 // this helps genesis and numerous other themes out a bit
 // by being slightly more specific
 .entry-content .llms-notice {
-	margin: 0 0 10px;
+	margin: 0 0 40px;
 	li {
 		list-style-type: none;
 	}

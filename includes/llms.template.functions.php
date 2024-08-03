@@ -36,6 +36,7 @@ require 'functions/llms.functions.templates.quizzes.php';
 if ( ! function_exists( 'llms_email_body' ) ) {
 
 	function llms_email_body( $content = '' ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo apply_filters( 'the_content', $content );
 	}
 }
@@ -138,7 +139,6 @@ if ( ! function_exists( 'lifterlms_template_single_course_content' ) ) {
 		} else {
 			llms_get_template( 'course/full-description.php' );
 		}
-
 	}
 }
 
@@ -262,19 +262,6 @@ if ( ! function_exists( 'lifterlms_template_single_course_tracks' ) ) {
 }
 
 /**
- * Display a list of course tags
- *
- * @return  void
- * @since   3.0.0
- * @version 3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
-	function lifterlms_template_single_course_tags() {
-		llms_get_template( 'course/tags.php' );
-	}
-}
-
-/**
  * Course Video Embed Template Include
  *
  * @return void
@@ -340,7 +327,7 @@ if ( ! function_exists( 'lifterlms_template_single_difficulty' ) ) {
 }
 
 /**
- * Course Difficulty Template Include
+ * Course Prerequisites Template Include
  *
  * @return void
  */
@@ -355,7 +342,6 @@ if ( ! function_exists( 'lifterlms_template_single_prerequisites' ) ) {
 				'course' => new LLMS_Course( $post ),
 			)
 		);
-
 	}
 }
 
@@ -500,7 +486,6 @@ function llms_setup_course_data( $post ) {
 
 		}
 	}
-
 }
 add_action( 'the_post', 'llms_setup_course_data' );
 
@@ -535,7 +520,6 @@ function llms_setup_lesson_data( $post ) {
 			return $GLOBALS['lesson'];
 		}
 	}
-
 }
 add_action( 'the_post', 'llms_setup_lesson_data' );
 
@@ -571,7 +555,6 @@ function get_section_data( $sections ) {
 	endforeach;
 
 	return $array;
-
 }
 
 /**
@@ -644,14 +627,13 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 
 		if ( $echo ) {
 
-			echo $page_title;
+			echo wp_kses_post( $page_title );
 
 		} else {
 
 			return $page_title;
 
 		}
-
 	}
 }
 
@@ -682,7 +664,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 		}
 
 		if ( $echo ) {
-			echo $html;
+			echo wp_kses_post( $html );
 		} else {
 			return $html;
 		}
@@ -700,7 +682,6 @@ function llms_get_progress_bar_html( $percentage ) {
 		</div></div>';
 
 	return $html;
-
 }
 
 
@@ -753,22 +734,22 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 
 		if ( 100 == $progress ) {
 
-			echo '<p class="llms-course-complete-text">' . apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) . '</p>';
+			echo '<p class="llms-course-complete-text">' . wp_kses_post( apply_filters( 'llms_course_continue_button_complete_text', __( 'Course Complete', 'lifterlms' ), $course ) ) . '</p>';
 
 		} else {
 
 			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
 			if ( $lesson ) { ?>
 
-				<a class="llms-button-primary llms-course-continue-button" href="<?php echo get_permalink( $lesson ); ?>">
+				<a class="llms-button-primary llms-course-continue-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
 
 					<?php if ( 0 == $progress ) : ?>
 
-						<?php _e( 'Get Started', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Get Started', 'lifterlms' ); ?>
 
 					<?php else : ?>
 
-						<?php _e( 'Continue', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Continue', 'lifterlms' ); ?>
 
 					<?php endif; ?>
 
@@ -777,7 +758,6 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 				<?php
 			}
 		}
-
 	}
 }
 
@@ -926,7 +906,6 @@ function llms_get_author( $args = array() ) {
 	$html = ob_get_clean();
 
 	return apply_filters( 'llms_get_author', $html );
-
 }
 
 /**
@@ -989,7 +968,6 @@ function llms_person_redeem_voucher_url() {
 	$url = llms_get_endpoint_url( 'redeem-voucher', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_redeem_voucher_url', $url );
-
 }
 
 /**
@@ -1004,7 +982,6 @@ function llms_person_my_courses_url() {
 	$url = llms_get_endpoint_url( 'my-courses', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 
 	return apply_filters( 'lifterlms_person_my_courses_url', $url );
-
 }
 
 
@@ -1178,7 +1155,6 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 	}
 
 	return $classes;
-
 }
 
 /**
@@ -1191,5 +1167,19 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
+	}
+}
+
+/**
+ * Function to check if a post is built with Elementor
+ *
+ * @since 7.7.0
+ */
+if ( ! function_exists( 'llms_is_elementor_post' ) ) {
+	function llms_is_elementor_post( $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+		return $post_id && class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
 	}
 }

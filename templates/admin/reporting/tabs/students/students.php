@@ -16,4 +16,4 @@ if ( ! is_admin() ) {
 
 $table = new LLMS_Table_Students();
 $table->get_results();
-echo $table->get_table_html();
+$table->output_table_html();

@@ -17,7 +17,7 @@ if ( ! is_admin() ) {
 <section class="llms-reporting-tab llms-reporting-quiz">
 
 	<header class="llms-reporting-breadcrumbs">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=quizzes' ) ); ?>"><?php _e( 'Quizzes', 'lifterlms' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=quizzes' ) ); ?>"><?php esc_html_e( 'Quizzes', 'lifterlms' ); ?></a>
 		<?php do_action( 'llms_reporting_quiz_tab_breadcrumbs' ); ?>
 	</header>
 
@@ -26,7 +26,7 @@ if ( ! is_admin() ) {
 		<header class="llms-reporting-header">
 
 			<div class="llms-reporting-header-info">
-				<h2><a href="<?php echo get_edit_post_link( $quiz->get( 'id' ) ); ?>"><?php echo $quiz->get( 'title' ); ?></a></h2>
+				<h2><a href="<?php echo esc_url( get_edit_post_link( $quiz->get( 'id' ) ) ); ?>"><?php echo esc_html( $quiz->get( 'title' ) ); ?></a></h2>
 			</div>
 
 		</header>
@@ -35,8 +35,8 @@ if ( ! is_admin() ) {
 			<ul class="llms-nav-items">
 			<?php foreach ( $tabs as $name => $label ) : ?>
 				<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
-						<?php echo $label; ?>
+					<a class="llms-nav-link" href="<?php echo esc_url( LLMS_Admin_Reporting::get_stab_url( $name ) ); ?>">
+						<?php echo wp_kses_post( $label ); ?>
 					</a></li>
 			<?php endforeach; ?>
 			</ul>

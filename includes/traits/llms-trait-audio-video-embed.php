@@ -38,8 +38,8 @@ trait LLMS_Trait_Audio_Video_Embed {
 
 		$this->add_properties(
 			array(
-				'audio_embed' => 'text',
-				'video_embed' => 'text',
+				'audio_embed' => 'url',
+				'video_embed' => 'url',
 			)
 		);
 	}

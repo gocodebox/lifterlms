@@ -18,7 +18,7 @@ $img = $course->get_image( array( 64, 64 ) );
 <section class="llms-reporting-tab llms-reporting-course">
 
 	<header class="llms-reporting-breadcrumbs">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=courses' ) ); ?>"><?php _e( 'Courses', 'lifterlms' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=courses' ) ); ?>"><?php esc_html_e( 'Courses', 'lifterlms' ); ?></a>
 		<?php do_action( 'llms_reporting_course_tab_breadcrumbs' ); ?>
 	</header>
 
@@ -28,11 +28,11 @@ $img = $course->get_image( array( 64, 64 ) );
 
 			<?php if ( $img ) : ?>
 				<div class="llms-reporting-header-img">
-					<img src="<?php echo $img; ?>">
+					<img src="<?php echo esc_url( $img ); ?>">
 				</div>
 			<?php endif; ?>
 			<div class="llms-reporting-header-info">
-				<h2><a href="<?php echo get_edit_post_link( $course->get( 'id' ) ); ?>"><?php echo $course->get( 'title' ); ?></a></h2>
+				<h2><a href="<?php echo esc_url( get_edit_post_link( $course->get( 'id' ) ) ); ?>"><?php echo esc_html( $course->get( 'title' ) ); ?></a></h2>
 			</div>
 
 		</header>
@@ -41,8 +41,8 @@ $img = $course->get_image( array( 64, 64 ) );
 			<ul class="llms-nav-items">
 			<?php foreach ( $tabs as $name => $label ) : ?>
 				<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
-						<?php echo $label; ?>
+					<a class="llms-nav-link" href="<?php echo esc_url( LLMS_Admin_Reporting::get_stab_url( $name ) ); ?>">
+						<?php echo wp_kses_post( $label ); ?>
 					</a></li>
 			<?php endforeach; ?>
 			</ul>

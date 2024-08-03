@@ -9,6 +9,12 @@
  * @version   3.23.0
  */
 defined( 'ABSPATH' ) || exit;
+
+// If the plan has no trial, don't display anything.
+if ( ! $plan->has_trial() ) {
+	return;
+}
+
 ?>
 <div class="llms-access-plan-pricing trial">
 	<?php if ( $plan->has_trial() ) : ?>

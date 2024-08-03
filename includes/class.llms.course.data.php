@@ -20,6 +20,10 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
+	public $course_id;
+
+	public $course;
+
 	/**
 	 * Constructor
 	 *
