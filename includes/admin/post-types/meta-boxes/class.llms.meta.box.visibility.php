@@ -30,7 +30,6 @@ class LLMS_Meta_Box_Visibility {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'output' ) );
 		add_action( 'save_post_course', array( $this, 'save' ), 10, 1 );
 		add_action( 'save_post_llms_membership', array( $this, 'save' ), 10, 1 );
-
 	}
 
 	/**
@@ -58,20 +57,20 @@ class LLMS_Meta_Box_Visibility {
 
 		<span style="color:#82878c;" class="dashicons dashicons-welcome-view-site"></span>
 
-			<?php _e( 'Catalog visibility:', 'lifterlms' ); ?> <strong id="llms-catalog-visibility-display"><?php echo $name; ?></strong>
+			<?php esc_html_e( 'Catalog visibility:', 'lifterlms' ); ?> <strong id="llms-catalog-visibility-display"><?php echo esc_html( $name ); ?></strong>
 
-			<a href="#llms-catalog-visibility" class="llms-edit-catalog-visibility hide-if-no-js"><?php _e( 'Edit', 'lifterlms' ); ?></a>
+			<a href="#llms-catalog-visibility" class="llms-edit-catalog-visibility hide-if-no-js"><?php esc_html_e( 'Edit', 'lifterlms' ); ?></a>
 
 			<div id="llms-catalog-visibility-select" class="hide-if-js">
 
-				<p><?php printf( __( 'Choose the visibility of the %s in your catalog. It will always be available directly.', 'lifterlms' ), $product->get_post_type_label() ); ?></p>
+				<p><?php printf( esc_html__( 'Choose the visibility of the %s in your catalog. It will always be available directly.', 'lifterlms' ), esc_html( $product->get_post_type_label() ) ); ?></p>
 				<?php foreach ( $options as $name => $label ) : ?>
 					<input data-label="<?php echo esc_attr( $label ); ?>" id="_llms_visibility_<?php echo esc_attr( $name ); ?>" name="_llms_visibility" type="radio" value="<?php echo esc_attr( $name ); ?>" <?php checked( $visibility, $name ); ?> />
 					<label for="_llms_visibility_<?php echo esc_attr( $name ); ?>" class="selectit"><?php echo esc_attr( $label ); ?></label><br>
 				<?php endforeach; ?>
 				<p>
-					<a href="#llms-catalog-visibility" class="llms-save-catalog-visibility hide-if-no-js button"><?php _e( 'OK', 'lifterlms' ); ?></a>
-					<a href="#llms-catalog-visibility" class="llms-cancel-catalog-visibility hide-if-no-js"><?php _e( 'Cancel', 'lifterlms' ); ?></a>
+					<a href="#llms-catalog-visibility" class="llms-save-catalog-visibility hide-if-no-js button"><?php esc_html_e( 'OK', 'lifterlms' ); ?></a>
+					<a href="#llms-catalog-visibility" class="llms-cancel-catalog-visibility hide-if-no-js"><?php esc_html_e( 'Cancel', 'lifterlms' ); ?></a>
 				</p>
 
 				<?php wp_nonce_field( 'llms-catalog-visibility-nonce', 'llms_catalog_visibility_nonce' ); ?>
@@ -79,7 +78,6 @@ class LLMS_Meta_Box_Visibility {
 			</div>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -105,9 +103,7 @@ class LLMS_Meta_Box_Visibility {
 
 		$product = new LLMS_Product( $post_id );
 		$product->set_catalog_visibility( $visibility );
-
 	}
-
 }
 
 return new LLMS_Meta_Box_Visibility();

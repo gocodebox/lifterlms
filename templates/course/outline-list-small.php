@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php foreach ( $sections as $section ) : ?>
 
-			<li class="llms-section<?php echo ( $collapse ) ? ( $section->get( 'id' ) == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' : ''; ?>">
+			<li class="llms-section<?php echo ( $collapse ) ? ( ( $section->get( 'id' ) == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' ) : ''; ?>">
 
 				<div class="section-header">
 
@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) || exit;
 
 					<?php endif; ?>
 
-					<span class="section-title"><?php echo apply_filters( 'llms_widget_syllabus_section_title', $section->get( 'title' ), $section ); ?></span>
+					<span class="section-title"><?php echo wp_kses_post( apply_filters( 'llms_widget_syllabus_section_title', $section->get( 'title' ), $section ) ); ?></span>
 
 					<?php do_action( 'lifterlms_outline_after_header' ); ?>
 
@@ -65,13 +65,13 @@ defined( 'ABSPATH' ) || exit;
 
 								<?php if ( $lesson->is_free() || ( $student && ! $restricted['is_restricted'] ) ) : ?>
 
-									<a href="<?php echo get_permalink( $lesson->get( 'id' ) ); ?>">
-										<?php echo apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ); ?>
+									<a href="<?php echo esc_url( get_permalink( $lesson->get( 'id' ) ) ); ?>">
+										<?php echo wp_kses_post( apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ) ); ?>
 									</a>
 
 								<?php else : ?>
 
-									<?php echo apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ); ?>
+									<?php echo wp_kses_post( apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ) ); ?>
 
 								<?php endif; ?>
 
@@ -95,9 +95,9 @@ defined( 'ABSPATH' ) || exit;
 
 				<?php do_action( 'lifterlms_outline_before_footer' ); ?>
 
-				<a class="llms-button-text llms-collapse-toggle" data-action="open" href="#"><?php _e( 'Open All', 'lifterlms' ); ?></a>
+				<a class="llms-button-text llms-collapse-toggle" data-action="open" href="#"><?php esc_html_e( 'Open All', 'lifterlms' ); ?></a>
 				<span>&middot;</span>
-				<a class="llms-button-text llms-collapse-toggle" data-action="close" href="#"><?php _e( 'Close All', 'lifterlms' ); ?></a>
+				<a class="llms-button-text llms-collapse-toggle" data-action="close" href="#"><?php esc_html_e( 'Close All', 'lifterlms' ); ?></a>
 
 				<?php do_action( 'lifterlms_outline_after_footer' ); ?>
 

@@ -1037,11 +1037,18 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Prepare SQL query properly.
+	 * @since 7.7.0 Caching results to avoid duplicate queries.
 	 *
 	 * @param string $type Optional. Type can be 'amount' or 'refund_amount'. Default is 'amount'.
 	 * @return float
 	 */
 	public function get_transaction_total( $type = 'amount' ) {
+
+		// Check the cache.
+		static $cache = array();
+		if ( isset( $cache[$type] ) ) {
+			return $cache[$type];
+		}
 
 		$statuses = array( 'llms-txn-refunded' );
 
@@ -1080,7 +1087,10 @@ class LLMS_Order extends LLMS_Post_Model {
 		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		return floatval( $grosse );
+		// Save to cache.
+		$cache[$type] = floatval( $grosse );
+
+		return $cache[$type];
 	}
 
 	/**

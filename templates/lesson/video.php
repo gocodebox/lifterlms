@@ -20,6 +20,10 @@ if ( ! $lesson->get( 'video_embed' ) ) {
 
 <div class="llms-video-wrapper">
 	<div class="center-video">
-		<?php echo $lesson->get_video(); ?>
+		<?php
+			// Calls wp_oembed_get(); can't be escaped.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $lesson->get_video();
+		?>
 	</div>
 </div>

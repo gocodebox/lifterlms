@@ -35,7 +35,6 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'side';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -55,7 +54,6 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 				'minute' => date_i18n( 'i', $time ),
 			)
 		);
-
 	}
 
 	/**
@@ -83,13 +81,12 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 
 		if ( $order->is_legacy() ) {
-			return _e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
+			return esc_html_e( 'The status of a Legacy order cannot be changed.', 'lifterlms' );
 		}
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-order-submit.php';
 
 		wp_nonce_field( 'lifterlms_save_data', 'lifterlms_meta_nonce' );
-
 	}
 
 	/**
@@ -159,7 +156,5 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 				}
 			}
 		}
-
 	}
-
 }

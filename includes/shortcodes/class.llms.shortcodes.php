@@ -57,6 +57,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Course_Author',
 				'LLMS_Shortcode_Course_Continue',
 				'LLMS_Shortcode_Course_Continue_Button',
+				'LLMS_Shortcode_Course_Instructors',
 				'LLMS_Shortcode_Course_Meta_Info',
 				'LLMS_Shortcode_Course_Outline',
 				'LLMS_Shortcode_Course_Prerequisites',
@@ -152,7 +153,6 @@ class LLMS_Shortcodes {
 			wp_enqueue_script( $handle );
 
 		}
-
 	}
 
 	/**
@@ -192,16 +192,14 @@ class LLMS_Shortcodes {
 			'class'  => 'lifterlms',
 			'before' => null,
 			'after'  => null,
-		) ) {
+		)
+	) {
 
 			ob_start();
 
-			$before = empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
-			$after  = empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
-
-			echo $before;
+			echo empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : wp_kses_post( $wrapper['before'] );
 			call_user_func( $function, $atts );
-			echo $after;
+			echo empty( $wrapper['after'] ) ? '</div>' : wp_kses_post( $wrapper['after'] );
 
 			return ob_get_clean();
 	}
@@ -253,7 +251,6 @@ class LLMS_Shortcodes {
 		 * @param string $content Shortcode content, enables custom text/html in the button. Default empty string.
 		 */
 		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
-
 	}
 
 	/**
@@ -282,7 +279,6 @@ class LLMS_Shortcodes {
 		llms_print_notices();
 		llms_get_login_form( null, $redirect, $layout );
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -297,7 +293,6 @@ class LLMS_Shortcodes {
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
-
 	}
 
 
@@ -373,16 +368,18 @@ class LLMS_Shortcodes {
 			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
-			echo paginate_links(
-				array(
-					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-					'format'    => '?page=%#%',
-					'total'     => $query->max_num_pages,
-					'current'   => max( 1, $args['paged'] ),
-					'prev_next' => true,
-					'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
-					'next_text' => __( 'Next', 'lifterlms' ) . '»',
-					'type'      => 'list',
+			echo wp_kses_post(
+				paginate_links(
+					array(
+						'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+						'format'    => '?page=%#%',
+						'total'     => $query->max_num_pages,
+						'current'   => max( 1, $args['paged'] ),
+						'prev_next' => true,
+						'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
+						'next_text' => __( 'Next', 'lifterlms' ) . '»',
+						'type'      => 'list',
+					)
 				)
 			);
 			echo '</nav>';
@@ -396,7 +393,6 @@ class LLMS_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -412,7 +408,6 @@ class LLMS_Shortcodes {
 	public static function checkout( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
-
 	}
 
 	/**
@@ -567,7 +562,6 @@ class LLMS_Shortcodes {
 			wp_reset_postdata();
 			return $courses;
 		}
-
 	}
 
 	/**
@@ -619,9 +613,7 @@ class LLMS_Shortcodes {
 		 * @param array  $atts Associative array of shortcode attributes.
 		 */
 		return apply_filters( 'llms_shortcode_pricing_table', $ret, $atts );
-
 	}
-
 }
 
 return new LLMS_Shortcodes();

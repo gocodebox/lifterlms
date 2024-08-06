@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 6.5.0
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -502,11 +502,12 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.14 Unknown.
  * @since 3.37.10 Call `in_array()` with strict comparison.
+ * @since 7.7.0 Added support for multiple membership restrictions.D
  *
  * @param int      $post_id WP_Post ID.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return bool|int WP_Post ID of the membership if a restriction is found.
- *                  False if no restrictions found.
+ * @return bool|array Array of WP_Post IDs of the memberships that restrict the post.
+ *                    False if no restrictions found.
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
@@ -528,45 +529,32 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		return false;
 	}
 
-	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
-	$restricted  = get_post_meta( $post_id, '_llms_is_restricted', true );
+	$memberships    = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	$restricted     = get_post_meta( $post_id, '_llms_is_restricted', true );
+	$restricted_ids = array();
 
 	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
 
-		// if no user, return the first membership from the array as the restriction id.
-		if ( ! $user_id ) {
+		$student = llms_get_student( $user_id );
 
-			$restriction_id = array_shift( $memberships );
-
+		if ( ! $student ) {
+			$restriction_ids = $memberships;
 		} else {
+			// loop through the memberships.
+			foreach ( $memberships as $mid ) {
 
-			$student = llms_get_student( $user_id );
-			if ( ! $student ) {
+				// set this as the restriction id.
+				$restriction_ids[] = absint( $mid );
 
-				$restriction_id = array_shift( $memberships );
-
-			} else {
-
-				// reverse so to ensure that if user is in none of the memberships,
-				// they'd encounter the same restriction settings as a visitor.
-				$memberships = array_reverse( $memberships );
-
-				// loop through the memberships.
-				foreach ( $memberships as $mid ) {
-
-					// set this as the restriction id.
-					$restriction_id = $mid;
-
-					// once we find the student has access break the loop,
-					// this will be the restriction that the template loader will check against later.
-					if ( $student->is_enrolled( $mid ) ) {
-						break;
-					}
+				// once we find the student has access break the loop,
+				// this will be the restriction that the template loader will check against later.
+				if ( $student->is_enrolled( $mid ) ) {
+					break;
 				}
 			}
 		}
 
-		return absint( $restriction_id );
+		return $restriction_ids;
 
 	}
 

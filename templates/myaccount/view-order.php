@@ -29,11 +29,11 @@ $classes = array_filter(
 llms_print_notices();
 ?>
 
-<div class="<?php echo implode( ' ', $classes ); ?>">
+<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 
 	<h2 class="order-title">
-		<?php printf( __( 'Order #%d', 'lifterlms' ), $order->get( 'id' ) ); ?>
-		<span class="llms-status <?php echo esc_attr( $order->get( 'status' ) ); ?>"><?php echo $order->get_status_name(); ?></span>
+		<?php echo esc_html( sprintf( __( 'Order #%d', 'lifterlms' ), $order->get( 'id' ) ) ); ?>
+		<span class="llms-status <?php echo esc_attr( $order->get( 'status' ) ); ?>"><?php echo wp_kses_post( $order->get_status_name() ); ?></span>
 	</h2>
 
 	<?php

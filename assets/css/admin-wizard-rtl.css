@@ -37,15 +37,15 @@
   color: #3C434A;
 }
 .llms-setup-content a:not(.llms-button-primary):not(.llms-button-secondary) {
-  color: #2295ff;
+  color: #466dd8;
 }
 .llms-setup-content p, .llms-setup-content li {
   color: #3C434A;
   font-size: 16px;
 }
 .llms-setup-content p.error {
-  color: #e5554e;
-  background: rgba(229, 85, 78, 0.1);
+  color: #bb231c;
+  background: rgba(187, 35, 28, 0.1);
   border: 1px solid currentColor;
   padding: 1em;
   border-radius: 4px;
@@ -192,7 +192,7 @@
 }
 
 .llms-importing-msgs a {
-  color: #2295ff;
+  color: #466dd8;
 }
 .llms-importing-msgs .llms-importing-msg {
   display: none;
@@ -231,8 +231,8 @@ ul.llms-importable-courses li.llms-importable-course .llms-switch {
   left: -40px;
 }
 ul.llms-importable-courses li.llms-importable-course .llms-switch input.llms-toggle-round:checked + label {
-  border-color: #2295ff;
-  background-color: #2295ff;
+  border-color: #466dd8;
+  background-color: #466dd8;
 }
 
 .llms-setup-progress {
@@ -242,7 +242,7 @@ ul.llms-importable-courses li.llms-importable-course .llms-switch input.llms-tog
   margin: 20px 0;
 }
 .llms-setup-progress li {
-  border-bottom: 4px solid #2295ff;
+  border-bottom: 4px solid #466dd8;
   display: inline-block;
   font-size: 14px;
   padding-bottom: 10px;
@@ -253,14 +253,14 @@ ul.llms-importable-courses li.llms-importable-course .llms-switch input.llms-tog
           flex: 1;
 }
 .llms-setup-progress li a {
-  color: #2295ff;
+  color: #466dd8;
   text-decoration: none;
 }
 .llms-setup-progress li:after {
-  background: #2295ff;
+  background: #466dd8;
   bottom: 0;
   content: "";
-  border: 4px solid #2295ff;
+  border: 4px solid #466dd8;
   border-radius: 100%;
   height: 4px;
   position: absolute;

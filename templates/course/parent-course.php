@@ -15,4 +15,4 @@ global $post;
 
 $lesson = new LLMS_Lesson( $post );
 
-printf( __( '<p class="llms-parent-course-link">Back to: <a class="llms-lesson-link" href="%1$s">%2$s</a></p>', 'lifterlms' ), get_permalink( $lesson->get( 'parent_course' ) ), get_the_title( $lesson->get( 'parent_course' ) ) );
+echo wp_kses_post( sprintf( __( '<p class="llms-parent-course-link">Back to: <a class="llms-lesson-link" href="%1$s">%2$s</a></p>', 'lifterlms' ), get_permalink( $lesson->get( 'parent_course' ) ), get_the_title( $lesson->get( 'parent_course' ) ) ) );
