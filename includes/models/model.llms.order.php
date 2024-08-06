@@ -1037,6 +1037,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Prepare SQL query properly.
+	 * @since 7.7.0 Caching results to avoid duplicate queries.
 	 *
 	 * @param string $type Optional. Type can be 'amount' or 'refund_amount'. Default is 'amount'.
 	 * @return float
