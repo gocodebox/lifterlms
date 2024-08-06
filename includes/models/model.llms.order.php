@@ -1043,6 +1043,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function get_transaction_total( $type = 'amount' ) {
 
+		// Check the cache.
+		static $cache = array();
+		if ( isset( $cache[$type] ) ) {
+			return $cache[$type];
+		}
+
 		$statuses = array( 'llms-txn-refunded' );
 
 		if ( 'amount' === $type ) {
@@ -1080,7 +1086,10 @@ class LLMS_Order extends LLMS_Post_Model {
 		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		return floatval( $grosse );
+		// Save to cache.
+		$cache[$type] = floatval( $grosse );
+
+		return $cache[$type];
 	}
 
 	/**
