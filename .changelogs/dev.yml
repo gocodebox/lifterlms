@@ -1,4 +1,0 @@
-significance: patch
-type: performance
-entry: Caching get_transaction_total queries to improve performance of the
-  orders table in the admin dashboard.

@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2696"
-entry: Fixes the Certificate Title block when creating a new certificate template.

@@ -24,10 +24,16 @@ v7.7.0 - 2024-07-19
 + Avoids saving review meta information for non-courses. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#887](https://github.com/gocodebox/lifterlms/issues/887)
 + Improvements to the frontend styling of LifterLMS screens for design, accessibility, and better compatibility with dark mode themes.
 + Allow private VideoPress videos to play when the URL is pasted on Video Embed URL. [#2533](https://github.com/gocodebox/lifterlms/issues/2533)
++ Fixes the Certificate Title block when creating a new certificate template. [#2696] (https://github.com/gocodebox/lifterlms/issues/2696)
 
 ##### Security Fixes
 
-+ Adds various security improvements.
++ Adds various security improvements, e.g. better escaping of output, as suggested by the Plugin Checker Plugin.
+
+##### Performance Improvements
+
++ Caching get_transaction_total queries to improve performance of the
+  orders table in the admin dashboard.
 
 ##### Updated Templates
 
