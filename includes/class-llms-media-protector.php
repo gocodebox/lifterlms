@@ -850,8 +850,9 @@ class LLMS_Media_Protector {
 		// Is the user authorized to view the file?
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( false === $is_authorized ) {
-			header( 'HTTP/1.1 404 Not Found' );
-			llms_exit();
+			status_header( 404 );
+			nocache_headers();
+			die( 'File not found.' );
 		}
 
 		// An HTTP client, but not a proxy, is allowed to cache the file, but must check with the server before reuse.
