@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed warnings from running `wp_kses_post()` on empty `paginate_links()` calls.
