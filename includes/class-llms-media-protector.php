@@ -723,17 +723,40 @@ class LLMS_Media_Protector {
 
 		} elseif ( stristr( $server_software, 'nginx' ) ) {
 			/**
-			 * @todo Test NGINX.
 			 * @see https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 			 * @see https://woocommerce.com/document/digital-downloadable-product-handling/#nginx-setting
 			 */
 			// NGINX requires a URI without the server's root path.
-			$nginx_file_name = substr( $file_name, strlen( ABSPATH ) - 1 );
-			header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
+			$wp_root = $this->find_wp_root();
+
+			if ( $wp_root ) {
+				$nginx_file_name = substr( $file_name, strlen( $this->find_wp_root() ) );
+				header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
+			} else {
+				$this->read_file( $file_name );
+			}
 		} else {
 			$this->read_file( $file_name );
 		}
 	}
+
+	protected function find_wp_root() {
+		$dir = dirname( WP_CONTENT_DIR );
+		while ( $dir ) {
+			if ( file_exists( $dir . '/wp-load.php' ) || file_exists( $dir . '/wp-config.php' ) ) {
+				return $dir;
+			}
+
+			$parent_dir = dirname( $dir );
+			if ( $parent_dir === $dir ) {
+				// We have reached the root directory
+				break;
+			}
+			$dir = $parent_dir;
+		}
+		return false; // Root directory not found
+	}
+
 
 	/**
 	 * Send headers for the download.
