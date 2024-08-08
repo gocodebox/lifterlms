@@ -421,15 +421,16 @@ class LLMS_Media_Protector {
 			return null;
 		}
 
-		$cache_key     = 'llms-media-auth-' . $media_id . '-' . $user_id;
+		$cache_key     = 'llms-media-authorization-' . $media_id . '-' . $user_id;
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
-			return $authorization;
+			return ( ( $authorization === 'null' ) ? null : $authorization );
 		}
 
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 		if ( ! $authorization_filter ) {
-			wp_cache_add( $cache_key, null, 'llms_media_authorization' );
+			// We need to use string of 'null' since on some hosting like wordpress.com the value of null comes back as bool false.
+			wp_cache_add( $cache_key, 'null', 'llms_media_authorization' );
 
 			return null;
 		}
