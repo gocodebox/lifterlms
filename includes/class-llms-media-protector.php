@@ -803,6 +803,12 @@ class LLMS_Media_Protector {
 		header( "Location: $url" );
 	}
 
+	protected function strip_query_params( $file_name ) {
+		$parsed_url = parse_url( $file_name );
+		$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : $file_name;
+		return $path;
+	}
+
 	/**
 	 * Serves the requested media file to the HTTP client.
 	 *
@@ -864,6 +870,8 @@ class LLMS_Media_Protector {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 		}
+
+		$file_name = $this->strip_query_params( $file_name );
 
 		// Validate that the media file exists.
 		if ( false === file_exists( $file_name ) ) {
