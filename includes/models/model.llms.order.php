@@ -1046,8 +1046,9 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Check the cache.
 		static $cache = array();
-		if ( isset( $cache[$type] ) ) {
-			return $cache[$type];
+		if ( isset( $cache[$this->get( 'id' )] )
+		  && isset( $cache[$this->get( 'id' )][$type] ) ) {
+			return $cache[$this->get( 'id' )][$type];
 		}
 
 		$statuses = array( 'llms-txn-refunded' );
@@ -1088,7 +1089,10 @@ class LLMS_Order extends LLMS_Post_Model {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Save to cache.
-		$cache[$type] = floatval( $grosse );
+		if ( ! isset( $cache[$this->get( 'id' )] ) ) {
+			$cache[$this->get( 'id' )] = array();
+		}
+		$cache[$this->get('id')][$type] = floatval( $grosse );
 
 		return $cache[$type];
 	}
