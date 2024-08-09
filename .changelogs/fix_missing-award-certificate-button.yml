@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2709"
-entry: Fixing the Award Certificate button appearing at the top of the Reporting
-  > Students, Certificate tab.

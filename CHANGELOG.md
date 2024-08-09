@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v7.7.1 - 2024-08-09
+-------------------
+
+##### Updates and Enhancements
+
++ Removes placeholder image functionality with protected media files. Modify cache value for wordpress.com hosting.
+
+##### Bug Fixes
+
++ Fixing the Award Certificate button appearing at the top of the Reporting > Students, Certificate tab. [#2709](https://github.com/gocodebox/lifterlms/issues/2709)
++ Fixed warnings from running `wp_kses_post()` on empty `paginate_links()` calls.
+
+##### Updated Templates
+
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/7.7.1/templates/myaccount/my-notifications.php)
+
+
 v7.7.0 - 2024-07-19
 -------------------
 
