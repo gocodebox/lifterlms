@@ -368,20 +368,21 @@ class LLMS_Shortcodes {
 			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
-			echo wp_kses_post(
-				paginate_links(
-					array(
-						'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-						'format'    => '?page=%#%',
-						'total'     => $query->max_num_pages,
-						'current'   => max( 1, $args['paged'] ),
-						'prev_next' => true,
-						'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
-						'next_text' => __( 'Next', 'lifterlms' ) . '»',
-						'type'      => 'list',
-					)
+			$pagination = paginate_links(
+				array(
+					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+					'format'    => '?page=%#%',
+					'total'     => $query->max_num_pages,
+					'current'   => max( 1, $args['paged'] ),
+					'prev_next' => true,
+					'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
+					'next_text' => __( 'Next', 'lifterlms' ) . '»',
+					'type'      => 'list',
 				)
 			);
+			if ( ! empty( $pagination ) ) {
+				echo wp_kses_post( $pagination );
+			}
 			echo '</nav>';
 
 		else :
