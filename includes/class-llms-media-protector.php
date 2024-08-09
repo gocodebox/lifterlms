@@ -171,63 +171,6 @@ class LLMS_Media_Protector {
 	}
 
 	/**
-	 * Adds an image to the media library to use when the current user is not allowed to view an image.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @global WP_Filesystem_Base $wp_filesystem Usually an instance of (@see WP_Filesystem_Direct}.
-	 *
-	 * @return int The post ID of the attachment image or 0 on failure.
-	 */
-	protected function add_unauthorized_placeholder_image_to_media_library() {
-
-		global $wp_filesystem;
-		/** @var WP_Filesystem_Base $wp_filesystem */
-
-		/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-		require_once ABSPATH . 'wp-admin/includes/media.php';
-		require_once ABSPATH . 'wp-admin/includes/image.php';
-
-		WP_Filesystem();
-
-		$uploads = wp_get_upload_dir();
-		$file    = $uploads['basedir'] . $this->base_upload_path . '/unauthorized-placeholder.png';
-		$source  = LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png';
-
-		if ( false === $wp_filesystem->exists( $file ) ) {
-			$result = $wp_filesystem->copy( $source, $file, false, 0644 );
-			if ( false === $result ) {
-				return 0;
-			}
-		}
-
-		$attach_id = media_handle_sideload(
-			array(
-				'name'     => basename( $file ),
-				'type'     => 'image/png',
-				'tmp_name' => $file,
-				'error'    => UPLOAD_ERR_OK,
-				'size'     => filesize( $file ),
-			),
-			0,
-			__( 'LifterLMS unauthorized placeholder image', 'lifterlms' ),
-			array(
-				'post_content' => sprintf(
-					__( '%1$s %2$s', 'lifterlms' ),
-					'This image is automatically added by LifterLMS.',
-					'It is the default image displayed to users that are not authorized to view a LifterLMS protected image.'
-				),
-				'meta_input'   => array(
-					'_wp_attachment_image_alt' => __( 'Unauthorized to view this image.', 'lifterlms' ),
-				),
-			)
-		);
-
-		return $attach_id;
-	}
-
-	/**
 	 * Adds query parameters to a protected media URL.
 	 *
 	 * Hooked to the {@see 'wp_get_attachment_image_src'} filter in {@see wp_get_attachment_image_src()}
@@ -247,7 +190,7 @@ class LLMS_Media_Protector {
 	 * @param string|int[] $size     Requested image size. Can be any registered image size name,
 	 *                               or an array of width and height values in pixels (in that order).
 	 * @param bool         $icon     Whether the image should be treated as an icon.
-	 * @return array
+	 * @return array|false
 	 */
 	public function authorize_media_image_src( $image, $media_id, $size, $icon ) {
 
@@ -261,9 +204,8 @@ class LLMS_Media_Protector {
 			// The media file is not protected.
 			return $image;
 		} elseif ( false === $is_authorized ) {
-			// Get attachment ID of placeholder.
-			$media_id = $this->get_placeholder_id( $media_id );
-			return wp_get_attachment_image_src( $media_id, $size );
+			// Return the same thing that wp_get_attachment_image_src would return if no image found.
+			return false;
 		}
 
 		$image[0] = add_query_arg(
@@ -303,7 +245,7 @@ class LLMS_Media_Protector {
 				trailingslashit( home_url() )
 			);
 		} elseif ( false === $is_authorized ) {
-			$url = $this->get_placeholder_url( $url, $media_id );
+			$url = '';
 		}
 		// If $is_authorized is null, do not change $url because it is unprotected.
 
@@ -405,102 +347,6 @@ class LLMS_Media_Protector {
 	}
 
 	/**
-	 * Returns the post ID of a placeholder media file.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @param int $media_id The post ID of the media file.
-	 * @return int
-	 */
-	protected function get_placeholder_id( $media_id ): int {
-
-		// @todo Prevent an infinite loop if the placeholder file somehow gets protected.
-
-		$media = get_post( $media_id );
-		switch ( $media->post_mime_type ) {
-			case 'image/jpeg':
-			case 'image/gif':
-			case 'image/png':
-			case 'image/bmp':
-			case 'image/tiff':
-			case 'image/webp':
-			case 'image/x-icon':
-			case 'image/heic':
-				$media_id = $this->get_placeholder_image_id();
-				break;
-			default:
-		}
-
-		/**
-		 * Allow the placeholder post ID to be filtered.
-		 *
-		 * @since 7.7.0
-		 *
-		 * @param int $media_id The post ID of the media file.
-		 */
-		$media_id = apply_filters( 'llms_protected_media_placeholder_id', $media_id );
-
-		return $media_id;
-	}
-
-	/**
-	 * Returns the post ID of the LifterLMS unauthorized placeholder image.
-	 *
-	 * If it does not exist, it is added to the media library. If adding it to the media library fails, 0 is returned.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @return int
-	 */
-	protected function get_placeholder_image_id() {
-
-		$query = new WP_Query( array( 'pagename' => 'lifterlms-unauthorized-placeholder-image' ) );
-
-		if ( empty( $query->posts ) ) {
-			$media_id = $this->add_unauthorized_placeholder_image_to_media_library();
-		} else {
-			$media_id = $query->posts[0]->ID;
-		}
-
-		return $media_id;
-	}
-
-	/**
-	 * Returns a URL to file that takes the place of a file that the user is not authorized to view.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @param string $media_url URL for the given media file.
-	 * @param int    $media_id  The post ID of the media file.
-	 * @return string
-	 */
-	protected function get_placeholder_url( $media_url, $media_id ) {
-
-		$placeholder_id  = $this->get_placeholder_id( $media_id );
-		$placeholder_url = wp_get_attachment_url( $placeholder_id );
-
-		/**
-		 * Allow the placeholder URL to be filtered.
-		 *
-		 * @since 7.7.0
-		 *
-		 * @param string $placeholder_url The URL of the placeholder media file.
-		 * @param int    $placeholder_id  The post ID of the placeholder media file.
-		 * @param string $media_url       The URL of the protected media file.
-		 * @param int    $media_id        The post ID of protected the media file.
-		 */
-		$media_url = (string) apply_filters(
-			'llms_not_authorized_placeholder_url',
-			$placeholder_url,
-			$placeholder_id,
-			$media_url,
-			$media_id
-		);
-
-		return $media_url;
-	}
-
-	/**
 	 * Gets the size from the URL query parameter.
 	 *
 	 * @see wp_create_image_subsizes()
@@ -575,15 +421,16 @@ class LLMS_Media_Protector {
 			return null;
 		}
 
-		$cache_key     = 'llms-media-auth-' . $media_id . '-' . $user_id;
+		$cache_key     = 'llms-media-authorization-' . $media_id . '-' . $user_id;
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
-			return $authorization;
+			return ( ( $authorization === 'null' ) ? null : $authorization );
 		}
 
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 		if ( ! $authorization_filter ) {
-			wp_cache_add( $cache_key, null, 'llms_media_authorization' );
+			// We need to use string of 'null' since on some hosting like wordpress.com the value of null comes back as bool false.
+			wp_cache_add( $cache_key, 'null', 'llms_media_authorization' );
 
 			return null;
 		}
@@ -876,17 +723,40 @@ class LLMS_Media_Protector {
 
 		} elseif ( stristr( $server_software, 'nginx' ) ) {
 			/**
-			 * @todo Test NGINX.
 			 * @see https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 			 * @see https://woocommerce.com/document/digital-downloadable-product-handling/#nginx-setting
 			 */
 			// NGINX requires a URI without the server's root path.
-			$nginx_file_name = substr( $file_name, strlen( ABSPATH ) - 1 );
-			header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
+			$wp_root = $this->find_wp_root();
+
+			if ( $wp_root ) {
+				$nginx_file_name = substr( $file_name, strlen( $this->find_wp_root() ) );
+				header( 'X-Accel-Redirect: ' . urlencode( $nginx_file_name ) );
+			} else {
+				$this->read_file( $file_name );
+			}
 		} else {
 			$this->read_file( $file_name );
 		}
 	}
+
+	protected function find_wp_root() {
+		$dir = dirname( WP_CONTENT_DIR );
+		while ( $dir ) {
+			if ( file_exists( $dir . '/wp-load.php' ) || file_exists( $dir . '/wp-config.php' ) ) {
+				return $dir;
+			}
+
+			$parent_dir = dirname( $dir );
+			if ( $parent_dir === $dir ) {
+				// We have reached the root directory
+				break;
+			}
+			$dir = $parent_dir;
+		}
+		return false; // Root directory not found
+	}
+
 
 	/**
 	 * Send headers for the download.
@@ -931,6 +801,12 @@ class LLMS_Media_Protector {
 		}
 
 		header( "Location: $url" );
+	}
+
+	protected function strip_query_params( $file_name ) {
+		$parsed_url = parse_url( $file_name );
+		$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : $file_name;
+		return $path;
 	}
 
 	/**
@@ -995,6 +871,8 @@ class LLMS_Media_Protector {
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 		}
 
+		$file_name = $this->strip_query_params( $file_name );
+
 		// Validate that the media file exists.
 		if ( false === file_exists( $file_name ) ) {
 			header( 'HTTP/1.1 404 Not Found' );
@@ -1004,23 +882,9 @@ class LLMS_Media_Protector {
 		// Is the user authorized to view the file?
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( false === $is_authorized ) {
-			$content_type = $media_file->post_mime_type;
-			if ( 0 === stripos( $content_type, 'image/' ) ) {
-				// Use a placeholder for images.
-				$media_id = $this->get_placeholder_image_id();
-				$image    = wp_get_attachment_image_src( $media_id, $size );
-				if ( false === $image ) {
-					// Emergency fallback.
-					$file_name = LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png';
-				} else {
-					$file_name = $this->get_media_path( $media_id );
-					$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
-				}
-			} else {
-				// An unauthorized request to a file without a placeholder is denied.
-				header( 'HTTP/1.1 403 Forbidden' );
-				llms_exit();
-			}
+			status_header( 404 );
+			nocache_headers();
+			die( 'File not found.' );
 		}
 
 		// An HTTP client, but not a proxy, is allowed to cache the file, but must check with the server before reuse.
