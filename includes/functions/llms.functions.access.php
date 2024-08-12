@@ -533,13 +533,11 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		$restriction_ids = array();
 		$student         = llms_get_student( $user_id );
 
-		// loop through the memberships.
 		foreach ( $memberships as $mid ) {
 			if ( ! is_numeric( $mid ) || absint( $mid ) <= 0 ) {
 				continue;
 			}
 
-			// set this as the restriction id.
 			$restriction_ids[] = absint( $mid );
 
 			// once we find the student has access break the loop,
