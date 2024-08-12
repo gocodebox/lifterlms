@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.7.3 - 2024-08-12
+-------------------
+
+##### Bug Fixes
+
++ Fixes revenue display in the Orders table. [#2719](https://github.com/gocodebox/lifterlms/issues/2719)
+
+
 v7.7.2 - 2024-08-12
 -------------------
 
