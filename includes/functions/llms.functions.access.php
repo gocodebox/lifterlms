@@ -176,7 +176,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	/* This filter is documented above. */
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
-
 }
 
 /**
@@ -355,7 +354,6 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
-
 }
 
 /**
@@ -443,7 +441,6 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	// Otherwise return false: no prerequisite.
 	return false;
-
 }
 
 /**
@@ -491,7 +488,6 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 	$course = new LLMS_Course( $course_id );
 
 	return $course->is_open() ? false : $course_id;
-
 }
 
 /**
@@ -529,28 +525,25 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		return false;
 	}
 
-	$memberships    = get_post_meta( $post_id, '_llms_restricted_levels', true );
-	$restricted     = get_post_meta( $post_id, '_llms_is_restricted', true );
-	$restricted_ids = array();
+	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	$restricted  = get_post_meta( $post_id, '_llms_is_restricted', true );
 
 	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
 
-		$student = llms_get_student( $user_id );
+		$restriction_ids = array();
+		$student         = llms_get_student( $user_id );
 
-		if ( ! $student ) {
-			$restriction_ids = $memberships;
-		} else {
-			// loop through the memberships.
-			foreach ( $memberships as $mid ) {
+		foreach ( $memberships as $mid ) {
+			if ( ! is_numeric( $mid ) || absint( $mid ) === 0 ) {
+				continue;
+			}
 
-				// set this as the restriction id.
-				$restriction_ids[] = absint( $mid );
+			$restriction_ids[] = absint( $mid );
 
-				// once we find the student has access break the loop,
-				// this will be the restriction that the template loader will check against later.
-				if ( $student->is_enrolled( $mid ) ) {
-					break;
-				}
+			// once we find the student has access break the loop,
+			// this will be the restriction that the template loader will check against later.
+			if ( $student && $student->is_enrolled( $mid ) ) {
+				break;
 			}
 		}
 
@@ -559,7 +552,6 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 	}
 
 	return false;
-
 }
 
 /**
@@ -623,7 +615,6 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 		return false;
 
 	}
-
 }
 
 /**
@@ -648,5 +639,4 @@ function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 	}
 
 	return false;
-
 }
