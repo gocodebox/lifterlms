@@ -274,6 +274,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Check if the post model exists.
+	 *
+	 * @return bool
+	 */
+	public function exists() {
+		return ! is_null( $this->post );
+	}
+
+	/**
 	 * Wrapper for the $this->translate() that echos the result rather than returning it
 	 *
 	 * @since 3.0.0

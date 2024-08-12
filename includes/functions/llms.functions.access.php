@@ -534,7 +534,13 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		$student         = llms_get_student( $user_id );
 
 		foreach ( $memberships as $mid ) {
-			if ( ! is_numeric( $mid ) || absint( $mid ) <= 0 ) {
+			if ( ! is_numeric( $mid ) || absint( $mid ) === 0 ) {
+				continue;
+			}
+
+			// Check if membership ID is valid.
+			$membership = new LLMS_Membership( absint( $mid ) );
+			if ( ! $membership->exists() ) {
 				continue;
 			}
 
