@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2714"
-entry: Avoid errors on pages restricted by one or more memberships.
