@@ -233,7 +233,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		do_action( 'llms_new_order_note_added', $note_id, $this );
 
 		return $note_id;
-
 	}
 
 	/**
@@ -328,7 +327,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$i = 1;
 			while ( $next_payment_time < ( llms_current_time( 'timestamp', true ) + 2 * HOUR_IN_SECONDS ) && $i < 3000 ) {
 				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
-				$i++;
+				++$i;
 			}
 		}
 
@@ -342,7 +341,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order  The order object.
 		 */
 		return apply_filters( 'llms_order_calculate_next_payment_date', date( $format, $next_payment_time ), $format, $this );
-
 	}
 
 	/**
@@ -365,7 +363,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		$ret = date_i18n( $format, $end );
 
 		return apply_filters( 'llms_order_calculate_trial_end_date', $ret, $format, $this );
-
 	}
 
 	/**
@@ -396,7 +393,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this,
 			$this->get( 'payment_gateway' )
 		);
-
 	}
 
 	/**
@@ -439,7 +435,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order     Order object.
 		 */
 		return apply_filters( 'llms_order_can_be_retried', $can_retry, $this );
-
 	}
 
 	/**
@@ -484,7 +479,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order           The order object.
 		 */
 		return apply_filters( 'llms_order_can_resubscribe', $can_resubscribe, $this );
-
 	}
 
 	/**
@@ -507,7 +501,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order      The order object.
 		 */
 		return apply_filters( 'llms_order_can_switch_source', $can_switch, $this );
-
 	}
 
 	/**
@@ -575,7 +568,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_order_get_access_expiration_date', $ret, $this, $format );
-
 	}
 
 	/**
@@ -640,7 +632,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// We're active.
 		return 'active';
-
 	}
 
 	/**
@@ -679,7 +670,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$amount = llms_price( $amount );
 		}
 		return $amount;
-
 	}
 
 	/**
@@ -826,7 +816,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		);
 
 		return $comments;
-
 	}
 
 	/**
@@ -930,7 +919,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		$next_payment_time = apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_time, $this, $format );
 
 		return date_i18n( $format, $next_payment_time );
-
 	}
 
 	/**
@@ -979,7 +967,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order     Order object.
 		 */
 		return apply_filters( 'llms_order_remaining_payments', $remaining, $this );
-
 	}
 
 	/**
@@ -1029,7 +1016,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $rules The order object.
 		 */
 		return apply_filters( 'llms_order_automatic_retry_rules', $rules, $this );
-
 	}
 
 	/**
@@ -1046,9 +1032,9 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Check the cache.
 		static $cache = array();
-		if ( isset( $cache[$this->get( 'id' )] )
-		  && isset( $cache[$this->get( 'id' )][$type] ) ) {
-			return $cache[$this->get( 'id' )][$type];
+		if ( isset( $cache[ $this->get( 'id' ) ] )
+			&& isset( $cache[ $this->get( 'id' ) ][ $type ] ) ) {
+			return $cache[ $this->get( 'id' ) ][ $type ];
 		}
 
 		$statuses = array( 'llms-txn-refunded' );
@@ -1089,12 +1075,12 @@ class LLMS_Order extends LLMS_Post_Model {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Save to cache.
-		if ( ! isset( $cache[$this->get( 'id' )] ) ) {
-			$cache[$this->get( 'id' )] = array();
+		if ( ! isset( $cache[ $this->get( 'id' ) ] ) ) {
+			$cache[ $this->get( 'id' ) ] = array();
 		}
-		$cache[$this->get('id')][$type] = floatval( $grosse );
+		$cache[ $this->get( 'id' ) ][ $type ] = floatval( $grosse );
 
-		return $cache[$type];
+		return $cache[ $this->get( 'id' ) ][ $type ];
 	}
 
 	/**
@@ -1168,7 +1154,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order  $order  The order object.
 		 */
 		return apply_filters( 'llms_order_switch_source_action', $action, $this );
-
 	}
 
 	/**
@@ -1325,7 +1310,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			'pages'        => $query->max_num_pages,
 			'transactions' => $transactions,
 		);
-
 	}
 
 	/**
@@ -1356,7 +1340,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_order_get_trial_end_date', $trial_end_date, $this );
-
 	}
 
 	/**
@@ -1388,7 +1371,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_order_get_revenue', $amount, $type, $this );
-
 	}
 
 	/**
@@ -1403,7 +1385,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$link = llms_get_endpoint_url( 'orders', $this->get( 'id' ), llms_get_page_url( 'myaccount' ) );
 		return apply_filters( 'llms_order_get_view_link', $link, $this );
-
 	}
 
 	/**
@@ -1627,7 +1608,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		);
 
 		return $this;
-
 	}
 
 	/**
@@ -1670,7 +1650,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->unschedule_expiration();
 			as_schedule_single_action( $expires, 'llms_access_plan_expiration', $this->get_action_args() );
 		}
-
 	}
 
 	/**
@@ -1716,7 +1695,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			}
 		}
-
 	}
 
 	/**
@@ -1802,7 +1780,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		do_action( 'llms_automatic_payment_retry_scheduled', $this );
 
 		return true;
-
 	}
 
 	/**
@@ -1850,7 +1827,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'status', $status );
 
 		return $txn;
-
 	}
 
 	/**
@@ -1892,7 +1868,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$this->maybe_schedule_payment( false );
 
 		}
-
 	}
 
 	/**
@@ -1914,7 +1889,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( array_key_exists( $status, llms_get_order_statuses( $this->get( 'order_type' ) ) ) ) {
 			$this->set( 'status', $status );
 		}
-
 	}
 
 	/**
@@ -1988,7 +1962,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$this->set_bulk( $to_set );
 		return $to_set;
-
 	}
 
 	/**
@@ -2022,7 +1995,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->maybe_schedule_expiration();
 
 		}
-
 	}
 
 	/**
@@ -2041,7 +2013,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( $this->get_next_scheduled_action_time( 'llms_access_plan_expiration' ) ) {
 			as_unschedule_action( 'llms_access_plan_expiration', $this->get_action_args() );
 		}
-
 	}
 
 	/**
@@ -2075,7 +2046,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			do_action( 'llms_charge_recurring_payment_unscheduled', $this, $action_args );
 
 		}
-
 	}
 
 	/**
@@ -2123,7 +2093,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args, $action_id );
 
 		return $action_id;
-
 	}
 
 	/**
@@ -2157,7 +2126,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return (int) $date;
-
 	}
 
 	/**
@@ -2173,5 +2141,4 @@ class LLMS_Order extends LLMS_Post_Model {
 		$gateway = $this->get_gateway();
 		return is_wp_error( $gateway ) ? false : $gateway->supports( 'modify_recurring_payments', $this );
 	}
-
 }
