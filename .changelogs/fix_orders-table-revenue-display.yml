@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2719"
+entry: Fixes revenue display in the Orders table.
