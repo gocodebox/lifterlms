@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "#2716"
+attributions:
+  - "@verygoodplugins"
+entry: Fixes fatal error when updating from an old version.
