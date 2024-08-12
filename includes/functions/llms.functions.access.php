@@ -538,12 +538,6 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 				continue;
 			}
 
-			// Check if membership ID is valid.
-			$membership = new LLMS_Membership( absint( $mid ) );
-			if ( ! $membership->exists() ) {
-				continue;
-			}
-
 			$restriction_ids[] = absint( $mid );
 
 			// once we find the student has access break the loop,
