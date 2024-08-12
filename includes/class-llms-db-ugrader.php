@@ -51,6 +51,9 @@ class LLMS_DB_Upgrader {
 	 */
 	public function __construct( $db_version, $updates = null ) {
 
+		if ( ! LLMS_Install::$background_updater ) {
+			LLMS_Install::init_background_updater();
+		}
 		$this->updater = LLMS_Install::$background_updater;
 
 		// Background updates may trigger a notice during a cron and notices might not be available.
@@ -62,7 +65,6 @@ class LLMS_DB_Upgrader {
 
 		$this->db_version = $db_version;
 		$this->updates    = $updates;
-
 	}
 
 	/**
@@ -98,7 +100,6 @@ class LLMS_DB_Upgrader {
 		 * @param LLMS_DB_Upgrader $upgrader   Instance of the database upgrader.
 		 */
 		return apply_filters( 'llms_can_auto_update_db', $autoupdate, $this->db_version, $this );
-
 	}
 
 	/**
@@ -129,7 +130,6 @@ class LLMS_DB_Upgrader {
 		}
 
 		return '';
-
 	}
 
 	/**
@@ -178,7 +178,6 @@ class LLMS_DB_Upgrader {
 		$this->updater->save();
 
 		add_action( 'shutdown', array( 'LLMS_Install', 'dispatch_db_updates' ) );
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class LLMS_DB_Upgrader {
 		 * @param LLMS_DB_Upgrader $upgrader Instance of the database upgrader.
 		 */
 		return apply_filters( 'llms_db_updates_list', $this->updates, $this );
-
 	}
 
 	/**
@@ -217,12 +215,11 @@ class LLMS_DB_Upgrader {
 
 		return array_filter(
 			$this->get_updates(),
-			function( $update_version ) use ( $db_version ) {
+			function ( $update_version ) use ( $db_version ) {
 				return version_compare( $db_version, $update_version, '<' );
 			},
 			ARRAY_FILTER_USE_KEY
 		);
-
 	}
 
 	/**
@@ -236,7 +233,6 @@ class LLMS_DB_Upgrader {
 
 		$required = $this->get_required_updates( $this->db_version );
 		return ! empty( $required );
-
 	}
 
 	/**
@@ -264,7 +260,6 @@ class LLMS_DB_Upgrader {
 				'default_path' => LLMS_PLUGIN_DIR . 'includes/admin/views/notices/',
 			)
 		);
-
 	}
 
 	/**
@@ -284,7 +279,6 @@ class LLMS_DB_Upgrader {
 				'dismiss_for_days' => 0,
 			)
 		);
-
 	}
 
 	/**
@@ -313,7 +307,6 @@ class LLMS_DB_Upgrader {
 				'dismiss_for_days' => 0,
 			)
 		);
-
 	}
 
 	/**
@@ -341,7 +334,5 @@ class LLMS_DB_Upgrader {
 		}
 
 		return true;
-
 	}
-
 }

@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v7.7.2 - 2024-08-12
+-------------------
+
+##### Bug Fixes
+
++ Fixes fatal error when updating from an old version. Thanks [@verygoodplugins](https://github.com/verygoodplugins)! [#2716](https://github.com/gocodebox/lifterlms/issues/2716)
++ Avoid errors on pages restricted by one or more memberships. [#2714](https://github.com/gocodebox/lifterlms/issues/2714)
+
+
 v7.7.1 - 2024-08-09
 -------------------
 
