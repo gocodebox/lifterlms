@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.7.4 - 2024-08-13
+-------------------
+
+##### Bug Fixes
+
++ Reverts changes to restricting pages by membership functionality to avoid conflicts with certain themes and plugins. [#2714](https://github.com/gocodebox/lifterlms/issues/2714)
+
+
 v7.7.3 - 2024-08-12
 -------------------
 

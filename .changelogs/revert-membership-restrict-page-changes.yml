@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2714"
-entry: Reverts changes to restricting pages by membership functionality to avoid
-  conflicts with certain themes and plugins.
