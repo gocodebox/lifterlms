@@ -292,6 +292,7 @@ final class LifterLMS {
 				'kbd'        => $allowed_atts,
 				'q'          => $allowed_atts,
 				's'          => $allowed_atts,
+				'iframe'     => $allowed_atts,
 				'header'     => $allowed_atts,
 				'footer'     => $allowed_atts,
 				'strike'     => $allowed_atts,

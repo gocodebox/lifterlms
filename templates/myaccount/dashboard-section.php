@@ -22,7 +22,7 @@ $more = apply_filters( 'llms_' . $action . '_more', $more );
 
 	<?php do_action( 'lifterlms_before_' . $action ); ?>
 
-	<?php echo wp_kses_post( $content ); ?>
+	<?php echo wp_kses( $content, LLMS_ALLOWED_HTML_FORM_FIELDS ); ?>
 
 	<?php if ( $more ) : ?>
 		<footer class="llms-sd-section-footer">
