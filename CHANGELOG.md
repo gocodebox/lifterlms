@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v7.7.5 - 2024-08-15
+-------------------
+
+##### Bug Fixes
+
++ Show video tiles for courses on the Dashboard and My Courses pages when enabled. [#2728](https://github.com/gocodebox/lifterlms/issues/2728)
+
+##### Updated Templates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/7.7.5/templates/myaccount/dashboard-section.php)
+
+
+v7.7.4 - 2024-08-13
+-------------------
+
+##### Bug Fixes
+
++ Reverts changes to restricting pages by membership functionality to avoid conflicts with certain themes and plugins. [#2714](https://github.com/gocodebox/lifterlms/issues/2714)
+
+
 v7.7.3 - 2024-08-12
 -------------------
 
