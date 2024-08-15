@@ -131,9 +131,34 @@ class LLMS_DOM_Document {
 	 * @return void
 	 */
 	private function load_with_mb_convert_encoding() {
-		if ( ! $this->dom->loadHTML( htmlspecialchars_decode( htmlentities( $this->source ) ) ) ) {
+		if ( ! $this->dom->loadHTML( $this->convert_to_numeric_and_named_entities( $this->source ) ) ) {
 			$this->error = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
 		}
+	}
+
+	private function convert_to_numeric_and_named_entities( $string ) {
+		return preg_replace_callback(
+			'/(<[^>]+>|&[^;]+;|[^<>&]+)/u',
+			function ( $matches ) {
+				$part = $matches[0];
+
+				// Skip HTML tags and named entities
+				if ( substr( $part, 0, 1 ) === '<' || ( substr( $part, 0, 1 ) === '&' && substr( $part, -1 ) === ';' ) ) {
+					return $part;
+				}
+
+				// Convert characters to numeric entities
+				$result = '';
+				$length = mb_strlen( $part, 'UTF-8' );
+				for ( $i = 0; $i < $length; $i++ ) {
+					$char      = mb_substr( $part, $i, 1, 'UTF-8' );
+					$codepoint = mb_ord( $char, 'UTF-8' );
+					$result   .= '&#' . $codepoint . ';';
+				}
+				return $result;
+			},
+			$string
+		);
 	}
 
 	/**
