@@ -109,7 +109,6 @@ class LLMS_DOM_Document {
 		libxml_use_internal_errors( $libxml_state );
 
 		return is_wp_error( $this->error ) && $this->error->has_errors() ? $this->error : true;
-
 	}
 
 	/**
@@ -122,18 +121,17 @@ class LLMS_DOM_Document {
 	public function dom() {
 
 		return $this->dom;
-
 	}
 
 	/**
-	 * Load the HTML string in the DOMDocument using mb_convert_econding
+	 * Load the HTML string in the DOMDocument using htmlspecialchars_decode( htmlentities() ) as mb_convert_encoding() is deprecated.
 	 *
 	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
 	private function load_with_mb_convert_encoding() {
-		if ( ! $this->dom->loadHTML( mb_convert_encoding( $this->source, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+		if ( ! $this->dom->loadHTML( htmlspecialchars_decode( htmlentities( $this->source ) ) ) ) {
 			$this->error = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
 		}
 	}
@@ -156,7 +154,5 @@ class LLMS_DOM_Document {
 		if ( $meta ) {
 			$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
-
 	}
-
 }
