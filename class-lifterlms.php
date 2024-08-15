@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.7.3';
+	public $version = '7.7.5';
 
 	/**
 	 * LLMS_Assets instance
@@ -174,6 +174,9 @@ final class LifterLMS {
 			'decoding'        => true,
 			'disabled'        => true,
 			'required'        => true,
+			'allowfullscreen' => true,
+			'allow'           => true,
+			'frameborder'     => true,
 			'class'           => true,
 			'type'            => true,
 			'id'              => true,
@@ -292,6 +295,7 @@ final class LifterLMS {
 				'kbd'        => $allowed_atts,
 				'q'          => $allowed_atts,
 				's'          => $allowed_atts,
+				'iframe'     => $allowed_atts,
 				'header'     => $allowed_atts,
 				'footer'     => $allowed_atts,
 				'strike'     => $allowed_atts,
