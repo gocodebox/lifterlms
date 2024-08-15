@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2728"
+entry: Show video tiles for courses on the Dashboard and My Courses pages when
+  enabled.
