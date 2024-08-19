@@ -45,7 +45,7 @@ foreach ( $attempt->get_question_objects() as $attempt_question ) :
 		<header class="llms-quiz-attempt-question-header">
 			<a class="toggle-answer" href="#">
 
-				<h3 class="llms-question-title"><?php echo esc_html( $quiz_question->get_question( 'plain' ) ); ?></h3>
+				<h3 class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'plain' ) ); ?></h3>
 
 				<?php if ( $quiz_question->get( 'points' ) ) : ?>
 					<span class="llms-points">
