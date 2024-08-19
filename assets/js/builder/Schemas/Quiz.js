@@ -2,10 +2,11 @@
  * Quiz Schema.
  *
  * @since 3.17.6
- * @since 3.24.0 Unknown.
  * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
+ * @since 7.6.2 Added `disable_retake` schema.
  * @since [version] Added `can_be_resumed` option.
  * @version [version]
+
  */
 define( [], function() {
 
@@ -84,6 +85,13 @@ define( [], function() {
 						condition: function() {
 							return 'yes' === this.get( 'question_bank' ) ? false : true;
 						}
+			},
+					{
+						attribute: 'disable_retake',
+						id: 'disable-retake',
+						label: LLMS.l10n.translate( 'Disable Retake' ),
+						tip: LLMS.l10n.translate( 'Prevent quiz retake after student passed the quiz.' ),
+						type: 'switch',
 			},
 				], [
 					{

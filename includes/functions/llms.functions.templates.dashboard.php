@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -148,7 +148,6 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
 		 */
 		do_action( 'lifterlms_after_student_dashboard' );
-
 	}
 }
 
@@ -205,7 +204,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any course.
 				 */
-				apply_filters( 'lifterlms_dashboard_courses_not_enrolled_text', esc_html__( 'You are not enrolled in any courses.', 'lifterlms' ) )
+				esc_html( apply_filters( 'lifterlms_dashboard_courses_not_enrolled_text', __( 'You are not enrolled in any courses.', 'lifterlms' ) ) )
 			);
 
 		} else {
@@ -284,10 +283,81 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
 		}
-
 	}
 }
 
+if ( ! function_exists( 'llms_template_my_favorites_loop' ) ) {
+
+	/**
+	 * Get student's favorites.
+	 *
+	 * @since 7.5.0
+	 *
+	 * @param LLMS_Student $student   Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param array        $favorites Optional. Array of favorites (current student's favorites if none supplied). Default `null`.
+	 * @return void
+	 */
+	function llms_template_my_favorites_loop( $student = null, $favorites = null ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return;
+		}
+
+		$favorites = $favorites ?? $student->get_favorites();
+
+		if ( ! $favorites ) {
+
+			printf( '<p>%s</p>', esc_html__( 'No favorites found.', 'lifterlms' ) );
+
+		} else {
+
+			// Adding Parent Course IDs in Favorites for each lesson.
+			foreach ( $favorites as $key => $favorite ) {
+				$lesson                  = new LLMS_Lesson( $favorite->post_id );
+				$favorite->parent_course = $lesson->get( 'parent_course' );
+			}
+
+			// Grouping Favorites by Parent Course ID.
+			$favorites = array_reduce(
+				$favorites,
+				function ( $carry, $item ) {
+					$carry[ $item->parent_course ][] = $item;
+					return $carry;
+				},
+				array()
+			);
+
+			echo '<div class="llms-syllabus-wrapper">';
+
+			// Printing Favorite Lessons under each Parent Course.
+			foreach ( $favorites as $course => $lessons ) {
+
+				// Get Course Name.
+				$course = new LLMS_Course( $course );
+
+				echo '<h3 class="llms-h3 llms-section-title">';
+					echo esc_html( $course->get( 'title' ) );
+				echo '</h3>';
+
+				foreach ( $lessons as $lesson ) {
+
+					$lesson = new LLMS_Lesson( $lesson->post_id );
+
+					llms_get_template(
+						'course/lesson-preview.php',
+						array(
+							'lesson' => $lesson,
+						)
+					);
+
+				}
+			}
+
+			echo '</div>';
+		}
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
@@ -323,7 +393,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				 *
 				 * @param string $not_enrolled_text The text to be displayed when the student is not enrolled in any memberships.
 				 */
-				apply_filters( 'lifterlms_dashboard_memberships_not_enrolled_text', esc_html__( 'You are not enrolled in any memberships.', 'lifterlms' ) )
+				esc_html( apply_filters( 'lifterlms_dashboard_memberships_not_enrolled_text', __( 'You are not enrolled in any memberships.', 'lifterlms' ) ) )
 			);
 
 		} else {
@@ -350,7 +420,6 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
 		}
-
 	}
 }
 
@@ -430,7 +499,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -482,7 +550,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -525,10 +592,37 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
+if ( ! function_exists( 'llms_template_student_dashboard_my_favorites' ) ) {
+
+	/**
+	 * Template for My Favorites section on dashboard index.
+	 *
+	 * @since 7.5.0
+	 *
+	 * @return void
+	 */
+	function llms_template_student_dashboard_my_favorites() {
+
+		$student = llms_get_student();
+
+		if ( ! $student || ! llms_is_favorites_enabled() ) {
+			return;
+		}
+
+		ob_start();
+		llms_template_my_favorites_loop( $student );
+
+		llms_get_template(
+			'myaccount/my-favorites.php',
+			array(
+				'content' => ob_get_clean(),
+			)
+		);
+	}
+}
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 
@@ -572,6 +666,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$sort = 'date_desc';
 			}
 			$parts = explode( '_', $sort );
+
+			// Validate sort.
+			$parts[0] = llms_sanitize_with_safelist( $parts[0], array( 'date', 'title' ) );
+			$parts[1] = llms_sanitize_with_safelist( $parts[1], array( 'desc', 'asc' ) );
 
 			$courses = $student->get_courses(
 				array(
@@ -648,7 +746,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			);
 
 		}
-
 	}
 }
 
@@ -688,7 +785,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' )
 				'section_headings' => $section_headings,
 			)
 		);
-
 	}
 }
 
@@ -731,7 +827,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 				'more'    => $more,
 			)
 		);
-
 	}
 }
 
@@ -848,7 +943,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 		llms_get_template( 'myaccount/my-notifications.php', $args );
 
 		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
-
 	}
 }
 
@@ -886,7 +980,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
 		 *
 		 * @param string $title The student dashboard title.
 		 */
-		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>', $data );
+		echo wp_kses_post( apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>', $data ) );
 	}
 }
 
@@ -914,7 +1008,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 	 */
 	function lifterlms_template_student_dashboard_wrapper_open() {
 		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
+		echo '<div class="llms-student-dashboard ' . esc_attr( $current ) . '" data-current="' . esc_attr( $current ) . '">';
 	}
 endif;
 
@@ -971,7 +1065,6 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	}
 
 	return $link;
-
 }
 
 /**
@@ -1006,7 +1099,7 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 
 		case 'completion_date':
 			if ( $student->is_complete( $lesson->get( 'id' ) ) ) {
-				echo $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) );
+				echo esc_html( $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) ) );
 			} else {
 				echo '&ndash;';
 			}
@@ -1020,9 +1113,9 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 				$url     = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
 				$text    = $attempt ? __( 'Review', 'lifterlms' ) : __( 'Start', 'lifterlms' );
 				if ( $attempt ) {
-					echo '<span class="llms-status llms-' . esc_attr( $attempt->get( 'status' ) ) . '">' . $attempt->l10n( 'status' ) . '</span>';
+					echo '<span class="llms-status llms-' . esc_attr( $attempt->get( 'status' ) ) . '">' . esc_html( $attempt->l10n( 'status' ) ) . '</span>';
 				}
-				echo '<a href="' . $url . '">' . $text . '</a>';
+				echo '<a href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a>';
 			} else {
 				echo '&ndash;';
 			}
@@ -1030,7 +1123,7 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 
 		case 'overall_grade':
 			$grade = $student->get_grade( $lesson->get( 'id' ) );
-			echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
+			echo is_numeric( $grade ) ? wp_kses_post( llms_get_donut( $grade, '', 'mini' ) ) : '&ndash;';
 			break;
 
 	}
@@ -1065,5 +1158,4 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
 	 */
 	return apply_filters( 'llms_sd_my_grades_table_content', $html, $id, $lesson, $student, $restrictions );
-
 }

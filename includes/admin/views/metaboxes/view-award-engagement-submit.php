@@ -28,19 +28,19 @@ defined( 'ABSPATH' ) || exit;
 
 		<div id="misc-publishing-actions">
 			<div class="misc-pub-section misc-pub-post-status">
-				<?php _e( 'Status:', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Status:', 'lifterlms' ); ?>
 				<span id="post-status-display">
 					<?php
 					switch ( $engagement->post_status ) {
 						case 'publish':
-							_e( 'Awarded', 'lifterlms' );
+							esc_html_e( 'Awarded', 'lifterlms' );
 							break;
 						case 'future':
-							_e( 'Scheduled', 'lifterlms' );
+							esc_html_e( 'Scheduled', 'lifterlms' );
 							break;
 						case 'draft':
 						case 'auto-draft':
-							_e( 'Draft', 'lifterlms' );
+							esc_html_e( 'Draft', 'lifterlms' );
 							break;
 					}
 					?>
@@ -49,11 +49,11 @@ defined( 'ABSPATH' ) || exit;
 					<div id="post-status-select" class="hidden">
 					<select name="post_status" id="post_status">
 						<?php if ( 'publish' === $engagement->post_status ) : ?>
-							<option<?php selected( $engagement->post_status, 'publish' ); ?> value='publish'><?php _e( 'Awarded', 'lifterlms' ); ?></option>
+							<option<?php selected( $engagement->post_status, 'publish' ); ?> value='publish'><?php esc_html_e( 'Awarded', 'lifterlms' ); ?></option>
 						<?php elseif ( 'future' === $engagement->post_status ) : ?>
-							<option<?php selected( $engagement->post_status, 'future' ); ?> value='future'><?php _e( 'Scheduled', 'lifterlms' ); ?></option>
+							<option<?php selected( $engagement->post_status, 'future' ); ?> value='future'><?php esc_html_e( 'Scheduled', 'lifterlms' ); ?></option>
 						<?php else : ?>
-							<option<?php selected( $engagement->post_status, 'auto-draft' ); ?> value='draft'><?php _e( 'Draft', 'lifterlms' ); ?></option>
+							<option<?php selected( $engagement->post_status, 'auto-draft' ); ?> value='draft'><?php esc_html_e( 'Draft', 'lifterlms' ); ?></option>
 						<?php endif; ?>
 					</select>
 					</div>
@@ -102,14 +102,14 @@ defined( 'ABSPATH' ) || exit;
 			?>
 			<div class="misc-pub-section curtime misc-pub-curtime">
 				<span id="timestamp">
-					<?php printf( $stamp, '<b>' . $date . '</b>' ); ?>
+					<?php echo wp_kses_post( sprintf( $stamp, '<b>' . $date . '</b>' ) ); ?>
 				</span>
 				<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" role="button">
-					<span aria-hidden="true"><?php _e( 'Edit', 'lifterlms' ); ?></span>
-					<span class="screen-reader-text"><?php _e( 'Edit date and time', 'lifterlms' ); ?></span>
+					<span aria-hidden="true"><?php esc_html_e( 'Edit', 'lifterlms' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Edit date and time', 'lifterlms' ); ?></span>
 				</a>
 				<fieldset id="timestampdiv" class="hide-if-js">
-					<legend class="screen-reader-text"><?php _e( 'Date and time', 'lifterlms' ); ?></legend>
+					<legend class="screen-reader-text"><?php esc_html_e( 'Date and time', 'lifterlms' ); ?></legend>
 					<?php touch_time( ( 'edit' === $action ), 1 ); ?>
 				</fieldset>
 			</div>
@@ -119,7 +119,10 @@ defined( 'ABSPATH' ) || exit;
 		<div class="clear"></div>
 	</div>
 	<ul id="misc-fields" class="misc-pub-section" style="margin-top:0">
-		<?php echo $fields; ?>
+		<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $fields;
+		?>
 	</ul>
 	<div id="major-publishing-actions">
 		<div id="delete-action">
@@ -127,7 +130,7 @@ defined( 'ABSPATH' ) || exit;
 			if ( current_user_can( 'delete_post', $engagement_id ) ) {
 				$delete_text = __( 'Delete permanently', 'lifterlms' );
 				?>
-				<a class="submitdelete deletion" href="<?php echo get_delete_post_link( $engagement_id, '', true ); ?>"><?php echo $delete_text; ?></a>
+				<a class="submitdelete deletion" href="<?php echo get_delete_post_link( $engagement_id, '', true ); ?>"><?php echo esc_html( $delete_text ); ?></a>
 				<?php
 			}
 			?>

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -293,7 +293,7 @@ class LLMS_Query {
 	 * collisions which are theoretically possible, though probably unlikely.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Fixed passing null to parameter #1 ($haystack) using `strpos`.
+	 * @since 7.5.0 Fixed passing null to parameter #1 ($haystack) using `strpos`.
 	 *
 	 * @return void
 	 */

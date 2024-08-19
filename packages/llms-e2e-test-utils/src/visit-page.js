@@ -9,5 +9,5 @@ const { createURL } = require( '@wordpress/e2e-test-utils' );
  * @return {void}
  */
 export async function visitPage( path, query ) {
-	await page.goto( createURL( path, query ) );
+	return await page.goto( createURL( path, query ) );
 }

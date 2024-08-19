@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.4.2';
+	public $version = '7.7.5';
 
 	/**
 	 * LLMS_Assets instance
@@ -68,19 +68,11 @@ final class LifterLMS {
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
 	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since 7.6.0 Lood locale textdomain on `init` instead of immediately
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
-		/**
-		 * Localize as early as possible.
-		 *
-		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load first.
-		 */
-		$this->localize();
 
 		$this->define_constants();
 
@@ -89,9 +81,9 @@ final class LifterLMS {
 		$this->query = new LLMS_Query();
 
 		// Hooks.
-		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
+		add_action( 'init', array( $this, 'localize' ), 0 );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
@@ -113,7 +105,6 @@ final class LifterLMS {
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_loaded' );
-
 	}
 
 	/**
@@ -124,6 +115,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 * @since 7.2.0 Added `LLMS_ASSETS_VERSION` constant.
+	 * @since 7.7.0 Added `LLMS_ALLOWED_HTML_PRICES` constant.
 	 *
 	 * @return void
 	 */
@@ -150,6 +142,203 @@ final class LifterLMS {
 		if ( ! defined( 'LLMS_ASSETS_VERSION' ) ) {
 			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
 		}
+
+		// For use in escaping and sanitizing.
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_PRICES',
+			array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'span'   => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'strong' => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'sup'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+			)
+		);
+
+		$allowed_atts = array(
+			'label'           => true,
+			'align'           => true,
+			'checked'         => true,
+			'border'          => true,
+			'decoding'        => true,
+			'disabled'        => true,
+			'required'        => true,
+			'allowfullscreen' => true,
+			'allow'           => true,
+			'frameborder'     => true,
+			'class'           => true,
+			'type'            => true,
+			'id'              => true,
+			'dir'             => true,
+			'lang'            => true,
+			'style'           => true,
+			'xml:lang'        => true,
+			'src'             => true,
+			'alt'             => true,
+			'href'            => true,
+			'rel'             => true,
+			'rev'             => true,
+			'onclick'         => true,
+			'target'          => true,
+			'novalidate'      => true,
+			'value'           => true,
+			'name'            => true,
+			'tabindex'        => true,
+			'action'          => true,
+			'method'          => true,
+			'for'             => true,
+			'width'           => true,
+			'height'          => true,
+			'data-*'          => true,
+			'aria-live'       => true,
+			'aria-hidden'     => true,
+			'aria-*'          => true,
+			'title'           => true,
+			'placeholder'     => true,
+			'readonly'        => true,
+			'rows'            => true,
+			'cols'            => true,
+			'minlength'       => true,
+			'maxlength'       => true,
+			'pattern'         => true,
+			'enctype'         => true,
+			'role'            => true,
+			'selected'        => true,
+			'srcset'          => true,
+			'accept'          => true,
+			'accept-charset'  => true,
+			'accesskey'       => true,
+			'autocomplete'    => true,
+			'autofocus'       => true,
+			'colspan'         => true,
+			'contenteditable' => true,
+			'contextmenu'     => true,
+			'controls'        => true,
+			'coords'          => true,
+			'datetime'        => true,
+			'dirname'         => true,
+			'download'        => true,
+			'draggable'       => true,
+			'dropzone'        => true,
+			'form'            => true,
+			'formaction'      => true,
+			'formenctype'     => true,
+			'formmethod'      => true,
+			'formnovalidate'  => true,
+			'formtarget'      => true,
+			'headers'         => true,
+			'hidden'          => true,
+			'high'            => true,
+			'hreflang'        => true,
+			'http-equiv'      => true,
+			'ismap'           => true,
+			'list'            => true,
+			'loop'            => true,
+			'low'             => true,
+			'max'             => true,
+			'media'           => true,
+			'min'             => true,
+			'multiple'        => true,
+			'muted'           => true,
+			'open'            => true,
+			'optimum'         => true,
+			'poster'          => true,
+			'preload'         => true,
+			'reversed'        => true,
+			'rowspan'         => true,
+			'scope'           => true,
+			'shape'           => true,
+			'size'            => true,
+			'span'            => true,
+			'spellcheck'      => true,
+			'srcdoc'          => true,
+			'srclang'         => true,
+			'start'           => true,
+			'step'            => true,
+			'translate'       => true,
+			'usemap'          => true,
+			'wrap'            => true,
+			'ping'            => true,
+			'referrerpolicy'  => true,
+			'sandbox'         => true,
+			'sizes'           => true,
+		);
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_FORM_FIELDS',
+			array(
+				'a'          => $allowed_atts,
+				'abbr'       => $allowed_atts,
+				'acronym'    => $allowed_atts,
+				'article'    => $allowed_atts,
+				'b'          => $allowed_atts,
+				'bdo'        => $allowed_atts,
+				'blockquote' => $allowed_atts,
+				'br'         => $allowed_atts,
+				'cite'       => $allowed_atts,
+				'code'       => $allowed_atts,
+				'del'        => $allowed_atts,
+				'dfn'        => $allowed_atts,
+				'em'         => $allowed_atts,
+				'hr'         => $allowed_atts,
+				'ins'        => $allowed_atts,
+				'kbd'        => $allowed_atts,
+				'q'          => $allowed_atts,
+				's'          => $allowed_atts,
+				'iframe'     => $allowed_atts,
+				'header'     => $allowed_atts,
+				'footer'     => $allowed_atts,
+				'strike'     => $allowed_atts,
+				'strong'     => $allowed_atts,
+				'sub'        => $allowed_atts,
+				'sup'        => $allowed_atts,
+				'ul'         => $allowed_atts,
+				'ol'         => $allowed_atts,
+				'li'         => $allowed_atts,
+				'p'          => $allowed_atts,
+				'pre'        => $allowed_atts,
+				'address'    => $allowed_atts,
+				'aside'      => $allowed_atts,
+				'nav'        => $allowed_atts,
+				'form'       => $allowed_atts,
+				'input'      => $allowed_atts,
+				'textarea'   => $allowed_atts,
+				'button'     => $allowed_atts,
+				'select'     => $allowed_atts,
+				'option'     => $allowed_atts,
+				'checkbox'   => $allowed_atts,
+				'radio'      => $allowed_atts,
+				'optgroup'   => $allowed_atts,
+				'div'        => $allowed_atts,
+				'label'      => $allowed_atts,
+				'span'       => $allowed_atts,
+				'img'        => $allowed_atts,
+				'i'          => $allowed_atts,
+				'h1'         => $allowed_atts,
+				'h2'         => $allowed_atts,
+				'h3'         => $allowed_atts,
+				'h4'         => $allowed_atts,
+				'h5'         => $allowed_atts,
+				'h6'         => $allowed_atts,
+				'section'    => $allowed_atts,
+				'fieldset'   => $allowed_atts,
+				'legend'     => $allowed_atts,
+				'datalist'   => $allowed_atts,
+				'output'     => $allowed_atts,
+				'progress'   => $allowed_atts,
+				'meter'      => $allowed_atts,
+			)
+		);
 	}
 
 	/**
@@ -172,6 +361,7 @@ final class LifterLMS {
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 * @since 5.8.0 Initialize block templates.
+	 * @since 7.7.0 Initialize Elementor migration.
 	 *
 	 * @return void
 	 */
@@ -182,9 +372,11 @@ final class LifterLMS {
 		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
+		( new LLMS_Media_Protector() )->register_callbacks();
+
+		include_once 'includes/class-llms-elementor-migrate.php';
 
 		do_action( 'lifterlms_init' );
-
 	}
 
 	/**
@@ -202,7 +394,6 @@ final class LifterLMS {
 		$this->assets->define( 'styles', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php' );
 
 		return $this->assets;
-
 	}
 
 	/**
@@ -219,7 +410,6 @@ final class LifterLMS {
 		}
 
 		return $this->session;
-
 	}
 
 	/**
@@ -415,9 +605,6 @@ final class LifterLMS {
 	 */
 	public function localize() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
 		llms_load_textdomain( 'lifterlms' );
-
 	}
-
 }

@@ -77,6 +77,7 @@ class LLMS_Loader {
 		'llms_admin_reporting'               => 'includes/admin/reporting/class.llms.admin.reporting.php',
 		'llms_admin_system_report'           => 'includes/admin/class.llms.admin.system-report.php',
 		'llms_bbp_widget_course_forums_list' => 'includes/widgets/class.llms.bbp.widget.course.forums.list.php',
+		'llms_media_protection'              => 'includes/class-llms-media-protection.php',
 		'llms_db_upgrader'                   => 'includes/class-llms-db-ugrader.php',
 		'llms_emails'                        => 'includes/class.llms.emails.php',
 		'llms_payment_gateway_manual'        => 'includes/class.llms.gateway.manual.php',
@@ -308,6 +309,9 @@ class LLMS_Loader {
 		// Widgets.
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widget.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/widgets/class.llms.widgets.php';
+
+		// Elementor support.
+		require_once LLMS_PLUGIN_DIR . 'includes/elementor/class-llms-elementor-widgets.php';
 	}
 
 	/**
@@ -332,11 +336,13 @@ class LLMS_Loader {
 		// Admin classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-header.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-plugins.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';

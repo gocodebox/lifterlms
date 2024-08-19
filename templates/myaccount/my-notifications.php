@@ -14,12 +14,12 @@ defined( 'ABSPATH' ) || exit;
 	<?php if ( isset( $notifications ) ) : ?>
 
 		<?php if ( ! $notifications ) : ?>
-			<p><?php _e( 'You have no notifications.', 'lifterlms' ); ?></p>
+			<p><?php esc_html_e( 'You have no notifications.', 'lifterlms' ); ?></p>
 		<?php else : ?>
 			<ol class="llms-notification-list">
 			<?php foreach ( $notifications as $noti ) : ?>
 				<li class="llms-notification-list-item">
-					<?php echo $noti->get_html(); ?>
+					<?php echo wp_kses_post( $noti->get_html() ); ?>
 				</li>
 			<?php endforeach; ?>
 			</ol>
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 		<footer class="llms-sd-pagination llms-my-notifications-pagination">
 			<nav class="llms-pagination">
 			<?php
-			echo paginate_links(
+			$pagination = paginate_links(
 				array(
 					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
 					'format'    => '?page=%#%',
@@ -40,6 +40,9 @@ defined( 'ABSPATH' ) || exit;
 					'type'      => 'list',
 				)
 			);
+			if ( ! empty( $pagination ) ) {
+				echo wp_kses_post( $pagination );
+			}
 			?>
 			</nav>
 		</footer>
@@ -48,8 +51,8 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php foreach ( $settings as $type => $triggers ) : ?>
 
-			<h4><?php echo apply_filters( 'llms_notification_' . $type . '_title', $type ); ?></h4>
-			<p><?php echo apply_filters( 'llms_notification_' . $type . '_desc', '' ); ?></p>
+			<h4><?php echo esc_html( apply_filters( 'llms_notification_' . $type . '_title', $type ) ); ?></h4>
+			<p><?php echo esc_html( apply_filters( 'llms_notification_' . $type . '_desc', '' ) ); ?></p>
 			<?php foreach ( $triggers as $id => $data ) : ?>
 				<?php
 				llms_form_field(

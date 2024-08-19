@@ -15,7 +15,7 @@ $header_image = $mailer->get_header_image_src();
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>" />
-	<title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
+	<title><?php echo wp_kses_post( get_bloginfo( 'name', 'display' ) ); ?></title>
 	<style>
 	@media all {
 		a {
@@ -77,7 +77,7 @@ $header_image = $mailer->get_header_image_src();
 
 		<?php if ( $header_image ) : ?>
 		<div class="content" style="box-sizing:border-box;display:block;Margin:0 auto;max-width:<?php $mailer->get_css( 'max-width' ); ?>;padding:10px;">
-			<img alt="<?php echo get_bloginfo( 'name' ); ?>" src="<?php echo esc_url( $header_image ); ?>" style="display:block;height:auto;Margin:0 auto;max-width:100%;" />
+			<img alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" src="<?php echo esc_url( $header_image ); ?>" style="display:block;height:auto;Margin:0 auto;max-width:100%;" />
 		</div>
 		<?php endif; ?>
 
@@ -86,14 +86,14 @@ $header_image = $mailer->get_header_image_src();
 
 			<?php if ( ! empty( $email_heading ) ) : ?>
 			<!-- START HEADING AREA -->
-			<table class="main" style="background:<?php $mailer->get_css( 'heading-background-color' ); ?>;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;border-radius:<?php printf( '%1$s %1$s 0 0', $mailer->get_css( 'border-radius' ) ); ?>;width:100%;">
+			<table class="main" style="background:<?php $mailer->get_css( 'heading-background-color' ); ?>;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;border-radius:<?php echo esc_attr( sprintf( '%1$s %1$s 0 0', $mailer->get_css( 'border-radius' ) ) ); ?>;width:100%;">
 				<tr>
 					<td class="wrapper" style="font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:0;">
 						<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">
 							<tr>
 								<td style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;vertical-align:top;">
 									<h1 style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;font-weight:400;Margin:0;padding:20px;">
-										<?php echo $email_heading; ?>
+										<?php echo wp_kses_post( $email_heading ); ?>
 									</h1>
 								</td>
 							</tr>
@@ -104,7 +104,7 @@ $header_image = $mailer->get_header_image_src();
 			<!-- END HEADING AREA -->
 			<?php endif; ?>
 
-			<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php echo ! empty( $email_heading ) ? sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) : $mailer->get_css( 'border-radius' ); ?>;width:100%;">
+			<table class="main" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;background:#fff;border-radius:<?php if ( ! empty( $email_heading ) ) { echo esc_attr( sprintf( '0 0 %1$s %1$s', $mailer->get_css( 'border-radius' ) ) ); } else { $mailer->get_css( 'border-radius' ); } ?>;width:100%;">
 				<tr>
 					<td class="wrapper" style="color:<?php $mailer->get_css( 'font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:<?php $mailer->get_css( 'font-size' ); ?>;vertical-align:top;box-sizing:border-box;padding:20px;">
 						<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;color:<?php $mailer->get_css( 'font-color' ); ?>;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">

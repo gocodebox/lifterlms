@@ -2,7 +2,7 @@
  * Quiz Model.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 7.5.0
  */
 define( [
 		'Collections/Questions',
@@ -23,9 +23,8 @@ define( [
 	return Backbone.Model.extend( _.defaults( {
 
 		/**
-		 * Model relationships.
-		 *
-		 * @type {Object}
+		 * model relationships
+		 * @type  {Object}
 		 */
 		relationships: {
 			parent: {
@@ -43,8 +42,7 @@ define( [
 
 		/**
 		 * Lesson Settings Schema
-		 *
-		 * @type {Object}
+		 * @type  {Object}
 		 */
 		schema: QuizSchema,
 
@@ -53,8 +51,8 @@ define( [
 		 *
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
-		 * @since [version] Replaced unused `random_answers` property with `random_questions`.
-		 *              Added filter for filtering defaults and `can_be_resumed` property.     
+		 * @since 7.5.0 Replaced unused `random_answers` property with `random_questions`.
+		 * @since [version] Added filter for filtering defaults and `can_be_resumed` property.
 		 *
 		 * @return {Object}
 		 */
@@ -68,7 +66,7 @@ define( [
 
 				status: 'draft',
 
-				// Editable fields.
+				// editable fields.
 				content: '',
 				allowed_attempts: 5,
 				limit_attempts: 'no',
@@ -79,13 +77,14 @@ define( [
 				time_limit: 30,
 				show_correct_answer: 'no',
 				can_be_resumed: 'no',
+				disable_retake: 'no',
 
 				questions: [],
 
-				// Calculated.
+				// calculated.
 				_points: 0,
 
-				// Display.
+				// display.
 				permalink: '',
 				_show_settings: false,
 				_questions_loaded: false,

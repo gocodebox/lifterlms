@@ -18,6 +18,7 @@ define( [], function() {
 		 */
 		events: {
 			'click a[href="#llms-trash-model"]': 'trash_model',
+			'click button.llms-trash-model': 'trash_model',
 		},
 
 		/**

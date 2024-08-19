@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-entry: Improved compatibility with WordPress 6.4 by using
-  `traverse_and_serialize_blocks` in place of the deprecated
-  `_inject_theme_attribute_in_block_template_content`.

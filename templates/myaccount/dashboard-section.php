@@ -12,21 +12,21 @@ defined( 'ABSPATH' ) || exit;
 $more = apply_filters( 'llms_' . $action . '_more', $more );
 ?>
 
-<section class="llms-sd-section <?php echo $slug; ?>">
+<section class="llms-sd-section <?php echo esc_attr( $slug ); ?>">
 
 	<?php if ( $title ) : ?>
 		<h3 class="llms-sd-section-title">
-			<?php echo apply_filters( 'lifterlms_' . $action . '_title', $title ); ?>
+			<?php echo wp_kses_post( apply_filters( 'lifterlms_' . $action . '_title', $title ) ); ?>
 		</h3>
 	<?php endif; ?>
 
 	<?php do_action( 'lifterlms_before_' . $action ); ?>
 
-	<?php echo $content; ?>
+	<?php echo wp_kses( $content, LLMS_ALLOWED_HTML_FORM_FIELDS ); ?>
 
 	<?php if ( $more ) : ?>
 		<footer class="llms-sd-section-footer">
-			<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>"><?php echo $more['text']; ?></a>
+			<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>"><?php echo esc_html( $more['text'] ); ?></a>
 		</footer>
 	<?php endif; ?>
 

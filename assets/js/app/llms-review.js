@@ -32,7 +32,8 @@ LLMS.Review = {
 						action : 'LLMSSubmitReview',
 						review_title: $( '#review_title' ).val(),
 						review_text: $( '#review_text' ).val(),
-						pageID : $( '#post_ID' ).val()
+						pageID : $( '#post_ID' ).val(),
+						llms_review_nonce: $( '#llms_review_nonce' ).val()
 					},
 					success: function()
 					{

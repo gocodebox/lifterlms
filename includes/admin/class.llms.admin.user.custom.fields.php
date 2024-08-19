@@ -55,7 +55,6 @@ class LLMS_Admin_User_Custom_Fields {
 
 		// Add personal options.
 		add_action( 'personal_options', array( $this, 'output_personal_options' ) );
-
 	}
 
 
@@ -98,7 +97,6 @@ class LLMS_Admin_User_Custom_Fields {
 		if ( $update ) {
 			$this->save( $user );
 		}
-
 	}
 
 	/**
@@ -122,7 +120,6 @@ class LLMS_Admin_User_Custom_Fields {
 		);
 
 		return $this->fields;
-
 	}
 
 	/**
@@ -152,7 +149,6 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		return $this->fields;
-
 	}
 
 	/**
@@ -184,7 +180,6 @@ class LLMS_Admin_User_Custom_Fields {
 				'fields'        => $this->fields,
 			)
 		);
-
 	}
 
 	/**
@@ -204,20 +199,19 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		$autosave = get_user_option( 'llms_builder_autosave', $user->ID );
-		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+		$autosave = empty( $autosave ) ? 'no' : $autosave;
 
 		?>
 		<tr class="llms-builder-autosave llms-builder-autosave-wrap">
-			<th scope="row"><?php _e( 'Course Builder Autosave', 'lifterlms' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Course Builder Autosave', 'lifterlms' ); ?></th>
 			<td>
 				<label for="llms_builder_autosave">
 					<input name="llms_builder_autosave" type="checkbox" id="llms_builder_autosave" value="yes"<?php checked( 'yes', $autosave ); ?>>
-					<?php _e( 'Automatically save changes when using the course builder', 'lifterlms' ); ?>
+					<?php esc_html_e( 'Automatically save changes when using the course builder', 'lifterlms' ); ?>
 				</label><br>
 			</td>
 		</tr>
 		<?php
-
 	}
 
 	/**
@@ -255,12 +249,12 @@ class LLMS_Admin_User_Custom_Fields {
 			?>
 			<table class="form-table" id="llms-parent-instructors-table" style="display:none;">
 				<tr class="form-field">
-					<th scope="row"><label for="llms-parent-instructors"><?php _e( 'Parent Instructor(s)', 'lifterlms' ); ?></label></th>
+					<th scope="row"><label for="llms-parent-instructors"><?php esc_html_e( 'Parent Instructor(s)', 'lifterlms' ); ?></label></th>
 					<td>
 						<select class="regular-text" id="llms-parent-instructors" name="llms_parent_instructors[]" multiple="multiple">
 							<?php foreach ( $users as $user ) : ?>
-								<option value="<?php echo $user->ID; ?>"<?php selected( in_array( $user->ID, $selected, true ) ); ?>>
-									<?php echo $user->display_name; ?>
+								<option value="<?php echo esc_attr( $user->ID ); ?>"<?php selected( in_array( $user->ID, $selected, true ) ); ?>>
+									<?php echo esc_html( $user->display_name ); ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
@@ -279,9 +273,8 @@ class LLMS_Admin_User_Custom_Fields {
 			 *
 			 * When saving it will only save if the created user's role is instructor's assistant.
 			 */
-			echo '<input type="hidden" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
+			echo '<input type="hidden" name="llms_parent_instructors[]" value="' . esc_attr( get_current_user_id() ) . '">';
 		}
-
 	}
 
 	/**
@@ -360,7 +353,6 @@ class LLMS_Admin_User_Custom_Fields {
 			$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
 			update_user_meta( $user->ID, 'llms_builder_autosave', $autosave );
 		}
-
 	}
 
 	/**
@@ -413,9 +405,7 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Admin_User_Custom_Fields();

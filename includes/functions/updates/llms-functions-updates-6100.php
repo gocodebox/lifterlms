@@ -98,7 +98,7 @@ function migrate_spanish_users() {
  *
  * @since 6.10.0
  *
- * @return fasle.
+ * @return false.
  */
 function update_db_version() {
 	\LLMS_Install::update_db_version( _get_db_version() );

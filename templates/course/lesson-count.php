@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Course
  *
- * @since [version]
- * @version [version]
+ * @since 7.5.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ $lessons_count = $course->get_lessons_count();
 	<p>
 		<?php
 			// Translators: %1$s = Lessons Count.
-			printf( esc_html__( 'Number of lessons: %1$s', 'lifterlms' ), '<span class="lessons-count">' . $lessons_count . '</span>' );
+			echo wp_kses_post( sprintf( esc_html__( 'Number of lessons: %1$s', 'lifterlms' ), '<span class="lessons-count">' . $lessons_count . '</span>' ) );
 		?>
 	</p>
 </div>

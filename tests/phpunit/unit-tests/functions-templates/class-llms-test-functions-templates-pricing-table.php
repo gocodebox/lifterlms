@@ -94,7 +94,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 
 		// purchase button link
 		$this->assertTrue( false !== strpos( $ob['html'], '<a class="llms-button-action button"' ) );
-		$this->assertTrue( false !== strpos( $ob['html'], sprintf( 'href="%s"', $ob['plan']->get_checkout_url() ) ) );
+		$this->assertTrue( false !== strpos( $ob['html'], sprintf( 'href="%s"', esc_url( $ob['plan']->get_checkout_url() ) ) ) );
 
 		// check free enroll form
 		$student = $this->get_mock_student();
@@ -155,7 +155,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 		// single, not on sale, no expiration, no recurring
 		$ob = $this->get_ob( 'llms_template_access_plan_pricing', array( 1, 0 ) );
 		$this->assertTrue( 0 === strpos( $ob['html'], '<div class="llms-access-plan-pricing regular">' ) );
-		$this->assertTrue( false !== strpos( $ob['html'], llms_price( 1 ) ) );
+		$this->assertTrue( false !== strpos( $ob['html'], wp_kses( llms_price( 1 ), LLMS_ALLOWED_HTML_PRICES ) ) );
 		$this->assertTrue( false === strpos( $ob['html'], 'SALE' ) );
 		$this->assertTrue( false === strpos( $ob['html'], 'class="llms-access-plan-schedule"' ) );
 		$this->assertTrue( false === strpos( $ob['html'], 'class="llms-access-plan-expiration"' ) );
@@ -221,7 +221,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 
 		// no trial
 		$ob = $this->get_ob( 'llms_template_access_plan_trial' );
-		$this->assertTrue( 0 === strpos( $ob['html'], '<div class="llms-access-plan-pricing trial">' ) );
+		$this->assertTrue( false === strpos( $ob['html'], '<div class="llms-access-plan-pricing trial">' ) );
 		$this->assertTrue( false === strpos( $ob['html'], 'TRIAL' ) );
 
 		// has trial

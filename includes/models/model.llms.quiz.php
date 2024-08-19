@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 7.4.0
+ * @version 7.6.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,9 +50,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Post type meta properties.
 	 *
-	 * @since [version] 3.3.0
+	 * Array key is the meta_key and array values is property's type.
+	 *
+	 * @since Unknown.
+	 * @since 7.6.2 Added the `disable_retake` property.
 	 * @since [version] Added `can_be_resumed` property.
-	 * @var array Array key is the meta_key and array values is property's type.
+	 * @var string[] Array key is the meta_key and array values is property's type.
 	 */
 	protected $properties = array(
 		'lesson_id'           => 'absint',
@@ -64,6 +67,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
 		'can_be_resumed'      => 'yesno',
+		'disable_retake'      => 'yesno',
 	);
 
 	/**
@@ -195,7 +199,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -246,7 +249,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return $can_be_resumed_by_student;
-
 	}
 
 	/**
@@ -267,7 +269,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return $last_attempt;
-
 	}
 
 	/**
@@ -278,7 +279,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
 	 *
 	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_open( $user_id = null ) {
 
@@ -291,12 +292,24 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 			// string for "unlimited" or number of attempts.
 			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
+
+			// Check for a passed attempt and disable the quiz.
+			if ( $quiz_open && llms_parse_bool( $this->get( 'disable_retake' ) ) ) {
+				$passed_attempts = $student->quizzes()->get_attempts_by_quiz(
+					$this->get( 'id' ),
+					array(
+						'status' => array( 'pass' ),
+					)
+				);
+
+				if ( count( $passed_attempts ) ) {
+					$quiz_open = false;
+				}
+			}
 		}
 
 		/**
 		 * Filters whether the quiz is open to a student or not.
-		 *
-		 * @since 3.37.2
 		 *
 		 * @param boolean            $quiz_open Whether the quiz is open.
 		 * @param int|null           $user_id   WP User ID, can be `null`.
@@ -305,7 +318,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		 * @param LLMS_Student|false $student   LLMS_Student instance or false if user not found.
 		 */
 		return apply_filters( 'llms_quiz_is_open', $quiz_open, $user_id, $this->get( 'id' ), $this, $student );
-
 	}
 
 	/**
@@ -352,7 +364,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -373,7 +384,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return 0;
-
 	}
 
 	/**
@@ -387,7 +397,5 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		$q = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'questions', true );
 		return $q ? $q : array();
-
 	}
-
 }

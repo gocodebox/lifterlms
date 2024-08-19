@@ -5,7 +5,7 @@
  * @since 1.0.0
  * @since 3.25.0 Unknown.
  * @since 4.17.0 Early bail on orphan quiz.
- * @since [version] Added support for quiz resume and escape output.
+ * @since [version] Added support for quiz resume.
  * @version [version]
  */
 
@@ -37,8 +37,9 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 		<?php if ( $quiz->is_open() ) : ?>
 			<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
-				<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo $lesson->get( 'id' ); ?>"/>
-				<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo $quiz->get( 'id' ); ?>"/>
+
+				<input id="llms-lesson-id" name="llms_lesson_id" type="hidden" value="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>"/>
+				<input id="llms-quiz-id" name="llms_quiz_id" type="hidden" value="<?php echo esc_attr( $quiz->get( 'id' ) ); ?>"/>
 
 				<input type="hidden" name="action" value="llms_start_quiz" />
 
@@ -55,11 +56,13 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo apply_filters( 'lifterlms_begin_quiz_button_text', esc_html( $start_button_string ), $quiz, $lesson );
+						echo wp_kses_post( apply_filters( 'lifterlms_begin_quiz_button_text', $start_button_string, $quiz, $lesson ) );
 					?>
 				</button>
 			</form>
 
+		<?php else : ?>
+			<p><?php esc_html_e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 		<?php endif; ?>
 
 		<?php if ( $quiz->can_be_resumed_by_student() ) : ?>
@@ -89,14 +92,14 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 			</form>
 		<?php endif; ?>
 
+		<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
+			<a href="<?php echo esc_url( get_permalink( $lesson->get_next_lesson() ) ); ?>" class="button llms-button-secondary llms-next-lesson"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
+		<?php endif; ?>
+
 	<?php else : ?>
 
 		<p><?php esc_html_e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 
-	<?php endif; ?>
-
-	<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
-		<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
 	<?php endif; ?>
 
 	<?php

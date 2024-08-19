@@ -96,7 +96,6 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		llms_get_template( 'checkout/form-checkout.php', $atts );
-
 	}
 
 	/**
@@ -111,7 +110,6 @@ class LLMS_Shortcode_Checkout {
 	private static function confirm_payment( $atts ) {
 
 		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
-
 	}
 
 	/**
@@ -130,7 +128,7 @@ class LLMS_Shortcode_Checkout {
 		 *
 		 * @param string $message The error message.
 		 */
-		echo apply_filters( 'llms_checkout_error_output', $message );
+		echo wp_kses_post( apply_filters( 'llms_checkout_error_output', $message ) );
 	}
 
 	/**
@@ -287,7 +285,6 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		self::checkout_wrapper_end();
-
 	}
 
 	/**
@@ -370,5 +367,4 @@ class LLMS_Shortcode_Checkout {
 	private static function checkout_wrapper_end() {
 		echo '</div><!-- .llms-checkout-wrapper -->';
 	}
-
 }

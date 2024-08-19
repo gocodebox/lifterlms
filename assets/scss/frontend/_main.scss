@@ -382,36 +382,51 @@ svg .llms-animated-circle {
   	font-weight: 700;
   }
 
+  .section-header {
+    display: flex;
+    gap: 5px;
+
+    .llms-collapse-caret {
+      text-align: left;
+      width: 14px;
+    }
+  }
+
   .llms-lesson-complete, .lesson-complete-placeholder {
-    font-size: 1.2em;
-    margin-right: 6px;
+    font-size: 18px;
+    margin-right: 5px;
     color: #ccc;
     &.done {
-      color: #e5554e;
+      color: $color-brand-blue;
     }
   }.section-title {
      font-weight: bold;
    }.lesson-title {
       a {
-        text-decoration: none;
-        &:hover {
-          text-decoration: none !important;
-        }
+        text-decoration: underline;
       }
       &.done {
         a {
-          color: #999;
+          color: $color-darkgrey;
           text-decoration: line-through;
         }
       }
     }
   ul {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
     li {
       list-style-type: none;
-      ul li {
-        margin: 0 0 2px 0;
-        padding: 0;
+      margin: 0 0 10px 0;
+      ul {
+        margin: 0 0 15px 0;
+        li {
+          align-items: flex-start;
+          display: flex;
+          margin: 0 0 10px 0;
+          padding: 0;
+        }
       }
     }
   }
@@ -427,16 +442,15 @@ svg .llms-animated-circle {
 
 
 
-.llms-lesson-link-locked, .llms-lesson-link-locked:hover   {
+/*.llms-lesson-link-locked, .llms-lesson-link-locked:hover   {
   background: #f1f1f1;
-  box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.4);
   display: block;
   color: #a6a6a6;
   min-height: 85px;
   padding: 15px;
   text-decoration: none;
   position: relative;
-}
+}*/
 
 .llms-lesson-preview.is-complete .llms-lesson-link-locked {
   padding-left: 75px;
@@ -472,4 +486,31 @@ svg .llms-animated-circle {
 
 .llms-lesson-tooltip.active {
   display: inline-block;
+}
+
+// Favorites.
+.llms-favorite-wrapper {
+  cursor: pointer;
+
+  .fa-heart {
+    color: #EF476F;
+  }
+}
+
+.llms-has-favorite .llms-parent-course-link {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  + .llms-favorite-wrapper {
+    float: right;
+    margin: 0;
+  }
+}
+
+.llms-syllabus-wrapper .llms-has-favorite {
+  text-align: left;
+
+  .llms-favorite-wrapper {
+    display: inline-block;
+  }
 }

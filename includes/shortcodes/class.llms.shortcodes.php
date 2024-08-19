@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 7.2.0
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,6 +37,7 @@ class LLMS_Shortcodes {
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
+	 * @since 7.5.0 Added `LLMS_Shortcode_Favorites` class in shortcodes array.
 	 *
 	 * @return void
 	 */
@@ -56,6 +57,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Course_Author',
 				'LLMS_Shortcode_Course_Continue',
 				'LLMS_Shortcode_Course_Continue_Button',
+				'LLMS_Shortcode_Course_Instructors',
 				'LLMS_Shortcode_Course_Meta_Info',
 				'LLMS_Shortcode_Course_Outline',
 				'LLMS_Shortcode_Course_Prerequisites',
@@ -68,6 +70,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',
+				'LLMS_Shortcode_Favorites',
 			)
 		);
 
@@ -79,7 +82,6 @@ class LLMS_Shortcodes {
 
 			$separator = in_array( $class, $hyphenated_file_classes, true ) ? '-' : '.';
 			$filename  = "class{$separator}" . strtolower( str_replace( '_', $separator, $class ) );
-
 			/**
 			 * Filters the path of the shortcode class file.
 			 *
@@ -151,7 +153,6 @@ class LLMS_Shortcodes {
 			wp_enqueue_script( $handle );
 
 		}
-
 	}
 
 	/**
@@ -191,16 +192,14 @@ class LLMS_Shortcodes {
 			'class'  => 'lifterlms',
 			'before' => null,
 			'after'  => null,
-		) ) {
+		)
+	) {
 
 			ob_start();
 
-			$before = empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
-			$after  = empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
-
-			echo $before;
+			echo empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : wp_kses_post( $wrapper['before'] );
 			call_user_func( $function, $atts );
-			echo $after;
+			echo empty( $wrapper['after'] ) ? '</div>' : wp_kses_post( $wrapper['after'] );
 
 			return ob_get_clean();
 	}
@@ -252,7 +251,6 @@ class LLMS_Shortcodes {
 		 * @param string $content Shortcode content, enables custom text/html in the button. Default empty string.
 		 */
 		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
-
 	}
 
 	/**
@@ -281,7 +279,6 @@ class LLMS_Shortcodes {
 		llms_print_notices();
 		llms_get_login_form( null, $redirect, $layout );
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -296,7 +293,6 @@ class LLMS_Shortcodes {
 	public static function my_account( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_My_Account', 'output' ), $atts );
-
 	}
 
 
@@ -372,7 +368,7 @@ class LLMS_Shortcodes {
 			do_action( 'lifterlms_after_loop' );
 
 			echo '<nav class="llms-pagination">';
-			echo paginate_links(
+			$pagination = paginate_links(
 				array(
 					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
 					'format'    => '?page=%#%',
@@ -384,6 +380,9 @@ class LLMS_Shortcodes {
 					'type'      => 'list',
 				)
 			);
+			if ( ! empty( $pagination ) ) {
+				echo wp_kses_post( $pagination );
+			}
 			echo '</nav>';
 
 		else :
@@ -395,7 +394,6 @@ class LLMS_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -411,7 +409,6 @@ class LLMS_Shortcodes {
 	public static function checkout( $atts ) {
 
 		return self::shortcode_wrapper( array( 'LLMS_Shortcode_Checkout', 'output' ), $atts );
-
 	}
 
 	/**
@@ -566,7 +563,6 @@ class LLMS_Shortcodes {
 			wp_reset_postdata();
 			return $courses;
 		}
-
 	}
 
 	/**
@@ -618,9 +614,7 @@ class LLMS_Shortcodes {
 		 * @param array  $atts Associative array of shortcode attributes.
 		 */
 		return apply_filters( 'llms_shortcode_pricing_table', $ret, $atts );
-
 	}
-
 }
 
 return new LLMS_Shortcodes();

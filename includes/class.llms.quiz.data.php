@@ -21,44 +21,38 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
-	 * Quiz ID.
+	 * Post ID of the quiz
 	 *
-	 * @since [version]
 	 * @var int
 	 */
-	public $quiz_id;
+	protected $quiz_id;
 
 	/**
-	 * Quiz instance.
-	 *
-	 * @since [version]
-	 * @var LLMS_Quiz
+	 * Post object of the quiz
 	 */
-	public $quiz;
+	protected $quiz;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @since 3.16.0
-	 * @since [version]
+	 * @since    3.16.0
 	 *
-	 * @param int $quiz_id WP Post ID of the quiz.
+	 * @param    int $quiz_id  WP Post ID of the quiz
 	 */
 	public function __construct( $quiz_id ) {
 
 		$this->quiz_id = $quiz_id;
 		$this->quiz    = llms_get_post( $this->quiz_id );
 		parent::__construct( $quiz_id );
-
 	}
 
 	/**
-	 * Retrieve # of quiz attempts within the period.
+	 * Retrieve # of quiz attempts within the period
 	 *
-	 * @since 3.16.0
+	 * @since    3.16.0
 	 *
-	 * @param string $period Date period [current|previous].
-	 * @return int
+	 * @param    string $period  date period [current|previous]
+	 * @return   int
 	 */
 	public function get_attempt_count( $period = 'current' ) {
 
@@ -77,16 +71,15 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
-	 * Retrieve avg grade of quiz attempts within the period.
+	 * Retrieve avg grade of quiz attempts within the period
 	 *
-	 * @since 3.16.0
+	 * @since    3.16.0
 	 *
-	 * @param string $period Date period [current|previous].
-	 * @return int
+	 * @param    string $period  date period [current|previous]
+	 * @return   int
 	 */
 	public function get_average_grade( $period = 'current' ) {
 
@@ -107,17 +100,16 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 		);
 
 		return $grade ? $grade : 0;
-
 	}
 
 	/**
-	 * Retrieve the number assignments with a given status.
+	 * Retrieve the number assignments with a given status
 	 *
-	 * @since 3.24.0
+	 * @since    3.24.0
 	 *
-	 * @param string $status Status name.
-	 * @param string $period Date period [current|previous].
-	 * @return int
+	 * @param    string $status  status name
+	 * @param    string $period  date period [current|previous]
+	 * @return   int
 	 */
 	public function get_count_by_status( $status, $period = 'current' ) {
 
@@ -138,7 +130,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
-
 	}
 
 	/**
@@ -167,7 +158,6 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz.
-	 *
 	 * This overrides the LLMS_Abstract_Post_Data method.
 	 *
 	 * @since 3.16.0

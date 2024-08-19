@@ -53,7 +53,6 @@ class LLMS_Install {
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'update_actions' ) );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Install {
 			self::install();
 			do_action( 'lifterlms_updated' );
 		}
-
 	}
 
 	/**
@@ -143,7 +141,6 @@ class LLMS_Install {
 				wp_schedule_event( time(), $data['interval'], $data['hook'] );
 			}
 		}
-
 	}
 
 	/**
@@ -164,7 +161,6 @@ class LLMS_Install {
 
 			}
 		}
-
 	}
 
 	/**
@@ -209,7 +205,6 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -343,7 +338,6 @@ class LLMS_Install {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		dbDelta( self::get_schema() );
-
 	}
 
 	/**
@@ -534,7 +528,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 * @param string $collate Database collation statement.
 		 */
 		return apply_filters( 'llms_install_get_schema', $tables, $collate );
-
 	}
 
 	/**
@@ -580,6 +573,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_options();
 		LLMS_Roles::install();
 
+		self::verify_permalinks();
+
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
@@ -598,7 +593,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
-			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
+			update_option( '_llms_first_time_setup_redirect', 'yes', false );
 		}
 
 		self::run_db_updates( $db_version );
@@ -612,7 +607,24 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 * @since Unknown
 		 */
 		do_action( 'lifterlms_after_install' );
+	}
 
+	/**
+	 * Retrieve permalinks structure to verify if they are set, and any new defaults are saved
+	 *
+	 * @since 7.6.0
+	 *
+	 * @return void
+	 */
+	public static function verify_permalinks() {
+		if ( ! get_option( 'lifterlms_permalinks' ) ) {
+			llms_switch_to_site_locale();
+
+			// Retrieve the permalink structure, which will also save the default structure if it's not set.
+			llms_get_permalink_structure();
+
+			llms_restore_locale();
+		}
 	}
 
 	/**
@@ -635,7 +647,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 			}
 		}
-
 	}
 
 	/**
@@ -661,7 +672,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		}
 
 		self::update_db_version();
-
 	}
 
 	/**
@@ -679,11 +689,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		}
 
 		if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
-			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
+			wp_die( esc_html__( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
 		}
 
 		LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
@@ -691,7 +701,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
 		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update' ) ) );
-
 	}
 
 	/**
@@ -733,9 +742,9 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function wizard_redirect() {
 
-		if ( get_transient( '_llms_first_time_setup_redirect' ) ) {
+		if ( 'yes' === get_option( '_llms_first_time_setup_redirect', 'no' ) ) {
 
-			delete_transient( '_llms_first_time_setup_redirect' );
+			update_option( '_llms_first_time_setup_redirect', 'no' );
 
 			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ), true ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
 				return;
@@ -748,7 +757,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 			}
 		}
-
 	}
 
 	/**
@@ -780,9 +788,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
 		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
-
 	}
-
 }
 
 LLMS_Install::init();

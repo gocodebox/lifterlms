@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$this->context  = 'side';
 		$this->priority = 'high';
 
-		$this->callback_args = function() {
+		$this->callback_args = function () {
 			return 'llms_my_certificate' === get_post_type() ?
 				array(
 					'__back_compat_meta_box' => true,
@@ -67,7 +67,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				:
 				array();
 		};
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$fields                 = $this->student_fields();
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-award-engagement-submit.php';
-
 	}
 
 	/**
@@ -123,7 +121,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$fields .= $this->student_information();
 
 		return $fields;
-
 	}
 
 	/**
@@ -154,10 +151,10 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				'class'           => 'llms-select2-student',
 				'data_attributes' => array(
 					'allow_clear' => false,
-					'placeholder' => __( 'Select a Student', 'lifterlms' ),
+					'placeholder' => esc_attr__( 'Select a Student', 'lifterlms' ),
 				),
 				'id'              => $field_id,
-				'label'           => ' ' . __( 'Select a Student', 'lifterlms' ),
+				'label'           => ' ' . esc_html__( 'Select a Student', 'lifterlms' ),
 				'type'            => 'select',
 				'skip_save'       => true,
 				'required'        => true,
@@ -206,15 +203,14 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 
 		return sprintf(
 			'<li class="llms-mb-list student-info"> <b>%1$s:</b>&nbsp;<span>%2$s</span></li>',
-			__( 'Student', 'lifterlms' ),
+			esc_html__( 'Student', 'lifterlms' ),
 			sprintf(
 				'<a href="%1$s" target="_blank">%2$s &lt;%3$s&gt;</a>',
 				esc_url( $url ),
-				$name,
-				$student->get( 'user_email' )
+				esc_html( $name ),
+				esc_html( $student->get( 'user_email' ) )
 			)
 		);
-
 	}
 
 	/**
@@ -242,7 +238,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$this->student_id = $student;
 
 		return $this->student_id;
-
 	}
 
 	/**
@@ -279,5 +274,4 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 </script>
 		<?php
 	}
-
 }

@@ -388,6 +388,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 			wp_set_current_user( $users[ $current_role ] );
 			foreach ( $users as $uid ) {
 				$this->assertTrue( current_user_can( 'view_grades', $uid, $quiz_id ) );
+				$this->assertTrue( current_user_can( 'view_grades', $uid ) );
 			}
 		}
 
@@ -397,9 +398,11 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 			// No for others.
 			$this->assertFalse( current_user_can( 'view_grades', $users['student'], $quiz_id ), $role );
+			$this->assertFalse( current_user_can( 'view_grades', $users['student'] ), $role );
 
 			// Yes for their own.
 			$this->assertTrue( current_user_can( 'view_grades', $users[ $role ], $quiz_id ), $role );
+			$this->assertTrue( current_user_can( 'view_grades', $users[ $role ] ), $role );
 
 		}
 
@@ -422,8 +425,9 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 			$this->assertFalse( current_user_can( 'view_grades', $users['student3'], $quiz_id ), $role );
 
-		}
+			$this->assertTrue( current_user_can( 'view_grades', $users['student'] ), $role );
 
+		}
 	}
 
 
