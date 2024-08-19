@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixes sanitization as reported by Wordfence.
