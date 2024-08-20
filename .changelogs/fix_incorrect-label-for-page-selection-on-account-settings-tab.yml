@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2708"
+entry: Fixes placeholder label on the Dashboard Page selection dropdown.
