@@ -124,7 +124,7 @@
 
 			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.
 			$( window ).on( 'beforeunload', function() {
-				if ( self.status && ! self.resumable ) {
+				if ( self.status ) {
 					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
 				}
 
@@ -437,7 +437,7 @@
          * @since 1.0.0
          * @since 3.24.3 Unknown.
 		 * @since [version] Abstracted the function in `init_quiz`.
-		 * 
+		 *
 		 * @return {Void}
 		 */
 		start_quiz: function () {
@@ -453,7 +453,7 @@
 		 * @return {Void}
 		 */
 		resume_quiz: function () {
-			
+
 			this.init_quiz( 'quiz_resume' );
 		},
 
