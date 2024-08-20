@@ -268,7 +268,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
 			$pre   = ( $comma ) ? ', ' : ' ';
-			$sql  .= $pre . sanitize_sql_orderby( "n.{$orderby} {$order}" );
+			$sql  .= $pre . 'n.' . sanitize_sql_orderby( "{$orderby} {$order}" );
 			$comma = true;
 		}
 
