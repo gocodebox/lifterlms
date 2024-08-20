@@ -710,6 +710,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
+			if ( ! $course ) {
+				return;
+			}
+
 			// It's not stupid if it works unless it is stupid.
 			$post_ids = array_merge(
 				array( $course->get( 'id' ) ),
