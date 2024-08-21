@@ -40,6 +40,10 @@ class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 	 * @version  3.4.3
 	 */
 	protected function get_output() {
+		if ( 'publish' !== get_post_status( $this->get_attribute( 'id' ) ) ) {
+			return '';
+		}
+
 		return '<a href="' . get_permalink( $this->get_attribute( 'id' ) ) . '">' . $this->get_content() . '</a>';
 	}
 
@@ -65,9 +69,9 @@ class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 	 * @version  3.4.3
 	 */
 	protected function get_default_content( $atts = array() ) {
-		return apply_filters( 'lifterlms_membership_link_text', get_the_title( $this->get_attribute( 'id' ) ), $this->get_attribute( 'id' ) );
+		$default_content = 'publish' === get_post_status( $this->get_attribute( 'id' ) ) ? get_the_title( $this->get_attribute( 'id' ) ) : '';
+		return apply_filters( 'lifterlms_membership_link_text', $default_content, $this->get_attribute( 'id' ) );
 	}
-
 }
 
 return LLMS_Shortcode_Membership_Link::instance();
