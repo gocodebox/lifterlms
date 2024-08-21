@@ -29,11 +29,13 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 		$admin      = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
 		$student    = $this->factory->user->create( array( 'role' => 'student' ) );
+		$editor     = $this->factory->user->create( array( 'role' => 'editor' ) );
 
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
 		$this->assertFalse( llms_can_user_bypass_restrictions( $student ) );
 
 		$this->assertFalse( llms_can_user_bypass_restrictions( 'fake' ) );
+		$this->assertFalse( llms_can_user_bypass_restrictions( $editor ) );
 
 		// Pass in a student.
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
@@ -41,6 +43,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 		// Should still work with two roles.
 		update_option( 'llms_grant_site_access', array( 'administrator', 'editor' ) );
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
+		$this->assertTrue( llms_can_user_bypass_restrictions( $editor ) );
 
 		// Test restrictions against a post.
 		update_option( 'llms_grant_site_access', array( 'administrator', 'editor', 'instructor' ) );
