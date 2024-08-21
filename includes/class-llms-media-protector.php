@@ -648,9 +648,11 @@ class LLMS_Media_Protector {
 			$rules  = "Options -Indexes\n";
 			$rules .= "deny from all\n";
 
-			if ( false === $wp_filesystem->exists( $htaccess_file ) ) {
+			if ( $upload_path_writeable && ! $wp_filesystem->exists( $htaccess_file ) ) {
+				$wp_filesystem->put_contents( $htaccess_file, $rules, 0644 );
+			} elseif ( $upload_path_writeable ) {
 				$contents = $wp_filesystem->get_contents( $htaccess_file );
-				if ( $upload_path_writeable && ( ! $contents || $contents !== $rules ) ) {
+				if ( $contents !== $rules ) {
 					$wp_filesystem->put_contents( $htaccess_file, $rules, 0644 );
 				}
 			}
