@@ -876,6 +876,13 @@ class LLMS_AJAX_Handler {
 		// record the answer.
 		$attempt->answer_question( $question_id, $answer );
 
+		if ( isset( $request['save_only'] ) ) {
+			// todo: decide format.
+			return array(
+				'success' => true,
+			);
+		}
+
 		// get the next question.
 		$question_id = $attempt->get_next_question( $question_id );
 

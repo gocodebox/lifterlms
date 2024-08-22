@@ -173,6 +173,43 @@
 
 		},
 
+		save_question: function( callback ) {
+			var self      = this,
+				$question = this.$container.find( '.llms-question-wrapper' ),
+				type      = $question.attr( 'data-type' ),
+				valid;
+
+			if ( ! this.validators[ type ] ) {
+
+				console.log( 'No validator registered for question type ' + type );
+				return;
+
+			}
+
+			valid = this.validators[ type ]( $question );
+
+			LLMS.Ajax.call( {
+				data: {
+					action: 'quiz_answer_question',
+					answer: valid.answer,
+					attempt_key: self.attempt_key,
+					question_id: $question.attr( 'data-id' ),
+					question_type: $question.attr( 'data-type' ),
+					save_only: true
+				},
+				success: function( r ) {
+					callback();
+				},
+				error: function ( jqXHR, status, error ) {
+					self.reload_question();
+					self.add_error( LLMS.l10n.translate( 'An unknown error occurred. Please try again.' ) );
+					console.log( error );
+				}
+
+			} );
+
+		},
+
 		/**
 		 * Answer a Question
 		 *
@@ -362,57 +399,60 @@
 
 			var self = this;
 
-			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
-			self.update_progress_bar( 'decrement' );
+			this.save_question( function() {
 
-			var ids     = Object.keys( self.questions ),
-				curr    = ids.indexOf( 'q-' + self.current_question ),
-				prev_id = ids[0];
+				self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
+				self.update_progress_bar( 'decrement' );
 
-			if ( curr >= 1 ) {
-				prev_id = ids[ curr - 1 ];
-			}
+				var ids     = Object.keys( self.questions ),
+					curr    = ids.indexOf( 'q-' + self.current_question ),
+					prev_id = ids[0];
 
-			// Retrieve previous question HTML from the server.
-			if ( ! self.questions[ prev_id ] ) {
-				LLMS.Ajax.call( {
-					data: {
-						action     : 'quiz_get_question',
-						attempt_key: self.attempt_key,
-						question_id: prev_id.substring(2), // Remove 'q-'.
-					},
-					success: function( r ) {
+				if ( curr >= 1 ) {
+					prev_id = ids[ curr - 1 ];
+				}
 
-						self.toggle_loader( 'hide' );
-						if ( r.data && r.data.html ) {
+				// Retrieve previous question HTML from the server.
+				if ( ! self.questions[ prev_id ] ) {
+					LLMS.Ajax.call( {
+						data: {
+							action     : 'quiz_get_question',
+							attempt_key: self.attempt_key,
+							question_id: prev_id.substring(2), // Remove 'q-'.
+						},
+						success: function( r ) {
 
-							self.load_question( r.data.html );
+							self.toggle_loader( 'hide' );
+							if ( r.data && r.data.html ) {
 
-						} else if ( r.data && r.data.redirect ) {
+								self.load_question( r.data.html );
 
-							self.redirect( r.data.redirect );
+							} else if ( r.data && r.data.redirect ) {
 
-						} else if ( r.message ) {
+								self.redirect( r.data.redirect );
 
-							self.$container.append( '<p>' + r.message + '</p>' );
+							} else if ( r.message ) {
 
-						} else {
+								self.$container.append( '<p>' + r.message + '</p>' );
 
-							var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
-							self.$container.append( '<p>' + msg + '</p>' );
+							} else {
+
+								var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+								self.$container.append( '<p>' + msg + '</p>' );
+
+							}
 
 						}
 
-					}
+					} );
 
-				} );
-
-			} else {
-				setTimeout( function() {
-					self.toggle_loader( 'hide' );
-					self.load_question( self.questions[ prev_id ] );
-				}, 100 );
-			}
+				} else {
+					setTimeout( function() {
+						self.toggle_loader( 'hide' );
+						self.load_question( self.questions[ prev_id ] );
+					}, 100 );
+				}
+			} );
 
 		},
 
