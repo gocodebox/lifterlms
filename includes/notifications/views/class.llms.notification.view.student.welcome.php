@@ -100,7 +100,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 				break;
 
 			case '{{PASSWORD_RESET_URL}}':
-				$code = llms_lostpassword_url();
+				$code = wp_lostpassword_url();
 				break;
 
 			case '{{SITE_TITLE}}':
