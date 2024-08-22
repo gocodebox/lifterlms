@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2724"
+entry: Avoid outputting lifterlms_membership_link content if the membership is
+  not published.
