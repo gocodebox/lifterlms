@@ -1,4 +1,0 @@
-significance: minor
-type: changed
-entry: Question types template will show the selected answer when an attempt is
-  passed along. Used to show saved selected answers of a resumed attempt.

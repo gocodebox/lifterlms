@@ -1,4 +1,0 @@
-significance: minor
-type: changed
-entry: Display information about whether or not an incomplete attempt can be
-  resumed on some reporting screens.

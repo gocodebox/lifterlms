@@ -85,7 +85,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo esc_html( apply_filters( 'llms_resume_quiz_button_text', esc_html__( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
+						echo esc_html( apply_filters( 'lifterlms_resume_quiz_button_text', esc_html__( 'Resume Quiz', 'lifterlms' ), $quiz, $lesson ) );
 					?>
 				</button>
 

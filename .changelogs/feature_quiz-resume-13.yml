@@ -1,3 +1,0 @@
-significance: minor
-type: dev
-entry: Added new method `LLMS_Quiz::can_be_resumed_by_student()`.

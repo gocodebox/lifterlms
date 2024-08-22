@@ -1,3 +1,0 @@
-significance: minor
-type: dev
-entry: Added new property `can_be_resumed` to the Quiz model.

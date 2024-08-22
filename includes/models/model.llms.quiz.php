@@ -213,19 +213,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 */
 	public function can_be_resumed() {
 
-		$can_be_resumed_status = llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
-
-		/**
-		 * Filters the quiz resumable status.
-		 *
-		 * @since [version]
-		 *
-		 * @param bool      $can_be_resumed Whether or not the quiz can be resumed.
-		 * @param LLMS_Quiz $quiz           The LLMS_Quiz instance.
-		 */
-		$can_be_resumed = apply_filters( 'llms_quiz_can_be_resumed', $can_be_resumed_status, $this );
-
-		return $can_be_resumed;
+		return llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
 	}
 
 	/**

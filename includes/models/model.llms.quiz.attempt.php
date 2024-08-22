@@ -813,17 +813,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function can_be_resumed() {
 
-		$can_be_resumed = 1 === (int) $this->get( 'can_be_resumed' ) && 'incomplete' === $this->get( 'status' ) && ! $this->has_resume_attempt_time_expired();
-
-		/**
-		 * Filters the attempt resumable status.
-		 *
-		 * @since [version]
-		 *
-		 * @param bool              $can_be_resumed Whether or not the attempt can be resumed.
-		 * @param LLMS_Quiz_Attempt $attempt        The quiz attempt object.
-		 */
-		return apply_filters( 'llms_quiz_attempt_can_be_resumed', $can_be_resumed, $this );
+		return 1 === (int) $this->get( 'can_be_resumed' ) && 'incomplete' === $this->get( 'status' ) && ! $this->has_resume_attempt_time_expired();
 	}
 
 	/**
