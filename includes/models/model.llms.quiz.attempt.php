@@ -516,14 +516,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function get_question( $question_id, $return = 'id' ) {
 
-		$next  = false;
 		$ids   = array_map( 'intval', array_column( $this->get_questions(), 'id' ) );
 		$index = array_search( (int) $question_id, $ids, true );
 		return $index >= 0 ?
 			'id' === $return ? $question_id : $this->get_questions()[ $index ]
 			:
 			false;
-
 	}
 
 	/**
@@ -606,7 +604,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		}
 
 		return $answer ?? array();
-
 	}
 
 	/**
@@ -793,7 +790,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'quiz_id' ) );
 		return $last_attempt && ( $this->get( 'id' ) === $last_attempt->get( 'id' ) );
-
 	}
 
 	/**
