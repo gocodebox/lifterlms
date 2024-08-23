@@ -195,7 +195,8 @@
 					attempt_key: self.attempt_key,
 					question_id: $question.attr( 'data-id' ),
 					question_type: $question.attr( 'data-type' ),
-					save_only: true
+
+					via_previous_question: true
 				},
 				success: function( r ) {
 					callback();

@@ -24,7 +24,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	public function __construct() {
 
 		add_action( 'admin_init', array( $this, 'maybe_run_actions' ) );
-
 	}
 
 	/**
@@ -94,6 +93,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				foreach ( $resumable_attempts as $attempt_id ) {
 					$attempt = new LLMS_Quiz_Attempt( $attempt_id );
 					$attempt->set( 'can_be_resumed', false );
+					// todo: set the end date
 					$attempt->save();
 				}
 			}
@@ -119,7 +119,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		);
 
 		return wp_list_pluck( $query->get_results(), 'id' );
-
 	}
 
 	/**
@@ -172,9 +171,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
 
 		// phpcs:enable
-
 	}
-
 }
 
 return new LLMS_Controller_Admin_Quiz_Attempts();

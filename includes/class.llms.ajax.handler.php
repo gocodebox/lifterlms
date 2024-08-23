@@ -729,10 +729,8 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		// Get the next question.
-		$question_id = $attempt->get_next_question( null );
+		$question_id = $attempt->get( 'current_question_id' ) ? $attempt->get( 'current_question_id' ) : $attempt->get_next_question( null );
 
-		// Return html for the next question.
 		if ( $question_id ) {
 
 			$html = llms_get_template_ajax(
@@ -876,7 +874,10 @@ class LLMS_AJAX_Handler {
 		// record the answer.
 		$attempt->answer_question( $question_id, $answer );
 
-		if ( isset( $request['save_only'] ) ) {
+		if ( isset( $request['via_previous_question'] ) ) {
+			$attempt->set( 'current_question_id', $attempt->get_previous_question( $question_id ) );
+			$attempt->save();
+
 			// todo: decide format.
 			return array(
 				'success' => true,
@@ -888,6 +889,8 @@ class LLMS_AJAX_Handler {
 
 		// return html for the next question.
 		if ( $question_id ) {
+			$attempt->set( 'current_question_id', absint( $question_id ) );
+			$attempt->save();
 
 			$html = llms_get_template_ajax(
 				'content-single-question.php',

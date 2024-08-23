@@ -39,17 +39,18 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @var array
 	 */
 	protected $columns = array(
-		'student_id'     => '%d',
-		'quiz_id'        => '%d',
-		'lesson_id'      => '%d',
-		'start_date'     => '%s',
-		'update_date'    => '%s',
-		'end_date'       => '%s',
-		'status'         => '%s',
-		'attempt'        => '%d',
-		'grade'          => '%f',
-		'questions'      => '%s',
-		'can_be_resumed' => '%d',
+		'student_id'          => '%d',
+		'quiz_id'             => '%d',
+		'lesson_id'           => '%d',
+		'start_date'          => '%s',
+		'update_date'         => '%s',
+		'end_date'            => '%s',
+		'status'              => '%s',
+		'attempt'             => '%d',
+		'grade'               => '%f',
+		'questions'           => '%s',
+		'can_be_resumed'      => '%d',
+		'current_question_id' => '%d',
 	);
 
 	protected $date_created = 'start_date';
@@ -504,6 +505,33 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		return false;
 	}
+
+	/**
+	 * Retrieve the previous question in the attempt relative to a given question ID.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $question_id WP Post ID of the current LLMS_Question.
+	 * @return int|false
+	 */
+	public function get_previous_question( $question_id ) {
+
+		$next = false;
+
+		foreach ( array_reverse( $this->get_questions() ) as $question ) {
+
+			if ( $next ) {
+
+				return $question['id'];
+
+			} elseif ( $question_id && absint( $question_id ) === absint( $question['id'] ) ) {
+				$next = true;
+			}
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Retrieve the question in the attempt.

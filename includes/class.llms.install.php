@@ -400,7 +400,7 @@ class LLMS_Install {
 	 * @since 3.36.0 Added `wp_lifterlms_events` table.
 	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
 	 * @since 4.5.0 Added `wp_lifterlms_events_open_sessions` table.
-	 * @since [version] Added column `can_be_resumed` to the quiz attempt table.
+	 * @since [version] Added column `can_be_resumed` and `current_question_id` to the quiz attempt table.
 	 *
 	 * @return string
 	 */
@@ -444,6 +444,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
   `attempt` bigint(20) DEFAULT NULL,
   `grade` float DEFAULT NULL,
   `can_be_resumed` tinyint(1) DEFAULT '0',
+  `current_question_id` bigint(20) DEFAULT NULL,
   `questions` longtext,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
