@@ -344,7 +344,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @return string
 	 */
 	public function get_date( $key, $format = null ) {
-
+		if ( ! $this->get( $key . '_date' ) ) {
+			return '';
+		}
 		$date   = strtotime( $this->get( $key . '_date' ) );
 		$format = ! $format ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : $format;
 		return date_i18n( $format, $date );
@@ -665,6 +667,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @return string
 	 */
 	public function get_time( $precision = 2 ) {
+		if ( ! $this->get( 'end_date' ) ) {
+			return esc_html__( 'Unknown', 'lifterlms' );
+		}
 		return llms_get_date_diff( $this->get_date( 'start', 'U' ), $this->get_date( 'end', 'U' ), $precision );
 	}
 
