@@ -71,6 +71,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			} elseif ( 'llms_disable_resume_attempt' === $action ) {
 				$attempt->set( 'can_be_resumed', false );
 				$attempt->save();
+				$attempt->end();
 			}
 		}
 
@@ -93,8 +94,9 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				foreach ( $resumable_attempts as $attempt_id ) {
 					$attempt = new LLMS_Quiz_Attempt( $attempt_id );
 					$attempt->set( 'can_be_resumed', false );
-					// todo: set the end date
 					$attempt->save();
+
+					$attempt->end();
 				}
 			}
 		}
