@@ -841,7 +841,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function can_be_resumed() {
 
-		return 1 === (int) $this->get( 'can_be_resumed' ) && 'incomplete' === $this->get( 'status' ) && ! $this->has_resume_attempt_time_expired();
+		return 1 === (int) $this->get( 'can_be_resumed' ) && 'incomplete' === $this->get( 'status' ) && ! $this->has_resume_attempt_time_expired() && $this->is_last_attempt();
 	}
 
 	/**
