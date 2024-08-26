@@ -858,7 +858,7 @@ class LLMS_AJAX_Handler {
 
 		$student_quizzes = $student->quizzes();
 		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
-		if ( ! $attempt ) {
+		if ( ! $attempt || 'incomplete' !== $attempt->get( 'status' ) ) {
 			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
 			return $err;
 		}
@@ -878,8 +878,6 @@ class LLMS_AJAX_Handler {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
 		}
-
-		// TODO: Also check that this attempt is the current attempt, and theat it hasn't been disabled for resume.
 
 		// record the answer.
 		$attempt->answer_question( $question_id, $answer );
