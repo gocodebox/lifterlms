@@ -635,6 +635,15 @@ class LLMS_AJAX_Handler {
 				return $err;
 			}
 
+			// Mark the previous attempt as ended if it could be resumed but we're restarting instead.
+			$previous_attempt_key = ( new LLMS_Quiz( $request['quiz_id'] ) )->get_student_last_attempt_key();
+			if ( $previous_attempt_key ) {
+				$previous_attempt = $student->quizzes()->get_attempt_by_key( $previous_attempt_key );
+				if ( $previous_attempt && $previous_attempt->can_be_resumed() ) {
+					$previous_attempt->end();
+				}
+			}
+
 			$attempt = LLMS_Quiz_Attempt::init( absint( $request['quiz_id'] ), absint( $request['lesson_id'] ), $student->get( 'id' ) );
 
 		}
@@ -709,6 +718,7 @@ class LLMS_AJAX_Handler {
 			! $attempt->can_be_resumed() ||
 			! $attempt->is_last_attempt()
 		) {
+			error_log( 'attempt cannot be resumed - status ' . $attempt->get( 'status' ) . ' - last attempt ' . ( $attempt->is_last_attempt() ? 'yes' : 'no' ) );
 			$err->add(
 				400,
 				__(
