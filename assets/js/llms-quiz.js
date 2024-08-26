@@ -138,8 +138,7 @@
 
 			// Complete the quiz attempt when user leaves if the quiz is running.
 			$( window ).on( 'unload', function() {
-				if ( self.status && ! self.exiting_quiz ) {
-					// TODO: Do we want to do this or have an "abandon" action to know it shouldn't be completed if all questions have been answered?
+				if ( self.status && ! self.resumable ) {
 					self.complete_quiz();
 				}
 			} );
