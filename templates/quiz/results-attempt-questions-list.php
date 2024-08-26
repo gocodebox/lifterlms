@@ -113,6 +113,10 @@ defined( 'ABSPATH' ) || exit;
 	</li>
 	<?php endforeach; ?>
 <?php else : ?>
-	<p><?php esc_html_e( "The quiz is still ongoing. You can resume your attempt by clicking the 'Resume Quiz' button.", 'lifterlms' ); ?></p>
+	<?php if ( is_admin() ) : ?>
+		<p><?php esc_html_e( 'The quiz is still ongoing.', 'lifterlms' ); ?></p>
+	<?php else : ?>
+		<p><?php esc_html_e( "The quiz is still ongoing. You can resume your attempt by clicking the 'Resume Quiz' button.", 'lifterlms' ); ?></p>
+	<?php endif; ?>
 <?php endif; ?>
 </ol>
