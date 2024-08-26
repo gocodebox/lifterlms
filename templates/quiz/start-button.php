@@ -33,8 +33,6 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 	<?php if ( $quiz ) : ?>
 
-		<?php $start_button_string = $quiz->can_be_resumed_by_student() ? esc_html__( 'Restart Quiz', 'lifterlms' ) : esc_html__( 'Start Quiz', 'lifterlms' ); ?>
-
 		<?php if ( $quiz->is_open() ) : ?>
 			<form method="POST" action="" name="llms_start_quiz" enctype="multipart/form-data">
 
@@ -45,10 +43,13 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 				<?php wp_nonce_field( 'llms_start_quiz' ); ?>
 
-				<button class="llms-start-quiz-button llms-button-action button" id="llms_start_quiz" name="llms_start_quiz" type="submit">
+				<?php if ( $quiz->can_be_resumed_by_student() ) : ?>
 					<?php
+						$message  = esc_html__( 'You have a partially completed attempt for this quiz. You can continue where you left off by clicking the button below.', 'lifterlms' );
+						$message .= '<div><button class="llms-start-quiz-button llms-button-secondary button" id="llms_start_quiz" name="llms_start_quiz" type="submit">';
+
 						/**
-						 * Filters the quiz button text
+						 * Filters the restart quiz button text
 						 *
 						 * @since Unknown
 						 *
@@ -56,9 +57,28 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 						 * @param LLMS_Quiz   $quiz        The current quiz instance.
 						 * @param LLMS_Lesson $lesson      The parent lesson instance.
 						 */
-						echo wp_kses_post( apply_filters( 'lifterlms_begin_quiz_button_text', $start_button_string, $quiz, $lesson ) );
+						$message .= wp_kses_post( apply_filters( 'lifterlms_restart_quiz_button_text', __( 'Restart Quiz Instead', 'lifterlms' ), $quiz, $lesson ) );
+
+						$message .= '</button></div>';
 					?>
-				</button>
+					<?php llms_print_notice( $message, 'notice' ); ?>
+				<?php else : ?>
+
+					<button class="llms-start-quiz-button llms-button-action button" id="llms_start_quiz" name="llms_start_quiz" type="submit">
+						<?php
+							/**
+							 * Filters the quiz button text
+							 *
+							 * @since Unknown
+							 *
+							 * @param string      $button_text The start quiz button text.
+							 * @param LLMS_Quiz   $quiz        The current quiz instance.
+							 * @param LLMS_Lesson $lesson      The parent lesson instance.
+							 */
+							echo wp_kses_post( apply_filters( 'lifterlms_begin_quiz_button_text', __( 'Start Quiz', 'lifterlms' ), $quiz, $lesson ) );
+						?>
+					</button>
+				<?php endif; ?>
 			</form>
 
 		<?php else : ?>
