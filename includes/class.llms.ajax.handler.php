@@ -878,10 +878,14 @@ class LLMS_AJAX_Handler {
 			$attempt->set( 'current_question_id', $attempt->get_previous_question( $question_id ) );
 			$attempt->save();
 
-			// todo: decide format.
-			return array(
-				'success' => true,
-			);
+			return;
+		}
+
+		if ( isset( $request['via_exit_quiz'] ) ) {
+			$attempt->set( 'current_question_id', $question_id );
+			$attempt->save();
+
+			return;
 		}
 
 		// get the next question.

@@ -85,6 +85,11 @@
 		resumable: null,
 
 		/**
+		 * Flag if the user is exiting the quiz.
+		 */
+		exiting_quiz: false,
+
+		/**
 		 * Bind DOM events.
 		 *
 		 * @since 1.0.0
@@ -124,7 +129,7 @@
 
 			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.
 			$( window ).on( 'beforeunload', function() {
-				if ( self.status ) {
+				if ( self.status && ! self.exiting_quiz ) {
 					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
 				}
 
@@ -133,7 +138,8 @@
 
 			// Complete the quiz attempt when user leaves if the quiz is running.
 			$( window ).on( 'unload', function() {
-				if ( self.status ) {
+				if ( self.status && ! self.exiting_quiz ) {
+					// TODO: Do we want to do this or have an "abandon" action to know it shouldn't be completed if all questions have been answered?
 					self.complete_quiz();
 				}
 			} );
@@ -173,42 +179,43 @@
 
 		},
 
-		save_question: function( callback ) {
+		save_question: function( options ) {
 			var self      = this,
 				$question = this.$container.find( '.llms-question-wrapper' ),
 				type      = $question.attr( 'data-type' ),
 				valid;
 
 			if ( ! this.validators[ type ] ) {
-
 				console.log( 'No validator registered for question type ' + type );
 				return;
-
 			}
 
 			valid = this.validators[ type ]( $question );
 
+			var requestData = {
+				action: 'quiz_answer_question',
+				answer: valid.answer,
+				attempt_key: self.attempt_key,
+				question_id: $question.attr( 'data-id' ),
+				question_type: $question.attr( 'data-type' ),
+			};
+
+			if ( options && options.exit_quiz ) {
+				requestData.via_exit_quiz = true;
+			}
+
+			if ( options && options.previous_question ) {
+				requestData.via_previous_question = true;
+			}
+
 			LLMS.Ajax.call( {
-				data: {
-					action: 'quiz_answer_question',
-					answer: valid.answer,
-					attempt_key: self.attempt_key,
-					question_id: $question.attr( 'data-id' ),
-					question_type: $question.attr( 'data-type' ),
-
-					via_previous_question: true
-				},
+				data: requestData,
 				success: function( r ) {
-					callback();
+					if (options && typeof options.callback === 'function') {
+						options.callback();
+					}
 				},
-				error: function ( jqXHR, status, error ) {
-					self.reload_question();
-					self.add_error( LLMS.l10n.translate( 'An unknown error occurred. Please try again.' ) );
-					console.log( error );
-				}
-
-			} );
-
+			});
 		},
 
 		/**
@@ -400,61 +407,63 @@
 
 			var self = this;
 
-			this.save_question( function() {
+			this.save_question( {
+				previous_question: true,
+				callback: function() {
 
-				self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
-				self.update_progress_bar( 'decrement' );
+					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
+					self.update_progress_bar( 'decrement' );
 
-				var ids     = Object.keys( self.questions ),
-					curr    = ids.indexOf( 'q-' + self.current_question ),
-					prev_id = ids[0];
+					var ids     = Object.keys( self.questions ),
+						curr    = ids.indexOf( 'q-' + self.current_question ),
+						prev_id = ids[0];
 
-				if ( curr >= 1 ) {
-					prev_id = ids[ curr - 1 ];
-				}
+					if ( curr >= 1 ) {
+						prev_id = ids[ curr - 1 ];
+					}
 
-				// Retrieve previous question HTML from the server.
-				if ( ! self.questions[ prev_id ] ) {
-					LLMS.Ajax.call( {
-						data: {
-							action     : 'quiz_get_question',
-							attempt_key: self.attempt_key,
-							question_id: prev_id.substring(2), // Remove 'q-'.
-						},
-						success: function( r ) {
+					// Retrieve previous question HTML from the server.
+					if ( ! self.questions[ prev_id ] ) {
+						LLMS.Ajax.call( {
+							data: {
+								action     : 'quiz_get_question',
+								attempt_key: self.attempt_key,
+								question_id: prev_id.substring(2), // Remove 'q-'.
+							},
+							success: function( r ) {
 
-							self.toggle_loader( 'hide' );
-							if ( r.data && r.data.html ) {
+								self.toggle_loader( 'hide' );
+								if ( r.data && r.data.html ) {
 
-								self.load_question( r.data.html );
+									self.load_question( r.data.html );
 
-							} else if ( r.data && r.data.redirect ) {
+								} else if ( r.data && r.data.redirect ) {
 
-								self.redirect( r.data.redirect );
+									self.redirect( r.data.redirect );
 
-							} else if ( r.message ) {
+								} else if ( r.message ) {
 
-								self.$container.append( '<p>' + r.message + '</p>' );
+									self.$container.append( '<p>' + r.message + '</p>' );
 
-							} else {
+								} else {
 
-								var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
-								self.$container.append( '<p>' + msg + '</p>' );
+									var msg = LLMS.l10n.translate( 'An unknown error occurred. Please try again.' );
+									self.$container.append( '<p>' + msg + '</p>' );
+
+								}
 
 							}
 
-						}
+						} );
 
-					} );
-
-				} else {
-					setTimeout( function() {
-						self.toggle_loader( 'hide' );
-						self.load_question( self.questions[ prev_id ] );
-					}, 100 );
+					} else {
+						setTimeout( function() {
+							self.toggle_loader( 'hide' );
+							self.load_question( self.questions[ prev_id ] );
+						}, 100 );
+					}
 				}
-			} );
-
+			});
 		},
 
 		/**
@@ -534,7 +543,13 @@
 			// Bind exit event for quiz.
 			$( '#llms-quiz-nav' ).on( 'click', '#llms-exit-quiz', function( e ) {
 				e.preventDefault();
-				window.location.reload();
+				self.save_question( {
+					exit_quiz: true,
+					callback: function() {
+						self.exiting_quiz = true;
+						window.location.reload();
+					}
+				});
 			} );
 
 			if ( 'quiz_resume' === action ) {

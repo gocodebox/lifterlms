@@ -45,7 +45,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 				<?php if ( $quiz->can_be_resumed_by_student() ) : ?>
 					<?php
-						$message  = esc_html__( 'You have a partially completed attempt for this quiz. You can continue where you left off by clicking the button below.', 'lifterlms' );
+						$message  = esc_html__( 'You have a partially completed attempt for this quiz. You can continue where you left off by clicking the Resume Quiz button below.', 'lifterlms' );
 						$message .= '<div><button class="llms-start-quiz-button llms-button-secondary button" id="llms_start_quiz" name="llms_start_quiz" type="submit">';
 
 						/**
