@@ -406,7 +406,7 @@ class LLMS_Form_Templates {
 			'blockName'    => 'llms/form-field-redeem-voucher',
 			'attrs'        => array(
 				'id'             => 'llms_voucher',
-				'label'          => __( 'Have a voucher??', 'lifterlms' ),
+				'label'          => __( 'Have a voucher?', 'lifterlms' ),
 				'placeholder'    => __( 'Voucher Code', 'lifterlms' ),
 				'required'       => ( 'required' === $option ),
 				'toggleable'     => true,
