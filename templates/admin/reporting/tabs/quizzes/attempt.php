@@ -162,7 +162,7 @@ if ( $student ) {
 			<?php if ( $attempt->can_be_resumed() ) : // Show the clear resume attempt button only if quiz can be resumed. ?>
 			<button class="llms-button-secondary large" name="llms_quiz_attempt_action" type="submit" value="llms_disable_resume_attempt">
 				<i class="fa fa-ban" aria-hidden="true"></i>
-				<?php _e( 'Disable Resume Attempt', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Disable Resume Attempt', 'lifterlms' ); ?>
 			</button>
 			<?php endif; ?>
 			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">
