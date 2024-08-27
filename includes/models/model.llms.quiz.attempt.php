@@ -876,13 +876,14 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		 *
 		 * @since [version]
 		 *
-		 * @param int $time_period The time period in days.
+		 * @param int $resume_time_period The time period in hours.
 		 */
-		$time_period     = apply_filters( 'llms_quiz_attempt_resume_time_period', 1, $this );
-		$expiration_date = strtotime( "+{$time_period} days", strtotime( $start_date ) );
-		$current_date    = llms_current_time( 'timestamp' );
+		$resume_time_period = apply_filters( 'llms_quiz_attempt_resume_time_period', 24, $this );
 
-		return $current_date > $expiration_date;
+		$start_date_obj   = new DateTime( $start_date, wp_timezone() );
+		$current_date_obj = current_datetime();
+
+		return $current_date_obj > $start_date_obj->modify( sprintf( '+%d hours', intval( $resume_time_period ) ) );
 	}
 
 	/**
