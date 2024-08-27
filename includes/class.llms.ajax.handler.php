@@ -858,7 +858,7 @@ class LLMS_AJAX_Handler {
 
 		$student_quizzes = $student->quizzes();
 		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
-		if ( ! $attempt || 'incomplete' !== $attempt->get( 'status' ) ) {
+		if ( ! $attempt || 'incomplete' !== $attempt->get( 'status' ) || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
 			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
 			return $err;
 		}
