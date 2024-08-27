@@ -245,18 +245,21 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since [version]
 	 *
 	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
-	 * @return bool
+	 * @return string|bool
 	 */
 	public function get_student_last_attempt_key( $user_id = null ) {
 
-		$student      = llms_get_student( $user_id );
-		$last_attempt = false;
+		$student          = llms_get_student( $user_id );
+		$last_attempt_key = false;
 
 		if ( $student ) {
-			$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) )->get_key();
+			$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+			if ( $last_attempt ) {
+				$last_attempt_key = $last_attempt->get_key();
+			}
 		}
 
-		return $last_attempt;
+		return $last_attempt_key;
 	}
 
 	/**
