@@ -729,7 +729,6 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		// Get all questions ids.
 		$question_ids = array_column( $attempt->get_questions(), 'id' );
 		if ( ! $question_ids ) {
 			$err->add(
@@ -741,30 +740,26 @@ class LLMS_AJAX_Handler {
 
 		$question_id = $attempt->get( 'current_question_id' ) ? $attempt->get( 'current_question_id' ) : $attempt->get_next_question( null );
 
-		if ( $question_id ) {
-
-			$html = llms_get_template_ajax(
-				'content-single-question.php',
-				array(
-					'attempt'  => $attempt,
-					'question' => llms_get_post( $question_id ),
-				)
-			);
-
-			return array(
-				'attempt_key'    => $attempt->get_key(),
-				'html'           => $html,
-				'question_id'    => $question_id,
-				'total'          => $attempt->get_count( 'questions' ),
-				'question_ids'   => $question_ids,
-				'can_be_resumed' => $attempt->can_be_resumed(),
-			);
-
-		} else {
-
+		if ( ! $question_id ) {
 			return self::quiz_end( $request, $attempt );
-
 		}
+
+		$html = llms_get_template_ajax(
+			'content-single-question.php',
+			array(
+				'attempt'  => $attempt,
+				'question' => llms_get_post( $question_id ),
+			)
+		);
+
+		return array(
+			'attempt_key'    => $attempt->get_key(),
+			'html'           => $html,
+			'question_id'    => $question_id,
+			'total'          => $attempt->get_count( 'questions' ),
+			'question_ids'   => $question_ids,
+			'can_be_resumed' => $attempt->can_be_resumed(),
+		);
 	}
 	/**
 	 * AJAX Quiz get question.
