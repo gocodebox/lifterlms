@@ -761,13 +761,14 @@ class LLMS_AJAX_Handler {
 			'can_be_resumed' => $attempt->can_be_resumed(),
 		);
 	}
+
 	/**
 	 * AJAX Quiz get question.
 	 *
 	 * @since [version]
 	 *
 	 * @param array $request $_POST data.
-	 * @return WP_Error|string
+	 * @return WP_Error|array
 	 */
 	public static function quiz_get_question( $request ) {
 		$err = new WP_Error();
@@ -785,38 +786,37 @@ class LLMS_AJAX_Handler {
 				return $err;
 			}
 		}
+
 		$attempt_key     = sanitize_text_field( $request['attempt_key'] );
 		$question_id     = absint( $request['question_id'] );
 		$student_quizzes = $student->quizzes();
 		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
-		if ( ! $attempt ) {
+
+		// Don't allow the question to be retrieved if the attempt is not open or can't be resumed.
+		if ( ! $attempt || ! $attempt->get_quiz()->is_open() || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
 			$err->add( 500, __( 'There was an error retrieving the question. Please return to the lesson and try again.', 'lifterlms' ) );
 			return $err;
 		}
 
-		// get the next question.
 		$question_id = $attempt->get_question( $question_id );
 
-		// Return html for the question.
-		if ( $question_id ) {
-
-			$html = llms_get_template_ajax(
-				'content-single-question.php',
-				array(
-					'attempt'  => $attempt,
-					'question' => llms_get_post( $question_id ),
-				)
-			);
-
-			return array(
-				'html'        => $html,
-				'question_id' => $question_id,
-			);
-
-		} else {
+		if ( ! $question_id ) {
 			$err->add( 404, __( 'Cannot find the requested question id. Please return to the lesson and try again.', 'lifterlms' ) );
 			return $err;
 		}
+
+		$html = llms_get_template_ajax(
+			'content-single-question.php',
+			array(
+				'attempt'  => $attempt,
+				'question' => llms_get_post( $question_id ),
+			)
+		);
+
+		return array(
+			'html'        => $html,
+			'question_id' => $question_id,
+		);
 	}
 
 	/**
