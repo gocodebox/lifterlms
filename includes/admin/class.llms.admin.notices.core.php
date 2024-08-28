@@ -59,7 +59,9 @@ class LLMS_Admin_Notices_Core {
 		}
 
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
+
 		add_action( $action, array( __CLASS__, 'media_protection' ), $priority );
+
 	}
 
 	/**
@@ -182,11 +184,11 @@ class LLMS_Admin_Notices_Core {
 		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $theme->get_template(), llms_get_core_supported_themes(), true ) ) {
 
 			$msg = sprintf(
-				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
+				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sSky Pilot%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
 				$theme->get( 'Name' ),
 				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">',
 				'</a>',
-				'<a href="https://lifterlms.com/product/launchpad/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">',
+				'<a href="https://lifterlms.com/product/sky-pilot/?utm_source=notice&utm_medium=product&utm_content=skypilot&utm_campaign=lifterlmsplugin" target="_blank">',
 				'</a>'
 			);
 
