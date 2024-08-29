@@ -75,7 +75,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 		}
 
-		// Clear all resumable attempts.
 		if ( isset( $_POST['llms_quiz_resumable_attempt_action'] ) ) {
 
 			$action = llms_filter_input( INPUT_POST, 'llms_quiz_resumable_attempt_action' );
@@ -90,7 +89,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 				$resumable_attempts = $this->get_resumable_attempts( $quiz_id );
 
-				// Clear all resumable attempts.
 				foreach ( $resumable_attempts as $attempt_id ) {
 					$attempt = new LLMS_Quiz_Attempt( $attempt_id );
 					$attempt->set( 'can_be_resumed', false );
