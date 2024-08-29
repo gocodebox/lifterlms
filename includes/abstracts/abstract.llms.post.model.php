@@ -848,7 +848,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
-		if ( wp_http_validate_url( $url ) ) {
+		if ( trim( $url ) && parse_url( $url ) ) {
 			$this->get_provider_support( $url );
 
 			$ret = wp_oembed_get( $url );
