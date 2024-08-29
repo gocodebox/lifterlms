@@ -718,7 +718,6 @@ class LLMS_AJAX_Handler {
 			! $attempt->can_be_resumed() ||
 			! $attempt->is_last_attempt()
 		) {
-			error_log( 'attempt cannot be resumed - status ' . $attempt->get( 'status' ) . ' - last attempt ' . ( $attempt->is_last_attempt() ? 'yes' : 'no' ) );
 			$err->add(
 				400,
 				__(
