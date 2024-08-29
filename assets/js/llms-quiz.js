@@ -601,6 +601,10 @@
 
 						self.load_question( r.data.html );
 
+						if ( 'quiz_resume' === action ) {
+							self.update_progress_bar( 'reload' );
+						}
+
 					} else if ( r.message ) {
 
 						self.$container.append( '<p>' + r.message + '</p>' );
