@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2675"
-entry: Prevent backslashes from being removed from Result Clarifications.

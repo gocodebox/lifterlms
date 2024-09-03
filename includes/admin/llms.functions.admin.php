@@ -327,7 +327,8 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 	}
 
 	if ( $echo ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - Escaped in the view file.
+		// PHPCS ignore reason: Escaped in the view file.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $html;
 	}
 

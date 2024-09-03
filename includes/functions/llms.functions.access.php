@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -176,7 +176,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	/* This filter is documented above. */
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
-
 }
 
 /**
@@ -355,7 +354,6 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
-
 }
 
 /**
@@ -443,7 +441,6 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	// Otherwise return false: no prerequisite.
 	return false;
-
 }
 
 /**
@@ -491,7 +488,6 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 	$course = new LLMS_Course( $course_id );
 
 	return $course->is_open() ? false : $course_id;
-
 }
 
 /**
@@ -502,12 +498,11 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.14 Unknown.
  * @since 3.37.10 Call `in_array()` with strict comparison.
- * @since [version] Added support for multiple membership restrictions.D
  *
  * @param int      $post_id WP_Post ID.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return bool|array Array of WP_Post IDs of the memberships that restrict the post.
- *                    False if no restrictions found.
+ * @return bool|int WP_Post ID of the membership if a restriction is found.
+ *                  False if no restrictions found.
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
@@ -529,37 +524,49 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 		return false;
 	}
 
-	$memberships    = get_post_meta( $post_id, '_llms_restricted_levels', true );
-	$restricted     = get_post_meta( $post_id, '_llms_is_restricted', true );
-	$restricted_ids = array();
+	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
+	$restricted  = get_post_meta( $post_id, '_llms_is_restricted', true );
 
 	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
 
-		$student = llms_get_student( $user_id );
+		// if no user, return the first membership from the array as the restriction id.
+		if ( ! $user_id ) {
 
-		if ( ! $student ) {
-			$restriction_ids = $memberships;
+			$restriction_id = array_shift( $memberships );
+
 		} else {
-			// loop through the memberships.
-			foreach ( $memberships as $mid ) {
 
-				// set this as the restriction id.
-				$restriction_ids[] = absint( $mid );
+			$student = llms_get_student( $user_id );
+			if ( ! $student ) {
 
-				// once we find the student has access break the loop,
-				// this will be the restriction that the template loader will check against later.
-				if ( $student->is_enrolled( $mid ) ) {
-					break;
+				$restriction_id = array_shift( $memberships );
+
+			} else {
+
+				// reverse so to ensure that if user is in none of the memberships,
+				// they'd encounter the same restriction settings as a visitor.
+				$memberships = array_reverse( $memberships );
+
+				// loop through the memberships.
+				foreach ( $memberships as $mid ) {
+
+					// set this as the restriction id.
+					$restriction_id = $mid;
+
+					// once we find the student has access break the loop,
+					// this will be the restriction that the template loader will check against later.
+					if ( $student->is_enrolled( $mid ) ) {
+						break;
+					}
 				}
 			}
 		}
 
-		return $restriction_ids;
+		return absint( $restriction_id );
 
 	}
 
 	return false;
-
 }
 
 /**
@@ -623,7 +630,6 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 		return false;
 
 	}
-
 }
 
 /**
@@ -648,5 +654,4 @@ function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 	}
 
 	return false;
-
 }

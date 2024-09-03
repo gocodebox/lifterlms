@@ -45,7 +45,7 @@ foreach ( $attempt->get_question_objects() as $attempt_question ) :
 		<header class="llms-quiz-attempt-question-header">
 			<a class="toggle-answer" href="#">
 
-				<h3 class="llms-question-title"><?php echo esc_html( $quiz_question->get_question( 'plain' ) ); ?></h3>
+				<h3 class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'plain' ) ); ?></h3>
 
 				<?php if ( $quiz_question->get( 'points' ) ) : ?>
 					<span class="llms-points">
@@ -77,7 +77,7 @@ foreach ( $attempt->get_question_objects() as $attempt_question ) :
 				<?php if ( llms_parse_bool( $quiz_question->get_quiz()->get( 'show_correct_answer' ) ) ) : ?>
 					<?php if ( in_array( $quiz_question->get_auto_grade_type(), array( 'choices', 'conditional' ) ) ) : ?>
 						<div class="llms-quiz-attempt-answer-section llms-correct-answer">
-							<p class="llms-quiz-results-label correct-answer"><?php _e( 'Correct answer: ', 'lifterlms' ); ?></p>
+							<p class="llms-quiz-results-label correct-answer"><?php esc_html_e( 'Correct answer: ', 'lifterlms' ); ?></p>
 							<?php echo wp_kses_post( $attempt_question->get_correct_answer() ); ?>
 						</div>
 					<?php endif; ?>

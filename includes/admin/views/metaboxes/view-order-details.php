@@ -106,7 +106,7 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				</div>
 
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Coupon Discount:', 'lifterlms' ); ?></label>
+					<label><?php esc_html_e( 'Coupon Discount:', 'lifterlms' ); ?></label>
 					<?php echo wp_kses( $order->get_coupon_amount( 'trial' ), LLMS_ALLOWED_HTML_PRICES ); ?>
 					(<?php echo wp_kses( llms_price( $order->get_price( 'coupon_value_trial', array(), 'float' ) * - 1 ), LLMS_ALLOWED_HTML_PRICES ); ?>)
 					[<a href="<?php echo esc_url( get_edit_post_link( $order->get( 'coupon_id' ) ) ); ?>"><?php echo esc_html( $order->get( 'coupon_code' ) ); ?></a>]
@@ -131,7 +131,7 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 
 			<?php if ( $order->has_sale() ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Sale Discount:', 'lifterlms' ); ?></label>
+					<label><?php esc_html_e( 'Sale Discount:', 'lifterlms' ); ?></label>
 					<?php echo wp_kses( $order->get_price( 'sale_price' ), LLMS_ALLOWED_HTML_PRICES ); ?>
 					(<?php echo wp_kses( llms_price( $order->get_price( 'sale_value', array(), 'float' ) * -1 ), LLMS_ALLOWED_HTML_PRICES ); ?>)
 				</div>
@@ -139,7 +139,7 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 
 			<?php if ( $order->has_coupon() ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Coupon Discount:', 'lifterlms' ); ?></label>
+					<label><?php esc_html_e( 'Coupon Discount:', 'lifterlms' ); ?></label>
 					<?php echo wp_kses( $order->get_coupon_amount( 'regular' ), LLMS_ALLOWED_HTML_PRICES ); ?>
 					(<?php echo wp_kses( llms_price( $order->get_price( 'coupon_value', array(), 'float' ) * - 1 ), LLMS_ALLOWED_HTML_PRICES ); ?>)
 					[<a href="<?php echo esc_url( get_edit_post_link( $order->get( 'coupon_id' ) ) ); ?>"><?php echo esc_html( $order->get( 'coupon_code' ) ); ?></a>]
@@ -148,7 +148,7 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 		<?php endif; ?>
 
 		<div class="llms-metabox-field">
-			<label><?php _e( 'Total:', 'lifterlms' ); ?></label>
+			<label><?php esc_html_e( 'Total:', 'lifterlms' ); ?></label>
 			<?php echo wp_kses( $order->get_price( 'total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
 			<?php if ( $order->is_recurring() ) : ?>
 				<?php
@@ -312,9 +312,9 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				</button>
 			</h4>
 
-			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo wp_json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo wp_json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
+			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo wp_json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo wp_json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo esc_attr( $order->get( 'payment_gateway' ) ); ?>">
 				<label><?php esc_html_e( 'Name:', 'lifterlms' ); ?></label>
-				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
+				<?php echo is_wp_error( $gateway ) ? esc_html( $order->get( 'payment_gateway' ) ) : esc_html( $gateway->get_admin_title() ); ?>
 			</div>
 
 			<?php if ( ! is_wp_error( $gateway ) ) : ?>

@@ -47,7 +47,6 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 
 		$collapse       = ( ! empty( $instance['collapse'] ) ) ? $instance['collapse'] : 0;
 		$toggles        = ( ! empty( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
-		$toggle_display = ( ! $collapse ) ? ' style="display:none;"' : '';
 		?>
 		<p>
 			<input <?php checked( 1, $collapse ); ?> class="checkbox llms-course-outline-collapse" id="<?php echo esc_attr( $this->get_field_id( 'collapse' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'collapse' ) ); ?>" type="checkbox" value="1">
@@ -57,7 +56,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 			</label>
 		</p>
 
-		<p class="llms-course-outline-toggle-wrapper"<?php echo $toggle_display; ?>>
+		<p class="llms-course-outline-toggle-wrapper"<?php echo ( ! $collapse ) ? ' style="display:none;"' : '';?>>
 			<input <?php checked( 1, $toggles ); ?> class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'toggles' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'toggles' ) ); ?>" type="checkbox" value="1">
 			<label for="<?php echo esc_attr( $this->get_field_id( 'toggles' ) ); ?>">
 				<?php esc_html_e( 'Display open and close all toggles', 'lifterlms' ); ?><br>
