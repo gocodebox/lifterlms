@@ -535,7 +535,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.4.0
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_table_filters_html() instead.
+	 * @deprecated 7.7.0 Use output_table_filters_html() instead.
 	 */
 	public function get_table_filters_html() {
 		ob_start();
@@ -546,7 +546,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output HTML for the filters displayed in the head of the table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return string
 	 */
@@ -578,7 +578,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.37.7 Use correct argument order for implode to fix php 7.4 deprecation.
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_table_html() instead.
+	 * @deprecated 7.7.0 Use output_table_html() instead.
 	 */
 	public function get_table_html() {
 		ob_start();
@@ -590,7 +590,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output the HTML for the entire table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -629,7 +629,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_table_search_form_html() instead.
+	 * @deprecated 7.7.0 Use output_table_search_form_html() instead.
 	 */
 	public function get_table_search_form_html() {
 		ob_start();
@@ -681,7 +681,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_table_title_html() instead.
+	 * @deprecated 7.7.0 Use output_table_title_html() instead.
 	 */
 	public function get_table_title_html() {
 		ob_start();
@@ -692,7 +692,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output the HTML for the table's title.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -730,7 +730,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_tbody_html() instead.
+	 * @deprecated 7.7.0 Use output_tbody_html() instead.
 	 */
 	public function get_tbody_html() {
 		ob_start();
@@ -741,7 +741,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output a tbody element for the table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -767,7 +767,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.28.0 Unknown.
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_tfoot_html() instead.
+	 * @deprecated 7.7.0 Use output_tfoot_html() instead.
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -778,7 +778,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output a tfoot element for the table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -828,7 +828,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @since 3.2.0
 	 *
 	 * @return string
-	 * @deprecated [version] Use output_thead_html() instead.
+	 * @deprecated 7.7.0 Use output_thead_html() instead.
 	 */
 	public function get_thead_html() {
 		ob_start();
@@ -839,7 +839,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output the thead element for the table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -899,7 +899,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @param mixed $row Array/object of data describing a single row in the table.
 	 * @return string
-	 * @deprecated [version] Use output_tr_html() instead.
+	 * @deprecated 7.7.0 Use output_tr_html() instead.
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
@@ -910,7 +910,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Output the HTML for a single row in the body of the table.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param mixed $row Array/object of data describing a single row in the table.
 	 * @return void
@@ -972,7 +972,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @param float  $percentage The percentage to be displayed.
 	 * @param string $text       Text to display over the progress bar, defaults to $percentage.
 	 * @return string
-	 * @deprecated [version] Use output_progress_bar_html() instead.
+	 * @deprecated 7.7.0 Use output_progress_bar_html() instead.
 	 */
 	public function get_progress_bar_html( $percentage, $text = '' ) {
 		ob_start();
@@ -987,7 +987,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Useful when displaying a percentage within a table!
 	 * Bonus if the table sorts by that percentage column.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param float  $percentage The percentage to be displayed.
 	 * @param string $text       Text to display over the progress bar, defaults to $percentage.

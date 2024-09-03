@@ -107,11 +107,11 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		printf( esc_html_x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_trigger( $order->get( 'product_id' ) ) ) );
 		echo '</p>';
 
-		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
+		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . esc_attr( $current_status ) . '">';
 
-		echo '<input name="llms_update_enrollment_status" type="submit" class="llms-button-secondary small" value="' . __( 'Update Status', 'lifterlms' ) . '"> ';
+		echo '<input name="llms_update_enrollment_status" type="submit" class="llms-button-secondary small" value="' . esc_html__( 'Update Status', 'lifterlms' ) . '"> ';
 		if ( $current_status && 'enrolled' !== $current_status ) {
-			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . __( 'Delete Enrollment', 'lifterlms' ) . '">';
+			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . esc_html__( 'Delete Enrollment', 'lifterlms' ) . '">';
 		}
 	}
 

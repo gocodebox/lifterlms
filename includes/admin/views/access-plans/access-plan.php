@@ -329,7 +329,7 @@ endwhile;
 
 			<div class="llms-metabox-field d-1of6" data-controller="llms-trial-offer" data-value-is="yes">
 				<label>&nbsp;</label>
-				<select name="_llms_plans[<?php echo $order; ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+				<select name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="year"<?php selected( 'year', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'year(s)', 'lifterlms' ); ?></option>
 					<option value="month"<?php selected( 'month', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'month(s)', 'lifterlms' ); ?></option>
 					<option value="week"<?php selected( 'week', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'week(s)', 'lifterlms' ); ?></option>

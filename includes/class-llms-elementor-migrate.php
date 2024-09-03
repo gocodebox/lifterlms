@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
+ * @since 7.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Handle post migration to the new Elementor widgets.
  *
- * @since [version]
+ * @since 7.7.0
  */
 class LLMS_Elementor_Migrate {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 */
 	public function __construct() {
 
@@ -30,7 +30,7 @@ class LLMS_Elementor_Migrate {
 	/**
 	 * Retrieve the elementor data template.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return array
 	 */
@@ -152,7 +152,7 @@ class LLMS_Elementor_Migrate {
 	/**
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return  void
 	 */
@@ -196,7 +196,7 @@ class LLMS_Elementor_Migrate {
 	/**
 	 * Removes core template action hooks from posts which have been migrated to elementor widgets.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @return void
 	 */
@@ -224,7 +224,7 @@ class LLMS_Elementor_Migrate {
 	/**
 	 * Determine if a post should be migrated.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return bool
@@ -236,7 +236,7 @@ class LLMS_Elementor_Migrate {
 		/**
 		 * Filters whether or not a post should be migrated
 		 *
-		 * @since [version]
+		 * @since 7.7.0
 		 *
 		 * @param bool $migrate Whether or not a post should be migrated.
 		 * @param int  $post_id WP_Post ID.
@@ -247,7 +247,7 @@ class LLMS_Elementor_Migrate {
 	/**
 	 * Update post meta data to signal status of the editor migration.
 	 *
-	 * @since [version]
+	 * @since 7.7.0
 	 *
 	 * @param int    $post_id WP_Post ID.
 	 * @param string $status  Yes or no.

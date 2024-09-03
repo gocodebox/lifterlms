@@ -125,7 +125,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		}
 
 		$hidden = $this->get_attribute( 'hidden' );
-		if ( 'no' === $hidden ) {
+		if ( 'no' === $hidden || false === $hidden || '' === $hidden ) {
 
 			$terms = wp_list_pluck(
 				get_terms(

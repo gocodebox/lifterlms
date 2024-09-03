@@ -1,7 +1,7 @@
 // ----- LifterLMS Brand Colors ----- \\
 $color-brand-dark-blue: #243c56;
 
-$color-brand-blue: #2295ff;
+$color-brand-blue: #466dd8;
 $color-brand-blue-dark: darken( $color-brand-blue, 12 ); // #0077e4
 $color-brand-blue-light: lighten( $color-brand-blue, 8 );
 
@@ -17,13 +17,13 @@ $color-brand-pink: #ef476f;
 
 // ----- name our versions of common colors ----- \\
 $color-black: #010101;
-$color-green: #83c373;
+$color-green: #4d8d3c;
 $color-blue: $color-brand-blue;
-$color-red: #e5554e;
+$color-red: #bb231c;
 $color-white: #fefefe;
 $color-aqua: #35bbaa;
 $color-purple: #845ef7;
-$color-orange: #ff922b;
+$color-orange: #c05621;
 
 $color-red-hover: darken($color-red,5);
 
@@ -57,7 +57,7 @@ $color-darkblue:		#0185a3;
 
 
 
-$color-border: #efefef;
+$color-border: #dedede;
 
 $el-box-shadow: 0 1px 2px 0 rgba($color-black,0.4);
 $el-background: #f1f1f1;
@@ -67,3 +67,6 @@ $break-xsmall: 320px;
 $break-small: 641px;
 $break-medium: 768px;
 $break-large: 1024px;
+
+$radius-small: 6px;
+$radius-medium: 12px;

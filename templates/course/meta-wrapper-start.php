@@ -17,5 +17,5 @@ if ( ! in_array( $title_tag, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ) ) ) {
 
 <div class="llms-meta-info">
 	<<?php echo esc_html( $title_tag ); ?> class="llms-meta-title">
-		<?php echo apply_filters( 'llms_course_meta_info_title', esc_html_x( 'Course Information', 'course meta info title', 'lifterlms' ) ); ?>
+		<?php echo wp_kses_post( apply_filters( 'llms_course_meta_info_title', esc_html_x( 'Course Information', 'course meta info title', 'lifterlms' ) ) ); ?>
 	</<?php echo esc_html( $title_tag ); ?>>

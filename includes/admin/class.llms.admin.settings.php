@@ -370,14 +370,12 @@ class LLMS_Admin_Settings {
 
 			case 'button':
 				$name = isset( $field['name'] ) ? $field['name'] : 'save';
-
+				echo '<tr valign="top" class="' . esc_attr( $disabled_class ) . '"><th><label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['title'] ) . '</label>';
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $tooltip escaped in set_field_descriptions().
-				echo '<tr valign="top" class="' . esc_attr( $disabled_class ) . '"><th>
-            		<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['title'] ) . '</label>
-						' . $tooltip . '
-            	</th>';
+				echo $tooltip;
+				echo '</th>';
 
-				echo '<td class="forminp forminp-' . sanitize_title( $field['type'] ) . '">';
+				echo '<td class="forminp forminp-' . esc_attr( sanitize_title( $field['type'] ) ) . '">';
 				echo '<div id="llms-form-wrapper">';
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $description escaped in set_field_descriptions().
 				echo $description . '<br><br>';
@@ -402,7 +400,7 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions(). ?>
 					</th>
-					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
+					<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $field['type'] ) ); ?>">
 						<div id="<?php echo esc_attr( $field['id'] ); ?>"><?php echo wp_kses_post( $field['value'] ); ?></div>
 					</td>
 				</tr>
@@ -503,9 +501,9 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions. ?>
 					</th>
-					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
+					<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $field['type'] ) ); ?>">
 						<select
-							name="<?php echo $field_name; ?>"
+							name="<?php echo esc_attr( $field_name ); ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"
 							style="<?php echo esc_attr( $field['css'] ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
@@ -533,7 +531,7 @@ class LLMS_Admin_Settings {
 									selected( $option_value, $key );
 								}
 								?>
-								><?php echo $val; ?></option>
+								><?php echo wp_kses_post( $val ); ?></option>
 								<?php
 							}
 							?>
@@ -562,7 +560,7 @@ class LLMS_Admin_Settings {
 								<li>
 									<label><input
 										name="<?php echo esc_attr( $field['id'] ); ?>"
-										value="<?php echo $key; ?>"
+										value="<?php echo esc_attr( $key ); ?>"
 										type="radio"
 										style="<?php echo esc_attr( $field['css'] ); ?>"
 										class="<?php echo esc_attr( $field['class'] ); ?>"
@@ -619,7 +617,7 @@ class LLMS_Admin_Settings {
 				}
 
 				?>
-					<label for="<?php echo $field['id']; ?>">
+					<label for="<?php echo esc_attr( $field['id'] ); ?>">
 						<input
 							name="<?php echo esc_attr( $field['id'] ); ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"
@@ -668,12 +666,12 @@ class LLMS_Admin_Settings {
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions. ?>
 					</th>
-					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
+					<td class="forminp forminp-<?php echo esc_attr( sanitize_title( $field['type'] ) ); ?>">
 
-						<img class="llms-image-field-preview" src="<?php echo $src; ?>">
+						<img class="llms-image-field-preview" src="<?php echo esc_url( $src ); ?>">
 						<button class="llms-button-secondary llms-image-field-upload" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
 							<span class="dashicons dashicons-admin-media"></span>
-							<?php _e( 'Upload', 'lifterlms' ); ?>
+							<?php esc_html_e( 'Upload', 'lifterlms' ); ?>
 						</button>
 						<button class="llms-button-danger llms-image-field-remove<?php echo ( ! $src ) ? ' hidden' : ''; ?>" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
 							<span class="dashicons dashicons-no"></span>
@@ -711,9 +709,13 @@ class LLMS_Admin_Settings {
 
 				?>
 				<tr valign="top" class="single_select_page">
-					<th><?php echo esc_html( $field['title'] ); ?> <?php echo $tooltip; ?></th>
+					<th><?php echo esc_html( $field['title'] ); ?> <?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions.?></th>
 					<td class="forminp">
-						<?php echo str_replace( ' id=', " data-placeholder='" . __( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . $field['css'] . "' class='" . $field['class'] . "' id=", wp_dropdown_pages( $args ) ); ?> <?php echo $description; ?>
+						<?php 
+						// PHPCS ignore reason: This is a dropdown and the output is escaped in wp_dropdown_pages.
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo str_replace( ' id=', " data-placeholder='" . esc_html__( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . esc_attr( $field['css'] ) . "' class='" . esc_attr( $field['class'] ) . "' id=", wp_dropdown_pages( $args ) ); ?>
+						<?php echo wp_kses_post( $description ); ?>
 					</td>
 				</tr>
 				<?php
@@ -739,8 +741,8 @@ class LLMS_Admin_Settings {
 				<tr valign="top" class="single_select_membership">
 					<th><?php echo esc_html( $field['title'] ); ?> <?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions. ?></th>
 					<td class="forminp">
-						<select class="<?php echo $args['class']; ?>" style="<?php echo $field['css']; ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
-							<option value=""> <?php _e( 'None', 'lifterlms' ); ?></option>
+						<select class="<?php echo esc_attr( $args['class'] ); ?>" style="<?php echo esc_attr( $field['css'] ); ?>" name="lifterlms_membership_required" id="lifterlms_membership_required">
+							<option value=""> <?php esc_html_e( 'None', 'lifterlms' ); ?></option>
 							<?php
 							foreach ( $posts as $post ) :
 								setup_postdata( $post );

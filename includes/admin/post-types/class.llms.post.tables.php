@@ -168,7 +168,7 @@ class LLMS_Admin_Post_Tables {
 		ob_start();
 		?>
 		<span class="llms-post-table-post-filter">
-			<label for="<?php echo $id; ?>" class="screen-reader-text">
+			<label for="<?php echo esc_attr( $id ); ?>" class="screen-reader-text">
 				<?php echo esc_html( $label ); ?>
 			</label>
 			<select
@@ -176,7 +176,7 @@ class LLMS_Admin_Post_Tables {
 				data-allow_clear="true"
 				data-no-view-button="true"
 				data-placeholder="<?php echo esc_attr( $label ); ?>"
-				data-post-type="<?php echo $post_type; ?>"
+				data-post-type="<?php echo esc_attr( $post_type ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
 				id="<?php echo esc_attr( $id ); ?>"
 			>

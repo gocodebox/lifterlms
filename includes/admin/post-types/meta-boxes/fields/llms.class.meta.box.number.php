@@ -55,7 +55,7 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			max="<?php echo esc_attr( $this->field['max'] ); ?>"
 			<?php endif; ?>
 			name="<?php echo esc_attr( $this->field['id'] ); ?>"
-			id="<?php echo $this->field['id']; ?>"
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			value="<?php echo esc_attr( $this->meta ); ?>"
 			size="30"

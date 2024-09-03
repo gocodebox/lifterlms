@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<footer class="llms-form-fields">
 		<div class="llms-form-field type-submit llms-cols-3 llms-cols-last"">
-			<button id="llms-redeem-voucher-submit" type="submit" class="llms-field-button llms-button-action"><?php esc_html_ex( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
+			<button id="llms-redeem-voucher-submit" type="submit" class="llms-field-button llms-button-action"><?php echo esc_html_x( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
 		</div>
 		<?php wp_nonce_field( 'lifterlms_voucher_check', 'lifterlms_voucher_nonce' ); ?>
 	</footer>

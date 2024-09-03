@@ -92,7 +92,9 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			<?php if ( isset( $this->field['placeholder'] ) ) : ?>
 			placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 			<?php endif; ?>
-			<?php echo $this->get_data_attrs(); ?>
+			<?php
+				echo wp_kses_post( $this->get_data_attrs() );
+				?>
 		/>
 		<?php
 		parent::close_output();
