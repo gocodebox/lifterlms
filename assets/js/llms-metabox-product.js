@@ -166,6 +166,7 @@
 				} else {
 					$plan_redirect_forced.off( 'change' );
 					$plan_redirect_settings.show();
+
 				}
 
 			} );
@@ -789,12 +790,22 @@
 				// de-init tinyMCE from the editor.
 				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
 
-				// update the order of each field in the plan.
-				$p.find( 'select, input, textarea' ).each( function() {
+				// update the order of each label and field in the plan.
+				$p.find( 'label, select, input, textarea' ).each( function() {
 
-					var name = $( this ).attr( 'name' );
-					if ( name ) {
-						$( this ).attr( 'name', name.replace( orig, curr ) );
+					var labelFor = $( this ).attr( 'for' );
+					if ( labelFor ) {
+						$( this ).attr( 'for', labelFor.replace( orig, curr ) );
+					}
+
+					var inputID = $( this ).attr( 'id' );
+					if ( inputID ) {
+						$( this ).attr( 'id', inputID.replace( orig, curr ) );
+					}
+
+					var inputName = $( this ).attr( 'name' );
+					if ( inputName ) {
+						$( this ).attr( 'name', inputName.replace( orig, curr ) );
 					}
 
 				} );

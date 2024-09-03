@@ -1,19 +1,26 @@
 .llms-metabox {
 
+	> p:first-child {
+		margin-top: 0;
+	}
+
 	#llms-new-access-plan-model {
 		display: none;
 	}
 
 	.llms-access-plans {
 		@extend %clearfix;
-		margin-top: 10px;
+		color: #1e1e1e;
 
-		> .llms-no-plans-msg { display: none; }
+		> .llms-no-plans-msg {
+			display: none;
+			.notice {
+				margin-right: 0;
+				margin-left: 0;
+			}
+		}
 		> .llms-no-plans-msg:last-child {
-			box-shadow: inset 0 0 0 1px #e5e5e5;
 			display: block;
-			text-align: center;
-			padding: 10px;
 		}
 
 		&.dragging {
@@ -40,7 +47,7 @@
 	}
 
 	.llms-access-plan {
-
+		margin-bottom: 20px;
 		text-align: left;
 
 		[data-tip]:before {
@@ -60,7 +67,7 @@
 		}
 
 		.llms-metabox-field {
-			margin: 5px 0;
+			margin: 15px 0;
 		}
 
 		.llms-required {
