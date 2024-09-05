@@ -1046,12 +1046,26 @@ class LLMS_AJAX_Handler {
 			return $error;
 		}
 
+		$plan = new LLMS_Access_Plan( $request['plan_id'] );
+
+		$seat_count = absint( $request['seat_count'] );
+
+		if ( 'variable' !== $plan->get( 'group_enrolment_seats_type' ) ) {
+			$error->add( 'error', __( 'Seat count is not available for this plan.', 'lifterlms-groups' ) );
+
+			return $error;
+		}
+
+		if ( ! $seat_count || $seat_count > $plan->get( 'group_seat_count_max' ) || $seat_count < $plan->get( 'group_seat_count_min' ) ) {
+			$error->add( 'error', __( 'Invalid seat count.', 'lifterlms-groups' ) );
+
+			return $error;
+		}
+
 		llms()->session->set(
 			'llms_group_seat_count_' . intval( $request['plan_id'] ),
 			intval( $request['seat_count'] )
 		);
-
-		$plan = new LLMS_Access_Plan( $request['plan_id'] );
 
 		$coupon = null;
 

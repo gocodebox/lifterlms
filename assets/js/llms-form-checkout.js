@@ -61,7 +61,7 @@
 
 				/**
 				 * Fix `HTMLFormElement.reportValidity()` when `scroll-behavior: smooth`.
-				 * 
+				 *
 				 * @see {@link https://github.com/gocodebox/lifterlms/issues/2206}
 				 */
 				document.querySelector( 'html' ).style.scrollBehavior = 'auto';
@@ -77,6 +77,8 @@
 				this.bind_coupon();
 
 				this.bind_gateways();
+
+				this.bind_seat_change();
 
 			} else if ( this.$confirm_form.length ) {
 
@@ -153,6 +155,19 @@
 		this.add_gateway = function( gateway_class ) {
 
 			gateways.push( gateway_class );
+
+		};
+
+		this.bind_seat_change = function() {
+
+			var self = this;
+
+			$( '#llms-update-seats' ).on( 'click', function( e ) {
+
+				e.preventDefault();
+				self.seat_change( $( this ) );
+
+			} );
 
 		};
 
@@ -289,6 +304,80 @@
 		};
 
 		/**
+		 * Triggered by clicking the "Update Seats" Button
+		 * Validates the coupon via JS and adds error / success messages
+		 * On success it will replace partials on the checkout screen with updated
+		 * prices
+		 *
+		 * @param    obj   $btn  jQuery selector of the Update button
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  3.0.0
+		 */
+		this.seat_change = function ( $btn ) {
+
+			var self       = this,
+				$seat_count      = $( '#llms_group_seat_count_' + $( '#llms-plan-id' ).val() ),
+				seat_count       = $seat_count.val(),
+				$messages  = $( '.llms-group-seat-messages' ),
+				$errors    = $messages.find( '.llms-error' ),
+				$container = $( 'form.llms-checkout' );
+
+			LLMS.Spinner.start( $container );
+
+			window.LLMS.Ajax.call( {
+				data: {
+					action: 'validate_seat_count',
+					seat_count: seat_count,
+					plan_id: $( '#llms-plan-id' ).val(),
+				},
+				beforeSend: function() {
+
+					$errors.hide();
+
+				},
+				success: function( r ) {
+
+					LLMS.Spinner.stop( $container );
+
+					if ( 'error' === r.code ) {
+
+						var $message = $( '<li>' + r.message + '</li>' );
+
+						if ( ! $errors.length ) {
+
+							$errors = $( '<ul class="llms-notice llms-error" />' );
+							$messages.append( $errors );
+
+						} else {
+
+							$errors.empty();
+
+						}
+
+						$message.appendTo( $errors );
+						$errors.show();
+
+					} else if ( r.success ) {
+
+						$( '.llms-coupon-wrapper' ).replaceWith( r.data.coupon_html );
+						self.bind_coupon();
+
+						$( '.llms-payment-gateways' ).replaceWith( r.data.gateways_html );
+						self.bind_gateways();
+
+						$( '.llms-order-summary' ).replaceWith( r.data.summary_html );
+						self.bind_seat_change();
+
+					}
+
+				}
+
+			} );
+
+		};
+
+		/**
 		 * Triggered by clicking the "Apply Coupon" Button
 		 * Validates the coupon via JS and adds error / success messages
 		 * On success it will replace partials on the checkout screen with updated
@@ -352,6 +441,7 @@
 						self.bind_gateways();
 
 						$( '.llms-order-summary' ).replaceWith( r.data.summary_html );
+						self.bind_seat_change();
 
 					}
 
@@ -392,6 +482,7 @@
 						self.bind_coupon();
 
 						$( '.llms-order-summary' ).replaceWith( r.data.summary_html );
+						self.bind_seat_change();
 
 						$( '.llms-payment-gateways' ).replaceWith( r.data.gateways_html );
 						self.bind_gateways();
