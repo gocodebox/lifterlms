@@ -491,6 +491,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
 		}
+		/**
+		 * Filter the price of a plan with a coupon applied before formatting the price for display.
+		 *
+		 * @since [version]
+		 */
+		$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_price_with_coupon_before_formatting", $price, $key, $price_args, $this );
 
 		// If price is less than 0 return the pricing text.
 		if ( $price <= 0 ) {
