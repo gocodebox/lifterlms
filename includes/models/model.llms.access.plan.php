@@ -504,8 +504,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$price = $this->get_free_pricing_text( $format );
 
 		} elseif ( 'html' === $format || 'raw' === $format ) {
-
-				$price = llms_price( $price, $price_args );
+			$price = llms_price( $price, $price_args );
 			if ( 'raw' === $format ) {
 				$price = wp_strip_all_tags( $price );
 			}
