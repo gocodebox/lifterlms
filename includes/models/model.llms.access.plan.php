@@ -86,8 +86,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		'trial_offer'               => 'yesno',
 		'trial_period'              => 'string',
 		'trial_price'               => 'float',
-		'group_enrolment'           => 'yesno',
-		'group_seat_count'          => 'absint',
 	);
 
 	/**
