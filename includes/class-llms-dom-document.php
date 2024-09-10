@@ -109,7 +109,6 @@ class LLMS_DOM_Document {
 		libxml_use_internal_errors( $libxml_state );
 
 		return is_wp_error( $this->error ) && $this->error->has_errors() ? $this->error : true;
-
 	}
 
 	/**
@@ -122,20 +121,44 @@ class LLMS_DOM_Document {
 	public function dom() {
 
 		return $this->dom;
-
 	}
 
 	/**
-	 * Load the HTML string in the DOMDocument using mb_convert_econding
+	 * Load the HTML string in the DOMDocument using htmlspecialchars_decode( htmlentities() ) as mb_convert_encoding() is deprecated.
 	 *
 	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
 	private function load_with_mb_convert_encoding() {
-		if ( ! $this->dom->loadHTML( mb_convert_encoding( $this->source, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+		if ( ! $this->dom->loadHTML( $this->convert_to_numeric_and_named_entities( $this->source ) ) ) {
 			$this->error = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
 		}
+	}
+
+	private function convert_to_numeric_and_named_entities( $string ) {
+		return preg_replace_callback(
+			'/(<[^>]+>|&[^;]+;|[^<>&]+)/u',
+			function ( $matches ) {
+				$part = $matches[0];
+
+				// Skip HTML tags and named entities
+				if ( substr( $part, 0, 1 ) === '<' || ( substr( $part, 0, 1 ) === '&' && substr( $part, -1 ) === ';' ) ) {
+					return $part;
+				}
+
+				// Convert characters to numeric entities
+				$result = '';
+				$length = mb_strlen( $part, 'UTF-8' );
+				for ( $i = 0; $i < $length; $i++ ) {
+					$char      = mb_substr( $part, $i, 1, 'UTF-8' );
+					$codepoint = mb_ord( $char, 'UTF-8' );
+					$result   .= '&#' . $codepoint . ';';
+				}
+				return $result;
+			},
+			$string
+		);
 	}
 
 	/**
@@ -156,7 +179,5 @@ class LLMS_DOM_Document {
 		if ( $meta ) {
 			$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
-
 	}
-
 }

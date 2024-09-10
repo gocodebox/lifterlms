@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2672"
+entry: Removes use of deprecated mb_convert_encoding().
