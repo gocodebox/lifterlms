@@ -58,6 +58,7 @@ class LLMS_AJAX_Handler {
 		return array(
 			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),
 		);
+
 	}
 
 	/**
@@ -80,6 +81,7 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['student_ids'] as $id ) {
 			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
+
 	}
 
 	/**
@@ -103,7 +105,7 @@ class LLMS_AJAX_Handler {
 		$codes = implode(
 			',',
 			array_map(
-				function ( $code ) {
+				function( $code ) {
 					return sprintf( "'%s'", esc_sql( $code ) );
 				},
 				array_filter( $codes )
@@ -127,6 +129,7 @@ class LLMS_AJAX_Handler {
 			)
 		);
 		wp_die();
+
 	}
 
 	/**
@@ -153,6 +156,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return true;
+
 	}
 
 	/**
@@ -174,6 +178,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -199,6 +204,7 @@ class LLMS_AJAX_Handler {
 
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
 		return $table->generate_export_file( $request, $file );
+
 	}
 
 	/**
@@ -229,6 +235,7 @@ class LLMS_AJAX_Handler {
 			'tbody' => trim( $table->get_tbody_html() ),
 			'tfoot' => trim( $table->get_tfoot_html() ),
 		);
+
 	}
 
 	/**
@@ -306,6 +313,7 @@ class LLMS_AJAX_Handler {
 				'success' => true,
 			)
 		);
+
 	}
 
 	/**
@@ -347,6 +355,7 @@ class LLMS_AJAX_Handler {
 		$ret['new'] = $query->get_notifications();
 
 		return $ret;
+
 	}
 
 	/**
@@ -370,6 +379,7 @@ class LLMS_AJAX_Handler {
 		if ( ! $membership->remove_auto_enroll_course( intval( $request['course_id'] ) ) ) {
 			return new WP_Error( 'error', __( 'There was an error removing the course, please try again.', 'lifterlms' ) );
 		}
+
 	}
 
 	/**
@@ -589,6 +599,7 @@ class LLMS_AJAX_Handler {
 		);
 
 		wp_die();
+
 	}
 
 	/**
@@ -664,6 +675,7 @@ class LLMS_AJAX_Handler {
 			'question_id' => $question_id,
 			'total'       => $attempt->get_count( 'questions' ),
 		);
+
 	}
 
 	/**
@@ -748,6 +760,7 @@ class LLMS_AJAX_Handler {
 			return self::quiz_end( $request, $attempt );
 
 		}
+
 	}
 
 	/**
@@ -803,6 +816,7 @@ class LLMS_AJAX_Handler {
 			 */
 			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
 		);
+
 	}
 
 	/**
@@ -851,6 +865,7 @@ class LLMS_AJAX_Handler {
 			'gateways_html' => $gateways_html,
 			'summary_html'  => $summary_html,
 		);
+
 	}
 
 	/**
@@ -978,6 +993,7 @@ class LLMS_AJAX_Handler {
 			)
 		);
 		wp_die();
+
 	}
 
 	/**
@@ -1026,6 +1042,7 @@ class LLMS_AJAX_Handler {
 		return array(
 			'success' => true,
 		);
+
 	}
 
 	/**
@@ -1127,6 +1144,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $error;
+
 	}
 
 	/**
@@ -1146,6 +1164,7 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
 
 		return $html;
+
 	}
 
 	/**
@@ -1191,6 +1210,7 @@ class LLMS_AJAX_Handler {
 
 		$section = new LLMS_Section( $request['section_id'] );
 		return $section->set_title( $request['title'] );
+
 	}
 
 	/**
@@ -1215,6 +1235,7 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
 
 		return $html;
+
 	}
 
 	/**
@@ -1228,6 +1249,7 @@ class LLMS_AJAX_Handler {
 	public static function get_lesson_options_for_select( $request ) {
 
 		return LLMS_Post_Handler::get_lesson_options_for_select_list();
+
 	}
 
 	/**
@@ -1247,6 +1269,7 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
 
 		return $html;
+
 	}
 
 	/**
@@ -1266,6 +1289,7 @@ class LLMS_AJAX_Handler {
 			'title'   => $l->get( 'title' ),
 			'excerpt' => $l->get( 'excerpt' ),
 		);
+
 	}
 
 	/**
@@ -1286,6 +1310,7 @@ class LLMS_AJAX_Handler {
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
 
 		return $lesson->update( $post_data );
+
 	}
 
 	/**
@@ -1307,6 +1332,7 @@ class LLMS_AJAX_Handler {
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
 
 		return $lesson->update( $post_data );
+
 	}
 
 	/**
@@ -1347,6 +1373,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
+
 	}
 
 	/**
@@ -1374,6 +1401,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
+
 	}
 
 	/**
@@ -1415,6 +1443,7 @@ class LLMS_AJAX_Handler {
 		$membership->add_auto_enroll_courses( $courses, true );
 
 		return true;
+
 	}
 
 	/**
@@ -1469,6 +1498,7 @@ class LLMS_AJAX_Handler {
 			'errors' => $errors,
 			'html'   => $metabox->get_html(),
 		);
+
 	}
 
 	/**
@@ -1494,7 +1524,9 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $success;
+
 	}
+
 }
 
 new LLMS_AJAX_Handler();
