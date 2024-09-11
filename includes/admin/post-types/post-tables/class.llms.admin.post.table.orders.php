@@ -33,6 +33,7 @@ class LLMS_Admin_Post_Table_Orders {
 		add_filter( 'manage_edit-llms_order_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'pre_get_posts', array( $this, 'modify_admin_search' ), 10, 1 );
 		add_filter( 'post_row_actions', array( $this, 'modify_actions' ), 10, 2 );
+		add_action( 'manage_posts_extra_tablenav', array( $this, 'add_csv_export_button' ) );
 	}
 
 	/**
@@ -340,6 +341,31 @@ class LLMS_Admin_Post_Table_Orders {
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Add CSV export button to the bottom of the table.
+	 * @since [version]
+	 */
+	public function add_csv_export_button( $which ) {
+		// Bail if we're not at the bottom.
+		if ( 'bottom' !== $which ) {
+			return;
+		}
+		
+		// Bail if we're not on the llms_orders screen.
+		if ( 'llms_order' !== get_current_screen()->post_type ) {
+			return;
+		}
+		?>
+		<div class="llms-table-export">
+			<button class="llms-button-primary small" name="llms-table-export">
+				<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
+			</button>
+			<?php //echo $this->get_progress_bar_html( 0 ); ?>
+			<em><small class="llms-table-export-msg"></small></em>
+		</div>
+		<?php
 	}
 }
 

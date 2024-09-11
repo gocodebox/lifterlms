@@ -20,7 +20,7 @@
 
 			var self = this;
 
-			self.$tables = $( '.llms-gb-table' );
+			self.$tables = $( '.llms-gb-table, body.post-type-llms_order .wp-list-table' );
 
 			if ( self.$tables.length ) {
 				self.bind();
