@@ -1,10 +1,3 @@
-.components-panel__row > .components-base-control,
-.components-form-token-field,
-.components-number-control,
-.components-range-control {
-  width: 100%;
-}
-
 .llms-block-empty,
 .llms-block-error {
   padding: 1em;
@@ -14,10 +7,6 @@
 
 .llms-block-empty {
   font-style: italic;
-}
-
-.wp-block .components-button {
-  height: auto;
 }
 
 .wp-block .llms-button-primary {
@@ -31,10 +20,6 @@
 .llms-block-icon {
   -webkit-transform: scale(0.75);
           transform: scale(0.75);
-}
-
-.components-range-control__root {
-  height: 3em;
 }
 
 .llms-loop-item .llms-video-wrapper {
