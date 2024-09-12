@@ -20,6 +20,9 @@ assets/css/builder.css
 assets/css/builder.min.css
 assets/css/builder-rtl.css
 assets/css/builder-rtl.min.css
+assets/css/admin-importer*
+assets/css/editor*
+assets/css/certificates*
 assets/css/lifterlms-rtl.css
 assets/css/lifterlms-rtl.min.css
 assets/css/lifterlms.css
