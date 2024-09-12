@@ -36,7 +36,7 @@ if ( apply_filters( 'llms_hide_registration_form', is_user_logged_in() ) ) {
 <div class="llms-new-person-form-wrapper">
 
 	<?php if ( $form_title ) : ?>
-		<h4 class="llms-form-heading"><?php echo esc_html( $form_title ); ?></h4>
+		<h2 class="llms-form-heading"><?php echo esc_html( $form_title ); ?></h2>
 	<?php endif; ?>
 
 	<form method="post" class="llms-new-person-form register">
