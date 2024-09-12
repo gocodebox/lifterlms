@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2755"
-entry: Use student email for the student login merge code in notification emails
-  if usernames are not used.

@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2752"
-entry: Avoid modifying non-LifterLMS block component styling in the editor.
