@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2749"
+entry: Show video or audio embed URLs in lessons which are valid but contain
+  special characters.
