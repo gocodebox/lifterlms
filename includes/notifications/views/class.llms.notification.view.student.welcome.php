@@ -112,7 +112,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 				break;
 
 			case '{{STUDENT_LOGIN}}':
-				$field = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) ) ? 'user_email' : 'user_login';
+				$field = ( LLMS_Forms::instance()->are_usernames_enabled() ) ? 'user_login' : 'user_email';
 				$code  = $this->user->get( $field );
 				break;
 

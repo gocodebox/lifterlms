@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v7.7.7 - 2024-09-12
+-------------------
+
+##### Bug Fixes
+
++ Avoid modifying non-LifterLMS block component styling in the editor. [#2752](https://github.com/gocodebox/lifterlms/issues/2752)
++ Use student email for the student login merge code in notification emails if usernames are not used. [#2755](https://github.com/gocodebox/lifterlms/issues/2755)
++ Show video or audio embed URLs in lessons which are valid but contain special characters. [#2749](https://github.com/gocodebox/lifterlms/issues/2749)
+
+
 v7.7.6 - 2024-08-22
 -------------------
 
