@@ -73,6 +73,8 @@ Learn more about [the people behind LifterLMS](https://lifterlms.com/about-us/?u
 
 Start with the free LMS plugin and [scale-up](https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale) as you grow.
 
+https://www.youtube.com/watch?v=ZNwo5inRSdM
+
 **Make Money Teaching Online**
 Set up LifterLMS, activate built-in payments with [Stripe](https://lifterlms.com/product/stripe-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or [PayPal](https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). That's all you need to get started.
 
