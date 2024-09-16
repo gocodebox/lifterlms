@@ -9,17 +9,17 @@
  *               Updated to utilize fields from LLMS_Forms class.
  * @version 5.0.0
  *
- * @param int $cols Number of columns to use for the form layout.
- * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
- * @param string $selected_gateway ID of the currently selected/default payment gateway.
- * @param string $order_key Current order key. Empty string for new orders.
- * @param LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
- * @param LLMS_Access_Plan $plan Access plan object.
- * @param LLMS_Product $product Product object.
- * @param bool $is_free Whether or not the access plan is a free plan.
- * @param string $form_location Form location id.
- * @param string $form_fitle Form title.
- * @param array $form_fields Array of LifterLMS Form Fields.
+ * @var int $cols Number of columns to use for the form layout.
+ * @var LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
+ * @var string $selected_gateway ID of the currently selected/default payment gateway.
+ * @var string $order_key Current order key. Empty string for new orders.
+ * @var LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
+ * @var LLMS_Access_Plan $plan Access plan object.
+ * @var LLMS_Product $product Product object.
+ * @var bool $is_free Whether or not the access plan is a free plan.
+ * @var string $form_location Form location id.
+ * @var string $form_title Form title.
+ * @var array $form_fields Array of LifterLMS Form Fields.
  */
 
 defined( 'ABSPATH' ) || exit;

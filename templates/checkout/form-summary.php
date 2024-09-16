@@ -43,4 +43,10 @@ defined( 'ABSPATH' ) || exit;
 		?>
 		<li><span class="llms-label"><?php esc_html_e( 'Access', 'lifterlms' ); ?>:</span> <?php echo esc_html( $expires ); ?></li>
 	<?php endif; ?>
+	<?php
+		/**
+		 * Action hook fired at the end of the checkout Order Summary area.
+		 */
+		do_action( 'llms_checkout_order_summary_end', $plan, $product, $coupon );
+	?>
 </ul>
