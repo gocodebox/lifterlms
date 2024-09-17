@@ -163,6 +163,20 @@ final class LifterLMS {
 					'class' => array(),
 					'id'    => array(),
 				),
+				'del'    => array(
+					'class'       => array(),
+					'aria-hidden' => array(),
+					'id'          => array(),
+				),
+				'ins'    => array(
+					'class'       => array(),
+					'aria-hidden' => array(),
+					'id'          => array(),
+				),
+				'em'     => array(
+					'class' => array(),
+					'id'    => array(),
+				),
 			)
 		);
 
