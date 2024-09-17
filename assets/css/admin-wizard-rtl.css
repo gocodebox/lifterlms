@@ -1,0 +1,295 @@
+#wpadminbar, #adminmenumain, #wpfooter {
+  display: none;
+}
+
+#llms-setup-wizard {
+  background-color: #F0F0F1;
+  height: 100%;
+  right: 0;
+  overflow: scroll;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.llms-setup-wrapper {
+  margin: 30px auto;
+  max-width: 640px;
+}
+
+#llms-logo {
+  text-align: center;
+}
+#llms-logo a {
+  display: inline-block;
+}
+#llms-logo img {
+  max-width: 200px;
+}
+
+.llms-setup-content {
+  background-color: #FFF;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+  padding: 30px;
+}
+.llms-setup-content h1, .llms-setup-content h2, .llms-setup-content h3, .llms-setup-content h4, .llms-setup-content h5, .llms-setup-content h6 {
+  color: #3C434A;
+}
+.llms-setup-content a:not(.llms-button-primary):not(.llms-button-secondary) {
+  color: #466dd8;
+}
+.llms-setup-content p, .llms-setup-content li {
+  color: #3C434A;
+  font-size: 16px;
+}
+.llms-setup-content p.error {
+  color: #bb231c;
+  background: rgba(187, 35, 28, 0.1);
+  border: 1px solid currentColor;
+  padding: 1em;
+  border-radius: 4px;
+  margin: 1.5em 0 0;
+  font-size: 15px;
+  text-align: right;
+}
+.llms-setup-content label {
+  font-weight: 500;
+}
+.llms-setup-content table {
+  border-bottom: 1px solid #f1f1f1;
+  border-collapse: collapse;
+  width: 100%;
+}
+.llms-setup-content td {
+  border-top: 1px solid #f1f1f1;
+}
+.llms-setup-content td:first-child {
+  padding-left: 10px;
+  width: 33%;
+}
+.llms-setup-content td:first-child a {
+  font-size: 16px;
+  font-weight: 500;
+}
+.llms-setup-content td:first-child i {
+  display: block;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.llms-setup-content td:first-child i a {
+  font-size: 13px;
+}
+.llms-setup-content small {
+  font-size: small;
+}
+.llms-setup-content .has-checkbox-field {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  gap: 0.5em;
+  font-weight: normal;
+  font-size: 16px;
+}
+.llms-setup-content .has-checkbox-field input {
+  margin: 0;
+}
+.llms-setup-content label {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 0.5em;
+}
+.llms-setup-content small + label {
+  margin-top: 1em;
+}
+.llms-setup-content [type=text] {
+  width: 100%;
+  clear: both;
+  margin: 0;
+  padding: 0.3em 0.6em;
+}
+.llms-setup-content .has-date-field {
+  font-size: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0.5em;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0.5em;
+}
+.llms-setup-content [type=date] {
+  padding: 0.3em 0.6em;
+}
+.llms-setup-content .is-hidden {
+  display: none;
+}
+
+.llms-setup-date-fields {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 1em;
+  padding-top: 2em;
+}
+
+.llms-setup-date-field {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.llms-setup-actions {
+  margin-top: 2em;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1em;
+}
+.llms-setup-actions .llms-button-primary {
+  display: inline-block;
+}
+.llms-setup-actions .llms-button-primary:after {
+  content: "\f054";
+  font-family: "FontAwesome";
+  font-weight: 900;
+  padding-right: 10px;
+}
+
+.llms-exit-setup {
+  color: inherit !important;
+  margin-left: 10px;
+}
+.llms-exit-setup + .llms-button-primary,
+.llms-exit-setup + .llms-button-secondary {
+  margin-right: auto;
+}
+
+.llms-importing-msgs a {
+  color: #466dd8;
+}
+.llms-importing-msgs .llms-importing-msg {
+  display: none;
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+}
+
+ul.llms-importable-courses {
+  border-bottom: 1px solid #f1f1f1;
+  display: block;
+}
+ul.llms-importable-courses li.llms-importable-course {
+  border-top: 1px solid #f1f1f1;
+  display: block;
+  margin: 0;
+  max-width: 100%;
+  padding: 20px 0 20px 40px;
+}
+ul.llms-importable-courses li.llms-importable-course h3 {
+  margin: 0;
+}
+ul.llms-importable-courses li.llms-importable-course p {
+  margin: 10px 0 0 0;
+}
+ul.llms-importable-courses li.llms-importable-course label {
+  font-weight: 400;
+}
+ul.llms-importable-courses li.llms-importable-course img {
+  float: right;
+  margin-left: 15px;
+  width: 22%;
+}
+ul.llms-importable-courses li.llms-importable-course .llms-switch {
+  float: left;
+  left: -40px;
+}
+ul.llms-importable-courses li.llms-importable-course .llms-switch input.llms-toggle-round:checked + label {
+  border-color: #466dd8;
+  background-color: #466dd8;
+}
+
+.llms-setup-progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 20px 0;
+}
+.llms-setup-progress li {
+  border-bottom: 4px solid #466dd8;
+  display: inline-block;
+  font-size: 14px;
+  padding-bottom: 10px;
+  position: relative;
+  text-align: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.llms-setup-progress li a {
+  color: #466dd8;
+  text-decoration: none;
+}
+.llms-setup-progress li:after {
+  background: #466dd8;
+  bottom: 0;
+  content: "";
+  border: 4px solid #466dd8;
+  border-radius: 100%;
+  height: 4px;
+  position: absolute;
+  right: 50%;
+  margin-right: -6px;
+  margin-bottom: -8px;
+  width: 4px;
+}
+.llms-setup-progress li.current {
+  font-weight: 700;
+}
+.llms-setup-progress li.current:after {
+  background: #fff;
+}
+.llms-setup-progress li.current ~ li {
+  border-bottom-color: #ccc;
+}
+.llms-setup-progress li.current ~ li:after {
+  background: #ccc;
+  border-color: #ccc;
+}
+.llms-setup-progress li.current ~ li a {
+  color: #bbb;
+}
+
+.llms-setup-wrapper [type=text].llms-datepicker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23ccc'%3E%3Cpath d='M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H64C28.7 64 0 92.7 0 128v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64h-40V24c0-13.3-10.7-24-24-24s-24 10.7-24 24v40H152V24zM48 192h352v256c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 8px center;
+  background-size: 16px 16px;
+  padding-left: 40px;
+}

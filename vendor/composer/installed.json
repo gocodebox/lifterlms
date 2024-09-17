@@ -1,0 +1,439 @@
+{
+    "packages": [
+        {
+            "name": "composer/installers",
+            "version": "v1.9.0",
+            "version_normalized": "1.9.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0"
+            },
+            "replace": {
+                "roundcube/plugin-installer": "*",
+                "shama/baton": "*"
+            },
+            "require-dev": {
+                "composer/composer": "1.6.* || 2.0.*@dev",
+                "composer/semver": "1.0.* || 2.0.*@dev",
+                "phpunit/phpunit": "^4.8.36",
+                "sebastian/comparator": "^1.2.4",
+                "symfony/process": "^2.3"
+            },
+            "time": "2020-04-07T06:57:05+00:00",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "https://composer.github.io/installers/",
+            "keywords": [
+                "Craft",
+                "Dolibarr",
+                "Eliasis",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Lan Management System",
+                "MODX Evo",
+                "MantisBT",
+                "Mautic",
+                "Maya",
+                "OXID",
+                "Plentymarkets",
+                "Porto",
+                "RadPHP",
+                "SMF",
+                "Thelia",
+                "Whmcs",
+                "WolfCMS",
+                "agl",
+                "aimeos",
+                "annotatecms",
+                "attogram",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "cockpit",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "eZ Platform",
+                "elgg",
+                "expressionengine",
+                "fuelphp",
+                "grav",
+                "installer",
+                "itop",
+                "joomla",
+                "known",
+                "kohana",
+                "laravel",
+                "lavalite",
+                "lithium",
+                "magento",
+                "majima",
+                "mako",
+                "mediawiki",
+                "modulework",
+                "modx",
+                "moodle",
+                "osclass",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "puppet",
+                "pxcms",
+                "reindex",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "sydes",
+                "sylius",
+                "symfony",
+                "typo3",
+                "wordpress",
+                "yawik",
+                "zend",
+                "zikula"
+            ],
+            "support": {
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v1.9.0"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "./installers"
+        },
+        {
+            "name": "deliciousbrains/wp-background-processing",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deliciousbrains/wp-background-processing.git",
+                "reference": "2cbee1abd1b49e1133cd8f611df4d4fc5a8b9800"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deliciousbrains/wp-background-processing/zipball/2cbee1abd1b49e1133cd8f611df4d4fc5a8b9800",
+                "reference": "2cbee1abd1b49e1133cd8f611df4d4fc5a8b9800",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "suggest": {
+                "coenjacobs/mozart": "Easily wrap this library with your own prefix, to prevent collisions when multiple plugins use this library"
+            },
+            "time": "2020-07-31T07:00:11+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "classes/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Delicious Brains",
+                    "email": "nom@deliciousbrains.com"
+                }
+            ],
+            "description": "WP Background Processing can be used to fire off non-blocking asynchronous requests or as a background processing tool, allowing you to queue tasks.",
+            "support": {
+                "issues": "https://github.com/deliciousbrains/wp-background-processing/issues",
+                "source": "https://github.com/deliciousbrains/wp-background-processing/tree/master"
+            },
+            "install-path": "../deliciousbrains/wp-background-processing"
+        },
+        {
+            "name": "lifterlms/lifterlms-blocks",
+            "version": "2.5.8",
+            "version_normalized": "2.5.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+                "reference": "b00de24c8ce76b9b4a197789bd7731d5e8a4a642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/b00de24c8ce76b9b4a197789bd7731d5e8a4a642",
+                "reference": "b00de24c8ce76b9b4a197789bd7731d5e8a4a642",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "^4.3"
+            },
+            "time": "2024-09-13T17:13:03+00:00",
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/2.5.8"
+            },
+            "install-path": "../../libraries/lifterlms-blocks"
+        },
+        {
+            "name": "lifterlms/lifterlms-cli",
+            "version": "0.0.4",
+            "version_normalized": "0.0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-cli.git",
+                "reference": "54fc9e4c82c81d5e693c1d170bc8de16355be83c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-cli/zipball/54fc9e4c82c81d5e693c1d170bc8de16355be83c",
+                "reference": "54fc9e4c82c81d5e693c1d170bc8de16355be83c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "^4.3"
+            },
+            "time": "2024-07-09T15:33:40+00:00",
+            "bin": [
+                "bin/run-behat-tests"
+            ],
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "LifterLMS\\CLI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "WP CLI commands for LifterLMS",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-cli/issues",
+                "source": "https://github.com/gocodebox/lifterlms-cli/tree/0.0.4"
+            },
+            "install-path": "../../libraries/lifterlms-cli"
+        },
+        {
+            "name": "lifterlms/lifterlms-helper",
+            "version": "3.5.4",
+            "version_normalized": "3.5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-helper.git",
+                "reference": "97804551645cd2f7d0773435902e0b892e6af1a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/97804551645cd2f7d0773435902e0b892e6af1a1",
+                "reference": "97804551645cd2f7d0773435902e0b892e6af1a1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "brianhenryie/strauss": "dev-master",
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "^4.3"
+            },
+            "time": "2024-07-30T19:25:09+00:00",
+            "type": "wordpress-plugin",
+            "extra": {
+                "strauss": {
+                    "target_directory": "vendor-prefixed",
+                    "packages": [
+                        "wearerequired/traduttore-registry"
+                    ],
+                    "update_call_sites": false,
+                    "override_autoload": [],
+                    "exclude_from_copy": {
+                        "packages": [],
+                        "namespaces": [],
+                        "file_patterns": []
+                    },
+                    "exclude_from_prefix": {
+                        "packages": [],
+                        "namespaces": [],
+                        "file_patterns": []
+                    },
+                    "namespace_replacement_patterns": [],
+                    "delete_vendor_packages": false,
+                    "delete_vendor_files": false
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "Update, install, and beta test LifterLMS and LifterLMS add-ons",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-helper/issues",
+                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.5.4"
+            },
+            "install-path": "../../libraries/lifterlms-helper"
+        },
+        {
+            "name": "lifterlms/lifterlms-rest",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-rest.git",
+                "reference": "86c3e78c299562e0c3cba85edf4249d709c0abcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/86c3e78c299562e0c3cba85edf4249d709c0abcf",
+                "reference": "86c3e78c299562e0c3cba85edf4249d709c0abcf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "^4.1.1"
+            },
+            "time": "2024-07-18T17:26:16+00:00",
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "REST API feature plugin for the LifterLMS Core.",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.2"
+            },
+            "install-path": "../../libraries/lifterlms-rest"
+        },
+        {
+            "name": "woocommerce/action-scheduler",
+            "version": "3.5.4",
+            "version_normalized": "3.5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woocommerce/action-scheduler.git",
+                "reference": "9533e71b0eba4a519721dde84a34dfb161f11eb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/9533e71b0eba4a519721dde84a34dfb161f11eb8",
+                "reference": "9533e71b0eba4a519721dde84a34dfb161f11eb8",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5",
+                "woocommerce/woocommerce-sniffs": "0.1.0",
+                "wp-cli/wp-cli": "~2.5.0",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "time": "2023-01-17T20:20:43+00:00",
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "homepage": "https://actionscheduler.org/",
+            "support": {
+                "issues": "https://github.com/woocommerce/action-scheduler/issues",
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.5.4"
+            },
+            "install-path": "../woocommerce/action-scheduler"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}
