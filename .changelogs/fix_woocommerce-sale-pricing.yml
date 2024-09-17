@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2762"
-entry: Fix for pricing display with additional formatting.

@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v7.7.8 - 2024-09-17
+-------------------
+
+##### Bug Fixes
+
++ Update version of the Blocks library to avoid having an unsaved changes prompt appear after updating an access plan on a course.
++ Fix for pricing display with additional formatting. [#2762](https://github.com/gocodebox/lifterlms/issues/2762)
+
+
 v7.7.7 - 2024-09-12
 -------------------
 

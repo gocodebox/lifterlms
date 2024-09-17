@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Update version of the Blocks library to avoid having an unsaved changes
-  prompt appear after updating an access plan on a course.
