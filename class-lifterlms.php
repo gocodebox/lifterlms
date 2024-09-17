@@ -143,29 +143,6 @@ final class LifterLMS {
 			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
 		}
 
-		// For use in escaping and sanitizing.
-		llms_maybe_define_constant(
-			'LLMS_ALLOWED_HTML_PRICES',
-			array(
-				'div'    => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'span'   => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'strong' => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'sup'    => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-			)
-		);
-
 		$allowed_atts = array(
 			'label'           => true,
 			'align'           => true,
@@ -274,6 +251,21 @@ final class LifterLMS {
 			'sandbox'         => true,
 			'sizes'           => true,
 		);
+
+		// For use in escaping and sanitizing.
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_PRICES',
+			array(
+				'div'    => $allowed_atts,
+				'span'   => $allowed_atts,
+				'strong' => $allowed_atts,
+				'sup'    => $allowed_atts,
+				'del'    => $allowed_atts,
+				'ins'    => $allowed_atts,
+				'em'     => $allowed_atts,
+				'bdi'    => $allowed_atts,
+			)
+		);
 		llms_maybe_define_constant(
 			'LLMS_ALLOWED_HTML_FORM_FIELDS',
 			array(
@@ -283,6 +275,7 @@ final class LifterLMS {
 				'article'    => $allowed_atts,
 				'b'          => $allowed_atts,
 				'bdo'        => $allowed_atts,
+				'bdi'        => $allowed_atts,
 				'blockquote' => $allowed_atts,
 				'br'         => $allowed_atts,
 				'cite'       => $allowed_atts,
