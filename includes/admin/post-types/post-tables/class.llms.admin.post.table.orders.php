@@ -359,13 +359,26 @@ class LLMS_Admin_Post_Table_Orders {
 		}
 		?>
 		<div class="llms-table-export">
-			<button class="llms-button-primary small" name="llms-table-export">
+			<button class="llms-button-primary small" name="llms-table-export" type="button" data-handler="Orders" data-args="{}">
 				<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
 			</button>
 			<?php //echo $this->get_progress_bar_html( 0 ); ?>
 			<em><small class="llms-table-export-msg"></small></em>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Export orders CSV.
+	 */
+	public static function export( $request = null ) {
+		// Get the data.
+
+		// Format it.
+
+		// Output it.
+		
+		return;
 	}
 }
 

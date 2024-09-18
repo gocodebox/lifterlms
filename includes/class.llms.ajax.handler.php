@@ -192,9 +192,13 @@ class LLMS_AJAX_Handler {
 	 * @return array
 	 */
 	public static function export_admin_table( $request ) {
-
 		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
 			return false;
+		}
+
+		// Orders export has a special handler.
+		if ( ! empty( $request['handler'] ) && 'Orders' === $request['handler'] ) {
+			return LLMS_Admin_Post_Table_Orders::export( $request );
 		}
 
 		$table = self::get_admin_table_instance( $request['handler'] );
