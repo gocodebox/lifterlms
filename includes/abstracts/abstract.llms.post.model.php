@@ -855,7 +855,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			if ( ! $ret ) {
 
-				// TODO: Filter on this to add autoplay or other attributes.
 				$shortcode = "[$type";
 				foreach ( apply_filters( 'llms_embed_shortcode_attributes', array( 'src' => $url ), $type, $this ) as $key => $value ) {
 					$shortcode .= " $key=\"$value\"";
