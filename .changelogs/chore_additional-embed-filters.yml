@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Adds llms_embed_shortcode_output filter.
