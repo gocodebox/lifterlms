@@ -8,13 +8,11 @@ define( [
 	'Views/Editor',
 	'Views/Elements',
 	'Views/Utilities',
-	'Views/VideoExplainer',
 	'Views/_Subview'
 ], function(
 	Editor,
 	Elements,
 	Utilities,
-	VideoExplainer,
 	Subview
 ) {
 
@@ -38,11 +36,6 @@ define( [
 			},
 			utilities: {
 				class: Utilities,
-				instance: null,
-				state: 'builder',
-			},
-			video_explainer: {
-				class: VideoExplainer,
 				instance: null,
 				state: 'builder',
 			},

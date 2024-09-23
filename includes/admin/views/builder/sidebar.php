@@ -12,7 +12,16 @@
 
 	<div class="llms-elements" id="llms-elements"></div>
 	<div class="llms-utilities" id="llms-utilities"></div>
-	<div class="llms-video-explainer" id="llms-video-explainer"></div>
+	<div class="llms-video-explainer" id="llms-video-explainer">
+		<span class="llms-video-explainer-trigger">
+			<a href="https://www.youtube.com/watch?v=YGjfrlUidoA" target="_blank">
+				<img
+					src="<?php echo esc_url( plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/course-builder-video-thumbnail.jpg' ); ?>"
+					alt="<?php esc_attr_e( 'How to Build Your Course Outline with the LifterLMS Course Builder', 'lifterlms' ); ?>"
+				/>
+			</a>
+		</span>
+	</div>
 
 	<div class="llms-editor" id="llms-editor"></div>
 
