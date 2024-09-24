@@ -219,29 +219,38 @@ ul.llms-importable-courses {
 		display: block;
 		margin: 0;
 		max-width: 100%;
-		padding: 20px 40px 20px 0;
+		padding: 20px 0;
 
 		h3 {
+			grid-area: title;
+			line-height: 1.5;
 			margin: 0;
 		}
 
 		p {
-			margin: 10px 0 0 0;
+			grid-area: description;
+			margin: 0;
 		}
 
 		label {
+			column-gap: 20px;
+			display: grid;
 			font-weight: 400;
+			grid-template-areas:
+				"image title switch"
+				"image description switch";
+			;
+			grid-template-columns: 1fr 3fr auto;
+			row-gap: 5px;
 		}
 
 		img {
-			float: left;
-			margin-right: 15px;
-			width: 22%;
+			grid-area: image;
+			max-width: 160px;
 		}
 
 		.llms-switch {
-			float: right;
-			right: -40px;
+			grid-area: switch;
 
 			input.llms-toggle-round:checked + label {
 				border-color: $color-brand-blue;
@@ -318,5 +327,19 @@ ul.llms-importable-courses {
 		background-position: right 8px center;
 		background-size: 16px 16px;
 		padding-right: 40px;
+	}
+}
+
+@media only screen and ( max-width: 782px ) {
+	ul.llms-importable-courses {
+		li.llms-importable-course {
+			label {
+				grid-template-areas:
+					"image switch"
+					"title title"
+					"description description";
+				grid-template-columns: 3fr auto;
+			}
+		}
 	}
 }
