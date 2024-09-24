@@ -4,6 +4,7 @@ import {
 	PanelBody,
 	PanelRow,
 	TextControl,
+	SelectControl,
 	Disabled, Spinner,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
@@ -38,6 +39,19 @@ const Edit = ( props ) => {
 	return <>
 		<InspectorControls>
 			<PanelBody title={ __( 'My Account Settings', 'lifterlms' ) }>
+				<PanelRow>
+					<SelectControl
+						label={ __( 'Layout', 'lifterlms' ) }
+						options={ [
+							{ label: __( 'Columns', 'lifterlms' ), value: 'columns' },
+							{ label: __( 'Stacked', 'lifterlms' ), value: 'stacked' },
+						] }
+						value={ attributes.layout }
+						onChange={ ( value ) => setAttributes( {
+							layout: value,
+						} ) }
+					/>
+				</PanelRow>
 				<PanelRow>
 					<TextControl
 						label={ __( 'Login redirect URL', 'lifterlms' ) }
