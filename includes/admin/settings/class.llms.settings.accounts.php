@@ -226,6 +226,93 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' => 'sectionend',
 			),
 
+			// Start Website Security & Spam Prevention options.
+			array(
+				'id'   => 'security_and_spam_options',
+				'type' => 'sectionstart',
+			),
+			array(
+				'title' => __( 'Website Security & Spam Prevention', 'lifterlms' ),
+				'type'  => 'title',
+				'id'    => 'security_and_spam_options_title',
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_captcha',
+				'desc'              => __( 'Choose a captcha service to require at checkout.', 'lifterlms' ),
+				'title'             => __( 'Captcha', 'lifterlms' ),
+				'type'              => 'select',
+				'options'           => array(
+					'' => __( 'None', 'lifterlms' ),
+					'recaptcha' => __( 'reCAPTCHA', 'lifterlms' ),
+					'turnstile' => __( 'Turnstile', 'lifterlms' )
+				),
+				'custom_attributes' => array(
+					'data-controller-id' => 'captcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_recaptcha_site_key',
+				'desc'              => '',
+				'title'             => __( 'reCAPTCHA Site Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'recaptcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_recaptcha_private_key',
+				'desc'              => '',
+				'title'             => __( 'reCAPTCHA Private Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'recaptcha',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_turnstile_site_key',
+				'desc'              => '',
+				'title'             => __( 'Turnstile Site Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'turnstile',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => '',
+				'id'                => 'lifterlms_turnstile_private_key',
+				'desc'              => '',
+				'title'             => __( 'Turnstile Private Key', 'lifterlms' ),
+				'type'              => 'text',
+				'custom_attributes' => array(
+					'data-controller' => 'captcha',
+					'data-value-is' => 'turnstile',
+				),
+			),
+			array(
+				'autoload'          => false,
+				'default'           => 'no',
+				'id'                => 'lifterlms_spam_protection',
+				'desc'              => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
+				'title'             => __( 'Spam Protection', 'lifterlms' ),
+				'type'              => 'checkbox',				
+			),
+			array(
+				'id'   => 'security_and_spam_options_end',
+				'type' => 'sectionend',
+			),
+
 			// Start user info fields options.
 			array(
 				'id'   => 'user_info_field_options',
