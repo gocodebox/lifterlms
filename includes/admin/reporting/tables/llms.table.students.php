@@ -353,6 +353,17 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
+	public function output_table_title_html() {
+		parent::output_table_title_html();
+		?>
+		<form action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'tools' ) ); ?>" method="POST">
+			<button class="button button-secondary" type="submit" ><?php echo esc_html__( 'Clear Cache', 'lifterlms' ); ?></button>
+			<?php wp_nonce_field( 'llms_tool' ); ?>
+
+		</form>
+		<?php
+	}
+
 	/**
 	 * Get HTML for the filters displayed in the head of the table
 	 *
