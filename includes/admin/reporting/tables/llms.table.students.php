@@ -356,8 +356,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	public function output_table_title_html() {
 		parent::output_table_title_html();
 		?>
-		<form action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'tools' ) ); ?>" method="POST">
-			<button class="button button-secondary" type="submit" ><?php echo esc_html__( 'Clear Cache', 'lifterlms' ); ?></button>
+		<form id="llms-clear-student-progress-cache" action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'tools' ) ); ?>" method="POST">
+			<button class="button button-secondary" name="llms_tool" type="submit" value="clear-cache"><?php echo esc_html__( 'Clear Cache', 'lifterlms' ); ?></button>
 			<?php wp_nonce_field( 'llms_tool' ); ?>
 
 		</form>
