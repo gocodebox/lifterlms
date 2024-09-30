@@ -96,6 +96,7 @@
 			LLMS.Ajax.call( {
 				url: $form.attr( 'action' ),
 				method: 'POST',
+				dataType: 'html',
 				data: {
 					'_wpnonce' : $form.find('[name="_wpnonce"]').val(),
 					'_wp_http_referer' : $form.find('[name="_wp_http_referer"]').val(),
@@ -113,7 +114,7 @@
 						LLMS.Spinner.stop( $btn );
 					}
 
-					console.error( jqXHR );
+					console.error( error );
 				},
 				success: function( res ) {
 					if ( $btn ) {
