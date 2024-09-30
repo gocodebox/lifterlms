@@ -228,7 +228,7 @@ class LLMS_Admin_Assets {
 	 */
 	public function admin_scripts() {
 
-		global $post_type;
+		global $post_type, $post;
 		$screen = get_current_screen();
 
 		if ( 'widgets' === $screen->id ) {
@@ -279,6 +279,10 @@ class LLMS_Admin_Assets {
 			if ( 'course' === $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
+				if ( ! use_block_editor_for_post_type( 'course' ) && $post ) {
+					wp_enqueue_script( 'llms-launch-course-button', LLMS_PLUGIN_URL . 'assets/js/llms-launch-course-button' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
+					wp_localize_script( 'llms-launch-course-button', 'llms_launch_course', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $post->ID ) ) ) );
+				}
 			}
 
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
