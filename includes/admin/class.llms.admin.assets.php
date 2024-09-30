@@ -256,8 +256,6 @@ class LLMS_Admin_Assets {
 		if ( in_array( $screen->id, $tables, true ) ) {
 			wp_register_script( 'llms-admin-tables', LLMS_PLUGIN_URL . 'assets/js/llms-admin-tables' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 			wp_enqueue_script( 'llms-admin-tables' );
-		} else {
-			echo "((" . $screen->id . "))";
 		}
 
 		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
