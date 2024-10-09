@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.6.0
- * @version 3.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,28 +46,40 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @return   string
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 * @since [version] Add fallback for editor block rendering.
+	 *
+	 * @return string
 	 */
 	protected function get_output() {
 
 		// Get a reference to the current page where the shortcode is displayed.
 		global $post;
-		$current_post = $post;
 
-		$course = get_post( $this->get_attribute( 'course_id' ) );
+		$current_id = $post->ID ?? null;
+
+		$id = $this->get_attribute( 'course_id' );
+
+		if ( ! $id ) {
+			$id = $current_id;
+		}
+
+		if ( ! $id && llms_is_editor_block_rendering() ) {
+			$id = LLMS_Shortcodes_Blocks::get_placeholder_course_id();
+		}
+
+		$course = get_post( $id );
 
 		// We don't have a post object to proceed with.
 		if ( ! $course ) {
 			return '';
 		}
 
-		if ( 'course' !== $course->post_type ) {
+		if ( in_array( $course->post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
 			// Get the parent.
 			$parent = llms_get_post_parent_course( $course );
 
-			// Post type doesn't have a parent so we can't display a syllabus.
+			// Post type doesn't have a parent, so we can't display a syllabus.
 			if ( ! $parent ) {
 				return '';
 			}
@@ -77,18 +89,22 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 
 		}
 
+		if ( ! $current_id && llms_is_editor_block_rendering() ) {
+			$current_id = LLMS_Shortcodes_Blocks::get_placeholder_course_id();
+		}
+
 		ob_start();
 
 		// Hack the global so our syllabus template works.
-		if ( $course->ID != $current_post->ID ) {
+		if ( $course->ID !== $current_id ) {
 			$post = $course;
 		}
 
 		$this->template_function();
 
 		// Restore the global.
-		if ( $course->ID != $current_post->ID ) {
-			$post = $current_post;
+		if ( $course->ID !== $current_id ) {
+			$post = get_post( $current_id );
 		}
 
 		return ob_get_clean();
