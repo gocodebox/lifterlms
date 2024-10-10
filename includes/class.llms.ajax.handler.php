@@ -192,7 +192,6 @@ class LLMS_AJAX_Handler {
 	 * @return array
 	 */
 	public static function export_admin_table( $request ) {
-
 		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
 			return false;
 		}

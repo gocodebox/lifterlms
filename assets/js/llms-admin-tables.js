@@ -20,7 +20,7 @@
 
 			var self = this;
 
-			self.$tables = $( '.llms-gb-table' );
+			self.$tables = $( '.llms-gb-table, body.post-type-llms_order .wp-list-table' );
 
 			if ( self.$tables.length ) {
 				self.bind();
@@ -48,6 +48,12 @@
 				} );
 
 				$table.on( 'click', 'button[name="llms-table-export"]', function( e ) {
+					e.preventDefault();
+					self.export( $table, $( this ) );
+				} );
+
+				// The export button might be in the tablenav below the table.
+				$table.parent().find( '.tablenav button[name="llms-table-export"]' ).on( 'click', function( e ) {
 					e.preventDefault();
 					self.export( $table, $( this ) );
 				} );
@@ -141,20 +147,29 @@
 		this.export = function( $table, $btn, filename ) {
 
 			var self = this,
-				$msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
-				$progress = $table.find( '.llms-table-export .llms-table-progress' );
+				$msg = $table.parent().find( '.llms-table-export .llms-table-export-msg' ),
+				$progress = $table.parent().find( '.llms-table-export .llms-table-progress' );
 
 			function activate_button() {
 				LLMS.Spinner.stop( $btn, 'small' );
 				$btn.removeAttr( 'disabled' );
 			}
 
+			// Figure out if the data-handler and args are on the table or button.
+			if ( ! $table.attr( 'data-handler' ) ) {
+				$data_handler = $btn.attr( 'data-handler' );
+				$data_args = $btn.attr( 'data-args' );
+			} else {
+				$data_handler = $table.attr( 'data-handler' );
+				$data_args = $table.attr( 'data-args' );
+			}
+			
 			LLMS.Ajax.call( {
 				data: $.extend( {
 					action: 'export_admin_table',
-					handler: $table.attr( 'data-handler' ),
+					handler: $data_handler,
 					filename: filename,
-				}, JSON.parse( $table.attr( 'data-args' ) ) ),
+				}, JSON.parse( $data_args ) ),
 				beforeSend: function() {
 
 					if ( ! $btn.attr( 'disabled' ) ) {

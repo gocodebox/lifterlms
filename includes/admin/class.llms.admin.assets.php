@@ -250,6 +250,7 @@ class LLMS_Admin_Assets {
 				'course',
 				'lifterlms_page_llms-reporting',
 				'llms_membership',
+				'edit-llms_order',
 			)
 		);
 		if ( in_array( $screen->id, $tables, true ) ) {
