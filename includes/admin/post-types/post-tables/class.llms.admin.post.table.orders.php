@@ -15,7 +15,90 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  */
-class LLMS_Admin_Post_Table_Orders {
+class LLMS_Admin_Post_Table_Orders extends LLMS_Admin_Table {
+	/**
+	 * Unique ID for the Table
+	 *
+	 * @since   [version]
+	 *
+	 * @var  string
+	 */
+	protected $id = 'orders';
+
+	/**
+	 * Value of the field being filtered by
+	 * Only applicable if $filterby is set.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  string
+	 */
+	protected $filter = 'any';
+
+	/**
+	 * Field results are filtered by.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  string
+	 */
+	protected $filterby = 'order';
+
+	/**
+	 * Is the Table Exportable?
+	 *
+	 * @since   [version]
+	 *
+	 * @var  boolean
+	 */
+	protected $is_exportable = true;
+
+
+	/**
+	 *
+	 * @since   [version]
+	 *
+	 * Determine if the table is filterable.
+	 * @var  boolean
+	 */
+	protected $is_filterable = true;
+
+	/**
+	 * If true, tfoot will add ajax pagination links.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  boolean
+	 */
+	protected $is_paginated = true;
+
+	/**
+	 * Determine of the table is searchable.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  boolean
+	 */
+	protected $is_searchable = true;
+
+	/**
+	 * Results sort order 'ASC' or 'DESC'.
+	 * Only applicable of $orderby is not set.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  string
+	 */
+	protected $order = 'DESC';
+
+	/**
+	 * Field results are sorted by.
+	 *
+	 * @since   [version]
+	 *
+	 * @var  string
+	 */
+	protected $orderby = 'ID';
 
 	/**
 	 * Constructor.
@@ -369,16 +452,209 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Export orders CSV.
+	 * Retrieve data for a cell.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param string $key  The column ID/key.
+	 * @param mixed  $order Object/array of data that the function can use to extract the data.
+	 * @return mixed
 	 */
-	public static function export( $request = null ) {
-		// Get the data.
-
-		// Format it.
-
-		// Output it.
+	protected function get_data( $key, $order ) {
 		
-		return;
+		$value = '';
+
+		switch ( $key ) {
+
+			case 'id':
+				$value = $order->get_id();
+				break;
+
+			case 'payment_status':
+				$value = llms_get_order_status_name( $order->get( 'status' ) );
+				break;
+
+			case 'access_status':
+				$value = $order->get_access_expiration_date( 'F j, Y' );
+				break;
+
+			case 'product':
+				$value = $order->get( 'product_title' ) . ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
+				break;
+			
+			case 'product_id':
+				$value = $order->get( 'product_id' );
+				break;
+
+			case 'revenue':
+			case 'net_revenue';
+				$value = $order->get_revenue( 'net' );
+				break;
+
+			case 'grosse_revenue':
+				$value = $order->get_revenue( 'grosse' );
+				break;
+
+			case 'type':
+				if ( $order->is_recurring() ) {
+					$value = esc_html__( 'Recurring', 'lifterlms' );
+				} else {
+					$value = esc_html__( 'One-time', 'lifterlms' );
+				}
+				break;
+
+			case 'order_date':
+				$value =$order->get_date( 'date' );
+				break;
+		
+		}// End switch().
+
+		return $this->filter_get_data( $value, $key, $order );
+	}
+
+	/**
+	 * Execute a query to retrieve results from the table.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param array $args Array of query args.
+	 * @return mixed
+	 */
+	public function get_results( $args = array() ) {
+		$this->title = __( 'Orders', 'lifterlms' );
+
+		if ( ! $args ) {
+			$args = $this->get_args();
+		}
+
+		$args = $this->clean_args( $args );
+
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
+
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
+
+		$sort = array();
+		switch ( $this->get_orderby() ) {
+
+			case 'order':
+			case 'ID':
+				$sort = array(					
+					'ID'         => $this->get_order()
+				);
+				break;
+
+			case 'product':
+				// TODO
+				break;
+
+			case 'date':
+				$sort = array(
+					'date'     => $this->get_order()
+				);
+				break;
+
+		}
+
+		$query_args = array(
+			'order'          => $this->order,
+			'orderby'        => $this->orderby,
+			'paged'          => $this->current_page,
+			'post_type'      => 'llms_order',
+			'posts_per_page' => $per,
+		);
+
+		if ( isset( $args['search'] ) ) {
+			$query_args['s'] = sanitize_text_field( $args['search'] );
+		}
+
+		// Must be able to view orders.
+		if ( ! current_user_can( 'edit_others_llms_orders' ) ) {
+			return;
+		}
+		
+		$query = new WP_Query( $query_args );
+
+		$this->max_pages = $query->max_num_pages;
+
+		if ( $this->max_pages > $this->current_page ) {
+			$this->is_last_page = false;
+		}
+
+		$this->tbody_data = $query->posts;
+	}
+
+	/**
+	 * Define the structure of arguments used to pass to the get_results method.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @return array
+	 */
+	public function set_args() {
+		return array();
+	}
+
+	/**
+	 * Define the structure of the table.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @return array
+	 */
+	protected function set_columns() {
+		return array(
+			'id'          => array(
+				'exportable' => true,
+				'title'      => __( 'ID', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'payment_status' => array(
+				'exportable' => true,
+				'title'      => __( 'Payment Status', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'access_status' => array(
+				'exportable' => true,
+				'title'      => __( 'Access Status', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'product_id'     => array(
+				'exportable' => true,
+				'title'      => __( 'Product ID', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'product'     => array(
+				'exportable' => true,
+				'title'      => __( 'Product', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'revenue'     => array(
+				'exportable' => true,
+				'title'      => __( 'Net Revenue', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'grosse_revenue'     => array(
+				'exportable' => true,
+				'title'      => __( 'Grosse Revenue', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'type'        => array(
+				'exportable' => true,
+				'title'      => __( 'Order Type', 'lifterlms' ),
+				'sortable'   => true,
+			),
+			'order_date'  => array(
+				'exportable' => true,
+				'title'      => __( 'Date', 'lifterlms' ),
+				'sortable'   => true,
+			)
+		);
 	}
 }
 
