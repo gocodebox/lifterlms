@@ -196,11 +196,6 @@ class LLMS_AJAX_Handler {
 			return false;
 		}
 
-		// Orders export has a special handler.
-		if ( ! empty( $request['handler'] ) && 'Orders' === $request['handler'] ) {
-			return LLMS_Admin_Post_Table_Orders::export( $request );
-		}
-
 		$table = self::get_admin_table_instance( $request['handler'] );
 		if ( ! $table ) {
 			return false;
