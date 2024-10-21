@@ -1,0 +1,6 @@
+significance: patch
+type: added
+links:
+  - "#2777"
+entry: Changes styling in the Course Syllabus block for the current lesson, when
+  used on a single lesson page.
