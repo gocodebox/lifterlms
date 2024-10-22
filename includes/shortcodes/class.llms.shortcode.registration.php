@@ -47,6 +47,7 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 		llms()->assets->enqueue_style( 'llms-select2-styles' );
 
 		if ( ! wp_script_is( 'llms' ) ) {
+			// If the main LifterLMS script isn't enqueued, adding inline script below will fail.
 			llms()->assets->enqueue_script( 'llms' );
 		}
 
