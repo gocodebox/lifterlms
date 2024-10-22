@@ -34,6 +34,7 @@ assets/js/llms-admin-elementor-editor.asset.php
 assets/js/*.min.js
 assets/js/llms-metaboxes.js
 blocks/certificate-title/*
+blocks/my-account/*
 includes/class.llms.l10n.js.php
 languages/lifterlms.pot
 
