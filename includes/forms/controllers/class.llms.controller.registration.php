@@ -79,7 +79,7 @@ class LLMS_Controller_Registration {
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean $valid Validation status. If `true` ceases registration execution. If `false` checkout proceeds.
+		 * @param boolean $valid Validation status. If `true` ceases registration execution. If `false` registration proceeds.
 		 */
 		if ( apply_filters( 'llms_before_registration_validation', false ) ) {
 			return false;
