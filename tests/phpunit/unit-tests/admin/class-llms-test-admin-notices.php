@@ -263,7 +263,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 		LLMS_Admin_Notices::delete_notice( 'test-dismiss', 'hide' );
 
 		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-dismiss' ) );
-		$this->assertTrue( is_numeric( get_option( 'llms_admin_notice_test-dismiss_delay' ) && time() < get_option( 'llms_admin_notice_test-dismiss_delay' ) ) );
+		$this->assertTrue( is_numeric( get_option( 'llms_admin_notice_test-dismiss_delay' ) ) && time() < get_option( 'llms_admin_notice_test-dismiss_delay' ) );
 		$this->assertSame( 1, did_action( 'lifterlms_hide_test-dismiss_notice' ) );
 
 	}
