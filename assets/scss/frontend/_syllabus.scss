@@ -22,6 +22,12 @@
 	max-width: 100%;
 	position: relative;
 
+	&.current-lesson {
+		.llms-lesson-title {
+			font-weight: 400;
+		}
+	}
+
 	.llms-lesson-link {
 		background: $color-white;
 		color: $color-black;
@@ -45,12 +51,12 @@
 			&:hover {
 				background: $color-border;
 			}
-		
+
 		}
 
 		.llms-lesson-preview-row {
 			display: flex;
-			flex-direction: row-reverse;	
+			flex-direction: row-reverse;
 		}
 	}
 
