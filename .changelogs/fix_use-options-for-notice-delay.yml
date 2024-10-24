@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2767"
+entry: Using a more reliable method of keeping LifterLMS notices dismissed.

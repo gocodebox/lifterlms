@@ -24,7 +24,7 @@
 
 	@extend %cf;
 
-	h2, h3, h6 {
+	h2, h3, h4, h6 {
 		margin: 0;
 		padding: 0;
 	}
@@ -35,14 +35,20 @@
 	}
 
 	h3 {
-		color: #777;
+		color: #1e1e1e;
 		font-size: 16px;
 	}
 
 	h4 {
-		border-bottom: 1px solid #e5e5e5;
+		color: #1e1e1e;
+		font-size: 16px;
+		line-height: 1.5;
 		padding: 0;
 		margin: 0;
+	}
+
+	h4:not(.llms-collapsible-body h4:first-of-type) {
+		margin-top: 20px;
 	}
 
 	.llms-transaction-test-mode {
@@ -82,6 +88,13 @@
 		margin-top: 10px;
 
 	}
+
+	button.llms-button-primary {
+		border-radius: 8px;
+		font-size: 16px;
+		font-weight: 700;
+		height: auto;
+	}
 }
 
 .llms-metabox-section {
@@ -94,14 +107,14 @@
 	}
 
 	.llms-metabox-field {
-		margin: 15px 0;
+		margin: 5px 0;
 		position: relative;
 		label {
-			color: #777;
+			color: #1e1e1e;
 			display: block;
 			margin-bottom: 5px;
-			font-weight: 500;
-			vertical-align: baseline;
+			font-size: 14px;
+			font-weight: 400;
 		}
 
 		select,
@@ -119,7 +132,6 @@
 			width: 45px;
 		}
 
-
 		.llms-datetime-field {
 
 			.llms-date-input {
@@ -135,8 +147,25 @@
 
 		}
 
+		.select2-container--default .select2-search--inline .select2-search__field {
+			min-height: auto;
+		}
+
+		.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+			margin-bottom: 0;
+		}
+
 	}
 
+	/* Fixes to tighten the space between tinymce editor and label */
+	.llms-metabox-field:has(.wp-editor-wrap) label {
+		position: relative;
+		z-index: 5;
+	}
+
+	.llms-metabox-field .wp-editor-wrap {
+		margin-top: -30px;
+	}
 
 }
 
@@ -144,10 +173,16 @@
 
 	@extend %clearfix;
 
-	border: 1px solid #e5e5e5;
+	background: #fff;
+	border: 1px solid #efefef;
+	border-radius: 6px;
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+	display: block;
+	margin: 0;
+	padding: 0;
 	position: relative;
+	text-align: center;
 	margin-top: 0;
-	margin-bottom: -1px;
 
 	&:last-child {
 		margin-bottom: 0;
@@ -164,12 +199,29 @@
 
 	.llms-collapsible-header {
 		@extend %clearfix;
-		padding: 10px;
+		padding: 15px;
+
+		[class^="d-"] {
+			align-items: center;
+			display: flex;
+			gap: 5px;
+		}
+
+		.d-right {
+			justify-content: flex-end;
+			padding-right: 0;
+		}
 
 		h3 {
-			color: #777;
+			color: #1e1e1e;
+			display: inline;
 			margin: 0;
 			font-size: 16px;
+			font-weight: 700;
+
+			small {
+				font-weight: 400;
+			}
 		}
 
 		.dashicons-arrow-up {
@@ -184,7 +236,7 @@
 		}
 
 		.dashicons {
-			color: #777;
+			color: #1e1e1e;
 			cursor: pointer;
 			transition: color .4s ease;
 			&:hover {
@@ -209,7 +261,7 @@
 	.llms-collapsible-body {
 		@extend %clearfix;
 		display: none;
-		padding: 10px;
+		padding: 15px;
 	}
 
 }

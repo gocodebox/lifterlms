@@ -1,0 +1,4 @@
+significance: patch
+type: dev
+entry: Adds new llms_before_registration_validation filter for 3rd party open
+  registration validation.

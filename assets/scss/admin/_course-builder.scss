@@ -41,6 +41,10 @@ body.admin_page_llms-course-builder {
 
 
 	&.editor-active {
+		.llms-video-explainer {
+			display: none;
+		}
+
 		.llms-builder-sidebar {
 			padding: 10px;
 			width: calc( 100% - 200px );
@@ -1648,7 +1652,42 @@ body.admin_page_llms-course-builder {
 
 	}
 
+	.llms-video-explainer-trigger {
+		display: block;
+		margin: 40px 0 0;
+		cursor: pointer;
+		position: relative;
+		width: 100%;
+		transition: color 0.2s ease;
+		color: initial;
+		&:hover {
+			color: currentColor;
+		}
+		&:after {
+			position: absolute;
+			inset: 0;
+			margin: auto;
+			pointer-events: none;
+			content: '▶';
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			clear: both;
+			height: 2em;
+			width: 2em;
+			border-radius: 4em;
+			border: 4px solid currentColor;
+			font-size: 2.5em;
+		}
+		img {
+			display: block;
+			width: 100%;
+			border-radius: 4px;
+		}
+	}
 }
+
+
 
 .llms-multi-input .llms-input-wrapper {
 	width: 50%;
