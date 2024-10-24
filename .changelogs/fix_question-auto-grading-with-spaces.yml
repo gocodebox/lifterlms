@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Removes spacing before or after answers for conditional quiz questions.
