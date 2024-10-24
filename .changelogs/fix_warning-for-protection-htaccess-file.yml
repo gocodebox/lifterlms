@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2735"
-entry: Fixes warning when trying to get the contents of a media protection file
-  that does not exist.

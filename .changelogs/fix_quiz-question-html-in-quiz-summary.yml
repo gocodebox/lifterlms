@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2734"
-entry: Fix display of quiz question when viewing the quiz results if it contains
-  formatting.

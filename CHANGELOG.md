@@ -1,6 +1,42 @@
 LifterLMS Changelog
 ===================
 
+v7.7.8 - 2024-09-17
+-------------------
+
+##### Bug Fixes
+
++ Update version of the Blocks library to avoid having an unsaved changes prompt appear after updating an access plan on a course.
++ Fix for pricing display with additional formatting. [#2762](https://github.com/gocodebox/lifterlms/issues/2762)
+
+
+v7.7.7 - 2024-09-12
+-------------------
+
+##### Bug Fixes
+
++ Avoid modifying non-LifterLMS block component styling in the editor. [#2752](https://github.com/gocodebox/lifterlms/issues/2752)
++ Use student email for the student login merge code in notification emails if usernames are not used. [#2755](https://github.com/gocodebox/lifterlms/issues/2755)
++ Show video or audio embed URLs in lessons which are valid but contain special characters. [#2749](https://github.com/gocodebox/lifterlms/issues/2749)
+
+
+v7.7.6 - 2024-08-22
+-------------------
+
+##### Bug Fixes
+
++ Avoid modifying the Lost Password link if no LifterLMS Dashboard page is set. [#2741](https://github.com/gocodebox/lifterlms/issues/2741)
++ Fixes placeholder label on the Dashboard Page selection dropdown. [#2708](https://github.com/gocodebox/lifterlms/issues/2708)
++ Avoid outputting lifterlms_membership_link content if the membership is not published. [#2724](https://github.com/gocodebox/lifterlms/issues/2724)
++ Fix display of quiz question when viewing the quiz results if it contains formatting. [#2734](https://github.com/gocodebox/lifterlms/issues/2734)
++ Fixes sanitization as reported by FKSEC.
++ Fixes warning when trying to get the contents of a media protection file that does not exist. [#2735](https://github.com/gocodebox/lifterlms/issues/2735)
+
+##### Updated Templates
+
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.7.6/templates/quiz/results-attempt-questions-list.php)
+
+
 v7.7.5 - 2024-08-15
 -------------------
 
