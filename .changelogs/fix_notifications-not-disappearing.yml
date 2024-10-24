@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2772"
+entry: Fix for notifications no longer auto-dismissing.
