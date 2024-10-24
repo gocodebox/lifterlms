@@ -52,7 +52,6 @@ class LLMS_Form_Templates {
 			'innerBlocks' => $inner,
 			'attrs'       => $attrs,
 		);
-
 	}
 
 	/**
@@ -88,7 +87,6 @@ class LLMS_Form_Templates {
 		);
 
 		return wp_insert_post( $args );
-
 	}
 
 	/**
@@ -113,7 +111,6 @@ class LLMS_Form_Templates {
 		);
 
 		return $query->posts ? $query->posts[0] : false;
-
 	}
 
 	/**
@@ -151,7 +148,6 @@ class LLMS_Form_Templates {
 		}
 
 		return $block;
-
 	}
 
 	/**
@@ -175,7 +171,6 @@ class LLMS_Form_Templates {
 
 		$block = self::prepare_blocks( array( $block ) );
 		return compact( 'title', 'block' );
-
 	}
 
 	/**
@@ -208,7 +203,6 @@ class LLMS_Form_Templates {
 		);
 
 		return $block;
-
 	}
 
 	/**
@@ -233,7 +227,6 @@ class LLMS_Form_Templates {
 		);
 
 		return $block;
-
 	}
 
 	/**
@@ -264,7 +257,6 @@ class LLMS_Form_Templates {
 		}
 
 		return $val;
-
 	}
 
 	/**
@@ -314,7 +306,6 @@ class LLMS_Form_Templates {
 		 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 		 */
 		return apply_filters( 'llms_get_reusable_block_schema', $definition, $field_id );
-
 	}
 
 	/**
@@ -343,7 +334,6 @@ class LLMS_Form_Templates {
 		$blocks = self::get_template_blocks( $location, $use_reusable );
 
 		return serialize_blocks( $blocks );
-
 	}
 
 	/**
@@ -395,7 +385,6 @@ class LLMS_Form_Templates {
 		}
 
 		return array_filter( $blocks );
-
 	}
 
 	/**
@@ -426,7 +415,6 @@ class LLMS_Form_Templates {
 			),
 			'innerContent' => array(),
 		);
-
 	}
 
 	/**
@@ -460,7 +448,6 @@ class LLMS_Form_Templates {
 		}
 
 		return $block;
-
 	}
 
 	/**
@@ -493,7 +480,6 @@ class LLMS_Form_Templates {
 		}
 
 		return $blocks;
-
 	}
 
 	/**
@@ -515,7 +501,5 @@ class LLMS_Form_Templates {
 		}
 
 		return $block;
-
 	}
-
 }
