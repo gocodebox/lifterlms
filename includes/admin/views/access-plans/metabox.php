@@ -16,20 +16,41 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
+	<p>
+		<?php
+			$access_plan_allowed_html = array(
+				'a' => array(
+					'href'   => array(),
+					'target' => array(),
+				),
+			);
+			// Translators: %1$s = Link to access plans documentation; %2$s = The singular label of the custom post type.
+			printf( wp_kses( __( '<a target="_blank" href="%1$s">Access plans</a> define the payment options and access time-periods available for this %2$s.', 'lifterlms' ), $access_plan_allowed_html ), esc_url( 'https://lifterlms.com/docs/what-is-an-access-plan/' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) );
+		?>
+	</p>
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<div class="llms-no-plans-msg">
-			<p><?php printf( esc_html__( 'Access plans define the payment options and access time-periods available for this %s.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p>
-			<p><?php printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p>
+			<div class="notice notice-warning inline"><p><?php printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p></div>
 		</div>
 		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>
 			<?php include 'access-plan.php'; ?>
 		<?php endforeach; ?>
 	</section>
 
-	<div class="llms-metabox-section d-all d-right">
-		<button class="llms-button-secondary" id="llms-new-access-plan" type="button"><?php esc_html_e( 'Add New', 'lifterlms' ); ?></button>
-		<button class="llms-button-primary" id="llms-save-access-plans" type="button"><?php esc_html_e( 'Save', 'lifterlms' ); ?></button>
+	<div class="llms-plans-actions">
+		<div class="d-all">
+			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button">
+				<span class="fa fa-plus"></span>
+				<?php esc_html_e( 'Add New Plan', 'lifterlms' ); ?>
+			</button>
+		</div>
+
+		<div class="clear"></div>
+
+		<div class="d-all d-right">
+			<button class="llms-button-primary" id="llms-save-access-plans" type="button"><?php esc_html_e( 'Save All Plans', 'lifterlms' ); ?></button>
+		</div>
 	</div>
 
 	<?php

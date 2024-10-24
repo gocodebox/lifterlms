@@ -1,0 +1,4 @@
+significance: patch
+type: changed
+entry: Improved accessibility of the Access Plans metaboxes to use proper labels
+  and screen reader text where needed.
