@@ -1,0 +1,6 @@
+significance: patch
+type: dev
+links:
+  - "#2777"
+entry: Adds current-lesson CSS class for the current Lesson in the Course
+  Syllabus block.
