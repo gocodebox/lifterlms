@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2779"
+entry: Fix for the lifterlms_registration shortcode not working on certain
+  themes on a separate page.
