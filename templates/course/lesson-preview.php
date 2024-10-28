@@ -20,10 +20,26 @@ defined( 'ABSPATH' ) || exit;
 
 $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
 $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
+
+// Get the section name for this lesson.
+$section = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
+$section_title = $section ? $section->post->post_title : '';
+$lesson_screen_reader_msg = sprintf(
+	/* translators: 1: lesson order, 2: total lessons, 3: section title */
+	__( 'Lesson %1$d of %2$d within section %3$s.', 'lifterlms' ),
+	isset( $order ) ? $order : $lesson->get( 'order' ),
+	$total_lessons,
+	$section_title
+);
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
-	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
+
+	<?php if ( $restrictions['is_restricted'] ) : ?>
+		<div class="llms-lesson-link llms-lesson-link-locked" data-tooltip-msg="<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>">
+	<?php else : ?>
+		<a class="llms-lesson-link" href="<?php echo esc_url( get_permalink( $lesson->get( 'id' ) ) ); ?>" aria-label="<?php echo esc_attr( get_the_title( $lesson->get( 'id' ) ) . ' ' . $lesson_screen_reader_msg ); ?>">
+	<?php endif; ?>
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
@@ -42,7 +58,9 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
 				<aside class="llms-extra">
-					<span class="llms-lesson-counter"><?php echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) ); ?></span>
+					<span class="llms-lesson-counter" aria-hidden="true">
+						<?php echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) ); ?>
+					</span>
 					<?php echo wp_kses_post( $lesson->get_preview_icon_html() ); ?>
 				</aside>
 
@@ -78,9 +96,14 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				<?php endif; ?>
 			</section>
 
+			<span class="screen-reader-text"><?php echo esc_attr( $lesson_screen_reader_msg ); ?></span>
+
 			<?php if ( $restrictions['is_restricted'] ) : ?>
+				<span class="screen-reader-text"><?php echo esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?></span>
 			<?php endif; ?>
 
 		</div>
-	</a>
+
+	<?php echo $restrictions['is_restricted'] ? '</div>' : '</a>'; ?>
+
 </div>

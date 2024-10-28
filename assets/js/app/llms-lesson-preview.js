@@ -25,7 +25,7 @@ LLMS.LessonPreview = {
 
 		var self = this;
 
-		this.$locked = $( 'a[href="#llms-lesson-locked"]' );
+		this.$locked = $( 'div.llms-lesson-link-locked' );
 
 		if ( this.$locked.length ) {
 
@@ -55,10 +55,6 @@ LLMS.LessonPreview = {
 	bind: function() {
 
 		var self = this;
-
-		this.$locked.on( 'click', function() {
-			return false;
-		} );
 
 		this.$locked.on( 'mouseenter', function() {
 
@@ -109,7 +105,7 @@ LLMS.LessonPreview = {
 	 */
 	get_tooltip: function( msg ) {
 		var $el = $( '<div class="llms-tooltip" />' );
-		$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
+		$el.append( '<div aria-hidden="true" class="llms-tooltip-content">' + msg + '</div>' );
 		return $el;
 	},
 
