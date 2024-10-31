@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2787"
+entry: Renaming front-end javascript translation file not required, as some
+  security scans appear to be deleting it incorrectly.
