@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ViewManager Checkout should show an already enrolled notice when viewing as a student. 1`] = `"You already have access to this Course! Visit your dashboard <a href=\\"http://localhost:8080/dashboard/\\">here.</a>"`;

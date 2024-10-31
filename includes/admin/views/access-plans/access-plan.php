@@ -663,9 +663,9 @@ if ( ! isset( $plan ) ) {
 			do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order );
 		?>
 
-		<h4><?php esc_html_e( 'Redirection Settings', 'lifterlms' ); ?></h4>
+		<h4 class="llms-redirection-settings"><?php esc_html_e( 'Redirection Settings', 'lifterlms' ); ?></h4>
 
-		<div class="llms-plan-row-7">
+		<div class="llms-plan-row-7 llms-redirection-settings">
 
 			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
 				<label>
