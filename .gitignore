@@ -35,7 +35,7 @@ assets/js/*.min.js
 assets/js/llms-metaboxes.js
 blocks/certificate-title/*
 blocks/my-account/*
-includes/class.llms.l10n.js.php
+includes/class.llms.l10n.frontend.php
 languages/lifterlms.pot
 
 # Ignore composer-installed libs.
