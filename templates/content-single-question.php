@@ -2,8 +2,10 @@
 /**
  * Single Question Template
  *
- * @since    1.0.0
- * @version 3.16.0
+ * @since 1.0.0
+ * @since 3.16.0 Unknown.
+ * @since 7.8.0 Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
+ * @version 7.8.0
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance
@@ -21,7 +23,7 @@ do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 	<h3 class="llms-question-text">
 	<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the question templates.
-			echo $question->get_question();
+			echo $question->get_question( 'html', $attempt );
 	?>
 	</h3>
 

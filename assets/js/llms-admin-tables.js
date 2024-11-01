@@ -42,6 +42,12 @@
 
 				var $table = $( this );
 
+				$table.parent().find('form#llms-clear-student-progress-cache' ).on( 'submit', function( e ) {
+					e.preventDefault();
+					self.clear_cache( $table, $( this ) );
+
+				} );
+
 				$table.on( 'click', 'button[name="llms-table-paging"]', function( e ) {
 					e.preventDefault();
 					self.change_page( $table, $( this ) );
@@ -81,6 +87,44 @@
 
 			} );
 
+		};
+
+		this.clear_cache = function( $table, $form ) {
+			var self = this;
+			var $btn = $form.find( 'button' );
+
+			LLMS.Ajax.call( {
+				url: $form.attr( 'action' ),
+				method: 'POST',
+				dataType: 'html',
+				data: {
+					'_wpnonce' : $form.find('[name="_wpnonce"]').val(),
+					'_wp_http_referer' : $form.find('[name="_wp_http_referer"]').val(),
+					'llms_tool': 'clear-cache'
+				},
+				beforeSend: function() {
+					if ( $btn ) {
+						$btn.prop( 'disabled', true );
+						LLMS.Spinner.start( $btn, 'small' );
+					}
+				},
+				error: function( jqXHR, status, error ) {
+					if ( $btn ) {
+						$btn.prop( 'disabled', false );
+						LLMS.Spinner.stop( $btn );
+					}
+
+					console.error( error );
+				},
+				success: function( res ) {
+					if ( $btn ) {
+						$btn.prop( 'disabled', false );
+						LLMS.Spinner.stop( $btn );
+					}
+
+					self.reload( $table, {} );
+				}
+			} );
 		};
 
 		/**

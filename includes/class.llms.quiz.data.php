@@ -5,13 +5,13 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 4.0.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query data about a quiz
+ * Query data about a quiz.
  *
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
@@ -133,24 +133,24 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve # of quiz fails within the period
+	 * Retrieve # of quiz fails within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_fail_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'fail', $period );
 	}
 
 	/**
-	 * Retrieve # of quiz passes within the period
+	 * Retrieve # of quiz passes within the period.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    string $period  date period [current|previous]
-	 * @return   int
+	 * @param string $period Date period [current|previous].
+	 * @return int
 	 */
 	public function get_pass_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'pass', $period );
@@ -160,9 +160,9 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieve recent LLMS_User_Postmeta for the quiz.
 	 * This overrides the LLMS_Abstract_Post_Data method.
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function recent_events( $args = array() ) {
 

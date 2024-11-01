@@ -581,14 +581,15 @@
 				$( this ).removeAttr( 'disabled' ); // enabled the field
 			} );
 
-			$clone.find( '.llms-access-plan-datepicker' ).datepicker( {
-				dateFormat: "mm/dd/yy"
-			} );
-
 			$clone.appendTo( '#llms-access-plans' );
 
 			// rewrite the order of all elements
 			this.update_plan_orders();
+
+			// Bind the datepicker to the new plan AFTER the input names have been updated via update_plan_orders() above.
+			$clone.find( '.llms-access-plan-datepicker' ).datepicker( {
+				dateFormat: "mm/dd/yy"
+			} );
 
 			$clone.find( '.llms-collapsible-header' ).trigger( 'click' );
 

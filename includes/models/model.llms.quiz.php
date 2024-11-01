@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @property $show_options_description_wrong_answer (yesno) If yes, displays the question description when the student chooses the wrong answer.
  * @property $show_results (yesno) If yes, results will be shown to the student at the conclusion of the quiz.
  * @property $time_limit (int) Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz.
+ * @property $can_be_resumed (yesno) If yes, the latest incomplete quiz attempt can be resumed.
  *
  * @since 3.3.0
  * @since 3.19.2 Unkwnown.
@@ -53,7 +54,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 *
 	 * @since Unknown.
 	 * @since 7.6.2 Added the `disable_retake` property.
-	 * @var string[]
+	 * @since 7.8.0 Added `can_be_resumed` property.
+	 * @var string[] Array key is the meta_key and array values is property's type.
 	 */
 	protected $properties = array(
 		'lesson_id'           => 'absint',
@@ -64,6 +66,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
 		'time_limit'          => 'int',
+		'can_be_resumed'      => 'yesno',
 		'disable_retake'      => 'yesno',
 	);
 
@@ -196,7 +199,67 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return false;
+	}
 
+	/**
+	 * Determine if a quiz can be resumed.
+	 *
+	 * A quiz can only be resumed if it's set to be resumed
+	 * and has no time limit.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @return bool
+	 */
+	public function can_be_resumed() {
+
+		return llms_parse_bool( $this->get( 'can_be_resumed' ) ) && ! $this->has_time_limit();
+	}
+
+	/**
+	 * Determine if a student can resume the quiz.
+	 *
+	 * A student can resume the quiz only if their latest attempt can be resumed.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return bool
+	 */
+	public function can_be_resumed_by_student( $user_id = null ) {
+
+		$can_be_resumed_by_student = false;
+
+		$student = llms_get_student( $user_id );
+		if ( $student ) {
+			$last_attempt              = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+			$can_be_resumed_by_student = $last_attempt && $last_attempt->can_be_resumed();
+		}
+
+		return $can_be_resumed_by_student;
+	}
+
+	/**
+	 * Gets quiz's last attempt key of a user.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return string|bool
+	 */
+	public function get_student_last_attempt_key( $user_id = null ) {
+
+		$student          = llms_get_student( $user_id );
+		$last_attempt_key = false;
+
+		if ( $student ) {
+			$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'id' ) );
+			if ( $last_attempt ) {
+				$last_attempt_key = $last_attempt->get_key();
+			}
+		}
+
+		return $last_attempt_key;
 	}
 
 	/**
@@ -246,7 +309,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		 * @param LLMS_Student|false $student   LLMS_Student instance or false if user not found.
 		 */
 		return apply_filters( 'llms_quiz_is_open', $quiz_open, $user_id, $this->get( 'id' ), $this, $student );
-
 	}
 
 	/**
@@ -293,7 +355,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -314,7 +375,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		}
 
 		return 0;
-
 	}
 
 	/**
@@ -328,7 +388,5 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		$q = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'questions', true );
 		return $q ? $q : array();
-
 	}
-
 }

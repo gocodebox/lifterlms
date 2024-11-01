@@ -2,13 +2,15 @@
 /**
  * List of attempt questions/answers for a single attempt
  *
- * @since 3.16.0
+ * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
+ *
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
  * @since 7.3.0 Script moved into the main llms.js.
+ * @since 7.8.0 Hide answers if resumable attempt is incomplete.
  * @version 7.3.0
  *
- * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
+ * @since 3.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,26 +18,33 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <ol class="llms-quiz-attempt-results">
-<?php
-foreach ( $attempt->get_question_objects() as $attempt_question ) :
-	$quiz_question = $attempt_question->get_question();
-	if ( ! $quiz_question ) { // Question missing/deleted.
-		?>
-		<li class="llms-quiz-attempt-question type--removed status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>">
+<?php if ( ! $attempt->can_be_resumed() ) : ?>
+	<?php
+	foreach ( $attempt->get_question_objects() as $attempt_question ) :
+		$quiz_question = $attempt_question->get_question();
+		if ( ! $quiz_question ) { // Question missing/deleted.
+			?>
+		<li class="llms-quiz-attempt-question type--<?php echo esc_attr( $quiz_question->get( 'question_type' ) ); ?> status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
+			data-question-id="<?php echo esc_attr( $quiz_question->get( 'id' ) ); ?>"
+			data-grading-manual="<?php echo $attempt_question->can_be_manually_graded() ? 'yes' : 'no'; ?>"
+			data-points="<?php echo esc_attr( $attempt_question->get( 'points' ) ); ?>"
+			data-points-curr="<?php echo esc_attr( $attempt_question->get( 'earned' ) ); ?>">
 			<header class="llms-quiz-attempt-question-header">
 				<span class="toggle-answer">
 					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
 					<span class="llms-points">
-						<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
+						<?php if ( $quiz_question->get( 'points' ) ) : ?>
+							<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
+						<?php endif; ?>
 					</span>
 					<?php echo wp_kses_post( $attempt_question->get_status_icon() ); ?>
 				</span>
 			</header>
 		</li>
-		<?php
-		continue;
-	}
-	?>
+			<?php
+			continue;
+		}
+		?>
 
 	<li class="llms-quiz-attempt-question type--<?php echo esc_attr( $quiz_question->get( 'question_type' ) ); ?> status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
 		data-question-id="<?php echo esc_attr( $quiz_question->get( 'id' ) ); ?>"
@@ -102,5 +111,12 @@ foreach ( $attempt->get_question_objects() as $attempt_question ) :
 		</section>
 
 	</li>
-<?php endforeach; ?>
+	<?php endforeach; ?>
+<?php else : ?>
+	<?php if ( is_admin() ) : ?>
+		<p><?php esc_html_e( 'The quiz is still ongoing.', 'lifterlms' ); ?></p>
+	<?php else : ?>
+		<p><?php esc_html_e( "The quiz is still ongoing. You can resume your attempt by clicking the 'Resume Quiz' button.", 'lifterlms' ); ?></p>
+	<?php endif; ?>
+<?php endif; ?>
 </ol>

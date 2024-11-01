@@ -1,11 +1,11 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership
+ * Query LifterLMS Students for a given course / membership.
  *
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 6.0.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,10 +41,11 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	protected $id = 'quiz_attempt';
 
 	/**
-	 * Retrieve default arguments for a student query
+	 * Retrieve default arguments for a student query.
 	 *
 	 * @since 3.16.0
 	 * @since 4.2.0 Added `exclude` default arg.
+	 * @since 7.8.0 Added `can_be_resumed` default arg.
 	 *
 	 * @return array
 	 */
@@ -62,6 +63,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			'status_exclude' => array(),
 			'attempt'        => null,
 			'exclude'        => array(),
+			'can_be_resumed' => null,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -153,11 +155,12 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	}
 
 	/**
-	 * SQL "where" clause for the query
+	 * SQL "where" clause for the query.
 	 *
 	 * @since 3.16.0
 	 * @since 3.35.0 Better SQL preparation.
 	 * @since 4.2.0 Added `exclude` arg logic.
+	 * @since 7.8.0 Added `can_be_resumed` arg logic.
 	 *
 	 * @return string
 	 */
@@ -198,6 +201,11 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		if ( $status_exclude ) {
 			$prepared = implode( ',', array_map( array( $this, 'escape_and_quote_string' ), $status_exclude ) );
 			$sql     .= " AND status NOT IN ({$prepared})";
+		}
+
+		$can_be_resumed = $this->get( 'can_be_resumed' );
+		if ( '' !== $can_be_resumed ) {
+			$sql .= $wpdb->prepare( ' AND can_be_resumed = %d', $can_be_resumed );
 		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );

@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since    3.14.0
- * @since    [version]
+ * @since    7.8.0
  * @version  3.14.0
  */
 

@@ -184,7 +184,12 @@
 		width: 160px;
 	}
 
-
+	.llms-table-header {
+		form { display: inline; }
+		.button {
+			margin-left: 5px;
+		}
+	}
 }
 
 .llms-charts-wrapper {

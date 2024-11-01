@@ -99,8 +99,8 @@ if ( ! isset( $plan ) ) {
 					<span class="llms-required">*<span class="screen-reader-text"> <?php esc_html_e( 'required', 'lifterlms' ); ?></span></span>
 					<span class="screen-reader-text"><?php esc_html_e( 'The title of the access plan, displayed to users at the top of the plan.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'The title of the access plan, displayed to users at the top of the plan.', 'lifterlms' ); ?>">
-				        <i class="fa fa-question-circle"></i>
-    				</span>
+						<i class="fa fa-question-circle"></i>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][title]" class="llms-plan-title" name="_llms_plans[<?php echo esc_attr( $order ); ?>][title]" required="required" type="text"<?php echo ( $plan ? ' value="' . esc_attr( $plan->get( 'title' ) ) . '"' : ' disabled="disabled"' ); ?>>
 			</div>
@@ -111,7 +111,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'The text displayed on the enrollment button for this access plan.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'The text displayed on the enrollment button for this access plan.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][enroll_text]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][enroll_text]" type="text"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'enroll_text' ) ) . '"' : ' value="' . esc_attr__( 'Enroll Now', 'lifterlms' ) . '" disabled="disabled"'; ?>>
 			</div>
@@ -122,7 +122,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Set whether this access plan is visible, hidden, or featured in the pricing table.', 'lifterlms' ); ?></span>
 					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Set whether this access plan is visible, hidden, or featured in the pricing table.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][visibility]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][visibility]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<?php foreach ( llms_get_access_plan_visibility_options() as $val => $name ) : ?>
@@ -156,7 +156,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Description text of the access plan shown on the pricing table. Bullet points of top plan benefits are often used here. ', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Description text of the access plan shown on the pricing table. Bullet points of top plan benefits are often used here. ', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<?php
 				wp_editor(
@@ -213,13 +213,12 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Specify if the plan is free or paid.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify if the plan is free or paid.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]" data-controller-id="llms-is-free" name="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="yes"<?php selected( 'yes', $plan ? $plan->get( 'is_free' ) : '' ); ?>><?php esc_html_e( 'Free', 'lifterlms' ); ?></option>
 					<option value="no"<?php selected( 'no', $plan ? $plan->get( 'is_free' ) : true ); ?>><?php esc_html_e( 'Paid', 'lifterlms' ); ?></option>
 				</select>
-				
 			</div>
 
 			<div data-controller="llms-is-free" data-value-is="no">
@@ -332,8 +331,8 @@ if ( ! isset( $plan ) ) {
 			<?php
 				// If only the manual gateway is enabled, show a notice and link to our Ecommerce Add-ons.
 				$active_gateways = llms()->payment_gateways()->get_enabled_payment_gateways();
-				if ( 1 === count( $active_gateways ) && array_key_exists( 'manual', $active_gateways ) ) :
-					?>
+			if ( 1 === count( $active_gateways ) && array_key_exists( 'manual', $active_gateways ) ) :
+				?>
 					<div data-controller="llms-is-free" data-value-is="no">
 
 						<div class="d-all">
@@ -341,28 +340,42 @@ if ( ! isset( $plan ) ) {
 							<div class="notice notice-warning inline llms-admin-notice">
 
 								<div class="llms-admin-notice-content">
+								<?php
+									$allowed_ecommerce_add_ons_html = array(
+										'a'  => array(
+											'href'   => array(),
+											'target' => array(),
+											'title'  => array(),
+											'rel'    => array(),
+										),
+										'em' => array(),
+									);
+									printf(
+										wp_kses(
+											/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
+											__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more.', 'lifterlms' ),
+											$allowed_ecommerce_add_ons_html
+										),
+										'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale'
+									);
+								?>
+									<a href="
 									<?php
-										$allowed_ecommerce_add_ons_html = array (
-											'a' => array (
-												'href' => array(),
-												'target' => array(),
-												'title' => array(),
-												'rel' => array(),
+									echo esc_url(
+										add_query_arg(
+											array(
+												'page' => 'llms-settings',
+												'tab'  => 'checkout',
 											),
-											'em' => array(),
-										);
-										echo sprintf(
-											wp_kses(
-												/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
-												__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more.', 'lifterlms' ),
-												$allowed_ecommerce_add_ons_html
-											),
-											'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale'
-										);
+											admin_url( 'admin.php' )
+										)
+									);
 									?>
-									<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'llms-settings', 'tab' => 'checkout' ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'View Payment Gateway Settings', 'lifterlms' ); ?>
+												"><?php esc_html_e( 'View Payment Gateway Settings', 'lifterlms' ); ?>
 									</a>
 								</div>
+
+							</div>
 
 						</div>
 
@@ -397,7 +410,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Enable or disable a free or paid trial period for this plan.', 'lifterlms' ); ?></span>
 					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Enable or disable a free or paid trial period for this plan.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_offer]" data-controller-id="llms-trial-offer" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_offer]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="no"<?php selected( 'no', $plan ? $trial_offer : '' ); ?>><?php esc_html_e( 'No trial offer', 'lifterlms' ); ?></option>
@@ -411,7 +424,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Set the price for the trial period of this plan.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Set the price for the trial period of this plan.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" min="0" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'trial_price' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
@@ -422,7 +435,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Specify the length of the trial period.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify the length of the trial period.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_length]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_length]" min="1" placeholder="1" required="required" type="text"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'trial_length' ) ) . '"' : ' value="1" disabled="disabled"'; ?>>
 			</div>
@@ -433,7 +446,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Define the time length for the trial period (days, weeks, months, years).', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Define the time length for the trial period (days, weeks, months, years).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<select id="_llms_plans[<?php echo $order; ?>][trial_period]" name="_llms_plans[<?php echo $order; ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="year"<?php selected( 'year', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'year(s)', 'lifterlms' ); ?></option>
@@ -468,7 +481,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Indicate if the plan has a sale.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Indicate if the plan has a sale.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][on_sale]" data-controller-id="llms-on-sale" name="_llms_plans[<?php echo esc_attr( $order ); ?>][on_sale]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="no"<?php selected( 'no', $plan ? $on_sale : '' ); ?>><?php esc_html_e( 'Not on sale', 'lifterlms' ); ?></option>
@@ -482,7 +495,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Set the discounted price for the sale period.', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Set the discounted price for the sale period.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" min="0" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="number"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . esc_attr( $plan->get( 'sale_price' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
@@ -493,7 +506,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_start]" class="llms-access-plan-datepicker" name="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_start]" placeholder="MM/DD/YYYY" type="text"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . esc_attr( $plan->get_date( 'sale_start', 'm/d/Y' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
@@ -504,7 +517,7 @@ if ( ! isset( $plan ) ) {
 					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period ends.', 'lifterlms' ); ?></span>
 					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Specify when the sale period ends.', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
-    				</span>
+					</span>
 				</label>
 				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_end]" class="llms-access-plan-datepicker" name="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_end]" placeholder="MM/DD/YYYY" type="text"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . esc_attr( $plan->get_date( 'sale_end', 'm/d/Y' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
@@ -528,9 +541,9 @@ if ( ! isset( $plan ) ) {
 
 		<?php
 			// Do we have any memberships to restrict this plan to?
-			$memberships_count = wp_count_posts('llms_membership');
-			if ( $course && $memberships_count->publish > 0 ) :
-				?>
+			$memberships_count = wp_count_posts( 'llms_membership' );
+		if ( $course && $memberships_count->publish > 0 ) :
+			?>
 
 				<h4><?php esc_html_e( 'Membership Settings', 'lifterlms' ); ?></h4>
 
@@ -538,7 +551,7 @@ if ( ! isset( $plan ) ) {
 
 					<div class="llms-metabox-field d-1of3">
 						<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][availability]">
-							<?php esc_html_e( 'Plan Availability', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Plan Availability', 'lifterlms' ); ?>
 							<span class="screen-reader-text"><?php esc_html_e( 'Choose who can purchase this plan: anyone or members only.', 'lifterlms' ); ?></span>
 							<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Choose who can purchase this plan: anyone or members only.', 'lifterlms' ); ?>">
 								<i class="fa fa-question-circle"></i>
@@ -552,21 +565,20 @@ if ( ! isset( $plan ) ) {
 
 					<div class="llms-metabox-field d-1of2" data-controller="llms-availability" data-value-is="members">
 						<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][availability_restrictions][]">
-							<?php esc_html_e( 'Memberships', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Memberships', 'lifterlms' ); ?>
 							<span class="screen-reader-text"><?php esc_html_e( 'Select the memberships required to access this plan.', 'lifterlms' ); ?></span>
 							<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Select the memberships required to access this plan.', 'lifterlms' ); ?>">
 								<i class="fa fa-question-circle"></i>
 							</span>
 						</label>
 						<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][availability_restrictions][]" class="llms-availability-restrictions" data-post-type="llms_membership" multiple="multiple" name="_llms_plans[<?php echo esc_attr( $order ); ?>][availability_restrictions][]" required="required" style="width:100%; height: 25px;" <?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-							<?php if ( $plan ) : ?>
+						<?php if ( $plan ) : ?>
 								<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
 									<option value="<?php echo esc_attr( $membership_id ); ?>" selected="selected"><?php echo esc_html( get_the_title( $membership_id ) ); ?> (<?php printf( esc_html__( 'ID# %d', 'lifterlms' ), esc_html( $membership_id ) ); ?>)</option>
 								<?php endforeach; ?>
 							<?php endif; ?>
 						</select>
 					</div>
-				
 					<div class="clear"></div>
 
 				</div>
@@ -649,9 +661,9 @@ if ( ! isset( $plan ) ) {
 			do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order );
 		?>
 
-		<h4><?php esc_html_e( 'Redirection Settings', 'lifterlms' ); ?></h4>
+		<h4 class="llms-redirection-settings"><?php esc_html_e( 'Redirection Settings', 'lifterlms' ); ?></h4>
 
-		<div class="llms-plan-row-7">
+		<div class="llms-plan-row-7 llms-redirection-settings">
 
 			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
 				<label>
@@ -705,7 +717,7 @@ if ( ! isset( $plan ) ) {
 								<option value="<?php echo esc_attr( $llms_checkout_redirect_page ); ?>" selected="selected"><?php echo esc_html( get_the_title( $llms_checkout_redirect_page ) ); ?> ( #<?php echo esc_html( $llms_checkout_redirect_page ); ?>)</option>
 							<?php endif; ?>
 						<?php endif; ?>
-					<select>
+					</select>
 				</div>
 
 				<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="url">

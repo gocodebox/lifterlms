@@ -37,7 +37,7 @@ if ( ! function_exists( 'lifterlms_student_dashboard' ) ) {
 		/**
 		 * Fires before the student dashboard output.
 		 *
-		 * @since [version]
+		 * @since 7.8.0
 		 *
 		 * @param string $layout The layout of the dashboard.
 		 *
@@ -1007,7 +1007,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version]
+	 * @since 7.8.0
 	 *
 	 * @param string $layout Dashboard layout. Accepts "stacked" (default) or "columns".
 	 *

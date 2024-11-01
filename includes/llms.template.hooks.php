@@ -167,7 +167,7 @@ add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_quest
 /**
  * Student Dashboard
  *
- * @since [version]
+ * @since 7.8.0
  */
 add_action( 'lifterlms_before_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_open', 10 );
 

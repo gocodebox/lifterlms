@@ -10,7 +10,11 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="<?php echo esc_attr( $classes ); ?>"<?php echo esc_attr( $atts ); ?> id="llms-notification-<?php echo esc_attr( $id ); ?>">
+<div class="<?php echo esc_attr( $classes ); ?>"
+	<?php foreach ( (array) $attributes as $att => $val ) : ?>
+			<?php echo esc_attr( 'data-' . $att ); ?>="<?php echo esc_attr( $val ); ?>"
+	<?php endforeach; ?>
+	id="<?php echo esc_attr( 'llms-notification-' . $id ); ?>">
 
 	<?php do_action( 'llms_before_basic_notification', $id ); ?>
 

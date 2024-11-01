@@ -10,7 +10,7 @@
 		"domain": "lifterlms",
 		"dest": "languages/",
 		"jsClassname": "LLMS_L10n_JS",
-		"jsFilename": "class.llms.l10n.js.php",
+		"jsFilename": "class.llms.l10n.frontend.php",
 		"jsSince": "3.17.8",
 		"jsSrc": [ "assets/js/**/*.js", "!assets/js/**/*.min.js", "!assets/js/**/*.js.map" ],
 		"lastTranslator": "Thomas Patrick Levy <help@lifterlms.com>",
