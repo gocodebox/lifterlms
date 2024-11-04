@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#2794"
+entry: Switches new access plans to Paid by default in the new access plan UI.
