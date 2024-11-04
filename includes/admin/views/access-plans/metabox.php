@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
 			);
 			// Translators: %1$s = Link to access plans documentation; %2$s = The singular label of the custom post type.
 			printf( wp_kses( __( '<a target="_blank" href="%1$s">Access plans</a> define the payment options and access time-periods available for this %2$s.', 'lifterlms' ), $access_plan_allowed_html ), esc_url( 'https://lifterlms.com/docs/what-is-an-access-plan/' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) );
-		?>
+			?>
 	</p>
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="llms-plans-actions">
 		<div class="d-all">
-			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button">
+			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button" data-a11y-dialog-show="llms-access-plan-dialog">
 				<span class="fa fa-plus"></span>
 				<?php esc_html_e( 'Add New Plan', 'lifterlms' ); ?>
 			</button>
@@ -59,5 +59,25 @@ defined( 'ABSPATH' ) || exit;
 		// model of an access plan we'll clone when clicking the "add" button.
 		require 'access-plan.php';
 	?>
+
+	<div
+		id="llms-access-plan-dialog"
+		class="llms-dialog-container"
+		aria-labelledby="llms-access-plan-dialog-title"
+		aria-hidden="true"
+	>
+		<!-- 2. The dialog overlay -->
+		<div class="llms-dialog-overlay" data-a11y-dialog-hide></div>
+		<!-- 3. The actual dialog -->
+		<div class="llms-dialog-content" role="document">
+			<button type="button" data-a11y-dialog-hide aria-label="<?php echo esc_html( __( 'Close', 'lifterlms' ) ); ?>">
+				&times;
+			</button>
+			<h1 id="llms-access-plan-dialog-title"><?php echo esc_html( __( 'What type of Access Plan do you want to create?', 'lifterlms' ) ); ?></h1>
+
+			<div>Access Plan 1</div>
+			<div>Access Plan 2</div>
+		</div>
+	</div>
 
 </div>

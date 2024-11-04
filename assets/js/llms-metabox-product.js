@@ -190,6 +190,9 @@
 				}, 500 );
 			} );
 
+			var dialogEl = document.getElementById('llms-access-plan-dialog');
+			var dialog = new A11yDialog(dialogEl);
+
 			self.$plans.sortable( {
 				handle: '.llms-drag-handle',
 				items: '.llms-access-plan',
@@ -606,6 +609,8 @@
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
+
+			// Show a modal to let the user pick from various access plan pre-sets.
 
 		};
 
