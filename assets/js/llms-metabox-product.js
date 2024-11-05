@@ -185,6 +185,14 @@
 			// add a new empty plan interface on new plan button click.
 			$( '#llms-new-access-plan' ).on( 'click', function() {
 				self.init_plan();
+
+				// If PMPro or others are hiding the Restrictions tab, we want to hide the Presell option.
+				if ( ! $('span.llms-nav-link').filter(function() {
+					return $(this).text().trim() === 'Restrictions';
+				}).length ) {
+					$( '.llms-access-plan-templates button[data-template="presell"]').hide();
+				}
+
 				self.$plan_dialog.show();
 				self.toggle_create_button( 'disable' );
 				self.toggle_save_button( 'enable' );
@@ -248,6 +256,27 @@
 					case 'hidden-access':
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
+					case 'presell':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						var $restrictions_tab = $('span.llms-nav-link').filter(function() {
+							return $(this).text().trim() === 'Restrictions';
+						});
+						if ( $restrictions_tab.length ) {
+							$restrictions_tab.click();
+							$('#_llms_time_period').click();
+							var today = new Date();
+							today.setMonth(today.getMonth() + 1);
+
+							var month = (today.getMonth() + 1).toString().padStart(2, '0');
+							var day = today.getDate().toString().padStart(2, '0');
+							var year = today.getFullYear().toString();
+
+							var formattedDate = `${month}/${day}/${year}`;
+							$('#_llms_start_date').val( formattedDate ).change();
+							// TODO: Add some kind of a notice or something to let the user know that the start date has been set.
+						}
+
 						break;
 				}
 			} );

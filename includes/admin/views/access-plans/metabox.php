@@ -108,9 +108,9 @@ defined( 'ABSPATH' ) || exit;
 					<strong>Hidden Access</strong>
 					<span>Grant free access without making this plan publicly available.</span>
 				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
+				<button class="template" data-template="presell">
+					<strong>Presell</strong>
+					<span>Offer lifetime access for a one-time payment with a future start date.</span>
 				</button>
 				<button class="template">
 					<strong>Annual</strong>
