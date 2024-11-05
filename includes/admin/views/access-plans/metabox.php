@@ -70,13 +70,61 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-dialog-overlay" data-a11y-dialog-hide></div>
 		<!-- 3. The actual dialog -->
 		<div class="llms-dialog-content" role="document">
-			<button type="button" data-a11y-dialog-hide aria-label="<?php echo esc_html( __( 'Close', 'lifterlms' ) ); ?>">
+			<button class="llms-dialog-close" type="button" data-a11y-dialog-hide aria-label="<?php echo esc_html( __( 'Close', 'lifterlms' ) ); ?>">
 				&times;
 			</button>
 			<h1 id="llms-access-plan-dialog-title"><?php echo esc_html( __( 'What type of Access Plan do you want to create?', 'lifterlms' ) ); ?></h1>
 
-			<div>Access Plan 1</div>
-			<div>Access Plan 2</div>
+			<div class="llms-access-plan-templates">
+				<button class="template">
+					<strong>Free</strong>
+					<span>Free access that never expires.</span>
+				</button>
+				<button class="template">
+					<strong>Monthly</strong>
+					<span>Charge a recurring monthly subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+				<button class="template">
+					<strong>Annual</strong>
+					<span>Charge a recurring annual subscription that never ends.</span>
+				</button>
+			</div>
 		</div>
 	</div>
 

@@ -28,6 +28,8 @@
 		 */
 		this.$save = null;
 
+		this.$plan_dialog = null;
+
 		/**
 		 * A randomly generated temporary ID used for the tinyMCE editor's id
 		 * when a new plan is added
@@ -190,8 +192,7 @@
 				}, 500 );
 			} );
 
-			var dialogEl = document.getElementById('llms-access-plan-dialog');
-			var dialog = new A11yDialog(dialogEl);
+			self.$plan_dialog = new A11yDialog( document.getElementById( 'llms-access-plan-dialog' ) );
 
 			self.$plans.sortable( {
 				handle: '.llms-drag-handle',
