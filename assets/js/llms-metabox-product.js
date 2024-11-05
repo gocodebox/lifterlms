@@ -236,6 +236,15 @@
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_length]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
 						break;
+					case 'free-trial':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_offer]"]').val( 'yes' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_price]"]').val( '0' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_length]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
+						break;
 				}
 			} );
 
