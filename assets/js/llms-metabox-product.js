@@ -186,10 +186,11 @@
 			$( '#llms-new-access-plan' ).on( 'click', function() {
 				self.init_plan();
 
-				// If PMPro or others are hiding the Restrictions tab, we want to hide the Presell option.
+				// If PMPro or others are hiding the Restrictions tab, or there's no time period option, we want to hide the Presell option.
 				if ( ! $('span.llms-nav-link').filter(function() {
 					return $(this).text().trim() === 'Restrictions';
-				}).length ) {
+				}).length ||
+					! $('#_llms_time_period').length ) {
 					$( '.llms-access-plan-templates button[data-template="presell"]').hide();
 				}
 
@@ -264,7 +265,9 @@
 						});
 						if ( $restrictions_tab.length ) {
 							$restrictions_tab.click();
-							$('#_llms_time_period').click();
+							if ( ! $('#_llms_time_period').is(':checked') ) {
+								$('#_llms_time_period').click();
+							}
 							var today = new Date();
 							today.setMonth(today.getMonth() + 1);
 
