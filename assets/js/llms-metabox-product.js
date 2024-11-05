@@ -180,9 +180,12 @@
 			// trigger changes on load for all existing plans
 			$( '#llms-access-plans [data-controller-id]' ).trigger( 'change' );
 
+			self.$plan_dialog = new A11yDialog( document.getElementById( 'llms-access-plan-dialog' ) );
+
 			// add a new empty plan interface on new plan button click.
 			$( '#llms-new-access-plan' ).on( 'click', function() {
 				self.init_plan();
+				self.$plan_dialog.show();
 				self.toggle_create_button( 'disable' );
 				self.toggle_save_button( 'enable' );
 				setTimeout( function() {
@@ -192,7 +195,24 @@
 				}, 500 );
 			} );
 
-			self.$plan_dialog = new A11yDialog( document.getElementById( 'llms-access-plan-dialog' ) );
+			$( '#llms-access-plan-dialog .llms-access-plan-templates button.template').on( 'click', function( e ) {
+				e.preventDefault();
+				self.$plan_dialog.hide();
+
+				var $last_access_plan = self.$plans.find( '.llms-access-plan' ).last();
+
+				switch ( $( this ).attr( 'data-template' ) ) {
+					case 'free':
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
+					case 'monthly':
+						break;
+					case 'annual':
+						break;
+				}
+
+
+			} );
 
 			self.$plans.sortable( {
 				handle: '.llms-drag-handle',

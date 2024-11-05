@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="llms-plans-actions">
 		<div class="d-all">
-			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button" data-a11y-dialog-show="llms-access-plan-dialog">
+			<button class="llms-button-secondary small" id="llms-new-access-plan" type="button">
 				<span class="fa fa-plus"></span>
 				<?php esc_html_e( 'Add New Plan', 'lifterlms' ); ?>
 			</button>
@@ -76,15 +76,15 @@ defined( 'ABSPATH' ) || exit;
 			<h1 id="llms-access-plan-dialog-title"><?php echo esc_html( __( 'What type of Access Plan do you want to create?', 'lifterlms' ) ); ?></h1>
 
 			<div class="llms-access-plan-templates">
-				<button class="template">
+				<button class="template" data-template="free">
 					<strong>Free</strong>
 					<span>Free access that never expires.</span>
 				</button>
-				<button class="template">
+				<button class="template" data-template="monthly">
 					<strong>Monthly</strong>
 					<span>Charge a recurring monthly subscription that never ends.</span>
 				</button>
-				<button class="template">
+				<button class="template" data-template="annual">
 					<strong>Annual</strong>
 					<span>Charge a recurring annual subscription that never ends.</span>
 				</button>
