@@ -88,13 +88,13 @@ defined( 'ABSPATH' ) || exit;
 					<strong>Annual</strong>
 					<span>Charge a recurring annual subscription that never ends.</span>
 				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
+				<button class="template" data-template="one-time">
+					<strong>One Time</strong>
+					<span>Charge a one-time payment for a fixed period.</span>
 				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
+				<button class="template" data-template="lifetime">
+					<strong>Lifetime</strong>
+					<span>Charge a one-time payment that never expires.</span>
 				</button>
 				<button class="template">
 					<strong>Annual</strong>

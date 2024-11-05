@@ -215,6 +215,18 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'year' ).change();
 						break;
+					case 'one-time':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'limited-period' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[access_length]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_period]"]').val( 'year' ).change();
+						break;
+					case 'lifetime':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'lifetime' ).change();
+						break;
 				}
 			} );
 
