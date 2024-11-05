@@ -206,10 +206,12 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
 						break;
 					case 'monthly':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
 						break;
 					case 'annual':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'year' ).change();
 						break;
