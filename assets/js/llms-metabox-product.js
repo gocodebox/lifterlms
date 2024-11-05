@@ -281,6 +281,8 @@
 						}
 
 						break;
+					case 'advanced':
+						break;
 				}
 			} );
 

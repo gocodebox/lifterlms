@@ -112,17 +112,14 @@ defined( 'ABSPATH' ) || exit;
 					<strong>Presell</strong>
 					<span>Offer lifetime access for a one-time payment with a future start date.</span>
 				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
-				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
-				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
+				<a target="_blank" href="https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale">
+					<span class="add-on">Add-on</span>
+					<strong>Group Access</strong>
+					<span>Allow a buyer to purchase lifetime access for a group of people.</span>
+				</a>
+				<button class="template" data-template="advanced">
+					<strong>Advanced</strong>
+					<span>Show all settings to create an access plan from scratch.</span>
 				</button>
 			</div>
 		</div>
