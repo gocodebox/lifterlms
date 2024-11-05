@@ -245,6 +245,10 @@
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_length]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
 						break;
+					case 'hidden-access':
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
 				}
 			} );
 

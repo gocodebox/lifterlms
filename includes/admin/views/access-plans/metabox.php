@@ -104,9 +104,9 @@ defined( 'ABSPATH' ) || exit;
 					<strong>Free Trial</strong>
 					<span>Charge a fee for trial access and capture recurring payment info with a future monthly subscription that will start in 1 week.</span>
 				</button>
-				<button class="template">
-					<strong>Annual</strong>
-					<span>Charge a recurring annual subscription that never ends.</span>
+				<button class="template" data-template="hidden-access">
+					<strong>Hidden Access</strong>
+					<span>Grant free access without making this plan publicly available.</span>
 				</button>
 				<button class="template">
 					<strong>Annual</strong>
