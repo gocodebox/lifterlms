@@ -98,11 +98,11 @@ defined( 'ABSPATH' ) || exit;
 				</button>
 				<button class="template" data-template="paid-trial">
 					<strong>Paid Trial</strong>
-					<span>Grant free access for 1 week with a future monthly subscription that will start in 1 week.</span>
+					<span>Charge a fee for trial access and capture recurring payment info with a future monthly subscription that will start in 1 week.</span>
 				</button>
 				<button class="template" data-template="free-trial">
 					<strong>Free Trial</strong>
-					<span>Charge a fee for trial access and capture recurring payment info with a future monthly subscription that will start in 1 week.</span>
+					<span>Grant free access for 1 week with a future monthly subscription that will start in 1 week.</span>
 				</button>
 				<button class="template" data-template="hidden-access">
 					<strong>Hidden Access</strong>
