@@ -182,19 +182,20 @@
 
 			self.$plan_dialog = new A11yDialog( document.getElementById( 'llms-access-plan-dialog' ) );
 
+			// If PMPro or others are hiding the Restrictions tab, or there's no time period option, we want to hide the Presell option.
+			if ( ! $('span.llms-nav-link').filter(function() {
+					return $(this).text().trim() === 'Restrictions';
+				}).length ||
+				! $('#_llms_time_period').length ) {
+				$( '.llms-access-plan-templates button[data-template="presell"]').hide();
+			}
+
 			// add a new empty plan interface on new plan button click.
 			$( '#llms-new-access-plan' ).on( 'click', function() {
 				self.init_plan();
 
-				// If PMPro or others are hiding the Restrictions tab, or there's no time period option, we want to hide the Presell option.
-				if ( ! $('span.llms-nav-link').filter(function() {
-					return $(this).text().trim() === 'Restrictions';
-				}).length ||
-					! $('#_llms_time_period').length ) {
-					$( '.llms-access-plan-templates button[data-template="presell"]').hide();
-				}
-
 				self.$plan_dialog.show();
+
 				self.toggle_create_button( 'disable' );
 				self.toggle_save_button( 'enable' );
 				setTimeout( function() {
@@ -257,6 +258,11 @@
 					case 'hidden-access':
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
+					case 'sale':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
 						break;
 					case 'presell':
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();

@@ -108,6 +108,10 @@ defined( 'ABSPATH' ) || exit;
 					<strong>Hidden Access</strong>
 					<span>Grant free access without making this plan publicly available.</span>
 				</button>
+				<button class="template" data-template="sale">
+					<strong>Sale</strong>
+					<span>Discount a one-time payment for lifetime access.</span>
+				</button>
 				<button class="template" data-template="presell">
 					<strong>Presell</strong>
 					<span>Offer lifetime access for a one-time payment with a future start date.</span>
