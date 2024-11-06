@@ -220,19 +220,23 @@
 
 				switch ( $( this ).attr( 'data-template' ) ) {
 					case 'free':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Free' ) ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
 						break;
 					case 'monthly':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Monthly' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
 						break;
 					case 'annual':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Annual' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'year' ).change();
 						break;
 					case 'one-time':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'One Time' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'limited-period' ).change();
@@ -240,11 +244,13 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_period]"]').val( 'year' ).change();
 						break;
 					case 'lifetime':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Lifetime' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'lifetime' ).change();
 						break;
 					case 'paid-trial':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Paid Trial' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
@@ -254,6 +260,7 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
 						break;
 					case 'free-trial':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Free Trial' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
@@ -263,15 +270,18 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
 						break;
 					case 'hidden-access':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Hidden Access' ) ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
 						break;
 					case 'sale':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Sale' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
 						break;
 					case 'presell':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Pre-sale' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
 						var $restrictions_tab = $('span.llms-nav-link').filter(function() {
 							return $(this).text().trim() === 'Restrictions';

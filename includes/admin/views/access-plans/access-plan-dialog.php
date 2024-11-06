@@ -15,53 +15,53 @@
 
 		<div class="llms-access-plan-templates">
 			<button class="template" data-template="free">
-				<strong>Free</strong>
-				<span>Free access that never expires.</span>
+				<strong><?php echo esc_html( __( 'Free', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Free access that never expires.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="monthly">
-				<strong>Monthly</strong>
-				<span>Charge a recurring monthly subscription that never ends.</span>
+				<strong><?php echo esc_html( __( 'Monthly', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Charge a recurring monthly subscription that never ends.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="annual">
-				<strong>Annual</strong>
-				<span>Charge a recurring annual subscription that never ends.</span>
+				<strong><?php echo esc_html( __( 'Annual', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Charge a recurring annual subscription that never ends.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="one-time">
-				<strong>One Time</strong>
-				<span>Charge a one-time payment for a fixed period.</span>
+				<strong><?php echo esc_html( __( 'One Time', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Charge a one-time payment for a fixed period.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="lifetime">
-				<strong>Lifetime</strong>
-				<span>Charge a one-time payment that never expires.</span>
+				<strong><?php echo esc_html( __( 'Lifetime', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Charge a one-time payment that never expires.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="paid-trial">
-				<strong>Paid Trial</strong>
-				<span>Charge a fee for trial access and capture recurring payment info with a future monthly subscription that will start in 1 week.</span>
+				<strong><?php echo esc_html( __( 'Paid Trial', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Charge a fee for trial access and capture recurring payment info with a future monthly subscription that will start in 1 week.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="free-trial">
-				<strong>Free Trial</strong>
-				<span>Grant free access for 1 week with a future monthly subscription that will start in 1 week.</span>
+				<strong><?php echo esc_html( __( 'Free Trial', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Grant free access for 1 week with a future monthly subscription that will start in 1 week.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="hidden-access">
-				<strong>Hidden Access</strong>
-				<span>Grant free access without making this plan publicly available.</span>
+				<strong><?php echo esc_html( __( 'Hidden Access', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Grant free access without making this plan publicly available.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="sale">
-				<strong>Sale</strong>
-				<span>Discount a one-time payment for lifetime access.</span>
+				<strong><?php echo esc_html( __( 'Sale', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Discount a one-time payment for lifetime access.', 'lifterlms' ) ); ?></span>
 			</button>
 			<button class="template" data-template="presell">
-				<strong>Presell</strong>
-				<span>Offer lifetime access for a one-time payment with a future start date.</span>
+				<strong><?php echo esc_html( __( 'Pre-sale', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Offer lifetime access for a one-time payment with a future start date.', 'lifterlms' ) ); ?></span>
 			</button>
 			<a target="_blank" href="https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale">
-				<span class="add-on">Add-on</span>
-				<strong>Group Access</strong>
-				<span>Allow a buyer to purchase lifetime access for a group of people.</span>
+				<span class="add-on"><?php echo esc_html( __( 'Add-on', 'lifterlms' ) ); ?></span>
+				<strong><?php echo esc_html( __( 'Group Access', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Allow a buyer to purchase lifetime access for a group of people.', 'lifterlms' ) ); ?></span>
 			</a>
 			<button class="template" data-template="advanced">
-				<strong>Advanced</strong>
-				<span>Show all settings to create an access plan from scratch.</span>
+				<strong><?php echo esc_html( __( 'Advanced', 'lifterlms' ) ); ?></strong>
+				<span><?php echo esc_html( __( 'Show all settings to create an access plan from scratch.', 'lifterlms' ) ); ?></span>
 			</button>
 		</div>
 	</div>
