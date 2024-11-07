@@ -65,6 +65,9 @@ if ( ! isset( $plan ) ) {
 			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
 				<span class="dashicons dashicons-warning"></span>
 			</span>
+			<?php if ( $plan ) : ?>
+				<a target="_blank" href="<?php echo esc_url( $plan->get_checkout_url( false ) ); ?>"><span class="dashicons dashicons-admin-links llms-plan-purchase-link"></span></a>
+			<?php endif; ?>
 			<span class="dashicons dashicons-trash llms-plan-delete"></span>
 			<span class="dashicons dashicons-arrow-down"></span>
 			<span class="dashicons dashicons-arrow-up"></span>
