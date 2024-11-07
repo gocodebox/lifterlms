@@ -186,11 +186,11 @@
 			}
 
 			// If PMPro or others are hiding the Restrictions tab, or there's no time period option, we want to hide the Presell option.
-			if ( ! $('span.llms-nav-link').filter(function() {
-					return $(this).text().trim() === 'Restrictions';
+			if ( ! $( 'span.llms-nav-link' ).filter(function() {
+					return $( this ).text().trim() === LLMS.l10n.translate( 'Restrictions' );
 				}).length ||
-				! $('#_llms_time_period').length ) {
-				$( '.llms-access-plan-templates button[data-template="presell"]').hide();
+				! $( '#_llms_time_period' ).length ) {
+				$( '.llms-access-plan-templates button[data-template="presell"]' ).hide();
 			}
 
 			// add a new empty plan interface on new plan button click.
