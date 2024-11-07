@@ -307,9 +307,7 @@
 					case 'advanced':
 						break;
 					default:
-						// TODO: Verify this event can be listened to in order to modify the access plan object.
-						debugger;
-						$last_access_plan.trigger( 'llms-access-plan-template-' + $( this ).attr( 'data-template' ) );
+						self.$plans.trigger( 'llms-access-plan-template-' + $( this ).attr( 'data-template' ) );
 						break;
 				}
 			} );
