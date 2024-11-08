@@ -729,8 +729,6 @@
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
 
-			// Show a modal to let the user pick from various access plan pre-sets.
-
 		};
 
 		/**
