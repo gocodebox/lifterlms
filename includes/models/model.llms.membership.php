@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @property string $redirect_custom_url        Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'.
  * @property string $restriction_add_notice     Whether or not to add an on screen message when content is restricted by this membership [yes|no].
  * @property string $restriction_notice         Notice to display when $restriction_add_notice is 'yes'.
+ * @property string $featured_pricing           User defined additional pricing information.
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
  * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
@@ -103,7 +104,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return $this->set( 'auto_enroll', array_unique( $course_ids ) );
-
 	}
 
 	/**
@@ -161,7 +161,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		// Remove empty arrays and return the rest.
 		return array_filter( $posts );
-
 	}
 
 	/**
@@ -183,7 +182,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		$courses = array_values(
 			array_filter(
 				$courses,
-				function( $id ) {
+				function ( $id ) {
 					return 'publish' === get_post_status( $id );
 				}
 			)
@@ -228,7 +227,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 			$this,
 			$exclude_hidden
 		);
-
 	}
 
 	/**
@@ -260,7 +258,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		);
 
 		return $query->get_found_results();
-
 	}
 
 	/**
@@ -327,7 +324,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return array_unique( $courses );
-
 	}
 
 	/**
@@ -386,7 +382,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		}
 
 		return $ids;
-
 	}
 
 	/**
@@ -412,7 +407,6 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	public function set_instructors( $instructors = array() ) {
 
 		return $this->instructors()->set_instructors( $instructors );
-
 	}
 
 	/**
@@ -440,5 +434,4 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		return $arr;
 	}
-
 }
