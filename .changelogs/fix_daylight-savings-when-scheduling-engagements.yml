@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2799"
+entry: Fix for daylight savings and leap years when scheduling engagements.
