@@ -168,7 +168,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Pricing Information', 'lifterlms' ),
-						'desc'  => __( 'Enter information on pricing for this course, to be displayed on the catalog page.', 'lifterlms' ),
+						'desc'  => __( 'Enter information on pricing for this membership, to be displayed on the catalog page.', 'lifterlms' ),
 						'id'    => $this->prefix . 'featured_pricing',
 						'class' => 'code input-full',
 						'value' => 'test',
