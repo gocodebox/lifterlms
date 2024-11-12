@@ -14,7 +14,7 @@
 
 		const ed = new Quill( this, {
 			modules: {
-				toolbar: [ formatting ],
+				toolbar: ['bold', 'italic', 'underline', 'strike', { 'script': 'sub'}, { 'script': 'super' }],
 				keyboard: {
 					bindings: {
 						tab: {

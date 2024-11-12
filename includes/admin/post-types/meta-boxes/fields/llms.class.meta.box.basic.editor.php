@@ -29,7 +29,6 @@ class LLMS_Metabox_Basic_Editor_Field extends LLMS_Metabox_Field implements Meta
 			data-name="<?php echo esc_attr( $this->field['id'] ); ?>"
 			class="llms-editable-title llms-input-formatting"
 			data-attribute="title"
-			data-formatting="bold,italic,underline,strike"
 			<?php if ( array_key_exists( 'placeholder', $this->field ) && $this->field['placeholder'] ) : ?>
 				data-placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 			<?php endif; ?>
