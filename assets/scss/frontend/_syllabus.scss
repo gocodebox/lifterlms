@@ -91,6 +91,15 @@
 
 	.llms-main {
 	    flex-grow: 1;
+
+		span.llms-lesson-has-quiz,
+		span.llms-lesson-has-assignment {
+			font-size: 14px;
+		}
+
+		span.llms-lesson-has-quiz + span.llms-lesson-has-assignment {
+			margin-left: 10px;
+		}
 	}
 	.llms-extra {
 		min-width: 50px;
