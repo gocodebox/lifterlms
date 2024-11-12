@@ -353,6 +353,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 						} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_REQUIRE_ARRAY ) );
+						} elseif ( $field['type'] === 'basic-editor' ) {
+							$val = wp_kses( $_POST[ $field['id'] ], LLMS_ALLOWED_HTML_PRICES );
 						} else {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'] );
 						}

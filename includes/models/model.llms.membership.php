@@ -51,6 +51,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		'restriction_notice'        => 'html',
 		'restriction_redirect_type' => 'text',
 		'redirect_custom_url'       => 'text',
+		'featured_pricing'          => 'html',
 	);
 
 	/**

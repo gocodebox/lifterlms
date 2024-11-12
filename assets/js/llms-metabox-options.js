@@ -6,11 +6,9 @@
 
 ( function( $ ){
 
-	$( '.llms-mb-container .llms-input-formatting[data-formatting]' ).each( function() {
+	$( '.llms-mb-container .llms-basic-editor' ).each( function() {
 
-		const formatting = $( this ).attr( 'data-formatting' ).split( ',' ),
-			attr       = $( this ).attr( 'data-attribute' ),
-			name 	   = $( this ).attr( 'data-name' );
+		const name 	   = $( this ).attr( 'data-name' );
 
 		const ed = new Quill( this, {
 			modules: {
