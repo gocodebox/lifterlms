@@ -22,7 +22,7 @@ if ( ! $model->get( 'featured_pricing' ) ) {
 <div class="llms-featured-pricing">
 	<p>
 		<?php
-		echo wp_kses_post( $model->get( 'featured_pricing' ) );
+		echo wp_kses( $model->get( 'featured_pricing' ), LLMS_ALLOWED_HTML_PRICES );
 		?>
 	</p>
 </div>
