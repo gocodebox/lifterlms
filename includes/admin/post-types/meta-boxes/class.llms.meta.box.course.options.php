@@ -175,7 +175,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class' => 'code input-full',
 					),
 					array(
-						'type'  => 'text',
+						'type'  => 'basic-editor',
 						'label' => __( 'Featured Pricing Information', 'lifterlms' ),
 						'desc'  => __( 'Enter information on pricing for this course, to be displayed on the catalog page.', 'lifterlms' ),
 						'id'    => $this->prefix . 'featured_pricing',
