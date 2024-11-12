@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v7.8.3 - 2024-11-04
+-------------------
+
+##### Updates and Enhancements
+
++ Switches new access plans to Paid by default in the new access plan UI. [#2794](https://github.com/gocodebox/lifterlms/issues/2794)
+
+
 v7.8.2 - 2024-10-31
 -------------------
 
