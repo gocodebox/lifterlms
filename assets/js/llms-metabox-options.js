@@ -35,6 +35,9 @@
 			theme: 'bubble',
 		} );
 
+		const keyboard = ed.getModule('keyboard');
+		keyboard.bindings['Enter'] = null;
+
 		ed.on( 'text-change', function() {
 			$( 'input[name="' + name + '"]' ).val( ed.getSemanticHTML() );
 		});
