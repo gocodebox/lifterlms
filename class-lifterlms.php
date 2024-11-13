@@ -178,6 +178,7 @@ final class LifterLMS {
 			'width'           => true,
 			'height'          => true,
 			'data-*'          => true,
+			'aria-label'      => true,
 			'aria-live'       => true,
 			'aria-hidden'     => true,
 			'aria-*'          => true,
