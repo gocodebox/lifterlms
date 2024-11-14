@@ -86,7 +86,6 @@
 					method: 'POST',
 					url: window.ajaxurl,
 					data: function( params ) {
-						debugger;
 						return {
 							action: 'select2_query_posts',
 							page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
