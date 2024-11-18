@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2807"
+entry: Fix translations not loading for LifterLMS in WordPress 6.7.
