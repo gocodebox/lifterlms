@@ -36,15 +36,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-add_action(
-	'doing_it_wrong_run',
-	static function ( $function_name ) {
-		if ( '_load_textdomain_just_in_time' === $function_name ) {
-			debug_print_backtrace();
-		}
-	}
-);
-
 if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 	define( 'LLMS_PLUGIN_FILE', __FILE__ );
 }
@@ -62,7 +53,6 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 }
 
 register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
-
 
 /**
  * Returns the main instance of LifterLMS
