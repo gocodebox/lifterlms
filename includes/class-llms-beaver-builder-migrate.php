@@ -17,12 +17,6 @@ class LLMS_Beaver_Builder_Migrate {
 		add_action( 'wp', array( $this, 'remove_template_hooks' ) );
 	}
 
-	public function get_beaver_builder_data_template() {
-		$content = array();
-
-		return $content;
-	}
-
 	/**
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
@@ -42,7 +36,11 @@ class LLMS_Beaver_Builder_Migrate {
 		}
 
 		// TODO: Also migrate lessons?
-		if ( ! $this->should_migrate_post( $post->ID ) || 'course' !== get_post_type( $post->ID ) ) {
+		if ( 'course' !== get_post_type( $post->ID ) ) {
+			return;
+		}
+
+		if ( ! $this->should_migrate_post( $post->ID ) ) {
 			return;
 		}
 
@@ -53,14 +51,11 @@ class LLMS_Beaver_Builder_Migrate {
 		// Get the existing layout data.
 		$data = FLBuilderModel::get_layout_data();
 
-		error_log( 'checking BB template for: ' . get_the_ID() );
 		if ( ! $data ) {
-			error_log( 'checking for draft data' );
 			$draft_data = FLBuilderModel::get_layout_data( 'draft' );
 
 			// We don't want to update if there's already a draft.
 			if ( ! empty( $draft_data ) ) {
-				error_log( 'there is already draft data!' );
 				return;
 			}
 		}
@@ -70,11 +65,12 @@ class LLMS_Beaver_Builder_Migrate {
 		$template  = $templates['layout'][0];
 
 		if ( ! $data ) {
-			error_log( 'updating draft data' );
 			FLBuilderModel::update_layout_data( $template->nodes, 'draft' );
 
 			// TODO: Check if we want to do this now?
 			$this->update_migration_status( get_the_ID() );
+
+			return;
 		}
 
 		// Get the next top-level position.
@@ -86,7 +82,6 @@ class LLMS_Beaver_Builder_Migrate {
 				$template->nodes[ $node_id ]->position += $position;
 			}
 		}
-		error_log( 'adding template data to existing' );
 		// Merge the template nodes with the existing nodes.
 		$data = array_merge( $data, $template->nodes );
 
