@@ -61,6 +61,10 @@ class LLMS_Beaver_Builder {
 	 * @return void
 	 */
 	public function install() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
+
 		$existing = get_option( '_fl_builder_post_types', array( 'page' ) );
 		$types    = array_unique( array_merge( $existing, array( 'course', 'lesson', 'llms_membership' ) ) );
 		update_option( '_fl_builder_post_types', $types );
