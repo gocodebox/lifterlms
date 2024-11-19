@@ -28,6 +28,11 @@ class LLMS_Beaver_Builder {
 
 	protected function init() {
 
+		// Break early if the LifterLMS Labs is installed and enabled.
+		if ( class_exists( 'LifterLMS_Labs' ) && llms_parse_bool( get_option( 'llms_lab_beaver-builder_enabled' ) ) ) {
+			return;
+		}
+
 		// Prevent uneditable llms post types from being enabled for page building.
 		add_filter( 'fl_builder_admin_settings_post_types', array( $this, 'remove_uneditable_post_types' ) );
 
