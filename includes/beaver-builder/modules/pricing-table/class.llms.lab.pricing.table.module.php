@@ -28,9 +28,9 @@ class LLMS_Lab_Pricing_Table_Module extends FLBUilderModule {
 	public function __construct() {
 		parent::__construct(
 			array(
-				'name'          => esc_html__( 'Pricing Table', 'lifterlms-labs' ),
-				'description'   => esc_html__( 'LifterLMS Course / Membership Pricing Table', 'lifterlms-labs' ),
-				'category'      => esc_html__( 'LifterLMS Modules', 'lifterlms-labs' ),
+				'name'          => esc_html__( 'Pricing Table', 'lifterlms' ),
+				'description'   => esc_html__( 'LifterLMS Course / Membership Pricing Table', 'lifterlms' ),
+				'category'      => esc_html__( 'LifterLMS Modules', 'lifterlms' ),
 				'dir'           => LLMS_BB_MODULES_DIR . 'pricing-table/',
 				'url'           => LLMS_BB_MODULES_URL . 'pricing-table/',
 				'editor_export' => false,
@@ -122,18 +122,18 @@ FLBuilder::register_module(
 	'LLMS_Lab_Pricing_Table_Module',
 	array(
 		'general' => array(
-			'title'    => esc_html__( 'General', 'lifterlms-labs' ),
+			'title'    => esc_html__( 'General', 'lifterlms' ),
 			'sections' => array(
 				'general' => array(
-					'title'  => esc_html__( 'General', 'lifterlms-labs' ),
+					'title'  => esc_html__( 'General', 'lifterlms' ),
 					'fields' => array(
 						'llms_product_type'  => array(
 							'type'    => 'select',
-							'label'   => esc_html__( 'Product Type', 'lifterlms-labs' ),
+							'label'   => esc_html__( 'Product Type', 'lifterlms' ),
 							'options' => array(
-								''           => esc_html__( 'Current Course or Membership', 'lifterlms-labs' ),
-								'course'     => esc_html__( 'Course', 'lifterlms-labs' ),
-								'membership' => esc_html__( 'Memebership', 'lifterlms-labs' ),
+								''           => esc_html__( 'Current Course or Membership', 'lifterlms' ),
+								'course'     => esc_html__( 'Course', 'lifterlms' ),
+								'membership' => esc_html__( 'Memebership', 'lifterlms' ),
 							),
 							'toggle'  => array(
 								'course'     => array(
@@ -152,8 +152,8 @@ FLBuilder::register_module(
 							'action'  => 'fl_as_posts',
 							'data'    => 'course',
 							'limit'   => 1,
-							'label'   => esc_html__( 'Course', 'lifterlms-labs' ),
-							'help'    => esc_html__( 'Choose which course to display a pricing table for.', 'lifterlms-labs' ),
+							'label'   => esc_html__( 'Course', 'lifterlms' ),
+							'help'    => esc_html__( 'Choose which course to display a pricing table for.', 'lifterlms' ),
 							'preview' => array(
 								'type' => 'none',
 							),
@@ -163,8 +163,8 @@ FLBuilder::register_module(
 							'action'  => 'fl_as_posts',
 							'data'    => 'llms_membership',
 							'limit'   => 1,
-							'label'   => esc_html__( 'Membership', 'lifterlms-labs' ),
-							'help'    => esc_html__( 'Choose which membership to display a pricing table for.', 'lifterlms-labs' ),
+							'label'   => esc_html__( 'Membership', 'lifterlms' ),
+							'help'    => esc_html__( 'Choose which membership to display a pricing table for.', 'lifterlms' ),
 							'preview' => array(
 								'type' => 'none',
 							),

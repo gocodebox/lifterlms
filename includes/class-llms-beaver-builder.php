@@ -95,8 +95,8 @@ class LLMS_Beaver_Builder {
 	public function add_visibility_settings( $form, $id ) {
 
 		$options = array(
-			'llms_enrolled'     => esc_html__( 'Enrolled Students', 'lifterlms-labs' ),
-			'llms_not_enrolled' => esc_html__( 'Non-Enrolled Students and Visitors', 'lifterlms-labs' ),
+			'llms_enrolled'     => esc_html__( 'Enrolled Students', 'lifterlms' ),
+			'llms_not_enrolled' => esc_html__( 'Non-Enrolled Students and Visitors', 'lifterlms' ),
 		);
 
 		$toggle = array(
@@ -111,30 +111,30 @@ class LLMS_Beaver_Builder {
 		$fields = array(
 			'llms_enrollment_type'  => array(
 				'type'    => 'select',
-				'label'   => esc_html__( 'In', 'lifterlms-labs' ),
+				'label'   => esc_html__( 'In', 'lifterlms' ),
 				'options' => array(
-					''         => esc_html__( 'Current Course or Membership', 'lifterlms-labs' ),
-					'any'      => esc_html__( 'Any Course(s) or Membership(s)', 'lifterlms-labs' ),
-					'specific' => esc_html__( 'Specific Course(s) and/or Membership(s)', 'lifterlms-labs' ),
+					''         => esc_html__( 'Current Course or Membership', 'lifterlms' ),
+					'any'      => esc_html__( 'Any Course(s) or Membership(s)', 'lifterlms' ),
+					'specific' => esc_html__( 'Specific Course(s) and/or Membership(s)', 'lifterlms' ),
 				),
 				'toggle'  => array(
 					'specific' => array(
 						'fields' => array( 'llms_enrollment_match', 'llms_course_ids', 'llms_membership_ids' ),
 					),
 				),
-				'help'    => esc_html__( 'Select how to check the enrollment status of the current student.', 'lifterlms-labs' ),
+				'help'    => esc_html__( 'Select how to check the enrollment status of the current student.', 'lifterlms' ),
 				'preview' => array(
 					'type' => 'none',
 				),
 			),
 			'llms_enrollment_match' => array(
 				'type'    => 'select',
-				'label'   => esc_html__( 'Match', 'lifterlms-labs' ),
+				'label'   => esc_html__( 'Match', 'lifterlms' ),
 				'options' => array(
-					''    => esc_html__( 'Any of the following', 'lifterlms-labs' ),
-					'all' => esc_html__( 'All of the following', 'lifterlms-labs' ),
+					''    => esc_html__( 'Any of the following', 'lifterlms' ),
+					'all' => esc_html__( 'All of the following', 'lifterlms' ),
 				),
-				'help'    => esc_html__( 'Select how to check the enrollment status of the current student.', 'lifterlms-labs' ),
+				'help'    => esc_html__( 'Select how to check the enrollment status of the current student.', 'lifterlms' ),
 				'preview' => array(
 					'type' => 'none',
 				),
@@ -143,8 +143,8 @@ class LLMS_Beaver_Builder {
 				'type'    => 'suggest',
 				'action'  => 'fl_as_posts',
 				'data'    => 'course',
-				'label'   => esc_html__( 'Courses', 'lifterlms-labs' ),
-				'help'    => esc_html__( 'Choose which course(s) the student must be enrolled (or not enrolled) in to view this element.', 'lifterlms-labs' ),
+				'label'   => esc_html__( 'Courses', 'lifterlms' ),
+				'help'    => esc_html__( 'Choose which course(s) the student must be enrolled (or not enrolled) in to view this element.', 'lifterlms' ),
 				'preview' => array(
 					'type' => 'none',
 				),
@@ -153,8 +153,8 @@ class LLMS_Beaver_Builder {
 				'type'    => 'suggest',
 				'action'  => 'fl_as_posts',
 				'data'    => 'llms_membership',
-				'label'   => esc_html__( 'Memberships', 'lifterlms-labs' ),
-				'help'    => esc_html__( 'Choose which membership(s) the student must be enrolled (or not enrolled) in to view this element.', 'lifterlms-labs' ),
+				'label'   => esc_html__( 'Memberships', 'lifterlms' ),
+				'help'    => esc_html__( 'Choose which membership(s) the student must be enrolled (or not enrolled) in to view this element.', 'lifterlms' ),
 				'preview' => array(
 					'type' => 'none',
 				),

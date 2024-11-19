@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 				'columns'     => 12,
 				'classes'     => 'llms-button-primary auto button',
 				'id'          => 'llms_mark_complete',
-				'value'       => apply_filters( 'lifterlms_mark_lesson_complete_button_text', esc_html__( 'Mark Complete', 'lifterlms-labs' ), llms_get_post( get_the_ID() ) ),
+				'value'       => apply_filters( 'lifterlms_mark_lesson_complete_button_text', esc_html__( 'Mark Complete', 'lifterlms' ), llms_get_post( get_the_ID() ) ),
 				'last_column' => true,
 				'name'        => 'mark_complete',
 				'required'    => false,
