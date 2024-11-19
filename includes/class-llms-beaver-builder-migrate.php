@@ -13,7 +13,7 @@ class LLMS_Beaver_Builder_Migrate {
 
 	public function __construct() {
 
-		add_action( 'current_screen', array( $this, 'migrate_post' ) );
+		add_action( 'wp', array( $this, 'maybe_migrate_post' ) );
 		add_action( 'wp', array( $this, 'remove_template_hooks' ) );
 	}
 
@@ -26,62 +26,90 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
-	 * @since 7.7.0
+	 * @since [version]
 	 *
 	 * @return  void
 	 */
-	public function migrate_post() {
+	public function maybe_migrate_post() {
+		global $post;
 
-		global $pagenow;
-
-		if ( 'post.php' !== $pagenow ) {
+		if ( ! class_exists( 'FLBuilderModel' ) || ! method_exists( 'FLBuilderModel', 'is_builder_active' ) || ! FLBuilderModel::is_builder_active() ) {
 			return;
 		}
 
-		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		$post    = $post_id ? get_post( $post_id ) : false;
-
-		if ( ! $post || ! isset( $_REQUEST['action'] ) || 'elementor' !== $_REQUEST['action'] || ! $this->should_migrate_post( $post_id ) || 'course' !== get_post_type( $post_id ) ) {
+		if ( ! $post ) {
 			return;
 		}
 
-		$this->ensure_elementor_data_present( $post_id );
-		$this->add_template_to_post( $post_id );
+		// TODO: Also migrate lessons?
+		if ( ! $this->should_migrate_post( $post->ID ) || 'course' !== get_post_type( $post->ID ) ) {
+			return;
+		}
+
+		$this->add_template_to_post();
 	}
 
-	public function add_template_to_post( $post_id ) {
-		$content = get_post_meta( $post_id, '_elementor_data', true );
-		if ( ! $content ) {
-			return;
+	public function add_template_to_post() {
+		// Get the existing layout data.
+		$data = FLBuilderModel::get_layout_data();
+
+		error_log( 'checking BB template for: ' . get_the_ID() );
+		if ( ! $data ) {
+			error_log( 'checking for draft data' );
+			$draft_data = FLBuilderModel::get_layout_data( 'draft' );
+
+			// We don't want to update if there's already a draft.
+			if ( ! empty( $draft_data ) ) {
+				error_log( 'there is already draft data!' );
+				return;
+			}
 		}
 
-		$decoded_content = json_decode( $content, true );
+		$path      = LLMS_PLUGIN_DIR . 'includes/beaver-builder/templates/default-course-template.dat';
+		$templates = maybe_unserialize( file_get_contents( $path ) );
+		$template  = $templates['layout'][0];
 
-		if ( ! is_array( $decoded_content ) ) {
-			return;
+		if ( ! $data ) {
+			error_log( 'updating draft data' );
+			FLBuilderModel::update_layout_data( $template->nodes, 'draft' );
+
+			// TODO: Check if we want to do this now?
+			$this->update_migration_status( get_the_ID() );
 		}
 
-		$decoded_content = array_merge( $decoded_content, $this->get_elementor_data_template() );
+		// Get the next top-level position.
+		$position = FLBuilderModel::next_node_position( 'row' );
 
-		$this->update_elementor_data( $post_id, $decoded_content );
-		$this->update_migration_status( $post_id );
+		// Adjust the position of template nodes.
+		foreach ( $template->nodes as $node_id => $node ) {
+			if ( ! $node->parent ) {
+				$template->nodes[ $node_id ]->position += $position;
+			}
+		}
+		error_log( 'adding template data to existing' );
+		// Merge the template nodes with the existing nodes.
+		$data = array_merge( $data, $template->nodes );
+
+		FLBuilderModel::update_layout_data( $data );
+
+		$this->update_migration_status( get_the_ID() );
 	}
 
 	/**
-	 * Removes core template action hooks from posts which have been migrated to elementor widgets.
+	 * Removes core template action hooks from posts which have been migrated to beaver builder widgets.
 	 *
-	 * @since 7.7.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
 	public function remove_template_hooks() {
-		// TODO: Refactor this so it's not duplicated between Elementor and Beaver Builder.
 		if ( ! function_exists( 'llms_is_beaver_builder_post' ) ||
 			! llms_is_beaver_builder_post() ||
 			( get_the_ID() && ! llms_parse_bool( get_post_meta( get_the_ID(), '_llms_beaver_builder_migrated', true ) ) ) ) {
 			return;
 		}
 
+		// TODO: Refactor this so it's not duplicated between Elementor and Beaver Builder.
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty', 20 );
@@ -98,7 +126,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Determine if a post should be migrated.
 	 *
-	 * @since 7.7.0
+	 * @since [version]
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return bool
@@ -121,7 +149,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Update post meta data to signal status of the editor migration.
 	 *
-	 * @since 7.7.0
+	 * @since [version]
 	 *
 	 * @param int    $post_id WP_Post ID.
 	 * @param string $status  Yes or no.
@@ -129,37 +157,6 @@ class LLMS_Beaver_Builder_Migrate {
 	 */
 	public function update_migration_status( $post_id, $status = 'yes' ) {
 		update_post_meta( $post_id, '_llms_beaver_builder_migrated', $status );
-	}
-
-	private function ensure_elementor_data_present( $post_id ): void {
-		$content = json_decode( get_post_meta( $post_id, '_elementor_data', true ) );
-
-		if ( ! is_array( $content ) && ( $post = get_post( $post_id ) ) ) {
-			$content   = array();
-			$content[] = array(
-				'id'       => uniqid(),
-				'elType'   => 'container',
-				'settings' => array(),
-				'elements' => array(
-					array(
-						'id'         => uniqid(),
-						'elType'     => 'widget',
-						'settings'   => array(
-							'editor' => $post->post_content,
-						),
-						'elements'   => array(),
-						'widgetType' => 'text-editor',
-					),
-				),
-				'isInner'  => false,
-			);
-			$this->update_elementor_data( $post_id, $content );
-		}
-	}
-
-	private function update_elementor_data( $post_id, $content ): void {
-		// The trim and wp json encode are important. It doesn't seem to work with just json_encode, for example.
-		update_post_meta( $post_id, '_elementor_data', trim( wp_slash( wp_json_encode( $content ) ), '"' ) );
 	}
 }
 
