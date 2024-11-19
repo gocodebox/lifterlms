@@ -368,6 +368,8 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-beaver-builder.php';
+		// TODO: Add "migrate" class
 
 		do_action( 'lifterlms_init' );
 	}
