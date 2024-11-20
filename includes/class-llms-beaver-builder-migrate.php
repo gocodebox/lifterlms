@@ -15,6 +15,7 @@ class LLMS_Beaver_Builder_Migrate {
 
 		add_action( 'wp', array( $this, 'maybe_migrate_post' ) );
 		add_action( 'wp', array( $this, 'remove_template_hooks' ) );
+		add_action( 'fl_builder_after_save_layout', array( $this, 'maybe_update_migration_status' ), 10, 2 );
 	}
 
 	/**
@@ -35,8 +36,7 @@ class LLMS_Beaver_Builder_Migrate {
 			return;
 		}
 
-		// TODO: Also migrate lessons?
-		if ( 'course' !== get_post_type( $post->ID ) ) {
+		if ( ! $this->is_migratable_post_type( $post->ID ) ) {
 			return;
 		}
 
@@ -47,31 +47,24 @@ class LLMS_Beaver_Builder_Migrate {
 		$this->add_template_to_post();
 	}
 
+	protected function is_migratable_post_type( $post_id ) {
+		// TODO: Also migrate lessons?
+		return in_array( get_post_type( $post_id ), array( 'course' ) );
+	}
+
 	public function add_template_to_post() {
 		// Get the existing layout data.
 		$data = FLBuilderModel::get_layout_data();
 
 		if ( ! $data ) {
-			$draft_data = FLBuilderModel::get_layout_data( 'draft' );
-
-			// We don't want to update if there's already a draft.
-			if ( ! empty( $draft_data ) ) {
-				return;
-			}
+			return;
 		}
 
 		$path      = LLMS_PLUGIN_DIR . 'includes/beaver-builder/templates/default-course-template.dat';
 		$templates = maybe_unserialize( file_get_contents( $path ) );
 		$template  = $templates['layout'][0];
 
-		if ( ! $data ) {
-			FLBuilderModel::update_layout_data( $template->nodes, 'draft' );
-
-			// TODO: Check if we want to do this now?
-			$this->update_migration_status( get_the_ID() );
-
-			return;
-		}
+		// TODO : Check if the data already has the template inserted.
 
 		// Get the next top-level position.
 		$position = FLBuilderModel::next_node_position( 'row' );
@@ -86,8 +79,6 @@ class LLMS_Beaver_Builder_Migrate {
 		$data = array_merge( $data, $template->nodes );
 
 		FLBuilderModel::update_layout_data( $data );
-
-		$this->update_migration_status( get_the_ID() );
 	}
 
 	/**
@@ -101,7 +92,15 @@ class LLMS_Beaver_Builder_Migrate {
 		if ( ! function_exists( 'llms_is_beaver_builder_post' ) ||
 			! llms_is_beaver_builder_post() ||
 			( get_the_ID() && ! llms_parse_bool( get_post_meta( get_the_ID(), '_llms_beaver_builder_migrated', true ) ) ) ) {
-			return;
+
+			if ( ! $this->is_migratable_post_type( get_the_ID() ) ) {
+				return;
+			}
+
+			// Remove the bottom actions if the builder is currently active to avoid confusion with uneditable pieces.
+			if ( ! class_exists( 'FLBuilderModel' ) || ! method_exists( 'FLBuilderModel', 'is_builder_active' ) || ! FLBuilderModel::is_builder_active() ) {
+				return;
+			}
 		}
 
 		// TODO: Refactor this so it's not duplicated between Elementor and Beaver Builder.
@@ -146,15 +145,25 @@ class LLMS_Beaver_Builder_Migrate {
 	 *
 	 * @since [version]
 	 *
-	 * @param int    $post_id WP_Post ID.
-	 * @param string $status  Yes or no.
+	 * @param int  $post_id WP_Post ID.
+	 * @param bool $publish Whether or not the post is being published.
 	 * @return void
 	 */
-	public function update_migration_status( $post_id, $status = 'yes' ) {
-		update_post_meta( $post_id, '_llms_beaver_builder_migrated', $status );
+	public function maybe_update_migration_status( $post_id, $publish ) {
+		if ( ! $publish ) {
+			return;
+		}
+
+		if ( ! $this->is_migratable_post_type( $post_id ) ) {
+			return;
+		}
+
+		if ( llms_parse_bool( get_post_meta( $post_id, '_llms_beaver_builder_migrated', true ) ) ) {
+			return;
+		}
+
+		update_post_meta( $post_id, '_llms_beaver_builder_migrated', 'yes' );
 	}
 }
 
-global $llms_beaver_builder_migrate;
-$llms_beaver_builder_migrate = new LLMS_Beaver_Builder_Migrate();
-return $llms_beaver_builder_migrate;
+return new LLMS_Beaver_Builder_Migrate();
