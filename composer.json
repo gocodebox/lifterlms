@@ -36,7 +36,7 @@
     "woocommerce/action-scheduler": "3.5.4"
   },
   "require-dev": {
-    "lifterlms/lifterlms-tests": "dev-fix/adding-debug-log-wp-6.4",
+    "lifterlms/lifterlms-tests": "^4.4",
     "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {
