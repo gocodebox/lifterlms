@@ -78,8 +78,9 @@ export async function runSetupWizard( {
 	} else if ( coursesToImport ) {
 		// Import courses.
 
+		console.log('taking before screenshot');
 		await page.screenshot({
-			path: 'before-selecting-courses-setup-wizard.jpg'
+			path: 'tmp/artifacts/before-selecting-courses-setup-wizard.jpg'
 		});
 
 		// Select specified courses.
@@ -87,8 +88,9 @@ export async function runSetupWizard( {
 			await clickElementByText( courseTitle, 'h3' );
 		}
 
+		console.log('taking after screenshot');
 		await page.screenshot({
-			path: 'after-selecting-courses-setup-wizard.jpg'
+			path: 'tmp/artifacts/after-selecting-courses-setup-wizard.jpg'
 		});
 
 		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
