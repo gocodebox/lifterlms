@@ -33,6 +33,10 @@ class LLMS_Beaver_Builder {
 			return;
 		}
 
+		if ( ! class_exists( 'FLBuilder' ) || ! class_exists( 'FLBuilderModel' ) || ! class_exists( 'FLBUilderModule' ) ) {
+			return;
+		}
+
 		// Prevent uneditable llms post types from being enabled for page building.
 		add_filter( 'fl_builder_admin_settings_post_types', array( $this, 'remove_uneditable_post_types' ) );
 
@@ -370,6 +374,9 @@ class LLMS_Beaver_Builder {
 	 * @return void
 	 */
 	public function load_modules() {
+		if ( ! class_exists( 'FLBUilderModule' ) ) {
+			return;
+		}
 
 		if ( file_exists( LLMS_BB_MODULES_DIR ) ) {
 			foreach ( glob( LLMS_BB_MODULES_DIR . '**/*.php', GLOB_NOSORT ) as $file ) {
@@ -386,6 +393,10 @@ class LLMS_Beaver_Builder {
 	 * @return void
 	 */
 	public function load_templates() {
+
+		if ( ! class_exists( 'FLBuilderModel' ) ) {
+			return;
+		}
 
 		FLBuilderModel::register_templates( LLMS_PLUGIN_DIR . 'includes/beaver-builder/templates/course-template.dat' );
 	}
