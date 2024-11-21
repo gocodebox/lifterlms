@@ -78,10 +78,18 @@ export async function runSetupWizard( {
 	} else if ( coursesToImport ) {
 		// Import courses.
 
+		await page.screenshot({
+			path: 'before-selecting-courses-setup-wizard.jpg'
+		});
+
 		// Select specified courses.
 		for ( const courseTitle of coursesToImport ) {
 			await clickElementByText( courseTitle, 'h3' );
 		}
+
+		await page.screenshot({
+			path: 'after-selecting-courses-setup-wizard.jpg'
+		});
 
 		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 
