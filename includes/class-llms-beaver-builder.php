@@ -40,6 +40,9 @@ class LLMS_Beaver_Builder {
 		// Prevent uneditable llms post types from being enabled for page building.
 		add_filter( 'fl_builder_admin_settings_post_types', array( $this, 'remove_uneditable_post_types' ) );
 
+		// Add migrateable post types to the builder by default.
+		add_filter( 'fl_builder_post_types', array( $this, 'enable_post_types_by_default' ) );
+
 		add_action( 'init', array( $this, 'load_modules' ) );
 		add_action( 'init', array( $this, 'load_templates' ) );
 
@@ -58,6 +61,13 @@ class LLMS_Beaver_Builder {
 		// LifterLMS Private Areas.
 		add_action( 'llms_pa_before_do_area_content', array( $this, 'llms_pa_before_content' ) );
 		add_action( 'llms_pa_after_do_area_content', array( $this, 'llms_pa_after_content' ) );
+	}
+
+	public function enable_post_types_by_default( $types ) {
+		$types[] = 'course';
+		$types[] = 'lesson';
+
+		return $types;
 	}
 
 	/**
