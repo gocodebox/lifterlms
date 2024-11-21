@@ -48,8 +48,7 @@ class LLMS_Beaver_Builder_Migrate {
 	}
 
 	protected function is_migratable_post_type( $post_id ) {
-		// TODO: Also migrate lessons?
-		return in_array( get_post_type( $post_id ), array( 'course' ) );
+		return in_array( get_post_type( $post_id ), array( 'course', 'lesson' ) );
 	}
 
 	public function add_template_to_post() {
@@ -60,7 +59,12 @@ class LLMS_Beaver_Builder_Migrate {
 			return;
 		}
 
-		$path      = LLMS_PLUGIN_DIR . 'includes/beaver-builder/templates/default-course-template.dat';
+		$path = LLMS_PLUGIN_DIR . 'includes/beaver-builder/templates/default-' . get_post_type() . '-template.dat';
+
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
+
 		$templates = maybe_unserialize( file_get_contents( $path ) );
 		$template  = $templates['layout'][0];
 
@@ -103,6 +107,33 @@ class LLMS_Beaver_Builder_Migrate {
 			}
 		}
 
+		switch ( get_post_type() ) {
+			case 'course':
+				$this->remove_course_template_hooks();
+				break;
+			case 'lesson':
+				$this->remove_lesson_template_hooks();
+				break;
+		}
+	}
+
+	/**
+	 * Remove lesson template hooks.
+	 *
+	 * @since [version]
+	 */
+	public function remove_lesson_template_hooks() {
+		remove_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
+	}
+
+	/**
+	 * Remove course template hooks.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function remove_course_template_hooks() {
 		// TODO: Refactor this so it's not duplicated between Elementor and Beaver Builder.
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
