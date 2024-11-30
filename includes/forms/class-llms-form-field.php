@@ -866,7 +866,7 @@ class LLMS_Form_Field {
 			$name                         = $users_fields[ $name ];
 
 			// Don't save default core confirmation fields.
-		} elseif ( in_array( $name, array( 'email_address_confirm', 'password_confirm' ), true ) ) {
+		} elseif ( in_array( $name, LLMS_CONFIRMATION_FIELDS, true ) ) {
 			$this->settings['data_store'] = false;
 		}
 
