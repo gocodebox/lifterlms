@@ -1,0 +1,121 @@
+<?php
+/**
+ * Update functions for version [version]
+ *
+ * @package LifterLMS/Functions/Updates
+ *
+ * @since 7.8.5
+ * @version 7.8.5
+ */
+
+namespace LLMS\Updates\Version_7_8_5;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Retrieves the DB version of the migration.
+ *
+ * @since 7.8.5
+ *
+ * @access private
+ *
+ * @return string
+ */
+function _get_db_version() {
+	return '7.8.5';
+}
+
+/**
+ * Create a new option to show a notice.
+ *
+ * @since 7.8.5
+ *
+ * @return false
+ */
+function maybe_remove_pwc() {
+	// Find postmeta values for `_llms_plan_sku` that are not empty.
+	global $wpdb;
+	$found_pwc_meta = $wpdb->get_results(
+		"SELECT *
+		 FROM {$wpdb->usermeta}
+		 WHERE meta_key = 'password_confirm'
+		 AND meta_value IS NOT NULL"
+	);
+
+	if ( $found_pwc_meta ) {
+		update_option( 'llms_pwc_notice', 'yes' );
+
+		$wpdb->query(
+			"DELETE
+		 FROM {$wpdb->usermeta}
+		 WHERE meta_key = 'password_confirm'"
+		);
+	}
+
+	return false;
+}
+
+/**
+ * Shows an admin welcome notice.
+ *
+ * @since 7.8.5
+ *
+ * @return boolean
+ */
+function maybe_show_notice() {
+
+	if ( ! llms_parse_bool( get_option( 'llms_pwc_notice' ) ) ) {
+		return false;
+	}
+
+	$notice_id = sprintf( 'v%s-msg', str_replace( array( '.', '-' ), '', _get_db_version() ) );
+
+	$html = sprintf(
+		'<strong>%1$s</strong><br><br>%2$s<br><br>%3$s',
+		__( 'Security Notice', 'lifterlms' ),
+		__( '7.8.5 contains a security fix that requires action', 'lifterlms' ),
+		sprintf(
+		// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+			__( '%1$sRead More%2$s', 'lifterlms' ),
+			'<a class="button" href="https://blog.lifterlms.com/785?utm_source=notice&utm_medium=product&utm_campaign=lifterlmsplugin&utm_content=785-notice" target="_blank" rel="noopener">',
+			'</a>'
+		)
+	);
+
+	\LLMS_Admin_Notices::add_notice(
+		$notice_id,
+		$html,
+		array(
+			'type'             => 'success',
+			'dismiss_for_days' => 0,
+			'remindable'       => false,
+		)
+	);
+	return false;
+}
+
+/**
+ * Update db version to [version].
+ *
+ * @since 7.8.5
+ *
+ * @return false.
+ */
+function update_db_version() {
+	global $wpdb;
+
+	$found_pwc_meta = $wpdb->get_results(
+		"SELECT *
+		 FROM {$wpdb->usermeta}
+		 WHERE meta_key = 'password_confirm'
+		 AND meta_value != ''"
+	);
+
+	if ( $found_pwc_meta ) {
+		// Don't update the db version yet.
+		return;
+	}
+
+	\LLMS_Install::update_db_version( _get_db_version() );
+	return false;
+}
