@@ -193,7 +193,6 @@ return array(
 		'namespace' => true,
 		'updates'   => array(
 			'maybe_remove_pwc',
-			'maybe_show_notice',
 			'update_db_version',
 		),
 	),

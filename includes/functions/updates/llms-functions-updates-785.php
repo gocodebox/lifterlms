@@ -38,8 +38,7 @@ function maybe_remove_pwc() {
 	$found_pwc_meta = $wpdb->get_results(
 		"SELECT *
 		 FROM {$wpdb->usermeta}
-		 WHERE meta_key = 'password_confirm'
-		 AND meta_value IS NOT NULL"
+		 WHERE meta_key = 'password_confirm'"
 	);
 
 	if ( $found_pwc_meta ) {
@@ -50,6 +49,8 @@ function maybe_remove_pwc() {
 		 FROM {$wpdb->usermeta}
 		 WHERE meta_key = 'password_confirm'"
 		);
+
+		show_notice();
 	}
 
 	return false;
@@ -62,11 +63,7 @@ function maybe_remove_pwc() {
  *
  * @return boolean
  */
-function maybe_show_notice() {
-
-	if ( ! llms_parse_bool( get_option( 'llms_pwc_notice' ) ) ) {
-		return false;
-	}
+function show_notice() {
 
 	$notice_id = sprintf( 'v%s-msg', str_replace( array( '.', '-' ), '', _get_db_version() ) );
 
@@ -86,7 +83,7 @@ function maybe_show_notice() {
 		$notice_id,
 		$html,
 		array(
-			'type'             => 'success',
+			'type'             => 'error',
 			'dismiss_for_days' => 0,
 			'remindable'       => false,
 		)
@@ -107,8 +104,7 @@ function update_db_version() {
 	$found_pwc_meta = $wpdb->get_results(
 		"SELECT *
 		 FROM {$wpdb->usermeta}
-		 WHERE meta_key = 'password_confirm'
-		 AND meta_value != ''"
+		 WHERE meta_key = 'password_confirm'"
 	);
 
 	if ( $found_pwc_meta ) {
