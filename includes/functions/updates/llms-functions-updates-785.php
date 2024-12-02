@@ -26,14 +26,13 @@ function _get_db_version() {
 }
 
 /**
- * Create a new option to show a notice.
+ * Verify and delete the password_confirm usermeta.
  *
  * @since 7.8.5
  *
  * @return false
  */
 function maybe_remove_pwc() {
-	// Find postmeta values for `_llms_plan_sku` that are not empty.
 	global $wpdb;
 	$found_pwc_meta = $wpdb->get_results(
 		"SELECT *
@@ -57,7 +56,7 @@ function maybe_remove_pwc() {
 }
 
 /**
- * Shows an admin welcome notice.
+ * Shows an admin notice.
  *
  * @since 7.8.5
  *
