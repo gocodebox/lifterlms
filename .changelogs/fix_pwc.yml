@@ -1,0 +1,6 @@
+significance: patch
+type: security
+links:
+  - "#123"
+entry: Fix to avoid saving password confirmation in user meta if Password block
+  has been edited.
