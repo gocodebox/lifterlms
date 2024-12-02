@@ -216,8 +216,8 @@ if ( ! isset( $plan ) ) {
 					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]" data-controller-id="llms-is-free" name="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="yes"<?php selected( 'yes', $plan ? $plan->get( 'is_free' ) : '' ); ?>><?php esc_html_e( 'Free', 'lifterlms' ); ?></option>
 					<option value="no"<?php selected( 'no', $plan ? $plan->get( 'is_free' ) : true ); ?>><?php esc_html_e( 'Paid', 'lifterlms' ); ?></option>
+					<option value="yes"<?php selected( 'yes', $plan ? $plan->get( 'is_free' ) : '' ); ?>><?php esc_html_e( 'Free', 'lifterlms' ); ?></option>
 				</select>
 
 			</div>
@@ -233,7 +233,17 @@ if ( ! isset( $plan ) ) {
 							<i class="fa fa-question-circle"></i>
 						</span>
 					</label>
-					<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][price]" class="llms-plan-price" name="_llms_plans[<?php echo esc_attr( $order ); ?>][price]" min="<?php echo esc_attr( $price_step ); ?>" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="number"<?php echo ( $plan ? ' value="' . esc_attr( $plan->get( 'price' ) ) . '"' : ' disabled="disabled"' ); ?>>
+					<input
+						id="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
+						class="llms-plan-price" name="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
+						placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>"
+						<?php if ( apply_filters( 'llms_access_plan_price_required', true, $plan ) ) : ?>
+						min="<?php echo esc_attr( $price_step ); ?>"
+						required="required"
+						<?php endif; ?>
+						step="<?php echo esc_attr( $price_step ); ?>"
+						type="number"<?php echo ( $plan ? ' value="' . esc_attr( $plan->get( 'price' ) ) . '"' : ' disabled="disabled"' ); ?>
+					>
 				</div>
 
 				<div class="llms-metabox-field d-1of4">
