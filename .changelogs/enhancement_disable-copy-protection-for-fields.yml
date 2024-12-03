@@ -1,0 +1,4 @@
+significance: patch
+type: changed
+entry: Now allows copying of text in input and textarea elements, even if copy
+  protection is enabled.
