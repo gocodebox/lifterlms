@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/certificate-title",
+  "title": "Certificate Title",
+  "category": "text",
+  "description": "Displays the title of a certificate.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "textAlign": {
+      "type": "string",
+      "default": "center"
+    },
+    "content": {
+      "type": "string",
+      "source": "html",
+      "selector": "h1,h2,h3,h4,h5,h6",
+      "default": "",
+      "__experimentalRole": "content"
+    },
+    "level": {
+      "type": "number",
+      "default": 1
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "fontFamily": {
+      "type": "string",
+      "default": "default"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "anchor": true,
+    "className": false,
+    "color": {
+      "link": true
+    },
+    "spacing": {
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalTextTransform": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "fontAppearance": true,
+        "textTransform": true
+      }
+    },
+    "__experimentalSelector": "h1,h2,h3,h4,h5,h6",
+    "__unstablePasteTextInline": true,
+    "__experimentalSlashInserter": true,
+    "multiple": false,
+    "llms_visibility": false
+  },
+  "editorScript": "file:./index.js"
+}
