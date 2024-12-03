@@ -73,7 +73,7 @@ function show_notice() {
 		sprintf(
 		// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
 			__( '%1$sRead More%2$s', 'lifterlms' ),
-			'<a class="button" href="https://blog.lifterlms.com/785?utm_source=notice&utm_medium=product&utm_campaign=lifterlmsplugin&utm_content=785-notice" target="_blank" rel="noopener">',
+			'<a class="button" href="https://lifterlms.com/blog/security-release-password-block/?utm_source=notice&utm_medium=product&utm_campaign=lifterlmsplugin&utm_content=785-notice" target="_blank" rel="noopener">',
 			'</a>'
 		)
 	);
