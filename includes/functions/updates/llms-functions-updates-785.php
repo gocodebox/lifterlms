@@ -69,9 +69,14 @@ function show_notice() {
 	$html = sprintf(
 		'<strong>%1$s</strong><br><br>%2$s<br><br>%3$s',
 		__( 'Security Notice', 'lifterlms' ),
-		__( '7.8.5 contains a security fix that requires action', 'lifterlms' ),
 		sprintf(
-		// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+			// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+			__( 'We\'ve detected that your site has been affected by a security issue fixed in the v7.8.5 update to LifterLMS. Further action is required. Your site may have been saving user passwords to the user meta table in plaintext. %1$sClick here to learn more%2$s.', 'lifterlms' ),
+			'<a href="https://lifterlms.com/blog/security-release-password-block/?utm_source=notice&utm_medium=product&utm_campaign=lifterlmsplugin&utm_content=785-notice" target="_blank" rel="noopener">',
+			'</a>'
+		),
+		sprintf(
+			// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
 			__( '%1$sRead More%2$s', 'lifterlms' ),
 			'<a class="button" href="https://lifterlms.com/blog/security-release-password-block/?utm_source=notice&utm_medium=product&utm_campaign=lifterlmsplugin&utm_content=785-notice" target="_blank" rel="noopener">',
 			'</a>'
