@@ -93,6 +93,7 @@ class LLMS_Form_Handler {
 		}
 
 		foreach ( $prepared['usermeta'] as $key => $val ) {
+			// Double check that fields like password_confirm aren't saved to user meta.
 			if ( in_array( $key, LLMS_CONFIRMATION_FIELDS, true ) ) {
 				continue;
 			}
