@@ -109,7 +109,7 @@ LLMS.LessonPreview = {
 	 */
 	get_tooltip: function( msg ) {
 		var $el = $( '<div class="llms-tooltip" />' );
-		$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
+		$el.append( '<div class="llms-tooltip-content" aria-hidden="true">' + msg + '</div>' );
 		return $el;
 	},
 
