@@ -83,21 +83,9 @@ export async function runSetupWizard( {
 			await clickElementByText( courseTitle, 'h3' );
 		}
 
-		await page.screenshot({
-			path: 'screenshots/after-selecting-courses-setup-wizard.jpg'
-		});
-
 		await clickButton( 'Import Courses' );
 
-		await page.screenshot({
-			path: 'screenshots/after-clicked-import-button.jpg'
-		});
-
 		await page.waitForNavigation();
-
-		await page.screenshot({
-			path: 'screenshots/after-setup-wizard-navigation.jpg'
-		});
 
 		if ( 1 === coursesToImport.length ) {
 			// Single course imported.
