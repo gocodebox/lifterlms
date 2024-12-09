@@ -4,7 +4,7 @@ import { findElementByText } from './find-element-by-text';
 import { wpVersionCompare } from './wp-version-compare';
 import { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
 
-import { visitAdminPage } from '@wordpress/e2e-test-utils';
+import { visitAdminPage, clickButton } from '@wordpress/e2e-test-utils';
 
 /**
  * Retrieve the Setup Wizard Page Title.
@@ -78,22 +78,26 @@ export async function runSetupWizard( {
 	} else if ( coursesToImport ) {
 		// Import courses.
 
-		console.log('taking before screenshot');
-		await page.screenshot({
-			path: 'screenshots/before-selecting-courses-setup-wizard.jpg'
-		});
-
 		// Select specified courses.
 		for ( const courseTitle of coursesToImport ) {
 			await clickElementByText( courseTitle, 'h3' );
 		}
 
-		console.log('taking after screenshot');
 		await page.screenshot({
 			path: 'screenshots/after-selecting-courses-setup-wizard.jpg'
 		});
 
-		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+		await clickButton( 'Import Courses' );
+
+		await page.screenshot({
+			path: 'screenshots/after-clicked-import-button.jpg'
+		});
+
+		await page.waitForNavigation();
+
+		await page.screenshot({
+			path: 'screenshots/after-setup-wizard-navigation.jpg'
+		});
 
 		if ( 1 === coursesToImport.length ) {
 			// Single course imported.
