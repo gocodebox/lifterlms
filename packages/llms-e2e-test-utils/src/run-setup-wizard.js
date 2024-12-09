@@ -80,7 +80,7 @@ export async function runSetupWizard( {
 
 		console.log('taking before screenshot');
 		await page.screenshot({
-			path: 'tmp/artifacts/before-selecting-courses-setup-wizard.jpg'
+			path: 'screenshots/before-selecting-courses-setup-wizard.jpg'
 		});
 
 		// Select specified courses.
@@ -90,7 +90,7 @@ export async function runSetupWizard( {
 
 		console.log('taking after screenshot');
 		await page.screenshot({
-			path: 'tmp/artifacts/after-selecting-courses-setup-wizard.jpg'
+			path: 'screenshots/after-selecting-courses-setup-wizard.jpg'
 		});
 
 		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
