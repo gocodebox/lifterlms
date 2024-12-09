@@ -76,6 +76,12 @@ jobs:
           name: error-artifacts-wp-${{ matrix.WP }}
           path: tmp/artifacts
 
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: screenshots
+          path: screenshots
+
   ###
   #
   # Check the status of the entire test matrix.
