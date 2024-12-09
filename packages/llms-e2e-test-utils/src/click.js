@@ -8,6 +8,8 @@
  * @return {void}
  */
 export async function click( selector ) {
+	const target = await page.$( selector );
+	target.scrollIntoView();
 	await page.waitForSelector( selector );
 	await page.$eval( selector, ( el ) => el.click() );
 }
