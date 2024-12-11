@@ -47,8 +47,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 */
 	protected function configure() {
 
-		$this->title       = __( 'bbPress', 'lifterlms' );
-		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
+		add_action( 'init', array( $this, 'set_title_and_description' ) );
 
 		if ( $this->is_available() ) {
 
@@ -78,7 +77,11 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			add_action( 'llms_content_restricted_by_bbp_course_forum', array( $this, 'handle_course_forum_restriction' ), 10, 1 );
 
 		}
+	}
 
+	public function set_title_and_description() {
+		$this->title       = __( 'bbPress', 'lifterlms' );
+		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
 	}
 
 	/**
@@ -176,7 +179,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -205,7 +207,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		llms_add_notice( $msg, 'error' );
 		llms_redirect_and_exit( get_permalink( $restriction['restriction_id'] ) );
-
 	}
 
 	/**
@@ -237,7 +238,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		 * @param LLMS_Course $course LifterLMS course object.
 		 */
 		return apply_filters( 'llms_bbp_get_course_forum_ids', $ids, $course );
-
 	}
 
 	/**
@@ -268,7 +268,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		$query = array_map( 'absint', $query );
 
 		return $query;
-
 	}
 
 	/**
@@ -347,7 +346,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
-
 	}
 
 	/**
@@ -389,7 +387,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
-
 	}
 
 	/**
@@ -435,7 +432,5 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		update_post_meta( $post_id, '_llms_bbp_forum_ids', $ids );
 
 		return $ids;
-
 	}
-
 }

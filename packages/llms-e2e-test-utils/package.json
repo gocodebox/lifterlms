@@ -21,7 +21,7 @@
   },
   "main": "src/index.js",
   "dependencies": {
-    "@wordpress/e2e-test-utils": "^7.0.0",
+    "@wordpress/e2e-test-utils": "^11.13.0",
     "css-xpath": "^1.0.0",
     "semver": "^7.3.5"
   },
