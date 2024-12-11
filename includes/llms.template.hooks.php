@@ -167,14 +167,14 @@ add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_quest
 /**
  * Student Dashboard
  *
- * @since Unknown
+ * @since 7.8.0
  */
 add_action( 'lifterlms_before_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_open', 10 );
 
-add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_header', 10 );
+add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_navigation', 10 );
+add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_student_dashboard_header', 20 );
 
-add_action( 'lifterlms_student_dashboard_header', 'lifterlms_template_student_dashboard_navigation', 10 );
-add_action( 'lifterlms_student_dashboard_header', 'lifterlms_template_student_dashboard_title', 20 );
+add_action( 'lifterlms_student_dashboard_header', 'lifterlms_template_student_dashboard_title', 10 );
 
 add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_courses', 10 );
 add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_achievements', 20 );

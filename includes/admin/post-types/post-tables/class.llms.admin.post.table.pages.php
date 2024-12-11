@@ -31,26 +31,29 @@ class LLMS_Admin_Post_Table_Pages {
 
 		if ( isset( $_GET['post_type'] ) && 'page' === $_GET['post_type'] ) {
 
-			$pages = array(
-				'checkout'    => __( 'LifterLMS Checkout', 'lifterlms' ),
-				'courses'     => __( 'LifterLMS Course Catalog', 'lifterlms' ),
-				'memberships' => __( 'LifterLMS Memberships Catalog', 'lifterlms' ),
-				'myaccount'   => __( 'LifterLMS Student Dashboard', 'lifterlms' ),
-			);
-
-			foreach ( $pages as $key => $name ) {
-				$id = llms_get_page_id( $key );
-				if ( $id ) {
-
-					$this->pages[ $id ] = $name;
-
-				}
-			}
+			add_action( 'init', array( $this, 'populate_pages' ) );
 
 			add_filter( 'display_post_states', array( $this, 'post_states' ), 10, 2 );
 
 		}
+	}
 
+	public function populate_pages() {
+		$pages = array(
+			'checkout'    => __( 'LifterLMS Checkout', 'lifterlms' ),
+			'courses'     => __( 'LifterLMS Course Catalog', 'lifterlms' ),
+			'memberships' => __( 'LifterLMS Memberships Catalog', 'lifterlms' ),
+			'myaccount'   => __( 'LifterLMS Student Dashboard', 'lifterlms' ),
+		);
+
+		foreach ( $pages as $key => $name ) {
+			$id = llms_get_page_id( $key );
+			if ( $id ) {
+
+				$this->pages[ $id ] = $name;
+
+			}
+		}
 	}
 
 	/**
@@ -71,10 +74,7 @@ class LLMS_Admin_Post_Table_Pages {
 		}
 
 		return $states;
-
 	}
-
-
 }
 
 return new LLMS_Admin_Post_Table_Pages();

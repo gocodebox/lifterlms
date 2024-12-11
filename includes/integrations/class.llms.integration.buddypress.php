@@ -64,8 +64,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	protected function configure() {
 
-		$this->title       = __( 'BuddyPress', 'lifterlms' );
-		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
+		add_action( 'init', array( $this, 'set_title_and_description' ) );
 
 		if ( $this->is_available() ) {
 
@@ -78,7 +77,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			add_filter( 'llms_groups_maybe_hide_dashboard_tab', array( $this, 'return_true_on_bp_my_profile' ) );
 
 		}
+	}
 
+	public function set_title_and_description() {
+		$this->title       = __( 'BuddyPress', 'lifterlms' );
+		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
 	}
 
 	/**
@@ -109,7 +112,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $settings;
-
 	}
 
 	/**
@@ -177,14 +179,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 					'slug'            => $profile_endpoint['endpoint'],
 					'parent_slug'     => $main_nav_slug,
 					'parent_url'      => $parent_url,
-					'screen_function' => function() use ( $ep_key, $profile_endpoint ) {
+					'screen_function' => function () use ( $ep_key, $profile_endpoint ) {
 						$this->endpoint_content( $ep_key, $profile_endpoint['content'] );
 					},
 					'user_has_access' => $bp_is_my_profile,
 				)
 			);
 		}
-
 	}
 
 	/**
@@ -270,7 +271,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		add_action( 'bp_template_content', array( $this, 'remove_courses_paginate_links_filter' ), 15 );
 
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-
 	}
 
 	/**
@@ -303,7 +303,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		// This triggers 'bp_template_content' action hook.
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-
 	}
 
 	/**
@@ -334,7 +333,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';"
 			);
 		}
-
 	}
 
 	/**
@@ -378,7 +376,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		$this->current_endpoint_key;
 		return $this->modify_paginate_links( $link );
-
 	}
 
 	/**
@@ -476,7 +473,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $query ? $link . '?' . $query : $link;
-
 	}
 
 	/**
@@ -554,7 +550,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
-
 	}
 
 	/**
@@ -574,7 +569,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			array_keys( $endpoints ),
 			array_column( $endpoints, 'title' )
 		);
-
 	}
 
 	/**
@@ -606,7 +600,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 * @param array $endpoints Array of endpoint data.
 		 */
 		$this->endpoints = apply_filters( 'llms_buddypress_profile_endpoints', $endpoints );
-
 	}
 
 	/**
@@ -650,7 +643,5 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $endpoints;
-
 	}
-
 }

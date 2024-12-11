@@ -57,10 +57,12 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				<small>(#<?php echo esc_html( $order->get( 'plan_id' ) ); ?>)</small>
 			</div>
 
-			<div class="llms-metabox-field">
-				<label><?php esc_html_e( 'SKU:', 'lifterlms' ); ?></label>
-				<?php echo esc_html( $order->get( 'plan_sku' ) ); ?>
-			</div>
+			<?php if ( llms_parse_bool( get_option( 'llms_access_plans_allow_skus', 'no' ) ) ) : ?>
+				<div class="llms-metabox-field">
+					<label><?php esc_html_e( 'SKU:', 'lifterlms' ); ?></label>
+					<?php echo esc_html( $order->get( 'plan_sku' ) ); ?>
+				</div>
+			<?php endif; ?>
 
 		<?php endif; ?>
 

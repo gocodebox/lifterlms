@@ -20,15 +20,13 @@ defined( 'ABSPATH' ) || exit;
 trait LLMS_Trait_Earned_Engagement_Reporting_Table {
 
 	/**
-	 * Add award engaement button above the table.
+	 * Add award engagement button above the table.
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return string
+	 * @return void
 	 */
-	public function get_table_html() {
-
-		$table = parent::get_table_html();
+	public function output_table_html() {
 
 		$post_type = null;
 		if ( 'certificates' === $this->id ) {
@@ -37,13 +35,17 @@ trait LLMS_Trait_Earned_Engagement_Reporting_Table {
 			$post_type = 'llms_my_achievement';
 		}
 		if ( empty( $post_type ) ) {
-			return $table;
+			parent::output_table_html();
+
+			return;
 		}
 
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( ! current_user_can( $post_type_object->cap->edit_post ) ) {
-			return $table;
+			parent::output_table_html();
+
+			return;
 		}
 
 		$student = false;
@@ -53,12 +55,10 @@ trait LLMS_Trait_Earned_Engagement_Reporting_Table {
 			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		$post_new_file  = "post-new.php?post_type=$post_type";
-		$post_new_url   = esc_url( add_query_arg( 'sid', $student, admin_url( $post_new_file ) ) );
-		$add_new_button = '<a id="llms-new-award-button" style="display:inline-block;margin-bottom:20px" href="' . $post_new_url . '" class="llms-button-secondary small">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
-
-		return $add_new_button . $table;
-
+		$post_new_file = "post-new.php?post_type=$post_type";
+		?>
+		<a id="llms-new-award-button" style="display:inline-block;margin-bottom:20px" href="<?php echo esc_url( add_query_arg( 'sid', $student, admin_url( $post_new_file ) ) ); ?>" class="llms-button-secondary small"><?php echo esc_html( $post_type_object->labels->add_new ); ?></a>
+		<?php
+		parent::output_table_html();
 	}
-
 }

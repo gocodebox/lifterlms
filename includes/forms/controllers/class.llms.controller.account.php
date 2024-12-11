@@ -37,7 +37,6 @@ class LLMS_Controller_Account {
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'cancel_subscription' ) );
 		add_action( 'init', array( $this, 'redeem_voucher' ) );
-
 	}
 
 	/**
@@ -88,7 +87,6 @@ class LLMS_Controller_Account {
 		 * @param integer    $uid   The WP_User ID the student who cancelled the subscription.
 		 */
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
-
 	}
 
 	/**
@@ -135,7 +133,6 @@ class LLMS_Controller_Account {
 			llms_redirect_and_exit( apply_filters( 'lifterlms_update_account_redirect', llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) ) ) );
 
 		}
-
 	}
 
 	/**
@@ -247,7 +244,6 @@ class LLMS_Controller_Account {
 		// Success.
 		llms_add_notice( __( 'Check your e-mail for the confirmation link.', 'lifterlms' ) );
 		return true;
-
 	}
 
 	/**
@@ -275,7 +271,6 @@ class LLMS_Controller_Account {
 
 		llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ), 'success' );
 		return true;
-
 	}
 
 	/**
@@ -306,7 +301,6 @@ class LLMS_Controller_Account {
 		// Success.
 		llms_add_notice( __( 'Your password has been updated.', 'lifterlms' ) );
 		llms_redirect_and_exit( add_query_arg( 'password-reset', 1, llms_get_page_url( 'myaccount' ) ) );
-
 	}
 
 	/**
@@ -377,7 +371,6 @@ class LLMS_Controller_Account {
 		do_action( 'llms_user_password_reset', $user );
 
 		return true;
-
 	}
 
 	/**
@@ -403,9 +396,8 @@ class LLMS_Controller_Account {
 
 			( new LLMS_Cache_Helper() )->maybe_no_cache();
 			llms_set_password_reset_cookie( $val );
-			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );
+			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, wp_lostpassword_url() ) );
 		}
-
 	}
 
 	/**
@@ -452,9 +444,7 @@ class LLMS_Controller_Account {
 		}
 
 		return true;
-
 	}
-
 }
 
 return new LLMS_Controller_Account();

@@ -914,7 +914,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		) );
 
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
-		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) . ' [302] YES' );
+		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, wp_lostpassword_url() ) . ' [302] YES' );
 
 		try {
 
@@ -950,7 +950,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		) );
 
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
-		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) . ' [302] YES' );
+		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, wp_lostpassword_url() ) . ' [302] YES' );
 
 		try {
 

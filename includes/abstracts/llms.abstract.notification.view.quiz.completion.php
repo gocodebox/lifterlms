@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.24.0
- * @version 5.2.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -101,10 +101,11 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	}
 
 	/**
-	 * Replace merge codes with actual values
+	 * Replace merge codes with actual values.
 	 *
 	 * @since 3.24.0
 	 * @since 4.0.0 Remove usage of deprecated class `LLMS_Quiz_Legacy`.
+	 * @since 7.8.0 Don't try to round nulls.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -133,7 +134,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 				break;
 
 			case '{{GRADE}}':
-				$code = round( $attempt->get( 'grade' ), 2 ) . '%';
+				$code = round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%';
 				break;
 
 			case '{{GRADE_BAR}}':

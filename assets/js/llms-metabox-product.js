@@ -166,6 +166,7 @@
 				} else {
 					$plan_redirect_forced.off( 'change' );
 					$plan_redirect_settings.show();
+
 				}
 
 			} );
@@ -580,14 +581,15 @@
 				$( this ).removeAttr( 'disabled' ); // enabled the field
 			} );
 
-			$clone.find( '.llms-access-plan-datepicker' ).datepicker( {
-				dateFormat: "mm/dd/yy"
-			} );
-
 			$clone.appendTo( '#llms-access-plans' );
 
 			// rewrite the order of all elements
 			this.update_plan_orders();
+
+			// Bind the datepicker to the new plan AFTER the input names have been updated via update_plan_orders() above.
+			$clone.find( '.llms-access-plan-datepicker' ).datepicker( {
+				dateFormat: "mm/dd/yy"
+			} );
 
 			$clone.find( '.llms-collapsible-header' ).trigger( 'click' );
 
@@ -789,12 +791,22 @@
 				// de-init tinyMCE from the editor.
 				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
 
-				// update the order of each field in the plan.
-				$p.find( 'select, input, textarea' ).each( function() {
+				// update the order of each label and field in the plan.
+				$p.find( 'label, select, input, textarea' ).each( function() {
 
-					var name = $( this ).attr( 'name' );
-					if ( name ) {
-						$( this ).attr( 'name', name.replace( orig, curr ) );
+					var labelFor = $( this ).attr( 'for' );
+					if ( labelFor ) {
+						$( this ).attr( 'for', labelFor.replace( orig, curr ) );
+					}
+
+					var inputID = $( this ).attr( 'id' );
+					if ( inputID ) {
+						$( this ).attr( 'id', inputID.replace( orig, curr ) );
+					}
+
+					var inputName = $( this ).attr( 'name' );
+					if ( inputName ) {
+						$( this ).attr( 'name', inputName.replace( orig, curr ) );
 					}
 
 				} );
