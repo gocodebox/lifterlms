@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v7.8.5 - 2024-12-03
+-------------------
+
+##### Updates and Enhancements
+
++ Now allows copying of text in input and textarea elements, even if copy protection is enabled.
+
+##### Security Fixes
+
++ Fix to avoid saving password confirmation in user meta if Password block has been edited. [#2821](https://github.com/gocodebox/lifterlms/issues/2821)
+
+
+v7.8.4 - 2024-11-18
+-------------------
+
+##### Bug Fixes
+
++ Fix translations not loading for LifterLMS in WordPress 6.7. [#2807](https://github.com/gocodebox/lifterlms/issues/2807)
+
+
 v7.8.3 - 2024-11-04
 -------------------
 
