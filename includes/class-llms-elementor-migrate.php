@@ -164,6 +164,10 @@ class LLMS_Elementor_Migrate {
 			return;
 		}
 
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
+
 		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		$post    = $post_id ? get_post( $post_id ) : false;
 
