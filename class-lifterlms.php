@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.8.4';
+	public $version = '7.8.5';
 
 	/**
 	 * LLMS_Assets instance
@@ -332,6 +332,7 @@ final class LifterLMS {
 				'meter'      => $allowed_atts,
 			)
 		);
+		llms_maybe_define_constant( 'LLMS_CONFIRMATION_FIELDS', array( 'email_address_confirm', 'password_confirm' ) );
 	}
 
 	/**
