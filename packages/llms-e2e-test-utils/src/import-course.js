@@ -2,7 +2,7 @@
 import { clickAndWait } from './click-and-wait';
 
 // External dependencies.
-import { visitAdminPage } from '@wordpress/e2e-test-utils';
+import { visitAdminPage, clickButton } from '@wordpress/e2e-test-utils';
 
 /**
  * Import a course JSON file
