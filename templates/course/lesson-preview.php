@@ -18,8 +18,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$restrictions    = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
-$screenreader_id = 'llms-lesson-description-' . $lesson->get( 'id' ) . '-' . uniqid();
+$restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
