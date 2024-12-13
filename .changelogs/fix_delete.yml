@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: Adding additional checks before the deletion of a certificate.
