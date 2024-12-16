@@ -1024,7 +1024,12 @@ var LLMS = window.LLMS || {};
 		 */
 		get_tooltip: function( msg ) {
 			var $el = $( '<div class="llms-tooltip" />' );
-			$el.append( '<div class="llms-tooltip-content">' + msg + '</div>' );
+			$el.append(
+				$('<div>', {
+					'class': 'llms-tooltip-content',
+					'aria-hidden': 'true'
+				}).text( msg )
+			);
 			return $el;
 		},
 	
