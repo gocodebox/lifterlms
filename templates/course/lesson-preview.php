@@ -76,7 +76,6 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				?>
 
 				<?php
-					// Does the lesson have an assignment?
 					if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
 						?>
 						<span class="llms-lesson-has-assignment">
