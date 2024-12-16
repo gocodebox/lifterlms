@@ -24,7 +24,6 @@ function llms_get_user_information_field( $name ) {
 
 	$field_index = array_search( $name, array_column( $fields, 'name' ), true );
 	return false === $field_index ? false : $fields[ $field_index ];
-
 }
 
 /**
@@ -50,7 +49,6 @@ function llms_get_user_information_fields() {
 	 * @param array[] $fields List of field definitions.
 	 */
 	return apply_filters( 'llms_user_information_fields', $fields );
-
 }
 
 /**
@@ -90,7 +88,7 @@ function llms_get_user_information_fields_for_editor() {
 
 	// Return a reduced list.
 	return array_map(
-		function( $field ) use ( $keys ) {
+		function ( $field ) use ( $keys ) {
 			return array_intersect_key( $field, $keys );
 		},
 		$fields
