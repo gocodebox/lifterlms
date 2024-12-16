@@ -65,8 +65,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				<div class="llms-lesson-title"><?php echo esc_html( get_the_title( $lesson->get( 'id' ) ) ); ?></div>
 
 				<?php
-					$has_quiz = $lesson->is_quiz_enabled();
-					if ( $has_quiz ) {
+					if ( $lesson->is_quiz_enabled() ) {
 						?>
 						<span class="llms-lesson-has-quiz">
 							<i class="fa fa-question-circle"></i>
