@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2827"
+entry: Improved accessibility of the lessons listing on a course page, when a
+  lesson is restricted.
