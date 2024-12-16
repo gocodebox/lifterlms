@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2810"
+entry: Avoid showing course opens message if no Course Start Date has been set.
