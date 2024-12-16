@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2824"
-entry: Adds additional check for valid quiz attempt key when ending or exiting a quiz.
