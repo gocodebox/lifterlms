@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v7.8.6 - 2024-12-16
+-------------------
+
+##### Bug Fixes
+
++ Adds additional check for valid quiz attempt key when ending or exiting a quiz. [#2824](https://github.com/gocodebox/lifterlms/issues/2824)
++ Fix for daylight savings and leap years when scheduling engagements. [#2799](https://github.com/gocodebox/lifterlms/issues/2799)
++ Avoid showing course opens message if no Course Start Date has been set. [#2810](https://github.com/gocodebox/lifterlms/issues/2810)
++ Improved accessibility of the lessons listing on a course page, when a lesson is restricted. [#2827](https://github.com/gocodebox/lifterlms/issues/2827)
+
+##### Security Fixes
+
++ Adding additional checks before the deletion of a certificate. Thanks Lucio Sá!
+
+##### Updated Templates
+
++ [templates/content-single-course-before.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/content-single-course-before.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/course/lesson-preview.php)
+
+
 v7.8.5 - 2024-12-03
 -------------------
 
