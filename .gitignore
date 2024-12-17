@@ -27,7 +27,6 @@ assets/css/lifterlms-rtl.css
 assets/css/lifterlms-rtl.min.css
 assets/css/lifterlms.css
 assets/css/lifterlms.min.css
-assets/js/llms.js
 assets/js/llms-builder.js
 assets/js/llms-builder.min.js
 assets/js/llms-admin-elementor-editor.js
@@ -36,6 +35,7 @@ assets/js/llms-admin-certificate-editor.asset.php
 assets/js/llms-admin-certificate-editor.js
 assets/js/llms-components.asset.php
 assets/js/llms-components.js
+assets/js/llms.js
 assets/js/*.min.js
 assets/js/llms-metaboxes.js
 blocks/certificate-title/*
