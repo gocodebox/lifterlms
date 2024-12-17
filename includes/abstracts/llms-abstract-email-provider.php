@@ -151,6 +151,8 @@ abstract class LLMS_Abstract_Email_Provider {
 
 		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ) );
 		add_action( 'wp_ajax_llms_' . $this->id . '_remote_install', array( $this, 'ajax_callback_remote_install' ) );
+		add_action( 'wp_ajax_llms_' . $this->id . '_remote_install_verify', array( $this, 'ajax_callback_remote_install_verify' ) );
+
 		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
 	}
 
@@ -229,6 +231,20 @@ abstract class LLMS_Abstract_Email_Provider {
 	}
 
 	/**
+	 * Ajax callback called after doing the initial install, so the plugin is loaded and available.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function ajax_callback_remote_install_verify() {
+
+		$ret = $this->do_remote_install_verify();
+		ob_clean();
+		wp_send_json( $ret, ! empty( $ret['status'] ) ? $ret['status'] : 200 );
+	}
+
+	/**
 	 * Determines if the current user can perform the remote installation.
 	 *
 	 * @since 3.40.0
@@ -291,6 +307,21 @@ abstract class LLMS_Abstract_Email_Provider {
 				'message' => $install->get_error_message(),
 				'status'  => 400,
 			);
+		}
+
+		return array( 'success' => true );
+	}
+
+	/**
+	 * Verify the remote install, and then perform the post-install response. Otherwise the plugin isn't available yet.
+	 *
+	 * @return array
+	 */
+	protected function do_remote_install_verify() {
+		$install = $this->do_remote_install();
+
+		if ( is_wp_error( $install ) ) {
+			return $install;
 		}
 
 		return $this->do_remote_install_success();
