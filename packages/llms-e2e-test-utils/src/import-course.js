@@ -51,9 +51,12 @@ export async function importCourse(
 	if ( navigate ) {
 		// Navigate to the first course in the list of imported courses. The first link is the link to the course.
 		await page.screenshot({
-			path: 'screenshots/before-click-notice.jpg'
+			path: 'screenshots/before-import-notice-wait.jpg'
 		});
 		await page.waitForSelector( '.llms-admin-notice.notice-success a:first' );
+		await page.screenshot({
+			path: 'screenshots/before-click-notice.jpg'
+		});
 		await clickAndWait( '.llms-admin-notice.notice-success a:first' );
 		await page.screenshot({
 			path: 'screenshots/after-click-notice.jpg'
