@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2835"
+entry: Fix translation error during the setup wizard.
