@@ -53,11 +53,11 @@ export async function importCourse(
 		await page.screenshot({
 			path: 'screenshots/before-import-notice-wait.jpg'
 		});
-		await page.waitForSelector( '.llms-admin-notice.notice-success a:first' );
+		await page.waitForSelector( '.llms-admin-notice.notice-success a' );
 		await page.screenshot({
 			path: 'screenshots/before-click-notice.jpg'
 		});
-		await clickAndWait( '.llms-admin-notice.notice-success a:first' );
+		await clickAndWait( '.llms-admin-notice.notice-success a' );
 		await page.screenshot({
 			path: 'screenshots/after-click-notice.jpg'
 		});
