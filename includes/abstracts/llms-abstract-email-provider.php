@@ -318,10 +318,20 @@ abstract class LLMS_Abstract_Email_Provider {
 	 * @return array
 	 */
 	protected function do_remote_install_verify() {
-		$install = $this->do_remote_install();
 
-		if ( is_wp_error( $install ) ) {
-			return $install;
+		$ret = $this->do_remote_install();
+
+		if ( is_wp_error( $ret ) ) {
+			return $ret;
+		}
+
+		if ( ! $this->is_installed() ) {
+			// Translators: %s = title of the email delivery plugin.
+			return array(
+				'code'    => 'llms_' . $this->id . '_not_found',
+				'message' => sprintf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ),
+				'status'  => 400,
+			);
 		}
 
 		return $this->do_remote_install_success();

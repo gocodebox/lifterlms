@@ -290,26 +290,28 @@
 		 */
 		remoteInstall: function( $btn, data, callback ) {
 
+			const self = this;
+
 			$btn.parent().find( '.llms-error' ).remove();
 			$.post( ajaxurl, data, function() {
 				// Do a second call to get the redirect URL, since the plugin isn't in memory initially.
 				data.action = data.action + '_verify';
 				$.post( ajaxurl, data, callback ).fail( function( jqxhr ) {
-					LLMS.Spinner.stop( $btn );
-					var msg = jqxhr.responseJSON && jqxhr.responseJSON.message ? jqxhr.responseJSON.message : jqxhr.responseText;
-					if ( msg ) {
-						$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': msg } ) + '</p>' ).insertAfter( $btn );
-					}
+					self.handleRemoteInstallFailure( $btn, jqxhr );
 				} );
 			} )
-				.fail( function( jqxhr ) {
-					LLMS.Spinner.stop( $btn );
-					var msg = jqxhr.responseJSON && jqxhr.responseJSON.message ? jqxhr.responseJSON.message : jqxhr.responseText;
-					if ( msg ) {
-						$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': msg } ) + '</p>' ).insertAfter( $btn );
-					}
-			} );
-		}
+				.fail( function (jqxhr ) {
+					self.handleRemoteInstallFailure( $btn, jqxhr );
+				} );
+		},
+
+		handleRemoteInstallFailure: function( $btn, jqxhr ) {
+			LLMS.Spinner.stop( $btn );
+			var msg = jqxhr.responseJSON && jqxhr.responseJSON.message ? jqxhr.responseJSON.message : jqxhr.responseText;
+			if ( msg ) {
+				$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': msg } ) + '</p>' ).insertAfter( $btn );
+			}
+		},
 
 	};
 
