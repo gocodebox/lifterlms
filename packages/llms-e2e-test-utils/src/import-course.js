@@ -28,7 +28,7 @@ export async function importCourse(
 	await visitAdminPage( 'admin.php', 'page=llms-import' );
 
 	// Upload button
-	await clickButton('Upload');
+	await clickButton( 'Upload' );
 
 	const inputSelector = 'input[name="llms_import"]';
 	await page.waitForSelector( inputSelector );
@@ -37,9 +37,24 @@ export async function importCourse(
 	fileUpload.uploadFile( file );
 	await page.waitForTimeout( 1000 );
 
+	await page.screenshot({
+		path: 'screenshots/before-import.jpg'
+	});
+
 	await clickButton( 'Import' );
 
+	await page.screenshot({
+		path: 'screenshots/after-import.jpg'
+	});
+
+
 	if ( navigate ) {
-		await clickAndWait( '.llms-admin-notice.notice-success a' );
+		await page.screenshot({
+			path: 'screenshots/before-click-notice.jpg'
+		});
+		await clickButton( 'Dismiss' );
+		await page.screenshot({
+			path: 'screenshots/after-click-notice.jpg'
+		});
 	}
 }
