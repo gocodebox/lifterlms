@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2807"
+entry: Avoid unloading the textdomain for core translations in case the
+  lifterlms textdomain is used before init (WP 6.7).
