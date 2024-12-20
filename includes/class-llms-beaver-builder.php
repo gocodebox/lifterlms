@@ -43,8 +43,10 @@ class LLMS_Beaver_Builder {
 		// Add migrateable post types to the builder by default.
 		add_filter( 'fl_builder_post_types', array( $this, 'enable_post_types_by_default' ) );
 
-		add_action( 'init', array( $this, 'load_modules' ) );
+		add_action( 'wp', array( $this, 'load_modules' ), 1 );
 		add_action( 'init', array( $this, 'load_templates' ) );
+
+		add_filter( 'fl_builder_register_module', array( $this, 'register_module' ), 10, 2 );
 
 		add_filter( 'llms_page_restricted', array( $this, 'mod_page_restrictions' ), 999, 2 );
 
@@ -394,6 +396,30 @@ class LLMS_Beaver_Builder {
 			}
 		}
 	}
+
+	/**
+	 * Filter out LifterLMS modules if it's not the right post type.
+	 *
+	 * @param $enabled
+	 * @param $instance
+	 *
+	 * @return bool
+	 */
+	public function register_module( $enabled, $instance ) {
+		$post_type = get_post_type();
+
+		if ( 'course' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.course.instructors.module', 'class.llms.lab.course.syllabus.module', 'class.llms.lab.course.progress.bar.module' ) ) ) {
+			return false;
+		}
+
+		if ( 'lesson' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.lesson.mark.complete.module' ) ) ) {
+			error_log( 'returning false for class.llms.lab.lesson.mark.complete.module' );
+			return false;
+		}
+
+		return $enabled;
+	}
+
 
 	/**
 	 * Load LifterLMS layout templates.
