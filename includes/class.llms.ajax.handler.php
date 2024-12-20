@@ -947,6 +947,10 @@ class LLMS_AJAX_Handler {
 
 			$attempt = $student->quizzes()->get_attempt_by_key( sanitize_text_field( $request['attempt_key'] ) );
 
+			if ( ! $attempt ) {
+				$err->add( 404, __( 'The requested attempt could not be found.', 'lifterlms' ) );
+				return $err;
+			}
 		}
 
 		// Record the attempt's completion.
