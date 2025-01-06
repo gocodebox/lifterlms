@@ -141,13 +141,24 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
 			if ( $course_id ) {
-
 				$results['is_restricted']  = true;
 				$results['reason']         = 'course_time_period';
 				$results['restriction_id'] = $course_id;
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
+				// If this post id is a lesson and has drip settings by enrollment date, still allow it.
+				if ( ! llms_is_post_restricted_by_drip_settings( $post_id, $user_id ) ) {
+					$lesson = new LLMS_Lesson( $post_id );
+					if ( 'enrollment' === $lesson->get( 'drip_method' ) ) {
+						$results['is_restricted']  = false;
+						$results['reason']         = 'accessible';
+						$results['restriction_id'] = 0;
+					}
+				}
+
+				if ( $results['is_restricted'] ) {
+					/* This filter is documented above. */
+					return apply_filters( 'llms_page_restricted', $results, $post_id );
+				}
 			}
 
 			$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
