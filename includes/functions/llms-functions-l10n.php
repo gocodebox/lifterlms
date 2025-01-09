@@ -89,10 +89,6 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	$plugin_dir   = $plugin_dir ? $plugin_dir : LLMS_PLUGIN_DIR;
 	$language_dir = $language_dir ? $language_dir : 'languages';
 
-	if ( 'lifterlms' !== $domain ) {
-		unload_textdomain( $domain );
-	}
-
 	/**
 	 * Load from the custom LifterLMS "safe" directory (if it exists).
 	 *
