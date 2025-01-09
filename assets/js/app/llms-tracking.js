@@ -35,7 +35,7 @@ LLMS.Tracking = function( settings ) {
 		self.addEvent( 'page.load' );
 
 		window.addEventListener( 'beforeunload', onBeforeUnload );
-		window.addEventListener( 'unload', onUnload );
+		window.addEventListener( 'pagehide', onUnload );
 
 		document.addEventListener( 'visibilitychange', onVisibilityChange );
 

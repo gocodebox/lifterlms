@@ -41,6 +41,10 @@ if ( ! isset( $plan ) ) {
 	$on_sale               = $plan->get( 'on_sale' );
 	$availability          = $plan->get( 'availability' );
 	$checkout_redirect_url = $plan->get( 'checkout_redirect_url' );
+	$checkout_url          = $plan->get_checkout_url( false );
+	if ( false === strpos( $checkout_url, home_url() ) ) {
+		$checkout_url = home_url( $checkout_url );
+	}
 }
 ?>
 
@@ -65,6 +69,9 @@ if ( ! isset( $plan ) ) {
 			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
 				<span class="dashicons dashicons-warning"></span>
 			</span>
+			<?php if ( $plan ) : ?>
+				<a target="_blank" href="<?php echo esc_url( $checkout_url ); ?>"><span class="dashicons dashicons-admin-links llms-plan-purchase-link"></span></a>
+			<?php endif; ?>
 			<span class="dashicons dashicons-trash llms-plan-delete"></span>
 			<span class="dashicons dashicons-arrow-down"></span>
 			<span class="dashicons dashicons-arrow-up"></span>
@@ -88,7 +95,7 @@ if ( ! isset( $plan ) ) {
 
 		<h4><?php esc_html_e( 'General Plan Information', 'lifterlms' ); ?></h4>
 		<?php if ( $plan ) : ?>
-			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $plan->get_checkout_url( false ) ) . '</code>' ); ?></p>
+			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' ); ?></p>
 		<?php endif; ?>
 
 		<div class="llms-plan-row-1">
