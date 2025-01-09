@@ -241,7 +241,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * @return {string}
 	 */
 	get_minimum_strength: function() {
-		return this.get_setting( 'min_strength', 'strong' );
+		return this.get_setting( 'min_strength', 'weak' );
 	},
 
 	/**
