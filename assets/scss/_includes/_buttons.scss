@@ -17,6 +17,7 @@
 	padding: 12px 24px;
 	position: relative;
 	transition: all .5s ease;
+	white-space: nowrap;
 
 	&:disabled {
 		opacity: 0.5;

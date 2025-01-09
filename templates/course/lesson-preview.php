@@ -19,11 +19,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
-$data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
-	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
+	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' aria-disabled="true" data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
@@ -63,6 +62,29 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 				do_action( 'llms_lesson_preview_before_title', $lesson )
 				?>
 				<div class="llms-lesson-title"><?php echo esc_html( get_the_title( $lesson->get( 'id' ) ) ); ?></div>
+
+				<?php
+					if ( $lesson->is_quiz_enabled() ) {
+						?>
+						<span class="llms-lesson-has-quiz">
+							<i class="fa fa-question-circle"></i>
+							<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+						</span>
+						<?php
+					}
+				?>
+
+				<?php
+					if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
+						?>
+						<span class="llms-lesson-has-assignment">
+							<i class="fa fa-pencil-square"></i>
+							<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+						</span>
+						<?php
+					}
+				?>
+
 				<?php
 				/**
 				 * Action fired before the lesson title in the lesson preview template.
@@ -79,6 +101,9 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			</section>
 
 			<?php if ( $restrictions['is_restricted'] ) : ?>
+				<span class="sr-only">
+					<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>
+				</span>
 			<?php endif; ?>
 
 		</div>
