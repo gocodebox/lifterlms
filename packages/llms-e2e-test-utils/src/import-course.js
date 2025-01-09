@@ -2,7 +2,7 @@
 import { clickAndWait } from './click-and-wait';
 
 // External dependencies.
-import { visitAdminPage } from '@wordpress/e2e-test-utils';
+import { visitAdminPage, clickButton } from '@wordpress/e2e-test-utils';
 
 /**
  * Import a course JSON file
@@ -28,7 +28,7 @@ export async function importCourse(
 	await visitAdminPage( 'admin.php', 'page=llms-import' );
 
 	// Upload button
-	await page.click( '.llms-setting-group.top button.llms-button-primary' );
+	await clickButton('Upload');
 
 	const inputSelector = 'input[name="llms_import"]';
 	await page.waitForSelector( inputSelector );
@@ -37,9 +37,10 @@ export async function importCourse(
 	fileUpload.uploadFile( file );
 	await page.waitForTimeout( 1000 );
 
-	await clickAndWait( '#llms-import-file-submit' );
+	await clickButton( 'Import' );
 
 	if ( navigate ) {
+		await page.waitForSelector( '.llms-admin-notice.notice-success a' );
 		await clickAndWait( '.llms-admin-notice.notice-success a' );
 	}
 }

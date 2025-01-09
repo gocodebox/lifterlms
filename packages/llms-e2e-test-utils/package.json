@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/llms-e2e-test-utils",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "E2E testing utilities for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -21,7 +21,7 @@
   },
   "main": "src/index.js",
   "dependencies": {
-    "@wordpress/e2e-test-utils": "^7.0.0",
+    "@wordpress/e2e-test-utils": "^11.13.0",
     "css-xpath": "^1.0.0",
     "semver": "^7.3.5"
   },

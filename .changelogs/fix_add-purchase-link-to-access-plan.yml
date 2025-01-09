@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#2793"
+entry: Adding purchase checkout link to the access plan header as an icon.

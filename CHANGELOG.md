@@ -1,6 +1,55 @@
 LifterLMS Changelog
 ===================
 
+v7.8.7 - 2024-12-17
+-------------------
+
+##### Bug Fixes
+
++ Fix translation error during the setup wizard. [#2835](https://github.com/gocodebox/lifterlms/issues/2835)
++ Fixes Pagespeed notice regarding deprecated Javascript event usage. [#2620](https://github.com/gocodebox/lifterlms/issues/2620)
+
+
+v7.8.6 - 2024-12-16
+-------------------
+
+##### Bug Fixes
+
++ Adds additional check for valid quiz attempt key when ending or exiting a quiz. [#2824](https://github.com/gocodebox/lifterlms/issues/2824)
++ Fix for daylight savings and leap years when scheduling engagements. [#2799](https://github.com/gocodebox/lifterlms/issues/2799)
++ Avoid showing course opens message if no Course Start Date has been set. [#2810](https://github.com/gocodebox/lifterlms/issues/2810)
++ Improved accessibility of the lessons listing on a course page, when a lesson is restricted. [#2827](https://github.com/gocodebox/lifterlms/issues/2827)
+
+##### Security Fixes
+
++ Adding additional checks before the deletion of a certificate. Thanks Lucio Sá!
+
+##### Updated Templates
+
++ [templates/content-single-course-before.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/content-single-course-before.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/course/lesson-preview.php)
+
+
+v7.8.5 - 2024-12-03
+-------------------
+
+##### Updates and Enhancements
+
++ Now allows copying of text in input and textarea elements, even if copy protection is enabled.
+
+##### Security Fixes
+
++ Fix to avoid saving password confirmation in user meta if Password block has been edited. [#2821](https://github.com/gocodebox/lifterlms/issues/2821)
+
+
+v7.8.4 - 2024-11-18
+-------------------
+
+##### Bug Fixes
+
++ Fix translations not loading for LifterLMS in WordPress 6.7. [#2807](https://github.com/gocodebox/lifterlms/issues/2807)
+
+
 v7.8.3 - 2024-11-04
 -------------------
 

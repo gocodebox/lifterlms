@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.8.3';
+	public $version = '7.8.7';
 
 	/**
 	 * LLMS_Assets instance
@@ -333,6 +333,7 @@ final class LifterLMS {
 				'meter'      => $allowed_atts,
 			)
 		);
+		llms_maybe_define_constant( 'LLMS_CONFIRMATION_FIELDS', array( 'email_address_confirm', 'password_confirm' ) );
 	}
 
 	/**
@@ -369,6 +370,8 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-beaver-builder.php';
+		include_once 'includes/class-llms-beaver-builder-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}
