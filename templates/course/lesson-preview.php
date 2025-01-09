@@ -62,6 +62,29 @@ $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id(
 				do_action( 'llms_lesson_preview_before_title', $lesson )
 				?>
 				<div class="llms-lesson-title"><?php echo esc_html( get_the_title( $lesson->get( 'id' ) ) ); ?></div>
+
+				<?php
+					if ( $lesson->is_quiz_enabled() ) {
+						?>
+						<span class="llms-lesson-has-quiz">
+							<i class="fa fa-question-circle"></i>
+							<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+						</span>
+						<?php
+					}
+				?>
+
+				<?php
+					if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
+						?>
+						<span class="llms-lesson-has-assignment">
+							<i class="fa fa-pencil-square"></i>
+							<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+						</span>
+						<?php
+					}
+				?>
+
 				<?php
 				/**
 				 * Action fired before the lesson title in the lesson preview template.
