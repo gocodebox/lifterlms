@@ -287,8 +287,10 @@ class LLMS_Admin_Assets {
 
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 
+				self::register_a11y_dialog();
+
 				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
-				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
+				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-a11y-dialog' ), LLMS_ASSETS_VERSION, true );
 				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
 
 			}
@@ -518,6 +520,20 @@ class LLMS_Admin_Assets {
 			llms()->assets->register_script( "llms-quill-{$module}" );
 		}
 	}
+
+	/**
+	 * Register the accessible dialog JS
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function register_a11y_dialog() {
+		if ( ! wp_script_is( 'llms-a11y-dialog', 'registered' ) ) {
+			wp_register_script( 'llms-a11y-dialog', LLMS_PLUGIN_URL . 'assets/vendor/a11y-dialog/a11y-dialog.min.js', array(), '8.1.1', true );
+		}
+	}
 }
+
 
 return new LLMS_Admin_Assets();

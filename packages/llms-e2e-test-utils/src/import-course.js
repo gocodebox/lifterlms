@@ -40,6 +40,7 @@ export async function importCourse(
 	await clickButton( 'Import' );
 
 	if ( navigate ) {
+		await page.waitForSelector( '.llms-admin-notice.notice-success a' );
 		await clickAndWait( '.llms-admin-notice.notice-success a' );
 	}
 }
