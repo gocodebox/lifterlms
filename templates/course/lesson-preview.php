@@ -19,11 +19,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
-$data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
-	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
+	<a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? esc_url( get_permalink( $lesson->get( 'id' ) ) ) : '#llms-lesson-locked'; ?>"<?php echo $restrictions['is_restricted'] ? ' aria-disabled="true" data-tooltip-msg="' . esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : ''; ?>>
 
 		<?php if ( 'course' === get_post_type( get_the_ID() ) ) : ?>
 
@@ -79,6 +78,9 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			</section>
 
 			<?php if ( $restrictions['is_restricted'] ) : ?>
+				<span class="sr-only">
+					<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>
+				</span>
 			<?php endif; ?>
 
 		</div>

@@ -3,15 +3,7 @@ Security Policy
 
 ## Supported Versions
 
-LifterLMS 3.x is the only supported branch of LifterLMS. If you're using an unsupported version of LifterLMS we strongly recommend you upgrade to the latest version as soon as possible.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 4.x     | :white_check_mark: |
-| 3.x     | :x:                |
-| 2.x     | :x:                |
-| 1.x     | :x:                |
-
+The current minor version (currently LifterLMS 7.8.x) is the only supported branch of LifterLMS. If you're using an unsupported version of LifterLMS we strongly recommend you upgrade to the latest version as soon as possible.
 
 ## Reporting a Vulnerability
 
