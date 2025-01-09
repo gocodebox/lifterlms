@@ -1,4 +1,0 @@
-significance: minor
-type: removed
-entry: Hiding the Plan SKU field for access plans if not in use. Set the
-  `llms_access_plans_allow_skus` option to get this field back.
