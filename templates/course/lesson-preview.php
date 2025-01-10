@@ -22,15 +22,24 @@ $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id(
 $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
 
 // Get the section name for this lesson.
-$section                  = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
-$section_title            = $section ? $section->post->post_title : '';
-$lesson_screen_reader_msg = sprintf(
-/* translators: 1: lesson order, 2: total lessons, 3: section title */
-	__( 'Lesson %1$d of %2$d within section %3$s.', 'lifterlms' ),
-	isset( $order ) ? $order : $lesson->get( 'order' ),
-	$total_lessons,
-	$section_title
-);
+$section       = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
+$section_title = $section ? $section->post->post_title : '';
+if ( isset( $total_lessons ) && $total_lessons ) {
+	$lesson_screen_reader_msg = sprintf(
+	/* translators: 1: lesson order, 2: total lessons, 3: section title */
+		__( 'Lesson %1$d of %2$d within section %3$s.', 'lifterlms' ),
+		isset( $order ) ? $order : $lesson->get( 'order' ),
+		$total_lessons,
+		$section_title
+	);
+} else {
+	$lesson_screen_reader_msg = sprintf(
+	/* translators: 1: lesson order, 2: section title */
+		__( 'Lesson %1$d within section %2$s.', 'lifterlms' ),
+		isset( $order ) ? $order : $lesson->get( 'order' ),
+		$section_title
+	);
+}
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
