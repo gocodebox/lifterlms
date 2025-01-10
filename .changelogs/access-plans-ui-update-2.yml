@@ -1,4 +1,4 @@
-significance: patch
+significance: major
 type: changed
-entry: Improved accessibility of the Access Plans metaboxes to use proper labels
+entry: Improved accessibility of various front-end and back-end UIs including the Access Plans metaboxes to use proper labels
   and screen reader text where needed.
