@@ -37,13 +37,10 @@ export async function importCourse(
 	fileUpload.uploadFile( file );
 	await page.waitForTimeout( 1000 );
 
-	await page.screenshot( { path: 'screenshots/before-import-course.png' } );
-
-	await clickButton( 'Import' ); // clickAndWait( '#llms-import-file-submit' );
-
-	await page.screenshot( { path: 'screenshots/import-course.png' } );
+	await clickButton( 'Import' );
 
 	if ( navigate ) {
+		await page.waitForSelector( '.llms-admin-notice.notice-success a' );
 		await clickAndWait( '.llms-admin-notice.notice-success a' );
 	}
 }
