@@ -564,12 +564,13 @@ if ( ! isset( $plan ) ) {
 
 			/**
 			 * Filter to show/hide the Membership Settings for an Access Plan for a course.
+			 *
 			 * @param boolean          $show_membership_settings Show membership settings for access plans.
 			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
 			 * @param integer          $id    Access Plan ID.
 			 */
 			if ( apply_filters( 'llms_show_membership_settings_for_access_plans', true, $plan, $id ) ) :
-			?>
+				?>
 
 				<h4><?php esc_html_e( 'Membership Settings', 'lifterlms' ); ?></h4>
 

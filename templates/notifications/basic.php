@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<section class="llms-notification-content">
 		<div class="llms-notification-main">
-			<h4 class="llms-notification-title"><?php echo esc_html( $title ); ?></h4>
+			<div class="llms-notification-title"><?php echo esc_html( $title ); ?></div>
 			<div class="llms-notification-body"><?php echo wp_kses_post( $body ); ?></div>
 		</div>
 
