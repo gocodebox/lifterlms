@@ -215,6 +215,28 @@
 			height: 100%;
 		}
 
+		&:has(.llms-visibility-toggle) {
+			align-items: center;
+			display: grid;
+			grid-template-areas:
+				"label toggle"
+				"input input";
+			grid-template-columns: 1fr auto;
+
+			label {
+				grid-area: label;
+			}
+
+			input {
+				grid-area: input;
+			}
+
+			.llms-visibility-toggle {
+				grid-area: toggle;
+				justify-self: end;
+			}
+		}
+
 	}
 
 

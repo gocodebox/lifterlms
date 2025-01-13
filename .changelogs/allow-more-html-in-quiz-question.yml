@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Allow additional shortcodes like [audio] within the description (content)
+  of a quiz question.
