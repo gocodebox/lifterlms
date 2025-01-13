@@ -165,6 +165,31 @@ a.llms-button-secondary {
 
 }
 
+.llms-button-plain {
+	background: transparent;
+	border: none;
+	border-radius: 3px;
+	color: #1D2327;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+	text-shadow: none;
+	line-height: 1;
+	margin: 0;
+	max-width: 100%;
+	padding: 1px 3px;
+	position: relative;
+
+	&:hover, &:active {
+		color: #1D2327;
+	}
+	&:focus {
+		color: #1D2327;
+	}
+
+}
+
 .llms-course-continue-button {
 	display: inline-block;
 }
