@@ -261,10 +261,13 @@ final class LifterLMS {
 				'span'   => $allowed_atts,
 				'strong' => $allowed_atts,
 				'sup'    => $allowed_atts,
+				'sub'    => $allowed_atts,
 				'del'    => $allowed_atts,
 				'ins'    => $allowed_atts,
 				'em'     => $allowed_atts,
 				'bdi'    => $allowed_atts,
+				's'      => $allowed_atts,
+				'u'      => $allowed_atts,
 			)
 		);
 

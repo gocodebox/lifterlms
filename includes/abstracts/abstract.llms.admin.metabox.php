@@ -516,20 +516,24 @@ abstract class LLMS_Admin_Metabox {
 
 		$val = '';
 
-		// Get the posted value & sanitize it.
-		if ( isset( $_POST[ $field['id'] ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified in `$this->save()` which calls this method.
-
-			$flags = array();
-
-			if ( isset( $field['sanitize'] ) && in_array( $field['sanitize'], array( 'shortcode', 'no_encode_quotes' ), true ) ) {
-				$flags[] = FILTER_FLAG_NO_ENCODE_QUOTES;
-			} elseif ( ! empty( $field['multi'] ) ) {
-				$flags[] = FILTER_REQUIRE_ARRAY;
-			}
-
-			$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], $flags );
-
+		if ( ! isset( $_POST[ $field['id'] ] ) ) {
+			return $this->save_field_db( $post_id, $field['id'], $val );
 		}
+
+		if ( 'basic-editor' === $field['type'] ) {
+			$val = wp_kses( $_POST[ $field['id'] ], LLMS_ALLOWED_HTML_PRICES );
+			return $this->save_field_db( $post_id, $field['id'], $val );
+		}
+
+		$flags = array();
+
+		if ( isset( $field['sanitize'] ) && in_array( $field['sanitize'], array( 'shortcode', 'no_encode_quotes' ), true ) ) {
+			$flags[] = FILTER_FLAG_NO_ENCODE_QUOTES;
+		} elseif ( ! empty( $field['multi'] ) ) {
+			$flags[] = FILTER_REQUIRE_ARRAY;
+		}
+
+		$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], $flags );
 
 		return $this->save_field_db( $post_id, $field['id'], $val );
 	}
