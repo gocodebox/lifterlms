@@ -140,10 +140,12 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
 			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
 			if ( $course_id ) {
-				$lesson = new LLMS_Lesson( $post_id );
+				if ( 'lesson' === $post_type ) {
+					$lesson = new LLMS_Lesson( $post_id );
+				}
 
 				// If the lesson is dripped based on enrollment, we don't want to restrict it based on course time period.
-				if ( 'enrollment' !== $lesson->get( 'drip_method' ) ) {
+				if ( 'lesson' !== $post_type || ( $lesson && 'enrollment' !== $lesson->get( 'drip_method' ) ) ) {
 					$results['is_restricted']  = true;
 					$results['reason']         = 'course_time_period';
 					$results['restriction_id'] = $course_id;
