@@ -272,7 +272,7 @@ LLMS.Forms = {
 
 		var $parent = this.$states.closest( '.llms-form-field' );
 
-		this.$holder = $( '<select id="llms_billing_state" disabled style="display:none !important;" />' );
+		this.$holder = $( '<select disabled style="display:none !important;" />' );
 
 		this.$holder.appendTo( $parent );
 		this.$states.find( 'optgroup' ).appendTo( this.$holder );
