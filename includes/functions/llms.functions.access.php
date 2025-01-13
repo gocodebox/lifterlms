@@ -138,21 +138,12 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		}
 
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
-
 			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
 			if ( $course_id ) {
 				$lesson = new LLMS_Lesson( $post_id );
 
-				$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
-				if ( $lesson_id && 'enrollment' === $lesson->get( 'drip_method' ) ) {
-					$results['is_restricted']  = true;
-					$results['reason']         = 'lesson_drip';
-					$results['restriction_id'] = $lesson_id;
-					/* This filter is documented above. */
-					return apply_filters( 'llms_page_restricted', $results, $post_id );
-				}
-
-				if ( ! $lesson_id && 'enrollment' !== $lesson->get( 'drip_method' ) ) {
+				// If the lesson is dripped based on enrollment, we don't want to restrict it based on course time period.
+				if ( 'enrollment' !== $lesson->get( 'drip_method' ) ) {
 					$results['is_restricted']  = true;
 					$results['reason']         = 'course_time_period';
 					$results['restriction_id'] = $course_id;
@@ -169,7 +160,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['restriction_id'] = $prereq_data['id'];
 				/* This filter is documented above. */
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
-
 			}
 
 			$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
