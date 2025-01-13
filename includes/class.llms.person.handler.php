@@ -166,12 +166,13 @@ class LLMS_Person_Handler {
 					'type'        => ! $usernames ? 'email' : 'text',
 				),
 				array(
-					'columns'     => ( 'columns' == $layout ) ? 6 : 12,
-					'id'          => 'llms_password',
-					'label'       => __( 'Password', 'lifterlms' ),
-					'last_column' => ( 'columns' == $layout ) ? true : true,
-					'required'    => true,
-					'type'        => 'password',
+					'columns'           => ( 'columns' == $layout ) ? 6 : 12,
+					'id'                => 'llms_password',
+					'label'             => __( 'Password', 'lifterlms' ),
+					'last_column'       => ( 'columns' == $layout ) ? true : true,
+					'required'          => true,
+					'type'              => 'password',
+					'visibility_toggle' => true,
 				),
 				array(
 					'columns'     => ( 'columns' == $layout ) ? 3 : 12,
@@ -280,14 +281,15 @@ class LLMS_Person_Handler {
 		$fields = array();
 
 		$fields[] = array(
-			'columns'     => 6,
-			'classes'     => 'llms-password',
-			'id'          => 'password',
-			'label'       => __( 'Password', 'lifterlms' ),
-			'last_column' => false,
-			'match'       => 'password_confirm',
-			'required'    => true,
-			'type'        => 'password',
+			'columns'           => 6,
+			'classes'           => 'llms-password',
+			'id'                => 'password',
+			'label'             => __( 'Password', 'lifterlms' ),
+			'last_column'       => false,
+			'match'             => 'password_confirm',
+			'required'          => true,
+			'type'              => 'password',
+			'visibility_toggle' => true,
 		);
 		$fields[] = array(
 			'columns'  => 6,
