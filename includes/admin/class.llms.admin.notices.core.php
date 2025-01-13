@@ -60,6 +60,31 @@ class LLMS_Admin_Notices_Core {
 
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
 		add_action( $action, array( __CLASS__, 'media_protection' ), $priority );
+		add_action( $action, array( __CLASS__, 'beaver_builder' ), $priority );
+	}
+
+	public static function beaver_builder() {
+		$id = 'beaver-builder-lab';
+
+		if ( class_exists( 'LifterLMS_Labs' ) && llms_parse_bool( get_option( 'llms_lab_beaver-builder_enabled' ) ) && current_user_can( 'manage_lifterlms' ) ) {
+			$html = sprintf(
+				__( 'Improved Beaver Builder support is now included in core! To use it, %1$sdisable the Beaver Builder lab%2$s.', 'lifterlms' ),
+				'<a href="' . admin_url( 'admin.php?page=llms-labs' ) . '">',
+				'</a>',
+			);
+
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				$html,
+				array(
+					'type'             => 'warning',
+					'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
+					'remindable'       => false,
+				)
+			);
+		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
+			LLMS_Admin_Notices::delete_notice( $id );
+		}
 	}
 
 	/**

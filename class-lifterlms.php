@@ -178,6 +178,7 @@ final class LifterLMS {
 			'width'           => true,
 			'height'          => true,
 			'data-*'          => true,
+			'aria-label'      => true,
 			'aria-live'       => true,
 			'aria-hidden'     => true,
 			'aria-*'          => true,
@@ -332,6 +333,8 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-beaver-builder.php';
+		include_once 'includes/class-llms-beaver-builder-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}
