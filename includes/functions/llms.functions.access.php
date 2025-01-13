@@ -152,16 +152,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				}
 			}
 
-			$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
-			if ( $prereq_data ) {
-
-				$results['is_restricted']  = true;
-				$results['reason']         = sprintf( '%s_prerequisite', $prereq_data['type'] );
-				$results['restriction_id'] = $prereq_data['id'];
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
-			}
-
 			$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
 			if ( $lesson_id ) {
 
@@ -170,7 +160,16 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['restriction_id'] = $lesson_id;
 				/* This filter is documented above. */
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
+			}
 
+			$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
+			if ( $prereq_data ) {
+
+				$results['is_restricted']  = true;
+				$results['reason']         = sprintf( '%s_prerequisite', $prereq_data['type'] );
+				$results['restriction_id'] = $prereq_data['id'];
+				/* This filter is documented above. */
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
 			}
 		}
 	}
