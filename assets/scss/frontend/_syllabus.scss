@@ -97,9 +97,18 @@
 			font-size: 14px;
 		}
 
+		div.llms-favorite-wrapper + span.llms-lesson-has-quiz {
+			margin-left: 10px;
+		}
+
+		div.llms-favorite-wrapper + span.llms-lesson-has-assignment {
+			margin-left: 10px;
+		}
+
 		span.llms-lesson-has-quiz + span.llms-lesson-has-assignment {
 			margin-left: 10px;
 		}
+
 	}
 	.llms-extra {
 		min-width: 50px;

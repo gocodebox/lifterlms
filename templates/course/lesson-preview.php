@@ -92,28 +92,6 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 				<div class="llms-lesson-title"><?php echo esc_html( get_the_title( $lesson->get( 'id' ) ) ); ?></div>
 
 				<?php
-				if ( $lesson->is_quiz_enabled() ) {
-					?>
-						<span class="llms-lesson-has-quiz">
-							<i class="fa fa-question-circle"></i>
-						<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
-						</span>
-						<?php
-				}
-				?>
-
-				<?php
-				if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
-					?>
-						<span class="llms-lesson-has-assignment">
-							<i class="fa fa-pencil-square"></i>
-						<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
-						</span>
-						<?php
-				}
-				?>
-
-				<?php
 				/**
 				 * Action fired before the lesson title in the lesson preview template.
 				 *
@@ -123,6 +101,29 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 				 */
 				do_action( 'llms_lesson_preview_after_title', $lesson )
 				?>
+
+				<?php
+				if ( $lesson->is_quiz_enabled() ) {
+					?>
+					<span class="llms-lesson-has-quiz">
+							<i class="fa fa-question-circle"></i>
+						<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+						</span>
+					<?php
+				}
+				?>
+
+				<?php
+				if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
+					?>
+					<span class="llms-lesson-has-assignment">
+							<i class="fa fa-pencil-square"></i>
+						<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+						</span>
+					<?php
+				}
+				?>
+
 				<?php if ( apply_filters( 'llms_show_preview_excerpt', true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
 					<div class="llms-lesson-excerpt"><?php echo wp_kses_post( llms_get_excerpt( $lesson->get( 'id' ) ) ); ?></div>
 				<?php endif; ?>
