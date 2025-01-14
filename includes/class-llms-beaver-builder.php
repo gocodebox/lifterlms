@@ -412,6 +412,10 @@ class LLMS_Beaver_Builder {
 			return false;
 		}
 
+		if ( 'llms_membership' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.membership.instructors.module' ) ) ) {
+			return false;
+		}
+
 		if ( 'lesson' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.lesson.mark.complete.module' ) ) ) {
 			return false;
 		}
