@@ -1,8 +1,8 @@
 <?php
 /**
- * LifterLMS Course Instructors Module
+ * LifterLMS Membership Instructors Module
  *
- * @package LifterLMS_Labs/Labs/BeaverBuilder/Modules/CourseContinueButton/Classes
+ * @package LifterLMS_Labs/Labs/BeaverBuilder/Modules/MembershipInstructors/Classes
  *
  * @since [version]
  */
