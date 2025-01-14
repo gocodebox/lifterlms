@@ -16,7 +16,7 @@ $img = $membership->get_image( array( 64, 64 ) );
 <section class="llms-reporting-tab llms-reporting-membership">
 
 	<header class="llms-reporting-breadcrumbs">
-		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=memberships' ) ); ?>"><?php _e( 'Memberships', 'lifterlms' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=memberships' ) ); ?>"><?php esc_html_e( 'Memberships', 'lifterlms' ); ?></a>
 		<?php do_action( 'llms_reporting_membership_tab_breadcrumbs' ); ?>
 	</header>
 
@@ -26,11 +26,11 @@ $img = $membership->get_image( array( 64, 64 ) );
 
 			<?php if ( $img ) : ?>
 				<div class="llms-reporting-header-img">
-					<img src="<?php echo $img; ?>">
+					<img src="<?php echo esc_url( $img ); ?>">
 				</div>
 			<?php endif; ?>
 			<div class="llms-reporting-header-info">
-				<h2><a href="<?php echo get_edit_post_link( $membership->get( 'id' ) ); ?>"><?php echo $membership->get( 'title' ); ?></a></h2>
+				<h2><a href="<?php echo esc_url( get_edit_post_link( $membership->get( 'id' ) ) ); ?>"><?php echo esc_html( $membership->get( 'title' ) ); ?></a></h2>
 			</div>
 
 		</header>
@@ -39,8 +39,8 @@ $img = $membership->get_image( array( 64, 64 ) );
 			<ul class="llms-nav-items">
 			<?php foreach ( $tabs as $name => $label ) : ?>
 				<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-					<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
-						<?php echo $label; ?>
+					<a class="llms-nav-link" href="<?php echo esc_url( LLMS_Admin_Reporting::get_stab_url( $name ) ); ?>">
+						<?php echo wp_kses_post( $label ); ?>
 					</a>
 				</li>
 			<?php endforeach; ?>

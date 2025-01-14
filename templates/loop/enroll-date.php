@@ -21,8 +21,8 @@ if ( ! $student ) {
 	<?php
 	printf(
 		// Translators: %s = Enrollment date.
-		__( 'Enrolled: %s', 'lifterlms' ),
-		$student->get_enrollment_date( get_the_ID() )
+		esc_html__( 'Enrolled: %s', 'lifterlms' ),
+		esc_html( $student->get_enrollment_date( get_the_ID() ) )
 	);
 	?>
 	</p>

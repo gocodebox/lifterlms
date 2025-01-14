@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 7.1.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -58,7 +58,6 @@ class LLMS_AJAX_Handler {
 		return array(
 			'message' => __( 'Members are being enrolled in the background. You may leave this page.', 'lifterlms' ),
 		);
-
 	}
 
 	/**
@@ -81,7 +80,6 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['student_ids'] as $id ) {
 			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
-
 	}
 
 	/**
@@ -105,7 +103,7 @@ class LLMS_AJAX_Handler {
 		$codes = implode(
 			',',
 			array_map(
-				function( $code ) {
+				function ( $code ) {
 					return sprintf( "'%s'", esc_sql( $code ) );
 				},
 				array_filter( $codes )
@@ -129,7 +127,6 @@ class LLMS_AJAX_Handler {
 			)
 		);
 		wp_die();
-
 	}
 
 	/**
@@ -156,7 +153,6 @@ class LLMS_AJAX_Handler {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -178,7 +174,6 @@ class LLMS_AJAX_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -204,7 +199,6 @@ class LLMS_AJAX_Handler {
 
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
 		return $table->generate_export_file( $request, $file );
-
 	}
 
 	/**
@@ -235,7 +229,6 @@ class LLMS_AJAX_Handler {
 			'tbody' => trim( $table->get_tbody_html() ),
 			'tfoot' => trim( $table->get_tfoot_html() ),
 		);
-
 	}
 
 	/**
@@ -313,7 +306,6 @@ class LLMS_AJAX_Handler {
 				'success' => true,
 			)
 		);
-
 	}
 
 	/**
@@ -355,7 +347,6 @@ class LLMS_AJAX_Handler {
 		$ret['new'] = $query->get_notifications();
 
 		return $ret;
-
 	}
 
 	/**
@@ -379,7 +370,6 @@ class LLMS_AJAX_Handler {
 		if ( ! $membership->remove_auto_enroll_course( intval( $request['course_id'] ) ) ) {
 			return new WP_Error( 'error', __( 'There was an error removing the course, please try again.', 'lifterlms' ) );
 		}
-
 	}
 
 	/**
@@ -599,7 +589,6 @@ class LLMS_AJAX_Handler {
 		);
 
 		wp_die();
-
 	}
 
 	/**
@@ -608,6 +597,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
+	 * @since 7.8.0 Use `$attempt->get( 'status' )` instead of the not existing `$attempt->get_status()` method and added `can_be_resumed` param.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -615,7 +605,6 @@ class LLMS_AJAX_Handler {
 	 *                           or
 	 *                           (int) quiz_id
 	 *                           (int) lesson_id.
-	 *
 	 * @return WP_Error|array WP_Error on error or array containing html template of the first question.
 	 */
 	public static function quiz_start( $request ) {
@@ -639,11 +628,20 @@ class LLMS_AJAX_Handler {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
 		}
 
-		if ( ! $attempt || 'new' !== $attempt->get_status() ) {
+		if ( ! $attempt || 'new' !== $attempt->get( 'status' ) ) {
 
 			if ( ! isset( $request['quiz_id'] ) || ! isset( $request['lesson_id'] ) ) {
 				$err->add( 400, __( 'There was an error starting the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
 				return $err;
+			}
+
+			// Mark the previous attempt as ended if it could be resumed but we're restarting instead.
+			$previous_attempt_key = ( new LLMS_Quiz( $request['quiz_id'] ) )->get_student_last_attempt_key();
+			if ( $previous_attempt_key ) {
+				$previous_attempt = $student->quizzes()->get_attempt_by_key( $previous_attempt_key );
+				if ( $previous_attempt && $previous_attempt->can_be_resumed() ) {
+					$previous_attempt->end();
+				}
 			}
 
 			$attempt = LLMS_Quiz_Attempt::init( absint( $request['quiz_id'] ), absint( $request['lesson_id'] ), $student->get( 'id' ) );
@@ -669,13 +667,155 @@ class LLMS_AJAX_Handler {
 		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
-			'attempt_key' => $attempt->get_key(),
-			'html'        => $html,
-			'time_limit'  => $limit,
-			'question_id' => $question_id,
-			'total'       => $attempt->get_count( 'questions' ),
+			'attempt_key'    => $attempt->get_key(),
+			'html'           => $html,
+			'time_limit'     => $limit,
+			'question_id'    => $question_id,
+			'total'          => $attempt->get_count( 'questions' ),
+			'can_be_resumed' => $attempt->can_be_resumed(),
+		);
+	}
+
+	/**
+	 * Resume a Quiz Attempt.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @param array $request $_POST data.
+	 *                       required:
+	 *                           (string) attempt_key
+	 * @return WP_Error|array WP_Error on error or array containing html template of the first question to be answered.
+	 */
+	public static function quiz_resume( $request ) {
+
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		if ( ! isset( $request['attempt_key'] ) ) {
+			$err->add( 400, __( 'Attempt key is required.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
+
+		if ( empty( $attempt ) ) {
+			$err->add( 404, __( 'The requested attempt could not be found.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$quiz = $attempt->get_quiz();
+		if ( empty( $quiz ) ) {
+			$err->add( 400, __( 'No quiz found.', 'lifterlms' ) );
+			return $err;
+		}
+
+		if (
+			! $attempt->can_be_resumed() ||
+			! $attempt->is_last_attempt()
+		) {
+			$err->add(
+				400,
+				__(
+					'There was an error resuming the quiz. Please return to the lesson and begin again.',
+					'lifterlms'
+				)
+			);
+			return $err;
+		}
+
+		$question_ids = array_column( $attempt->get_questions(), 'id' );
+		if ( ! $question_ids ) {
+			$err->add(
+				404,
+				__( 'Unable to resume quiz because the quiz does not contain any questions.', 'lifterlms' )
+			);
+			return $err;
+		}
+
+		$question_id = $attempt->get( 'current_question_id' ) ? $attempt->get( 'current_question_id' ) : $attempt->get_next_question( null );
+
+		if ( ! $question_id ) {
+			return self::quiz_end( $request, $attempt );
+		}
+
+		$html = llms_get_template_ajax(
+			'content-single-question.php',
+			array(
+				'attempt'  => $attempt,
+				'question' => llms_get_post( $question_id ),
+			)
 		);
 
+		return array(
+			'attempt_key'    => $attempt->get_key(),
+			'html'           => $html,
+			'question_id'    => $question_id,
+			'total'          => $attempt->get_count( 'questions' ),
+			'question_ids'   => $question_ids,
+			'can_be_resumed' => $attempt->can_be_resumed(),
+		);
+	}
+
+	/**
+	 * AJAX Quiz get question.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @param array $request $_POST data.
+	 * @return WP_Error|array
+	 */
+	public static function quiz_get_question( $request ) {
+		$err = new WP_Error();
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$required = array( 'attempt_key', 'question_id' );
+		foreach ( $required as $key ) {
+			if ( empty( $request[ $key ] ) ) {
+				$err->add( 400, __( 'Missing required parameters. Could not proceed.', 'lifterlms' ) );
+				return $err;
+			}
+		}
+
+		$attempt_key     = sanitize_text_field( $request['attempt_key'] );
+		$question_id     = absint( $request['question_id'] );
+		$student_quizzes = $student->quizzes();
+		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
+
+		// Don't allow the question to be retrieved if the attempt is not open or can't be resumed.
+		if ( ! $attempt || ! $attempt->get_quiz()->is_open() || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
+			$err->add( 500, __( 'There was an error retrieving the question. Please return to the lesson and try again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$question_id = $attempt->get_question( $question_id );
+
+		if ( ! $question_id ) {
+			$err->add( 404, __( 'Cannot find the requested question id. Please return to the lesson and try again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		$html = llms_get_template_ajax(
+			'content-single-question.php',
+			array(
+				'attempt'  => $attempt,
+				'question' => llms_get_post( $question_id ),
+			)
+		);
+
+		return array(
+			'html'        => $html,
+			'question_id' => $question_id,
+		);
 	}
 
 	/**
@@ -712,7 +852,7 @@ class LLMS_AJAX_Handler {
 
 		$student_quizzes = $student->quizzes();
 		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
-		if ( ! $attempt ) {
+		if ( ! $attempt || 'incomplete' !== $attempt->get( 'status' ) || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
 			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
 			return $err;
 		}
@@ -736,11 +876,27 @@ class LLMS_AJAX_Handler {
 		// record the answer.
 		$attempt->answer_question( $question_id, $answer );
 
+		if ( isset( $request['via_previous_question'] ) ) {
+			$attempt->set( 'current_question_id', $attempt->get_previous_question( $question_id ) );
+			$attempt->save();
+
+			return;
+		}
+
+		if ( isset( $request['via_exit_quiz'] ) ) {
+			$attempt->set( 'current_question_id', $question_id );
+			$attempt->save();
+
+			return;
+		}
+
 		// get the next question.
 		$question_id = $attempt->get_next_question( $question_id );
 
 		// return html for the next question.
 		if ( $question_id ) {
+			$attempt->set( 'current_question_id', absint( $question_id ) );
+			$attempt->save();
 
 			$html = llms_get_template_ajax(
 				'content-single-question.php',
@@ -760,7 +916,6 @@ class LLMS_AJAX_Handler {
 			return self::quiz_end( $request, $attempt );
 
 		}
-
 	}
 
 	/**
@@ -816,7 +971,6 @@ class LLMS_AJAX_Handler {
 			 */
 			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
 		);
-
 	}
 
 	/**
@@ -865,7 +1019,6 @@ class LLMS_AJAX_Handler {
 			'gateways_html' => $gateways_html,
 			'summary_html'  => $summary_html,
 		);
-
 	}
 
 	/**
@@ -993,7 +1146,6 @@ class LLMS_AJAX_Handler {
 			)
 		);
 		wp_die();
-
 	}
 
 	/**
@@ -1042,7 +1194,6 @@ class LLMS_AJAX_Handler {
 		return array(
 			'success' => true,
 		);
-
 	}
 
 	/**
@@ -1144,7 +1295,6 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $error;
-
 	}
 
 	/**
@@ -1164,7 +1314,6 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
 
 		return $html;
-
 	}
 
 	/**
@@ -1210,7 +1359,6 @@ class LLMS_AJAX_Handler {
 
 		$section = new LLMS_Section( $request['section_id'] );
 		return $section->set_title( $request['title'] );
-
 	}
 
 	/**
@@ -1235,7 +1383,6 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
 
 		return $html;
-
 	}
 
 	/**
@@ -1249,7 +1396,6 @@ class LLMS_AJAX_Handler {
 	public static function get_lesson_options_for_select( $request ) {
 
 		return LLMS_Post_Handler::get_lesson_options_for_select_list();
-
 	}
 
 	/**
@@ -1269,7 +1415,6 @@ class LLMS_AJAX_Handler {
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
 
 		return $html;
-
 	}
 
 	/**
@@ -1289,7 +1434,6 @@ class LLMS_AJAX_Handler {
 			'title'   => $l->get( 'title' ),
 			'excerpt' => $l->get( 'excerpt' ),
 		);
-
 	}
 
 	/**
@@ -1310,7 +1454,6 @@ class LLMS_AJAX_Handler {
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
 
 		return $lesson->update( $post_data );
-
 	}
 
 	/**
@@ -1332,7 +1475,6 @@ class LLMS_AJAX_Handler {
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
 
 		return $lesson->update( $post_data );
-
 	}
 
 	/**
@@ -1373,7 +1515,6 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
-
 	}
 
 	/**
@@ -1401,7 +1542,6 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $updated_data;
-
 	}
 
 	/**
@@ -1443,7 +1583,6 @@ class LLMS_AJAX_Handler {
 		$membership->add_auto_enroll_courses( $courses, true );
 
 		return true;
-
 	}
 
 	/**
@@ -1498,7 +1637,6 @@ class LLMS_AJAX_Handler {
 			'errors' => $errors,
 			'html'   => $metabox->get_html(),
 		);
-
 	}
 
 	/**
@@ -1524,9 +1662,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $success;
-
 	}
-
 }
 
 new LLMS_AJAX_Handler();

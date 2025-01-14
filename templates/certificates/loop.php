@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 
 <?php if ( $certificates ) : ?>
 
-	<ul class="llms-certificates-loop listing-certificates <?php printf( 'loop-cols-%d', $cols ); ?>">
+	<ul class="llms-certificates-loop listing-certificates <?php printf( 'loop-cols-%d', esc_attr( $cols ) ); ?>">
 
 		<?php foreach ( $certificates as $certificate ) : ?>
 
@@ -60,14 +60,18 @@ defined( 'ABSPATH' ) || exit;
 		 *
 		 * @param string $message The message text.
 		 */
-		echo apply_filters( 'lifterlms_no_certificates_text', __( 'You do not have any certificates yet.', 'lifterlms' ) );
+		echo wp_kses_post( apply_filters( 'lifterlms_no_certificates_text', esc_html__( 'You do not have any certificates yet.', 'lifterlms' ) ) );
 	?>
 	</p>
 
 <?php endif; ?>
 
 <?php if ( $pagination ) : ?>
-	<?php echo llms_paginate_links( $pagination ); ?>
+	<?php
+		// HTML output is escaped in the function.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo llms_paginate_links( $pagination );
+	?>
 <?php endif; ?>
 
 <?php

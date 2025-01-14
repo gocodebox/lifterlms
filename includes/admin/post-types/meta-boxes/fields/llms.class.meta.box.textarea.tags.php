@@ -44,11 +44,11 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 		$rows = $this->field['rows'] ?? 4;
 		?>
 		<textarea
-			name="<?php echo $this->field['id']; ?>"
-			id="<?php echo $this->field['id']; ?>"
-			cols="<?php echo $cols; ?>"
-			rows="<?php echo $rows; ?>"
-			><?php echo ! empty( $this->field['value'] ) ? $this->field['value'] : $this->meta; ?></textarea>
+			name="<?php echo esc_attr( $this->field['id'] ); ?>"
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
+			cols="<?php echo esc_attr( $cols ); ?>"
+			rows="<?php echo esc_attr( $rows ); ?>"
+			><?php echo ! empty( $this->field['value'] ) ? esc_textarea( $this->field['value'] ) : esc_textarea( $this->meta ); ?></textarea>
 		<?php
 		parent::close_output();
 	}

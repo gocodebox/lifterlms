@@ -38,7 +38,6 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 				'description' => __( 'Displays Course Progress on Course or Lesson', 'lifterlms' ),
 			)
 		);
-
 	}
 
 	/**
@@ -57,10 +56,10 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 		$check_enrollment = ( isset( $instance['check_enrollment'] ) ) ? $instance['check_enrollment'] : 1;
 		?>
 		<p>
-			<input <?php checked( 1, $check_enrollment ); ?> class="checkbox llms-course-progress-check-enrollment" id="<?php echo $this->get_field_id( 'check_enrollment' ); ?>" name="<?php echo $this->get_field_name( 'check_enrollment' ); ?>" type="checkbox" value="1">
-			<label for="<?php echo $this->get_field_id( 'check_enrollment' ); ?>">
-				<?php _e( 'Display to enrolled students only?', 'lifterlms' ); ?><br>
-				<em><?php _e( 'When checked the course progress bar will be shown only to those students enrolled in the course.', 'lifterlms' ); ?></em>
+			<input <?php checked( 1, $check_enrollment ); ?> class="checkbox llms-course-progress-check-enrollment" id="<?php echo esc_attr( $this->get_field_id( 'check_enrollment' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'check_enrollment' ) ); ?>" type="checkbox" value="1">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'check_enrollment' ) ); ?>">
+				<?php esc_html_e( 'Display to enrolled students only?', 'lifterlms' ); ?><br>
+				<em><?php esc_html_e( 'When checked the course progress bar will be shown only to those students enrolled in the course.', 'lifterlms' ); ?></em>
 			</label>
 		</p>
 		<?php
@@ -78,7 +77,6 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
-
 		$check_enrollment = ( ! isset( $instance['check_enrollment'] ) ) ? 1 : $instance['check_enrollment'];
 		$course_progress  = do_shortcode( '[lifterlms_course_progress check_enrollment=' . $check_enrollment . ']' );
 
@@ -87,15 +85,15 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 			return;
 		}
 
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
 
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+			echo wp_kses_post( $args['before_title'] ) . wp_kses_post( apply_filters( 'widget_title', $instance['title'] ) ) . wp_kses_post( $args['after_title'] );
 		}
 
-		echo $course_progress;
+		echo wp_kses_post( $course_progress );
 
-		echo $args['after_widget'];
+		echo wp_kses_post( $args['after_widget'] );
 	}
 
 	/**
@@ -117,5 +115,4 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 
 		return $instance;
 	}
-
 }

@@ -80,13 +80,12 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		);
 
 		ob_start();
-		echo $mailer->get_table_html( $rows );
+		$mailer->output_table_html( $rows );
 		?>
-		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the whole attempt', 'lifterlms' ); ?></a></p>
-		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
+		<p><a href="{{REVIEW_URL}}" style="<?php echo esc_attr( $btn_style ); ?>"><?php esc_html_e( 'View the whole attempt', 'lifterlms' ); ?></a></p>
+		<p><small><?php esc_html_e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		}// End switch().
 
 		return $code;
-
 	}
 
 	/**
@@ -224,5 +222,4 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	protected function set_title() {
 		return __( 'Quiz Review Details', 'lifterlms' );
 	}
-
 }

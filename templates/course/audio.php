@@ -16,6 +16,9 @@ if ( ! $course->get_audio() ) {
 
 <div class="llms-audio-wrapper">
 	<div class="center-audio">
-		<?php echo $course->get_audio(); ?>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $course->get_audio();
+		?>
 	</div>
 </div>

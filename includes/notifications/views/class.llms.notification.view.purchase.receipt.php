@@ -47,12 +47,11 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		);
 
 		ob_start();
-		echo $mailer->get_table_html( $rows );
+		$mailer->output_table_html( $rows );
 		?>
-		<p><a href="{{ORDER_URL}}"><?php _e( 'View Order Details', 'lifterlms' ); ?></a></p>
+		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'View Order Details', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -183,7 +182,6 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -209,5 +207,4 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		// Translators: %s = Order ID.
 		return sprintf( __( 'Purchase Receipt for Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 	}
-
 }

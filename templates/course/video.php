@@ -17,6 +17,9 @@ if ( ! $course->get_video() ) {
 
 <div class="llms-video-wrapper">
 	<div class="center-video">
-		<?php echo $course->get_video(); ?>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $course->get_video();
+		?>
 	</div>
 </div>

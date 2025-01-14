@@ -32,7 +32,6 @@ class LLMS_Admin_Dashboard {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -92,7 +91,6 @@ class LLMS_Admin_Dashboard {
 		 * @since 7.1.0
 		 */
 		do_action( 'llms_dashboard_meta_boxes_added' );
-
 	}
 
 	/**
@@ -108,9 +106,9 @@ class LLMS_Admin_Dashboard {
 	public static function meta_box( $data_object, $box ) {
 
 		if ( isset( $box['args']['view'] ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template files.
 			echo self::get_view( $box['args']['view'] );
 		}
-
 	}
 
 	/**
@@ -137,7 +135,5 @@ class LLMS_Admin_Dashboard {
 		ob_start();
 		include 'views/dashboard/' . $file . '.php';
 		return ob_get_clean();
-
 	}
-
 }

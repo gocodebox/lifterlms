@@ -71,7 +71,6 @@ class LLMS_Settings_Page {
 			add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
 
 		}
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ class LLMS_Settings_Page {
 
 		// Flush rewrite rules.
 		flush_rewrite_rules();
-
 	}
 
 	/**
@@ -163,7 +161,6 @@ class LLMS_Settings_Page {
 		);
 
 		return array_merge( $start, $settings, $end );
-
 	}
 
 	/**
@@ -226,7 +223,7 @@ class LLMS_Settings_Page {
 			<ul class="llms-nav-items">
 				<?php foreach ( $sections as $key => $title ) : ?>
 					<li class="llms-nav-item<?php echo ( $key === $curr ) ? ' llms-active' : ''; ?>">
-						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $key ) ); ?>"><?php echo $title; ?></a>
+						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $key ) ); ?>"><?php echo esc_html( $title ); ?></a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
@@ -248,7 +245,5 @@ class LLMS_Settings_Page {
 		if ( $this->flush ) {
 			add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 		}
-
 	}
-
 }

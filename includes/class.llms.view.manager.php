@@ -33,7 +33,6 @@ class LLMS_View_Manager {
 		}
 
 		add_action( 'init', array( $this, 'add_actions' ) );
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_View_Manager {
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		}
-
 	}
 
 	/**
@@ -99,7 +97,6 @@ class LLMS_View_Manager {
 		foreach ( $this->get_menu_items_to_add() as $node ) {
 			$wp_admin_bar->add_node( $node );
 		}
-
 	}
 
 	/**
@@ -136,7 +133,7 @@ class LLMS_View_Manager {
 	private function get_inline_script() {
 		ob_start();
 		?>
-		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input_sanitize_string( INPUT_GET, 'view_nonce' ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
+		window.llms.ViewManager.set_nonce( '<?php echo esc_js( llms_filter_input_sanitize_string( INPUT_GET, 'view_nonce' ) ); ?>' ).set_view( '<?php echo esc_js( $this->get_view() ); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
 	}
@@ -184,7 +181,6 @@ class LLMS_View_Manager {
 		}
 
 		return $nodes;
-
 	}
 
 	/**
@@ -210,7 +206,6 @@ class LLMS_View_Manager {
 		$args['llms-view-as'] = $role;
 		$href                 = add_query_arg( $args, $href );
 		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
-
 	}
 
 	/**
@@ -237,7 +232,6 @@ class LLMS_View_Manager {
 		}
 
 		return $view;
-
 	}
 
 	/**
@@ -311,7 +305,6 @@ class LLMS_View_Manager {
 		}
 
 		return $status;
-
 	}
 
 	/**
@@ -336,7 +329,6 @@ class LLMS_View_Manager {
 		}
 
 		return $value;
-
 	}
 
 	/**
@@ -366,7 +358,6 @@ class LLMS_View_Manager {
 		}
 
 		return $status;
-
 	}
 
 	/**
@@ -386,7 +377,6 @@ class LLMS_View_Manager {
 		}
 
 		return $display;
-
 	}
 
 	/**
@@ -443,7 +433,6 @@ class LLMS_View_Manager {
 
 		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
-
 	}
 
 
@@ -482,10 +471,7 @@ class LLMS_View_Manager {
 		 * @param boolean $display Whether or not the menu item should be displayed.
 		 */
 		return apply_filters( 'llms_view_manager_should_display', $display );
-
 	}
-
-
 }
 
 return new LLMS_View_Manager();

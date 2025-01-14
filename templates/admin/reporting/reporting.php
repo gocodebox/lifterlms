@@ -11,8 +11,8 @@
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 ?>
-<div class="wrap lifterlms llms-reporting tab--<?php echo $current_tab; ?>">
-	<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-reporting-nav" method="GET">
+<div class="wrap lifterlms llms-reporting tab--<?php echo esc_attr( $current_tab ); ?>">
+	<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" class="llms-reporting-nav" method="GET">
 
 		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 
@@ -21,7 +21,7 @@ is_admin() || exit;
 				<?php foreach ( $tabs as $name => $label ) : ?>
 
 					<?php $current_tab_class = ( $current_tab === $name ) ? ' llms-active' : ''; ?>
-					<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $name ); ?>"><?php echo $label; ?></a>
+					<li class="llms-nav-item<?php echo esc_attr( $current_tab_class ); ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-reporting&tab=' . $name ) ); ?>"><?php echo esc_html( $label ); ?></a>
 
 				<?php endforeach; ?>
 				</ul>

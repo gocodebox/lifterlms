@@ -23,7 +23,7 @@ if ( ! is_admin() ) {
 	<section class="llms-reporting-tab-main llms-reporting-widgets">
 
 		<header>
-			<h3><?php _e( 'Student Information', 'lifterlms' ); ?></h3>
+			<h3><?php esc_html_e( 'Student Information', 'lifterlms' ); ?></h3>
 		</header>
 		<?php
 
@@ -116,7 +116,7 @@ if ( ! is_admin() ) {
 
 	<aside class="llms-reporting-tab-side">
 
-		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php _e( 'Recent events', 'lifterlms' ); ?></h3>
+		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php esc_html_e( 'Recent events', 'lifterlms' ); ?></h3>
 
 		<?php foreach ( $student->get_events() as $event ) : ?>
 			<?php LLMS_Admin_Reporting::output_event( $event, 'student' ); ?>

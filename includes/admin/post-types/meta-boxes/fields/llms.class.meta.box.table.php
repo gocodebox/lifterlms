@@ -40,7 +40,7 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			<table class="llms-table zebra text-left">
 				<thead>
 					<?php foreach ( $this->field['titles'] as $title ) : ?>
-						<th><?php echo $title; ?></th>
+						<th><?php echo wp_kses_post( $title ); ?></th>
 					<?php endforeach; ?>
 				</thead>
 				<tbody>
@@ -48,14 +48,14 @@ class LLMS_Metabox_Table_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 						<?php foreach ( $this->field['table_data'] as $row ) : ?>
 							<tr>
 								<?php foreach ( $row as $column ) : ?>
-									<td><?php echo $column; ?></td>
+									<td><?php echo wp_kses_post( $column ); ?></td>
 								<?php endforeach; ?>
 							</tr>
 						<?php endforeach; ?>
 					<?php elseif ( $this->field['empty_message'] ) : ?>
 						<tr>
 							<td colspan="<?php count( $this->field['titles'] ); ?>">
-								<?php echo $this->field['empty_message']; ?>
+								<?php echo wp_kses_post( $this->field['empty_message'] ); ?>
 							</td>
 						</tr>
 					<?php endif; ?>

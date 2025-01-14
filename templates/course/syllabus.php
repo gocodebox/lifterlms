@@ -23,7 +23,7 @@ $sections = $course->get_sections();
 
 	<?php if ( ! $sections ) : ?>
 
-		<p><?php _e( 'This course does not have any sections.', 'lifterlms' ); ?></p>
+		<p><?php esc_html_e( 'This course does not have any sections.', 'lifterlms' ); ?></p>
 
 	<?php else : ?>
 
@@ -32,7 +32,7 @@ $sections = $course->get_sections();
 			<?php $lesson_order = 0; ?>
 
 			<?php if ( apply_filters( 'llms_display_outline_section_titles', true ) ) : ?>
-				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $section->get( 'id' ) ); ?></h3>
+				<h3 class="llms-h3 llms-section-title"><?php echo esc_html( get_the_title( $section->get( 'id' ) ) ); ?></h3>
 			<?php endif; ?>
 
 			<?php $lessons = $section->get_lessons(); ?>
@@ -55,7 +55,7 @@ $sections = $course->get_sections();
 
 			<?php else : ?>
 
-				<p><?php _e( 'This section does not have any lessons.', 'lifterlms' ); ?></p>
+				<p><?php esc_html_e( 'This section does not have any lessons.', 'lifterlms' ); ?></p>
 
 			<?php endif; ?>
 

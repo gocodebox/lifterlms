@@ -36,13 +36,14 @@ class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		parent::output(); ?>
 
 		<input type="text"
-			name="<?php echo $this->field['id']; ?>"
-			id="<?php echo $this->field['id']; ?>"
+			name="<?php echo esc_attr( $this->field['id'] ); ?>"
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			<?php if ( array_key_exists( 'required', $this->field ) && $this->field['required'] ) : ?>
 				required="required"
 			<?php endif; ?>
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			value="<?php echo htmlentities( htmlspecialchars_decode( $this->meta, ENT_QUOTES ) ); ?>" size="30"
+			value="<?php echo esc_attr( $this->meta ); ?>"
+			size="30"
 			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
 			required="required"
 			<?php endif; ?>

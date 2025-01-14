@@ -42,8 +42,8 @@ class LLMS_Metabox_Color_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			$this->meta = $this->field['value'];
 		}
 		?>
-		<input class="color-picker" type="text" name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" value="<?php echo $this->meta; ?>" data-default-color="<?php echo $this->field['value']; ?>"/>
-			<br /><span class="description"><?php echo $this->field['desc']; ?></span>
+		<input class="color-picker" type="text" name="<?php echo esc_attr( $this->field['id'] ); ?>" id="<?php echo esc_attr( $this->field['id'] ); ?>" value="<?php echo esc_attr( $this->meta ); ?>" data-default-color="<?php echo esc_attr( $this->field['value'] ); ?>"/>
+			<br /><span class="description"><?php echo wp_kses_post( $this->field['desc'] ); ?></span>
 		<?php
 		parent::close_output();
 	}

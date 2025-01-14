@@ -25,7 +25,7 @@ if ( empty( $course_id ) ) {
 			'student' => $student,
 		)
 	);
-	echo $table->get_table_html();
+	$table->output_table_html();
 
 } else {
 
@@ -41,12 +41,12 @@ if ( empty( $course_id ) ) {
 				'student_id' => llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ),
 			)
 		);
-		echo $table->get_table_html();
+		$table->output_table_html();
 
 	} else {
 
 		if ( ! current_user_can( 'edit_post', $course_id ) ) {
-			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
+			wp_die( esc_html__( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 
 		llms_get_template(
@@ -58,4 +58,3 @@ if ( empty( $course_id ) ) {
 
 	}
 }
-

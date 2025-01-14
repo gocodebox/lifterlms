@@ -37,8 +37,8 @@ class LLMS_Metabox_Custom_Html_Field extends LLMS_Metabox_Field implements Meta_
 		global $post;
 
 		parent::output();
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the field value.
 		echo $this->field['value'];
 		parent::close_output();
 	}
 }
-

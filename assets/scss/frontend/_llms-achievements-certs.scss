@@ -35,10 +35,12 @@ ul.llms-certificates-loop,
 .llms-achievement,
 .llms-certificate {
 
-	background: #f1f1f1;
+	background: $color-white;
 	border: none;
-	color: inherit;
+	border-radius: $radius-medium;
+	color: $color-black;
 	display: block;
+	padding: 20px 0;
 	text-decoration: none;
 	width: 100%;
 
@@ -48,11 +50,12 @@ ul.llms-certificates-loop,
 
 	.llms-achievement-img {
 		display: block;
-		margin: 0;
-		width: 100%;
+		margin: 0 auto;
+		max-width: 80%;
 	}
 
 	.llms-achievement-title {
+		color: $color-black;
 		font-size: 16px;
 		margin: 0;
 		padding: 10px;
@@ -60,6 +63,7 @@ ul.llms-certificates-loop,
 	}
 
 	.llms-certificate-title {
+		color: $color-black;
 		font-size: 16px;
 		margin: 0;
 		padding: 0 0 10px;
@@ -83,12 +87,12 @@ ul.llms-certificates-loop,
 }
 
 .llms-certificate {
-	border: 4px double #f1f1f1;
+	border: 4px double $color-border;
 	padding: 20px 10px;
-	background: #fff;
+	background: $color-white;
 	text-align: center;
 	&:hover {
-		background: #fff;
+		background: $color-white;
 		border-color: #eaeaea;
 	}
 }

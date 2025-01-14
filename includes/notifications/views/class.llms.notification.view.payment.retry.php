@@ -54,7 +54,6 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 			return $this->set_body_email();
 		}
 		return $this->set_body_basic();
-
 	}
 
 	/**
@@ -87,12 +86,12 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		);
 
 		ob_start();
-		?><p><?php printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( __( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
-		<p><?php printf( __( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
-		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
-		<?php echo $mailer->get_table_html( $rows ); ?>
-		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
+		?><p><?php printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
+		<p><?php printf( esc_html__( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
+		<p><?php printf( esc_html__( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
+		<h4><?php printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
+		<?php $mailer->output_table_html( $rows ); ?>
+		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
 	}
@@ -217,7 +216,6 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		}
 
 		return $code;
-
 	}
 
 	/**
@@ -246,5 +244,4 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		// Translators: %s = The product title.
 		return sprintf( __( 'An automatic payment failed for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
-
 }

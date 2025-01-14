@@ -19,5 +19,8 @@ if ( ! $question->has_video() ) {
 ?>
 
 <div class="llms-question-video llms-video-wrapper">
-	<div class="center-video"><?php echo $question->get_video(); ?></div>
+	<div class="center-video"><?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $question->get_video();
+	?></div>
 </div>

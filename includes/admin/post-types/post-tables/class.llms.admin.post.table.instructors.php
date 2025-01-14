@@ -38,7 +38,6 @@ class LLMS_Admin_Post_Table_Instructors {
 		}
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
-
 	}
 
 	/**
@@ -58,7 +57,6 @@ class LLMS_Admin_Post_Table_Instructors {
 		);
 
 		return array_slice( $columns, 0, $offset + 1 ) + $add + array_slice( $columns, $offset );
-
 	}
 
 	/**
@@ -201,14 +199,14 @@ class LLMS_Admin_Post_Table_Instructors {
 					$instructor = llms_get_instructor( $user['id'] );
 
 					if ( $instructor ) {
-						$htmls[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $instructor->get( 'display_name' ) );
+						$htmls[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html( $instructor->get( 'display_name' ) ) );
 					}
 				}
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped before being put in array.
 				echo implode( ', ', $htmls );
 				break;
 
 		}
-
 	}
 
 	/**
@@ -263,9 +261,7 @@ class LLMS_Admin_Post_Table_Instructors {
 			$query->set( 'author', '' );
 
 		}
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Instructors();

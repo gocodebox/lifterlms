@@ -324,5 +324,5 @@ add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 
 function _llms_earned_engagement_deprecated_function( $obj, $meta_key, $replacement_msg ) {
 	$classname = get_class( $obj );
 	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_' . $meta_key;
-	_deprecated_function( "{$classname} meta key '{$keyname}'", '6.0.0', $replacement_msg );
+	_deprecated_function( esc_html( "{$classname} meta key '{$keyname}'" ), '6.0.0', wp_kses_post( $replacement_msg ) );
 }

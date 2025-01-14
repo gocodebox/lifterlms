@@ -20,5 +20,5 @@ if ( ! $quiz ) {
 
 <div class="clear"></div>
 <div class="llms-return">
-	<a href="<?php echo esc_url( get_permalink( $quiz->get( 'lesson_id' ) ) ); ?>"><?php _e( 'Return to Lesson', 'lifterlms' ); ?></a>
+	<a href="<?php echo esc_url( get_permalink( $quiz->get( 'lesson_id' ) ) ); ?>"><?php esc_html_e( 'Return to Lesson', 'lifterlms' ); ?></a>
 </div>

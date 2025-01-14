@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<form action="" class="llms-login" method="POST">
 
-		<h4 class="llms-form-heading"><?php _e( 'Login', 'lifterlms' ); ?></h4>
+		<h4 class="llms-form-heading"><?php esc_html_e( 'Login', 'lifterlms' ); ?></h4>
 
 		<div class="llms-form-fields">
 

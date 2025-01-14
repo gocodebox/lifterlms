@@ -138,13 +138,12 @@ class LLMS_Emails {
 		if ( isset( $css[ $rule ] ) ) {
 
 			if ( $echo ) {
-				echo $css[ $rule ];
+				echo esc_attr( $css[ $rule ] );
 			}
 
 			return $css[ $rule ];
 
 		}
-
 	}
 
 	/**
@@ -183,7 +182,6 @@ class LLMS_Emails {
 		$generic = new $emails['generic']( $args );
 		$generic->set_id( $id );
 		return $generic;
-
 	}
 
 	/**
@@ -250,7 +248,6 @@ class LLMS_Emails {
 		);
 
 		return array_values( $table_style );
-
 	}
 
 	/**
@@ -323,22 +320,29 @@ class LLMS_Emails {
 			return '';
 		}
 
-		list( $table_style, $tr_style, $td_style ) = $this->get_parsed_table_style();
-
 		ob_start();
-		?>
-		<table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
-		<?php
+		$this->output_table_html( $rows );
 
 		return ob_get_clean();
-
 	}
 
+	public function output_table_html( $rows ) {
+
+		if ( empty( $rows ) ) {
+			return '';
+		}
+
+		list( $table_style, $tr_style, $td_style ) = $this->get_parsed_table_style();
+
+		?>
+		<table style="<?php echo esc_attr( $table_style ); ?>">
+			<?php foreach ( $rows as $code => $name ) : ?>
+				<tr style="<?php echo esc_attr( $tr_style ); ?>">
+					<th style="<?php echo esc_attr( $td_style ); ?>width:33.3333%;"><?php echo esc_html( $name ); ?></th>
+					<td style="<?php echo esc_attr( $td_style ); ?>">{{<?php echo esc_html( $code ); ?>}}</td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php
+	}
 }

@@ -34,7 +34,7 @@ $student = llms_get_student( get_current_user_id() );
 
 		<?php if ( llms_show_mark_complete_button( $lesson ) ) : ?>
 
-			<?php echo apply_filters( 'llms_lesson_complete_text', __( 'Lesson Complete', 'lifterlms' ) ); ?>
+			<?php echo wp_kses_post( apply_filters( 'llms_lesson_complete_text', esc_html__( 'Lesson Complete', 'lifterlms' ) ) ); ?>
 			<?php do_action( 'llms_after_lesson_complete_text', $lesson ); ?>
 
 			<?php if ( 'yes' === get_option( 'lifterlms_retake_lessons', 'no' ) || apply_filters( 'lifterlms_retake_lesson_' . $lesson->get( 'parent_course' ), false ) ) : ?>
@@ -109,8 +109,8 @@ $student = llms_get_student( get_current_user_id() );
 
 		<?php do_action( 'llms_before_start_quiz_button' ); ?>
 
-		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo get_permalink( $lesson->get( 'quiz' ) ); ?>">
-			<?php echo apply_filters( 'lifterlms_start_quiz_button_text', __( 'Take Quiz', 'lifterlms' ), $lesson->get( 'quiz' ), $lesson ); ?>
+		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo esc_url( get_permalink( $lesson->get( 'quiz' ) ) ); ?>">
+			<?php echo wp_kses_post( apply_filters( 'lifterlms_start_quiz_button_text', esc_html__( 'Take Quiz', 'lifterlms' ), $lesson->get( 'quiz' ), $lesson ) ); ?>
 		</a>
 
 		<?php do_action( 'llms_after_start_quiz_button' ); ?>

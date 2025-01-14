@@ -34,23 +34,33 @@ class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		global $post;
 
-		parent::output(); ?>
+		parent::output();
 
-		<input type="number"
-		<?php
-		if ( isset( $this->field['min'] ) ) {
-			echo 'min="' . $this->field['min'] . '"';
-		}
-		if ( isset( $this->field['max'] ) ) {
-			echo 'max="' . $this->field['max'] . '"';
+		// Clear an invalid value, usually from a clone or import.
+		if (
+			is_numeric( $this->meta ) &&
+			isset( $this->field['min'] ) &&
+			is_numeric( $this->field['min'] ) &&
+			$this->field['min'] > 0 &&
+			$this->meta < $this->field['min'] ) {
+			$this->meta = '';
 		}
 		?>
-			name="<?php echo $this->field['id']; ?>"
-			id="<?php echo $this->field['id']; ?>"
+
+		<input type="number"
+			<?php if ( isset( $this->field['min'] ) ) : ?>
+			min="<?php echo esc_attr( $this->field['min'] ); ?>"
+			<?php endif; ?>
+			<?php if ( isset( $this->field['max'] ) ) : ?>
+			max="<?php echo esc_attr( $this->field['max'] ); ?>"
+			<?php endif; ?>
+			name="<?php echo esc_attr( $this->field['id'] ); ?>"
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			value="<?php echo $this->meta; ?>" size="30"
+			value="<?php echo esc_attr( $this->meta ); ?>"
+			size="30"
 			<?php if ( isset( $this->field['step'] ) ) : ?>
-			step="<?php echo $this->field['step']; ?>"
+			step="<?php echo esc_attr( $this->field['step'] ); ?>"
 			<?php endif; ?>
 			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
 			required="required"

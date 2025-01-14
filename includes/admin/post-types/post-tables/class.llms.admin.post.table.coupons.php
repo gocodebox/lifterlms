@@ -28,7 +28,6 @@ class LLMS_Admin_Post_Table_Coupons {
 
 		add_filter( 'manage_llms_coupon_posts_columns', array( $this, 'add_columns' ), 10, 1 );
 		add_action( 'manage_llms_coupon_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
-
 	}
 
 	/**
@@ -68,35 +67,33 @@ class LLMS_Admin_Post_Table_Coupons {
 		switch ( $column ) {
 
 			case 'amount':
-				_e( 'Discount: ', 'lifterlms' );
-				echo $c->get_formatted_amount();
+				esc_html_e( 'Discount: ', 'lifterlms' );
+				echo wp_kses( $c->get_formatted_amount(), LLMS_ALLOWED_HTML_PRICES );
 				echo '<br>';
 
 				if ( $c->has_trial_discount() ) {
-					_e( 'Trial Discount: ', 'lifterlms' );
-					echo $c->get_formatted_amount( 'trial_amount' );
+					esc_html_e( 'Trial Discount: ', 'lifterlms' );
+					echo wp_kses( $c->get_formatted_amount( 'trial_amount' ), LLMS_ALLOWED_HTML_PRICES );
 					echo '<br>';
 				}
 
 				break;
 
 			case 'desc':
-				echo $c->get( 'description' );
+				echo esc_html( $c->get( 'description' ) );
 				break;
 
 			case 'usage':
-				echo $c->get_uses();
+				echo esc_html( $c->get_uses() );
 				echo ' / ';
-				echo ( $c->get( 'usage_limit' ) ) ? $c->get( 'usage_limit' ) : '&infin;';
+				echo ( $c->get( 'usage_limit' ) ) ? esc_html( $c->get( 'usage_limit' ) ) : '&infin;';
 				break;
 
 			case 'expiry':
-				echo $c->get( 'expiration_date' ) ? $c->get_date( 'expiration_date', 'F d, Y' ) : '&ndash;';
+				echo $c->get( 'expiration_date' ) ? esc_html( $c->get_date( 'expiration_date', 'F d, Y' ) ) : '&ndash;';
 				break;
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Post_Table_Coupons();

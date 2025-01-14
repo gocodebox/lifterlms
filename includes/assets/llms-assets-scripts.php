@@ -81,6 +81,11 @@ return array(
 		'dependencies' => array( 'jquery' ),
 	),
 
+	'llms-admin-elementor-editor'   => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+
 	// Modules.
 	'llms-components'               => array(
 		'asset_file' => true,

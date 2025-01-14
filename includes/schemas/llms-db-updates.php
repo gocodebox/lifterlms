@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 7.5.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -172,11 +172,19 @@ return array(
 			'update_db_version',
 		),
 	),
-	'7.5.0' => array(
+	'7.5.0'  => array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
 			'favorites_feature_bc',
+			'update_db_version',
+		),
+	),
+	'7.8.0'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'maybe_set_option_llms_access_plans_allow_skus',
 			'update_db_version',
 		),
 	),

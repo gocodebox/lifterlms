@@ -19,27 +19,27 @@ $expires  = $plan->get_expiration_details();
 	<div class="llms-access-plan-price">
 
 		<?php if ( $plan->is_on_sale() ) : ?>
-			<em class="stamp"><?php _e( 'SALE', 'lifterlms' ); ?></em>
+			<em class="stamp"><?php esc_html_e( 'SALE', 'lifterlms' ); ?></em>
 		<?php endif; ?>
 
-		<span class="price-regular"><?php echo $plan->get_price( 'price' ); ?></span>
+		<span class="price-regular"><?php echo wp_kses( $plan->get_price( 'price' ), LLMS_ALLOWED_HTML_PRICES ); ?></span>
 
 		<?php if ( $plan->is_on_sale() ) : ?>
-			<span class="price-sale"><?php echo $plan->get_price( 'sale_price' ); ?></span>
+			<span class="price-sale"><?php echo wp_kses( $plan->get_price( 'sale_price' ), LLMS_ALLOWED_HTML_PRICES ); ?></span>
 		<?php endif; ?>
 
 	</div>
 
 	<?php if ( $schedule ) : ?>
-		<div class="llms-access-plan-schedule"><?php echo $schedule; ?></div>
+		<div class="llms-access-plan-schedule"><?php echo esc_html( $schedule ); ?></div>
 	<?php endif; ?>
 
 	<?php if ( $expires ) : ?>
-		<div class="llms-access-plan-expiration"><?php echo $expires; ?></div>
+		<div class="llms-access-plan-expiration"><?php echo esc_html( $expires ); ?></div>
 	<?php endif; ?>
 
 	<?php if ( $plan->is_on_sale() && $plan->get( 'sale_end' ) ) : ?>
-		<div class="llms-access-plan-sale-end"><?php printf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', get_option( 'date_format' ) ) ); ?></div>
+		<div class="llms-access-plan-sale-end"><?php echo esc_html( sprintf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', get_option( 'date_format' ) ) ) ); ?></div>
 	<?php endif; ?>
 
 </div>

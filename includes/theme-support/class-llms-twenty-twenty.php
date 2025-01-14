@@ -54,7 +54,6 @@ class LLMS_Twenty_Twenty {
 		add_filter( 'twentytwenty_get_elements_array', array( __CLASS__, 'add_elements' ) );
 
 		add_action( 'wp_head', array( __CLASS__, 'add_inline_styles' ), 100 );
-
 	}
 
 	/**
@@ -69,22 +68,22 @@ class LLMS_Twenty_Twenty {
 	public static function add_inline_styles() {
 
 		global $post_type;
-		$accent = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
+		$accent = twentytwenty_get_color_for_area( 'content', 'accent' );
 
 		?>
 		<style id="llms-twentytweny-style">
 
 		.llms-access-plan.featured .llms-access-plan-content,
 		.llms-access-plan.featured .llms-access-plan-footer {
-			border-left-color: <?php echo $accent; ?>;
-			border-right-color: <?php echo $accent; ?>;
+			border-left-color: <?php echo sanitize_hex_color( $accent ); ?>;
+			border-right-color: <?php echo sanitize_hex_color( $accent ); ?>;
 		}
 		.llms-access-plan.featured .llms-access-plan-footer {
-			border-bottom-color: <?php echo $accent; ?>;
+			border-bottom-color: <?php echo sanitize_hex_color( $accent ); ?>;
 		}
 		.llms-form-field.type-radio input[type=radio]:checked+label:before {
-			background-image: -webkit-radial-gradient(center,ellipse,<?php echo $accent; ?> 0,<?php echo $accent; ?> 40%,#fafafa 45%);
-			background-image: radial-gradient(ellipse at center,<?php echo $accent; ?> 0,<?php echo $accent; ?> 40%,#fafafa 45%);
+			background-image: -webkit-radial-gradient(center,ellipse,<?php echo sanitize_hex_color( $accent ); ?> 0,<?php echo sanitize_hex_color( $accent ); ?> 40%,#fafafa 45%);
+			background-image: radial-gradient(ellipse at center,<?php echo sanitize_hex_color( $accent ); ?> 0,<?php echo sanitize_hex_color( $accent ); ?> 40%,#fafafa 45%);
 		}
 		.llms-checkout-section,
 		.llms-lesson-preview section.llms-main  {
@@ -96,11 +95,11 @@ class LLMS_Twenty_Twenty {
 			margin-top: 0;
 		}
 		.llms-donut svg path {
-			stroke: <?php echo $accent; ?>;
+			stroke: <?php echo sanitize_hex_color( $accent ); ?>;
 		}
 		.llms-notification,
 		.llms-instructor-info .llms-instructors .llms-author {
-			border-top-color: <?php echo $accent; ?>;
+			border-top-color: <?php echo sanitize_hex_color( $accent ); ?>;
 		}
 		.llms-pagination ul li:first-of-type,
 		.llms-pagination ul {
@@ -123,7 +122,6 @@ class LLMS_Twenty_Twenty {
 		<?php endif; ?>
 		</style>
 		<?php
-
 	}
 
 	/**
@@ -179,7 +177,6 @@ class LLMS_Twenty_Twenty {
 		);
 
 		return $elements;
-
 	}
 
 	/**
@@ -257,7 +254,6 @@ class LLMS_Twenty_Twenty {
 			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
 
 		);
-
 	}
 
 	/**
@@ -276,7 +272,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $classes;
-
 	}
 
 	/**
@@ -297,7 +292,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $page_id;
-
 	}
 
 	/**
@@ -321,7 +315,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $template_class;
-
 	}
 
 	/**
@@ -335,7 +328,6 @@ class LLMS_Twenty_Twenty {
 	public static function hide_meta_output( $post_types ) {
 
 		return array_merge( $post_types, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ) );
-
 	}
 
 	/**
@@ -349,7 +341,6 @@ class LLMS_Twenty_Twenty {
 	protected static function is_page_full_width( $page_id ) {
 
 		return 'templates/template-full-width.php' === get_page_template_slug( $page_id );
-
 	}
 
 	/**
@@ -369,7 +360,6 @@ class LLMS_Twenty_Twenty {
 		}
 
 		return $cols;
-
 	}
 
 	/**
@@ -435,7 +425,6 @@ class LLMS_Twenty_Twenty {
 			// Otherwise output the wrapper after the end wrapper for the description wrapper div.
 			add_action( 'lifterlms_archive_description', array( __CLASS__, 'output_content_wrapper_part_two' ), 99999999 );
 		}
-
 	}
 
 	/**
@@ -450,7 +439,7 @@ class LLMS_Twenty_Twenty {
 			</div><!-- .archive-header-inner -->
 		</header><!-- .archive-header -->
 		<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
-			<div class="post-inner section-inner <?php echo self::get_page_template_class(); ?> ">
+			<div class="post-inner section-inner <?php echo esc_attr( self::get_page_template_class() ); ?> ">
 				<div class="entry-content">
 		<?php
 	}
@@ -470,7 +459,6 @@ class LLMS_Twenty_Twenty {
 		</main><!-- #site-content -->
 		<?php
 	}
-
 }
 
 return LLMS_Twenty_Twenty::init();

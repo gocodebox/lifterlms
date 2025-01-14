@@ -75,9 +75,11 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 			options = options || {};
 
 			if ( data instanceof Backbone.Model ) {
+				data.set( 'status', 'publish' );
 				data.set( 'parent_section', this.get( 'id' ) );
 				data.set_parent( this );
 			} else {
+				data.status = 'publish';
 				data.parent_section = this.get( 'id' );
 			}
 

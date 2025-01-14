@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 
 <?php if ( $achievements ) : ?>
 
-	<ul class="llms-achievements-loop listing-achievements <?php printf( 'loop-cols-%d', $cols ); ?>">
+	<ul class="llms-achievements-loop listing-achievements <?php echo esc_attr( sprintf( 'loop-cols-%d', $cols ) ); ?>">
 
 		<?php foreach ( $achievements as $achievement ) : ?>
 
@@ -61,14 +61,17 @@ defined( 'ABSPATH' ) || exit;
 		 *
 		 * @param string $message Message text..
 		 */
-		echo apply_filters( 'lifterlms_no_achievements_text', __( 'You do not have any achievements yet. Enroll in a course to get started!', 'lifterlms' ) );
+		echo wp_kses_post( apply_filters( 'lifterlms_no_achievements_text', __( 'You do not have any achievements yet. Enroll in a course to get started!', 'lifterlms' ) ) );
 	?>
 	</p>
 
 <?php endif; ?>
 
 <?php if ( $pagination ) : ?>
-	<?php echo llms_paginate_links( $pagination ); ?>
+	<?php
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo llms_paginate_links( $pagination );
+	?>
 <?php endif; ?>
 
 <?php

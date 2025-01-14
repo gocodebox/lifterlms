@@ -7,6 +7,7 @@
  * @since 3.16.0
  * @since 3.17.3 Unknown.
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
+ * @since 7.8.0 Add information on whether the attempt can be resumed or not and disable resume attempt button.
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -33,7 +34,7 @@ if ( $student ) {
 	<section class="llms-reporting-tab-main llms-reporting-widgets">
 
 		<header>
-			<h3><?php echo $attempt->get_title(); ?></h3>
+			<h3><?php echo wp_kses_post( $attempt->get_title() ); ?></h3>
 		</header>
 		<?php
 
@@ -87,12 +88,16 @@ if ( $student ) {
 				$icon = 'question-circle';
 		}
 
+		if ( $attempt->can_be_resumed() && $attempt->is_last_attempt() ) {
+			$additional = ' - <i>' . esc_html__( 'Can be resumed', 'lifterlms' ) . '</i>';
+		}
+
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of4',
 				'icon'      => $icon,
 				'id'        => 'llms-reporting-quiz-attempt-status',
-				'data'      => $attempt->l10n( 'status' ),
+				'data'      => $attempt->l10n( 'status' ) . ( $additional ?? '' ),
 				'data_type' => 'text',
 				'text'      => __( 'Status', 'lifterlms' ),
 			)
@@ -135,7 +140,7 @@ if ( $student ) {
 
 		<div class="clear"></div>
 
-		<h3><?php _e( 'Answers', 'lifterlms' ); ?></h3>
+		<h3><?php esc_html_e( 'Answers', 'lifterlms' ); ?></h3>
 
 		<form action="" method="POST">
 
@@ -146,20 +151,26 @@ if ( $student ) {
 				<button class="llms-button-primary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_grade">
 					<span class="default">
 						<i class="fa fa-check-square-o" aria-hidden="true"></i>
-						<?php _e( 'Start a Review', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Start a Review', 'lifterlms' ); ?>
 					</span>
 					<span class="save">
 						<i class="fa fa-floppy-o" aria-hidden="true"></i>
-						<?php _e( 'Save Review', 'lifterlms' ); ?>
+						<?php esc_html_e( 'Save Review', 'lifterlms' ); ?>
 					</span>
+			</button>
+			<?php endif; ?>
+			<?php if ( $attempt->can_be_resumed() ) : // Show the clear resume attempt button only if quiz can be resumed. ?>
+			<button class="llms-button-secondary large" name="llms_quiz_attempt_action" type="submit" value="llms_disable_resume_attempt">
+				<i class="fa fa-ban" aria-hidden="true"></i>
+				<?php esc_html_e( 'Disable Resume Attempt', 'lifterlms' ); ?>
 			</button>
 			<?php endif; ?>
 			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">
 				<i class="fa fa-trash-o" aria-hidden="true"></i>
-				<?php _e( 'Delete Attempt', 'lifterlms' ); ?>
+				<?php esc_html_e( 'Delete Attempt', 'lifterlms' ); ?>
 			</button>
 
-			<input type="hidden" name="llms_attempt_id" value="<?php echo $attempt->get( 'id' ); ?>">
+			<input type="hidden" name="llms_attempt_id" value="<?php echo esc_attr( $attempt->get( 'id' ) ); ?>">
 
 			<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
 
@@ -170,7 +181,7 @@ if ( $student ) {
 
 	<aside class="llms-reporting-tab-side">
 
-		<h3><i class="fa fa-history" aria-hidden="true"></i> <?php _e( 'Additional Attempts', 'lifterlms' ); ?></h3>
+		<h3><i class="fa fa-history" aria-hidden="true"></i> <?php esc_html_e( 'Additional Attempts', 'lifterlms' ); ?></h3>
 
 		<?php foreach ( $siblings as $attempt ) : ?>
 			<div class="llms-reporting-event quiz_attempt">
@@ -189,9 +200,9 @@ if ( $student ) {
 				?>
 				">
 
-					<?php printf( 'Attempt #%1$s - %2$s', $attempt->get( 'attempt' ), $attempt->get( 'grade' ) . '%' ); ?>
+					<?php echo esc_html( sprintf( 'Attempt #%1$s - %2$s', $attempt->get( 'attempt' ), $attempt->get( 'grade' ) . '%' ) ); ?>
 					<br>
-					<time datetime="<?php echo $attempt->get( 'update_date' ); ?>"><?php echo llms_get_date_diff( current_time( 'timestamp' ), $attempt->get( 'update_date' ), 1 ); ?></time>
+					<time datetime="<?php echo esc_attr( $attempt->get( 'update_date' ) ); ?>"><?php echo esc_html( llms_get_date_diff( current_time( 'timestamp' ), $attempt->get( 'update_date' ), 1 ) ); ?></time>
 
 				</a>
 

@@ -242,7 +242,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -340,7 +339,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
-
 	}
 
 	/**
@@ -355,6 +353,22 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
+	public function output_table_title_html() {
+		parent::output_table_title_html();
+		?>
+		<form id="llms-clear-student-progress-cache" action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'tools' ) ); ?>" method="POST">
+			<button class="button button-secondary" id="llms-clear-reporting-cache" name="llms_tool" type="submit" value="clear-cache"><?php echo esc_html__( 'Clear Reporting Cache', 'lifterlms' ); ?></button>
+			<?php wp_nonce_field( 'llms_tool' ); ?>
+			<label for="llms-clear-reporting-cache">
+				<span class="screen-reader-text"><?php echo esc_html__( 'Click to refresh the data and display the most current reporting information', 'lifterlms' ); ?></span>
+				<span class="tip--top-right" data-tip="<?php echo esc_html__( 'Click to refresh the data and display the most current reporting information', 'lifterlms' ); ?>">
+						<i class="fa fa-question-circle"></i>
+					</span>
+			</label>
+		</form>
+		<?php
+	}
+
 	/**
 	 * Get HTML for the filters displayed in the head of the table
 	 *
@@ -365,29 +379,35 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 *
 	 * @return string
 	 */
-	public function get_table_filters_html() {
-		$select_id       = sprintf( '%1$s-%2$s-filter', $this->id, 'course-membership' );
-		$additional_data = array();
+	public function output_table_filters_html() {
+		$select_id     = sprintf( '%1$s-%2$s-filter', $this->id, 'course-membership' );
+		$instructor_id = null;
 		// Limit Course/Membership results based on instructor access.
 		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && current_user_can( 'view_lifterlms_reports' ) ) {
 			$instructor = llms_get_instructor();
 			if ( $instructor ) {
-				$additional_data[] = sprintf( 'data-instructor_id="%d"', $instructor->get( 'id' ) );
+				$instructor_id = $instructor->get( 'id' );
 			}
 		}
-		$additional_data = implode( ' ', $additional_data );
-		ob_start();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
-				<label class="screen-reader-text" for="<?php echo $select_id; ?>">
-					<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
+				<label class="screen-reader-text" for="<?php echo esc_attr( $select_id ); ?>">
+					<?php esc_html_e( 'Choose Course/Membership', 'lifterlms' ); ?>
 				</label>
-				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id; ?>" name="course_membership" style="min-width:200px;max-width:500px;"<?php echo $additional_data; ?>></select>
+				<select
+					data-post-type="llms_membership,course"
+					class="llms-posts-select2 llms-table-filter"
+					id="<?php echo esc_attr( $select_id ); ?>"
+					name="course_membership"
+					style="min-width:200px;max-width:500px;"
+					<?php if ( $instructor_id ) : ?>
+					data-instructor-id="<?php echo esc_attr( $instructor_id ); ?>"
+					<?php endif; ?>
+				></select>
 			</div>
 		</div>
 		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -423,7 +443,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -465,7 +484,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 	/**
@@ -524,7 +542,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		}
 
 		return $sort;
-
 	}
 
 	/**
@@ -561,7 +578,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		if ( isset( $args['search'] ) ) {
 			$this->search = $args['search'];
 		}
-
 	}
 
 	/**
@@ -731,5 +747,4 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	protected function set_title() {
 		return __( 'Students', 'lifterlms' );
 	}
-
 }

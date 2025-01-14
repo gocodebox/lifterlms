@@ -6,7 +6,8 @@
 	border-radius: 8px;
 	color: $color-white;
 	cursor: pointer;
-	font-size: 16px;
+	display: inline-block;
+	font-size: 18px;
 	font-weight: 700;
 	text-decoration: none;
 	text-shadow: none;
@@ -60,6 +61,13 @@
 
 }
 
+/* Fix for cases where link color overrides the button color */
+a.llms-button-action,
+a.llms-button-danger,
+a.llms-button-primary {
+	color: $color-white;
+}
+
 .llms-button-primary {
 	background: $color-brand-blue;
 	&:hover,
@@ -74,7 +82,7 @@
 
 .llms-button-secondary {
 	background: #e1e1e1;
-	color: #414141;
+	color: $color-cinder;
 	&:hover {
 		color: #414141;
 		background: darken( #e1e1e1, 8 );
@@ -85,9 +93,13 @@
 		background: lighten( #e1e1e1, 4 );
 	}
 }
+/* Fix for cases where link color overrides the button color */
+a.llms-button-secondary {
+	color: $color-cinder;
+}
 
 .llms-button-action {
-	background: $color-brand-orange;
+	background: $color-orange;
 	&:hover,
 	&.clicked {
 		background: $color-brand-orange-dark;
@@ -150,4 +162,8 @@
 		padding: 12px;
 	}
 
+}
+
+.llms-course-continue-button {
+	display: inline-block;
 }

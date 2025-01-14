@@ -1,7 +1,0 @@
-significance: patch
-type: dev
-links:
-  - "#1087"
-attributions:
-  - "@bsetiawan88"
-entry: Added logic to delete vouchers data from table when vouchers are deleted.

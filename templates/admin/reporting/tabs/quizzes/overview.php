@@ -36,7 +36,7 @@ $now         = current_time( 'timestamp' );
 				)
 			);
 			?>
-			<h3><?php _e( 'Quiz Overview', 'lifterlms' ); ?></h3>
+			<h3><?php esc_html_e( 'Quiz Overview', 'lifterlms' ); ?></h3>
 
 		</header>
 		<?php
@@ -94,9 +94,9 @@ $now         = current_time( 'timestamp' );
 
 	<aside class="llms-reporting-tab-side">
 
-		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php _e( 'Recent events', 'lifterlms' ); ?></h3>
+		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php esc_html_e( 'Recent events', 'lifterlms' ); ?></h3>
 
-		<em><?php _e( 'Quiz events coming soon...', 'lifterlms' ); ?></em>
+		<em><?php esc_html_e( 'Quiz events coming soon...', 'lifterlms' ); ?></em>
 
 	</aside>
 

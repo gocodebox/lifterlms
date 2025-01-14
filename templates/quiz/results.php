@@ -8,7 +8,8 @@
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 4.17.0 Return early if accessed without a logged in user.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
- * @version 5.9.0
+ * @since 7.8.0 Don't try to round nulls.
+ * @version 7.8.0
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
@@ -66,13 +67,13 @@ if ( ! $attempt && ! $attempts ) {
 
 	<?php if ( $attempts ) : ?>
 		<section class="llms-quiz-results-history">
-			<h2 class="llms-quiz-results-title"><?php _e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
+			<h2 class="llms-quiz-results-title"><?php esc_html_e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
 			<select id="llms-quiz-attempt-select">
-				<option value="">-- <?php _e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
+				<option value="">-- <?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
 				<?php foreach ( $attempts as $attempt ) : ?>
 					<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
 						<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
-						<?php printf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ), 2 ) . '%', $attempt->l10n( 'status' ) ); ?>
+						<?php echo esc_html( sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%', $attempt->l10n( 'status' ) ) ); ?>
 					</option>
 				<?php endforeach; ?>
 			</select>

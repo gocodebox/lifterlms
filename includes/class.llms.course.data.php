@@ -20,6 +20,10 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
+	public $course_id;
+
+	public $course;
+
 	/**
 	 * Constructor
 	 *
@@ -32,7 +36,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		$this->course_id = $course_id;
 		$this->course    = llms_get_post( $this->course_id );
 		parent::__construct( $course_id );
-
 	}
 
 	/**
@@ -82,7 +85,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -113,7 +115,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -147,7 +148,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 	}
 
 	/**
@@ -186,7 +186,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);// db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 	}
 
 	/**
@@ -211,7 +210,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			)
 		);
 		return $query->found_posts;
-
 	}
 
 	/**
@@ -234,7 +232,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			$order_ids = implode( ',', $order_ids );
 
 			global $wpdb;
-			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$revenue = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT SUM( m2.meta_value )
@@ -250,7 +247,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 					$this->get_date( $period, 'end' )
 				)
 			);// db call ok; no-cache ok.
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $revenue ) ) {
 				$revenue = 0;
@@ -258,7 +254,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		}
 
 		return apply_filters( 'llms_course_data_get_revenue', $revenue, $period, $this );
-
 	}
 
 	/**
@@ -288,7 +283,6 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);// db call ok; no-cache ok.
-
 	}
 
 	/**
@@ -316,7 +310,5 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		}
 
 		return new WP_Query( $args );
-
 	}
-
 }

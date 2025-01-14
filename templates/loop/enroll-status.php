@@ -21,8 +21,8 @@ if ( ! $student ) {
 	<?php
 	printf(
 		// Translators: %s = enrollment status.
-		__( 'Status: %s', 'lifterlms' ),
-		llms_get_enrollment_status_name( $student->get_enrollment_status( get_the_ID() ) )
+		esc_html__( 'Status: %s', 'lifterlms' ),
+		esc_html( llms_get_enrollment_status_name( $student->get_enrollment_status( get_the_ID() ) ) )
 	);
 	?>
 	</p>

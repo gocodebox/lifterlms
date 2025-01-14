@@ -21,7 +21,6 @@ function llms_cancel_payment_url() {
 
 	$cancel_payment_url = esc_url( get_permalink( llms_get_page_id( 'checkout' ) ) );
 	return apply_filters( 'lifterlms_checkout_confirm_payment_url', $cancel_payment_url );
-
 }
 
 /**
@@ -59,7 +58,6 @@ function llms_confirm_payment_url( $order_key = null ) {
 	 * @param string $url URL to the payment confirmation screen.
 	 */
 	return apply_filters( 'lifterlms_checkout_confirm_payment_url', $url );
-
 }
 
 /**
@@ -180,7 +178,6 @@ function _llms_normalize_endpoint_base_url( $url, $endpoint ) {
 	}
 
 	return $url;
-
 }
 
 /**
@@ -221,7 +218,6 @@ function llms_get_page_id( $page ) {
 	$page = apply_filters( "lifterlms_get_{$page}_page_id", $id );
 
 	return $page ? absint( $page ) : -1;
-
 }
 
 
@@ -249,10 +245,14 @@ function llms_get_page_url( $page, $args = array() ) {
  *
  * @return string
  */
-function llms_lostpassword_url() {
+function llms_lostpassword_url( $lostpassword_url ) {
+	if ( llms_get_page_id( 'myaccount' ) <= 0 || ! get_permalink( llms_get_page_id( 'myaccount' ) ) ) {
+		return $lostpassword_url;
+	}
+
 	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
-add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
+add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 1 );
 
 /**
  * Returns the page number query var for the current request.
@@ -278,5 +278,4 @@ function llms_get_paged_query_var() {
 		$paged = 1;
 	}
 	return (int) $paged;
-
 }

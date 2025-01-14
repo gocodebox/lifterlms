@@ -6,8 +6,12 @@
 	}
 	&.flush {
 		.llms-form-field {
-			padding: 0 0 10px;
+			padding: 0 0 20px;
 		}
+	}
+
+	label:not(.llms-field-html label) {
+		font-weight: 700;
 	}
 
 	.wp-block-columns, .wp-block-column {
@@ -21,7 +25,7 @@
 
 	.llms-form-field {
 		float: left;
-		padding: 0 10px 10px;
+		padding: 0 10px 20px;
 		position: relative;
 		width: 100%;
 
@@ -29,6 +33,64 @@
 		// See the billing_address_2 field which has no label.
 		label:empty:after {
 			content: '\00a0';
+		}
+
+		[type="text"],
+		[type="password"],
+		[type="email"],
+		[type="url"],
+		[type="tel"],
+		[type="number"] {
+			background-color: $color-white;
+			background-clip: padding-box;
+			border: 1px solid $color-grey;
+			border-radius: $radius-small;
+			box-sizing: border-box;
+			font-size: 16px;
+			line-height: 1;
+			padding: 8px 12px;
+			transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+			width: 100%;
+		}
+
+		input:focus,
+		input:focus-visible {
+			border-color: $color-brand-blue-light;
+			outline: thin solid;
+		}
+
+		select {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			-ms-appearance: none;
+			appearance: none;
+			background-color: $color-white;
+			border: 1px solid $color-grey;
+			border-radius: $radius-small;
+			box-sizing: border-box;
+			color: $color-black;
+			padding: 8px 12px;
+			margin: 0;
+			width: 100%;
+			font-family: inherit;
+			font-size: 16px;
+			cursor: inherit;
+			line-height: 1.6;
+			z-index: 1;
+			outline: none;
+			background-repeat: no-repeat;
+			background-image: linear-gradient(45deg, transparent 50%, currentcolor 50%), linear-gradient(135deg, currentcolor 50%, transparent 50%);
+			background-position: right 15px top 1.3rem, right 10px top 1.3rem;
+			background-size: 5px 5px, 5px 5px;
+		}
+
+		select::-ms-expand {
+			display: none;
+		}
+
+		select:focus {
+			border: 1px solid $color-brand-blue-light;
+			outline: thin solid;
 		}
 
 		&.valid {
@@ -74,7 +136,7 @@
 				width: auto;
 			}
 			input {
-				margin-right: 5px;
+				margin-right: 10px;
 			}
 			label + .llms-description {
 				display: block;
@@ -132,6 +194,7 @@
 		.llms-description {
 			font-size: 14px;
 			font-style: italic;
+			line-height: 18px;
 		}
 
 		.llms-required {
@@ -209,5 +272,9 @@
 				background: rgba( #83c373, 0.25 );
 				width: 100%;
 			}
+		}
+
+		+ .llms-description {
+			display: block;
 		}
 	}

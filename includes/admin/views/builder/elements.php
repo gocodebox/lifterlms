@@ -12,10 +12,19 @@
 	<p class="llms-sidebar-description">
 		<?php
 			/* translators: %s: link to course builder tutorial */
-			echo sprintf( __( 'Drag or click on the different course elements below to build your course syllabus. <a href="%s" target="_blank">Visit the course builder tutorial here</a>.', 'lifterlms' ),
-				'https://lifterlms.com/docs/using-course-builder/'
+			echo wp_kses(
+				sprintf(
+					__( 'Drag or click on the different course elements below to build your course syllabus. <a href="%s" target="_blank">Visit the course builder tutorial here</a>.', 'lifterlms' ),
+					'https://lifterlms.com/docs/using-course-builder/'
+				),
+				array(
+					'a' => array(
+						'href'   => array(),
+						'target' => array(),
+					),
+				)
 			);
-		?>
+			?>
 	</p>
 	<ul class="llms-elements-list llms-add-items">
 

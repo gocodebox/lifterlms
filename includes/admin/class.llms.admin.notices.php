@@ -46,7 +46,6 @@ class LLMS_Admin_Notices {
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
 		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
 		add_action( 'shutdown', array( __CLASS__, 'save_notices' ) );
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Admin_Notices {
 		} else {
 			add_action( 'admin_notices', array( __CLASS__, 'output_notices' ) );
 		}
-
 	}
 
 	/**
@@ -91,7 +89,10 @@ class LLMS_Admin_Notices {
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
 		// Don't add the notice if we've already dismissed or delayed it.
-		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
+		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ||
+			( is_numeric( get_option( 'llms_admin_notice_' . $notice_id . '_delay' ) ) &&
+				time() < get_option( 'llms_admin_notice_' . $notice_id . '_delay' )
+			) ) {
 			return;
 		}
 
@@ -123,7 +124,6 @@ class LLMS_Admin_Notices {
 
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
-
 	}
 
 	/**
@@ -141,15 +141,15 @@ class LLMS_Admin_Notices {
 		$notice        = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
 		if ( $notice ) {
+			$delay = 0;
 			if ( 'remind' === $trigger && $notice['remindable'] ) {
 				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : 0;
-			} elseif ( 'hide' === $trigger && $notice['dismissible'] ) {
+			}
+			if ( 'hide' === $trigger && $notice['dismissible'] ) {
 				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
-			} else {
-				$delay = 0;
 			}
 			if ( $delay ) {
-				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
+				update_option( 'llms_admin_notice_' . $notice_id . '_delay', time() + ( DAY_IN_SECONDS * $delay ) );
 			}
 
 			/**
@@ -182,7 +182,7 @@ class LLMS_Admin_Notices {
 
 		// Increment the notice id so we can flash multiple notices on screen in one load if necessary.
 		while ( self::has_notice( $id . $i ) ) {
-			$i++;
+			++$i;
 		}
 
 		$id = $id . $i;
@@ -196,7 +196,6 @@ class LLMS_Admin_Notices {
 				'type'        => $type,
 			)
 		);
-
 	}
 
 	/**
@@ -250,10 +249,10 @@ class LLMS_Admin_Notices {
 	public static function hide_notices() {
 		if ( ( isset( $_GET['llms-hide-notice'] ) || isset( $_GET['llms-remind-notice'] ) ) && isset( $_GET['_llms_notice_nonce'] ) ) {
 			if ( ! llms_verify_nonce( '_llms_notice_nonce', 'llms_hide_notices_nonce', 'GET' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
+				wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
+				wp_die( esc_html__( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
 			if ( isset( $_GET['llms-hide-notice'] ) ) {
 				$notice = sanitize_text_field( wp_unslash( $_GET['llms-hide-notice'] ) );
@@ -288,11 +287,10 @@ class LLMS_Admin_Notices {
 		// Remove empty and non-string values.
 		return array_filter(
 			$notices,
-			function( $notice ) {
+			function ( $notice ) {
 				return ( ! empty( $notice ) && is_string( $notice ) );
 			}
 		);
-
 	}
 
 	/**
@@ -341,7 +339,6 @@ class LLMS_Admin_Notices {
 		if ( isset( $notice['flash'] ) && $notice['flash'] ) {
 			self::delete_notice( $id, 'delete' );
 		}
-
 	}
 
 	/**
@@ -360,7 +357,6 @@ class LLMS_Admin_Notices {
 			self::output_notice( $notice_id );
 			self::$printed_notices[] = $notice_id;
 		}
-
 	}
 
 	/**
@@ -373,7 +369,6 @@ class LLMS_Admin_Notices {
 	public static function save_notices() {
 		update_option( 'llms_admin_notices', self::get_notices() );
 	}
-
 }
 
 LLMS_Admin_Notices::init();

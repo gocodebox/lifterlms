@@ -39,7 +39,6 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 		// Output PHP variables for JS access.
 		add_action( 'admin_print_footer_scripts', array( $this, 'localize_js' ), 9 );
-
 	}
 
 	/**
@@ -62,7 +61,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	public function localize_js() {
 		$p     = new LLMS_Product( $this->post );
 		$limit = $p->get_access_plan_limit();
-		echo '<script>window.llms = window.llms || {}; window.llms.product = { access_plan_limit: ' . $limit . ' };</script>';
+		echo '<script>' . esc_js( 'window.llms = window.llms || {}; window.llms.product = { access_plan_limit: ' . $limit . ' };' ) . '</script>';
 	}
 
 	/**
@@ -107,6 +106,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * @version 3.29.0
 	 */
 	public function output() {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in get_html().
 		echo $this->get_html();
 	}
 
@@ -132,7 +132,5 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/access-plans/metabox.php';
 		remove_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 		return apply_filters( 'llms_metabox_product_output', ob_get_clean(), $this );
-
 	}
-
 }

@@ -86,7 +86,6 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 		}
 
 		return sprintf( '<button type="button" class="llms-button-outline" id="llms-mailhawk-connect"><span class="dashicons dashicons-email-alt"></span> %s</button>', __( 'Connect MailHawk', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 			__( 'Never worry about sending email again. %s takes care of everything for you starting for a small monthly fee.', 'lifterlms' ),
 			'<a href="https://lifterlikes.com/mailhawk" target="_blank">' . $this->get_title() . '</a>'
 		);
-
 	}
 
 	/**
@@ -162,7 +160,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 
 				var data = {
 					action: 'llms_mailhawk_remote_install',
-					_llms_mailhawk_nonce: '<?php echo wp_create_nonce( 'llms-mailhawk-install' ); ?>',
+					_llms_mailhawk_nonce: '<?php echo esc_js( wp_create_nonce( 'llms-mailhawk-install' ) ); ?>',
 				};
 
 				window.llms.emailConnectors.remoteInstall( jQuery( this ), data, function( res ) {
@@ -179,9 +177,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 			} );
 		</script>
 		<?php
-
 	}
-
 }
 
 return new LLMS_MailHawk();

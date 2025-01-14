@@ -40,10 +40,10 @@ $next_id = $lesson->get_next_lesson();
 	<?php if ( ! $prev_id || ! $next_id ) : ?>
 		<div class="llms-course-nav llms-back-to-course">
 			<div class="llms-lesson-preview">
-				<a class="llms-lesson-link" href="<?php echo get_permalink( $lesson->get( 'parent_course' ) ); ?>">
+				<a class="llms-lesson-link" href="<?php echo esc_url( get_permalink( $lesson->get( 'parent_course' ) ) ); ?>">
 					<section class="llms-main">
-						<h6 class="llms-pre-text"><?php echo __( 'Back to Course', 'lifterlms' ); ?></h6>
-						<h5 class="llms-h5 llms-lesson-title"><?php echo get_the_title( $lesson->get( 'parent_course' ) ); ?></h5>
+						<div class="llms-pre-text"><?php esc_html_e( 'Back to Course', 'lifterlms' ); ?></div>
+						<div class="llms-lesson-title"><?php echo esc_html( get_the_title( $lesson->get( 'parent_course' ) ) ); ?></div>
 					</section>
 				</a>
 			</div>

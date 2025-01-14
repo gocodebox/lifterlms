@@ -1,7 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#1583"
-attributions:
-  - "@bsetiawan88"
-entry: Adds ability to search by an order ID number in the Orders table.

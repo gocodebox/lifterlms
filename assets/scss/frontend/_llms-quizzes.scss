@@ -41,11 +41,15 @@
 			.llms-quiz-results-aside {
 				float: left;
 				width: 220px;
-			}
-			.llms-quiz-results-main,
-			.llms-quiz-results-history {
-				float: right;
-				width: calc( 100% - 300px );
+
+				+ .llms-quiz-results-main {
+					float: right;
+					width: calc( 100% - 300px );
+					+ .llms-quiz-results-history {
+						float: right;
+						width: calc( 100% - 300px );
+					}
+				}
 			}
 			.llms-quiz-results-history {
 				clear: right;
@@ -54,11 +58,16 @@
 
 	}
 
-	ul.llms-quiz-meta-info,
-	ul.llms-quiz-meta-info li {
+	ul.llms-quiz-meta-info {
 		list-style-type: none;
 		margin: 0;
-		padding: 0
+		padding: 0;
+
+		li {
+			list-style-type: none;
+			margin: 10px 0 0;
+			padding: 0
+		}
 	}
 
 	ul.llms-quiz-meta-info {
@@ -98,18 +107,16 @@
 }
 
 .llms-quiz-ui {
-	background: #fcfcfc;
-	padding: 20px;
 	position: relative;
 
 	.llms-quiz-header {
 		align-items: center;
 		display: flex;
-		margin: 0 0 30px;
+		margin: 0 0 40px;
 	}
 
 	.llms-progress {
-		background-color: #f1f2f1;
+		background-color: $color-border;
 		flex-direction: row;
 		height: 8px;
 		margin: 0;
@@ -122,14 +129,14 @@
 
 	.llms-error {
 		@include clearfix();
-		background: $color-danger;
-		border-radius: 4px;
-		color: #fff;
-		margin: 10px 0;
-		padding: 10px;
+		background: rgba( $color-red, .15 );
+		border: 1px solid $color-red;
+		border-radius: $radius-small;
+		margin: 20px 0;
+		padding: 15px;
 
 		a {
-			color: rgba( #fff, 0.6 );
+			color: $color-red;
 			float: right;
 			font-size: 22px;
 			line-height: 1;
@@ -239,7 +246,8 @@
 
 			.llms-marker {
 
-				background: #f0f0f0;
+				background: $color-white;
+				color: $color-black;
 				display: inline-block;
 				font-size: 20px;
 				height: 40px;
@@ -276,7 +284,8 @@
 				font-size: 18px;
 				font-weight: 400;
 				line-height: 1.6;
-				margin-bottom: 0;
+				margin: 0;
+				padding: 0;
 				vertical-align: middle;
 				width: calc( 100% - 60px );
 			}

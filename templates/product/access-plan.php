@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div class="<?php echo llms_get_access_plan_classes( $plan ); ?>" id="llms-access-plan-<?php echo $plan->get( 'id' ); ?>">
+<div class="<?php echo esc_attr( llms_get_access_plan_classes( $plan ) ); ?>" id="llms-access-plan-<?php echo esc_attr( $plan->get( 'id' ) ); ?>">
 
 	<?php
 		/**

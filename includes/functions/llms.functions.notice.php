@@ -32,7 +32,6 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
 	$notices[ $notice_type ][] = apply_filters( 'lifterlms_add_' . $notice_type, $message );
 
 	llms()->session->set( 'llms_notices', $notices );
-
 }
 
 /**
@@ -87,7 +86,6 @@ function llms_get_notices() {
 	add_action( 'shutdown', 'llms_clear_notices', 1 ); // Prior to shutdown functions executed by session manager.
 
 	return ob_get_clean();
-
 }
 
 
@@ -150,6 +148,7 @@ function llms_print_notice( $message, $notice_type = 'success' ) {
  * @version 3.14.7
  */
 function llms_print_notices() {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in templates.
 	echo llms_get_notices();
 	llms_clear_notices();
 }

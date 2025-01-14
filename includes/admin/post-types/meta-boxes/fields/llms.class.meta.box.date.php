@@ -38,7 +38,6 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		);
 
 		$this->field = $_field;
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 			}
 		}
 		return $data_attrs;
-
 	}
 
 	/**
@@ -83,17 +81,20 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		parent::output(); ?>
 
 		<input type="text"
-			name="<?php echo $this->field['id']; ?>"
-			id="<?php echo $this->field['id']; ?>"
+			name="<?php echo esc_attr( $this->field['id'] ); ?>"
+			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
-			value="<?php echo ! empty( $this->meta ) ? $this->meta : ''; ?>" size="30"
+			value="<?php echo ! empty( $this->meta ) ? esc_attr( $this->meta ) : ''; ?>"
+			size="30"
 			<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
-				required="required"
+			required="required"
 			<?php endif; ?>
 			<?php if ( isset( $this->field['placeholder'] ) ) : ?>
-				placeholder="<?php echo $this->field['placeholder']; ?>"
+			placeholder="<?php echo esc_attr( $this->field['placeholder'] ); ?>"
 			<?php endif; ?>
-			<?php echo $this->get_data_attrs(); ?>
+			<?php
+				echo wp_kses_post( $this->get_data_attrs() );
+				?>
 		/>
 		<?php
 		parent::close_output();

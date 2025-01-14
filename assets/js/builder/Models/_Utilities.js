@@ -87,6 +87,23 @@ define( [], function() {
 
 		},
 
+		get_view_post_link: function() {
+			if ( this.has_temp_id() ) {
+				return '';
+			}
+
+			if ( this.get( 'permalink' ) ) {
+				return this.get( 'permalink' );
+			}
+
+			if ( this.get( 'status' ) === 'publish' ) {
+				return window.llms_builder.home_url + '?p=' + this.get( 'id' );
+			}
+
+			return window.llms_builder.home_url + '?p=' + this.get( 'id' ) + '&preview=true&post_type=' + this.get( 'type' );
+
+		},
+
 		/**
 		 * Retrieve schema fields defined for the model
 		 *

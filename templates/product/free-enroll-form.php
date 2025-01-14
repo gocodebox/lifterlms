@@ -24,7 +24,10 @@ if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 
 <form action="" class="llms-free-enroll-form" method="POST">
 
-	<?php echo LLMS_Forms::instance()->get_free_enroll_form_html( $plan ); ?>
+	<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo LLMS_Forms::instance()->get_free_enroll_form_html( $plan );
+	?>
 
 	<?php wp_nonce_field( 'create_pending_order', '_llms_checkout_nonce' ); ?>
 
@@ -32,6 +35,6 @@ if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 	<input name="form" type="hidden" value="free_enroll">
 	<input name="llms_agree_to_terms" type="hidden" value="yes">
 
-	<button class="llms-button-action button" type="submit"><?php echo $plan->get_enroll_text(); ?></button>
+	<button class="llms-button-action button" type="submit"><?php echo esc_html( $plan->get_enroll_text() ); ?></button>
 
 </form>

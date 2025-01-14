@@ -20,4 +20,4 @@ $table->get_results(
 		'student' => $student,
 	)
 );
-echo $table->get_table_html();
+$table->output_table_html();

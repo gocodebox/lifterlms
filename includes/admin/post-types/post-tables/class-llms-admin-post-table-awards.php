@@ -58,7 +58,6 @@ class LLMS_Admin_Post_Table_Awards {
 
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Admin_Post_Table_Awards {
 		$cols = llms_assoc_array_insert( $cols, 'user', 'template', __( 'Template', 'lifterlms' ) );
 
 		return $cols;
-
 	}
 
 	/**
@@ -97,8 +95,8 @@ class LLMS_Admin_Post_Table_Awards {
 
 		$selected = (int) llms_filter_input( INPUT_GET, self::TEMPLATE_FILTER_QUERY_VAR, FILTER_SANITIZE_NUMBER_INT );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the function.
 		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( self::TEMPLATE_FILTER_QUERY_VAR, $template_post_type, $selected );
-
 	}
 
 	/**
@@ -139,7 +137,6 @@ class LLMS_Admin_Post_Table_Awards {
 			return __( 'Awarded', 'lifterlms' );
 		}
 		return $text;
-
 	}
 
 	/**
@@ -195,7 +192,6 @@ class LLMS_Admin_Post_Table_Awards {
 		} elseif ( 'user' === $column ) {
 			$this->manage_cols_user( $post_id );
 		}
-
 	}
 
 	/**
@@ -214,7 +210,7 @@ class LLMS_Admin_Post_Table_Awards {
 			printf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( get_edit_post_link( $parent_id ) ),
-				_draft_or_post_title( $parent_id )
+				_draft_or_post_title( $parent_id ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in the function.
 			);
 		} else {
 			echo '&mdash;';
@@ -242,7 +238,7 @@ class LLMS_Admin_Post_Table_Awards {
 			printf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( $url ),
-				$user->get_name()
+				esc_html( $user->get_name() )
 			);
 		} else {
 			echo '&mdash;';
@@ -300,7 +296,6 @@ class LLMS_Admin_Post_Table_Awards {
 		$query->set( 'post_parent', $template_id );
 
 		return $query;
-
 	}
 
 	/**
@@ -328,9 +323,7 @@ class LLMS_Admin_Post_Table_Awards {
 		}
 
 		return $actions;
-
 	}
-
 }
 
 return new LLMS_Admin_Post_Table_Awards();

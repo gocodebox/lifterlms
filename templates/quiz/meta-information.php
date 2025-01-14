@@ -27,16 +27,16 @@ if ( ! $quiz ) {
 $passing_percent = $quiz->get( 'passing_percent' );
 ?>
 
-<h2 class="llms-quiz-meta-title"><?php _e( 'Quiz Information', 'lifterlms' ); ?></h2>
+<h2 class="llms-quiz-meta-title"><?php esc_html_e( 'Quiz Information', 'lifterlms' ); ?></h2>
 <ul class="llms-quiz-meta-info">
 	<?php if ( $passing_percent ) : ?>
 	<li class="llms-quiz-meta-item llms-passing-percent">
-		<?php printf( esc_html__( 'Minimum Passing Grade: %s', 'lifterlms' ), '<span class="llms-pass-perc">' . $passing_percent . '%</span>' ); ?>
+		<?php printf( esc_html__( 'Minimum Passing Grade: %s', 'lifterlms' ), '<span class="llms-pass-perc">' . esc_html( $passing_percent ) . '%</span>' ); ?>
 	</li>
 	<?php endif; ?>
 
 	<li class="llms-quiz-meta-item llms-attempts">
-		<?php printf( esc_html__( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . $student->quizzes()->get_attempts_remaining_for_quiz( $quiz->get( 'id' ) ) . '</span>' ); ?>
+		<?php printf( esc_html__( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . esc_html( $student->quizzes()->get_attempts_remaining_for_quiz( $quiz->get( 'id' ) ) ) . '</span>' ); ?>
 	</li>
 
 	<li class="llms-quiz-meta-item llms-question-count">
@@ -45,7 +45,7 @@ $passing_percent = $quiz->get( 'passing_percent' );
 
 	<?php if ( $quiz->has_time_limit() ) : ?>
 	<li class="llms-quiz-meta-item llms-time-limit">
-		<?php printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . $quiz->get_time_limit_string() . '</span>' ); ?>
+		<?php printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . esc_html( $quiz->get_time_limit_string() ) . '</span>' ); ?>
 	</li>
 	<?php endif; ?>
 </ul>

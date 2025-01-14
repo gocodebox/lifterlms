@@ -44,10 +44,46 @@ class LLMS_Post_Types {
 		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 
+		add_action( 'admin_bar_menu', array( __CLASS__, 'add_launch_course_builder_to_course_post_type_admin_bar' ), 100 );
+
 		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
+	}
 
+	/**
+	 * Add Launch Course Builder top admin bar button for Course posts.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @return void
+	 */
+	public static function add_launch_course_builder_to_course_post_type_admin_bar( $wp_admin_bar ) {
+		if ( is_admin() || ! is_singular( 'course' ) ) {
+			return;
+		}
+
+		$url = add_query_arg(
+			array(
+				'page'      => 'llms-course-builder',
+				'course_id' => get_the_ID(),
+			),
+			admin_url( 'admin.php' )
+		);
+
+		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+
+		$wp_admin_bar->add_node(
+			array(
+				'id'    => 'course_launch_course_builder',
+				'title' => '<div style="float:left;width:32px;height:32px;background-repeat:no-repeat;background-position:center;background-size:20px auto;background-image:url(\'' . $icon_url . '\')" aria-hidden="true"></div> ' . __( 'Launch Course Builder', 'lifterlms' ),
+				'href'  => $url,
+				'meta'  => array(
+					'class' => 'llms-admin-bar-launch-course-builder',
+					'title' => __( 'Launch Course Builder', 'lifterlms' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -78,7 +114,6 @@ class LLMS_Post_Types {
 		foreach ( $post_types as $post_type ) {
 			add_post_type_support( $post_type, 'llms-membership-restrictions' );
 		}
-
 	}
 
 	/**
@@ -109,7 +144,6 @@ class LLMS_Post_Types {
 		}
 
 		add_image_size( 'llms_notification_icon', 64, 64, true );
-
 	}
 
 	/**
@@ -130,7 +164,6 @@ class LLMS_Post_Types {
 		);
 
 		return $post_types;
-
 	}
 
 	/**
@@ -207,7 +240,6 @@ class LLMS_Post_Types {
 		 * @param array[] $statuses Array of post status arrays.
 		 */
 		return apply_filters( 'lifterlms_register_order_post_statuses', $statuses );
-
 	}
 
 	/**
@@ -273,7 +305,6 @@ class LLMS_Post_Types {
 			"llms_get_{$singular}_post_type_caps",
 			$caps
 		);
-
 	}
 
 	/**
@@ -307,7 +338,6 @@ class LLMS_Post_Types {
 			'create_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
 
 		);
-
 	}
 
 	/**
@@ -347,7 +377,6 @@ class LLMS_Post_Types {
 				'assign_terms' => sprintf( 'assign_%s', $plural ),
 			)
 		);
-
 	}
 
 	/**
@@ -365,7 +394,6 @@ class LLMS_Post_Types {
 		}
 
 		return self::$templates[ $post_type ] ?? null;
-
 	}
 
 	/**
@@ -422,7 +450,6 @@ class LLMS_Post_Types {
 		}
 
 		return get_post_type_object( $name );
-
 	}
 
 	/**
@@ -1128,7 +1155,6 @@ class LLMS_Post_Types {
 				'has_archive'         => false,
 			)
 		);
-
 	}
 
 	/**
@@ -1180,7 +1206,6 @@ class LLMS_Post_Types {
 		);
 
 		self::register_post_type( $post_type, wp_parse_args( $args, $base_args ) );
-
 	}
 
 	/**
@@ -1238,7 +1263,6 @@ class LLMS_Post_Types {
 			register_post_status( $status, $values );
 
 		}
-
 	}
 
 	/**
@@ -1262,7 +1286,6 @@ class LLMS_Post_Types {
 				apply_filters( 'lifterlms_register_taxonomy_args_' . $filter_name, $data )
 			);
 		}
-
 	}
 
 	/**
@@ -1502,9 +1525,7 @@ class LLMS_Post_Types {
 				'public'            => false,
 			)
 		);
-
 	}
-
 }
 
 LLMS_Post_Types::init();

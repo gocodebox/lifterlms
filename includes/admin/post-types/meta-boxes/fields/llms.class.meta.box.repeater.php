@@ -43,7 +43,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		}
 
 		$this->field = $_field;
-
 	}
 
 	/**
@@ -53,7 +52,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	 * @since    3.11.0
 	 * @version  3.11.0
 	 */
-	private function get_button() {
+	private function output_button() {
 
 		$btn = $this->field['button'];
 
@@ -71,27 +70,20 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			$icon = $btn['icon'];
 		}
 
-		return '<button class="' . $classes . '" type="button">' . $icon . $btn['text'] . '</button>';
-
+		?>
+		<button class="<?php echo esc_attr( $classes ); ?>" type="button"><?php echo wp_kses_post( $icon ) . esc_html( $btn['text'] ); ?></button>
+		<?php
 	}
 
-	private function get_rows() {
+	private function output_row( $index ) {
 
-		$rows = '';
-		return $rows;
-
-	}
-
-	private function get_row( $index ) {
-
-		ob_start();
 		?>
 
-		<div class="llms-collapsible llms-repeater-row" data-row-order="<?php echo $index; ?>">
+		<div class="llms-collapsible llms-repeater-row" data-row-order="<?php echo esc_attr( $index ); ?>">
 
 			<header class="llms-collapsible-header">
 				<div class="d-2of3">
-					<h3 class="llms-repeater-title"><?php echo $this->field['header']['default']; ?></h3>
+					<h3 class="llms-repeater-title"><?php echo esc_html( $this->field['header']['default'] ); ?></h3>
 				</div>
 				<div class="d-1of3 d-right">
 					<span class="dashicons dashicons-arrow-down"></span>
@@ -107,7 +99,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 					<?php foreach ( $this->field['fields'] as $field ) : ?>
 
-						<?php echo $this->get_sub_field( $field, $index ); ?>
+						<?php $this->output_sub_field( $field, $index ); ?>
 
 					<?php endforeach; ?>
 
@@ -118,8 +110,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		</div>
 
 		<?php
-		return ob_get_clean();
-
 	}
 
 	/**
@@ -129,7 +119,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	 * @since    3.11.0
 	 * @version  3.17.3
 	 */
-	private function get_sub_field( $field, $index ) {
+	private function output_sub_field( $field, $index ) {
 
 		$field['id'] .= '_' . $index;
 
@@ -141,7 +131,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			strtr(
 				preg_replace_callback(
 					'/(\w+)/',
-					function( $m ) {
+					function ( $m ) {
 						return ucfirst( $m[1] );
 					},
 					$field['type']
@@ -153,10 +143,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
 		$field_class      = new $field_class_name( $field );
-		ob_start();
 		$field_class->output();
-		return ob_get_clean();
-
 	}
 
 	/**
@@ -172,18 +159,20 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		parent::output();
 
-		echo '<div class="llms-repeater-model" id="' . $this->field['id'] . '-model" style="display:none;">' . $this->get_row( 'model' ) . '</div>';
+		?>
+		<div class="llms-repeater-model" id="<?php echo esc_attr( $this->field['id'] ); ?>-model" style="display:none;">
+		<?php $this->output_row( 'model' ); ?>
+		</div>
 
-		echo '<div class="llms-collapsible-group llms-repeater-rows">' . $this->get_rows() . '</div>';
+		<div class="llms-collapsible-group llms-repeater-rows"></div>
 
-		echo '<footer class="llms-mb-repeater-footer">';
-			echo $this->get_button();
-		echo '</footer>';
+		<footer class="llms-mb-repeater-footer">
+		<?php $this->output_button(); ?>
+		</footer>
 
-		echo '<input class="llms-repeater-field-handler" type="hidden" value="' . $this->field['handler'] . '">';
-
+		<input class="llms-repeater-field-handler" type="hidden" value="<?php echo esc_attr( $this->field['handler'] ); ?>">
+		<?php
 		parent::close_output();
-
 	}
 }
 

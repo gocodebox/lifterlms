@@ -19,18 +19,18 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 <div class="<?php echo esc_attr( $args['cols'] ); ?>">
-	<div class="llms-reporting-widget <?php echo $args['id']; ?>" id="<?php echo $args['id']; ?>">
+	<div class="llms-reporting-widget <?php echo esc_attr( $args['id'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
 		<?php if ( $args['icon'] ) : ?>
 			<i class="fa fa-<?php echo esc_attr( $args['icon'] ); ?>" aria-hidden="true"></i>
 		<?php endif; ?>
 		<div class="llms-reporting-widget-data">
-			<strong><?php echo $args['data'] . $data_after; ?></strong>
+			<strong><?php echo wp_kses_post( $args['data'] . $data_after ); ?></strong>
 			<?php if ( $change ) : ?>
-				<small class="compare tooltip <?php echo $compare_class; ?>" title="<?php echo esc_attr( $compare_title ); ?>">
-					<?php echo $compare_operator . $change; ?>%
+				<small class="compare tooltip <?php echo esc_attr( $compare_class ); ?>" title="<?php echo esc_attr( $compare_title ); ?>">
+					<?php echo wp_kses_post( $compare_operator . $change ); ?>%
 				</small>
 			<?php endif; ?>
 		</div>
-		<small><?php echo $args['text']; ?></small>
+		<small><?php echo wp_kses_post( $args['text'] ); ?></small>
 	</div>
 </div>

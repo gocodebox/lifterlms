@@ -54,13 +54,12 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 		if ( $echo ) {
 
-			echo $ret;
+			echo wp_kses( $ret, LLMS_ALLOWED_HTML_FORM_FIELDS );
 			return;
 
 		}
 
 		return $ret;
-
 	}
 }
 
@@ -105,12 +104,11 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 
 		if ( $echo ) {
 
-			echo $ret;
+			echo wp_kses( $ret, LLMS_ALLOWED_HTML_FORM_FIELDS );
 			return;
 
 		}
 
 		return $ret;
-
 	}
 }
