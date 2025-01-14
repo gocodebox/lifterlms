@@ -67,6 +67,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Membership_Link',
+				'LLMS_Shortcode_Membership_Instructors',
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',

@@ -68,6 +68,7 @@ class LLMS_Beaver_Builder {
 	public function enable_post_types_by_default( $types ) {
 		$types[] = 'course';
 		$types[] = 'lesson';
+		$types[] = 'llms_membership';
 
 		return $types;
 	}
@@ -409,6 +410,10 @@ class LLMS_Beaver_Builder {
 		$post_type = get_post_type();
 
 		if ( 'course' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.course.instructors.module', 'class.llms.lab.course.syllabus.module', 'class.llms.lab.course.progress.bar.module' ) ) ) {
+			return false;
+		}
+
+		if ( 'llms_membership' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.membership.instructors.module' ) ) ) {
 			return false;
 		}
 
