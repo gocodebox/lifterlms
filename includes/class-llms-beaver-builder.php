@@ -413,7 +413,6 @@ class LLMS_Beaver_Builder {
 		}
 
 		if ( 'lesson' !== $post_type && in_array( $instance->slug, array( 'class.llms.lab.lesson.mark.complete.module' ) ) ) {
-			error_log( 'returning false for class.llms.lab.lesson.mark.complete.module' );
 			return false;
 		}
 
