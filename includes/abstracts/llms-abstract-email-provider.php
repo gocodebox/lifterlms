@@ -31,7 +31,6 @@ abstract class LLMS_Abstract_Email_Provider {
 	 * @var array
 	 */
 	protected $providers = array(
-		'mailhawk',
 		'sendwp',
 	);
 
