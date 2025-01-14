@@ -10,6 +10,7 @@ import {
 import {
 	createURL,
 	loginUser,
+	clickButton,
 } from '@wordpress/e2e-test-utils';
 
 describe( 'CourseRestrictions', () => {
@@ -20,7 +21,7 @@ describe( 'CourseRestrictions', () => {
 	beforeAll( async () => {
 
 		await importCourse( 'import-with-restrictions.json' );
-		await clickAndWait( '.llms-builder-launcher a.llms-button-primary' );
+		await clickButton( 'Launch Course Builder' );
 
 		course = await page.evaluate( () => window.llms_builder.course );
 		lessons = course.sections[0].lessons;
