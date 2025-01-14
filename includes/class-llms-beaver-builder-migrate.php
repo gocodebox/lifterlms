@@ -48,7 +48,7 @@ class LLMS_Beaver_Builder_Migrate {
 	}
 
 	protected function is_migratable_post_type( $post_id ) {
-		return in_array( get_post_type( $post_id ), array( 'course', 'lesson' ) );
+		return in_array( get_post_type( $post_id ), array( 'course', 'lesson', 'llms_membership' ) );
 	}
 
 	public function add_template_to_post() {
@@ -114,7 +114,19 @@ class LLMS_Beaver_Builder_Migrate {
 			case 'lesson':
 				$this->remove_lesson_template_hooks();
 				break;
+			case 'llms_membership':
+				$this->remove_membership_template_hooks();
+				break;
 		}
+	}
+
+	/**
+	 * Remove membership template hooks.
+	 *
+	 * @since [version]
+	 */
+	public function remove_membership_template_hooks() {
+		remove_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pricing_table', 10 );
 	}
 
 	/**
