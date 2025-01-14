@@ -68,6 +68,7 @@ class LLMS_Beaver_Builder {
 	public function enable_post_types_by_default( $types ) {
 		$types[] = 'course';
 		$types[] = 'lesson';
+		$types[] = 'llms_membership';
 
 		return $types;
 	}
