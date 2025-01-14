@@ -38,7 +38,7 @@ class LLMS_Shortcode_Membership_Instructors extends LLMS_Shortcode {
 	 * @since    [version]
 	 */
 	protected function get_output() {
-		if ( 'llms_membership' !== get_post_type( get_the_ID() ) || 'publish' !== get_post_status( get_the_ID() ) ) {
+		if ( 'llms_membership' !== get_post_type( get_the_ID() ) ) {
 			return '';
 		}
 
