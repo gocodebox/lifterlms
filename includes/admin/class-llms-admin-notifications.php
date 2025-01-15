@@ -103,7 +103,7 @@ class LLMS_Admin_Notifications {
 			wp_send_json_error( __( 'You do not have permission to view notifications.', 'lifterlms' ) );
 		}
 
-		$nonce = llms_filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
+		$nonce = llms_filter_input( INPUT_POST, 'nonce' );
 
 		if ( ! wp_verify_nonce( $nonce, 'llms_admin_notification_nonce' ) ) {
 			wp_send_json_error( __( 'Invalid nonce.', 'lifterlms' ) );
@@ -236,7 +236,7 @@ class LLMS_Admin_Notifications {
 	 * @return array Array of notification objects.
 	 */
 	private function fetch_notifications(): array {
-		$url = 'https://notifications.paidmembershipspro.com/v2/notifications.json';
+		$url = 'https://notifications.lifterlms.com/v1/notifications.json';
 		$url = defined( 'LLMS_ADMIN_NOTIFICATIONS_URL' ) ? LLMS_ADMIN_NOTIFICATIONS_URL : $url;
 		$url = apply_filters( 'llms_admin_notifications_url', $url );
 
@@ -286,10 +286,8 @@ class LLMS_Admin_Notifications {
 			}
 		}
 
-		usort(
-			$notifications,
-			static fn( stdClass $a, stdClass $b ): bool => $a->priority - $b->priority
-		);
+		// Sort by priority.
+		$notifications = wp_list_sort( $notifications, 'priority' );
 
 		return $notifications;
 	}
