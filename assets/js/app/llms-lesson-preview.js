@@ -25,7 +25,7 @@ LLMS.LessonPreview = {
 
 		var self = this;
 
-		this.$locked = $( 'div.llms-lesson-link-locked' );
+		this.$locked = $( '.llms-lesson-locked' );
 
 		if ( this.$locked.length ) {
 
