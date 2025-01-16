@@ -125,13 +125,13 @@ class LLMS_Reviews {
 				foreach ( $posts_array as $post ) {
 					?>
 					<div class="llms_review">
-						<h5><strong><?php echo esc_html( get_the_title( $post->ID ) ); ?></strong></h5>
-						<h6>
+						<div class="llms_review_title"><strong><?php echo esc_html( get_the_title( $post->ID ) ); ?></strong></div>
+						<div class="llms_review_name">
 							<?php
 							// Translators: %s = The author display name.
 							echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) );
 							?>
-						</h6>
+						</div>
 						<p><?php echo esc_html( get_post_field( 'post_content', $post->ID ) ); ?></p>
 					</div>
 					<?php
@@ -159,7 +159,7 @@ class LLMS_Reviews {
 			if ( ! self::current_user_can_write_review( get_the_ID() ) ) {
 				?>
 				<div id="thank_you_box">
-					<h2><?php echo esc_html( $thank_you_text ); ?></h2>
+					<div><?php echo esc_html( $thank_you_text ); ?></div>
 				</div>
 				<?php
 			} else {
@@ -167,10 +167,16 @@ class LLMS_Reviews {
 				<div class="review_box" id="review_box">
 					<h3><?php esc_html_e( 'Write a Review', 'lifterlms' ); ?></h3>
 					<!--<form method="post" name="review_form" id="review_form">-->
-					<input type="text" name="review_title" placeholder="<?php esc_attr_e( 'Review Title', 'lifterlms' ); ?>" id="review_title">
-					<h5 id="review_title_error"><?php esc_html_e( 'Review Title is required.', 'lifterlms' ); ?></h5>
-					<textarea name="review_text" placeholder="<?php esc_attr_e( 'Review Text', 'lifterlms' ); ?>" id="review_text"></textarea>
-					<h5 id="review_text_error"><?php esc_html_e( 'Review Text is required.', 'lifterlms' ); ?></h5>
+					<label for="review_title">
+						<?php esc_html_e( 'Review Title', 'lifterlms' ); ?>
+					</label>
+					<input type="text" name="review_title" id="review_title">
+					<div class="review_error" id="review_title_error"><?php esc_html_e( 'Review Title is required.', 'lifterlms' ); ?></div>
+					<label for="review_text">
+						<?php esc_html_e( 'Review Text', 'lifterlms' ); ?>
+					</label>
+					<textarea name="review_text" id="review_text"></textarea>
+					<div class="review_error" id="review_text_error"><?php esc_html_e( 'Review Text is required.', 'lifterlms' ); ?></div>
 					<input name="action" value="submit_review" type="hidden">
 					<input name="post_ID" value="<?php echo esc_attr( get_the_ID() ); ?>" type="hidden" id="post_ID">
 					<?php wp_nonce_field( 'llms-review', 'llms_review_nonce' ); ?>
