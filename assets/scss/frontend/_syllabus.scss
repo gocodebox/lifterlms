@@ -92,15 +92,7 @@
 	.llms-lesson-meta {
 		display: flex;
 		padding: 5px 15px;
-	}
-
-	.llms-main {
-	    flex-grow: 1;
-
-		span.llms-lesson-has-quiz,
-		span.llms-lesson-has-assignment {
-			font-size: 14px;
-		}
+		font-size: 14px;
 
 		div.llms-favorite-wrapper + span.llms-lesson-has-quiz {
 			margin-left: 10px;
@@ -113,7 +105,10 @@
 		span.llms-lesson-has-quiz + span.llms-lesson-has-assignment {
 			margin-left: 10px;
 		}
+	}
 
+	.llms-main {
+	    flex-grow: 1;
 	}
 	.llms-extra {
 		min-width: 50px;
