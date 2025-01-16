@@ -124,26 +124,30 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 			?>
 
 			<?php
-			if ( $lesson->is_quiz_enabled() ) {
+			if ( 'lesson' !== get_post_type( get_the_ID() ) ) :
 				?>
-				<span class="llms-lesson-has-quiz">
-					<i class="fa fa-question-circle"></i>
-				<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
-				</span>
 				<?php
-			}
-			?>
+				if ( $lesson->is_quiz_enabled() ) :
+					?>
+					<span class="llms-lesson-has-quiz">
+						<i class="fa fa-question-circle"></i>
+					<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+					</span>
+					<?php
+				endif;
+				?>
 
-			<?php
-			if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) {
-				?>
-				<span class="llms-lesson-has-assignment">
-					<i class="fa fa-pencil-square"></i>
-				<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
-				</span>
 				<?php
-			}
-			?>
+				if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) :
+					?>
+					<span class="llms-lesson-has-assignment">
+						<i class="fa fa-pencil-square"></i>
+					<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+					</span>
+					<?php
+				endif;
+				?>
+			<?php endif; ?>
 		</div>
 	</section>
 </div>
