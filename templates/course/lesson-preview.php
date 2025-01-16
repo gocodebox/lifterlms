@@ -43,9 +43,13 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 ?>
 
 <div class="llms-lesson-preview<?php echo esc_attr( $lesson->get_preview_classes() ); ?>">
-	<section>
+	<section
+	<?php if ( $restrictions['is_restricted'] ) : ?>
+		class="llms-lesson-locked"
+	<?php endif; ?>
+	>
 		<?php if ( $restrictions['is_restricted'] ) : ?>
-			<div class="llms-lesson-link llms-lesson-link-locked" data-tooltip-msg="<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>">
+			<div class="llms-lesson-link" data-tooltip-msg="<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>">
 		<?php else : ?>
 			<a class="llms-lesson-link" href="<?php echo esc_url( get_permalink( $lesson->get( 'id' ) ) ); ?>" aria-label="<?php echo esc_attr( get_the_title( $lesson->get( 'id' ) ) . ' ' . $lesson_screen_reader_msg ); ?>">
 		<?php endif; ?>
