@@ -512,5 +512,19 @@ svg .llms-animated-circle {
 
   .llms-favorite-wrapper {
     display: inline-block;
+
+
+	button {
+	  background: none;
+	  border: none;
+	  cursor: pointer;
+	  padding: 0;
+	}
+
+	button:focus {
+	  outline: 2px dashed #333;
+	  outline-offset: 2px;
+	}
   }
+
 }
