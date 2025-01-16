@@ -25,10 +25,9 @@
 			var self = this;
 
 			// Favorite clicked.
-			$( '.llms-favorite-wrapper' ).on( 'click', function( e ) {
+			$( '.llms-favorite-wrapper button' ).on( 'click', function( e ) {
 				e.preventDefault();
-				var $btn = $( this ).find( '.llms-heart-btn' );
-				$btn && self.favorite( $btn );
+				self.favorite( $( this ) );
 			} );
 
 			// Adding class in Favorite's parent.
@@ -69,11 +68,13 @@
 						$fav_btns.each(
 							function() {
 								if( 'favorite' === user_action ) {
-									$(this).removeClass( 'fa-heart-o' ).addClass( 'fa-heart' );
+									$(this).find( '.llms-heart-btn' ).removeClass( 'fa-heart-o' ).addClass( 'fa-heart' );
 									$(this).attr( 'data-action', 'unfavorite' );
+									$(this).attr( 'aria-pressed', true );
 								} else if ( 'unfavorite' === user_action ) {
-									$(this).removeClass( 'fa-heart' ).addClass( 'fa-heart-o' );
+									$(this).find( '.llms-heart-btn' ).removeClass( 'fa-heart' ).addClass( 'fa-heart-o' );
 									$(this).attr( 'data-action', 'favorite' );
+									$(this).attr( 'aria-pressed', false );
 								}
 								// Updating count.
 								$(this).closest( '.llms-favorite-wrapper' ).find( '.llms-favorites-count' ).text( r.total_favorites );
