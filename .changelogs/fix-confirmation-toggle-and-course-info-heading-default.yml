@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2646"
+entry: Can now deactivate the Confirmation field for blocks like E-mail address
+  and Password in forms.
