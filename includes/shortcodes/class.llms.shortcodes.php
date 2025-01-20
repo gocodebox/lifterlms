@@ -67,6 +67,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Membership_Link',
+				'LLMS_Shortcode_Membership_Instructors',
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',
@@ -238,7 +239,7 @@ class LLMS_Shortcodes {
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
 		}
 
 		/**

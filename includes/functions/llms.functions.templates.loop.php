@@ -361,6 +361,14 @@ if ( ! function_exists( 'lifterlms_template_loop_lesson_count' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lifterlms_template_loop_featured_pricing_information' ) ) {
+	function lifterlms_template_loop_featured_pricing_information() {
+		if ( in_array( get_post_type( get_the_ID() ), array( 'course', 'llms_membership' ) ) ) {
+			llms_get_template( 'loop/featured-pricing.php' );
+		}
+	}
+}
+
 /**
  * Show enrollment date meta
  * used on Dashboard only

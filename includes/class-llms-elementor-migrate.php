@@ -47,7 +47,7 @@ class LLMS_Elementor_Migrate {
 					'elType'     => 'widget',
 					'settings'   => array(
 						'content_width' => 'full',
-						'html'          => '<h3>' . esc_attr__( 'Course Information', 'lifterlms' ) . '</h3>',
+						'html'          => '<h2>' . esc_attr__( 'Course Information', 'lifterlms' ) . '</h2>',
 					),
 					'elements'   => array(),
 					'widgetType' => 'html',

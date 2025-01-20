@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.8.7';
+	public $version = '8.0.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -178,6 +178,7 @@ final class LifterLMS {
 			'width'           => true,
 			'height'          => true,
 			'data-*'          => true,
+			'aria-label'      => true,
 			'aria-live'       => true,
 			'aria-hidden'     => true,
 			'aria-*'          => true,
@@ -260,76 +261,42 @@ final class LifterLMS {
 				'span'   => $allowed_atts,
 				'strong' => $allowed_atts,
 				'sup'    => $allowed_atts,
+				'sub'    => $allowed_atts,
 				'del'    => $allowed_atts,
 				'ins'    => $allowed_atts,
 				'em'     => $allowed_atts,
 				'bdi'    => $allowed_atts,
+				's'      => $allowed_atts,
+				'u'      => $allowed_atts,
 			)
 		);
+
+		// Start with the wp_kses_post allowed fields and ensure all attributes are permitted.
+		$allowed_post_fields = wp_kses_allowed_html( 'post' );
+		foreach ( $allowed_post_fields as $field => $attributes ) {
+			$allowed_post_fields[ $field ] = array_merge( $attributes, $allowed_atts );
+		}
+
 		llms_maybe_define_constant(
 			'LLMS_ALLOWED_HTML_FORM_FIELDS',
-			array(
-				'a'          => $allowed_atts,
-				'abbr'       => $allowed_atts,
-				'acronym'    => $allowed_atts,
-				'article'    => $allowed_atts,
-				'b'          => $allowed_atts,
-				'bdo'        => $allowed_atts,
-				'bdi'        => $allowed_atts,
-				'blockquote' => $allowed_atts,
-				'br'         => $allowed_atts,
-				'cite'       => $allowed_atts,
-				'code'       => $allowed_atts,
-				'del'        => $allowed_atts,
-				'dfn'        => $allowed_atts,
-				'em'         => $allowed_atts,
-				'hr'         => $allowed_atts,
-				'ins'        => $allowed_atts,
-				'kbd'        => $allowed_atts,
-				'q'          => $allowed_atts,
-				's'          => $allowed_atts,
-				'iframe'     => $allowed_atts,
-				'header'     => $allowed_atts,
-				'footer'     => $allowed_atts,
-				'strike'     => $allowed_atts,
-				'strong'     => $allowed_atts,
-				'sub'        => $allowed_atts,
-				'sup'        => $allowed_atts,
-				'ul'         => $allowed_atts,
-				'ol'         => $allowed_atts,
-				'li'         => $allowed_atts,
-				'p'          => $allowed_atts,
-				'pre'        => $allowed_atts,
-				'address'    => $allowed_atts,
-				'aside'      => $allowed_atts,
-				'nav'        => $allowed_atts,
-				'form'       => $allowed_atts,
-				'input'      => $allowed_atts,
-				'textarea'   => $allowed_atts,
-				'button'     => $allowed_atts,
-				'select'     => $allowed_atts,
-				'option'     => $allowed_atts,
-				'checkbox'   => $allowed_atts,
-				'radio'      => $allowed_atts,
-				'optgroup'   => $allowed_atts,
-				'div'        => $allowed_atts,
-				'label'      => $allowed_atts,
-				'span'       => $allowed_atts,
-				'img'        => $allowed_atts,
-				'i'          => $allowed_atts,
-				'h1'         => $allowed_atts,
-				'h2'         => $allowed_atts,
-				'h3'         => $allowed_atts,
-				'h4'         => $allowed_atts,
-				'h5'         => $allowed_atts,
-				'h6'         => $allowed_atts,
-				'section'    => $allowed_atts,
-				'fieldset'   => $allowed_atts,
-				'legend'     => $allowed_atts,
-				'datalist'   => $allowed_atts,
-				'output'     => $allowed_atts,
-				'progress'   => $allowed_atts,
-				'meter'      => $allowed_atts,
+			array_merge(
+				$allowed_post_fields,
+				array(
+					'bdi'      => $allowed_atts,
+					'iframe'   => $allowed_atts,
+					'form'     => $allowed_atts,
+					'input'    => $allowed_atts,
+					'select'   => $allowed_atts,
+					'option'   => $allowed_atts,
+					'checkbox' => $allowed_atts,
+					'radio'    => $allowed_atts,
+					'optgroup' => $allowed_atts,
+					'datalist' => $allowed_atts,
+					'output'   => $allowed_atts,
+					'progress' => $allowed_atts,
+					'meter'    => $allowed_atts,
+					'source'   => $allowed_atts,
+				)
 			)
 		);
 		llms_maybe_define_constant( 'LLMS_CONFIRMATION_FIELDS', array( 'email_address_confirm', 'password_confirm' ) );
@@ -369,6 +336,8 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-beaver-builder.php';
+		include_once 'includes/class-llms-beaver-builder-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}
