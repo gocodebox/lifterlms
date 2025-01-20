@@ -1,7 +1,7 @@
 /**
  * JS for the Course and Membership metabox options
  *
- * @since [version]
+ * @since 8.0.0
  */
 
 ( function( $ ){

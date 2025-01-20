@@ -8,7 +8,7 @@
  *
  * @package LifterLMS/Shortcodes/Classes
  *
- * @since [version]
+ * @since 8.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,7 +35,7 @@ class LLMS_Shortcode_Membership_Instructors extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @return   string
-	 * @since    [version]
+	 * @since    8.0.0
 	 */
 	protected function get_output() {
 		if ( 'llms_membership' !== get_post_type( get_the_ID() ) ) {
@@ -54,7 +54,7 @@ class LLMS_Shortcode_Membership_Instructors extends LLMS_Shortcode {
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
 	 * @return   array
-	 * @since    [version]
+	 * @since    8.0.0
 	 */
 	protected function get_default_attributes() {
 		return array();

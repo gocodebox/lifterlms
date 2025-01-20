@@ -6,7 +6,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
+ * @since 8.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,7 +78,7 @@ class LLMS_Beaver_Builder {
 	 *
 	 * Stub function called during install.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return void
 	 */

@@ -1,6 +1,0 @@
-significance: patch
-type: dev
-links:
-  - "#2805"
-entry: Improved llmsPostsSelect2 method when called on multiple elements at
-  once, each with different options.

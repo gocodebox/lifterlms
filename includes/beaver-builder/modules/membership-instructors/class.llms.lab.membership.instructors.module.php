@@ -4,7 +4,7 @@
  *
  * @package LifterLMS_Labs/Labs/BeaverBuilder/Modules/MembershipInstructors/Classes
  *
- * @since [version]
+ * @since 8.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

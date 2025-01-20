@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2843"
-entry: Allow lesson access based on enrollment drip setting with Course Start
-  Date set.

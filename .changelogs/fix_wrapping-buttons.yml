@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2820"
-entry: Avoid wrapping of the text of buttons.

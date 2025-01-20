@@ -232,7 +232,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Ajax callback called after doing the initial install, so the plugin is loaded and available.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return void
 	 */

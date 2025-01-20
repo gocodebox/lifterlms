@@ -547,8 +547,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    boolean $verbose  If true, the text will be verbose and include the plan name for accessibility.
 	 * @return   string
 	 * @since    3.0.0
-	 * @since    [version] Added $verbose parameter.
-	 * @version  [version]
+	 * @since    8.0.0 Added $verbose parameter.
+	 * @version  8.0.0
 	 */
 	public function get_enroll_text( $verbose = false ) {
 

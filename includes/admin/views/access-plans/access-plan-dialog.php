@@ -58,7 +58,7 @@
 			/**
 			 * Action hook fired after access plan's dialog box pre-sale option.
 			 *
-			 * @since [version]
+			 * @since 8.0.0
 			 */
 			do_action( 'llms_access_plan_dialog_after_pre_sale' );
 			?>

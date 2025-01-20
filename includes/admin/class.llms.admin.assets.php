@@ -527,7 +527,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register the accessible dialog JS
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return void
 	 */

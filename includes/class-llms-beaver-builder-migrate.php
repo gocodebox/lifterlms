@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
+ * @since 8.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return  void
 	 */
@@ -88,7 +88,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Removes core template action hooks from posts which have been migrated to beaver builder widgets.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Remove membership template hooks.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 */
 	public function remove_membership_template_hooks() {
 		remove_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pricing_table', 10 );
@@ -132,7 +132,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Remove lesson template hooks.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 */
 	public function remove_lesson_template_hooks() {
 		remove_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
@@ -141,7 +141,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Remove course template hooks.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Determine if a post should be migrated.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return bool
@@ -175,7 +175,7 @@ class LLMS_Beaver_Builder_Migrate {
 		/**
 		 * Filters whether or not a post should be migrated
 		 *
-		 * @since [version]
+		 * @since 8.0.0
 		 *
 		 * @param bool $migrate Whether or not a post should be migrated.
 		 * @param int  $post_id WP_Post ID.
@@ -186,7 +186,7 @@ class LLMS_Beaver_Builder_Migrate {
 	/**
 	 * Update post meta data to signal status of the editor migration.
 	 *
-	 * @since [version]
+	 * @since 8.0.0
 	 *
 	 * @param int  $post_id WP_Post ID.
 	 * @param bool $publish Whether or not the post is being published.

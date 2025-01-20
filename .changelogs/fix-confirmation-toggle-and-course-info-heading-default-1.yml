@@ -1,4 +1,0 @@
-significance: patch
-type: changed
-entry: Course Information header is now h2 instead of h3 by default, for
-  accessibility in heading order.

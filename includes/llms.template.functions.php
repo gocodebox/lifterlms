@@ -1188,7 +1188,7 @@ if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 /**
  * Function to check if a post is built with Beaver Builder
  *
- * @since [version]
+ * @since 8.0.0
  */
 if ( ! function_exists( 'llms_is_beaver_builder_post' ) ) {
 	function llms_is_beaver_builder_post( $post_id = false ) {

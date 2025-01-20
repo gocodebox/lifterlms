@@ -4,7 +4,7 @@
  *
  * @package LifterLMS_Labs/Labs/BeaverBuilder/Modules/MembershipInstructors/Templates
  *
- * @since [version]
+ * @since 8.0.0
  *
  * @param $settings obj Beaver Builder module settings instance.
  */

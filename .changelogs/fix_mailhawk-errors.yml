@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2792"
-entry: Fix SendWP connect button.
