@@ -46,7 +46,7 @@ $form_fields = llms_get_form_html( 'account' );
 			<?php
 			llms_form_field(
 				array(
-					'columns'     => 3,
+					'columns'     => 6,
 					'classes'     => 'llms-button-action',
 					'id'          => 'llms_update_person',
 					'value'       => apply_filters( 'lifterlms_update_button_text', __( 'Save', 'lifterlms' ) ),

@@ -159,7 +159,7 @@ class LLMS_View_Manager {
 		$nodes[] = array(
 			'id'     => $top_id,
 			'parent' => 'top-secondary',
-			'title'  => '<span class="ab-icon"><img src="' . llms()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
+			'title'  => '<span class="ab-icon"><img src="' . llms()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;" alt="LifterLMS"></span>' . $title,
 		);
 
 		// Add view as links.

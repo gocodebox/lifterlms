@@ -1183,3 +1183,18 @@ if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 		return $post_id && class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
 	}
 }
+
+
+/**
+ * Function to check if a post is built with Beaver Builder
+ *
+ * @since 8.0.0
+ */
+if ( ! function_exists( 'llms_is_beaver_builder_post' ) ) {
+	function llms_is_beaver_builder_post( $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+		return $post_id && class_exists( 'FLBuilderModel' ) && FLBuilderModel::is_builder_enabled( $post_id );
+	}
+}

@@ -33,7 +33,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		$this->title    = __( 'Course Options', 'lifterlms' );
 		$this->screens  = 'course';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -174,6 +173,14 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
+					),
+					array(
+						'type'  => 'basic-editor',
+						'label' => __( 'Featured Pricing Information', 'lifterlms' ),
+						'desc'  => __( 'Enter information on pricing for this course, to be displayed on the catalog page.', 'lifterlms' ),
+						'id'    => $this->prefix . 'featured_pricing',
+						'class' => 'code input-full',
+						'value' => 'test',
 					),
 				),
 			),
@@ -348,7 +355,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Drip Method', 'lifterlms' ),
 						'value'            => array(
 							array(
-								'key' => 'start',
+								'key'   => 'start',
 								'title' => __( 'After course start or enrollment', 'lifterlms' ),
 							),
 						),
@@ -424,7 +431,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		}
 
 		return $fields;
-
 	}
 
 	/**
@@ -450,7 +456,5 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			unset( $_POST['_llms_post_course_difficulty'] ); // Don't save this to the postmeta table.
 
 		}
-
 	}
-
 }

@@ -85,6 +85,7 @@ add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_length',
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_difficulty', 20 );
 add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_lesson_count', 22 );
 
+add_action( 'lifterlms_after_loop_item', 'lifterlms_template_loop_featured_pricing_information', 3 );
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 
 /**
