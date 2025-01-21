@@ -43,8 +43,8 @@ define( [
 		 * @version  3.16.12
 		 */
 		events: _.defaults( {
-			'click .edit-lesson': 'open_lesson_editor',
-			'click .llms-headline': 'open_lesson_editor',
+			'click .edit-lesson': 'edit_lesson',
+			'click .llms-headline': 'edit_lesson',
 			'click .edit-quiz': 'open_quiz_editor',
 			'click .edit-assignment': 'open_assignment_editor',
 			'click .section-prev': 'section_prev',
@@ -88,7 +88,7 @@ define( [
 			this.listenTo( this.model, 'change', this.render );
 
 			Backbone.pubSub.on(  'lesson-selected', this.on_select, this );
-			Backbone.pubSub.on(  'new-lesson-added', this.on_select, this );
+			Backbone.pubSub.on(  'new-lesson-added', this.maybe_open_editor, this );
 
 		},
 
@@ -139,16 +139,25 @@ define( [
 		 * @since    3.16.0
 		 * @version  3.27.0
 		 */
-		open_lesson_editor: function( event ) {
+		edit_lesson: function( event ) {
 
 			if ( event ) {
 				event.preventDefault();
 			}
 
+			this.open_lesson_editor();
+		},
+
+		open_lesson_editor: function() {
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'lesson' );
 			this.model.set( '_selected', true );
 			this.set_hash( false );
+		},
 
+		maybe_open_editor: function( model ) {
+			if ( this.model.id === model.id ) {
+				this.open_lesson_editor();
+			}
 		},
 
 		/**
