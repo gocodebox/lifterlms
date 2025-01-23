@@ -114,12 +114,12 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' )
 						    AND txns.post_type = 'llms_transaction'
-							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
+							AND txns.post_date >= %s
+							AND txns.post_date < %s
 							AND sales.meta_key = '_llms_amount'
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";
-
 	}
 
 	/**
@@ -136,7 +136,5 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
 
 		}
-
 	}
-
 }
