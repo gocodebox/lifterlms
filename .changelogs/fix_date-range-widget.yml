@@ -1,0 +1,6 @@
+significance: minor
+type: fixed
+links:
+  - "#2858"
+entry: Fixes sales reporting for transactions or orders that happened between
+  23:23:59 and midnight.
