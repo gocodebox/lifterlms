@@ -45,7 +45,6 @@ class LLMS_Events {
 
 		add_action( 'init', array( $this, 'register_events' ), 9 );
 		add_action( 'init', array( $this, 'store_cookie' ) );
-
 	}
 
 	/**
@@ -71,14 +70,25 @@ class LLMS_Events {
 		 *     @type string[] $events Array of events that should be tracked.
 		 * }
 		 */
+
+		error_log(
+			print_r(
+				array(
+					'nonce'            => wp_create_nonce( 'llms-tracking' ),
+					'events'           => $events,
+					'saving_frequency' => get_option( 'lifterlms_tracked_event_saving_frequency', 'minimum' ),
+				),
+				true
+			)
+		);
 		return apply_filters(
 			'llms_events_get_client_settings',
 			array(
-				'nonce'  => wp_create_nonce( 'llms-tracking' ),
-				'events' => $events,
+				'nonce'            => wp_create_nonce( 'llms-tracking' ),
+				'events'           => $events,
+				'saving_frequency' => get_option( 'lifterlms_tracked_event_saving_frequency', 'minimum' ),
 			)
 		);
-
 	}
 
 	/**
@@ -104,7 +114,6 @@ class LLMS_Events {
 	protected function is_event_valid( $event ) {
 
 		return array_key_exists( $event, $this->get_registered_events() );
-
 	}
 
 	/**
@@ -149,7 +158,6 @@ class LLMS_Events {
 		}
 
 		return $prepared;
-
 	}
 
 	/**
@@ -221,7 +229,6 @@ class LLMS_Events {
 		}
 
 		return $llms_event;
-
 	}
 
 	/**
@@ -260,7 +267,6 @@ class LLMS_Events {
 		$wpdb->query( 'COMMIT' );
 
 		return $recorded;
-
 	}
 
 	/**
@@ -297,7 +303,6 @@ class LLMS_Events {
 		 * @param array $events Array of events. Array key is the event name and array value is used to determine if the key is a client-side event.
 		 */
 		$this->registered_events = apply_filters( 'llms_get_registered_events', $events );
-
 	}
 
 	/**
@@ -333,7 +338,6 @@ class LLMS_Events {
 		}
 
 		return $clean;
-
 	}
 
 	/**
@@ -391,7 +395,6 @@ class LLMS_Events {
 		 * @param string[] $post_types Array of post types that should be tracked.
 		 */
 		return apply_filters( 'llms_tracking_should_track_client_events', $ret, $post_types );
-
 	}
 
 	/**
@@ -419,7 +422,6 @@ class LLMS_Events {
 
 		// Cookie reset.
 		llms_setcookie( 'llms-tracking', '', time() - 60, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, llms_is_site_https() && is_ssl() );
-
 	}
 
 	/**
@@ -453,5 +455,4 @@ class LLMS_Events {
 
 		return true;
 	}
-
 }
