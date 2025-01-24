@@ -3,5 +3,5 @@ type: fixed
 links:
   - "#2860"
   - "#2861"
-entry: Sales reporting includes partially refunded transactions, and
+entry: Net Sales reporting includes partially refunded transactions, and
   transactions from orders regardless of status.
