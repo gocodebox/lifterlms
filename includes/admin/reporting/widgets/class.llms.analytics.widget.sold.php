@@ -69,11 +69,6 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 					'select'         => array(
 						'orders.ID',
 					),
-					'statuses'       => array(
-						'llms-active',
-						'llms-completed',
-						'llms-refunded',
-					),
 				)
 			);
 			$this->query();
@@ -112,7 +107,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 						{$txn_meta_join}
 						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID
 						WHERE
-						        ( txns.post_status = 'llms-txn-succeeded' )
+						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
 							AND txns.post_date >= %s
 							AND txns.post_date < %s
