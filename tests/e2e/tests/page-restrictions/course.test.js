@@ -23,7 +23,6 @@ describe( 'CourseRestrictions', () => {
 		await clickAndWait( '.llms-builder-launcher a.llms-button-primary' );
 
 		course = await page.evaluate( () => window.llms_builder.course );
-
 		lessons = course.sections[0].lessons;
 
 	} );
