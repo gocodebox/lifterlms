@@ -23,7 +23,6 @@ describe( 'CourseRestrictions', () => {
 		await clickAndWait( '.llms-builder-launcher a.llms-button-primary' );
 
 		course = await page.evaluate( () => window.llms_builder.course );
-		console.log("COURSE OBJECT in BEFOREALL", course);
 
 		lessons = course.sections[0].lessons;
 
@@ -38,7 +37,7 @@ describe( 'CourseRestrictions', () => {
 		} );
 
 		it ( 'should see enrolled user content on the course page', async () => {
-			console.log("COURSE OBJECT", course);
+
 			await page.goto( course.permalink );
 			expect( await page.$eval( '.entry-content #enrolled-user-content', el => el.textContent ) ).toBe( 'Enrolled user content.' );
 
