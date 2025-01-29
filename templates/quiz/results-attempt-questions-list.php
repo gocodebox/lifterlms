@@ -24,8 +24,8 @@ defined( 'ABSPATH' ) || exit;
 		$quiz_question = $attempt_question->get_question();
 		if ( ! $quiz_question ) { // Question missing/deleted.
 			?>
-		<li class="llms-quiz-attempt-question type--<?php echo esc_attr( $quiz_question->get( 'question_type' ) ); ?> status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
-			data-question-id="<?php echo esc_attr( $quiz_question->get( 'id' ) ); ?>"
+		<li class="llms-quiz-attempt-question type--deleted status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
+			data-question-id="<?php echo esc_attr( $attempt_question->get( 'id' ) ); ?>"
 			data-grading-manual="<?php echo $attempt_question->can_be_manually_graded() ? 'yes' : 'no'; ?>"
 			data-points="<?php echo esc_attr( $attempt_question->get( 'points' ) ); ?>"
 			data-points-curr="<?php echo esc_attr( $attempt_question->get( 'earned' ) ); ?>">
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 				<span class="toggle-answer">
 					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
 					<span class="llms-points">
-						<?php if ( $quiz_question->get( 'points' ) ) : ?>
+						<?php if ( $attempt_question->get( 'points' ) ) : ?>
 							<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
 						<?php endif; ?>
 					</span>
