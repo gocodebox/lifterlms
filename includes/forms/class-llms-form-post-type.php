@@ -206,7 +206,7 @@ class LLMS_Form_Post_Type {
 			return $permalink;
 		}
 
-		return esc_url( $this->get_permalink( $post ) );
+		return $this->get_permalink( $post );
 	}
 
 	/**
