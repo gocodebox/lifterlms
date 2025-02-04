@@ -61,7 +61,7 @@ class LLMS_Bricks {
 		}
 	}
 
-	public function i18n() {
+	public function i18n( $i18n ) {
 		$i18n['lifterlms'] = esc_html__( 'LifterLMS', 'lifterlms' );
 
 		return $i18n;
