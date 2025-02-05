@@ -1,0 +1,3 @@
+significance: patch
+type: added
+entry: Setting to increase the frequency user tracked events are saved.
