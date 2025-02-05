@@ -70,17 +70,6 @@ class LLMS_Events {
 		 *     @type string[] $events Array of events that should be tracked.
 		 * }
 		 */
-
-		error_log(
-			print_r(
-				array(
-					'nonce'            => wp_create_nonce( 'llms-tracking' ),
-					'events'           => $events,
-					'saving_frequency' => get_option( 'lifterlms_tracked_event_saving_frequency', 'minimum' ),
-				),
-				true
-			)
-		);
 		return apply_filters(
 			'llms_events_get_client_settings',
 			array(
