@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+attributions:
+  - "@jv-mtrz"
+entry: Fixed PHP >= 8.3 warning when using WP CLI.
