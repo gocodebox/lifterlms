@@ -11,54 +11,58 @@ llms_print_notices();
 
 <?php if ( $course ) : ?>
 
-	<?php do_action( 'llms_before_my_grades_content', $course, $student ); ?>
+	<div class="llms-sd-section llms-sd-grades">
 
-	<section class="llms-sd-widgets">
+		<?php do_action( 'llms_before_my_grades_content', $course, $student ); ?>
 
-		<?php
-		do_action( 'llms_before_my_grades_widgets', $course, $student );
+		<section class="llms-sd-widgets">
 
-		llms_sd_dashboard_donut_widget(
-			__( 'Progress', 'lifterlms' ),
-			$student->get_progress( $course->get( 'id' ) ),
-			__( 'Complete', 'lifterlms' )
-		);
-		llms_sd_dashboard_donut_widget(
-			__( 'Grade', 'lifterlms' ),
-			$student->get_grade( $course->get( 'id' ) ),
-			__( 'Overall Grade', 'lifterlms' )
-		);
-		llms_sd_dashboard_date_widget(
-			__( 'Enrollment Date', 'lifterlms' ),
-			$student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' )
-		);
-		llms_sd_dashboard_widget(
-			__( 'Latest Achievement', 'lifterlms' ),
-			$latest_achievement ? llms_get_achievement( $latest_achievement ) : '',
-			__( 'No achievements', 'lifterlms' )
-		);
-		llms_sd_dashboard_date_widget(
-			__( 'Last Activity', 'lifterlms' ),
-			$last_activity,
-			__( 'No activity', 'lifterlms' )
-		);
+			<?php
+			do_action( 'llms_before_my_grades_widgets', $course, $student );
 
-		do_action( 'llms_after_my_grades_widgets', $course, $student );
-		?>
+			llms_sd_dashboard_donut_widget(
+				__( 'Progress', 'lifterlms' ),
+				$student->get_progress( $course->get( 'id' ) ),
+				__( 'Complete', 'lifterlms' )
+			);
+			llms_sd_dashboard_donut_widget(
+				__( 'Grade', 'lifterlms' ),
+				$student->get_grade( $course->get( 'id' ) ),
+				__( 'Overall Grade', 'lifterlms' )
+			);
+			llms_sd_dashboard_date_widget(
+				__( 'Enrollment Date', 'lifterlms' ),
+				$student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' )
+			);
+			llms_sd_dashboard_widget(
+				__( 'Latest Achievement', 'lifterlms' ),
+				$latest_achievement ? llms_get_achievement( $latest_achievement ) : '',
+				__( 'No achievements', 'lifterlms' )
+			);
+			llms_sd_dashboard_date_widget(
+				__( 'Last Activity', 'lifterlms' ),
+				$last_activity,
+				__( 'No activity', 'lifterlms' )
+			);
 
-	</section>
+			do_action( 'llms_after_my_grades_widgets', $course, $student );
+			?>
 
-	<?php
-		/**
-		 * Hook: llms_my_grades_course_table.
-		 *
-		 * @hooked lifterlms_template_student_dashboard_my_grades_table - 10
-		 */
-		do_action( 'llms_my_grades_course_table', $course, $student );
-	?>
+		</section>
 
-<?php else : ?>
+		<div class="llms-sd-section">
+			<?php
+			/**
+			 * Hook: llms_my_grades_course_table.
+			 *
+			 * @hooked lifterlms_template_student_dashboard_my_grades_table - 10
+			 */
+			do_action( 'llms_my_grades_course_table', $course, $student );
+			?>
+		</div>
+	</div>
+	<?php else : ?>
 
-	<p><?php esc_html_e( 'Invalid course.', 'lifterlms' ); ?>
+		<p><?php esc_html_e( 'Invalid course.', 'lifterlms' ); ?></p>
 
-<?php endif; ?>
+	<?php endif; ?>
