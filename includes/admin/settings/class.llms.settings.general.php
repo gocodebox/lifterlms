@@ -35,7 +35,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -116,12 +115,23 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		$settings[] = array(
+			'title'   => __( 'Frequency of Saving Tracked Events', 'lifterlms' ),
+			'default' => 'minimum',
+			'desc'    => __( 'Specifies how often tracked events are sent to the server. "Minimum" sends only when local storage is almost full (fewer network calls). "Always" sends each event immediately (higher accuracy, more server load).', 'lifterlms' ),
+			'id'      => 'lifterlms_tracked_event_saving_frequency',
+			'type'    => 'select',
+			'options' => array(
+				'minimum' => __( 'Minimum', 'lifterlms' ),
+				'always'  => __( 'Always', 'lifterlms' ),
+			),
+		);
+
+		$settings[] = array(
 			'id'   => 'general_settings',
 			'type' => 'sectionend',
 		);
 
 		return apply_filters( 'lifterlms_general_settings', $settings );
-
 	}
 
 	/**
@@ -133,9 +143,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
-
 	}
-
 }
 
 return new LLMS_Settings_General();
