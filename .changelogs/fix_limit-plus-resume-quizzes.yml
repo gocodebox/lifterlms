@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2865"
+entry: Allow quiz question to be retrieved even if attempt limit reached when
+  resuming a quiz.
