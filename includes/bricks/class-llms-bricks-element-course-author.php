@@ -83,7 +83,7 @@ class LLMS_Bricks_Element_Course_Author extends \Bricks\Element {
 	}
 
 	public function render() {
-		$root_classes[] = 'llms-course-information-wrapper';
+		$root_classes[] = 'llms-course-author-wrapper';
 
 		$this->set_attribute( '_root', 'class', $root_classes );
 
