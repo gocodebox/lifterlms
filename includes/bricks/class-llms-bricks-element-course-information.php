@@ -5,33 +5,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class LLMS_Bricks_Element_Course_Information extends \Bricks\Element {
 	public $block        = array( 'llms/course-information' );
-	public $category     = 'lifterlms'; // Use predefined element category 'general'
-	public $name         = 'llms-course-information'; // Make sure to prefix your elements
-	public $icon         = 'ti-bolt-alt'; // Themify icon font class
-	public $css_selector = '.llms-course-information-wrapper'; // Default CSS selector
-	public $scripts      = array(); // Script(s) run when element is rendered on frontend or updated in builder
+	public $category     = 'lifterlms';
+	public $name         = 'llms-course-information';
+	public $icon         = 'ti-bolt-alt';
+	public $css_selector = '.llms-course-information-wrapper';
+	public $scripts      = array();
 
-	// Return localised element label
 	public function get_label() {
 		return esc_html__( 'Course Information', 'lifterlms' );
 	}
 
-	// Set builder control groups
 	public function set_control_groups() {
-		// $this->control_groups['settings'] = array(
-		// 'title' => esc_html__( 'Settings', 'bricks' ),
-		// 'tab'   => 'content',
-		// );
 	}
 
-	// Set builder controls
 	public function set_controls() {
 		// Convert to nested elements.
-		$this->controls['title'] = array( // Unique control identifier (lowercase, no spaces)
-			'tab'     => 'content', // Control tab: content/style
-			'label'   => esc_html__( 'Title', 'lifterlms' ), // Control label
-			'type'    => 'text', // Control type
-			'default' => esc_html__( 'Course Information', 'lifterlms' ), // Default setting
+		$this->controls['title'] = array(
+			'tab'     => 'content',
+			'label'   => esc_html__( 'Title', 'lifterlms' ),
+			'type'    => 'text',
+			'default' => esc_html__( 'Course Information', 'lifterlms' ),
 		);
 
 		$this->controls['title_size'] = array(
@@ -55,7 +48,6 @@ class LLMS_Bricks_Element_Course_Information extends \Bricks\Element {
 	}
 
 	public function enqueue_scripts() {
-		// wp_enqueue_script( 'prefix-test-script' );
 	}
 
 	public function convert_block_to_element_settings( $block, $attributes ) {
@@ -67,7 +59,6 @@ class LLMS_Bricks_Element_Course_Information extends \Bricks\Element {
 		return $element_settings;
 	}
 
-	// Render element HTML
 	public function render() {
 		$root_classes[] = 'llms-course-information-wrapper';
 
