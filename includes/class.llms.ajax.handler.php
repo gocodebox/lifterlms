@@ -792,7 +792,7 @@ class LLMS_AJAX_Handler {
 		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
 
 		// Don't allow the question to be retrieved if the attempt is not open or can't be resumed.
-		if ( ! $attempt || ! $attempt->get_quiz()->is_open() || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
+		if ( ! $attempt || ( ! $attempt->get_quiz()->is_open() && ( ! $attempt->get_quiz()->can_be_resumed() || ! $attempt->can_be_resumed() ) ) ) {
 			$err->add( 500, __( 'There was an error retrieving the question. Please return to the lesson and try again.', 'lifterlms' ) );
 			return $err;
 		}
