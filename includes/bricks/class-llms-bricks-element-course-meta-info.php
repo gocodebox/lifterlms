@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class LLMS_Bricks_Element_Course_Meta_Info extends \Bricks\Element {
 	public $block        = array( 'llms/course-meta-info' );
 	public $category     = 'lifterlms';
-	public $name         = 'course-meta-info';
+	public $name         = 'llms-course-meta-info';
 	public $icon         = 'ti-bolt-alt';
 	public $css_selector = '.llms-course-meta-info';
 	public $scripts      = array();

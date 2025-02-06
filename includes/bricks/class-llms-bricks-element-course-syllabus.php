@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class LLMS_Bricks_Element_Course_Syllabus extends \Bricks\Element {
 	public $block        = array( 'llms/course-syllabus' );
 	public $category     = 'lifterlms';
-	public $name         = 'course-syllabus';
+	public $name         = 'llms-course-syllabus';
 	public $icon         = 'ti-bolt-alt';
 	public $css_selector = '.llms-course-syllabus';
 	public $scripts      = array();
