@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2855"
-entry: Open the lesson panel after adding a new lesson in the Course Builder.

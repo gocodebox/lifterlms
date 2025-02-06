@@ -1,6 +1,31 @@
 LifterLMS Changelog
 ===================
 
+v8.0.1 - 2025-02-06
+-------------------
+
+##### New Features
+
++ Setting to increase the frequency user tracked events are saved.
+
+##### Bug Fixes
+
++ Additional escaping for form permalinks.
++ Allow quiz question to be retrieved even if attempt limit reached when resuming a quiz. [#2865](https://github.com/gocodebox/lifterlms/issues/2865)
++ Avoid grades table wrapping in the My Grades section of the student dashboard. [#2869](https://github.com/gocodebox/lifterlms/issues/2869)
++ Open the lesson panel after adding a new lesson in the Course Builder. [#2855](https://github.com/gocodebox/lifterlms/issues/2855)
++ Fixed PHP >= 8.3 warning when using WP CLI. Thanks [@jv-mtrz](https://github.com/jv-mtrz)!
+
+##### Deprecations
+
++ Fixed issues with viewing quiz attempts when questions were deleted.
+
+##### Updated Templates
+
++ [templates/myaccount/my-grades-single.php](https://github.com/gocodebox/lifterlms/blob/8.0.1/templates/myaccount/my-grades-single.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/8.0.1/templates/quiz/results-attempt-questions-list.php)
+
+
 v8.0.0 - 2025-01-20
 -------------------
 
