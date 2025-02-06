@@ -3,6 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * LifterLMS Bricks Course Information class.
+ *
+ * @since [version]
+ */
 class LLMS_Bricks_Element_Course_Information extends \Bricks\Element {
 	public $block        = array( 'llms/course-information' );
 	public $category     = 'lifterlms';

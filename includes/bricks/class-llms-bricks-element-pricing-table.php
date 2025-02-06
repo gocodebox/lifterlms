@@ -3,6 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * LifterLMS Bricks Pricing Table class.
+ *
+ * @since [version]
+ */
 class LLMS_Bricks_Element_Pricing_Table extends \Bricks\Element {
 	public $block        = array( 'llms/pricing-table' );
 	public $category     = 'lifterlms';

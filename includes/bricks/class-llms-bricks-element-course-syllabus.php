@@ -3,6 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * LifterLMS Bricks Course Syllabus class.
+ *
+ * @since [version]
+ */
 class LLMS_Bricks_Element_Course_Syllabus extends \Bricks\Element {
 	public $block        = array( 'llms/course-syllabus' );
 	public $category     = 'lifterlms';
