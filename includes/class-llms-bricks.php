@@ -22,6 +22,7 @@ class LLMS_Bricks {
 		}
 
 		add_action( 'init', array( $this, 'register_elements' ), 11 );
+		add_action( 'init', array( $this, 'add_builder_css' ), 11 );
 		add_filter( 'bricks/builder/i18n', array( $this, 'i18n' ) );
 
 		// Prevent uneditable llms post types from being enabled for page building.
@@ -59,6 +60,13 @@ class LLMS_Bricks {
 		foreach ( $element_files as $file ) {
 			\Bricks\Elements::register_element( $file );
 		}
+	}
+
+	public function add_builder_css() {
+		if ( ! bricks_is_builder() ) {
+			return;
+		}
+		wp_enqueue_style( 'llms-bricks-editor', LLMS_PLUGIN_URL . 'assets/css/bricks-editor.css', array(), filemtime( LLMS_PLUGIN_DIR . 'assets/css/bricks-editor.css' ) );
 	}
 
 	public function i18n( $i18n ) {
