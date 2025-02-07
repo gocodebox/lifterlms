@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Course_Continue extends \Bricks\Element {
 	public $block        = 'llms/course-continue';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-continue';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-course-continue';
 	public $css_selector = '.llms-course-continue';
 	public $scripts      = array();
 
