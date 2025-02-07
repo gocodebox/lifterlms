@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since [version]
  */
 class LLMS_Bricks_Element_Course_Progress extends \Bricks\Element {
-	public $block        = array( 'llms/course-progress' );
+	public $block        = 'llms/course-progress';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-progress';
 	public $icon         = 'ti-bolt-alt';
@@ -30,7 +30,8 @@ class LLMS_Bricks_Element_Course_Progress extends \Bricks\Element {
 	}
 
 	public function convert_block_to_element_settings( $block, $attributes ) {
-		return array();
+		// Need to return an array of something for it to be converted.
+		return array( 'setting' => true );
 	}
 
 	public function render() {

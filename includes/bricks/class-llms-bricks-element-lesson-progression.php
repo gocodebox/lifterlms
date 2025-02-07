@@ -4,20 +4,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * LifterLMS Bricks Instructors class.
+ * LifterLMS Bricks Lesson Progression class.
  *
  * @since [version]
  */
-class LLMS_Bricks_Element_Instructors extends \Bricks\Element {
-	public $block        = 'llms/instructors';
+class LLMS_Bricks_Element_Lesson_Progression extends \Bricks\Element {
+	public $block        = 'llms/lesson-progression';
 	public $category     = 'lifterlms';
-	public $name         = 'llms-instructors';
+	public $name         = 'llms-lesson-progression';
 	public $icon         = 'ti-bolt-alt';
-	public $css_selector = '.llms-instructors';
+	public $css_selector = '.llms-lesson-progression-wrapper';
 	public $scripts      = array();
 
 	public function get_label() {
-		return esc_html__( 'Instructors', 'lifterlms' );
+		return esc_html__( 'Lesson Progression (Mark Complete)', 'lifterlms' );
 	}
 
 	public function set_control_groups() {
@@ -35,17 +35,13 @@ class LLMS_Bricks_Element_Instructors extends \Bricks\Element {
 	}
 
 	public function render() {
-		$root_classes[] = 'llms-instructors';
+		$root_classes[] = 'llms-lesson-progression-wrapper';
 
 		$this->set_attribute( '_root', 'class', $root_classes );
 
 		echo "<div {$this->render_attributes( '_root' )}>"; // Element root attributes
 
-		if ( 'llms_membership' === get_post_type() ) {
-			echo do_shortcode( '[lifterlms_membership_instructors]' );
-		} else {
-			echo do_shortcode( '[lifterlms_course_instructors]' );
-		}
+		echo do_shortcode( '[lifterlms_lesson_mark_complete]' );
 
 		echo '</div>';
 	}

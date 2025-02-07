@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since [version]
  */
 class LLMS_Bricks_Element_Pricing_Table extends \Bricks\Element {
-	public $block        = array( 'llms/pricing-table' );
+	public $block        = 'llms/pricing-table';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-pricing-table';
 	public $icon         = 'ti-bolt-alt';
@@ -31,7 +31,8 @@ class LLMS_Bricks_Element_Pricing_Table extends \Bricks\Element {
 
 	public function convert_block_to_element_settings( $block, $attributes ) {
 		// TODO: Visibility settings.
-		return array();
+		// Need to return an array of something for it to be converted.
+		return array( 'setting' => true );
 	}
 
 	public function render() {
