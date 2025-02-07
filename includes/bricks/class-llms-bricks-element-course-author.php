@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Course_Author extends \Bricks\Element {
 	public $block        = 'llms/course-author';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-author';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-course-author';
 	public $css_selector = '.llms-course-author-wrapper';
 	public $scripts      = array();
 
@@ -26,7 +26,7 @@ class LLMS_Bricks_Element_Course_Author extends \Bricks\Element {
 	public function set_controls() {
 		$this->controls['avatar_size'] = array(
 			'tab'         => 'content',
-			'label'       => esc_html__( 'Avatar size', 'bricks' ),
+			'label'       => esc_html__( 'Avatar size', 'lifterlms' ),
 			'type'        => 'slider',
 			'units'       => array(
 				'px' => array(
@@ -59,7 +59,7 @@ class LLMS_Bricks_Element_Course_Author extends \Bricks\Element {
 			'inherit' => __( 'Inherit from current course', 'lifterlms' ),
 		);
 		foreach ( $courses_posts as $course ) {
-			$courses[ $course->ID ] = esc_html__( $course->post_title );
+			$courses[ $course->ID ] = $course->post_title;
 		}
 
 		$this->controls['course_id'] = array(
