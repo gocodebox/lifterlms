@@ -12,7 +12,7 @@ class LLMS_Bricks {
 	}
 
 	public function is_available() {
-		return class_exists( '\Bricks\Elements' );
+		return class_exists( '\Bricks\Elements' ) && function_exists( 'bricks_is_builder' );
 	}
 
 	protected function init() {
