@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Course_Progress extends \Bricks\Element {
 	public $block        = 'llms/course-progress';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-progress';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-course-progress';
 	public $css_selector = '.llms-course-progress-wrapper';
 	public $scripts      = array();
 

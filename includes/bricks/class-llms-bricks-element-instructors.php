@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Instructors extends \Bricks\Element {
 	public $block        = 'llms/instructors';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-instructors';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-instructors';
 	public $css_selector = '.llms-instructors';
 	public $scripts      = array();
 

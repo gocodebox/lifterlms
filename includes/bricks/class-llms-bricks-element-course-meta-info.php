@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Course_Meta_Info extends \Bricks\Element {
 	public $block        = 'llms/course-meta-info';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-meta-info';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-course-meta-info';
 	public $css_selector = '.llms-course-meta-info';
 	public $scripts      = array();
 

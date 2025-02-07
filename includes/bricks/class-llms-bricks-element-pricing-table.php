@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Pricing_Table extends \Bricks\Element {
 	public $block        = 'llms/pricing-table';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-pricing-table';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-pricing-table';
 	public $css_selector = '.llms-pricing-table-wrapper';
 	public $scripts      = array();
 

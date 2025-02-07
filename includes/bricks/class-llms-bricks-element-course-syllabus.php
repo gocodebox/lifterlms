@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Course_Syllabus extends \Bricks\Element {
 	public $block        = 'llms/course-syllabus';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-course-syllabus';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-course-syllabus';
 	public $css_selector = '.llms-course-syllabus';
 	public $scripts      = array();
 
