@@ -12,7 +12,7 @@ class LLMS_Bricks_Element_Lesson_Progression extends \Bricks\Element {
 	public $block        = 'llms/lesson-progression';
 	public $category     = 'lifterlms';
 	public $name         = 'llms-lesson-progression';
-	public $icon         = 'ti-bolt-alt';
+	public $icon         = 'llms-bricks-icon llms-bricks-icon-lesson-progression';
 	public $css_selector = '.llms-lesson-progression-wrapper';
 	public $scripts      = array();
 
