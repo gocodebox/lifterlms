@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Updates helper library to remove depreciated notice when adding a license key.
