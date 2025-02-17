@@ -114,6 +114,12 @@ class LLMS_Student_Bulk_Enroll {
 			return;
 		}
 
+		if ( ! current_user_can( 'enroll', $this->product_id ) ) {
+			$message = __( 'You do not have permission to enroll users into this course or membership.', 'lifterlms' );
+			$this->generate_notice( 'error', $message );
+			return;
+		}
+
 		// Get the product title for notices.
 		$this->product_title = get_the_title( $this->product_id );
 
