@@ -82,18 +82,18 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 				<?php
 				foreach ( $this->field['value'] as $key => $option ) :
-					$selected_text = '';
+					$is_selected = false;
 					if ( is_array( $selected ) ) {
 						if ( in_array( $option['key'], $selected ) ) {
-							$selected_text = ' selected="selected" ';
+							$is_selected = true;
 						}
 					} elseif ( isset( $option['key'] ) && $option['key'] == $selected ) {
-						$selected_text = ' selected="selected" ';
+						$is_selected = true;
 					} elseif ( $key === $selected ) {
-						$selected_text = ' selected="selected" ';
+						$is_selected = true;
 					}
 					?>
-					<option value="<?php echo isset( $option['key'] ) ? esc_attr( $option['key'] ) : esc_attr( $key ); ?>"<?php echo esc_html( $selected_text ); ?>><?php echo isset( $option['title'] ) ? esc_html( $option['title'] ) : esc_html( $option ); ?></option>
+					<option value="<?php echo isset( $option['key'] ) ? esc_attr( $option['key'] ) : esc_attr( $key ); ?>"<?php echo ( $is_selected ? ' selected="selected"' : '' ); ?>><?php echo isset( $option['title'] ) ? esc_html( $option['title'] ) : esc_html( $option ); ?></option>
 
 				<?php endforeach; ?>
 
