@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2869"
-entry: Avoid grades table wrapping in the My Grades section of the student dashboard.
