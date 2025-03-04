@@ -4,30 +4,55 @@
 		return;
 	}
 
-	var originalDetails = wp.media.view.AttachmentCompat;
-	wp.media.view.AttachmentCompat = originalDetails.extend({
+	var originalCompat = wp.media.view.AttachmentCompat;
+	wp.media.view.AttachmentCompat = originalCompat.extend({
 		initialize: function() {
 			// Call the parent initialize.
-			originalDetails.prototype.initialize.apply(this, arguments);
+			originalCompat.prototype.initialize.apply(this, arguments);
 
 			// Bind to the render event.
-			this.on('render', this.initializeLifterlmsSelect2);
+			//this.on('render', this.initializeLifterlmsSelect2);
 // 			this.listenTo(this.model, 'change:compat', function() {
 // 				// The view will re-render after compat changes
 // 				this.on('render', this.initializeLifterlmsSelect2);
 // 			});
 // //			this.controller.on( 'attachment:details:ready', this.initializeLifterlmsSelect2 );
-			this.listenTo(this.model, 'change:compat', this.initializeLifterlmsSelect2);
+// 			if (this.controller) {
+// 				this.controller.on('selection:single', this.initializeLifterlmsSelect2);
+// 			}
+
+
+
+			//this.initializeLifterlmsSelect2();
+
+			//this.controller?.on('attachmentCompat:render', this.initializeLifterlmsSelect2.bind(this));
+
+			this.on('compatRendered', this.initializeLifterlmsSelect2);
+
+
+			//this.listenTo(this.model, 'change:compat', this.initializeLifterlmsSelect2);
+		},
+
+		render: function() {
+			// Call the parent render
+			originalCompat.prototype.render.apply(this, arguments);
+
+			// Trigger our custom event after render
+			_.defer(() => {
+				this.trigger('compatRendered');
+			});
+
+			return this;
 		},
 
 		initializeLifterlmsSelect2: function() {
 			debugger;
-			setTimeout(function() {
+			//setTimeout(function() {
 				var $select = jQuery( '.media-modal .llms-posts-select2' );
 				if ( $select.length && ! $select.data( 'select2' )) {
 					$select.llmsPostsSelect2();
 				}
-			}, 100);
+			//}, 200);
 		}
 	});
 
