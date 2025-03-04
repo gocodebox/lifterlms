@@ -34,7 +34,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			'label' => __( 'LifterLMS Media Protection', 'lifterlms' ),
 			'input' => 'html',
 			// TODO: Add selected course/membership to the select2 dropdown if known for this attachment post.
-			'html'  => "<select id='attachments-" . $post->ID . "-llms_media_protection' class='llms-posts-select2 llms-media-protection-post-select'></select>",
+			'html'  => "<select id='attachments-" . $post->ID . "-llms_media_protection' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='llms_media_protection_post'></select>",
 		);
 
 		return $form_fields;
@@ -49,7 +49,10 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	 */
 	public function attachment_fields_to_save( $post, $attachment ) {
 
-		if ( isset( $attachment['llms_media_protection'] ) ) {
+
+		// TODO: Save the data.
+
+		if ( isset( $attachment['llms_media_protection'] ) && is_numeric( $attachment['llms_media_protection'] ) ) {
 			update_post_meta( $post['ID'], '_llms_media_protection', 'yes' );
 		} else {
 			delete_post_meta( $post['ID'], '_llms_media_protection' );
