@@ -342,6 +342,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-media-protection-attachment-settings.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
