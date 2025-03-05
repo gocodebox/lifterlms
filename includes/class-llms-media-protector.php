@@ -404,6 +404,10 @@ class LLMS_Media_Protector {
 		return $media_id;
 	}
 
+	public function is_media_protected( $media_id ) {
+		return (bool) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
 	/**
 	 * Returns true if the user is authorized to view the requested media file, false if not authorized,
 	 * or null if the media file is not protected.
@@ -978,6 +982,10 @@ class LLMS_Media_Protector {
 		return delete_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, $authorization_filter );
 	}
 
+	public function get_upload_basedir() {
+		return trailingslashit( $this->base_upload_path . $this->additional_upload_path );
+	}
+
 	/**
 	 * Filters the 'uploads' directory data.
 	 *
@@ -996,7 +1004,7 @@ class LLMS_Media_Protector {
 	 * @return array
 	 */
 	public function upload_dir( $uploads ) {
-		$uploads['subdir'] = trailingslashit( $this->base_upload_path . $this->additional_upload_path ) . date( 'Y/m' );
+		$uploads['subdir'] = trailingslashit( $this->get_upload_basedir() ) . date( 'Y/m' );
 		$uploads['path']   = $uploads['basedir'] . $uploads['subdir'];
 		$uploads['url']    = $uploads['baseurl'] . $uploads['subdir'];
 
@@ -1007,14 +1015,15 @@ class LLMS_Media_Protector {
 	 * Add authorization meta to the post.
 	 *
 	 * @param $post_id
+	 * @param string  $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
 	 * @return void
 	 */
-	private function add_authorization_meta_to_media_post( $post_id ): void {
+	public function add_authorization_meta_to_media_post( $post_id, $hook_name = 'llms_attachment_is_access_allowed' ) {
 		if ( ! is_numeric( $post_id ) ) {
 			return;
 		}
 
-		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
+		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, $hook_name );
 	}
 }
