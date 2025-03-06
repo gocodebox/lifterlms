@@ -49,61 +49,44 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	 */
 	public function attachment_fields_to_save( $post, $attachment ) {
 
-		// TODO: Save the data.
-		error_log( print_r( $post, true ) );
-		error_log( print_r( $attachment, true ) );
-
 		if ( ! empty( $attachment['llms_media_protection_post'] ) ) {
-			error_log( 'updating media protection product id' );
 			update_post_meta( $post['ID'], '_llms_media_protection_product_id', absint( $attachment['llms_media_protection_post'] ) );
 
-			// Move the attachment and any thumbnails to the protected folder (LLMS_Media_Protector::upload_dir()).
-
-			// TODO: Verify this move is working correctly.
-
 			$this->move_attachment_to_protected_dir( $post['ID'] );
-
 		}
 
 		return $post;
 	}
 
+	/**
+	 * Move an existing media attachment over to the protected folder.
+	 *
+	 * @param $attachment_id
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
 	function move_attachment_to_protected_dir( $attachment_id ) {
-		error_log( 'STARTING MOVE ATTACHMENT TO PROTECTED DIR: ' . $attachment_id );
-
 		// Get attachment metadata.
 		$metadata = wp_get_attachment_metadata( $attachment_id );
-		error_log( 'metadata: ' . print_r( $metadata, true ) );
-		$file = get_attached_file( $attachment_id );
-		error_log( 'file: ' . $file );
+		$file     = get_attached_file( $attachment_id );
 
-		// Get the protected upload directory
+		// Get the protected upload directory.
 		$protector = new LLMS_Media_Protector();
 
 		if ( $protector->is_media_protected( $attachment_id ) ) {
-			error_log( 'already protected!' );
 			return false;
 		}
 
-		error_log( 'not already protected, proceeding...' );
-
 		$protected_dir = $protector->get_upload_basedir();
 
-		error_log( 'protected directory base: ' . $protected_dir );
-
-		// Setup WP Filesystem
 		global $wp_filesystem;
 		if ( empty( $wp_filesystem ) ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
 
-		// Move main file.
-		error_log( 'moving file: ' . $file );
-		error_log( print_r( wp_upload_dir(), true ) );
-
 		$new_file = str_replace( wp_upload_dir()['basedir'], wp_upload_dir()['basedir'] . untrailingslashit( $protected_dir ), $file );
-		error_log( 'new file: ' . $new_file );
 		if ( ! $wp_filesystem->is_dir( dirname( $new_file ) ) ) {
 			error_log( 'making new folder...' );
 			wp_mkdir_p( dirname( $new_file ) );
@@ -112,26 +95,20 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			// Update attachment location in database.
 			update_attached_file( $attachment_id, $new_file );
 
-			// Move thumbnails if they exist
+			// Move thumbnails if they exist.
 			if ( ! empty( $metadata['sizes'] ) ) {
 				$base_dir     = dirname( $file );
 				$new_base_dir = dirname( $new_file );
 
 				foreach ( $metadata['sizes'] as $size => $size_info ) {
 					$old_thumb = $base_dir . '/' . $size_info['file'];
-					error_log( 'old thumb: ' . $old_thumb );
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
-					error_log( 'new thumb: ' . $new_thumb );
-					// $size_info['file'] = basename($new_file_paths[array_search($existing_path . '/' . $size_info['file'], $file_paths)]);
 					$wp_filesystem->move( $old_thumb, $new_thumb, true );
 				}
 			}
 
-			// Update metadata with new path
-			error_log( 'updating metadata...' );
-			error_log( print_r( $metadata, true ) );
+			// Update metadata with new path.
 			$metadata['file'] = ltrim( $protected_dir, '/' ) . $metadata['file'];
-			error_log( 'new metadata file: ' . $metadata['file'] );
 			wp_update_attachment_metadata( $attachment_id, $metadata );
 
 			// TODO: Add a different authorization hook?
