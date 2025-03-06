@@ -1,5 +1,4 @@
 (function() {
-	debugger;
 	if ( 'undefined' === typeof wp || 'undefined' === typeof wp.media || 'undefined' === typeof wp.media.view || 'undefined' === typeof wp.media.view.Attachment || 'undefined' === typeof wp.media.view.Attachment.Details ) {
 		return;
 	}
@@ -11,26 +10,10 @@
 			originalCompat.prototype.initialize.apply(this, arguments);
 
 			// Bind to the render event.
-			//this.on('render', this.initializeLifterlmsSelect2);
-// 			this.listenTo(this.model, 'change:compat', function() {
-// 				// The view will re-render after compat changes
-// 				this.on('render', this.initializeLifterlmsSelect2);
-// 			});
-// //			this.controller.on( 'attachment:details:ready', this.initializeLifterlmsSelect2 );
-// 			if (this.controller) {
-// 				this.controller.on('selection:single', this.initializeLifterlmsSelect2);
-// 			}
-
-
-
-			//this.initializeLifterlmsSelect2();
-
-			//this.controller?.on('attachmentCompat:render', this.initializeLifterlmsSelect2.bind(this));
-
 			this.on('compatRendered', this.initializeLifterlmsSelect2);
 
-
-			//this.listenTo(this.model, 'change:compat', this.initializeLifterlmsSelect2);
+			// Listen for changes to the protection dropdown.
+			this.listenTo(this.model, 'change', this.refreshAttachmentUrl);
 		},
 
 		render: function() {
@@ -46,13 +29,42 @@
 		},
 
 		initializeLifterlmsSelect2: function() {
+			var $select = jQuery( '.media-modal .llms-posts-select2' );
+			if ( $select.length && ! $select.data( 'select2' )) {
+				$select.llmsPostsSelect2();
+
+				// Set the initial value if it exists
+				// var productId = this.model.get('llms_media_protection_post');
+				// if (productId) {
+				// 	$select.val(productId).trigger('change');
+				// }
+			}
+		},
+
+		refreshAttachmentUrl: function() {
 			debugger;
-			//setTimeout(function() {
-				var $select = jQuery( '.media-modal .llms-posts-select2' );
-				if ( $select.length && ! $select.data( 'select2' )) {
-					$select.llmsPostsSelect2();
-				}
-			//}, 200);
+			// When the protection setting changes, we need to refresh the URL
+			if ( this.model.hasChanged( 'url' ) ) {
+				// Force a refresh of the attachment details
+				var attachment = this.model;
+
+				// We need to wait for the server to process the change
+//				setTimeout(function() {
+					// Refresh the attachment from the server
+
+
+
+				// TODO: Just update the File URL input with the url value?
+
+
+					// wp.media.attachment(attachment.id).fetch({
+					// 	success: function() {
+					// 		// This will update the URL in the UI
+					// 		attachment.trigger('change');
+					// 	}
+					// });
+//				}, 1000); // Give the server a second to process
+			}
 		}
 	});
 
