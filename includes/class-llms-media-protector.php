@@ -194,16 +194,23 @@ class LLMS_Media_Protector {
 	 */
 	public function authorize_media_image_src( $image, $media_id, $size, $icon ) {
 
+		error_log( '***** authorize_media_image_src ******' );
+		error_log( 'image: ' . print_r( $image, true ) );
+		error_log( 'media_id: ' . $media_id );
+
 		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
 			// Nothing to verify.
+			error_log( 'media_id is not numeric or is 0' );
 			return $image;
 		}
 
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( is_null( $is_authorized ) ) {
+			error_log( 'is_authorized is null' );
 			// The media file is not protected.
 			return $image;
 		} elseif ( false === $is_authorized ) {
+			error_log( 'is_authorized is false' );
 			// Return the same thing that wp_get_attachment_image_src would return if no image found.
 			return false;
 		}
@@ -217,6 +224,7 @@ class LLMS_Media_Protector {
 			trailingslashit( home_url() )
 		);
 
+		error_log( 'returning image' );
 		return $image;
 	}
 
