@@ -81,6 +81,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		// Get the protected upload directory.
 		$protector = new LLMS_Media_Protector();
 
+		// TODO: Change this to "is media in the protected folder" instead of "is media protected"
 		if ( $protector->is_media_protected( $attachment_id ) ) {
 			return false;
 		}
