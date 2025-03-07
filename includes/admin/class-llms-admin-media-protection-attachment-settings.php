@@ -30,11 +30,18 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	 */
 	public function attachment_fields_to_edit( $form_fields, $post ) {
 
+		$selected_product_html = '';
+		$selected_product_id   = get_post_meta( $post->ID, '_llms_media_protection_product_id', true );
+		if ( $selected_product_id ) {
+			$selected_product      = get_post( $selected_product_id );
+			$selected_product_html = sprintf( '<option value="%d" selected="selected">%s</option>', $selected_product->ID, $selected_product->post_title );
+		}
+
 		$form_fields['llms_media_protection_post'] = array(
 			'label' => __( 'LifterLMS Media Protection', 'lifterlms' ),
 			'input' => 'html',
 			// TODO: Add selected course/membership to the select2 dropdown if known for this attachment post.
-			'html'  => "<select id='attachments-" . $post->ID . "-llms_media_protection_post' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='attachments[" . $post->ID . "][llms_media_protection_post]'></select>",
+			'html'  => "<select id='attachments-" . $post->ID . "-llms_media_protection_post' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='attachments[" . $post->ID . "][llms_media_protection_post]'>$selected_product_html</select>",
 		);
 
 		return $form_fields;
