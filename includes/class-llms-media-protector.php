@@ -404,6 +404,13 @@ class LLMS_Media_Protector {
 		return $media_id;
 	}
 
+	/**
+	 * See if the media is protected with an authorization filter.
+	 *
+	 * @param $media_id
+	 *
+	 * @return bool
+	 */
 	public function is_media_protected( $media_id ) {
 		return (bool) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 	}
@@ -978,20 +985,6 @@ class LLMS_Media_Protector {
 		$this->base_upload_path = $this->format_path( $base_upload_path );
 
 		return $this;
-	}
-
-	/**
-	 * Removes the authorization filter on the media file.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @param int    $media_id             The post ID of the media file.
-	 * @param string $authorization_filter The hook name of the filter that authorizes users to view media files.
-	 * @return bool True on success, false on failure.
-	 */
-	public function unprotect( $media_id, $authorization_filter ): bool {
-
-		return delete_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, $authorization_filter );
 	}
 
 	public function get_upload_basedir() {
