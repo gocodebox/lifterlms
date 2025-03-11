@@ -635,8 +635,6 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
-	 *
-	 * @return bool
 	 */
 	public function save_mod_rewrite_rules() {
 		// TODO: Different for multi-site?
@@ -865,10 +863,16 @@ class LLMS_Media_Protector {
 			$media_id = reset( $query->posts );
 		}
 
+		// The auth filter meta needs to exist for the media file to be served by this method.
+		if ( ! get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true ) ) {
+			header( 'HTTP/1.1 404 Not Found' );
+			llms_exit();
+		}
+
 		$media_file = get_post( $media_id );
 
 		// Validate that the attachment post exists.
-		if ( is_null( $media_file ) ) {
+		if ( is_null( $media_file ) || 'attachment' !== $media_file->post_type ) {
 			header( 'HTTP/1.1 404 Not Found' );
 			llms_exit();
 		}
@@ -879,8 +883,8 @@ class LLMS_Media_Protector {
 		if ( ! isset( $size ) ) {
 			$size = $this->get_size();
 		}
-		$icon = (bool) ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
-		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
+		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
+		if ( ! is_null( $size ) || $icon ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 		}
