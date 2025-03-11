@@ -14,12 +14,8 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 
 		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
 		add_filter( 'attachment_fields_to_save', array( $this, 'attachment_fields_to_save' ), 10, 2 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 	}
 
-	public function admin_scripts() {
-		wp_enqueue_script( 'llms-admin-media-protection-attachment-settings', LLMS_PLUGIN_URL . 'assets/js/llms-admin-media-protection-attachment-settings' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'media-views', 'wp-i18n', 'llms-admin-scripts' ), LLMS_ASSETS_VERSION, true );
-	}
 
 	/**
 	 * Add the media protection settings to the attachment edit screen

@@ -16,6 +16,7 @@ const { resolve } = require( 'path' ),
 			'admin-addons',
 			'admin-award-certificate',
 			'admin-certificate-editor',
+			'admin-media-protection-block-protect',
 			'admin-elementor-editor',
 			'quill-wordcount',
 
