@@ -116,8 +116,12 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			}
 
 			// Update metadata with new path.
-			$metadata['file'] = ltrim( $protected_dir, '/' ) . $metadata['file'];
-			wp_update_attachment_metadata( $attachment_id, $metadata );
+
+			// This only exists with images it seems.
+			if ( array_key_exists( 'file', $metadata ) ) {
+				$metadata['file'] = ltrim( $protected_dir, '/' ) . $metadata['file'];
+				wp_update_attachment_metadata( $attachment_id, $metadata );
+			}
 
 			// TODO: Add a different authorization hook?
 			// TODO: Change the parent of the attachment ID to the product ID? Or leave it as is?
