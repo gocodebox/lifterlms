@@ -19,7 +19,7 @@
 					path: `/wp/v2/media/${ props.attributes.id }`,
 					method: 'POST',
 					data: {
-						meta: { _llms_media_protection_product_id: selectedId }
+						_llms_media_protection_product_id: selectedId
 					}
 				} ).then( ( updatedMedia ) => {
 					props.setAttributes( { url: updatedMedia.source_url } );
@@ -47,8 +47,8 @@
 						>
 							<p>Select a Course or Membership to protect this image:</p>
 							{/* Dynamically fetch and list your Courses/Memberships here */}
-							<ToolbarButton onClick={ () => handleSelect( 101 ) }>
-								Course 101
+							<ToolbarButton onClick={ () => handleSelect( 76 ) }>
+								Second Course
 							</ToolbarButton>
 							<ToolbarButton onClick={ () => handleSelect( 202 ) }>
 								Membership 202

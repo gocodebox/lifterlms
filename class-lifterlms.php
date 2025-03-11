@@ -74,6 +74,34 @@ final class LifterLMS {
 	 */
 	private function __construct() {
 
+		add_action(
+			'rest_api_init',
+			function () {
+				error_log( 'hitting this earlier!!' );
+				register_rest_field(
+					'attachment',
+					'_llms_media_protection_product_id',
+					array(
+						// TODO: Don't show this field?
+						'get_callback'    => function ( $object ) {
+							return get_post_meta( $object['id'], '_llms_media_protection_product_id', true );
+						},
+						'update_callback' => function ( $value, $object ) {
+							error_log( 'UPDATING META ATTACHMENT PRODUCT ID' );
+							update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+							$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
+							$settings->move_attachment_to_protected_dir( $object->ID );
+						},
+						'schema'          => array(
+							'description' => __( 'The ID of the product that protects this media.', 'lifterlms' ),
+							'type'        => 'integer',
+							'context'     => array( 'view', 'edit' ),
+						),
+					)
+				);
+			}
+		);
+
 		$this->define_constants();
 
 		$this->init_assets();
