@@ -71,6 +71,12 @@ class LLMS_Admin_Assets {
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
 		}
+
+		if ( $screen && $screen->is_block_editor ) {
+			llms()->assets->enqueue_script( 'llms-admin-media-protection-block-protect' );
+
+			wp_enqueue_script( 'llms-admin-media-protection-block-protect', LLMS_PLUGIN_URL . 'blocks/llms-admin-media-protection-block-protect.js', array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-hooks', 'wp-data', 'jquery', 'wp-i18n', 'llms-admin-scripts' ), LLMS_ASSETS_VERSION, true );
+		}
 	}
 
 	public function elementor_editor_assets() {
@@ -261,6 +267,8 @@ class LLMS_Admin_Assets {
 
 		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 		wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
+
+		wp_enqueue_script( 'llms-admin-media-protection-attachment-settings', LLMS_PLUGIN_URL . 'assets/js/llms-admin-media-protection-attachment-settings' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'media-views', 'wp-i18n', 'llms-admin-scripts' ), LLMS_ASSETS_VERSION, true );
 
 		if ( $this->is_llms_page() ) {
 
