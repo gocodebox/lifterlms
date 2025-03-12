@@ -77,7 +77,6 @@ final class LifterLMS {
 		add_action(
 			'rest_api_init',
 			function () {
-				error_log( 'hitting this earlier!!' );
 				register_rest_field(
 					'attachment',
 					'_llms_media_protection_product_id',
