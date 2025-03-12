@@ -33,6 +33,8 @@ assets/js/llms-admin-elementor-editor.js
 assets/js/llms-admin-elementor-editor.asset.php
 assets/js/llms-admin-certificate-editor.asset.php
 assets/js/llms-admin-certificate-editor.js
+assets/js/llms-admin-media-protection-block-protect.asset.php
+assets/js/llms-admin-media-protection-block-protect.js
 assets/js/llms-components.asset.php
 assets/js/llms-components.js
 assets/js/llms.js
