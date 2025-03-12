@@ -36,7 +36,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		$protector = new LLMS_Media_Protector();
 		if ( ! $protector->is_media_protected( $post->ID ) ) {
 			// translators: %s is a link to the LifterLMS documentation.
-			$protection_warning_html = '<div class="llms-media-protection-warning">' . sprintf( __( 'This media is not protected. If you select a product here, the media will be moved to the protected uploads directory and existing links to the media will no longer work. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="#">', '</a>' ) . '</div>';
+			$protection_warning_html = '<div class="llms-media-protection-warning">' . sprintf( __( 'This media is not protected. If you select a product here, the media will be moved to the protected uploads directory and existing links to the media will no longer work. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/">', '</a>' ) . '</div>';
 		}
 
 		$form_fields['llms_media_protection_post'] = array(
