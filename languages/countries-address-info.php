@@ -544,7 +544,7 @@ return array(
 	'IE' => array(
 		'city'     => __( 'Town / City', 'lifterlms' ),
 		'state'    => __( 'County', 'lifterlms' ),
-		'postcode' => false,
+		'postcode' => __( 'Eircode', 'lifterlms' ),
 	),
 	'IL' => array(
 		'city'     => __( 'City', 'lifterlms' ),
