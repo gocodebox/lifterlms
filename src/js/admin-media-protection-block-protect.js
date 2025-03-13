@@ -2,7 +2,7 @@
 	const { addFilter } = wp.hooks;
 	const { createHigherOrderComponent } = wp.compose;
 	const { Fragment, useState, useEffect, useRef } = wp.element;
-	const { ToolbarButton, Modal, Button } = wp.components;
+	const { ToolbarButton, Modal, Button, Flex, FlexItem } = wp.components;
 	const { BlockControls } = wp.blockEditor;
 	const { apiFetch } = wp;
 
@@ -52,29 +52,34 @@
 
 					{ isModalOpen && (
 						<Modal
-							title="Select Course or Membership"
+							title={ LLMS.l10n.translate( 'Select Course or Membership' ) }
 							onRequestClose={() => setModalOpen(false)}
 						>
-							<p>Select a Course or Membership to protect this image:</p>
-							<div>
+							<Flex direction="column" gap={4}>
+								<FlexItem>
+									<label htmlFor="llms-protect-image-select">{ LLMS.l10n.translate( 'Select a Course or Membership to protect this image:' ) }</label>
+								</FlexItem>
+								<FlexItem>
 								<select
+									id="llms-protect-image-select"
 									ref={ selectRef }
 									className='llms-block-protect llms-posts-select2'
 									data-no-view-button='true'
 									data-allow_clear='false'
 									data-post-type='course,llms_membership'
 									></select>
-							</div>
-
-							<Button
-								isPrimary
-								onClick={ () => {
-									handleProtectImage();
-								} }
-							>
-								Protect Image
-							</Button>
-
+								</FlexItem>
+								<FlexItem>
+									<Button
+										isPrimary
+										onClick={ () => {
+											handleProtectImage();
+										} }
+									>
+										Protect Image
+									</Button>
+								</FlexItem>
+							</Flex>
 						</Modal>
 					)}
 				</Fragment>
