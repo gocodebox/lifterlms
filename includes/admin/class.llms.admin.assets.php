@@ -72,10 +72,8 @@ class LLMS_Admin_Assets {
 			$this->block_editor_assets_for_certificates();
 		}
 
-		if ( $screen && $screen->is_block_editor ) {
+		if ( $screen && $screen->is_block_editor && current_user_can( 'edit_courses' ) ) {
 			llms()->assets->enqueue_script( 'llms-admin-media-protection-block-protect' );
-
-			wp_enqueue_script( 'llms-admin-media-protection-block-protect', LLMS_PLUGIN_URL . 'blocks/llms-admin-media-protection-block-protect.js', array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-hooks', 'wp-data', 'jquery', 'wp-i18n', 'llms-admin-scripts' ), LLMS_ASSETS_VERSION, true );
 		}
 	}
 
