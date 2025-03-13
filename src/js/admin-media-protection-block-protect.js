@@ -49,6 +49,7 @@
 			}
 
 			const [ isModalOpen, setModalOpen ] = useState( false );
+			const [ selectedId, setSelectedId ] = useState( null );
 			const selectRef = useRef( null );
 
 			useEffect( () => {
@@ -70,7 +71,7 @@
 					const urlAttr = getUrlAttr( props.name );
 					props.setAttributes( { [ urlAttr ]: updatedMedia.source_url } );
 				} ).catch( ( err ) => {
-					console.error( 'Error updating media meta: ', err );
+					console.error( 'Error updating media meta:', err );
 				} );
 				setModalOpen( false );
 			};
