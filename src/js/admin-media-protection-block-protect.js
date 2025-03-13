@@ -1,8 +1,8 @@
 ( function( wp ) {
 	const { addFilter } = wp.hooks;
 	const { createHigherOrderComponent } = wp.compose;
-	const { Fragment, useState } = wp.element;
-	const { ToolbarButton, Modal } = wp.components;
+	const { Fragment, useState, useEffect, useRef } = wp.element;
+	const { ToolbarButton, Modal, Button } = wp.components;
 	const { BlockControls } = wp.blockEditor;
 	const { apiFetch } = wp;
 
@@ -13,8 +13,18 @@
 			}
 
 			const [ isModalOpen, setModalOpen ] = useState( false );
+			const [ selectedId, setSelectedId ] = useState( null );
+			const selectRef = useRef( null );
 
-			const handleSelect = ( selectedId ) => {
+			useEffect( () => {
+				if ( isModalOpen && selectRef.current ) {
+					jQuery( selectRef.current ).llmsPostsSelect2();
+				}
+			}, [ isModalOpen ] );
+
+			const handleProtectImage = () => {
+				const selectedId = jQuery( selectRef.current ).val();
+
 				apiFetch( {
 					path: `/wp/v2/media/${ props.attributes.id }`,
 					method: 'POST',
@@ -43,26 +53,38 @@
 					{ isModalOpen && (
 						<Modal
 							title="Select Course or Membership"
-							onRequestClose={ () => setModalOpen( false ) }
+							onRequestClose={() => setModalOpen(false)}
 						>
 							<p>Select a Course or Membership to protect this image:</p>
-							{/* Dynamically fetch and list your Courses/Memberships here */}
-							<ToolbarButton onClick={ () => handleSelect( 76 ) }>
-								Second Course
-							</ToolbarButton>
-							<ToolbarButton onClick={ () => handleSelect( 202 ) }>
-								Membership 202
-							</ToolbarButton>
+							<div>
+								<select
+									ref={ selectRef }
+									className='llms-block-protect llms-posts-select2'
+									data-no-view-button='true'
+									data-allow_clear='false'
+									data-post-type='course,llms_membership'
+									></select>
+							</div>
+
+							<Button
+								isPrimary
+								onClick={ () => {
+									handleProtectImage();
+								} }
+							>
+								Protect Image
+							</Button>
+
 						</Modal>
-					) }
+					)}
 				</Fragment>
 			);
 		};
-	}, 'withProtectImageToolbar' );
+	}, 'withProtectImageToolbar');
 
 	addFilter(
 		'editor.BlockEdit',
 		'my-plugin/with-protect-image-toolbar',
 		withProtectImageToolbar
 	);
-} )( window.wp );
+})(window.wp);
