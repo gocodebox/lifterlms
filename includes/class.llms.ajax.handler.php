@@ -255,18 +255,13 @@ class LLMS_AJAX_Handler {
 
 		// validate required params.
 		if ( ! isset( $request['store_action'] ) ||
-			! isset( $request['post_id'] ) ||
-			( ! current_user_can( 'manage_lifterlms' ) &&
-				! current_user_can( 'edit_course', $request['post_id'] ) &&
-				! current_user_can( 'edit_membership', $request['post_id'] )
-			) ) {
+			! isset( $request['post_id'] ) ) {
+			die();
+		}
 
-			return array(
-				'data'    => array(),
-				'message' => __( 'Missing required parameters', 'lifterlms' ),
-				'success' => false,
-			);
-
+		if ( ! current_user_can( 'edit_course', $request['post_id'] ) &&
+			! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+			die();
 		}
 
 		$post = llms_get_post( $request['post_id'] );
