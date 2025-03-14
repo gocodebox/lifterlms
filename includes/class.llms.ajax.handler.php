@@ -1495,20 +1495,6 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Delete a course's section
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (WP_Post|false|null) Post data on success, false or null on failure.
-	 */
-	public static function delete_course_section( $request ) {
-
-		$section = new LLMS_Section( $request['section_id'] );
-		return $section->delete();
-	}
-
-	/**
 	 * Update course's sections order
 	 *
 	 * @since Unknown
