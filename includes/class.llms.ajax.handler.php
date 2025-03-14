@@ -1475,6 +1475,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function remove_course_lesson( $request ) {
 
+		if ( ! isset( $request['lesson_id'] ) ) {
+			die();
+		}
+
 		$post_data = array(
 			'parent_course'  => '',
 			'parent_section' => '',
@@ -1482,6 +1486,10 @@ class LLMS_AJAX_Handler {
 		);
 
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
+
+		if ( ! $lesson->get( 'parent_course' ) || ! current_user_can( 'edit_course', $lesson->get( 'parent_course' ) ) ) {
+			die();
+		}
 
 		return $lesson->update( $post_data );
 	}
