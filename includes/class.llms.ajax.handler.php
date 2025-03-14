@@ -1066,6 +1066,10 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
+		if ( ! is_user_logged_in() ) {
+			die();
+		}
+
 		// Grab the search term if it exists.
 		$term = llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 
@@ -1140,6 +1144,11 @@ class LLMS_AJAX_Handler {
 		$grouping = ( count( $post_types_array ) > 1 );
 
 		foreach ( $posts as $post ) {
+
+			if ( ! current_user_can( 'read_post', $post->ID ) ) {
+				error_log( 'no permission to view ' . $post->ID );
+				continue;
+			}
 
 			$item = array(
 				'id'   => $post->ID,
