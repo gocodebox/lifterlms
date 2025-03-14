@@ -1551,13 +1551,17 @@ class LLMS_AJAX_Handler {
 
 		// Missing required fields.
 		if ( empty( $request['post_id'] ) || ! isset( $request['courses'] ) ) {
-			return;
+			die();
+		}
+
+		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+			die();
 		}
 
 		// Not a membership.
 		$membership = llms_get_post( $request['post_id'] );
 		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
-			return;
+			die();
 		}
 
 		$courses = array_map( 'absint', (array) $request['courses'] );
