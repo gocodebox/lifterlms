@@ -1403,30 +1403,6 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Create course's lesson.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @param array $request $_POST data.
-	 * @return string
-	 */
-	public static function create_lesson( $request ) {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		$lesson_id = LLMS_Post_Handler::create_lesson(
-			$request['post_id'],
-			$request['section_id'],
-			$request['title'],
-			$request['excerpt']
-		);
-
-		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
-
-		return $html;
-	}
-
-	/**
 	 * Get the list of options for the lesson's select
 	 *
 	 * @since Unknown
