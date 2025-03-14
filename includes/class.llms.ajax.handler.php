@@ -159,8 +159,7 @@ class LLMS_AJAX_Handler {
 		if ( ! $access_plan->get( 'product_id' ) ) {
 			die();
 		}
-		if ( ! current_user_can( 'edit_course', $access_plan->get( 'product_id' ) ) &&
-			! current_user_can( 'edit_membership', $access_plan->get( 'product_id' ) ) ) {
+		if ( ! llms_current_user_can_edit_product( $access_plan->get( 'product_id' ) ) ) {
 			die();
 		}
 
@@ -268,8 +267,7 @@ class LLMS_AJAX_Handler {
 			die();
 		}
 
-		if ( ! current_user_can( 'edit_course', $request['post_id'] ) &&
-			! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
 			die();
 		}
 
