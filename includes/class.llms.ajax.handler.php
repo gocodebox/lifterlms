@@ -1582,7 +1582,11 @@ class LLMS_AJAX_Handler {
 	public static function llms_update_access_plans( $request ) {
 
 		if ( empty( $request['plans'] ) || ! is_array( $request['plans'] ) || empty( $request['post_id'] ) ) {
-			return new WP_Error( 'error', __( 'Missing Required Parameters.', 'lifterlms' ) );
+			die();
+		}
+
+		if ( ! current_user_can( 'edit_course', $request['post_id'] ) && ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+			die();
 		}
 
 		$metabox       = new LLMS_Meta_Box_Product();
