@@ -151,7 +151,16 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function delete_access_plan( $request ) {
 
-		if ( empty( $request['plan_id'] ) || ! current_user_can( 'delete_post', $request['plan_id'] ) ) {
+		if ( empty( $request['plan_id'] ) ) {
+			die();
+		}
+
+		$access_plan = llms_get_post( $request['plan_id'] );
+		if ( ! $access_plan->get( 'product_id' ) ) {
+			die();
+		}
+		if ( ! current_user_can( 'edit_course', $access_plan->get( 'product_id' ) ) &&
+			! current_user_can( 'edit_membership', $access_plan->get( 'product_id' ) ) ) {
 			die();
 		}
 
