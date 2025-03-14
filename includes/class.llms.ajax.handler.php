@@ -254,7 +254,12 @@ class LLMS_AJAX_Handler {
 	public static function instructors_mb_store( $request ) {
 
 		// validate required params.
-		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+		if ( ! isset( $request['store_action'] ) ||
+			! isset( $request['post_id'] ) ||
+			( ! current_user_can( 'manage_lifterlms' ) &&
+				! current_user_can( 'edit_course', $request['post_id'] ) &&
+				! current_user_can( 'edit_membership', $request['post_id'] )
+			) ) {
 
 			return array(
 				'data'    => array(),
@@ -331,6 +336,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function notifications_heartbeart( $request ) {
 
+		if ( ! is_user_logged_in() ) {
+			die();
+		}
+
 		$ret = array(
 			'new' => array(),
 		);
@@ -371,6 +380,10 @@ class LLMS_AJAX_Handler {
 	 * @return (void|WP_Error)
 	 */
 	public static function membership_remove_auto_enroll_course( $request ) {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
 
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
 			return new WP_Error( 'error', __( 'Missing required parameters.', 'lifterlms' ) );
