@@ -1182,8 +1182,7 @@ class LLMS_AJAX_Handler {
 			die();
 		}
 
-		if ( ! current_user_can( 'edit_course', $request['post_id'] ) &&
-			! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
 			die();
 		}
 
