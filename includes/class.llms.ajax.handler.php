@@ -1350,6 +1350,11 @@ class LLMS_AJAX_Handler {
 	public static function create_section( $request ) {
 
 		llms_deprecated_function( __METHOD__, '5.7.0' );
+
+		if ( ! isset( $request['post_id'] ) || ! current_user_can( 'edit_course', $request['post_id'] ) ) {
+			die();
+		}
+
 		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
@@ -1366,6 +1371,9 @@ class LLMS_AJAX_Handler {
 	 * @return LLMS_Section[]
 	 */
 	public static function get_course_sections( $request ) {
+		if ( ! isset( $request['post_id'] ) || ! current_user_can( 'edit_course', $request['post_id'] ) ) {
+			die();
+		}
 
 		$course   = new LLMS_Course( $request['post_id'] );
 		$sections = $course->get_sections( 'posts' );
@@ -1382,24 +1390,16 @@ class LLMS_AJAX_Handler {
 	 * @return LLMS_Section
 	 */
 	public static function get_course_section( $request ) {
-
-		return new LLMS_Section( $request['section_id'] );
-	}
-
-	/**
-	 * Update a course's section
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (array|void) If section updated returns an array of the type:
-	 *                      id    => {post id}
-	 *                      title => {new title}
-	 */
-	public static function update_course_section( $request ) {
+		if ( ! isset( $request['section_id'] ) ) {
+			die();
+		}
 
 		$section = new LLMS_Section( $request['section_id'] );
-		return $section->set_title( $request['title'] );
+		if ( ! $section || ! $section->get( 'parent_course' ) || ! current_user_can( 'edit_course', $section->get( 'parent_course' ) ) ) {
+			die();
+		}
+
+		return $section;
 	}
 
 	/**
