@@ -49,6 +49,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
+
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
@@ -71,6 +75,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function bulk_enroll_students( $request ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
+
 		if ( empty( $request['post_id'] ) || empty( $request['student_ids'] ) || ! is_array( $request['student_ids'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
@@ -90,6 +98,10 @@ class LLMS_AJAX_Handler {
 	 * @return void
 	 */
 	public static function check_voucher_duplicate() {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
 
 		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
 		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
