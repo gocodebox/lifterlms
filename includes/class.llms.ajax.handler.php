@@ -1495,32 +1495,6 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Update course's sections order
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (array|null)
-	 */
-	public static function update_section_order( $request ) {
-
-		$updated_data;
-
-		foreach ( $request['sections'] as $key => $value ) {
-
-			$section              = new LLMS_Section( $key );
-			$updated_data[ $key ] = $section->update(
-				array(
-					'order' => $value,
-				)
-			);
-
-		}
-
-		return $updated_data;
-	}
-
-	/**
 	 * Update section's lessons order
 	 *
 	 * @since Unknown
