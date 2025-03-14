@@ -139,8 +139,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function delete_access_plan( $request ) {
 
-		// shouldn't be possible.
-		if ( empty( $request['plan_id'] ) ) {
+		if ( empty( $request['plan_id'] ) || ! current_user_can( 'delete_post', $request['plan_id'] ) ) {
 			die();
 		}
 
@@ -1164,6 +1163,10 @@ class LLMS_AJAX_Handler {
 	 * @return (WP_Error|array)
 	 */
 	public static function update_student_enrollment( $request ) {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
 
 		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
