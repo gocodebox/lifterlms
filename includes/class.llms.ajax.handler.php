@@ -1447,12 +1447,20 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function update_course_lesson( $request ) {
 
+		if ( ! isset( $request['lesson_id'] ) ) {
+			die();
+		}
+
+		$lesson = new LLMS_Lesson( $request['lesson_id'] );
+
+		if ( ! $lesson->get( 'parent_course' ) || ! current_user_can( 'edit_course', $lesson->get( 'parent_course' ) ) ) {
+			die();
+		}
+
 		$post_data = array(
 			'title'   => $request['title'],
 			'excerpt' => $request['excerpt'],
 		);
-
-		$lesson = new LLMS_Lesson( $request['lesson_id'] );
 
 		return $lesson->update( $post_data );
 	}
