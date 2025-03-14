@@ -1411,27 +1411,11 @@ class LLMS_AJAX_Handler {
 	 * @return array
 	 */
 	public static function get_lesson_options_for_select( $request ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			die();
+		}
 
 		return LLMS_Post_Handler::get_lesson_options_for_select_list();
-	}
-
-	/**
-	 * Add a lesson to a course
-	 *
-	 * @since Unknown
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @param array $request $_POST data.
-	 * @return string
-	 */
-	public static function add_lesson_to_course( $request ) {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
-
-		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
-
-		return $html;
 	}
 
 	/**
