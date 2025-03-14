@@ -922,7 +922,6 @@ class LLMS_AJAX_Handler {
 		foreach ( $posts as $post ) {
 
 			if ( ! current_user_can( 'read_post', $post->ID ) ) {
-				error_log( 'no permission to view ' . $post->ID );
 				continue;
 			}
 
