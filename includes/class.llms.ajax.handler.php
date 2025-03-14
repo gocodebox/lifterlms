@@ -200,12 +200,12 @@ class LLMS_AJAX_Handler {
 	public static function export_admin_table( $request ) {
 
 		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			return false;
+			die();
 		}
 
 		$table = self::get_admin_table_instance( $request['handler'] );
 		if ( ! $table ) {
-			return false;
+			die();
 		}
 
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
