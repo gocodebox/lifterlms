@@ -1507,8 +1507,12 @@ class LLMS_AJAX_Handler {
 		$updated_data;
 
 		foreach ( $request['lessons'] as $key => $value ) {
+			$lesson = new LLMS_Lesson( $key );
 
-			$lesson               = new LLMS_Lesson( $key );
+			if ( ! $lesson->get( 'parent_course' ) || ! current_user_can( 'edit_course', $lesson->get( 'parent_course' ) ) ) {
+				die();
+			}
+
 			$updated_data[ $key ] = $lesson->update(
 				array(
 					'parent_section' => $value['parent_section'],
