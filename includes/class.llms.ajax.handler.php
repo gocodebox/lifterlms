@@ -50,7 +50,7 @@ class LLMS_AJAX_Handler {
 	public static function bulk_enroll_membership_into_course( $request ) {
 
 		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
@@ -76,7 +76,7 @@ class LLMS_AJAX_Handler {
 	public static function bulk_enroll_students( $request ) {
 
 		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( empty( $request['post_id'] ) || empty( $request['student_ids'] ) || ! is_array( $request['student_ids'] ) ) {
@@ -100,7 +100,7 @@ class LLMS_AJAX_Handler {
 	public static function check_voucher_duplicate() {
 
 		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			die();
+			wp_die();
 		}
 
 		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
@@ -152,15 +152,15 @@ class LLMS_AJAX_Handler {
 	public static function delete_access_plan( $request ) {
 
 		if ( empty( $request['plan_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		$access_plan = llms_get_post( $request['plan_id'] );
 		if ( ! $access_plan->get( 'product_id' ) ) {
-			die();
+			wp_die();
 		}
 		if ( ! llms_current_user_can_edit_product( $access_plan->get( 'product_id' ) ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( ! wp_trash_post( $request['plan_id'] ) ) {
@@ -203,17 +203,16 @@ class LLMS_AJAX_Handler {
 	 * @since 3.37.15 Verify user permissions before processing request data.
 	 *
 	 * @param array $request Post data ($_REQUEST).
-	 * @return array
+	 * @return array|bool
 	 */
 	public static function export_admin_table( $request ) {
-
 		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			die();
+			wp_die();
 		}
 
 		$table = self::get_admin_table_instance( $request['handler'] );
 		if ( ! $table ) {
-			die();
+			wp_die();
 		}
 
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
@@ -264,11 +263,11 @@ class LLMS_AJAX_Handler {
 		// validate required params.
 		if ( ! isset( $request['store_action'] ) ||
 			! isset( $request['post_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		$post = llms_get_post( $request['post_id'] );
@@ -339,7 +338,7 @@ class LLMS_AJAX_Handler {
 	public static function notifications_heartbeart( $request ) {
 
 		if ( ! is_user_logged_in() ) {
-			die();
+			wp_die();
 		}
 
 		$ret = array(
@@ -384,7 +383,7 @@ class LLMS_AJAX_Handler {
 	public static function membership_remove_auto_enroll_course( $request ) {
 
 		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
@@ -850,7 +849,7 @@ class LLMS_AJAX_Handler {
 		global $wpdb;
 
 		if ( ! is_user_logged_in() ) {
-			die();
+			wp_die();
 		}
 
 		// Grab the search term if it exists.
@@ -981,7 +980,7 @@ class LLMS_AJAX_Handler {
 	public static function update_student_enrollment( $request ) {
 
 		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
@@ -1146,17 +1145,17 @@ class LLMS_AJAX_Handler {
 
 		// Missing required fields.
 		if ( empty( $request['post_id'] ) || ! isset( $request['courses'] ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		// Not a membership.
 		$membership = llms_get_post( $request['post_id'] );
 		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
-			die();
+			wp_die();
 		}
 
 		$courses = array_map( 'absint', (array) $request['courses'] );
@@ -1177,11 +1176,11 @@ class LLMS_AJAX_Handler {
 	public static function llms_update_access_plans( $request ) {
 
 		if ( empty( $request['plans'] ) || ! is_array( $request['plans'] ) || empty( $request['post_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
-			die();
+			wp_die();
 		}
 
 		$metabox       = new LLMS_Meta_Box_Product();
