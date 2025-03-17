@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Avoid escaping the selected attribute of a form field select dropdown
+  incorrectly.
