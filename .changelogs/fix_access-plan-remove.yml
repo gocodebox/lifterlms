@@ -1,5 +1,0 @@
-significance: patch
-type: security
-attributions:
-  - "@mikemyers"
-entry: Additional checks for managing LifterLMS data.

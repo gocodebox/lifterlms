@@ -103,7 +103,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Filter the WP_User_Query args to ensure that instructors can only see their students
 	 *
-	 * @since [version]
+	 * @since 8.0.2
 	 *
 	 * @param array           $args WP_User_Query args.
 	 * @param WP_REST_Request $request Request object.

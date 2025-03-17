@@ -477,7 +477,7 @@ function llms_get_engagement_triggers() {
  * Verify if the current user can edit the given product id (course or membership).
  *
  * @param $product_id
- * @since [version]
+ * @since 8.0.2
  *
  * @return bool
  */
