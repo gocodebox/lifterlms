@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Adds additional verifications on permission for bulk enrolls, and REST
+  API access for instructors.
