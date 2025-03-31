@@ -461,11 +461,8 @@ class LLMS_Media_Protector {
 			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
 			if ( $authorized_product_id && (
 				llms_get_student()->is_enrolled( $authorized_product_id ) ||
-				current_user_can( 'edit_course', $authorized_product_id ) ||
-				current_user_can(
-					'edit_membership',
-					$authorized_product_id
-				) ) ) {
+				llms_current_user_can_edit_product( $authorized_product_id )
+				) ) {
 				$is_authorized = true;
 			}
 
