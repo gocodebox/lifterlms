@@ -49,6 +49,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die();
+		}
+
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
@@ -71,6 +75,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function bulk_enroll_students( $request ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die();
+		}
+
 		if ( empty( $request['post_id'] ) || empty( $request['student_ids'] ) || ! is_array( $request['student_ids'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
@@ -90,6 +98,10 @@ class LLMS_AJAX_Handler {
 	 * @return void
 	 */
 	public static function check_voucher_duplicate() {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die();
+		}
 
 		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
 		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
@@ -139,9 +151,16 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function delete_access_plan( $request ) {
 
-		// shouldn't be possible.
 		if ( empty( $request['plan_id'] ) ) {
-			die();
+			wp_die();
+		}
+
+		$access_plan = llms_get_post( $request['plan_id'] );
+		if ( ! $access_plan->get( 'product_id' ) ) {
+			wp_die();
+		}
+		if ( ! llms_current_user_can_edit_product( $access_plan->get( 'product_id' ) ) ) {
+			wp_die();
 		}
 
 		if ( ! wp_trash_post( $request['plan_id'] ) ) {
@@ -184,17 +203,16 @@ class LLMS_AJAX_Handler {
 	 * @since 3.37.15 Verify user permissions before processing request data.
 	 *
 	 * @param array $request Post data ($_REQUEST).
-	 * @return array
+	 * @return array|bool
 	 */
 	public static function export_admin_table( $request ) {
-
 		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			return false;
+			wp_die();
 		}
 
 		$table = self::get_admin_table_instance( $request['handler'] );
 		if ( ! $table ) {
-			return false;
+			wp_die();
 		}
 
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
@@ -243,14 +261,13 @@ class LLMS_AJAX_Handler {
 	public static function instructors_mb_store( $request ) {
 
 		// validate required params.
-		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+		if ( ! isset( $request['store_action'] ) ||
+			! isset( $request['post_id'] ) ) {
+			wp_die();
+		}
 
-			return array(
-				'data'    => array(),
-				'message' => __( 'Missing required parameters', 'lifterlms' ),
-				'success' => false,
-			);
-
+		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
+			wp_die();
 		}
 
 		$post = llms_get_post( $request['post_id'] );
@@ -320,6 +337,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function notifications_heartbeart( $request ) {
 
+		if ( ! is_user_logged_in() ) {
+			wp_die();
+		}
+
 		$ret = array(
 			'new' => array(),
 		);
@@ -361,6 +382,10 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function membership_remove_auto_enroll_course( $request ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die();
+		}
+
 		if ( empty( $request['post_id'] ) || empty( $request['course_id'] ) ) {
 			return new WP_Error( 'error', __( 'Missing required parameters.', 'lifterlms' ) );
 		}
@@ -370,225 +395,6 @@ class LLMS_AJAX_Handler {
 		if ( ! $membership->remove_auto_enroll_course( intval( $request['course_id'] ) ) ) {
 			return new WP_Error( 'error', __( 'There was an error removing the course, please try again.', 'lifterlms' ) );
 		}
-	}
-
-	/**
-	 * Retrieve Students.
-	 *
-	 * Used by Select2 AJAX functions to load paginated student results.
-	 * Also allows querying by:
-	 *      first name
-	 *      last name
-	 *      email.
-	 *
-	 * @since Unknown
-	 * @since 3.14.2 Unknown.
-	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
-	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated 6.2.0 `LLMS_AJAX_Handler::query_students()` is deprecated in favor of the REST API list students endpoint.
-	 *
-	 * @return void
-	 */
-	public static function query_students() {
-
-		_deprecated_function( __METHOD__, '6.2.0', 'the REST API list students endpoint' );
-
-		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) : '';
-
-		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
-
-		$enrolled_in     = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['enrolled_in'] ) ) : null;
-		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['not_enrolled_in'] ) ) : null;
-
-		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['roles'] ) ) : null;
-
-		global $wpdb;
-
-		$limit = 30;
-		$start = $limit * $page;
-
-		$vars = array();
-
-		$roles_sql = '';
-		if ( $roles ) {
-			$roles = explode( ',', $roles );
-			$roles = array_map( 'trim', $roles );
-			$total = count( $roles );
-			foreach ( $roles as $i => $role ) {
-				$roles_sql .= "roles.meta_value LIKE '%s'";
-				$vars[]     = '%"' . $role . '"%';
-				if ( $total > 1 && $i + 1 !== $total ) {
-					$roles_sql .= ' OR ';
-				}
-			}
-
-			$roles_sql = "JOIN $wpdb->usermeta AS roles
-							ON $wpdb->users.ID = roles.user_id
-						   AND roles.meta_key = '{$wpdb->prefix}capabilities'
-						   AND ( $roles_sql )
-						";
-		}
-
-		// there was a search query.
-		if ( $term ) {
-
-			// email only.
-			if ( false !== strpos( $term, '@' ) ) {
-
-				$query = "SELECT
-							  ID AS id
-							, user_email AS email
-							, display_name AS name
-						  FROM $wpdb->users
-						  $roles_sql
-						  WHERE user_email LIKE '%s'
-						  ORDER BY display_name
-						  LIMIT %d, %d;";
-
-				$vars = array_merge(
-					$vars,
-					array(
-						'%' . $term . '%',
-						$start,
-						$limit,
-					)
-				);
-
-			} elseif ( false !== strpos( $term, ' ' ) ) {
-
-				$term = explode( ' ', $term );
-
-				$query = "SELECT
-							  users.ID AS id
-							, users.user_email AS email
-							, users.display_name AS name
-						  FROM $wpdb->users AS users
-						  $roles_sql
-						  LEFT JOIN wp_usermeta AS fname ON fname.user_id = users.ID
-						  LEFT JOIN wp_usermeta AS lname ON lname.user_id = users.ID
-						  WHERE ( fname.meta_key = 'first_name' AND fname.meta_value LIKE '%s' )
-						  	AND ( lname.meta_key = 'last_name' AND lname.meta_value LIKE '%s' )
-						  ORDER BY users.display_name
-						  LIMIT %d, %d;";
-
-				$vars = array_merge(
-					$vars,
-					array(
-						'%' . $term[0] . '%', // first name.
-						'%' . $term[1] . '%', // last name.
-						$start,
-						$limit,
-					)
-				);
-
-				// search for login, display name, or email.
-			} else {
-
-				$query = "SELECT
-							  ID AS id
-							, user_email AS email
-							, display_name AS name
-						  FROM $wpdb->users
-						  $roles_sql
-						  WHERE
-						  	user_email LIKE '%s'
-						  	OR user_login LIKE '%s'
-						  	OR display_name LIKE '%s'
-						  ORDER BY display_name
-						  LIMIT %d, %d;";
-
-				$vars = array_merge(
-					$vars,
-					array(
-						'%' . $term . '%',
-						'%' . $term . '%',
-						'%' . $term . '%',
-						$start,
-						$limit,
-					)
-				);
-
-			}
-		} else {
-
-			$query = "SELECT
-						  ID AS id
-						, user_email AS email
-						, display_name AS name
-					  FROM $wpdb->users
-					  $roles_sql
-					  ORDER BY display_name
-					  LIMIT %d, %d;";
-
-			$vars = array_merge(
-				$vars,
-				array(
-					$start,
-					$limit,
-				)
-			);
-
-		}
-
-		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-		if ( $enrolled_in ) {
-
-			$checks = explode( ',', $enrolled_in );
-			$checks = array_map( 'trim', $checks );
-
-			// Loop through each user.
-			foreach ( $res as $key => $user ) {
-
-				// Loop through each check -- this is an OR relationship situation.
-				foreach ( $checks as $id ) {
-
-					// If the user is enrolled break to the next user, they can stay.
-					if ( llms_is_user_enrolled( $user->id, $id ) ) {
-
-						continue 2;
-
-					}
-				}
-
-				// If we get here that means the user isn't enrolled in any of the check posts remove them from the results.
-				unset( $res[ $key ] );
-			}
-		}
-
-		if ( $not_enrolled_in ) {
-
-			$checks = explode( ',', $enrolled_in );
-			$checks = array_map( 'trim', $checks );
-
-			// Loop through each user.
-			foreach ( $res as $key => $user ) {
-
-				// Loop through each check -- this is an OR relationship situation.
-				// If the user is enrolled in any of the courses they need to be filtered out.
-				foreach ( $checks as $id ) {
-
-					// If the user is enrolled break remove them and break to the next user.
-					if ( llms_is_user_enrolled( $user->id, $id ) ) {
-
-						unset( $res[ $key ] );
-						continue 2;
-
-					}
-				}
-			}
-		}
-
-		echo json_encode(
-			array(
-				'items'   => $res,
-				'more'    => count( $res ) === $limit,
-				'success' => true,
-			)
-		);
-
-		wp_die();
 	}
 
 	/**
@@ -1042,6 +848,10 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
+		if ( ! is_user_logged_in() ) {
+			wp_die();
+		}
+
 		// Grab the search term if it exists.
 		$term = llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 
@@ -1117,6 +927,10 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $posts as $post ) {
 
+			if ( ! current_user_can( 'read_post', $post->ID ) ) {
+				continue;
+			}
+
 			$item = array(
 				'id'   => $post->ID,
 				'name' => $post->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $post->ID . ')',
@@ -1164,6 +978,10 @@ class LLMS_AJAX_Handler {
 	 * @return (WP_Error|array)
 	 */
 	public static function update_student_enrollment( $request ) {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die();
+		}
 
 		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
@@ -1302,253 +1120,6 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Create course's section.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @param array $request $_POST data.
-	 * @return string
-	 */
-	public static function create_section( $request ) {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );
-
-		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
-
-		return $html;
-	}
-
-	/**
-	 * Get course's sections
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return LLMS_Section[]
-	 */
-	public static function get_course_sections( $request ) {
-
-		$course   = new LLMS_Course( $request['post_id'] );
-		$sections = $course->get_sections( 'posts' );
-
-		return $sections;
-	}
-
-	/**
-	 * Get a course's section
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return LLMS_Section
-	 */
-	public static function get_course_section( $request ) {
-
-		return new LLMS_Section( $request['section_id'] );
-	}
-
-	/**
-	 * Update a course's section
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (array|void) If section updated returns an array of the type:
-	 *                      id    => {post id}
-	 *                      title => {new title}
-	 */
-	public static function update_course_section( $request ) {
-
-		$section = new LLMS_Section( $request['section_id'] );
-		return $section->set_title( $request['title'] );
-	}
-
-	/**
-	 * Create course's lesson.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @param array $request $_POST data.
-	 * @return string
-	 */
-	public static function create_lesson( $request ) {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		$lesson_id = LLMS_Post_Handler::create_lesson(
-			$request['post_id'],
-			$request['section_id'],
-			$request['title'],
-			$request['excerpt']
-		);
-
-		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
-
-		return $html;
-	}
-
-	/**
-	 * Get the list of options for the lesson's select
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return array
-	 */
-	public static function get_lesson_options_for_select( $request ) {
-
-		return LLMS_Post_Handler::get_lesson_options_for_select_list();
-	}
-
-	/**
-	 * Add a lesson to a course
-	 *
-	 * @since Unknown
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @param array $request $_POST data.
-	 * @return string
-	 */
-	public static function add_lesson_to_course( $request ) {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
-
-		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
-
-		return $html;
-	}
-
-	/**
-	 * Get a course's lesson
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return array
-	 */
-	public static function get_course_lesson( $request ) {
-
-		$l = new LLMS_Lesson( $request['lesson_id'] );
-
-		return array(
-			'id'      => $l->get( 'id' ),
-			'title'   => $l->get( 'title' ),
-			'excerpt' => $l->get( 'excerpt' ),
-		);
-	}
-
-	/**
-	 * Update course's lesson
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return array
-	 */
-	public static function update_course_lesson( $request ) {
-
-		$post_data = array(
-			'title'   => $request['title'],
-			'excerpt' => $request['excerpt'],
-		);
-
-		$lesson = new LLMS_Lesson( $request['lesson_id'] );
-
-		return $lesson->update( $post_data );
-	}
-
-	/**
-	 * Remove a lesson from a course
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return array
-	 */
-	public static function remove_course_lesson( $request ) {
-
-		$post_data = array(
-			'parent_course'  => '',
-			'parent_section' => '',
-			'order'          => '',
-		);
-
-		$lesson = new LLMS_Lesson( $request['lesson_id'] );
-
-		return $lesson->update( $post_data );
-	}
-
-	/**
-	 * Delete a course's section
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (WP_Post|false|null) Post data on success, false or null on failure.
-	 */
-	public static function delete_course_section( $request ) {
-
-		$section = new LLMS_Section( $request['section_id'] );
-		return $section->delete();
-	}
-
-	/**
-	 * Update course's sections order
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (array|null)
-	 */
-	public static function update_section_order( $request ) {
-
-		$updated_data;
-
-		foreach ( $request['sections'] as $key => $value ) {
-
-			$section              = new LLMS_Section( $key );
-			$updated_data[ $key ] = $section->update(
-				array(
-					'order' => $value,
-				)
-			);
-
-		}
-
-		return $updated_data;
-	}
-
-	/**
-	 * Update section's lessons order
-	 *
-	 * @since Unknown
-	 *
-	 * @param array $request $_POST data.
-	 * @return (array|null)
-	 */
-	public static function update_lesson_order( $request ) {
-
-		$updated_data;
-
-		foreach ( $request['lessons'] as $key => $value ) {
-
-			$lesson               = new LLMS_Lesson( $key );
-			$updated_data[ $key ] = $lesson->update(
-				array(
-					'parent_section' => $value['parent_section'],
-					'order'          => $value['order'],
-				)
-			);
-
-		}
-
-		return $updated_data;
-	}
-
-	/**
 	 * "API" for the Admin Builder.
 	 *
 	 * @since 3.13.0
@@ -1574,13 +1145,17 @@ class LLMS_AJAX_Handler {
 
 		// Missing required fields.
 		if ( empty( $request['post_id'] ) || ! isset( $request['courses'] ) ) {
-			return;
+			wp_die();
+		}
+
+		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+			wp_die();
 		}
 
 		// Not a membership.
 		$membership = llms_get_post( $request['post_id'] );
 		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
-			return;
+			wp_die();
 		}
 
 		$courses = array_map( 'absint', (array) $request['courses'] );
@@ -1601,7 +1176,11 @@ class LLMS_AJAX_Handler {
 	public static function llms_update_access_plans( $request ) {
 
 		if ( empty( $request['plans'] ) || ! is_array( $request['plans'] ) || empty( $request['post_id'] ) ) {
-			return new WP_Error( 'error', __( 'Missing Required Parameters.', 'lifterlms' ) );
+			wp_die();
+		}
+
+		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
+			wp_die();
 		}
 
 		$metabox       = new LLMS_Meta_Box_Product();

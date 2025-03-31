@@ -474,6 +474,18 @@ function llms_get_engagement_triggers() {
 }
 
 /**
+ * Verify if the current user can edit the given product id (course or membership).
+ *
+ * @param $product_id
+ * @since 8.0.2
+ *
+ * @return bool
+ */
+function llms_current_user_can_edit_product( $product_id ) {
+	return current_user_can( 'edit_course', $product_id ) || current_user_can( 'edit_membership', $product_id );
+}
+
+/**
  * Get a list of registered engagement types
  *
  * @return array
@@ -962,6 +974,8 @@ function llms_get_transaction_statuses() {
 function llms_is_ajax() {
 	return wp_doing_ajax();
 }
+
+
 
 /**
  * Determine if request is a REST request
