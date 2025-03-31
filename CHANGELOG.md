@@ -1,6 +1,36 @@
 LifterLMS Changelog
 ===================
 
+v8.0.2 - 2025-03-17
+-------------------
+
+##### Bug Fixes
+
++ Avoid escaping the selected attribute of a form field select dropdown incorrectly.
++ Adds additional verifications on permission for bulk enrolls, and REST API access for instructors.
++ Updates helper library to remove depreciated notice when adding a license key.
+
+##### Security Fixes
+
++ Additional checks for managing LifterLMS data. Thanks [@mikemyers](https://github.com/mikemyers)!
+
+##### Updated Templates
+
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/course/favorite.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/course/lesson-preview.php)
++ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/global/form-login.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/global/form-registration.php)
++ [templates/loop/featured-pricing.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/loop/featured-pricing.php)
++ [templates/myaccount/form-edit-account.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/form-edit-account.php)
++ [templates/myaccount/form-redeem-voucher.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/form-redeem-voucher.php)
++ [templates/myaccount/my-grades-single.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/my-grades-single.php)
++ [templates/notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/notifications/basic.php)
++ [templates/product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/product/access-plan-button.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/product/free-enroll-form.php)
++ [templates/quiz/questions/description.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/quiz/questions/description.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/quiz/results-attempt-questions-list.php)
+
+
 v8.0.1 - 2025-02-06
 -------------------
 
