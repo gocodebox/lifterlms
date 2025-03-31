@@ -73,6 +73,10 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	public function display_product_selection_for_bulk_users( $which ) {
 
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return;
+		}
+
 		// The attributes need to be different for top and bottom of the table.
 		$id     = 'bottom' === $which ? 'llms_bulk_enroll_product2' : 'llms_bulk_enroll_product';
 		$submit = 'bottom' === $which ? 'llms_bulk_enroll2' : 'llms_bulk_enroll';
@@ -110,6 +114,12 @@ class LLMS_Student_Bulk_Enroll {
 
 		if ( empty( $this->product_id ) ) {
 			$message = __( 'Please select a Course or Membership to enroll users into!', 'lifterlms' );
+			$this->generate_notice( 'error', $message );
+			return;
+		}
+
+		if ( ! current_user_can( 'enroll', $this->product_id ) ) {
+			$message = __( 'You do not have permission to enroll users into this course or membership.', 'lifterlms' );
 			$this->generate_notice( 'error', $message );
 			return;
 		}
