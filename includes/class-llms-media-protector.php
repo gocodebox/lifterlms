@@ -459,7 +459,13 @@ class LLMS_Media_Protector {
 		if ( ! $is_authorized && llms_get_student() ) {
 			// Check if the student is enrolled in a course that has access to the media.
 			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
-			if ( $authorized_product_id && llms_get_student()->is_enrolled( $authorized_product_id ) ) {
+			if ( $authorized_product_id && (
+				llms_get_student()->is_enrolled( $authorized_product_id ) ||
+				current_user_can( 'edit_course', $authorized_product_id ) ||
+				current_user_can(
+					'edit_membership',
+					$authorized_product_id
+				) ) ) {
 				$is_authorized = true;
 			}
 
