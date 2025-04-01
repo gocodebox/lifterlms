@@ -181,6 +181,7 @@ class LLMS_Admin_Notifications {
 		foreach ( $notifications as $key => $notification ) {
 			if ( ! $this->is_applicable( $notification ) ) {
 				unset( $notifications[ $key ] );
+				continue;
 			}
 
 			$allowed_html = array (
