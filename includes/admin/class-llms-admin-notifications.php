@@ -49,6 +49,7 @@ class LLMS_Admin_Notifications {
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 				'nonce'   => wp_create_nonce( 'llms_admin_notification_nonce' ),
 				'paused'  => $this->is_paused() ? 'true' : 'false',
+				'notification_id' => $this->get_debug_id(),
 			]
 		);
 	}
@@ -103,7 +104,7 @@ class LLMS_Admin_Notifications {
 			wp_send_json_error( __( 'You do not have permission to view notifications.', 'lifterlms' ) );
 		}
 
-		$nonce = llms_filter_input( INPUT_POST, 'nonce' );
+		$nonce = llms_filter_input( INPUT_GET, 'nonce' );
 
 		if ( ! wp_verify_nonce( $nonce, 'llms_admin_notification_nonce' ) ) {
 			wp_send_json_error( __( 'Invalid nonce.', 'lifterlms' ) );
@@ -145,9 +146,7 @@ class LLMS_Admin_Notifications {
 			return null;
 		}
 
-		$notifications = $this->filter_and_sort_notifications( $notifications );
 		$debug_id      = $this->get_debug_id();
-
 		if ( $debug_id ) {
 			foreach ( $notifications as $notification ) {
 				if ( $notification->id === $debug_id ) {
@@ -155,6 +154,8 @@ class LLMS_Admin_Notifications {
 				}
 			}
 		}
+
+		$notifications = $this->filter_and_sort_notifications( $notifications );
 
 		return reset( $notifications ) ?: null;
 	}
@@ -178,11 +179,8 @@ class LLMS_Admin_Notifications {
 		}
 
 		foreach ( $notifications as $key => $notification ) {
-			if ( $debug_id && $notification->id === $debug_id ) {
-				return [ $notification ];
-			}
-
-			if ( ! $this->is_applicable( $notification ) ) {
+			// Skip not applicable notifications unless debugging.
+			if ( ! $debug_id && ! $this->is_applicable( $notification ) ) {
 				unset( $notifications[ $key ] );
 			}
 
@@ -220,6 +218,11 @@ class LLMS_Admin_Notifications {
 
 			if ( ( $notification->type ?? '' ) === 'general' ) {
 				$notification->type = 'info';
+			}
+
+			// Return just this one if we're debugging.
+			if ( $debug_id && $notification->id === $debug_id ) {
+				return [ $notification ];
 			}
 
 			$notifications[ $key ] = $notification;

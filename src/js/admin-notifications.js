@@ -9,10 +9,11 @@
 		return;
 	}
 
-	$.post(
+	$.get(
 		llmsAdminNotifications.ajaxurl,
 		{
 			'action': 'llms_show_notification',
+			'notification_id': llmsAdminNotifications.notification_id,
 			'nonce': llmsAdminNotifications.nonce,
 		},
 		( response ) => {
