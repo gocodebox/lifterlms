@@ -544,11 +544,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the text displayed on "Buy" buttons
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
 	 *
+	 * @param    boolean $verbose  If true, the text will be verbose and include the plan name for accessibility.
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @since    8.0.0 Added $verbose parameter.
+	 * @version  8.0.0
 	 */
-	public function get_enroll_text() {
+	public function get_enroll_text( $verbose = false ) {
 
 		// User custom text option.
 		$text = $this->get( 'enroll_text' );
@@ -568,7 +570,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
-		return apply_filters( 'llms_plan_get_enroll_text', $text, $this );
+		// Build the verbose enroll text, if requested.
+		if ( $verbose ) {
+			$plan_name = $this->get( 'title' );
+			$text = sprintf( _x( '%1$s: Select the %2$s plan.', 'Verbose enrollment text', 'lifterlms' ), $text, $plan_name );
+		}
+
+		return apply_filters( 'llms_plan_get_enroll_text', $text, $this, $verbose );
 	}
 
 	/**

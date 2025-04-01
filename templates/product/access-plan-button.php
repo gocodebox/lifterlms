@@ -25,5 +25,5 @@ if ( apply_filters( 'llms_display_free_enroll_form', get_current_user_id() && $p
 	?>
 	<?php llms_get_template( 'product/free-enroll-form.php', compact( 'plan' ) ); ?>
 <?php else : ?>
-	<a class="llms-button-action button" href="<?php echo esc_url( $plan->get_checkout_url() ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></a>
+	<a class="llms-button-action button" href="<?php echo esc_url( $plan->get_checkout_url() ); ?>" aria-label="<?php echo esc_attr( $plan->get_enroll_text( true ) ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></a>
 <?php endif; ?>

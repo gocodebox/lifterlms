@@ -41,6 +41,10 @@ if ( ! isset( $plan ) ) {
 	$on_sale               = $plan->get( 'on_sale' );
 	$availability          = $plan->get( 'availability' );
 	$checkout_redirect_url = $plan->get( 'checkout_redirect_url' );
+	$checkout_url          = $plan->get_checkout_url( false );
+	if ( false === strpos( $checkout_url, home_url() ) ) {
+		$checkout_url = home_url( $checkout_url );
+	}
 }
 ?>
 
@@ -65,6 +69,9 @@ if ( ! isset( $plan ) ) {
 			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
 				<span class="dashicons dashicons-warning"></span>
 			</span>
+			<?php if ( $plan ) : ?>
+				<a target="_blank" href="<?php echo esc_url( $checkout_url ); ?>"><span class="dashicons dashicons-admin-links llms-plan-purchase-link"></span></a>
+			<?php endif; ?>
 			<span class="dashicons dashicons-trash llms-plan-delete"></span>
 			<span class="dashicons dashicons-arrow-down"></span>
 			<span class="dashicons dashicons-arrow-up"></span>
@@ -88,7 +95,7 @@ if ( ! isset( $plan ) ) {
 
 		<h4><?php esc_html_e( 'General Plan Information', 'lifterlms' ); ?></h4>
 		<?php if ( $plan ) : ?>
-			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $plan->get_checkout_url( false ) ) . '</code>' ); ?></p>
+			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' ); ?></p>
 		<?php endif; ?>
 
 		<div class="llms-plan-row-1">
@@ -216,8 +223,8 @@ if ( ! isset( $plan ) ) {
 					</span>
 				</label>
 				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]" data-controller-id="llms-is-free" name="_llms_plans[<?php echo esc_attr( $order ); ?>][is_free]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="yes"<?php selected( 'yes', $plan ? $plan->get( 'is_free' ) : '' ); ?>><?php esc_html_e( 'Free', 'lifterlms' ); ?></option>
 					<option value="no"<?php selected( 'no', $plan ? $plan->get( 'is_free' ) : true ); ?>><?php esc_html_e( 'Paid', 'lifterlms' ); ?></option>
+					<option value="yes"<?php selected( 'yes', $plan ? $plan->get( 'is_free' ) : '' ); ?>><?php esc_html_e( 'Free', 'lifterlms' ); ?></option>
 				</select>
 
 			</div>
@@ -233,7 +240,17 @@ if ( ! isset( $plan ) ) {
 							<i class="fa fa-question-circle"></i>
 						</span>
 					</label>
-					<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][price]" class="llms-plan-price" name="_llms_plans[<?php echo esc_attr( $order ); ?>][price]" min="<?php echo esc_attr( $price_step ); ?>" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="number"<?php echo ( $plan ? ' value="' . esc_attr( $plan->get( 'price' ) ) . '"' : ' disabled="disabled"' ); ?>>
+					<input
+						id="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
+						class="llms-plan-price" name="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
+						placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>"
+						<?php if ( apply_filters( 'llms_access_plan_price_required', true, $plan ) ) : ?>
+						min="<?php echo esc_attr( $price_step ); ?>"
+						required="required"
+						<?php endif; ?>
+						step="<?php echo esc_attr( $price_step ); ?>"
+						type="number"<?php echo ( $plan ? ' value="' . esc_attr( $plan->get( 'price' ) ) . '"' : ' disabled="disabled"' ); ?>
+					>
 				</div>
 
 				<div class="llms-metabox-field d-1of4">
@@ -544,7 +561,16 @@ if ( ! isset( $plan ) ) {
 			// Do we have any memberships to restrict this plan to?
 			$memberships_count = wp_count_posts( 'llms_membership' );
 		if ( $course && $memberships_count->publish > 0 ) :
-			?>
+
+			/**
+			 * Filter to show/hide the Membership Settings for an Access Plan for a course.
+			 *
+			 * @param boolean          $show_membership_settings Show membership settings for access plans.
+			 * @param LLMS_Access_Plan $plan  LLMS_Access_Plan.
+			 * @param integer          $id    Access Plan ID.
+			 */
+			if ( apply_filters( 'llms_show_membership_settings_for_access_plans', true, $plan, $id ) ) :
+				?>
 
 				<h4><?php esc_html_e( 'Membership Settings', 'lifterlms' ); ?></h4>
 
@@ -586,6 +612,7 @@ if ( ! isset( $plan ) ) {
 				</div>
 
 				<?php
+				endif;
 			endif;
 		?>
 

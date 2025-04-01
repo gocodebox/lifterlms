@@ -188,4 +188,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'7.8.5'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'maybe_remove_pwc',
+			'update_db_version',
+		),
+	),
 );

@@ -367,3 +367,14 @@ a.llms-view-as {
 		}
 	}
 }
+
+.llms-basic-editor.ql-container .ql-editor {
+	border-radius: 4px;
+	border: 1px solid #8c8f94;
+
+	&:focus {
+		border-color: var(--wp-admin-theme-color);
+		box-shadow: 0 0 0 .5px var(--wp-admin-theme-color);
+		outline: 2px solid #0000;
+	}
+}

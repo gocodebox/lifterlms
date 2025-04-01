@@ -140,7 +140,17 @@ describe( 'CourseRestrictions', () => {
 		it ( 'should not be able to click syllabus links or view lesson URLs', async () => {
 
 			await page.goto( course.permalink );
-			expect( await page.$eval( '.llms-syllabus-wrapper .llms-lesson-preview a', el => el.href ) ).toBe( `${ course.permalink }#llms-lesson-locked` );
+
+			// Get all href values from the matching elements
+			const linkHrefs = await page.$$eval(
+				'.llms-syllabus-wrapper .llms-lesson-preview a',
+				( links ) => links.map( ( link ) => link.href )
+			);
+
+			// Verify each link ends with '/lesson/is-free/'
+			linkHrefs.forEach( ( href ) => {
+				expect( href.endsWith( '/lesson/is-free/' ) ).toBe( true );
+			} );
 
 		} );
 

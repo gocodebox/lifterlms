@@ -44,6 +44,7 @@ defined( 'ABSPATH' ) || exit;
  * @property int    $prerequisite_track         WP Tax ID of a the prerequisite track.
  * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date..
  * @property string $length                     User defined course length.
+ * @property string $featured_pricing           User defined additional pricing information.
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
  * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
@@ -91,6 +92,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'drip_method'                => 'text',
 		'ignore_lessons'             => 'absint',
 		'days_before_available'      => 'absint',
+		'featured_pricing'           => 'html',
 
 		// Private.
 		'temp_calc_data'             => 'array',
@@ -179,7 +181,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 *
 	 * @param string $type Optional. Type of prereq to retrieve id for [course|track]. Default is 'course'.
 	 * @return int|false Post ID of a course, taxonomy ID of a track, or false if none found.
-.	 */
+.    */
 	public function get_prerequisite_id( $type = 'course' ) {
 
 		if ( $this->has_prerequisite( $type ) ) {
@@ -202,7 +204,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -239,7 +240,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		$difficulties = wp_list_pluck( $terms, $field );
 		return implode( ', ', $difficulties );
-
 	}
 
 	/**
@@ -267,7 +267,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			$this,
 			$exclude_hidden
 		);
-
 	}
 
 	/**
@@ -294,7 +293,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			$ret = array_map( 'llms_get_post', $lessons );
 		}
 		return $ret;
-
 	}
 
 	/**
@@ -325,7 +323,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		);
 
 		return $query->post_count;
-
 	}
 
 	/**
@@ -345,7 +342,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			}
 		}
 		return $quizzes;
-
 	}
 
 	/**
@@ -387,7 +383,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return $r;
-
 	}
 
 	/**
@@ -445,7 +440,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		$count = apply_filters( 'llms_course_get_student_count', $count, $this );
 
 		return absint( $count );
-
 	}
 
 	/**
@@ -561,7 +555,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 			return 0;
 		}
 		return $student->get_progress( $this->get( 'id' ), 'course' );
-
 	}
 
 	/**
@@ -599,7 +592,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return $now > $date;
-
 	}
 
 	/**
@@ -625,7 +617,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		// Compare results.
 		return ( $this->get_student_count() < $capacity );
-
 	}
 
 	/**
@@ -657,7 +648,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -690,7 +680,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 * @param LLMS_Course $course  Course object.
 		 */
 		return apply_filters( 'llms_is_course_enrollment_open', $is_open, $this );
-
 	}
 
 	/**
@@ -726,7 +715,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 * @param LLMS_Course $course  Course object.
 		 */
 		return apply_filters( 'llms_is_course_open', $is_open, $this );
-
 	}
 
 	/**
@@ -759,7 +747,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		$student = new LLMS_Student( $student_id );
 
 		return $student->is_complete( $prereq_id, $type );
-
 	}
 
 	/**
@@ -772,7 +759,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	public function set_instructors( $instructors = array() ) {
 
 		return $this->instructors()->set_instructors( $instructors );
-
 	}
 
 	/**
@@ -818,7 +804,5 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		$arr['difficulty'] = $this->get_difficulty();
 
 		return $arr;
-
 	}
-
 }

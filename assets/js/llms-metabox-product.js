@@ -28,6 +28,8 @@
 		 */
 		this.$save = null;
 
+		this.$plan_dialog = null;
+
 		/**
 		 * A randomly generated temporary ID used for the tinyMCE editor's id
 		 * when a new plan is added
@@ -178,9 +180,27 @@
 			// trigger changes on load for all existing plans
 			$( '#llms-access-plans [data-controller-id]' ).trigger( 'change' );
 
+			var dialogEl = document.getElementById( 'llms-access-plan-dialog' );
+			if ( dialogEl ) {
+				self.$plan_dialog = new A11yDialog( dialogEl );
+			}
+
+			// If PMPro or others are hiding the Restrictions tab, or there's no time period option, we want to hide the Presell option.
+			if ( ! $( 'span.llms-nav-link' ).filter(function() {
+					return $( this ).text().trim() === LLMS.l10n.translate( 'Restrictions' );
+				}).length ||
+				! $( '#_llms_time_period' ).length ) {
+				$( '.llms-access-plan-templates button[data-template="presell"]' ).hide();
+			}
+
 			// add a new empty plan interface on new plan button click.
 			$( '#llms-new-access-plan' ).on( 'click', function() {
 				self.init_plan();
+
+				if ( self.$plan_dialog ) {
+					self.$plan_dialog.show();
+				}
+
 				self.toggle_create_button( 'disable' );
 				self.toggle_save_button( 'enable' );
 				setTimeout( function() {
@@ -188,6 +208,108 @@
 						self.toggle_create_button( 'enable' );
 					}
 				}, 500 );
+			} );
+
+			$( '#llms-access-plan-dialog .llms-access-plan-templates button.template').on( 'click', function( e ) {
+				e.preventDefault();
+				if ( self.$plan_dialog ) {
+					self.$plan_dialog.hide();
+				}
+
+				var $last_access_plan = self.$plans.find( '.llms-access-plan' ).last();
+
+				switch ( $( this ).attr( 'data-template' ) ) {
+					case 'free':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Free' ) ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
+					case 'monthly':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Monthly' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
+						break;
+					case 'annual':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Annual' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'year' ).change();
+						break;
+					case 'one-time':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'One Time' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'limited-period' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[access_length]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_period]"]').val( 'year' ).change();
+						break;
+					case 'lifetime':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Lifetime' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '0' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[access_expiration]"]').val( 'lifetime' ).change();
+						break;
+					case 'paid-trial':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Paid Trial' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_offer]"]').val( 'yes' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_price]"]').val( '1' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_length]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
+						break;
+					case 'free-trial':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Free Trial' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '100' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[frequency]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[period]"]').val( 'month' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_offer]"]').val( 'yes' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_price]"]').val( '0' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[trial_length]"]').val( '1' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[trial_period]"]').val( 'week' ).change();
+						break;
+					case 'hidden-access':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Hidden Access' ) ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
+						break;
+					case 'sale':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Sale' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
+						break;
+					case 'presell':
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Pre-sale' ) ).change();
+						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
+						var $restrictions_tab = $('span.llms-nav-link').filter(function() {
+							return $(this).text().trim() === 'Restrictions';
+						});
+						if ( $restrictions_tab.length ) {
+							$restrictions_tab.click();
+							if ( ! $('#_llms_time_period').is(':checked') ) {
+								$('#_llms_time_period').click();
+							}
+							var today = new Date();
+							today.setMonth(today.getMonth() + 1);
+
+							var month = (today.getMonth() + 1).toString().padStart(2, '0');
+							var day = today.getDate().toString().padStart(2, '0');
+							var year = today.getFullYear().toString();
+
+							var formattedDate = `${month}/${day}/${year}`;
+							$('#_llms_start_date').val( formattedDate ).change();
+							// TODO: Add some kind of a notice or something to let the user know that the start date has been set.
+						}
+
+						break;
+					case 'advanced':
+						break;
+					default:
+						self.$plans.trigger( 'llms-access-plan-template-' + $( this ).attr( 'data-template' ) );
+						break;
+				}
 			} );
 
 			self.$plans.sortable( {

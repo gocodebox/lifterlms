@@ -80,3 +80,104 @@
 	}
 
 }
+
+.llms-dialog-container,
+.llms-dialog-overlay {
+	position: fixed;
+	inset: 0;
+}
+
+.llms-dialog-container {
+	z-index: 2;
+	display: flex;
+
+	.llms-dialog-overlay {
+		background-color: rgb(43 46 56 / 0.9);
+	}
+
+	&[aria-hidden='true'] {
+		display: none;
+	}
+
+	.llms-dialog-content {
+		margin: auto;
+		padding: 2em;
+		z-index: 2;
+		max-width: 90%;
+		width: 700px;
+		border-radius: 6px;
+		position: relative;
+		background-color: white;
+		overflow: auto;
+		max-height: 90vh;
+
+		.llms-dialog-close {
+			position: absolute;
+			top: 0.5em;
+			right: 0.5em;
+			border: 0;
+			padding: 0.25em;
+			background-color: transparent;
+			font-size: 1.5em;
+			width: 1.5em;
+			height: 1.5em;
+			text-align: center;
+			cursor: pointer;
+			transition: 0.15s;
+			border-radius: 50%;
+		}
+
+		.llms-access-plan-templates {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-gap: 15px;
+
+			button, a {
+				background: #e1e1e1;
+				border: 1px solid $color-cinder;
+				color: $color-cinder;
+				padding: 25px;
+				font-size: 14px;
+				text-align: center;
+				vertical-align: baseline;
+
+				strong {
+					font-size: 18px;
+					display: block;
+					margin-bottom: 10px;
+				}
+				span {
+					display: block;
+				}
+
+				position: relative;
+				text-decoration: none;
+				transition: transform .2s;
+				cursor: pointer;
+			}
+
+			a {
+				border: 1px solid $color-brand-blue;
+				background: #efefef;
+			}
+
+			span.add-on {
+				background-color: #999;
+				border-bottom-left-radius: 5px;
+				border-bottom-right-radius: 5px;
+				color: #FFF;
+				font-size: 11px;
+				font-weight: bold;
+				left: 10px;
+				text-align: center;
+				padding: 2px 6px;
+				position: absolute;
+				text-transform: uppercase;
+				top: 0;
+				width: auto;
+			}
+		}
+	}
+}
+
+

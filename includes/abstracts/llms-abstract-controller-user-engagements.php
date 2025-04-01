@@ -97,7 +97,13 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 */
 	protected function delete( $post_id ) {
 
-		if ( ! is_admin() ) {
+		// Only allow LLMS admins to delete. is_admin() check also makes sure call is made from the dashboard.
+		if ( ! is_admin() || ! current_user_can( 'manage_lifterlms' ) ) {
+			return;
+		}
+
+		$post = get_post( $post_id );
+		if ( ! $post || ! in_array( $post->post_type, array( 'llms_my_achievement', 'llms_my_certificate' ), true ) ) {
 			return;
 		}
 

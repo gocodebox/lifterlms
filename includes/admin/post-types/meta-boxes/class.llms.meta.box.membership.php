@@ -38,7 +38,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			'llms_membership',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -78,7 +77,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		}
 
 		return apply_filters( 'llms_membership_get_content_table_data', $data, $membership );
-
 	}
 
 	/**
@@ -161,6 +159,20 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'group'            => 'top',
 					),
 
+				),
+			),
+
+			array(
+				'title'  => __( 'General', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'type'  => 'basic-editor',
+						'label' => __( 'Featured Pricing Information', 'lifterlms' ),
+						'desc'  => __( 'Enter information on pricing for this membership, to be displayed on the catalog page.', 'lifterlms' ),
+						'id'    => $this->prefix . 'featured_pricing',
+						'class' => 'code input-full',
+						'value' => 'test',
+					),
 				),
 			),
 
@@ -316,6 +328,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$this->prefix . 'sales_page_content_page_id',
 			$this->prefix . 'sales_page_content_type',
 			$this->prefix . 'sales_page_content_url',
+			$this->prefix . 'featured_pricing',
 		);
 
 		if ( ! is_array( $fields ) ) {
@@ -340,6 +353,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 						} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_REQUIRE_ARRAY ) );
+						} elseif ( $field['type'] === 'basic-editor' ) {
+							$val = wp_kses( $_POST[ $field['id'] ], LLMS_ALLOWED_HTML_PRICES );
 						} else {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'] );
 						}
@@ -352,7 +367,5 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		}
 
 		return $to_return;
-
 	}
-
 }

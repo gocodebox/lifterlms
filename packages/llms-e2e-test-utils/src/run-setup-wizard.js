@@ -4,7 +4,7 @@ import { findElementByText } from './find-element-by-text';
 import { wpVersionCompare } from './wp-version-compare';
 import { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
 
-import { visitAdminPage } from '@wordpress/e2e-test-utils';
+import { visitAdminPage, clickButton } from '@wordpress/e2e-test-utils';
 
 /**
  * Retrieve the Setup Wizard Page Title.
@@ -83,7 +83,9 @@ export async function runSetupWizard( {
 			await clickElementByText( courseTitle, 'h3' );
 		}
 
-		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+		await clickButton( 'Import Courses' );
+
+		await page.waitForNavigation();
 
 		if ( 1 === coursesToImport.length ) {
 			// Single course imported.

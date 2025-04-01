@@ -104,7 +104,6 @@ class LLMS_Engagements {
 		}
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
-
 	}
 
 	/**
@@ -208,7 +207,6 @@ class LLMS_Engagements {
 		 * @param int      $related_post_id WP_Post ID of the related post.
 		 */
 		return apply_filters( 'lifterlms_get_engagements', $results, $trigger_type, $related_post_id );
-
 	}
 
 	/**
@@ -249,7 +247,6 @@ class LLMS_Engagements {
 		 * @param string[] $hooks List of hook names.
 		 */
 		return apply_filters( 'lifterlms_engagement_actions', $hooks );
-
 	}
 
 	/**
@@ -405,7 +402,6 @@ class LLMS_Engagements {
 		$parsed['related_post_id'] = $related_post_id;
 
 		return $parsed;
-
 	}
 
 	/**
@@ -450,7 +446,6 @@ class LLMS_Engagements {
 		}
 
 		return $trigger_type;
-
 	}
 
 	/**
@@ -485,7 +480,6 @@ class LLMS_Engagements {
 			$this->trigger_engagement( $handler, $engagement->delay );
 
 		}
-
 	}
 
 	/**
@@ -570,7 +564,6 @@ class LLMS_Engagements {
 		);
 
 		return $parsed;
-
 	}
 
 	/**
@@ -594,7 +587,7 @@ class LLMS_Engagements {
 		if ( $delay ) {
 
 			as_schedule_single_action(
-				time() + ( DAY_IN_SECONDS * $delay ),
+				current_datetime()->modify( "+{$delay} days" )->getTimestamp(),
 				$data['handler_action'],
 				array( $data['handler_args'] ),
 				! empty( $data['handler_args'][3] ) ? $this->get_delayed_group_id( $data['handler_args'][3] ) : null
@@ -616,7 +609,6 @@ class LLMS_Engagements {
 			remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
 
 		}
-
 	}
 
 	/**
@@ -640,7 +632,6 @@ class LLMS_Engagements {
 		if ( 'llms_engagement' === $post_type ) {
 			as_unschedule_all_actions( '', array(), $this->get_delayed_group_id( $post_id ) );
 		}
-
 	}
 
 	/**
@@ -660,7 +651,5 @@ class LLMS_Engagements {
 		if ( $this->debug ) {
 			llms_log( $log, 'engagements' );
 		}
-
 	}
-
 }

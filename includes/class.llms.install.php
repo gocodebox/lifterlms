@@ -589,6 +589,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		LLMS_Forms::instance()->install();
 
+		LLMS_Beaver_Builder::instance()->install();
+
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 

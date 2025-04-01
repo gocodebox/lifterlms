@@ -50,11 +50,17 @@ $can_mark_favorite = $lesson && ( ( $student && $student->is_enrolled( $lesson->
 
 		<?php if ( $is_favorite ) : ?>
 
-			<i title="<?php esc_attr_e( 'Remove favorite for this lesson', 'lifterlms' ); ?>" data-action="unfavorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart llms-unfavorite-btn llms-heart-btn"></i>
+			<?php /* Translators: %s: lesson title */ ?>
+			<button aria-label="<?php esc_attr_e( sprintf( __( 'Toggle favorite for lesson %s', 'lifterlms' ), get_the_title( $lesson->get( 'id' ) ) ), 'lifterlms' ); ?>" data-action="unfavorite" aria-pressed="true" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="llms-unfavorite-btn">
+				<i class="fa fa-heart llms-heart-btn" aria-hidden="true"></i>
+			</button>
 
 		<?php else : ?>
 
-			<i title="<?php esc_attr_e( 'Add favorite for this lesson', 'lifterlms' ); ?>" data-action="favorite" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="fa fa-heart-o llms-favorite-btn llms-heart-btn"></i>
+			<?php /* Translators: %s: lesson title */ ?>
+			<button aria-label="<?php esc_attr_e( sprintf( __( 'Toggle favorite for lesson %s', 'lifterlms' ), get_the_title( $lesson->get( 'id' ) ) ), 'lifterlms' ); ?>" data-action="favorite" aria-pressed="false" data-type="lesson" data-id="<?php echo esc_attr( $lesson->get( 'id' ) ); ?>" class="llms-favorite-btn">
+				<i class="fa fa-heart-o llms-heart-btn" aria-hidden="true"></i>
+			</button>
 
 		<?php endif; ?>
 

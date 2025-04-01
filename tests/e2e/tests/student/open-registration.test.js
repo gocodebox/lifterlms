@@ -63,7 +63,7 @@ describe( 'OpenRegistration', () => {
 			await toggleOpenReg( true );
 			await logoutUser();
 			await visitPage( 'dashboard' );
-			expect( await page.$eval( '.llms-new-person-form-wrapper > h4.llms-form-heading', el => el.textContent ) ).toBe( 'Register' );
+			expect( await page.$eval( '.llms-new-person-form-wrapper > .llms-form-heading', el => el.textContent ) ).toBe( 'Register' );
 
 		} );
 

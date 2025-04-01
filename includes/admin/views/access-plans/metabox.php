@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
 			);
 			// Translators: %1$s = Link to access plans documentation; %2$s = The singular label of the custom post type.
 			printf( wp_kses( __( '<a target="_blank" href="%1$s">Access plans</a> define the payment options and access time-periods available for this %2$s.', 'lifterlms' ), $access_plan_allowed_html ), esc_url( 'https://lifterlms.com/docs/what-is-an-access-plan/' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) );
-		?>
+			?>
 	</p>
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
@@ -59,5 +59,9 @@ defined( 'ABSPATH' ) || exit;
 		// model of an access plan we'll clone when clicking the "add" button.
 		require 'access-plan.php';
 	?>
+
+	<?php if ( apply_filters( 'llms_show_access_plan_dialog', true ) ) : ?>
+		<?php include 'access-plan-dialog.php'; ?>
+	<?php endif; ?>
 
 </div>
