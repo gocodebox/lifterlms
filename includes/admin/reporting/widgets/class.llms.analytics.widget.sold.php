@@ -97,26 +97,15 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['end'], 'end' ),
 		);
 
-		$this->query_function = 'get_var';
+		$this->query_function = 'get_results';
 		$this->output_type    = OBJECT;
 
-		$this->query = "SELECT (
-								IFNULL( SUM( (
-									SELECT price.meta_value
-									FROM {$wpdb->postmeta} AS price
-									WHERE
-										  price.meta_key = '_llms_amount'
-									  AND price.post_id IN( txns.ID )
-								) ), 0 ) - IFNULL( SUM((
-									SELECT refund.meta_value
-									FROM {$wpdb->postmeta} AS refund
-									WHERE
-										  refund.meta_key = '_llms_refund_amount'
-									  AND refund.post_id IN( txns.ID )
-								) ), 0 )
-							) AS sales
+		$this->query = "SELECT txns.post_date AS date,
+       					(sales.meta_value - COALESCE(refunds.meta_value, 0)) AS amount
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
+						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID AND sales.meta_key = '_llms_amount'
+						LEFT JOIN {$wpdb->postmeta} AS refunds ON refunds.post_id = txns.ID AND refunds.meta_key = '_llms_refund_amount'
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
@@ -137,8 +126,8 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
-
-			return llms_price_raw( floatval( $this->get_results() ) );
+			$results = $this->get_results();
+			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
 
 		}
 	}
