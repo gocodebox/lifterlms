@@ -179,8 +179,7 @@ class LLMS_Admin_Notifications {
 		}
 
 		foreach ( $notifications as $key => $notification ) {
-			// Skip not applicable notifications unless debugging.
-			if ( ! $debug_id && ! $this->is_applicable( $notification ) ) {
+			if ( ! $this->is_applicable( $notification ) ) {
 				unset( $notifications[ $key ] );
 			}
 
