@@ -52,11 +52,6 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 					'select'         => array(
 						'orders.ID',
 					),
-					'statuses'       => array(
-						'llms-active',
-						'llms-completed',
-						'llms-refunded',
-					),
 				)
 			);
 			$this->query();
