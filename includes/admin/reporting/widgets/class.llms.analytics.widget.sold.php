@@ -120,8 +120,8 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
-							AND txns.post_date >= %s
-							AND txns.post_date < %s
+							AND txns.post_date >= CAST( %s as DATETIME )
+							AND txns.post_date < CAST( %s as DATETIME )
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";

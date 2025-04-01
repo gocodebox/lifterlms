@@ -59,8 +59,8 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 						WHERE
 							    meta_key = '_status'
 							AND ( meta_value = 'Enrolled' OR meta_value = 'enrolled' )
-							AND updated_date >= %s
-						    AND updated_date < %s
+							AND updated_date >= CAST( %s as DATETIME )
+						    AND updated_date < CAST( %s as DATETIME )
 							{$student_ids}
 							{$product_ids}
 						;";

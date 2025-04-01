@@ -48,8 +48,8 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 		$this->query = "SELECT user_registered AS date
 						FROM {$wpdb->users}
 						WHERE
-							user_registered >= %s
-						    AND user_registered < %s
+							user_registered >= CAST( %s as DATETIME )
+						    AND user_registered < CAST( %s as DATETIME )
 							{$student_ids}
 						;";
 
