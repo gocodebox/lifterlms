@@ -32,9 +32,19 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 
 		$this->add_recipient( $args['user']->ID );
 
+		$original_locale = get_locale();
+		$locale          = get_user_locale( $args['user']->ID );
+		if ( $locale && $locale !== $original_locale ) {
+			switch_to_locale( $locale );
+		}
+
 		$this->body    = $this->get_body_content( $args );
 		$this->subject = __( 'Password Reset for {site_title}', 'lifterlms' );
 		$this->heading = __( 'Reset Your Password', 'lifterlms' );
+
+		if ( $locale && $locale !== $original_locale ) {
+			restore_previous_locale();
+		}
 
 		$this->add_merge_data(
 			array(
@@ -47,9 +57,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	 * Custom content for the password reset email
 	 *
 	 * @param    array $data  associative array of user related data for the email to be sent
-	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.8.0
 	 */
 	public function get_body_content( $data ) {
 
