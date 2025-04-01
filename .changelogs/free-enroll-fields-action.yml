@@ -1,0 +1,4 @@
+significance: patch
+type: dev
+entry: Adds a new action so Turnstile or other captchas can be added without
+  editing the free-enroll-form.php template directly.
