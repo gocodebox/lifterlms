@@ -74,7 +74,7 @@ class LLMS_Analytics_Transactions_Widget extends LLMS_Analytics_Widget {
 			if ( $order_ids ) {
 				$txn_meta_join   = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
-				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
+				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', array_map( 'absint', $order_ids ) ) . ' )';
 			} else {
 
 				$this->query_function = 'get_var';
@@ -94,16 +94,15 @@ class LLMS_Analytics_Transactions_Widget extends LLMS_Analytics_Widget {
 		$this->query_function = 'get_results';
 		$this->output_type    = OBJECT;
 
-		// TODO: Exclude transactions fully refunded?
 		$this->query = "SELECT
-							  txns.id
+							  txns.post_date as date
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
-							AND txns.post_date >= %s
-							AND txns.post_date < %s
+							AND txns.post_date >= CAST( %s as DATETIME )
+							AND txns.post_date < CAST( %s as DATETIME )
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";

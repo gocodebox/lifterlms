@@ -237,7 +237,7 @@ abstract class LLMS_Analytics_Widget {
 		$order_dates = '';
 		if ( $date_range ) {
 			$dates              = $this->get_posted_dates();
-			$order_dates        = "AND orders.{$date_field} >= %s AND orders.{$date_field} < %s";
+			$order_dates        = "AND orders.{$date_field} >= CAST( %s as DATETIME ) AND orders.{$date_field} < CAST( %s as DATETIME )";
 			$this->query_vars[] = $this->format_date( $dates['start'], 'start' );
 			$this->query_vars[] = $this->format_date( $dates['end'], 'end' );
 		}
