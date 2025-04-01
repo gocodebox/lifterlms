@@ -128,7 +128,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 				'id'        => 'llms-reporting-student-course-completed-date',
 				'data'      => $is_complete ? $student->get_completion_date( $course_id ) : $student->get_enrollment_date( $course_id, 'updated' ),
 				'data_type' => 'date',
-				'text'      => $is_complete ? __( 'Completed Date', 'lifterlms' ) : __( 'Last Activity Date', 'lifterlms' ),
+				'text'      => $is_complete ? __( 'Completed Date', 'lifterlms' ) : __( 'Enrollment Updated Date', 'lifterlms' ),
 			)
 		);
 
