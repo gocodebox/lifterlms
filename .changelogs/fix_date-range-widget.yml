@@ -1,4 +1,4 @@
-significance: minor
+significance: patch
 type: fixed
 links:
   - "#2858"
