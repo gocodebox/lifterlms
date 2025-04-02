@@ -63,13 +63,13 @@ class LLMS_Admin_Reporting_Tab_Sales {
 			array(
 				array(
 					'sales'    => array(
-						'title'   => __( '# of Sales', 'lifterlms' ),
+						'title'   => __( '# of New Sales', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
 						'info'    => __( 'Number of new non-refunded orders placed within this period', 'lifterlms' ),
 					),
 					'sold'     => array(
-						'title'   => __( 'Net Sales', 'lifterlms' ),
+						'title'   => __( 'Net Revenue', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
 						'info'    => __( 'Total of all successful transactions during this period', 'lifterlms' ),

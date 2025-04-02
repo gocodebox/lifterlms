@@ -29,7 +29,7 @@ class LLMS_Analytics_Sales_Widget extends LLMS_Analytics_Widget {
 			'type'   => 'count',
 			'header' => array(
 				'id'    => 'sales',
-				'label' => __( '# of Sales', 'lifterlms' ),
+				'label' => __( '# of New Sales', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);

@@ -46,7 +46,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 			'key'    => 'amount', // Key of result field to add when counting.
 			'header' => array(
 				'id'    => 'sold',
-				'label' => __( 'Net Sales', 'lifterlms' ),
+				'label' => __( 'Net Revenue', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);
