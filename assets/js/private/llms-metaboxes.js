@@ -279,6 +279,15 @@
 				minDate: minDate,
 				altField: altField,
 				altFormat: altFormat
+			} ).on( "keyup", function() {
+				var date;
+				try {
+					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
+				} catch ( e ) { }
+
+				if ( !date && altField ) {
+					$( altField ).val( "" );
+				}
 			} );
 		}
 
