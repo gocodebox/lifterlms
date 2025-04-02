@@ -1,35 +1,46 @@
 <?php
 /**
- * Refunded Amount Widget
+ * Transaction Count Widget
  *
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since 3.0.0
- * @version 3.36.3
+ * @since [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Refunded Amount Widget class
+ * Transaction Count Widget class
  *
- * Retrieves the total amount of all refunded transactions
- * according to active filters.
- *
- * @since 3.0.0
- * @since 3.36.3 In `format_response()` method avoid running `wp_list_pluck()` on non arrays.
+ * Locates number of transactions from a given date range
+ * by a given group of students.
  */
-class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
+class LLMS_Analytics_Transactions_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
 
+	/**
+	 * temporary order ids
+	 *
+	 * @var array
+	 * @since 3.0.0
+	 */
+	public $temp = array();
+
+	/**
+	 * temporary query
+	 *
+	 * @since 3.0.0
+	 * @var array
+	 */
+	public $temp_q = array();
+
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'amount', // Type of field.
-			'key'    => 'amount', // Key of result field to add when counting.
+			'type'   => 'count',
 			'header' => array(
-				'id'    => 'refunded',
-				'label' => __( 'Amount Refunded', 'lifterlms' ),
+				'id'    => 'sold',
+				'label' => __( '# of Transactions', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);
@@ -41,10 +52,10 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 		$txn_meta_join  = '';
 		$txn_meta_where = '';
-		// create an "IN" clause that can be used for later in WHERE clauses.
+		// Create an "IN" clause that can be used for later in WHERE clauses.
 		if ( $this->get_posted_students() || $this->get_posted_posts() ) {
 
-			// get an array of order based on posted students & products.
+			// Get an array of order based on posted students & products.
 			$this->set_order_data_query(
 				array(
 					'date_range'     => false,
@@ -57,11 +68,13 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 			$this->query();
 			$order_ids = $this->get_results();
 
-			if ( $order_ids ) {
+			$this->temp_q = $wpdb->last_query;
+			$this->temp   = $order_ids;
 
+			if ( $order_ids ) {
 				$txn_meta_join   = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
-				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
+				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', array_map( 'absint', $order_ids ) ) . ' )';
 			} else {
 
 				$this->query_function = 'get_var';
@@ -71,7 +84,7 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 			}
 		}
 
-		// date range will be used to get transactions between given dates.
+		// Date range will be used to get transactions between given dates.
 		$dates            = $this->get_posted_dates();
 		$this->query_vars = array(
 			$this->format_date( $dates['start'], 'start' ),
@@ -82,34 +95,24 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 		$this->output_type    = OBJECT;
 
 		$this->query = "SELECT
-							  txns.post_modified AS date
-							, refund.meta_value AS amount
+							  txns.post_date as date
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
-						JOIN {$wpdb->postmeta} AS refund ON refund.post_id = txns.ID
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
-							AND txns.post_modified >= CAST( %s as DATETIME )
-							AND txns.post_modified < CAST( %s as DATETIME )
-							AND refund.meta_key = '_llms_refund_amount'
+							AND txns.post_date >= CAST( %s as DATETIME )
+							AND txns.post_date < CAST( %s as DATETIME )
 							{$txn_meta_where}
 							ORDER BY txns.post_modified ASC
 						;";
 	}
 
-	/**
-	 * Format response.
-	 *
-	 * @since unknown
-	 * @since 3.36.3 Avoid running `wp_list_pluck()` on non arrays.
-	 */
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
 
-			$results = $this->get_results();
-			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
+			return count( $this->get_results() );
 
 		}
 	}

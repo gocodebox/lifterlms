@@ -46,7 +46,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 			'key'    => 'amount', // Key of result field to add when counting.
 			'header' => array(
 				'id'    => 'sold',
-				'label' => __( 'Net Sales', 'lifterlms' ),
+				'label' => __( 'Net Revenue', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);
@@ -68,11 +68,6 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 					'query_function' => 'get_col',
 					'select'         => array(
 						'orders.ID',
-					),
-					'statuses'       => array(
-						'llms-active',
-						'llms-completed',
-						'llms-refunded',
 					),
 				)
 			);
@@ -105,21 +100,20 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 		$this->query_function = 'get_results';
 		$this->output_type    = OBJECT;
 
-		$this->query = "SELECT
-							  txns.post_modified AS date
-							, sales.meta_value AS amount
+		$this->query = "SELECT txns.post_date AS date,
+       					(sales.meta_value - COALESCE(refunds.meta_value, 0)) AS amount
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
-						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID
+						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID AND sales.meta_key = '_llms_amount'
+						LEFT JOIN {$wpdb->postmeta} AS refunds ON refunds.post_id = txns.ID AND refunds.meta_key = '_llms_refund_amount'
 						WHERE
-						        ( txns.post_status = 'llms-txn-succeeded' )
+						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
-							AND txns.post_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )
-							AND sales.meta_key = '_llms_amount'
+							AND txns.post_date >= CAST( %s as DATETIME )
+							AND txns.post_date < CAST( %s as DATETIME )
 							{$txn_meta_where}
-							ORDER BY txns.post_modified ASC
+							ORDER BY txns.post_date ASC
 						;";
-
 	}
 
 	/**
@@ -127,16 +121,14 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 	 *
 	 * @since unknown
 	 * @since 3.36.3 Avoid running `wp_list_pluck()` on non arrays.
+	 * @since [version] Using aggregate sum of net sales rather than summing up the txn records.
 	 */
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
-
 			$results = $this->get_results();
 			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
 
 		}
-
 	}
-
 }

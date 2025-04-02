@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2860"
+entry: On-hold, pending cancellation, cancelled and expired orders now included
+  in "# of Sales" widget.
