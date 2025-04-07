@@ -121,7 +121,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 	 *
 	 * @since unknown
 	 * @since 3.36.3 Avoid running `wp_list_pluck()` on non arrays.
-	 * @since [version] Using aggregate sum of net sales rather than summing up the txn records.
+	 * @since 8.0.3 Using aggregate sum of net sales rather than summing up the txn records.
 	 */
 	protected function format_response() {
 

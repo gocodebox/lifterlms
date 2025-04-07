@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2447"
-entry: Display date pickers in the site date format, but save the data in the
-  previous format.

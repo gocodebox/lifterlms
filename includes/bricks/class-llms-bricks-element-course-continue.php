@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Bricks Course Progress with Continue Button class.
  *
- * @since [version]
+ * @since 8.0.3
  */
 class LLMS_Bricks_Element_Course_Continue extends \Bricks\Element {
 	public $block        = 'llms/course-continue';

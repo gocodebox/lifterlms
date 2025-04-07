@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Bricks Pricing Table class.
  *
- * @since [version]
+ * @since 8.0.3
  */
 class LLMS_Bricks_Element_Pricing_Table extends \Bricks\Element {
 	public $block        = 'llms/pricing-table';

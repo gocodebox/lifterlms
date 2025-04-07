@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2898"
-entry: Update Last Activity Date label to accurately reflect the data value.

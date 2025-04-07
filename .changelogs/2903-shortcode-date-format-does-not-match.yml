@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2903"
-entry: Change default date display format of lifterlms_course_info used in
-  settings like Enrollment Start and End Date to match the site date format.

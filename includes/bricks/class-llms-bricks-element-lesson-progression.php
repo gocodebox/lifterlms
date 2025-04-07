@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Bricks Lesson Progression class.
  *
- * @since [version]
+ * @since 8.0.3
  */
 class LLMS_Bricks_Element_Lesson_Progression extends \Bricks\Element {
 	public $block        = 'llms/lesson-progression';

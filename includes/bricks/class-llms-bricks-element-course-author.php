@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Course Author class.
  *
- * @since [version]
+ * @since 8.0.3
  */
 class LLMS_Bricks_Element_Course_Author extends \Bricks\Element {
 	public $block        = 'llms/course-author';

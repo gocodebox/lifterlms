@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Bricks Course Syllabus class.
  *
- * @since [version]
+ * @since 8.0.3
  */
 class LLMS_Bricks_Element_Course_Syllabus extends \Bricks\Element {
 	public $block        = 'llms/course-syllabus';

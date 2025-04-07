@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since [version]
+ * @since 8.0.3
  */
 
 defined( 'ABSPATH' ) || exit;
