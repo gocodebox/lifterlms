@@ -286,7 +286,7 @@
 				} catch ( e ) { }
 
 				if ( !date && altField ) {
-					$( altField ).val( "" );
+					$( $.escapeSelector( altField ) ).val( "" );
 				}
 			} );
 		}
