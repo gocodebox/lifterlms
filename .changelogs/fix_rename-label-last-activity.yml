@@ -2,4 +2,4 @@ significance: patch
 type: changed
 links:
   - "#2898"
-entry: Update label to accurately reflect the data value.
+entry: Update Last Activity Date label to accurately reflect the data value.
