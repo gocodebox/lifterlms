@@ -1,6 +1,38 @@
 LifterLMS Changelog
 ===================
 
+v8.0.3 - 2025-04-07
+-------------------
+
+##### New Features
+
++ Initial support for the Bricks theme.
++ New "# of transactions" sales reporting widget.
+
+##### Updates and Enhancements
+
++ Change default date display format of lifterlms_course_info used in settings like Enrollment Start and End Date to match the site date format. [#2903](https://github.com/gocodebox/lifterlms/issues/2903)
++ Display date pickers in the site date format, but save the data in the previous format. [#2447](https://github.com/gocodebox/lifterlms/issues/2447)
++ Update Last Activity Date label to accurately reflect the data value. [#2898](https://github.com/gocodebox/lifterlms/issues/2898)
+
+##### Bug Fixes
+
++ Updating postal code (eircode) display for Ireland. [#2891](https://github.com/gocodebox/lifterlms/issues/2891)
++ Net Sales reporting includes partially refunded transactions, and transactions from orders regardless of status. [#2860](https://github.com/gocodebox/lifterlms/issues/2860), [#2861](https://github.com/gocodebox/lifterlms/issues/2861)
++ On-hold, pending cancellation, cancelled and expired orders now included in "# of Sales" widget. [#2860](https://github.com/gocodebox/lifterlms/issues/2860)
++ Fixes sales reporting for transactions or orders that happened between 23:23:59 and midnight. [#2858](https://github.com/gocodebox/lifterlms/issues/2858)
++ Password reset email is now in the user's language. [#2879](https://github.com/gocodebox/lifterlms/issues/2879)
+
+##### Developer Notes
+
++ Adds a new action so Turnstile or other captchas can be added without editing the free-enroll-form.php template directly.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/8.0.3/templates/admin/reporting/tabs/students/courses-course.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/8.0.3/templates/product/free-enroll-form.php)
+
+
 v8.0.2 - 2025-03-17
 -------------------
 

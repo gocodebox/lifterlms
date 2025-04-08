@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '8.0.2';
+	public $version = '8.0.3';
 
 	/**
 	 * LLMS_Assets instance
@@ -336,6 +336,7 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-bricks.php';
 		include_once 'includes/class-llms-beaver-builder.php';
 		include_once 'includes/class-llms-beaver-builder-migrate.php';
 

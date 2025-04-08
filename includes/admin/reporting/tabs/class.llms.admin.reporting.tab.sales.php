@@ -27,7 +27,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 
 		add_action( 'llms_reporting_after_nav', array( $this, 'output_filters' ), 10, 1 );
 		add_action( 'llms_reporting_content_sales', array( $this, 'output' ) );
-
 	}
 
 	public static function get_filter_data() {
@@ -49,7 +48,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 		$data['date_end']   = $data['dates']['end'];
 
 		return $data;
-
 	}
 
 	/**
@@ -65,13 +63,13 @@ class LLMS_Admin_Reporting_Tab_Sales {
 			array(
 				array(
 					'sales'    => array(
-						'title'   => __( '# of Sales', 'lifterlms' ),
+						'title'   => __( '# of New Sales', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
-						'info'    => __( 'Number of new active or completed orders placed within this period', 'lifterlms' ),
+						'info'    => __( 'Number of new non-refunded orders placed within this period', 'lifterlms' ),
 					),
 					'sold'     => array(
-						'title'   => __( 'Net Sales', 'lifterlms' ),
+						'title'   => __( 'Net Revenue', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
 						'info'    => __( 'Total of all successful transactions during this period', 'lifterlms' ),
@@ -90,23 +88,23 @@ class LLMS_Admin_Reporting_Tab_Sales {
 					),
 				),
 				array(
-					// 'revenue' => array(
-					// 'title' => __( 'Grosse Revenue', 'lifterlms' ),
-					// 'cols' => '1-4',
-					// 'content' => __( 'loading...', 'lifterlms' ),
-					// 'info' => __( 'Total of all transactions minus all refunds processed during this period', 'lifterlms' ),
-					// ),
-					'coupons'   => array(
+					'coupons'      => array(
 						'title'   => __( '# of Coupons Used', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
 						'info'    => __( 'Number of orders completed using coupons during this period', 'lifterlms' ),
 					),
-					'discounts' => array(
+					'discounts'    => array(
 						'title'   => __( 'Amount of Coupons', 'lifterlms' ),
 						'cols'    => '1-4',
 						'content' => __( 'loading...', 'lifterlms' ),
 						'info'    => __( 'Total amount of coupons used during this period', 'lifterlms' ),
+					),
+					'transactions' => array(
+						'title'   => __( '# of Transactions', 'lifterlms' ),
+						'cols'    => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info'    => __( 'Number of transactions within this period', 'lifterlms' ),
 					),
 				),
 			)
@@ -129,7 +127,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 				'widget_data' => $this->get_widget_data(),
 			)
 		);
-
 	}
 
 	/**
@@ -146,8 +143,6 @@ class LLMS_Admin_Reporting_Tab_Sales {
 			llms_get_template( 'admin/reporting/nav-filters.php', self::get_filter_data() );
 
 		}
-
 	}
-
 }
 return new LLMS_Admin_Reporting_Tab_Sales();
