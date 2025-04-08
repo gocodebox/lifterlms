@@ -58,7 +58,6 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 		}
 
 		return $lessons;
-
 	}
 
 	public function set_query() {
@@ -90,7 +89,8 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 							    upm.meta_key = '_is_complete'
 							AND p.post_type = 'lesson'
 							AND upm.meta_value = 'yes'
-							AND upm.updated_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS  DATETIME )
+							AND upm.updated_date >= CAST( %s as DATETIME )
+						    AND upm.updated_date < CAST( %s as DATETIME )
 							{$student_ids}
 							{$lesson_ids}
 						;";
@@ -99,7 +99,6 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['start'], 'start' ),
 			$this->format_date( $dates['end'], 'end' ),
 		);
-
 	}
 
 	protected function format_response() {
@@ -109,7 +108,5 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }
