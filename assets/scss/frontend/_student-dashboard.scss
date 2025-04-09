@@ -1,5 +1,16 @@
 .llms-student-dashboard {
 
+	.llms-sd-nav select {
+
+		display: none;
+
+		@media all and ( max-width: 600px ) {
+			display: block;
+			margin-bottom: 30px;
+			width: 100%;
+		}
+	}
+
 	.llms-sd-title {
 		align-items: center;
 		display: flex;
@@ -255,7 +266,11 @@
 
 			.llms-sd-items {
 
+				display: none;
+
 				@media all and ( min-width: 600px ) {
+					display: block;
+
 					.llms-sd-item {
 						display: block;
 						float: none;
