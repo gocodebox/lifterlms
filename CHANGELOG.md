@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v8.0.4 - 2025-04-11
+-------------------
+
+##### Bug Fixes
+
++ Avoid warning and possible error when serving protected files. [#2912](https://github.com/gocodebox/lifterlms/issues/2912)
+
+
 v8.0.3 - 2025-04-07
 -------------------
 
