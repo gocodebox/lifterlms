@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2912"
+entry: Avoid warning and possible error when serving protected files.
