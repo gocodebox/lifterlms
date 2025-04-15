@@ -26,6 +26,27 @@ class LLMS_Elementor_Widgets {
 	public function __construct() {
 		add_action( 'elementor/widgets/widgets_registered', array( $this, 'init' ) );
 		add_action( 'elementor/elements/categories_registered', array( $this, 'add_widget_categories' ) );
+		add_filter( 'llms_render_block', array( $this, 'maybe_stop_rendering_block' ), 10, 2 );
+	}
+
+	/**
+	 * Avoid rendering blocks on the front-end that are in an Elementor page (ie. a Text Editor widget when page/post first edited).
+	 *
+	 * @param $should_render bool Whether to render the block or not.
+	 * @param $block WP_Block The block instance.
+	 *
+	 * @return false|mixed
+	 */
+	function maybe_stop_rendering_block( $should_render, $block ) {
+		if ( ! class_exists( 'Elementor\Plugin' ) ) {
+			return $should_render;
+		}
+
+		if ( Elementor\Plugin::instance()->documents->get( get_the_ID() )->is_built_with_elementor() ) {
+			$should_render = false;
+		}
+
+		return $should_render;
 	}
 
 	public function init() {
