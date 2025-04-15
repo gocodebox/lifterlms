@@ -867,8 +867,8 @@ class LLMS_Media_Protector {
 		if ( ! isset( $size ) ) {
 			$size = $this->get_size();
 		}
-		$icon = (bool) ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
-		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
+		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
+		if ( ! is_null( $size ) || $icon ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 		}
