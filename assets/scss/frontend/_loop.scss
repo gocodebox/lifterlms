@@ -1,6 +1,26 @@
 .llms-loop-list {
 	@extend %clearfix;
 
+//	:before { display: none; }
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px 0;
+
+	.llms-loop-item {
+		float: left;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		width: inherit !important;
+	}
+
+	@media (max-width: 768px) {
+		.grid-container {
+			grid-template-columns: repeat(1, 1fr);
+		}
+	}
+
 	list-style: none;
 	margin: 0 -10px;
 	padding: 0;
