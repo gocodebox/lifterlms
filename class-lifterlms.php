@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '8.0.4';
+	public $version = '8.0.5';
 
 	/**
 	 * LLMS_Assets instance

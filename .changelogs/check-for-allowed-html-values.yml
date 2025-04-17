@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2922"
-entry: Modifies the allowed HTML for a form, in case the allowed post values in
-  WP have been filtered.
