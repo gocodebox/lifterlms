@@ -10,15 +10,17 @@ import {
 	BaseControl,
 	Spinner,
 	TextControl,
+	ComboboxControl,
 } from '@wordpress/components';
 import {
 	InspectorControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
+import { debounce } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 import apiFetch from '@wordpress/api-fetch';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useRef } from '@wordpress/element';
 
 import blockJson from './block.json';
 import Icon from './icon.jsx';
@@ -32,31 +34,84 @@ const Edit = ( props ) => {
 			value: '',
 		},
 	] );
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ searchTerm, setSearchTerm ] = useState( '' );
+	const lastFetchRef = useRef( null );
 
-	useEffect( () => {
+	// Fetch plans from API based on search term.
+	const fetchPlans = debounce( ( term ) => {
+		setIsLoading( true );
+
+		// Cancel previous fetch if exists.
+		if ( lastFetchRef.current ) {
+			lastFetchRef.current.abort();
+		}
+
+		const controller = new AbortController();
+		lastFetchRef.current = controller;
+
+
+
 		apiFetch( {
-			path: '/llms/v1/access-plans',
+			path: `/llms/v1/access-plans?per_page=100&search=${ encodeURIComponent( term ) }`,
+			signal: controller.signal,
 		} )
 			.then( ( plans ) => {
-				const planOptions = plans.map( ( plan ) => {
-					return {
+				setAccessPlans(
+					plans.map( ( plan ) => ( {
 						label: plan.title.rendered,
 						value: plan.id,
-					};
-				} );
-
-				setAccessPlans( [
-					{
-						label: __( 'Select access plan', 'lifterlms' ),
-						value: '',
-					},
-					...planOptions,
-				] );
+					} ) )
+				);
 			} )
-			.catch( () => {
-				setAccessPlans( [] );
+			.catch( ( err ) => {
+				if ( err.name !== 'AbortError' ) {
+					setAccessPlans( [] );
+				}
+			} )
+			.finally( () => {
+				setIsLoading( false );
 			} );
-	}, [] );
+	}, 300 ); // 300ms debounce delay
+
+	useEffect( () => {
+		fetchPlans( searchTerm );
+
+		// Cleanup on unmount
+		return () => {
+			fetchPlans.cancel();
+			if ( lastFetchRef.current ) {
+				lastFetchRef.current.abort();
+			}
+		};
+	}, [ searchTerm ] );
+
+	//
+	//
+	// useEffect( () => {
+	// 	apiFetch( {
+	// 		path: '/llms/v1/access-plans?per_page=100',
+	// 	} )
+	// 		.then( ( plans ) => {
+	// 			const planOptions = plans.map( ( plan ) => {
+	// 				return {
+	// 					label: plan.title.rendered,
+	// 					value: plan.id,
+	// 				};
+	// 			} );
+	//
+	// 			setAccessPlans( [
+	// 				{
+	// 					label: __( 'Select access plan', 'lifterlms' ),
+	// 					value: '',
+	// 				},
+	// 				...planOptions,
+	// 			] );
+	// 		} )
+	// 		.catch( () => {
+	// 			setAccessPlans( [] );
+	// 		} );
+	// }, [] );
 
 	const memoizedServerSideRender = useMemo( () => {
 		let emptyPlaceholder = __( 'No Access Plans found matching your selection. This block will not be displayed.', 'lifterlms' );
@@ -92,15 +147,18 @@ const Edit = ( props ) => {
 			<InspectorControls>
 				<PanelBody title={ __( 'Access Plan Button Settings', 'lifterlms' ) }>
 					<PanelRow>
-						<SelectControl
+						<ComboboxControl
 							label={ __( 'Access Plan', 'lifterlms' ) }
+							value={ attributes.id ?? '' }
+							options={ accessPlans }
+							onChange={ ( id ) => setAttributes( { id } ) }
+							isLoading={ isLoading }
+							onFilterValueChange={ setSearchTerm }
+							allowReset={ true }
 							help={ __(
 								'Select the access plan to display a button for.',
 								'lifterlms'
 							) }
-							value={ attributes.id ?? '' }
-							options={ accessPlans }
-							onChange={ ( id ) => setAttributes( { id } ) }
 						/>
 					</PanelRow>
 					<PanelRow>
