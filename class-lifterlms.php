@@ -274,6 +274,9 @@ final class LifterLMS {
 		// Start with the wp_kses_post allowed fields and ensure all attributes are permitted.
 		$allowed_post_fields = wp_kses_allowed_html( 'post' );
 		foreach ( $allowed_post_fields as $field => $attributes ) {
+			if ( ! is_array( $attributes ) ) {
+				continue;
+			}
 			$allowed_post_fields[ $field ] = array_merge( $attributes, $allowed_atts );
 		}
 
