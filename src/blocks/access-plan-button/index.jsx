@@ -39,30 +39,54 @@ const Edit = ( props ) => {
 	const lastFetchRef = useRef( null );
 
 	// Fetch plans from API based on search term.
-	const fetchPlans = debounce( ( term ) => {
+	const fetchPlans = ( term, initialLoad = false, value = '' ) => { //debounce( ( term ) => {
 		setIsLoading( true );
 
 		// Cancel previous fetch if exists.
-		if ( lastFetchRef.current ) {
-			lastFetchRef.current.abort();
-		}
-
-		const controller = new AbortController();
-		lastFetchRef.current = controller;
-
-
+		// if ( lastFetchRef.current ) {
+		// 	lastFetchRef.current.abort();
+		// }
+		//
+		// const controller = new AbortController();
+		// lastFetchRef.current = controller;
 
 		apiFetch( {
 			path: `/llms/v1/access-plans?per_page=100&search=${ encodeURIComponent( term ) }`,
-			signal: controller.signal,
+			//signal: controller.signal,
 		} )
 			.then( ( plans ) => {
-				setAccessPlans(
-					plans.map( ( plan ) => ( {
+				const planOptions = plans.map( ( plan ) => {
+					return {
 						label: plan.title.rendered,
-						value: plan.id,
-					} ) )
-				);
+						value: plan.id.toString(),
+					};
+				} );
+
+				setAccessPlans( [
+					{
+						label: __( 'Select access plan', 'lifterlms' ),
+						value: '',
+					},
+					...planOptions,
+				] );
+
+				if ( initialLoad && value && !planOptions.some( o => o.value === value ) ) {
+					apiFetch( { path: `/llms/v1/access-plans/include=${ value }` } )
+						.then( ( plans ) => {
+							setAccessPlans( [
+								{
+									label: __( 'Select access plan', 'lifterlms' ),
+									value: '',
+								},
+								...plans.map( ( plan ) => {
+								return {
+									label: plan.title.rendered,
+									value: plan.id.toString(),
+								};
+							} ) ] );
+						})
+						.catch(() => {});
+				}
 			} )
 			.catch( ( err ) => {
 				if ( err.name !== 'AbortError' ) {
@@ -72,18 +96,17 @@ const Edit = ( props ) => {
 			.finally( () => {
 				setIsLoading( false );
 			} );
-	}, 300 ); // 300ms debounce delay
+	}; //, 300 ); // 300ms debounce delay
 
 	useEffect( () => {
-		fetchPlans( searchTerm );
+		fetchPlans( '', true, attributes.id );
+	}, [ attributes ] );
 
-		// Cleanup on unmount
-		return () => {
-			fetchPlans.cancel();
-			if ( lastFetchRef.current ) {
-				lastFetchRef.current.abort();
-			}
-		};
+	useEffect( () => {
+
+		const timeout = setTimeout( () => fetchPlans( searchTerm ), 300 );
+		return () => clearTimeout( timeout );
+
 	}, [ searchTerm ] );
 
 	//
