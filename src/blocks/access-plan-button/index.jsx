@@ -16,7 +16,6 @@ import {
 	InspectorControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { debounce } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 import apiFetch from '@wordpress/api-fetch';
@@ -28,31 +27,16 @@ import Icon from './icon.jsx';
 const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
-	const [ accessPlans, setAccessPlans ] = useState( [
-		{
-			label: __( 'No Access Plans Found', 'lifterlms' ),
-			value: '',
-		},
-	] );
+	const [ accessPlans, setAccessPlans ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ searchTerm, setSearchTerm ] = useState( '' );
-	const lastFetchRef = useRef( null );
 
 	// Fetch plans from API based on search term.
-	const fetchPlans = ( term, initialLoad = false, value = '' ) => { //debounce( ( term ) => {
+	const fetchPlans = ( term, value = '' ) => {
 		setIsLoading( true );
 
-		// Cancel previous fetch if exists.
-		// if ( lastFetchRef.current ) {
-		// 	lastFetchRef.current.abort();
-		// }
-		//
-		// const controller = new AbortController();
-		// lastFetchRef.current = controller;
-
 		apiFetch( {
-			path: `/llms/v1/access-plans?per_page=100&search=${ encodeURIComponent( term ) }`,
-			//signal: controller.signal,
+			path: `/llms/v1/access-plans?per_page=10&search=${ encodeURIComponent( term ) }`,
 		} )
 			.then( ( plans ) => {
 				const planOptions = plans.map( ( plan ) => {
@@ -61,23 +45,13 @@ const Edit = ( props ) => {
 						value: plan.id.toString(),
 					};
 				} );
+				setAccessPlans( planOptions );
 
-				setAccessPlans( [
-					{
-						label: __( 'Select access plan', 'lifterlms' ),
-						value: '',
-					},
-					...planOptions,
-				] );
-
-				if ( initialLoad && value && !planOptions.some( o => o.value === value ) ) {
-					apiFetch( { path: `/llms/v1/access-plans/include=${ value }` } )
+				if ( value && !planOptions.some( o => o.value === value ) ) {
+					apiFetch( { path: `/llms/v1/access-plans?include=${ value }` } )
 						.then( ( plans ) => {
 							setAccessPlans( [
-								{
-									label: __( 'Select access plan', 'lifterlms' ),
-									value: '',
-								},
+								...planOptions,
 								...plans.map( ( plan ) => {
 								return {
 									label: plan.title.rendered,
@@ -96,45 +70,15 @@ const Edit = ( props ) => {
 			.finally( () => {
 				setIsLoading( false );
 			} );
-	}; //, 300 ); // 300ms debounce delay
-
-	useEffect( () => {
-		fetchPlans( '', true, attributes.id );
-	}, [ attributes ] );
+	};
 
 	useEffect( () => {
 
-		const timeout = setTimeout( () => fetchPlans( searchTerm ), 300 );
+		const timeout = setTimeout( () => fetchPlans( searchTerm, attributes.id ), 300 );
 		return () => clearTimeout( timeout );
 
-	}, [ searchTerm ] );
+	}, [ searchTerm, attributes ] );
 
-	//
-	//
-	// useEffect( () => {
-	// 	apiFetch( {
-	// 		path: '/llms/v1/access-plans?per_page=100',
-	// 	} )
-	// 		.then( ( plans ) => {
-	// 			const planOptions = plans.map( ( plan ) => {
-	// 				return {
-	// 					label: plan.title.rendered,
-	// 					value: plan.id,
-	// 				};
-	// 			} );
-	//
-	// 			setAccessPlans( [
-	// 				{
-	// 					label: __( 'Select access plan', 'lifterlms' ),
-	// 					value: '',
-	// 				},
-	// 				...planOptions,
-	// 			] );
-	// 		} )
-	// 		.catch( () => {
-	// 			setAccessPlans( [] );
-	// 		} );
-	// }, [] );
 
 	const memoizedServerSideRender = useMemo( () => {
 		let emptyPlaceholder = __( 'No Access Plans found matching your selection. This block will not be displayed.', 'lifterlms' );
