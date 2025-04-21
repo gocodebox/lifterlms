@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2926"
+entry: Fix error when editing a lesson with a drip setting of a specific date.
