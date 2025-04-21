@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v8.0.6 - 2025-04-21
+-------------------
+
+##### Bug Fixes
+
++ Fix error when editing a lesson with a drip setting of a specific date. [#2926](https://github.com/gocodebox/lifterlms/issues/2926)
+
+
 v8.0.5 - 2025-04-17
 -------------------
 
