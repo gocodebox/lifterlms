@@ -232,7 +232,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * @return string
 	 */
 	protected function sql_orderby() {
-
 		$sql = '';
 
 		$sort = $this->get( 'sort' );
@@ -244,7 +243,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 			foreach ( $sort as $orderby => $order ) {
 				$pre   = ( $comma ) ? ', ' : ' ';
-				$sql  .= $pre . "{$orderby} {$order}";
+				$sql  .= $pre . sanitize_sql_orderby( "{$orderby} {$order}" );
 				$comma = true;
 			}
 		}

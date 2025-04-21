@@ -94,7 +94,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
 		 */
 		return apply_filters( 'llms_notifications_query_default_args', $args, $this );
-
 	}
 
 	/**
@@ -139,7 +138,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		 * @param LLMS_Notifications_Query $notifications_query Instance of `LLMS_Notifications_Query`.
 		 */
 		return apply_filters( 'llms_notifications_query_get_notifications', $notifications, $this );
-
 	}
 
 	/**
@@ -153,7 +151,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		$this->parse_statuses();
 		$this->parse_types();
-
 	}
 
 	/**
@@ -176,7 +173,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		$statuses = array_intersect( $statuses, $this->get_available_statuses() );
 
 		$this->arguments['statuses'] = $statuses;
-
 	}
 
 	/**
@@ -198,7 +194,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		// ensure only valid types are used
 		$types                    = array_intersect( $types, $this->get_available_types() );
 		$this->arguments['types'] = $types;
-
 	}
 
 	/**
@@ -218,7 +213,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		}
 
 		$this->arguments['triggers'] = $triggers;
-
 	}
 
 	/**
@@ -254,7 +248,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
-
 	}
 
 	/**
@@ -275,7 +268,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
 			$pre   = ( $comma ) ? ', ' : ' ';
-			$sql  .= $pre . "n.{$orderby} {$order}";
+			$sql  .= $pre . 'n.' . sanitize_sql_orderby( "{$orderby} {$order}" );
 			$comma = true;
 		}
 
@@ -292,7 +285,6 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		 * @param LLMS_Notifications_Query $notifications_query Instance of LLMS_Events_Query.
 		 */
 		return apply_filters( 'llms_notifications_query_where', $sql, $this );
-
 	}
 
 	/**
@@ -344,7 +336,5 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		}
 
 		return $where;
-
 	}
-
 }

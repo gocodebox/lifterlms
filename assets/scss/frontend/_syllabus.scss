@@ -22,35 +22,47 @@
 	max-width: 100%;
 	position: relative;
 
-	.llms-lesson-link {
+	section {
 		background: $color-white;
-		color: $color-black;
-		display: block;
-		padding: 15px;
-		text-decoration: none;
 		transition: background-color 0.3s ease;
 
 		&:hover {
 			background: $el-background-hover;
 		}
+	}
+
+	&.current-lesson {
+		.llms-lesson-title {
+			font-weight: 400;
+		}
+	}
+
+	.llms-lesson-link {
+		color: $color-black;
+		display: block;
+		padding: 15px;
+		text-decoration: none;
 
 		&:visited {
 			color: #212121;
 		}
 
-		&.llms-lesson-link-locked {
-			background: #EFEFEF;
-			color: $color-darkgrey;
-
-			&:hover {
-				background: $color-border;
-			}
-		
-		}
-
 		.llms-lesson-preview-row {
 			display: flex;
-			flex-direction: row-reverse;	
+			flex-direction: row-reverse;
+		}
+	}
+
+	.llms-lesson-locked {
+		background: #EFEFEF;
+		color: $color-darkgrey;
+
+		.llms-lesson-link {
+			color: $color-darkgrey;
+		}
+
+		&:hover {
+			background: $color-border;
 		}
 	}
 
@@ -80,6 +92,24 @@
 			&:last-of-type {
 				margin: 0;
 			}
+		}
+	}
+
+	.llms-lesson-meta {
+		display: flex;
+		padding: 5px 15px;
+		font-size: 14px;
+
+		div.llms-favorite-wrapper + span.llms-lesson-has-quiz {
+			margin-left: 10px;
+		}
+
+		div.llms-favorite-wrapper + span.llms-lesson-has-assignment {
+			margin-left: 10px;
+		}
+
+		span.llms-lesson-has-quiz + span.llms-lesson-has-assignment {
+			margin-left: 10px;
 		}
 	}
 

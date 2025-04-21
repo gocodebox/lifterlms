@@ -1,6 +1,384 @@
 LifterLMS Changelog
 ===================
 
+v8.0.6 - 2025-04-21
+-------------------
+
+##### Bug Fixes
+
++ Fix error when editing a lesson with a drip setting of a specific date. [#2926](https://github.com/gocodebox/lifterlms/issues/2926)
+
+
+v8.0.5 - 2025-04-17
+-------------------
+
+##### Updates and Enhancements
+
++ Modifies the allowed HTML for a form, in case the allowed post values in WP have been filtered. [#2922](https://github.com/gocodebox/lifterlms/issues/2922)
+
+
+v8.0.4 - 2025-04-11
+-------------------
+
+##### Bug Fixes
+
++ Avoid warning and possible error when serving protected files. [#2912](https://github.com/gocodebox/lifterlms/issues/2912)
+
+
+v8.0.3 - 2025-04-07
+-------------------
+
+##### New Features
+
++ Initial support for the Bricks theme.
++ New "# of transactions" sales reporting widget.
+
+##### Updates and Enhancements
+
++ Change default date display format of lifterlms_course_info used in settings like Enrollment Start and End Date to match the site date format. [#2903](https://github.com/gocodebox/lifterlms/issues/2903)
++ Display date pickers in the site date format, but save the data in the previous format. [#2447](https://github.com/gocodebox/lifterlms/issues/2447)
++ Update Last Activity Date label to accurately reflect the data value. [#2898](https://github.com/gocodebox/lifterlms/issues/2898)
+
+##### Bug Fixes
+
++ Updating postal code (eircode) display for Ireland. [#2891](https://github.com/gocodebox/lifterlms/issues/2891)
++ Net Sales reporting includes partially refunded transactions, and transactions from orders regardless of status. [#2860](https://github.com/gocodebox/lifterlms/issues/2860), [#2861](https://github.com/gocodebox/lifterlms/issues/2861)
++ On-hold, pending cancellation, cancelled and expired orders now included in "# of Sales" widget. [#2860](https://github.com/gocodebox/lifterlms/issues/2860)
++ Fixes sales reporting for transactions or orders that happened between 23:23:59 and midnight. [#2858](https://github.com/gocodebox/lifterlms/issues/2858)
++ Password reset email is now in the user's language. [#2879](https://github.com/gocodebox/lifterlms/issues/2879)
+
+##### Developer Notes
+
++ Adds a new action so Turnstile or other captchas can be added without editing the free-enroll-form.php template directly.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/8.0.3/templates/admin/reporting/tabs/students/courses-course.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/8.0.3/templates/product/free-enroll-form.php)
+
+
+v8.0.2 - 2025-03-17
+-------------------
+
+##### Bug Fixes
+
++ Avoid escaping the selected attribute of a form field select dropdown incorrectly.
++ Adds additional verifications on permission for bulk enrolls, and REST API access for instructors.
++ Updates helper library to remove depreciated notice when adding a license key.
+
+##### Security Fixes
+
++ Additional checks for managing LifterLMS data. Thanks [@mikemyers](https://github.com/mikemyers)!
+
+##### Updated Templates
+
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/course/favorite.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/course/lesson-preview.php)
++ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/global/form-login.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/global/form-registration.php)
++ [templates/loop/featured-pricing.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/loop/featured-pricing.php)
++ [templates/myaccount/form-edit-account.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/form-edit-account.php)
++ [templates/myaccount/form-redeem-voucher.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/form-redeem-voucher.php)
++ [templates/myaccount/my-grades-single.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/myaccount/my-grades-single.php)
++ [templates/notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/notifications/basic.php)
++ [templates/product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/product/access-plan-button.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/product/free-enroll-form.php)
++ [templates/quiz/questions/description.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/quiz/questions/description.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/8.0.2/templates/quiz/results-attempt-questions-list.php)
+
+
+v8.0.1 - 2025-02-06
+-------------------
+
+##### New Features
+
++ Setting to increase the frequency user tracked events are saved.
+
+##### Bug Fixes
+
++ Additional escaping for form permalinks.
++ Allow quiz question to be retrieved even if attempt limit reached when resuming a quiz. [#2865](https://github.com/gocodebox/lifterlms/issues/2865)
++ Avoid grades table wrapping in the My Grades section of the student dashboard. [#2869](https://github.com/gocodebox/lifterlms/issues/2869)
++ Open the lesson panel after adding a new lesson in the Course Builder. [#2855](https://github.com/gocodebox/lifterlms/issues/2855)
++ Fixed PHP >= 8.3 warning when using WP CLI. Thanks [@jv-mtrz](https://github.com/jv-mtrz)!
+
+##### Deprecations
+
++ Fixed issues with viewing quiz attempts when questions were deleted.
+
+##### Updated Templates
+
++ [templates/myaccount/my-grades-single.php](https://github.com/gocodebox/lifterlms/blob/8.0.1/templates/myaccount/my-grades-single.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/8.0.1/templates/quiz/results-attempt-questions-list.php)
+
+
+v8.0.0 - 2025-01-20
+-------------------
+
+##### New Features
+
++ New popup when adding an Access Plan with templates to help set options quickly.
++ Adds support for Beaver Builder for Courses, Memberships and Lessons. [#2761](https://github.com/gocodebox/lifterlms/issues/2761)
++ Ability to show typed password for verification on the Student Dashboard login form.
++ Adds new "Featured Pricing Information" setting for Courses and Memberships.
++ Showing 'Has Quiz' or 'Has Assignment' in the Course Syllabus.
+
+##### Updates and Enhancements
+
++ Improved accessibility of various front-end and back-end UIs including the Access Plans metaboxes to use proper labels and screen reader text where needed.
++ Allow lesson access based on enrollment drip setting with Course Start Date set. [#2843](https://github.com/gocodebox/lifterlms/issues/2843)
++ Course Information header is now h2 instead of h3 by default, for accessibility in heading order.
++ Adding purchase checkout link to the access plan header as an icon. [#2793](https://github.com/gocodebox/lifterlms/issues/2793)
++ Accessibility updates for lesson favorite and write a review forms. [#2852](https://github.com/gocodebox/lifterlms/issues/2852)
+
+##### Bug Fixes
+
++ Allow additional shortcodes like [audio] within the description (content) of a quiz question.
++ Can now deactivate the Confirmation field for blocks like E-mail address and Password in forms. [#2646](https://github.com/gocodebox/lifterlms/issues/2646)
++ Fix SendWP connect button. [#2792](https://github.com/gocodebox/lifterlms/issues/2792)
++ Avoid unloading the textdomain for core translations in case the lifterlms textdomain is used before init (WP 6.7). [#2807](https://github.com/gocodebox/lifterlms/issues/2807)
++ Avoid wrapping of the text of buttons. [#2820](https://github.com/gocodebox/lifterlms/issues/2820)
+
+##### Developer Notes
+
++ Improved llmsPostsSelect2 method when called on multiple elements at once, each with different options. [#2805](https://github.com/gocodebox/lifterlms/issues/2805)
+
+##### Updated Templates
+
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/course/favorite.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/course/lesson-preview.php)
++ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/global/form-login.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/global/form-registration.php)
++ [templates/loop/featured-pricing.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/loop/featured-pricing.php)
++ [templates/myaccount/form-edit-account.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/myaccount/form-edit-account.php)
++ [templates/myaccount/form-redeem-voucher.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/myaccount/form-redeem-voucher.php)
++ [templates/notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/notifications/basic.php)
++ [templates/product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/product/access-plan-button.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/product/free-enroll-form.php)
++ [templates/quiz/questions/description.php](https://github.com/gocodebox/lifterlms/blob/8.0.0/templates/quiz/questions/description.php)
+
+
+v7.8.7 - 2024-12-17
+-------------------
+
+##### Bug Fixes
+
++ Fix translation error during the setup wizard. [#2835](https://github.com/gocodebox/lifterlms/issues/2835)
++ Fixes Pagespeed notice regarding deprecated Javascript event usage. [#2620](https://github.com/gocodebox/lifterlms/issues/2620)
+
+
+v7.8.6 - 2024-12-16
+-------------------
+
+##### Bug Fixes
+
++ Adds additional check for valid quiz attempt key when ending or exiting a quiz. [#2824](https://github.com/gocodebox/lifterlms/issues/2824)
++ Fix for daylight savings and leap years when scheduling engagements. [#2799](https://github.com/gocodebox/lifterlms/issues/2799)
++ Avoid showing course opens message if no Course Start Date has been set. [#2810](https://github.com/gocodebox/lifterlms/issues/2810)
++ Improved accessibility of the lessons listing on a course page, when a lesson is restricted. [#2827](https://github.com/gocodebox/lifterlms/issues/2827)
+
+##### Security Fixes
+
++ Adding additional checks before the deletion of a certificate. Thanks Lucio Sá!
+
+##### Updated Templates
+
++ [templates/content-single-course-before.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/content-single-course-before.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/7.8.6/templates/course/lesson-preview.php)
+
+
+v7.8.5 - 2024-12-03
+-------------------
+
+##### Updates and Enhancements
+
++ Now allows copying of text in input and textarea elements, even if copy protection is enabled.
+
+##### Security Fixes
+
++ Fix to avoid saving password confirmation in user meta if Password block has been edited. [#2821](https://github.com/gocodebox/lifterlms/issues/2821)
+
+
+v7.8.4 - 2024-11-18
+-------------------
+
+##### Bug Fixes
+
++ Fix translations not loading for LifterLMS in WordPress 6.7. [#2807](https://github.com/gocodebox/lifterlms/issues/2807)
+
+
+v7.8.3 - 2024-11-04
+-------------------
+
+##### Updates and Enhancements
+
++ Switches new access plans to Paid by default in the new access plan UI. [#2794](https://github.com/gocodebox/lifterlms/issues/2794)
+
+
+v7.8.2 - 2024-10-31
+-------------------
+
+##### Updates and Enhancements
+
++ Additional styling of the new Access Plan UI.
+
+##### Bug Fixes
+
++ Renaming front-end javascript translation file not required, as some security scans appear to be deleting it incorrectly. [#2787](https://github.com/gocodebox/lifterlms/issues/2787)
+
+
+v7.8.1 - 2024-10-29
+-------------------
+
+##### Bug Fixes
+
++ Fixing migration to allow SKUs to be entered in access plans if one already exists.
+
+
+v7.8.0 - 2024-10-29
+-------------------
+
+##### New Features
+
++ Added attribute 'layout' to My Account block and shortcode to display content as columns or stacked.
++ Changes styling in the Course Syllabus block for the current lesson, when used on a single lesson page. [#2777](https://github.com/gocodebox/lifterlms/issues/2777)
++ Added new feature: Quiz Resume. [#2783](https://github.com/gocodebox/lifterlms/issues/2783)
+
+##### Updates and Enhancements
+
++ Improved UI of the Access Plans UI for better usability.
++ Improved accessibility of the Access Plans metaboxes to use proper labels and screen reader text where needed.
++ Added Launch Course Builder to the WP Admin Bar when viewing a course.
++ Added Launch Course Builder button when using the Classic Editor, beside “Add Course” button.
++ Added “Clear Reporting Cache” button on admin reporting page.
++ Improved help messaging on the Course Builder, and the Account and Checkout tabs of the LifterLMS settings.
++ Added support for image upload in Result Clarifications box for quizzes.
++ Removes spacing before or after answers for conditional quiz questions.
+
+##### Bug Fixes
+
++ Fixed reference in `LLMS_Ajax_Handler::quiz_start()` to `LLMS_Quiz_Attempt::get_status()` method removed since LifterLMS 4.0.0.
++ Fix for notifications no longer auto-dismissing. [#2772](https://github.com/gocodebox/lifterlms/issues/2772)
++ Fix for the lifterlms_registration shortcode not working on certain themes on a separate page. [#2779](https://github.com/gocodebox/lifterlms/issues/2779)
++ Using a more reliable method of keeping LifterLMS notices dismissed. [#2767](https://github.com/gocodebox/lifterlms/issues/2767)
+
+##### Breaking Changes
+
++ Hiding the Plan SKU field for access plans if not in use. Set the `llms_access_plans_allow_skus` option to get this field back.
+
+##### Developer Notes
+
++ Adds current-lesson CSS class for the current Lesson in the Course Syllabus block. [#2777](https://github.com/gocodebox/lifterlms/issues/2777)
++ Adds new llms_before_registration_validation filter for 3rd party open registration validation.
++ Added filter `llms_quiz_attempt_resume_time_period` for updating quiz resume allowed time period.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/admin/reporting/tabs/quizzes/attempt.php)
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/checkout/form-checkout.php)
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/checkout/form-summary.php)
++ [templates/content-single-question.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/content-single-question.php)
++ [templates/myaccount/form-redeem-voucher.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/myaccount/form-redeem-voucher.php)
++ [templates/myaccount/header.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/myaccount/header.php)
++ [templates/notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/notifications/basic.php)
++ [templates/quiz/questions/content-choice.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/questions/content-choice.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/questions/content-picture_choice.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/results-attempt-questions-list.php)
++ [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/results-attempt.php)
++ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/results.php)
++ [templates/quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/7.8.0/templates/quiz/start-button.php)
+
+
+v7.7.8 - 2024-09-17
+-------------------
+
+##### Bug Fixes
+
++ Update version of the Blocks library to avoid having an unsaved changes prompt appear after updating an access plan on a course.
++ Fix for pricing display with additional formatting. [#2762](https://github.com/gocodebox/lifterlms/issues/2762)
+
+
+v7.7.7 - 2024-09-12
+-------------------
+
+##### Bug Fixes
+
++ Avoid modifying non-LifterLMS block component styling in the editor. [#2752](https://github.com/gocodebox/lifterlms/issues/2752)
++ Use student email for the student login merge code in notification emails if usernames are not used. [#2755](https://github.com/gocodebox/lifterlms/issues/2755)
++ Show video or audio embed URLs in lessons which are valid but contain special characters. [#2749](https://github.com/gocodebox/lifterlms/issues/2749)
+
+
+v7.7.6 - 2024-08-22
+-------------------
+
+##### Bug Fixes
+
++ Avoid modifying the Lost Password link if no LifterLMS Dashboard page is set. [#2741](https://github.com/gocodebox/lifterlms/issues/2741)
++ Fixes placeholder label on the Dashboard Page selection dropdown. [#2708](https://github.com/gocodebox/lifterlms/issues/2708)
++ Avoid outputting lifterlms_membership_link content if the membership is not published. [#2724](https://github.com/gocodebox/lifterlms/issues/2724)
++ Fix display of quiz question when viewing the quiz results if it contains formatting. [#2734](https://github.com/gocodebox/lifterlms/issues/2734)
++ Fixes sanitization as reported by FKSEC.
++ Fixes warning when trying to get the contents of a media protection file that does not exist. [#2735](https://github.com/gocodebox/lifterlms/issues/2735)
+
+##### Updated Templates
+
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/7.7.6/templates/quiz/results-attempt-questions-list.php)
+
+
+v7.7.5 - 2024-08-15
+-------------------
+
+##### Bug Fixes
+
++ Show video tiles for courses on the Dashboard and My Courses pages when enabled. [#2728](https://github.com/gocodebox/lifterlms/issues/2728)
+
+##### Updated Templates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/7.7.5/templates/myaccount/dashboard-section.php)
+
+
+v7.7.4 - 2024-08-13
+-------------------
+
+##### Bug Fixes
+
++ Reverts changes to restricting pages by membership functionality to avoid conflicts with certain themes and plugins. [#2714](https://github.com/gocodebox/lifterlms/issues/2714)
+
+
+v7.7.3 - 2024-08-12
+-------------------
+
+##### Bug Fixes
+
++ Fixes revenue display in the Orders table. [#2719](https://github.com/gocodebox/lifterlms/issues/2719)
+
+
+v7.7.2 - 2024-08-12
+-------------------
+
+##### Bug Fixes
+
++ Fixes fatal error when updating from an old version. Thanks [@verygoodplugins](https://github.com/verygoodplugins)! [#2716](https://github.com/gocodebox/lifterlms/issues/2716)
++ Avoid errors on pages restricted by one or more memberships. [#2714](https://github.com/gocodebox/lifterlms/issues/2714)
+
+
+v7.7.1 - 2024-08-09
+-------------------
+
+##### Updates and Enhancements
+
++ Removes placeholder image functionality with protected media files. Modify cache value for wordpress.com hosting.
+
+##### Bug Fixes
+
++ Fixing the Award Certificate button appearing at the top of the Reporting > Students, Certificate tab. [#2709](https://github.com/gocodebox/lifterlms/issues/2709)
++ Fixed warnings from running `wp_kses_post()` on empty `paginate_links()` calls.
+
+##### Updated Templates
+
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/7.7.1/templates/myaccount/my-notifications.php)
+
+
 v7.7.0 - 2024-07-19
 -------------------
 
@@ -24,10 +402,16 @@ v7.7.0 - 2024-07-19
 + Avoids saving review meta information for non-courses. Thanks [@bsetiawan88](https://github.com/bsetiawan88)! [#887](https://github.com/gocodebox/lifterlms/issues/887)
 + Improvements to the frontend styling of LifterLMS screens for design, accessibility, and better compatibility with dark mode themes.
 + Allow private VideoPress videos to play when the URL is pasted on Video Embed URL. [#2533](https://github.com/gocodebox/lifterlms/issues/2533)
++ Fixes the Certificate Title block when creating a new certificate template. [#2696] (https://github.com/gocodebox/lifterlms/issues/2696)
 
 ##### Security Fixes
 
-+ Adds various security improvements.
++ Adds various security improvements, e.g. better escaping of output, as suggested by the Plugin Checker Plugin.
+
+##### Performance Improvements
+
++ Caching get_transaction_total queries to improve performance of the
+  orders table in the admin dashboard.
 
 ##### Updated Templates
 

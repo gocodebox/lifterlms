@@ -184,6 +184,17 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
 
+		// Ensure special characters in URL works.
+		$audio_url_special_char = home_url( '/a①b.mp3' );
+		$video_url_special_char = home_url( '/a①b.mp4' );
+
+		$course->set( 'audio_embed', $audio_url_special_char );
+		$course->set( 'video_embed', $video_url_special_char );
+
+		$this->assertStringContains( '<audio', $course->get_audio() );
+		$this->assertStringContains( '<source', $course->get_video() );
+		$this->assertStringContains( $audio_url_special_char, $course->get_audio() );
+		$this->assertStringContains( $video_url_special_char, $course->get_video() );
 
 	}
 

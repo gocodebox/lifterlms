@@ -88,7 +88,10 @@ class LLMS_Admin_Notices {
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
 		// Don't add the notice if we've already dismissed or delayed it.
-		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
+		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ||
+			( is_numeric( get_option( 'llms_admin_notice_' . $notice_id . '_delay' ) ) &&
+				time() < get_option( 'llms_admin_notice_' . $notice_id . '_delay' )
+			) ) {
 			return;
 		}
 
@@ -136,15 +139,15 @@ class LLMS_Admin_Notices {
 		$notice        = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
 		if ( $notice ) {
+			$delay = 0;
 			if ( 'remind' === $trigger && $notice['remindable'] ) {
 				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : 0;
-			} elseif ( 'hide' === $trigger && $notice['dismissible'] ) {
+			}
+			if ( 'hide' === $trigger && $notice['dismissible'] ) {
 				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
-			} else {
-				$delay = 0;
 			}
 			if ( $delay ) {
-				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
+				update_option( 'llms_admin_notice_' . $notice_id . '_delay', time() + ( DAY_IN_SECONDS * $delay ) );
 			}
 
 			/**

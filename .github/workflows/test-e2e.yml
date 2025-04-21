@@ -66,15 +66,20 @@ jobs:
           docker-pass: ${{ secrets.DOCKER_PASSWORD }}
           node-version: '16'
 
+      # create a folder for the screenshots, this folder will be uploaded as artifact
+      - run: mkdir screenshots
+
       - name: Run test suite
         run: npm run test -- --verbose
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: error-artifacts-wp-${{ matrix.WP }}
-          path: tmp/artifacts
+          path: |
+            tmp/artifacts
+            screenshots
 
   ###
   #

@@ -118,6 +118,8 @@ define( [
 
 				this.render_points_percentage();
 
+				this.$('.llms-editable-title').focus();
+
 				return this;
 
 			},

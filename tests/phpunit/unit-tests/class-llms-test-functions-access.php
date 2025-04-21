@@ -164,13 +164,15 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		update_post_meta( $post_id, '_llms_restricted_levels', $memberships );
 		update_post_meta( $post_id, '_llms_is_restricted', 'yes' );
-		$this->assertEquals( $memberships, llms_is_post_restricted_by_membership( $post_id ) );
-		$this->assertEquals( $memberships, llms_is_post_restricted_by_membership( $post_id, $uid ) );
+
+		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id ) );
+		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id, $uid ) );
 
 		$out = llms_is_post_restricted_by_membership( $post_id );
 		$in = llms_is_post_restricted_by_membership( $post_id, $uid );
+
 		$student->enroll( $memberships[1] );
-		$this->assertEquals( $memberships, llms_is_post_restricted_by_membership( $post_id, $uid ) );
+		$this->assertEquals( $memberships[1], llms_is_post_restricted_by_membership( $post_id, $uid ) );
 
 	}
 

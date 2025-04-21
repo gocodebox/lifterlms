@@ -28,7 +28,6 @@ class LLMS_Controller_Registration {
 
 		add_action( 'init', array( $this, 'register' ) );
 		add_action( 'lifterlms_user_registered', array( $this, 'voucher' ), 10, 3 );
-
 	}
 
 	/**
@@ -55,7 +54,6 @@ class LLMS_Controller_Registration {
 
 			}
 		}
-
 	}
 
 	/**
@@ -70,6 +68,21 @@ class LLMS_Controller_Registration {
 
 		if ( ! llms_verify_nonce( '_llms_register_person_nonce', 'llms_register_person' ) ) {
 			return;
+		}
+
+		/**
+		 * Allow 3rd parties to perform their own validation prior to standard validation.
+		 *
+		 * If this returns a truthy, we'll stop processing.
+		 *
+		 * The extension should add a notice in addition to returning the truthy.
+		 *
+		 * @since 7.8.0
+		 *
+		 * @param boolean $valid Validation status. If `true` ceases registration execution. If `false` registration proceeds.
+		 */
+		if ( apply_filters( 'llms_before_registration_validation', false ) ) {
+			return false;
 		}
 
 		do_action( 'lifterlms_before_new_user_registration' );
@@ -101,9 +114,7 @@ class LLMS_Controller_Registration {
 			llms_redirect_and_exit( apply_filters( 'lifterlms_registration_redirect', llms_get_page_url( 'myaccount' ) ) );
 
 		}
-
 	}
-
 }
 
 return new LLMS_Controller_Registration();

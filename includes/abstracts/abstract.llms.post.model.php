@@ -714,6 +714,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$price = 0;
 		}
 
+		/**
+		 * Filter the price before formatting the price for display.
+		 *
+		 * @since 7.8.0
+		 */
+		$price = apply_filters( "llms_{$this->model_post_type}_get_price_before_formatting", $price, $key, $price_args, $this );
+
 		if ( 'html' === $format || 'raw' === $format ) {
 			$price = llms_price( $price, $price_args );
 			if ( 'raw' === $format ) {
@@ -848,11 +855,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
-		if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
-
+		if ( trim( $url ) && parse_url( $url ) ) {
 			$this->get_provider_support( $url );
 
-			$ret = wp_oembed_get( $url );
+			$ret = wp_oembed_get( sanitize_url( $url ) );
 
 			if ( ! $ret ) {
 

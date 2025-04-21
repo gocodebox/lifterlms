@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '7.7.0';
+	public $version = '8.0.6';
 
 	/**
 	 * LLMS_Assets instance
@@ -143,29 +143,6 @@ final class LifterLMS {
 			define( 'LLMS_ASSETS_VERSION', ( $script_debug || $wp_debug ) ? time() : $this->version );
 		}
 
-		// For use in escaping and sanitizing.
-		llms_maybe_define_constant(
-			'LLMS_ALLOWED_HTML_PRICES',
-			array(
-				'div'    => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'span'   => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'strong' => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-				'sup'    => array(
-					'class' => array(),
-					'id'    => array(),
-				),
-			)
-		);
-
 		$allowed_atts = array(
 			'label'           => true,
 			'align'           => true,
@@ -174,6 +151,9 @@ final class LifterLMS {
 			'decoding'        => true,
 			'disabled'        => true,
 			'required'        => true,
+			'allowfullscreen' => true,
+			'allow'           => true,
+			'frameborder'     => true,
 			'class'           => true,
 			'type'            => true,
 			'id'              => true,
@@ -198,6 +178,7 @@ final class LifterLMS {
 			'width'           => true,
 			'height'          => true,
 			'data-*'          => true,
+			'aria-label'      => true,
 			'aria-live'       => true,
 			'aria-hidden'     => true,
 			'aria-*'          => true,
@@ -271,70 +252,375 @@ final class LifterLMS {
 			'sandbox'         => true,
 			'sizes'           => true,
 		);
+
+		// For use in escaping and sanitizing.
 		llms_maybe_define_constant(
-			'LLMS_ALLOWED_HTML_FORM_FIELDS',
+			'LLMS_ALLOWED_HTML_PRICES',
 			array(
-				'a'          => $allowed_atts,
-				'abbr'       => $allowed_atts,
-				'acronym'    => $allowed_atts,
-				'article'    => $allowed_atts,
-				'b'          => $allowed_atts,
-				'bdo'        => $allowed_atts,
-				'blockquote' => $allowed_atts,
-				'br'         => $allowed_atts,
-				'cite'       => $allowed_atts,
-				'code'       => $allowed_atts,
-				'del'        => $allowed_atts,
-				'dfn'        => $allowed_atts,
-				'em'         => $allowed_atts,
-				'hr'         => $allowed_atts,
-				'ins'        => $allowed_atts,
-				'kbd'        => $allowed_atts,
-				'q'          => $allowed_atts,
-				's'          => $allowed_atts,
-				'header'     => $allowed_atts,
-				'footer'     => $allowed_atts,
-				'strike'     => $allowed_atts,
-				'strong'     => $allowed_atts,
-				'sub'        => $allowed_atts,
-				'sup'        => $allowed_atts,
-				'ul'         => $allowed_atts,
-				'ol'         => $allowed_atts,
-				'li'         => $allowed_atts,
-				'p'          => $allowed_atts,
-				'pre'        => $allowed_atts,
-				'address'    => $allowed_atts,
-				'aside'      => $allowed_atts,
-				'nav'        => $allowed_atts,
-				'form'       => $allowed_atts,
-				'input'      => $allowed_atts,
-				'textarea'   => $allowed_atts,
-				'button'     => $allowed_atts,
-				'select'     => $allowed_atts,
-				'option'     => $allowed_atts,
-				'checkbox'   => $allowed_atts,
-				'radio'      => $allowed_atts,
-				'optgroup'   => $allowed_atts,
-				'div'        => $allowed_atts,
-				'label'      => $allowed_atts,
-				'span'       => $allowed_atts,
-				'img'        => $allowed_atts,
-				'i'          => $allowed_atts,
-				'h1'         => $allowed_atts,
-				'h2'         => $allowed_atts,
-				'h3'         => $allowed_atts,
-				'h4'         => $allowed_atts,
-				'h5'         => $allowed_atts,
-				'h6'         => $allowed_atts,
-				'section'    => $allowed_atts,
-				'fieldset'   => $allowed_atts,
-				'legend'     => $allowed_atts,
-				'datalist'   => $allowed_atts,
-				'output'     => $allowed_atts,
-				'progress'   => $allowed_atts,
-				'meter'      => $allowed_atts,
+				'div'    => $allowed_atts,
+				'span'   => $allowed_atts,
+				'strong' => $allowed_atts,
+				'sup'    => $allowed_atts,
+				'sub'    => $allowed_atts,
+				'del'    => $allowed_atts,
+				'ins'    => $allowed_atts,
+				'em'     => $allowed_atts,
+				'bdi'    => $allowed_atts,
+				's'      => $allowed_atts,
+				'u'      => $allowed_atts,
 			)
 		);
+
+		// Defining ourselves rather than relying on wp_kses_allowed_html( 'post' ) because it could be filtered.
+		$allowed_post_fields = array(
+			'address'    => array(),
+			'a'          => array(
+				'href'     => true,
+				'rel'      => true,
+				'rev'      => true,
+				'name'     => true,
+				'target'   => true,
+				'download' => array(
+					'valueless' => 'y',
+				),
+			),
+			'abbr'       => array(),
+			'acronym'    => array(),
+			'area'       => array(
+				'alt'    => true,
+				'coords' => true,
+				'href'   => true,
+				'nohref' => true,
+				'shape'  => true,
+				'target' => true,
+			),
+			'article'    => array(
+				'align' => true,
+			),
+			'aside'      => array(
+				'align' => true,
+			),
+			'audio'      => array(
+				'autoplay' => true,
+				'controls' => true,
+				'loop'     => true,
+				'muted'    => true,
+				'preload'  => true,
+				'src'      => true,
+			),
+			'b'          => array(),
+			'bdo'        => array(),
+			'big'        => array(),
+			'blockquote' => array(
+				'cite' => true,
+			),
+			'br'         => array(),
+			'button'     => array(
+				'disabled' => true,
+				'name'     => true,
+				'type'     => true,
+				'value'    => true,
+			),
+			'caption'    => array(
+				'align' => true,
+			),
+			'cite'       => array(),
+			'code'       => array(),
+			'col'        => array(
+				'align'   => true,
+				'char'    => true,
+				'charoff' => true,
+				'span'    => true,
+				'valign'  => true,
+				'width'   => true,
+			),
+			'colgroup'   => array(
+				'align'   => true,
+				'char'    => true,
+				'charoff' => true,
+				'span'    => true,
+				'valign'  => true,
+				'width'   => true,
+			),
+			'del'        => array(
+				'datetime' => true,
+			),
+			'dd'         => array(),
+			'dfn'        => array(),
+			'details'    => array(
+				'align' => true,
+				'open'  => true,
+			),
+			'div'        => array(
+				'align' => true,
+			),
+			'dl'         => array(),
+			'dt'         => array(),
+			'em'         => array(),
+			'fieldset'   => array(),
+			'figure'     => array(
+				'align' => true,
+			),
+			'figcaption' => array(
+				'align' => true,
+			),
+			'font'       => array(
+				'color' => true,
+				'face'  => true,
+				'size'  => true,
+			),
+			'footer'     => array(
+				'align' => true,
+			),
+			'h1'         => array(
+				'align' => true,
+			),
+			'h2'         => array(
+				'align' => true,
+			),
+			'h3'         => array(
+				'align' => true,
+			),
+			'h4'         => array(
+				'align' => true,
+			),
+			'h5'         => array(
+				'align' => true,
+			),
+			'h6'         => array(
+				'align' => true,
+			),
+			'header'     => array(
+				'align' => true,
+			),
+			'hgroup'     => array(
+				'align' => true,
+			),
+			'hr'         => array(
+				'align'   => true,
+				'noshade' => true,
+				'size'    => true,
+				'width'   => true,
+			),
+			'i'          => array(),
+			'img'        => array(
+				'alt'      => true,
+				'align'    => true,
+				'border'   => true,
+				'height'   => true,
+				'hspace'   => true,
+				'loading'  => true,
+				'longdesc' => true,
+				'vspace'   => true,
+				'src'      => true,
+				'usemap'   => true,
+				'width'    => true,
+			),
+			'ins'        => array(
+				'datetime' => true,
+				'cite'     => true,
+			),
+			'kbd'        => array(),
+			'label'      => array(
+				'for' => true,
+			),
+			'legend'     => array(
+				'align' => true,
+			),
+			'li'         => array(
+				'align' => true,
+				'value' => true,
+			),
+			'main'       => array(
+				'align' => true,
+			),
+			'map'        => array(
+				'name' => true,
+			),
+			'mark'       => array(),
+			'menu'       => array(
+				'type' => true,
+			),
+			'nav'        => array(
+				'align' => true,
+			),
+			'object'     => array(
+				'data' => array(
+					'required'       => true,
+					'value_callback' => '_wp_kses_allow_pdf_objects',
+				),
+				'type' => array(
+					'required' => true,
+					'values'   => array( 'application/pdf' ),
+				),
+			),
+			'p'          => array(
+				'align' => true,
+			),
+			'pre'        => array(
+				'width' => true,
+			),
+			'q'          => array(
+				'cite' => true,
+			),
+			'rb'         => array(),
+			'rp'         => array(),
+			'rt'         => array(),
+			'rtc'        => array(),
+			'ruby'       => array(),
+			's'          => array(),
+			'samp'       => array(),
+			'span'       => array(
+				'align' => true,
+			),
+			'section'    => array(
+				'align' => true,
+			),
+			'small'      => array(),
+			'strike'     => array(),
+			'strong'     => array(),
+			'sub'        => array(),
+			'summary'    => array(
+				'align' => true,
+			),
+			'sup'        => array(),
+			'table'      => array(
+				'align'       => true,
+				'bgcolor'     => true,
+				'border'      => true,
+				'cellpadding' => true,
+				'cellspacing' => true,
+				'rules'       => true,
+				'summary'     => true,
+				'width'       => true,
+			),
+			'tbody'      => array(
+				'align'   => true,
+				'char'    => true,
+				'charoff' => true,
+				'valign'  => true,
+			),
+			'td'         => array(
+				'abbr'    => true,
+				'align'   => true,
+				'axis'    => true,
+				'bgcolor' => true,
+				'char'    => true,
+				'charoff' => true,
+				'colspan' => true,
+				'headers' => true,
+				'height'  => true,
+				'nowrap'  => true,
+				'rowspan' => true,
+				'scope'   => true,
+				'valign'  => true,
+				'width'   => true,
+			),
+			'textarea'   => array(
+				'cols'     => true,
+				'rows'     => true,
+				'disabled' => true,
+				'name'     => true,
+				'readonly' => true,
+			),
+			'tfoot'      => array(
+				'align'   => true,
+				'char'    => true,
+				'charoff' => true,
+				'valign'  => true,
+			),
+			'th'         => array(
+				'abbr'    => true,
+				'align'   => true,
+				'axis'    => true,
+				'bgcolor' => true,
+				'char'    => true,
+				'charoff' => true,
+				'colspan' => true,
+				'headers' => true,
+				'height'  => true,
+				'nowrap'  => true,
+				'rowspan' => true,
+				'scope'   => true,
+				'valign'  => true,
+				'width'   => true,
+			),
+			'thead'      => array(
+				'align'   => true,
+				'char'    => true,
+				'charoff' => true,
+				'valign'  => true,
+			),
+			'title'      => array(),
+			'tr'         => array(
+				'align'   => true,
+				'bgcolor' => true,
+				'char'    => true,
+				'charoff' => true,
+				'valign'  => true,
+			),
+			'track'      => array(
+				'default' => true,
+				'kind'    => true,
+				'label'   => true,
+				'src'     => true,
+				'srclang' => true,
+			),
+			'tt'         => array(),
+			'u'          => array(),
+			'ul'         => array(
+				'type' => true,
+			),
+			'ol'         => array(
+				'start'    => true,
+				'type'     => true,
+				'reversed' => true,
+			),
+			'var'        => array(),
+			'video'      => array(
+				'autoplay'    => true,
+				'controls'    => true,
+				'height'      => true,
+				'loop'        => true,
+				'muted'       => true,
+				'playsinline' => true,
+				'poster'      => true,
+				'preload'     => true,
+				'src'         => true,
+				'width'       => true,
+			),
+		);
+
+		foreach ( $allowed_post_fields as $field => $attributes ) {
+			if ( ! is_array( $attributes ) ) {
+				continue;
+			}
+			$allowed_post_fields[ $field ] = array_merge( $attributes, $allowed_atts );
+		}
+
+		llms_maybe_define_constant(
+			'LLMS_ALLOWED_HTML_FORM_FIELDS',
+			array_merge(
+				$allowed_post_fields,
+				array(
+					'bdi'      => $allowed_atts,
+					'iframe'   => $allowed_atts,
+					'form'     => $allowed_atts,
+					'input'    => $allowed_atts,
+					'select'   => $allowed_atts,
+					'option'   => $allowed_atts,
+					'checkbox' => $allowed_atts,
+					'radio'    => $allowed_atts,
+					'optgroup' => $allowed_atts,
+					'datalist' => $allowed_atts,
+					'output'   => $allowed_atts,
+					'progress' => $allowed_atts,
+					'meter'    => $allowed_atts,
+					'source'   => $allowed_atts,
+				)
+			)
+		);
+		llms_maybe_define_constant( 'LLMS_CONFIRMATION_FIELDS', array( 'email_address_confirm', 'password_confirm' ) );
 	}
 
 	/**
@@ -371,6 +657,9 @@ final class LifterLMS {
 		( new LLMS_Media_Protector() )->register_callbacks();
 
 		include_once 'includes/class-llms-elementor-migrate.php';
+		include_once 'includes/class-llms-bricks.php';
+		include_once 'includes/class-llms-beaver-builder.php';
+		include_once 'includes/class-llms-beaver-builder-migrate.php';
 
 		do_action( 'lifterlms_init' );
 	}

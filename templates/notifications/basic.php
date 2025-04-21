@@ -10,7 +10,11 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="<?php echo esc_attr( $classes ); ?>"<?php echo esc_attr( $atts ); ?> id="llms-notification-<?php echo esc_attr( $id ); ?>">
+<div class="<?php echo esc_attr( $classes ); ?>"
+	<?php foreach ( (array) $attributes as $att => $val ) : ?>
+			<?php echo esc_attr( 'data-' . $att ); ?>="<?php echo esc_attr( $val ); ?>"
+	<?php endforeach; ?>
+	id="<?php echo esc_attr( 'llms-notification-' . $id ); ?>">
 
 	<?php do_action( 'llms_before_basic_notification', $id ); ?>
 
@@ -18,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<section class="llms-notification-content">
 		<div class="llms-notification-main">
-			<h4 class="llms-notification-title"><?php echo esc_html( $title ); ?></h4>
+			<div class="llms-notification-title"><?php echo esc_html( $title ); ?></div>
 			<div class="llms-notification-body"><?php echo wp_kses_post( $body ); ?></div>
 		</div>
 

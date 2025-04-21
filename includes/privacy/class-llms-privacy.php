@@ -63,7 +63,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 		// Anonymize erased order properties.
 		add_filter( 'llms_privacy_get_anon_prop_value', array( 'LLMS_Privacy_Erasers', 'anonymize_prop' ), 10, 3 );
-
 	}
 
 	/**
@@ -123,7 +122,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		);
 
 		return apply_filters( 'llms_privacy_order_data_props', $props, $type );
-
 	}
 
 	/**
@@ -185,7 +183,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		 * @param string $content Privacy policy content as an html string.
 		 */
 		return apply_filters( 'llms_privacy_policy_content', $content );
-
 	}
 
 	/**
@@ -243,7 +240,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 				'last_login'        => __( 'Last Login Date', 'lifterlms' ),
 			)
 		);
-
 	}
 
 	/**
@@ -272,7 +268,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 			'done'    => ( ! $enrollments['more'] ),
 			'results' => $enrollments['results'],
 		);
-
 	}
 
 	/**
@@ -304,7 +299,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 			'done'   => $done,
 			'orders' => $results,
 		);
-
 	}
 
 	/**
@@ -327,7 +321,9 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 			)
 		);
 	}
-
 }
 
-return new LLMS_Privacy();
+function llms_load_privacy() {
+	return new LLMS_Privacy();
+}
+add_action( 'init', 'llms_load_privacy' );

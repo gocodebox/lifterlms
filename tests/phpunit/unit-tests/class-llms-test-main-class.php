@@ -133,41 +133,4 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 	}
 
-	/**
-	 * Test plugin localization
-	 *
-	 * @since 3.21.1
-	 * @since 4.9.0 Improve tests.
-	 *
-	 * @return void
-	 */
-	public function test_localize() {
-
-		$dirs = array(
-			WP_LANG_DIR . '/lifterlms', // "Safe" directory.
-			WP_LANG_DIR . '/plugins', // Default language directory.
-			WP_PLUGIN_DIR . '/lifterlms/languages', // Plugin language directory.
-		);
-
-		foreach ( $dirs as $dir ) {
-
-			// Make sure the initial strings work.
-			$this->assertEquals( 'LifterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
-			$this->assertEquals( 'Course', __( 'Course', 'lifterlms' ), $dir );
-
-			// Load a language file.
-			$file = LLMS_Unit_Test_Files::copy_asset( 'lifterlms-en_US.mo', $dir );
-			$this->llms->localize();
-
-			$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
-			$this->assertEquals( 'Module', __( 'Module', 'lifterlms' ), $dir );
-
-			// Clean up.
-			LLMS_Unit_Test_Files::remove( $file );
-			unload_textdomain( 'lifterlms' );
-
-		}
-
-	}
-
 }

@@ -91,7 +91,7 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 			$ret = llms_form_field(
 				array(
 					'columns'     => 12,
-					'value'       => '<label>' . $notice . '</label>',
+					'value'       => '<p>' . $notice . '</p>',
 					'last_column' => true,
 					'type'        => 'html',
 					'id'          => 'llms-privacy-policy',

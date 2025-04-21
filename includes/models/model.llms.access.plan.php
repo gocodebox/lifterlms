@@ -158,7 +158,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return $redirection;
-
 	}
 
 	/**
@@ -190,7 +189,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @param LLMS_Access_Plan $this Access plan instance.
 		 */
 		return apply_filters( 'llms_plan_get_access_period_name', $period, $length, $this );
-
 	}
 
 
@@ -211,7 +209,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				'post_status' => 'publish',
 			)
 		);
-
 	}
 
 	/**
@@ -250,7 +247,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$redirection = apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this, $querystring_only );
 
 		return $encode ? urlencode( $redirection ) : $redirection;
-
 	}
 
 	/**
@@ -315,7 +311,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 *                                             (allows retrieving plans on admin panel)
 		 */
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this, $check_availability );
-
 	}
 
 	/**
@@ -365,7 +360,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @param LLMS_Access_Plan     $this       Access Plan object.
 		 */
 		return apply_filters( 'llms_access_plan_get_initial_price', $ret, $price_args, $coupon, $format, $this );
-
 	}
 
 	/**
@@ -497,28 +491,30 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
 		}
+		/**
+		 * Filter the price of a plan with a coupon applied before formatting the price for display.
+		 *
+		 * @since 7.8.0
+		 */
+		$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_price_with_coupon_before_formatting", $price, $key, $price_args, $this );
 
 		// If price is less than 0 return the pricing text.
 		if ( $price <= 0 ) {
 
 			$price = $this->get_free_pricing_text( $format );
 
-		} else {
-
-			if ( 'html' === $format || 'raw' === $format ) {
-				$price = llms_price( $price, $price_args );
-				if ( 'raw' === $format ) {
-					$price = wp_strip_all_tags( $price );
-				}
-			} elseif ( 'float' === $format ) {
-				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
-			} else {
-				$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_{$format}_with_coupon", $price, $key, $price_args, $format, $this );
+		} elseif ( 'html' === $format || 'raw' === $format ) {
+			$price = llms_price( $price, $price_args );
+			if ( 'raw' === $format ) {
+				$price = wp_strip_all_tags( $price );
 			}
+		} elseif ( 'float' === $format ) {
+			$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
+		} else {
+			$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_{$format}_with_coupon", $price, $key, $price_args, $format, $this );
 		}
 
 		return apply_filters( "llms_get_{$this->model_post_type}_{$key}_price_with_coupon", $price, $key, $price_args, $format, $this );
-
 	}
 
 	/**
@@ -548,11 +544,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the text displayed on "Buy" buttons
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
 	 *
+	 * @param    boolean $verbose  If true, the text will be verbose and include the plan name for accessibility.
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @since    8.0.0 Added $verbose parameter.
+	 * @version  8.0.0
 	 */
-	public function get_enroll_text() {
+	public function get_enroll_text( $verbose = false ) {
 
 		// User custom text option.
 		$text = $this->get( 'enroll_text' );
@@ -572,7 +570,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
-		return apply_filters( 'llms_plan_get_enroll_text', $text, $this );
+		// Build the verbose enroll text, if requested.
+		if ( $verbose ) {
+			$plan_name = $this->get( 'title' );
+			$text = sprintf( _x( '%1$s: Select the %2$s plan.', 'Verbose enrollment text', 'lifterlms' ), $text, $plan_name );
+		}
+
+		return apply_filters( 'llms_plan_get_enroll_text', $text, $this, $verbose );
 	}
 
 	/**
@@ -594,7 +598,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_get_product_expiration_details', $ret, $this );
-
 	}
 
 	/**
@@ -630,7 +633,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_get_product_schedule_details', sprintf( $ret, $this->get( 'period' ), $frequency, $length ), $this );
-
 	}
 
 	/**
@@ -737,7 +739,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_plan_is_available_to_user', $access, $user_id, $this );
-
 	}
 
 	/**
@@ -810,7 +811,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_plan_is_on_sale', $ret, $this );
-
 	}
 
 	/**
@@ -863,7 +863,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
-
 	}
 
 	/**
@@ -901,5 +900,4 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	protected function toArrayCustom( $arr ) {
 		return $arr;
 	}
-
 }

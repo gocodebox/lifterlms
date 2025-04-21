@@ -67,7 +67,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		ob_start();
 		$this->mockPostRequest( $args );
 		try {
-			call_user_func( array( 'LLMS_AJAX_Handler', $function ) );
+			call_user_func( array( 'LLMS_AJAX_Handler', $function ), $args );
 		} catch ( WPAjaxDieContinueException $e ) {}
 		return json_decode( $this->last_response, true );
 
@@ -103,10 +103,10 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		// No handler.
-		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array() ) );
+		$this->assertNull( $this->do_ajax( 'export_admin_table', array() ) );
 
 		// Invalid handler.
-		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'fake' ) ) );
+		$this->assertNull( $this->do_ajax( 'export_admin_table', array( 'handler' => 'fake' ) ) );
 
 	}
 
@@ -120,11 +120,11 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	public function test_export_admin_table_invalid_permissions() {
 
 		// No user.
-		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'Students' ) ) );
+		$this->assertNull( $this->do_ajax( 'export_admin_table', array( 'handler' => 'Students' ) ) );
 
 		// Student.
 		wp_set_current_user( $this->factory->student->create() );
-		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'Students' ) ) );
+		$this->assertNull( $this->do_ajax( 'export_admin_table', array( 'handler' => 'Students' ) ) );
 
 	}
 
@@ -196,6 +196,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_select2_query_posts() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 		$args = array(
 			'post_type' => 'course',
 		);
@@ -379,6 +380,11 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		);
 
 		$res = $this->do_ajax( 'select2_query_posts', $args );
+		$this->assertNull( $res, 'Should not return if no logged in user' );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
+		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 1, count( $res['items'] ) );
 		$this->assertTrue( $res['success'] );
 		$this->assertSame( $course, (int) $res['items'][0]['id'] );
@@ -394,6 +400,8 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_update_student_enrollment_errors() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		$request = array(
 			'post_id' => 1,
@@ -504,6 +512,8 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'post_id'    => $course_id,
 		);
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertTrue( $res['success'] );
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
@@ -535,6 +545,8 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'post_id'    => $course_id,
 		);
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $student->is_enrolled( $course_id ) );
@@ -565,6 +577,8 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => $student_id,
 			'post_id'    => $course_id,
 		);
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertTrue( $res['success'] );

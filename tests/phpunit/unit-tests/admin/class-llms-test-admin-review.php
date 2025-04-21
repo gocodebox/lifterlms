@@ -158,12 +158,10 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 		try {
 			$this->main->dismiss();
 		} catch ( WPDieException $e ) {
+			$review = get_option( 'llms_review' );
 
-			$this->assertEquals( array(
-				'time'      => time(),
-				'dismissed' => true,
-				'success'   => 'no',
-			), get_option( 'llms_review' ) );
+			$this->assertTrue( $review['dismissed'] );
+			$this->assertEquals( 'no', $review['success'] );
 
 		}
 

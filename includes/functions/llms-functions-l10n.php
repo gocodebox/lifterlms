@@ -33,7 +33,6 @@ function llms_get_locale( $domain = 'lifterlms' ) {
 	 * @param string $domain The textdomain.
 	 */
 	return apply_filters( 'plugin_locale', $locale, $domain );
-
 }
 
 function llms_l10n_get_safe_directory() {
@@ -52,7 +51,6 @@ function llms_l10n_get_safe_directory() {
 	 * @param string $path Full server path to the safe directory.
 	 */
 	return apply_filters( 'llms_l10n_safe_directory', WP_LANG_DIR . '/lifterlms' );
-
 }
 
 /**
@@ -91,8 +89,6 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	$plugin_dir   = $plugin_dir ? $plugin_dir : LLMS_PLUGIN_DIR;
 	$language_dir = $language_dir ? $language_dir : 'languages';
 
-	unload_textdomain( $domain );
-
 	/**
 	 * Load from the custom LifterLMS "safe" directory (if it exists).
 	 *
@@ -107,7 +103,6 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
 	 * 2. wp-content/plugins/lifterlms/languages/lifterlms-en_US.mo
 	 */
 	load_plugin_textdomain( $domain, false, sprintf( '%1$s/%2$s', basename( $plugin_dir ), $language_dir ) );
-
 }
 
 /**
@@ -126,19 +121,19 @@ function llms_get_permalink_structure() {
 		// Remove false or empty entries so we can use the default values.
 		array_filter( $saved_permalinks ),
 		array(
-			'course_base' => _x( 'course', 'course url slug', 'lifterlms' ),
-			'courses_base' => _x( 'courses', 'course archive url slug', 'lifterlms' ),
-			'memberships_base' => _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
-			'lesson_base' => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
-			'quiz_base' => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
+			'course_base'               => _x( 'course', 'course url slug', 'lifterlms' ),
+			'courses_base'              => _x( 'courses', 'course archive url slug', 'lifterlms' ),
+			'memberships_base'          => _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+			'lesson_base'               => _x( 'lesson', 'lesson url slug', 'lifterlms' ),
+			'quiz_base'                 => _x( 'quiz', 'quiz url slug', 'lifterlms' ),
 			'certificate_template_base' => _x( 'certificate-template', 'slug', 'lifterlms' ),
-			'certificate_base' => _x( 'certificate', 'slug', 'lifterlms' ),
-			'course_category_base' => _x( 'course-category', 'slug', 'lifterlms' ),
-			'course_tag_base' => _x( 'course-tag', 'slug', 'lifterlms' ),
-			'course_track_base' => _x( 'course-track', 'slug', 'lifterlms' ),
-			'course_difficulty_base' => _x( 'course-difficulty', 'slug', 'lifterlms' ),
-			'membership_category_base' => _x( 'membership-category', 'slug', 'lifterlms' ),
-			'membership_tag_base' => _x( 'membership-tag', 'slug', 'lifterlms' ),
+			'certificate_base'          => _x( 'certificate', 'slug', 'lifterlms' ),
+			'course_category_base'      => _x( 'course-category', 'slug', 'lifterlms' ),
+			'course_tag_base'           => _x( 'course-tag', 'slug', 'lifterlms' ),
+			'course_track_base'         => _x( 'course-track', 'slug', 'lifterlms' ),
+			'course_difficulty_base'    => _x( 'course-difficulty', 'slug', 'lifterlms' ),
+			'membership_category_base'  => _x( 'membership-category', 'slug', 'lifterlms' ),
+			'membership_tag_base'       => _x( 'membership-tag', 'slug', 'lifterlms' ),
 		)
 	);
 
@@ -149,7 +144,7 @@ function llms_get_permalink_structure() {
 	}
 
 	return $permalinks;
-};
+}
 /**
  * Set the permalink structure and only allow keys we know about.
  *

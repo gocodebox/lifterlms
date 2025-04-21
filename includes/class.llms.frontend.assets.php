@@ -101,11 +101,18 @@ class LLMS_Frontend_Assets {
 				document.dispatchEvent( new Event( type ) );
 			}
 			document.addEventListener( 'copy', function( event ) {
+				// Allow copying if the target is an input or textarea element
+				if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+					return; // Let the default copy behavior proceed
+				}
+				
+				// Prevent copying outside input/textarea elements
 				event.preventDefault();
 				event.clipboardData.setData( 'text/plain', '<?php echo esc_html__( 'Copying is not allowed.', 'lifterlms' ); ?>' );
 				dispatchEvent( 'llms-copy-prevented' );
 			}, false );
 			document.addEventListener( 'contextmenu', function( event ) {
+				// Prevent right-click context menu on images
 				if ( event.target && 'IMG' === event.target.nodeName ) {
 					event.preventDefault();
 					dispatchEvent( 'llms-context-prevented' );

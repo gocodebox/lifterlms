@@ -48,7 +48,8 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 		$this->query = "SELECT user_registered AS date
 						FROM {$wpdb->users}
 						WHERE
-							user_registered BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS  DATETIME )
+							user_registered >= CAST( %s as DATETIME )
+						    AND user_registered < CAST( %s as DATETIME )
 							{$student_ids}
 						;";
 
@@ -56,7 +57,6 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['start'], 'start' ),
 			$this->format_date( $dates['end'], 'end' ),
 		);
-
 	}
 
 	protected function format_response() {
@@ -66,7 +66,5 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }

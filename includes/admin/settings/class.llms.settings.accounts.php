@@ -64,14 +64,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 			array(
 				'title'             => __( 'Dashboard Page', 'lifterlms' ),
-				'desc'              => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
+				'desc'              => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ) . ' ' . sprintf( __( 'Requires the %1$s[lifterlms_my_account]%2$s shortcode or the "My Account" block.', 'lifterlms' ), '<code>', '</code>' ),
 				'id'                => 'lifterlms_myaccount_page_id',
 				'default'           => '',
 				'desc_tip'          => true,
 				'class'             => 'llms-select2-post',
 				'type'              => 'select',
 				'custom_attributes' => array(
-					'data-post-type' => 'page',
+					'data-post-type'   => 'page',
+					'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 				),
 				'options'           => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 			),
@@ -459,7 +460,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 		 * @param array $account_settings The account page settings.
 		 */
 		return apply_filters( "lifterlms_{$this->id}_settings", $account_settings );
-
 	}
 
 	/**
@@ -472,7 +472,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	protected function set_label() {
 		return __( 'Accounts', 'lifterlms' );
 	}
-
 }
 
 return new LLMS_Settings_Accounts();

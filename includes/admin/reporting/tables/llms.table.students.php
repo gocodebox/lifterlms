@@ -353,6 +353,22 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
 	}
 
+	public function output_table_title_html() {
+		parent::output_table_title_html();
+		?>
+		<form id="llms-clear-student-progress-cache" action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'tools' ) ); ?>" method="POST">
+			<button class="button button-secondary" id="llms-clear-reporting-cache" name="llms_tool" type="submit" value="clear-cache"><?php echo esc_html__( 'Clear Reporting Cache', 'lifterlms' ); ?></button>
+			<?php wp_nonce_field( 'llms_tool' ); ?>
+			<label for="llms-clear-reporting-cache">
+				<span class="screen-reader-text"><?php echo esc_html__( 'Click to refresh the data and display the most current reporting information', 'lifterlms' ); ?></span>
+				<span class="tip--top-right" data-tip="<?php echo esc_html__( 'Click to refresh the data and display the most current reporting information', 'lifterlms' ); ?>">
+						<i class="fa fa-question-circle"></i>
+					</span>
+			</label>
+		</form>
+		<?php
+	}
+
 	/**
 	 * Get HTML for the filters displayed in the head of the table
 	 *

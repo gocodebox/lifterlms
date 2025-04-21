@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 7.4.1
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -85,7 +85,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class LLMS_Question extends LLMS_Post_Model {
 			return false;
 		}
 		return $choice->delete();
-
 	}
 
 	/**
@@ -122,7 +120,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 
@@ -191,7 +188,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		);
 
 		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
-
 	}
 
 
@@ -214,7 +210,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $value;
-
 	}
 
 	/**
@@ -275,7 +270,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -298,7 +292,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		unset( $allowedposttags['source'] );
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_description', $desc, $this );
-
 	}
 
 	/**
@@ -314,7 +307,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		$correct = array_map( 'trim', $correct );
 
 		return $correct;
-
 	}
 
 	/**
@@ -350,18 +342,32 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $correct;
-
 	}
 
 	/**
-	 * Get the question text (title)
+	 * Get the question text (title).
 	 *
 	 * @since 3.16.0
+	 * @since 7.8.0 Added $attempt param.
 	 *
+	 * @param string            $format  Optional. Format of the question text. Accepts 'html' or 'plain'.
+	 * @param LLMS_Quiz_Attempt $attempt Optional. Quiz Attempt object.
 	 * @return string
 	 */
-	public function get_question( $format = 'html' ) {
-		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_question', $this->get( 'title' ), $format, $this );
+	public function get_question( $format = 'html', $attempt = null ) {
+		/**
+		 * Filter the question text.
+		 *
+		 * The dynamic portion of this filter, `{$type}`, refers to the question type.
+		 *
+		 * @since 7.8.0
+		 *
+		 * @param string            $title    Question title.
+		 * @param string            $format   Format of the question text. Accepts 'html' or 'plain'.
+		 * @param LLMS_Question     $question Question object.
+		 * @param LLMS_Quiz_Attempt $attempt  Attempt object.
+		 */
+		return apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
 	}
 
 	/**
@@ -403,7 +409,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_image', $url, $this );
-
 	}
 
 	/**
@@ -472,7 +477,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $html, $embed, $this );
-
 	}
 
 	/**
@@ -538,6 +542,9 @@ class LLMS_Question extends LLMS_Post_Model {
 
 				}
 
+				$answer  = array_map( 'trim', $answer );
+				$correct = array_map( 'trim', $correct );
+
 				$grade = ( $answer === $correct ) ? 'yes' : 'no';
 
 			}
@@ -556,7 +563,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question $question Question object.
 		 */
 		return apply_filters( "llms_{$question_type}_question_grade", $grade, $answer, $this );
-
 	}
 
 	/**
@@ -623,7 +629,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -698,7 +703,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question $question Instance of the LLMS_Question.
 		 */
 		return apply_filters( "llms_{$this->get( 'question_type' )}_question_supports", $ret, $feature, $option, $this );
-
 	}
 
 	/**
@@ -735,7 +739,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $arr;
-
 	}
 
 	/**
@@ -765,7 +768,6 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		// Return choice ID.
 		return $choice->get( 'id' );
-
 	}
 
 	/**
@@ -797,7 +799,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $query;
-
 	}
 
 	/**
@@ -811,5 +812,4 @@ class LLMS_Question extends LLMS_Post_Model {
 	protected function toArrayCustom( $arr ) {
 		return $arr;
 	}
-
 }
