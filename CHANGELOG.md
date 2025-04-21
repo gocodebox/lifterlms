@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v8.0.5 - 2025-04-17
+-------------------
+
+##### Updates and Enhancements
+
++ Modifies the allowed HTML for a form, in case the allowed post values in WP have been filtered. [#2922](https://github.com/gocodebox/lifterlms/issues/2922)
+
+
 v8.0.4 - 2025-04-11
 -------------------
 
