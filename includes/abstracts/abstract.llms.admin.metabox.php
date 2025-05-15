@@ -516,6 +516,10 @@ abstract class LLMS_Admin_Metabox {
 
 		$val = '';
 
+		if ( isset( $field['handler'] ) && function_exists( 'llms_admin_meta_handler_' . $field['handler'] ) ) {
+			return call_user_func( 'llms_admin_meta_handler_' . $field['handler'], $post_id, $field, $_POST );
+		}
+
 		if ( ! isset( $_POST[ $field['id'] ] ) ) {
 			return $this->save_field_db( $post_id, $field['id'], $val );
 		}
