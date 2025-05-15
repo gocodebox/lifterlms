@@ -480,7 +480,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			( $is_gutenberg && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
 			function_exists( 'llms_blocks_is_post_migrated' ) && llms_blocks_is_post_migrated( $this->post->ID )
 		) {
-			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
 
