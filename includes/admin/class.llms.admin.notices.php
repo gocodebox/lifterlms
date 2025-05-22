@@ -396,14 +396,14 @@ class LLMS_Admin_Notices {
 	 */
 	public static function output_notices() {
 
-		self::output_global_notices();
-
 		$notices_to_print = array_diff( self::get_notices(), self::$printed_notices );
 
 		foreach ( $notices_to_print as $notice_id ) {
 			self::output_notice( $notice_id );
 			self::$printed_notices[] = $notice_id;
 		}
+
+		self::output_global_notices();
 	}
 
 	/**
