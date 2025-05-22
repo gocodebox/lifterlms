@@ -38,6 +38,12 @@
 
 	var llms_widgets = new window.llms.widgets();
 
+	var $headerEnd = $( '.wp-header-end' );
+	if ( ! $headerEnd.length ) {
+		$headerEnd = $( '.wrap h1, .wrap h2' ).first();
+	}
+	$( '#lifterlms-notifications' ).insertAfter( $headerEnd );
+
 	/**
 	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Courses/Memberships via AJAX.
 	 *
