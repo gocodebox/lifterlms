@@ -146,7 +146,7 @@ div[id^="lifterlms-"] .inside {
 	overflow: visible;
 }
 
-.notice.llms-admin-notice {
+.notice.llms-admin-notice, #lifterlms-notifications .lifterlms_notification {
 	background-color: #FFF;
 	border: 1px solid #ccd0d4;
 	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.15 );
@@ -205,7 +205,7 @@ div[id^="lifterlms-"] .inside {
 
 	}
 
-	.llms-admin-notice-icon {
+	.llms-admin-notice-icon, .lifterlms_notification-icon {
 		background-image: url(../../assets/images/lifterlms-icon-color.png);
 		background-position: center center;
 		background-repeat: no-repeat;
