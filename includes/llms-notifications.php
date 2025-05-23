@@ -18,8 +18,6 @@ function llms_maybe_hide_notifications( $priority ) {
 
 	$current_screen = get_current_screen();
 
-	error_log( print_r( $current_screen, true ) );
-
 	if ( ! isset( $current_screen->post_type ) ) {
 		return $priority;
 	}
