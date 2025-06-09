@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * LifterLMS Turnstile integration.
+ *
+ * This class integrates Cloudflare's Turnstile captcha into LifterLMS checkout and registration forms.
+ *
+ * @package LifterLMS/Includes/Spam
+ * @since [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class LLMS_Turnstile {
 	use LLMS_Trait_Singleton;
 
@@ -10,7 +21,7 @@ class LLMS_Turnstile {
 	public function __construct() {
 
 		$this->site_key   = defined( 'LLMS_TURNSTILE_SITE_KEY' ) ? LLMS_TURNSTILE_SITE_KEY : get_option( 'lifterlms_turnstile_site_key' );
-		$this->secret_key = defined( 'LLMS_TURNSTILE_SECRET_KEY' ) ? LLMS_TURNSTILE_SECRET_KEY : get_option( 'lifterlms_turnstile_private_key' );
+		$this->secret_key = defined( 'LLMS_TURNSTILE_SECRET_KEY' ) ? LLMS_TURNSTILE_SECRET_KEY : get_option( 'lifterlms_turnstile_secret_key' );
 
 		add_action( 'wp_head', array( $this, 'add_turnstile_script' ) );
 		add_action( 'llms_checkout_footer_before', array( $this, 'add_turnstile_check' ) );

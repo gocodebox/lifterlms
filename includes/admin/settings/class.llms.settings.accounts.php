@@ -267,9 +267,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'autoload'          => false,
 				'default'           => '',
-				'id'                => 'lifterlms_recaptcha_private_key',
+				'id'                => 'lifterlms_recaptcha_secret_key',
 				'desc'              => '',
-				'title'             => __( 'reCAPTCHA Private Key', 'lifterlms' ),
+				'title'             => __( 'reCAPTCHA Secret Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
@@ -291,7 +291,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'autoload'          => false,
 				'default'           => '',
-				'id'                => 'lifterlms_turnstile_private_key',
+				'id'                => 'lifterlms_turnstile_secret_key',
 				'desc'              => '',
 				'title'             => __( 'Turnstile Secret Key', 'lifterlms' ),
 				'type'              => 'text',

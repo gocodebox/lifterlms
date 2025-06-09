@@ -1,4 +1,7 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Code related to spam detection and prevention.
  */
