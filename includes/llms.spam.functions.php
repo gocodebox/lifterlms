@@ -153,7 +153,7 @@ function llms_clear_spam_activity( $ip = null ) {
  */
 function llms_track_failed_checkouts_for_spam() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option( 'lifterlms_spam_protection' );
+	$spam_protection = llms_parse_bool( get_option( 'lifterlms_spam_protection' ) );
 	if ( empty( $spam_protection ) ) {
 		return;
 	}
@@ -183,7 +183,7 @@ add_action( 'wp', 'llms_track_failed_checkouts_for_spam' );
  */
 function llms_disable_checkout_for_spammers() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option( 'lifterlms_spam_protection' );
+	$spam_protection = llms_parse_bool( get_option( 'lifterlms_spam_protection' ) );
 	if ( empty( $spam_protection ) ) {
 		return false;
 	}
