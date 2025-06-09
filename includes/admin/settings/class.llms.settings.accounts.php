@@ -244,9 +244,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title'             => __( 'Captcha', 'lifterlms' ),
 				'type'              => 'select',
 				'options'           => array(
-					'' => __( 'None', 'lifterlms' ),
+					''          => __( 'None', 'lifterlms' ),
 					'recaptcha' => __( 'reCAPTCHA', 'lifterlms' ),
-					'turnstile' => __( 'Turnstile', 'lifterlms' )
+					'turnstile' => __( 'Turnstile', 'lifterlms' ),
 				),
 				'custom_attributes' => array(
 					'data-controller-id' => 'captcha',
@@ -261,7 +261,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
-					'data-value-is' => 'recaptcha',
+					'data-value-is'   => 'recaptcha',
 				),
 			),
 			array(
@@ -273,7 +273,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
-					'data-value-is' => 'recaptcha',
+					'data-value-is'   => 'recaptcha',
 				),
 			),
 			array(
@@ -285,7 +285,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
-					'data-value-is' => 'turnstile',
+					'data-value-is'   => 'turnstile',
 				),
 			),
 			array(
@@ -293,20 +293,20 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'           => '',
 				'id'                => 'lifterlms_turnstile_private_key',
 				'desc'              => '',
-				'title'             => __( 'Turnstile Private Key', 'lifterlms' ),
+				'title'             => __( 'Turnstile Secret Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
-					'data-value-is' => 'turnstile',
+					'data-value-is'   => 'turnstile',
 				),
 			),
 			array(
-				'autoload'          => false,
-				'default'           => 'no',
-				'id'                => 'lifterlms_spam_protection',
-				'desc'              => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
-				'title'             => __( 'Spam Protection', 'lifterlms' ),
-				'type'              => 'checkbox',				
+				'autoload' => false,
+				'default'  => 'no',
+				'id'       => 'lifterlms_spam_protection',
+				'desc'     => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
+				'title'    => __( 'Spam Protection', 'lifterlms' ),
+				'type'     => 'checkbox',
 			),
 			array(
 				'id'   => 'security_and_spam_options_end',

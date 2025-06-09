@@ -2,6 +2,7 @@
 /**
  * Code related to spam detection and prevention.
  */
+
 // Constants. Define these in wp-config.php to override.
 if ( ! defined( 'LLMS_SPAM_ACTION_NUM_LIMIT' ) ) {
 	define( 'LLMS_SPAM_ACTION_NUM_LIMIT', 10 );
@@ -18,12 +19,12 @@ if ( ! defined( 'LLMS_SPAM_ACTION_TIME_LIMIT' ) ) {
  * @return bool Whether the current visitor a spammer.
  */
 function llms_is_spammer() {
-    $is_spammer = false;
+	$is_spammer = false;
 
-    $activity = llms_get_spam_activity();
-    if ( false !== $activity && count( $activity ) >= LLMS_SPAM_ACTION_NUM_LIMIT ) {
-        $is_spammer = true;
-    }
+	$activity = llms_get_spam_activity();
+	if ( false !== $activity && count( $activity ) >= LLMS_SPAM_ACTION_NUM_LIMIT ) {
+		$is_spammer = true;
+	}
 
 	/**
 	 * Allow filtering whether the current visitor is a spammer.
@@ -55,19 +56,19 @@ function llms_get_spam_activity( $ip = null ) {
 		return false;
 	}
 
-	$ip = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip );
+	$ip            = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip );
 	$transient_key = 'llms_spam_activity_' . $ip;
-	$activity = get_transient( $transient_key );
+	$activity      = get_transient( $transient_key );
 	if ( empty( $activity ) || ! is_array( $activity ) ) {
-		$activity = [];
+		$activity = array();
 	}
 
 	// Remove old items.
-	$new_activity = [];
-	$now = current_time( 'timestamp', true ); // UTC
-	foreach( $activity as $item ) {
+	$new_activity = array();
+	$now          = time(); // UTC
+	foreach ( $activity as $item ) {
 		// Determine whether this item is recent enough to include.
-		if ( $item > $now-( LLMS_SPAM_ACTION_TIME_LIMIT ) ) {
+		if ( $item > $now - ( LLMS_SPAM_ACTION_TIME_LIMIT ) ) {
 			$new_activity[] = $item;
 		}
 	}
@@ -98,7 +99,7 @@ function llms_track_spam_activity( $ip = null ) {
 	}
 
 	$activity = llms_get_spam_activity( $ip );
-	$now = current_time( 'timestamp', true ); // UTC
+	$now      = time(); // UTC
 	array_unshift( $activity, $now );
 
 	// If we have more than the limit, don't bother storing them.
@@ -108,7 +109,7 @@ function llms_track_spam_activity( $ip = null ) {
 	}
 
 	// Save to transient.
-	$ip = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip );
+	$ip            = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip );
 	$transient_key = 'llms_spam_activity_' . $ip;
 	set_transient( $transient_key, $activity, (int) LLMS_SPAM_ACTION_TIME_LIMIT );
 
@@ -146,25 +147,25 @@ function llms_clear_spam_activity( $ip = null ) {
 /**
  * Track spam activity when checkouts or billing updates fail.
  * Hooked on wp so the $post global is set up.
- * 
+ *
  * @since [version]
  * @param MemberOrder $morder The order object used at checkout. We ignore it.
  */
-function llms_track_failed_checkouts_for_spam() {	
+function llms_track_failed_checkouts_for_spam() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option("lifterlms_spam_protection");	
-	if ( empty( $spam_protection ) ) {		
+	$spam_protection = get_option( 'lifterlms_spam_protection' );
+	if ( empty( $spam_protection ) ) {
 		return;
-	}	
+	}
 
 	// Bail if we're not on the LifterLMS checkout page.
-	if ( is_admin() || ! is_llms_checkout() ) {		
+	if ( is_admin() || ! is_llms_checkout() ) {
 		return;
-	}	
+	}
 
 	// Bail if there are no notices with type error.
 	$notices = llms()->session->get( 'llms_notices', array() );
-	$types = array_keys( $notices );
+	$types   = array_keys( $notices );
 	if ( ! in_array( 'error', $types ) ) {
 		return;
 	}
@@ -182,11 +183,11 @@ add_action( 'wp', 'llms_track_failed_checkouts_for_spam' );
  */
 function llms_disable_checkout_for_spammers() {
 	// Bail if Spam Protection is disabled.
-	$spam_protection = get_option("lifterlms_spam_protection");	
+	$spam_protection = get_option( 'lifterlms_spam_protection' );
 	if ( empty( $spam_protection ) ) {
 		return false;
 	}
-	
+
 	// Bail if the current visitor is not a spammer.
 	if ( ! llms_is_spammer() ) {
 		return false;
