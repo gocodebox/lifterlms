@@ -257,7 +257,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'           => '',
 				'id'                => 'lifterlms_recaptcha_site_key',
 				'desc'              => '',
-				'title'             => __( 'reCAPTCHA Site Key', 'lifterlms' ),
+				'title'             => __( 'reCAPTCHA v3 Site Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
@@ -269,7 +269,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'default'           => '',
 				'id'                => 'lifterlms_recaptcha_secret_key',
 				'desc'              => '',
-				'title'             => __( 'reCAPTCHA Secret Key', 'lifterlms' ),
+				'title'             => __( 'reCAPTCHA v3 Secret Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
 					'data-controller' => 'captcha',
