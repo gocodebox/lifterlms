@@ -55,6 +55,10 @@ class LLMS_Turnstile {
 			return;
 		}
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		wp_enqueue_script( 'cloudflare-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js' );
 	}
 
@@ -98,7 +102,7 @@ class LLMS_Turnstile {
 		if ( ! $captcha ) {
 			error_log( 'checkout blocked due to missing captcha' );
 			// Customize the error message displayed when a registration is blocked.
-			llms_add_notice( __( 'Blocked.', 'my-text-domain' ), 'error' );
+			llms_add_notice( __( 'Blocked.', 'lifterlms' ), 'error' );
 			return true;
 		}
 
@@ -129,9 +133,7 @@ class LLMS_Turnstile {
 		$response_keys = json_decode( $response, true );
 
 		if ( intval( $response_keys['success'] ) !== 1 ) {
-			// Not valid. Block them.
-			// Customize the error message displayed when a registration is blocked.
-			llms_add_notice( __( 'Blocked.', 'my-text-domain' ), 'error' );
+			llms_add_notice( __( 'Verification failed. Please try again.', 'lifterlms' ), 'error' );
 			return true;
 		}
 
