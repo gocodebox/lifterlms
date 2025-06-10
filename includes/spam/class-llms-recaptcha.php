@@ -47,6 +47,27 @@ class LLMS_Google_Recaptcha {
 
 		add_action( 'llms_before_checkout_validation', array( $this, 'validate_recaptcha' ) );
 		add_filter( 'llms_before_registration_validation', array( $this, 'validate_recaptcha' ) );
+
+		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'show_notices' ) );
+	}
+
+	/**
+	 * Show notices if Recaptcha is enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function show_notices() {
+		if ( ! $this->is_enabled() ) {
+			return;
+		}
+
+		if ( is_admin() ) {
+			return;
+		}
+
+		llms_print_notices();
 	}
 
 	public function is_enabled() {

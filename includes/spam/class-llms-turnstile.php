@@ -30,6 +30,27 @@ class LLMS_Turnstile {
 
 		add_filter( 'llms_before_checkout_validation', array( $this, 'validate_turnstile' ) );
 		add_filter( 'llms_before_registration_validation', array( $this, 'validate_turnstile' ) );
+
+		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'show_notices' ) );
+	}
+
+	/**
+	 * Show notices if Turnstile is enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function show_notices() {
+		if ( ! $this->is_enabled() ) {
+			return;
+		}
+
+		if ( is_admin() ) {
+			return;
+		}
+
+		llms_print_notices();
 	}
 
 	/**
