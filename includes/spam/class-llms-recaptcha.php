@@ -41,10 +41,6 @@ class LLMS_Google_Recaptcha {
 		 */
 		$this->action = apply_filters( 'lifterlms_recaptcha_action', 'submit' );
 
-		/* Front‑end assets */
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
-
-		/* Show widget on both forms */
 		add_action( 'llms_checkout_footer_before', array( $this, 'render' ) );
 		add_action( 'lifterlms_after_registration_fields', array( $this, 'render' ) );
 		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'render' ) );
@@ -57,16 +53,13 @@ class LLMS_Google_Recaptcha {
 		return 'recaptcha' === get_option( 'lifterlms_captcha' );
 	}
 
-	public function enqueue() {
+	public function render() {
 		if ( ! $this->is_enabled() ) {
 			return;
 		}
 
-		if ( is_admin() ) {
-			return;
-		}
+		echo '<input type="hidden" name="g-recaptcha-response" class="llms-google-recaptcha g-recaptcha-response" />';
 
-		// Adding to all pages as recommended by the Google reCAPTCHA documentation.
 		wp_enqueue_script(
 			'llms-google-recaptcha',
 			'https://www.google.com/recaptcha/api.js?render=' . $this->site_key,
@@ -74,48 +67,25 @@ class LLMS_Google_Recaptcha {
 			null,
 			true
 		);
-	}
-
-	public function render() {
-		if ( ! $this->is_enabled() ) {
-			return;
-		}
-
-		echo '<script>
-			function llmsRecaptchaOnSubmit( token ) {
-				document.getElementById("llms-product-purchase-form").submit();
+		wp_add_inline_script(
+			'llms-google-recaptcha',
+			"
+		document.querySelectorAll( 'form' ).forEach( function( form ) {
+			if ( form.querySelector( '.llms-google-recaptcha' ) === null ) {
+				return;
 			}
-		</script>';
-
-		// echo '<input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response" />';
-
-		// TODO: This only lasts for two minutes, so we need to re-execute it.
-
-		// Add class and data to the submit button?
-		/**
-		 * <button class="g-recaptcha"
-		 * data-sitekey="reCAPTCHA_site_key"
-		 * data-callback='onSubmit'
-		 * data-action='submit'>Submit</button>
-		 */
-
-		// wp_add_inline_script(
-		// 'google-recaptcha-v3',
-		// sprintf(
-		// "document.addEventListener('DOMContentLoaded',function(){
-		// grecaptcha.ready(function(){
-		// grecaptcha.execute('%s',{action:'%s'}).then(function(token){
-		// document.querySelectorAll('.g-recaptcha-response').forEach(function(el){
-		// el.value = token;
-		// });
-		// });
-		// });
-		// });",
-		// esc_js( $this->site_key ),
-		// esc_js( $this->action )
-		// ),
-		// 'after'
-		// );
+			form.addEventListener( 'submit', function( event ) {
+				event.preventDefault();
+				grecaptcha.ready(() => {
+					grecaptcha.execute( '" . esc_js( $this->site_key ) . "', { action: '" . esc_js( $this->action ) . "' } ).then( token => {
+						form.querySelector('[name=g-recaptcha-response]').value = token;
+						form.submit();
+					} );
+				} );
+			} );
+		} );
+		"
+		);
 	}
 
 	public function validate_recaptcha( $valid ) {
