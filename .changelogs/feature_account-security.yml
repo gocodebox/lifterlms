@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Support for Turnstile and Recaptcha v3 with checkout and registration forms.
