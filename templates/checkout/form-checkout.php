@@ -131,10 +131,16 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 					llms_form_field(
 						array(
-							'classes' => 'llms-button-action',
-							'id'      => 'llms_create_pending_order',
-							'value'   => apply_filters( 'lifterlms_checkout_buy_button_text', ! $is_free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
-							'type'    => 'submit',
+							// TODO: Add a filter for this and other fields, or inject this data via JS.
+							'classes'    => 'llms-button-action g-recaptcha',
+							'attributes' => array(
+								'data-callback' => 'llmsRecaptchaOnSubmit',
+								'data-sitekey'  => get_option( 'lifterlms_recaptcha_site_key' ),
+								'data-action'   => 'submit',
+							),
+							'id'         => 'llms_create_pending_order',
+							'value'      => apply_filters( 'lifterlms_checkout_buy_button_text', ! $is_free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
+							'type'       => 'submit',
 						)
 					);
 					?>

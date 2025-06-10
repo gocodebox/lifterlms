@@ -81,7 +81,13 @@ class LLMS_Google_Recaptcha {
 			return;
 		}
 
-		echo '<input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response" />';
+		echo '<script>
+			function llmsRecaptchaOnSubmit( token ) {
+				document.getElementById("llms-product-purchase-form").submit();
+			}
+		</script>';
+
+		// echo '<input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response" />';
 
 		// TODO: This only lasts for two minutes, so we need to re-execute it.
 
@@ -93,23 +99,23 @@ class LLMS_Google_Recaptcha {
 		 * data-action='submit'>Submit</button>
 		 */
 
-		wp_add_inline_script(
-			'google-recaptcha-v3',
-			sprintf(
-				"document.addEventListener('DOMContentLoaded',function(){
-					grecaptcha.ready(function(){
-						grecaptcha.execute('%s',{action:'%s'}).then(function(token){
-							document.querySelectorAll('.g-recaptcha-response').forEach(function(el){
-								el.value = token;
-							});
-						});
-					});
-				});",
-				esc_js( $this->site_key ),
-				esc_js( $this->action )
-			),
-			'after'
-		);
+		// wp_add_inline_script(
+		// 'google-recaptcha-v3',
+		// sprintf(
+		// "document.addEventListener('DOMContentLoaded',function(){
+		// grecaptcha.ready(function(){
+		// grecaptcha.execute('%s',{action:'%s'}).then(function(token){
+		// document.querySelectorAll('.g-recaptcha-response').forEach(function(el){
+		// el.value = token;
+		// });
+		// });
+		// });
+		// });",
+		// esc_js( $this->site_key ),
+		// esc_js( $this->action )
+		// ),
+		// 'after'
+		// );
 	}
 
 	public function validate_recaptcha( $valid ) {
