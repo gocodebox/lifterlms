@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2947"
+entry: Resolves warning when first visiting the Logs tab.
