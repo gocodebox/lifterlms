@@ -114,9 +114,9 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 			),
 			'lifterlms_captcha' => array( '' ),
 			'lifterlms_recaptcha_site_key' => array( '' ),
-			'lifterlms_recaptcha_private_key' => array( '' ),
+			'lifterlms_recaptcha_secret_key' => array( '' ),
 			'lifterlms_turnstile_site_key' => array( '' ),
-			'lifterlms_turnstile_private_key' => array( '' ),
+			'lifterlms_turnstile_secret_key' => array( '' ),
 			'lifterlms_spam_protection' => array(
 				'yes',
 			),
