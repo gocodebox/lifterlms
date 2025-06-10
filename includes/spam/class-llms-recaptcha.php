@@ -58,6 +58,10 @@ class LLMS_Google_Recaptcha {
 			return;
 		}
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		echo '<input type="hidden" name="g-recaptcha-response" class="llms-google-recaptcha g-recaptcha-response" />';
 
 		wp_enqueue_script(
@@ -102,6 +106,9 @@ class LLMS_Google_Recaptcha {
 			: '';
 
 		if ( ! $token ) {
+			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+				error_log( 'LifterLMS form blocked due to missing captcha' );
+			}
 			llms_add_notice( __( 'CAPTCHA token missing, please refresh and try again.', 'lifterlms' ), 'error' );
 			return true;
 		}
@@ -126,6 +133,10 @@ class LLMS_Google_Recaptcha {
 					&& ( empty( $body['action'] ) || $body['action'] === $this->action ); // action check is optional but recommended
 
 		if ( ! $passed ) {
+			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+				error_log( 'LLMS_Google_Recaptcha verification failed: ' . ( $body ? print_r( $body, true ) : '' ) );
+			}
+
 			llms_add_notice( __( 'CAPTCHA validation failed — please try again.', 'lifterlms' ), 'error' );
 			return true;
 		}

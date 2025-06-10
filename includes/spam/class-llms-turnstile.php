@@ -74,6 +74,10 @@ class LLMS_Turnstile {
 			return;
 		}
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		?>
 		<div class="cf-turnstile" data-sitekey="<?php echo esc_attr( $this->site_key ); ?>"></div>
 		<?php
@@ -100,7 +104,9 @@ class LLMS_Turnstile {
 		// If we don't have a response to test, return an error and stop registration.
 		$captcha = llms_filter_input_sanitize_string( INPUT_POST, 'cf-turnstile-response' );
 		if ( ! $captcha ) {
-			error_log( 'checkout blocked due to missing captcha' );
+			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+				error_log( 'LifterLMS form blocked due to missing captcha' );
+			}
 			// Customize the error message displayed when a registration is blocked.
 			llms_add_notice( __( 'Blocked.', 'lifterlms' ), 'error' );
 			return true;
@@ -133,6 +139,10 @@ class LLMS_Turnstile {
 		$response_keys = json_decode( $response, true );
 
 		if ( intval( $response_keys['success'] ) !== 1 ) {
+			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+				error_log( 'LLMS_Turnstile verification failed: ' . print_r( $response, true ) );
+			}
+
 			llms_add_notice( __( 'Verification failed. Please try again.', 'lifterlms' ), 'error' );
 			return true;
 		}
