@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: Additional sanitation of the voucher field.
