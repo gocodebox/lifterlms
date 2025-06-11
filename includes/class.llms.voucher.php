@@ -149,13 +149,13 @@ class LLMS_Voucher {
 		$redeemed_table = $this->get_redemptions_table_name();
 
 		$sql = $wpdb->prepare(
-			'SELECT c.*, count(r.id) as used
+			"SELECT c.*, count(r.id) as used
                   FROM $table as c
                   LEFT JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
                   WHERE c.`code` = %s AND c.`is_deleted` = 0
                   GROUP BY c.`id`
-                  LIMIT 1',
+                  LIMIT 1",
 			$code
 		);
 		return $wpdb->get_row( $sql );
