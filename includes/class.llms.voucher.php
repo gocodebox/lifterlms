@@ -410,7 +410,7 @@ class LLMS_Voucher {
 
 		return $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT count(id) FROM {$this->get_redemptions_table_name()} WHERE user_id = %d and code_id = %d",
+				"SELECT count(id) FROM {$this->get_redemptions_table_name()} WHERE user_id = %d and code_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				array( $user_id, $code_id )
 			)
 		);
