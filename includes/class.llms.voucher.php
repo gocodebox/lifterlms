@@ -199,7 +199,7 @@ class LLMS_Voucher {
 
 		$table = $this->get_codes_table_name();
 
-		$query = $wpdb->prepare( 'SELECT * FROM $table WHERE `id` = %s AND `is_deleted` = 0 LIMIT 1', $code_id );
+		$query = $wpdb->prepare( 'SELECT * FROM $table WHERE `id` = %d AND `is_deleted` = 0 LIMIT 1', $code_id );
 		return $wpdb->get_row( $query );
 	}
 
