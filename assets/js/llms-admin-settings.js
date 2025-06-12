@@ -80,21 +80,38 @@
 
 			$( '.llms-conditional-controller' ).each( function() {
 
-				var $controls = $( $( this ).attr( 'data-controls' ) ).closest( 'tr' );
-
 				$( this ).on( 'change', function() {
 
-					var val;
 
 					if ( 'checkbox' === $( this ).attr( 'type' ) ) {
-						val = $( this ).is( ':checked' );
-					}
+						var $controls = $( $( this ).attr( 'data-controls' ) ).closest( 'tr' );
 
-					if ( val ) {
-						$controls.show();
-					} else {
-						$controls.hide();
+						if ( $( this ).is( ':checked' ) ) {
+							$controls.show();
+						} else {
+							$controls.hide();
+						}
+
+						return;
 					}
+					if ( 'select' !== $( this ).prop( 'tagName' ).toLowerCase() ) {
+						return;
+					}
+					$( this ).find( 'option' ).each( function() {
+						var val = $( this ).val();
+						if ( ! val ) {
+							return true;
+						}
+
+						var $controls_for_option = $( $( this ).parent().attr( 'data-controls-' + $.escapeSelector( val ) ) ).closest( 'tr' );
+
+						if ( $( this ).is( ':selected' ) ) {
+							$controls_for_option.show();
+						} else {
+							$controls_for_option.hide();
+						}
+					} );
+
 
 				} ).trigger( 'change' );
 

@@ -55,8 +55,10 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 					'recaptcha' => __( 'reCAPTCHA', 'lifterlms' ),
 					'turnstile' => __( 'Turnstile', 'lifterlms' ),
 				),
+				'class'             => 'llms-conditional-controller',
 				'custom_attributes' => array(
-					'data-controller-id' => 'captcha',
+					'data-controls-recaptcha' => '#lifterlms_recaptcha_site_key,#lifterlms_recaptcha_secret_key',
+					'data-controls-turnstile' => '#lifterlms_turnstile_site_key,#lifterlms_turnstile_secret_key',
 				),
 			),
 			array(
