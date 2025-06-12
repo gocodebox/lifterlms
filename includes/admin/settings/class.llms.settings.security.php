@@ -65,7 +65,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 				'autoload'          => false,
 				'default'           => '',
 				'id'                => 'lifterlms_recaptcha_site_key',
-				'desc'              => '',
+				'desc'              => 'Requires reCAPTCHA v3 keys. <a href="https://lifterlms.com/docs/recaptcha" target="_blank">Learn More</a>.',
 				'title'             => __( 'reCAPTCHA v3 Site Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
@@ -89,7 +89,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 				'autoload'          => false,
 				'default'           => '',
 				'id'                => 'lifterlms_turnstile_site_key',
-				'desc'              => '',
+				'desc'              => 'Requires Cloudflare Turnstile keys. <a href="https://lifterlms.com/docs/turnstile" target="_blank">Learn More</a>.',
 				'title'             => __( 'Turnstile Site Key', 'lifterlms' ),
 				'type'              => 'text',
 				'custom_attributes' => array(
