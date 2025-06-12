@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v8.0.7 - 2025-06-11
+-------------------
+
+##### Security Fixes
+
++ Additional sanitation of the voucher field.
+
+
 v8.0.6 - 2025-04-21
 -------------------
 
