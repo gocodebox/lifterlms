@@ -60,6 +60,7 @@ class LLMS_Admin_Settings {
 			$settings[] = include 'settings/class.llms.settings.general.php';
 			$settings[] = include 'settings/class.llms.settings.courses.php';
 			$settings[] = include 'settings/class.llms.settings.memberships.php';
+			$settings[] = include 'settings/class.llms.settings.security.php';
 			$settings[] = include 'settings/class.llms.settings.accounts.php';
 			$settings[] = include 'settings/class.llms.settings.checkout.php';
 			$settings[] = include 'settings/class.llms.settings.engagements.php';
@@ -709,12 +710,13 @@ class LLMS_Admin_Settings {
 
 				?>
 				<tr valign="top" class="single_select_page">
-					<th><?php echo esc_html( $field['title'] ); ?> <?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions.?></th>
+					<th><?php echo esc_html( $field['title'] ); ?> <?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in set_field_descriptions. ?></th>
 					<td class="forminp">
-						<?php 
+						<?php
 						// PHPCS ignore reason: This is a dropdown and the output is escaped in wp_dropdown_pages.
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo str_replace( ' id=', " data-placeholder='" . esc_html__( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . esc_attr( $field['css'] ) . "' class='" . esc_attr( $field['class'] ) . "' id=", wp_dropdown_pages( $args ) ); ?>
+						echo str_replace( ' id=', " data-placeholder='" . esc_html__( 'Select a page&hellip;', 'lifterlms' ) . "' style='" . esc_attr( $field['css'] ) . "' class='" . esc_attr( $field['class'] ) . "' id=", wp_dropdown_pages( $args ) );
+						?>
 						<?php echo wp_kses_post( $description ); ?>
 					</td>
 				</tr>
