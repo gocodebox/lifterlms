@@ -66,6 +66,23 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 			if ( form.querySelector( '.llms-google-recaptcha' ) === null ) {
 				return;
 			}
+
+			// TODO: Wrap the below in a method and pass to before_submit if window.llms.checkout exists and equals this form.
+			function checkout_before_submit( self, callback ) {
+				grecaptcha.ready(() => {
+					grecaptcha.execute( '" . esc_js( $this->site_key ) . "', { action: '" . esc_js( $this->action ) . "' } ).then( token => {
+						form.querySelector('[name=g-recaptcha-response]').value = token;
+						callback( true );
+					} );
+				} );
+			}
+
+			if ( window.llms && window.llms.checkout && window.llms.checkout.$checkout_form && window.llms.checkout.$checkout_form[0] === form ) {
+				// If this is the checkout form, use the before_submit method to handle reCAPTCHA.
+				window.llms.checkout.add_before_submit_event( { data: form, handler: checkout_before_submit } );
+				return;
+			}
+
 			form.addEventListener( 'submit', function( event ) {
 				event.preventDefault();
 				grecaptcha.ready(() => {
