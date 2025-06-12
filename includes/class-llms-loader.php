@@ -305,6 +305,7 @@ class LLMS_Loader {
 
 		// Spam stuff.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.spam.functions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-captcha.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-turnstile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-recaptcha.php';
 

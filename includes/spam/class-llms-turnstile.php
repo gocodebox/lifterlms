@@ -11,57 +11,19 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class LLMS_Turnstile {
+class LLMS_Turnstile extends LLMS_Captcha {
+
 	use LLMS_Trait_Singleton;
-
-	protected $site_key;
-
-	protected $secret_key;
 
 	public function __construct() {
 
-		$this->site_key   = defined( 'LLMS_TURNSTILE_SITE_KEY' ) ? LLMS_TURNSTILE_SITE_KEY : get_option( 'lifterlms_turnstile_site_key' );
-		$this->secret_key = defined( 'LLMS_TURNSTILE_SECRET_KEY' ) ? LLMS_TURNSTILE_SECRET_KEY : get_option( 'lifterlms_turnstile_secret_key' );
+		parent::__construct();
 
 		add_action( 'wp_head', array( $this, 'add_turnstile_script' ) );
-		add_action( 'llms_checkout_footer_before', array( $this, 'add_turnstile_check' ) );
-		add_action( 'lifterlms_after_registration_fields', array( $this, 'add_turnstile_check' ) );
-		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'add_turnstile_check' ) );
-
-		add_filter( 'llms_before_checkout_validation', array( $this, 'validate_turnstile' ) );
-		add_filter( 'llms_before_registration_validation', array( $this, 'validate_turnstile' ) );
-
-		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'show_notices' ) );
 	}
 
-	/**
-	 * Show notices if Turnstile is enabled.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	function show_notices() {
-		if ( ! $this->is_enabled() ) {
-			return;
-		}
-
-		if ( is_admin() ) {
-			return;
-		}
-
-		llms_print_notices();
-	}
-
-	/**
-	 * Check if Turnstile is enabled.
-	 *
-	 * @since [version]
-	 *
-	 * @return bool
-	 */
-	function is_enabled() {
-		return 'turnstile' === get_option( 'lifterlms_captcha' );
+	public function get_slug() {
+		return 'turnstile';
 	}
 
 	/**
@@ -71,7 +33,7 @@ class LLMS_Turnstile {
 	 *
 	 * @return void
 	 */
-	function add_turnstile_script() {
+	public function add_turnstile_script() {
 		if ( ! $this->is_enabled() ) {
 			return;
 		}
@@ -90,7 +52,7 @@ class LLMS_Turnstile {
 	 *
 	 * @return void
 	 */
-	function add_turnstile_check() {
+	public function render() {
 		if ( ! $this->is_enabled() ) {
 			return;
 		}
@@ -112,7 +74,7 @@ class LLMS_Turnstile {
 	 * @param mixed $valid The current validation status.
 	 * @return mixed True if validation fails, otherwise the original $valid value.
 	 */
-	function validate_turnstile( $valid ) {
+	public function validate( $valid ) {
 		if ( ! $this->is_enabled() ) {
 			return $valid;
 		}

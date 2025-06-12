@@ -10,13 +10,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class LLMS_Google_Recaptcha {
+class LLMS_Google_Recaptcha extends LLMS_Captcha {
 
 	use LLMS_Trait_Singleton;
-
-	protected $site_key;
-
-	protected $secret_key;
 
 	protected $min_score;
 
@@ -24,8 +20,7 @@ class LLMS_Google_Recaptcha {
 
 	public function __construct() {
 
-		$this->site_key   = defined( 'LLMS_RECAPTCHA_SITE_KEY' ) ? LLMS_RECAPTCHA_SITE_KEY : get_option( 'lifterlms_recaptcha_site_key' );
-		$this->secret_key = defined( 'LLMS_RECAPTCHA_SECRET_KEY' ) ? LLMS_RECAPTCHA_SECRET_KEY : get_option( 'lifterlms_recaptcha_secret_key' );
+		parent::__construct();
 
 		/**
 		 * Minimum score for reCAPTCHA validation.
@@ -40,38 +35,10 @@ class LLMS_Google_Recaptcha {
 		 * @since [version]
 		 */
 		$this->action = apply_filters( 'lifterlms_recaptcha_action', 'submit' );
-
-		add_action( 'llms_checkout_footer_before', array( $this, 'render' ) );
-		add_action( 'lifterlms_after_registration_fields', array( $this, 'render' ) );
-		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'render' ) );
-
-		add_action( 'llms_before_checkout_validation', array( $this, 'validate_recaptcha' ) );
-		add_filter( 'llms_before_registration_validation', array( $this, 'validate_recaptcha' ) );
-
-		add_action( 'lifterlms_after_free_enroll_fields', array( $this, 'show_notices' ) );
 	}
 
-	/**
-	 * Show notices if Recaptcha is enabled.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	function show_notices() {
-		if ( ! $this->is_enabled() ) {
-			return;
-		}
-
-		if ( is_admin() ) {
-			return;
-		}
-
-		llms_print_notices();
-	}
-
-	public function is_enabled() {
-		return 'recaptcha' === get_option( 'lifterlms_captcha' );
+	public function get_slug() {
+		return 'recaptcha';
 	}
 
 	public function render() {
@@ -113,7 +80,7 @@ class LLMS_Google_Recaptcha {
 		);
 	}
 
-	public function validate_recaptcha( $valid ) {
+	public function validate( $valid ) {
 		if ( ! $this->is_enabled() ) {
 			return $valid;
 		}
