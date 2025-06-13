@@ -503,22 +503,26 @@
 			// remove errors to prevent duplicates
 			self.clear_errors();
 
-			// // Turn every handler into a promise-returning function
+			// Turn every handler into a promise-returning function
 			function runHandler({ handler, data }) {
 				return new Promise((resolve, reject) => {
+					const timer = setTimeout(() => {
+						reject( new Error( LLMS.l10n.translate('Operation timed out, please try again' ) ) );
+					}, 60000 );
+
 					handler(data, result => {
-						if (result === true) {
+						clearTimeout( timer );
+
+						if ( result === true ) {
 							resolve();           // success
-						} else if (typeof result === 'string') {
-							reject(new Error(result)); // explicit error message
+						} else if ( typeof result === 'string' ) {
+							reject( new Error( result ) ); // explicit error message
 						} else {
-							reject(new Error('Unknown response'));
+							reject( new Error( LLMS.l10n.translate( 'Unknown response' ) ) );
 						}
 					});
 				});
 			}
-
-			debugger;
 
 			// Run all before-submit handlers sequentially to avoid issues of handlers interfering with each other.
 			try {
@@ -532,7 +536,7 @@
 			} catch (err) {
 				self.add_error(err.message);
 				self.focus_errors();
-				self.processing('stop');
+				self.processing( 'stop' );
 			}
 		};
 
