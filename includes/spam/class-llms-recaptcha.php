@@ -27,7 +27,7 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 		 *
 		 * @since [version]
 		 */
-		$this->min_score = apply_filters( 'lifterlms_recaptcha_min_score', 0.5 );
+		$this->min_score = apply_filters( 'lifterlms_recaptcha_min_score', ( absint( get_option( 'lifterlms_recaptcha_min_score', 5 ) ) / 10 ) );
 
 		/**
 		 * Action name for reCAPTCHA validation.
