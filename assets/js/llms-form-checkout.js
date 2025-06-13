@@ -491,7 +491,7 @@
 		 * @since    3.0.0
 		 * @version  3.27.0
 		 */
-		this.submit = function( e ) {
+		this.submit = async function( e ) {
 
 			var self       = e.data,
 				num        = before_submit.length,
@@ -557,18 +557,35 @@
 			// }
 
 			debugger;
-			Promise.all( before_submit.map( (x) => wrapAsPromise(x.handler, x.data) ) )
-				.then(() => {
-					//self.$checkout_form[0].submit();   // runs after all tasks resolve
-					self.$checkout_form.off( 'submit', self.submit );
-					self.$checkout_form.trigger( 'submit' );
-					self.processing( 'stop' );
-				})
-				.catch(err => {
-					self.add_error( err.message );
-					self.focus_errors();
-					self.processing( 'stop' );
-				});
+
+			// Run all before-submit handlers sequentially.
+			try {
+				for (const { handler, data } of before_submit) {
+					await wrapAsPromise( handler, data );
+				}
+
+				self.$checkout_form.off( 'submit', self.submit );
+				self.$checkout_form.trigger( 'submit' );
+				self.processing( 'stop' );
+			} catch (err) {
+				self.add_error(err.message);
+				self.focus_errors();
+				self.processing('stop');
+			}
+
+
+			// Promise.all( before_submit.map( (x) => wrapAsPromise(x.handler, x.data) ) )
+			// 	.then(() => {
+			// 		//self.$checkout_form[0].submit();   // runs after all tasks resolve
+			// 		self.$checkout_form.off( 'submit', self.submit );
+			// 		self.$checkout_form.trigger( 'submit' );
+			// 		self.processing( 'stop' );
+			// 	})
+			// 	.catch(err => {
+			// 		self.add_error( err.message );
+			// 		self.focus_errors();
+			// 		self.processing( 'stop' );
+			// 	});
 
 			// for ( var i = 0; i < before_submit.length; i++ ) {
 			//

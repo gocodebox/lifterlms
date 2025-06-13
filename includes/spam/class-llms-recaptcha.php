@@ -71,14 +71,12 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 
 			// TODO: Wrap the below in a method and pass to before_submit if window.llms.checkout exists and equals this form.
 			function checkout_before_submit( self, callback ) {
-				setTimeout( function() {
-					grecaptcha.ready(() => {
-						grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
-							self.querySelector("[name=g-recaptcha-response]").value = token;
-							callback( true );
-						} );
+				grecaptcha.ready(() => {
+					grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
+						self.querySelector("[name=g-recaptcha-response]").value = token;
+						callback( true );
 					} );
-				}, 10000 );
+				} );
 			}
 
 			if ( window.llms && "llms-product-purchase-form" === form.id ) {
@@ -99,14 +97,12 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 
 			form.addEventListener( "submit", function( event ) {
 				event.preventDefault();
-				setTimeout( function() {
-					grecaptcha.ready(() => {
-						grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
-							form.querySelector( "[name=g-recaptcha-response]" ).value = token;
-							form.submit();
-						} );
+				grecaptcha.ready(() => {
+					grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
+						form.querySelector( "[name=g-recaptcha-response]" ).value = token;
+						form.submit();
 					} );
-				}, 100 );
+				} );
 			} );
 		} );
 		'
