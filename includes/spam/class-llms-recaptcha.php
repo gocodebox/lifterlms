@@ -69,7 +69,6 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 				return;
 			}
 
-			// TODO: Wrap the below in a method and pass to before_submit if window.llms.checkout exists and equals this form.
 			function checkout_before_submit( self, callback ) {
 				grecaptcha.ready(() => {
 					grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
