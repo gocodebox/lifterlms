@@ -61,39 +61,55 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 		);
 		wp_add_inline_script(
 			'llms-google-recaptcha',
-			"
-		document.querySelectorAll( 'form' ).forEach( function( form ) {
-			if ( form.querySelector( '.llms-google-recaptcha' ) === null ) {
+			'
+
+
+		document.querySelectorAll( "form" ).forEach( function( form ) {
+			if ( form.querySelector( ".llms-google-recaptcha" ) === null ) {
 				return;
 			}
 
 			// TODO: Wrap the below in a method and pass to before_submit if window.llms.checkout exists and equals this form.
 			function checkout_before_submit( self, callback ) {
-				grecaptcha.ready(() => {
-					grecaptcha.execute( '" . esc_js( $this->site_key ) . "', { action: '" . esc_js( $this->action ) . "' } ).then( token => {
-						form.querySelector('[name=g-recaptcha-response]').value = token;
-						callback( true );
+				setTimeout( function() {
+					grecaptcha.ready(() => {
+						grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
+							self.querySelector("[name=g-recaptcha-response]").value = token;
+							callback( true );
+						} );
 					} );
-				} );
+				}, 10000 );
 			}
 
-			if ( window.llms && window.llms.checkout && window.llms.checkout.$checkout_form && window.llms.checkout.$checkout_form[0] === form ) {
+			if ( window.llms && "llms-product-purchase-form" === form.id ) {
 				// If this is the checkout form, use the before_submit method to handle reCAPTCHA.
-				window.llms.checkout.add_before_submit_event( { data: form, handler: checkout_before_submit } );
+				if ( window.llms.checkout && window.llms.checkout.add_before_submit_event ) {
+					window.llms.checkout.add_before_submit_event( { data: form, handler: checkout_before_submit } );
+				} else {
+					const interval = setInterval( function() {
+						if ( window.llms.checkout && window.llms.checkout.add_before_submit_event ) {
+							window.llms.checkout.add_before_submit_event( { data: form, handler: checkout_before_submit } );
+							clearInterval( interval );
+						}
+					}, 100 );
+				}
+
 				return;
 			}
 
-			form.addEventListener( 'submit', function( event ) {
+			form.addEventListener( "submit", function( event ) {
 				event.preventDefault();
-				grecaptcha.ready(() => {
-					grecaptcha.execute( '" . esc_js( $this->site_key ) . "', { action: '" . esc_js( $this->action ) . "' } ).then( token => {
-						form.querySelector('[name=g-recaptcha-response]').value = token;
-						form.submit();
+				setTimeout( function() {
+					grecaptcha.ready(() => {
+						grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
+							form.querySelector( "[name=g-recaptcha-response]" ).value = token;
+							form.submit();
+						} );
 					} );
-				} );
+				}, 100 );
 			} );
 		} );
-		"
+		'
 		);
 	}
 
