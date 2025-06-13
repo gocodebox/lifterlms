@@ -510,73 +510,132 @@
 			// remove errors to prevent duplicates
 			self.clear_errors();
 
-			// start running all the events
-			for ( var i = 0; i < before_submit.length; i++ ) {
+			function wrapAsPromise(fn, ...args) {
+				return new Promise((resolve, reject) => {
+					// Last arg is always the callback expected by the legacy handler
+					const legacyCallback = (result, err) => {
+						// Match your old “response true / string error” contract
+						if (err) {
+							reject(err instanceof Error ? err : new Error(err));
+						} else if (result === true || result === undefined) {
+							resolve();                        // success
+						} else if (typeof result === 'string') {
+							reject(new Error(result));        // custom error message
+						} else {
+							resolve(result);                  // non-boolean payload → treat as success
+						}
+					};
 
-				var obj = before_submit[ i ];
-
-				obj.handler( obj.data, function( r ) {
-
-					finishes++;
-					if ( true === r ) {
-						successes++;
-					} else if ( 'string' === typeof r ) {
-						errors.push( r );
+					// Call the original function exactly as before
+					try {
+						fn(...args, legacyCallback);
+					} catch (e) {
+						reject(e);                          // sync exception safety net
 					}
-
-				} );
-
+				});
 			}
 
-			// run an interval to wait for finishes
-			interval = setInterval( function() {
+			// // Turn every handler into a promise-returning function
+			// function runHandler({ handler, data }) {
+			// 	return new Promise((resolve, reject) => {
+			// 		handler(data, result => {
+			// 			if (result === true) {
+			// 				resolve();           // success
+			// 			} else if (typeof result === 'string') {
+			// 				reject(new Error(result)); // explicit error message
+			// 			} else {
+			// 				reject(new Error('Unknown response'));
+			// 			}
+			// 		});
+			// 	});
+			// }
 
-				var clear = false,
-					stop  = false;
+			//
+			// let promiseHandlers = [];
+			// for ( var i = 0; i < before_submit.length; i++ ) {
+			// 	promiseHandlers.push( wrapAsPromise( before_submit[i].handler, before_submit[i].data ) );
+			// }
 
-				// timeout...
-				if ( checks >= max_checks ) {
-
-					clear = true;
-					stop  = true;
-
-				} else if ( num === finishes ) {
-					// everything has finished
-
-					// all were successful, submit the form
-					if ( num === successes ) {
-
-						clear = true;
-
-						self.$checkout_form.off( 'submit', self.submit );
-						self.$checkout_form.trigger( 'submit' );
-
-					} else if ( errors.length ) {
-
-						clear = true;
-						stop  = true;
-
-						for ( var i = 0; i < errors.length; i++ ) {
-							self.add_error( errors[ i ] );
-						}
-
-						self.focus_errors();
-
-					}
-
-				}
-
-				if ( clear ) {
-					clearInterval( interval );
-				}
-
-				if ( stop ) {
+			debugger;
+			Promise.all( before_submit.map( (x) => wrapAsPromise(x.handler, x.data) ) )
+				.then(() => {
+					//self.$checkout_form[0].submit();   // runs after all tasks resolve
+					self.$checkout_form.off( 'submit', self.submit );
+					self.$checkout_form.trigger( 'submit' );
 					self.processing( 'stop' );
-				}
+				})
+				.catch(err => {
+					self.add_error( err.message );
+					self.focus_errors();
+					self.processing( 'stop' );
+				});
 
-				checks++;
-
-			}, 100 );
+			// for ( var i = 0; i < before_submit.length; i++ ) {
+			//
+			// 	var obj = before_submit[ i ];
+			//
+			// 	obj.handler( obj.data, function( r ) {
+			//
+			// 		finishes++;
+			// 		if ( true === r ) {
+			// 			successes++;
+			// 		} else if ( 'string' === typeof r ) {
+			// 			errors.push( r );
+			// 		}
+			//
+			// 	} );
+			//
+			// }
+			//
+			// // run an interval to wait for finishes
+			// interval = setInterval( function() {
+			//
+			// 	var clear = false,
+			// 		stop  = false;
+			//
+			// 	// timeout...
+			// 	if ( checks >= max_checks ) {
+			//
+			// 		clear = true;
+			// 		stop  = true;
+			//
+			// 	} else if ( num === finishes ) {
+			// 		// everything has finished
+			//
+			// 		// all were successful, submit the form
+			// 		if ( num === successes ) {
+			//
+			// 			clear = true;
+			//
+			// 			self.$checkout_form.off( 'submit', self.submit );
+			// 			self.$checkout_form.trigger( 'submit' );
+			//
+			// 		} else if ( errors.length ) {
+			//
+			// 			clear = true;
+			// 			stop  = true;
+			//
+			// 			for ( var i = 0; i < errors.length; i++ ) {
+			// 				self.add_error( errors[ i ] );
+			// 			}
+			//
+			// 			self.focus_errors();
+			//
+			// 		}
+			//
+			// 	}
+			//
+			// 	if ( clear ) {
+			// 		clearInterval( interval );
+			// 	}
+			//
+			// 	if ( stop ) {
+			// 		self.processing( 'stop' );
+			// 	}
+			//
+			// 	checks++;
+			//
+			// }, 100 );
 
 		};
 
