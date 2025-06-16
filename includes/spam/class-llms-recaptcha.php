@@ -96,6 +96,16 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 
 			form.addEventListener( "submit", function( event ) {
 				event.preventDefault();
+
+				if ( form.querySelector( ".llms-password-strength-meter" ) &&
+					window.LLMS &&
+					window.LLMS.PasswordStrength &&
+					window.LLMS.PasswordStrength.get_current_strength_status &&
+					! window.LLMS.PasswordStrength.get_current_strength_status() ) {
+					console.log( "Password strength validation failed." );
+					return false;
+				}
+
 				grecaptcha.ready(() => {
 					grecaptcha.execute( "' . esc_js( $this->site_key ) . '", { action: "' . esc_js( $this->action ) . '" } ).then( token => {
 						form.querySelector( "[name=g-recaptcha-response]" ).value = token;
