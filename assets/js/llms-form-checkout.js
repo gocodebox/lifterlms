@@ -514,9 +514,9 @@
 						clearTimeout( timer );
 
 						if ( result === true ) {
-							resolve();           // success
+							resolve();
 						} else if ( typeof result === 'string' ) {
-							reject( new Error( result ) ); // explicit error message
+							reject( new Error( result ) );
 						} else {
 							reject( new Error( LLMS.l10n.translate( 'Unknown response' ) ) );
 						}

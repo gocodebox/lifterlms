@@ -68,7 +68,7 @@ abstract class LLMS_Captcha {
 	}
 
 	/**
-	 * Show notices if Recaptcha is enabled.
+	 * Show notices if enabled.
 	 *
 	 * @since [version]
 	 *

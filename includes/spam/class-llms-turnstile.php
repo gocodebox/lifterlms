@@ -122,7 +122,7 @@ class LLMS_Turnstile extends LLMS_Captcha {
 		$response_keys = json_decode( $response, true );
 
 		if ( intval( $response_keys['success'] ) !== 1 ) {
-			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+			if ( apply_filters( 'llms_enable_spam_logs', false ) ) {
 				error_log( 'LLMS_Turnstile verification failed: ' . print_r( $response, true ) );
 			}
 

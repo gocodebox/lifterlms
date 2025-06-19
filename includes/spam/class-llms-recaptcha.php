@@ -159,7 +159,7 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 					&& ( empty( $body['action'] ) || $body['action'] === $this->action ); // action check is optional but recommended
 
 		if ( ! $passed ) {
-			if ( apply_filters( 'llms_enable_recaptcha_logs', false ) ) {
+			if ( apply_filters( 'llms_enable_spam_logs', false ) ) {
 				error_log( 'LLMS_Google_Recaptcha verification failed: ' . ( $body ? print_r( $body, true ) : '' ) );
 			}
 
