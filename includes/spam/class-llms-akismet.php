@@ -79,13 +79,15 @@ class LLMS_Akismet extends LLMS_Captcha {
 
 		// If the response is true, return 1 as likely spam.
 		if ( ! empty( $response[1] ) && $response[1] == 'true' ) {
-			// Check if this is a free plan or paid. If it's a free plan, we treat it as spam.
+			// Check if this is a free plan or paid. If it's a free plan or not a checkout, we treat it as spam.
 			$plan_id = absint( $_POST['llms_plan_id'] ?? 0 );
-			if ( ! llms_is_free_plan( $plan_id ) ) {
-				// If it's a paid plan, we allow it to proceed.
-				$passed = true;
-			} else {
-				// If it's a free plan, we treat it as spam.
+
+			if ( ! $plan_id ) {
+				// If no plan ID is provided, we assume it's open registration.
+				$passed = false;
+			}
+
+			if ( $plan_id && ( $plan = new LLMS_Access_Plan( $plan_id ) ) && $plan->is_free() ) {
 				$passed = false;
 			}
 		}
