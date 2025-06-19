@@ -113,11 +113,24 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 				'title'    => __( 'Spam Protection', 'lifterlms' ),
 				'type'     => 'checkbox',
 			),
+		);
+
+		if ( LLMS_Akismet::instance()->is_available() ) {
+			$account_settings[] = array(
+				'autoload' => false,
+				'default'  => 'no',
+				'id'       => 'lifterlms_akismet_enabled',
+				'desc'     => __( 'Enable Akismet spam protection.', 'lifterlms' ),
+				'title'    => __( 'Akismet Spam Protection', 'lifterlms' ),
+				'type'     => 'checkbox',
+			);
+		}
+
+		$account_settings[] =
 			array(
 				'id'   => 'security_and_spam_options_end',
 				'type' => 'sectionend',
-			),
-		);
+			);
 
 		/**
 		 * Filters the account settings.

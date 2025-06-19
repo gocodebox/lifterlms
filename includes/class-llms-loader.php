@@ -308,6 +308,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-captcha.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-turnstile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-recaptcha.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-akismet.php';
 
 		// Theme support.
 		require_once LLMS_PLUGIN_DIR . 'includes/theme-support/class-llms-theme-support.php';
