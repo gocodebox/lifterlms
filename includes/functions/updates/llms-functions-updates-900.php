@@ -7,7 +7,7 @@
  * @since [version]
  */
 
-namespace LLMS\Updates\Version_8_1_0;
+namespace LLMS\Updates\Version_9_0_0;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function _get_db_version() {
-	return '8.1.0';
+	return '9.0.0';
 }
 
 /**
@@ -40,8 +40,8 @@ function show_notice() {
 		__( 'New Features Available', 'lifterlms' ),
 		// Translators: %1$s = Opening anchor tag to the security settings tab; %2$s = Closing anchor tag.
 		sprintf(
-			__( 'We\ve added spam and security features to protect your website inside the core plugin. You can review the available features on the new %1$sSecurity settings tab%2$s.', 'lifterlms' ),
-			'<a href="' . admin_url( 'admin.php?page=lifterlms-settings&tab=security' ) . '">',
+			__( 'We\'ve added spam and security features to protect your website inside the core plugin. You can review the available features on the new %1$sSecurity settings tab%2$s.', 'lifterlms' ),
+			'<a href="' . admin_url( 'admin.php?page=llms-settings&tab=security' ) . '">',
 			'</a>'
 		),
 		sprintf(
@@ -72,8 +72,6 @@ function show_notice() {
  * @return false.
  */
 function update_db_version() {
-	global $wpdb;
-
 	\LLMS_Install::update_db_version( _get_db_version() );
 	return false;
 }
