@@ -71,7 +71,7 @@ function llms_get_spam_activity( $ip = null ) {
 	$now          = time(); // UTC
 	foreach ( $activity as $item ) {
 		// Determine whether this item is recent enough to include.
-		if ( $item > $now - ( LLMS_SPAM_ACTION_TIME_LIMIT ) ) {
+		if ( $item > $now - ( absint( LLMS_SPAM_ACTION_TIME_LIMIT ) ) ) {
 			$new_activity[] = $item;
 		}
 	}
@@ -106,15 +106,15 @@ function llms_track_spam_activity( $ip = null ) {
 	array_unshift( $activity, $now );
 
 	// If we have more than the limit, don't bother storing them.
-	if ( count( $activity ) > LLMS_SPAM_ACTION_NUM_LIMIT ) {
+	if ( count( $activity ) > absint( LLMS_SPAM_ACTION_NUM_LIMIT ) ) {
 		rsort( $activity );
-		$activity = array_slice( $activity, 0, LLMS_SPAM_ACTION_NUM_LIMIT );
+		$activity = array_slice( $activity, 0, absint( LLMS_SPAM_ACTION_NUM_LIMIT ) );
 	}
 
 	// Save to transient.
 	$ip            = preg_replace( '/[^0-9a-fA-F:., ]/', '', $ip );
 	$transient_key = 'llms_spam_activity_' . $ip;
-	set_transient( $transient_key, $activity, (int) LLMS_SPAM_ACTION_TIME_LIMIT );
+	set_transient( $transient_key, $activity, (int) absint( LLMS_SPAM_ACTION_TIME_LIMIT ) );
 
 	return true;
 }
