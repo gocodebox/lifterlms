@@ -106,7 +106,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 			),
 			array(
 				'autoload' => false,
-				'default'  => 'no',
+				'default'  => 'yes',
 				'id'       => 'lifterlms_spam_protection',
 				'desc'     => __( 'Block IPs from checkout if there are more than 10 failures within 15 minutes.', 'lifterlms' ),
 				'title'    => __( 'Spam Protection', 'lifterlms' ),
