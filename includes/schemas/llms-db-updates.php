@@ -196,7 +196,7 @@ return array(
 			'update_db_version',
 		),
 	),
-	'8.1.0'  => array(
+	'9.0.0'  => array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
