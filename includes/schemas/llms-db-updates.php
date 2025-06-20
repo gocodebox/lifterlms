@@ -196,4 +196,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'8.1.0'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'show_notice',
+			'update_db_version',
+		),
+	),
 );
