@@ -47,7 +47,7 @@ function show_notice() {
 		$notice_id,
 		$html,
 		array(
-			'type'             => 'error',
+			'type'             => 'info',
 			'dismiss_for_days' => 0,
 			'remindable'       => false,
 		)
