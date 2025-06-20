@@ -23,7 +23,7 @@ class LLMS_Akismet extends LLMS_Captcha {
 		if ( ! $this->is_enabled() || is_admin() ) {
 			return;
 		}
-		echo '<input type="text" aria-hidden="true" name="llms_hp_fullname" style="display:none;" autocomplete="off" />';
+		echo '<input type="text" aria-hidden="true" class="sr-only" name="llms_hp_fullname" style="display:none;" autocomplete="off" />';
 	}
 
 	public function is_available() {
@@ -55,8 +55,8 @@ class LLMS_Akismet extends LLMS_Captcha {
 			'blog_charset'         => get_option( 'blog_charset' ),
 			'permalink'            => get_permalink(),
 			'comment_type'         => 'signup',
-			'comment_author'       => sanitize_text_field( $_REQUEST['email_address'] ),
-			'comment_author_email' => sanitize_email( $_REQUEST['email_address'] ),
+			'comment_author'       => sanitize_text_field( $_REQUEST['email_address'] ?? wp_get_current_user()->user_email ?? '' ),
+			'comment_author_email' => sanitize_email( $_REQUEST['email_address'] ?? wp_get_current_user()->user_email ?? '' ),
 			'honeypot_field_name'  => 'llms_hp_fullname',
 		);
 
