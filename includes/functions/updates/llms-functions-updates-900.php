@@ -11,15 +11,6 @@ namespace LLMS\Updates\Version_9_0_0;
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Retrieves the DB version of the migration.
- *
- * @since 7.8.5
- *
- * @access private
- *
- * @return string
- */
 function _get_db_version() {
 	return '9.0.0';
 }
@@ -27,7 +18,7 @@ function _get_db_version() {
 /**
  * Shows an admin notice.
  *
- * @since 7.8.5
+ * @since [version]
  *
  * @return boolean
  */
@@ -65,9 +56,9 @@ function show_notice() {
 }
 
 /**
- * Update db version to [version].
+ * Update db version.
  *
- * @since 7.8.5
+ * @since [version]
  *
  * @return false.
  */
