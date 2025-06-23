@@ -38,11 +38,29 @@ class LLMS_Elementor_Widgets {
 	 * @return false|mixed
 	 */
 	function maybe_stop_rendering_block( $should_render, $block ) {
-		if ( ! class_exists( 'Elementor\Plugin' ) ) {
+		if ( ! class_exists( 'Elementor\Plugin' ) || ! method_exists( 'Elementor\Plugin', 'instance' ) ) {
 			return $should_render;
 		}
 
-		if ( Elementor\Plugin::instance()->documents->get( get_the_ID() )->is_built_with_elementor() ) {
+		$instance = Elementor\Plugin::instance();
+
+		if ( ! $instance ) {
+			return $should_render;
+		}
+
+		$documents = $instance->documents;
+
+		if ( ! $documents || ! method_exists( $documents, 'get' ) ) {
+			return $should_render;
+		}
+
+		$document = $documents->get( get_the_ID() );
+
+		if ( ! $document || ! method_exists( $document, 'is_built_with_elementor' ) ) {
+			return $should_render;
+		}
+
+		if ( $document->is_built_with_elementor() ) {
 			$should_render = false;
 		}
 
