@@ -31,7 +31,6 @@ abstract class LLMS_Abstract_Email_Provider {
 	 * @var array
 	 */
 	protected $providers = array(
-		'mailhawk',
 		'sendwp',
 	);
 
@@ -119,7 +118,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		 */
 		$priority = $this->is_connected() ? 5 : 10;
 		add_action( 'admin_init', array( $this, 'init' ), $priority );
-
 	}
 
 	/**
@@ -152,8 +150,9 @@ abstract class LLMS_Abstract_Email_Provider {
 
 		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ) );
 		add_action( 'wp_ajax_llms_' . $this->id . '_remote_install', array( $this, 'ajax_callback_remote_install' ) );
-		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
+		add_action( 'wp_ajax_llms_' . $this->id . '_remote_install_verify', array( $this, 'ajax_callback_remote_install_verify' ) );
 
+		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
 	}
 
 	/**
@@ -182,7 +181,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return $is_plugin_installed;
-
 	}
 
 	/**
@@ -215,7 +213,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		);
 
 		return array_merge( $settings, $new_settings );
-
 	}
 
 	/**
@@ -230,7 +227,20 @@ abstract class LLMS_Abstract_Email_Provider {
 		$ret = $this->do_remote_install();
 		ob_clean();
 		wp_send_json( $ret, ! empty( $ret['status'] ) ? $ret['status'] : 200 );
+	}
 
+	/**
+	 * Ajax callback called after doing the initial install, so the plugin is loaded and available.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return void
+	 */
+	public function ajax_callback_remote_install_verify() {
+
+		$ret = $this->do_remote_install_verify();
+		ob_clean();
+		wp_send_json( $ret, ! empty( $ret['status'] ) ? $ret['status'] : 200 );
 	}
 
 	/**
@@ -257,7 +267,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -273,7 +282,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		foreach ( $disable as $id ) {
 			add_filter( 'llms_disable_' . $id, '__return_true' );
 		}
-
 	}
 
 	/**
@@ -300,8 +308,32 @@ abstract class LLMS_Abstract_Email_Provider {
 			);
 		}
 
-		return $this->do_remote_install_success();
+		return array( 'success' => true );
+	}
 
+	/**
+	 * Verify the remote install, and then perform the post-install response. Otherwise the plugin isn't available yet.
+	 *
+	 * @return array
+	 */
+	protected function do_remote_install_verify() {
+
+		$ret = $this->do_remote_install();
+
+		if ( is_wp_error( $ret ) ) {
+			return $ret;
+		}
+
+		if ( ! $this->is_installed() ) {
+			// Translators: %s = title of the email delivery plugin.
+			return array(
+				'code'    => 'llms_' . $this->id . '_not_found',
+				'message' => sprintf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ),
+				'status'  => 400,
+			);
+		}
+
+		return $this->do_remote_install_success();
 	}
 
 	/**
@@ -321,14 +353,7 @@ abstract class LLMS_Abstract_Email_Provider {
 			$ret = $this->install_plugin();
 		}
 
-		// Final check to ensure the connector is installed and activated.
-		if ( true === $ret && ! $this->is_installed() ) {
-			// Translators: %s = title of the email delivery plugin.
-			return new WP_Error( 'llms_' . $this->id . '_not_found', sprtinf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ), $install );
-		}
-
 		return $ret;
-
 	}
 
 	/**
@@ -368,7 +393,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -388,7 +412,5 @@ abstract class LLMS_Abstract_Email_Provider {
 
 		$screen = get_current_screen();
 		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab' ) && ! $this->is_connected() );
-
 	}
-
 }

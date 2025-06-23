@@ -29,7 +29,7 @@ class LLMS_Analytics_Sales_Widget extends LLMS_Analytics_Widget {
 			'type'   => 'count',
 			'header' => array(
 				'id'    => 'sales',
-				'label' => __( '# of Sales', 'lifterlms' ),
+				'label' => __( '# of New Sales', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);
@@ -46,10 +46,13 @@ class LLMS_Analytics_Sales_Widget extends LLMS_Analytics_Widget {
 				'statuses'       => array(
 					'llms-active',
 					'llms-completed',
+					'llms-on-hold',
+					'llms-pending-cancel',
+					'llms-cancelled',
+					'llms-expired',
 				),
 			)
 		);
-
 	}
 
 	protected function format_response() {
@@ -59,7 +62,5 @@ class LLMS_Analytics_Sales_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }

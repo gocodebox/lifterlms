@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 6.0.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -92,13 +92,15 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	protected $quiz_id = null;
 
 	/**
-	 * Retrieve data for a cell
+	 * Retrieve data for a cell.
 	 *
-	 * @param    string $key      the column id / key
-	 * @param    obj    $attempt  LLMS_Quiz_Attempt obj
-	 * @return   mixed
-	 * @since    3.16.0
-	 * @version  3.26.3
+	 * @since 3.16.0
+	 * @since 3.26.3 Unknown.
+	 * @since 7.8.0 Added information about whether the attempt can be resumed.
+	 *
+	 * @param string            $key     The column id / key.
+	 * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt obj.
+	 * @return mixed
 	 */
 	protected function get_data( $key, $attempt ) {
 
@@ -117,8 +119,12 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				break;
 
 			case 'grade':
-				$value  = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
-				$value .= ' (' . $attempt->l10n( 'status' ) . ')';
+				$value      = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
+				$additional = $attempt->l10n( 'status' );
+				if ( $attempt->can_be_resumed() && $attempt->is_last_attempt() ) {
+					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
+				}
+				$value .= ' (' . $additional . ')';
 				break;
 
 			case 'start_date':

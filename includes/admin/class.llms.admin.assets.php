@@ -228,7 +228,7 @@ class LLMS_Admin_Assets {
 	 */
 	public function admin_scripts() {
 
-		global $post_type;
+		global $post_type, $post;
 		$screen = get_current_screen();
 
 		if ( 'widgets' === $screen->id ) {
@@ -279,14 +279,23 @@ class LLMS_Admin_Assets {
 			if ( 'course' === $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
+				if ( ! use_block_editor_for_post_type( 'course' ) && $post ) {
+					wp_enqueue_script( 'llms-launch-course-button', LLMS_PLUGIN_URL . 'assets/js/llms-launch-course-button' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
+					wp_localize_script( 'llms-launch-course-button', 'llms_launch_course', array( 'builder_url' => admin_url( 'admin.php?page=llms-course-builder&course_id=' . intval( $post->ID ) ) ) );
+				}
 			}
 
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 
-				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
-				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
-				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
+				self::register_quill();
+				self::register_a11y_dialog();
 
+				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
+				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-a11y-dialog' ), LLMS_ASSETS_VERSION, true );
+				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
+				wp_enqueue_script( 'llms-metabox-options', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-options' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-quill' ), LLMS_ASSETS_VERSION, true );
+
+				wp_enqueue_style( 'llms-quill-bubble' );
 			}
 
 			if ( 'lesson' === $post_type ) {
@@ -514,6 +523,20 @@ class LLMS_Admin_Assets {
 			llms()->assets->register_script( "llms-quill-{$module}" );
 		}
 	}
+
+	/**
+	 * Register the accessible dialog JS
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return void
+	 */
+	public static function register_a11y_dialog() {
+		if ( ! wp_script_is( 'llms-a11y-dialog', 'registered' ) ) {
+			wp_register_script( 'llms-a11y-dialog', LLMS_PLUGIN_URL . 'assets/vendor/a11y-dialog/a11y-dialog.min.js', array(), '8.1.1', true );
+		}
+	}
 }
+
 
 return new LLMS_Admin_Assets();

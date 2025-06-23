@@ -67,6 +67,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Membership_Link',
+				'LLMS_Shortcode_Membership_Instructors',
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
 				'LLMS_Shortcode_User_Info',
@@ -238,7 +239,7 @@ class LLMS_Shortcodes {
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
 		}
 
 		/**
@@ -421,13 +422,19 @@ class LLMS_Shortcodes {
 	 * @return string
 	 */
 	public static function course_info( $atts ) {
+
+		$default_type = '';
+		if ( isset( $atts['key'] ) && false !== strpos( $atts['key'], '_date' ) ) {
+			$default_type = 'date';
+		}
+
 		extract(
 			shortcode_atts(
 				array(
-					'date_format' => 'F j, Y', // If $type is date, a custom date format can be supplied.
+					'date_format' => get_option( 'date_format' ), // If $type is date, a custom date format can be supplied.
 					'id'          => get_the_ID(),
 					'key'         => '',
-					'type'        => '', // Can either be: date, price or empty string.
+					'type'        => $default_type, // Can either be: date, price or empty string.
 				),
 				$atts,
 				'lifterlms_course_info'

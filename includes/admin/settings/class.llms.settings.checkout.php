@@ -184,7 +184,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title'             => __( 'Checkout Page', 'lifterlms' ),
-				'desc'              => __( 'Page used for displaying the checkout form.', 'lifterlms' ),
+				'desc'              => __( 'Page used for displaying the checkout form.', 'lifterlms' ) . ' ' . sprintf( __( 'Requires the %1$s[lifterlms_checkout]%2$s shortcode or the "Checkout" block.', 'lifterlms' ), '<code>', '</code>' ),
 				'id'                => 'lifterlms_checkout_page_id',
 				'type'              => 'select',
 				'default'           => '',

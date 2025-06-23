@@ -59,12 +59,16 @@
 
 		.llms-meta,
 		.llms-author,
-		.llms-loop-title {
+		.llms-loop-title,
+		.llms-featured-pricing
+		{
 			padding: 0 15px;
 		}
 
 		.llms-meta,
-		.llms-author {
+		.llms-author,
+		.llms-featured-pricing
+		{
 			color: $color-cinder;
 			display: block;
 			font-size: 14px;

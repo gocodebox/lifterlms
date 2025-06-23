@@ -50,7 +50,6 @@ class LLMS_Admin_Profile {
 
 		// Allow errors to be output.
 		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ) );
-
 	}
 
 	/**
@@ -87,7 +86,6 @@ class LLMS_Admin_Profile {
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/views/user-edit-fields.php';
 
 		return true;
-
 	}
 
 	/**
@@ -108,6 +106,10 @@ class LLMS_Admin_Profile {
 		$posted_data = array();
 
 		foreach ( $this->fields as $field ) {
+			if ( in_array( $field['name'], LLMS_CONFIRMATION_FIELDS, true ) ) {
+				continue;
+			}
+
 			//phpcs:disable WordPress.Security.NonceVerification.Missing  -- nonce is verified prior to reaching this method.
 			if ( isset( $_POST[ $field['name'] ] ) &&
 					isset( $field['data_store_key'] ) &&
@@ -129,7 +131,6 @@ class LLMS_Admin_Profile {
 		if ( is_wp_error( $submit ) ) {
 			$this->errors = $submit;
 		}
-
 	}
 
 	/**
@@ -145,7 +146,6 @@ class LLMS_Admin_Profile {
 		if ( is_wp_error( $this->errors ) && $this->errors->has_errors() ) {
 			$this->merge_llms_fields_errors( $errors );
 		}
-
 	}
 
 	/**
@@ -192,7 +192,6 @@ class LLMS_Admin_Profile {
 				$errors->add_data( $data, $code );
 			}
 		}
-
 	}
 
 	/**
@@ -209,7 +208,6 @@ class LLMS_Admin_Profile {
 		}
 
 		return $this->fields;
-
 	}
 
 	/**
@@ -236,13 +234,16 @@ class LLMS_Admin_Profile {
 		 */
 		$excluded = apply_filters(
 			'llms_admin_profile_excluded_fields',
-			array(
-				'user_login',
-				'email_address',
-				'password',
-				'first_name',
-				'last_name',
-				'display_name',
+			array_merge(
+				array(
+					'user_login',
+					'email_address',
+					'password',
+					'first_name',
+					'last_name',
+					'display_name',
+				),
+				LLMS_CONFIRMATION_FIELDS
 			)
 		);
 
@@ -271,9 +272,7 @@ class LLMS_Admin_Profile {
 		 * @param array[] $fields Array of fields.
 		 */
 		return apply_filters( 'llms_admin_profile_fields', $prepared );
-
 	}
-
 }
 
 return new LLMS_Admin_Profile();

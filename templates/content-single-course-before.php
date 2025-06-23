@@ -17,7 +17,7 @@ $course = new LLMS_Course( get_the_ID() );
 
 if ( 'yes' === $course->get( 'time_period' ) ) {
 	// If the start date hasn't passed yet.
-	if ( ! $course->has_date_passed( 'start_date' ) ) {
+	if ( $course->get( 'start_date' ) && ! $course->has_date_passed( 'start_date' ) ) {
 
 		llms_add_notice( $course->get( 'course_opens_message' ), 'notice' );
 
@@ -30,4 +30,3 @@ if ( 'yes' === $course->get( 'time_period' ) ) {
 
 llms_print_notices();
 do_action( 'lifterlms_single_course_before_summary' );
-

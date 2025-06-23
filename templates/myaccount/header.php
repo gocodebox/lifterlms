@@ -5,6 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since    3.14.0
+ * @since    7.8.0
  * @version  3.14.0
  */
 
@@ -15,8 +16,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 	/**
-	 * @hooked lifterlms_template_my_account_navigation - 10
-	 * @hooked lifterlms_template_student_dashboard_title - 20
+	 * @hooked lifterlms_template_student_dashboard_title - 10
 	 */
 	do_action( 'lifterlms_student_dashboard_header' );
 	?>

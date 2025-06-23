@@ -43,7 +43,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 			'partner_id'   => self::PARTNER_ID,
 			'register_url' => esc_url( trailingslashit( MAILHAWK_LICENSE_SERVER_URL ) ),
 			'client_state' => esc_html( \MailHawk\Keys::instance()->state() ),
-			'redirect_uri' => esc_url( \MailHawk\get_admin_mailhawk_uri() ),
+			'redirect_uri' => esc_url( \MailHawk\mailhawk_admin_page() ),
 		);
 	}
 
@@ -134,7 +134,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	 * @return boolean
 	 */
 	protected function is_installed() {
-		return defined( 'MAILHAWK_VERSION' );
+		return function_exists( '\MailHawk\mailhawk_admin_page' );
 	}
 
 	/**

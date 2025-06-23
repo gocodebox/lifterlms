@@ -52,6 +52,7 @@ define( [
 		 * @since 3.16.0
 		 * @since 7.4.0 Added filter for filtering defaults.
 		 * @since 7.5.0 Replaced unused `random_answers` property with `random_questions`.
+		 * @since 7.8.0 Added filter for filtering defaults and `can_be_resumed` property.
 		 *
 		 * @return {Object}
 		 */
@@ -75,6 +76,7 @@ define( [
 				random_questions: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
+				can_be_resumed: 'no',
 				disable_retake: 'no',
 
 				questions: [],

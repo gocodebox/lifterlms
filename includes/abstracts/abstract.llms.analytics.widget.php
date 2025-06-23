@@ -116,21 +116,18 @@ abstract class LLMS_Analytics_Widget {
 
 		$dates = llms_filter_input_sanitize_string( INPUT_POST, 'dates', array( FILTER_REQUIRE_ARRAY ) );
 		return $dates ? $dates : '';
-
 	}
 
 	protected function get_posted_courses() {
 
 		$courses = llms_filter_input( INPUT_POST, 'courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $courses ? $courses : array();
-
 	}
 
 	protected function get_posted_memberships() {
 
 		$memberships = llms_filter_input( INPUT_POST, 'memberships', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $memberships ? $memberships : array();
-
 	}
 
 	protected function get_posted_posts() {
@@ -140,7 +137,6 @@ abstract class LLMS_Analytics_Widget {
 	protected function get_posted_students() {
 		$students = llms_filter_input( INPUT_POST, 'students', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		return $students ? $students : array();
-
 	}
 
 	protected function get_prepared_query() {
@@ -169,20 +165,26 @@ abstract class LLMS_Analytics_Widget {
 				break;
 
 			case 'end':
-				$date .= ' 23:23:59';
+				/**
+				 * Return 00:00:00 on the next day after this date, using PHP datetime functions to avoid issues with daylight savings time or leap years.
+				 *
+				 * 23:59:59 is not a safe way to capture the end of day in newer versions of MySQL, if the transaction happened at (say) 23:59:59.999.
+				 */
+				$end_date = new DateTime( $date );
+				$end_date->modify( '+1 day' );
+
+				$date = $end_date->format( 'Y-m-d' ) . ' 00:00:00';
 
 				break;
 
 		}
 
 		return $date;
-
 	}
 
 	protected function is_error() {
 
 		return ( $this->success ) ? false : true;
-
 	}
 
 	protected function set_order_data_query( $args = array() ) {
@@ -235,7 +237,7 @@ abstract class LLMS_Analytics_Widget {
 		$order_dates = '';
 		if ( $date_range ) {
 			$dates              = $this->get_posted_dates();
-			$order_dates        = "AND orders.{$date_field} BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )";
+			$order_dates        = "AND orders.{$date_field} >= CAST( %s as DATETIME ) AND orders.{$date_field} < CAST( %s as DATETIME )";
 			$this->query_vars[] = $this->format_date( $dates['start'], 'start' );
 			$this->query_vars[] = $this->format_date( $dates['end'], 'end' );
 		}
@@ -291,7 +293,6 @@ abstract class LLMS_Analytics_Widget {
 							{$wheres_clause}
 						{$order_clause}
 						;";
-
 	}
 
 	/**
@@ -333,7 +334,6 @@ abstract class LLMS_Analytics_Widget {
 			$this->message = $wpdb->last_error;
 
 		}
-
 	}
 
 	/**
@@ -384,7 +384,6 @@ abstract class LLMS_Analytics_Widget {
 			$widget_name,
 			$this
 		);
-
 	}
 
 	/**
@@ -409,8 +408,5 @@ abstract class LLMS_Analytics_Widget {
 		header( 'Content-Type: application/json' );
 		echo wp_json_encode( $this );
 		wp_die();
-
 	}
-
-
 }

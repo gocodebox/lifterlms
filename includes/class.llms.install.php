@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -391,7 +391,7 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
+	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables.
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.9 Unknown
@@ -400,6 +400,7 @@ class LLMS_Install {
 	 * @since 3.36.0 Added `wp_lifterlms_events` table.
 	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
 	 * @since 4.5.0 Added `wp_lifterlms_events_open_sessions` table.
+	 * @since 7.8.0 Added column `can_be_resumed` and `current_question_id` to the quiz attempt table.
 	 *
 	 * @return string
 	 */
@@ -442,6 +443,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
   `status` varchar(15) DEFAULT '',
   `attempt` bigint(20) DEFAULT NULL,
   `grade` float DEFAULT NULL,
+  `can_be_resumed` tinyint(1) DEFAULT '0',
+  `current_question_id` bigint(20) DEFAULT NULL,
   `questions` longtext,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
@@ -585,6 +588,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_visibilities();
 
 		LLMS_Forms::instance()->install();
+
+		LLMS_Beaver_Builder::instance()->install();
 
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );

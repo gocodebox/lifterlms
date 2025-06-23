@@ -35,7 +35,7 @@ class LLMS_User_Permissions {
 
 		add_filter( 'user_has_cap', array( $this, 'handle_caps' ), 10, 3 );
 		add_filter( 'editable_roles', array( $this, 'editable_roles' ) );
-
+		add_filter( 'rest_user_query', array( $this, 'filter_rest_user_query' ), 10, 2 );
 	}
 
 	/**
@@ -98,7 +98,45 @@ class LLMS_User_Permissions {
 		}
 
 		return $all_roles;
+	}
 
+	/**
+	 * Filter the WP_User_Query args to ensure that instructors can only see their students
+	 *
+	 * @since 8.0.2
+	 *
+	 * @param array           $args WP_User_Query args.
+	 * @param WP_REST_Request $request Request object.
+	 * @return array
+	 */
+	public function filter_rest_user_query( $args, $request ) {
+
+		$user = wp_get_current_user();
+
+		if ( ! $user ) {
+			return $args;
+		}
+
+		if ( ! in_array( 'instructor', $user->roles, true ) ) {
+			return $args;
+		}
+
+		$instructor = llms_get_instructor( $user );
+
+		if ( ! $instructor ) {
+			return $args;
+		}
+
+		$student_query = $instructor->get_students( array( 'statuses' => array( 'enrolled' ) ) );
+		$students      = $student_query->get_results();
+
+		if ( empty( $students ) ) {
+			$args['include'] = array( 0 );
+		} else {
+			$args['include'] = wp_list_pluck( $students, 'id' );
+		}
+
+		return $args;
 	}
 
 	/**
@@ -137,7 +175,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -165,7 +202,6 @@ class LLMS_User_Permissions {
 		);
 
 		return $roles;
-
 	}
 
 	/**
@@ -198,10 +234,10 @@ class LLMS_User_Permissions {
 			return $allcaps;
 		}
 
-		$requested_cap = $args[0];
-		$current_user_id = intval( $args[1] );
+		$requested_cap     = $args[0];
+		$current_user_id   = intval( $args[1] );
 		$requested_user_id = intval( $args[2] );
-		$post_id = isset( $args[3] ) ? intval( $args[3] ) : false;
+		$post_id           = isset( $args[3] ) ? intval( $args[3] ) : false;
 
 		// Administrators and LMS managers explicitly have the cap so we don't need to perform any further checks.
 		if ( ! empty( $allcaps[ $requested_cap ] ) ) {
@@ -222,7 +258,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -295,7 +330,6 @@ class LLMS_User_Permissions {
 		}
 
 		return $allcaps;
-
 	}
 
 	/**
@@ -308,7 +342,6 @@ class LLMS_User_Permissions {
 	public static function is_current_user_instructor() {
 
 		return ( current_user_can( 'lifterlms_instructor' ) && current_user_can( 'list_users' ) && ! current_user_can( 'manage_lifterlms' ) );
-
 	}
 
 	/**
@@ -384,7 +417,6 @@ class LLMS_User_Permissions {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -396,14 +428,11 @@ class LLMS_User_Permissions {
 	 * @param int $requested_user_id WP User ID of the user the action will be performed on.
 	 * @return bool Returns true if the user has the student, false if it doesn't
 	 */
-	protected function instructor_has_student( $current_user_id, $requested_user_id )
-	{
+	protected function instructor_has_student( $current_user_id, $requested_user_id ) {
 
 		$instructor = llms_get_instructor( $current_user_id );
 		return $instructor && $instructor->has_student( $requested_user_id );
-
 	}
-
 }
 
 return new LLMS_User_Permissions();

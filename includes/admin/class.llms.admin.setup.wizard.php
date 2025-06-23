@@ -118,7 +118,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -155,7 +154,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		}
 
 		return admin_url( 'edit.php?post_type=course&orderby=date&order=desc' );
-
 	}
 
 	/**
@@ -181,7 +179,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -194,7 +191,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 	protected function save_pages() {
 
 		return LLMS_Install::create_pages() ? true : new WP_Error( 'llms-setup-pages-save', esc_html__( 'There was an error saving your data, please try again.', 'lifterlms' ) );
-
 	}
 
 	/**
@@ -219,7 +215,6 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		return true;
-
 	}
 
 	/**
@@ -251,9 +246,10 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 		}
 
 		return $gen->get_generated_courses();
-
 	}
-
 }
 
-return new LLMS_Admin_Setup_Wizard();
+function llms_load_admin_setup_wizard() {
+	return new LLMS_Admin_Setup_Wizard();
+}
+add_action( 'init', 'llms_load_admin_setup_wizard' );

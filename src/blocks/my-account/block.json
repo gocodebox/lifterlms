@@ -7,6 +7,9 @@
   "description": "Outputs the login, registration, dashboard, profile and reset password templates.",
   "textdomain": "lifterlms",
   "attributes": {
+    "layout": {
+      "type": "string"
+    },
     "login_redirect": {
       "type": "string"
     },

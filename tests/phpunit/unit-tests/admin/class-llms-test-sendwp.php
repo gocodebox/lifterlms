@@ -176,11 +176,10 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 		// Install.
 		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
-		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
-		$this->assertEquals( 2007, $res['partner_id'] );
+		$this->assertEquals( array( 'success', ), array_keys( $res ) );
 
 		// Already installed, activate.
-		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install_verify' );
 		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
 		$this->assertEquals( 2007, $res['partner_id'] );
 

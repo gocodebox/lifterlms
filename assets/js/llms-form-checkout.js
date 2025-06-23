@@ -61,7 +61,7 @@
 
 				/**
 				 * Fix `HTMLFormElement.reportValidity()` when `scroll-behavior: smooth`.
-				 * 
+				 *
 				 * @see {@link https://github.com/gocodebox/lifterlms/issues/2206}
 				 */
 				document.querySelector( 'html' ).style.scrollBehavior = 'auto';
@@ -77,6 +77,8 @@
 				this.bind_coupon();
 
 				this.bind_gateways();
+
+				$( document ).trigger( "llms-checkout-refreshed" );
 
 			} else if ( this.$confirm_form.length ) {
 
@@ -155,6 +157,8 @@
 			gateways.push( gateway_class );
 
 		};
+
+
 
 		/**
 		 * Bind coupon add & remove button events
@@ -353,6 +357,8 @@
 
 						$( '.llms-order-summary' ).replaceWith( r.data.summary_html );
 
+						$( document ).trigger( "llms-checkout-refreshed" );
+
 					}
 
 				}
@@ -395,6 +401,8 @@
 
 						$( '.llms-payment-gateways' ).replaceWith( r.data.gateways_html );
 						self.bind_gateways();
+
+						$( document ).trigger( "llms-checkout-refreshed" );
 
 					}
 

@@ -714,6 +714,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$price = 0;
 		}
 
+		/**
+		 * Filter the price before formatting the price for display.
+		 *
+		 * @since 7.8.0
+		 */
+		$price = apply_filters( "llms_{$this->model_post_type}_get_price_before_formatting", $price, $key, $price_args, $this );
+
 		if ( 'html' === $format || 'raw' === $format ) {
 			$price = llms_price( $price, $price_args );
 			if ( 'raw' === $format ) {

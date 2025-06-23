@@ -35,7 +35,7 @@ LLMS.Tracking = function( settings ) {
 		self.addEvent( 'page.load' );
 
 		window.addEventListener( 'beforeunload', onBeforeUnload );
-		window.addEventListener( 'unload', onUnload );
+		window.addEventListener( 'pagehide', onUnload );
 
 		document.addEventListener( 'visibilitychange', onVisibilityChange );
 
@@ -78,7 +78,7 @@ LLMS.Tracking = function( settings ) {
 		store.set( 'events', all );
 
 		// If couldn't store the latest event because of size limits.
-		if ( all.length > store.get( 'events', [] ).length ) {
+		if (  settings.saving_frequency === 'always' || all.length > store.get( 'events', [] ).length ) {
 
 			// Copy the cookie in a temporary variable.
 			var _temp = store.getAll();
