@@ -453,6 +453,25 @@
 
 		};
 
+		this.bind_course = function() {
+			const canEditPost =
+				wp?.data &&
+				typeof wp.data.dispatch === 'function' &&
+				typeof wp.data.dispatch( 'core/editor' ).editPost === 'function';
+
+			if ( ! canEditPost ) {
+				return;
+			}
+
+			var $course_length = $( '#_llms_length' );
+			$course_length.on( 'input change', function( e ) {
+				wp.data.dispatch( 'core/editor' ).editPost( {
+					meta: { _llms_length: e.target.value }
+				} );
+			} );
+
+		};
+
 		/**
 		 * Actions for memberships
 		 *
