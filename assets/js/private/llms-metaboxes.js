@@ -13,6 +13,20 @@
 		 }
 	 } );
 
+	 const collapseHeaderClicked = function() {
+		 var $parent = $(this).closest('.llms-collapsible'),
+			 $siblings = $parent.siblings('.llms-collapsible');
+
+		 $parent.toggleClass('opened').trigger('llms-collapsible-toggled');
+
+		 $parent.find('.llms-collapsible-body').slideToggle(400);
+
+		 $siblings.each(function () {
+			 $(this).removeClass('opened');
+			 $(this).find('.llms-collapsible-body').slideUp(400);
+		 });
+	 }
+
 	 /**
 	 * jQuery plugin to allow "collapsible" sections
 	 *
@@ -24,21 +38,8 @@
 
 		var $group = this;
 
-		this.on( 'click', '.llms-collapsible-header', function() {
-
-			var $parent   = $( this ).closest( '.llms-collapsible' ),
-				$siblings = $parent.siblings( '.llms-collapsible' );
-
-			$parent.toggleClass( 'opened' ).trigger( 'llms-collapsible-toggled' );
-
-			$parent.find( '.llms-collapsible-body' ).slideToggle( 400 );
-
-			$siblings.each( function() {
-				$( this ).removeClass( 'opened' );
-				$( this ).find( '.llms-collapsible-body' ).slideUp( 400 );
-			} );
-
-		} );
+		this.off( 'click', '.llms-collapsible-header', collapseHeaderClicked )
+			.on( 'click', '.llms-collapsible-header', collapseHeaderClicked );
 
 		return this;
 
