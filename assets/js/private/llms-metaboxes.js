@@ -269,12 +269,25 @@
 		 */
 		this.bind_datepicker = function( $el ) {
 			var format  = $el.attr( 'data-format' ) || 'mm/dd/yy',
+				altFormat = $el.attr( 'data-alt-format' ) || '',
+				altField = $el.attr( 'data-alt-field' ) || '',
 				maxDate = $el.attr( 'data-max-date' ) || null,
 				minDate = $el.attr( 'data-min-date' ) || null;
 			$el.datepicker( {
 				dateFormat: format,
 				maxDate: maxDate,
 				minDate: minDate,
+				altField: altField,
+				altFormat: altFormat
+			} ).on( "keyup", function() {
+				var date;
+				try {
+					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
+				} catch ( e ) { }
+
+				if ( !date && altField ) {
+					$( $.escapeSelector( altField ) ).val( "" );
+				}
 			} );
 		}
 

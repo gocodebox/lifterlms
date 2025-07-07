@@ -1,26 +1,21 @@
 <?php
 /**
- * Sold Amount Widget
+ * Transaction Count Widget
  *
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since 3.0.0
- * @version 3.36.3
+ * @since 8.0.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Sold Amount Widget class
+ * Transaction Count Widget class
  *
- * Retrieves the total amount of all successful transactions
- * according to active filters.
- *
- * @since 3.0.0
- * @since 3.30.3 Explicitly define class properties.
- * @since 3.36.3 In `format_response()` method avoid running `wp_list_pluck()` on non arrays.
+ * Locates number of transactions from a given date range
+ * by a given group of students.
  */
-class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
+class LLMS_Analytics_Transactions_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
 
@@ -42,11 +37,10 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'amount', // Type of field.
-			'key'    => 'amount', // Key of result field to add when counting.
+			'type'   => 'count',
 			'header' => array(
 				'id'    => 'sold',
-				'label' => __( 'Net Revenue', 'lifterlms' ),
+				'label' => __( '# of Transactions', 'lifterlms' ),
 				'type'  => 'number',
 			),
 		);
@@ -80,7 +74,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 			if ( $order_ids ) {
 				$txn_meta_join   = "JOIN {$wpdb->postmeta} AS txn_meta ON txn_meta.post_id = txns.ID";
 				$txn_meta_where .= " AND txn_meta.meta_key = '_llms_order_id'";
-				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', $order_ids ) . ' )';
+				$txn_meta_where .= ' AND txn_meta.meta_value IN ( ' . implode( ', ', array_map( 'absint', $order_ids ) ) . ' )';
 			} else {
 
 				$this->query_function = 'get_var';
@@ -100,34 +94,25 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 		$this->query_function = 'get_results';
 		$this->output_type    = OBJECT;
 
-		$this->query = "SELECT txns.post_date AS date,
-       					(sales.meta_value - COALESCE(refunds.meta_value, 0)) AS amount
+		$this->query = "SELECT
+							  txns.post_date as date
 						FROM {$wpdb->posts} AS txns
 						{$txn_meta_join}
-						JOIN {$wpdb->postmeta} AS sales ON sales.post_id = txns.ID AND sales.meta_key = '_llms_amount'
-						LEFT JOIN {$wpdb->postmeta} AS refunds ON refunds.post_id = txns.ID AND refunds.meta_key = '_llms_refund_amount'
 						WHERE
 						        ( txns.post_status = 'llms-txn-succeeded' OR txns.post_status = 'llms-txn-refunded' )
 						    AND txns.post_type = 'llms_transaction'
 							AND txns.post_date >= CAST( %s as DATETIME )
 							AND txns.post_date < CAST( %s as DATETIME )
 							{$txn_meta_where}
-							ORDER BY txns.post_date ASC
+							ORDER BY txns.post_modified ASC
 						;";
 	}
 
-	/**
-	 * Format response.
-	 *
-	 * @since unknown
-	 * @since 3.36.3 Avoid running `wp_list_pluck()` on non arrays.
-	 * @since 8.0.3 Using aggregate sum of net sales rather than summing up the txn records.
-	 */
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
-			$results = $this->get_results();
-			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
+
+			return count( $this->get_results() );
 
 		}
 	}

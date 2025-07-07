@@ -184,6 +184,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 				'controller'       => '#' . $this->prefix . 'drip_method',
 				'controller_value' => 'date',
 				'class'            => 'llms-datepicker',
+				'date_format'      => 'yy-mm-dd',
 				'id'               => $this->prefix . 'date_available',
 				'label'            => __( 'Date Available', 'lifterlms' ),
 				'type'             => 'date',
