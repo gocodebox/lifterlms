@@ -1195,6 +1195,10 @@ GROUP BY locations.meta_value";
 		}
 
 		$attrs['type'] = 'hidden';
+		if ( isset( $attrs['classes'] ) && strpos( $attrs['classes'], 'llms-select2' ) !== false ) {
+			// Avoids trying to register the select2 script when the field is a hidden field vs. select field.
+			$attrs['classes'] = str_replace( 'llms-select2', '', $attrs['classes'] );
+		}
 		return $attrs;
 	}
 
