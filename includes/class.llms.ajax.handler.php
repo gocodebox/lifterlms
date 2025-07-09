@@ -1202,6 +1202,13 @@ class LLMS_AJAX_Handler {
 				$raw_plan_data['price'] = 0;
 			}
 
+			// Ensure we can clear the memberships when they are cleared but "Members only" still selected.
+			if ( isset( $raw_plan_data['availability'] ) && 'members' === $raw_plan_data['availability'] &&
+				( ! isset( $raw_plan_data['availability_restrictions'] ) || ! $raw_plan_data['availability_restrictions'] ) ) {
+				$raw_plan_data['availability_restrictions'] = array();
+				$raw_plan_data['availability']              = 'open';
+			}
+
 			$raw_plan_data['product_id'] = $post_id;
 
 			// retained filter for backwards compat.
