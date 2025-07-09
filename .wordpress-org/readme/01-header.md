@@ -1,5 +1,5 @@
 === LifterLMS - WP LMS for eLearning, Online Courses, & Quizzes ===
-Contributors: chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc, brianhogg
+Contributors: lifterlms, chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc, brianhogg
 Donate link: {{__PROJECT_URI__}}
 Tags: lms, course, elearning, learning management system, quiz
 License: {{__LICENSE__}}
