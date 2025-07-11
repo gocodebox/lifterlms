@@ -83,11 +83,11 @@ if ( 'llms-active' === $status ) {
 
 		<?php elseif ( $confirm && $gateway ) : ?>
 
-			<div class="llms-payment-method">
+			<div class="llms-payment-method llms-payment-gateway <?php echo esc_attr( $confirm ); ?>">
 				<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $gateway->get_id(), 'switch' ); ?>
 				<span class="llms-gateway-title"><span class="llms-label"><?php esc_html_e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo esc_html( $gateway->get_title() ); ?></span>
 				<?php if ( $gateway->get_icon() ) : ?>
-					<span class="llms-gateway-icon"><?php echo wp_kses_post( $gateway->get_icon() ); ?></span>
+					<span class="llms-gateway-icon llms-description"><?php echo wp_kses_post( $gateway->get_icon() ); ?></span>
 				<?php endif; ?>
 				<?php if ( $gateway->get_description() ) : ?>
 					<div class="llms-gateway-description"><?php echo wp_kses_post( wpautop( wptexturize( $gateway->get_description() ) ) ); ?></div>
@@ -104,17 +104,21 @@ if ( 'llms-active' === $status ) {
 		<input name="llms_switch_action" type="hidden" value="<?php echo esc_attr( $order->get_switch_source_action() ); ?>">
 
 		<?php
-		llms_form_field(
-			array(
-				'columns'     => 12,
-				'classes'     => 'llms-button-primary',
-				'id'          => 'llms_save_payment_method',
-				'value'       => $submit_text,
-				'last_column' => true,
-				'required'    => false,
-				'type'        => 'submit',
-			)
-		);
+		if ( apply_filters( 'llms_show_switch_save_payment_method_button', true, $order ) ) :
+
+			llms_form_field(
+				array(
+					'columns'     => 12,
+					'classes'     => 'llms-button-primary',
+					'id'          => 'llms_save_payment_method',
+					'value'       => $submit_text,
+					'last_column' => true,
+					'required'    => false,
+					'type'        => 'submit',
+				)
+			);
+
+		endif;
 		?>
 
 	</div>
