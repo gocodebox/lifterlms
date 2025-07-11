@@ -16,16 +16,23 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$status  = $order->get( 'status' );
-$gateway = llms()->payment_gateways()->get_gateway_by_id( $confirm );
-$plan    = llms_get_post( $order->get( 'plan_id' ) );
+$status        = $order->get( 'status' );
+$gateway       = llms()->payment_gateways()->get_gateway_by_id( $confirm );
+$order_gateway = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+$plan          = llms_get_post( $order->get( 'plan_id' ) );
 if ( ! $plan ) {
 	return;
 }
 if ( 'llms-active' === $status ) {
-	$submit_text = __( 'Save Payment Method', 'lifterlms' );
+	if ( $order_gateway && $order_gateway->is_external_payment_entry() ) {
+		$submit_text = __( 'Save and Continue', 'lifterlms' );
+	} else {
+		$submit_text = __( 'Save Payment Method', 'lifterlms' );
+	}
 } elseif ( 'llms-pending-cancel' === $status ) {
 	$submit_text = __( 'Reactivate Subscription', 'lifterlms' );
+} elseif ( $order_gateway && $order_gateway->is_external_payment_entry() ) {
+	$submit_text = __( 'Save and Continue', 'lifterlms' );
 } else {
 	$submit_text = __( 'Save and Pay Now', 'lifterlms' );
 }
