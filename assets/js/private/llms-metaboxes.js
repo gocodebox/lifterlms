@@ -959,7 +959,8 @@
 		this.post_select = function( $el ) {
 
 			var multi = 'multiple' === $el.attr( 'multiple' ),
-				noViewBtn = $el.attr( 'data-no-view-button' );
+				noViewBtn = $el.attr( 'data-no-view-button' ),
+				editBtn = $el.attr( 'data-edit-button' );
 
 			$el.llmsPostsSelect2( {
 				width: multi || noViewBtn ? '100%' : '65%',
@@ -977,7 +978,11 @@
 			$el.on( 'change', function() {
 				var id = $( this ).val();
 				if ( id ) {
-					$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
+					if ( editBtn ) {
+						$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + id ).show();
+					} else {
+						$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
+					}
 				} else {
 					$btn.hide();
 				}
