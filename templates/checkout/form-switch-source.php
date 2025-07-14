@@ -37,7 +37,7 @@ if ( 'llms-active' === $status ) {
 	llms_form_field(
 		array(
 			'columns'     => 12,
-			'classes'     => 'llms-button-secondary',
+			'classes'     => 'llms-button-primary',
 			'id'          => 'llms_update_payment_method',
 			'value'       => 'llms-pending-cancel' === $status ? __( 'Reactivate Subscription', 'lifterlms' ) : __( 'Update Payment Method', 'lifterlms' ),
 			'last_column' => true,
