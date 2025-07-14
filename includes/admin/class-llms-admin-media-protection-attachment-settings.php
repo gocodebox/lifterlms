@@ -101,9 +101,6 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			wp_mkdir_p( dirname( $new_file ) );
 		}
 		if ( $wp_filesystem->move( $file, $new_file ) ) {
-			// Update attachment location in database.
-			update_attached_file( $attachment_id, $new_file );
-
 			// Move thumbnails if they exist.
 			if ( ! empty( $metadata['sizes'] ) ) {
 				$base_dir     = dirname( $file );
@@ -112,11 +109,29 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 				foreach ( $metadata['sizes'] as $size => $size_info ) {
 					$old_thumb = $base_dir . '/' . $size_info['file'];
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
-					$wp_filesystem->move( $old_thumb, $new_thumb );
+					if ( ! $wp_filesystem->move( $old_thumb, $new_thumb ) ) {
+						// Move the file back along with any thumbnails we already moved.
+						$wp_filesystem->move( $new_file, $file );
+						foreach ( $metadata['sizes'] as $s => $size_info ) {
+							if ( $s === $size ) {
+								// We've reached the spot where we failed, so we can stop.
+								return false;
+							}
+
+							$old_thumb = $base_dir . '/' . $size_info['file'];
+							$new_thumb = $new_base_dir . '/' . $size_info['file'];
+							if ( $wp_filesystem->exists( $new_thumb ) ) {
+								$wp_filesystem->move( $new_thumb, $old_thumb );
+							}
+						}
+
+						return false;
+					}
 				}
 			}
 
-			// Update metadata with new path.
+			// Update attachment location in database.
+			update_attached_file( $attachment_id, $new_file );
 
 			// This only exists with images it seems.
 			if ( array_key_exists( 'file', $metadata ) ) {
