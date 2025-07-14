@@ -59,7 +59,8 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 						WHERE
 							    meta_key = '_status'
 							AND ( meta_value = 'Enrolled' OR meta_value = 'enrolled' )
-							AND updated_date BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS  DATETIME )
+							AND updated_date >= CAST( %s as DATETIME )
+						    AND updated_date < CAST( %s as DATETIME )
 							{$student_ids}
 							{$product_ids}
 						;";
@@ -68,7 +69,6 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			$this->format_date( $dates['start'], 'start' ),
 			$this->format_date( $dates['end'], 'end' ),
 		);
-
 	}
 
 	protected function format_response() {
@@ -78,7 +78,5 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 			return count( $this->get_results() );
 
 		}
-
 	}
-
 }
