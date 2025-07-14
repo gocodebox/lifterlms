@@ -970,24 +970,28 @@
 				return;
 			}
 
-			// add a "View" button to see what the selected page looks like
-			var msg  = editBtn ? LLMS.l10n.translate( 'Edit' ) : LLMS.l10n.translate( 'View' ),
-				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
-			$el.next( '.select2' ).after( $btn );
+			// add a "View" button to see what the selected page looks like, if it doesn't already exist.
+			$btn = $el.next('.select2').next( 'a.llms-button-secondary' );
+			if ( ! $btn.length ) {
+				var msg  = editBtn ? LLMS.l10n.translate( 'Edit' ) : LLMS.l10n.translate( 'View' ),
+					$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
+				$el.next( '.select2' ).after( $btn );
 
-			$el.on( 'change', function() {
-				var id = $( this ).val();
-				if ( id ) {
-					if ( editBtn ) {
-						$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + id ).show();
+				$el.on( 'change', function() {
+					var id = $( this ).val();
+					if ( id ) {
+						if ( editBtn ) {
+							$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + id ).show();
+						} else {
+							$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
+						}
 					} else {
-						$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
+						$btn.hide();
 					}
-				} else {
-					$btn.hide();
-				}
-			} ).trigger( 'change' );
+				} );
+			}
 
+			$el.trigger( 'change' );
 		};
 
 		/**
