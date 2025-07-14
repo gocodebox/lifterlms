@@ -110,6 +110,8 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 					$old_thumb = $base_dir . '/' . $size_info['file'];
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
 					if ( ! $wp_filesystem->move( $old_thumb, $new_thumb ) ) {
+						error_log( 'Unable to move protected file. Thumbnail moving failed: ' . $new_thumb );
+
 						// Move the file back along with any thumbnails we already moved.
 						$wp_filesystem->move( $new_file, $file );
 						foreach ( $metadata['sizes'] as $s => $size_info ) {
@@ -144,6 +146,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			return true;
 		}
 
+		error_log( 'Unable to move protected file, check permissions on the protected directory or existing file with the same name: ' . $file );
 		return false;
 	}
 }
