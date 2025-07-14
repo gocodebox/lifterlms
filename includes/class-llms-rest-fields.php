@@ -118,9 +118,10 @@ class LLMS_REST_Fields {
 					return get_post_meta( $object['id'], '_llms_media_protection_product_id', true );
 				},
 				'update_callback' => function ( $value, $object ) {
-					update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
 					$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
-					$settings->move_attachment_to_protected_dir( $object->ID );
+					if ( $settings->move_attachment_to_protected_dir( $object->ID ) ) {
+						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+					}
 				},
 				'schema'          => array(
 					'description' => __( 'The ID of the product that protects this media.', 'lifterlms' ),

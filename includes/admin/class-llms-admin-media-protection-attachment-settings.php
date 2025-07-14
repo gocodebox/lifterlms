@@ -59,9 +59,9 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	public function attachment_fields_to_save( $post, $attachment ) {
 
 		if ( ! empty( $attachment['llms_media_protection_post'] ) ) {
-			update_post_meta( $post['ID'], '_llms_media_protection_product_id', absint( $attachment['llms_media_protection_post'] ) );
-
-			$this->move_attachment_to_protected_dir( $post['ID'] );
+			if ( $this->move_attachment_to_protected_dir( $post['ID'] ) ) {
+				update_post_meta( $post['ID'], '_llms_media_protection_product_id', absint( $attachment['llms_media_protection_post'] ) );
+			}
 		}
 
 		return $post;
@@ -98,10 +98,9 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 
 		$new_file = str_replace( wp_upload_dir()['basedir'], wp_upload_dir()['basedir'] . untrailingslashit( $protected_dir ), $file );
 		if ( ! $wp_filesystem->is_dir( dirname( $new_file ) ) ) {
-			error_log( 'making new folder...' );
 			wp_mkdir_p( dirname( $new_file ) );
 		}
-		if ( $wp_filesystem->move( $file, $new_file, true ) ) {
+		if ( $wp_filesystem->move( $file, $new_file ) ) {
 			// Update attachment location in database.
 			update_attached_file( $attachment_id, $new_file );
 
@@ -113,7 +112,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 				foreach ( $metadata['sizes'] as $size => $size_info ) {
 					$old_thumb = $base_dir . '/' . $size_info['file'];
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
-					$wp_filesystem->move( $old_thumb, $new_thumb, true );
+					$wp_filesystem->move( $old_thumb, $new_thumb );
 				}
 			}
 
@@ -124,9 +123,6 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 				$metadata['file'] = ltrim( $protected_dir, '/' ) . $metadata['file'];
 				wp_update_attachment_metadata( $attachment_id, $metadata );
 			}
-
-			// TODO: Add a different authorization hook?
-			// TODO: Change the parent of the attachment ID to the product ID? Or leave it as is?
 
 			$protector->add_authorization_meta_to_media_post( $attachment_id );
 
