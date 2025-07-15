@@ -146,7 +146,11 @@ div[id^="lifterlms-"] .inside {
 	overflow: visible;
 }
 
-.notice.llms-admin-notice {
+.lifterlms_notification {
+	margin-bottom: 15px;
+}
+
+.notice.llms-admin-notice, #lifterlms-notifications .lifterlms_notification {
 	background-color: #FFF;
 	border: 1px solid #ccd0d4;
 	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.15 );
@@ -158,48 +162,48 @@ div[id^="lifterlms-"] .inside {
 		text-decoration: none;
 	}
 
-	&.notice-warning {
+	&.notice-warning, &.lifterlms_notification-warning {
 		border-left: 4px solid #F8954F;
 
-		.llms-admin-notice-icon {
+		.llms-admin-notice-icon, .lifterlms_notification-icon {
 			background-color: #FEF4ED;
 		}
 	}
 
-	&.notice-info {
+	&.notice-info, &.lifterlms_notification-info {
 		border-left: 4px solid #466DD8;
 
 		h3 {
 			color: #466DD8;
 		}
 
-		.llms-admin-notice-icon {
+		.llms-admin-notice-icon, .lifterlms_notification-icon {
 			background-color: #EDF0FB;
 		}
 
 	}
 
-	&.notice-success {
+	&.notice-success, &.lifterlms_notification-success {
 		border-left: 4px solid #18A957;
 
 		h3 {
 			color: #18A957;
 		}
 
-		.llms-admin-notice-icon {
+		.llms-admin-notice-icon, .lifterlms_notification-icon {
 			background-color: #E8F6EE;
 		}
 
 	}
 
-	&.notice-error {
+	&.notice-error, &.lifterlms_notification-error {
 		border-left: 4px solid #DF1642;
 
 		h3 {
 			color: #9C0F2E;
 		}
 
-		.llms-admin-notice-icon {
+		.llms-admin-notice-icon, .lifterlms_notification-icon {
 			background-color: #FCE8EC;
 		}
 
@@ -211,10 +215,27 @@ div[id^="lifterlms-"] .inside {
 		background-repeat: no-repeat;
 		background-size: 30px;
 		min-width: 70px;
-
 	}
 
-	.llms-admin-notice-content {
+	.lifterlms_notification-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 70px;
+
+		span.dashicons {
+			font-size: 30px;          /* Set icon size */
+			line-height: 1;           /* Remove excess line height */
+			color: #0073aa;           /* Optional: icon color */
+			display: flex;            /* Ensures the icon is centered as content */
+			align-items: center;
+			justify-content: center;
+			width: 100%;              /* Fill container horizontally */
+			height: 100%;             /* Fill container vertically */
+		}
+	}
+
+	.llms-admin-notice-content, .lifterlms_notification-content {
 		color: #111;
 		padding: 20px;
 	}
@@ -241,6 +262,10 @@ div[id^="lifterlms-"] .inside {
 
 	p:last-of-type {
 		margin-bottom: 0;
+	}
+
+	.lifterlms_notification-content p:last-of-type {
+		margin-bottom: 15px;
 	}
 }
 
