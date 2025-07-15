@@ -75,6 +75,7 @@
 		border: 1px solid $color-border;
 		border-spacing: 0;
 		width: 100%;
+		margin: 10px 0;
 
 		thead {
 			display: none;
@@ -160,35 +161,13 @@
 		.llms-change-password { display: none; }
 	}
 
-	.order-primary {
-
-		@media all and ( min-width: 600px ) {
-			float: left;
-			width: 68%;
-		}
-
+	.order-primary, .order-secondary {
+		width: 100%;
 	}
+
 	.order-secondary {
-
-		@media all and ( min-width: 600px ) {
-			float: left;
-			width: 32%;
-		}
-
-		form {
-			margin-bottom: 0;
-		}
-
-	}
-
-	// stack columns when alternate layout declared via filter
-	@media all and ( min-width: 600px ) {
-		.llms-view-order.llms-stack-cols {
-			.order-primary,
-			.order-secondary {
-				float: none;
-				width: 100%;
-			}
+		.llms-form-field {
+			padding: 10px 0;
 		}
 	}
 
