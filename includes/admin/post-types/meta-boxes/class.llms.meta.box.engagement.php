@@ -33,7 +33,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'llms_engagement',
 		);
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -194,6 +193,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'allow_clear' => true,
 				'placeholder' => __( 'Select an Engagement', 'lifterlms' ),
 				'post-type'   => $default,
+				'edit-button' => true,
 			),
 			'id'              => $this->prefix . 'engagement',
 			'label'           => __( 'Select an Engagement', 'lifterlms' ),
@@ -217,7 +217,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'fields' => $fields,
 			),
 		);
-
 	}
 
 	/**
@@ -341,7 +340,5 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}
 
 		update_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $val );
-
 	}
-
 }
