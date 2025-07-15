@@ -981,9 +981,9 @@
 					var id = $( this ).val();
 					if ( id ) {
 						if ( editBtn ) {
-							$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + id ).show();
+							$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + parseInt( id )  ).show();
 						} else {
-							$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
+							$btn.attr( 'href', window.llms.home_url + '/?p=' + parseInt( id ) ).show();
 						}
 					} else {
 						$btn.hide();
