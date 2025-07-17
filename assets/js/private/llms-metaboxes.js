@@ -13,6 +13,20 @@
 		 }
 	 } );
 
+	 const collapseHeaderClicked = function() {
+		 var $parent = $(this).closest('.llms-collapsible'),
+			 $siblings = $parent.siblings('.llms-collapsible');
+
+		 $parent.toggleClass('opened').trigger('llms-collapsible-toggled');
+
+		 $parent.find('.llms-collapsible-body').slideToggle(400);
+
+		 $siblings.each(function () {
+			 $(this).removeClass('opened');
+			 $(this).find('.llms-collapsible-body').slideUp(400);
+		 });
+	 }
+
 	 /**
 	 * jQuery plugin to allow "collapsible" sections
 	 *
@@ -24,21 +38,8 @@
 
 		var $group = this;
 
-		this.on( 'click', '.llms-collapsible-header', function() {
-
-			var $parent   = $( this ).closest( '.llms-collapsible' ),
-				$siblings = $parent.siblings( '.llms-collapsible' );
-
-			$parent.toggleClass( 'opened' ).trigger( 'llms-collapsible-toggled' );
-
-			$parent.find( '.llms-collapsible-body' ).slideToggle( 400 );
-
-			$siblings.each( function() {
-				$( this ).removeClass( 'opened' );
-				$( this ).find( '.llms-collapsible-body' ).slideUp( 400 );
-			} );
-
-		} );
+		this.off( 'click', '.llms-collapsible-header', collapseHeaderClicked )
+			.on( 'click', '.llms-collapsible-header', collapseHeaderClicked );
 
 		return this;
 
@@ -449,6 +450,25 @@
 
 				}
 
+			} );
+
+		};
+
+		this.bind_course = function() {
+			const canEditPost =
+				wp?.data &&
+				typeof wp.data.dispatch === 'function' &&
+				typeof wp.data.dispatch( 'core/editor' ).editPost === 'function';
+
+			if ( ! canEditPost ) {
+				return;
+			}
+
+			var $course_length = $( '#_llms_length' );
+			$course_length.on( 'input change', function( e ) {
+				wp.data.dispatch( 'core/editor' ).editPost( {
+					meta: { _llms_length: e.target.value }
+				} );
 			} );
 
 		};
