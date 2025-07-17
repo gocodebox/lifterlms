@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2526"
+entry: Can select an access plan with the Access Plan Button block when more
+  than 10 access plans exist on the site.
