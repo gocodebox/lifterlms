@@ -230,6 +230,10 @@ class LLMS_Shortcodes_Blocks {
 			return '';
 		}
 
+		if ( ! apply_filters( 'llms_render_block', true, $block ) ) {
+			return '';
+		}
+
 		$text = $attributes['text'] ?? '';
 
 		unset( $attributes['text'] );
