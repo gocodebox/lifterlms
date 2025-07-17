@@ -33,7 +33,8 @@
     "lifterlms/lifterlms-cli": "0.0.5",
     "lifterlms/lifterlms-helper": "3.5.5",
     "lifterlms/lifterlms-rest": "1.0.2",
-    "woocommerce/action-scheduler": "3.5.4"
+    "woocommerce/action-scheduler": "3.5.4",
+    "gocodebox/banner-notifications": "^1.0"
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "^4.4",
@@ -126,7 +127,8 @@
         "lifterlms/lifterlms-blocks",
         "lifterlms/lifterlms-cli",
         "lifterlms/lifterlms-helper",
-        "lifterlms/lifterlms-rest"
+        "lifterlms/lifterlms-rest",
+        "gocodebox/banner-notifications"
       ],
       "vendor/{$vendor}/{$name}": [
         "type:wordpress-plugin"
