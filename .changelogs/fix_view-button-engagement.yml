@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2961"
+entry: Fix link beside selected engagement when editing an engagement.

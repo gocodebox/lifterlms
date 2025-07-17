@@ -1,6 +1,38 @@
 LifterLMS Changelog
 ===================
 
+v8.0.7 - 2025-06-11
+-------------------
+
+##### Security Fixes
+
++ Additional sanitation of the voucher field.
+
+
+v8.0.6 - 2025-04-21
+-------------------
+
+##### Bug Fixes
+
++ Fix error when editing a lesson with a drip setting of a specific date. [#2926](https://github.com/gocodebox/lifterlms/issues/2926)
+
+
+v8.0.5 - 2025-04-17
+-------------------
+
+##### Updates and Enhancements
+
++ Modifies the allowed HTML for a form, in case the allowed post values in WP have been filtered. [#2922](https://github.com/gocodebox/lifterlms/issues/2922)
+
+
+v8.0.4 - 2025-04-11
+-------------------
+
+##### Bug Fixes
+
++ Avoid warning and possible error when serving protected files. [#2912](https://github.com/gocodebox/lifterlms/issues/2912)
+
+
 v8.0.3 - 2025-04-07
 -------------------
 

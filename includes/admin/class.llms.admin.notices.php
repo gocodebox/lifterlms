@@ -347,6 +347,45 @@ class LLMS_Admin_Notices {
 		}
 	}
 
+	public static function output_global_notices() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		global $lifterlms_banner_notifications;
+
+		// Default to showing notification banners.
+		$show_notifications = true;
+
+		// Hide notifications if the user has disabled them.
+		if ( $lifterlms_banner_notifications->get_max_notification_priority() < 1 ) {
+			$show_notifications = false;
+		}
+
+		if ( $show_notifications ) :
+			?>
+			<div id="lifterlms-notifications" style="position:relative;">
+			</div>
+			<?php
+			// To debug a specific notification.
+			if ( ! empty( $_REQUEST['lifterlms_notification'] ) ) {
+				$specific_notification = '&lifterlms_notification=' . intval( $_REQUEST['lifterlms_notification'] );
+			} else {
+				$specific_notification = '';
+			}
+			?>
+			<script>
+				jQuery(document).ready( function() {
+					jQuery.get('<?php echo esc_url_raw( admin_url( 'admin-ajax.php?action=lifterlms_notifications' . $specific_notification ) ); ?>', function(data) {
+						if ( data && data != 'NULL' )
+							jQuery( '#lifterlms-notifications' ).html( data );
+					});
+				});
+			</script>
+			<?php
+		endif;
+	}
+
 	/**
 	 * Output all saved notices.
 	 *
@@ -363,6 +402,8 @@ class LLMS_Admin_Notices {
 			self::output_notice( $notice_id );
 			self::$printed_notices[] = $notice_id;
 		}
+
+		self::output_global_notices();
 	}
 
 	/**

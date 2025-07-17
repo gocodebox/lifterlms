@@ -516,6 +516,10 @@ abstract class LLMS_Admin_Metabox {
 
 		$val = '';
 
+		if ( isset( $field['handler'] ) && method_exists( $this, 'handler_' . $field['handler'] ) ) {
+			return $this->{'handler_' . $field['handler']}( $post_id, $field, $_POST );
+		}
+
 		if ( ! isset( $_POST[ $field['id'] ] ) ) {
 			return $this->save_field_db( $post_id, $field['id'], $val );
 		}
@@ -537,6 +541,42 @@ abstract class LLMS_Admin_Metabox {
 
 		return $this->save_field_db( $post_id, $field['id'], $val );
 	}
+
+	protected function handler_instructors_mb_store( $post_id, $field, $request ) {
+		if ( ! llms_current_user_can_edit_product( $post_id ) ) {
+			return false;
+		}
+
+		$post = llms_get_post( $post_id );
+
+		$instructors = array();
+
+		// TODO: This is assuming only one repeater on the page. Make the repeater use unique field names instead based on the ID.
+
+		// We're going in order of the request array to get the order of the instructors, vs. going 1, 2, 3 for ID.
+		foreach ( $request as $key => $val ) {
+
+			// Check if key is in the format llms_id_{number}.
+			if ( ! preg_match( '/^_llms_id_[0-9]+$/', $key ) ) {
+				continue;
+			}
+
+			$key_id = str_replace( '_llms_id_', '', $key );
+
+			$instructor = array(
+				'id'         => absint( $request[ '_llms_id_' . $key_id ] ),
+				'label'      => $request[ '_llms_label_' . $key_id ],
+				'visibility' => $request[ '_llms_visibility_' . $key_id ],
+			);
+
+			$instructors[] = $instructor;
+		}
+
+		$post->set_instructors( $instructors );
+
+		return true;
+	}
+
 
 	/**
 	 * Save field in the db.

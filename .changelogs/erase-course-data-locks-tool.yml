@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2916"
+entry: Schedule course data recalculation throttles in the future, with new tool
+  to clear incorrectly locked courses.

@@ -110,6 +110,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$sales_page_content_type = 'content';
 		}
 
+		$instructor_defaults = llms_get_instructors_defaults();
+
 		return array(
 			array(
 				'title'  => __( 'Sales Page', 'lifterlms' ),
@@ -273,6 +275,59 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			),
 
 			array(
+				'title'  => __( 'Instructors', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'button'  => array(
+							'text' => __( 'Add Instructor', 'lifterlms' ),
+						),
+						'handler' => 'instructors_mb_store',
+						'header'  => array(
+							'default' => __( 'New Instructor', 'lifterlms' ),
+						),
+						'id'      => $this->prefix . 'instructors_data',
+						'label'   => '',
+						'type'    => 'repeater',
+						'fields'  => array(
+							array(
+								'allow_null'      => false,
+								'data_attributes' => array(
+									'placeholder' => esc_attr__( 'Select an Instructor', 'lifterlms' ),
+									'roles'       => 'administrator,lms_manager,instructor,instructors_assistant',
+								),
+								'class'           => 'llms-select2-student',
+								'group'           => 'd-2of3',
+								'id'              => $this->prefix . 'id',
+								'type'            => 'select',
+								'label'           => __( 'Instructor', 'lifterlms' ),
+							),
+							array(
+								'group'   => 'd-1of6',
+								'class'   => 'input-full',
+								'default' => $instructor_defaults['label'],
+								'id'      => $this->prefix . 'label',
+								'type'    => 'text',
+								'label'   => __( 'Label', 'lifterlms' ),
+							),
+							array(
+								'allow_null' => false,
+								'class'      => 'llms-select2',
+								'default'    => $instructor_defaults['visibility'],
+								'group'      => 'd-1of6',
+								'id'         => $this->prefix . 'visibility',
+								'type'       => 'select',
+								'label'      => __( 'Visibility', 'lifterlms' ),
+								'value'      => array(
+									'visible' => esc_html__( 'Visible', 'lifterlms' ),
+									'hidden'  => esc_html__( 'Hidden', 'lifterlms' ),
+								),
+							),
+						),
+					),
+				),
+			),
+
+			array(
 				'title'  => __( 'Auto Enrollment', 'lifterlms' ),
 				'fields' => array(
 					array(
@@ -354,6 +409,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$this->prefix . 'video_embed',
 			$this->prefix . 'audio_embed',
 			$this->prefix . 'tile_featured_video',
+			$this->prefix . 'instructors_data',
 		);
 
 		if ( ! is_array( $fields ) ) {
@@ -373,6 +429,12 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 					// don't save things that don't have an ID or that are not listed in $save_fields.
 					if ( isset( $field['id'] ) && in_array( $field['id'], $save_fields, true ) ) {
+
+						if ( isset( $field['handler'] ) ) {
+							$this->save_field( $post_id, $field );
+							$to_return = 1;
+							continue;
+						}
 
 						if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
 							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_FLAG_NO_ENCODE_QUOTES ) );

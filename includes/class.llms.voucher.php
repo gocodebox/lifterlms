@@ -76,7 +76,6 @@ class LLMS_Voucher {
 		global $wpdb;
 
 		return $wpdb->prefix . $this->codes_table_name;
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ class LLMS_Voucher {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->product_to_voucher_table;
-
 	}
 
 	/**
@@ -104,7 +102,6 @@ class LLMS_Voucher {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->redemptions_table;
-
 	}
 
 	/**
@@ -151,14 +148,17 @@ class LLMS_Voucher {
 		$table          = $this->get_codes_table_name();
 		$redeemed_table = $this->get_redemptions_table_name();
 
-		$query = "SELECT c.*, count(r.id) as used
+		$sql = $wpdb->prepare(
+			"SELECT c.*, count(r.id) as used
                   FROM $table as c
                   LEFT JOIN $redeemed_table as r
                   ON c.`id` = r.`code_id`
-                  WHERE `code` = '$code' AND `is_deleted` = 0
-                  GROUP BY c.id
-                  LIMIT 1";
-		return $wpdb->get_row( $query );
+                  WHERE c.`code` = %s AND c.`is_deleted` = 0
+                  GROUP BY c.`id`
+                  LIMIT 1",
+			$code
+		);
+		return $wpdb->get_row( $sql );
 	}
 
 	/**
@@ -199,7 +199,7 @@ class LLMS_Voucher {
 
 		$table = $this->get_codes_table_name();
 
-		$query = "SELECT * FROM $table WHERE `id` = $code_id AND `is_deleted` = 0 LIMIT 1";
+		$query = $wpdb->prepare( 'SELECT * FROM $table WHERE `id` = %d AND `is_deleted` = 0 LIMIT 1', $code_id );
 		return $wpdb->get_row( $query );
 	}
 
@@ -365,7 +365,6 @@ class LLMS_Voucher {
 			return $voucher;
 
 		}
-
 	}
 
 	/**
@@ -415,7 +414,6 @@ class LLMS_Voucher {
 				array( $user_id, $code_id )
 			)
 		);
-
 	}
 
 	/**

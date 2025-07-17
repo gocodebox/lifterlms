@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "8.0.3",
+  "version": "8.0.7",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -39,7 +39,8 @@
     "postcss": "^8.4.6"
   },
   "scripts": {
-    "build": "npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
+    "clean": "rm -f assets/js/*.min.js assets/js/*.asset.php assets/css/*.map assets/js/*.map assets/maps/*.map assets/css/*.map",
+    "build": "npm run clean && npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:scripts": "wp-scripts build",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
