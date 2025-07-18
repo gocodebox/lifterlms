@@ -91,7 +91,6 @@ beforeAll( async () => {
 		// Ignore message about attribute width negative value is not valid
 		if ( ! log.text().includes( 'A negative value is not valid' ) ) {
 			console.log( `[${ log.type() }] ${ log.text() }` );
-			console.trace();
 		}
 	} );
 
