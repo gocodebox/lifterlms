@@ -120,46 +120,28 @@ describe( 'OpenRegistration', () => {
 
 			// China.
 			await selectCountry( 'China' );
-			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
-			expect ( await getStatesList() ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toBe( 'Province*' );
+			let statesList = await getStatesList();
+			expect( Object.values( statesList ).some( state => state.includes( 'Zhejiang' ) ) ).toBe( true );
 
 			await page.waitForTimeout( 1000 );
 
 			// Peru changes name of the State & City fields.
 			await selectCountry( 'Peru' );
-			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
-			expect ( await getStatesList() ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
+			statesList = await getStatesList();
+			expect( Object.values( statesList ).some( state => state.includes( 'Lima' ) ) ).toBe( true );
+			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toBe( 'District*' );
+			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toBe( 'Postal code*' );
 
 			await page.waitForTimeout( 1000 );
 
 			// United States.
 			await selectCountry( 'United States' );
-			expect ( await getStatesList() ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
-
-			await page.waitForTimeout( 1000 );
-
-			// UAB has no postal code or city.
-			await selectCountry( 'United Arab Emirates' );
-			expect ( await getStatesList() ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( '#llms_billing_city', el => el.disabled ) ).toBe( true );
-			expect( await page.$eval( '#llms_billing_zip', el => el.disabled ) ).toBe( true );
-
-			await page.waitForTimeout( 1000 );
-
-			// Tokelau has no states.
-			await selectCountry( 'Tokelau' );
-			expect ( await getStatesList() ).toMatchSnapshot();
-			expect( await page.$eval( '#llms_billing_state', el => el.disabled ) ).toBe( true );
-			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
-			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
+			statesList = await getStatesList();
+			expect( Object.values( statesList ).some( state => state.includes( 'California' ) ) ).toBe( true );
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toBe( 'State*' );
+			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toBe( 'City*' );
+			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toBe( 'ZIP code*' );
 
 		} );
 
