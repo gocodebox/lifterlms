@@ -24,7 +24,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 
 		// Spot check presence of countries.
 		$this->assertEquals( 'United States (US)', $countries['US'] );
-		$this->assertEquals( 'United Kingdom', $countries['GB'] );
+		$this->assertEquals( 'United Kingdom (UK)', $countries['GB'] );
 		$this->assertEquals( 'Australia', $countries['AU'] );
 		$this->assertEquals( 'China', $countries['CN'] );
 		$this->assertEquals( 'Afghanistan', $countries['AF'] );
