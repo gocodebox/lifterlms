@@ -1,0 +1,6 @@
+significance: patch
+type: changed
+links:
+  - "#2383"
+entry: Filter to change the method used to fetch environment variables on
+  certain hosting configurations.
