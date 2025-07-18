@@ -168,6 +168,28 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				'title'  => __( 'General', 'lifterlms' ),
 				'fields' => array(
 					array(
+						'type'  => 'text',
+						'label' => __( 'Featured Video', 'lifterlms' ),
+						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
+						'id'    => $this->prefix . 'video_embed',
+						'class' => 'code input-full',
+					),
+					array(
+						'desc'       => __( 'When enabled, the featured video will be displayed on the course tile in addition to the course page.', 'lifterlms' ),
+						'desc_class' => 'd-3of4 t-3of4 m-1of2',
+						'id'         => $this->prefix . 'tile_featured_video',
+						'label'      => __( 'Display Featured Video on Course Tile', 'lifterlms' ),
+						'type'       => 'checkbox',
+						'value'      => 'yes',
+					),
+					array(
+						'type'  => 'text',
+						'label' => __( 'Featured Audio', 'lifterlms' ),
+						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
+						'id'    => $this->prefix . 'audio_embed',
+						'class' => 'code input-full',
+					),
+					array(
 						'type'  => 'basic-editor',
 						'label' => __( 'Featured Pricing Information', 'lifterlms' ),
 						'desc'  => __( 'Enter information on pricing for this membership, to be displayed on the catalog page.', 'lifterlms' ),
@@ -384,6 +406,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$this->prefix . 'sales_page_content_type',
 			$this->prefix . 'sales_page_content_url',
 			$this->prefix . 'featured_pricing',
+			$this->prefix . 'video_embed',
+			$this->prefix . 'audio_embed',
+			$this->prefix . 'tile_featured_video',
 			$this->prefix . 'instructors_data',
 		);
 

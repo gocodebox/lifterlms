@@ -12,10 +12,10 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
-// Short circuit if the featured video tile option is enabled for a course.
-if ( 'course' === $post->post_type ) {
-	$course = llms_get_post( $post );
-	if ( 'yes' === $course->get( 'tile_featured_video' ) && $course->get( 'video_embed' ) ) {
+// Short circuit if the featured video tile option is enabled for a course or membership.
+if ( 'course' === $post->post_type || 'llms_membership' === $post->post_type ) {
+	$product = llms_get_post( $post );
+	if ( 'yes' === $product->get( 'tile_featured_video' ) && $product->get( 'video_embed' ) ) {
 		return;
 	}
 }
