@@ -130,7 +130,7 @@ describe( 'OpenRegistration', () => {
 			await selectCountry( 'Peru' );
 			statesList = await getStatesList();
 			expect( Object.values( statesList ).some( state => state.includes( 'Lima' ) ) ).toBe( true );
-			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toBe( 'City*' );
+			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toBe( 'District*' );
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toBe( 'Postal Code*' );
 
 			await page.waitForTimeout( 1000 );
