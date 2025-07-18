@@ -1,0 +1,5 @@
+significance: patch
+type: added
+links:
+  - "#2964"
+entry: Adding additional notification conditions.
