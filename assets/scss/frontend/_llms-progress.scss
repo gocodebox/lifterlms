@@ -9,6 +9,12 @@
 	margin: 15px 0;
 }
 
+.llms-loop-item-content .llms-progress {
+	width: auto;
+	margin: 15px;
+	gap: 10px;
+}
+
 .llms-progress .llms-progress-bar {
 	background-color: $color-border;
 	position: relative;

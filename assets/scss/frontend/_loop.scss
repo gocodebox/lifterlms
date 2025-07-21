@@ -34,6 +34,8 @@
 		overflow: hidden;
 		padding-bottom: 15px;
 		margin: 10px;
+		display: flex;
+		flex-direction: column;
 
 		.llms-loop-link {
 			color: $color-black;
@@ -93,12 +95,6 @@
 		}
 
 		.llms-progress {
-			margin: 0;
-			height: .4em;
-
-			.progress__indicator {
-				display: none;
-			}
 
 			.llms-progress-bar {
 				background-color: #f6f6f6;
