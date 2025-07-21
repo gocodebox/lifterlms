@@ -28,8 +28,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 
 		$selected_product_html = $protection_warning_html = '';
 		$selected_product_id   = get_post_meta( $post->ID, '_llms_media_protection_product_id', true );
-		if ( $selected_product_id ) {
-			$selected_product      = get_post( $selected_product_id );
+		if ( $selected_product_id && ( $selected_product      = get_post( $selected_product_id ) ) ) {
 			$selected_product_html = sprintf( '<option value="%d" selected="selected">%s</option>', $selected_product->ID, $selected_product->post_title );
 		}
 
