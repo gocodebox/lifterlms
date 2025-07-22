@@ -60,8 +60,6 @@
 
 			const handleProtectImage = () => {
 				const selectedId = jQuery( selectRef.current ).val();
-				// Get the text of the selected option.
-				const selectedText = jQuery( selectRef.current ).find( 'option:selected' ).text();
 
 				apiFetch( {
 					path: `/wp/v2/media/${ props.attributes.id }`,
@@ -72,7 +70,7 @@
 				} ).then( ( updatedMedia ) => {
 					const urlAttr = getUrlAttr( props.name );
 					props.setAttributes( { [ urlAttr ]: updatedMedia.source_url } );
-					setProductTitle( selectedText );
+					setProductTitle( null );
 				} ).catch( ( err ) => {
 					console.error( 'Error updating media meta:', err );
 				} );
@@ -94,15 +92,18 @@
 							return;
 						}
 
+						const tryEndpoints = [ 'courses', 'memberships' ];
 						( async () => {
-							try {
-								const product = await apiFetch( {
-									path: `/wp/v2/posts/${ productId }`,
-								} );
-								setProductTitle( product.title.rendered );
-								return;
-							} catch ( er ) {
-								console.error( 'Error fetching protected product title:', er );
+							for ( const type of tryEndpoints ) {
+								try {
+									const product = await apiFetch( {
+										path: `/llms/v1/${ type }/${ productId }?context=edit`,
+									} );
+									setProductTitle( product.title.raw );
+									return;
+								} catch ( er ) {
+									// keep trying
+								}
 							}
 							setProductTitle( '(unknown)' );   // couldn’t load it
 						} )();
@@ -141,12 +142,6 @@
 										</Notice>
 									}
 
-									{ productTitle && (
-										<Notice status="info" isDismissible={ false }>
-											{ LLMS.l10n.translate( 'This image is currently protected by the following product:' ) }
-											<strong>{ productTitle }</strong>
-										</Notice>
-									) }
 								<select
 									id="llms-protect-image-select"
 									ref={ selectRef }
@@ -156,6 +151,12 @@
 									data-post-type='course,llms_membership'
 									></select>
 								</FlexItem>
+								{ productTitle && (
+									<FlexItem>
+										{ LLMS.l10n.translate( 'Currently protected by:' ) }&nbsp;
+										<strong>{ productTitle }</strong>
+									</FlexItem>
+								) }
 								<FlexItem>
 									<Button
 										isPrimary
