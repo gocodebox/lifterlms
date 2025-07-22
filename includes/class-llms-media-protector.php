@@ -405,6 +405,17 @@ class LLMS_Media_Protector {
 	}
 
 	/**
+	 * See if the media is protected with an authorization filter.
+	 *
+	 * @param $media_id
+	 *
+	 * @return bool
+	 */
+	public function is_media_protected( $media_id ) {
+		return (bool) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
+	/**
 	 * Returns true if the user is authorized to view the requested media file, false if not authorized,
 	 * or null if the media file is not protected.
 	 *
@@ -446,18 +457,29 @@ class LLMS_Media_Protector {
 
 		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
 		if ( ! $is_authorized && llms_get_student() ) {
-			$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+			// Check if the student is enrolled in a course that has access to the media.
+			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
+			if ( $authorized_product_id && (
+				llms_get_student()->is_enrolled( $authorized_product_id ) ||
+				llms_current_user_can_edit_product( $authorized_product_id )
+				) ) {
+				$is_authorized = true;
+			}
 
-			if ( $authorized_quiz_ids ) {
-				$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
-				foreach ( $student_quizzes as $student_quiz_attempt ) {
-					$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
-					if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
-						continue;
-					}
-					if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
-						$is_authorized = true;
-						break;
+			if ( ! $is_authorized ) {
+				$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+
+				if ( $authorized_quiz_ids ) {
+					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
+					foreach ( $student_quizzes as $student_quiz_attempt ) {
+						$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
+						if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
+							continue;
+						}
+						if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
+							$is_authorized = true;
+							break;
+						}
 					}
 				}
 			}
@@ -623,8 +645,6 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
-	 *
-	 * @return bool
 	 */
 	public function save_mod_rewrite_rules() {
 		// TODO: Different for multi-site?
@@ -853,10 +873,16 @@ class LLMS_Media_Protector {
 			$media_id = reset( $query->posts );
 		}
 
+		// The auth filter meta needs to exist for the media file to be served by this method.
+		if ( ! get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true ) ) {
+			header( 'HTTP/1.1 404 Not Found' );
+			llms_exit();
+		}
+
 		$media_file = get_post( $media_id );
 
 		// Validate that the attachment post exists.
-		if ( is_null( $media_file ) ) {
+		if ( is_null( $media_file ) || 'attachment' !== $media_file->post_type ) {
 			header( 'HTTP/1.1 404 Not Found' );
 			llms_exit();
 		}
@@ -964,18 +990,8 @@ class LLMS_Media_Protector {
 		return $this;
 	}
 
-	/**
-	 * Removes the authorization filter on the media file.
-	 *
-	 * @since 7.7.0
-	 *
-	 * @param int    $media_id             The post ID of the media file.
-	 * @param string $authorization_filter The hook name of the filter that authorizes users to view media files.
-	 * @return bool True on success, false on failure.
-	 */
-	public function unprotect( $media_id, $authorization_filter ): bool {
-
-		return delete_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, $authorization_filter );
+	public function get_upload_basedir() {
+		return trailingslashit( $this->base_upload_path . $this->additional_upload_path );
 	}
 
 	/**
@@ -996,7 +1012,7 @@ class LLMS_Media_Protector {
 	 * @return array
 	 */
 	public function upload_dir( $uploads ) {
-		$uploads['subdir'] = trailingslashit( $this->base_upload_path . $this->additional_upload_path ) . date( 'Y/m' );
+		$uploads['subdir'] = trailingslashit( $this->get_upload_basedir() ) . date( 'Y/m' );
 		$uploads['path']   = $uploads['basedir'] . $uploads['subdir'];
 		$uploads['url']    = $uploads['baseurl'] . $uploads['subdir'];
 
@@ -1007,14 +1023,15 @@ class LLMS_Media_Protector {
 	 * Add authorization meta to the post.
 	 *
 	 * @param $post_id
+	 * @param string  $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
 	 * @return void
 	 */
-	private function add_authorization_meta_to_media_post( $post_id ): void {
+	public function add_authorization_meta_to_media_post( $post_id, $hook_name = 'llms_attachment_is_access_allowed' ) {
 		if ( ! is_numeric( $post_id ) ) {
 			return;
 		}
 
-		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
+		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, $hook_name );
 	}
 }

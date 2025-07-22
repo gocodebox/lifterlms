@@ -38,6 +38,7 @@
 			"!assets/js/llms-admin-addons.js",
 			"!assets/js/llms-admin-award-certificate.js",
 			"!assets/js/llms-admin-certificate-editor.js",
+			"!assets/js/llms-admin-media-protection-block-protect.js",
 
 			"!assets/js/**/*.min.js",
 			"!assets/js/llms-builder*.js",

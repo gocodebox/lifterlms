@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since 5.3.0 Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
+ * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property int[]  $auto_enroll                Array of course IDs that users will be autoenrolled in upon successful enrollment in this membership.
  * @property array  $instructors                Course instructor user information.
  * @property string $restriction_redirect_type  What type of redirect action to take when content is restricted by this membership [none|membership|page|custom].
@@ -33,9 +34,11 @@ defined( 'ABSPATH' ) || exit;
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
  * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
+ * @property string $video_embed                URL to an oEmbed enable video URL.
  */
 class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
+	use LLMS_Trait_Audio_Video_Embed;
 	use LLMS_Trait_Sales_Page;
 
 	/**
@@ -52,6 +55,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		'restriction_redirect_type' => 'text',
 		'redirect_custom_url'       => 'text',
 		'featured_pricing'          => 'html',
+		'tile_featured_video'       => 'yesno',
 	);
 
 	/**
@@ -78,6 +82,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 */
 	public function __construct( $model, $args = array() ) {
 
+		$this->construct_audio_video_embed();
 		$this->construct_sales_page();
 		parent::__construct( $model, $args );
 	}

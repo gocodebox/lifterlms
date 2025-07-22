@@ -275,6 +275,20 @@ if ( ! function_exists( 'lifterlms_template_single_video' ) ) {
 }
 
 /**
+ * Membership Video Embed Template Include
+ *
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_membership_video' ) ) {
+
+	function lifterlms_template_single_membership_video() {
+
+		llms_get_template( 'membership/video.php' );
+	}
+}
+
+
+/**
  * Lesson Video Embed Template Include
  *
  * @return void
@@ -297,6 +311,19 @@ if ( ! function_exists( 'lifterlms_template_single_audio' ) ) {
 	function lifterlms_template_single_audio() {
 
 		llms_get_template( 'course/audio.php' );
+	}
+}
+
+/**
+ * Membership Audio Embed Template Include.
+ *
+ * @return void
+ */
+if ( ! function_exists( 'lifterlms_template_single_membership_audio' ) ) {
+
+	function lifterlms_template_single_membership_audio() {
+
+		llms_get_template( 'membership/audio.php' );
 	}
 }
 

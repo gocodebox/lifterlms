@@ -119,12 +119,11 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Add each page to the queue.
 		while ( $args['page'] <= $query->get_max_pages() ) {
 			$this->push_to_queue( $args );
-			$args['page']++;
+			++$args['page'];
 		}
 
 		// Save queue and dispatch the process.
 		$this->save()->dispatch();
-
 	}
 
 	/**
@@ -140,9 +139,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	protected function dispatch_calc_throttled( $course_id ) {
 
-		$this->schedule_calculation( $course_id, $this->get_last_run( $course_id ) + $this->throttle_frequency );
+		$this->schedule_calculation( $course_id, time() + $this->throttle_frequency );
 		$this->log( sprintf( 'Course data calculation throttled for course %d.', $course_id ) );
-
 	}
 
 	/**
@@ -176,7 +174,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			),
 			$this
 		);
-
 	}
 
 	/**
@@ -283,7 +280,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		 * @param LLMS_Processor_Course_Data $processor Instance of the data processor class.
 		 */
 		$this->throttle_frequency = apply_filters( 'llms_data_processor_course_data_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
-
 	}
 
 	/**
@@ -334,7 +330,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		 * $param int     $max_students Maximum number of students in the course before processing is throttled.
 		 */
 		return apply_filters( 'llms_data_processor_course_data_throttled', $throttled, $num_students, $course_id, $this->throttle_max_students );
-
 	}
 
 	/**
@@ -406,7 +401,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			$this->log( sprintf( 'Course data calculation scheduled for course %d.', $course_id ) );
 
 		}
-
 	}
 
 
@@ -451,7 +445,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		foreach ( $query->get_students() as $student ) {
 
 			// Progress, all students counted here.
-			$data['students']++;
+			++$data['students'];
 			$data['progress'] = $data['progress'] + $student->get_progress( $args['post_id'] );
 
 			// Grades only counted when a student has taken a quiz.
@@ -460,13 +454,12 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 			// Only check actual quiz grades.
 			if ( is_numeric( $grade ) ) {
-				$data['quizzes']++;
+				++$data['quizzes'];
 				$data['grade'] = $data['grade'] + $grade;
 			}
 		}
 
 		return $this->task_complete( $course, $data, $query->is_last_page() );
-
 	}
 
 	/**
@@ -519,9 +512,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Processor_Course_Data();

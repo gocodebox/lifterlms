@@ -197,6 +197,9 @@ add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_das
  *
  * @since Unknown
  */
+add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_single_membership_video', 20 );
+add_action( 'lifterlms_single_membership_before_summary', 'lifterlms_template_single_membership_audio', 30 );
+
 add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pricing_table', 10 );
 
 /**

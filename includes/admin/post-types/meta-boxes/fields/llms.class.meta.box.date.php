@@ -133,10 +133,17 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		parent::output(); ?>
 		<?php
 		// Convert the meta value into display format.
-		$js_display_date = '';
+		$js_display_date = $this->meta;
 		if ( ! empty( $this->meta ) ) {
-			$meta_date       = DateTime::createFromFormat( $this->jquery_date_to_php_format( $this->field['date_format'] ), $this->meta );
-			$js_display_date = $meta_date->format( $this->jquery_date_to_php_format( $this->field['date_displayformat'] ) );
+			$meta_date = DateTime::createFromFormat( $this->jquery_date_to_php_format( $this->field['date_format'] ), $this->meta );
+
+			if ( ! $meta_date ) {
+				error_log( sprintf( 'Meta value %s for field %s is not in the expected format %s', $this->meta, $this->field['id'], $this->field['date_format'] ) );
+			}
+
+			if ( $meta_date ) {
+				$js_display_date = $meta_date->format( $this->jquery_date_to_php_format( $this->field['date_displayformat'] ) );
+			}
 		}
 		?>
 		<input type="hidden"
