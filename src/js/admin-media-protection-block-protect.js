@@ -49,7 +49,7 @@
 			}
 
 			const [ isModalOpen, setModalOpen ] = useState( false );
-			const [ selectedId, setSelectedId ] = useState( null );
+			const [ productTitle, setProductTitle ] = useState( null );
 			const selectRef = useRef( null );
 
 			useEffect( () => {
@@ -60,6 +60,8 @@
 
 			const handleProtectImage = () => {
 				const selectedId = jQuery( selectRef.current ).val();
+				// Get the text of the selected option.
+				const selectedText = jQuery( selectRef.current ).find( 'option:selected' ).text();
 
 				apiFetch( {
 					path: `/wp/v2/media/${ props.attributes.id }`,
@@ -70,11 +72,46 @@
 				} ).then( ( updatedMedia ) => {
 					const urlAttr = getUrlAttr( props.name );
 					props.setAttributes( { [ urlAttr ]: updatedMedia.source_url } );
+					setProductTitle( selectedText );
 				} ).catch( ( err ) => {
 					console.error( 'Error updating media meta:', err );
 				} );
 				setModalOpen( false );
 			};
+
+			useEffect( () => {
+				if ( ! isModalOpen ) {
+					return;
+				}
+
+				apiFetch( {
+					path: `/wp/v2/media/${ props.attributes.id }?context=edit`,
+				} )
+					.then( ( media ) => {
+						const productId = media._llms_media_protection_product_id;
+						if ( ! productId ) {
+							setProductTitle( null );      // media isn’t protected yet
+							return;
+						}
+
+						( async () => {
+							try {
+								const product = await apiFetch( {
+									path: `/wp/v2/posts/${ productId }`,
+								} );
+								setProductTitle( product.title.rendered );
+								return;
+							} catch ( er ) {
+								console.error( 'Error fetching protected product title:', er );
+							}
+							setProductTitle( '(unknown)' );   // couldn’t load it
+						} )();
+					} )
+					.catch( ( er ) => {
+						console.error( 'Unable to read media meta', er );
+						setProductTitle( null );
+					} );
+			}, [ isModalOpen, props.attributes.id ] );
 
 			return (
 				<Fragment>
@@ -103,6 +140,13 @@
 											<span dangerouslySetInnerHTML={{ __html: warningText }} />
 										</Notice>
 									}
+
+									{ productTitle && (
+										<Notice status="info" isDismissible={ false }>
+											{ LLMS.l10n.translate( 'This image is currently protected by the following product:' ) }
+											<strong>{ productTitle }</strong>
+										</Notice>
+									) }
 								<select
 									id="llms-protect-image-select"
 									ref={ selectRef }
