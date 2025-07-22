@@ -173,7 +173,7 @@ class LLMS_Admin_Assets {
 			return true;
 		} elseif ( in_array( $screen->id, array( 'users' ), true ) ) {
 			return true;
-		} elseif ( 'attachment' === $id ) {
+		} elseif ( 'attachment' === $id || 'upload' === $id ) {
 			return true;
 		}
 
