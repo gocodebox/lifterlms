@@ -49,7 +49,7 @@
 			}
 
 			const [ isModalOpen, setModalOpen ] = useState( false );
-			const [ selectedId, setSelectedId ] = useState( null );
+			const [ productTitle, setProductTitle ] = useState( null );
 			const selectRef = useRef( null );
 
 			useEffect( () => {
@@ -70,11 +70,49 @@
 				} ).then( ( updatedMedia ) => {
 					const urlAttr = getUrlAttr( props.name );
 					props.setAttributes( { [ urlAttr ]: updatedMedia.source_url } );
+					setProductTitle( null );
 				} ).catch( ( err ) => {
 					console.error( 'Error updating media meta:', err );
 				} );
 				setModalOpen( false );
 			};
+
+			useEffect( () => {
+				if ( ! isModalOpen ) {
+					return;
+				}
+
+				apiFetch( {
+					path: `/wp/v2/media/${ props.attributes.id }?context=edit`,
+				} )
+					.then( ( media ) => {
+						const productId = media._llms_media_protection_product_id;
+						if ( ! productId ) {
+							setProductTitle( null );      // media isn’t protected yet
+							return;
+						}
+
+						const tryEndpoints = [ 'courses', 'memberships' ];
+						( async () => {
+							for ( const type of tryEndpoints ) {
+								try {
+									const product = await apiFetch( {
+										path: `/llms/v1/${ type }/${ productId }?context=edit`,
+									} );
+									setProductTitle( product.title.raw );
+									return;
+								} catch ( er ) {
+									// keep trying
+								}
+							}
+							setProductTitle( '(unknown)' );   // couldn’t load it
+						} )();
+					} )
+					.catch( ( er ) => {
+						console.error( 'Unable to read media meta', er );
+						setProductTitle( null );
+					} );
+			}, [ isModalOpen, props.attributes.id ] );
 
 			return (
 				<Fragment>
@@ -103,6 +141,7 @@
 											<span dangerouslySetInnerHTML={{ __html: warningText }} />
 										</Notice>
 									}
+
 								<select
 									id="llms-protect-image-select"
 									ref={ selectRef }
@@ -112,6 +151,12 @@
 									data-post-type='course,llms_membership'
 									></select>
 								</FlexItem>
+								{ productTitle && (
+									<FlexItem>
+										{ LLMS.l10n.translate( 'Currently protected by:' ) }&nbsp;
+										<strong>{ productTitle }</strong>
+									</FlexItem>
+								) }
 								<FlexItem>
 									<Button
 										isPrimary

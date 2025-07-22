@@ -119,6 +119,14 @@ class LLMS_REST_Fields {
 				},
 				'update_callback' => function ( $value, $object ) {
 					$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
+					$protector = new LLMS_Media_Protector();
+
+					if ( $protector->is_media_protected( $object->ID ) ) {
+						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+
+						return;
+					}
+
 					if ( $settings->move_attachment_to_protected_dir( $object->ID ) ) {
 						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
 					}
