@@ -151,8 +151,10 @@ class LLMS_Admin_Post_Tables {
 				if ( ! isset( $_GET['llms_detach_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_detach_post_nonce'] ), 'llms_detach_post' ) ) {
 					wp_die( esc_html__( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 				}
-				delete_post_meta( $post->ID, '_llms_parent_section' );
-				delete_post_meta( $post->ID, '_llms_parent_course' );
+				$r = delete_post_meta( $post->id, '_llms_parent_section' ) && delete_post_meta( $post->id, '_llms_parent_course' );
+				if ( ! $r ) {
+					LLMS_Admin_Notices::flash_notice( esc_html__( 'There was an error detaching the post.', 'lifterlms' ), 'error' );
+				}
 				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
 				exit;
 
