@@ -150,7 +150,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				$course    = $lesson->get( 'parent_course' );
 				$edit_link = get_edit_post_link( $course );
 
-				if ( ! empty( $course ) ) {
+				if ( ! empty( $course ) && get_post( $course ) ) {
 					printf( '<a href="%1$s">%2$s</a>', esc_url( $edit_link ), esc_html( get_the_title( $course ) ) );
 				}
 
