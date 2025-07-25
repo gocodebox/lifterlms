@@ -73,6 +73,20 @@ class LLMS_Admin_Post_Tables {
 			$actions['llms-export'] = '<a href="' . esc_url( $url ) . '">' . __( 'Export', 'lifterlms' ) . '</a>';
 		}
 
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-detach-post' ) ) {
+
+			$url = add_query_arg(
+				array(
+					'post_type' => $post->post_type,
+					'action'    => 'llms-detach-post',
+					'post'      => $post->ID,
+				),
+				admin_url( 'edit.php' )
+			);
+
+			$actions['llms-detach'] = '<a href="' . esc_url( wp_nonce_url( $url, 'llms_detach_post', 'llms_detach_post_nonce' ) ) . '">' . __( 'Detach', 'lifterlms' ) . '</a>';
+		}
+
 		return $actions;
 	}
 
@@ -96,7 +110,7 @@ class LLMS_Admin_Post_Tables {
 		}
 
 		// Bail early if it isn't a clone/ export request.
-		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action ) {
+		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action && 'llms-detach-post' !== $action ) {
 			return;
 		}
 
@@ -132,6 +146,17 @@ class LLMS_Admin_Post_Tables {
 			case 'llms-export-post':
 				$post->export();
 				break;
+
+			case 'llms-detach-post':
+				if ( ! isset( $_GET['llms_detach_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_detach_post_nonce'] ), 'llms_detach_post' ) ) {
+					wp_die( esc_html__( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+				}
+				$r = delete_post_meta( $post->id, '_llms_parent_section' ) && delete_post_meta( $post->id, '_llms_parent_course' );
+				if ( ! $r ) {
+					LLMS_Admin_Notices::flash_notice( esc_html__( 'There was an error detaching the post.', 'lifterlms' ), 'error' );
+				}
+				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
+				exit;
 
 			case 'llms-clone-post':
 				if ( ! isset( $_GET['llms_clone_post_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['llms_clone_post_nonce'] ), 'llms_clone_post' ) ) {
