@@ -1,20 +1,15 @@
 .llms-loop-list {
-	&.cols-3 {
-		.llms-loop-item {
-			width: auto; // TODO: Remove this from the cols part below.
-			// TODO: Check video width is correct
-		}
-	}
 	display: grid;
-	grid-template-columns: repeat(3,minmax(0, 1fr)); // TODO: make this dynamic based on parent class
-	gap: 20px 0;
+
+	// Default, the cols-X classes below should override.
+	grid-template-columns: repeat(3,minmax(0, 1fr));
+
+	gap: 20px;
 
 	.llms-loop-item {
-		//float: left;
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		//width: inherit !important;
 	}
 
 	@media (max-width: 768px) {
@@ -29,7 +24,7 @@
 		$cols: 1;
 		@while $cols <= 6 {
 			&.cols-#{$cols} .llms-loop-item {
-				//width: calc( 100% / $cols );
+				grid-template-columns: repeat($cols, minmax(0, 1fr));
 			}
 			$cols: $cols + 1;
 		}
@@ -39,22 +34,24 @@
 }
 
 .llms-loop-item {
-	//float: left;
 	list-style: none;
-	margin: 0;
+	margin: 10px;
 	padding: 0;
-	//width: 100%;
+	background: $color-white;
+	border: 1px solid $color-border;
+	border-radius: $radius-small;
 }
 
 
 	.llms-loop-item-content {
-		background: $color-white;
-		border: 1px solid $color-border;
-		border-radius: $radius-small;
 		overflow: hidden;
 		padding-bottom: 15px;
-		margin: 10px;
-		height: 100%;
+		margin: 0;
+		height: auto;
+
+		iframe {
+			max-width: 100%;
+		}
 
 		.llms-loop-link {
 			color: $color-black;
