@@ -286,8 +286,8 @@
 					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
 				} catch ( e ) { }
 
-				if ( !date && altField ) {
-					$( $.escapeSelector( altField ) ).val( "" );
+				if ( !date && altField.length > 0 ) {
+					$( altField ).val( "" );
 				}
 			} );
 		}
