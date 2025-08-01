@@ -238,6 +238,15 @@
 			grid-template-areas: "nav header" "nav tab";
 			grid-template-columns: 200px 1fr;
 			grid-template-rows: auto 1fr;
+
+			&:has(> .llms-notice) {
+				grid-template-areas: "nav header" "nav notice" "nav tab";
+				grid-template-rows: auto auto 1fr;
+			}
+		}
+
+		.llms-notice {
+			grid-area: notice;
 		}
 
 		.llms-sd-nav {
