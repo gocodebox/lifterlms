@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2946"
+entry: Avoid breaking the layout on student dashboard pages with a form (ie.
+  Edit Account, Redeem a Voucher).
