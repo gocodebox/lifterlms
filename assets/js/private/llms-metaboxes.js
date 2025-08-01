@@ -287,7 +287,9 @@
 				} catch ( e ) { }
 
 				if ( !date && altField.length > 0 ) {
-					$( altField ).val( "" );
+					if ( /^#[A-Za-z0-9\-_]+$/.test( altField ) ) {
+						$( altField ).val( "" );
+					}
 				}
 			} );
 		}
