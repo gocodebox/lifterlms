@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2977"
+entry: Now able to clear the value from date fields.

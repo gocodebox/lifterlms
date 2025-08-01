@@ -286,8 +286,10 @@
 					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
 				} catch ( e ) { }
 
-				if ( !date && altField ) {
-					$( $.escapeSelector( altField ) ).val( "" );
+				if ( !date && altField.length > 0 ) {
+					if ( /^#[A-Za-z0-9\-_]+$/.test( altField ) ) {
+						$( altField ).val( "" );
+					}
 				}
 			} );
 		}
