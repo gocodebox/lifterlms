@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.0.1 - 2025-08-18
+-------------------
+
+##### Bug Fixes
+
++ Fix "unsaved changes" warning when navigating away from a course/membeship with instructors block in it. [#2986](https://github.com/gocodebox/lifterlms/issues/2986)
+
+
 v9.0.0 - 2025-08-18
 -------------------
 
