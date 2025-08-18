@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2986"
+entry: Fix "unsaved changes" warning when navigating away from a
+  course/membeship with instructors block in it.
