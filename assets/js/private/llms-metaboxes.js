@@ -13,6 +13,20 @@
 		 }
 	 } );
 
+	 const collapseHeaderClicked = function() {
+		 var $parent = $(this).closest('.llms-collapsible'),
+			 $siblings = $parent.siblings('.llms-collapsible');
+
+		 $parent.toggleClass('opened').trigger('llms-collapsible-toggled');
+
+		 $parent.find('.llms-collapsible-body').slideToggle(400);
+
+		 $siblings.each(function () {
+			 $(this).removeClass('opened');
+			 $(this).find('.llms-collapsible-body').slideUp(400);
+		 });
+	 }
+
 	 /**
 	 * jQuery plugin to allow "collapsible" sections
 	 *
@@ -24,21 +38,8 @@
 
 		var $group = this;
 
-		this.on( 'click', '.llms-collapsible-header', function() {
-
-			var $parent   = $( this ).closest( '.llms-collapsible' ),
-				$siblings = $parent.siblings( '.llms-collapsible' );
-
-			$parent.toggleClass( 'opened' ).trigger( 'llms-collapsible-toggled' );
-
-			$parent.find( '.llms-collapsible-body' ).slideToggle( 400 );
-
-			$siblings.each( function() {
-				$( this ).removeClass( 'opened' );
-				$( this ).find( '.llms-collapsible-body' ).slideUp( 400 );
-			} );
-
-		} );
+		this.off( 'click', '.llms-collapsible-header', collapseHeaderClicked )
+			.on( 'click', '.llms-collapsible-header', collapseHeaderClicked );
 
 		return this;
 
@@ -285,8 +286,10 @@
 					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
 				} catch ( e ) { }
 
-				if ( !date && altField ) {
-					$( $.escapeSelector( altField ) ).val( "" );
+				if ( !date && altField.length > 0 ) {
+					if ( /^#[A-Za-z0-9\-_]+$/.test( altField ) ) {
+						$( altField ).val( "" );
+					}
 				}
 			} );
 		}
@@ -449,6 +452,25 @@
 
 				}
 
+			} );
+
+		};
+
+		this.bind_course = function() {
+			const canEditPost =
+				wp?.data &&
+				typeof wp.data.dispatch === 'function' &&
+				typeof wp.data.dispatch( 'core/editor' ).editPost === 'function';
+
+			if ( ! canEditPost ) {
+				return;
+			}
+
+			var $course_length = $( '#_llms_length' );
+			$course_length.on( 'input change', function( e ) {
+				wp.data.dispatch( 'core/editor' ).editPost( {
+					meta: { _llms_length: e.target.value }
+				} );
 			} );
 
 		};
@@ -959,7 +981,8 @@
 		this.post_select = function( $el ) {
 
 			var multi = 'multiple' === $el.attr( 'multiple' ),
-				noViewBtn = $el.attr( 'data-no-view-button' );
+				noViewBtn = $el.attr( 'data-no-view-button' ),
+				editBtn = $el.attr( 'data-edit-button' );
 
 			$el.llmsPostsSelect2( {
 				width: multi || noViewBtn ? '100%' : '65%',
@@ -969,20 +992,28 @@
 				return;
 			}
 
-			// add a "View" button to see what the selected page looks like
-			var msg  = LLMS.l10n.translate( 'View' ),
-				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
-			$el.next( '.select2' ).after( $btn );
+			// add a "View" button to see what the selected page looks like, if it doesn't already exist.
+			$btn = $el.next('.select2').next( 'a.llms-button-secondary' );
+			if ( ! $btn.length ) {
+				var msg  = editBtn ? LLMS.l10n.translate( 'Edit' ) : LLMS.l10n.translate( 'View' ),
+					$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
+				$el.next( '.select2' ).after( $btn );
 
-			$el.on( 'change', function() {
-				var id = $( this ).val();
-				if ( id ) {
-					$btn.attr( 'href', window.llms.home_url + '/?p=' + id ).show();
-				} else {
-					$btn.hide();
-				}
-			} ).trigger( 'change' );
+				$el.on( 'change', function() {
+					var id = $( this ).val();
+					if ( id ) {
+						if ( editBtn ) {
+							$btn.attr( 'href', window.llms.admin_url + 'post.php?action=edit&post=' + parseInt( id )  ).show();
+						} else {
+							$btn.attr( 'href', window.llms.home_url + '/?p=' + parseInt( id ) ).show();
+						}
+					} else {
+						$btn.hide();
+					}
+				} );
+			}
 
+			$el.trigger( 'change' );
 		};
 
 		/**

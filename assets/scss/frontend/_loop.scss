@@ -1,5 +1,20 @@
 .llms-loop-list {
-	@extend %clearfix;
+	display: grid;
+
+	// Default, the cols-X classes below should override.
+	grid-template-columns: repeat(3,minmax(0, 1fr));
+
+	gap: 20px;
+
+	.llms-loop-item {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(1, 1fr);
+	}
 
 	list-style: none;
 	margin: 0 -10px;
@@ -9,7 +24,7 @@
 		$cols: 1;
 		@while $cols <= 6 {
 			&.cols-#{$cols} .llms-loop-item {
-				width: calc( 100% / $cols );
+				grid-template-columns: repeat($cols, minmax(0, 1fr));
 			}
 			$cols: $cols + 1;
 		}
@@ -19,21 +34,24 @@
 }
 
 .llms-loop-item {
-	float: left;
 	list-style: none;
-	margin: 0;
+	margin: 10px;
 	padding: 0;
-	width: 100%;
+	background: $color-white;
+	border: 1px solid $color-border;
+	border-radius: $radius-small;
 }
 
 
 	.llms-loop-item-content {
-		background: $color-white;
-		border: 1px solid $color-border;
-		border-radius: $radius-small;
 		overflow: hidden;
 		padding-bottom: 15px;
-		margin: 10px;
+		margin: 0;
+		height: auto;
+
+		iframe {
+			max-width: 100%;
+		}
 
 		.llms-loop-link {
 			color: $color-black;

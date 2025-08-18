@@ -298,7 +298,8 @@ class LLMS_Admin_Page_Status {
 		$logs        = self::get_logs();
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		$current = sanitize_title( llms_filter_input_sanitize_string( INPUT_POST, 'llms_log_file' ) );
+		$log_file = llms_filter_input_sanitize_string( INPUT_POST, 'llms_log_file' );
+		$current  = $log_file ? sanitize_title( $log_file ) : null;
 
 		if ( $logs && ! $current ) {
 			$log_keys = array_keys( $logs );

@@ -39,58 +39,62 @@ defined( 'ABSPATH' ) || exit;
 return array(
 
 	// Core.
-	'llms'                          => array(
+	'llms'                                      => array(
 		'dependencies' => array( 'jquery', 'wp-i18n' ),
 	),
-	'llms-form-checkout'            => array(
+	'llms-form-checkout'                        => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-notifications'            => array(
+	'llms-notifications'                        => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-quiz'                     => array(
+	'llms-quiz'                                 => array(
 		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
 	),
-	'llms-favorites'                => array(
+	'llms-favorites'                            => array(
 		'dependencies' => array( 'jquery', 'llms' ),
 	),
 
 	// Admin.
-	'llms-addons'                   => array(
+	'llms-addons'                               => array(
 		'asset_file' => true,
 		'file_name'  => 'llms-admin-addons',
 		'suffix'     => '',
 	),
-	'llms-admin-award-certificate'  => array(
+	'llms-admin-award-certificate'              => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
-	'llms-admin-wizard'             => array(
+	'llms-admin-wizard'                         => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-admin-forms'              => array(
+	'llms-admin-forms'                          => array(
 		'dependencies' => array( 'wp-i18n' ),
 	),
-	'llms-admin-certificate-editor' => array(
+	'llms-admin-certificate-editor'             => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+	'llms-admin-media-protection-block-protect' => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
 
-	'llms-admin-elementor-editor'   => array(
+	'llms-admin-elementor-editor'               => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
 
 	// Modules.
-	'llms-components'               => array(
+	'llms-components'                           => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
-	'llms-icons'                    => array(
+	'llms-icons'                                => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
-	'llms-spinner'                  => array(
+	'llms-spinner'                              => array(
 		/**
 		 * This script is automatically included in the `llms` script file.
 		 *
@@ -100,38 +104,38 @@ return array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
-	'llms-utils'                    => array(
+	'llms-utils'                                => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
 
 	// Quill Modules.
-	'llms-quill-wordcount'          => array(
+	'llms-quill-wordcount'                      => array(
 		'asset_file'   => true,
 		'suffix'       => '',
 		'dependencies' => array( 'llms-quill' ),
 	),
 
 	// Vendor.
-	'llms-iziModal'                 => array(
+	'llms-iziModal'                             => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
 	),
-	'llms-jquery-matchheight'       => array(
+	'llms-jquery-matchheight'                   => array(
 		'file_name'    => 'jquery.matchHeight',
 		'path'         => 'assets/js/vendor/',
 		'suffix'       => '',
 		'version'      => '0.7.0',
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-select2'                  => array(
+	'llms-select2'                              => array(
 		'file_name'    => 'select2',
 		'path'         => 'assets/vendor/select2/js',
 		'version'      => '4.0.3',
 		'dependencies' => array( 'jquery' ),
 	),
-	'webui-popover'                 => array(
+	'webui-popover'                             => array(
 		'file_name'    => 'jquery.webui-popover',
 		'path'         => 'assets/vendor/webui-popover',
 		'version'      => '1.2.15',

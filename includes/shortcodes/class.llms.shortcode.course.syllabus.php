@@ -35,10 +35,9 @@ class LLMS_Shortcode_Course_Syllabus extends LLMS_Shortcode_Course_Element {
 	 */
 	protected function template_function() {
 
+		// TODO: Don't render if an elementor page?
 		lifterlms_template_single_syllabus();
-
 	}
-
 }
 
 return LLMS_Shortcode_Course_Syllabus::instance();

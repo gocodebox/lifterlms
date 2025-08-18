@@ -491,16 +491,9 @@
 		 * @since    3.0.0
 		 * @version  3.27.0
 		 */
-		this.submit = function( e ) {
+		this.submit = async function( e ) {
 
-			var self       = e.data,
-				num        = before_submit.length,
-				checks     = 0,
-				max_checks = 60000,
-				errors     = [],
-				finishes   = 0,
-				successes  = 0,
-				interval;
+			var self       = e.data;
 
 			e.preventDefault();
 
@@ -510,74 +503,41 @@
 			// remove errors to prevent duplicates
 			self.clear_errors();
 
-			// start running all the events
-			for ( var i = 0; i < before_submit.length; i++ ) {
+			// Turn every handler into a promise-returning function
+			function runHandler({ handler, data }) {
+				return new Promise((resolve, reject) => {
+					const timer = setTimeout(() => {
+						reject( new Error( LLMS.l10n.translate('Operation timed out, please try again' ) ) );
+					}, 60000 );
 
-				var obj = before_submit[ i ];
+					handler(data, result => {
+						clearTimeout( timer );
 
-				obj.handler( obj.data, function( r ) {
-
-					finishes++;
-					if ( true === r ) {
-						successes++;
-					} else if ( 'string' === typeof r ) {
-						errors.push( r );
-					}
-
-				} );
-
+						if ( result === true ) {
+							resolve();
+						} else if ( typeof result === 'string' ) {
+							reject( new Error( result ) );
+						} else {
+							reject( new Error( LLMS.l10n.translate( 'Unknown response' ) ) );
+						}
+					});
+				});
 			}
 
-			// run an interval to wait for finishes
-			interval = setInterval( function() {
-
-				var clear = false,
-					stop  = false;
-
-				// timeout...
-				if ( checks >= max_checks ) {
-
-					clear = true;
-					stop  = true;
-
-				} else if ( num === finishes ) {
-					// everything has finished
-
-					// all were successful, submit the form
-					if ( num === successes ) {
-
-						clear = true;
-
-						self.$checkout_form.off( 'submit', self.submit );
-						self.$checkout_form.trigger( 'submit' );
-
-					} else if ( errors.length ) {
-
-						clear = true;
-						stop  = true;
-
-						for ( var i = 0; i < errors.length; i++ ) {
-							self.add_error( errors[ i ] );
-						}
-
-						self.focus_errors();
-
-					}
-
+			// Run all before-submit handlers sequentially to avoid issues of handlers interfering with each other.
+			try {
+				for ( const obj of before_submit ) {
+					await runHandler( obj );
 				}
 
-				if ( clear ) {
-					clearInterval( interval );
-				}
-
-				if ( stop ) {
-					self.processing( 'stop' );
-				}
-
-				checks++;
-
-			}, 100 );
-
+				self.$checkout_form.off( 'submit', self.submit );
+				self.$checkout_form.trigger( 'submit' );
+				self.processing( 'stop' );
+			} catch (err) {
+				self.add_error(err.message);
+				self.focus_errors();
+				self.processing( 'stop' );
+			}
 		};
 
 		// initialize

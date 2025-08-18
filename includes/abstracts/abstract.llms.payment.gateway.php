@@ -195,7 +195,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 				'safe' => false,
 			)
 		);
-
 	}
 
 	/**
@@ -226,7 +225,17 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		do_action( 'llms_dispatch_notification_processors' );
 
 		return $data;
+	}
 
+	/**
+	 * Whether the payment details are entered on an external payment page, or entered inline with the checkout form.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @return bool
+	 */
+	public function is_external_payment_entry() {
+		return false;
 	}
 
 	/**
@@ -270,7 +279,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param string $gateway_id        The payment gateway ID.
 		 */
 		return apply_filters( 'llms_get_gateway_admin_description', $this->admin_description, $this->id );
-
 	}
 
 	/**
@@ -291,7 +299,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param string $gateway_id  The payment gateway ID.
 		 */
 		return apply_filters( 'llms_get_gateway_admin_title', $this->admin_title, $this->id );
-
 	}
 
 	/**
@@ -408,7 +415,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param string  $gateway_id The payment gateway ID.
 		 */
 		return apply_filters( 'llms_get_gateway_settings_fields', $fields, $this->id );
-
 	}
 
 	/**
@@ -475,7 +481,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param LLMS_Order $order    The order object.
 		 */
 		return esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
-
 	}
 
 	/**
@@ -615,7 +620,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		}
 
 		return sprintf( '<a href="%1$s" target="_blank">%2$s</a>', $url, $item_value );
-
 	}
 
 	/**
@@ -663,7 +667,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		}
 
 		return array_merge( $strings, $this->retrieve_secure_strings() );
-
 	}
 
 	/**
@@ -896,7 +899,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		}
 
 		remove_filter( 'llms_secure_strings', array( $this, 'get_secure_strings' ), 10, 2 );
-
 	}
 
 	/**
@@ -939,7 +941,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param string $gateway_id Payment gateway ID.
 		 */
 		return apply_filters( "llms_get_gateway_{$key}", $val, $this->id );
-
 	}
 
 	/**
@@ -1029,7 +1030,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
 
 		return array_values( array_unique( $gateway_strings ) );
-
 	}
 
 	/**
@@ -1053,7 +1053,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -1080,5 +1079,4 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 */
 		return apply_filters( 'llms_can_gateway_process_access_plan', $plan || $order, $plan, $order, $this->id );
 	}
-
 }

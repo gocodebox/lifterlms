@@ -38,6 +38,35 @@
 
 	var llms_widgets = new window.llms.widgets();
 
+	var $headerEnd = $( '.wp-header-end' );
+	if ( ! $headerEnd.length ) {
+		$headerEnd = $( '.wrap h1, .wrap h2' ).first();
+	}
+	$( '#lifterlms-notifications' ).insertAfter( $headerEnd );
+
+	$( document ).ready(function () {
+		$( document ).on('click', '.lifterlms-notice-button.notice-dismiss', function () {
+			var notification_id = $( this ).val();
+			var nonce = $( this ).data( 'nonce' );
+
+			var postData = {
+				action: 'lifterlms_hide_notice',
+				notification_id: notification_id,
+				nonce: nonce
+			}
+
+			$.ajax( {
+				type: "POST",
+				data: postData,
+				url: ajaxurl,
+				success: function (response) {
+					$( '#' + notification_id ).hide();
+				}
+			} );
+		});
+	});
+
+
 	/**
 	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Courses/Memberships via AJAX.
 	 *

@@ -162,7 +162,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		}
 
 		return self::$_instances[ $class ];
-
 	}
 
 	/**
@@ -175,7 +174,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	private function __construct() {
 
 		$this->add_actions();
-
 	}
 
 	/**
@@ -190,7 +188,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		foreach ( $this->action_hooks as $hook ) {
 			add_action( $hook, array( $this, 'action_callback' ), $this->action_accepted_args, $this->action_priority );
 		}
-
 	}
 
 	/**
@@ -245,7 +242,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -269,7 +265,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$notification->set( 'trigger_id', $this->id );
 
 		return llms()->notifications()->get_view( $notification );
-
 	}
 
 	/**
@@ -356,7 +351,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			$arr['enabled'] = $enabled;
 			return $arr;
 		}
-
 	}
 
 	/**
@@ -462,7 +456,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		);
 
 		return $query->has_results();
-
 	}
 
 	/**
@@ -480,7 +473,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -502,9 +494,16 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		foreach ( $this->get_subscriptions() as $subscriber => $types ) {
 			foreach ( $types as $type ) {
+				/**
+				 * Filter to determine if a notification should be sent to a subscriber.
+				 *
+				 * @since 9.0.0
+				 */
+				if ( ! apply_filters( 'llms_send_notification_to_subscriber', true, $this, $subscriber, $type, $this->post_id ) ) {
+					continue;
+				}
 
 				$this->send_one( $type, $subscriber, $force );
-
 			}
 		}
 
@@ -515,7 +514,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		 * This happens when receipts are triggered in bulk by action scheduler.
 		 */
 		$this->unset_subscriptions();
-
 	}
 
 	/**
@@ -569,7 +567,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		}
 
 		return $id;
-
 	}
 
 	/**
@@ -641,7 +638,6 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		}
 
 		$this->subscriptions[ $subscriber ] = $subscriptions;
-
 	}
 
 	/**
@@ -667,5 +663,4 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	public function unset_subscriptions() {
 		$this->subscriptions = array();
 	}
-
 }

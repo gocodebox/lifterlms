@@ -586,7 +586,7 @@ class LLMS_Post_Types {
 				),
 				'show_in_nav_menus'   => false,
 				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'author', 'llms-clone-post' ),
+				'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'author', 'llms-clone-post', 'llms-detach-post' ),
 			)
 		);
 

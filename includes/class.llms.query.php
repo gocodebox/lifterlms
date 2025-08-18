@@ -54,7 +54,8 @@ class LLMS_Query {
 		$this->init_query_vars();
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
-
+		add_filter( 'get_previous_post_where', array( $this, 'exclude_hidden_llms_products' ) );
+		add_filter( 'get_next_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 	}
 
 	/**
@@ -80,7 +81,6 @@ class LLMS_Query {
 				add_rewrite_rule( $regex, $redirect, 'top' );
 			}
 		}
-
 	}
 
 	/**
@@ -131,7 +131,6 @@ class LLMS_Query {
 		);
 
 		return $query;
-
 	}
 
 	/**
@@ -147,7 +146,6 @@ class LLMS_Query {
 			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
 			'lost-password'   => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
 		);
-
 	}
 
 	/**
@@ -169,7 +167,6 @@ class LLMS_Query {
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
 			}
 		}
-
 	}
 
 	/**
@@ -256,7 +253,6 @@ class LLMS_Query {
 			$query->set( 'tax_query', $this->get_tax_query( $query->get( 'tax_query' ) ) );
 
 		}
-
 	}
 
 	/**
@@ -279,7 +275,6 @@ class LLMS_Query {
 
 			}
 		}
-
 	}
 
 	/**
@@ -310,7 +305,6 @@ class LLMS_Query {
 				llms_redirect_and_exit( get_permalink( $new_post->ID ) );
 			}
 		}
-
 	}
 
 	/**
@@ -328,9 +322,30 @@ class LLMS_Query {
 		}
 
 		return $vars;
-
 	}
 
+	/**
+	 * Avoid showing hidden products in the previous/next post queries.
+	 *
+	 * @since 9.0.0
+	 * @param $where
+	 *
+	 * @return string
+	 */
+	public function exclude_hidden_llms_products( $where ) {
+		global $wpdb;
+
+		$where .= " AND p.ID NOT IN (
+		SELECT object_id
+		FROM {$wpdb->term_relationships} AS tr
+		INNER JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+		INNER JOIN {$wpdb->terms} AS t ON tt.term_id = t.term_id
+		WHERE tt.taxonomy = 'llms_product_visibility'
+		AND t.slug IN ('hidden')
+	)";
+
+		return $where;
+	}
 }
 
 return new LLMS_Query();

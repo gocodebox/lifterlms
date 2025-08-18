@@ -303,6 +303,13 @@ class LLMS_Loader {
 		// Privacy components.
 		require_once LLMS_PLUGIN_DIR . 'includes/privacy/class-llms-privacy.php';
 
+		// Spam stuff.
+		require_once LLMS_PLUGIN_DIR . 'includes/llms.spam.functions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-captcha.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-turnstile.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-recaptcha.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/spam/class-llms-akismet.php';
+
 		// Theme support.
 		require_once LLMS_PLUGIN_DIR . 'includes/theme-support/class-llms-theme-support.php';
 
@@ -340,8 +347,10 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-permalinks.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-media-protection-attachment-settings.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.dashboard.php';
