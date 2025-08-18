@@ -71,7 +71,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	 * Move an existing media attachment over to the protected folder.
 	 *
 	 * @param $attachment_id
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return bool
 	 */

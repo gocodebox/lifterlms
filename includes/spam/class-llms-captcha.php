@@ -5,7 +5,7 @@
  * This class integrates Google's reCAPTCHA into LifterLMS checkout and registration forms.
  *
  * @package LifterLMS/Includes/Spam
- * @since [version]
+ * @since 9.0.0
  */
 abstract class LLMS_Captcha {
 
@@ -39,7 +39,7 @@ abstract class LLMS_Captcha {
 	/**
 	 * Render the captcha in the footer.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ abstract class LLMS_Captcha {
 	/**
 	 * Validate the captcha response.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @param array $data Form data.
 	 *
@@ -59,7 +59,7 @@ abstract class LLMS_Captcha {
 	/**
 	 * Check if the captcha is enabled.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return bool
 	 */
@@ -70,7 +70,7 @@ abstract class LLMS_Captcha {
 	/**
 	 * Show notices if enabled.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return void
 	 */

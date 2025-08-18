@@ -327,7 +327,7 @@ class LLMS_Query {
 	/**
 	 * Avoid showing hidden products in the previous/next post queries.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 * @param $where
 	 *
 	 * @return string

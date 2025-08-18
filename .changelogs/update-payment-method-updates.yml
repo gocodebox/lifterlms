@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2957"
-entry: Changes button text when updating a payment method,depending on whether
-  it's a payment gateway with an external payment page.

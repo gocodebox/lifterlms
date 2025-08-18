@@ -1319,7 +1319,7 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 	/**
 	 * Filter whether to use $_SERVER instead of getenv when fetching an environment variable.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 */
 	$server_request_method = apply_filters( 'llms_use_server_for_environment_fetch', false, $nonce, $action, $request_method ) ?
 		$_SERVER['REQUEST_METHOD'] :

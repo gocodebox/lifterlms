@@ -1,3 +1,0 @@
-significance: major
-type: added
-entry: Support for Turnstile, reCAPTCHA v3 and Akismet with checkout and registration forms.

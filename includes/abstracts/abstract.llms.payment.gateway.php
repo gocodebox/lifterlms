@@ -230,7 +230,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Whether the payment details are entered on an external payment page, or entered inline with the checkout form.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return bool
 	 */

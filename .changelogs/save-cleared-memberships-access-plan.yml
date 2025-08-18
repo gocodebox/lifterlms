@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2931"
-entry: Allow clearing membership restrictions without switching plan availability.

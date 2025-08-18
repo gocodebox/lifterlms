@@ -1,5 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#2910"
-entry: Avoid showing hidden courses or memberships in a theme's next/previous links.

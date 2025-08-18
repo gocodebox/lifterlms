@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
+ * @since 9.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Tool_Course_Data_Lock_Eraser
  *
- * @since [version]
+ * @since 9.0.0
  */
 class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 
@@ -28,7 +28,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return string
 	 */
@@ -57,7 +57,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return string
 	 */
@@ -68,7 +68,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return string
 	 */
@@ -79,7 +79,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the number of course data locks.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return int
 	 */
@@ -105,7 +105,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return bool
 	 */
@@ -121,7 +121,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * This tool should only load if there's locks in the database.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

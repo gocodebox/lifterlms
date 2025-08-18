@@ -6,7 +6,7 @@
  * This class integrates Cloudflare's Turnstile captcha into LifterLMS checkout and registration forms.
  *
  * @package LifterLMS/Includes/Spam
- * @since [version]
+ * @since 9.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Turnstile extends LLMS_Captcha {
 	/**
 	 * Enqueue the Cloudflare Turnstile script.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Turnstile extends LLMS_Captcha {
 	/**
 	 * Add the Turnstile widget to the checkout and registration forms.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Turnstile extends LLMS_Captcha {
 	/**
 	 * Validate the Turnstile captcha response.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @param mixed $valid The current validation status.
 	 * @return mixed True if validation fails, otherwise the original $valid value.

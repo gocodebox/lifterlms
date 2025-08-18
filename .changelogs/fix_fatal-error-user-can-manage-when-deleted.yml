@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2979"
-entry: Avoid fatal error if a user who enrolled a student has been deleted, when
-  viewing the course edit page.

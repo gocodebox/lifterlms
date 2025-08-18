@@ -104,7 +104,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Register fields for attachments.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return void
 	 */

@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
+ * @since 9.0.0
  */
 
 namespace LLMS\Updates\Version_9_0_0;
@@ -18,7 +18,7 @@ function _get_db_version() {
 /**
  * Shows an admin notice.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @return boolean
  */
@@ -58,7 +58,7 @@ function show_notice() {
 /**
  * Update db version.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @return false.
  */

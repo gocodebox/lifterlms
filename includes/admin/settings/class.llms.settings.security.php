@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Settings/Classes
  *
- * @since [version]
+ * @since 9.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Settings Page, Security Tab class
  *
- * @since [version]
+ * @since 9.0.0
  */
 class LLMS_Settings_Security extends LLMS_Settings_Page {
 
@@ -26,7 +26,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 	/**
 	 * Get settings array
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return array
 	 */
@@ -136,7 +136,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 		 *
 		 * The dynamic portion of this filter `{$this->id}` refers to the unique ID for the settings page.
 		 *
-		 * @since [version]
+		 * @since 9.0.0
 		 *
 		 * @param array $account_settings The account page settings.
 		 */
@@ -146,7 +146,7 @@ class LLMS_Settings_Security extends LLMS_Settings_Page {
 	/**
 	 * Retrieve the page label.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @return string
 	 */

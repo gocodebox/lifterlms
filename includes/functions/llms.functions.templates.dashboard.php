@@ -1024,7 +1024,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_select_mobile_navi
 	/**
 	 * Output the student dashboard mobile navigation
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @param string $current The current tab slug.
 	 * @return void

@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2962"
-entry: Avoid duplicated buttons when changing the Engagement Type when editing
-  an engagement.

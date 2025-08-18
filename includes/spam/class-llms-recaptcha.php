@@ -5,7 +5,7 @@
  * This class integrates Google's reCAPTCHA into LifterLMS checkout and registration forms.
  *
  * @package LifterLMS/Includes/Spam
- * @since [version]
+ * @since 9.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,14 +25,14 @@ class LLMS_Google_Recaptcha extends LLMS_Captcha {
 		/**
 		 * Minimum score for reCAPTCHA validation.
 		 *
-		 * @since [version]
+		 * @since 9.0.0
 		 */
 		$this->min_score = apply_filters( 'lifterlms_recaptcha_min_score', ( absint( get_option( 'lifterlms_recaptcha_min_score', 5 ) ) / 10 ) );
 
 		/**
 		 * Action name for reCAPTCHA validation.
 		 *
-		 * @since [version]
+		 * @since 9.0.0
 		 */
 		$this->action = apply_filters( 'lifterlms_recaptcha_action', 'submit' );
 	}

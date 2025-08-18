@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2925"
-entry: Avoid console error when saving access plans when a free plan is included.

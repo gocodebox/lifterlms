@@ -17,7 +17,7 @@ if ( ! defined( 'LLMS_SPAM_ACTION_TIME_LIMIT' ) ) {
 /**
  * Determine whether the current visitor a spammer.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @return bool Whether the current visitor a spammer.
  */
@@ -32,7 +32,7 @@ function llms_is_spammer() {
 	/**
 	 * Allow filtering whether the current visitor is a spammer.
 	 *
-	 * @since [version]
+	 * @since 9.0.0
 	 *
 	 * @param bool  $is_spammer Whether the current visitor is a spammer.
 	 * @param array $activity   The list of potential spam activity.
@@ -43,7 +43,7 @@ function llms_is_spammer() {
 /**
  * Get the list of potential spam activity.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @param string|null $ip The IP address to get activity for, or leave as null to attempt to determine current IP address.
  *
@@ -85,7 +85,7 @@ function llms_get_spam_activity( $ip = null ) {
  * For now we are only tracking credit card declines their timestamps.
  * IP address isn't a perfect way to track this, but it's the best we have.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @param string|null $ip The IP address to track activity for, or leave as null to attempt to determine current IP address.
  *
@@ -124,7 +124,7 @@ function llms_track_spam_activity( $ip = null ) {
  * Note that the llms_get_spam_activity function clears out old values
  * automatically, and this should only be used to completely clear the activity.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @param string|null $ip The IP address to clear activity for, or leave as null to attempt to determine current IP address.
  *
@@ -151,7 +151,7 @@ function llms_clear_spam_activity( $ip = null ) {
  * Track spam activity when checkouts or billing updates fail.
  * Hooked on wp so the $post global is set up.
  *
- * @since [version]
+ * @since 9.0.0
  * @param MemberOrder $morder The order object used at checkout. We ignore it.
  */
 function llms_track_failed_checkouts_for_spam() {
@@ -178,7 +178,7 @@ function llms_track_failed_checkouts_for_spam() {
 /**
  * Determine whether spam protection is enabled.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @return bool Whether spam protection is enabled.
  */
@@ -191,7 +191,7 @@ add_action( 'wp', 'llms_track_failed_checkouts_for_spam' );
 /**
  * Disable checkout and billing update forms for spammers.
  *
- * @since [version]
+ * @since 9.0.0
  *
  * @return mixed Truthy means stop checkout.
  */

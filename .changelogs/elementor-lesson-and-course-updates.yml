@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2886"
-entry: Avoid rendering LifterLMS blocks hidden in Text Editor blocks when using
-  Elementor.

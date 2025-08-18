@@ -497,7 +497,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				/**
 				 * Filter to determine if a notification should be sent to a subscriber.
 				 *
-				 * @since [version]
+				 * @since 9.0.0
 				 */
 				if ( ! apply_filters( 'llms_send_notification_to_subscriber', true, $this, $subscriber, $type, $this->post_id ) ) {
 					continue;

@@ -5,7 +5,7 @@
  * This class integrates Google's reCAPTCHA into LifterLMS checkout and registration forms.
  *
  * @package LifterLMS/Includes/Spam
- * @since [version]
+ * @since 9.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
