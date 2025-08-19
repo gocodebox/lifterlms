@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.0.3 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Additional checks for valid courses during the setup wizard. [#2992](https://github.com/gocodebox/lifterlms/issues/2992)
+
+
 v9.0.2 - 2025-08-19
 -------------------
 
