@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.0.4 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Avoid fatal error if another plugin has loaded the Banner Notifications library.
+
+
 v9.0.3 - 2025-08-19
 -------------------
 
