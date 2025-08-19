@@ -74,6 +74,11 @@
       "/libraries/README.md",
       "/libraries/**/composer.*",
       "/libraries/**/i18n",
+      "/libraries/banner-notifications/.github",
+      "/libraries/banner-notifications/.gitignore",
+      "/libraries/banner-notifications/phpunit.xml",
+      "/libraries/banner-notifications/.editorconfig",
+      "/libraries/banner-notifications/tests",
 
       "/vendor/bin",
       "/vendor/**/**/composer.*",
