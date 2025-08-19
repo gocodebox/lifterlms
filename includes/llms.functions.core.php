@@ -455,20 +455,21 @@ function llms_get_engagement_triggers() {
 	return apply_filters(
 		'lifterlms_engagement_triggers',
 		array(
-			'user_registration'      => __( 'Student creates a new account', 'lifterlms' ),
-			'access_plan_purchased'  => __( 'Student Purchases an Access Plan', 'lifterlms' ),
-			'course_enrollment'      => __( 'Student enrolls in a course', 'lifterlms' ),
-			'course_purchased'       => __( 'Student purchases a course', 'lifterlms' ),
-			'course_completed'       => __( 'Student completes a course', 'lifterlms' ),
+			'user_registration'       => __( 'Student creates a new account', 'lifterlms' ),
+			'access_plan_purchased'   => __( 'Student Purchases an Access Plan', 'lifterlms' ),
+			'course_enrollment'       => __( 'Student enrolls in a course', 'lifterlms' ),
+			'course_purchased'        => __( 'Student purchases a course', 'lifterlms' ),
+			'course_completed'        => __( 'Student completes a course', 'lifterlms' ),
 			// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo.
-			'lesson_completed'       => __( 'Student completes a lesson', 'lifterlms' ),
-			'quiz_completed'         => __( 'Student completes a quiz', 'lifterlms' ),
-			'quiz_passed'            => __( 'Student passes a quiz', 'lifterlms' ),
-			'quiz_failed'            => __( 'Student fails a quiz', 'lifterlms' ),
-			'section_completed'      => __( 'Student completes a section', 'lifterlms' ),
-			'course_track_completed' => __( 'Student completes a course track', 'lifterlms' ),
-			'membership_enrollment'  => __( 'Student enrolls in a membership', 'lifterlms' ),
-			'membership_purchased'   => __( 'Student purchases a membership', 'lifterlms' ),
+			'lesson_completed'        => __( 'Student completes a lesson', 'lifterlms' ),
+			'quiz_completed'          => __( 'Student completes a quiz', 'lifterlms' ),
+			'quiz_passed'             => __( 'Student passes a quiz', 'lifterlms' ),
+			'quiz_failed'             => __( 'Student fails a quiz', 'lifterlms' ),
+			'section_completed'       => __( 'Student completes a section', 'lifterlms' ),
+			'course_track_completed'  => __( 'Student completes a course track', 'lifterlms' ),
+			'membership_enrollment'   => __( 'Student enrolls in a membership', 'lifterlms' ),
+			'membership_purchased'    => __( 'Student purchases a membership', 'lifterlms' ),
+			'user_earned_certificate' => __( 'Student earns a certificate', 'lifterlms' ),
 		)
 	);
 }

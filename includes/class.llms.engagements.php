@@ -443,6 +443,10 @@ class LLMS_Engagements {
 			case 'lifterlms_product_purchased':
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
 				break;
+
+			case 'llms_user_earned_certificate':
+				$trigger_type = str_replace( 'llms_', '', $action );
+				break;
 		}
 
 		return $trigger_type;
