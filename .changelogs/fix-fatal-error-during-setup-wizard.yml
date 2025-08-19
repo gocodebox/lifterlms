@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2992"
-entry: Avoid fatal error during setup wizard if list of courses to import cannot
-  be fetched.

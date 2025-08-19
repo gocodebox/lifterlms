@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2990"
-entry: Avoid i18n translation warning on brand new site when scheduling cron.
