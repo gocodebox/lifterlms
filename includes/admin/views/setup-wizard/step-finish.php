@@ -24,10 +24,12 @@ $courses = LLMS_Export_API::list( 1, 3 );
 </ul>
 <br>
 
+<?php if ( is_array( $courses ) && ! empty( $courses ) ) : ?>
+
 <h1><?php esc_html_e( 'Import Sample Courses and Templates!', 'lifterlms' ); ?></h1>
 <p><?php esc_html_e( 'Accelerate your progress by installing a quick LifterLMS training course and useful course templates.', 'lifterlms' ); ?></p>
 
-<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
+	<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
 
 <div class="llms-importing-msgs">
 	<p class="llms-importing-msg single">
@@ -50,3 +52,5 @@ $courses = LLMS_Export_API::list( 1, 3 );
 		?>
 	</p>
 </div>
+
+<?php endif; ?>
