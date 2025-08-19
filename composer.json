@@ -34,7 +34,7 @@
     "lifterlms/lifterlms-helper": "3.5.6",
     "lifterlms/lifterlms-rest": "1.0.2",
     "woocommerce/action-scheduler": "3.5.4",
-    "gocodebox/banner-notifications": "^1.1"
+    "gocodebox/banner-notifications": "1.1.1"
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "^4.4",
