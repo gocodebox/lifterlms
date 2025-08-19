@@ -232,6 +232,7 @@ class LLMS_Engagements {
 			'llms_rest_student_registered',
 			'llms_user_added_to_membership_level',
 			'llms_user_enrolled_in_course',
+			'llms_user_earned_certificate',
 		);
 
 		// If there are any actions registered to this deprecated hook, add it to the list.
