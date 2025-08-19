@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2992"
+entry: Additional checks for valid courses during the setup wizard.
