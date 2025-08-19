@@ -330,6 +330,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				$var = 'track';
 				break;
 
+			case 'user_earned_certificate':
+				$var = 'llms_certificate';
+				break;
+
 			default:
 				$var = false;
 
