@@ -112,7 +112,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'label'            => __( 'Select a Section', 'lifterlms' ),
 			),
 
-			'certificate'      => array(
+			'llms_certificate' => array(
 				'controller_value' => array( 'user_earned_certificate' ),
 				'id'               => '_faux_engagement_trigger_post_llms_certificate',
 				'label'            => __( 'Select a Certificate', 'lifterlms' ),
