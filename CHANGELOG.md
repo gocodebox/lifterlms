@@ -1,6 +1,31 @@
 LifterLMS Changelog
 ===================
 
+v9.0.3 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Additional checks for valid courses during the setup wizard. [#2992](https://github.com/gocodebox/lifterlms/issues/2992)
+
+
+v9.0.2 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Avoid fatal error during setup wizard if list of courses to import cannot be fetched. [#2992](https://github.com/gocodebox/lifterlms/issues/2992)
++ Avoid i18n translation warning on brand new site when scheduling cron. [#2990](https://github.com/gocodebox/lifterlms/issues/2990)
+
+
+v9.0.1 - 2025-08-18
+-------------------
+
+##### Bug Fixes
+
++ Fix "unsaved changes" warning when navigating away from a course/membeship with instructors block in it. [#2986](https://github.com/gocodebox/lifterlms/issues/2986)
+
+
 v9.0.0 - 2025-08-18
 -------------------
 
