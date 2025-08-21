@@ -63,6 +63,8 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 
 			$mailer->set_subject( $view->get_subject() )->set_heading( $view->get_title() )->set_body( $view->get_html() );
 
+			do_action( 'llms_notification_email_before_send', $notification, $mailer );
+
 		} catch ( Error $e ) {
 			$this->log( sprintf( 'Error sending email notification ID #%d', $notification_id ) );
 			$this->log( sprintf( 'Error caught %1$s in %2$s on line %3$s', $e->getMessage(), $e->getFile(), $e->getLine() ) );
@@ -79,9 +81,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		}
 
 		return false;
-
 	}
-
 }
 
 return new LLMS_Notification_Processor_Email();

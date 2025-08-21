@@ -38,9 +38,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 */
 	protected $action_hooks = array( 'llms_user_earned_certificate' );
 
-
-	public $certificate;
-
 	/**
 	 * Callback function, called upon certificate post generation
 	 *
@@ -56,7 +53,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		$this->user_id         = $user_id;
 		$this->post_id         = $certificate_id;
 		$this->related_post_id = $related_post_id;
-		$this->certificate     = llms_get_certificate( $certificate_id );
 
 		$this->send();
 	}
