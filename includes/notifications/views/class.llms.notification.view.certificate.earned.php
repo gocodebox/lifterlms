@@ -82,6 +82,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * @return string
 	 */
 	protected function set_body() {
+		if ( 'email' === $this->notification->get( 'type' ) ) {
+			return sprintf( __( 'Congratulations! %1$s earned a certificate: %2$s.', 'lifterlms' ) . "\n\n{{MINI_CERTIFICATE}}", '{{STUDENT_NAME}}', '{{CERTIFICATE_TITLE}}' );
+		}
 		return '{{MINI_CERTIFICATE}}';
 	}
 
@@ -213,7 +216,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * @return string
 	 */
 	protected function set_subject() {
-		return '';
+		return 'Certificate Earned: {{CERTIFICATE_TITLE}}';
 	}
 
 	/**
@@ -225,22 +228,5 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 */
 	protected function set_title() {
 		return __( 'You\'ve earned a certificate!', 'lifterlms' );
-	}
-
-	/**
-	 * Defines field support for the view.
-	 *
-	 * @since 3.8.0
-	 *
-	 * @return array
-	 */
-	protected function set_supported_fields() {
-		return array(
-			'basic' => array(
-				'body'  => true,
-				'title' => true,
-				'icon'  => true,
-			),
-		);
 	}
 }

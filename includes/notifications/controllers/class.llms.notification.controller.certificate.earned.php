@@ -38,6 +38,9 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 */
 	protected $action_hooks = array( 'llms_user_earned_certificate' );
 
+
+	public $certificate;
+
 	/**
 	 * Callback function, called upon certificate post generation
 	 *
@@ -53,9 +56,9 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		$this->user_id         = $user_id;
 		$this->post_id         = $certificate_id;
 		$this->related_post_id = $related_post_id;
+		$this->certificate     = llms_get_certificate( $certificate_id );
 
 		$this->send();
-
 	}
 
 	/**
@@ -80,7 +83,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -113,27 +115,15 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				break;
 
+			case 'email':
+				$options[] = $this->get_subscriber_option_array( 'student', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
+				break;
+
 		}
 
 		return $options;
-
 	}
-
-	/**
-	 * Determine what types are supported
-	 * Extending classes can override this function in order to add or remove support
-	 * 3rd parties should add support via filter on $this->get_supported_types()
-	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	protected function set_supported_types() {
-		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
-		);
-	}
-
 }
 
 return LLMS_Notification_Controller_Certificate_Earned::instance();
