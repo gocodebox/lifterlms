@@ -1,0 +1,23 @@
+{
+  "name": "gocodebox-banner-notifications",
+  "version": "1.1.1",
+  "description": "notifications",
+  "author": "Gocodebox",
+  "homepage": "https://lifterlms.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/banner-notifications.git"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@lifterlms/dev": "^0.2.2",
+    "@lifterlms/llms-e2e-test-utils": "^4.1.0"
+  },
+  "scripts": {
+    "dev": "llms-dev",
+    "build": ""
+  }
+}
