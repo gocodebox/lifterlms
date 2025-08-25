@@ -210,138 +210,115 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			return;
 		}
 
-		// Get all enrolled students in the course
-		// TODO: Run a single query to join enrollments and quiz attempts.
-		$enrolled_students = llms_get_enrolled_students( $course->get( 'id' ), array( 'enrolled', 'expired', 'cancelled' ), 1000, 0 );
+		// Use a single optimized database query
+		global $wpdb;
 
-		if ( empty( $enrolled_students ) ) {
-			$this->tbody_data = array();
-			return;
+		// Build search WHERE clause
+		$search_sql = '';
+		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
+			$search_term = sanitize_text_field( $args['search'] );
+			$search_sql = $wpdb->prepare(
+				"AND (
+					u.user_login LIKE %s 
+					OR u.user_email LIKE %s 
+					OR u.display_name LIKE %s
+					OR m_first.meta_value LIKE %s
+					OR m_last.meta_value LIKE %s
+				)",
+				'%' . $search_term . '%',
+				'%' . $search_term . '%',
+				'%' . $search_term . '%',
+				'%' . $search_term . '%',
+				'%' . $search_term . '%'
+			);
 		}
 
-		// Get students who have attempted the quiz
-		$attempted_query = new LLMS_Query_Quiz_Attempt(
-			array(
-				'quiz_id'  => $this->quiz_id,
-				// TODO: Switch to query lack of attempts for students who are enrolled in the course directly.
-				'per_page' => 10000,
+		// Build status WHERE clause
+		$status_sql = '';
+		if ( 'any' !== $this->filter ) {
+			$status_sql = $wpdb->prepare( 'AND upm.meta_value = %s', $this->filter );
+		} else {
+			$status_sql = "AND upm.meta_value IN ('enrolled', 'expired', 'cancelled')";
+		}
+
+		// Build ORDER BY clause
+		$order_sql = '';
+		switch ( $this->orderby ) {
+			case 'name':
+				$order_sql = 'ORDER BY m_last.meta_value ' . $this->order . ', m_first.meta_value ' . $this->order;
+				break;
+			case 'id':
+				$order_sql = 'ORDER BY u.ID ' . $this->order;
+				break;
+			case 'email':
+				$order_sql = 'ORDER BY u.user_email ' . $this->order;
+				break;
+			default:
+				$order_sql = 'ORDER BY u.display_name ' . $this->order;
+		}
+
+		// Calculate offset
+		$offset = ( $this->current_page - 1 ) * $per;
+
+		// Single query to get students enrolled in course who haven't attempted the quiz
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT
+					u.ID as user_id,
+					u.user_email,
+					u.display_name,
+					u.user_registered,
+					m_first.meta_value as first_name,
+					m_last.meta_value as last_name,
+					upm.meta_value as enrollment_status,
+					upm.updated_date as enrollment_date
+				FROM {$wpdb->users} u
+				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm 
+					ON u.ID = upm.user_id 
+					AND upm.post_id = %d 
+					AND upm.meta_key = '_status'
+					{$status_sql}
+				LEFT JOIN {$wpdb->usermeta} m_first 
+					ON u.ID = m_first.user_id 
+					AND m_first.meta_key = 'first_name'
+				LEFT JOIN {$wpdb->usermeta} m_last 
+					ON u.ID = m_last.user_id 
+					AND m_last.meta_key = 'last_name'
+				LEFT JOIN {$wpdb->prefix}lifterlms_quiz_attempts qa 
+					ON u.ID = qa.student_id 
+					AND qa.quiz_id = %d
+				WHERE upm.updated_date = (
+					SELECT MAX(upm2.updated_date) 
+					FROM {$wpdb->prefix}lifterlms_user_postmeta upm2 
+					WHERE upm2.user_id = u.ID 
+					AND upm2.post_id = %d 
+					AND upm2.meta_key = '_status'
+				)
+				AND qa.id IS NULL
+				{$search_sql}
+				{$order_sql}
+				LIMIT %d, %d",
+				$course->get( 'id' ),    // Course ID for enrollment check
+				$this->quiz_id,          // Quiz ID for attempt check
+				$course->get( 'id' ),    // Course ID for latest enrollment status
+				$offset,
+				$per
 			)
 		);
 
-		$attempted_student_ids = array();
-		if ( $attempted_query->has_results() ) {
-			foreach ( $attempted_query->get_attempts() as $attempt ) {
-				$student = $attempt->get_student();
-				if ( $student ) {
-					$attempted_student_ids[] = $student->get_id();
-				}
+		// Get total count
+		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
+
+		// Set pagination data
+		$this->max_pages = ceil( $total_results / $per );
+		$this->is_last_page = ( $this->current_page >= $this->max_pages );
+
+		// Convert results to LLMS_Student objects
+		$this->tbody_data = array();
+		if ( ! empty( $results ) ) {
+			foreach ( $results as $result ) {
+				$this->tbody_data[] = llms_get_student( $result->user_id );
 			}
-		}
-
-		// Get students who haven't attempted
-		$non_attempted_student_ids = array_diff( $enrolled_students, $attempted_student_ids );
-
-		if ( empty( $non_attempted_student_ids ) ) {
-			$this->tbody_data = array();
-			return;
-		}
-
-		// Apply search filter
-		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
-			$search_term  = sanitize_text_field( $args['search'] );
-			$filtered_ids = array();
-
-			foreach ( $non_attempted_student_ids as $student_id ) {
-				$student = llms_get_student( $student_id );
-				if ( $student ) {
-					$name  = $student->get( 'display_name' );
-					$email = $student->get( 'user_email' );
-					$first = $student->get( 'first_name' );
-					$last  = $student->get( 'last_name' );
-
-					if ( stripos( $name, $search_term ) !== false ||
-						stripos( $email, $search_term ) !== false ||
-						stripos( $first, $search_term ) !== false ||
-						stripos( $last, $search_term ) !== false ) {
-						$filtered_ids[] = $student_id;
-					}
-				}
-			}
-			$non_attempted_student_ids = $filtered_ids;
-		}
-
-		// Apply enrollment status filter
-		if ( 'any' !== $this->filter ) {
-			$filtered_ids = array();
-			foreach ( $non_attempted_student_ids as $student_id ) {
-				$student = llms_get_student( $student_id );
-				if ( $student ) {
-					$status = $student->get_enrollment_status( $course->get( 'id' ) );
-					if ( $status === $this->filter ) {
-						$filtered_ids[] = $student_id;
-					}
-				}
-			}
-			$non_attempted_student_ids = $filtered_ids;
-		}
-
-		// Sort students
-		if ( ! empty( $non_attempted_student_ids ) ) {
-			$students_with_data = array();
-			foreach ( $non_attempted_student_ids as $student_id ) {
-				$student = llms_get_student( $student_id );
-				if ( $student ) {
-					$sort_key = '';
-					switch ( $this->orderby ) {
-						case 'name':
-							$first    = $student->get( 'first_name' );
-							$last     = $student->get( 'last_name' );
-							$sort_key = ! empty( $last ) ? $last : $student->get( 'display_name' );
-							break;
-						case 'id':
-							$sort_key = $student->get_id();
-							break;
-						case 'email':
-							$sort_key = $student->get( 'user_email' );
-							break;
-						default:
-							$sort_key = $student->get( 'display_name' );
-					}
-					$students_with_data[] = array(
-						'student'  => $student,
-						'sort_key' => strtolower( $sort_key ),
-					);
-				}
-			}
-
-			// Sort the array
-			usort(
-				$students_with_data,
-				function ( $a, $b ) {
-					if ( 'DESC' === $this->order ) {
-						return strcmp( $b['sort_key'], $a['sort_key'] );
-					}
-					return strcmp( $a['sort_key'], $b['sort_key'] );
-				}
-			);
-
-			// Extract sorted students
-			$sorted_students = array_map(
-				function ( $item ) {
-					return $item['student'];
-				},
-				$students_with_data
-			);
-
-			// Pagination
-			$total_results      = count( $sorted_students );
-			$this->max_pages    = ceil( $total_results / $per );
-			$this->is_last_page = ( $this->current_page >= $this->max_pages );
-
-			$offset           = ( $this->current_page - 1 ) * $per;
-			$this->tbody_data = array_slice( $sorted_students, $offset, $per );
-		} else {
-			$this->tbody_data = array();
 		}
 	}
 
