@@ -123,7 +123,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				} else {
 					$value = $last . ', ' . $first;
 				}
-				
+
 				$id = $student->get_id();
 				if ( current_user_can( 'edit_users', $id ) ) {
 					$value = '<a href="' . esc_url( get_edit_user_link( $id ) ) . '">' . $value . '</a>';
@@ -135,24 +135,24 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				break;
 
 			case 'enrolled_courses':
-				$quiz = llms_get_post( $this->quiz_id );
+				$quiz   = llms_get_post( $this->quiz_id );
 				$course = $quiz ? $quiz->get_course() : false;
-				
+
 				if ( $course ) {
 					$enrollment_date = $student->get_enrollment_date( $course->get( 'id' ) );
-					$value = $enrollment_date ? $enrollment_date : '&mdash;';
+					$value           = $enrollment_date ? $enrollment_date : '&mdash;';
 				} else {
 					$value = '&mdash;';
 				}
 				break;
 
 			case 'status':
-				$quiz = llms_get_post( $this->quiz_id );
+				$quiz   = llms_get_post( $this->quiz_id );
 				$course = $quiz ? $quiz->get_course() : false;
-				
+
 				if ( $course ) {
 					$status = $student->get_enrollment_status( $course->get( 'id' ) );
-					$value = ucfirst( $status );
+					$value  = ucfirst( $status );
 				} else {
 					$value = '&mdash;';
 				}
@@ -210,19 +210,23 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			return;
 		}
 
-		// Get all enrolled students in the course  
-		$enrolled_students = llms_get_enrolled_students( $course->get( 'id' ), array( 'enrolled', 'expired', 'cancelled' ), -1, 0 );
-		
+		// Get all enrolled students in the course
+		// TODO: Run a single query to join enrollments and quiz attempts.
+		$enrolled_students = llms_get_enrolled_students( $course->get( 'id' ), array( 'enrolled', 'expired', 'cancelled' ), 1000, 0 );
+
 		if ( empty( $enrolled_students ) ) {
 			$this->tbody_data = array();
 			return;
 		}
 
 		// Get students who have attempted the quiz
-		$attempted_query = new LLMS_Query_Quiz_Attempt( array(
-			'quiz_id'  => $this->quiz_id,
-			'per_page' => -1,
-		) );
+		$attempted_query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'quiz_id'  => $this->quiz_id,
+				// TODO: Switch to query lack of attempts for students who are enrolled in the course directly.
+				'per_page' => 10000,
+			)
+		);
 
 		$attempted_student_ids = array();
 		if ( $attempted_query->has_results() ) {
@@ -244,21 +248,21 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 
 		// Apply search filter
 		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
-			$search_term = sanitize_text_field( $args['search'] );
+			$search_term  = sanitize_text_field( $args['search'] );
 			$filtered_ids = array();
-			
+
 			foreach ( $non_attempted_student_ids as $student_id ) {
 				$student = llms_get_student( $student_id );
 				if ( $student ) {
-					$name = $student->get( 'display_name' );
+					$name  = $student->get( 'display_name' );
 					$email = $student->get( 'user_email' );
 					$first = $student->get( 'first_name' );
-					$last = $student->get( 'last_name' );
-					
+					$last  = $student->get( 'last_name' );
+
 					if ( stripos( $name, $search_term ) !== false ||
-						 stripos( $email, $search_term ) !== false ||
-						 stripos( $first, $search_term ) !== false ||
-						 stripos( $last, $search_term ) !== false ) {
+						stripos( $email, $search_term ) !== false ||
+						stripos( $first, $search_term ) !== false ||
+						stripos( $last, $search_term ) !== false ) {
 						$filtered_ids[] = $student_id;
 					}
 				}
@@ -290,8 +294,8 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 					$sort_key = '';
 					switch ( $this->orderby ) {
 						case 'name':
-							$first = $student->get( 'first_name' );
-							$last = $student->get( 'last_name' );
+							$first    = $student->get( 'first_name' );
+							$last     = $student->get( 'last_name' );
 							$sort_key = ! empty( $last ) ? $last : $student->get( 'display_name' );
 							break;
 						case 'id':
@@ -304,31 +308,37 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 							$sort_key = $student->get( 'display_name' );
 					}
 					$students_with_data[] = array(
-						'student' => $student,
+						'student'  => $student,
 						'sort_key' => strtolower( $sort_key ),
 					);
 				}
 			}
 
 			// Sort the array
-			usort( $students_with_data, function( $a, $b ) {
-				if ( 'DESC' === $this->order ) {
-					return strcmp( $b['sort_key'], $a['sort_key'] );
+			usort(
+				$students_with_data,
+				function ( $a, $b ) {
+					if ( 'DESC' === $this->order ) {
+						return strcmp( $b['sort_key'], $a['sort_key'] );
+					}
+					return strcmp( $a['sort_key'], $b['sort_key'] );
 				}
-				return strcmp( $a['sort_key'], $b['sort_key'] );
-			});
+			);
 
 			// Extract sorted students
-			$sorted_students = array_map( function( $item ) {
-				return $item['student'];
-			}, $students_with_data );
+			$sorted_students = array_map(
+				function ( $item ) {
+					return $item['student'];
+				},
+				$students_with_data
+			);
 
 			// Pagination
-			$total_results = count( $sorted_students );
-			$this->max_pages = ceil( $total_results / $per );
+			$total_results      = count( $sorted_students );
+			$this->max_pages    = ceil( $total_results / $per );
 			$this->is_last_page = ( $this->current_page >= $this->max_pages );
 
-			$offset = ( $this->current_page - 1 ) * $per;
+			$offset           = ( $this->current_page - 1 ) * $per;
 			$this->tbody_data = array_slice( $sorted_students, $offset, $per );
 		} else {
 			$this->tbody_data = array();
@@ -357,17 +367,17 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	protected function set_columns() {
 
 		$cols = array(
-			'id' => array(
+			'id'               => array(
 				'exportable' => true,
 				'title'      => __( 'ID', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'name' => array(
+			'name'             => array(
 				'exportable' => true,
 				'title'      => __( 'Name', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'email' => array(
+			'email'            => array(
 				'exportable' => true,
 				'title'      => __( 'Email', 'lifterlms' ),
 				'sortable'   => true,
@@ -377,10 +387,10 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				'title'      => __( 'Enrollment Date', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'status' => array(
+			'status'           => array(
 				'filterable' => array(
-					'enrolled' => __( 'Enrolled', 'lifterlms' ),
-					'expired'  => __( 'Expired', 'lifterlms' ),
+					'enrolled'  => __( 'Enrolled', 'lifterlms' ),
+					'expired'   => __( 'Expired', 'lifterlms' ),
 					'cancelled' => __( 'Cancelled', 'lifterlms' ),
 				),
 				'exportable' => true,
