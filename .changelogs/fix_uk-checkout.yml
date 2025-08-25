@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2997"
+entry: Fix to allow checkout with UK set as the country.
