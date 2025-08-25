@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2997"
-entry: Fix to allow checkout with UK and several other countries with no states/provinces/regions/areas.

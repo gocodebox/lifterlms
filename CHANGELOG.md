@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.0.5 - 2025-08-25
+-------------------
+
+##### Bug Fixes
+
++ Fix to allow checkout with UK and several other countries with no states/provinces/regions/areas. [#2997](https://github.com/gocodebox/lifterlms/issues/2997)
+
+
 v9.0.4 - 2025-08-19
 -------------------
 
