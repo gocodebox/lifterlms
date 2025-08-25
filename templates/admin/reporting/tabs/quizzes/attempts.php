@@ -26,10 +26,26 @@ if ( isset( $_GET['attempt_id'] ) ) {
 
 } else {
 
+	// Display link to non-attempts view
+	$quiz_id = llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT );
+	$non_attempts_url = LLMS_Admin_Reporting::get_current_tab_url(
+		array(
+			'tab'    => 'quizzes',
+			'stab'   => 'non-attempts',
+			'quiz_id' => $quiz_id,
+		)
+	);
+	
+	echo '<div style="margin-bottom: 20px;">';
+	echo '<a href="' . esc_url( $non_attempts_url ) . '" class="button button-secondary">';
+	echo esc_html__( 'View Students Without Attempts', 'lifterlms' );
+	echo '</a>';
+	echo '</div>';
+
 	$table = new LLMS_Table_Quiz_Attempts();
 	$table->get_results(
 		array(
-			'quiz_id' => llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ),
+			'quiz_id' => $quiz_id,
 		)
 	);
 	$table->output_table_html();
