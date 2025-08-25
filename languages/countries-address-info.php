@@ -418,7 +418,7 @@ return array(
 	),
 	'GB' => array(
 		'city'     => __( 'Town / City', 'lifterlms' ),
-		'state'    => __( 'County', 'lifterlms' ),
+		'state' => false,
 		'postcode' => __( 'Postcode', 'lifterlms' ),
 	),
 	'GD' => array(
