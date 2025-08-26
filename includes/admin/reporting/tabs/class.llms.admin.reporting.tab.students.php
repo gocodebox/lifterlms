@@ -119,7 +119,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 					'achievements'           => __( 'Achievements', 'lifterlms' ),
 					'certificates'           => __( 'Certificates', 'lifterlms' ),
 					'quiz_attempts'          => __( 'Quiz Attempts', 'lifterlms' ),
-					'assignment_submissions' => __( 'Assignment Submissions', 'lifterlms' ),
 				)
 			);
 
