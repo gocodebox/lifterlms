@@ -109,14 +109,14 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$quiz = $attempt->get_quiz();
 				if ( $quiz ) {
 					$value = $quiz->get( 'title' );
-					
+
 					// Add link to quiz attempts if user has permission
 					if ( current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
-						$url = LLMS_Admin_Reporting::get_current_tab_url(
+						$url   = LLMS_Admin_Reporting::get_current_tab_url(
 							array(
-								'tab'        => 'quizzes',
-								'stab'       => 'attempts',
-								'quiz_id'    => $quiz->get( 'id' ),
+								'tab'     => 'quizzes',
+								'stab'    => 'attempts',
+								'quiz_id' => $quiz->get( 'id' ),
 							)
 						);
 						$value = '<a href="' . esc_url( $url ) . '">' . esc_html( $value ) . '</a>';
@@ -127,28 +127,20 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				break;
 
 			case 'course':
-				$quiz = $attempt->get_quiz();
+				$value = '&mdash;';
+				$quiz  = $attempt->get_quiz();
 				if ( $quiz ) {
 					$course = $quiz->get_course();
 					if ( $course ) {
-						$value = $course->get( 'title' );
-						
-						// Add link to course if user has permission
-						if ( current_user_can( 'edit_post', $course->get( 'id' ) ) ) {
-							$url = LLMS_Admin_Reporting::get_current_tab_url(
-								array(
-									'tab'        => 'courses',
-									'stab'       => 'overview',
-									'course_id'  => $course->get( 'id' ),
-								)
-							);
-							$value = '<a href="' . esc_url( $url ) . '">' . esc_html( $value ) . '</a>';
-						}
-					} else {
-						$value = __( '[Deleted Course]', 'lifterlms' );
+						$url   = LLMS_Admin_Reporting::get_current_tab_url(
+							array(
+								'tab'       => 'courses',
+								'stab'      => 'overview',
+								'course_id' => $course->get( 'id' ),
+							)
+						);
+						$value = '<a href="' . esc_url( $url ) . '">' . esc_html( $course->get( 'title' ) ) . '</a>';
 					}
-				} else {
-					$value = '&ndash;';
 				}
 				break;
 
@@ -253,17 +245,17 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 			// For search, we'll need to get quiz IDs that match the search term
 			global $wpdb;
 			$search_term = sanitize_text_field( $args['search'] );
-			
+
 			$quiz_ids = $wpdb->get_col(
 				$wpdb->prepare(
-					"SELECT ID FROM {$wpdb->posts} 
-					WHERE post_type = 'llms_quiz' 
+					"SELECT ID FROM {$wpdb->posts}
+					WHERE post_type = 'llms_quiz'
 					AND post_status = 'publish'
 					AND post_title LIKE %s",
 					'%' . $search_term . '%'
 				)
 			);
-			
+
 			if ( ! empty( $quiz_ids ) ) {
 				$query_args['quiz_id'] = $quiz_ids;
 			} else {
