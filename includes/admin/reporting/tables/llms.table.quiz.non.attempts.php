@@ -5,7 +5,6 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since [version]
- * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -167,7 +166,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since [version]
 	 *
@@ -198,7 +197,6 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			return;
 		}
 
-		// Get the quiz and course
 		$quiz = llms_get_post( $this->quiz_id );
 		if ( ! $quiz ) {
 			return;
@@ -209,10 +207,9 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			return;
 		}
 
-		// Use a single optimized database query
+		// Use a single optimized database query.
 		global $wpdb;
 
-		// Build search WHERE clause
 		$search_sql = '';
 		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
 			$search_term = sanitize_text_field( $args['search'] );
@@ -232,16 +229,12 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			);
 		}
 
-		// Build status WHERE clause
-		$status_sql = '';
 		if ( 'any' !== $this->filter ) {
 			$status_sql = $wpdb->prepare( 'AND upm.meta_value = %s', $this->filter );
 		} else {
 			$status_sql = "AND upm.meta_value IN ('enrolled', 'expired', 'cancelled')";
 		}
 
-		// Build ORDER BY clause
-		$order_sql = '';
 		switch ( $this->orderby ) {
 			case 'name':
 				$order_sql = 'ORDER BY m_last.meta_value ' . $this->order . ', m_first.meta_value ' . $this->order;
@@ -256,10 +249,8 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				$order_sql = 'ORDER BY u.display_name ' . $this->order;
 		}
 
-		// Calculate offset
 		$offset = ( $this->current_page - 1 ) * $per;
 
-		// Single query to get students enrolled in course who haven't attempted the quiz
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT SQL_CALC_FOUND_ROWS DISTINCT
@@ -305,14 +296,11 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			)
 		);
 
-		// Get total count
 		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 
-		// Set pagination data
 		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );
 
-		// Convert results to LLMS_Student objects
 		$this->tbody_data = array();
 		if ( ! empty( $results ) ) {
 			foreach ( $results as $result ) {
