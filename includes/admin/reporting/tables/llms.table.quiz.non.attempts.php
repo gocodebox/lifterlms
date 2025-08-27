@@ -194,7 +194,6 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
-		// Check permissions
 		if ( ! ( current_user_can( 'view_others_lifterlms_reports' ) || ( current_user_can( 'view_lifterlms_reports' ) && current_user_can( 'edit_post', $args['quiz_id'] ) ) ) ) {
 			return;
 		}
@@ -217,14 +216,14 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 		$search_sql = '';
 		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
 			$search_term = sanitize_text_field( $args['search'] );
-			$search_sql = $wpdb->prepare(
-				"AND (
-					u.user_login LIKE %s 
-					OR u.user_email LIKE %s 
+			$search_sql  = $wpdb->prepare(
+				'AND (
+					u.user_login LIKE %s
+					OR u.user_email LIKE %s
 					OR u.display_name LIKE %s
 					OR m_first.meta_value LIKE %s
 					OR m_last.meta_value LIKE %s
-				)",
+				)',
 				'%' . $search_term . '%',
 				'%' . $search_term . '%',
 				'%' . $search_term . '%',
@@ -273,25 +272,25 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 					upm.meta_value as enrollment_status,
 					upm.updated_date as enrollment_date
 				FROM {$wpdb->users} u
-				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm 
-					ON u.ID = upm.user_id 
-					AND upm.post_id = %d 
+				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm
+					ON u.ID = upm.user_id
+					AND upm.post_id = %d
 					AND upm.meta_key = '_status'
 					{$status_sql}
-				LEFT JOIN {$wpdb->usermeta} m_first 
-					ON u.ID = m_first.user_id 
+				LEFT JOIN {$wpdb->usermeta} m_first
+					ON u.ID = m_first.user_id
 					AND m_first.meta_key = 'first_name'
-				LEFT JOIN {$wpdb->usermeta} m_last 
-					ON u.ID = m_last.user_id 
+				LEFT JOIN {$wpdb->usermeta} m_last
+					ON u.ID = m_last.user_id
 					AND m_last.meta_key = 'last_name'
-				LEFT JOIN {$wpdb->prefix}lifterlms_quiz_attempts qa 
-					ON u.ID = qa.student_id 
+				LEFT JOIN {$wpdb->prefix}lifterlms_quiz_attempts qa
+					ON u.ID = qa.student_id
 					AND qa.quiz_id = %d
 				WHERE upm.updated_date = (
-					SELECT MAX(upm2.updated_date) 
-					FROM {$wpdb->prefix}lifterlms_user_postmeta upm2 
-					WHERE upm2.user_id = u.ID 
-					AND upm2.post_id = %d 
+					SELECT MAX(upm2.updated_date)
+					FROM {$wpdb->prefix}lifterlms_user_postmeta upm2
+					WHERE upm2.user_id = u.ID
+					AND upm2.post_id = %d
 					AND upm2.meta_key = '_status'
 				)
 				AND qa.id IS NULL
@@ -310,7 +309,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 
 		// Set pagination data
-		$this->max_pages = ceil( $total_results / $per );
+		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );
 
 		// Convert results to LLMS_Student objects
