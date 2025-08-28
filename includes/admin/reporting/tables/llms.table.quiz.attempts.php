@@ -66,7 +66,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 *
 	 * @var  boolean
 	 */
-	protected $is_searchable = false;
+	protected $is_searchable = true;
 
 	/**
 	 * Results sort order
@@ -224,6 +224,11 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 			'quiz_id'    => $args['quiz_id'],
 			'student_id' => isset( $args['student_id'] ) ? $args['student_id'] : null,
 		);
+
+		// Add search functionality
+		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
+			$query_args['search'] = sanitize_text_field( $args['search'] );
+		}
 
 		if ( 'any' !== $this->filter ) {
 			$query_args['status'] = $this->filter;
