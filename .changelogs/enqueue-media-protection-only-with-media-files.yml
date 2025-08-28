@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3004"
-entry: Avoid loading the media protection attachment scripts when not needed.
