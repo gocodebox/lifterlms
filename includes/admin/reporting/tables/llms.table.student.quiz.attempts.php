@@ -242,27 +242,7 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 
 		// Add search functionality
 		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
-			// For search, we'll need to get quiz IDs that match the search term
-			global $wpdb;
-			$search_term = sanitize_text_field( $args['search'] );
-
-			$quiz_ids = $wpdb->get_col(
-				$wpdb->prepare(
-					"SELECT ID FROM {$wpdb->posts}
-					WHERE post_type = 'llms_quiz'
-					AND post_status = 'publish'
-					AND post_title LIKE %s",
-					'%' . $search_term . '%'
-				)
-			);
-
-			if ( ! empty( $quiz_ids ) ) {
-				$query_args['quiz_id'] = $quiz_ids;
-			} else {
-				// No matching quizzes, return empty results
-				$this->tbody_data = array();
-				return;
-			}
+			$query_args['search'] = $args['search'];
 		}
 
 		if ( 'any' !== $this->filter ) {

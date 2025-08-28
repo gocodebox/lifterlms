@@ -168,6 +168,8 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			$joins .= " LEFT JOIN {$wpdb->users} u ON qa.student_id = u.ID";
 			$joins .= " LEFT JOIN {$wpdb->usermeta} um_first ON u.ID = um_first.user_id AND um_first.meta_key = 'first_name'";
 			$joins .= " LEFT JOIN {$wpdb->usermeta} um_last ON u.ID = um_last.user_id AND um_last.meta_key = 'last_name'";
+			// Add in posts of type llms_quiz for search functionality
+			$joins .= " LEFT JOIN {$wpdb->posts} p ON qa.quiz_id = p.ID AND p.post_type = 'llms_quiz'";
 		}
 
 		return $joins;
@@ -237,7 +239,9 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 					OR u.display_name LIKE %s
 					OR um_first.meta_value LIKE %s
 					OR um_last.meta_value LIKE %s
+					OR p.post_title LIKE %s
 				)',
+				'%' . $search . '%',
 				'%' . $search . '%',
 				'%' . $search . '%',
 				'%' . $search . '%',
