@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v9.0.6 - 2025-08-28
+-------------------
+
+##### Updates and Enhancements
+
++ Upgrades select2 library to latest release.
+
+##### Bug Fixes
+
++ Avoid loading the media protection attachment scripts when not needed. [#3004](https://github.com/gocodebox/lifterlms/issues/3004)
++ Fix for "only recurring access plan" coupons. [#3002](https://github.com/gocodebox/lifterlms/issues/3002)
+
+
 v9.0.5 - 2025-08-25
 -------------------
 

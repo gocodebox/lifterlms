@@ -900,7 +900,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_get_next_payment_due_date_recurring() {
 
-		$original_time = current_time( 'Y-m-d H:i:s' );
+		// Set time to early in the day since we're scheduling three of them, and it'll start to go beyond a single day.
+		$original_time = current_time( 'Y-m-d ' ) . ' 01:00:00';
 
 		$plan = $this->get_plan();
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {

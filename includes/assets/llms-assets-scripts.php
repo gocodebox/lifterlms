@@ -132,7 +132,7 @@ return array(
 	'llms-select2'                              => array(
 		'file_name'    => 'select2',
 		'path'         => 'assets/vendor/select2/js',
-		'version'      => '4.0.3',
+		'version'      => '4.0.13',
 		'dependencies' => array( 'jquery' ),
 	),
 	'webui-popover'                             => array(

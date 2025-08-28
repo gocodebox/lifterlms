@@ -63,7 +63,7 @@ return array(
 	'llms-select2-styles' => array(
 		'file_name' => 'select2',
 		'path'      => 'assets/vendor/select2/css',
-		'version'   => '4.0.3',
+		'version'   => '4.0.13',
 		'rtl'       => false,
 	),
 	'webui-popover'       => array(
