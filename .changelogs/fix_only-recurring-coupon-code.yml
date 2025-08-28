@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3002"
+entry: Fix for "only recurring access plan" coupons.
