@@ -43,7 +43,7 @@ $passing_percent = $quiz->get( 'passing_percent' );
 		<?php printf( esc_html__( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . esc_html( $quiz->get_questions_count() ) . '</span>' ); ?>
 	</li>
 
-	<?php if ( $quiz->has_time_limit() ) : ?>
+	<?php if ( $quiz->has_time_limit() && ! $student->has_unlimited_quiz_time() ) : ?>
 	<li class="llms-quiz-meta-item llms-time-limit">
 		<?php printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . esc_html( $quiz->get_time_limit_string() ) . '</span>' ); ?>
 	</li>
