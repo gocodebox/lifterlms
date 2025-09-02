@@ -656,7 +656,7 @@
 
 			$el.append( '<i class="fa fa-clock-o" aria-hidden="true"></i><span class="screen-reader-text">' + msg + '</span>' );
 			const quiz_header = $( '#llms-quiz-header' );
-			$el.append( '<time aria-describedby="llms-timer-hint" id="llms-quiz-time-remaining" class="llms-tiles" datetime="PT05M"></time>' );
+			$el.append( '<time aria-describedby="llms-timer-hint" id="llms-quiz-time-remaining" class="llms-tiles" datetime=""></time>' );
 
 			quiz_header.append( $el );
 			quiz_header.append( '<div id="llms-timer-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>' );
@@ -988,18 +988,20 @@
 					}
 				};
 
-				days         = this.pad( parseInt( seconds_left / 86400 ) );
+				days         = parseInt( seconds_left / 86400 );
 				let remainder = seconds_left % 86400;
-				hours        = this.pad( parseInt( remainder / 3600 ) );
+				hours        = parseInt( remainder / 3600 );
 				remainder = seconds_left % 3600;
-				minutes      = this.pad( parseInt( remainder / 60 ) );
-				seconds      = this.pad( parseInt( remainder % 60 ) );
+				minutes      = parseInt( remainder / 60 );
+				seconds      = parseInt( remainder % 60 );
 
 				// format countdown string + set tag value.
-				countdown.innerHTML = hours + ':' + minutes + ':' + seconds;
+				countdown.innerHTML = this.pad( hours ) + ':' + this.pad( minutes ) + ':' + this.pad( seconds );
 
-				if ( shouldAnnounce( parseInt( seconds_left ) ) ) {
-					speak( parseInt( hours ), parseInt( minutes ), parseInt( seconds ) );
+				$( countdown ).attr( 'datetime', 'PT' + ( hours > 0 ? hours + 'H' : '' ) + ( minutes > 0 ? minutes + 'M' : '' ) + ( seconds > 0 ? seconds + 'S' : '' ) );
+
+				if ( shouldAnnounce( seconds_left ) ) {
+					speak( hours, minutes, seconds );
 				}
 			}
 		},
