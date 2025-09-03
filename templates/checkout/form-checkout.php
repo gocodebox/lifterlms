@@ -56,38 +56,36 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="llms-checkout-col llms-col-2">
 
-		<?php if ( ! $is_free ) : ?>
-			<section class="llms-checkout-section order-summary">
+		<section class="llms-checkout-section order-summary">
 
-				<h4 class="llms-form-heading"><?php esc_html_e( 'Order Summary', 'lifterlms' ); ?></h4>
+			<h4 class="llms-form-heading"><?php esc_html_e( 'Order Summary', 'lifterlms' ); ?></h4>
 
-				<div class="llms-checkout-section-content">
+			<div class="llms-checkout-section-content">
 
-					<?php
-					llms_get_template(
-						'checkout/form-summary.php',
-						array(
-							'coupon'  => $coupon,
-							'plan'    => $plan,
-							'product' => $product,
-						)
-					);
-					?>
+				<?php
+				llms_get_template(
+					'checkout/form-summary.php',
+					array(
+						'coupon'  => $coupon,
+						'plan'    => $plan,
+						'product' => $product,
+					)
+				);
+				?>
 
-					<?php
-					llms_get_template(
-						'checkout/form-coupon.php',
-						array(
-							'coupon' => $coupon,
-							'plan'   => $plan,
-						)
-					);
-					?>
+				<?php
+				llms_get_template(
+					'checkout/form-coupon.php',
+					array(
+						'coupon' => $coupon,
+						'plan'   => $plan,
+					)
+				);
+				?>
 
-				</div>
+			</div>
 
-			</section>
-		<?php endif; ?>
+		</section>
 
 		<section class="llms-checkout-section payment-details">
 
