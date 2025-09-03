@@ -933,7 +933,7 @@
 
 			// find the amount of "seconds" between now and target
 			var current_date = new Date().getTime(),
-				seconds_left = ( target_date - current_date ) / 1000;
+				seconds_left = parseInt( ( target_date - current_date ) / 1000 );
 
 			const live = document.getElementById( 'llms-timer-live' );
 
