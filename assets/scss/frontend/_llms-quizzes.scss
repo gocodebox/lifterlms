@@ -222,12 +222,11 @@
 			}
 
 			input {
-				//opacity: 0;
+				opacity: 0;
 
 				+ label {
 					display: inline-block;
-					// margin: 0; TODO: Adjust
-					margin-left: 20px;
+					margin: 0;
 					padding: 10px 20px;
 					position: relative;
 					cursor: pointer;
@@ -241,18 +240,6 @@
 						font-weight: 400;
 						margin: 5px 0 0 0;
 						display: inline-block;
-					}
-
-					// TODO: Add hover state for the before/after pseudo elements to show/hide the fa checkbox icon.
-					&.hovered {
-						.llms-marker:not(.type--lister) {
-							.iterator {
-								display: none;
-							}
-							.fa {
-								display: inline;
-							}
-						}
 					}
 
 					&:before {
@@ -292,6 +279,18 @@
 					}
 				}
 
+				&:focus {
+					+ label:before {
+						box-shadow: 0 0px 8px $color-brand-pink;
+					}
+				}
+
+				// TODO: Add hover state for the before/after pseudo elements to show/hide the fa checkbox icon.
+				&:not(:checked) {
+					+ label.hovered:before {
+						box-shadow: 0 0px 8px $color-brand-pink;
+					}
+				}
 			}
 
 			.llms-marker {
