@@ -18,8 +18,7 @@ $input_type      = ( 'yes' === $question->get( 'multi_choices' ) ) ? 'checkbox' 
 $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : array();
 ?>
 
-<ol class="llms-question-choices">
-	<fieldset class="llms-fieldset" aria-describedby="question-<?php echo esc_attr( $question->get( 'id' ) ); ?>-description">
+	<fieldset class="llms-question-choices">
 		<legend class="sr-only">
 			<?php
 				echo esc_html( strip_tags( $question->get_question( 'html', $attempt ) ) );
@@ -29,7 +28,7 @@ $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer
 			<?php
 			$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;
 			?>
-			<li class="llms-choice type--text" id="choice-wrapper-<?php echo esc_attr( $choice->get( 'id' ) ); ?>">
+			<div class="llms-choice type--text" id="choice-wrapper-<?php echo esc_attr( $choice->get( 'id' ) ); ?>">
 				<input id="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" name="question_<?php echo esc_attr( $question->get( 'id' ) ); ?>[]" type="<?php echo esc_attr( $input_type ); ?>" value="<?php echo esc_attr( $choice->get( 'id' ) ); ?>" <?php checked( $answer, $choice->get( 'id' ) ); ?>>
 					<?php
 					/*
@@ -41,8 +40,6 @@ $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer
 				<label for="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" data-marker="<?php echo esc_attr( $choice->get( 'marker' ) ); ?>">
 					<p class="llms-choice-text"><?php echo esc_html( $choice->get( 'choice' ) ); ?></p>
 				</label>
-			</li>
-
+			</div>
 		<?php endforeach; ?>
 	</fieldset>
-</ol>

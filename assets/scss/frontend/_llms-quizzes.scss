@@ -175,16 +175,14 @@
 		margin-bottom: 15px;
 	}
 
-	ol.llms-question-choices {
-		fieldset {
-			border: none;
-		}
+	.llms-question-choices {
+		border: none;
 
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 
-		li.llms-choice {
+		.llms-choice {
 			border-bottom: 1px solid #e8e8e8;
 			margin: 0;
 			padding: 0;
@@ -199,6 +197,13 @@
 				label {
 					display: inline-block;
 					padding: 0;
+
+					&:before {
+						content: attr(data-marker);
+						position: absolute;
+						right: 10px;
+						bottom: 10px;
+					}
 				}
 				.llms-marker {
 					bottom: 10px;
