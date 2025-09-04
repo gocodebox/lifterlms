@@ -231,9 +231,17 @@
 					padding: 10px 20px;
 					position: relative;
 					cursor: pointer;
-					line-height: 1.6;
-					vertical-align: middle;
-					width: calc( 100% - 90px );
+					height: 40px;
+
+					.llms-choice-text {
+						line-height: 1.6;
+						vertical-align: middle;
+						width: calc( 100% - 90px );
+						font-size: 18px;
+						font-weight: 400;
+						margin: 5px 0 0 0;
+						display: inline-block;
+					}
 
 					// TODO: Add hover state for the before/after pseudo elements to show/hide the fa checkbox icon.
 					&.hovered {
@@ -252,29 +260,38 @@
 						position: absolute;
 						background: $color-white;
 						color: $color-black;
-						display: inline-block;
-						left: -22px;
+						display: flex;
+						left: -32px; // TODO: Adjust.
 						width: 40px;
 						font-size: 20px;
 						font-weight: inherit;
 						text-align: center;
 						height: 40px;
-						vertical-align: middle;
+						align-items: center;
+						justify-content: center;
 						transition: all 0.2s ease;
 					}
 				}
 
 				&[type="checkbox"] {
-					&:before {
+					+ label:before {
 						border-radius: 4px;
 					}
 				}
 
 				&[type="radio"] {
-					&:before {
+					+ label:before {
 						border-radius: 50%;
 					}
 				}
+
+				&:checked {
+					+ label:before {
+						background: $color-brand-pink;
+						color: #fff;
+					}
+				}
+
 			}
 
 			.llms-marker {
@@ -301,16 +318,6 @@
 
 			}
 
-			input:checked + .llms-marker {
-				background: $color-brand-pink;
-				color: #fff;
-				.iterator {
-					display: none;
-				}
-				.fa {
-					display: inline;
-				}
-			}
 
 
 

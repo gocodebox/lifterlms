@@ -38,7 +38,9 @@ $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer
 						<i class="fa fa-check"></i>
 					</span> */
 					?>
-				<label for="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" data-marker="<?php echo esc_attr( $choice->get( 'marker' ) ); ?>"><?php echo esc_html( $choice->get( 'choice' ) ); ?></label>
+				<label for="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" data-marker="<?php echo esc_attr( $choice->get( 'marker' ) ); ?>">
+					<p class="llms-choice-text"><?php echo esc_html( $choice->get( 'choice' ) ); ?></p>
+				</label>
 			</li>
 
 		<?php endforeach; ?>
