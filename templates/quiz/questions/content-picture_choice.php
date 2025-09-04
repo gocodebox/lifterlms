@@ -21,21 +21,21 @@ $cols            = llms_get_picture_choice_question_cols( count( $choices ) );
 $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : array();
 ?>
 
-	<fieldset class="llms-question-choices">
-		<legend class="sr-only">
-			<?php
-			echo esc_html( strip_tags( $question->get_question( 'html', $attempt ) ) );
-			?>
-		</legend>
-		<?php foreach ( $choices as $choice ) : ?>
-			<?php
-			$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;
-			?>
-			<div class="llms-choice type--picture llms-col-<?php echo absint( $cols ); ?>" id="choice-wrapper-<?php echo esc_attr( $choice->get( 'id' ) ); ?>">
-				<label for="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" data-marker="<?php echo esc_attr( $choice->get( 'marker' ) ); ?>">
-					<input id="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" name="question_<?php echo esc_attr( $question->get( 'id' ) ); ?>[]" type="<?php echo esc_attr( $input_type ); ?>" value="<?php echo esc_attr( $choice->get( 'id' ) ); ?>" <?php checked( $answer, $choice->get( 'id' ) ); ?>>
-					<div class="llms-choice-image"><?php echo wp_kses_post( $choice->get_image() ); ?></div>
-				</label>
-			</div>
-		<?php endforeach; ?>
-	</fieldset>
+<fieldset class="llms-question-choices type--picture">
+	<legend class="sr-only">
+		<?php
+		echo esc_html( strip_tags( $question->get_question( 'html', $attempt ) ) );
+		?>
+	</legend>
+	<?php foreach ( $choices as $choice ) : ?>
+		<?php
+		$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;
+		?>
+		<div class="llms-choice type--picture llms-col-<?php echo absint( $cols ); ?>" id="choice-wrapper-<?php echo esc_attr( $choice->get( 'id' ) ); ?>">
+			<input id="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" name="question_<?php echo esc_attr( $question->get( 'id' ) ); ?>[]" type="<?php echo esc_attr( $input_type ); ?>" value="<?php echo esc_attr( $choice->get( 'id' ) ); ?>" <?php checked( $answer, $choice->get( 'id' ) ); ?>>
+			<label for="choice-<?php echo esc_attr( $choice->get( 'id' ) ); ?>" data-marker="<?php echo esc_attr( $choice->get( 'marker' ) ); ?>">
+				<div class="llms-choice-image"><?php echo wp_kses_post( $choice->get_image() ); ?></div>
+			</label>
+		</div>
+	<?php endforeach; ?>
+</fieldset>

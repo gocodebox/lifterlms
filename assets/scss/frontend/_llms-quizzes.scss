@@ -178,6 +178,12 @@
 	.llms-question-choices {
 		border: none;
 
+		&.type--picture {
+			display: grid;
+			grid-template-columns: auto auto auto;
+			gap: 20px;
+		}
+
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
@@ -190,40 +196,6 @@
 
 			&:last-child {
 				border-bottom: none;
-			}
-
-			&.type--picture {
-				border-bottom: none;
-				label {
-					display: inline-block;
-					padding: 0;
-
-					&:before {
-						content: attr(data-marker);
-						position: absolute;
-						right: 10px;
-						bottom: 10px;
-					}
-				}
-				.llms-marker {
-					bottom: 10px;
-					margin: 0;
-					position: absolute;
-					right: 10px;
-				}
-				.llms-choice-image {
-					margin: 2px;
-					padding: 20px;
-					transition: background 0.4s ease;
-					img {
-						display: block;
-						height: auto;
-						width: 100%;
-					}
-				}
-				input:checked ~ .llms-choice-image {
-					background: #efefef
-				}
 			}
 
 			input {
@@ -253,7 +225,7 @@
 						background: $color-white;
 						color: $color-black;
 						display: flex;
-						left: -32px; // TODO: Adjust.
+						left: -32px;
 						width: 40px;
 						font-size: 20px;
 						font-weight: inherit;
@@ -294,6 +266,37 @@
 				&:not(:checked) {
 					+ label.hovered:before {
 						box-shadow: 0 0px 8px $color-brand-pink;
+					}
+				}
+			}
+
+			&.type--picture {
+				border-bottom: none;
+				label {
+					display: inline-block;
+					padding: 0;
+					height: auto;
+
+					&:before {
+						left: auto;
+						right: 10px;
+						bottom: 10px;
+					}
+				}
+
+				.llms-choice-image {
+					margin: 2px;
+					padding: 20px;
+					transition: background 0.4s ease;
+					img {
+						display: block;
+						height: auto;
+						width: 100%;
+					}
+				}
+				input:checked {
+					+ label .llms-choice-image {
+						background: #efefef
 					}
 				}
 			}
