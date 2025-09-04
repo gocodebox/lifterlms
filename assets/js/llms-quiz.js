@@ -165,7 +165,10 @@
 
 			var self = this;
 
-			self.$container.find( '.llms-error' ).remove();
+			self.$container.find( '#llms-quiz-error-container' ).remove();
+			self.$container.append( '<div id="llms-quiz-error-container" role="alert" aria-atomic="true"></div>' );
+			const $error_container = self.$container.find( '#llms-quiz-error-container' );
+
 			var $err = $( '<p class="llms-error">' + msg + '<a href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a></p>' );
 			$err.on( 'click', 'a', function( e ) {
 				e.preventDefault();
@@ -174,7 +177,7 @@
 					$err.remove();
 				}, 210 );
 			} );
-			self.$container.append( $err );
+			$error_container.append( $err );
 
 		},
 
