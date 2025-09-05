@@ -17,7 +17,7 @@ if ( empty( $fields ) ) {
 	<?php array_map( 'llms_form_field', $fields, array_fill( 0, count( $fields ), true ), array_fill( 0, count( $fields ), $user ) ); ?>
 
 	<?php
-	$allow_unlimited = get_user_option( 'llms_allow_unlimited_quiz_time', $user->ID );
+	$allow_unlimited = get_user_option( 'llms_allow_unlimited_quiz_time', is_numeric( $user ) ? $user : $user->ID );
 	$allow_unlimited = empty( $allow_unlimited ) ? 'no' : $allow_unlimited;
 	?>
 	<div class="llms-allow-unlimited-quiz-time llms-allow-unlimited-quiz-time-wrap">
