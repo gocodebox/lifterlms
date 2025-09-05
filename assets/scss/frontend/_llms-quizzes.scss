@@ -198,14 +198,18 @@
 				border-bottom: none;
 			}
 
+			label {
+				display: block;
+				margin: 0;
+				padding: 10px 20px;
+				position: relative;
+			}
+
 			input {
 				opacity: 0;
 
 				+ label {
 					display: inline-block;
-					margin: 0;
-					padding: 10px 20px;
-					position: relative;
 					cursor: pointer;
 					height: 40px;
 
