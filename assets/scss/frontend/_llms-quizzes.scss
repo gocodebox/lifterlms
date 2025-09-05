@@ -211,12 +211,11 @@
 				+ label {
 					display: inline-block;
 					cursor: pointer;
-					height: 40px;
+					width: calc( 100% - 90px );
 
 					.llms-choice-text {
 						line-height: 1.6;
 						vertical-align: middle;
-						width: calc( 100% - 90px );
 						font-size: 18px;
 						font-weight: 400;
 						margin: 5px 0 0 0;
