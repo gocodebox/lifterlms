@@ -266,7 +266,6 @@
 					}
 				}
 
-				// TODO: Add hover state for the before/after pseudo elements to show/hide the fa checkbox icon.
 				&:not(:checked) {
 					+ label.hovered:before {
 						box-shadow: 0 0px 8px $color-brand-pink;
