@@ -963,8 +963,6 @@
 				};
 
 				const speak = ( hours, mins, secs ) => {
-					// TODO: Mute option.
-					//if ( muted ) return;
 					if ( hours > 0 ) {
 						// Translators: %1$s hours, %2$s minutes, and %3$s seconds remaining.
 						live.textContent = hours > 1 ? LLMS.l10n.replace( '%1$s hours, %2$s minutes remaining', {
@@ -998,7 +996,6 @@
 				minutes      = parseInt( remainder / 60 );
 				seconds      = parseInt( remainder % 60 );
 
-				// format countdown string + set tag value.
 				countdown.innerHTML = this.pad( hours ) + ':' + this.pad( minutes ) + ':' + this.pad( seconds );
 
 				$( countdown ).attr( 'datetime', 'PT' + ( hours > 0 ? hours + 'H' : '' ) + ( minutes > 0 ? minutes + 'M' : '' ) + ( seconds > 0 ? seconds + 'S' : '' ) );
