@@ -460,6 +460,7 @@
 			const canEditPost =
 				wp?.data &&
 				typeof wp.data.dispatch === 'function' &&
+				wp.data.dispatch( 'core/editor' ) !== null &&
 				typeof wp.data.dispatch( 'core/editor' ).editPost === 'function';
 
 			if ( ! canEditPost ) {
