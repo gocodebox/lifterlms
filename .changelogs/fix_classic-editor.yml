@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#3012"
+entry: Additional check to avoid conflict with certain plugins alongside the
+  Classic Editor.
