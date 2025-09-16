@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixing checkout for countries that have no states/provinces/regions listed.
