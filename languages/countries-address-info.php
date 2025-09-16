@@ -798,7 +798,7 @@ return array(
 	),
 	'MT' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => __( 'Postal code', 'lifterlms' ),
 	),
 	'MU' => array(
