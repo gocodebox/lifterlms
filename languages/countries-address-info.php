@@ -218,7 +218,7 @@ return array(
 	),
 	'BZ' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => false,
 	),
 	'CA' => array(
@@ -233,7 +233,7 @@ return array(
 	),
 	'CD' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => __( 'Postal code', 'lifterlms' ),
 	),
 	'CF' => array(
@@ -288,7 +288,7 @@ return array(
 	),
 	'CU' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => __( 'Postal code', 'lifterlms' ),
 	),
 	'CV' => array(
@@ -308,7 +308,7 @@ return array(
 	),
 	'CY' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => __( 'Postal code', 'lifterlms' ),
 	),
 	'CZ' => array(
@@ -628,7 +628,7 @@ return array(
 	),
 	'KM' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => false,
 	),
 	'KN' => array(
@@ -958,7 +958,7 @@ return array(
 	),
 	'PW' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => __( 'ZIP code', 'lifterlms' ),
 	),
 	'PY' => array(
@@ -1108,7 +1108,7 @@ return array(
 	),
 	'TD' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => __( 'State / Region', 'lifterlms' ),
+		'state'    => false,
 		'postcode' => false,
 	),
 	'TF' => array(
