@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v9.0.7 - 2025-09-16
+-------------------
+
+##### Bug Fixes
+
++ Additional check to avoid conflict with certain plugins alongside the Classic Editor. [#3012](https://github.com/gocodebox/lifterlms/issues/3012)
++ Fixing checkout for countries that have no states/provinces/regions listed.
+
+
 v9.0.6 - 2025-08-28
 -------------------
 
