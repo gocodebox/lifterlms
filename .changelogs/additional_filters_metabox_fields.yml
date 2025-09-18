@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Apply filters to save any additional fields added to LifterLMS metaboxes.
