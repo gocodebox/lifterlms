@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Additional filter to change available merge codes for certificates.
