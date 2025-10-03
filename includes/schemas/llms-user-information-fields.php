@@ -47,7 +47,7 @@ return array(
 		'label'             => __( 'Password', 'lifterlms' ),
 		'data_store'        => 'users',
 		'data_store_key'    => 'user_pass',
-		'meter'             => llms_parse_bool( get_option( 'lifterlms_registration_password_strength', 'no' ) ),
+		'meter'             => llms_parse_bool( get_option( 'lifterlms_registration_password_strength', 'yes' ) ),
 		'min_strength'      => get_option( 'lifterlms_registration_password_min_strength', 'weak' ),
 		'html_attrs'        => array(
 			'minlength' => 8,
