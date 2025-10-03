@@ -42,7 +42,7 @@ if ( ! isset( $plan ) ) {
 	$availability          = $plan->get( 'availability' );
 	$checkout_redirect_url = $plan->get( 'checkout_redirect_url' );
 	$checkout_url          = $plan->get_checkout_url( false );
-	if ( false === strpos( $checkout_url, home_url() ) ) {
+	if ( $checkout_url && false === strpos( $checkout_url, home_url() ) ) {
 		$checkout_url = home_url( $checkout_url );
 	}
 }
@@ -94,6 +94,38 @@ if ( ! isset( $plan ) ) {
 		?>
 
 		<h4><?php esc_html_e( 'General Plan Information', 'lifterlms' ); ?></h4>
+
+		<?php
+		if ( apply_filters( 'llms_checkout_page_required', true ) && -1 === llms_get_page_id( 'checkout' ) ) :
+			?>
+
+			<div>
+
+				<div class="d-all">
+
+					<div class="notice notice-warning inline llms-admin-notice llms-notice">
+
+						<div class="llms-admin-notice-content">
+							<?php
+							echo wp_kses_post(
+								sprintf(
+								/* translators: %s: Open tag to the checkout settings page,  */
+									__( 'Your site does not have a checkout page configured. Configure a Checkout Page in the %1$1sCheckout Settings%2$2s.', 'lifterlms' ),
+									'<a href="' . esc_url( admin_url( 'admin.php?page=llms-settings&tab=checkout' ) ) . '">',
+									'</a>'
+								)
+							);
+							?>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		<?php endif; ?>
+
 		<?php if ( $plan ) : ?>
 			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' ); ?></p>
 		<?php endif; ?>
@@ -344,7 +376,6 @@ if ( ! isset( $plan ) ) {
 				</div>
 
 			</div>
-
 
 			<?php
 				// If only the manual gateway is enabled, show a notice and link to our Ecommerce Add-ons.
