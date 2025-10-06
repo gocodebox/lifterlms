@@ -41,7 +41,7 @@ if ( ! isset( $plan ) ) {
 	$on_sale               = $plan->get( 'on_sale' );
 	$availability          = $plan->get( 'availability' );
 	$checkout_redirect_url = $plan->get( 'checkout_redirect_url' );
-	$checkout_url          = $plan->get_checkout_url( false );
+	$checkout_url          = apply_filters( 'llms_admin_plan_display_checkout_url', $plan->get_checkout_url( false ), $plan );
 	if ( $checkout_url && false === strpos( $checkout_url, home_url() ) ) {
 		$checkout_url = home_url( $checkout_url );
 	}
@@ -96,7 +96,7 @@ if ( ! isset( $plan ) ) {
 		<h4><?php esc_html_e( 'General Plan Information', 'lifterlms' ); ?></h4>
 
 		<?php
-		if ( apply_filters( 'llms_checkout_page_required', true ) && -1 === llms_get_page_id( 'checkout' ) ) :
+		if ( ! $checkout_url ) :
 			?>
 
 			<div>
@@ -126,7 +126,7 @@ if ( ! isset( $plan ) ) {
 
 		<?php endif; ?>
 
-		<?php if ( $plan ) : ?>
+		<?php if ( $plan && $checkout_url ) : ?>
 			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' ); ?></p>
 		<?php endif; ?>
 
