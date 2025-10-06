@@ -103,7 +103,7 @@ if ( ! isset( $plan ) ) {
 
 				<div class="d-all">
 
-					<div class="notice notice-warning inline llms-admin-notice llms-notice">
+					<div class="notice notice-error inline llms-admin-notice llms-notice">
 
 						<div class="llms-admin-notice-content">
 							<?php
