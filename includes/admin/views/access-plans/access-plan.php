@@ -109,8 +109,8 @@ if ( ! isset( $plan ) ) {
 							<?php
 							echo wp_kses_post(
 								sprintf(
-								/* translators: %s: Open tag to the checkout settings page,  */
-									__( 'Your site does not have a checkout page configured. Configure a Checkout Page in the %1$1sCheckout Settings%2$2s.', 'lifterlms' ),
+									/* translators: %1$s - Open anchor tag to the checkout settings page, %2$s - Closing of anchor tag. */
+									__( 'Your site does not have a checkout page configured. Configure a Checkout Page in the %1$sCheckout Settings%2$s.', 'lifterlms' ),
 									'<a href="' . esc_url( admin_url( 'admin.php?page=llms-settings&tab=checkout' ) ) . '">',
 									'</a>'
 								)
