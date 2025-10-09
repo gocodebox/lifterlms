@@ -28,7 +28,6 @@ class LLMS_REST_Fields {
 
 		add_action( 'rest_api_init', array( $this, 'register' ) );
 		add_filter( 'rest_prepare_llms_my_certificate', array( $this, 'remove_author_assign_link' ) );
-
 	}
 
 	/**
@@ -81,7 +80,6 @@ class LLMS_REST_Fields {
 				'type'        => 'string',
 			),
 		);
-
 	}
 
 	/**
@@ -98,9 +96,48 @@ class LLMS_REST_Fields {
 			$this->register_fields_for_certificates();
 			$this->register_fields_for_certificate_awards();
 			$this->register_fields_for_certificate_templates();
+			$this->register_fields_for_attachments();
 
 		}
+	}
 
+	/**
+	 * Register fields for attachments.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @return void
+	 */
+	private function register_fields_for_attachments() {
+
+		register_rest_field(
+			'attachment',
+			'_llms_media_protection_product_id',
+			array(
+				'get_callback'    => function ( $object ) {
+					return get_post_meta( $object['id'], '_llms_media_protection_product_id', true );
+				},
+				'update_callback' => function ( $value, $object ) {
+					$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
+					$protector = new LLMS_Media_Protector();
+
+					if ( $protector->is_media_protected( $object->ID ) ) {
+						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+
+						return;
+					}
+
+					if ( $settings->move_attachment_to_protected_dir( $object->ID ) ) {
+						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+					}
+				},
+				'schema'          => array(
+					'description' => __( 'The ID of the product that protects this media.', 'lifterlms' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -120,15 +157,15 @@ class LLMS_REST_Fields {
 					'description' => __( 'Certificate template ID.', 'lifterlms' ),
 					'type'        => 'integer',
 					'arg_options' => array(
-						'validate_callback' => function( $value ) {
+						'validate_callback' => function ( $value ) {
 							return ! $value || 'llms_certificate' === get_post_type( $value );
 						},
 					),
 				),
-				'get_callback'    => function( $object ) {
+				'get_callback'    => function ( $object ) {
 					return wp_get_post_parent_id( $object['id'] );
 				},
-				'update_callback' => function( $value, $post ) {
+				'update_callback' => function ( $value, $post ) {
 					$update = array(
 						'ID'          => $post->ID,
 						'post_parent' => $value,
@@ -137,7 +174,6 @@ class LLMS_REST_Fields {
 				},
 			)
 		);
-
 	}
 
 	/**
@@ -157,11 +193,11 @@ class LLMS_REST_Fields {
 					'description' => __( 'Certificate title.', 'lifterlms' ),
 					'type'        => 'string',
 				),
-				'get_callback'    => function( $object ) {
+				'get_callback'    => function ( $object ) {
 					$cert = llms_get_certificate( $object['id'], true );
 					return $cert ? $cert->get( 'certificate_title' ) : null;
 				},
-				'update_callback' => function( $value, $post ) {
+				'update_callback' => function ( $value, $post ) {
 					$cert = llms_get_certificate( $post->ID, true );
 					return $cert ? $cert->set( 'certificate_title', $value ) : null;
 				},
@@ -176,21 +212,20 @@ class LLMS_REST_Fields {
 					'description' => __( 'Next sequential ID.', 'lifterlms' ),
 					'type'        => 'integer',
 					'arg_options' => array(
-						'validate_callback' => function( $value, $request ) {
+						'validate_callback' => function ( $value, $request ) {
 							return (int) $value >= llms_get_certificate_sequential_id( $request['id'] );
 						},
 					),
 				),
-				'get_callback'    => function( $object ) {
+				'get_callback'    => function ( $object ) {
 					return llms_get_certificate_sequential_id( $object['id'] );
 				},
-				'update_callback' => function( $value, $post ) {
+				'update_callback' => function ( $value, $post ) {
 					$cert = llms_get_certificate( $post->ID, true );
 					return $cert ? $cert->set( 'sequential_id', $value ) : null;
 				},
 			)
 		);
-
 	}
 
 	/**
@@ -211,12 +246,12 @@ class LLMS_REST_Fields {
 				"certificate_{$key}",
 				array(
 					'schema'          => $schema,
-					'get_callback'    => function( $object ) use ( $key ) {
+					'get_callback'    => function ( $object ) use ( $key ) {
 						$cert = llms_get_certificate( $object['id'], true );
 						$func = "get_{$key}";
 						return $cert ? $cert->$func() : null;
 					},
-					'update_callback' => function( $value, $post ) use ( $key ) {
+					'update_callback' => function ( $value, $post ) use ( $key ) {
 						$cert = llms_get_certificate( $post->ID, true );
 						return $cert ? $cert->set( $key, $value ) : null;
 					},
@@ -224,7 +259,6 @@ class LLMS_REST_Fields {
 			);
 
 		}
-
 	}
 
 	/**
@@ -248,9 +282,7 @@ class LLMS_REST_Fields {
 		$res->remove_link( 'https://api.w.org/action-assign-author' );
 
 		return $res;
-
 	}
-
 }
 
 return new LLMS_REST_Fields();

@@ -10,7 +10,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students. WP Learning Management System.
- * Version: 8.0.7
+ * Version: 9.0.7
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -53,6 +53,8 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 }
 
 register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
+
+require_once LLMS_PLUGIN_DIR . 'includes/llms-notifications.php';
 
 /**
  * Returns the main instance of LifterLMS

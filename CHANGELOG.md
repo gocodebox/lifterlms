@@ -1,6 +1,122 @@
 LifterLMS Changelog
 ===================
 
+v9.0.7 - 2025-09-16
+-------------------
+
+##### Bug Fixes
+
++ Additional check to avoid conflict with certain plugins alongside the Classic Editor. [#3012](https://github.com/gocodebox/lifterlms/issues/3012)
++ Fixing checkout for countries that have no states/provinces/regions listed.
+
+
+v9.0.6 - 2025-08-28
+-------------------
+
+##### Updates and Enhancements
+
++ Upgrades select2 library to latest release.
+
+##### Bug Fixes
+
++ Avoid loading the media protection attachment scripts when not needed. [#3004](https://github.com/gocodebox/lifterlms/issues/3004)
++ Fix for "only recurring access plan" coupons. [#3002](https://github.com/gocodebox/lifterlms/issues/3002)
+
+
+v9.0.5 - 2025-08-25
+-------------------
+
+##### Bug Fixes
+
++ Fix to allow checkout with UK and several other countries with no states/provinces/regions/areas. [#2997](https://github.com/gocodebox/lifterlms/issues/2997)
+
+
+v9.0.4 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Avoid fatal error if another plugin has loaded the Banner Notifications library.
+
+
+v9.0.3 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Additional checks for valid courses during the setup wizard. [#2992](https://github.com/gocodebox/lifterlms/issues/2992)
+
+
+v9.0.2 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Avoid fatal error during setup wizard if list of courses to import cannot be fetched. [#2992](https://github.com/gocodebox/lifterlms/issues/2992)
++ Avoid i18n translation warning on brand new site when scheduling cron. [#2990](https://github.com/gocodebox/lifterlms/issues/2990)
+
+
+v9.0.1 - 2025-08-18
+-------------------
+
+##### Bug Fixes
+
++ Fix "unsaved changes" warning when navigating away from a course/membeship with instructors block in it. [#2986](https://github.com/gocodebox/lifterlms/issues/2986)
+
+
+v9.0.0 - 2025-08-18
+-------------------
+
+##### New Features
+
++ Adding Mailhawk back to the email provider services.
++ Ability to protect media files for those enrolled in a specified Course or Membership.
++ Adding banner notifications.
++ Option for automatically blocking checkout spam.
++ Support for Turnstile, reCAPTCHA v3 and Akismet with checkout and registration forms.
++ Link to detach a Lesson from the course and section in the Lessons listing. [#2944](https://github.com/gocodebox/lifterlms/issues/2944)
++ Featured video and audio options for Memberships.
++ Mobile navigation for the Student Dashboard. [#2907](https://github.com/gocodebox/lifterlms/issues/2907)
+
+##### Updates and Enhancements
+
++ Avoid showing hidden courses or memberships in a theme's next/previous links. [#2910](https://github.com/gocodebox/lifterlms/issues/2910)
++ Additional payment gateway information notices.
++ Avoid rendering LifterLMS blocks hidden in Text Editor blocks when using Elementor. [#2886](https://github.com/gocodebox/lifterlms/issues/2886)
++ Filter to change the method used to fetch environment variables on certain hosting configurations. [#2383](https://github.com/gocodebox/lifterlms/issues/2383)
++ Improved formatting of the individual order page.
++ Moving instructors and Estimated Length from the sidebar to the main metabox options area in Courses and Memberships.
++ Changes button text when updating a payment method,depending on whether it's a payment gateway with an external payment page. [#2957](https://github.com/gocodebox/lifterlms/issues/2957)
++ Updating countries and states/countries/provinces. [#2151](https://github.com/gocodebox/lifterlms/issues/2151)
+
+##### Bug Fixes
+
++ Can select an access plan with the Access Plan Button block when more than 10 access plans exist on the site. [#2526](https://github.com/gocodebox/lifterlms/issues/2526)
++ Schedule course data recalculation throttles in the future, with new tool to clear incorrectly locked courses. [#2916](https://github.com/gocodebox/lifterlms/issues/2916)
++ Now able to clear the value from date fields. [#2977](https://github.com/gocodebox/lifterlms/issues/2977)
++ Avoid fatal error if a user who enrolled a student has been deleted, when viewing the course edit page. [#2979](https://github.com/gocodebox/lifterlms/issues/2979)
++ Avoid breaking the layout on student dashboard pages with a form (ie. Edit Account, Redeem a Voucher). [#2946](https://github.com/gocodebox/lifterlms/issues/2946)
++ Avoid console error when saving access plans when a free plan is included. [#2925](https://github.com/gocodebox/lifterlms/issues/2925)
++ Avoid duplicated buttons when changing the Engagement Type when editing an engagement. [#2962](https://github.com/gocodebox/lifterlms/issues/2962)
++ Fix link beside selected engagement when editing an engagement. [#2961](https://github.com/gocodebox/lifterlms/issues/2961)
++ Resolves warning when first visiting the Logs tab. [#2947](https://github.com/gocodebox/lifterlms/issues/2947)
++ Improved styling for course catalog and other grid layouts, including fix for course/membership featured video display.
++ Allow clearing membership restrictions without switching plan availability. [#2931](https://github.com/gocodebox/lifterlms/issues/2931)
+
+##### Developer Notes
+
++ Adding hookable filter for notification sending.
+
+##### Updated Templates
+
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/checkout/form-switch-source.php)
++ [templates/loop/featured-image.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/loop/featured-image.php)
++ [templates/membership/audio.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/membership/audio.php)
++ [templates/membership/video.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/membership/video.php)
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/myaccount/my-orders.php)
++ [templates/myaccount/navigation.php](https://github.com/gocodebox/lifterlms/blob/9.0.0/templates/myaccount/navigation.php)
+
+
 v8.0.7 - 2025-06-11
 -------------------
 

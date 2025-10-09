@@ -399,7 +399,12 @@ class LLMS_User_Permissions {
 			return true;
 		}
 
-		$edit_user  = get_user_by( 'id', $edit_id );
+		$edit_user = get_user_by( 'id', $edit_id );
+
+		if ( ! $edit_user ) {
+			return false;
+		}
+
 		$edit_roles = array_intersect( $edit_user->roles, $lms_roles );
 
 		$editable_roles = self::get_editable_roles();

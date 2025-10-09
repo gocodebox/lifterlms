@@ -171,6 +171,28 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		return array(
 
 			array(
+				'type' => 'sectionstart',
+				'id'   => 'checkout_settings_gateways_list_start',
+			),
+
+			array(
+				'title' => __( 'Payment Gateways', 'lifterlms' ),
+				'desc'  => sprintf( __( 'Gateways allow you to accept payments on your site. %1$1sLearn More%2$2s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/what-payment-gateways-can-i-use-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=Resource%20Screen&utm_campaign=Backend%20Help%20Page">', '</a>' ),
+				'type'  => 'title',
+				'id'    => 'checkout_settings_gateways_list_title',
+			),
+
+			array(
+				'value' => $this->get_gateway_table_html(),
+				'type'  => 'custom-html',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id'   => 'checkout_settings_gateways_list_end',
+			),
+
+			array(
 				'class' => 'top',
 				'id'    => 'course_archive_options',
 				'type'  => 'sectionstart',
@@ -314,27 +336,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'type' => 'sectionend',
 				'id'   => 'general_options',
-			),
-
-			array(
-				'type' => 'sectionstart',
-				'id'   => 'checkout_settings_gateways_list_start',
-			),
-
-			array(
-				'title' => __( 'Payment Gateways', 'lifterlms' ),
-				'type'  => 'title',
-				'id'    => 'checkout_settings_gateways_list_title',
-			),
-
-			array(
-				'value' => $this->get_gateway_table_html(),
-				'type'  => 'custom-html',
-			),
-
-			array(
-				'type' => 'sectionend',
-				'id'   => 'checkout_settings_gateways_list_end',
 			),
 
 		);

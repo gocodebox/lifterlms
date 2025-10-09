@@ -77,6 +77,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			$sales_page_content_type = 'content';
 		}
 
+		$instructor_defaults = llms_get_instructors_defaults();
+
 		$fields = array(
 			array(
 				'title'  => __( 'Sales Page', 'lifterlms' ),
@@ -411,6 +413,58 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					),
 				),
 			),
+			array(
+				'title'  => __( 'Instructors', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'button'  => array(
+							'text' => __( 'Add Instructor', 'lifterlms' ),
+						),
+						'handler' => 'instructors_mb_store',
+						'header'  => array(
+							'default' => __( 'New Instructor', 'lifterlms' ),
+						),
+						'id'      => $this->prefix . 'instructors_data',
+						'label'   => '',
+						'type'    => 'repeater',
+						'fields'  => array(
+							array(
+								'allow_null'      => false,
+								'data_attributes' => array(
+									'placeholder' => esc_attr__( 'Select an Instructor', 'lifterlms' ),
+									'roles'       => 'administrator,lms_manager,instructor,instructors_assistant',
+								),
+								'class'           => 'llms-select2-student',
+								'group'           => 'd-2of3',
+								'id'              => $this->prefix . 'id',
+								'type'            => 'select',
+								'label'           => __( 'Instructor', 'lifterlms' ),
+							),
+							array(
+								'group'   => 'd-1of6',
+								'class'   => 'input-full',
+								'default' => $instructor_defaults['label'],
+								'id'      => $this->prefix . 'label',
+								'type'    => 'text',
+								'label'   => __( 'Label', 'lifterlms' ),
+							),
+							array(
+								'allow_null' => false,
+								'class'      => 'llms-select2',
+								'default'    => $instructor_defaults['visibility'],
+								'group'      => 'd-1of6',
+								'id'         => $this->prefix . 'visibility',
+								'type'       => 'select',
+								'label'      => __( 'Visibility', 'lifterlms' ),
+								'value'      => array(
+									'visible' => esc_html__( 'Visible', 'lifterlms' ),
+									'hidden'  => esc_html__( 'Hidden', 'lifterlms' ),
+								),
+							),
+						),
+					),
+				),
+			),
 		);
 
 		$current_screen = get_current_screen();
@@ -426,7 +480,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			( $is_gutenberg && 'auto-draft' === get_post_status( $this->post->ID ) ) ||
 			function_exists( 'llms_blocks_is_post_migrated' ) && llms_blocks_is_post_migrated( $this->post->ID )
 		) {
-			unset( $fields[1]['fields'][0] ); // length.
 			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
 

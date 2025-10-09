@@ -24,10 +24,22 @@ $courses = LLMS_Export_API::list( 1, 3 );
 </ul>
 <br>
 
+<?php if ( is_array( $courses ) && ! empty( $courses ) ) : ?>
+
+	<?php
+	// If there was an error fetching courses, the array might be details of the request vs. a WP_Error object.
+	foreach ( $courses as $course ) {
+		if ( ! is_array( $course ) || ! isset( $course['id'], $course['description'], $course['image'], $course['title'] ) ) {
+			$courses = new WP_Error( 'llms_invalid_course_data', __( 'There was an error loading importable courses. Please reload the page to try again.', 'lifterlms' ) );
+			break;
+		}
+	}
+	?>
+
 <h1><?php esc_html_e( 'Import Sample Courses and Templates!', 'lifterlms' ); ?></h1>
 <p><?php esc_html_e( 'Accelerate your progress by installing a quick LifterLMS training course and useful course templates.', 'lifterlms' ); ?></p>
 
-<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
+	<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
 
 <div class="llms-importing-msgs">
 	<p class="llms-importing-msg single">
@@ -50,3 +62,5 @@ $courses = LLMS_Export_API::list( 1, 3 );
 		?>
 	</p>
 </div>
+
+<?php endif; ?>

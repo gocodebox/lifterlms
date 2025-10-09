@@ -900,7 +900,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_get_next_payment_due_date_recurring() {
 
-		$original_time = current_time( 'Y-m-d H:i:s' );
+		// Set time to early in the day since we're scheduling three of them, and it'll start to go beyond a single day.
+		$original_time = current_time( 'Y-m-d ' ) . ' 01:00:00';
 
 		$plan = $this->get_plan();
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
@@ -1892,23 +1893,23 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		$this->obj->set_bulk( $customer_details );
 
-		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena CA, 28282, United States', $this->obj->get_customer_full_address() );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena CA, 28282, United States (US)', $this->obj->get_customer_full_address() );
 
 		// Remove city.
 		$this->obj->set( 'billing_city', '' );
-		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, CA, 28282, United States', $this->obj->get_customer_full_address() );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, CA, 28282, United States (US)', $this->obj->get_customer_full_address() );
 
 		// Remove state.
 		$this->obj->set( 'billing_state', '' );
-		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, 28282, United States', $this->obj->get_customer_full_address() );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, 28282, United States (US)', $this->obj->get_customer_full_address() );
 
 		// Add back city.
 		$this->obj->set( 'billing_city', $customer_details['billing_city'] );
-		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, 28282, United States', $this->obj->get_customer_full_address() );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, 28282, United States (US)', $this->obj->get_customer_full_address() );
 
 		// Remove zip code.
 		$this->obj->set( 'billing_zip', '' );
-		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, United States', $this->obj->get_customer_full_address() );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, United States (US)', $this->obj->get_customer_full_address() );
 
 		// Remove country.
 		$this->obj->set( 'billing_country', '' );

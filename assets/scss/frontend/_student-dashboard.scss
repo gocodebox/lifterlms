@@ -1,5 +1,16 @@
 .llms-student-dashboard {
 
+	.llms-sd-nav select {
+
+		display: none;
+
+		@media all and ( max-width: 600px ) {
+			display: block;
+			margin-bottom: 30px;
+			width: 100%;
+		}
+	}
+
 	.llms-sd-title {
 		align-items: center;
 		display: flex;
@@ -75,6 +86,7 @@
 		border: 1px solid $color-border;
 		border-spacing: 0;
 		width: 100%;
+		margin: 10px 0;
 
 		thead {
 			display: none;
@@ -160,35 +172,13 @@
 		.llms-change-password { display: none; }
 	}
 
-	.order-primary {
-
-		@media all and ( min-width: 600px ) {
-			float: left;
-			width: 68%;
-		}
-
+	.order-primary, .order-secondary {
+		width: 100%;
 	}
+
 	.order-secondary {
-
-		@media all and ( min-width: 600px ) {
-			float: left;
-			width: 32%;
-		}
-
-		form {
-			margin-bottom: 0;
-		}
-
-	}
-
-	// stack columns when alternate layout declared via filter
-	@media all and ( min-width: 600px ) {
-		.llms-view-order.llms-stack-cols {
-			.order-primary,
-			.order-secondary {
-				float: none;
-				width: 100%;
-			}
+		.llms-form-field {
+			padding: 10px 0;
 		}
 	}
 
@@ -233,7 +223,7 @@
 		}
 	}
 	.llms-loop-list {
-		margin: 0 -10px;
+		margin: 20px 0;
 	}
 
 }
@@ -248,6 +238,15 @@
 			grid-template-areas: "nav header" "nav tab";
 			grid-template-columns: 200px 1fr;
 			grid-template-rows: auto 1fr;
+
+			&:has(> .llms-notice) {
+				grid-template-areas: "nav header" "nav notice" "nav tab";
+				grid-template-rows: auto auto 1fr;
+			}
+		}
+
+		.llms-notice {
+			grid-area: notice;
 		}
 
 		.llms-sd-nav {
@@ -255,7 +254,11 @@
 
 			.llms-sd-items {
 
+				display: none;
+
 				@media all and ( min-width: 600px ) {
+					display: block;
+
 					.llms-sd-item {
 						display: block;
 						float: none;

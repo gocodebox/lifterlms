@@ -264,10 +264,10 @@ if ( ! function_exists( 'lifterlms_loop_end' ) ) {
  */
 function lifterlms_loop_featured_video() {
 	global $post;
-	if ( 'course' === $post->post_type ) {
-		$course = llms_get_post( $post );
-		if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
-			$video = $course->get_video();
+	if ( 'course' === $post->post_type || 'llms_membership' === $post->post_type ) {
+		$product = llms_get_post( $post );
+		if ( 'yes' === $product->get( 'tile_featured_video' ) ) {
+			$video = $product->get_video();
 			if ( $video ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo '<div class="llms-video-wrapper">' . $video . '</div>';

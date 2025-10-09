@@ -31,7 +31,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			'classes' => '', // Array or space separated string.
 			'icon'    => 'dashicons-plus', // dashicon classname or HTML/String.
 			'id'      => $_field['id'] . '-add-new',
-			'size'    => 'small',
 			'style'   => 'primary',
 			'text'    => __( 'Add New', 'lifterlms' ),
 		);
@@ -59,7 +58,6 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		// Setup class list.
 		$classes   = explode( ' ', $btn['classes'] );
 		$classes[] = sprintf( 'llms-button-%s', $btn['style'] );
-		$classes[] = $btn['size'];
 		$classes[] = 'llms-repeater-new-btn';
 		$classes   = implode( ' ', $classes );
 

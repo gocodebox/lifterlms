@@ -1316,7 +1316,16 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
-	if ( strtoupper( getenv( 'REQUEST_METHOD' ) ) !== $request_method ) {
+	/**
+	 * Filter whether to use $_SERVER instead of getenv when fetching an environment variable.
+	 *
+	 * @since 9.0.0
+	 */
+	$server_request_method = apply_filters( 'llms_use_server_for_environment_fetch', false, $nonce, $action, $request_method ) ?
+		$_SERVER['REQUEST_METHOD'] :
+		getenv( 'REQUEST_METHOD' );
+
+	if ( strtoupper( $server_request_method ) !== $request_method ) {
 		return;
 	}
 

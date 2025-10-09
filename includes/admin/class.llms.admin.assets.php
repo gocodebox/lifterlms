@@ -29,6 +29,7 @@ class LLMS_Admin_Assets {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_action( 'wp_enqueue_media', array( $this, 'admin_media' ) );
 		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
@@ -70,6 +71,10 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 			$this->block_editor_assets_for_certificates();
+		}
+
+		if ( $screen && $screen->is_block_editor && current_user_can( 'edit_courses' ) ) {
+			llms()->assets->enqueue_script( 'llms-admin-media-protection-block-protect' );
 		}
 	}
 
@@ -169,6 +174,8 @@ class LLMS_Admin_Assets {
 			return true;
 		} elseif ( in_array( $screen->id, array( 'users' ), true ) ) {
 			return true;
+		} elseif ( 'attachment' === $id || 'upload' === $id ) {
+			return true;
 		}
 
 		return false;
@@ -259,6 +266,8 @@ class LLMS_Admin_Assets {
 
 		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 		wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
+
+		wp_register_script( 'llms-admin-media-protection-attachment-settings', LLMS_PLUGIN_URL . 'assets/js/llms-admin-media-protection-attachment-settings' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'media-views', 'wp-i18n', 'llms-admin-scripts' ), LLMS_ASSETS_VERSION, true );
 
 		if ( $this->is_llms_page() ) {
 
@@ -377,6 +386,20 @@ class LLMS_Admin_Assets {
 			llms()->assets->enqueue_script( 'llms-admin-award-certificate' );
 			wp_enqueue_style( 'wp-editor' );
 		}
+	}
+
+	/**
+	 * Register the media protection scripts when the media is enqueued.
+	 *
+	 * @since 9.0.6
+	 *
+	 * @return void
+	 */
+	public function admin_media() {
+		if ( ! is_admin() ) {
+			return;
+		}
+		wp_enqueue_script( 'llms-admin-media-protection-attachment-settings' );
 	}
 
 	/**

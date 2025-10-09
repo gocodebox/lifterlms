@@ -26,6 +26,9 @@ $current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 		<?php endforeach; ?>
 	</ul>
 
+
+	<?php lifterlms_template_student_dashboard_select_mobile_navigation( $current ); ?>
+
 	<?php do_action( 'lifterlms_after_my_account_navigation' ); ?>
 
 </nav>
