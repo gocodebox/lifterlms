@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Filter to control whether a question choice is marked as correct.
