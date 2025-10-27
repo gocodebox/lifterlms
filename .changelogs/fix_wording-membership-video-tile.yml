@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3034"
+entry: Fix wording for adding a featured video on memberships.
