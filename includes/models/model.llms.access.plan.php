@@ -268,15 +268,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// if bypassing availability checks OR plan is available to user.
 		if ( ! $check_availability || $available ) {
 
-			$ret_params  = array(
-				'plan' => $this->get( 'id' ),
-			);
-			$redirection = $this->get_redirection_url( true, true );
-			if ( $redirection ) {
-				$ret_params['redirect'] = $redirection;
-			}
+			$ret = '';
 
-			$ret = llms_get_page_url( 'checkout', $ret_params );
+			if ( llms_get_page_id( 'checkout' ) > 0 ) {
+				$ret_params  = array(
+					'plan' => $this->get( 'id' ),
+				);
+				$redirection = $this->get_redirection_url( true, true );
+				if ( $redirection ) {
+					$ret_params['redirect'] = $redirection;
+				}
+
+				$ret = llms_get_page_url( 'checkout', $ret_params );
+			}
 
 			// not available to user -- this is a member's only plan.
 		} elseif ( ! $available ) {
@@ -573,7 +577,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// Build the verbose enroll text, if requested.
 		if ( $verbose ) {
 			$plan_name = $this->get( 'title' );
-			$text = sprintf( _x( '%1$s: Select the %2$s plan.', 'Verbose enrollment text', 'lifterlms' ), $text, $plan_name );
+			$text      = sprintf( _x( '%1$s: Select the %2$s plan.', 'Verbose enrollment text', 'lifterlms' ), $text, $plan_name );
 		}
 
 		return apply_filters( 'llms_plan_get_enroll_text', $text, $this, $verbose );
