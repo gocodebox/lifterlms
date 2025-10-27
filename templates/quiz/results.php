@@ -68,6 +68,7 @@ if ( ! $attempt && ! $attempts ) {
 	<?php if ( $attempts ) : ?>
 		<section class="llms-quiz-results-history">
 			<h2 class="llms-quiz-results-title"><?php esc_html_e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
+			<label for="llms-quiz-attempt-select" class="sr-only"><?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?></label>
 			<select id="llms-quiz-attempt-select">
 				<option value="">-- <?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
 				<?php foreach ( $attempts as $attempt ) : ?>
