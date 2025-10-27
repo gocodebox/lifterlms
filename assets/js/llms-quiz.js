@@ -599,7 +599,7 @@
 
 						// Adding Exit Button in Layout if quiz is resumable.
 						if ( self.resumable ) {
-							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
+							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Save & Exit Quiz' ) + '</button>' );
 						}
 
 						self.load_question( r.data.html );

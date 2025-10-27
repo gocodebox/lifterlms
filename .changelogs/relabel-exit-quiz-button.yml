@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#3025"
+entry: Re-label "Exit Quiz" button for clarity on resumable quizzes.
