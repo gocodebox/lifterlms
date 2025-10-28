@@ -201,7 +201,7 @@ function llms_get_certificate_merge_codes() {
 	/**
 	 * Filters the list of available merge codes for certificates.
 	 *
-	 * @since [version]
+	 * @since 9.1.0
 	 *
 	 * @param array[]        $codes  Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
 	 */

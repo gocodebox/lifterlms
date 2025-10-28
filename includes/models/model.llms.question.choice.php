@@ -196,7 +196,7 @@ class LLMS_Question_Choice {
 		/**
 		 * Filter to modify if this question choice is correct, ie. reorder questions in Advanced Quizzes.
 		 *
-		 * @since [version]
+		 * @since 9.1.0
 		 *
 		 * @param bool Whether this question choice is correct or not.
 		 * @param LLMS_Question_Choice

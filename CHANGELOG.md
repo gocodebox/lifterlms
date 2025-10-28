@@ -1,6 +1,46 @@
 LifterLMS Changelog
 ===================
 
+v9.1.0 - 2025-10-28
+-------------------
+
+##### New Features
+
++ New tabs to view students who have not yet attempted a quiz, and listing of all quiz attempts for a student.
++ Option to allow unlimited time for a time-limited quiz to certain users.
+
+##### Updates and Enhancements
+
++ Apply filters to save any additional fields added to LifterLMS metaboxes.
++ Template changes for improved accessibility when taking a quiz when using a keyboard or screen reader.
++ Re-label "Exit Quiz" button for clarity on resumable quizzes. [#3025](https://github.com/gocodebox/lifterlms/issues/3025)
++ Show order summary for free enrolments.
++ Show warning and avoid generating invalid checkout URLs if no Checkout Page is configured. [#2984](https://github.com/gocodebox/lifterlms/issues/2984)
++ Making default password strength "weak" and changing strength requirements to minimize friction during checkout. [#2848](https://github.com/gocodebox/lifterlms/issues/2848)
+
+##### Bug Fixes
+
++ Fix wording for adding a featured video on memberships. [#3034](https://github.com/gocodebox/lifterlms/issues/3034)
++ Fixing "user email required" warning when editing a LifterLMS form and changing a pattern. [#2644](https://github.com/gocodebox/lifterlms/issues/2644)
+
+##### Developer Notes
+
++ Additional filter to change available merge codes for certificates.
++ Adds llms_embed_shortcode_output filter.
++ Filter to control whether a question choice is marked as correct.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/quizzes/non-attempts.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/quizzes/non-attempts.php)
++ [templates/admin/reporting/tabs/students/quiz_attempts.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/students/quiz_attempts.php)
++ [templates/admin/reporting/tabs/students/student.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/students/student.php)
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/checkout/form-checkout.php)
++ [templates/quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/meta-information.php)
++ [templates/quiz/questions/content-choice.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/questions/content-choice.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/questions/content-picture_choice.php)
++ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/results.php)
+
+
 v9.0.7 - 2025-09-16
 -------------------
 
