@@ -83,8 +83,9 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 			$tabs = apply_filters(
 				'llms_reporting_tab_quiz_tabs',
 				array(
-					'overview' => __( 'Overview', 'lifterlms' ),
-					'attempts' => __( 'Attempts', 'lifterlms' ),
+					'overview'     => __( 'Overview', 'lifterlms' ),
+					'attempts'     => __( 'Attempts', 'lifterlms' ),
+					'non-attempts' => __( 'Students Without Attempts', 'lifterlms' ),
 				)
 			);
 
