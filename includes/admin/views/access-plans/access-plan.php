@@ -386,7 +386,7 @@ if ( ! isset( $plan ) ) {
 
 						<div class="d-all">
 
-							<div class="notice notice-warning inline llms-admin-notice">
+							<div class="notice notice-warning inline llms-admin-notice llms-payment-gateway-warning">
 
 								<div class="llms-admin-notice-content">
 								<?php
