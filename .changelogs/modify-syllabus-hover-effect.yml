@@ -1,0 +1,6 @@
+significance: minor
+type: changed
+links:
+  - "#3041"
+entry: Adjusting syllabus styling for clarity on what can be clicked to navigate
+  to a lesson.
