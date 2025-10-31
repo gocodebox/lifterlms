@@ -154,7 +154,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * SQL "joins" clause for the query.
 	 *
-	 * @since 9.1.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */

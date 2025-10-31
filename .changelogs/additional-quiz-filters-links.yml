@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: New tabs to view students who have not yet attempted a quiz, and listing
+  of all quiz attempts for a student.
