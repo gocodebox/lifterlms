@@ -107,7 +107,9 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 */
 	public function test_add_user_meta_fields() {
 
-		$user = $this->factory->user->create();
+		$user_id = $this->factory->user->create();
+
+		$user = get_user( $user_id );
 
 		// No logged-in user.
 		$this->assertFalse(
@@ -115,9 +117,10 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 		);
 
 		// Create an admin.
-		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$admin = get_user( $admin_id );
 		// Log-in.
-		wp_set_current_user( $admin );
+		wp_set_current_user( $admin_id );
 
 		// Admin user logged-in.
 		ob_start(); // ob_start/ob_end_clean wrapper to avoid the view printing (via `include_once`).
@@ -130,7 +133,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 		ob_end_clean();
 
 		// Simple user logged-in: no required caps.
-		wp_set_current_user( $user );
+		wp_set_current_user( $user_id );
 		$this->assertFalse(
 			$this->main->add_user_meta_fields( $user )
 		);
@@ -139,7 +142,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 		);
 
 		// Admin user logged-in but empty custom fields.
-		wp_set_current_user( $admin );
+		wp_set_current_user( $admin_id );
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'fields', null );
 
 		add_filter( 'llms_admin_profile_fields', '__return_empty_array' );

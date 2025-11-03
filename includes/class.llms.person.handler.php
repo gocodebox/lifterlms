@@ -307,7 +307,7 @@ class LLMS_Person_Handler {
 			'id'           => 'llms-password-strength-meter',
 			'type'         => 'html',
 			'min_length'   => 6,
-			'min_strength' => 'strong',
+			'min_strength' => 'weak',
 		);
 
 		return $fields;

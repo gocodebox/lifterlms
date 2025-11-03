@@ -50,7 +50,6 @@ class LLMS_Question_Choice {
 				$this->hydrate( $data_or_id );
 			}
 		}
-
 	}
 
 	/**
@@ -65,7 +64,6 @@ class LLMS_Question_Choice {
 
 		$this->id = uniqid();
 		return $this->update( $data )->save();
-
 	}
 
 	/**
@@ -106,7 +104,6 @@ class LLMS_Question_Choice {
 		}
 
 		return $default;
-
 	}
 
 	/**
@@ -196,7 +193,15 @@ class LLMS_Question_Choice {
 	 * @version  3.16.0
 	 */
 	public function is_correct() {
-		return filter_var( $this->get( 'correct' ), FILTER_VALIDATE_BOOLEAN );
+		/**
+		 * Filter to modify if this question choice is correct, ie. reorder questions in Advanced Quizzes.
+		 *
+		 * @since 9.1.0
+		 *
+		 * @param bool Whether this question choice is correct or not.
+		 * @param LLMS_Question_Choice
+		 */
+		return apply_filters( 'llms_question_choice_is_correct', filter_var( $this->get( 'correct' ), FILTER_VALIDATE_BOOLEAN ), $this );
 	}
 
 	/**
@@ -212,7 +217,6 @@ class LLMS_Question_Choice {
 		$update           = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
 
 		return ( $update );
-
 	}
 
 	/**
@@ -267,7 +271,6 @@ class LLMS_Question_Choice {
 
 		$this->data[ $key ] = $val;
 		return $this;
-
 	}
 
 	/**
@@ -287,7 +290,6 @@ class LLMS_Question_Choice {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -304,7 +306,5 @@ class LLMS_Question_Choice {
 			$this->set( $key, $val );
 		}
 		return $this;
-
 	}
-
 }

@@ -35,7 +35,6 @@ function llms_get_certificate( $post = null, $preview_template = false ) {
 	}
 
 	return false;
-
 }
 
 /**
@@ -90,7 +89,6 @@ function llms_get_certificate_content( $id = 0 ) {
 	 * @param bool|LLMS_User_Certificate $certificate Certificate object or `false` if the post couldn't be found.
 	 */
 	return apply_filters( 'lifterlms_certificate_content', $content, $id, $certificate );
-
 }
 
 /**
@@ -169,7 +167,6 @@ function llms_get_certificate_fonts() {
 	 */
 
 	return apply_filters( 'llms_certificate_fonts', $fonts );
-
 }
 
 /**
@@ -189,7 +186,6 @@ function llms_get_certificate_image( $id = 0 ) {
 	$id   = ( $id ) ? $id : get_the_ID();
 	$cert = new LLMS_User_Certificate( $id );
 	return $cert->get_background_image();
-
 }
 
 /**
@@ -202,20 +198,29 @@ function llms_get_certificate_image( $id = 0 ) {
  */
 function llms_get_certificate_merge_codes() {
 
-	return array(
-		'{site_title}'     => __( 'Site Title', 'lifterlms' ),
-		'{site_url}'       => __( 'Site URL', 'lifterlms' ),
-		'{current_date}'   => __( 'Current Date', 'lifterlms' ),
-		'{earned_date}'    => __( 'Earned Date', 'lifterlms' ),
-		'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
-		'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
-		'{email_address}'  => __( 'Student Email', 'lifterlms' ),
-		'{student_id}'     => __( 'Student User ID', 'lifterlms' ),
-		'{user_login}'     => __( 'Student Username', 'lifterlms' ),
-		'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
-		'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
+	/**
+	 * Filters the list of available merge codes for certificates.
+	 *
+	 * @since 9.1.0
+	 *
+	 * @param array[]        $codes  Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
+	 */
+	return apply_filters(
+		'llms_certificate_available_merge_codes',
+		array(
+			'{site_title}'     => __( 'Site Title', 'lifterlms' ),
+			'{site_url}'       => __( 'Site URL', 'lifterlms' ),
+			'{current_date}'   => __( 'Current Date', 'lifterlms' ),
+			'{earned_date}'    => __( 'Earned Date', 'lifterlms' ),
+			'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
+			'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
+			'{email_address}'  => __( 'Student Email', 'lifterlms' ),
+			'{student_id}'     => __( 'Student User ID', 'lifterlms' ),
+			'{user_login}'     => __( 'Student Username', 'lifterlms' ),
+			'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
+			'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
+		)
 	);
-
 }
 
 /**
@@ -241,7 +246,6 @@ function llms_get_certificate_orientations() {
 	 * @param array $orientations Array of orientations.
 	 */
 	return apply_filters( 'llms_certificate_orientations', $orientations );
-
 }
 
 /**
@@ -299,7 +303,6 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 	 * @param int $template_id WP_Post ID of the certificate template.
 	 */
 	return absint( apply_filters( 'llms_certificate_sequential_id', $id, $template_id ) );
-
 }
 
 /**
@@ -373,7 +376,6 @@ function llms_get_certificate_sizes() {
 	 * @param array $sizes Array of registered sizes.
 	 */
 	return apply_filters( 'llms_certificate_sizes', $sizes );
-
 }
 
 /**
@@ -411,7 +413,6 @@ function llms_get_certificate_units() {
 	 * @param array $units Array of available units.
 	 */
 	return apply_filters( 'llms_certificate_units', $units );
-
 }
 
 /**
@@ -446,7 +447,6 @@ function llms_get_certificate_title( $id = 0 ) {
 	 * @param int    $id    The ID of the certificate.
 	 */
 	return apply_filters( 'lifterlms_certificate_title', $title, $id );
-
 }
 
 /**
@@ -477,7 +477,6 @@ function llms_is_block_editor_supported_for_certificates() {
 	 * @param boolean $is_supported Whether or not the block editor is supported.
 	 */
 	return apply_filters( 'llms_block_editor_supported_for_certificates', $is_supported );
-
 }
 
 /**
@@ -493,6 +492,5 @@ function llms_register_certificate_image_size() {
 	$height = get_option( 'lifterlms_certificate_bg_img_height', '616' );
 
 	add_image_size( 'lifterlms_certificate_background', $width, $height, true );
-
 }
 add_action( 'after_setup_theme', 'llms_register_certificate_image_size' );

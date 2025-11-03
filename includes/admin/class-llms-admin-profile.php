@@ -128,6 +128,12 @@ class LLMS_Admin_Profile {
 
 		$submit = LLMS_Form_Handler::instance()->submit_fields( $posted_data, 'admin-profile', $fields, 'update' );
 
+		if ( isset( $_POST['llms_allow_unlimited_quiz_time'] ) && 'yes' === $_POST['llms_allow_unlimited_quiz_time'] ) {
+			update_user_option( $user_id, 'llms_allow_unlimited_quiz_time', 'yes' );
+		} else {
+			update_user_option( $user_id, 'llms_allow_unlimited_quiz_time', 'no' );
+		}
+
 		if ( is_wp_error( $submit ) ) {
 			$this->errors = $submit;
 		}

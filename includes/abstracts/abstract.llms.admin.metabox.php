@@ -476,7 +476,8 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		// Get all defined fields.
-		$fields = $this->get_fields();
+		$id     = str_replace( '-', '_', $this->id );
+		$fields = apply_filters( "llms_metabox_fields_{$id}", $this->get_fields() );
 
 		if ( ! is_array( $fields ) ) {
 			return 0;
