@@ -463,7 +463,7 @@
 			var self = this;
 			self.$plans.find( '.llms-access-plan' ).each(
 				function() {
-					$(this).toggleClass( 'llms-needs-attention', $(this).find('p.notice').length > 0 );
+					$(this).toggleClass( 'llms-needs-attention', $(this).find('.notice').not('.llms-payment-gateway-warning').length > 0 );
 				}
 			);
 		}

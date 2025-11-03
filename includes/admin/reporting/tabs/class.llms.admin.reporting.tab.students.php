@@ -113,11 +113,12 @@ class LLMS_Admin_Reporting_Tab_Students {
 			$tabs = apply_filters(
 				'llms_reporting_tab_student_tabs',
 				array(
-					'information'  => __( 'Information', 'lifterlms' ),
-					'courses'      => __( 'Courses', 'lifterlms' ),
-					'memberships'  => __( 'Memberships', 'lifterlms' ),
-					'achievements' => __( 'Achievements', 'lifterlms' ),
-					'certificates' => __( 'Certificates', 'lifterlms' ),
+					'information'            => __( 'Information', 'lifterlms' ),
+					'courses'                => __( 'Courses', 'lifterlms' ),
+					'memberships'            => __( 'Memberships', 'lifterlms' ),
+					'achievements'           => __( 'Achievements', 'lifterlms' ),
+					'certificates'           => __( 'Certificates', 'lifterlms' ),
+					'quiz_attempts'          => __( 'Quiz Attempts', 'lifterlms' ),
 				)
 			);
 

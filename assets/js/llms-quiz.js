@@ -165,7 +165,10 @@
 
 			var self = this;
 
-			self.$container.find( '.llms-error' ).remove();
+			self.$container.find( '#llms-quiz-error-container' ).remove();
+			self.$container.append( '<div id="llms-quiz-error-container" role="alert" aria-atomic="true"></div>' );
+			const $error_container = self.$container.find( '#llms-quiz-error-container' );
+
 			var $err = $( '<p class="llms-error">' + msg + '<a href="#"><i class="fa fa-times-circle" aria-hidden="true"></i></a></p>' );
 			$err.on( 'click', 'a', function( e ) {
 				e.preventDefault();
@@ -174,7 +177,7 @@
 					$err.remove();
 				}, 210 );
 			} );
-			self.$container.append( $err );
+			$error_container.append( $err );
 
 		},
 
@@ -596,7 +599,7 @@
 
 						// Adding Exit Button in Layout if quiz is resumable.
 						if ( self.resumable ) {
-							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Exit Quiz' ) + '</button>' );
+							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Save & Exit Quiz' ) + '</button>' );
 						}
 
 						self.load_question( r.data.html );
@@ -655,15 +658,18 @@
 				msg = LLMS.l10n.translate( 'Time Remaining' );
 
 			$el.append( '<i class="fa fa-clock-o" aria-hidden="true"></i><span class="screen-reader-text">' + msg + '</span>' );
-			$el.append( '<div id="llms-tiles" class="llms-tiles"></div>' );
+			const quiz_header = $( '#llms-quiz-header' );
+			$el.append( '<time aria-describedby="llms-timer-hint" id="llms-quiz-time-remaining" class="llms-tiles" datetime=""></time>' );
 
-			$( '#llms-quiz-header' ).append( $el );
+			quiz_header.append( $el );
+			quiz_header.append( '<div id="llms-timer-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>' );
+			quiz_header.append( '<p id="llms-timer-hint" class="sr-only">Announcements every minute; every 10 seconds in the last minute.</p>' );
 
 			// start the timer
 			var self        = this,
 				target_date = new Date().getTime() + ( ( total_minutes * 60 ) * 1000 ), // set the countdown date
 				time_limit  = ( ( total_minutes * 60 ) * 1000 ),
-				countdown   = document.getElementById( 'llms-tiles' ), // get tag element
+				countdown   = document.getElementById( 'llms-quiz-time-remaining' ), // get tag element
 				days, hours, minutes, seconds; // variables for time units
 
 			// set actual timer
@@ -930,7 +936,9 @@
 
 			// find the amount of "seconds" between now and target
 			var current_date = new Date().getTime(),
-				seconds_left = ( target_date - current_date ) / 1000;
+				seconds_left = parseInt( ( target_date - current_date ) / 1000 );
+
+			const live = document.getElementById( 'llms-timer-live' );
 
 			if ( seconds_left >= 0 ) {
 
@@ -947,15 +955,54 @@
 
 				}
 
-				days         = this.pad( parseInt( seconds_left / 86400 ) );
-				seconds_left = seconds_left % 86400;
-				hours        = this.pad( parseInt( seconds_left / 3600 ) );
-				seconds_left = seconds_left % 3600;
-				minutes      = this.pad( parseInt( seconds_left / 60 ) );
-				seconds      = this.pad( parseInt( seconds_left % 60 ) );
+				const shouldAnnounce = (s) => {
+					if ( s === parseInt( time_limit / 1000 ) ) return true;      // first render
+					if ( s <= 10 ) return true;          // last 10 seconds: every second
+					if ( s <= 60 ) return s % 10 === 0; // last minute: every 10s
+					return s % 60 === 0;               // otherwise: each minute mark
+				};
 
-				// format countdown string + set tag value
-				countdown.innerHTML = '<span class="hours">' + hours + '</span>:<span class="minutes">' + minutes + '</span>:<span class="seconds">' + seconds + '</span>';
+				const speak = ( hours, mins, secs ) => {
+					if ( hours > 0 ) {
+						// Translators: %1$s hours, %2$s minutes, and %3$s seconds remaining.
+						live.textContent = hours > 1 ? LLMS.l10n.replace( '%1$s hours, %2$s minutes remaining', {
+							'%1$s': hours,
+							'%2$s': mins,
+						} ) :
+						// Translators: 1 hour, %2$s minutes.
+						LLMS.l10n.replace( '1 hour, %2$s minutes remaining', {
+							'%2$s': mins,
+						} );
+					} else if ( mins > 0 && secs === 0 ) {
+						// Translators: %1$s minutes remaining.
+						live.textContent = mins > 1 ? LLMS.l10n.replace( '%1$s minutes remaining', {
+							'%1$s': mins,
+						} ) :
+						// Translators: 1 minute remaining.
+						LLMS.l10n.replace( '%1$s minute remaining', {
+							minutes: mins,
+						} );
+					} else if ( mins === 0 ) {
+						live.textContent = LLMS.l10n.replace( '%1$s seconds remaining', {
+							'%1$s': secs,
+						} );
+					}
+				};
+
+				days         = parseInt( seconds_left / 86400 );
+				let remainder = seconds_left % 86400;
+				hours        = parseInt( remainder / 3600 );
+				remainder = seconds_left % 3600;
+				minutes      = parseInt( remainder / 60 );
+				seconds      = parseInt( remainder % 60 );
+
+				countdown.innerHTML = this.pad( hours ) + ':' + this.pad( minutes ) + ':' + this.pad( seconds );
+
+				$( countdown ).attr( 'datetime', 'PT' + ( hours > 0 ? hours + 'H' : '' ) + ( minutes > 0 ? minutes + 'M' : '' ) + ( seconds > 0 ? seconds + 'S' : '' ) );
+
+				if ( shouldAnnounce( seconds_left ) ) {
+					speak( hours, minutes, seconds );
+				}
 			}
 		},
 

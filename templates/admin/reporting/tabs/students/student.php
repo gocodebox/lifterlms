@@ -55,6 +55,15 @@ if ( ! is_admin() ) {
 					'student' => $student,
 				)
 			);
+
+			/**
+			 * Allow add-ons to provide content for student tabs.
+			 *
+			 * @since 9.1.0
+			 *
+			 * @param LLMS_Student $student LLMS_Student instance.
+			 */
+			do_action( 'llms_reporting_student_tab_' . $current_tab . '_content', $student );
 			?>
 		</section>
 

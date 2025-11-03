@@ -894,6 +894,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		return false;
 	}
 
+	public function has_unlimited_quiz_time() {
+		$unlimited = get_user_option( 'llms_allow_unlimited_quiz_time', $this->get_id() );
+		return ( 'yes' === $unlimited );
+	}
+
 	/**
 	 * Retrieve an array of Membership Levels for a user
 	 *
