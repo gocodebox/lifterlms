@@ -1,6 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#2984"
-entry: Show warning and avoid generating invalid checkout URLs if no Checkout
-  Page is configured.

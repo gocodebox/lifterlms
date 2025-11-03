@@ -59,7 +59,7 @@ if ( ! is_admin() ) {
 			/**
 			 * Allow add-ons to provide content for student tabs.
 			 *
-			 * @since [version]
+			 * @since 9.1.0
 			 *
 			 * @param LLMS_Student $student LLMS_Student instance.
 			 */

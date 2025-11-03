@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since [version]
+ * @since 9.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Displays students enrolled in courses containing a quiz but who have not attempted the quiz.
  *
- * @since [version]
+ * @since 9.1.0
  */
 class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 
@@ -94,7 +94,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 9.1.0
 	 *
 	 * @param string       $key     The column id / key.
 	 * @param LLMS_Student $student LLMS_Student obj.
@@ -168,7 +168,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 9.1.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -312,7 +312,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
-	 * @since [version]
+	 * @since 9.1.0
 	 *
 	 * @return array
 	 */
@@ -326,7 +326,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 *
 	 * @return array
-	 * @since [version]
+	 * @since 9.1.0
 	 */
 	protected function set_columns() {
 

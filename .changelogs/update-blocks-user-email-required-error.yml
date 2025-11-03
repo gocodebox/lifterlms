@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2644"
-entry: Fixing "user email required" warning when editing a LifterLMS form and
-  changing a pattern.
