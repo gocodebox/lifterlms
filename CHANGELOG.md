@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.1.1 - 2025-11-11
+-------------------
+
+##### Security Fixes
+
++ Fixes security issue where student and instructor REST APIs can be used to modify roles incorrectly. Thanks [@shark3y](https://github.com/shark3y)!
+
+
 v9.1.0 - 2025-11-03
 -------------------
 
