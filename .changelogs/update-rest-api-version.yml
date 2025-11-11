@@ -1,6 +1,0 @@
-significance: patch
-type: security
-attributions:
-  - "@shark3y"
-entry: Fixes security issue where student and instructor REST APIs can be used
-  to modify roles incorrectly.
