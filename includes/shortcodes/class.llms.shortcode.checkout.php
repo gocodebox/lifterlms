@@ -74,7 +74,7 @@ class LLMS_Shortcode_Checkout {
 				 *
 				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
 				 */
-				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
+				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true, $atts ) ) {
 					llms_print_notice(
 						sprintf(
 							// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
