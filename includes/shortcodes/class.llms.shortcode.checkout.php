@@ -70,12 +70,12 @@ class LLMS_Shortcode_Checkout {
 				/**
 				 * Filter the displaying of the checkout form notice for already enrolled in the product being purchased.
 				 *
-				 * @since 4.2.0
-				 *
 				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
-				 * @param array $atts Array of shortcode attributes.
+				 * @param LLMS_Access_Plan $plan The access plan.
+				 *
+				 * @since 4.2.0
 				 */
-				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true, $atts ) ) {
+				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true, $atts['plan'] ) ) {
 					llms_print_notice(
 						sprintf(
 							// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
@@ -91,11 +91,11 @@ class LLMS_Shortcode_Checkout {
 				 * Filter to block checkout when the student is enrolled. Defaults to true.
 				 *
 				 * @param bool $block_checkout Whether or not blocking the checkout form for already enrolled students in the product being purchased.
-				 * @param array $atts Array of shortcode attributes.
+				 * @param LLMS_Access_Plan $plan The access plan.
 				 *
 				 * @since [version]
 				 */
-				if ( apply_filters( 'llms_checkout_form_block_enrolled_checkout', true, $atts ) ) {
+				if ( apply_filters( 'llms_checkout_block_enrolled_checkout', true, $atts['plan'] ) ) {
 					return;
 				}
 			}
