@@ -73,6 +73,7 @@ class LLMS_Shortcode_Checkout {
 				 * @since 4.2.0
 				 *
 				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
+				 * @param array $atts Array of shortcode attributes.
 				 */
 				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true, $atts ) ) {
 					llms_print_notice(
@@ -86,7 +87,17 @@ class LLMS_Shortcode_Checkout {
 					);
 				}
 
-				return;
+				/**
+				 * Filter to block checkout when the student is enrolled. Defaults to true.
+				 *
+				 * @param bool $block_checkout Whether or not blocking the checkout form for already enrolled students in the product being purchased.
+				 * @param array $atts Array of shortcode attributes.
+				 *
+				 * @since [version]
+				 */
+				if ( apply_filters( 'llms_checkout_form_block_enrolled_checkout', true, $atts ) ) {
+					return;
+				}
 			}
 
 			$user = get_userdata( self::$uid );
