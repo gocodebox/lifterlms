@@ -415,7 +415,7 @@ function llms_setup_pending_order( $data = array() ) {
 	 *
 	 * @since [version]
 	 */
-	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_form_block_enrolled_checkout', true, $plan ) ) {
+	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
 
 		$product = $plan->get_product();
 		$err->add(
