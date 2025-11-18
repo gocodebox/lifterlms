@@ -470,7 +470,7 @@ class LLMS_AJAX_Handler {
 		);
 
 		$quiz  = $attempt->get_quiz();
-		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
+		$limit = $quiz->has_time_limit() && ! $student->has_unlimited_quiz_time() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
 			'attempt_key'    => $attempt->get_key(),

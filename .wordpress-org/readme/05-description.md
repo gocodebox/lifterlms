@@ -235,6 +235,7 @@ Increase your LMS website and it's training program's value with these add-ons:
 + [LifterLMS Course Cohorts](https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Advanced Coupons](https://lifterlms.com/product/lifterlms-advanced-coupons/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Notes](https://lifterlms.com/product/lifterlms-notes/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Continuing Education](https://lifterlms.com/product/lifterlms-continuing-education/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 **Integrations**
 

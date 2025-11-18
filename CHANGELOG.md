@@ -1,6 +1,94 @@
 LifterLMS Changelog
 ===================
 
+v9.1.1 - 2025-11-11
+-------------------
+
+##### Security Fixes
+
++ Fixes security issue where student and instructor REST APIs can be used to modify roles incorrectly. Thanks [@shark3y](https://github.com/shark3y)!
+
+
+v9.1.0 - 2025-11-03
+-------------------
+
+##### New Features
+
++ New tabs to view students who have not yet attempted a quiz, and listing of all quiz attempts for a student.
++ Option to allow unlimited time for a time-limited quiz to certain users.
+
+##### Updates and Enhancements
+
++ Apply filters to save any additional fields added to LifterLMS metaboxes.
++ Adjusting syllabus styling for clarity on what can be clicked to navigate to a lesson. [#3041](https://github.com/gocodebox/lifterlms/issues/3041)
++ Template changes for improved accessibility when taking a quiz when using a keyboard or screen reader.
++ Re-label "Exit Quiz" button for clarity on resumable quizzes. [#3025](https://github.com/gocodebox/lifterlms/issues/3025)
++ Show order summary for free enrolments.
++ Removing "Estimated Completion Time" option from the Course Information block. [#3016](https://github.com/gocodebox/lifterlms/issues/3016)
++ Show warning and avoid generating invalid checkout URLs if no Checkout Page is configured. [#2984](https://github.com/gocodebox/lifterlms/issues/2984)
++ Making default password strength "weak" and changing strength requirements to minimize friction during checkout. [#2848](https://github.com/gocodebox/lifterlms/issues/2848)
+
+##### Bug Fixes
+
++ Fix wording for adding a featured video on memberships. [#3034](https://github.com/gocodebox/lifterlms/issues/3034)
++ Fixing "user email required" warning when editing a LifterLMS form and changing a pattern. [#2644](https://github.com/gocodebox/lifterlms/issues/2644)
+
+##### Developer Notes
+
++ Additional filter to change available merge codes for certificates.
++ Adds llms_embed_shortcode_output filter.
++ Filter to control whether a question choice is marked as correct.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/quizzes/non-attempts.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/quizzes/non-attempts.php)
++ [templates/admin/reporting/tabs/students/quiz_attempts.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/students/quiz_attempts.php)
++ [templates/admin/reporting/tabs/students/student.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/admin/reporting/tabs/students/student.php)
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/checkout/form-checkout.php)
++ [templates/quiz/meta-information.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/meta-information.php)
++ [templates/quiz/questions/content-choice.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/questions/content-choice.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/questions/content-picture_choice.php)
++ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/9.1.0/templates/quiz/results.php)
+
+
+v9.0.7 - 2025-09-16
+-------------------
+
+##### Bug Fixes
+
++ Additional check to avoid conflict with certain plugins alongside the Classic Editor. [#3012](https://github.com/gocodebox/lifterlms/issues/3012)
++ Fixing checkout for countries that have no states/provinces/regions listed.
+
+
+v9.0.6 - 2025-08-28
+-------------------
+
+##### Updates and Enhancements
+
++ Upgrades select2 library to latest release.
+
+##### Bug Fixes
+
++ Avoid loading the media protection attachment scripts when not needed. [#3004](https://github.com/gocodebox/lifterlms/issues/3004)
++ Fix for "only recurring access plan" coupons. [#3002](https://github.com/gocodebox/lifterlms/issues/3002)
+
+
+v9.0.5 - 2025-08-25
+-------------------
+
+##### Bug Fixes
+
++ Fix to allow checkout with UK and several other countries with no states/provinces/regions/areas. [#2997](https://github.com/gocodebox/lifterlms/issues/2997)
+
+
+v9.0.4 - 2025-08-19
+-------------------
+
+##### Bug Fixes
+
++ Avoid fatal error if another plugin has loaded the Banner Notifications library.
+
+
 v9.0.3 - 2025-08-19
 -------------------
 

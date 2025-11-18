@@ -64,12 +64,12 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			'attempt'        => null,
 			'exclude'        => array(),
 			'can_be_resumed' => null,
+			'search'         => '',
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
 
 		return apply_filters( $this->get_filter( 'default_args' ), $args );
-
 	}
 
 	/**
@@ -96,7 +96,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		}
 
 		return apply_filters( $this->get_filter( 'get_attempts' ), $attempts );
-
 	}
 
 	/**
@@ -131,7 +130,6 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 				$this->arguments[ $key ] = array_intersect( $valid_statuses, $this->arguments[ $key ] );
 			}
 		}
-
 	}
 
 	/**
@@ -146,12 +144,35 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		return "SELECT SQL_CALC_FOUND_ROWS id
-				FROM {$wpdb->prefix}lifterlms_quiz_attempts
-				{$this->sql_where()}
-				{$this->sql_orderby()}
-				{$this->sql_limit()};";
+		$select = 'SELECT SQL_CALC_FOUND_ROWS qa.id';
+		$from   = "FROM {$wpdb->prefix}lifterlms_quiz_attempts qa";
+		$joins  = $this->sql_joins();
 
+		return "{$select} {$from} {$joins} {$this->sql_where()} {$this->sql_orderby()} {$this->sql_limit()};";
+	}
+
+	/**
+	 * SQL "joins" clause for the query.
+	 *
+	 * @since 9.1.0
+	 *
+	 * @return string
+	 */
+	protected function sql_joins() {
+		global $wpdb;
+
+		$joins = '';
+
+		// Join users table for search functionality
+		if ( $this->get( 'search' ) ) {
+			$joins .= " LEFT JOIN {$wpdb->users} u ON qa.student_id = u.ID";
+			$joins .= " LEFT JOIN {$wpdb->usermeta} um_first ON u.ID = um_first.user_id AND um_first.meta_key = 'first_name'";
+			$joins .= " LEFT JOIN {$wpdb->usermeta} um_last ON u.ID = um_last.user_id AND um_last.meta_key = 'last_name'";
+			// Add in posts of type llms_quiz for search functionality
+			$joins .= " LEFT JOIN {$wpdb->posts} p ON qa.quiz_id = p.ID AND p.post_type = 'llms_quiz'";
+		}
+
+		return $joins;
 	}
 
 	/**
@@ -174,42 +195,61 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			$ids = $this->get( $key );
 			if ( $ids ) {
 				$prepared = implode( ',', $ids );
-				$sql     .= " AND {$key} IN ({$prepared})";
+				$sql     .= " AND qa.{$key} IN ({$prepared})";
 			}
 		}
 
 		// Add attempt lookup.
 		$val = $this->get( 'attempt' );
 		if ( '' !== $val ) {
-			$sql .= $wpdb->prepare( ' AND attempt = %d', $val );
+			$sql .= $wpdb->prepare( ' AND qa.attempt = %d', $val );
 		}
 
 		// Add attempt exclude.
 		$exclude = $this->get( 'exclude' );
 		if ( $exclude ) {
 			$prepared = implode( ',', $exclude );
-			$sql     .= " AND id NOT IN ({$prepared})";
+			$sql     .= " AND qa.id NOT IN ({$prepared})";
 		}
 
 		$status = $this->get( 'status' );
 		if ( $status ) {
 			$prepared = implode( ',', array_map( array( $this, 'escape_and_quote_string' ), $status ) );
-			$sql     .= " AND status IN ({$prepared})";
+			$sql     .= " AND qa.status IN ({$prepared})";
 		}
 
 		$status_exclude = $this->get( 'status_exclude' );
 		if ( $status_exclude ) {
 			$prepared = implode( ',', array_map( array( $this, 'escape_and_quote_string' ), $status_exclude ) );
-			$sql     .= " AND status NOT IN ({$prepared})";
+			$sql     .= " AND qa.status NOT IN ({$prepared})";
 		}
 
 		$can_be_resumed = $this->get( 'can_be_resumed' );
 		if ( '' !== $can_be_resumed ) {
-			$sql .= $wpdb->prepare( ' AND can_be_resumed = %d', $can_be_resumed );
+			$sql .= $wpdb->prepare( ' AND qa.can_be_resumed = %d', $can_be_resumed );
+		}
+
+		$search = $this->get( 'search' );
+		if ( $search ) {
+			$search = $wpdb->esc_like( $search );
+			$sql   .= $wpdb->prepare(
+				' AND (
+					u.user_login LIKE %s
+					OR u.user_email LIKE %s
+					OR u.display_name LIKE %s
+					OR um_first.meta_value LIKE %s
+					OR um_last.meta_value LIKE %s
+					OR p.post_title LIKE %s
+				)',
+				'%' . $search . '%',
+				'%' . $search . '%',
+				'%' . $search . '%',
+				'%' . $search . '%',
+				'%' . $search . '%',
+				'%' . $search . '%'
+			);
 		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
-
 	}
-
 }

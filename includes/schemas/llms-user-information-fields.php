@@ -48,7 +48,7 @@ return array(
 		'data_store'        => 'users',
 		'data_store_key'    => 'user_pass',
 		'meter'             => llms_parse_bool( get_option( 'lifterlms_registration_password_strength', 'yes' ) ),
-		'min_strength'      => get_option( 'lifterlms_registration_password_min_strength', 'strong' ),
+		'min_strength'      => get_option( 'lifterlms_registration_password_min_strength', 'weak' ),
 		'html_attrs'        => array(
 			'minlength' => 8,
 		),
@@ -58,7 +58,7 @@ return array(
 				'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
 				'lifterlms'
 			),
-			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'strong' ) )
+			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'weak' ) )
 		),
 	),
 	array(
