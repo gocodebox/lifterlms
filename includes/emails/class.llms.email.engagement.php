@@ -82,7 +82,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 				$this->add_recipient( $email, $type );
 			}
 		}
-	
+
 	}
 
 	/**
