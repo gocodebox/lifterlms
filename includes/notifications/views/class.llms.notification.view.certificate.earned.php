@@ -84,7 +84,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
 			// Translators: %1$s - student name, %2$s - Certificate title.
-			return sprintf( __( 'Congratulations! %1$s earned a certificate: %2$s.', 'lifterlms' ) . "\n\n{{MINI_CERTIFICATE}}", '{{STUDENT_NAME}}', '{{CERTIFICATE_TITLE}}' );
+			return sprintf( __( 'Congratulations! %1$s earned a certificate: %2$s.', 'lifterlms' ) . "\n\n{{MINI_CERTIFICATE}}\n\n" . $this->set_footer(), '{{STUDENT_NAME}}', '{{CERTIFICATE_TITLE}}' );
 		}
 		return '{{MINI_CERTIFICATE}}';
 	}
