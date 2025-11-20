@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Filter to avoid sending a Purchase Receipt under certain conditions.

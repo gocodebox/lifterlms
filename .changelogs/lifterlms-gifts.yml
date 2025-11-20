@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Filter to prevent automatic enrollment in a product after purchase completed.
