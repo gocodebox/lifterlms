@@ -96,7 +96,7 @@ if ( ! isset( $plan ) ) {
 		<h4><?php esc_html_e( 'General Plan Information', 'lifterlms' ); ?></h4>
 
 		<?php
-		if ( ! $checkout_url ) :
+		if ( $plan && ! $checkout_url ) :
 			?>
 
 			<div>
