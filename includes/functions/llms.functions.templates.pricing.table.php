@@ -213,7 +213,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		 * It does not modify the user's enrollment status.
 		 *
 		 * @since Unknown
-		 * @since [version] Added product param.
+		 * @since 9.1.2 Added product param.
 		 *
 		 * @param boolean $is_enrolled User's current enrollment status.
 		 * @param LLMS_Product $product Product for the pricing table.

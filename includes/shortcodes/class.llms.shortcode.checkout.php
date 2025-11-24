@@ -93,7 +93,7 @@ class LLMS_Shortcode_Checkout {
 				 * @param bool $block_checkout Whether or not blocking the checkout form for already enrolled students in the product being purchased.
 				 * @param LLMS_Access_Plan $plan The access plan.
 				 *
-				 * @since [version]
+				 * @since 9.1.2
 				 */
 				if ( apply_filters( 'llms_checkout_block_enrolled_checkout', true, $atts['plan'] ) ) {
 					return;

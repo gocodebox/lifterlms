@@ -413,7 +413,7 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @param bool $block_checkout Whether to block checkout if already enrolled.
 	 * @param LLMS_Access_Plan $plan The access plan.
 	 *
-	 * @since [version]
+	 * @since 9.1.2
 	 */
 	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
 

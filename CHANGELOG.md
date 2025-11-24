@@ -1,6 +1,24 @@
 LifterLMS Changelog
 ===================
 
+v9.1.2 - 2025-11-20
+-------------------
+
+##### Updates and Enhancements
+
++ Changed options for a new Access Plan to include gifts, and removing the Free Trial option.
+
+##### Bug Fixes
+
++ Avoid warning when creating the first access plan on a course/membership. [#3046](https://github.com/gocodebox/lifterlms/issues/3046)
+
+##### Developer Notes
+
++ Filters for displaying already enrolled message during checkout.
++ Filter to avoid sending a Purchase Receipt under certain conditions.
++ Filter to prevent automatic enrollment in a product after purchase completed.
+
+
 v9.1.1 - 2025-11-11
 -------------------
 

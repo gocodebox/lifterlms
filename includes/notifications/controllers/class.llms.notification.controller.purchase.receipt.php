@@ -67,7 +67,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		/**
 		 * Filter to avoid sending notification for purchase receipts.
 		 *
-		 * @since [version]
+		 * @since 9.1.2
 		 */
 		if ( ! apply_filters( 'llms_send_purchase_receipt_notification', true, $order, $transaction ) ) {
 			return;

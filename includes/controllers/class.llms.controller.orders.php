@@ -124,7 +124,7 @@ class LLMS_Controller_Orders {
 		/**
 		 * Filter whether the user should be automatically enrolled when the order completes.
 		 *
-		 * @since [version]
+		 * @since 9.1.2
 		 *
 		 * @param bool Whether to enroll the student. Defaults to true.
 		 * @param LLMS_Order $order The order.
