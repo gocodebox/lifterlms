@@ -62,12 +62,21 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 */
 	public function action_callback( $transaction = null ) {
 
-		$order         = $transaction->get_order();
+		$order = $transaction->get_order();
+
+		/**
+		 * Filter to avoid sending notification for purchase receipts.
+		 *
+		 * @since 9.1.2
+		 */
+		if ( ! apply_filters( 'llms_send_purchase_receipt_notification', true, $order, $transaction ) ) {
+			return;
+		}
+
 		$this->user_id = $order->get( 'user_id' );
 		$this->post_id = $transaction->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -106,7 +115,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -178,7 +186,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 				// 'selected' => false,
 			),
 		);
-
 	}
 
 	/**
@@ -217,7 +224,6 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		$this->post_id = $transaction->get( 'id' );
 
 		return parent::send_test( $type );
-
 	}
 
 	/**
@@ -243,9 +249,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Purchase_Receipt::instance();

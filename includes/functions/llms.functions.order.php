@@ -36,7 +36,6 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 	 * @param LLMS_Access_plan $plan        The access plan object.
 	 */
 	return apply_filters( 'llms_can_gateway_be_used_for_plan', $can_be_used, $gateway_id, $plan );
-
 }
 
 /**
@@ -100,7 +99,6 @@ function llms_can_gateway_be_used_for_plan_or_order( $gateway_id, $plan_or_order
 	$can_use = apply_filters( 'llms_can_gateway_be_used_for_plan_or_order', $can_use, $gateway_id, $plan_or_order );
 
 	return is_wp_error( $can_use ) && ! $wp_err ? false : $can_use;
-
 }
 
 /**
@@ -126,7 +124,6 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 
 	// Return an int not a numeric string.
 	return $id ? absint( $id ) : $id;
-
 }
 
 /**
@@ -182,7 +179,6 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 	 * @param string  $order_type The type of the order.
 	 */
 	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
-
 }
 
 /**
@@ -207,7 +203,6 @@ function llms_get_possible_order_statuses( $order ) {
 	}
 
 	return $statuses;
-
 }
 
 /**
@@ -247,7 +242,6 @@ function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
 	);
 
 	return $query->posts[0] ?? null;
-
 }
 
 /**
@@ -280,7 +274,6 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 
 	// Return an int not a numeric string.
 	return $id ? absint( $id ) : $id;
-
 }
 
 /**
@@ -414,7 +407,15 @@ function llms_setup_pending_order( $data = array() ) {
 	}
 
 	// Ensure the new user isn't enrolled in the product being purchased.
-	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) ) {
+	/**
+	 * Filter to allow checkout if already enrolled.
+	 *
+	 * @param bool $block_checkout Whether to block checkout if already enrolled.
+	 * @param LLMS_Access_Plan $plan The access plan.
+	 *
+	 * @since 9.1.2
+	 */
+	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
 
 		$product = $plan->get_product();
 		$err->add(
@@ -451,5 +452,4 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @param array $data Array of input data from a checkout form.
 	 */
 	return apply_filters( 'llms_after_setup_pending_order', compact( 'person', 'plan', 'gateway', 'coupon' ), $data );
-
 }

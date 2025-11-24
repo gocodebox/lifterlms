@@ -186,7 +186,6 @@ if ( ! function_exists( 'llms_template_product_not_purchasable' ) ) {
 			'product/not-purchasable.php',
 			compact( 'product' )
 		);
-
 	}
 }
 
@@ -214,12 +213,15 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		 * It does not modify the user's enrollment status.
 		 *
 		 * @since Unknown
+		 * @since 9.1.2 Added product param.
 		 *
 		 * @param boolean $is_enrolled User's current enrollment status.
+		 * @param LLMS_Product $product Product for the pricing table.
 		 */
 		$is_enrolled = apply_filters(
 			'llms_product_pricing_table_enrollment_status',
-			llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) )
+			llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) ),
+			$product
 		);
 
 		$purchasable      = $product->is_purchasable();
@@ -230,6 +232,5 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 			'product/pricing-table.php',
 			compact( 'product', 'is_enrolled', 'purchasable', 'has_free', 'has_restrictions' )
 		);
-
 	}
 }
