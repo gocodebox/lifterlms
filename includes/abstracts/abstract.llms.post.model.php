@@ -724,7 +724,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( 'html' === $format || 'raw' === $format ) {
 			$price = llms_price( $price, $price_args );
 			if ( 'raw' === $format ) {
-				$price = strip_tags( $price );
+				$price = wp_strip_all_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
 			$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
