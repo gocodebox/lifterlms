@@ -490,14 +490,14 @@ if ( ! isset( $plan ) ) {
 			</div>
 
 			<div class="llms-metabox-field d-1of4" data-controller="llms-trial-offer" data-value-is="yes">
-				<label for="_llms_plans[<?php echo $order; ?>][trial_period]">
+				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_period]">
 					<?php esc_html_e( 'Trial Period', 'lifterlms' ); ?>
 					<span class="screen-reader-text"><?php esc_html_e( 'Define the time length for the trial period (days, weeks, months, years).', 'lifterlms' ); ?></span>
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Define the time length for the trial period (days, weeks, months, years).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
-				<select id="_llms_plans[<?php echo $order; ?>][trial_period]" name="_llms_plans[<?php echo $order; ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+				<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_period]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<option value="year"<?php selected( 'year', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'year(s)', 'lifterlms' ); ?></option>
 					<option value="month"<?php selected( 'month', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'month(s)', 'lifterlms' ); ?></option>
 					<option value="week"<?php selected( 'week', ( $plan && 'yes' === $trial_offer ) ? $plan->get( 'trial_period' ) : '' ); ?>><?php esc_html_e( 'week(s)', 'lifterlms' ); ?></option>
@@ -615,7 +615,7 @@ if ( ! isset( $plan ) ) {
 								<i class="fa fa-question-circle"></i>
 							</span>
 						</label>
-						<select data-controller-id="llms-availability" name="_llms_plans[<?php echo $order; ?>][availability]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<select data-controller-id="llms-availability" name="_llms_plans[<?php echo esc_attr( $order ); ?>][availability]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 							<option value="open"<?php selected( 'open', $plan ? $availability : '' ); ?>><?php esc_html_e( 'Anyone', 'lifterlms' ); ?></option>
 							<option value="members"<?php selected( 'members', $plan ? $availability : '' ); ?>><?php esc_html_e( 'Members only', 'lifterlms' ); ?></option>
 						</select>
