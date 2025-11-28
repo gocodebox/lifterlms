@@ -275,7 +275,7 @@ if ( ! isset( $plan ) ) {
 					<input
 						id="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
 						class="llms-plan-price" name="_llms_plans[<?php echo esc_attr( $order ); ?>][price]"
-						placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>"
+						placeholder="<?php echo esc_attr( wp_strip_all_tags( llms_price( 1000 ) ) ); ?>"
 						<?php if ( apply_filters( 'llms_access_plan_price_required', true, $plan ) ) : ?>
 						min="<?php echo esc_attr( $price_step ); ?>"
 						required="required"
@@ -475,7 +475,7 @@ if ( ! isset( $plan ) ) {
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
-				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" min="0" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'trial_price' ) ) . '"' : ' disabled="disabled"'; ?>>
+				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][trial_price]" min="0" placeholder="<?php echo esc_attr( wp_strip_all_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'trial_price' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4" data-controller="llms-trial-offer" data-value-is="yes">
@@ -546,7 +546,7 @@ if ( ! isset( $plan ) ) {
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
-				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" min="0" placeholder="<?php echo esc_attr( strip_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="number"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . esc_attr( $plan->get( 'sale_price' ) ) . '"' : ' disabled="disabled"'; ?>>
+				<input id="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" name="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_price]" min="0" placeholder="<?php echo esc_attr( wp_strip_all_tags( llms_price( 1000 ) ) ); ?>" required="required" step="<?php echo esc_attr( $price_step ); ?>" type="number"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . esc_attr( $plan->get( 'sale_price' ) ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4" data-controller="llms-on-sale" data-value-is="yes">
