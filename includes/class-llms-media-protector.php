@@ -356,7 +356,7 @@ class LLMS_Media_Protector {
 	 */
 	protected function get_size() {
 
-		$size = ( isset( $_GET[ self::URL_PARAMETER_SIZE ] ) ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_SIZE ] ) : null;
+		$size = ( isset( $_GET[ self::URL_PARAMETER_SIZE ] ) ) ? sanitize_text_field( wp_unslash( $_GET[ self::URL_PARAMETER_SIZE ] ) ) : null;
 		if ( false === $size ) {
 			$size = null;
 		} elseif ( is_string( $size ) && '[' === $size[0] ) {
@@ -534,7 +534,7 @@ class LLMS_Media_Protector {
 		$is_modified = true;
 
 		$file_modified     = filemtime( $file_name );
-		$if_modified_since = ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) ? sanitize_text_field( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) : '';
+		$if_modified_since = ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) : '';
 		if ( strtotime( $if_modified_since ) === $file_modified ) {
 			$is_modified = false;
 		}
@@ -733,7 +733,7 @@ class LLMS_Media_Protector {
 	 * @return void
 	 */
 	protected function send_file( $file_name, $media_id ) {
-		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '' );
+		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '' );
 
 		if (
 			( array_key_exists( 'MOD_X_SENDFILE_ENABLED', $_SERVER ) && '1' === $_SERVER['MOD_X_SENDFILE_ENABLED'] ) ||
@@ -893,7 +893,7 @@ class LLMS_Media_Protector {
 		if ( ! isset( $size ) ) {
 			$size = $this->get_size();
 		}
-		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
+		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( wp_unslash( $_GET[ self::URL_PARAMETER_ICON ] ) ) : null );
 		if ( ! is_null( $size ) || $icon ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
@@ -1023,7 +1023,7 @@ class LLMS_Media_Protector {
 	 * Add authorization meta to the post.
 	 *
 	 * @param $post_id
-	 * @param string  $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
+	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
 	 * @return void
 	 */
