@@ -87,7 +87,7 @@ class LLMS_Admin_Review {
 		// Conditionally filter footer text with our content.
 		if ( ! empty( $show_footer ) ) {
 
-			$url  = 'https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post';
+			$url  = 'https://wordpress.org/support/plugin/lifterlms/reviews/#new-post';
 			$text = sprintf(
 				wp_kses(
 					/* Translators: %1$s = LifterLMS plugin name; %2$s = WP.org review link; %3$s = WP.org review link. */

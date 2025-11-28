@@ -793,7 +793,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 						<form action="" method="POST">
 							<button class="llms-button-primary small" name="llms_quiz_resumable_attempt_action" type="submit" value="llms_clear_resumable_attempts">
 								<i class="fa fa-trash-o" aria-hidden="true"></i>
-								<?php _e( 'Clear resumable attempts', 'lifterlms' ); ?>
+								<?php echo esc_html( __( 'Clear resumable attempts', 'lifterlms' ) ); ?>
 							</button>
 							<input type="hidden" name="llms_quiz_id" value="<?php echo esc_attr( $this->quiz_id ); ?>">
 							<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
