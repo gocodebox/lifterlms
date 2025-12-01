@@ -93,6 +93,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'ignore_lessons'             => 'absint',
 		'days_before_available'      => 'absint',
 		'featured_pricing'           => 'html',
+		'completion_page_id'         => 'absint',
 
 		// Private.
 		'temp_calc_data'             => 'array',
