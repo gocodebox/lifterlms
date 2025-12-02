@@ -73,7 +73,10 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 
 					<aside class="llms-extra">
 						<span class="llms-lesson-counter" aria-hidden="true">
-							<?php echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) ); ?>
+							<?php
+								// Translators: %1$d: Lesson number, %2$d: total number of lessons in section.
+								echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) );
+							?>
 						</span>
 						<?php echo wp_kses_post( $lesson->get_preview_icon_html() ); ?>
 					</aside>
