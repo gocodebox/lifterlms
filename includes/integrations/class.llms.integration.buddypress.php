@@ -80,7 +80,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	public function set_title_and_description() {
-		$this->title       = __( 'BuddyPress', 'lifterlms' );
+		$this->title = __( 'BuddyPress', 'lifterlms' );
+		/* translators: %1$s: Open learn more link tag, %2$s: Closing tag. */
 		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
 	}
 

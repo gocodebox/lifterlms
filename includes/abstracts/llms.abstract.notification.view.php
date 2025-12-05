@@ -341,6 +341,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		if ( ( $now - $created ) <= ( $max_days * DAY_IN_SECONDS ) ) {
 
+			/* translators: %s: Relative date display. */
 			return sprintf( _x( 'About %s ago', 'relative date display', 'lifterlms' ), $this->get_date_relative( 'created' ) );
 
 		}

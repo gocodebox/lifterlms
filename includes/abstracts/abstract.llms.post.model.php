@@ -1516,6 +1516,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$u = update_post_meta( $this->id, $this->meta_prefix . $key, wp_slash( $val ) );
 
 			if ( ! ( is_numeric( $u ) || true === $u ) ) {
+				/* translators: %s: Meta key. */
 				$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
 			}
 		}

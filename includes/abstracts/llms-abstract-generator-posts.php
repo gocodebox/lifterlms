@@ -171,6 +171,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
 		if ( ! class_exists( $class_name ) ) {
+			/* translators: %s: Name of class. */
 			throw new Exception( esc_html( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ) ), intval( self::ERROR_INVALID_POST ) );
 		}
 
@@ -514,6 +515,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			$term = wp_insert_term( $term_name, $tax );
 
 			if ( is_wp_error( $term ) ) {
+				/* translators: %s: name of term. */
 				throw new Exception( esc_html( sprintf( __( 'Error creating new term "%s".', 'lifterlms' ), $term_name ) ), intval( self::ERROR_CREATE_TERM ) );
 			}
 
