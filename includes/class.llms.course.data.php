@@ -229,7 +229,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		if ( $order_ids ) {
 
-			$order_ids = implode( ',', $order_ids );
+			$order_ids = implode( ',', array_map( 'absint', $order_ids ) );
 
 			global $wpdb;
 			$revenue = $wpdb->get_var(
