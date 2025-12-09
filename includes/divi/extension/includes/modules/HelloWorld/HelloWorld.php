@@ -12,23 +12,35 @@ class LIFTERLMS_HelloWorld extends ET_Builder_Module {
 	);
 
 	public function init() {
-		$this->name = esc_html__( 'Hello World', 'lifterlms-my-extension' );
+		$this->name = esc_html__( 'Hello World', 'lifterlms' );
 	}
 
 	public function get_fields() {
 		return array(
-			'content' => array(
-				'label'           => esc_html__( 'Content', 'lifterlms-my-extension' ),
-				'type'            => 'tiny_mce',
-				'option_category' => 'basic_option',
-				'description'     => esc_html__( 'Content entered here will appear inside the module.', 'lifterlms-my-extension' ),
-				'toggle_slug'     => 'main_content',
+			'heading'        => array(
+				'label'            => esc_html__( 'Heading', 'lifterlms' ),
+				'type'             => 'text',
+				'option_category'  => 'basic_option',
+				'description'      => esc_html__( 'Input your desired heading here.', 'lifterlms' ),
+				'toggle_slug'      => 'main_content',
+				'computed_affects' => array(
+					'__preview_html',
+				),
+			),
+			'__preview_html' => array(
+				'type'                => 'computed',
+				'computed_callback'   => array( 'LIFTERLMS_HelloWorld', 'get_preview_html' ),
+				'computed_depends_on' => array( 'heading' ), // nothing to depend on
 			),
 		);
 	}
 
+	static function get_preview_html( $args = array(), $conditional_tags = array(), $current_page = array() ) {
+		return do_shortcode( '[lifterlms_course_continue_button course_id="' . absint( $current_page['id'] ) . '"]' );
+	}
+
 	public function render( $attrs, $content, $render_slug ) {
-		return sprintf( '<h1>%1$s</h1>', $this->props['content'] );
+		return do_shortcode( '[lifterlms_course_continue_button]' );
 	}
 }
 

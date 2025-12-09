@@ -660,6 +660,7 @@ final class LifterLMS {
 		include_once 'includes/class-llms-bricks.php';
 		include_once 'includes/class-llms-beaver-builder.php';
 		include_once 'includes/class-llms-beaver-builder-migrate.php';
+		include_once 'includes/divi/extension/my-extension.php';
 
 		do_action( 'lifterlms_init' );
 	}
