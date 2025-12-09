@@ -1,18 +1,18 @@
 <?php
 
-class LIFTERLMS_HelloWorld extends ET_Builder_Module {
+class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 
-	public $slug       = 'lifterlms_hello_world';
+	public $slug       = 'lifterlms_course_continue_button';
 	public $vb_support = 'on';
 
 	protected $module_credits = array(
-		'module_uri' => '',
+		'module_uri' => 'https://lifterlms.com/',
 		'author'     => 'LifterLMS',
 		'author_uri' => 'https://lifterlms.com',
 	);
 
 	public function init() {
-		$this->name = esc_html__( 'Hello World', 'lifterlms' );
+		$this->name = esc_html__( 'LifterLMS Course Continue Button', 'lifterlms' );
 	}
 
 	public function get_fields() {
@@ -24,7 +24,7 @@ class LIFTERLMS_HelloWorld extends ET_Builder_Module {
 			),
 			'__preview_html' => array(
 				'type'                => 'computed',
-				'computed_callback'   => array( 'LIFTERLMS_HelloWorld', 'get_preview_html' ),
+				'computed_callback'   => array( 'LLMS_Divi_Course_Continue_Button', 'get_preview_html' ),
 				'computed_depends_on' => array( 'dummy' ), // nothing to depend on
 			),
 		);
@@ -39,4 +39,4 @@ class LIFTERLMS_HelloWorld extends ET_Builder_Module {
 	}
 }
 
-new LIFTERLMS_HelloWorld();
+new LLMS_Divi_Course_Continue_Button();

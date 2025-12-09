@@ -1,3 +1,3 @@
-import HelloWorld from './HelloWorld/HelloWorld';
+import CourseContinueButton from './CourseContinueButton/CourseContinueButton';
 
-export default [HelloWorld];
+export default [CourseContinueButton];

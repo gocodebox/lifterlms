@@ -1,6 +1,6 @@
 <?php
 
-class LIFTERLMS_MyExtension extends DiviExtension {
+class LifterLMS_Divi_Extension extends DiviExtension {
 
 	/**
 	 * The gettext domain for the extension's translations.
@@ -9,7 +9,7 @@ class LIFTERLMS_MyExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $gettext_domain = 'lifterlms-my-extension';
+	public $gettext_domain = 'lifterlms';
 
 	/**
 	 * The extension's WP Plugin name.
@@ -18,7 +18,7 @@ class LIFTERLMS_MyExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $name = 'my-extension';
+	public $name = 'lifterlms-divi';
 
 	/**
 	 * The extension's version
@@ -29,13 +29,7 @@ class LIFTERLMS_MyExtension extends DiviExtension {
 	 */
 	public $version = '1.0.0';
 
-	/**
-	 * LIFTERLMS_MyExtension constructor.
-	 *
-	 * @param string $name
-	 * @param array  $args
-	 */
-	public function __construct( $name = 'my-extension', $args = array() ) {
+	public function __construct( $name = 'lifterlms-divi', $args = array() ) {
 		$this->plugin_dir     = plugin_dir_path( __FILE__ );
 		$this->plugin_dir_url = plugin_dir_url( $this->plugin_dir );
 
@@ -43,4 +37,4 @@ class LIFTERLMS_MyExtension extends DiviExtension {
 	}
 }
 
-new LIFTERLMS_MyExtension;
+new LifterLMS_Divi_Extension();
