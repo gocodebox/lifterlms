@@ -2,7 +2,7 @@
 
 class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 
-	public $slug       = 'lifterlms_course_continue_button';
+	public $slug       = 'lifterlms_divi_course_continue_button';
 	public $vb_support = 'on';
 
 	protected $module_credits = array(
@@ -35,7 +35,10 @@ class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 	}
 
 	public function render( $attrs, $content, $render_slug ) {
-		return do_shortcode( '[lifterlms_course_continue_button]' );
+		global $post;
+
+		$post_id = isset( $attrs['course_id'] ) ? $attrs['course_id'] : ( $post ? $post->ID : 0 );
+		return do_shortcode( '[lifterlms_course_continue_button course_id="' . absint( $post_id ) . '"]' );
 	}
 }
 
