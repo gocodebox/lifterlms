@@ -17,20 +17,15 @@ class LIFTERLMS_HelloWorld extends ET_Builder_Module {
 
 	public function get_fields() {
 		return array(
-			'heading'        => array(
-				'label'            => esc_html__( 'Heading', 'lifterlms' ),
-				'type'             => 'text',
-				'option_category'  => 'basic_option',
-				'description'      => esc_html__( 'Input your desired heading here.', 'lifterlms' ),
-				'toggle_slug'      => 'main_content',
-				'computed_affects' => array(
-					'__preview_html',
-				),
+			'dummy'          => array(
+				'type'             => 'hidden',
+				'default'          => '1',
+				'computed_affects' => array( '__preview_html' ),
 			),
 			'__preview_html' => array(
 				'type'                => 'computed',
 				'computed_callback'   => array( 'LIFTERLMS_HelloWorld', 'get_preview_html' ),
-				'computed_depends_on' => array( 'heading' ), // nothing to depend on
+				'computed_depends_on' => array( 'dummy' ), // nothing to depend on
 			),
 		);
 	}
