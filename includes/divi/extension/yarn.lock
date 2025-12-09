@@ -6332,13 +6332,13 @@ grunt-legacy-util@~1.1.1:
     underscore.string "~3.3.4"
     which "~1.3.0"
 
-"grunt-po2mo@github:elegantthemes/grunt-po2mo#master":
+grunt-po2mo@elegantthemes/grunt-po2mo#master:
   version "0.1.5"
   resolved "https://codeload.github.com/elegantthemes/grunt-po2mo/tar.gz/26eca7c892db50837b58fdcf3771c5eb331a2ead"
   dependencies:
     sync-exec "0.6.2"
 
-"grunt-wp-i18n@github:elegantthemes/grunt-wp-i18n#develop":
+grunt-wp-i18n@elegantthemes/grunt-wp-i18n#develop:
   version "1.0.3"
   resolved "https://codeload.github.com/elegantthemes/grunt-wp-i18n/tar.gz/f729e8128ed45eaae19d47e9406cc12de400ef14"
   dependencies:
@@ -10333,7 +10333,7 @@ rc@^1.1.7, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@19.2.1:
+react-dom@^19.2.1:
   version "19.2.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-19.2.1.tgz#ce3527560bda4f997e47d10dab754825b3061f59"
   integrity sha512-ibrK8llX2a4eOskq1mXKu/TGZj9qzomO+sNfO98M6d9zIPOEhlBkMkBUBLd1vgS0gQsLDBzA+8jJBVXDnfHmJg==
@@ -10350,7 +10350,7 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react@19.2.1:
+react@^19.2.1:
   version "19.2.1"
   resolved "https://registry.yarnpkg.com/react/-/react-19.2.1.tgz#8600fa205e58e2e807f6ef431c9f6492591a2700"
   integrity sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw==
