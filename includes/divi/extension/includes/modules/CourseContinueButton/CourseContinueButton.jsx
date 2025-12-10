@@ -7,13 +7,13 @@ class CourseContinueButton extends Component {
 	render() {
 		const preview_html = this.props.__preview_html;
 		return (
-			<div className="lifterlms-divi-course-continue-button">
+			<Fragment>
 				{preview_html ? (
-					<div dangerouslySetInnerHTML={{ __html: preview_html }} />
+					<Fragment dangerouslySetInnerHTML={{ __html: preview_html }} />
 				) : (
 					<div>Loading…</div>
 				)}
-			</div>
+			</Fragment>
 		);
 	}
 }
