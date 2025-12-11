@@ -55,7 +55,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		$this->related_post_id = $related_post_id;
 
 		$this->send();
-
 	}
 
 	/**
@@ -80,7 +79,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 		}
 
 		return $options;
-
 	}
 
 	/**
@@ -130,10 +127,9 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 */
 	protected function set_supported_types() {
 		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
+			'basic' => __( 'Popup', 'lifterlms' ),
 		);
 	}
-
 }
 
 return LLMS_Notification_Controller_Certificate_Earned::instance();
