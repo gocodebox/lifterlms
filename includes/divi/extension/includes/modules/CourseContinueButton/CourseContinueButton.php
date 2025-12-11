@@ -4,6 +4,7 @@ class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 
 	public $slug       = 'lifterlms_divi_course_continue_button';
 	public $vb_support = 'on';
+	public $icon_path;
 
 	protected $module_credits = array(
 		'module_uri' => 'https://lifterlms.com/',
@@ -12,7 +13,8 @@ class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 	);
 
 	public function init() {
-		$this->name = esc_html__( 'LifterLMS Course Continue Button', 'lifterlms' );
+		$this->name      = esc_html__( 'LifterLMS Course Continue Button', 'lifterlms' );
+		$this->icon_path = LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg';
 	}
 
 	public function get_fields() {
