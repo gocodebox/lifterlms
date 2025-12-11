@@ -7,13 +7,7 @@ class CourseContinueButton extends Component {
 	render() {
 		const preview_html = this.props.__preview_html;
 		return (
-			<Fragment>
-				{preview_html ? (
-					<Fragment dangerouslySetInnerHTML={{ __html: preview_html }} />
-				) : (
-					<div>Loading…</div>
-				)}
-			</Fragment>
+			<Fragment dangerouslySetInnerHTML={{ __html: preview_html }} />
 		);
 	}
 }

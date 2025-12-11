@@ -22,25 +22,58 @@ class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 			'dummy'          => array(
 				'type'             => 'hidden',
 				'default'          => '1',
+				'option_category'  => 'basic_option',
 				'computed_affects' => array( '__preview_html' ),
+			),
+			'course_id'      => array(
+				'label'            => esc_html__( 'Course', 'lifterlms' ),
+				'type'             => 'select',
+				'option_category'  => 'basic_option',
+				'options'          => $this->get_course_options(),
+				'default'          => 'current',
+				'computed_affects' => array( '__preview_html' ),
+				'description'      => esc_html__( 'Select a course or leave blank to use the current page.', 'lifterlms' ),
 			),
 			'__preview_html' => array(
 				'type'                => 'computed',
 				'computed_callback'   => array( 'LLMS_Divi_Course_Continue_Button', 'get_preview_html' ),
-				'computed_depends_on' => array( 'dummy' ), // nothing to depend on
+				'computed_depends_on' => array( 'course_id', 'dummy' ),
 			),
 		);
 	}
 
+	private function get_course_options() {
+		$options = array(
+			'current' => esc_html__( 'Select a course', 'lifterlms' ),
+		);
+
+		$courses = get_posts(
+			array(
+				'post_type'      => 'course',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+				'post_status'    => 'publish',
+			)
+		);
+
+		foreach ( $courses as $course ) {
+			$options[ $course->ID ] = $course->post_title;
+		}
+
+		return $options;
+	}
+
 	static function get_preview_html( $args = array(), $conditional_tags = array(), $current_page = array() ) {
-		return do_shortcode( '[lifterlms_course_continue_button course_id="' . absint( $current_page['id'] ) . '"]' );
+		$course_id = ! empty( $args['course_id'] ) ? absint( $args['course_id'] ) : absint( $current_page['id'] );
+		return do_shortcode( '[lifterlms_course_continue_button course_id="' . $course_id . '"]' );
 	}
 
 	public function render( $attrs, $content, $render_slug ) {
 		global $post;
 
-		$post_id = isset( $attrs['course_id'] ) ? $attrs['course_id'] : ( $post ? $post->ID : 0 );
-		return do_shortcode( '[lifterlms_course_continue_button course_id="' . absint( $post_id ) . '"]' );
+		$course_id = ! empty( $this->props['course_id'] ) ? $this->props['course_id'] : ( $post ? $post->ID : 0 );
+		return do_shortcode( '[lifterlms_course_continue_button course_id="' . absint( $course_id ) . '"]' );
 	}
 }
 
