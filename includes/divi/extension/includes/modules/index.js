@@ -1,3 +1,4 @@
 import CourseContinueButton from './CourseContinueButton/CourseContinueButton';
+import CourseInstructors from './CourseInstructors/CourseInstructors';
 
-export default [CourseContinueButton];
+export default [CourseContinueButton, CourseInstructors];
