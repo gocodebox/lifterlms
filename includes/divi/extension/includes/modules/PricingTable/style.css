@@ -1,0 +1,7 @@
+/* Module icon sizing in builder */
+.lifterlms_divi_pricing_table .et-fb-icon--svg,
+.lifterlms_divi_pricing_table .et-fb-icon--svg svg {
+	height: 16px;
+	width: 16px;
+	min-width: 16px;
+}
