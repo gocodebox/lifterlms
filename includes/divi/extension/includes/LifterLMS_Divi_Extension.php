@@ -51,23 +51,17 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 	 * @return array
 	 */
 	public function add_page_settings_field( $fields ) {
-		global $post;
 
-		// Only add field for course post type.
-		// if ( ! $post || 'course' !== $post->post_type ) {
-		// return $fields;
-		// }
-
-		$fields['llms_disable_default_content'] = array(
+		$fields['et_pb_llms_disable_default_content'] = array(
 			'type'        => 'yes_no_button',
-			'id'          => 'llms_disable_default_content',
+			'id'          => 'et_pb_llms_disable_default_content',
 			'label'       => esc_html__( 'Disable Default LifterLMS Content', 'lifterlms' ),
 			'options'     => array(
 				'off' => esc_html__( 'No', 'lifterlms' ),
 				'on'  => esc_html__( 'Yes', 'lifterlms' ),
 			),
 			'default'     => 'off',
-			'description' => esc_html__( 'Enable this to disable the default LifterLMS content output at the bottom of the course page. Use this when you have manually added LifterLMS Divi modules.', 'lifterlms' ),
+			'description' => esc_html__( 'Enable this to disable the default LifterLMS content output at the bottom of the page. Use this when you have manually added LifterLMS Divi modules or LifterLMS shortcodes.', 'lifterlms' ),
 			'tab_slug'    => 'content',
 			'toggle_slug' => 'main_content',
 		);
