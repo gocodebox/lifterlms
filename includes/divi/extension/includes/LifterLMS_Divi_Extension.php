@@ -14,8 +14,6 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 	/**
 	 * The extension's WP Plugin name.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var string
 	 */
 	public $name = 'lifterlms-divi';
@@ -23,11 +21,9 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 	/**
 	 * The extension's version
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = LLMS_VERSION;
 
 	public function __construct( $name = 'lifterlms-divi', $args = array() ) {
 		$this->plugin_dir     = plugin_dir_path( __FILE__ );
@@ -44,8 +40,6 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 
 	/**
 	 * Add field to Divi page settings modal
-	 *
-	 * @since 1.0.0
 	 *
 	 * @param array $fields Existing fields.
 	 * @return array
@@ -72,8 +66,6 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 	/**
 	 * Remove default LifterLMS content hooks if Divi setting is enabled
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return void
 	 */
 	public function maybe_remove_default_llms_content() {
@@ -92,8 +84,6 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 	/**
 	 * Remove default LifterLMS content hooks
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return void
 	 */
 	private function remove_default_llms_hooks() {
@@ -109,7 +99,6 @@ class LifterLMS_Divi_Extension extends DiviExtension {
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
 		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
-		remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
 	}
 }
 
