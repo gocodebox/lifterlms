@@ -7,7 +7,7 @@ class CourseSyllabus extends Component {
 	render() {
 		const preview_html = this.props.__preview_html;
 		return (
-			<Fragment dangerouslySetInnerHTML={{ __html: preview_html }} />
+			<div dangerouslySetInnerHTML={{ __html: preview_html }} />
 		);
 	}
 }

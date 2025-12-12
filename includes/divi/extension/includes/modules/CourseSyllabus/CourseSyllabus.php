@@ -65,8 +65,8 @@ class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
 	}
 
 	static function get_preview_html( $args = array(), $conditional_tags = array(), $current_page = array() ) {
-		$course_id = ! empty( $args['course_id'] ) ? absint( $args['course_id'] ) : absint( $current_page['id'] );
-		return do_shortcode( '[lifterlms_course_syllabus course_id="' . $course_id . '"]' );
+		$course_id = ( ! empty( $args['course_id'] ) && is_numeric( $args['course_id'] ) ) ? $args['course_id'] : $current_page['id'];
+		return do_shortcode( '[lifterlms_course_syllabus course_id="' . absint( $course_id ) . '"]' );
 	}
 
 	public function render( $attrs, $content, $render_slug ) {

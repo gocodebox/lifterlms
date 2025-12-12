@@ -65,7 +65,7 @@ class LLMS_Divi_Course_Continue_Button extends ET_Builder_Module {
 	}
 
 	static function get_preview_html( $args = array(), $conditional_tags = array(), $current_page = array() ) {
-		$course_id = ! empty( $args['course_id'] ) ? absint( $args['course_id'] ) : absint( $current_page['id'] );
+		$course_id = ( ! empty( $args['course_id'] ) && is_numeric( $args['course_id'] ) ) ? absint( $args['course_id'] ) : absint( $current_page['id'] );
 		return do_shortcode( '[lifterlms_course_continue_button course_id="' . $course_id . '"]' );
 	}
 
