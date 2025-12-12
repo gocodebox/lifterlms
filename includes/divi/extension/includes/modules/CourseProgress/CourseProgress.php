@@ -1,8 +1,8 @@
 <?php
 
-class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
+class LLMS_Divi_Course_Progress extends ET_Builder_Module {
 
-	public $slug       = 'lifterlms_divi_course_syllabus';
+	public $slug       = 'lifterlms_divi_course_progress';
 	public $vb_support = 'on';
 	public $icon_path;
 
@@ -13,7 +13,7 @@ class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
 	);
 
 	public function init() {
-		$this->name      = esc_html__( 'LifterLMS Course Syllabus', 'lifterlms' );
+		$this->name      = esc_html__( 'LifterLMS Course Progress', 'lifterlms' );
 		$this->icon_path = LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg';
 	}
 
@@ -36,7 +36,7 @@ class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
 			),
 			'__preview_html' => array(
 				'type'                => 'computed',
-				'computed_callback'   => array( 'LLMS_Divi_Course_Syllabus', 'get_preview_html' ),
+				'computed_callback'   => array( 'LLMS_Divi_Course_Progress', 'get_preview_html' ),
 				'computed_depends_on' => array( 'course_id', 'dummy' ),
 			),
 		);
@@ -78,8 +78,10 @@ class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
 
 		$post = get_post( $course_id );
 		setup_postdata( $post );
-		$output = do_shortcode( '[lifterlms_course_syllabus course_id="' . absint( $course_id ) . '"]' );
-		$post   = $current_post;
+
+		$output = do_shortcode( '[lifterlms_course_continue course_id="' . absint( $course_id ) . '"]' );
+
+		$post = $current_post;
 
 		if ( $post ) {
 			setup_postdata( $post );
@@ -94,8 +96,8 @@ class LLMS_Divi_Course_Syllabus extends ET_Builder_Module {
 		global $post;
 
 		$course_id = ! empty( $this->props['course_id'] ) ? $this->props['course_id'] : ( $post ? $post->ID : 0 );
-		return do_shortcode( '[lifterlms_course_syllabus course_id="' . absint( $course_id ) . '"]' );
+		return do_shortcode( '[lifterlms_course_continue course_id="' . absint( $course_id ) . '"]' );
 	}
 }
 
-new LLMS_Divi_Course_Syllabus();
+new LLMS_Divi_Course_Progress();

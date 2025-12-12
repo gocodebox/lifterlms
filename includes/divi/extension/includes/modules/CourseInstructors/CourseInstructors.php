@@ -48,7 +48,7 @@ class LLMS_Divi_Course_Instructors extends ET_Builder_Module {
 		if ( $post ) {
 			setup_postdata( $post );
 		} else {
-			$id = $authordata = $current_day = $currentmonth = $page = $pages = $multipage = $more = $numpages = null;
+			$id = $authordata = $currentday = $currentmonth = $page = $pages = $multipage = $more = $numpages = null;
 		}
 
 		return $output;
