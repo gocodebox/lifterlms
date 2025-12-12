@@ -861,7 +861,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$ret = wp_oembed_get( sanitize_url( $url ) );
 
 			if ( ! $ret ) {
-				$ret = apply_filters( 'llms_embed_shortcode_output', do_shortcode( sprintf( '[%1$s id="%3$s" src="%2$s"]', $type, $url, 'llms-' . $type . '-embed-' . $this->id ) ), $type, $this );
+				$ret = apply_filters( 'llms_embed_shortcode_output', do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) ), $type, $this );
 			}
 		}
 		/**
