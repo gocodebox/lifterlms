@@ -105,7 +105,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			'gateway_customer_id',
 			'gateway_subscription_id',
 			'gateway_source_id',
-			'total',
 		);
 
 		foreach ( $fields as $key ) {
@@ -113,6 +112,12 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			if ( isset( $_POST[ $key ] ) ) {
 				$order->set( $key, llms_filter_input_sanitize_string( INPUT_POST, $key ) );
 			}
+		}
+
+		// Only allow editing the total (for the next recurrence) if this is a recurring order.
+		if ( $order->is_recurring() && isset( $_POST['total'] ) && is_numeric( $_POST['total'] ) ) {
+			$total = floatval( $_POST['total'] );
+			$order->set( 'total', $total );
 		}
 
 		$this->save_remaining_payments( $order );
