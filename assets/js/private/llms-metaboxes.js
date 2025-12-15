@@ -367,6 +367,10 @@
 					$input.append( '<em>:</em>' );
 					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' + val.minute + '">' );
 
+				} else if ( 'price' === type ) {
+
+					$input = $( '<input name="' + name + '" type="number" min="0" step="any" value="' + val + '"' + required + '>' );
+
 				} else {
 
 					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>' );
