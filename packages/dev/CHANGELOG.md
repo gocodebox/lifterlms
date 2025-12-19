@@ -3,6 +3,12 @@
 v0.2.3 - 2025-12-19
 ----------
 
+* Avoid deleting the `composer.lock` file.
+
+
+v0.2.3 - 2025-12-19
+----------
+
 * Use `composer install` vs. `composer update` during zip creation.
 
 

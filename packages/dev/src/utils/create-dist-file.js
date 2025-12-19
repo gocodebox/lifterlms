@@ -54,7 +54,6 @@ module.exports = ( distDir, silent, log = () => {} ) => {
 	if ( composer ) {
 		log( 'Installing composer production dependencies...' );
 		execSync( `composer install --no-dev --no-scripts`, silent );
-		execSync( `rm composer.lock`, true );
 	}
 
 	// Empty inspected directories in the distribution directory (if any are leftover from the last run of the command).
