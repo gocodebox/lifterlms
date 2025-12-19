@@ -1,5 +1,11 @@
 @lifterlms/dev CHANGELOG
 ========================
+v0.2.3 - 2025-12-19
+----------
+
+* Use `composer install` vs. `composer update` during zip creation.
+
+
 v0.2.2 - 2024-04-18
 ----------
 
