@@ -62,7 +62,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_default_args', $args, $this );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_get_students', $students, $this );
-
 	}
 
 	/**
@@ -146,7 +144,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			}
 		}
 		$this->arguments['post_id'] = $post_ids;
-
 	}
 
 	/**
@@ -172,8 +169,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$vars[] = $search;
 		}
 
-		$vars[] = $this->get_skip();
-		$vars[] = $this->get( 'per_page' );
+		if ( ! $this->get( 'count_only' ) ) {
+			$vars[] = $this->get_skip();
+			$vars[] = $this->get( 'per_page' );
+		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
@@ -184,13 +183,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			{$this->sql_search()}
 			{$this->sql_having()}
 			{$this->sql_orderby()}
-			LIMIT %d, %d;",
+			" . ( ! $this->get( 'count_only' ) ? 'LIMIT %d, %d' : '' ) . ';',
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
-
 	}
 
 	/**
@@ -294,7 +292,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_join', $sql, $this );
-
 	}
 
 	/**
@@ -334,7 +331,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_search', $sql, $this );
-
 	}
 
 	/**
@@ -392,7 +388,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_select', $sql, $this );
-
 	}
 
 	/**
@@ -416,7 +411,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
-
 	}
 
 	/**
@@ -449,5 +443,4 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 				ORDER BY updated_date DESC
 				LIMIT 1";
 	}
-
 }

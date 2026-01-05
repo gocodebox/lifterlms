@@ -413,12 +413,13 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 			$query = new LLMS_Student_Query(
 				array(
-					'post_id'  => $this->get( 'id' ),
-					'statuses' => array( 'enrolled' ),
-					'per_page' => 1,
-					'sort'     => array(
+					'post_id'    => $this->get( 'id' ),
+					'statuses'   => array( 'enrolled' ),
+					'per_page'   => 1,
+					'sort'       => array(
 						'id' => 'ASC',
 					),
+					'count_only' => true,
 				)
 			);
 

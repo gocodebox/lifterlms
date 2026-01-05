@@ -174,7 +174,11 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 */
 	protected function sql_select_columns( $select_columns = '*' ) {
 
-		if ( ! $this->get( 'no_found_rows' ) ) {
+		if ( $this->get( 'count_only' ) ) {
+			$select_columns = 'COUNT(*), ' . $select_columns;
+		}
+
+		if ( ! $this->get( 'count_only' ) && ! $this->get( 'no_found_rows' ) ) {
 			$select_columns = 'SQL_CALC_FOUND_ROWS ' . $select_columns;
 		}
 
