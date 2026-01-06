@@ -1,6 +1,6 @@
 @lifterlms/dev CHANGELOG
 ========================
-v0.2.3 - 2025-12-19
+v0.2.4 - 2025-12-19
 ----------
 
 * Avoid deleting the `composer.lock` file.
