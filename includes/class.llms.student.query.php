@@ -182,8 +182,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$count_wrapper_end   = ') as t';
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
 		$sql_query = "{$count_wrapper_start}SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
@@ -197,6 +195,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			return $sql_query;
 		}
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
 		$sql = $wpdb->prepare(
 			$sql_query,
 			$vars
