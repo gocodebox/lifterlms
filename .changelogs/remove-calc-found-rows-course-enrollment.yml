@@ -1,0 +1,6 @@
+significance: minor
+type: fixed
+links:
+  - "#3073"
+entry: Fix count of currently enrolled students in the Course overview reporting
+  for certain hosts and number of students.
