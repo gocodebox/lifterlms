@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Handle possible array of arrays in admin settings.
