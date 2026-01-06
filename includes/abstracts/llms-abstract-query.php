@@ -315,7 +315,16 @@ abstract class LLMS_Abstract_Query {
 	 */
 	public function get_found_results() {
 		if ( $this->get( 'count_only' ) ) {
+			$results = $this->get_results();
 
+			if ( ! is_array( $results ) || ! count( $results ) || ! isset( $results[0] ) || ! property_exists( $results[0], 'total' ) ) {
+				/* Translators: %s - name of class. */
+				error_log( sprintf( __( '[LifterLMS] Found results with count_only has no result rows in %s.', 'lifterlms' ), get_class( $this ) ) );
+
+				return 0;
+			}
+
+			return intval( $results[0]->total );
 		}
 
 		return $this->found_results;

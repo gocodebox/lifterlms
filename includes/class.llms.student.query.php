@@ -169,21 +169,29 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$vars[] = $search;
 		}
 
+		$limit_clause = '';
 		if ( ! $this->get( 'count_only' ) ) {
-			$vars[] = $this->get_skip();
-			$vars[] = $this->get( 'per_page' );
+			$vars[]       = $this->get_skip();
+			$vars[]       = $this->get( 'per_page' );
+			$limit_clause = 'LIMIT %d, %d';
+		}
+
+		$count_wrapper_start = $count_wrapper_end = '';
+		if ( $this->get( 'count_only' ) ) {
+			$count_wrapper_start = 'SELECT COUNT(*) AS total FROM (';
+			$count_wrapper_end   = ') as t';
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
 		$sql = $wpdb->prepare(
-			"SELECT {$this->sql_select()}
+			"{$count_wrapper_start}SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
 			{$this->sql_having()}
 			{$this->sql_orderby()}
-			" . ( ! $this->get( 'count_only' ) ? 'LIMIT %d, %d' : '' ) . ';',
+			{$limit_clause}{$count_wrapper_end};",
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
