@@ -108,8 +108,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
 
-		// Store the total number of students right away.
-		$course->set( 'enrolled_students', $query->get_found_results() );
+		// Get the total number of students as a separate query. If the query fails store best guess with the SQL_CALC_FOUND_ROWS result.
+		$count_query = new LLMS_Student_Query( array_merge( $args, array( 'count_only' => true ) ) );
+		$course->set( 'enrolled_students', ( $count_query->get_found_results() ? $count_query->get_found_results() : $query->get_found_results() ) );
 
 		// Throttle processing.
 		if ( $this->maybe_throttle( $query->get_found_results(), $course_id ) ) {

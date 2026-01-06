@@ -184,14 +184,21 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
-		$sql = $wpdb->prepare(
-			"{$count_wrapper_start}SELECT {$this->sql_select()}
+		$sql_query = "{$count_wrapper_start}SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
 			{$this->sql_having()}
 			{$this->sql_orderby()}
-			{$limit_clause}{$count_wrapper_end};",
+			{$limit_clause}{$count_wrapper_end};";
+
+		if ( empty( $vars ) ) {
+			// If we don't have placeholders, we can't use prepare().
+			return $sql_query;
+		}
+
+		$sql = $wpdb->prepare(
+			$sql_query,
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
