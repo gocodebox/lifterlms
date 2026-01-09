@@ -314,19 +314,6 @@ abstract class LLMS_Abstract_Query {
 	 * @return int
 	 */
 	public function get_found_results() {
-		if ( $this->get( 'count_only' ) ) {
-			$results = $this->get_results();
-
-			if ( ! is_array( $results ) || ! count( $results ) || ! isset( $results[0] ) || ! property_exists( $results[0], 'total' ) ) {
-				/* Translators: %s - name of class. */
-				error_log( sprintf( __( '[LifterLMS] Found results with count_only has no result rows in %s.', 'lifterlms' ), get_class( $this ) ) );
-
-				return 0;
-			}
-
-			return intval( $results[0]->total );
-		}
-
 		return $this->found_results;
 	}
 
@@ -334,7 +321,7 @@ abstract class LLMS_Abstract_Query {
 	 * Get the total number of pages available for the given query.
 	 *
 	 * If the query was instantiated with `$no_found_rows=true` this will always
-	 * return `0`.
+	 * return `0`, unless `$count_only=true`.
 	 *
 	 * Retrieves the value of the protected property `$max_pages`.
 	 *
@@ -588,5 +575,25 @@ abstract class LLMS_Abstract_Query {
 			$this->set( $arg, $val );
 
 		}
+	}
+
+	public function get_count_only_result() {
+		$results = $this->get_results();
+		if ( ! is_array( $results ) || ! count( $results ) || ! isset( $results[0] ) || ! property_exists(
+			$results[0],
+			'total'
+		) ) {
+			/* Translators: %s - name of class. */
+			error_log(
+				sprintf(
+					__( '[LifterLMS] Found results with count_only has no result rows in %s.', 'lifterlms' ),
+					get_class( $this )
+				)
+			);
+
+			return 0;
+		}
+
+		return intval( $results[0]->total );
 	}
 }

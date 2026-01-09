@@ -423,7 +423,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 				)
 			);
 
-			$count = $query->get_found_results();
+			$count = $query->get_count_only_result();
 
 			// Cache result for later use.
 			$this->set( 'enrolled_students', $count );
