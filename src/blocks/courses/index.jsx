@@ -11,12 +11,13 @@ import {
 	SelectControl,
 	Spinner,
 	ToggleControl,
+	ComboboxControl,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import { useState, useMemo } from '@wordpress/element';
+import { useState, useMemo, useEffect, useRef } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
+import apiFetch from '@wordpress/api-fetch';
 
 // Internal dependencies.
 import { usePostOptions } from '../../../packages/components/src/post-select';
@@ -27,24 +28,36 @@ const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
 	const [ courseTitles, setCourseTitles ] = useState( [] );
+	const [ categoryOptions, setCategoryOptions ] = useState( [] );
 
-	const { categories } = useSelect( ( select ) => {
-		return {
-			categories: select( 'core' )?.getEntityRecords( 'taxonomy', 'course_cat' ),
-		};
+	useEffect( () => {
+		apiFetch( {
+			path: '/wp/v2/course_cat?per_page=100',
+		} )
+			.then( ( categories ) => {
+				const options = categories.map( ( category ) => {
+					return {
+						value: category.slug,
+						label: category.name,
+					};
+				} );
+
+				options.unshift( {
+					value: '',
+					label: __( '- All -', 'lifterlms' ),
+				} );
+
+				setCategoryOptions( options );
+			} )
+			.catch( () => {
+				setCategoryOptions( [
+					{
+						value: '',
+						label: __( '- All -', 'lifterlms' ),
+					},
+				] );
+			} );
 	}, [] );
-
-	const categoryOptions = categories?.map( ( category ) => {
-		return {
-			value: category.slug,
-			label: category.name,
-		};
-	} );
-
-	categoryOptions?.unshift( {
-		value: '',
-		label: __( '- All -', 'lifterlms' ),
-	} );
 
 	const fetchedOptions = usePostOptions();
 	const courseOptions = {};
@@ -77,19 +90,18 @@ const Edit = ( props ) => {
 
 		<InspectorControls>
 			<PanelBody title={ __( 'Courses Settings', 'lifterlms' ) }>
-				{ categoryOptions?.length > 0 && (
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Category', 'lifterlms' ) }
-							help={ __( 'Display courses from a specific Course Category only.', 'lifterlms' ) }
-							value={ attributes?.category }
-							options={ categoryOptions }
-							onChange={ ( value ) => setAttributes( {
-								category: value,
-							} ) }
-						/>
-					</PanelRow>
-				) }
+				<PanelRow>
+					<ComboboxControl
+						label={ __( 'Category', 'lifterlms' ) }
+						help={ __( 'Display courses from a specific Course Category only.', 'lifterlms' ) }
+						value={ attributes?.category || '' }
+						options={ categoryOptions }
+						onChange={ ( value ) => setAttributes( {
+							category: value,
+						} ) }
+						allowReset={ true }
+					/>
+				</PanelRow>
 				<PanelRow>
 					<ToggleControl
 						label={ __( 'Show hidden courses?', 'lifterlms' ) }
