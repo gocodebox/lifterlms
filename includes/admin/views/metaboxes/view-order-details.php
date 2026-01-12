@@ -121,7 +121,15 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 
 		<?php endif; ?>
 
-		<h4><?php esc_html_e( 'Payment Information', 'lifterlms' ); ?></h4>
+		<h4>
+			<?php esc_html_e( 'Payment Information', 'lifterlms' ); ?>
+			<?php if ( $order->is_recurring() ) : ?>
+				<button class="llms-editable" title="<?php esc_attr_e( 'Edit payment information', 'lifterlms' ); ?>">
+					<span class="dashicons dashicons-edit"></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Edit payment information', 'lifterlms' ); ?></span>
+				</button>
+			<?php endif; ?>
+		</h4>
 
 		<?php if ( $order->has_discount() ) : ?>
 			<div class="llms-metabox-field">
@@ -149,7 +157,13 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 
 		<div class="llms-metabox-field">
 			<label><?php esc_html_e( 'Total:', 'lifterlms' ); ?></label>
+			<?php if ( $order->is_recurring() ) : ?>
+			<div class="" data-llms-editable="total" data-llms-editable-required="yes" data-llms-editable-type="price" data-llms-editable-value="<?php echo esc_attr( $order->get( 'total' ) ); ?>">
+			<?php endif; ?>
 			<?php echo wp_kses( $order->get_price( 'total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
+			<?php if ( $order->is_recurring() ) : ?>
+			</div>
+			<?php endif; ?>
 			<?php if ( $order->is_recurring() ) : ?>
 				<?php
 				//phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number so it's throwing an error but it's not broken.
