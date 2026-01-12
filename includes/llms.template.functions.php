@@ -1210,11 +1210,11 @@ if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 		if ( ! $post_id ) {
 			return false;
 		}
-		if ( ! class_exists( 'Elementor\Plugin' ) || ! class_exists( 'Elementor\Core\Documents_Manager' ) ) {
+		if ( ! class_exists( 'Elementor\Plugin' ) ) {
 			return false;
 		}
 		$elementor_plugin = Elementor\Plugin::instance();
-		if ( ! $elementor_plugin->documents instanceof Elementor\Core\Documents_Manager ) {
+		if ( ! $elementor_plugin->documents || ! method_exists( $elementor_plugin->documents, 'get' ) ) {
 			return false;
 		}
 		$elementor_post = $elementor_plugin->documents->get( $post_id );
