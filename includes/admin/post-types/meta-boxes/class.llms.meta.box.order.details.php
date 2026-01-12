@@ -100,6 +100,10 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			return 0;
 		}
 
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return -1;
+		}
+
 		$fields = array(
 			'payment_gateway',
 			'gateway_customer_id',
