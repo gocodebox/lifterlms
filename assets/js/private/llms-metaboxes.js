@@ -369,11 +369,24 @@
 
 				} else if ( 'price' === type ) {
 
-					$input = $( '<input name="' + name + '" type="number" min="0" step="any" value="' + val + '"' + required + '>' );
+					$input = $( '<input>' )
+						.attr('name', name)
+						.attr('type', 'number')
+						.attr('min', '0')
+						.attr('step', 'any')
+						.attr('value', val);
+					if (required) {
+						$input.attr('required', 'required');
+					}
 
 				} else {
-
-					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>' );
+					$input = $( '<input>' )
+						.attr('name', name)
+						.attr('type', type)
+						.attr('value', val);
+					if (required) {
+						$input.attr('required', 'required');
+					}
 				}
 
 				$field.empty().append( $label ).append( $input );
