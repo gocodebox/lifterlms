@@ -54,7 +54,6 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 		$this->post_id = $order->get( 'id' );
 
 		$this->send();
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 		}
 
 		return $uid;
-
 	}
 
 	/**
@@ -105,7 +103,7 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 	 */
 	protected function set_supported_types() {
 		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
+			'basic' => __( 'Popup', 'lifterlms' ),
 			'email' => __( 'Email', 'lifterlms' ),
 		);
 	}
@@ -149,9 +147,7 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 		}
 
 		return $options;
-
 	}
-
 }
 
 return LLMS_Notification_Controller_Manual_Payment_Due::instance();
