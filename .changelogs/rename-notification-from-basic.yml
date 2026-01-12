@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Renaming "Basic" notification to "Popup" for clarity.

@@ -33,7 +33,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		);
 		$this->context  = 'normal';
 		$this->priority = 'high';
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		}
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-order-details.php';
-
 	}
 
 	/**
@@ -102,6 +100,10 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			return 0;
 		}
 
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return -1;
+		}
+
 		$fields = array(
 			'payment_gateway',
 			'gateway_customer_id',
@@ -116,10 +118,16 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			}
 		}
 
+		// Only allow editing the total (for the next recurrence) if this is a recurring order.
+		if ( $order->is_recurring() && isset( $_POST['total'] ) && is_numeric( $_POST['total'] ) ) {
+			$total = floatval( $_POST['total'] );
+			$order->set( 'total', $total );
+			$order->add_note( sprintf( __( 'Order total for future payments updated to %s.', 'lifterlms' ), $order->get_price( 'total' ) ) );
+		}
+
 		$this->save_remaining_payments( $order );
 
 		return 1;
-
 	}
 
 	/**
@@ -181,7 +189,5 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		}
 
 		return 1;
-
 	}
-
 }
