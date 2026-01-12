@@ -29,10 +29,16 @@ const Edit = ( props ) => {
 	const blockProps = useBlockProps();
 	const [ courseTitles, setCourseTitles ] = useState( [] );
 	const [ categoryOptions, setCategoryOptions ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ searchTerm, setSearchTerm ] = useState( '' );
 
-	useEffect( () => {
+	// Fetch categories from API based on search term.
+	const fetchCategories = ( term, value = '' ) => {
+		setIsLoading( true );
+
+		const searchParam = term ? `&search=${ encodeURIComponent( term ) }` : '';
 		apiFetch( {
-			path: '/wp/v2/course_cat?per_page=100',
+			path: `/wp/v2/course_cat?per_page=10${ searchParam }`,
 		} )
 			.then( ( categories ) => {
 				const options = categories.map( ( category ) => {
@@ -47,7 +53,30 @@ const Edit = ( props ) => {
 					label: __( '- All -', 'lifterlms' ),
 				} );
 
-				setCategoryOptions( options );
+				// If there's a selected value and it's not in the results, fetch it separately.
+				if ( value && !options.some( o => o.value === value ) ) {
+					apiFetch( { path: `/wp/v2/course_cat?slug=${ encodeURIComponent( value ) }` } )
+						.then( ( categories ) => {
+							if ( categories && categories.length > 0 ) {
+								setCategoryOptions( [
+									...options,
+									...categories.map( ( category ) => {
+										return {
+											value: category.slug,
+											label: category.name,
+										};
+									} ),
+								] );
+							} else {
+								setCategoryOptions( options );
+							}
+						} )
+						.catch( () => {
+							setCategoryOptions( options );
+						} );
+				} else {
+					setCategoryOptions( options );
+				}
 			} )
 			.catch( () => {
 				setCategoryOptions( [
@@ -56,8 +85,16 @@ const Edit = ( props ) => {
 						label: __( '- All -', 'lifterlms' ),
 					},
 				] );
+			} )
+			.finally( () => {
+				setIsLoading( false );
 			} );
-	}, [] );
+	};
+
+	useEffect( () => {
+		const timeout = setTimeout( () => fetchCategories( searchTerm, attributes?.category ), 300 );
+		return () => clearTimeout( timeout );
+	}, [ searchTerm, attributes?.category ] );
 
 	const fetchedOptions = usePostOptions();
 	const courseOptions = {};
@@ -99,6 +136,8 @@ const Edit = ( props ) => {
 						onChange={ ( value ) => setAttributes( {
 							category: value,
 						} ) }
+						onFilterValueChange={ setSearchTerm }
+						isLoading={ isLoading }
 						allowReset={ true }
 					/>
 				</PanelRow>
