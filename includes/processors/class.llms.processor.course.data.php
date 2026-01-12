@@ -83,7 +83,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @return void|null
 	 */
 	public function dispatch_calc( $course_id ) {
-
 		$this->log( sprintf( 'Course data calculation dispatched for course %d.', $course_id ) );
 
 		// Make sure we have a course.
@@ -100,24 +99,29 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Retrieve args.
 		$args = $this->get_student_query_args( $course_id );
 
-		// Get total number of pages.
+		// Get the results for the current set of arguments.
 		$query = new LLMS_Student_Query( $args );
 
 		// No students in the course, run task completion.
-		if ( ! $query->get_found_results() ) {
+		if ( ! $query->get_number_results() ) {
 			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
 
-		// Store the total number of students right away.
-		$course->set( 'enrolled_students', $query->get_found_results() );
+		// Get the total number of students as a separate query since deprecating SQL_CALC_FOUND_ROWS usage.
+		$count_query = new LLMS_Student_Query( array_merge( $args, array( 'count_only' => true ) ) );
+		if ( ! $count_query->get_count_only_result() ) {
+			return $this->task_complete( $course, $this->get_task_data(), true );
+		}
+		$course->set( 'enrolled_students', $count_query->get_count_only_result() );
 
 		// Throttle processing.
-		if ( $this->maybe_throttle( $query->get_found_results(), $course_id ) ) {
+		if ( $this->maybe_throttle( $count_query->get_count_only_result(), $course_id ) ) {
 			return $this->dispatch_calc_throttled( $course_id );
 		}
 
 		// Add each page to the queue.
-		while ( $args['page'] <= $query->get_max_pages() ) {
+		$max_pages = absint( ceil( $count_query->get_count_only_result() / $args['per_page'] ) );
+		while ( $args['page'] <= $max_pages ) {
 			$this->push_to_queue( $args );
 			++$args['page'];
 		}
@@ -164,13 +168,14 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		return apply_filters(
 			'llms_data_processor_course_data_student_query_args',
 			array(
-				'post_id'  => $course_id,
-				'statuses' => array( 'enrolled' ),
-				'page'     => 1,
-				'per_page' => 100,
-				'sort'     => array(
+				'post_id'       => $course_id,
+				'statuses'      => array( 'enrolled' ),
+				'page'          => 1,
+				'per_page'      => 100,
+				'sort'          => array(
 					'id' => 'ASC',
 				),
+				'no_found_rows' => true,
 			),
 			$this
 		);
