@@ -926,6 +926,7 @@ class LLMS_Media_Protector {
 
 		$serve_method = self::SERVE_SEND_FILE;
 
+		// If WPEngine, we need to use the slower read file method as send file does not work.
 		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
 			$serve_method = self::SERVE_READ_FILE;
 		}
