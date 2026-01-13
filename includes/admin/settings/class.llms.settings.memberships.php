@@ -34,7 +34,6 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -123,10 +122,11 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 					'desc'    => __( 'Determines the display order for items on the memberships page.', 'lifterlms' ),
 					'id'      => 'lifterlms_memberships_ordering',
 					'options' => array(
-						'menu_order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
-						'title,ASC'      => __( 'Title (A - Z)', 'lifterlms' ),
-						'title,DESC'     => __( 'Title (Z - A)', 'lifterlms' ),
-						'date,DESC'      => __( 'Most Recent', 'lifterlms' ),
+						'menu_order,ASC'  => __( 'Order (Low to High)', 'lifterlms' ),
+						'menu_order,DESC' => __( 'Order (High to Low)', 'lifterlms' ),
+						'title,ASC'       => __( 'Title (A - Z)', 'lifterlms' ),
+						'title,DESC'      => __( 'Title (Z - A)', 'lifterlms' ),
+						'date,DESC'       => __( 'Most Recent', 'lifterlms' ),
 					),
 					'title'   => __( 'Memberships Sorting', 'lifterlms' ),
 					'type'    => 'select',
@@ -153,7 +153,6 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::save_fields( $settings );
-
 	}
 
 	/**
@@ -167,7 +166,6 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 		$settings = $this->get_settings();
 		LLMS_Admin_Settings::output_fields( $settings );
 	}
-
 }
 
 return new LLMS_Settings_Memberships();
