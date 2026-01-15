@@ -321,7 +321,7 @@ abstract class LLMS_Abstract_Query {
 	 * Get the total number of pages available for the given query.
 	 *
 	 * If the query was instantiated with `$no_found_rows=true` this will always
-	 * return `0`, unless `$count_only=true`.
+	 * return `0`.
 	 *
 	 * Retrieves the value of the protected property `$max_pages`.
 	 *
