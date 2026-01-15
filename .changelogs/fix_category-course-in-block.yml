@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3078"
-entry: Allow selection of all categories in the Courses block when there are
-  more than 10 categories.

@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-attributions:
-  - "@DAnn2012"
-entry: Fixing aria label output for course favorites.

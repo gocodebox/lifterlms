@@ -98,7 +98,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() new order total.
 	 *
-	 * @since [version]
+	 * @since 9.2.0
 	 *
 	 * @return void
 	 */

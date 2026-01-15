@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3070"
-entry: Avoid fatal error when importing a course with an empty picture choice
-  question.

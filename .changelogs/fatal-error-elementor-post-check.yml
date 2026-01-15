@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3065"
-entry: Additional verifications when checking for an Elementor post to avoid
-  fatal errors in some cases.

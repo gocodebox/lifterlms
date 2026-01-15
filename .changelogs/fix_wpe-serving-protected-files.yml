@@ -1,5 +1,0 @@
-significance: minor
-type: fixed
-links:
-  - "#3048"
-entry: Fix protected images not loading on WPEngine hosting.
