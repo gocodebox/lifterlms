@@ -1,6 +1,35 @@
 LifterLMS Changelog
 ===================
 
+v9.2.0 - 2026-01-15
+-------------------
+
+##### New Features
+
++ Adding "Order (High to Low)" sorting option for the Course and Membership Catalog. [#3074](https://github.com/gocodebox/lifterlms/issues/3074)
++ New global and course-level option to specify a page to redirect to upon course completion.
++ Ability to edit pricing for future charges of a recurring Order.
+
+##### Updates and Enhancements
+
++ Renaming "Basic" notification to "Popup" for clarity.
++ Avoid showing license key on error.
+
+##### Bug Fixes
+
++ Additional verifications when checking for an Elementor post to avoid fatal errors in some cases. [#3065](https://github.com/gocodebox/lifterlms/issues/3065)
++ Allow selection of all categories in the Courses block when there are more than 10 categories. [#3078](https://github.com/gocodebox/lifterlms/issues/3078)
++ Fixing aria label output for course favorites. Thanks [@DAnn2012](https://github.com/DAnn2012)!
++ Avoid fatal error when importing a course with an empty picture choice question. [#3070](https://github.com/gocodebox/lifterlms/issues/3070)
++ Fix protected images not loading on WPEngine hosting. [#3048](https://github.com/gocodebox/lifterlms/issues/3048)
++ Fix count of currently enrolled students in the Course overview reporting for certain hosts and number of students. [#3073](https://github.com/gocodebox/lifterlms/issues/3073)
++ Handle possible array of arrays in admin settings.
+
+##### Updated Templates
+
++ [templates/course/favorite.php](https://github.com/gocodebox/lifterlms/blob/9.2.0/templates/course/favorite.php)
+
+
 v9.1.2 - 2025-11-20
 -------------------
 

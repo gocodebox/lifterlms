@@ -629,6 +629,10 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 			return $choice;
 		}
 
+		if ( ! isset( $choice['choice']['src'] ) ) {
+			return $choice;
+		}
+
 		$id = $this->sideload_image( $question_id, $choice['choice']['src'], 'id' );
 		if ( is_wp_error( $id ) ) {
 			return $choice;

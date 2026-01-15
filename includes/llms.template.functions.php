@@ -1207,7 +1207,21 @@ if ( ! function_exists( 'llms_is_elementor_post' ) ) {
 		if ( ! $post_id ) {
 			$post_id = get_the_ID();
 		}
-		return $post_id && class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::instance()->documents->get( $post_id )->is_built_with_elementor();
+		if ( ! $post_id ) {
+			return false;
+		}
+		if ( ! class_exists( 'Elementor\Plugin' ) ) {
+			return false;
+		}
+		$elementor_plugin = Elementor\Plugin::instance();
+		if ( ! $elementor_plugin->documents || ! method_exists( $elementor_plugin->documents, 'get' ) ) {
+			return false;
+		}
+		$elementor_post = $elementor_plugin->documents->get( $post_id );
+		if ( ! $elementor_post || ! method_exists( $elementor_post, 'is_built_with_elementor' ) ) {
+			return false;
+		}
+		return $elementor_post->is_built_with_elementor();
 	}
 }
 

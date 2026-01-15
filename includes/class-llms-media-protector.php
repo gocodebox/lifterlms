@@ -924,6 +924,13 @@ class LLMS_Media_Protector {
 		header( 'Cache-Control: private, no-cache' );
 		header( "Etag: $entity_tag" );
 
+		$serve_method = self::SERVE_SEND_FILE;
+
+		// If WPEngine, we need to use the slower read file method as send file does not work.
+		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+			$serve_method = self::SERVE_READ_FILE;
+		}
+
 		/**
 		 * Determine how the media file should be served.
 		 *
@@ -934,7 +941,7 @@ class LLMS_Media_Protector {
 		 * @param bool|null $is_authorized True if the user is authorized to view the requested media file,
 		 *                                 false if not authorized, or null if the media file is not protected.
 		 */
-		$serve_method = apply_filters( 'llms_media_serve_method', self::SERVE_SEND_FILE, $media_id, $is_authorized );
+		$serve_method = apply_filters( 'llms_media_serve_method', $serve_method, $media_id, $is_authorized );
 
 		// Don't use 'llms-uploads=' rewrite + send_redirect() at the same time. Otherwise there will be an infinite loop
 		// of HTTP requests for the file and HTTP responses with a '302 Found' redirect back to the same file.
@@ -1023,7 +1030,7 @@ class LLMS_Media_Protector {
 	 * Add authorization meta to the post.
 	 *
 	 * @param $post_id
-	 * @param string  $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
+	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
 	 * @return void
 	 */

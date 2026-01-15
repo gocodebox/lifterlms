@@ -34,7 +34,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
 	}
 
 	/**
@@ -87,6 +86,20 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				),
 
 				array(
+					'class'             => 'llms-select2-post',
+					'custom_attributes' => array(
+						'data-allow-clear' => true,
+						'data-post-type'   => 'page',
+						'data-placeholder' => __( 'Select a page', 'lifterlms' ),
+					),
+					'desc'              => sprintf( __( 'This page will be shown to students when they complete the course. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-completion-page/" target="_blank">', '</a>' ),
+					'id'                => 'lifterlms_course_completion_page_id',
+					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_course_completion_page_id', '' ) ),
+					'title'             => __( 'Course Completion', 'lifterlms' ),
+					'type'              => 'select',
+				),
+
+				array(
 					'type' => 'sectionend',
 					'id'   => 'course_general_options',
 				),
@@ -130,10 +143,11 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'desc'    => __( 'Determines the display order for courses on the courses page.', 'lifterlms' ),
 					'id'      => 'lifterlms_shop_ordering',
 					'options' => array(
-						'menu_order,ASC' => __( 'Order (Low to High)', 'lifterlms' ),
-						'title,ASC'      => __( 'Title (A - Z)', 'lifterlms' ),
-						'title,DESC'     => __( 'Title (Z - A)', 'lifterlms' ),
-						'date,DESC'      => __( 'Most Recent', 'lifterlms' ),
+						'menu_order,ASC'  => __( 'Order (Low to High)', 'lifterlms' ),
+						'menu_order,DESC' => __( 'Order (High to Low)', 'lifterlms' ),
+						'title,ASC'       => __( 'Title (A - Z)', 'lifterlms' ),
+						'title,DESC'      => __( 'Title (Z - A)', 'lifterlms' ),
+						'date,DESC'       => __( 'Most Recent', 'lifterlms' ),
 					),
 					'title'   => __( 'Catalog Sorting', 'lifterlms' ),
 					'type'    => 'select',
@@ -156,7 +170,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		$deprecated = apply_filters( 'lifterlms_catalog_settings', array() );
 
 		return array_merge( $course, $deprecated );
-
 	}
 
 	/**
@@ -183,7 +196,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 		LLMS_Admin_Settings::output_fields( $settings );
 		add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 	}
-
 }
 
 return new LLMS_Settings_Courses();

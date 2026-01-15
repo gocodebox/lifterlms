@@ -129,7 +129,6 @@ abstract class LLMS_Abstract_Query {
 		$this->setup_args();
 
 		$this->query();
-
 	}
 
 	/**
@@ -148,7 +147,6 @@ abstract class LLMS_Abstract_Query {
 			$this->found_results = $this->found_results();
 			$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
 		}
-
 	}
 
 	/**
@@ -170,8 +168,8 @@ abstract class LLMS_Abstract_Query {
 			'sort'             => array(),
 			'suppress_filters' => false,
 			'no_found_rows'    => false,
+			'count_only'       => false,
 		);
-
 	}
 
 	/**
@@ -275,7 +273,6 @@ abstract class LLMS_Abstract_Query {
 		 * @param array $allowed_fields Default arguments.
 		 */
 		return apply_filters( "llms_{$this->id}_query_allowed_sort_fields", $allowed_fields );
-
 	}
 
 	/**
@@ -302,7 +299,6 @@ abstract class LLMS_Abstract_Query {
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
 		return apply_filters( "llms_{$this->id}_query_get_default_args", $this->default_arguments() );
-
 	}
 
 	/**
@@ -375,7 +371,6 @@ abstract class LLMS_Abstract_Query {
 		 * @param array $results Array of results retrieved by the query.
 		 */
 		return apply_filters( "llms_{$this->id}_query_get_results", $this->results );
-
 	}
 
 	/**
@@ -474,7 +469,6 @@ abstract class LLMS_Abstract_Query {
 		$this->results = $this->perform_query();
 
 		$this->count_results();
-
 	}
 
 	/**
@@ -501,7 +495,6 @@ abstract class LLMS_Abstract_Query {
 
 		// Remove empty values.
 		return array_values( array_filter( $ids ) );
-
 	}
 
 	/**
@@ -528,7 +521,6 @@ abstract class LLMS_Abstract_Query {
 		}
 
 		return $sort;
-
 	}
 
 	/**
@@ -583,7 +575,25 @@ abstract class LLMS_Abstract_Query {
 			$this->set( $arg, $val );
 
 		}
-
 	}
 
+	public function get_count_only_result() {
+		$results = $this->get_results();
+		if ( ! is_array( $results ) || ! count( $results ) || ! isset( $results[0] ) || ! property_exists(
+			$results[0],
+			'total'
+		) ) {
+			/* Translators: %s - name of class. */
+			error_log(
+				sprintf(
+					__( '[LifterLMS] Found results with count_only has no result rows in %s.', 'lifterlms' ),
+					get_class( $this )
+				)
+			);
+
+			return 0;
+		}
+
+		return intval( $results[0]->total );
+	}
 }

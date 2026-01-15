@@ -174,7 +174,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 */
 	protected function sql_select_columns( $select_columns = '*' ) {
 
-		if ( ! $this->get( 'no_found_rows' ) ) {
+		if ( ! $this->get( 'count_only' ) && ! $this->get( 'no_found_rows' ) ) {
 			$select_columns = 'SQL_CALC_FOUND_ROWS ' . $select_columns;
 		}
 
@@ -233,6 +233,11 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 */
 	protected function sql_orderby() {
 		$sql = '';
+
+		// No point in ordering if we're just counting.
+		if ( $this->get( 'count_only' ) ) {
+			return $sql;
+		}
 
 		$sort = $this->get( 'sort' );
 		if ( $sort ) {
