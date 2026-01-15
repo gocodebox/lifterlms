@@ -62,7 +62,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_default_args', $args, $this );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_get_students', $students, $this );
-
 	}
 
 	/**
@@ -146,7 +144,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			}
 		}
 		$this->arguments['post_id'] = $post_ids;
-
 	}
 
 	/**
@@ -172,25 +169,41 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$vars[] = $search;
 		}
 
-		$vars[] = $this->get_skip();
-		$vars[] = $this->get( 'per_page' );
+		$limit_clause = '';
+		if ( ! $this->get( 'count_only' ) ) {
+			$vars[]       = $this->get_skip();
+			$vars[]       = $this->get( 'per_page' );
+			$limit_clause = 'LIMIT %d, %d';
+		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
-		$sql = $wpdb->prepare(
-			"SELECT {$this->sql_select()}
+		$count_wrapper_start = $count_wrapper_end = '';
+		if ( $this->get( 'count_only' ) ) {
+			$count_wrapper_start = 'SELECT COUNT(*) AS total FROM (';
+			$count_wrapper_end   = ') as t';
+		}
+
+		$sql_query = "{$count_wrapper_start}SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
 			{$this->sql_having()}
 			{$this->sql_orderby()}
-			LIMIT %d, %d;",
+			{$limit_clause}{$count_wrapper_end};";
+
+		if ( empty( $vars ) ) {
+			// If we don't have placeholders, we can't use prepare().
+			return $sql_query;
+		}
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.
+		$sql = $wpdb->prepare(
+			$sql_query,
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
-
 	}
 
 	/**
@@ -294,7 +307,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_join', $sql, $this );
-
 	}
 
 	/**
@@ -334,7 +346,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_search', $sql, $this );
-
 	}
 
 	/**
@@ -392,7 +403,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
 		return apply_filters( 'llms_student_query_select', $sql, $this );
-
 	}
 
 	/**
@@ -416,7 +426,6 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
-
 	}
 
 	/**
@@ -449,5 +458,4 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 				ORDER BY updated_date DESC
 				LIMIT 1";
 	}
-
 }
