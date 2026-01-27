@@ -159,10 +159,6 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	protected function get_student_count_query_from_args( $args ) {
 		$count_args = array_merge( $args, array( 'count_only' => true ) );
 
-		// We want to remove any pagination options so we get all the results.
-		unset( $count_args['page'] );
-		$count_args['per_page'] = -1;
-
 		return $count_args;
 	}
 
