@@ -108,7 +108,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		}
 
 		// Get the total number of students as a separate query since deprecating SQL_CALC_FOUND_ROWS usage.
-		$count_query = new LLMS_Student_Query( array_merge( $args, array( 'count_only' => true ) ) );
+		$count_query = new LLMS_Student_Query( $this->get_student_count_query_from_args( $args ) );
 		if ( ! $count_query->get_count_only_result() ) {
 			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
@@ -121,6 +121,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		// Add each page to the queue.
 		$max_pages = absint( ceil( $count_query->get_count_only_result() / $args['per_page'] ) );
+		// Pass in the max pages as an argument to the task so we don't need to run the count query each time.
+		$args['max_pages'] = $max_pages;
 		while ( $args['page'] <= $max_pages ) {
 			$this->push_to_queue( $args );
 			++$args['page'];
@@ -145,6 +147,19 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		$this->schedule_calculation( $course_id, time() + $this->throttle_frequency );
 		$this->log( sprintf( 'Course data calculation throttled for course %d.', $course_id ) );
+	}
+
+	/**
+	 * Modify the query arguments for calculating the total count.
+	 *
+	 * @param $args
+	 *
+	 * @return array Array of arguments passed to an LLMS_Student_Query for calculating the student count.
+	 */
+	protected function get_student_count_query_from_args( $args ) {
+		$count_args = array_merge( $args, array( 'count_only' => true ) );
+
+		return $count_args;
 	}
 
 	/**
@@ -444,6 +459,15 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Merge with the defaults.
 		$data = $this->get_task_data( $data );
 
+		/**
+		 * Save the max number of pages value passed in when the tasks were pushed to the queue.
+		 *
+		 * If a task was dispatched without it, set the max pages to 0 so we can try to calculate the count
+		 * using a new count-only query.
+		 */
+		$max_pages = isset( $args['max_pages'] ) ? $args['max_pages'] : 0;
+		unset( $args['max_pages'] );
+
 		// Perform the query.
 		$query = new LLMS_Student_Query( $args );
 
@@ -464,7 +488,19 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			}
 		}
 
-		return $this->task_complete( $course, $data, $query->is_last_page() );
+		if ( $max_pages === 0 ) {
+			$count_query = new LLMS_Student_Query( $this->get_student_count_query_from_args( $args ) );
+			if ( ! $count_query->get_count_only_result() ) {
+				// End processing when we can't get the count.
+				$is_last_page = true;
+				return $this->task_complete( $course, $data, $is_last_page );
+			}
+
+			$max_pages = absint( ceil( $count_query->get_count_only_result() / $args['per_page'] ) );
+		}
+		$is_last_page = ( absint( $max_pages ) === absint( $args['page'] ) );
+
+		return $this->task_complete( $course, $data, $is_last_page );
 	}
 
 	/**

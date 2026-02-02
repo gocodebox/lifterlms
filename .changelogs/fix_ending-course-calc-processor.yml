@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3087"
+entry: Fix course data calculation not ending since 9.2.0.
