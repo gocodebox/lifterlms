@@ -154,14 +154,29 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Perform a SQL to retrieve the total number of found results for the given query.
 	 *
+	 * Uses a COUNT(*) subquery wrapper around the original query instead of the
+	 * deprecated SQL_CALC_FOUND_ROWS + FOUND_ROWS() approach.
+	 *
 	 * @since 6.0.0
+	 * @since [version] Replaced FOUND_ROWS() with COUNT(*) subquery for MySQL 8.0.17+ compatibility.
 	 *
 	 * @return int
 	 */
 	protected function found_results() {
 
 		global $wpdb;
-		return (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
+
+		// Remove LIMIT clause from the query for counting all results.
+		$count_query = preg_replace( '/\s+LIMIT\s+\d+\s*,\s*\d+\s*;?\s*$/i', '', $this->query );
+
+		// Replace SELECT columns with SELECT 1 to avoid "Duplicate column name" errors
+		// when the query uses JOINs with tables that have same column names (e.g., both have 'ID').
+		$count_query = preg_replace( '/^SELECT\s+.+?\s+FROM\s/is', 'SELECT 1 FROM ', $count_query );
+
+		// Wrap in COUNT(*) subquery.
+		$count_query = "SELECT COUNT(*) FROM ({$count_query}) AS count_query";
+
+		return (int) $wpdb->get_var( $count_query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	/**
@@ -173,10 +188,6 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * @return string
 	 */
 	protected function sql_select_columns( $select_columns = '*' ) {
-
-		if ( ! $this->get( 'count_only' ) && ! $this->get( 'no_found_rows' ) ) {
-			$select_columns = 'SQL_CALC_FOUND_ROWS ' . $select_columns;
-		}
 
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $select_columns;

@@ -13,22 +13,26 @@
 class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 
 	/**
-	 * Test that the notifications query, using default args, calculates found rows.
+	 * Test that the notifications query, using default args, builds a valid SELECT query.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS no longer used (replaced with COUNT subquery approach).
 	 *
 	 * @return void
 	 */
-	public function test_query_with_default_args_calculates_found_rows() {
+	public function test_query_with_default_args_builds_valid_query() {
 		$query = new LLMS_Notifications_Query();
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
-		$this->assertSame( 0, strpos( $sql, 'SELECT SQL_CALC_FOUND_ROWS' ) );
+		// Query should start with SELECT (without SQL_CALC_FOUND_ROWS which is deprecated).
+		$this->assertSame( 0, strpos( $sql, 'SELECT' ) );
+		$this->assertSame( false, strpos( $sql, 'SQL_CALC_FOUND_ROWS' ) );
 	}
 
 	/**
 	 * Test that the notifications query, passing no_found_rows as true doesn't calculate found rows.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS no longer used (test still verifies query structure).
 	 *
 	 * @return void
 	 */
@@ -39,6 +43,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 			)
 		);
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
+		// Query should not contain SQL_CALC_FOUND_ROWS (which is deprecated and removed).
 		$this->assertSame( false, strpos( $sql, 'SQL_CALC_FOUND_ROWS' ) );
 	}
 

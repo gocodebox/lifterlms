@@ -465,7 +465,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
+				"SELECT DISTINCT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = %s
@@ -487,7 +487,28 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) ); // db call ok; no-cache ok.
+		// Count total found results using a separate query (replaces deprecated SQL_CALC_FOUND_ROWS).
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$found = absint(
+			$wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(DISTINCT upm.post_id)
+				 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+				 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
+				 WHERE p.post_type = %s
+				   AND p.post_status = 'publish'
+				   AND upm.meta_key = '_status'
+				   AND upm.user_id = %d
+				   {$status}
+				",
+					array(
+						$post_type,
+						$this->get_id(),
+					)
+				)
+			)
+		); // db call ok; no-cache ok.
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return array(
 			'found'   => $found,

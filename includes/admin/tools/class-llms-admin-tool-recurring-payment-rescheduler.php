@@ -148,7 +148,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		global $wpdb;
 
 		$orders = $wpdb->get_results(
-			"SELECT SQL_CALC_FOUND_ROWS p.ID
+			"SELECT p.ID
 			   FROM {$wpdb->posts} AS p
 		  LEFT JOIN {$wpdb->postmeta} AS m
 			     ON p.ID = m.post_ID
@@ -167,7 +167,26 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			;"
 		); // no-cache ok -- Caching implemented in `get_orders()`.
 
-		wp_cache_set( sprintf( '%s-total-results', $this->id ), $wpdb->get_var( 'SELECT FOUND_ROWS()' ), 'llms_tool_data' );
+		// Count total found results using a separate query (replaces deprecated SQL_CALC_FOUND_ROWS).
+		$total_count = $wpdb->get_var(
+			"SELECT COUNT(*)
+			   FROM {$wpdb->posts} AS p
+		  LEFT JOIN {$wpdb->postmeta} AS m
+			     ON p.ID = m.post_ID
+			    AND m.meta_key = '_llms_plan_ended'
+		  LEFT JOIN {$wpdb->prefix}actionscheduler_actions AS a
+			     ON a.args   = CONCAT( '{\"order_id\":', p.ID, '}' )
+			    AND a.hook   = 'llms_charge_recurring_payment'
+			    AND a.status = 'pending'
+			  WHERE 1
+			    AND p.post_type   = 'llms_order'
+			    AND p.post_status = 'llms-active'
+			    AND a.action_id IS NULL
+			    AND m.meta_value IS NULL
+			;"
+		); // no-cache ok.
+
+		wp_cache_set( sprintf( '%s-total-results', $this->id ), $total_count, 'llms_tool_data' );
 
 		return $orders;
 

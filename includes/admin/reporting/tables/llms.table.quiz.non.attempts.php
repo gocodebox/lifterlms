@@ -253,7 +253,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT
+				"SELECT DISTINCT
 					u.ID as user_id,
 					u.user_email,
 					u.display_name,
@@ -296,7 +296,33 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			)
 		);
 
-		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
+		// Count total found results using a separate query (replaces deprecated SQL_CALC_FOUND_ROWS).
+		$total_results = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(DISTINCT u.ID)
+				FROM {$wpdb->users} u
+				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm
+					ON u.ID = upm.user_id
+					AND upm.post_id = %d
+					AND upm.meta_key = '_status'
+					{$status_sql}
+				LEFT JOIN {$wpdb->prefix}lifterlms_quiz_attempts qa
+					ON u.ID = qa.student_id
+					AND qa.quiz_id = %d
+				WHERE upm.updated_date = (
+					SELECT MAX(upm2.updated_date)
+					FROM {$wpdb->prefix}lifterlms_user_postmeta upm2
+					WHERE upm2.user_id = u.ID
+					AND upm2.post_id = %d
+					AND upm2.meta_key = '_status'
+				)
+				AND qa.id IS NULL
+				{$search_sql}",
+				$course->get( 'id' ),    // Course ID for enrollment check
+				$this->quiz_id,          // Quiz ID for attempt check
+				$course->get( 'id' )     // Course ID for latest enrollment status
+			)
+		);
 
 		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );

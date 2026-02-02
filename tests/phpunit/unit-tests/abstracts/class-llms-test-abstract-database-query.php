@@ -291,14 +291,15 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Test sql_select_columns() method
 	 *
 	 * @since 4.5.1
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS no longer added (replaced with COUNT subquery approach).
 	 *
 	 * @return void
 	 */
 	public function test_sql_select_columns() {
 
 		$query = $this->query();
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS *', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
+		$this->assertEquals( '*', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
+		$this->assertEquals( 'column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
 
 		// Query but avoiding calculating found rows.
 		$query = $this->query(

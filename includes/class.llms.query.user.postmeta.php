@@ -217,7 +217,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS meta_id
+			"SELECT {$this->sql_select_columns( 'meta_id' )}
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta
 			 {$this->sql_where()}
 			 {$this->sql_orderby()}
