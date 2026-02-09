@@ -93,6 +93,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'ignore_lessons'             => 'absint',
 		'days_before_available'      => 'absint',
 		'featured_pricing'           => 'html',
+		'completion_page_id'         => 'absint',
 
 		// Private.
 		'temp_calc_data'             => 'array',
@@ -413,16 +414,17 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 			$query = new LLMS_Student_Query(
 				array(
-					'post_id'  => $this->get( 'id' ),
-					'statuses' => array( 'enrolled' ),
-					'per_page' => 1,
-					'sort'     => array(
+					'post_id'    => $this->get( 'id' ),
+					'statuses'   => array( 'enrolled' ),
+					'per_page'   => 1,
+					'sort'       => array(
 						'id' => 'ASC',
 					),
+					'count_only' => true,
 				)
 			);
 
-			$count = $query->get_found_results();
+			$count = $query->get_count_only_result();
 
 			// Cache result for later use.
 			$this->set( 'enrolled_students', $count );

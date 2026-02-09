@@ -918,7 +918,7 @@ class LLMS_Admin_Settings {
 		}
 
 		if ( is_array( $option_value ) ) {
-			$option_value = array_map( 'stripslashes', $option_value );
+			$option_value = stripslashes_deep( $option_value );
 		} elseif ( ! is_null( $option_value ) ) {
 			$option_value = stripslashes( $option_value );
 		}

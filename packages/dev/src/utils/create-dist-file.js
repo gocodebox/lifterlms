@@ -53,8 +53,7 @@ module.exports = ( distDir, silent, log = () => {} ) => {
 	// If we have composer dependencies, reinstall with no dev requirements or scripts.
 	if ( composer ) {
 		log( 'Installing composer production dependencies...' );
-		execSync( `composer update --no-dev --no-scripts`, silent );
-		execSync( `rm composer.lock`, true );
+		execSync( `composer install --no-dev --no-scripts`, silent );
 	}
 
 	// Empty inspected directories in the distribution directory (if any are leftover from the last run of the command).
@@ -80,7 +79,7 @@ module.exports = ( distDir, silent, log = () => {} ) => {
 	// If we have composer dependencies, reinstall with dev requirements when we're done.
 	if ( composer ) {
 		log( 'Reinstalling all composer dependencies...' );
-		execSync( `composer update`, silent );
+		execSync( `composer install`, silent );
 	}
 
 	return name;

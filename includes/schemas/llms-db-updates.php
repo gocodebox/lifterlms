@@ -204,4 +204,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'9.2.1'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'reset_course_calc_data_locks',
+			'update_db_version',
+		),
+	),
 );

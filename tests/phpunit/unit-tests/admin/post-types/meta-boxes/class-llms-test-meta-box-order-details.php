@@ -25,6 +25,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 
 		parent::set_up();
 		$this->main = new LLMS_Meta_Box_Order_Details();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 	}
 
@@ -93,6 +94,36 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 		}
 
 	}
+
+	/**
+	 * Test save() new order total.
+	 *
+	 * @since 9.2.0
+	 *
+	 * @return void
+	 */
+	public function test_save_success_payment_total() {
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'recurring' );
+		$order->set( 'billing_length', 5 );
+		$order->set( 'billing_period', 'day' );
+
+		$updates = array(
+			'total'         => round( rand(1000, 9999) / 100, 2 ),
+		);
+
+		$this->mockPostRequest( $this->add_nonce_to_array( $updates ) );
+
+		$this->assertEquals( 1, $this->main->save( $order->get( 'id' ) ) );
+
+		// Refresh the order data.
+		$order = llms_get_post( $order->get( 'id' ) );
+		foreach ( $updates as $key => $val ) {
+			$this->assertEquals( $val, $order->get( $key ) );
+		}
+
+	}
+
 
 	/**
 	 * Test save() when remaining payment data is updated.

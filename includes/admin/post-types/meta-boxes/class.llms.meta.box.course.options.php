@@ -184,6 +184,21 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class' => 'code input-full',
 						'value' => 'test',
 					),
+					array(
+						'label'           => __( 'Course Completion Page', 'lifterlms' ),
+						'class'           => 'llms-select2-post',
+						'data_attributes' => array(
+							'allow-clear' => true,
+							'post-type'   => 'page',
+							'placeholder' => get_option( 'lifterlms_course_completion_page_id', '' ) ?
+								sprintf( __( 'Global setting (%s)', 'lifterlms' ), get_the_title( get_option( 'lifterlms_course_completion_page_id' ) ) ) :
+								__( 'Global setting (none)', 'lifterlms' ),
+						),
+						'desc'            => sprintf( __( 'This page will be shown to students when they complete the course. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-completion-page/" target="_blank">', '</a>' ),
+						'id'              => $this->prefix . 'completion_page_id',
+						'value'           => llms_make_select2_post_array( array( $course->get( 'completion_page_id' ) ) ),
+						'type'            => 'select',
+					),
 				),
 			),
 			array(
