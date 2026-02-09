@@ -813,7 +813,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$blocked_hosts = apply_filters(
 			'llms_generator_sideload_hosts_blocklist',
 			array(
-				parse_url( get_site_url(), PHP_URL_HOST ),
+				wp_parse_url( get_site_url(), PHP_URL_HOST ),
 			)
 		);
 
@@ -823,7 +823,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		foreach ( $raw['_extras']['images'] as $src ) {
 
 			// Don't sideload images from blocked hosts.
-			if ( in_array( parse_url( $src, PHP_URL_HOST ), $blocked_hosts, true ) ) {
+			if ( in_array( wp_parse_url( $src, PHP_URL_HOST ), $blocked_hosts, true ) ) {
 				continue;
 			}
 
