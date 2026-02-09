@@ -826,7 +826,7 @@ class LLMS_Media_Protector {
 	}
 
 	protected function strip_query_params( $file_name ) {
-		$parsed_url = parse_url( $file_name );
+		$parsed_url = wp_parse_url( $file_name );
 		$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : $file_name;
 		return $path;
 	}
