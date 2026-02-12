@@ -1,0 +1,8 @@
+significance: minor
+type: changed
+links:
+  - "#3058"
+attributions:
+  - "@faisalahammad"
+entry: Allow lesson with a quiz to be marked as completed again after marking as
+  incomplete, if the quiz requirements are met.
