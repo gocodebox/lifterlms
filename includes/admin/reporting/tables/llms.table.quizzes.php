@@ -163,8 +163,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			case 'attempts':
 				$query = new LLMS_Query_Quiz_Attempt(
 					array(
-						'quiz_id'  => $quiz->get( 'id' ),
-						'per_page' => 1,
+						'quiz_id'    => $quiz->get( 'id' ),
+						'count_only' => true,
 					)
 				);
 
@@ -175,7 +175,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 						'quiz_id' => $quiz->get( 'id' ),
 					)
 				);
-				$value = '<a href="' . $url . '">' . $query->get_found_results() . '</a>';
+				$value = '<a href="' . $url . '">' . $query->get_count_only_result() . '</a>';
 
 				break;
 

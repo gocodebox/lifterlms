@@ -207,6 +207,13 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 
 		global $wpdb;
 
+		$sql = '';
+
+		// No limit or per-page when doing a count-only query.
+		if ( $this->get( 'count_only' ) ) {
+			return $sql;
+		}
+
 		$sql = $wpdb->prepare( 'LIMIT %d, %d', $this->get_skip(), $this->get( 'per_page' ) );
 
 		/**

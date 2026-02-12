@@ -145,8 +145,12 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 		global $wpdb;
 
 		$select = 'SELECT SQL_CALC_FOUND_ROWS qa.id';
-		$from   = "FROM {$wpdb->prefix}lifterlms_quiz_attempts qa";
-		$joins  = $this->sql_joins();
+		if ( $this->get( 'count_only' ) ) {
+			$select = 'SELECT COUNT(*) AS total';
+		}
+
+		$from  = "FROM {$wpdb->prefix}lifterlms_quiz_attempts qa";
+		$joins = $this->sql_joins();
 
 		return "{$select} {$from} {$joins} {$this->sql_where()} {$this->sql_orderby()} {$this->sql_limit()};";
 	}
