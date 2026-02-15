@@ -1305,6 +1305,10 @@ class LLMS_Admin_Builder {
 				}
 			}
 
+			// Include permalink and slug in the response so the builder can update the model.
+			$res['permalink'] = get_permalink( $quiz->get( 'id' ) );
+			$res['name']      = $quiz->get( 'name' );
+
 			if ( isset( $quiz_data['questions'] ) && is_array( $quiz_data['questions'] ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 			}
