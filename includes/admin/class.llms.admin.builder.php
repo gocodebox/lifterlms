@@ -1097,6 +1097,10 @@ class LLMS_Admin_Builder {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
+				// Include permalink and slug in the response so the builder can update the model.
+				$res['permalink'] = get_permalink( $lesson->get( 'id' ) );
+				$res['name']      = $lesson->get( 'name' );
+
 				// Remove revision prevention.
 				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 

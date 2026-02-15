@@ -430,6 +430,15 @@ define( [], function() {
 						model.set( 'id', info.id );
 						delete model._unsavedChanges.id;
 					}
+
+					// Update permalink and name if provided by the server.
+					if ( info.permalink ) {
+						model.set( 'permalink', info.permalink );
+					}
+					if ( info.name ) {
+						model.set( 'name', info.name );
+					}
+
 					maybe_restart_tracking( model, info );
 
 					// check children
@@ -460,6 +469,15 @@ define( [], function() {
 							model.set( 'id', info.id );
 							delete model._unsavedChanges.id;
 						}
+
+						// Update permalink and name if provided by the server.
+						if ( info.permalink ) {
+							model.set( 'permalink', info.permalink );
+						}
+						if ( info.name ) {
+							model.set( 'name', info.name );
+						}
+
 						maybe_restart_tracking( model, info );
 
 						// check children
