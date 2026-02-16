@@ -67,6 +67,32 @@ defined( 'ABSPATH' ) || exit;
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
+					<# } else if ( 'page_builder_notice' === field.type ) { #>
+
+						<#
+							var editorType = data.model.get( '_content_editor_type' ),
+								editorName;
+							if ( 'block' === editorType ) {
+								editorName = '<?php echo esc_js( __( 'the WordPress block editor', 'lifterlms' ) ); ?>';
+							} else if ( 'elementor' === editorType ) {
+								editorName = 'Elementor';
+							} else if ( 'beaver_builder' === editorType ) {
+								editorName = 'Beaver Builder';
+							} else {
+								editorName = '<?php echo esc_js( __( 'a page builder', 'lifterlms' ) ); ?>';
+							}
+						#>
+						<p>
+							<?php
+							// Translators: %1$s = page builder name (inserted via JS template variable).
+							printf(
+								esc_html__( "This lesson's content was created with %1\$s.", 'lifterlms' ),
+								'{{{ editorName }}}'
+							);
+							?>
+							<a href="{{{ data.model.get_edit_post_link() }}}" target="_blank"><?php esc_html_e( 'Edit in WordPress', 'lifterlms' ); ?></a>
+						</p>
+
 					<# } else if ( 'upsell' === field.type ) { #>
 
 						<a target="_blank" href="{{{ field.url }}}">

@@ -438,6 +438,9 @@ define( [], function() {
 					if ( info.name ) {
 						model.set( 'name', info.name );
 					}
+					if ( info._content_editor_type ) {
+						model.set( '_content_editor_type', info._content_editor_type );
+					}
 
 					maybe_restart_tracking( model, info );
 
@@ -476,6 +479,9 @@ define( [], function() {
 						}
 						if ( info.name ) {
 							model.set( 'name', info.name );
+						}
+						if ( info._content_editor_type ) {
+							model.set( '_content_editor_type', info._content_editor_type );
 						}
 
 						maybe_restart_tracking( model, info );
