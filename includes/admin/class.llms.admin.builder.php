@@ -1257,7 +1257,12 @@ class LLMS_Admin_Builder {
 		// Create a quiz.
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
-			$quiz = new LLMS_Quiz( 'new' );
+			$quiz = new LLMS_Quiz(
+				'new',
+				array(
+					'post_title' => isset( $quiz_data['title'] ) ? $quiz_data['title'] : __( 'New Quiz', 'lifterlms' ),
+				)
+			);
 
 			// Update existing quiz.
 		} else {
