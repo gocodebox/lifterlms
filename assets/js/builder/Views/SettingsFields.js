@@ -366,6 +366,11 @@ define( [], function() {
 				field.options = _.bind( field.options, this.model )();
 			}
 
+			// if detail is a function run it (allows dynamic content based on model data)
+			if ( _.isFunction( orig_field.detail ) ) {
+				field.detail = _.bind( orig_field.detail, this.model )();
+			}
+
 			// if it's a radio field options values can be submitted as images
 			// this will transform those images into <img> html
 			if ( -1 !== [ 'radio', 'switch-radio' ].indexOf( orig_field.type ) ) {

@@ -12,15 +12,54 @@ define( [], function() {
 			title: LLMS.l10n.translate( 'General Settings' ),
 			toggleable: true,
 			fields: [
-				[
-					{
-						attribute: 'permalink',
-						id: 'permalink',
-						type: 'permalink',
-			},
-				], [
-					{
-						attribute: 'video_embed',
+			[
+				{
+					attribute: 'permalink',
+					id: 'permalink',
+					type: 'permalink',
+		},
+			], [
+				{
+					attribute: 'content',
+					id: 'description',
+					label: LLMS.l10n.translate( 'Description' ),
+					type: 'editor',
+					condition: function() {
+						var editorType = this.get( '_content_editor_type' );
+						return ! editorType || 'classic' === editorType;
+					},
+		},
+			], [
+				{
+					id: 'description-page-builder-notice',
+					label: LLMS.l10n.translate( 'Description' ),
+					type: 'heading',
+					condition: function() {
+						var editorType = this.get( '_content_editor_type' );
+						return editorType && 'classic' !== editorType;
+					},
+					detail: function() {
+						var type = this.get( '_content_editor_type' ),
+							name;
+
+						if ( 'block' === type ) {
+							name = LLMS.l10n.translate( 'the WordPress block editor' );
+						} else if ( 'elementor' === type ) {
+							name = 'Elementor';
+						} else if ( 'beaver_builder' === type ) {
+							name = 'Beaver Builder';
+						} else {
+							name = LLMS.l10n.translate( 'a page builder' );
+						}
+
+						return LLMS.l10n.replace( "This lesson's content was created with %1$s.", { '%1$s': name } )
+							+ ' <a href="' + this.get_edit_post_link() + '" target="_blank">'
+							+ LLMS.l10n.translate( 'Edit in WordPress' ) + '</a>';
+					},
+		},
+			], [
+				{
+					attribute: 'video_embed',
 						id: 'video-embed',
 						label: LLMS.l10n.translate( 'Video Embed URL' ),
 						type: 'video_embed',

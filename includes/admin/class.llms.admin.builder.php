@@ -508,6 +508,66 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
+	 * Determine which content editor was used for a given post.
+	 *
+	 * Checks for Elementor, Beaver Builder, and the WordPress block editor.
+	 * Third parties can hook into `llms_builder_lesson_content_editor_type` to
+	 * indicate their own page builder.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP Post ID.
+	 * @return string Editor type: 'classic', 'block', 'elementor', 'beaver_builder', or a custom value.
+	 */
+	public static function get_content_editor_type( $post_id ) {
+
+		if ( ! $post_id || ! is_numeric( $post_id ) ) {
+			return 'classic';
+		}
+
+		if ( function_exists( 'llms_is_elementor_post' ) && llms_is_elementor_post( $post_id ) ) {
+			return 'elementor';
+		}
+
+		if ( function_exists( 'llms_is_beaver_builder_post' ) && llms_is_beaver_builder_post( $post_id ) ) {
+			return 'beaver_builder';
+		}
+
+		if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) {
+			return 'block';
+		}
+
+		/**
+		 * Filter the detected content editor type for a lesson in the course builder.
+		 *
+		 * Allows third-party page builders (e.g. WPBakery, Divi) to indicate that
+		 * a lesson's content was created with their editor, preventing the builder's
+		 * TinyMCE editor from overwriting it.
+		 *
+		 * @since 7.8.1
+		 *
+		 * @param string $type    Editor type. Default 'classic'.
+		 * @param int    $post_id WP Post ID of the lesson.
+		 */
+		return apply_filters( 'llms_builder_lesson_content_editor_type', 'classic', $post_id );
+	}
+
+	/**
+	 * Add content editor type to lesson toArray output for the builder.
+	 *
+	 * @since 7.8.1
+	 *
+	 * @param array           $arr    Lesson data array.
+	 * @param LLMS_Post_Model $lesson Lesson instance.
+	 * @return array
+	 */
+	public static function add_lesson_content_editor_type( $arr, $lesson ) {
+
+		$arr['_content_editor_type'] = self::get_content_editor_type( $lesson->get( 'id' ) );
+		return $arr;
+	}
+
+	/**
 	 * Modify the "Take Over" link on the post locked modal to send users to the builder when taking over a course
 	 *
 	 * @since 3.13.0
@@ -575,6 +635,8 @@ class LLMS_Admin_Builder {
 
 		global $llms_builder_lazy_load;
 		$llms_builder_lazy_load = true;
+
+		add_filter( 'llms_lesson_to_array', array( __CLASS__, 'add_lesson_content_editor_type' ), 10, 2 );
 		?>
 
 		<div class="wrap lifterlms llms-builder">
@@ -1072,6 +1134,11 @@ class LLMS_Admin_Builder {
 				);
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
+
+				// Don't overwrite content if a page builder or block editor was used.
+				if ( ! $created && 'classic' !== self::get_content_editor_type( $lesson->get( 'id' ) ) ) {
+					$skip_props[] = 'content';
+				}
 
 				// Update all updatable properties.
 				foreach ( $properties as $prop ) {
