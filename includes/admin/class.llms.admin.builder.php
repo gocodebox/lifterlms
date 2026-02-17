@@ -1081,7 +1081,7 @@ class LLMS_Admin_Builder {
 
 				if ( '' === $lesson->get( 'content' ) && '' !== $lesson_data['content'] ) {
 					// We're adding content via the builder for the first time; add a flag saying so.
-					$lesson->set( 'content_added_in_builder', 'yes' );
+					$lesson_data['content_added_in_builder'] = 'yes';
 				}
 
 				// Update all updatable properties.
