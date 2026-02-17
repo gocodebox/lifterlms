@@ -1074,9 +1074,14 @@ class LLMS_Admin_Builder {
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
 
-				// Don't overwrite content if a page builder or block editor was used.
-				if ( ! $created && 'classic' !== $lesson->get_content_editor_type() ) {
+				// Don't overwrite content if the content editor doesn't display.
+				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
 					$skip_props[] = 'content';
+				}
+
+				if ( '' === $lesson->get( 'content' ) && '' !== $lesson_data['content'] ) {
+					// We're adding content via the builder for the first time; add a flag saying so.
+					$lesson->set( 'content_added_in_builder', 'yes' );
 				}
 
 				// Update all updatable properties.
@@ -1104,9 +1109,9 @@ class LLMS_Admin_Builder {
 				}
 
 				// Include permalink, slug, and editor type in the response so the builder can update the model.
-				$res['permalink']             = get_permalink( $lesson->get( 'id' ) );
-				$res['name']                  = $lesson->get( 'name' );
-				$res['_content_editor_type']  = $lesson->get_content_editor_type();
+				$res['permalink']                = get_permalink( $lesson->get( 'id' ) );
+				$res['name']                     = $lesson->get( 'name' );
+				$res['content_added_in_builder'] = $lesson->get( 'content_added_in_builder' );
 
 				// Remove revision prevention.
 				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );

@@ -431,15 +431,15 @@ define( [], function() {
 						delete model._unsavedChanges.id;
 					}
 
-					// Update permalink and name if provided by the server.
 					if ( info.permalink ) {
 						model.set( 'permalink', info.permalink );
 					}
 					if ( info.name ) {
 						model.set( 'name', info.name );
 					}
-					if ( info._content_editor_type ) {
-						model.set( '_content_editor_type', info._content_editor_type );
+
+					if ( info.content_added_in_builder ) {
+						model.set( 'content_added_in_builder', info.content_added_in_builder );
 					}
 
 					maybe_restart_tracking( model, info );
@@ -480,9 +480,12 @@ define( [], function() {
 						if ( info.name ) {
 							model.set( 'name', info.name );
 						}
-						if ( info._content_editor_type ) {
-							model.set( '_content_editor_type', info._content_editor_type );
+						console.log( 'setting content added in builder (on update)?' );
+						if ( info.content_added_in_builder ) {
+							console.log('setting from update!!');
+							model.set( 'content_added_in_builder', info.content_added_in_builder );
 						}
+
 
 						maybe_restart_tracking( model, info );
 

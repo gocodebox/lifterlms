@@ -69,26 +69,9 @@ defined( 'ABSPATH' ) || exit;
 
 					<# } else if ( 'page_builder_notice' === field.type ) { #>
 
-						<#
-							var editorType = data.model.get( '_content_editor_type' ),
-								editorName;
-							if ( 'block' === editorType ) {
-								editorName = '<?php echo esc_js( __( 'the WordPress block editor', 'lifterlms' ) ); ?>';
-							} else if ( 'elementor' === editorType ) {
-								editorName = 'Elementor';
-							} else if ( 'beaver_builder' === editorType ) {
-								editorName = 'Beaver Builder';
-							} else {
-								editorName = '<?php echo esc_js( __( 'a page builder', 'lifterlms' ) ); ?>';
-							}
-						#>
 						<p>
 							<?php
-							// Translators: %1$s = page builder name (inserted via JS template variable).
-							printf(
-								esc_html__( "This lesson's content was created with %1\$s.", 'lifterlms' ),
-								'{{{ editorName }}}'
-							);
+								esc_html_e( "This lesson's content was created outside of the Course Builder.", 'lifterlms' );
 							?>
 							<a href="{{{ data.model.get_edit_post_link() }}}" target="_blank"><?php esc_html_e( 'Edit in WordPress', 'lifterlms' ); ?></a>
 						</p>

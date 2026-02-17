@@ -21,22 +21,20 @@ define( [], function() {
 			], [
 				{
 					attribute: 'content',
-					id: 'description',
-					label: LLMS.l10n.translate( 'Description' ),
+					id: 'content',
+					label: LLMS.l10n.translate( 'Content' ),
 					type: 'editor',
 					condition: function() {
-						var editorType = this.get( '_content_editor_type' );
-						return ! editorType || 'classic' === editorType;
+						return '' === this.get( 'content' ) || 'yes' === this.get( 'content_added_in_builder' );
 					},
 		},
 			], [
 				{
-					id: 'description-page-builder-notice',
-					label: LLMS.l10n.translate( 'Description' ),
+					id: 'content-page-builder-notice',
+					label: LLMS.l10n.translate( 'Content' ),
 					type: 'page_builder_notice',
 					condition: function() {
-						var editorType = this.get( '_content_editor_type' );
-						return editorType && 'classic' !== editorType;
+						return '' !== this.get( 'content' ) && 'yes' !== this.get( 'content_added_in_builder' );
 					},
 		},
 			], [
