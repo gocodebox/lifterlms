@@ -130,7 +130,13 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 			event.preventDefault();
 
-			var pop = new Popover( {
+			var pop, hidePopover;
+
+			hidePopover = function() {
+				pop.hide();
+			};
+
+			pop = new Popover( {
 				el: '#llms-existing-lesson',
 				args: {
 					backdrop: true,
@@ -144,13 +150,14 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 						post_type: 'lesson',
 						searching_message: LLMS.l10n.translate( 'Search for existing lessons...' ),
 					} ).render().$el,
+					onHide: function() {
+						Backbone.pubSub.off( 'lesson-search-select', hidePopover );
+					},
 				}
 			} );
 
 			pop.show();
-			Backbone.pubSub.on( 'lesson-search-select', function() {
-				pop.hide()
-			} );
+			Backbone.pubSub.once( 'lesson-search-select', hidePopover );
 
 		},
 
