@@ -480,9 +480,8 @@ define( [], function() {
 						if ( info.name ) {
 							model.set( 'name', info.name );
 						}
-						console.log( 'setting content added in builder (on update)?' );
+
 						if ( info.content_added_in_builder ) {
-							console.log('setting from update!!');
 							model.set( 'content_added_in_builder', info.content_added_in_builder );
 						}
 
