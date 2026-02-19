@@ -157,7 +157,13 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 			} );
 
 			pop.show();
-			Backbone.pubSub.once( 'lesson-search-select', hidePopover );
+			Backbone.pubSub.once( 'lesson-search-select', function() {
+				Backbone.pubSub.once( 'lesson-search-select', hidePopover );
+
+				// @todo For some reason the above doesn't close via pop.hide(). Seems internal to webui-popup. Ref #3097
+				$( '.webui-popover' ).remove();
+				$( '.webui-popover-backdrop' ).remove();
+			} );
 
 		},
 
