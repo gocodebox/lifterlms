@@ -186,6 +186,9 @@ body.admin_page_llms-course-builder {
 					.llms-lessons { overflow: visible; }
 				}
 				&.selected {
+					border-left: 3px solid $color-brand-blue;
+					box-shadow: 2px 2px 8px rgba( 0, 0, 0, 0.12 );
+					margin-left: -2px;
 					.llms-drag-utility.drag-section {
 						border-color: $color-brand-blue;
 					}
