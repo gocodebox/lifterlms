@@ -1079,7 +1079,8 @@ class LLMS_Admin_Builder {
 					$skip_props[] = 'content';
 				}
 
-				if ( '' === $lesson->get( 'content' ) && isset( $lesson_data['content'] ) && '' !== $lesson_data['content'] ) {
+				if ( '' === $lesson->get( 'content' ) && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
+					&& ! isset( $lesson_data['content_added_in_builder'] ) ) {
 					// We're adding content via the builder for the first time; add a flag saying so.
 					$lesson_data['content_added_in_builder'] = 'yes';
 				}
