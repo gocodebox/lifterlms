@@ -93,28 +93,30 @@ define( [
 				// initialize the model if the assignment is enabled or it's disabled but we still have data for a assignment
 				if ( 'yes' === this.lesson.get( 'assignment_enabled' ) || ! _.isEmpty( this.lesson.get( 'assignment' ) ) ) {
 
-					this.model = this.lesson.get( 'assignment' );
+				this.model = this.lesson.get( 'assignment' );
 
-					/**
-					 * Todo Item.
-					 *
-					 * @todo  this is a terrible terrible patch
-					 *        I've spent nearly 3 days trying to figure out how to not use this line of code
-					 *        ISSUE REPRODUCTION:
-					 *        Open course builder
-					 *        Open a lesson (A) and add a assignment
-					 *        Switch to a new lesson (B)
-					 *        Add a new assignment
-					 *        Return to lesson A and the assignment's parent will be set to LESSON B
-					 *        This will happen for *every* assignment in the builder...
-					 *        Adding this set_parent on init guarantees that the assignment's correct parent is set
-					 *        after adding new assignment's to other lessons
-					 *        it's awful and it's gross...
-					 *        I'm confused and tired and going to miss release dates again because of it
-					 */
-					this.model.set_parent( this.lesson );
+				/**
+				 * Todo Item.
+				 *
+				 * @todo  this is a terrible terrible patch
+				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
+				 *        ISSUE REPRODUCTION:
+				 *        Open course builder
+				 *        Open a lesson (A) and add a assignment
+				 *        Switch to a new lesson (B)
+				 *        Add a new assignment
+				 *        Return to lesson A and the assignment's parent will be set to LESSON B
+				 *        This will happen for *every* assignment in the builder...
+				 *        Adding this set_parent on init guarantees that the assignment's correct parent is set
+				 *        after adding new assignment's to other lessons
+				 *        it's awful and it's gross...
+				 *        I'm confused and tired and going to miss release dates again because of it
+				 */
+				this.model.set_parent( this.lesson );
 
-				}
+				this.listenTo( this.model, 'change:permalink', this.render_settings );
+
+			}
 
 				this.on( 'model-trashed', this.on_trashed );
 
@@ -155,6 +157,23 @@ define( [
 			},
 
 			/**
+			 * Re-render the settings subview when permalink updates after saving.
+			 *
+			 * @since [version]
+			 *
+			 * @return {Void}
+			 */
+			render_settings: function() {
+
+				var view = this.get_subview( 'settings' );
+				if ( view && view.instance ) {
+					view.instance.render();
+					this.init_selects();
+				}
+
+			},
+
+			/**
 			 * Adds a new assignment to a lesson which currently has no assignment associated with it.
 			 *
 			 * @since 3.17.0
@@ -173,14 +192,15 @@ define( [
                         lesson_id: this.lesson.get( 'id' ),
 					} );
 
-					this.lesson.set( 'assignment_enabled', 'yes' );
-					this.lesson.set( 'assignment', this.model );
+				this.lesson.set( 'assignment_enabled', 'yes' );
+				this.lesson.set( 'assignment', this.model );
 
-					this.render();
+				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.render();
 
-				} else {
+			} else {
 
-					this.show_ad_popover( '#llms-new-assignment' );
+				this.show_ad_popover( '#llms-new-assignment' );
 
 				}
 
@@ -217,11 +237,12 @@ define( [
 
 				assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
 
-				this.lesson.set( 'assignment_enabled', 'yes' );
-				this.lesson.set( 'assignment', assignment );
-				this.model = assignment;
+			this.lesson.set( 'assignment_enabled', 'yes' );
+			this.lesson.set( 'assignment', assignment );
+			this.model = assignment;
 
-				this.render();
+			this.listenTo( this.model, 'change:permalink', this.render_settings );
+			this.render();
 
 			},
 
