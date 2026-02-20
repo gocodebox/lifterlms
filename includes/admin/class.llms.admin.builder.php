@@ -575,7 +575,6 @@ class LLMS_Admin_Builder {
 
 		global $llms_builder_lazy_load;
 		$llms_builder_lazy_load = true;
-
 		?>
 
 		<div class="wrap lifterlms llms-builder">
