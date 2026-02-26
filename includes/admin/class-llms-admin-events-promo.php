@@ -34,6 +34,7 @@ class LLMS_Admin_Events_Promo {
 
 		add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'add_course_promo_tab' ) );
 		add_filter( 'llms_metabox_fields_lifterlms_membership', array( $this, 'add_membership_promo_tab' ) );
+		add_filter( 'llms_metabox_fields_lifterlms_lesson', array( $this, 'add_lesson_promo_tab' ) );
 	}
 
 	/**
@@ -68,6 +69,29 @@ class LLMS_Admin_Events_Promo {
 	 * @return array
 	 */
 	public function add_membership_promo_tab( $tabs ) {
+		$tabs[] = array(
+			'title'  => __( 'Events', 'lifterlms' ),
+			'fields' => array(
+				array(
+					'id'    => '_llms_events_promo',
+					'type'  => 'custom-html',
+					'label' => '',
+					'value' => $this->get_promo_html(),
+				),
+			),
+		);
+		return $tabs;
+	}
+
+	/**
+	 * Add an Events promo tab to Lesson Settings.
+	 *
+	 * @since 7.8.0
+	 *
+	 * @param array $tabs Existing tabs.
+	 * @return array
+	 */
+	public function add_lesson_promo_tab( $tabs ) {
 		$tabs[] = array(
 			'title'  => __( 'Events', 'lifterlms' ),
 			'fields' => array(
