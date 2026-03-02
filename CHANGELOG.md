@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.2.1 - 2026-02-02
+-------------------
+
+##### Bug Fixes
+
++ Fix course data calculation not ending since 9.2.0. [#3087](https://github.com/gocodebox/lifterlms/issues/3087)
+
+
 v9.2.0 - 2026-01-15
 -------------------
 
