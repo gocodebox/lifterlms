@@ -255,7 +255,77 @@ function llms_get_template_override_directories() {
 }
 
 /**
+ * Determine if Focus Mode is enabled for a specific lesson.
+ *
+ * @since [version]
+ *
+ * @param int $lesson_id The ID of the lesson.
+ * @return bool
+ */
+function llms_is_focus_mode_enabled( $lesson_id ) {
+	$lesson = llms_get_post( $lesson_id );
+	if ( ! $lesson || 'lesson' !== $lesson->get( 'type' ) ) {
+		return false;
+	}
+
+	$course_id = $lesson->get( 'parent_course' );
+	if ( ! $course_id ) {
+		return false;
+	}
+
+	$course = llms_get_post( $course_id );
+	if ( ! $course ) {
+		return false;
+	}
+
+	$course_focus_mode = $course->get( 'focus_mode' );
+	
+	if ( 'enable' === $course_focus_mode ) {
+		return true;
+	} elseif ( 'disable' === $course_focus_mode ) {
+		return false;
+	}
+
+	// Fallback to global setting
+	return 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
+}
+
+/**
+ * Add body class for focus mode.
+ *
+ * @since [version]
+ *
+ * @param array $classes Body classes.
+ * @return array
+ */
+function llms_focus_mode_body_class( $classes ) {
+	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+		$classes[] = 'llms-focus-mode';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'llms_focus_mode_body_class' );
+
+/**
+ * Shortcode to display a back to course link.
+ *
+ * @since [version]
+ *
+ * @return string
+ */
+function llms_back_to_course_link_shortcode() {
+	$lesson = llms_get_post( get_the_ID() );
+	if ( $lesson && $lesson->get( 'parent_course' ) ) {
+		$course_id = $lesson->get( 'parent_course' );
+		return '<a href="' . esc_url( get_permalink( $course_id ) ) . '" class="llms-focus-mode-back-link">&larr; ' . esc_html__( 'Back to Course', 'lifterlms' ) . '</a>';
+	}
+	return '';
+}
+add_shortcode( 'lifterlms_back_to_course_link', 'llms_back_to_course_link_shortcode' );
+
+/**
  * Build the plugin's template file path.
+
  *
  * @since 5.8.0
  * @since 7.2.0 Do not add leading slash to absolute template directory.

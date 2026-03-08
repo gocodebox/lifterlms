@@ -78,6 +78,14 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 				),
 
 				array(
+					'desc'    => __( 'Enabling this setting will display lessons in a distraction-free focus mode.', 'lifterlms' ),
+					'default' => 'no',
+					'id'      => 'lifterlms_enable_focus_mode',
+					'title'   => __( 'Focus Mode', 'lifterlms' ),
+					'type'    => 'checkbox',
+				),
+
+				array(
 					'title'   => __( 'Lesson Favorites', 'lifterlms' ),
 					'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
 					'id'      => 'lifterlms_favorites',

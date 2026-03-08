@@ -1,0 +1,128 @@
+//
+// Focus Mode
+//
+
+.llms-focus-mode {
+	margin: 0;
+	padding: 0;
+	background-color: #f9f9f9;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+	.llms-focus-mode-wrapper {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	.llms-focus-mode-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: #fff;
+		border-bottom: 1px solid #e5e5e5;
+		padding: 15px 20px;
+		height: 60px;
+		box-sizing: border-box;
+
+		.llms-focus-mode-header-left,
+		.llms-focus-mode-header-right {
+			flex: 1;
+		}
+
+		.llms-focus-mode-header-right {
+			text-align: right;
+		}
+
+		.llms-focus-mode-header-center {
+			flex: 2;
+			text-align: center;
+		}
+
+		.llms-focus-mode-title {
+			margin: 0;
+			font-size: 1.2rem;
+			font-weight: 600;
+			color: #333;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.llms-focus-mode-back-link {
+		text-decoration: none;
+		color: #0073aa;
+		font-weight: 500;
+		
+		&:hover {
+			color: #005177;
+		}
+	}
+
+	.llms-focus-mode-main {
+		display: flex;
+		flex: 1;
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 100%;
+		box-sizing: border-box;
+		align-items: flex-start;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+		}
+	}
+
+	.llms-focus-mode-content {
+		flex: 1;
+		min-width: 0;
+		background-color: #fff;
+		padding: 40px;
+		box-sizing: border-box;
+		box-shadow: 0 0 10px rgba(0,0,0,0.05);
+		margin: 20px;
+		border-radius: 4px;
+
+		@media (max-width: 768px) {
+			margin: 10px;
+			padding: 20px;
+			width: 100%;
+		}
+		
+		// Reset inner content styles slightly if needed, but let theme/builder styles apply to .llms-lesson-content
+		.llms-lesson-content {
+			max-width: 100%;
+			
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+		}
+	}
+
+	.llms-focus-mode-sidebar {
+		width: 300px;
+		flex-shrink: 0;
+		background-color: #f9f9f9;
+		padding: 20px 20px 20px 0;
+		box-sizing: border-box;
+		align-self: stretch;
+
+		@media (max-width: 768px) {
+			width: 100%;
+			padding: 20px;
+		}
+
+		.llms-focus-mode-sidebar-inner {
+			position: sticky;
+			top: 80px;
+
+			h3 {
+				margin-top: 0;
+				margin-bottom: 15px;
+				font-size: 1.1rem;
+				color: #333;
+			}
+		}
+	}
+}
