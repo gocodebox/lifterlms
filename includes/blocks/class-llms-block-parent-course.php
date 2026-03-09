@@ -36,6 +36,18 @@ class LLMS_Block_Parent_Course {
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'register' ) );
+	}
+
+	/**
+	 * Register the block type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function register() {
+
 		$block_dir = LLMS_PLUGIN_DIR . 'blocks/' . $this->id;
 		if ( file_exists( $block_dir . '/block.json' ) ) {
 			register_block_type(
