@@ -86,7 +86,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 			),
 
 			array(
-				'default' => 'full',
+				'default' => '960',
 				'desc'    => __( 'Set the maximum width of the lesson content area in focus mode.', 'lifterlms' ),
 				'id'      => 'lifterlms_focus_mode_content_width',
 				'options' => array(

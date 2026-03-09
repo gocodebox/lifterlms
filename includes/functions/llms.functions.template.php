@@ -314,7 +314,7 @@ function llms_get_focus_mode_content_width( $lesson_id ) {
 			}
 		}
 	}
-	return get_option( 'lifterlms_focus_mode_content_width', 'full' );
+	return get_option( 'lifterlms_focus_mode_content_width', '960' );
 }
 
 /**
