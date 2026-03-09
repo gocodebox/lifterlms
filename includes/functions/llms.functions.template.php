@@ -345,9 +345,12 @@ function llms_get_focus_mode_sidebar_position( $lesson_id ) {
 }
 
 /**
- * Determine if a lesson was built with a page builder.
+ * Determine if a lesson was built with Elementor.
  *
- * Checks for Elementor, Beaver Builder, and Bricks metadata.
+ * Uses Elementor's own API to check whether the post was built with
+ * Elementor and the plugin is active. When Elementor is active and the
+ * lesson was built with it, focus mode is skipped because Elementor
+ * filters `llms_render_block` to prevent block output.
  *
  * @since [version]
  *
@@ -355,14 +358,15 @@ function llms_get_focus_mode_sidebar_position( $lesson_id ) {
  * @return bool
  */
 function llms_lesson_uses_page_builder( $lesson_id ) {
-	if ( get_post_meta( $lesson_id, '_elementor_edit_mode', true ) ) {
-		return true;
-	}
-	if ( get_post_meta( $lesson_id, '_fl_builder_enabled', true ) ) {
-		return true;
-	}
-	if ( get_post_meta( $lesson_id, '_bricks_editor_mode', true ) ) {
-		return true;
+	if ( class_exists( 'Elementor\Plugin' ) && method_exists( 'Elementor\Plugin', 'instance' ) ) {
+		$instance  = Elementor\Plugin::instance();
+		$documents = $instance ? $instance->documents : null;
+		if ( $documents && method_exists( $documents, 'get' ) ) {
+			$document = $documents->get( $lesson_id );
+			if ( $document && method_exists( $document, 'is_built_with_elementor' ) && $document->is_built_with_elementor() ) {
+				return true;
+			}
+		}
 	}
 
 	/**
