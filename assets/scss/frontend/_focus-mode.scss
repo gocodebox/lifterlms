@@ -5,28 +5,12 @@
 $focus-header-height: 60px;
 $focus-sidebar-width: 350px;
 $focus-sidebar-collapsed-width: 48px;
-$admin-bar-height: 32px;
 
 .llms-focus-mode {
 	margin: 0;
 	padding: 0;
 	background-color: #f9f9f9;
 
-	&.admin-bar {
-		margin-top: $admin-bar-height;
-
-		.llms-focus-mode-wrapper {
-			height: calc(100vh - #{$admin-bar-height});
-		}
-
-		@media (max-width: 782px) {
-			margin-top: 46px;
-
-			.llms-focus-mode-wrapper {
-				height: calc(100vh - 46px);
-			}
-		}
-	}
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	overflow: hidden;
 
