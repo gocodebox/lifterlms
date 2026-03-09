@@ -639,7 +639,7 @@ class LLMS_Template_Loader {
 
 			$template = 'single-certificate';
 
-		} elseif ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+		} elseif ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
 
 			$template = 'single-lesson-focus';
 

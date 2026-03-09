@@ -4,6 +4,8 @@
 
 $focus-header-height: 60px;
 $focus-sidebar-width: 350px;
+$focus-sidebar-collapsed-width: 48px;
+$focus-sidebar-transition: width 0.3s ease, min-width 0.3s ease;
 
 .llms-focus-mode {
 	margin: 0;
@@ -92,12 +94,14 @@ $focus-sidebar-width: 350px;
 	// -- Sidebar: fixed width, split into fixed header + scrollable list --
 	.llms-focus-mode-sidebar {
 		width: $focus-sidebar-width;
+		min-width: $focus-sidebar-width;
 		flex-shrink: 0;
 		background-color: #fff;
 		border-right: 1px solid #e5e5e5;
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
+		transition: $focus-sidebar-transition;
 
 		@media (max-width: 768px) {
 			display: none;
@@ -127,6 +131,40 @@ $focus-sidebar-width: 350px;
 		}
 	}
 
+	// -- Sidebar toggle button --
+	.llms-focus-mode-sidebar-toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 100%;
+		height: 44px;
+		padding: 0;
+		border: none;
+		border-top: 1px solid #e5e5e5;
+		background: #fafafa;
+		cursor: pointer;
+		color: #666;
+		font-size: 18px;
+		line-height: 1;
+		transition: background-color 0.15s ease, color 0.15s ease;
+
+		&:hover {
+			color: #1d2327;
+			background: #f0f0f0;
+		}
+
+		svg {
+			width: 18px;
+			height: 18px;
+			fill: currentColor;
+		}
+
+		@media (max-width: 768px) {
+			display: none;
+		}
+	}
+
 	// -- Content: fills remaining space, scrollable --
 	.llms-focus-mode-content {
 		flex: 1;
@@ -152,6 +190,63 @@ $focus-sidebar-width: 350px;
 			img {
 				max-width: 100%;
 				height: auto;
+			}
+		}
+	}
+
+	// =============================================
+	// Sidebar collapsed state
+	// =============================================
+	&.llms-sidebar-collapsed {
+
+		.llms-focus-mode-sidebar {
+			width: $focus-sidebar-collapsed-width;
+			min-width: $focus-sidebar-collapsed-width;
+
+			.llms-focus-mode-sidebar-header,
+			.llms-focus-mode-sidebar-content {
+				display: none;
+			}
+
+			.llms-focus-mode-sidebar-toggle {
+				border-top: none;
+				height: 100%;
+			}
+		}
+	}
+
+	// =============================================
+	// Sidebar position: right
+	// =============================================
+	&.llms-focus-mode-sidebar-right {
+
+		.llms-focus-mode-body {
+			flex-direction: row-reverse;
+		}
+
+		.llms-focus-mode-sidebar {
+			border-right: 0;
+			border-left: 1px solid #e5e5e5;
+		}
+
+		&.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+			border-left: 0;
+		}
+	}
+
+	// =============================================
+	// Content width variants
+	// =============================================
+	@each $width in 768, 960, 1180, 1600 {
+		&.llms-focus-mode-width-#{$width} .llms-focus-mode-content {
+
+			.llms-focus-mode-title,
+			.llms-lesson-content,
+			.wp-block-post-title,
+			.wp-block-post-content {
+				max-width: #{$width}px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 		}
 	}

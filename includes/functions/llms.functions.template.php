@@ -286,12 +286,98 @@ function llms_is_focus_mode_enabled( $lesson_id ) {
 		return false;
 	}
 
-	// Fallback to global setting
+	// Fallback to global setting.
 	return 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
 }
 
 /**
- * Add body class for focus mode.
+ * Retrieve the effective focus mode content width for a lesson.
+ *
+ * Checks the course-level setting first, then falls back to global.
+ *
+ * @since [version]
+ *
+ * @param int $lesson_id The ID of the lesson.
+ * @return string Width value: 'full', '1600', '1180', '960', or '768'.
+ */
+function llms_get_focus_mode_content_width( $lesson_id ) {
+	$lesson = llms_get_post( $lesson_id );
+	if ( $lesson && 'lesson' === $lesson->get( 'type' ) ) {
+		$course_id = $lesson->get( 'parent_course' );
+		if ( $course_id ) {
+			$course = llms_get_post( $course_id );
+			if ( $course ) {
+				$value = $course->get( 'focus_mode_content_width' );
+				if ( $value && 'inherit' !== $value ) {
+					return $value;
+				}
+			}
+		}
+	}
+	return get_option( 'lifterlms_focus_mode_content_width', 'full' );
+}
+
+/**
+ * Retrieve the effective focus mode sidebar position for a lesson.
+ *
+ * Checks the course-level setting first, then falls back to global.
+ *
+ * @since [version]
+ *
+ * @param int $lesson_id The ID of the lesson.
+ * @return string 'left' or 'right'.
+ */
+function llms_get_focus_mode_sidebar_position( $lesson_id ) {
+	$lesson = llms_get_post( $lesson_id );
+	if ( $lesson && 'lesson' === $lesson->get( 'type' ) ) {
+		$course_id = $lesson->get( 'parent_course' );
+		if ( $course_id ) {
+			$course = llms_get_post( $course_id );
+			if ( $course ) {
+				$value = $course->get( 'focus_mode_sidebar_position' );
+				if ( $value && 'inherit' !== $value ) {
+					return $value;
+				}
+			}
+		}
+	}
+	return get_option( 'lifterlms_focus_mode_sidebar_position', 'left' );
+}
+
+/**
+ * Determine if a lesson was built with a page builder.
+ *
+ * Checks for Elementor, Beaver Builder, and Bricks metadata.
+ *
+ * @since [version]
+ *
+ * @param int $lesson_id The ID of the lesson.
+ * @return bool
+ */
+function llms_lesson_uses_page_builder( $lesson_id ) {
+	if ( get_post_meta( $lesson_id, '_elementor_edit_mode', true ) ) {
+		return true;
+	}
+	if ( get_post_meta( $lesson_id, '_fl_builder_enabled', true ) ) {
+		return true;
+	}
+	if ( get_post_meta( $lesson_id, '_bricks_editor_mode', true ) ) {
+		return true;
+	}
+
+	/**
+	 * Filters whether a lesson uses a page builder.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $uses_page_builder Whether the lesson uses a page builder.
+	 * @param int  $lesson_id         The lesson ID.
+	 */
+	return apply_filters( 'llms_lesson_uses_page_builder', false, $lesson_id );
+}
+
+/**
+ * Add body classes for focus mode.
  *
  * @since [version]
  *
@@ -299,12 +385,40 @@ function llms_is_focus_mode_enabled( $lesson_id ) {
  * @return array
  */
 function llms_focus_mode_body_class( $classes ) {
-	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
 		$classes[] = 'llms-focus-mode';
+
+		$width = llms_get_focus_mode_content_width( get_the_ID() );
+		if ( 'full' !== $width ) {
+			$classes[] = 'llms-focus-mode-width-' . $width;
+		}
+
+		$position  = llms_get_focus_mode_sidebar_position( get_the_ID() );
+		$classes[] = 'llms-focus-mode-sidebar-' . $position;
 	}
 	return $classes;
 }
 add_filter( 'body_class', 'llms_focus_mode_body_class' );
+
+/**
+ * Enqueue focus mode frontend scripts.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_focus_mode_enqueue_scripts() {
+	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
+		wp_enqueue_script(
+			'llms-focus-mode',
+			llms()->plugin_url() . '/assets/js/llms-focus-mode.js',
+			array(),
+			llms()->version,
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'llms_focus_mode_enqueue_scripts' );
 
 /**
  * Build the plugin's template file path.
