@@ -1,7 +1,7 @@
 == Description ==
 LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
 
-**[Download the LifterLMS plugin for free here](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free.
+**[Download the LifterLMS plugin for free here](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free. Next [Create your free account on the LifterLMS website here](https://lifterlms.com/my-account/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) to access free software downloads and more.
 
 Turn your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
 
