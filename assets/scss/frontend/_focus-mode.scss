@@ -12,6 +12,12 @@ $focus-sidebar-width: 350px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	overflow: hidden;
 
+	// Override block theme global styles gap that causes spacing issues.
+	.is-layout-flow > * {
+		margin-block-start: 0;
+		margin-block-end: 0;
+	}
+
 	.llms-focus-mode-wrapper {
 		display: flex;
 		flex-direction: column;
@@ -24,6 +30,7 @@ $focus-sidebar-width: 350px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		gap: 20px;
 		background-color: #fff;
 		border-bottom: 1px solid #e5e5e5;
 		padding: 0 20px;
@@ -33,19 +40,33 @@ $focus-sidebar-width: 350px;
 		flex-shrink: 0;
 		z-index: 10;
 
-		.llms-focus-mode-header-left,
-		.llms-focus-mode-header-right {
+		.llms-focus-mode-header-left {
 			display: flex;
 			align-items: center;
+			flex-shrink: 0;
 		}
 
 		.llms-focus-mode-header-right {
-			.llms-progress {
-				min-width: 200px;
+			display: flex;
+			align-items: center;
+			flex: 1;
+			max-width: 50%;
+			min-width: 0;
+		}
 
-				@media (max-width: 768px) {
-					min-width: 100px;
-				}
+		.llms-progress,
+		.wp-block-llms-course-progress {
+			flex: 1;
+			max-width: 50%;
+			min-width: 0;
+
+			.llms-progress {
+				width: 100%;
+			}
+
+			.llms-progress-bar {
+				width: 100%;
+				min-width: 100px;
 			}
 		}
 	}
@@ -102,7 +123,7 @@ $focus-sidebar-width: 350px;
 		.llms-focus-mode-sidebar-content {
 			flex: 1;
 			overflow-y: auto;
-			padding: 10px 20px;
+			padding: 10px 20px 30px;
 		}
 	}
 
