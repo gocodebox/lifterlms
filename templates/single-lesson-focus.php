@@ -58,9 +58,11 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 			<?php
 			while ( have_posts() ) :
 				the_post();
+				$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
+				$lesson_content_classes  = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
 				?>
 				<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
-				<div class="llms-lesson-content">
+				<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
 					<?php the_content(); ?>
 				</div>
 				<?php
