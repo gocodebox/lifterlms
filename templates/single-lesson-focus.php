@@ -10,8 +10,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// We do not load get_header() to prevent theme styles from fully taking over,
-// but we must load wp_head() to ensure scripts and styles are enqueued.
+$lesson    = llms_get_post( get_the_ID() );
+$course_id = $lesson ? $lesson->get( 'parent_course' ) : 0;
+$student   = llms_get_student();
+$progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'course' ) : 0;
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -32,43 +34,39 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-focus-mode-header-left">
 			<?php lifterlms_template_single_parent_course(); ?>
 		</div>
-		<div class="llms-focus-mode-header-center">
-			<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
-		</div>
 		<div class="llms-focus-mode-header-right">
-			<?php
-			// Optional: User profile or progress could go here.
-			?>
+			<?php echo lifterlms_course_progress_bar( $progress, false, false, false ); ?>
 		</div>
 	</header>
 
-	<div class="llms-focus-mode-main">
-		
-		<main class="llms-focus-mode-content">
-			<?php
-			while ( have_posts() ) :
-				the_post();
-				?>
-				<div class="llms-lesson-content">
-					<?php the_content(); ?>
-				</div>
-				<?php
-			endwhile; // end of the loop.
-			?>
-		</main>
+	<div class="llms-focus-mode-body">
 
 		<aside class="llms-focus-mode-sidebar">
-			<div class="llms-focus-mode-sidebar-inner">
+			<div class="llms-focus-mode-sidebar-header">
+				<h3><?php esc_html_e( 'Course Syllabus', 'lifterlms' ); ?></h3>
+			</div>
+			<div class="llms-focus-mode-sidebar-content">
 				<?php
-				$lesson    = llms_get_post( get_the_ID() );
-				$course_id = $lesson ? $lesson->get( 'parent_course' ) : 0;
 				if ( $course_id ) {
-					echo '<h3>' . esc_html__( 'Course Syllabus', 'lifterlms' ) . '</h3>';
 					echo do_shortcode( '[lifterlms_course_outline course_id="' . intval( $course_id ) . '"]' );
 				}
 				?>
 			</div>
 		</aside>
+
+		<main class="llms-focus-mode-content">
+			<?php
+			while ( have_posts() ) :
+				the_post();
+				?>
+				<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
+				<div class="llms-lesson-content">
+					<?php the_content(); ?>
+				</div>
+				<?php
+			endwhile;
+			?>
+		</main>
 
 	</div>
 

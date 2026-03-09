@@ -11,7 +11,6 @@ import Icon from './icon.jsx';
 
 const Edit = ( { attributes } ) => {
 	const blockProps = useBlockProps();
-	const currentPost = wp.data.select( 'core/editor' )?.getCurrentPost();
 
 	return (
 		<div { ...blockProps }>
@@ -19,9 +18,6 @@ const Edit = ( { attributes } ) => {
 				<ServerSideRender
 					block={ blockJson.name }
 					attributes={ attributes }
-					urlQueryArgs={ {
-						post_id: currentPost?.id,
-					} }
 					LoadingResponsePlaceholder={ () => <Spinner /> }
 					EmptyResponsePlaceholder={ () =>
 						<p className={ 'llms-block-empty' }>{ __( 'Back to: (Parent Course) — visible on lessons only.', 'lifterlms' ) }</p>
