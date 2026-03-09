@@ -311,6 +311,7 @@ Save money and get more features.
 ### Try the Best LMS Plugin
 
 + [Install the free core LifterLMS plugin right now](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). See how extensive and customizable our free core plugin is.
+https://www.youtube.com/watch?v=dtkYB7y95H4
 + Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. Practice creating courses, test out the learner experience, and see how easy it will be to manage your course with WordPress. Install your favorite plugins & themes to test compatibility. **[Try LifterLMS for $1](https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** now.
 + Test LifterLMS as a student. Take a **free** course on how to build a LifterLMS website in 20 minutes. [Take a Free Course](https://academy.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) now.
 
