@@ -30,13 +30,7 @@ defined( 'ABSPATH' ) || exit;
 	
 	<header class="llms-focus-mode-header">
 		<div class="llms-focus-mode-header-left">
-			<?php
-			$lesson = llms_get_post( get_the_ID() );
-			if ( $lesson && $lesson->get( 'parent_course' ) ) {
-				$course_id = $lesson->get( 'parent_course' );
-				echo '<a href="' . esc_url( get_permalink( $course_id ) ) . '" class="llms-focus-mode-back-link">&larr; ' . esc_html__( 'Back to Course', 'lifterlms' ) . '</a>';
-			}
-			?>
+			<?php lifterlms_template_single_parent_course(); ?>
 		</div>
 		<div class="llms-focus-mode-header-center">
 			<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
@@ -66,13 +60,11 @@ defined( 'ABSPATH' ) || exit;
 		<aside class="llms-focus-mode-sidebar">
 			<div class="llms-focus-mode-sidebar-inner">
 				<?php
-				if ( $lesson && $lesson->get( 'parent_course' ) ) {
-					$course_id = $lesson->get( 'parent_course' );
-					
+				$lesson    = llms_get_post( get_the_ID() );
+				$course_id = $lesson ? $lesson->get( 'parent_course' ) : 0;
+				if ( $course_id ) {
 					echo '<h3>' . esc_html__( 'Course Syllabus', 'lifterlms' ) . '</h3>';
-					
-					// We can use the syllabus shortcode or block here.
-					echo do_shortcode( '[lifterlms_course_outline course_id="' . $course_id . '"]' );
+					echo do_shortcode( '[lifterlms_course_outline course_id="' . intval( $course_id ) . '"]' );
 				}
 				?>
 			</div>

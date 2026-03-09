@@ -248,6 +248,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-library.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/blocks/class-llms-block-parent-course.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-rest-fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';

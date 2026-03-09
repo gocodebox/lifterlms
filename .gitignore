@@ -69,6 +69,7 @@ blocks/memberships/*
 blocks/my-achievements/*
 blocks/navigation-link/*
 blocks/registration/*
+blocks/parent-course/*
 
 includes/class.llms.l10n.frontend.php
 languages/lifterlms.pot
