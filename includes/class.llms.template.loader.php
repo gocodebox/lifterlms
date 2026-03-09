@@ -474,8 +474,8 @@ class LLMS_Template_Loader {
 		 */
 		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ? '' : $template_name;
 
-		// Page builder lessons use the PHP template instead of the block template so we're not using blocks.
-		if ( 'single-lesson-focus' === $template_name && is_lesson() && llms_lesson_uses_page_builder( get_the_ID() ) ) {
+		// Focus mode always uses the PHP template (not the block template) for a stable, non-editable layout.
+		if ( 'single-lesson-focus' === $template_name ) {
 			return $result;
 		}
 
