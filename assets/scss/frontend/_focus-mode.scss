@@ -5,17 +5,32 @@
 $focus-header-height: 60px;
 $focus-sidebar-width: 350px;
 $focus-sidebar-collapsed-width: 48px;
+$admin-bar-height: 32px;
 
 .llms-focus-mode {
 	margin: 0;
 	padding: 0;
 	background-color: #f9f9f9;
 
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	&.admin-bar {
+		margin-top: $admin-bar-height;
+
+		.llms-focus-mode-wrapper {
+			height: calc(100vh - #{$admin-bar-height});
+		}
+
+		@media (max-width: 782px) {
+			margin-top: 46px;
+
+			.llms-focus-mode-wrapper {
+				height: calc(100vh - 46px);
+			}
+		}
+	}
 	overflow: hidden;
 
 	// Override block theme global styles gap that causes spacing issues.
-	.is-layout-flow > * {
+	.llms-focus-mode-body {
 		margin-block-start: 0;
 		margin-block-end: 0;
 	}
@@ -126,7 +141,7 @@ $focus-sidebar-collapsed-width: 48px;
 		.llms-focus-mode-sidebar-content {
 			flex: 1;
 			overflow-y: auto;
-			padding: 10px 20px 30px;
+			padding: 0 20px;
 		}
 	}
 

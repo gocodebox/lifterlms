@@ -389,7 +389,7 @@ function llms_lesson_uses_page_builder( $lesson_id ) {
  * @return array
  */
 function llms_focus_mode_body_class( $classes ) {
-	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
+	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 		$classes[] = 'llms-focus-mode';
 
 		$width = llms_get_focus_mode_content_width( get_the_ID() );
@@ -412,7 +412,7 @@ add_filter( 'body_class', 'llms_focus_mode_body_class' );
  * @return void
  */
 function llms_focus_mode_enqueue_scripts() {
-	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
+	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 		wp_enqueue_script(
 			'llms-focus-mode',
 			llms()->plugin_url() . '/assets/js/llms-focus-mode.js',

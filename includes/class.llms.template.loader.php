@@ -474,6 +474,11 @@ class LLMS_Template_Loader {
 		 */
 		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ? '' : $template_name;
 
+		// Page builder lessons use the PHP template instead of the block template so we're not using blocks.
+		if ( 'single-lesson-focus' === $template_name && is_lesson() && llms_lesson_uses_page_builder( get_the_ID() ) ) {
+			return $result;
+		}
+
 		/**
 		 * Filters the block template to be loded forced.
 		 *
@@ -639,7 +644,7 @@ class LLMS_Template_Loader {
 
 			$template = 'single-certificate';
 
-		} elseif ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) && ! llms_lesson_uses_page_builder( get_the_ID() ) ) {
+		} elseif ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 
 			$template = 'single-lesson-focus';
 
