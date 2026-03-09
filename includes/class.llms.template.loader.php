@@ -644,7 +644,7 @@ class LLMS_Template_Loader {
 
 			$template = 'single-certificate';
 
-		} elseif ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+		} elseif ( is_singular( apply_filters( 'llms_focus_mode_post_types', array( 'lesson', 'llms_quiz' ) ) ) && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 
 			$template = 'single-lesson-focus';
 

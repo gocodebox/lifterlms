@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying all single lessons in focus mode.
+ * The Template for displaying single lesson, quiz, or other focus-mode content (e.g. assignments via add-on).
  *
  * @package LifterLMS/Templates
  *
@@ -10,8 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$lesson    = llms_get_post( get_the_ID() );
-$course_id = $lesson ? $lesson->get( 'parent_course' ) : 0;
+$course    = llms_get_post_parent_course( get_the_ID() );
+$course_id = $course ? $course->get( 'id' ) : 0;
 $student   = llms_get_student();
 $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'course' ) : 0;
 ?>

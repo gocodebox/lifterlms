@@ -255,90 +255,92 @@ function llms_get_template_override_directories() {
 }
 
 /**
- * Determine if Focus Mode is enabled for a specific lesson.
+ * Determine if Focus Mode is enabled for a specific post (lesson, quiz, or other post types via filter).
+ *
+ * For lessons and quizzes, uses the parent course focus mode setting (or global setting).
+ * Add-ons (e.g. LifterLMS Assignments) can use the filter to enable focus mode for their post types.
  *
  * @since [version]
  *
- * @param int $lesson_id The ID of the lesson.
+ * @param int $post_id The ID of the post (lesson, quiz, etc.).
  * @return bool
  */
-function llms_is_focus_mode_enabled( $lesson_id ) {
-	$lesson = llms_get_post( $lesson_id );
-	if ( ! $lesson || 'lesson' !== $lesson->get( 'type' ) ) {
+function llms_is_focus_mode_enabled( $post_id ) {
+	$post = llms_get_post( $post_id );
+	if ( ! $post ) {
 		return false;
 	}
 
-	$course_id = $lesson->get( 'parent_course' );
-	if ( ! $course_id ) {
-		return false;
+	$result = false;
+	$type   = $post->get( 'type' );
+
+	if ( 'lesson' === $type || 'llms_quiz' === $type ) {
+		$course = llms_get_post_parent_course( $post_id );
+		if ( ! $course ) {
+			return apply_filters( 'llms_is_focus_mode_enabled', false, $post_id );
+		}
+
+		$course_focus_mode = $course->get( 'focus_mode' );
+		if ( 'enable' === $course_focus_mode ) {
+			$result = true;
+		} elseif ( 'disable' === $course_focus_mode ) {
+			$result = false;
+		} else {
+			$result = 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
+		}
 	}
 
-	$course = llms_get_post( $course_id );
-	if ( ! $course ) {
-		return false;
-	}
-
-	$course_focus_mode = $course->get( 'focus_mode' );
-	
-	if ( 'enable' === $course_focus_mode ) {
-		return true;
-	} elseif ( 'disable' === $course_focus_mode ) {
-		return false;
-	}
-
-	// Fallback to global setting.
-	return 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
+	/**
+	 * Filters whether focus mode is enabled for a given post.
+	 *
+	 * Used by add-ons (e.g. LifterLMS Assignments) to enable focus mode for their post types
+	 * when focus mode is enabled globally and/or for the course.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $result  Whether focus mode is enabled.
+	 * @param int  $post_id The post ID.
+	 */
+	return apply_filters( 'llms_is_focus_mode_enabled', $result, $post_id );
 }
 
 /**
- * Retrieve the effective focus mode content width for a lesson.
+ * Retrieve the effective focus mode content width for a post.
  *
- * Checks the course-level setting first, then falls back to global.
+ * Checks the parent course setting first (for lesson/quiz), then falls back to global.
  *
  * @since [version]
  *
- * @param int $lesson_id The ID of the lesson.
+ * @param int $post_id The ID of the post (lesson, quiz, or other focus-mode post type).
  * @return string Width value: 'full', '1600', '1180', '960', or '768'.
  */
-function llms_get_focus_mode_content_width( $lesson_id ) {
-	$lesson = llms_get_post( $lesson_id );
-	if ( $lesson && 'lesson' === $lesson->get( 'type' ) ) {
-		$course_id = $lesson->get( 'parent_course' );
-		if ( $course_id ) {
-			$course = llms_get_post( $course_id );
-			if ( $course ) {
-				$value = $course->get( 'focus_mode_content_width' );
-				if ( $value && 'inherit' !== $value ) {
-					return $value;
-				}
-			}
+function llms_get_focus_mode_content_width( $post_id ) {
+	$course = llms_get_post_parent_course( $post_id );
+	if ( $course ) {
+		$value = $course->get( 'focus_mode_content_width' );
+		if ( $value && 'inherit' !== $value ) {
+			return $value;
 		}
 	}
 	return get_option( 'lifterlms_focus_mode_content_width', '960' );
 }
 
 /**
- * Retrieve the effective focus mode sidebar position for a lesson.
+ * Retrieve the effective focus mode sidebar position for a post.
  *
- * Checks the course-level setting first, then falls back to global.
+ * Checks the parent course setting first (for lesson/quiz), then falls back to global.
  *
  * @since [version]
  *
- * @param int $lesson_id The ID of the lesson.
+ * @param int $post_id The ID of the post (lesson, quiz, or other focus-mode post type).
  * @return string 'left' or 'right'.
  */
-function llms_get_focus_mode_sidebar_position( $lesson_id ) {
-	$lesson = llms_get_post( $lesson_id );
-	if ( $lesson && 'lesson' === $lesson->get( 'type' ) ) {
-		$course_id = $lesson->get( 'parent_course' );
-		if ( $course_id ) {
-			$course = llms_get_post( $course_id );
-			if ( $course ) {
-				$value = $course->get( 'focus_mode_sidebar_position' );
-				if ( $value && 'inherit' !== $value ) {
-					return $value;
-				}
-			}
+function llms_get_focus_mode_sidebar_position( $post_id ) {
+	$course = llms_get_post_parent_course( $post_id );
+	if ( $course ) {
+		$value = $course->get( 'focus_mode_sidebar_position' );
+		if ( $value && 'inherit' !== $value ) {
+			return $value;
 		}
 	}
 	return get_option( 'lifterlms_focus_mode_sidebar_position', 'left' );
@@ -389,7 +391,18 @@ function llms_lesson_uses_page_builder( $lesson_id ) {
  * @return array
  */
 function llms_focus_mode_body_class( $classes ) {
-	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+	/**
+	 * Post types that can use the focus mode template when focus mode is enabled.
+	 *
+	 * Add-ons (e.g. LifterLMS Assignments) can add their post types here and use
+	 * the `llms_is_focus_mode_enabled` filter to return true when appropriate.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $post_types Post type names. Default: [ 'lesson', 'llms_quiz' ].
+	 */
+	$focus_mode_post_types = apply_filters( 'llms_focus_mode_post_types', array( 'lesson', 'llms_quiz' ) );
+	if ( is_singular( $focus_mode_post_types ) && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 		$classes[] = 'llms-focus-mode';
 
 		$width = llms_get_focus_mode_content_width( get_the_ID() );
@@ -412,7 +425,8 @@ add_filter( 'body_class', 'llms_focus_mode_body_class' );
  * @return void
  */
 function llms_focus_mode_enqueue_scripts() {
-	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+	$focus_mode_post_types = apply_filters( 'llms_focus_mode_post_types', array( 'lesson', 'llms_quiz' ) );
+	if ( is_singular( $focus_mode_post_types ) && llms_is_focus_mode_enabled( get_the_ID() ) ) {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_enqueue_style(
