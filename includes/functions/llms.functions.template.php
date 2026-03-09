@@ -413,6 +413,15 @@ add_filter( 'body_class', 'llms_focus_mode_body_class' );
  */
 function llms_focus_mode_enqueue_scripts() {
 	if ( is_lesson() && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_enqueue_style(
+			'llms-focus-mode',
+			llms()->plugin_url() . '/assets/css/llms-focus-mode' . $suffix . '.css',
+			array(),
+			llms()->version
+		);
+
 		wp_enqueue_script(
 			'llms-focus-mode',
 			llms()->plugin_url() . '/assets/js/llms-focus-mode.js',
