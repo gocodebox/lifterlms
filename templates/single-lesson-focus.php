@@ -29,10 +29,14 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 <?php wp_body_open(); ?>
 
 <div class="llms-focus-mode-wrapper">
-	
+
 	<header class="llms-focus-mode-header">
 		<div class="llms-focus-mode-header-left">
-			<?php lifterlms_template_single_parent_course(); ?>
+			<?php if ( 'course' === get_post_type() ) : ?>
+				<?php lifterlms_template_single_parent_course(); ?>
+			<?php elseif ( ( $current = llms_get_post( get_the_ID() ) ) && method_exists( $current, 'get' ) && $current->get( 'lesson_id' ) ) : ?>
+				<?php lifterlms_template_quiz_return_link(); ?>
+			<?php endif; ?>
 		</div>
 		<div class="llms-focus-mode-header-right">
 			<?php echo lifterlms_course_progress_bar( $progress, false, false, false ); ?>
@@ -43,7 +47,7 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 
 		<aside class="llms-focus-mode-sidebar">
 			<div class="llms-focus-mode-sidebar-header">
-				<h3><?php esc_html_e( 'Course Syllabus', 'lifterlms' ); ?></h3>
+				<h3><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h3>
 			</div>
 			<div class="llms-focus-mode-sidebar-content">
 				<?php
@@ -59,7 +63,7 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 			while ( have_posts() ) :
 				the_post();
 				$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
-				$lesson_content_classes  = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
+				$lesson_content_classes = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
 				?>
 				<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
 				<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
