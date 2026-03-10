@@ -114,6 +114,21 @@ $focus-sidebar-collapsed-width: 48px;
 			flex: 1;
 			overflow-y: auto;
 			padding: 20px;
+
+			.llms-widget-syllabus {
+
+				.section-title {
+					font-weight: normal;
+					margin: 20px 0 10px;
+				}
+
+				.llms-section:first-child {
+					.section-title {
+						margin-top: 10px;
+					}
+				}
+
+			}
 		}
 	}
 
