@@ -161,6 +161,15 @@ $focus-sidebar-collapsed-width: 48px;
 			fill: currentColor;
 		}
 
+		// Default (sidebar left): show left chevron to collapse, hide right.
+		.llms-chevron-left {
+			display: block;
+		}
+
+		.llms-chevron-right {
+			display: none;
+		}
+
 		@media (max-width: 768px) {
 			display: none;
 		}
@@ -212,6 +221,14 @@ $focus-sidebar-collapsed-width: 48px;
 			.llms-focus-mode-sidebar-toggle {
 				border-top: none;
 				height: 100%;
+
+				.llms-chevron-left {
+					display: none;
+				}
+
+				.llms-chevron-right {
+					display: block;
+				}
 			}
 		}
 	}
@@ -230,8 +247,28 @@ $focus-sidebar-collapsed-width: 48px;
 			border-left: 1px solid #e5e5e5;
 		}
 
+		.llms-focus-mode-sidebar-toggle {
+			.llms-chevron-left {
+				display: none;
+			}
+
+			.llms-chevron-right {
+				display: block;
+			}
+		}
+
 		&.llms-sidebar-collapsed .llms-focus-mode-sidebar {
 			border-left: 0;
+
+			.llms-focus-mode-sidebar-toggle {
+				.llms-chevron-left {
+					display: block;
+				}
+
+				.llms-chevron-right {
+					display: none;
+				}
+			}
 		}
 	}
 
