@@ -32,7 +32,7 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 
 	<header class="llms-focus-mode-header">
 		<div class="llms-focus-mode-header-left">
-			<?php if ( 'course' === get_post_type() ) : ?>
+			<?php if ( 'lesson' === get_post_type() ) : ?>
 				<?php lifterlms_template_single_parent_course(); ?>
 			<?php elseif ( ( $current = llms_get_post( get_the_ID() ) ) && method_exists( $current, 'get' ) && $current->get( 'lesson_id' ) ) : ?>
 				<?php lifterlms_template_quiz_return_link(); ?>
@@ -52,7 +52,7 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 			<div class="llms-focus-mode-sidebar-content">
 				<?php
 				if ( $course_id ) {
-					echo do_shortcode( '[lifterlms_course_outline course_id="' . intval( $course_id ) . '"]' );
+					echo do_shortcode( '[lifterlms_course_outline collapse="true" toggles="true" course_id="' . intval( $course_id ) . '"]' );
 				}
 				?>
 			</div>
