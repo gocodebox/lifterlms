@@ -464,10 +464,15 @@ $admin-bar-height-mobile: 46px;
 		}
 	}
 
+
 	// Fix position of the Notes button.
+	.llms-note-button.position-fixed__top, .llms-note-wrapper {
+		top: 68px;
+	}
+
 	@media screen and (max-width: 782px) {
 		.llms-note-button.position-fixed__bottom {
-			bottom: 100px;
+			bottom: 86px;
 		}
 	}
 }
@@ -480,7 +485,15 @@ $admin-bar-height-mobile: 46px;
 		overflow: hidden;
 	}
 
+	.llms-note-button.position-fixed__top, .llms-note-wrapper {
+		top: 100px;
+	}
+
 	@media screen and (max-width: 782px) {
+		.llms-note-button.position-fixed__top, .llms-note-wrapper {
+			top: 112px;
+		}
+
 		.llms-focus-mode-wrapper {
 			height: calc( 100vh - $admin-bar-height-mobile );
 		}
