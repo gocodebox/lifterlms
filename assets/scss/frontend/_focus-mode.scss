@@ -81,6 +81,7 @@ $admin-bar-height: 32px;
 
 	// -- Sidebar: fixed width, split into fixed header + scrollable list --
 	.llms-focus-mode-sidebar {
+		position: relative;
 		width: $focus-sidebar-width;
 		min-width: $focus-sidebar-width;
 		flex-shrink: 0;
@@ -88,11 +89,7 @@ $admin-bar-height: 32px;
 		border-right: 1px solid #e5e5e5;
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
-
-		@media (max-width: 768px) {
-			display: none;
-		}
+		overflow: visible;
 
 		.llms-focus-mode-sidebar-header {
 			padding: 15px 20px;
@@ -133,45 +130,44 @@ $admin-bar-height: 32px;
 		}
 	}
 
-	// -- Sidebar toggle button --
+	// -- Sidebar toggle button (expanded state: floating pill on sidebar edge) --
 	.llms-focus-mode-sidebar-toggle {
+		position: absolute;
+		top: 20px;
+		right: -14px;
+		z-index: 11;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-shrink: 0;
-		width: 100%;
-		height: 44px;
+		width: 28px;
+		height: 28px;
 		padding: 0;
-		border: none;
-		border-top: 1px solid #e5e5e5;
-		background: #fafafa;
+		border: 1px solid #e5e5e5;
+		border-radius: 8px;
+		background: #fff;
+		box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
 		cursor: pointer;
 		color: #666;
-		font-size: 18px;
 		line-height: 1;
-		transition: background-color 0.15s ease, color 0.15s ease;
+		transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 
 		&:hover {
 			color: #1d2327;
 			background: #f0f0f0;
+			box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12);
 		}
 
 		svg {
-			width: 18px;
-			height: 18px;
+			width: 14px;
+			height: 14px;
 			fill: currentColor;
 		}
 
-		// Default (sidebar left): show left chevron to collapse, hide right.
 		.llms-chevron-left {
 			display: block;
 		}
 
 		.llms-chevron-right {
-			display: none;
-		}
-
-		@media (max-width: 768px) {
 			display: none;
 		}
 	}
@@ -213,6 +209,7 @@ $admin-bar-height: 32px;
 		.llms-focus-mode-sidebar {
 			width: $focus-sidebar-collapsed-width;
 			min-width: $focus-sidebar-collapsed-width;
+			overflow: hidden;
 
 			.llms-focus-mode-sidebar-header,
 			.llms-focus-mode-sidebar-content {
@@ -220,8 +217,19 @@ $admin-bar-height: 32px;
 			}
 
 			.llms-focus-mode-sidebar-toggle {
-				border-top: none;
+				position: static;
+				width: 100%;
 				height: 100%;
+				border: none;
+				border-radius: 0;
+				background: #fafafa;
+				box-shadow: none;
+				right: auto;
+
+				svg {
+					width: 18px;
+					height: 18px;
+				}
 
 				.llms-chevron-left {
 					display: none;
@@ -249,6 +257,14 @@ $admin-bar-height: 32px;
 		}
 
 		.llms-focus-mode-sidebar-toggle {
+			right: auto;
+			left: -14px;
+			box-shadow: -2px 0 4px rgba(0, 0, 0, 0.08);
+
+			&:hover {
+				box-shadow: -2px 0 6px rgba(0, 0, 0, 0.12);
+			}
+
 			.llms-chevron-left {
 				display: none;
 			}
@@ -262,6 +278,9 @@ $admin-bar-height: 32px;
 			border-left: 0;
 
 			.llms-focus-mode-sidebar-toggle {
+				left: auto;
+				box-shadow: none;
+
 				.llms-chevron-left {
 					display: block;
 				}
@@ -284,6 +303,63 @@ $admin-bar-height: 32px;
 				max-width: #{$width}px;
 				margin-left: auto;
 				margin-right: auto;
+			}
+		}
+	}
+
+	// =============================================
+	// Mobile: sidebar stacks below content
+	// =============================================
+	@media (max-width: 768px) {
+
+		.llms-focus-mode-body {
+			flex-direction: column;
+			overflow-y: auto;
+		}
+
+		.llms-focus-mode-content {
+			flex: none;
+			overflow-y: visible;
+			order: 1;
+		}
+
+		.llms-focus-mode-sidebar {
+			width: 100%;
+			min-width: 100%;
+			border-right: 0;
+			border-top: 1px solid #e5e5e5;
+			overflow: hidden;
+			order: 2;
+
+			.llms-focus-mode-sidebar-content {
+				overflow-y: visible;
+			}
+		}
+
+		.llms-focus-mode-sidebar-toggle {
+			display: none;
+		}
+
+		// Override collapsed state so the sidebar is always visible on mobile.
+		&.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+			width: 100%;
+			min-width: 100%;
+
+			.llms-focus-mode-sidebar-header,
+			.llms-focus-mode-sidebar-content {
+				display: block;
+			}
+		}
+
+		// Sidebar-right doesn't need reversed direction on mobile.
+		&.llms-focus-mode-sidebar-right {
+			.llms-focus-mode-body {
+				flex-direction: column;
+			}
+
+			.llms-focus-mode-sidebar {
+				border-left: 0;
+				border-top: 1px solid #e5e5e5;
 			}
 		}
 	}
