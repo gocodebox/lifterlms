@@ -122,6 +122,12 @@ $next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $
 
 	</div>
 
+	<?php if ( 'lesson' === $post_type && $lesson ) : ?>
+		<footer class="llms-focus-mode-footer llms-focus-mode-footer--mobile">
+			<?php lifterlms_template_complete_lesson_link(); ?>
+		</footer>
+	<?php endif; ?>
+
 </div>
 
 <?php wp_footer(); ?>
