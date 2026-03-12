@@ -139,7 +139,6 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
 	ob_start();
 	llms_get_template( $template_name, $args, $template_path, $default_path );
 	return ob_get_clean();
-
 }
 
 /**
@@ -251,7 +250,6 @@ function llms_get_template_override_directories() {
 	 * @param string[] $theme_override_directories List of theme override directory paths.
 	 */
 	return apply_filters( 'lifterlms_theme_override_directories', $dirs );
-
 }
 
 /**
@@ -347,42 +345,6 @@ function llms_get_focus_mode_sidebar_position( $post_id ) {
 }
 
 /**
- * Determine if a lesson was built with Elementor.
- *
- * Uses Elementor's own API to check whether the post was built with
- * Elementor and the plugin is active. When Elementor is active and the
- * lesson was built with it, focus mode is skipped because Elementor
- * filters `llms_render_block` to prevent block output.
- *
- * @since [version]
- *
- * @param int $lesson_id The ID of the lesson.
- * @return bool
- */
-function llms_lesson_uses_page_builder( $lesson_id ) {
-	if ( class_exists( 'Elementor\Plugin' ) && method_exists( 'Elementor\Plugin', 'instance' ) ) {
-		$instance  = Elementor\Plugin::instance();
-		$documents = $instance ? $instance->documents : null;
-		if ( $documents && method_exists( $documents, 'get' ) ) {
-			$document = $documents->get( $lesson_id );
-			if ( $document && method_exists( $document, 'is_built_with_elementor' ) && $document->is_built_with_elementor() ) {
-				return true;
-			}
-		}
-	}
-
-	/**
-	 * Filters whether a lesson uses a page builder.
-	 *
-	 * @since [version]
-	 *
-	 * @param bool $uses_page_builder Whether the lesson uses a page builder.
-	 * @param int  $lesson_id         The lesson ID.
-	 */
-	return apply_filters( 'llms_lesson_uses_page_builder', false, $lesson_id );
-}
-
-/**
  * Add body classes for focus mode.
  *
  * @since [version]
@@ -449,7 +411,6 @@ add_action( 'wp_enqueue_scripts', 'llms_focus_mode_enqueue_scripts' );
 
 /**
  * Build the plugin's template file path.
-
  *
  * @since 5.8.0
  * @since 7.2.0 Do not add leading slash to absolute template directory.
@@ -467,5 +428,4 @@ function llms_template_file_path( $template, $template_directory = 'templates', 
 	$template_path      = $override ? $override : $template_directory;
 
 	return trailingslashit( $template_path ) . "{$template}";
-
 }
