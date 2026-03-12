@@ -106,6 +106,37 @@ $admin-bar-height-mobile: 46px;
 		@media (max-width: 768px) {
 			padding: 6px 8px;
 		}
+
+		&.llms-lesson-locked {
+			opacity: 0.5;
+			cursor: not-allowed;
+			position: relative;
+
+			.llms-tooltip {
+				top: auto;
+				bottom: -112px;
+				left: auto;
+				right: 0;
+				transform: none;
+				white-space: normal;
+				min-width: 200px;
+
+				&.show {
+					top: auto;
+					bottom: -28px;
+				}
+
+				&:after {
+					bottom: auto;
+					top: -8px;
+					left: auto;
+					right: 12px;
+					transform: none;
+					border-top: 0;
+					border-bottom: 8px solid #2a2a2a;
+				}
+			}
+		}
 	}
 
 	.llms-focus-mode-back-link {

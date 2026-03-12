@@ -30,6 +30,9 @@ if ( 'lesson' === $post_type ) {
 }
 $prev_id = ( $lesson && is_callable( array( $lesson, 'get_previous_lesson' ) ) ) ? $lesson->get_previous_lesson() : false;
 $next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $lesson->get_next_lesson() : false;
+
+$prev_restricted = $prev_id ? llms_page_restricted( $prev_id, get_current_user_id() ) : array( 'is_restricted' => false );
+$next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_id() ) : array( 'is_restricted' => false );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -61,16 +64,24 @@ $next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $
 		</div>
 		<div class="llms-focus-mode-header-nav">
 			<?php if ( $prev_id ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $prev_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-prev" aria-label="<?php esc_attr_e( 'Previous Lesson', 'lifterlms' ); ?>">
+				<?php if ( $prev_restricted['is_restricted'] ) : ?>
+					<span class="llms-focus-mode-nav-btn llms-focus-mode-nav-prev llms-lesson-locked" data-tooltip-msg="<?php echo esc_attr( wp_strip_all_tags( llms_get_restriction_message( $prev_restricted ) ) ); ?>" aria-label="<?php esc_attr_e( 'Previous Lesson', 'lifterlms' ); ?>">
+				<?php else : ?>
+					<a href="<?php echo esc_url( get_permalink( $prev_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-prev" aria-label="<?php esc_attr_e( 'Previous Lesson', 'lifterlms' ); ?>">
+				<?php endif; ?>
 					<svg class="llms-focus-mode-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
 					<span class="llms-focus-mode-nav-label"><?php esc_html_e( 'Previous Lesson', 'lifterlms' ); ?></span>
-				</a>
+				<?php echo $prev_restricted['is_restricted'] ? '</span>' : '</a>'; ?>
 			<?php endif; ?>
 			<?php if ( $next_id ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $next_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-next" aria-label="<?php esc_attr_e( 'Next Lesson', 'lifterlms' ); ?>">
+				<?php if ( $next_restricted['is_restricted'] ) : ?>
+					<span class="llms-focus-mode-nav-btn llms-focus-mode-nav-next llms-lesson-locked" data-tooltip-msg="<?php echo esc_attr( wp_strip_all_tags( llms_get_restriction_message( $next_restricted ) ) ); ?>" aria-label="<?php esc_attr_e( 'Next Lesson', 'lifterlms' ); ?>">
+				<?php else : ?>
+					<a href="<?php echo esc_url( get_permalink( $next_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-next" aria-label="<?php esc_attr_e( 'Next Lesson', 'lifterlms' ); ?>">
+				<?php endif; ?>
 					<span class="llms-focus-mode-nav-label"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></span>
 					<svg class="llms-focus-mode-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
-				</a>
+				<?php echo $next_restricted['is_restricted'] ? '</span>' : '</a>'; ?>
 			<?php endif; ?>
 		</div>
 	</header>
