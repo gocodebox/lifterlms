@@ -114,16 +114,17 @@ $admin-bar-height-mobile: 46px;
 
 			.llms-tooltip {
 				top: auto;
-				bottom: -112px;
+				bottom: auto;
 				left: auto;
 				right: 0;
 				transform: none;
 				white-space: normal;
 				min-width: 200px;
+				max-width: 200px;
 
 				&.show {
 					top: auto;
-					bottom: -28px;
+					bottom: -112px;
 				}
 
 				&:after {
