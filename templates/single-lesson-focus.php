@@ -33,7 +33,9 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 	<header class="llms-focus-mode-header">
 		<div class="llms-focus-mode-header-left">
 			<?php if ( 'lesson' === get_post_type() ) : ?>
-				<?php lifterlms_template_single_parent_course(); ?>
+				<div class="llms-parent-course-link">
+					<a class="llms-lesson-link" href="<?php echo esc_url( get_permalink( $course_id ) ); ?>"><?php echo esc_html__( 'Back to Course', 'lifterlms' ); ?></a>
+				</div>
 			<?php elseif ( ( $current = llms_get_post( get_the_ID() ) ) && method_exists( $current, 'get' ) && $current->get( 'lesson_id' ) ) : ?>
 				<?php lifterlms_template_quiz_return_link(); ?>
 			<?php endif; ?>
