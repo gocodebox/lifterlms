@@ -40,6 +40,11 @@ $admin-bar-height-mobile: 46px;
 			display: flex;
 			align-items: center;
 			flex-shrink: 0;
+			white-space: nowrap;
+
+			> .clear {
+				display: none;
+			}
 		}
 
 		.llms-focus-mode-header-center {
