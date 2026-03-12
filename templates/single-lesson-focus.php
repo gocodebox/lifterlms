@@ -14,6 +14,22 @@ $course    = llms_get_post_parent_course( get_the_ID() );
 $course_id = $course ? $course->get( 'id' ) : 0;
 $student   = llms_get_student();
 $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'course' ) : 0;
+
+$post_type = get_post_type();
+$lesson    = null;
+if ( 'lesson' === $post_type ) {
+	$lesson = llms_get_post( get_the_ID() );
+} else {
+	$current_post = llms_get_post( get_the_ID() );
+	if ( $current_post && is_callable( array( $current_post, 'get' ) ) ) {
+		$lesson_id = $current_post->get( 'lesson_id' );
+		if ( $lesson_id ) {
+			$lesson = llms_get_post( $lesson_id );
+		}
+	}
+}
+$prev_id = ( $lesson && is_callable( array( $lesson, 'get_previous_lesson' ) ) ) ? $lesson->get_previous_lesson() : false;
+$next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $lesson->get_next_lesson() : false;
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -40,8 +56,22 @@ $progress  = ( $student && $course_id ) ? $student->get_progress( $course_id, 'c
 				<?php lifterlms_template_quiz_return_link(); ?>
 			<?php endif; ?>
 		</div>
-		<div class="llms-focus-mode-header-right">
+		<div class="llms-focus-mode-header-center">
 			<?php echo lifterlms_course_progress_bar( $progress, false, false, false ); ?>
+		</div>
+		<div class="llms-focus-mode-header-nav">
+			<?php if ( $prev_id ) : ?>
+				<a href="<?php echo esc_url( get_permalink( $prev_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-prev" aria-label="<?php esc_attr_e( 'Previous Lesson', 'lifterlms' ); ?>">
+					<svg class="llms-focus-mode-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
+					<span class="llms-focus-mode-nav-label"><?php esc_html_e( 'Previous Lesson', 'lifterlms' ); ?></span>
+				</a>
+			<?php endif; ?>
+			<?php if ( $next_id ) : ?>
+				<a href="<?php echo esc_url( get_permalink( $next_id ) ); ?>" class="llms-focus-mode-nav-btn llms-focus-mode-nav-next" aria-label="<?php esc_attr_e( 'Next Lesson', 'lifterlms' ); ?>">
+					<span class="llms-focus-mode-nav-label"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></span>
+					<svg class="llms-focus-mode-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+				</a>
+			<?php endif; ?>
 		</div>
 	</header>
 

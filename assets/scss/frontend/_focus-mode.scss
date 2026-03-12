@@ -41,23 +41,69 @@ $admin-bar-height: 32px;
 			flex-shrink: 0;
 		}
 
-		.llms-focus-mode-header-right {
+		.llms-focus-mode-header-center {
 			display: flex;
 			align-items: center;
+			justify-content: center;
 			flex: 1;
-			max-width: 50%;
 			min-width: 0;
 		}
 
 		.llms-progress {
-			flex: 1;
-			max-width: 50%;
-			min-width: 0;
+			width: 100%;
+			max-width: 300px;
 
 			.llms-progress-bar {
 				width: 100%;
 				min-width: 100px;
 			}
+		}
+
+		.llms-focus-mode-header-nav {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			flex-shrink: 0;
+		}
+	}
+
+	.llms-focus-mode-nav-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 14px;
+		border: 1px solid #e5e5e5;
+		border-radius: 6px;
+		background: #fafafa;
+		color: #1d2327;
+		text-decoration: none;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		line-height: 1;
+		white-space: nowrap;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+
+		&:hover {
+			background: #f0f0f0;
+			border-color: #ccc;
+			color: #1d2327;
+		}
+
+		.llms-focus-mode-nav-icon {
+			width: 12px;
+			height: 12px;
+			fill: currentColor;
+			flex-shrink: 0;
+		}
+
+		.llms-focus-mode-nav-label {
+			@media (max-width: 768px) {
+				display: none;
+			}
+		}
+
+		@media (max-width: 768px) {
+			padding: 6px 8px;
 		}
 	}
 
