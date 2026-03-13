@@ -17,7 +17,6 @@ $admin-bar-height-mobile: 46px;
 	.llms-focus-mode-wrapper {
 		display: flex;
 		flex-direction: column;
-		height: 100vh;
 		height: 100dvh;
 		overflow: hidden;
 	}
@@ -114,9 +113,11 @@ $admin-bar-height-mobile: 46px;
 		}
 
 		&.llms-lesson-locked {
-			opacity: 0.5;
 			cursor: not-allowed;
 			position: relative;
+			color: #a7aaad;
+			border-color: #e5e5e5;
+			background: #f9f9f9;
 
 			.llms-tooltip {
 				top: auto;
@@ -161,7 +162,6 @@ $admin-bar-height-mobile: 46px;
 		display: flex;
 		flex: 1;
 		overflow: hidden;
-		height: calc(100vh - #{$focus-header-height});
 		height: calc(100dvh - #{$focus-header-height});
 	}
 
@@ -524,7 +524,6 @@ $admin-bar-height-mobile: 46px;
 	.llms-focus-mode-wrapper {
 		display: flex;
 		flex-direction: column;
-		height: calc( 100vh - $admin-bar-height );
 		height: calc( 100dvh - $admin-bar-height );
 		overflow: hidden;
 	}
@@ -539,7 +538,6 @@ $admin-bar-height-mobile: 46px;
 		}
 
 		.llms-focus-mode-wrapper {
-			height: calc( 100vh - $admin-bar-height-mobile );
 			height: calc( 100dvh - $admin-bar-height-mobile );
 		}
 	}
