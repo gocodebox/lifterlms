@@ -22,7 +22,7 @@ The simplest way to install LifterLMS is through your existing WordPress site’
 
 #### Manual Installation
 
-To manually install LifterLMS, you'll need to download the zip file from your [free account on the LifterLMS website](https://lifterlms.com/my-account/) or using the "Download" link on this screen. Then, use FTP to manually upload the unzipped plugin folder to the proper plugins directory on your webserver.
+To manually install LifterLMS, you'll need to download the zip file using the "Download" link on this screen. Then, use FTP to manually upload the unzipped plugin folder to the proper plugins directory on your webserver.
 
 Please see this [WordPress Codex document](https://wordpress.org/documentation/article/manage-plugins/#manual-plugin-installation-1) for full instructions on Manual Plugin Installation.
 
