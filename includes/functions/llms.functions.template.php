@@ -286,6 +286,13 @@ function llms_is_focus_mode_enabled( $post_id ) {
 		} else {
 			$result = 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
 		}
+
+		if ( $result ) {
+			$student = llms_get_student();
+			if ( ! $student || ! $student->is_enrolled( $course->get( 'id' ) ) ) {
+				$result = false;
+			}
+		}
 	}
 
 	/**
