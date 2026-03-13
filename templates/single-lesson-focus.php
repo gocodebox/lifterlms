@@ -106,8 +106,11 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 		</aside>
 
 		<div class="llms-focus-mode-main">
-
-			<main class="llms-focus-mode-content">
+			<?php
+				$content_classes = array( 'llms-focus-mode-content' );
+				$content_classes = apply_filters( 'llms_focus_mode_content_classes', $content_classes );
+			?>
+			<main class="<?php echo esc_attr( implode( ' ', array_filter( $content_classes ) ) ); ?>">
 				<?php
 				while ( have_posts() ) :
 					the_post();
@@ -116,7 +119,16 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 					?>
 					<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
 					<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
-						<?php the_content(); ?>
+						<?php
+						/**
+						 * Renders the post content in focus mode.
+						 *
+						 * @since [version]
+						 *
+						 * @see llms_focus_mode_render_content() Default handler.
+						 */
+						do_action( 'llms_focus_mode_the_content' );
+						?>
 					</div>
 					<?php
 				endwhile;

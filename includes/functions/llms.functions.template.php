@@ -417,6 +417,22 @@ function llms_focus_mode_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'llms_focus_mode_enqueue_scripts' );
 
 /**
+ * Render focus mode post content.
+ *
+ * Themes can override by removing this action and adding their own:
+ *   remove_action( 'llms_focus_mode_the_content', 'llms_focus_mode_render_content' );
+ *   add_action( 'llms_focus_mode_the_content', 'my_theme_render_content' );
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_focus_mode_render_content() {
+	the_content();
+}
+add_action( 'llms_focus_mode_the_content', 'llms_focus_mode_render_content' );
+
+/**
  * Build the plugin's template file path.
  *
  * @since 5.8.0
