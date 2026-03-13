@@ -34,7 +34,7 @@ $admin-bar-height-mobile: 46px;
 		min-height: $focus-header-height;
 		box-sizing: border-box;
 		flex-shrink: 0;
-		z-index: 10;
+		z-index: 20;
 
 		.llms-focus-mode-header-left {
 			display: flex;
