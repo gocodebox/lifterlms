@@ -71,7 +71,6 @@ blocks/my-achievements/*
 blocks/navigation-link/*
 blocks/registration/*
 
-
 includes/class.llms.l10n.frontend.php
 languages/lifterlms.pot
 
