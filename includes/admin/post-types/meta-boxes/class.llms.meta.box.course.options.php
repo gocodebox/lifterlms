@@ -155,6 +155,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'value'      => $difficulty_options,
 					),
 					array(
+						'allow_null'    => false,
 						'class'         => 'llms-select2',
 						'id'            => $this->prefix . 'focus_mode',
 						'desc'          => __( 'Enable or disable Focus Mode for lessons in this course.', 'lifterlms' ),
@@ -180,6 +181,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
+						'allow_null'       => false,
 						'class'            => 'llms-select2',
 						'controller'       => '#' . $this->prefix . 'focus_mode',
 						'controller_value' => 'enable,inherit',
@@ -218,6 +220,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
+						'allow_null'       => false,
 						'class'            => 'llms-select2',
 						'controller'       => '#' . $this->prefix . 'focus_mode',
 						'controller_value' => 'enable,inherit',
