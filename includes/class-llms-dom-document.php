@@ -129,7 +129,7 @@ class LLMS_DOM_Document {
 	 * Load the HTML string in the DOMDocument using mb_encode_numericentity
 	 *
 	 * @since 4.13.0
-	 * @since [version] Use `mb_encode_numericentity()` instead of deprecated `mb_convert_encoding()` with 'HTML-ENTITIES'.
+	 * @since 9.2.2 Use `mb_encode_numericentity()` instead of deprecated `mb_convert_encoding()` with 'HTML-ENTITIES'.
 	 *
 	 * @return void
 	 */

@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: Validation of the order param for the quiz Students Without Attempts table.
