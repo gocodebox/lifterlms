@@ -180,12 +180,14 @@ class LLMS_Post_Types {
 			// Single payment only.
 			'llms-completed'      => array(
 				'label'       => _x( 'Completed', 'Order status', 'lifterlms' ),
+				/* translators: %s: Completed count, %s: Completed count. */
 				'label_count' => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
 			// Recurring only.
 			'llms-active'         => array(
 				'label'       => _x( 'Active', 'Order status', 'lifterlms' ),
+				/* translators: %s: Active count, %s: Active count. */
 				'label_count' => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-expired'        => array(
@@ -194,6 +196,7 @@ class LLMS_Post_Types {
 			),
 			'llms-on-hold'        => array(
 				'label'       => _x( 'On Hold', 'Order status', 'lifterlms' ),
+				/* translators: %s: On hold count, %s: On hold count. */
 				'label_count' => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-pending-cancel' => array(
@@ -204,18 +207,22 @@ class LLMS_Post_Types {
 			// Shared.
 			'llms-pending'        => array(
 				'label'       => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
+				/* translators: %s: Pending Payment count, %s: Pending Payment count. */
 				'label_count' => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-cancelled'      => array(
 				'label'       => _x( 'Cancelled', 'Order status', 'lifterlms' ),
+				/* translators: %s: Cancelled count, %s: Cancelled count. */
 				'label_count' => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-refunded'       => array(
 				'label'       => _x( 'Refunded', 'Order status', 'lifterlms' ),
+				/* translators: %s: Refunded count, %s: Refunded count. */
 				'label_count' => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-failed'         => array(
 				'label'       => _x( 'Failed', 'Order status', 'lifterlms' ),
+				/* translators: %s: Failed count, %s: Failed count. */
 				'label_count' => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
@@ -1229,6 +1236,7 @@ class LLMS_Post_Types {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					/* translators: %s: Failed count, %s: Failed count. */
 					'label_count'               => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
 				),
 				'llms-txn-pending'   => array(
@@ -1237,6 +1245,7 @@ class LLMS_Post_Types {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					/* translators: %s: Pending count, %s: Pending count. */
 					'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'lifterlms' ),
 				),
 				'llms-txn-refunded'  => array(
@@ -1245,6 +1254,7 @@ class LLMS_Post_Types {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					/* translators: %s: Refuned count, %s: Refunded count. */
 					'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
 				),
 				'llms-txn-succeeded' => array(

@@ -653,6 +653,7 @@ class LLMS_Controller_Orders {
 
 		// Record order status changes as notes.
 		if ( 'order' === $post_type ) {
+			/* translators: %1$s: Old Status, %2$s: New status. */
 			$obj->add_note( sprintf( __( 'Order status changed from %1$s to %2$s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ) );
 		}
 

@@ -80,7 +80,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	}
 
 	public function set_title_and_description() {
-		$this->title       = __( 'bbPress', 'lifterlms' );
+		$this->title = __( 'bbPress', 'lifterlms' );
+		/* translators: %1$s: Open learn more link tag, %2$s: Closing tag. */
 		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
 	}
 
