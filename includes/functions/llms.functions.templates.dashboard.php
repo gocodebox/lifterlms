@@ -1015,7 +1015,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 	 */
 	function lifterlms_template_student_dashboard_wrapper_open( $layout ) {
 		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		echo '<div class="llms-student-dashboard ' . $current . ' llms-sd-layout-' . esc_attr( $layout ) . '" data-current="' . $current . '">';
+		echo '<div class="llms-student-dashboard ' . esc_attr( $current ) . ' llms-sd-layout-' . esc_attr( $layout ) . '" data-current="' . esc_attr( $current ) . '">';
 	}
 endif;
 

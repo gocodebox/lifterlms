@@ -21,7 +21,7 @@ $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer
 	<fieldset class="llms-question-choices">
 		<legend class="sr-only">
 			<?php
-				echo esc_html( strip_tags( $question->get_question( 'html', $attempt ) ) );
+				echo esc_html( wp_strip_all_tags( $question->get_question( 'html', $attempt ) ) );
 			?>
 		</legend>
 		<?php foreach ( $question->get_choices() as $choice ) : ?>

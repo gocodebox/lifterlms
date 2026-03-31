@@ -326,9 +326,9 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		if ( ! $this->is_installed() ) {
-			// Translators: %s = title of the email delivery plugin.
 			return array(
 				'code'    => 'llms_' . $this->id . '_not_found',
+				/* translators: %s: title of the email delivery plugin. */
 				'message' => sprintf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ),
 				'status'  => 400,
 			);

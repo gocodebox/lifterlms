@@ -185,9 +185,10 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$per = apply_filters( 'llms_reporting_' . $this->id . '_per_page', 25 );
+		$per         = apply_filters( 'llms_reporting_' . $this->id . '_per_page', 25 );
+		$order       = isset( $args['order'] ) ? $args['order'] : $this->order;
+		$this->order = in_array( $order, array( 'ASC', 'DESC' ), true ) ? $order : 'ASC';
 
-		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->order;
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->orderby;
 
 		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
