@@ -201,7 +201,6 @@ class LLMS_AJAX_Handler {
 	 * @since 3.15.0
 	 * @since 3.28.1 Unknown.
 	 * @since 3.37.15 Verify user permissions before processing request data.
-	 * @since [version] Added object-level authorization via `current_user_can_view()`.
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return array|bool
@@ -216,10 +215,6 @@ class LLMS_AJAX_Handler {
 			wp_die();
 		}
 
-		if ( ! $table->current_user_can_view( $request ) ) {
-			wp_die();
-		}
-
 		$file = isset( $request['filename'] ) ? $request['filename'] : null;
 		return $table->generate_export_file( $request, $file );
 	}
@@ -230,10 +225,9 @@ class LLMS_AJAX_Handler {
 	 * @since 3.2.0
 	 * @since 3.37.15 Verify user permissions before processing request data.
 	 *                Use `wp_json_encode()` in favor of `json_encode()`.
-	 * @since [version] Added object-level authorization via `current_user_can_view()`.
 	 *
 	 * @param array $request Post data ($_REQUEST).
-	 * @return array|false
+	 * @return array
 	 */
 	public static function get_admin_table_data( $request ) {
 
@@ -243,10 +237,6 @@ class LLMS_AJAX_Handler {
 
 		$table = self::get_admin_table_instance( $request['handler'] );
 		if ( ! $table ) {
-			return false;
-		}
-
-		if ( ! $table->current_user_can_view( $request ) ) {
 			return false;
 		}
 

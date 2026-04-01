@@ -263,22 +263,6 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Determines whether the current user can view this table's data for the given request.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $request Request data.
-	 * @return bool
-	 */
-	public function current_user_can_view( $request ) {
-		$student_id = isset( $request['student_id'] ) ? absint( $request['student_id'] ) : 0;
-		if ( $student_id && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
 	 * @since 9.1.0

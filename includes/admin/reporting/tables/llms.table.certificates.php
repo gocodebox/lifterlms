@@ -175,6 +175,11 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 		$args = $this->clean_args( $args );
 
+		$student_id = is_numeric( $args['student'] ) ? absint( $args['student'] ) : ( $args['student'] ? $args['student']->get_id() : 0 );
+		if ( $student_id && ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return;
+		}
+
 		if ( is_numeric( $args['student'] ) ) {
 			$args['student'] = new LLMS_Student( $args['student'] );
 		}
@@ -214,22 +219,6 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 *
 	 * @return   array
 	 */
-	/**
-	 * Determines whether the current user can view this table's data for the given request.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $request Request data.
-	 * @return bool
-	 */
-	public function current_user_can_view( $request ) {
-		$student_id = isset( $request['student'] ) ? absint( $request['student'] ) : 0;
-		if ( $student_id && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
-			return false;
-		}
-		return true;
-	}
-
 	public function set_args() {
 
 		$student = false;

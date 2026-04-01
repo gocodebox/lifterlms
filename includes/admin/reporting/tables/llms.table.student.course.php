@@ -176,6 +176,11 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 */
 	public function get_results( $args = array() ) {
 
+		$student_id = is_numeric( $args['student'] ) ? absint( $args['student'] ) : ( $args['student'] ? $args['student']->get_id() : 0 );
+		if ( $student_id && ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return;
+		}
+
 		$course = new LLMS_Course( absint( $args['course_id'] ) );
 
 		if ( is_numeric( $args['student'] ) ) {
@@ -217,22 +222,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 */
 	protected function register_hooks() {
 		add_action( 'llms_table_before_tr', array( $this, 'output_section_row_html' ), 10, 1 );
-	}
-
-	/**
-	 * Determines whether the current user can view this table's data for the given request.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $request Request data.
-	 * @return bool
-	 */
-	public function current_user_can_view( $request ) {
-		$student_id = isset( $request['student'] ) ? absint( $request['student'] ) : 0;
-		if ( $student_id && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
-			return false;
-		}
-		return true;
 	}
 
 	/**

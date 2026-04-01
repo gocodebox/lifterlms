@@ -199,21 +199,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Determines whether the current user can view this table's data for the given request.
-	 *
-	 * Subclasses should override this to enforce object-level authorization
-	 * (e.g. verifying the user can edit the specific course or membership).
-	 *
-	 * @since [version]
-	 *
-	 * @param array $request Request data.
-	 * @return bool
-	 */
-	public function current_user_can_view( $request ) {
-		return true;
-	}
-
-	/**
 	 * Ensure that a valid array of data is passed to a query.
 	 *
 	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
