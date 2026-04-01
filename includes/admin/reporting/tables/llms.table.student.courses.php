@@ -200,6 +200,22 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 *
 	 * @return   array
 	 */
+	/**
+	 * Determines whether the current user can view this table's data for the given request.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request Request data.
+	 * @return bool
+	 */
+	public function current_user_can_view( $request ) {
+		$student_id = isset( $request['student'] ) ? absint( $request['student'] ) : 0;
+		if ( $student_id && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return false;
+		}
+		return true;
+	}
+
 	public function set_args() {
 
 		$student = false;

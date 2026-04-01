@@ -375,6 +375,22 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 
 	/**
+	 * Determines whether the current user can view this table's data for the given request.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request Request data.
+	 * @return bool
+	 */
+	public function current_user_can_view( $request ) {
+		$course_id = isset( $request['course_id'] ) ? absint( $request['course_id'] ) : 0;
+		if ( $course_id && ! current_user_can( 'edit_post', $course_id ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
 	 * @return   array

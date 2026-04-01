@@ -353,6 +353,22 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 
 	/**
+	 * Determines whether the current user can view this table's data for the given request.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request Request data.
+	 * @return bool
+	 */
+	public function current_user_can_view( $request ) {
+		$membership_id = isset( $request['membership_id'] ) ? absint( $request['membership_id'] ) : 0;
+		if ( $membership_id && ! current_user_can( 'edit_post', $membership_id ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
 	 * @since 3.32.0
