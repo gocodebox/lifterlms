@@ -503,6 +503,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Prepare SQL properly.
+	 * @since [version] Treat empty string cache value as miss for persistent object cache compatibility.
 	 *
 	 * @param   int    $product_id  WP Post ID of a course or membership
 	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date
@@ -518,7 +519,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
 		$res       = $this->cache_get( $cache_key );
 
-		if ( false === $res ) {
+		if ( false === $res || '' === $res ) {
 
 			$key = ( 'enrolled' === $date ) ? '_start_date' : '_status';
 
@@ -548,6 +549,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 4.4.1 Moved filter `llms_user_enrollment_status_allowed_post_types` to function `llms_get_enrollable_status_check_post_types()`.
 	 * @since 4.18.0 Added a tie-breaker when there are multiple enrollment statuses with the same date & time.
 	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since [version] Treat empty string cache value as miss for persistent object cache compatibility.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query
@@ -577,13 +579,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$status = $this->cache_get( sprintf( 'enrollment_status_%d', $product_id ) );
 		}
 
-		/**
-		 * After checking the cache, $status will be:
-		 *     + `false` if there was nothing in the cache or the function was instructed to not use the cache: Query the database to get the status.
+	/**
+	 * After checking the cache, $status will be:
+		 *     + `false` or `''` if there was nothing in the cache or the function was instructed to not use the cache: Query the database to get the status.
 		 *     + a string if there was a status: No need to query the database.
 		 *     + `null` if there's no status: No need to query the database.
 		 */
-		if ( false === $status ) {
+		if ( false === $status || '' === $status ) {
 
 			global $wpdb;
 
