@@ -230,6 +230,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
+	 * @since [version] Invalidate wp_cache grade entries for the quiz, lesson, and course.
 	 *
 	 * @param boolean $silent Optional. If `true`, will not trigger actions or mark related lesson as complete. Default `false`.
 	 * @return LLMS_Quiz_Attempt This quiz attempt instance (for chaining).
@@ -247,6 +248,19 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		// Clear "cached" grade so it's recalculated next time it's requested.
 		$this->get_student()->set( 'overall_grade', '' );
+
+		// Invalidate wp_cache grade entries so persistent object caches don't serve stale grades.
+		$student_id = $this->get_student()->get_id();
+		$group      = sprintf( 'student_%d', $student_id );
+		$lesson_id  = $this->get( 'lesson_id' );
+
+		wp_cache_delete( sprintf( '%d_grade', $this->get( 'quiz_id' ) ), $group );
+		wp_cache_delete( sprintf( '%d_grade', $lesson_id ), $group );
+
+		$lesson = llms_get_post( $lesson_id );
+		if ( $lesson ) {
+			wp_cache_delete( sprintf( '%d_grade', $lesson->get( 'parent_course' ) ), $group );
+		}
 
 		return $this;
 	}
