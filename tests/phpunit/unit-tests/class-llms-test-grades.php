@@ -163,6 +163,92 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_grade() treats empty string in cache as a miss (persistent object cache compat).
+	 *
+	 * Simulates the scenario where Redis/Memcached deserializes a cached null as ''.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_empty_string_cache_treated_as_miss() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$cache_key  = sprintf( '%d_grade', $course_id );
+		$group      = sprintf( 'student_%d', $student_id );
+
+		// Simulate Redis returning '' for a cached null grade.
+		wp_cache_set( $cache_key, '', $group );
+
+		// Should treat '' as a cache miss and recalculate (returning null for no quizzes taken).
+		$this->assertNull( $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
+	 * Test get_grade() returns a numeric grade from cache without recalculating.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_numeric_cache_returned() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$cache_key  = sprintf( '%d_grade', $course_id );
+		$group      = sprintf( 'student_%d', $student_id );
+
+		// Pre-populate cache with a numeric grade.
+		wp_cache_set( $cache_key, 85.5, $group );
+
+		// Should return the cached value without recalculating.
+		$this->assertEquals( 85.5, $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
+	 * Test get_grade() treats null in cache as a valid hit (in-memory cache behavior).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_null_cache_is_valid_hit() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$cache_key  = sprintf( '%d_grade', $course_id );
+		$group      = sprintf( 'student_%d', $student_id );
+
+		// Pre-populate cache with null (no grade, standard in-memory cache behavior).
+		wp_cache_set( $cache_key, null, $group );
+
+		// Should return null from cache (valid "no grade" hit).
+		$this->assertNull( $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
 	 * test round() method
 	 * @return   void
 	 * @since    3.24.0
