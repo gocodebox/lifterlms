@@ -239,20 +239,27 @@ class LLMS_Grades {
 	/**
 	 * Retrieve a grade from the wp_cache
 	 *
-	 * @param    LLMS_Post_Model $post    A LLMS_Post_Model object.
-	 * @param    LLMS_Student    $student A LLMS_Student object.
-	 * @return   mixed             grade as a float
-	 *                             null if there's no grade for the post
-	 *                             false if the grade wasn't found in the cache
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Treat empty string as cache miss for persistent object cache compatibility.
+	 *
+	 * @param LLMS_Post_Model $post    A LLMS_Post_Model object.
+	 * @param LLMS_Student    $student A LLMS_Student object.
+	 * @return mixed Grade as a float, null if there's no grade for the post,
+	 *               or false if the grade wasn't found in the cache.
 	 */
 	private function get_grade_from_cache( $post, $student ) {
 
-		return wp_cache_get(
+		$cached = wp_cache_get(
 			sprintf( '%d_grade', $post->get( 'id' ) ),
 			sprintf( 'student_%d', $student->get( 'id' ) )
 		);
+
+		// Persistent object caches (Redis, Memcached) can deserialize null as empty string.
+		if ( '' === $cached ) {
+			return false;
+		}
+
+		return $cached;
 
 	}
 
