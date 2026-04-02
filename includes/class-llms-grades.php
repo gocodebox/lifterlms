@@ -134,7 +134,7 @@ class LLMS_Grades {
 	 */
 	public function calculate_grade( $post, $student ) {
 
-		$grade = '';
+		$grade = null;
 
 		$post_type = $post->get( 'type' );
 		switch ( $post_type ) {
