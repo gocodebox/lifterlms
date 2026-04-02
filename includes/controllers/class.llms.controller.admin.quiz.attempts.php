@@ -128,6 +128,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.30.3 Strip slashes on remarks.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.4.4 Use strict type comparisons where needed.
+	 * @since [version] Invalidate wp_cache grade entries and overall_grade usermeta after grading.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void
@@ -168,7 +169,23 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			$attempt->do_completion_actions();
 		}
 
-		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
+		// Invalidate cached grades so persistent object caches don't serve stale values.
+		$student    = $attempt->get_student();
+		$student_id = $student->get_id();
+		$group      = sprintf( 'student_%d', $student_id );
+		$lesson_id  = $attempt->get( 'lesson_id' );
+
+		wp_cache_delete( sprintf( '%d_grade', $attempt->get( 'quiz_id' ) ), $group );
+		wp_cache_delete( sprintf( '%d_grade', $lesson_id ), $group );
+
+		$lesson = llms_get_post( $lesson_id );
+		if ( $lesson ) {
+			wp_cache_delete( sprintf( '%d_grade', $lesson->get( 'parent_course' ) ), $group );
+		}
+
+		$student->set( 'overall_grade', '' );
+
+		do_action( 'llms_quiz_graded', $student_id, $attempt->get( 'quiz_id' ), $attempt );
 
 		// phpcs:enable
 	}
