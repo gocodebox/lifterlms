@@ -133,7 +133,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table
 	 *
 	 * @since 3.2.0
-	 * @since [version] Added object-level authorization check on the student.
+	 * @since 9.2.3 Added object-level authorization check on the student.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void

@@ -259,7 +259,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 *
 	 * @since 3.32.0
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
-	 * @since [version] Added object-level authorization check on the membership.
+	 * @since 9.2.3 Added object-level authorization check on the membership.
 	 *
 	 * @param array $args Optional. Array of query args. Default empty array.
 	 * @return void

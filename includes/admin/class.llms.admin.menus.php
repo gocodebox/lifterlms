@@ -134,7 +134,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.13.0
 	 * @since 3.16.7 Unknown.
-	 * @since [version] Add capability check before setting post lock.
+	 * @since 9.2.3 Add capability check before setting post lock.
 	 *
 	 * @return void
 	 */

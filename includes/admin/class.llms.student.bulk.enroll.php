@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.20.0
- * @version [version]
+ * @version 9.2.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.20.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Added CSRF protection via nonce verification on bulk enrollment.
+ * @since 9.2.3 Added CSRF protection via nonce verification on bulk enrollment.
  */
 class LLMS_Student_Bulk_Enroll {
 
@@ -69,7 +69,7 @@ class LLMS_Student_Bulk_Enroll {
 	 * Displays ui for selecting product to bulk enroll users into
 	 *
 	 * @since 3.20.0
-	 * @since [version] Added nonce field for CSRF protection.
+	 * @since 9.2.3 Added nonce field for CSRF protection.
 	 *
 	 * @param string $which Whether this is the 'top' or 'bottom' tablenav.
 	 * @return void
@@ -102,7 +102,7 @@ class LLMS_Student_Bulk_Enroll {
 	 * Conditionally enrolls multiple users into a product
 	 *
 	 * @since 3.20.0
-	 * @since [version] Added nonce verification for CSRF protection.
+	 * @since 9.2.3 Added nonce verification for CSRF protection.
 	 *
 	 * @return void
 	 */

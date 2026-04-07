@@ -272,7 +272,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0
 	 * @since 5.10.0 Add ability to sort by completion date.
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
-	 * @since [version] Added object-level authorization check on the course.
+	 * @since 9.2.3 Added object-level authorization check on the course.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void

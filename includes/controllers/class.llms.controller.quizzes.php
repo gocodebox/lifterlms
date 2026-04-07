@@ -40,7 +40,7 @@ class LLMS_Controller_Quizzes {
 	 *
 	 * @since 3.37.8
 	 * @since 5.1.0 Use a deep orphan check to determine if the quiz can be deleted.
-	 * @since [version] Add capability check before deleting quiz.
+	 * @since 9.2.3 Add capability check before deleting quiz.
 	 *
 	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
 	 *                            `false` if an error was encountered.
