@@ -1,3 +1,5 @@
 significance: patch
 type: security
+attributions:
+  - "@nobody090909"
 entry: Additional permission checks when performing certain admin actions.
