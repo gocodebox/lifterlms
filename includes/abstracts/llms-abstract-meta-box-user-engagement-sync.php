@@ -259,7 +259,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		// Output the HTML.
 		echo '<div class="llms-mb-container">';
 		do_action( 'llms_metabox_before_content', $this->id );
-		echo wp_kses_post( $sync_action );
+		echo wp_kses( $sync_action, LLMS_ALLOWED_HTML_FORM_FIELDS );
 		do_action( 'llms_metabox_after_content', $this->id );
 		echo '</div>';
 	}
@@ -290,16 +290,15 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		);
 
 		$sync_alert   = str_replace( "'", "\'", $texts['sync_alert'] );
-		$on_click     = "return confirm('$sync_alert')";
 		$button_label = __( 'Sync', 'lifterlms' );
 
-		return <<<HEREDOC
-
-<p>{$texts['sync_description']}</p>
+		ob_start();
+		?>
+<p><?php echo wp_kses_post( $texts['sync_description'] ); ?></p>
 <p style="text-align: right; margin: 1em 0;">
-<a href="$sync_url" class="llms-button-primary sync-action full small" onclick="$on_click" style="box-sizing:border-box;">$button_label</a>
+<a href="<?php echo esc_url( $sync_url ); ?>" class="llms-button-primary sync-action full small" onclick="return confirm('<?php echo esc_js( $sync_alert ); ?>')" style="box-sizing:border-box;"><?php echo wp_kses_post( $button_label ); ?></a>
 </p>
-
-HEREDOC;
+		<?php
+		return ob_get_clean();
 	}
 }

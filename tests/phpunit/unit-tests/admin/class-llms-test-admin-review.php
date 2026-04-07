@@ -65,7 +65,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	public function test_admin_footer_screen_on_lifterlms_screen() {
 
 		set_current_screen( 'lifterlms' );
-		$this->assertEquals( 'Please rate <strong>LifterLMS</strong> <a class="llms-rating-stars" href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', $this->main->admin_footer( 'fake' ) );
+		$this->assertEquals( 'Please rate <strong>LifterLMS</strong> <a class="llms-rating-stars" href="https://wordpress.org/support/plugin/lifterlms/reviews/#new-post" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="https://wordpress.org/support/plugin/lifterlms/reviews/#new-post" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!', $this->main->admin_footer( 'fake' ) );
 		set_current_screen( 'front' );
 
 	}

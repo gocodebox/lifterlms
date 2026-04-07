@@ -372,8 +372,10 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	public function get_filter_placeholder( $column_id, $column_data ) {
 		$placeholder = __( 'Any', 'lifterlms' );
 		if ( is_array( $column_data ) && isset( $column_data['title'] ) ) {
+			/* translators: %s: Column title. */
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data['title'] );
 		} elseif ( is_string( $column_data ) ) {
+			/* translators: %s: Column title. */
 			$placeholder = sprintf( __( 'Any %s', 'lifterlms' ), $column_data );
 		}
 		/**
@@ -793,7 +795,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 						<form action="" method="POST">
 							<button class="llms-button-primary small" name="llms_quiz_resumable_attempt_action" type="submit" value="llms_clear_resumable_attempts">
 								<i class="fa fa-trash-o" aria-hidden="true"></i>
-								<?php _e( 'Clear resumable attempts', 'lifterlms' ); ?>
+								<?php echo esc_html( __( 'Clear resumable attempts', 'lifterlms' ) ); ?>
 							</button>
 							<input type="hidden" name="llms_quiz_id" value="<?php echo esc_attr( $this->quiz_id ); ?>">
 							<?php wp_nonce_field( 'llms_quiz_attempt_actions', '_llms_quiz_attempt_nonce' ); ?>
@@ -814,7 +816,12 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 				<?php if ( $this->is_paginated ) : ?>
 					<div class="llms-table-pagination">
 						<?php if ( $this->max_pages ) : ?>
-							<span class="llms-table-page-count"><?php echo esc_html( sprintf( esc_html_x( '%1$d of %2$d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ) ); ?></span>
+							<span class="llms-table-page-count">
+							<?php
+								/* translators: %1$d: Current page, %2$d: Total page count. */
+								echo esc_html( sprintf( esc_html_x( '%1$d of %2$d', 'pagination', 'lifterlms' ), $this->current_page, $this->max_pages ) );
+							?>
+							</span>
 						<?php endif; ?>
 						<?php if ( 1 !== $this->get_current_page() ) : ?>
 							<?php if ( $this->max_pages ) : ?>

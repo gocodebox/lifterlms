@@ -73,7 +73,6 @@ abstract class LLMS_Update {
 				break;
 
 		}
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ abstract class LLMS_Update {
 			add_action( $this->get_hook( $func ), array( $this, $func ), 10, 1 );
 
 		}
-
 	}
 
 	/**
@@ -116,7 +114,6 @@ abstract class LLMS_Update {
 			$this->log( sprintf( 'Progress: %d completed, %d remaining', $completed, $remaining ) );
 
 		}
-
 	}
 
 	/**
@@ -132,7 +129,6 @@ abstract class LLMS_Update {
 		$this->log( sprintf( 'LLMS update tasks completed for version %s', $this->version ) );
 		LLMS_Install::update_db_version( $this->version );
 		delete_option( 'llms_update_' . $this->version );
-
 	}
 
 	/**
@@ -150,7 +146,6 @@ abstract class LLMS_Update {
 		}
 
 		$this->log( sprintf( 'LLMS update tasks enqueued for version %s', $this->version ) );
-
 	}
 
 	/**
@@ -168,7 +163,6 @@ abstract class LLMS_Update {
 		$progress['functions'][ $function ] = 'done';
 		update_option( 'llms_update_' . $this->version, $progress );
 		$this->log( sprintf( '%s::%s() is complete', get_class( $this ), $function ) );
-
 	}
 
 	/**
@@ -198,7 +192,6 @@ abstract class LLMS_Update {
 		);
 
 		return get_option( 'llms_update_' . $this->version, $default );
-
 	}
 
 	/**
@@ -242,7 +235,6 @@ abstract class LLMS_Update {
 		$p           = $this->get_progress();
 		$p['status'] = $status;
 		update_option( 'llms_update_' . $this->version, $p );
-
 	}
 
 	/**
@@ -258,7 +250,6 @@ abstract class LLMS_Update {
 		if ( defined( 'LLMS_BG_UPDATE_LOG' ) && LLMS_BG_UPDATE_LOG ) {
 			llms_log( $msg, 'updater' );
 		}
-
 	}
 
 
@@ -283,9 +274,13 @@ abstract class LLMS_Update {
 		$max   = count( $progress['functions'] );
 		$width = $val ? ( $val / $max ) * 100 : 0;
 		$html  = '
-			<p>' . sprintf( __( 'LifterLMS Database Upgrade %s Progress Report', 'lifterlms' ), $this->version ) . '</p>
+			';
+		/* translators: %s: Database version. */
+		$html .= '<p>' . sprintf( __( 'LifterLMS Database Upgrade %s Progress Report', 'lifterlms' ), $this->version ) . '</p>
 			<div style="background:#efefef;height:18px;margin:0.5em 0;"><div style="background:#ef476f;display:block;height:18px;width:' . $width . '%;"><span style="padding:0 0.5em;color:#fff;">' . $width . '%</span></div></div>
-			<p><em>' . sprintf( __( 'This completion percentage is an estimate, please be patient and %1$sclick here%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/#upgrade-progress-report" target="_blank">', '</a>' ) . '</em></p>
+			';
+		/* translators: %1$s: Opening link tag, %2$s: closing link tag. */
+		$html .= '<p><em>' . sprintf( __( 'This completion percentage is an estimate, please be patient and %1$sclick here%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/#upgrade-progress-report" target="_blank">', '</a>' ) . '</em></p>
 		';
 
 		LLMS_Admin_Notices::add_notice(
@@ -297,7 +292,5 @@ abstract class LLMS_Update {
 				'type'        => 'info',
 			)
 		);
-
 	}
-
 }

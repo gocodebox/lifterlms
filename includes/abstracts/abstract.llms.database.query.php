@@ -397,6 +397,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		} else {
 			_doing_it_wrong(
 				__METHOD__,
+				/* translators: %s: Method name. */
 				esc_html( sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ ) ),
 				'6.0.0'
 			);

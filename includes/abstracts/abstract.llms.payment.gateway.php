@@ -362,6 +362,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		$fields[] = array(
 			'autoload'     => true,
 			'id'           => $this->get_option_name( 'enabled' ),
+			/* translators: %s: Payment gateway title. */
 			'desc'         => sprintf( _x( 'Enable %s', 'Payment gateway title', 'lifterlms' ), $this->get_admin_title() ),
 			'desc_tooltip' => __( 'Checking this box will allow users to use this payment gateway.', 'lifterlms' ),
 			'default'      => $this->get_enabled(),
@@ -389,6 +390,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 			$fields[] = array(
 				'id'           => $this->get_option_name( 'test_mode_enabled' ),
+				/* translators: %s: Payment gateway test mode title. */
 				'desc'         => sprintf( _x( 'Enable %s', 'Payment gateway test mode title', 'lifterlms' ), $this->get_test_mode_title() ),
 				'desc_tooltip' => $this->get_test_mode_description(),
 				'default'      => $this->get_test_mode_enabled(),
@@ -401,6 +403,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		$fields[] = array(
 			'id'           => $this->get_option_name( 'logging_enabled' ),
 			'desc'         => __( 'Enable debug logging', 'lifterlms' ),
+			/* Translators: %s: Debug log location. */
 			'desc_tooltip' => sprintf( __( 'When enabled, debugging information will be logged to "%s"', 'lifterlms' ), llms_get_log_path( $this->get_id() ) ),
 			'title'        => __( 'Debug Log', 'lifterlms' ),
 			'type'         => 'checkbox',
@@ -803,7 +806,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	public function handle_payment_source_switch( $order, $form_data = array() ) {
 		return llms_add_notice(
 			sprintf(
-				// Translatos: %s = the title of the payment gateway.
+				/* translators: %s: the title of the payment gateway. */
 				esc_html__( 'The selected payment gateway "%s" does not support payment method switching.', 'lifterlms' ),
 				$this->get_title()
 			),
