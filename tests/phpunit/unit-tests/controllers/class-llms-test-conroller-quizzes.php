@@ -36,6 +36,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	 */
 	public function test_maybe_handle_reporting_actions_not_submitted() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
 		$this->assertNull( $this->controller->maybe_handle_reporting_actions() );
 
 	}
@@ -48,6 +50,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_maybe_handle_reporting_actions_invalid_nonce() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		$this->mockPostRequest( array(
 			'_llms_quiz_actions_nonce' => 'fake',
@@ -65,6 +69,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_maybe_handle_reporting_actions_no_button() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		// Button not set.
 		$this->mockPostRequest( array(
@@ -92,6 +98,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	 */
 	public function test_maybe_handle_reporting_actions_not_a_quiz() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
 		$this->mockPostRequest( array(
 			'_llms_quiz_actions_nonce' => wp_create_nonce( 'llms-quiz-actions' ),
 			'llms_del_quiz' => $this->factory->post->create(),
@@ -114,6 +122,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 		$lesson  = llms_get_post( llms_get_post( $courses[0] )->get_lessons( 'ids' )[0] );
 		$quiz    = $lesson->get_quiz();
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+
 		$this->mockPostRequest( array(
 			'_llms_quiz_actions_nonce' => wp_create_nonce( 'llms-quiz-actions' ),
 			'llms_del_quiz' => $quiz->get( 'id' ),
@@ -133,6 +143,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	public function test_maybe_handle_reporting_actions_is_orphan() {
 
 		$quiz = $this->factory->post->create_and_get( array( 'post_type' => 'llms_quiz' ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		$this->mockPostRequest( array(
 			'_llms_quiz_actions_nonce' => wp_create_nonce( 'llms-quiz-actions' ),
@@ -155,6 +167,8 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 		$courses = $this->generate_mock_courses( 1, 1, 1, 1, 1 );
 		$lesson  = llms_get_post( llms_get_post( $courses[0] )->get_lessons( 'ids' )[0] );
 		$quiz    = $lesson->get_quiz();
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
 
 		$this->mockPostRequest( array(
 			'_llms_quiz_actions_nonce' => wp_create_nonce( 'llms-quiz-actions' ),
