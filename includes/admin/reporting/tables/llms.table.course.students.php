@@ -272,6 +272,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0
 	 * @since 5.10.0 Add ability to sort by completion date.
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 * @since 9.2.3 Added object-level authorization check on the course.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -285,6 +286,10 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		}
 
 		$args = $this->clean_args( $args );
+
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'edit_post', absint( $args['course_id'] ) ) ) {
+			return;
+		}
 
 		$this->course_id = $args['course_id'];
 

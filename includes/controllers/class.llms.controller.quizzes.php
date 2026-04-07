@@ -40,6 +40,7 @@ class LLMS_Controller_Quizzes {
 	 *
 	 * @since 3.37.8
 	 * @since 5.1.0 Use a deep orphan check to determine if the quiz can be deleted.
+	 * @since 9.2.3 Add capability check before deleting quiz.
 	 *
 	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
 	 *                            `false` if an error was encountered.
@@ -53,6 +54,9 @@ class LLMS_Controller_Quizzes {
 
 		$id = llms_filter_input( INPUT_POST, 'llms_del_quiz', FILTER_SANITIZE_NUMBER_INT );
 		if ( $id && 'llms_quiz' === get_post_type( $id ) ) {
+			if ( ! current_user_can( 'delete_post', $id ) ) {
+				return false;
+			}
 			$quiz = llms_get_post( $id );
 			if ( $quiz && ( $quiz->is_orphan( true ) || ! $quiz->get_course() ) ) {
 				return wp_delete_post( $id, true );

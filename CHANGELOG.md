@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v9.2.3 - 2026-04-07
+-------------------
+
+##### Security Fixes
+
++ Additional permission checks when performing certain admin actions. Thanks [@nobody090909](https://github.com/nobody090909)!
+
+
 v9.2.2 - 2026-03-31
 -------------------
 
