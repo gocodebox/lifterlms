@@ -287,7 +287,7 @@ function llms_is_focus_mode_enabled( $post_id ) {
 			$result = 'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' );
 		}
 
-		if ( $result ) {
+		if ( $result && ! current_user_can( 'manage_lifterlms' ) ) {
 			$student = llms_get_student();
 			if ( ! $student || ! $student->is_enrolled( $course->get( 'id' ) ) ) {
 				$result = false;
