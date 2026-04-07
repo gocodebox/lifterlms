@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#3101"
+entry: Fix lifterlms_loop_columns filter styling to change the number of columns
+  in a loop (ie. Course Catalog).
