@@ -176,6 +176,11 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 */
 	public function get_results( $args = array() ) {
 
+		$student_id = is_numeric( $args['student'] ) ? absint( $args['student'] ) : ( $args['student'] ? $args['student']->get_id() : 0 );
+		if ( $student_id && ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return;
+		}
+
 		$course = new LLMS_Course( absint( $args['course_id'] ) );
 
 		if ( is_numeric( $args['student'] ) ) {

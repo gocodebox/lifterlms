@@ -259,6 +259,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 *
 	 * @since 3.32.0
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 * @since 9.2.3 Added object-level authorization check on the membership.
 	 *
 	 * @param array $args Optional. Array of query args. Default empty array.
 	 * @return void
@@ -272,6 +273,10 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		}
 
 		$args = $this->clean_args( $args );
+
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'edit_post', absint( $args['membership_id'] ) ) ) {
+			return;
+		}
 
 		$this->membership_id = $args['membership_id'];
 
