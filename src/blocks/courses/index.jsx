@@ -11,12 +11,13 @@ import {
 	SelectControl,
 	Spinner,
 	ToggleControl,
+	ComboboxControl,
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import { useState, useMemo } from '@wordpress/element';
+import { useState, useMemo, useEffect, useRef } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
+import apiFetch from '@wordpress/api-fetch';
 
 // Internal dependencies.
 import { usePostOptions } from '../../../packages/components/src/post-select';
@@ -27,24 +28,73 @@ const Edit = ( props ) => {
 	const { attributes, setAttributes } = props;
 	const blockProps = useBlockProps();
 	const [ courseTitles, setCourseTitles ] = useState( [] );
+	const [ categoryOptions, setCategoryOptions ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ searchTerm, setSearchTerm ] = useState( '' );
 
-	const { categories } = useSelect( ( select ) => {
-		return {
-			categories: select( 'core' )?.getEntityRecords( 'taxonomy', 'course_cat' ),
-		};
-	}, [] );
+	// Fetch categories from API based on search term.
+	const fetchCategories = ( term, value = '' ) => {
+		setIsLoading( true );
 
-	const categoryOptions = categories?.map( ( category ) => {
-		return {
-			value: category.slug,
-			label: category.name,
-		};
-	} );
+		const searchParam = term ? `&search=${ encodeURIComponent( term ) }` : '';
+		apiFetch( {
+			path: `/wp/v2/course_cat?per_page=10${ searchParam }`,
+		} )
+			.then( ( categories ) => {
+				const options = categories.map( ( category ) => {
+					return {
+						value: category.slug,
+						label: category.name,
+					};
+				} );
 
-	categoryOptions?.unshift( {
-		value: '',
-		label: __( '- All -', 'lifterlms' ),
-	} );
+				options.unshift( {
+					value: '',
+					label: __( '- All -', 'lifterlms' ),
+				} );
+
+				// If there's a selected value and it's not in the results, fetch it separately.
+				if ( value && !options.some( o => o.value === value ) ) {
+					apiFetch( { path: `/wp/v2/course_cat?slug=${ encodeURIComponent( value ) }` } )
+						.then( ( categories ) => {
+							if ( categories && categories.length > 0 ) {
+								setCategoryOptions( [
+									...options,
+									...categories.map( ( category ) => {
+										return {
+											value: category.slug,
+											label: category.name,
+										};
+									} ),
+								] );
+							} else {
+								setCategoryOptions( options );
+							}
+						} )
+						.catch( () => {
+							setCategoryOptions( options );
+						} );
+				} else {
+					setCategoryOptions( options );
+				}
+			} )
+			.catch( () => {
+				setCategoryOptions( [
+					{
+						value: '',
+						label: __( '- All -', 'lifterlms' ),
+					},
+				] );
+			} )
+			.finally( () => {
+				setIsLoading( false );
+			} );
+	};
+
+	useEffect( () => {
+		const timeout = setTimeout( () => fetchCategories( searchTerm, attributes?.category ), 300 );
+		return () => clearTimeout( timeout );
+	}, [ searchTerm, attributes?.category ] );
 
 	const fetchedOptions = usePostOptions();
 	const courseOptions = {};
@@ -77,19 +127,20 @@ const Edit = ( props ) => {
 
 		<InspectorControls>
 			<PanelBody title={ __( 'Courses Settings', 'lifterlms' ) }>
-				{ categoryOptions?.length > 0 && (
-					<PanelRow>
-						<SelectControl
-							label={ __( 'Category', 'lifterlms' ) }
-							help={ __( 'Display courses from a specific Course Category only.', 'lifterlms' ) }
-							value={ attributes?.category }
-							options={ categoryOptions }
-							onChange={ ( value ) => setAttributes( {
-								category: value,
-							} ) }
-						/>
-					</PanelRow>
-				) }
+				<PanelRow>
+					<ComboboxControl
+						label={ __( 'Category', 'lifterlms' ) }
+						help={ __( 'Display courses from a specific Course Category only.', 'lifterlms' ) }
+						value={ attributes?.category || '' }
+						options={ categoryOptions }
+						onChange={ ( value ) => setAttributes( {
+							category: value,
+						} ) }
+						onFilterValueChange={ setSearchTerm }
+						isLoading={ isLoading }
+						allowReset={ true }
+					/>
+				</PanelRow>
 				<PanelRow>
 					<ToggleControl
 						label={ __( 'Show hidden courses?', 'lifterlms' ) }

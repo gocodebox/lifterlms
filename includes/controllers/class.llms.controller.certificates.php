@@ -169,6 +169,10 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 
 		$cert_id = absint( llms_filter_input( INPUT_POST, 'certificate_id', FILTER_SANITIZE_NUMBER_INT ) );
 		if ( isset( $_POST['llms_generate_cert'] ) ) {
+			$cert = new LLMS_User_Certificate( $cert_id );
+			if ( ! $cert->can_user_manage() ) {
+				return;
+			}
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
 			if ( ! current_user_can( 'manage_lifterlms' ) ) {

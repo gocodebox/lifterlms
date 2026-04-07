@@ -175,10 +175,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'class' => 'code input-full',
 					),
 					array(
-						'desc'       => __( 'When enabled, the featured video will be displayed on the course tile in addition to the course page.', 'lifterlms' ),
+						'desc'       => __( 'When enabled, the featured video will be displayed on the membership tile in addition to the membership page.', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
 						'id'         => $this->prefix . 'tile_featured_video',
-						'label'      => __( 'Display Featured Video on Course Tile', 'lifterlms' ),
+						'label'      => __( 'Display Featured Video on Membership Tile', 'lifterlms' ),
 						'type'       => 'checkbox',
 						'value'      => 'yes',
 					),

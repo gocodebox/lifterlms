@@ -164,7 +164,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @return mixed
 	 */
 	public function get_export_data( $key, $data ) {
-		return trim( strip_tags( $this->get_data( $key, $data ) ) );
+		return trim( wp_strip_all_tags( $this->get_data( $key, $data ) ) );
 	}
 
 	/**

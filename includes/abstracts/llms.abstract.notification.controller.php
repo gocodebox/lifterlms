@@ -596,7 +596,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	protected function set_supported_types() {
 		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
+			'basic' => __( 'Popup', 'lifterlms' ),
 			'email' => __( 'Email', 'lifterlms' ),
 		);
 	}

@@ -785,7 +785,7 @@ class LLMS_Form_Field {
 
 		$meter_settings = array(
 			'blocklist'    => array(),
-			'min_strength' => ! empty( $this->settings['min_strength'] ) ? $this->settings['min_strength'] : 'strong',
+			'min_strength' => ! empty( $this->settings['min_strength'] ) ? $this->settings['min_strength'] : 'weak',
 			'min_length'   => ! empty( $this->settings['min_length'] ) ? max( 6, $this->settings['min_length'] ) : 6,
 		);
 
@@ -801,7 +801,7 @@ class LLMS_Form_Field {
 		 *     Hash of meter configuration options.
 		 *
 		 *     @type string[] $blocklist    A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
-		 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "strong".
+		 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "weak".
 		 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6. Default: 6.
 		 * }
 		 */
@@ -829,7 +829,7 @@ class LLMS_Form_Field {
 	 *     Hash of meter configuration options.
 	 *
 	 *     @type string[] $blocklist    A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
-	 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "strong".
+	 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "weak".
 	 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6. Default: 6.
 	 * }
 	 * @return void

@@ -356,7 +356,7 @@ class LLMS_Media_Protector {
 	 */
 	protected function get_size() {
 
-		$size = ( isset( $_GET[ self::URL_PARAMETER_SIZE ] ) ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_SIZE ] ) : null;
+		$size = ( isset( $_GET[ self::URL_PARAMETER_SIZE ] ) ) ? sanitize_text_field( wp_unslash( $_GET[ self::URL_PARAMETER_SIZE ] ) ) : null;
 		if ( false === $size ) {
 			$size = null;
 		} elseif ( is_string( $size ) && '[' === $size[0] ) {
@@ -534,7 +534,7 @@ class LLMS_Media_Protector {
 		$is_modified = true;
 
 		$file_modified     = filemtime( $file_name );
-		$if_modified_since = ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) ? sanitize_text_field( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) : '';
+		$if_modified_since = ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) : '';
 		if ( strtotime( $if_modified_since ) === $file_modified ) {
 			$is_modified = false;
 		}
@@ -733,7 +733,7 @@ class LLMS_Media_Protector {
 	 * @return void
 	 */
 	protected function send_file( $file_name, $media_id ) {
-		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '' );
+		$server_software = ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '' );
 
 		if (
 			( array_key_exists( 'MOD_X_SENDFILE_ENABLED', $_SERVER ) && '1' === $_SERVER['MOD_X_SENDFILE_ENABLED'] ) ||
@@ -826,7 +826,7 @@ class LLMS_Media_Protector {
 	}
 
 	protected function strip_query_params( $file_name ) {
-		$parsed_url = parse_url( $file_name );
+		$parsed_url = wp_parse_url( $file_name );
 		$path       = isset( $parsed_url['path'] ) ? $parsed_url['path'] : $file_name;
 		return $path;
 	}
@@ -893,7 +893,7 @@ class LLMS_Media_Protector {
 		if ( ! isset( $size ) ) {
 			$size = $this->get_size();
 		}
-		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( $_GET[ self::URL_PARAMETER_ICON ] ) : null );
+		$icon = ( isset( $_GET[ self::URL_PARAMETER_ICON ] ) ? sanitize_text_field( wp_unslash( $_GET[ self::URL_PARAMETER_ICON ] ) ) : null );
 		if ( ! is_null( $size ) || $icon ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
@@ -924,6 +924,13 @@ class LLMS_Media_Protector {
 		header( 'Cache-Control: private, no-cache' );
 		header( "Etag: $entity_tag" );
 
+		$serve_method = self::SERVE_SEND_FILE;
+
+		// If WPEngine, we need to use the slower read file method as send file does not work.
+		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+			$serve_method = self::SERVE_READ_FILE;
+		}
+
 		/**
 		 * Determine how the media file should be served.
 		 *
@@ -934,7 +941,7 @@ class LLMS_Media_Protector {
 		 * @param bool|null $is_authorized True if the user is authorized to view the requested media file,
 		 *                                 false if not authorized, or null if the media file is not protected.
 		 */
-		$serve_method = apply_filters( 'llms_media_serve_method', self::SERVE_SEND_FILE, $media_id, $is_authorized );
+		$serve_method = apply_filters( 'llms_media_serve_method', $serve_method, $media_id, $is_authorized );
 
 		// Don't use 'llms-uploads=' rewrite + send_redirect() at the same time. Otherwise there will be an infinite loop
 		// of HTTP requests for the file and HTTP responses with a '302 Found' redirect back to the same file.
@@ -1023,7 +1030,7 @@ class LLMS_Media_Protector {
 	 * Add authorization meta to the post.
 	 *
 	 * @param $post_id
-	 * @param string  $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
+	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
 	 * @return void
 	 */

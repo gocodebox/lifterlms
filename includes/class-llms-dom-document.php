@@ -126,14 +126,16 @@ class LLMS_DOM_Document {
 	}
 
 	/**
-	 * Load the HTML string in the DOMDocument using mb_convert_econding
+	 * Load the HTML string in the DOMDocument using mb_encode_numericentity
 	 *
 	 * @since 4.13.0
+	 * @since 9.2.2 Use `mb_encode_numericentity()` instead of deprecated `mb_convert_encoding()` with 'HTML-ENTITIES'.
 	 *
 	 * @return void
 	 */
 	private function load_with_mb_convert_encoding() {
-		if ( ! $this->dom->loadHTML( mb_convert_encoding( $this->source, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+		$html = mb_encode_numericentity( $this->source, array( 0x80, 0x10FFFF, 0, 0x1FFFFF ), 'UTF-8' );
+		if ( ! $this->dom->loadHTML( $html ) ) {
 			$this->error = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
 		}
 	}

@@ -1,29 +1,30 @@
 <?php
 /**
- * Quizzes Reporting Table
+ * Student Quiz Attempts Reporting Table
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since 3.16.0
- * @version 7.8.0
+ * @since 9.1.0
+ * @version 9.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Quiz_Attempts class.
+ * LLMS_Table_Student_Quiz_Attempts class.
  *
- * @since 3.16.0
- * @since 3.30.3 Fixed undefined variable notice in the `set_args()` method.
+ * Displays all quiz attempts for a specific student across all courses.
+ *
+ * @since 9.1.0
  */
-class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
+class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
 	 *
 	 * @var  string
 	 */
-	protected $id = 'quiz_attempts';
+	protected $id = 'student_quiz_attempts';
 
 	/**
 	 * Value of the field being filtered by
@@ -45,7 +46,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 *
 	 * @var  boolean
 	 */
-	protected $is_exportable = false;
+	protected $is_exportable = true;
 
 	/**
 	 * Determine if the table is filterable
@@ -85,18 +86,16 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	protected $orderby = 'id';
 
 	/**
-	 * WP Post ID of the displayed quiz
+	 * Student ID for the displayed student
 	 *
 	 * @var  null
 	 */
-	protected $quiz_id = null;
+	protected $student_id = null;
 
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since 3.16.0
-	 * @since 3.26.3 Unknown.
-	 * @since 7.8.0 Added information about whether the attempt can be resumed.
+	 * @since 9.1.0
 	 *
 	 * @param string            $key     The column id / key.
 	 * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt obj.
@@ -106,11 +105,56 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
-			case 'student':
-				$value   = '&ndash;';
-				$student = $attempt->get_student();
-				if ( $student ) {
-					$value = $student->get_name();
+			case 'quiz':
+				$quiz = $attempt->get_quiz();
+				if ( $quiz ) {
+					$value = $quiz->get( 'title' );
+
+					// Add link to quiz attempts if user has permission
+					if ( current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
+						$url   = LLMS_Admin_Reporting::get_current_tab_url(
+							array(
+								'tab'     => 'quizzes',
+								'stab'    => 'attempts',
+								'quiz_id' => $quiz->get( 'id' ),
+							)
+						);
+						$value = '<a href="' . esc_url( $url ) . '">' . esc_html( $value ) . '</a>';
+					}
+				} else {
+					$value = __( '[Deleted Quiz]', 'lifterlms' );
+				}
+				break;
+
+			case 'course':
+				$value = '&mdash;';
+				$quiz  = $attempt->get_quiz();
+				if ( $quiz ) {
+					$course = $quiz->get_course();
+					if ( $course ) {
+						$url   = LLMS_Admin_Reporting::get_current_tab_url(
+							array(
+								'tab'       => 'courses',
+								'stab'      => 'overview',
+								'course_id' => $course->get( 'id' ),
+							)
+						);
+						$value = '<a href="' . esc_url( $url ) . '">' . esc_html( $course->get( 'title' ) ) . '</a>';
+					}
+				}
+				break;
+
+			case 'lesson':
+				$quiz = $attempt->get_quiz();
+				if ( $quiz ) {
+					$lesson = $quiz->get_lesson();
+					if ( $lesson ) {
+						$value = $lesson->get( 'title' );
+					} else {
+						$value = __( '[Deleted Lesson]', 'lifterlms' );
+					}
+				} else {
+					$value = '&ndash;';
 				}
 				break;
 
@@ -134,7 +178,6 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
 				}
-
 				break;
 
 			case 'id':
@@ -150,7 +193,6 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				);
 
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
-
 				break;
 
 			default:
@@ -162,35 +204,9 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve a list of Instructors to be used for Filtering
-	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
-	 */
-	private function get_instructor_filters() {
-
-		$query = get_users(
-			array(
-				'fields'   => array( 'ID', 'display_name' ),
-				'meta_key' => 'last_name',
-				'orderby'  => 'meta_value',
-				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-			)
-		);
-
-		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
-
-		return $instructors;
-
-	}
-
-	/**
 	 * Execute a query to retrieve results from the table
 	 *
-	 * @since 3.16.0
-	 * @since 3.25.0 Unknown.
-	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since 9.1.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -201,7 +217,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 		$args = $this->clean_args( $args );
 
-		$this->quiz_id = $args['quiz_id'];
+		$this->student_id = $args['student_id'];
 
 		if ( isset( $args['page'] ) ) {
 			$this->current_page = absint( $args['page'] );
@@ -221,57 +237,49 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 			),
 			'page'       => $this->current_page,
 			'per_page'   => $per,
-			'quiz_id'    => $args['quiz_id'],
-			'student_id' => isset( $args['student_id'] ) ? $args['student_id'] : null,
+			'student_id' => $this->student_id,
 		);
 
 		// Add search functionality
 		if ( isset( $args['search'] ) && ! empty( $args['search'] ) ) {
-			$query_args['search'] = sanitize_text_field( $args['search'] );
+			$query_args['search'] = $args['search'];
 		}
 
 		if ( 'any' !== $this->filter ) {
 			$query_args['status'] = $this->filter;
 		}
 
-		if ( current_user_can( 'view_others_lifterlms_reports' ) || ( current_user_can( 'view_lifterlms_reports' ) && current_user_can( 'edit_post', $args['quiz_id'] ) ) ) {
-
-			$query = new LLMS_Query_Quiz_Attempt( $query_args );
-
-		} else {
-
+		// Check permissions
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $this->student_id ) ) {
 			return;
-
 		}
+
+		$query = new LLMS_Query_Quiz_Attempt( $query_args );
 
 		$this->max_pages    = $query->get_max_pages();
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_attempts();
-
 	}
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
-	 * @since 3.16.0
-	 * @version 3.30.3 Fallback to `null` when `$_GET` param is not set.
+	 * @since 9.1.0
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function set_args() {
 		return array(
-			'quiz_id'    => ! empty( $this->quiz_id ) ? $this->quiz_id : ( isset( $_GET['quiz_id'] ) ? absint( $_GET['quiz_id'] ) : null ),
-			'student_id' => 0,
+			'student_id' => ! empty( $this->student_id ) ? $this->student_id : ( isset( $_GET['student_id'] ) ? absint( $_GET['student_id'] ) : null ),
 		);
 	}
 
 	/**
 	 * Define the structure of the table
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.19.2
+	 * @return array
+	 * @since 9.1.0
 	 */
 	protected function set_columns() {
 
@@ -281,15 +289,25 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				'title'      => __( 'ID', 'lifterlms' ),
 				'sortable'   => true,
 			),
+			'quiz'       => array(
+				'exportable' => true,
+				'title'      => __( 'Quiz', 'lifterlms' ),
+				'sortable'   => false,
+			),
+			'course'     => array(
+				'exportable' => true,
+				'title'      => __( 'Course', 'lifterlms' ),
+				'sortable'   => false,
+			),
+			'lesson'     => array(
+				'exportable' => true,
+				'title'      => __( 'Lesson', 'lifterlms' ),
+				'sortable'   => false,
+			),
 			'attempt'    => array(
 				'exportable' => true,
 				'title'      => __( 'Attempt #', 'lifterlms' ),
 				'sortable'   => true,
-			),
-			'student'    => array(
-				'exportable' => true,
-				'title'      => __( 'Student', 'lifterlms' ),
-				'sortable'   => false,
 			),
 			'grade'      => array(
 				'filterable' => llms_get_quiz_attempt_statuses(),
@@ -310,7 +328,5 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		);
 
 		return $cols;
-
 	}
-
 }

@@ -1,8 +1,6 @@
 == Description ==
 LifterLMS is a secure easy-to-use WordPress LMS plugin packed with features to easily create & sell courses online.
 
-**[Download the LifterLMS plugin for free here](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** directly from our website so you get instant access to all our valuable resources to help you get started quickly and easily for free.
-
 Turn your WordPress website into a professional eLearning platform with every customizable feature you could possibly need from your LMS.
 
 + **Intuitive LMS Course Builder:** Create Courses, Sections, and Interactive Lessons with multimedia content.
@@ -235,6 +233,8 @@ Increase your LMS website and it's training program's value with these add-ons:
 + [LifterLMS Course Cohorts](https://lifterlms.com/product/course-cohorts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Advanced Coupons](https://lifterlms.com/product/lifterlms-advanced-coupons/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Notes](https://lifterlms.com/product/lifterlms-notes/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Continuing Education](https://lifterlms.com/product/lifterlms-continuing-education/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Gifts](https://lifterlms.com/product/lifterlms-gifts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 **Integrations**
 
@@ -244,8 +244,8 @@ Integrate your LMS with the tools you use:
 + [LifterLMS PayPal](https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS Authorize.Net](https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 + [LifterLMS WooCommerce](https://lifterlms.com/product/woocommerce-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
-+ [LifterLMS ConvertKit](https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
-+ [LifterLMS MailChimp](https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Kit](https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
++ [LifterLMS Mailchimp](https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 ### LMS Website and User Experience Design Tools
 
@@ -301,14 +301,14 @@ Connect LifterLMS to over 7,000 other apps like Facebook, Google Sheets, Zoom, S
 
 Save money and get more features.
 
-+ [Free LifterLMS plan](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) gives you everything you need to start with all the essential LMS features from unlimited courses, memberships, students, teachers, and more.
 + [Earth Bundle](https://lifterlms.com/product/earth-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) gives you all the essentials you need to get your online learning website up and running so it's collecting money today with the most powerful secure learning management system software.
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle](https://lifterlms.com/product/universe-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 + Add more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle](https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 ### Try the Best LMS Plugin
 
-+ [Install the free core LifterLMS plugin right now](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). See how extensive and customizable our free core plugin is.
++ Install the free core LifterLMS plugin right now. See how extensive and customizable our free core plugin is.
+
 + Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. Practice creating courses, test out the learner experience, and see how easy it will be to manage your course with WordPress. Install your favorite plugins & themes to test compatibility. **[Try LifterLMS for $1](https://lifterlms.com/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)** now.
 + Test LifterLMS as a student. Take a **free** course on how to build a LifterLMS website in 20 minutes. [Take a Free Course](https://academy.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) now.
 
@@ -363,7 +363,7 @@ Want to add a new language to LifterLMS? Contribute language translations at [tr
 
 ### What Should You Do Next?
 
-**[Install the free LifterLMS plugin on your website](https://lifterlms.com/free/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)**,
+** Install the free LifterLMS plugin on your website **,
 
 then ...
 

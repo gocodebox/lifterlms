@@ -134,6 +134,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.13.0
 	 * @since 3.16.7 Unknown.
+	 * @since 9.2.3 Add capability check before setting post lock.
 	 *
 	 * @return void
 	 */
@@ -146,6 +147,9 @@ class LLMS_Admin_Menus {
 		if ( ! empty( $_GET['get-post-lock'] ) && ! empty( $_GET['course_id'] ) ) {
 			$post_id = absint( $_GET['course_id'] );
 			check_admin_referer( 'lock-post_' . $post_id );
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				wp_die( esc_html__( 'You are not authorized to edit this course.', 'lifterlms' ) );
+			}
 			wp_set_post_lock( $post_id );
 			wp_safe_redirect(
 				add_query_arg(

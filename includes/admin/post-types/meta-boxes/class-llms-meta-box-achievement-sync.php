@@ -72,7 +72,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				return sprintf(
 					/* translators: %1$d: number of awarded achievements */
 					__(
-						'This action will replace the current title, content, background etc. of %1$d awarded achievements with the ones from this achievement template.\nAre you sure you want to proceed?',
+						'This action will replace the current title, content, background etc. of %1$d awarded achievements with the ones from this achievement template. Are you sure you want to proceed?',
 						'lifterlms'
 					),
 					( $variables['awarded_number'] ?? 0 )
@@ -81,14 +81,14 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				return sprintf(
 					/* translators: %1$d: number of awarded achievements */
 					__(
-						'This action will replace the current title, content, background etc. of %1$d awarded achievement with the ones from this achievement template.\nAre you sure you want to proceed?',
+						'This action will replace the current title, content, background etc. of %1$d awarded achievement with the ones from this achievement template. Are you sure you want to proceed?',
 						'lifterlms'
 					),
 					( $variables['awarded_number'] ?? 0 )
 				);
 			case self::TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT:
 				return __(
-					'This action will replace the current title, content, background etc. of this awarded achievement with the ones from the achievement template.\nAre you sure you want to proceed?',
+					'This action will replace the current title, content, background etc. of this awarded achievement with the ones from the achievement template. Are you sure you want to proceed?',
 					'lifterlms'
 				);
 			case self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS:

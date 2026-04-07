@@ -82,7 +82,6 @@ class LLMS_Controller_Orders {
 
 		// Expire access plans.
 		add_action( 'llms_access_plan_expiration', array( $this, 'expire_access' ), 10, 1 );
-
 	}
 
 	/**
@@ -122,8 +121,17 @@ class LLMS_Controller_Orders {
 		 */
 		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP.
 
-		// Enroll student.
-		llms_enroll_student( $user_id, $product_id, 'order_' . $order_id );
+		/**
+		 * Filter whether the user should be automatically enrolled when the order completes.
+		 *
+		 * @since 9.1.2
+		 *
+		 * @param bool Whether to enroll the student. Defaults to true.
+		 * @param LLMS_Order $order The order.
+		 */
+		if ( apply_filters( 'lifterlms_enroll_student_on_order_complete', true, $order ) ) {
+			llms_enroll_student( $user_id, $product_id, 'order_' . $order_id );
+		}
 
 		// Trigger purchase action, used by engagements.
 
@@ -153,7 +161,6 @@ class LLMS_Controller_Orders {
 
 		// Maybe schedule a payment.
 		$order->maybe_schedule_payment();
-
 	}
 
 	/**
@@ -210,7 +217,6 @@ class LLMS_Controller_Orders {
 		}
 
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
-
 	}
 
 	/**
@@ -229,7 +235,6 @@ class LLMS_Controller_Orders {
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
 		}
-
 	}
 
 	/**
@@ -258,7 +263,6 @@ class LLMS_Controller_Orders {
 			remove_filter( 'llms_unenroll_on_error_order', '__return_false', 100 );
 
 		}
-
 	}
 
 	/**
@@ -325,7 +329,6 @@ class LLMS_Controller_Orders {
 		if ( $new_order_status ) {
 			$order->set_status( $new_order_status );
 		}
-
 	}
 
 	/**
@@ -343,7 +346,6 @@ class LLMS_Controller_Orders {
 
 		$order->unschedule_recurring_payment();
 		$order->maybe_schedule_expiration();
-
 	}
 
 	/**
@@ -511,7 +513,6 @@ class LLMS_Controller_Orders {
 		// Passed validation, hand off to the gateway.
 		$gateway->handle_recurring_transaction( $order );
 		return true;
-
 	}
 
 	/**
@@ -546,7 +547,6 @@ class LLMS_Controller_Orders {
 		}
 
 		return $new_status;
-
 	}
 
 	/**
@@ -576,7 +576,6 @@ class LLMS_Controller_Orders {
 			$order->set( 'status', 'llms-failed' );
 
 		}
-
 	}
 
 	/**
@@ -596,7 +595,6 @@ class LLMS_Controller_Orders {
 			return; }
 
 		$order->set( 'status', 'llms-refunded' );
-
 	}
 
 	/**
@@ -625,7 +623,6 @@ class LLMS_Controller_Orders {
 
 		// Maybe schedule a payment.
 		$order->maybe_schedule_payment();
-
 	}
 
 	/**
@@ -656,6 +653,7 @@ class LLMS_Controller_Orders {
 
 		// Record order status changes as notes.
 		if ( 'order' === $post_type ) {
+			/* translators: %1$s: Old Status, %2$s: New status. */
 			$obj->add_note( sprintf( __( 'Order status changed from %1$s to %2$s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ) );
 		}
 
@@ -691,7 +689,6 @@ class LLMS_Controller_Orders {
 		 * @param string                      $new_status The new order or transaction status.
 		 */
 		do_action( "lifterlms_{$post_type}_status_{$new_status}", $obj, $old_status, $new_status );
-
 	}
 
 	/**
@@ -734,7 +731,6 @@ class LLMS_Controller_Orders {
 		}
 
 		return $gateway;
-
 	}
 
 	/**
@@ -804,7 +800,6 @@ class LLMS_Controller_Orders {
 		_deprecated_function( __METHOD__, '7.0.0', 'LLMS_Controller_Checkout::switch_payment_source' );
 		LLMS_Controller_Checkout::instance()->switch_payment_source();
 	}
-
 }
 
 return new LLMS_Controller_Orders();

@@ -89,13 +89,12 @@ function llms_expire_membership() {
 		}
 
 		// query postmeta table and find all users enrolled
-		$table_name        = $wpdb->prefix . 'lifterlms_user_postmeta';
 		$meta_key_status   = '_status';
 		$meta_value_status = 'Enrolled';
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT * FROM ' . $table_name . ' WHERE post_id = %d AND meta_key = "%s" AND meta_value = %s ORDER BY updated_date DESC',
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC",
 				$post->ID,
 				$meta_key_status,
 				$meta_value_status
@@ -117,7 +116,7 @@ function llms_expire_membership() {
 
 			$start_date = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT updated_date FROM ' . $table_name . ' WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC',
+					"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = %s AND meta_value = %s ORDER BY updated_date DESC",
 					$user_id,
 					$post->ID,
 					$meta_key_start_date,
@@ -152,7 +151,7 @@ function llms_expire_membership() {
 				);
 
 				// change enrolled to expired in user_postmeta
-				$wpdb->update( $table_name, $status_update, $set_user_expired );
+				$wpdb->update( $wpdb->prefix . 'lifterlms_user_postmeta', $status_update, $set_user_expired );
 
 				// remove membership id from usermeta array
 				$users_levels = get_user_meta( $user_id, '_llms_restricted_levels', true );

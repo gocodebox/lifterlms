@@ -957,7 +957,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$handler = function( $args ) {
 			$this->assertEquals( array(), $args['blocklist'] );
 			$this->assertEquals( 6, $args['min_length'] );
-			$this->assertEquals( 'strong', $args['min_strength'] );
+			$this->assertEquals( 'weak', $args['min_strength'] );
 			return $args;
 		};
 		add_filter( 'llms_password_strength_meter_settings', $handler );
