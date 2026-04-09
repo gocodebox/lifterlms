@@ -9,7 +9,8 @@
  * @since 3.16.0
  * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version 3.37.11
+ * @since [version] Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
+ * @version [version]
  */
 define( [], function() {
 
@@ -36,6 +37,7 @@ define( [], function() {
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
 			'paste .llms-input[data-formatting]': 'on_paste',
+			'paste .llms-input[contenteditable]:not([data-formatting])': 'on_paste',
 		},
 
 		/**
