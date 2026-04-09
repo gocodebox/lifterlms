@@ -352,6 +352,87 @@ function llms_get_focus_mode_sidebar_position( $post_id ) {
 }
 
 /**
+ * Get focus mode content width select options for course-level settings.
+ *
+ * @since [version]
+ *
+ * @param bool $include_inherit Whether to include the "Inherit" option with the current global value.
+ * @return array Array of key/title option arrays.
+ */
+function llms_get_focus_mode_content_width_options( $include_inherit = false ) {
+	$widths = array(
+		'full' => __( 'Full Width', 'lifterlms' ),
+		'1600' => __( 'Extra Wide (1600px)', 'lifterlms' ),
+		'1180' => __( 'Wide (1180px)', 'lifterlms' ),
+		'960'  => __( 'Default (960px)', 'lifterlms' ),
+		'768'  => __( 'Narrow (768px)', 'lifterlms' ),
+	);
+
+	$options = array();
+
+	if ( $include_inherit ) {
+		$global_value = get_option( 'lifterlms_focus_mode_content_width', '960' );
+		$global_label = isset( $widths[ $global_value ] ) ? $widths[ $global_value ] : $global_value;
+		$options[]    = array(
+			'key'   => 'inherit',
+			'title' => sprintf(
+				/* translators: %s: current global setting label */
+				__( 'Inherit Global Setting (%s)', 'lifterlms' ),
+				$global_label
+			),
+		);
+	}
+
+	foreach ( $widths as $key => $title ) {
+		$options[] = array(
+			'key'   => $key,
+			'title' => $title,
+		);
+	}
+
+	return $options;
+}
+
+/**
+ * Get focus mode sidebar position select options for course-level settings.
+ *
+ * @since [version]
+ *
+ * @param bool $include_inherit Whether to include the "Inherit" option with the current global value.
+ * @return array Array of key/title option arrays.
+ */
+function llms_get_focus_mode_sidebar_position_options( $include_inherit = false ) {
+	$positions = array(
+		'left'  => __( 'Left', 'lifterlms' ),
+		'right' => __( 'Right', 'lifterlms' ),
+	);
+
+	$options = array();
+
+	if ( $include_inherit ) {
+		$global_value = get_option( 'lifterlms_focus_mode_sidebar_position', 'left' );
+		$global_label = isset( $positions[ $global_value ] ) ? $positions[ $global_value ] : $global_value;
+		$options[]    = array(
+			'key'   => 'inherit',
+			'title' => sprintf(
+				/* translators: %s: current global setting label */
+				__( 'Inherit Global Setting (%s)', 'lifterlms' ),
+				$global_label
+			),
+		);
+	}
+
+	foreach ( $positions as $key => $title ) {
+		$options[] = array(
+			'key'   => $key,
+			'title' => $title,
+		);
+	}
+
+	return $options;
+}
+
+/**
  * Add body classes for focus mode.
  *
  * @since [version]

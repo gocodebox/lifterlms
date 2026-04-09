@@ -168,7 +168,13 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'value'         => array(
 							array(
 								'key'   => 'inherit',
-								'title' => __( 'Inherit Global Setting', 'lifterlms' ),
+								'title' => sprintf(
+									/* translators: %s: current global setting label */
+									__( 'Inherit Global Setting (%s)', 'lifterlms' ),
+									'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' )
+										? __( 'Enabled', 'lifterlms' )
+										: __( 'Disabled', 'lifterlms' )
+								),
 							),
 							array(
 								'key'   => 'enable',
@@ -192,32 +198,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Focus Mode Content Width', 'lifterlms' ),
 						'selected'         => $course->get( 'focus_mode_content_width' ) ? $course->get( 'focus_mode_content_width' ) : 'inherit',
 						'type'             => 'select',
-						'value'            => array(
-							array(
-								'key'   => 'inherit',
-								'title' => __( 'Inherit Global Setting', 'lifterlms' ),
-							),
-							array(
-								'key'   => 'full',
-								'title' => __( 'Full Width', 'lifterlms' ),
-							),
-							array(
-								'key'   => '1600',
-								'title' => __( 'Extra Wide (1600px)', 'lifterlms' ),
-							),
-							array(
-								'key'   => '1180',
-								'title' => __( 'Wide (1180px)', 'lifterlms' ),
-							),
-							array(
-								'key'   => '960',
-								'title' => __( 'Default (960px)', 'lifterlms' ),
-							),
-							array(
-								'key'   => '768',
-								'title' => __( 'Narrow (768px)', 'lifterlms' ),
-							),
-						),
+						'value'            => llms_get_focus_mode_content_width_options( true ),
 					),
 					array(
 						'allow_null'       => false,
@@ -231,20 +212,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Focus Mode Sidebar Position', 'lifterlms' ),
 						'selected'         => $course->get( 'focus_mode_sidebar_position' ) ? $course->get( 'focus_mode_sidebar_position' ) : 'inherit',
 						'type'             => 'select',
-						'value'            => array(
-							array(
-								'key'   => 'inherit',
-								'title' => __( 'Inherit Global Setting', 'lifterlms' ),
-							),
-							array(
-								'key'   => 'left',
-								'title' => __( 'Left', 'lifterlms' ),
-							),
-							array(
-								'key'   => 'right',
-								'title' => __( 'Right', 'lifterlms' ),
-							),
-						),
+						'value'            => llms_get_focus_mode_sidebar_position_options( true ),
 					),
 					array(
 						'type'  => 'text',
