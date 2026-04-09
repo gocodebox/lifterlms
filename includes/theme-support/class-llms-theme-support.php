@@ -235,9 +235,6 @@ class LLMS_Theme_Support {
 				require_once 'class-llms-twenty-twenty-two.php';
 				break;
 
-			case 'kadence':
-				require_once 'class-llms-kadence.php';
-				break;
 		}
 	}
 }
