@@ -130,11 +130,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 			event.preventDefault();
 
-			var pop, hidePopover;
-
-			hidePopover = function() {
-				pop.hide();
-			};
+			var pop, onLessonSelect;
 
 			pop = new Popover( {
 				el: '#llms-existing-lesson',
@@ -151,19 +147,21 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 						searching_message: LLMS.l10n.translate( 'Search for existing lessons...' ),
 					} ).render().$el,
 					onHide: function() {
-						Backbone.pubSub.off( 'lesson-search-select', hidePopover );
+						Backbone.pubSub.off( 'lesson-search-select', onLessonSelect );
 					},
 				}
 			} );
 
-			pop.show();
-			Backbone.pubSub.once( 'lesson-search-select', function() {
-				hidePopover();
+			onLessonSelect = function() {
+				pop.hide();
 
-				// @todo For some reason the above doesn't close via pop.hide(). Seems internal to webui-popup. Ref #3097
+				// Ref #3097 — pop.hide() doesn't always remove the DOM elements.
 				$( '.webui-popover' ).remove();
 				$( '.webui-popover-backdrop' ).remove();
-			} );
+			};
+
+			pop.show();
+			Backbone.pubSub.once( 'lesson-search-select', onLessonSelect );
 
 		},
 
