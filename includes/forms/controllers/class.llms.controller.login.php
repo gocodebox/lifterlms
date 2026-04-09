@@ -41,7 +41,10 @@ class LLMS_Controller_Login {
 	 */
 	public function login() {
 
-		if ( ! llms_verify_nonce( '_llms_login_user_nonce', 'llms_login_user' ) ) {
+		if ( ! isset( $_REQUEST['_llms_login_user_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_login_user_nonce'] ) ), 'llms_login_user' ) ) {
 			return;
 		}
 
