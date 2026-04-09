@@ -49,7 +49,10 @@ class LLMS_Controller_Lesson_Progression {
 	 */
 	private function get_lesson_id_from_form_data( $action ) {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'mark_' . $action, 'POST' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mark_' . $action ) ) {
 			return null;
 		}
 
@@ -86,7 +89,10 @@ class LLMS_Controller_Lesson_Progression {
 	 */
 	public function handle_admin_managment_forms() {
 
-		if ( ! llms_verify_nonce( 'llms-admin-progression-nonce', 'llms-admin-lesson-progression', 'POST' ) ) {
+		if ( ! isset( $_REQUEST['llms-admin-progression-nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms-admin-progression-nonce'] ) ), 'llms-admin-lesson-progression' ) ) {
 			return;
 		}
 

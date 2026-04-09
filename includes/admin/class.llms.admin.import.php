@@ -81,7 +81,7 @@ class LLMS_Admin_Import {
 	 */
 	public function cloud_import() {
 
-		if ( ! llms_verify_nonce( 'llms_cloud_importer_nonce', 'llms-cloud-importer' ) || ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! isset( $_REQUEST['llms_cloud_importer_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms_cloud_importer_nonce'] ) ), 'llms-cloud-importer' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			return false;
 		}
 
@@ -277,7 +277,7 @@ class LLMS_Admin_Import {
 	 */
 	public function upload_import() {
 
-		if ( ! llms_verify_nonce( 'llms_importer_nonce', 'llms-importer' ) || ! current_user_can( 'manage_lifterlms' ) || empty( $_FILES['llms_import'] ) ) {
+		if ( ! isset( $_REQUEST['llms_importer_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms_importer_nonce'] ) ), 'llms-importer' ) || ! current_user_can( 'manage_lifterlms' ) || empty( $_FILES['llms_import'] ) ) {
 			return false;
 		}
 

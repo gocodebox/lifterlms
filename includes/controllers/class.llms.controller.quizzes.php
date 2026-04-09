@@ -48,7 +48,10 @@ class LLMS_Controller_Quizzes {
 	 */
 	public function maybe_handle_reporting_actions() {
 
-		if ( ! llms_verify_nonce( '_llms_quiz_actions_nonce', 'llms-quiz-actions' ) ) {
+		if ( ! isset( $_REQUEST['_llms_quiz_actions_nonce'] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_quiz_actions_nonce'] ) ), 'llms-quiz-actions' ) ) {
 			return null;
 		}
 

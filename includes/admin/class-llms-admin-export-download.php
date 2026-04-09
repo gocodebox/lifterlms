@@ -45,7 +45,7 @@ class LLMS_Admin_Export_Download {
 		}
 
 		// Verify nonce.
-		if ( ! llms_verify_nonce( 'llms_dl_export_nonce', LLMS_Abstract_Exportable_Admin_Table::EXPORT_NONCE_ACTION, 'GET' ) ) {
+		if ( ! isset( $_REQUEST['llms_dl_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms_dl_export_nonce'] ) ), LLMS_Abstract_Exportable_Admin_Table::EXPORT_NONCE_ACTION ) ) {
 			wp_die( esc_html__( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}
 

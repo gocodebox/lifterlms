@@ -88,7 +88,10 @@ class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagem
 	 */
 	public function maybe_handle_reporting_actions() {
 
-		if ( ! llms_verify_nonce( '_llms_achievement_actions_nonce', 'llms-achievement-actions' ) ) {
+		if ( ! isset( $_REQUEST['_llms_achievement_actions_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_achievement_actions_nonce'] ) ), 'llms-achievement-actions' ) ) {
 			return;
 		}
 

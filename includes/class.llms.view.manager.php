@@ -220,7 +220,7 @@ class LLMS_View_Manager {
 	 */
 	private function get_view() {
 
-		if ( ! llms_verify_nonce( 'view_nonce', 'llms-view-as', 'GET' ) ) {
+		if ( ! isset( $_REQUEST['view_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['view_nonce'] ) ), 'llms-view-as' ) ) {
 			return 'self';
 		}
 
