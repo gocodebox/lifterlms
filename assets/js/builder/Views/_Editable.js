@@ -315,6 +315,8 @@ define( [], function() {
 		 */
 		on_select: function( event ) {
 
+			event.stopPropagation();
+
 			var $el       = $( event.target ),
 				multi     = ( $el.attr( 'multiple' ) ),
 				attr      = $el.attr( 'name' ),

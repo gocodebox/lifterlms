@@ -12,15 +12,34 @@ define( [], function() {
 			title: LLMS.l10n.translate( 'General Settings' ),
 			toggleable: true,
 			fields: [
-				[
-					{
-						attribute: 'permalink',
-						id: 'permalink',
-						type: 'permalink',
-			},
-				], [
-					{
-						attribute: 'video_embed',
+			[
+				{
+					attribute: 'permalink',
+					id: 'permalink',
+					type: 'permalink',
+		},
+			], [
+				{
+					attribute: 'content',
+					id: 'content',
+					label: LLMS.l10n.translate( 'Content' ),
+					type: 'editor',
+					condition: function() {
+						return '' === this.get( 'content' ) || 'yes' === this.get( 'content_added_in_builder' );
+					},
+		},
+			], [
+				{
+					id: 'content-page-builder-notice',
+					label: LLMS.l10n.translate( 'Content' ),
+					type: 'page_builder_notice',
+					condition: function() {
+						return '' !== this.get( 'content' ) && 'yes' !== this.get( 'content_added_in_builder' );
+					},
+		},
+			], [
+				{
+					attribute: 'video_embed',
 						id: 'video-embed',
 						label: LLMS.l10n.translate( 'Video Embed URL' ),
 						type: 'video_embed',

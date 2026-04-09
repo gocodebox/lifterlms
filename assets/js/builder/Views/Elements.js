@@ -130,7 +130,9 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 			event.preventDefault();
 
-			var pop = new Popover( {
+			var pop, onLessonSelect;
+
+			pop = new Popover( {
 				el: '#llms-existing-lesson',
 				args: {
 					backdrop: true,
@@ -144,13 +146,22 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 						post_type: 'lesson',
 						searching_message: LLMS.l10n.translate( 'Search for existing lessons...' ),
 					} ).render().$el,
+					onHide: function() {
+						Backbone.pubSub.off( 'lesson-search-select', onLessonSelect );
+					},
 				}
 			} );
 
+			onLessonSelect = function() {
+				pop.hide();
+
+				// Ref #3097 — pop.hide() doesn't always remove the DOM elements.
+				$( '.webui-popover' ).remove();
+				$( '.webui-popover-backdrop' ).remove();
+			};
+
 			pop.show();
-			Backbone.pubSub.on( 'lesson-search-select', function() {
-				pop.hide()
-			} );
+			Backbone.pubSub.once( 'lesson-search-select', onLessonSelect );
 
 		},
 
