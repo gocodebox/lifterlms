@@ -126,6 +126,7 @@ define( [
 
 				this.listenTo( this.model, 'change:_points', this.render_points );
 				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.listenTo( this.model, 'change:name', this.render_settings );
 
 			}
 
@@ -325,6 +326,7 @@ define( [
 			this.model = this.lesson.get( 'quiz' );
 			this.listenTo( this.model, 'change:_points', this.render_points );
 			this.listenTo( this.model, 'change:permalink', this.render_settings );
+			this.listenTo( this.model, 'change:name', this.render_settings );
 			this.render();
 
 		},
