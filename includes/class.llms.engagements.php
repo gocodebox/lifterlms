@@ -151,7 +151,10 @@ class LLMS_Engagements {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join   = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where  = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
+			$related_where  = $wpdb->prepare(
+				"AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND ( relation_meta.meta_value = %d OR relation_meta.meta_value = 'any' )",
+				$related_post_id
+			);
 
 		}
 
