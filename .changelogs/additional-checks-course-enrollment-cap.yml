@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#3086"
+entry: Add additional check for course capacity on the checkout page.

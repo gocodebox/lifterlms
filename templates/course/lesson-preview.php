@@ -19,7 +19,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $restrictions = llms_page_restricted( $lesson->get( 'id' ), get_current_user_id() );
-$data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
+$data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_html( wp_strip_all_tags( llms_get_restriction_message( $restrictions ) ) ) . '"' : '';
 
 // Get the section name for this lesson.
 $section       = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
@@ -46,7 +46,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 	<section
 	<?php if ( $restrictions['is_restricted'] ) : ?>
 		class="llms-lesson-locked"
-		data-tooltip-msg="<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?>"
+		data-tooltip-msg="<?php echo esc_attr( wp_strip_all_tags( llms_get_restriction_message( $restrictions ) ) ); ?>"
 	<?php endif; ?>
 	>
 		<?php if ( $restrictions['is_restricted'] ) : ?>
@@ -73,7 +73,10 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 
 					<aside class="llms-extra">
 						<span class="llms-lesson-counter" aria-hidden="true">
-							<?php echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) ); ?>
+							<?php
+								// Translators: %1$d: Lesson number, %2$d: total number of lessons in section.
+								echo esc_html( sprintf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ) );
+							?>
 						</span>
 						<?php echo wp_kses_post( $lesson->get_preview_icon_html() ); ?>
 					</aside>
@@ -104,7 +107,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 				<span class="screen-reader-text"><?php echo esc_attr( $lesson_screen_reader_msg ); ?></span>
 
 				<?php if ( $restrictions['is_restricted'] ) : ?>
-					<span class="screen-reader-text"><?php echo esc_html( strip_tags( llms_get_restriction_message( $restrictions ) ) ); ?></span>
+					<span class="screen-reader-text"><?php echo esc_html( wp_strip_all_tags( llms_get_restriction_message( $restrictions ) ) ); ?></span>
 				<?php endif; ?>
 
 			</div>

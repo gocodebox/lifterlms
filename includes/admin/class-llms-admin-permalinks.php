@@ -240,6 +240,10 @@ class LLMS_Admin_Permalinks {
 			return;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( isset( $_POST['llms-permalinks-nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['llms-permalinks-nonce'] ), 'llms-permalinks' ) ) {
 			llms_switch_to_site_locale();
 

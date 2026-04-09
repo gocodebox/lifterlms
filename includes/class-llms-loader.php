@@ -37,7 +37,6 @@ class LLMS_Loader {
 		'llms_post_model'                    => 'includes/abstracts/abstract.llms.post.model.php',
 		'llms_shortcode_course_element'      => 'includes/abstracts/abstract.llms.shortcode.course.element.php',
 		'llms_shortcode'                     => 'includes/abstracts/abstract.llms.shortcode.php',
-		'llms_update'                        => 'includes/abstracts/abstract.llms.update.php',
 
 		// Missing "_Admin_" from class name.
 		'llms_export_api'                    => 'includes/admin/class-llms-export-api.php',

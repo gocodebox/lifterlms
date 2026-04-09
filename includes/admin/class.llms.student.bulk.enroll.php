@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.20.0
- * @version 3.21.0
+ * @version 9.2.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.20.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since 9.2.3 Added CSRF protection via nonce verification on bulk enrollment.
  */
 class LLMS_Student_Bulk_Enroll {
 
@@ -67,9 +68,11 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Displays ui for selecting product to bulk enroll users into
 	 *
-	 * @param   string $which
-	 * @since   3.20.0
-	 * @version 3.20.0
+	 * @since 3.20.0
+	 * @since 9.2.3 Added nonce field for CSRF protection.
+	 *
+	 * @param string $which Whether this is the 'top' or 'bottom' tablenav.
+	 * @return void
 	 */
 	public function display_product_selection_for_bulk_users( $which ) {
 
@@ -88,6 +91,9 @@ class LLMS_Student_Bulk_Enroll {
 			<select id="<?php echo esc_attr( $id ); ?>" class="llms-posts-select2 llms-bulk-enroll-product" data-post-type="llms_membership,course" name="<?php echo esc_attr( $id ); ?>" style="min-width:200px;max-width:auto;">
 			</select>
 			<input type="submit" name="<?php echo esc_attr( $submit ); ?>" id="<?php echo esc_attr( $submit ); ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
+			<?php if ( 'top' === $which ) : ?>
+				<?php wp_nonce_field( 'llms_bulk_enroll', '_llms_bulk_enroll_nonce', false ); ?>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -95,9 +101,10 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Conditionally enrolls multiple users into a product
 	 *
-	 * @return  void
-	 * @since   3.20.0
-	 * @version 3.20.0
+	 * @since 3.20.0
+	 * @since 9.2.3 Added nonce verification for CSRF protection.
+	 *
+	 * @return void
 	 */
 	public function maybe_enroll_users_in_product() {
 
@@ -108,6 +115,8 @@ class LLMS_Student_Bulk_Enroll {
 		if ( empty( $do_bulk_enroll ) ) {
 			return;
 		}
+
+		check_admin_referer( 'llms_bulk_enroll', '_llms_bulk_enroll_nonce' );
 
 		// Get the product (course/membership) to enroll users in.
 		$this->product_id = $this->_bottom_else_top( 'llms_bulk_enroll_product', FILTER_VALIDATE_INT );

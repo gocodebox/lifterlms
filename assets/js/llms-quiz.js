@@ -760,6 +760,13 @@
 
 			$( document ).trigger( 'llms-post-append-question', $html );
 
+			var $quizUi = $( '#llms-quiz-ui' );
+			if ( $quizUi.length ) {
+				$( 'html, body' ).animate( {
+					scrollTop: $quizUi.offset().top - 50
+				}, 300 );
+			}
+
 		},
 
 		/**
