@@ -194,12 +194,22 @@ define( [], function() {
 						date_format: 'h:i A',
 						id: 'time-available',
 						label: LLMS.l10n.translate( 'Time' ),
-						type: 'datepicker',
-			},
-				],
-			],
+			type: 'datepicker',
 		},
+			], [
+				{
+					label: LLMS.l10n.translate( 'Associated Event(s)' ),
+					id: 'llms-events-promo',
+					type: 'heading',
+					detail: LLMS.l10n.translate( 'Schedule events for your lessons with the LifterLMS Events add-on.' ) + ' <a href="https://lifterlms.com/product/lifterlms-events/?utm_source=LifterLMS%20Plugin&utm_medium=Lesson%20Builder&utm_campaign=Events%20Addon%20Upsell" target="_blank">' + LLMS.l10n.translate( 'Learn More' ) + '</a>',
+					condition: function() {
+						return ! window.llms_builder.events;
+					},
+				},
+			],
+		],
+	},
 
-	} );
+} );
 
 } );
