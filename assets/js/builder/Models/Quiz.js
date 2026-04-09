@@ -64,7 +64,7 @@ define( [
 				type: 'llms_quiz',
 				lesson_id: '',
 
-				status: 'draft',
+				status: 'publish',
 
 				// editable fields.
 				content: '',

@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 				<td class="llms-lesson_title" colspan="2">
 					<?php echo wp_kses_post( sprintf( __( 'Lesson %1$d: %2$s', 'lifterlms' ), $lesson->get( 'order' ), $title ) ); ?>
 					<?php if ( $restricted['is_restricted'] ) : ?>
-						<a data-tooltip-msg="<?php echo esc_attr( strip_tags( llms_get_restriction_message( $restricted ) ) ); ?>" href="#llms-lesson-locked">
+						<a data-tooltip-msg="<?php echo esc_attr( wp_strip_all_tags( llms_get_restriction_message( $restricted ) ) ); ?>" href="#llms-lesson-locked">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</a>
 					<?php endif; ?>

@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Avoid "block not found" error in the theme template editor.

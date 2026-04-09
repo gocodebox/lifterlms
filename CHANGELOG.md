@@ -1,6 +1,37 @@
 LifterLMS Changelog
 ===================
 
+v9.2.3 - 2026-04-07
+-------------------
+
+##### Security Fixes
+
++ Additional permission checks when performing certain admin actions. Thanks [@nobody090909](https://github.com/nobody090909)!
+
+
+v9.2.2 - 2026-03-31
+-------------------
+
+##### Updates and Enhancements
+
++ Various escaping and consistency changes.
+
+##### Bug Fixes
+
++ Removes use of deprecated mb_convert_encoding(). [#2672](https://github.com/gocodebox/lifterlms/issues/2672)
+
+##### Security Fixes
+
++ Validation of the order param for the quiz Students Without Attempts table.
+
+##### Updated Templates
+
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/9.2.2/templates/course/lesson-preview.php)
++ [templates/myaccount/my-grades-single-table.php](https://github.com/gocodebox/lifterlms/blob/9.2.2/templates/myaccount/my-grades-single-table.php)
++ [templates/quiz/questions/content-choice.php](https://github.com/gocodebox/lifterlms/blob/9.2.2/templates/quiz/questions/content-choice.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/9.2.2/templates/quiz/questions/content-picture_choice.php)
+
+
 v9.2.1 - 2026-02-02
 -------------------
 

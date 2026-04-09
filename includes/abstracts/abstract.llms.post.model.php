@@ -724,7 +724,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( 'html' === $format || 'raw' === $format ) {
 			$price = llms_price( $price, $price_args );
 			if ( 'raw' === $format ) {
-				$price = strip_tags( $price );
+				$price = wp_strip_all_tags( $price );
 			}
 		} elseif ( 'float' === $format ) {
 			$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
@@ -855,7 +855,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$prop = $prop ? $prop : $type . '_embed';
 		$url  = $this->get( $prop );
-		if ( trim( $url ) && parse_url( $url ) ) {
+		if ( trim( $url ) && wp_parse_url( $url ) ) {
 			$this->get_provider_support( $url );
 
 			$ret = wp_oembed_get( sanitize_url( $url ) );
@@ -1516,6 +1516,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$u = update_post_meta( $this->id, $this->meta_prefix . $key, wp_slash( $val ) );
 
 			if ( ! ( is_numeric( $u ) || true === $u ) ) {
+				/* translators: %s: Meta key. */
 				$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
 			}
 		}

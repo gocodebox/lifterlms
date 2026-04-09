@@ -395,7 +395,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		// Test meta props are set.
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $lesson, 'properties' ) ) as $prop ) {
 			// This data is not based off raw.
-			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz' ), true ) ) {
+			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz', 'content_added_in_builder' ), true ) ) {
 				continue;
 			}
 			$this->assertEquals( $raw[ $prop ], $lesson->get( $prop ), $prop );

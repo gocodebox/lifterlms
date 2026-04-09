@@ -43,7 +43,6 @@ define( [
 		 */
 		events: _.defaults( {
 
-			'click': 'select',
 			'click .expand': 'expand',
 			'click .collapse': 'collapse',
 			'click .shift-up--section': 'shift_up',

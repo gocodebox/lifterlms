@@ -16,7 +16,7 @@ define( [ 'Views/Section', 'Views/_Receivable' ], function( SectionView, Receiva
 		el: '#llms-sections',
 
 		events : {
-			'mousedown > li.llms-section > .llms-builder-header .llms-headline' : '_listItem_onMousedown',
+			'mousedown > li.llms-section' : '_listItem_onMousedown',
 			// 'dblclick > li, tbody > tr > td' : '_listItem_onDoubleClick',
 			'click' : '_listBackground_onClick',
 			'click ul.collection-view' : '_listBackground_onClick',
