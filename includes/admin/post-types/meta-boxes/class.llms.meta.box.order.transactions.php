@@ -121,7 +121,10 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 */
 	public function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return;
 		}
 

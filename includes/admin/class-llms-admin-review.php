@@ -123,7 +123,7 @@ class LLMS_Admin_Review {
 	 */
 	public function dismiss() {
 
-		if ( ! current_user_can( 'manage_lifterlms' ) || ! llms_verify_nonce( 'nonce', 'llms-admin-review-request-dismiss' ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! isset( $_REQUEST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'llms-admin-review-request-dismiss' ) ) {
 			wp_die();
 		}
 

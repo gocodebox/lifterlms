@@ -158,11 +158,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		}
 
 		// Verify nonce.
-		if ( ! llms_verify_nonce(
-			"_llms_{$this->engagement_type}_sync_actions_nonce",
-			"llms-{$this->engagement_type}-sync-actions",
-			'GET'
-		) ) {
+		$nonce_field = "_llms_{$this->engagement_type}_sync_actions_nonce";
+		if ( ! isset( $_REQUEST[ $nonce_field ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce_field ] ) ), "llms-{$this->engagement_type}-sync-actions" ) ) {
 			$result = new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-invalid-nonce",
 				$this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INVALID_NONCE )

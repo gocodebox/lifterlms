@@ -462,7 +462,10 @@ class LLMS_Controller_Checkout {
 	public function switch_payment_source() {
 
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_switch_source_nonce', self::ACTION_SWITCH_PAYMENT_SOURCE ) ) {
+		if ( ! isset( $_REQUEST['_switch_source_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_switch_source_nonce'] ) ), self::ACTION_SWITCH_PAYMENT_SOURCE ) ) {
 			return;
 		}
 
@@ -490,7 +493,10 @@ class LLMS_Controller_Checkout {
 	public function switch_payment_source_ajax() {
 
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( self::AJAX_QS_VAR, self::ACTION_SWITCH_PAYMENT_SOURCE ) ) {
+		if ( ! isset( $_REQUEST[ self::AJAX_QS_VAR ] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ self::AJAX_QS_VAR ] ) ), self::ACTION_SWITCH_PAYMENT_SOURCE ) ) {
 			return null;
 		}
 
@@ -676,7 +682,10 @@ class LLMS_Controller_Checkout {
 	 */
 	private function verify_request( $field, $nonce ) {
 
-		if ( ! llms_verify_nonce( $field, $nonce, 'POST' ) ) {
+		if ( ! isset( $_REQUEST[ $field ] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $field ] ) ), $nonce ) ) {
 			return null;
 		}
 

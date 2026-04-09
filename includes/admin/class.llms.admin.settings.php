@@ -88,7 +88,7 @@ class LLMS_Admin_Settings {
 	public static function save() {
 
 		global $current_tab;
-		if ( isset( $_POST['_wpnonce'] ) && ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
+		if ( isset( $_POST['_wpnonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'lifterlms-settings' ) ) {
 			die( esc_html__( 'Whoa! something went wrong there!. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
