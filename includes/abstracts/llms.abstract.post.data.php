@@ -248,7 +248,8 @@ abstract class LLMS_Abstract_Post_Data {
 			)
 		);
 
-		$query_args['post_id'] = $this->post_id;
+		$query_args['post_id']        = $this->post_id;
+		$query_args['no_found_rows'] = true;
 
 		$query = new LLMS_Query_User_Postmeta( $query_args );
 

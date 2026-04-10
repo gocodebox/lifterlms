@@ -13,33 +13,42 @@
 class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 
 	/**
-	 * Test that the notifications query, using default args, calculates found rows.
+	 * Test that the notifications query, using default args, sets up a count_query
+	 * and does not use SQL_CALC_FOUND_ROWS.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
-	public function test_query_with_default_args_calculates_found_rows() {
+	public function test_query_with_default_args_sets_count_query() {
 		$query = new LLMS_Notifications_Query();
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
-		$this->assertSame( 0, strpos( $sql, 'SELECT SQL_CALC_FOUND_ROWS' ) );
+		$this->assertStringNotContainsString( 'SQL_CALC_FOUND_ROWS', $sql );
+
+		$count_query = LLMS_Unit_Test_Util::get_private_property_value( $query, 'count_query' );
+		$this->assertStringStartsWith( 'SELECT COUNT(*)', $count_query );
 	}
 
 	/**
-	 * Test that the notifications query, passing no_found_rows as true doesn't calculate found rows.
+	 * Test that the notifications query, passing no_found_rows as true, does not set count_query.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
-	public function test_query_correctly_doesnt_calculate_found_rows() {
+	public function test_query_correctly_doesnt_set_count_query() {
 		$query = new LLMS_Notifications_Query(
 			array(
 				'no_found_rows' => true,
 			)
 		);
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
-		$this->assertSame( false, strpos( $sql, 'SQL_CALC_FOUND_ROWS' ) );
+		$this->assertStringNotContainsString( 'SQL_CALC_FOUND_ROWS', $sql );
+
+		$count_query = LLMS_Unit_Test_Util::get_private_property_value( $query, 'count_query' );
+		$this->assertEmpty( $count_query );
 	}
 
 	/**
@@ -54,6 +63,78 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 		$args  = LLMS_Unit_Test_Util::call_method( $query, 'get_default_args' );
 		$this->assertNotContains( 'error', $args['statuses'] );
 		$this->assertEquals( array( 'new', 'sent', 'read', 'unread', 'deleted', 'failed' ), $args['statuses'] );
+	}
+
+	/**
+	 * Test found_results and max_pages with real notifications data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_found_results_with_pagination() {
+
+		$post_id = $this->factory->post->create();
+
+		for ( $i = 0; $i < 8; $i++ ) {
+			$n = new LLMS_Notification();
+			$n->create(
+				array(
+					'post_id'    => $post_id,
+					'subscriber' => 1,
+					'type'       => 'basic',
+					'trigger_id' => 1,
+					'user_id'    => 1,
+				)
+			);
+		}
+
+		$query = new LLMS_Notifications_Query(
+			array(
+				'subscriber' => 1,
+				'post_id'    => $post_id,
+				'per_page'   => 3,
+			)
+		);
+
+		$this->assertSame( 8, $query->get_found_results() );
+		$this->assertSame( 3, $query->get_max_pages() );
+		$this->assertSame( 3, $query->get_number_results() );
+	}
+
+	/**
+	 * Test that no_found_rows skips counting.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_found_rows_skips_count() {
+
+		$post_id = $this->factory->post->create();
+
+		$n = new LLMS_Notification();
+		$n->create(
+			array(
+				'post_id'    => $post_id,
+				'subscriber' => 1,
+				'type'       => 'basic',
+				'trigger_id' => 1,
+				'user_id'    => 1,
+			)
+		);
+
+		$query = new LLMS_Notifications_Query(
+			array(
+				'subscriber'    => 1,
+				'post_id'       => $post_id,
+				'no_found_rows' => true,
+			)
+		);
+
+		$this->assertTrue( $query->has_results() );
+		$this->assertSame( 0, $query->get_found_results() );
+		$this->assertSame( 0, $query->get_max_pages() );
 	}
 
 	/**

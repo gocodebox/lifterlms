@@ -41,7 +41,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 		return new class() extends LLMS_Database_Query {
 			protected function parse_args() {}
 			protected function prepare_query() {
-				return $this->_prepare_query();
+				return '';
 			}
 		};
 
@@ -290,15 +290,18 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test sql_select_columns() method
 	 *
+	 * SQL_CALC_FOUND_ROWS is no longer prepended.
+	 *
 	 * @since 4.5.1
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS is no longer added.
 	 *
 	 * @return void
 	 */
 	public function test_sql_select_columns() {
 
 		$query = $this->query();
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS *', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
+		$this->assertEquals( '*', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
+		$this->assertEquals( 'column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
 
 		// Query but avoiding calculating found rows.
 		$query = $this->query(
@@ -308,6 +311,163 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 		);
 		$this->assertEquals( '*', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
 		$this->assertEquals( 'column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
+	}
+
+	/**
+	 * Pagination: found_results, max_pages, and per-page counts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_pagination_found_results_and_max_pages() {
+		$this->factory->post->create_many( 30 );
+
+		$query = $this->query(
+			array(
+				'per_page' => 10,
+			)
+		);
+
+		$this->assertSame( 30, $query->get_found_results() );
+		$this->assertSame( 3, $query->get_max_pages() );
+		$this->assertSame( 10, $query->get_number_results() );
+
+		$query_page_3 = $this->query(
+			array(
+				'per_page' => 10,
+				'page'     => 3,
+			)
+		);
+
+		$this->assertSame( 10, $query_page_3->get_number_results() );
+	}
+
+	/**
+	 * When `no_found_rows` is true, the count query is skipped.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_found_rows_skips_count() {
+		$this->factory->post->create_many( 5 );
+
+		$query = $this->query(
+			array(
+				'no_found_rows' => true,
+			)
+		);
+
+		$this->assertTrue( $query->has_results() );
+		$this->assertSame( 0, $query->get_found_results() );
+		$this->assertSame( 0, $query->get_max_pages() );
+	}
+
+	/**
+	 * With no matching posts, found_results and max_pages are zero.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_empty_results_found_results_zero() {
+		$query = $this->query();
+
+		$this->assertFalse( $query->has_results() );
+		$this->assertSame( 0, $query->get_found_results() );
+		$this->assertSame( 0, $query->get_max_pages() );
+	}
+
+	/**
+	 * The main query string must not use SQL_CALC_FOUND_ROWS.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sql_calc_found_rows_not_in_query_output() {
+		$this->factory->post->create_many( 3 );
+
+		$query = $this->query();
+
+		$this->assertStringNotContainsString( 'SQL_CALC_FOUND_ROWS', $query->get_query() );
+	}
+
+	/**
+	 * sql_limit() returns an empty string when `count_only` is true.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sql_limit_returns_empty_for_count_only() {
+		$stub = $this->get_stub();
+		$stub->set( 'count_only', true );
+
+		$this->assertSame( '', LLMS_Unit_Test_Util::call_method( $stub, 'sql_limit' ) );
+	}
+
+	/**
+	 * A subclass that does not set count_query triggers _doing_it_wrong.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_missing_count_query_triggers_doing_it_wrong() {
+
+		$this->factory->post->create_many( 3 );
+
+		$stub = new class() extends LLMS_Database_Query {
+			protected $id = 'test_no_count';
+			protected function parse_args() {}
+			protected function prepare_query() {
+				global $wpdb;
+				return "SELECT ID FROM {$wpdb->posts} LIMIT 10";
+			}
+		};
+
+		$this->setExpectedIncorrectUsage( get_class( $stub ) . '::prepare_query' );
+	}
+
+	/**
+	 * Filters that reintroduce SQL_CALC_FOUND_ROWS trigger a deprecation and FOUND_ROWS() fallback.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_filter_reintroducing_sql_calc_found_rows() {
+		$this->expected_deprecated = array_merge(
+			$this->expected_deprecated,
+			array( 'llms_database_query_prepare_query' )
+		);
+
+		add_filter( 'llms_database_query_prepare_query', array( $this, '_filter_prepend_sql_calc_found_rows' ), 20, 2 );
+
+		try {
+			$this->factory->post->create_many( 4 );
+
+			$query = $this->query();
+
+			$this->assertGreaterThan( 0, $query->get_found_results() );
+		} finally {
+			remove_filter( 'llms_database_query_prepare_query', array( $this, '_filter_prepend_sql_calc_found_rows' ), 20 );
+		}
+	}
+
+	/**
+	 * Filter callback: prepend SQL_CALC_FOUND_ROWS to the SELECT for {@see test_filter_reintroducing_sql_calc_found_rows()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param string              $sql   Query SQL.
+	 * @param LLMS_Database_Query $query Query instance.
+	 * @return string
+	 */
+	public function _filter_prepend_sql_calc_found_rows( $sql, $query ) {
+		return preg_replace( '/SELECT /', 'SELECT SQL_CALC_FOUND_ROWS ', $sql, 1 );
 	}
 
 	/**
@@ -342,6 +502,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Prepare query to build a testable SQL
 	 *
 	 * @since 4.5.1
+	 * @since [version] Set count_query for found_results() support.
 	 *
 	 * @return string
 	 */
@@ -350,6 +511,10 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 		$select  = LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' );
 		$orderby = LLMS_Unit_Test_Util::call_method( $query, 'sql_orderby' );
 		$limit   = LLMS_Unit_Test_Util::call_method( $query, 'sql_limit' );
+
+		if ( ! $query->get( 'no_found_rows' ) ) {
+			LLMS_Unit_Test_Util::set_private_property( $query, 'count_query', "SELECT COUNT(*) FROM {$wpdb->posts}" );
+		}
 
 		return "
 			SELECT {$select}
