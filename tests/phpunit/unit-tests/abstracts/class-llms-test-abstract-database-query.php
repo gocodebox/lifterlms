@@ -409,6 +409,29 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * A subclass that does not set count_query triggers _doing_it_wrong.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_missing_count_query_triggers_doing_it_wrong() {
+
+		$this->factory->post->create_many( 3 );
+
+		$stub = new class() extends LLMS_Database_Query {
+			protected $id = 'test_no_count';
+			protected function parse_args() {}
+			protected function prepare_query() {
+				global $wpdb;
+				return "SELECT ID FROM {$wpdb->posts} LIMIT 10";
+			}
+		};
+
+		$this->setExpectedIncorrectUsage( get_class( $stub ) . '::prepare_query' );
+	}
+
+	/**
 	 * Filters that reintroduce SQL_CALC_FOUND_ROWS trigger a deprecation and FOUND_ROWS() fallback.
 	 *
 	 * @since [version]
