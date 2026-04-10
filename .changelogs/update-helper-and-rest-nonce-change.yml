@@ -1,0 +1,4 @@
+significance: patch
+type: changed
+entry: Updating helper and rest libraries, which switch to using standard WP
+  nonce check functions.
