@@ -66,6 +66,78 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test found_results and max_pages with real notifications data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_found_results_with_pagination() {
+
+		$post_id = $this->factory->post->create();
+
+		for ( $i = 0; $i < 8; $i++ ) {
+			$n = new LLMS_Notification();
+			$n->create(
+				array(
+					'post_id'    => $post_id,
+					'subscriber' => 1,
+					'type'       => 'basic',
+					'trigger_id' => 1,
+					'user_id'    => 1,
+				)
+			);
+		}
+
+		$query = new LLMS_Notifications_Query(
+			array(
+				'subscriber' => 1,
+				'post_id'    => $post_id,
+				'per_page'   => 3,
+			)
+		);
+
+		$this->assertSame( 8, $query->get_found_results() );
+		$this->assertSame( 3, $query->get_max_pages() );
+		$this->assertSame( 3, $query->get_number_results() );
+	}
+
+	/**
+	 * Test that no_found_rows skips counting.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_found_rows_skips_count() {
+
+		$post_id = $this->factory->post->create();
+
+		$n = new LLMS_Notification();
+		$n->create(
+			array(
+				'post_id'    => $post_id,
+				'subscriber' => 1,
+				'type'       => 'basic',
+				'trigger_id' => 1,
+				'user_id'    => 1,
+			)
+		);
+
+		$query = new LLMS_Notifications_Query(
+			array(
+				'subscriber'    => 1,
+				'post_id'       => $post_id,
+				'no_found_rows' => true,
+			)
+		);
+
+		$this->assertTrue( $query->has_results() );
+		$this->assertSame( 0, $query->get_found_results() );
+		$this->assertSame( 0, $query->get_max_pages() );
+	}
+
+	/**
 	 * Test getting notifications, escluding the errored ones (default).
 	 *
 	 * @since 7.1.0

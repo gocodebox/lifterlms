@@ -58,6 +58,78 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test found_results and max_pages with real events data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_found_results_with_pagination() {
+
+		$user_id = $this->factory->user->create();
+
+		for ( $i = 0; $i < 7; $i++ ) {
+			$event = new LLMS_Event();
+			$event->setUp(
+				array(
+					'actor_id'     => $user_id,
+					'object_type'  => 'post',
+					'object_id'    => 1,
+					'event_type'   => 'page',
+					'event_action' => 'load',
+				)
+			);
+			$event->save();
+		}
+
+		$query = new LLMS_Events_Query(
+			array(
+				'actor'    => $user_id,
+				'per_page' => 3,
+			)
+		);
+
+		$this->assertSame( 7, $query->get_found_results() );
+		$this->assertSame( 3, $query->get_max_pages() );
+		$this->assertSame( 3, $query->get_number_results() );
+	}
+
+	/**
+	 * Test that no_found_rows skips counting with real data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_found_rows_skips_count() {
+
+		$user_id = $this->factory->user->create();
+
+		$event = new LLMS_Event();
+		$event->setUp(
+			array(
+				'actor_id'     => $user_id,
+				'object_type'  => 'post',
+				'object_id'    => 1,
+				'event_type'   => 'page',
+				'event_action' => 'load',
+			)
+		);
+		$event->save();
+
+		$query = new LLMS_Events_Query(
+			array(
+				'actor'         => $user_id,
+				'no_found_rows' => true,
+			)
+		);
+
+		$this->assertTrue( $query->has_results() );
+		$this->assertSame( 0, $query->get_found_results() );
+		$this->assertSame( 0, $query->get_max_pages() );
+	}
+
+	/**
 	 * Test that the events query, passing no_found_rows as true, does not set count_query.
 	 *
 	 * @since 4.7.0

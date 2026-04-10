@@ -208,4 +208,32 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		$this->assertEquals( $actions + 3, did_action( 'llms_user_enrollment_deleted' ) );
 	}
 
+	/**
+	 * Test get_enrollments() returns accurate found count without SQL_CALC_FOUND_ROWS.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_enrollments_found_count() {
+
+		$courses = $this->generate_mock_courses( 5, 1, 1, 0 );
+
+		foreach ( $courses as $cid ) {
+			$this->student->enroll( $cid );
+		}
+
+		$result = $this->student->get_enrollments( 'course', array( 'limit' => 2 ) );
+
+		$this->assertSame( 5, $result['found'] );
+		$this->assertSame( 2, $result['limit'] );
+		$this->assertCount( 2, $result['results'] );
+		$this->assertTrue( $result['more'] );
+
+		$result_all = $this->student->get_enrollments( 'course', array( 'limit' => 10 ) );
+		$this->assertSame( 5, $result_all['found'] );
+		$this->assertCount( 5, $result_all['results'] );
+		$this->assertFalse( $result_all['more'] );
+	}
+
 }
