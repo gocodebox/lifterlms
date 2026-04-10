@@ -252,7 +252,6 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 
 		$offset = ( $this->current_page - 1 ) * $per;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$from_joins_where = "FROM {$wpdb->users} u
 				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm
 					ON u.ID = upm.user_id
@@ -308,7 +307,6 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				array_merge( $prepare_args, array( $offset, $per ) )
 			)
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );
