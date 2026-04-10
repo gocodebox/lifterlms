@@ -257,13 +257,14 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		$query = new LLMS_Student_Query(
 			array(
-				'post_id'  => $this->get( 'id' ),
-				'statuses' => array( 'enrolled' ),
-				'per_page' => 1,
+				'post_id'    => $this->get( 'id' ),
+				'statuses'   => array( 'enrolled' ),
+				'count_only' => true,
+				'sort'       => array( 'id' => 'ASC' ),
 			)
 		);
 
-		return $query->get_found_results();
+		return $query->get_count_only_result();
 	}
 
 	/**

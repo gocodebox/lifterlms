@@ -13,33 +13,42 @@
 class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 
 	/**
-	 * Test that the notifications query, using default args, calculates found rows.
+	 * Test that the notifications query, using default args, sets up a count_query
+	 * and does not use SQL_CALC_FOUND_ROWS.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
-	public function test_query_with_default_args_calculates_found_rows() {
+	public function test_query_with_default_args_sets_count_query() {
 		$query = new LLMS_Notifications_Query();
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
-		$this->assertSame( 0, strpos( $sql, 'SELECT SQL_CALC_FOUND_ROWS' ) );
+		$this->assertStringNotContainsString( 'SQL_CALC_FOUND_ROWS', $sql );
+
+		$count_query = LLMS_Unit_Test_Util::get_private_property_value( $query, 'count_query' );
+		$this->assertStringStartsWith( 'SELECT COUNT(*)', $count_query );
 	}
 
 	/**
-	 * Test that the notifications query, passing no_found_rows as true doesn't calculate found rows.
+	 * Test that the notifications query, passing no_found_rows as true, does not set count_query.
 	 *
 	 * @since 7.1.0
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
-	public function test_query_correctly_doesnt_calculate_found_rows() {
+	public function test_query_correctly_doesnt_set_count_query() {
 		$query = new LLMS_Notifications_Query(
 			array(
 				'no_found_rows' => true,
 			)
 		);
 		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
-		$this->assertSame( false, strpos( $sql, 'SQL_CALC_FOUND_ROWS' ) );
+		$this->assertStringNotContainsString( 'SQL_CALC_FOUND_ROWS', $sql );
+
+		$count_query = LLMS_Unit_Test_Util::get_private_property_value( $query, 'count_query' );
+		$this->assertEmpty( $count_query );
 	}
 
 	/**

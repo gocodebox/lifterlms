@@ -290,15 +290,18 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test sql_select_columns() method
 	 *
+	 * SQL_CALC_FOUND_ROWS is no longer prepended.
+	 *
 	 * @since 4.5.1
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS is no longer added.
 	 *
 	 * @return void
 	 */
 	public function test_sql_select_columns() {
 
 		$query = $this->query();
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS *', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
-		$this->assertEquals( 'SQL_CALC_FOUND_ROWS column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
+		$this->assertEquals( '*', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' ) );
+		$this->assertEquals( 'column', LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns', array( 'column' ) ) );
 
 		// Query but avoiding calculating found rows.
 		$query = $this->query(
@@ -342,6 +345,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Prepare query to build a testable SQL
 	 *
 	 * @since 4.5.1
+	 * @since [version] Set count_query for found_results() support.
 	 *
 	 * @return string
 	 */
@@ -350,6 +354,10 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 		$select  = LLMS_Unit_Test_Util::call_method( $query, 'sql_select_columns' );
 		$orderby = LLMS_Unit_Test_Util::call_method( $query, 'sql_orderby' );
 		$limit   = LLMS_Unit_Test_Util::call_method( $query, 'sql_limit' );
+
+		if ( ! $query->get( 'no_found_rows' ) ) {
+			LLMS_Unit_Test_Util::set_private_property( $query, 'count_query', "SELECT COUNT(*) FROM {$wpdb->posts}" );
+		}
 
 		return "
 			SELECT {$select}
