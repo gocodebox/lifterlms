@@ -83,6 +83,23 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			$show_button = true;
 		}
 
+		/**
+		 * Filters whether the lesson action (mark complete/incomplete) button
+		 * should display in the admin student course reporting table.
+		 *
+		 * Add-ons that gate lesson completion (e.g. assignments) should hook
+		 * here to re-evaluate button visibility using publish-status-only checks,
+		 * ignoring `current_user_can()` so unpublished requirements don't block
+		 * the admin the way they wouldn't block the student.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool         $show_button Whether to show the button.
+		 * @param LLMS_Lesson  $lesson      Lesson instance.
+		 * @param LLMS_Student $student     Student being reported on.
+		 */
+		$show_button = apply_filters( 'llms_admin_report_show_lesson_action_button', $show_button, $lesson, $this->student );
+
 		if ( $show_button ) {
 
 			if ( $this->student->is_complete( $lesson->get( 'id' ) ) ) {
