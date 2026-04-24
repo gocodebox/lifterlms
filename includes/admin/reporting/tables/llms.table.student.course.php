@@ -87,11 +87,6 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		 * Filters whether the lesson action (mark complete/incomplete) button
 		 * should display in the admin student course reporting table.
 		 *
-		 * Add-ons that gate lesson completion (e.g. assignments) should hook
-		 * here to re-evaluate button visibility using publish-status-only checks,
-		 * ignoring `current_user_can()` so unpublished requirements don't block
-		 * the admin the way they wouldn't block the student.
-		 *
 		 * @since [version]
 		 *
 		 * @param bool         $show_button Whether to show the button.
