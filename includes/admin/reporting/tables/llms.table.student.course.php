@@ -71,12 +71,19 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param   obj $lesson LLMS_Lesson..
 	 * @return  string
 	 * @since   3.29.0
-	 * @version 3.29.0
 	 */
 	private function get_actions_html( $lesson ) {
 		$html = '';
 
-		if ( llms_show_mark_complete_button( $lesson ) ) {
+		$show_button = llms_show_mark_complete_button( $lesson );
+
+		// Unpublished quizzes don't block students from completing the lesson,
+		// so they shouldn't block admins either.
+		if ( ! $show_button && $lesson->has_quiz() && ! $lesson->is_quiz_enabled() ) {
+			$show_button = true;
+		}
+
+		if ( $show_button ) {
 
 			if ( $this->student->is_complete( $lesson->get( 'id' ) ) ) {
 				$action = 'incomplete';
