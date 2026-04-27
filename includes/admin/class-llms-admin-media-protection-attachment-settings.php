@@ -128,6 +128,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 					$old_thumb = $base_dir . '/' . $size_info['file'];
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
 					if ( ! $wp_filesystem->exists( $old_thumb ) ) {
+						error_log( 'Registered metadata thumbnail file does not exist. Skipping. ' . $old_thumb );
 						continue;
 					}
 					if ( ! $wp_filesystem->move( $old_thumb, $new_thumb ) ) {
