@@ -46,6 +46,17 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			'helps' => $protector->is_media_protected( $post->ID ) ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
 		);
 
+		/**
+		 * Filter the LifterLMS media protection attachment field.
+		 *
+		 * @since [version]
+		 *
+		 * @param array                $field     Attachment field definition.
+		 * @param WP_Post              $post      Attachment post object.
+		 * @param LLMS_Media_Protector $protector Media protector instance.
+		 */
+		$form_fields['llms_media_protection_post'] = apply_filters( 'llms_media_protection_attachment_field', $form_fields['llms_media_protection_post'], $post, $protector );
+
 		return $form_fields;
 	}
 
