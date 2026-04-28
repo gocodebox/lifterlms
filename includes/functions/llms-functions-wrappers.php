@@ -57,6 +57,10 @@ if ( ! function_exists( 'llms_exit' ) ) {
 	 * @return void
 	 */
 	function llms_exit( $status = null ) {
+		if ( is_null( $status ) ) {
+			exit();
+		}
+
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit( $status );
 	}
