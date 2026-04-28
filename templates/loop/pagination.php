@@ -31,7 +31,7 @@ $classes = apply_filters( 'llms_get_pagination_wrapper_classes', array( 'llms-pa
 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 echo paginate_links(
 	array(
-		'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+		'base'      => str_replace( 999999, '%#%', get_pagenum_link( 999999, false ) ),
 		'format'    => '?page=%#%',
 		'total'     => $wp_query->max_num_pages,
 		'current'   => max( 1, get_query_var( 'paged' ) ),
