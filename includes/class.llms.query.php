@@ -48,7 +48,6 @@ class LLMS_Query {
 			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
 			add_action( 'wp', array( $this, 'maybe_404_certificate' ), 50 );
 			add_action( 'wp', array( $this, 'maybe_redirect_certificate' ), 50 );
-			add_filter( 'redirect_canonical', array( $this, 'maybe_cancel_canonical_redirect' ), 10, 2 );
 
 		}
 
@@ -306,32 +305,6 @@ class LLMS_Query {
 				llms_redirect_and_exit( get_permalink( $new_post->ID ) );
 			}
 		}
-	}
-
-	/**
-	 * Cancel WordPress canonical redirect on the student dashboard when using plain permalinks.
-	 *
-	 * WordPress converts `?paged=N` into path-based `/page/N/` during canonical redirect.
-	 * With plain permalinks there are no rewrite rules to parse the path, so the page number
-	 * is silently lost and paginated endpoints always show page 1.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $redirect_url  The redirect URL.
-	 * @param string $requested_url The requested URL.
-	 * @return string|false The redirect URL, or false to cancel the redirect.
-	 */
-	public function maybe_cancel_canonical_redirect( $redirect_url, $requested_url ) {
-
-		if (
-			! get_option( 'permalink_structure' ) &&
-			is_page( llms_get_page_id( 'myaccount' ) ) &&
-			get_query_var( 'paged' )
-		) {
-			return false;
-		}
-
-		return $redirect_url;
 	}
 
 	/**
