@@ -222,7 +222,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.9.4 Unknown.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 * @since 7.1.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
-	 * @since [version] Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */

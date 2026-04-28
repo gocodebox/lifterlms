@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3129"
-entry: Avoid error protecting media image when multiple thumbnail of same size
-  exist, or registered thumbnail size is missing.

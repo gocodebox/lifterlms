@@ -98,7 +98,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.36.0 Date fields require array when sanitized.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
-	 * @since [version] Add order note when access expiration date is changed.
+	 * @since 10.0.0 Add order note when access expiration date is changed.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null

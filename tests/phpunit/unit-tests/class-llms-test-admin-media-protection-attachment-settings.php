@@ -7,14 +7,14 @@
  * @group admin
  * @group media_protection
  *
- * @since [version]
+ * @since 10.0.0
  */
 class LLMS_Test_Admin_Media_Protection_Attachment_Settings extends LLMS_UnitTestCase {
 
 	/**
 	 * Load the class file.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Admin_Media_Protection_Attachment_Settings extends LLMS_UnitTest
 	/**
 	 * Test the attachment field can be filtered.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */

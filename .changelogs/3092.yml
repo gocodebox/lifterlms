@@ -1,7 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3058"
-attributions:
-  - "@faisalahammad"
-entry: Show "Mark Complete" button when quiz requirements are already met.
