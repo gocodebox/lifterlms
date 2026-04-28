@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Avoids PHP warning for passing null to exit() when using llms_exit().
