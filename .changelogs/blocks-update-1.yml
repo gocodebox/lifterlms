@@ -1,4 +1,0 @@
-significance: patch
-type: dev
-entry: Adding actions for add-ons to insert additional blocks when a post is
-  migrated to the block editor.

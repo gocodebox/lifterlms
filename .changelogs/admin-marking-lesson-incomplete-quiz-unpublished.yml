@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#3127"
-entry: Allow admin to mark lesson complete with unpublished quiz.

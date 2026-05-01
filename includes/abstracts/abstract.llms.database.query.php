@@ -32,7 +32,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Set by subclasses in prepare_query() from the same clause
 	 * variables (FROM, JOIN, WHERE) used for the main query.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @var string
 	 */
@@ -170,7 +170,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * main query, set by subclasses in prepare_query().
 	 *
 	 * @since 6.0.0
-	 * @since [version] Replaced FOUND_ROWS() with $this->count_query.
+	 * @since 10.0.0 Replaced FOUND_ROWS() with $this->count_query.
 	 *
 	 * @return int
 	 */
@@ -189,7 +189,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Retrieve the prepared SQL for the SELECT clause.
 	 *
 	 * @since 4.5.1
-	 * @since [version] Removed SQL_CALC_FOUND_ROWS; found results are now counted via a separate query.
+	 * @since 10.0.0 Removed SQL_CALC_FOUND_ROWS; found results are now counted via a separate query.
 	 *
 	 * @param string $select_columns Optional. Columns to select. Default '*'.
 	 * @return string
@@ -218,7 +218,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since 3.16.0
 	 * @since 4.5.1 Drop use of `$this->get_filter('limit')` in favor of `"llms_{$this->id}_query_limit"`.
-	 * @since [version] Returns empty string for count_only queries.
+	 * @since 10.0.0 Returns empty string for count_only queries.
 	 *
 	 * @return string
 	 */
@@ -302,7 +302,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Also warns when a subclass does not set $this->count_query, which means
 	 * get_found_results() and get_max_pages() will return 0.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */

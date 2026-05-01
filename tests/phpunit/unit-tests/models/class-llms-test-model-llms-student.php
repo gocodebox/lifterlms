@@ -211,7 +211,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test get_enrollments() returns accurate found count without SQL_CALC_FOUND_ROWS.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */

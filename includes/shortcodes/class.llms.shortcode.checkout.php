@@ -128,7 +128,7 @@ class LLMS_Shortcode_Checkout {
 			 * @param bool $block_checkout Whether or not blocking the checkout form when a course is at capacity.
 			 * @param LLMS_Access_Plan $plan The access plan.
 			 *
-			 * @since [version]
+			 * @since 10.0.0
 			 */
 			if ( apply_filters( 'llms_checkout_block_course_capacity_checkout', true, $atts['plan'] ) ) {
 				return;

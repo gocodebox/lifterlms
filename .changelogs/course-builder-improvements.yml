@@ -1,9 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#3033"
-  - "#3056"
-  - "#3097"
-  - "#2938"
-  - "#3030"
-entry: Various course builder fixes, with quizzes set to published by default.

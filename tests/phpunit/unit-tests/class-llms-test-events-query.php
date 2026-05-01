@@ -44,7 +44,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.7.0
 	 * @since 6.0.0 Don't call deprecated `preprare_query()`.
-	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
+	 * @since 10.0.0 Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test found_results and max_pages with real events data.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that no_found_rows skips counting with real data.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.7.0
 	 * @since 6.0.0 Don't call deprecated `preprare_query()`.
-	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
+	 * @since 10.0.0 Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */

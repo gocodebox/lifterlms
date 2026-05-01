@@ -159,7 +159,7 @@ define( [
 			/**
 			 * Re-render the settings subview when permalink updates after saving.
 			 *
-			 * @since [version]
+			 * @since 10.0.0
 			 *
 			 * @return {Void}
 			 */
