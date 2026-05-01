@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "#3057"
+attributions:
+  - "@faisalahammad"
+entry: Strip formatting when pasting into Course Builder title fields.

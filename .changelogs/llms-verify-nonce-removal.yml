@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Using standard WP nonce check functions instead of llms_verify_nonce.

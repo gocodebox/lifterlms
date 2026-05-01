@@ -1,56 +1,6 @@
 LifterLMS Changelog
 ===================
 
-v10.0.0 - 2026-04-28
---------------------
-
-##### New Features
-
-+ Lesson content can be edited within the Course Builder for new lessons, or existing lessons with no existing content.
-+ Adding tab for Events.
-+ Added an explicit 'Any' trigger option for engagements so one engagement can apply to all matching courses, memberships, lessons, quizzes, sections, access plans, or tracks. [#3109](https://github.com/gocodebox/lifterlms/issues/3109)
-+ Adding new "focus mode" when viewing lessons and quizzes in a course.
-+ Added [lifterlms_lesson_navigation] shortcode.
-
-##### Updates and Enhancements
-
-+ Adding order note when changing the access expiration date.
-+ Add additional check for course capacity on the checkout page. [#3086](https://github.com/gocodebox/lifterlms/issues/3086)
-+ Allow admin to mark lesson complete with unpublished quiz. [#3127](https://github.com/gocodebox/lifterlms/issues/3127)
-+ Scroll to the top of the quiz UI area when a quiz question is loaded.
-+ Various course builder fixes, with quizzes set to published by default. [#3033](https://github.com/gocodebox/lifterlms/issues/3033), [#3056](https://github.com/gocodebox/lifterlms/issues/3056), [#3097](https://github.com/gocodebox/lifterlms/issues/3097), [#2938](https://github.com/gocodebox/lifterlms/issues/2938), [#3030](https://github.com/gocodebox/lifterlms/issues/3030)
-+ Using standard WP nonce check functions instead of llms_verify_nonce.
-+ Removing use of SQL_CALC_FOUND_ROWS due to depreciation in MySQL and observed unreliability of count results.
-+ Updating helper and rest libraries, which switch to using standard WP nonce check functions.
-
-##### Bug Fixes
-
-+ Show "Mark Complete" button when quiz requirements are already met. Thanks [@faisalahammad](https://github.com/faisalahammad)! [#3058](https://github.com/gocodebox/lifterlms/issues/3058)
-+ Strip formatting when pasting into Course Builder title fields. Thanks [@faisalahammad](https://github.com/faisalahammad)! [#3057](https://github.com/gocodebox/lifterlms/issues/3057)
-+ Avoid "block not found" error in the theme template editor.
-+ Avoid error protecting media image when multiple thumbnail of same size exist, or registered thumbnail size is missing. [#3129](https://github.com/gocodebox/lifterlms/issues/3129)
-+ Close lesson settings panel when lesson has been trashed.
-+ Fix lifterlms_loop_columns filter styling to change the number of columns in a loop (ie. Course Catalog). [#3101](https://github.com/gocodebox/lifterlms/issues/3101)
-+ Fix pagination for My Courses when using Plain style permalinks. [#3134](https://github.com/gocodebox/lifterlms/issues/3134)
-+ Avoids PHP warning for passing null to exit() when using llms_exit().
-+ Avoid "Launch Course Builder" showing on orphaned lessons. [#2943](https://github.com/gocodebox/lifterlms/issues/2943)
-
-##### Deprecations
-
-+ Removing unused LLMS_Update class. [#1981](https://github.com/gocodebox/lifterlms/issues/1981)
-
-##### Developer Notes
-
-+ Adding actions for add-ons to insert additional blocks when a post is migrated to the block editor.
-+ Filter for modifying the field for a Media attachement.
-
-##### Updated Templates
-
-+ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/10.0.0/templates/course/outline-list-small.php)
-+ [templates/loop/pagination.php](https://github.com/gocodebox/lifterlms/blob/10.0.0/templates/loop/pagination.php)
-+ [templates/single-lesson-focus.php](https://github.com/gocodebox/lifterlms/blob/10.0.0/templates/single-lesson-focus.php)
-
-
 v9.2.3 - 2026-04-07
 -------------------
 

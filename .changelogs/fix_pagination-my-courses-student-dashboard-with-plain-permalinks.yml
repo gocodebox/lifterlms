@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3134"
+entry: Fix pagination for My Courses when using Plain style permalinks.

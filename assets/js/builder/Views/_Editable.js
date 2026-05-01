@@ -9,8 +9,8 @@
  * @since 3.16.0
  * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @since 10.0.0 Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
- * @version 10.0.0
+ * @since [version] Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
+ * @version [version]
  */
 define( [], function() {
 

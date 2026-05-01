@@ -293,7 +293,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * SQL_CALC_FOUND_ROWS is no longer prepended.
 	 *
 	 * @since 4.5.1
-	 * @since 10.0.0 Updated: SQL_CALC_FOUND_ROWS is no longer added.
+	 * @since [version] Updated: SQL_CALC_FOUND_ROWS is no longer added.
 	 *
 	 * @return void
 	 */
@@ -316,7 +316,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Pagination: found_results, max_pages, and per-page counts.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -346,7 +346,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * When `no_found_rows` is true, the count query is skipped.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -367,7 +367,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * With no matching posts, found_results and max_pages are zero.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -382,7 +382,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * The main query string must not use SQL_CALC_FOUND_ROWS.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -397,7 +397,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * sql_limit() returns an empty string when `count_only` is true.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -411,7 +411,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * A subclass that does not set count_query triggers _doing_it_wrong.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -434,7 +434,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Filters that reintroduce SQL_CALC_FOUND_ROWS trigger a deprecation and FOUND_ROWS() fallback.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -460,7 +460,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Filter callback: prepend SQL_CALC_FOUND_ROWS to the SELECT for {@see test_filter_reintroducing_sql_calc_found_rows()}.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @param string              $sql   Query SQL.
 	 * @param LLMS_Database_Query $query Query instance.
@@ -502,7 +502,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Prepare query to build a testable SQL
 	 *
 	 * @since 4.5.1
-	 * @since 10.0.0 Set count_query for found_results() support.
+	 * @since [version] Set count_query for found_results() support.
 	 *
 	 * @return string
 	 */

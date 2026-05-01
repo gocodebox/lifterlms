@@ -3,8 +3,8 @@
  *
  * @package LifterLMS
  *
- * @since 10.0.0
- * @version 10.0.0
+ * @since [version]
+ * @version [version]
  */
 ( function() {
 	'use strict';

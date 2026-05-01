@@ -71,7 +71,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param   obj $lesson LLMS_Lesson..
 	 * @return  string
 	 * @since   3.29.0
-	 * @version 10.0.0
+	 * @version [version]
 	 */
 	private function get_actions_html( $lesson ) {
 		$html = '';
@@ -93,7 +93,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 		 * Filters whether the lesson action (mark complete/incomplete) button
 		 * should display in the admin student course reporting table.
 		 *
-		 * @since 10.0.0
+		 * @since [version]
 		 *
 		 * @param bool         $show_button Whether to show the button.
 		 * @param LLMS_Lesson  $lesson      Lesson instance.

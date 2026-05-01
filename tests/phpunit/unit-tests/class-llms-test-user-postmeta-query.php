@@ -7,14 +7,14 @@
  * @group query
  * @group dbquery
  *
- * @since 10.0.0
+ * @since [version]
  */
 class LLMS_Test_User_Postmeta_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Teardown.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_User_Postmeta_Query extends LLMS_UnitTestCase {
 	/**
 	 * Insert mock user postmeta rows.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @param int $count   Number of rows.
 	 * @param int $user_id User ID.
@@ -56,7 +56,7 @@ class LLMS_Test_User_Postmeta_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test found_results and max_pages with pagination.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_User_Postmeta_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test no_found_rows skips counting.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_User_Postmeta_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test count_only returns accurate count.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

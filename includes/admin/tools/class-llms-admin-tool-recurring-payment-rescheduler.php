@@ -140,7 +140,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 *
 	 * @since 4.6.0
 	 * @since 4.7.0 Added `SQL_CALC_FOUND_ROWS` and improved query to exclude results with a completed payment plan.
-	 * @since 10.0.0 Replaced SQL_CALC_FOUND_ROWS with a separate COUNT(*) query.
+	 * @since [version] Replaced SQL_CALC_FOUND_ROWS with a separate COUNT(*) query.
 	 *
 	 * @return object[]
 	 */

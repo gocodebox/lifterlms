@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since 10.0.0
- * @version 10.0.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -123,7 +123,7 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 						/**
 						 * Renders the post content in focus mode.
 						 *
-						 * @since 10.0.0
+						 * @since [version]
 						 *
 						 * @see llms_focus_mode_render_content() Default handler.
 						 */

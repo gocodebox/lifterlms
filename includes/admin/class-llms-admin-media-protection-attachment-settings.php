@@ -49,7 +49,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		/**
 		 * Filter the LifterLMS media protection attachment field.
 		 *
-		 * @since 10.0.0
+		 * @since [version]
 		 *
 		 * @param array                $field     Attachment field definition.
 		 * @param WP_Post              $post      Attachment post object.

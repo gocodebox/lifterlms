@@ -8,14 +8,14 @@
  * @group query
  * @group dbquery
  *
- * @since 10.0.0
+ * @since [version]
  */
 class LLMS_Test_Quiz_Attempt_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Teardown.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Quiz_Attempt_Query extends LLMS_UnitTestCase {
 	/**
 	 * Create mock quiz attempts for a student.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @param int $count Number of attempts.
 	 * @return array { quiz_id, lesson_id, student_id }
@@ -57,7 +57,7 @@ class LLMS_Test_Quiz_Attempt_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test found_results and max_pages with pagination.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class LLMS_Test_Quiz_Attempt_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test no_found_rows skips counting.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Test_Quiz_Attempt_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test count_only returns accurate count.
 	 *
-	 * @since 10.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

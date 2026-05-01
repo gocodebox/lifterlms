@@ -234,7 +234,7 @@ define( [
 		 * Used when the permalink is updated after saving so the settings
 		 * panel reflects the new permalink without a full re-render.
 		 *
-		 * @since 10.0.0
+		 * @since [version]
 		 *
 		 * @return {Void}
 		 */

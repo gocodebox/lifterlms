@@ -1,0 +1,5 @@
+significance: patch
+type: deprecated
+links:
+  - "#1981"
+entry: Removing unused LLMS_Update class.

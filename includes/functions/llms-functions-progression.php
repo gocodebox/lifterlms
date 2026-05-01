@@ -38,7 +38,7 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * if passing is not required).
  *
  * @since 3.29.0
- * @since 10.0.0 Show button when quiz requirements are already met. Fixes issue #3058.
+ * @since [version] Show button when quiz requirements are already met. Fixes issue #3058.
  *
  * @param LLMS_Lesson $lesson LLMS_Lesson instance.
  * @return boolean

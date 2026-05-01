@@ -1,0 +1,4 @@
+significance: major
+type: changed
+entry: Removing use of SQL_CALC_FOUND_ROWS due to depreciation in MySQL and
+  observed unreliability of count results.
