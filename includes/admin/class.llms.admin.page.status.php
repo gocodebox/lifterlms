@@ -74,7 +74,7 @@ class LLMS_Admin_Page_Status {
 	 */
 	private static function do_tool() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) || ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'llms_tool' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
@@ -265,7 +265,7 @@ class LLMS_Admin_Page_Status {
 	 */
 	private static function remove_log_file() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'delete_log', 'GET' ) || ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'delete_log' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 

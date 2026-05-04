@@ -12,15 +12,34 @@ define( [], function() {
 			title: LLMS.l10n.translate( 'General Settings' ),
 			toggleable: true,
 			fields: [
-				[
-					{
-						attribute: 'permalink',
-						id: 'permalink',
-						type: 'permalink',
-			},
-				], [
-					{
-						attribute: 'video_embed',
+			[
+				{
+					attribute: 'permalink',
+					id: 'permalink',
+					type: 'permalink',
+		},
+			], [
+				{
+					attribute: 'content',
+					id: 'content',
+					label: LLMS.l10n.translate( 'Content' ),
+					type: 'editor',
+					condition: function() {
+						return '' === this.get( 'content' ) || 'yes' === this.get( 'content_added_in_builder' );
+					},
+		},
+			], [
+				{
+					id: 'content-page-builder-notice',
+					label: LLMS.l10n.translate( 'Content' ),
+					type: 'page_builder_notice',
+					condition: function() {
+						return '' !== this.get( 'content' ) && 'yes' !== this.get( 'content_added_in_builder' );
+					},
+		},
+			], [
+				{
+					attribute: 'video_embed',
 						id: 'video-embed',
 						label: LLMS.l10n.translate( 'Video Embed URL' ),
 						type: 'video_embed',
@@ -194,12 +213,22 @@ define( [], function() {
 						date_format: 'h:i A',
 						id: 'time-available',
 						label: LLMS.l10n.translate( 'Time' ),
-						type: 'datepicker',
-			},
-				],
-			],
+			type: 'datepicker',
 		},
+			], [
+				{
+					label: LLMS.l10n.translate( 'Associated Event(s)' ),
+					id: 'llms-events-promo',
+					type: 'heading',
+					detail: LLMS.l10n.translate( 'Schedule events for your lessons with the LifterLMS Events add-on.' ) + ' <a href="https://lifterlms.com/product/lifterlms-events/?utm_source=LifterLMS%20Plugin&utm_medium=Lesson%20Builder&utm_campaign=Events%20Addon%20Upsell" target="_blank">' + LLMS.l10n.translate( 'Learn More' ) + '</a>',
+					condition: function() {
+						return ! window.llms_builder.events;
+					},
+				},
+			],
+		],
+	},
 
-	} );
+} );
 
 } );

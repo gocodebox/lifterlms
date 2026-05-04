@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
 					$restricted  = llms_page_restricted( $lesson->get( 'id' ) );
 					?>
 
-					<ul class="llms-lesson<?php echo $current ? ' current-lesson' : ''; ?>">
+					<ul class="llms-lesson<?php echo $current ? ' current-lesson' : ''; ?><?php echo $restricted['is_restricted'] ? ' llms-lesson-locked' : ''; ?>"<?php echo $restricted['is_restricted'] ? ' data-tooltip-msg="' . esc_html( wp_strip_all_tags( llms_get_restriction_message( $restricted ) ) ) . '"' : ''; ?>>
 
 						<li>
 

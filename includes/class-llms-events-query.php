@@ -137,6 +137,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * @since 3.36.0
 	 * @since 4.7.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */
@@ -144,9 +145,16 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 
 		global $wpdb;
 
+		$from  = "FROM {$wpdb->prefix}lifterlms_events";
+		$where = $this->sql_where();
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$this->count_query = "SELECT COUNT(*) {$from} {$where}";
+		}
+
 		return "SELECT {$this->sql_select_columns( 'id' )}
-				FROM {$wpdb->prefix}lifterlms_events
-				{$this->sql_where()}
+				{$from}
+				{$where}
 				{$this->sql_orderby()}
 				{$this->sql_limit()};";
 

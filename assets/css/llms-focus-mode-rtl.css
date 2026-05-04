@@ -1,0 +1,542 @@
+.llms-focus-mode {
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+.llms-focus-mode .llms-focus-mode-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+.llms-focus-mode .llms-focus-mode-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 20px;
+  height: 60px;
+  min-height: 60px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  z-index: 20;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-focus-mode-header-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  white-space: nowrap;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-focus-mode-header-left > .clear {
+  display: none;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-focus-mode-header-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 0;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-progress {
+  width: 100%;
+  max-width: 300px;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-progress .llms-progress-bar {
+  width: 100%;
+  min-width: 20px;
+}
+.llms-focus-mode .llms-focus-mode-header .llms-focus-mode-header-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #1d2327;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn:hover {
+  background: #f0f0f0;
+  border-color: #ccc;
+  color: #1d2327;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn .llms-focus-mode-nav-icon {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-nav-btn .llms-focus-mode-nav-label {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-nav-btn {
+    padding: 6px 8px;
+  }
+}
+.llms-focus-mode .llms-focus-mode-nav-btn.llms-lesson-locked {
+  cursor: not-allowed;
+  position: relative;
+  color: #a7aaad;
+  border-color: #e5e5e5;
+  background: #f9f9f9;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn.llms-lesson-locked .llms-tooltip {
+  top: auto;
+  bottom: auto;
+  right: auto;
+  left: 0;
+  -webkit-transform: none;
+          transform: none;
+  white-space: normal;
+  min-width: 200px;
+  max-width: 200px;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn.llms-lesson-locked .llms-tooltip.show {
+  top: auto;
+  bottom: -112px;
+}
+.llms-focus-mode .llms-focus-mode-nav-btn.llms-lesson-locked .llms-tooltip:after {
+  bottom: auto;
+  top: -8px;
+  right: auto;
+  left: 12px;
+  -webkit-transform: none;
+          transform: none;
+  border-top: 0;
+  border-bottom: 8px solid #2a2a2a;
+}
+.llms-focus-mode .llms-focus-mode-back-link {
+  text-decoration: none;
+  color: #0073aa;
+  font-weight: 500;
+}
+.llms-focus-mode .llms-focus-mode-back-link:hover {
+  color: #005177;
+}
+.llms-focus-mode .llms-focus-mode-body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow: hidden;
+  height: calc(100dvh - 60px);
+}
+.llms-focus-mode .llms-focus-mode-sidebar {
+  position: relative;
+  width: 350px;
+  min-width: 350px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  background-color: #fff;
+  border-left: 1px solid #e5e5e5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: visible;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-header {
+  padding: 15px 20px;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #e5e5e5;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-header h3 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content .llms-widget-syllabus:not(.llms-widget-syllabus--collapsible) .section-title {
+  font-weight: normal;
+  margin: 20px 0 10px;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content .llms-widget-syllabus:not(.llms-widget-syllabus--collapsible) .llms-section:first-child .section-title {
+  margin-top: 10px;
+}
+.llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content .llms-lesson-locked {
+  cursor: not-allowed;
+}
+.llms-focus-mode .llms-focus-mode-sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  left: -14px;
+  z-index: 11;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fff;
+  -webkit-box-shadow: -2px 0 4px rgba(0, 0, 0, 0.08);
+          box-shadow: -2px 0 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+  -webkit-transition: background-color 0.15s ease, color 0.15s ease, -webkit-box-shadow 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, -webkit-box-shadow 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, -webkit-box-shadow 0.15s ease;
+}
+.llms-focus-mode .llms-focus-mode-sidebar-toggle:hover {
+  color: #1d2327;
+  background: #f0f0f0;
+  -webkit-box-shadow: -2px 0 6px rgba(0, 0, 0, 0.12);
+          box-shadow: -2px 0 6px rgba(0, 0, 0, 0.12);
+}
+.llms-focus-mode .llms-focus-mode-sidebar-toggle svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.llms-focus-mode .llms-focus-mode-sidebar-toggle .llms-chevron-left {
+  display: block;
+}
+.llms-focus-mode .llms-focus-mode-sidebar-toggle .llms-chevron-right {
+  display: none;
+}
+.llms-focus-mode .llms-focus-mode-main {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+}
+.llms-focus-mode .llms-focus-mode-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 40px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-content {
+    padding: 20px;
+  }
+}
+.llms-focus-mode .llms-focus-mode-content .llms-focus-mode-title {
+  margin: 0 0 30px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1d2327;
+}
+.llms-focus-mode .llms-focus-mode-content .llms-lesson-content {
+  max-width: 100%;
+}
+.llms-focus-mode .llms-focus-mode-content .llms-lesson-content img {
+  max-width: 100%;
+  height: auto;
+}
+.llms-focus-mode .llms-focus-mode-footer {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.llms-focus-mode .llms-focus-mode-footer .clear {
+  display: none;
+}
+.llms-focus-mode .llms-focus-mode-footer .llms-lesson-button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 20px 10px;
+}
+.llms-focus-mode .llms-focus-mode-footer .llms-lesson-button-wrapper .llms-form-field {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-footer:not(.llms-focus-mode-footer--mobile) {
+    display: none;
+  }
+}
+.llms-focus-mode .llms-focus-mode-footer.llms-focus-mode-footer--mobile {
+  display: none;
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-footer.llms-focus-mode-footer--mobile {
+    display: block;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+  width: 48px;
+  min-width: 48px;
+  overflow: hidden;
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-header,
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content {
+  display: none;
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle {
+  position: static;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  background: #fafafa;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  left: auto;
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle .llms-chevron-left {
+  display: none;
+}
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle .llms-chevron-right {
+  display: block;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-body {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar {
+  border-left: 0;
+  border-right: 1px solid #e5e5e5;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar-toggle {
+  left: auto;
+  right: -14px;
+  -webkit-box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar-toggle:hover {
+  -webkit-box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12);
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar-toggle .llms-chevron-left {
+  display: none;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar-toggle .llms-chevron-right {
+  display: block;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+  border-right: 0;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle {
+  right: auto;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle .llms-chevron-left {
+  display: block;
+}
+.llms-focus-mode.llms-focus-mode-sidebar-right.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-toggle .llms-chevron-right {
+  display: none;
+}
+.llms-focus-mode.llms-focus-mode-width-768 .llms-focus-mode-content .llms-focus-mode-title,
+.llms-focus-mode.llms-focus-mode-width-768 .llms-focus-mode-content .llms-lesson-content {
+  max-width: 768px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.llms-focus-mode.llms-focus-mode-width-960 .llms-focus-mode-content .llms-focus-mode-title,
+.llms-focus-mode.llms-focus-mode-width-960 .llms-focus-mode-content .llms-lesson-content {
+  max-width: 960px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.llms-focus-mode.llms-focus-mode-width-1180 .llms-focus-mode-content .llms-focus-mode-title,
+.llms-focus-mode.llms-focus-mode-width-1180 .llms-focus-mode-content .llms-lesson-content {
+  max-width: 1180px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.llms-focus-mode.llms-focus-mode-width-1600 .llms-focus-mode-content .llms-focus-mode-title,
+.llms-focus-mode.llms-focus-mode-width-1600 .llms-focus-mode-content .llms-lesson-content {
+  max-width: 1600px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (max-width: 768px) {
+  .llms-focus-mode .llms-focus-mode-body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow-y: auto;
+  }
+  .llms-focus-mode .llms-focus-mode-main {
+    -webkit-box-flex: 0;
+        -ms-flex: none;
+            flex: none;
+    overflow-y: visible;
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1;
+  }
+  .llms-focus-mode .llms-focus-mode-sidebar {
+    width: 100%;
+    min-width: 100%;
+    border-left: 0;
+    border-top: 1px solid #e5e5e5;
+    overflow: hidden;
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+  }
+  .llms-focus-mode .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content {
+    overflow-y: visible;
+  }
+  .llms-focus-mode .llms-focus-mode-sidebar-toggle {
+    display: none;
+  }
+  .llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+    width: 100%;
+    min-width: 100%;
+  }
+  .llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-header,
+.llms-focus-mode.llms-sidebar-collapsed .llms-focus-mode-sidebar .llms-focus-mode-sidebar-content {
+    display: block;
+  }
+  .llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .llms-focus-mode.llms-focus-mode-sidebar-right .llms-focus-mode-sidebar {
+    border-right: 0;
+    border-top: 1px solid #e5e5e5;
+  }
+}
+.llms-focus-mode .llms-note-button.position-fixed__top, .llms-focus-mode .llms-note-wrapper {
+  top: 68px;
+}
+@media screen and (max-width: 782px) {
+  .llms-focus-mode .llms-note-button.position-fixed__bottom {
+    bottom: 86px;
+  }
+}
+
+.admin-bar.llms-focus-mode .llms-focus-mode-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: calc(100dvh - 32px);
+  overflow: hidden;
+}
+.admin-bar.llms-focus-mode .llms-note-button.position-fixed__top, .admin-bar.llms-focus-mode .llms-note-wrapper {
+  top: 100px;
+}
+@media screen and (max-width: 782px) {
+  .admin-bar.llms-focus-mode .llms-note-button.position-fixed__top, .admin-bar.llms-focus-mode .llms-note-wrapper {
+    top: 112px;
+  }
+  .admin-bar.llms-focus-mode .llms-focus-mode-wrapper {
+    height: calc(100dvh - 46px);
+  }
+}

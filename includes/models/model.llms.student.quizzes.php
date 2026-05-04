@@ -34,11 +34,11 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			array(
 				'student_id' => $this->get_id(),
 				'quiz_id'    => $quiz_id,
-				'per_page'   => 1,
+				'count_only' => true,
 			)
 		);
 
-		return $query->get_found_results();
+		return $query->get_count_only_result();
 
 	}
 

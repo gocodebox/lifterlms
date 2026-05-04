@@ -1308,6 +1308,7 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  *
  * @since 3.8.0
  * @since 3.35.0 Sanitize nonce field before verification.
+ * @deprecated 10.0.0 Use `isset()` and `wp_verify_nonce()` directly.
  *
  * @param string $nonce          Name of the nonce field.
  * @param string $action         Name of the action.
@@ -1315,6 +1316,8 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  * @return null|false|int
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
+
+	_deprecated_function( __FUNCTION__, '10.0.0', 'isset() and wp_verify_nonce()' );
 
 	/**
 	 * Filter whether to use $_SERVER instead of getenv when fetching an environment variable.

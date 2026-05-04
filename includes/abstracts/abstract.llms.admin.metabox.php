@@ -466,7 +466,7 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	protected function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) || ! current_user_can( $this->capability, $post_id ) ) {
+		if ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) || ! current_user_can( $this->capability, $post_id ) ) {
 			return -1;
 		}
 

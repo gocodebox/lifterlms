@@ -257,7 +257,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 */
 	public function save( $post_id ) {
 
-		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! isset( $_REQUEST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return false;
 		}
 

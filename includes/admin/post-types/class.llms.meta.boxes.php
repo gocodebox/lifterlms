@@ -285,7 +285,7 @@ class LLMS_Admin_Meta_Boxes {
 			return false;
 		} elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
 			return false;
-		} elseif ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		} elseif ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return false;
 		} elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
 			return false;

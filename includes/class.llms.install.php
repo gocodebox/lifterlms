@@ -691,7 +691,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 			return;
 		}
 
-		if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
+		if ( ! isset( $_REQUEST['llms-db-update'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms-db-update'] ) ), 'do_db_updates' ) ) {
 			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
