@@ -137,6 +137,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 *
 	 * @since 3.16.0
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */
@@ -144,11 +145,19 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		$select = 'SELECT SQL_CALC_FOUND_ROWS qa.id';
-		$from   = "FROM {$wpdb->prefix}lifterlms_quiz_attempts qa";
-		$joins  = $this->sql_joins();
+		$from  = "FROM {$wpdb->prefix}lifterlms_quiz_attempts qa";
+		$joins = $this->sql_joins();
+		$where = $this->sql_where();
 
-		return "{$select} {$from} {$joins} {$this->sql_where()} {$this->sql_orderby()} {$this->sql_limit()};";
+		if ( $this->get( 'count_only' ) ) {
+			return "SELECT COUNT(*) AS total {$from} {$joins} {$where};";
+		}
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$this->count_query = "SELECT COUNT(*) {$from} {$joins} {$where}";
+		}
+
+		return "SELECT qa.id {$from} {$joins} {$where} {$this->sql_orderby()} {$this->sql_limit()};";
 	}
 
 	/**

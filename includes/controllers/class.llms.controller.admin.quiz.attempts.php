@@ -40,7 +40,10 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 */
 	public function maybe_run_actions() {
 
-		if ( ! llms_verify_nonce( '_llms_quiz_attempt_nonce', 'llms_quiz_attempt_actions', 'POST' ) ) {
+		if ( ! isset( $_REQUEST['_llms_quiz_attempt_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_quiz_attempt_nonce'] ) ), 'llms_quiz_attempt_actions' ) ) {
 			return;
 		}
 

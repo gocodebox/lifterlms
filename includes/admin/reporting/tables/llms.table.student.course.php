@@ -71,12 +71,37 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param   obj $lesson LLMS_Lesson..
 	 * @return  string
 	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @version 10.0.0
 	 */
 	private function get_actions_html( $lesson ) {
 		$html = '';
 
-		if ( llms_show_mark_complete_button( $lesson ) ) {
+		// Evaluate against the student's progress, not the current (admin) user's.
+		// is_quiz_enabled() requires publish status, so unpublished quizzes are ignored.
+		$show_button = true;
+
+		if ( $lesson->is_quiz_enabled() ) {
+			$attempt          = $this->student->quizzes()->get_best_attempt( $lesson->get( 'quiz' ) );
+			$passing_required = llms_parse_bool( $lesson->get( 'require_passing_grade' ) );
+
+			if ( ! $attempt || ( $passing_required && ! $attempt->is_passing() ) ) {
+				$show_button = false;
+			}
+		}
+
+		/**
+		 * Filters whether the lesson action (mark complete/incomplete) button
+		 * should display in the admin student course reporting table.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param bool         $show_button Whether to show the button.
+		 * @param LLMS_Lesson  $lesson      Lesson instance.
+		 * @param LLMS_Student $student     Student being reported on.
+		 */
+		$show_button = apply_filters( 'llms_admin_report_show_lesson_action_button', $show_button, $lesson, $this->student );
+
+		if ( $show_button ) {
 
 			if ( $this->student->is_complete( $lesson->get( 'id' ) ) ) {
 				$action = 'incomplete';

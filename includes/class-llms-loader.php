@@ -37,7 +37,6 @@ class LLMS_Loader {
 		'llms_post_model'                    => 'includes/abstracts/abstract.llms.post.model.php',
 		'llms_shortcode_course_element'      => 'includes/abstracts/abstract.llms.shortcode.course.element.php',
 		'llms_shortcode'                     => 'includes/abstracts/abstract.llms.shortcode.php',
-		'llms_update'                        => 'includes/abstracts/abstract.llms.update.php',
 
 		// Missing "_Admin_" from class name.
 		'llms_export_api'                    => 'includes/admin/class-llms-export-api.php',
@@ -363,6 +362,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.reviews.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-events-promo.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.user.custom.fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.student.bulk.enroll.php';

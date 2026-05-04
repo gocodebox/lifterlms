@@ -80,7 +80,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	 */
 	public static function export() {
 
-		if ( empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! llms_verify_nonce( 'lifterlms_export_nonce', 'lifterlms_csv_export_data' ) ) {
+		if ( empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! isset( $_REQUEST['lifterlms_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_export_nonce'] ) ), 'lifterlms_csv_export_data' ) ) {
 			return false;
 		}
 

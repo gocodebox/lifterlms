@@ -222,12 +222,21 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.9.4 Unknown.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 * @since 7.1.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */
 	protected function prepare_query() {
 
 		global $wpdb;
+
+		$from  = "FROM {$wpdb->prefix}lifterlms_notifications AS n";
+		$join  = "LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id";
+		$where = $this->sql_where();
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$this->count_query = "SELECT COUNT(*) {$from} {$join} {$where}";
+		}
 
 		$vars = array(
 			$this->get_skip(),
@@ -237,9 +246,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- SQL is prepared in other functions.
 		$sql = $wpdb->prepare(
 			"SELECT {$this->sql_select_columns()}
-			FROM {$wpdb->prefix}lifterlms_notifications AS n
-			LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id
-			{$this->sql_where()}
+			{$from}
+			{$join}
+			{$where}
 			{$this->sql_orderby()}
 			LIMIT %d, %d
 			;",

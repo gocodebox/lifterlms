@@ -27,6 +27,18 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	protected $id = 'database';
 
 	/**
+	 * SQL query used to count total found results.
+	 *
+	 * Set by subclasses in prepare_query() from the same clause
+	 * variables (FROM, JOIN, WHERE) used for the main query.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @var string
+	 */
+	protected $count_query = '';
+
+	/**
 	 * Retrieve query argument default values.
 	 *
 	 * @since 6.0.0
@@ -152,31 +164,37 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	}
 
 	/**
-	 * Perform a SQL to retrieve the total number of found results for the given query.
+	 * Retrieve the total number of found results for the given query.
+	 *
+	 * Uses a separate COUNT(*) query built from the same SQL clauses as the
+	 * main query, set by subclasses in prepare_query().
 	 *
 	 * @since 6.0.0
+	 * @since 10.0.0 Replaced FOUND_ROWS() with $this->count_query.
 	 *
 	 * @return int
 	 */
 	protected function found_results() {
 
 		global $wpdb;
-		return (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
+
+		if ( empty( $this->count_query ) ) {
+			return 0;
+		}
+
+		return (int) $wpdb->get_var( $this->count_query ); // db call ok; no-cache ok.
 	}
 
 	/**
 	 * Retrieve the prepared SQL for the SELECT clause.
 	 *
 	 * @since 4.5.1
+	 * @since 10.0.0 Removed SQL_CALC_FOUND_ROWS; found results are now counted via a separate query.
 	 *
 	 * @param string $select_columns Optional. Columns to select. Default '*'.
 	 * @return string
 	 */
 	protected function sql_select_columns( $select_columns = '*' ) {
-
-		if ( ! $this->get( 'count_only' ) && ! $this->get( 'no_found_rows' ) ) {
-			$select_columns = 'SQL_CALC_FOUND_ROWS ' . $select_columns;
-		}
 
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $select_columns;
@@ -200,10 +218,15 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since 3.16.0
 	 * @since 4.5.1 Drop use of `$this->get_filter('limit')` in favor of `"llms_{$this->id}_query_limit"`.
+	 * @since 10.0.0 Returns empty string for count_only queries.
 	 *
 	 * @return string
 	 */
 	protected function sql_limit() {
+
+		if ( $this->get( 'count_only' ) ) {
+			return '';
+		}
 
 		global $wpdb;
 
@@ -268,6 +291,58 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
 		 */
 		return apply_filters( "llms_{$this->id}_query_orderby", $sql, $this );
+	}
+
+	/**
+	 * Execute a query.
+	 *
+	 * Overrides the parent to detect if a filter re-added SQL_CALC_FOUND_ROWS
+	 * to the query, and falls back to FOUND_ROWS() if so.
+	 *
+	 * Also warns when a subclass does not set $this->count_query, which means
+	 * get_found_results() and get_max_pages() will return 0.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return void
+	 */
+	public function query() {
+
+		parent::query();
+
+		$has_sql_calc = ! $this->get( 'suppress_filters' ) &&
+			is_string( $this->query ) &&
+			str_contains( $this->query, 'SQL_CALC_FOUND_ROWS' );
+
+		if ( $has_sql_calc ) {
+			_deprecated_argument(
+				"llms_{$this->id}_query_prepare_query",
+				'[version]',
+				'SQL_CALC_FOUND_ROWS should no longer be added via filters. Results are now counted with a separate COUNT query.'
+			);
+
+			global $wpdb;
+			$this->found_results = (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
+			$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
+		}
+
+		if (
+			$this->number_results &&
+			! $this->get( 'no_found_rows' ) &&
+			! $this->get( 'count_only' ) &&
+			empty( $this->count_query ) &&
+			! $has_sql_calc
+		) {
+			_doing_it_wrong(
+				get_class( $this ) . '::prepare_query',
+				sprintf(
+					/* translators: %s: The query subclass name. */
+					'Subclasses of LLMS_Database_Query should set $this->count_query in prepare_query() when no_found_rows is not true. %s does not set count_query, so get_found_results() and get_max_pages() will return 0.',
+					get_class( $this )
+				),
+				'[version]'
+			);
+		}
 	}
 
 	/**

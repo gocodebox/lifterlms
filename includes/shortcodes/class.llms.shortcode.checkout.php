@@ -106,6 +106,35 @@ class LLMS_Shortcode_Checkout {
 			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
 		}
 
+		if ( isset( $atts['product'] ) && 'course' === $atts['product']->get( 'type' ) && ( $course = new LLMS_Course( $atts['product']->post ) ) && ! $course->has_capacity() ) {
+			/**
+			 * Filter the displaying of the checkout form notice for already enrolled in the product being purchased.
+			 *
+			 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
+			 * @param LLMS_Access_Plan $plan The access plan.
+			 *
+			 * @since 4.2.0
+			 */
+			if ( apply_filters( 'llms_display_checkout_form_course_capacity_notice', true, $atts['plan'] ) ) {
+				llms_print_notice(
+					$course->get( 'capacity_message' ),
+					'error'
+				);
+			}
+
+			/**
+			 * Filter to block checkout when the course capacity has been reached. Defaults to true.
+			 *
+			 * @param bool $block_checkout Whether or not blocking the checkout form when a course is at capacity.
+			 * @param LLMS_Access_Plan $plan The access plan.
+			 *
+			 * @since 10.0.0
+			 */
+			if ( apply_filters( 'llms_checkout_block_course_capacity_checkout', true, $atts['plan'] ) ) {
+				return;
+			}
+		}
+
 		llms_get_template( 'checkout/form-checkout.php', $atts );
 	}
 

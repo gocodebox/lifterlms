@@ -66,7 +66,10 @@ class LLMS_Controller_Registration {
 	 */
 	public function register() {
 
-		if ( ! llms_verify_nonce( '_llms_register_person_nonce', 'llms_register_person' ) ) {
+		if ( ! isset( $_REQUEST['_llms_register_person_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_register_person_nonce'] ) ), 'llms_register_person' ) ) {
 			return;
 		}
 

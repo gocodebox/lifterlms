@@ -462,32 +462,41 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$status = '';
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
-			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+		$from_where = "FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = %s
 			   AND p.post_status = 'publish'
 			   AND upm.meta_key = '_status'
 			   AND upm.user_id = %d
-			   {$status}
+			   {$status}";
+
+		$prepare_args = array( $post_type, $this->get_id() );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$found = absint(
+			$wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(DISTINCT upm.post_id) {$from_where}",
+					$prepare_args
+				)
+			)
+		); // db call ok; no-cache ok.
+
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT upm.post_id AS id
+			 {$from_where}
 			 ORDER BY {$args['orderby']} {$args['order']}
 			 LIMIT %d, %d;
 			",
-				array(
-					$post_type,
-					$this->get_id(),
-					$args['skip'],
-					$args['limit'],
+				array_merge(
+					$prepare_args,
+					array( $args['skip'], $args['limit'] )
 				)
 			),
 			'OBJECT_K'
 		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) ); // db call ok; no-cache ok.
 
 		return array(
 			'found'   => $found,
@@ -676,9 +685,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			wp_parse_args(
 				$args,
 				array(
-					'types'    => 'all',
-					'per_page' => 10,
-					'user_id'  => $this->get_id(),
+					'types'         => 'all',
+					'per_page'      => 10,
+					'user_id'       => $this->get_id(),
+					'no_found_rows' => true,
 				)
 			)
 		);
@@ -1160,6 +1170,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					'user_id'               => $this->get_id(),
 					'post_id'               => $object_id,
 					'per_page'              => 1,
+					'no_found_rows'         => true,
 				)
 			);
 
@@ -1921,6 +1932,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				'user_id'               => $this->get_id(),
 				'post_id'               => $object_id,
 				'per_page'              => 1,
+				'no_found_rows'         => true,
 			)
 		);
 

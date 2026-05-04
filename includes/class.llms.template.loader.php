@@ -474,6 +474,11 @@ class LLMS_Template_Loader {
 		 */
 		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ? '' : $template_name;
 
+		// Focus mode always uses the PHP template (not the block template) for a stable, non-editable layout.
+		if ( 'single-lesson-focus' === $template_name ) {
+			return $result;
+		}
+
 		/**
 		 * Filters the block template to be loded forced.
 		 *
@@ -638,6 +643,10 @@ class LLMS_Template_Loader {
 		} elseif ( is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ) {
 
 			$template = 'single-certificate';
+
+		} elseif ( is_singular( apply_filters( 'llms_focus_mode_post_types', array( 'lesson', 'llms_quiz' ) ) ) && llms_is_focus_mode_enabled( get_the_ID() ) ) {
+
+			$template = 'single-lesson-focus';
 
 		}
 

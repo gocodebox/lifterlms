@@ -377,7 +377,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 		$nonce  = "llms_{$this->id}_nonce";
 		$action = "llms_{$this->id}_save";
 
-		if ( ! isset( $_POST[ $nonce ] ) || ! llms_verify_nonce( $nonce, $action ) || ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! isset( $_POST[ $nonce ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce ] ) ), $action ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			return null;
 		}
 

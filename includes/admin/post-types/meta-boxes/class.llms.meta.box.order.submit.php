@@ -98,13 +98,17 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.36.0 Date fields require array when sanitized.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Do not save recurring payments related dates if order's gateway do not support recurring payments modification.
+	 * @since 10.0.0 Add order note when access expiration date is changed.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null
 	 */
 	public function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return;
 		}
 
@@ -152,7 +156,19 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 				// If the dates are not equal, update the date.
 				if ( $new_date !== $saved_date ) {
-					$order->set_date( str_replace( '_llms_date_', '', $key ), $new_date . ':00' );
+					$date_key = str_replace( '_llms_date_', '', $key );
+					$order->set_date( $date_key, $new_date . ':00' );
+
+					if ( 'access_expires' === $date_key ) {
+						$old_date_display = $saved_date
+							? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $saved_date ) )
+							: __( 'none', 'lifterlms' );
+						$new_date_display = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $new_date ) );
+
+						// Translators: %1$s = old access expiration date; %2$s = new access expiration date.
+						$note = sprintf( __( 'Access expiration date changed from %1$s to %2$s', 'lifterlms' ), $old_date_display, $new_date_display );
+						$order->add_note( $note, true );
+					}
 				}
 			}
 		}

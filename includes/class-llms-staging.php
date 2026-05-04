@@ -84,7 +84,7 @@ class LLMS_Staging {
 			return;
 		}
 
-		if ( ! llms_verify_nonce( '_llms_staging_nonce', 'llms_staging_status', 'GET' ) || ! current_user_can( 'manage_options' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_llms_staging_nonce'] ) ), 'llms_staging_status' ) || ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 

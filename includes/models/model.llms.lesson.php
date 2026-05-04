@@ -42,6 +42,7 @@ defined( 'ABSPATH' ) || exit;
  * @property string $require_assignment_passing_grade Whether of not students have to pass the assignment to advance to the next lesson [yes|no].
  * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
  * @property string $video_embed                      URL to an oEmbed enable video URL.
+ * @property string $content_added_in_builder         Whether content was (at least initially) added within the page builder.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 
@@ -67,6 +68,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'require_passing_grade'            => 'yesno',
 		'require_assignment_passing_grade' => 'yesno',
 		'points'                           => 'absint',
+
+		'content_added_in_builder'         => 'yesno',
 
 		// Quizzes.
 		'quiz'                             => 'absint',

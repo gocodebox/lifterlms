@@ -75,7 +75,7 @@ class LLMS_Admin_Post_Table_Engagements {
 				echo isset( $triggers[ $trigger ] ) ? esc_html( $triggers[ $trigger ] ) : esc_html( $trigger );
 
 				$tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true );
-				if ( $tid ) {
+				if ( $tid && 'any' !== $tid ) {
 
 					echo '<br>';
 
@@ -89,6 +89,10 @@ class LLMS_Admin_Post_Table_Engagements {
 					}
 
 					printf( '<a href="%s">%s (ID# %d)</a>', esc_url( $link ), esc_html( $title ), esc_html( $tid ) );
+
+				} elseif ( 'any' === $tid ) {
+
+					echo '<br><em>' . esc_html__( 'Any', 'lifterlms' ) . '</em>';
 
 				}
 

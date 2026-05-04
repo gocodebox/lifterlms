@@ -252,18 +252,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 
 		$offset = ( $this->current_page - 1 ) * $per;
 
-		$results = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT
-					u.ID as user_id,
-					u.user_email,
-					u.display_name,
-					u.user_registered,
-					m_first.meta_value as first_name,
-					m_last.meta_value as last_name,
-					upm.meta_value as enrollment_status,
-					upm.updated_date as enrollment_date
-				FROM {$wpdb->users} u
+		$from_joins_where = "FROM {$wpdb->users} u
 				INNER JOIN {$wpdb->prefix}lifterlms_user_postmeta upm
 					ON u.ID = upm.user_id
 					AND upm.post_id = %d
@@ -286,18 +275,38 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 					AND upm2.meta_key = '_status'
 				)
 				AND qa.id IS NULL
-				{$search_sql}
-				{$order_sql}
-				LIMIT %d, %d",
-				$course->get( 'id' ),    // Course ID for enrollment check
-				$this->quiz_id,          // Quiz ID for attempt check
-				$course->get( 'id' ),    // Course ID for latest enrollment status
-				$offset,
-				$per
-			)
+				{$search_sql}";
+
+		$prepare_args = array(
+			$course->get( 'id' ),
+			$this->quiz_id,
+			$course->get( 'id' ),
 		);
 
-		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
+		$total_results = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(DISTINCT u.ID) {$from_joins_where}",
+				$prepare_args
+			)
+		); // db call ok; no-cache ok.
+
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT
+					u.ID as user_id,
+					u.user_email,
+					u.display_name,
+					u.user_registered,
+					m_first.meta_value as first_name,
+					m_last.meta_value as last_name,
+					upm.meta_value as enrollment_status,
+					upm.updated_date as enrollment_date
+				{$from_joins_where}
+				{$order_sql}
+				LIMIT %d, %d",
+				array_merge( $prepare_args, array( $offset, $per ) )
+			)
+		);
 
 		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );

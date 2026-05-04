@@ -155,6 +155,66 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'value'      => $difficulty_options,
 					),
 					array(
+						'allow_null'    => false,
+						'class'         => 'llms-select2',
+						'id'            => $this->prefix . 'focus_mode',
+						'desc'          => __( 'Enable or disable Focus Mode for lessons in this course.', 'lifterlms' ),
+						'desc_class'    => 'd-all',
+						'group'         => 'bottom',
+						'is_controller' => true,
+						'label'         => __( 'Focus Mode', 'lifterlms' ),
+						'selected'      => $course->get( 'focus_mode' ) ? $course->get( 'focus_mode' ) : 'inherit',
+						'type'          => 'select',
+						'value'         => array(
+							array(
+								'key'   => 'inherit',
+								'title' => sprintf(
+									/* translators: %s: current global setting label */
+									__( 'Inherit Global Setting (%s)', 'lifterlms' ),
+									'yes' === get_option( 'lifterlms_enable_focus_mode', 'no' )
+										? __( 'Enabled', 'lifterlms' )
+										: __( 'Disabled', 'lifterlms' )
+								),
+							),
+							array(
+								'key'   => 'enable',
+								'title' => __( 'Enable', 'lifterlms' ),
+							),
+							array(
+								'key'   => 'disable',
+								'title' => __( 'Disable', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'allow_null'       => false,
+						'class'            => 'llms-select2',
+						'controller'       => '#' . $this->prefix . 'focus_mode',
+						'controller_value' => 'enable,inherit',
+						'id'               => $this->prefix . 'focus_mode_content_width',
+						'desc'             => __( 'Set the maximum width of the lesson content area in focus mode.', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'group'            => 'bottom',
+						'label'            => __( 'Focus Mode Content Width', 'lifterlms' ),
+						'selected'         => $course->get( 'focus_mode_content_width' ) ? $course->get( 'focus_mode_content_width' ) : 'inherit',
+						'type'             => 'select',
+						'value'            => llms_get_focus_mode_content_width_options( true ),
+					),
+					array(
+						'allow_null'       => false,
+						'class'            => 'llms-select2',
+						'controller'       => '#' . $this->prefix . 'focus_mode',
+						'controller_value' => 'enable,inherit',
+						'id'               => $this->prefix . 'focus_mode_sidebar_position',
+						'desc'             => __( 'Choose which side the course syllabus sidebar appears on.', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'group'            => 'bottom',
+						'label'            => __( 'Focus Mode Sidebar Position', 'lifterlms' ),
+						'selected'         => $course->get( 'focus_mode_sidebar_position' ) ? $course->get( 'focus_mode_sidebar_position' ) : 'inherit',
+						'type'             => 'select',
+						'value'            => llms_get_focus_mode_sidebar_position_options( true ),
+					),
+					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
 						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
@@ -514,7 +574,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 */
 	protected function save_before( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return;
 		}
 
