@@ -52,6 +52,7 @@ assets/js/llms.js
 assets/js/*.min.js
 assets/js/*.asset.php
 assets/js/llms-metaboxes.js
+assets/js/vendor/*.min.js
 blocks/certificate-title/*
 blocks/my-account/*
 blocks/pricing-table/*
