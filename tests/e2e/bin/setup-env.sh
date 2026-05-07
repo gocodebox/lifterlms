@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Bootstrap the wp-env test environment with LifterLMS test data.
+# Run after `npx wp-env start`.
+#
+
+set -e
+
+CLI="npx wp-env run tests-cli --"
+
+# 1. Activate LifterLMS.
+$CLI wp plugin activate lifterlms
+
+# 2. Run the LifterLMS setup wizard equivalent (create required pages + settings).
+DASHBOARD_ID=$($CLI wp post create --post_type=page --post_title='Dashboard' --post_name='dashboard' --post_status=publish --post_content='[lifterlms_my_account]' --porcelain 2>/dev/null | tail -1 || echo "")
+if [ -n "$DASHBOARD_ID" ]; then
+  $CLI wp option update lifterlms_myaccount_page_id "$DASHBOARD_ID"
+fi
+CHECKOUT_ID=$($CLI wp post create --post_type=page --post_title='Purchase' --post_name='purchase' --post_status=publish --post_content='[lifterlms_checkout]' --porcelain 2>/dev/null | tail -1 || echo "")
+if [ -n "$CHECKOUT_ID" ]; then
+  $CLI wp option update lifterlms_checkout_page_id "$CHECKOUT_ID"
+fi
+
+# 3. Bootstrap user accounts.
+$CLI wp user meta update 1 first_name Chad
+$CLI wp user meta update 1 last_name Feldheimer
+
+$CLI wp user create voucher voucher@email.tld --role=student --user_pass=password 2>/dev/null || true
+$CLI wp user create validcreds validcreds@email.tld --role=student --user_pass=password 2>/dev/null || true
+$CLI wp user create restrictionstester restrictions@email.tld --role=student --user_pass=password 2>/dev/null || true
+$CLI wp user create hasacert hasacert@email.tld --role=student --user_pass=password 2>/dev/null || true
+
+# 4. Set options.
+$CLI wp option update can_compress_scripts 1
+
+# 5. Bootstrap posts.
+$CLI wp post create --post_type=page --post_title="Integrity-Test" --post_name="integrity-test" --post_status=publish 2>/dev/null || true
+
+# 6. Create a course with a lesson for restrictions testing.
+COURSE_ID=$($CLI wp post create --post_type=course --post_title="Test Course" --post_name="test-course" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+if [ -n "$COURSE_ID" ]; then
+  LESSON_ID=$($CLI wp post create --post_type=lesson --post_title="Test Lesson" --post_name="test-lesson" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+  if [ -n "$LESSON_ID" ]; then
+    $CLI wp post meta update "$LESSON_ID" _llms_parent_course "$COURSE_ID" 2>/dev/null || true
+  fi
+fi
+
+echo "E2E environment bootstrapped successfully."

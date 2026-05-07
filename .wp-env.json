@@ -1,7 +1,4 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
-	"plugins": [ "." ],
-	"lifecycleScripts": {
-		"afterStart": "wp-env run tests-cli -- wp plugin activate lifterlms"
-	}
+	"plugins": [ "." ]
 }

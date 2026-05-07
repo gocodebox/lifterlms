@@ -14,8 +14,7 @@
  * @return {Promise<void>}
  */
 export async function visitPage( page, path ) {
-	const baseURL = process.env.WP_BASE_URL || 'http://localhost:8889';
-	await page.goto( `${ baseURL }/${ path }/` );
+	await page.goto( `/${ path }/` );
 }
 
 /**
@@ -42,14 +41,12 @@ export async function fillField( page, selector, value ) {
  * @return {Promise<void>}
  */
 export async function logoutUser( page ) {
-	const baseURL = process.env.WP_BASE_URL || 'http://localhost:8889';
-	await page.goto( `${ baseURL }/wp-login.php?action=logout` );
-	// Click the logout confirmation link if present.
+	await page.goto( '/wp-login.php?action=logout' );
 	const confirmLink = page.locator( 'a[href*="action=logout"]' );
 	if ( await confirmLink.count() > 0 ) {
 		await confirmLink.click();
-		await page.waitForURL( /loggedout=true/ );
 	}
+	await page.waitForLoadState( 'networkidle' );
 }
 
 /**
@@ -177,8 +174,7 @@ export async function toggleOpenRegistration( page, enable ) {
  * @return {Promise<void>}
  */
 export async function visitSettingsPage( page, { tab = 'general' } = {} ) {
-	const baseURL = process.env.WP_BASE_URL || 'http://localhost:8889';
-	await page.goto( `${ baseURL }/wp-admin/admin.php?page=llms-settings&tab=${ tab }` );
+	await page.goto( `/wp-admin/admin.php?page=llms-settings&tab=${ tab }` );
 }
 
 /**

@@ -5,33 +5,9 @@
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
-import { logoutUser, visitPage } from '../../utils/index.js';
+import { visitPage } from '../../utils/index.js';
 
 test.describe( 'ViewManager', () => {
-
-	test.beforeAll( async ( { browser } ) => {
-		const page = await browser.newPage();
-		const baseURL = process.env.WP_BASE_URL || 'http://localhost:8889';
-		await page.goto( `${ baseURL }/wp-admin/` );
-		await page.close();
-	} );
-
-	test.afterAll( async ( { browser } ) => {
-		const page = await browser.newPage();
-		const baseURL = process.env.WP_BASE_URL || 'http://localhost:8889';
-		// Reset to self view.
-		await page.goto( `${ baseURL }/wp-admin/` );
-		const topLevel = page.locator( '#wp-admin-bar-llms-view-as-menu' );
-		if ( await topLevel.count() > 0 ) {
-			await topLevel.hover();
-			const selfLink = page.locator( '#wp-admin-bar-llms-view-as--self a.ab-item' );
-			if ( await selfLink.count() > 0 ) {
-				await selfLink.click();
-				await page.waitForLoadState( 'networkidle' );
-			}
-		}
-		await page.close();
-	} );
 
 	test( 'should display the View Manager in the admin bar', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
@@ -52,7 +28,6 @@ test.describe( 'ViewManager', () => {
 		await visitorLink.click();
 		await page.waitForLoadState( 'networkidle' );
 
-		// In visitor view, admin bar should still be visible but context changed.
 		await expect( topLevel ).toBeVisible();
 	} );
 
