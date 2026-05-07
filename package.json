@@ -12,9 +12,12 @@
     "url": "https://github.com/gocodebox/lifterlms/issues"
   },
   "homepage": "https://lifterlms.com",
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@emotion/styled": "^11.6.0",
@@ -34,7 +37,7 @@
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-uglify": "^3.0.2",
-    "lerna": "^5.5.2",
+    "lerna": "^9.0.7",
     "lifterlms-lib-tasks": "^4.0.1",
     "postcss": "^8.4.6"
   },
@@ -53,10 +56,9 @@
     "test:dev": "npm run test -- --puppeteer-interactive",
     "test:unit": "wp-scripts test-unit-js ./src/js --config packages/scripts/config/jest-unit.config.js --verbose",
     "pkg:docgen": "lerna run docgen",
-    "pkg:hoist": "lerna bootstrap --hoist",
+    "pkg:hoist": "echo 'Dependencies hoisted via npm workspaces'",
     "pkg:lint:js": "lerna run lint:js",
     "pkg:test": "wp-scripts test-unit-js ./packages --config packages/scripts/config/jest-unit.config.js --verbose",
-    "postinstall": "npm run pkg:hoist",
     "start": "wp-scripts start",
     "start:legacy": "gulp watch",
     "start:blocks": "wp-scripts start --config packages/scripts/config/blocks-webpack.config.js"
