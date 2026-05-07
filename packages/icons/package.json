@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/icons",
-  "version": "1.0.1-alpha.2",
+  "version": "1.1.0",
   "description": "Icon library for LifterLMS",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -31,7 +31,7 @@
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "cheerio": "^1.0.0-rc.10",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.0.0",
     "react-snap": "^1.23.0"
   },
   "reactSnap": {

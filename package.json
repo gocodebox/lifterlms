@@ -39,7 +39,8 @@
     "gulp-uglify": "^3.0.2",
     "lerna": "^9.0.7",
     "lifterlms-lib-tasks": "^4.0.1",
-    "postcss": "^8.4.6"
+    "postcss": "^8.4.6",
+    "@wordpress/scripts": "^27.9.0"
   },
   "scripts": {
     "clean": "rm -f assets/js/*.min.js assets/js/*.asset.php assets/css/*.map assets/js/*.map assets/maps/*.map assets/css/*.map",
