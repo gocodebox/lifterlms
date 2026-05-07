@@ -48,6 +48,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
