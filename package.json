@@ -24,6 +24,7 @@
     "classnames": "^2.3.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@lifterlms/brand": "file:packages/brand",
     "@lifterlms/components": "file:packages/components",
     "@lifterlms/dev": "file:packages/dev",
