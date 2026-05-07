@@ -7,7 +7,6 @@
 # Requires:
 #   - .wp-env.json in the repo root
 #   - playwright.config.js in the repo root
-#   - npm test script runs wp-scripts test-playwright
 #
 ###
 name: Test E2E (Playwright)
@@ -61,7 +60,7 @@ jobs:
         run: bash tests/e2e/bin/setup-env.sh
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx wp-scripts test-playwright
 
       - name: Upload artifacts on failure
         uses: actions/upload-artifact@v4
@@ -70,5 +69,4 @@ jobs:
           name: playwright-report
           path: |
             artifacts/
-            playwright-report/
           retention-days: 7
