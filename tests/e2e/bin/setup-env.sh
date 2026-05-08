@@ -8,7 +8,8 @@ set -e
 
 CLI="npx wp-env run tests-cli --"
 
-# 1. Activate LifterLMS.
+# 1. Enable pretty permalinks and activate LifterLMS.
+$CLI wp rewrite structure '/%postname%/' --hard
 $CLI wp plugin activate lifterlms
 
 # 2. Run the LifterLMS setup wizard equivalent (create required pages + settings).

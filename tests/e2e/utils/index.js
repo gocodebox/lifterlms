@@ -61,8 +61,8 @@ export async function logoutUser( page ) {
  */
 export async function loginStudent( page, email, password ) {
 	await visitPage( page, 'dashboard' );
-	await fillField( page, '#llms_login_user', email );
-	await fillField( page, '#llms_login_pass', password );
+	await fillField( page, '#llms_login', email );
+	await fillField( page, '#llms_password', password );
 	await page.locator( '#llms_login_button' ).click();
 	await page.waitForLoadState( 'networkidle' );
 }
@@ -148,7 +148,7 @@ export async function registerStudent( page, {
  * @return {Promise<void>}
  */
 export async function toggleOpenRegistration( page, enable ) {
-	await visitSettingsPage( page );
+	await visitSettingsPage( page, { tab: 'account' } );
 	const checkbox = page.locator( '#lifterlms_enable_myaccount_registration' );
 	const isChecked = await checkbox.isChecked();
 
