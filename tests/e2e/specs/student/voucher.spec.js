@@ -9,10 +9,6 @@ import { fillField, loginStudent, logoutUser, visitPage } from '../../utils/inde
 
 test.describe( 'StudentDashboard/RedeemVoucher', () => {
 
-	test.afterEach( async ( { page } ) => {
-		await logoutUser( page );
-	} );
-
 	test( 'should display an error for an invalid voucher', async ( { page } ) => {
 		const code = 'fakecode';
 

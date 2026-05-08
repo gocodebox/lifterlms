@@ -9,10 +9,6 @@ import { loginStudent, logoutUser, visitPage } from '../../utils/index.js';
 
 test.describe( 'StudentDashboardLogin', () => {
 
-	test.afterEach( async ( { page } ) => {
-		await logoutUser( page );
-	} );
-
 	test( 'should not allow a user to login if they are already logged in', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
 		await visitPage( page, 'dashboard' );

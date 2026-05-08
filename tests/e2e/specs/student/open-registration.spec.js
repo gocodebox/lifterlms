@@ -15,10 +15,6 @@ import {
 
 test.describe( 'OpenRegistration', () => {
 
-	test.afterEach( async ( { page } ) => {
-		await logoutUser( page );
-	} );
-
 	test.describe( 'Registration', () => {
 
 		test( 'should not allow registration because user is already logged in', async ( { admin, page } ) => {

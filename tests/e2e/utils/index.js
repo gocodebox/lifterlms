@@ -33,7 +33,10 @@ export async function fillField( page, selector, value ) {
 }
 
 /**
- * Log out the current user by visiting the WP logout URL.
+ * Log out the current user by clearing browser cookies.
+ *
+ * This clears cookies client-side without hitting WordPress's logout endpoint,
+ * so the server session remains valid for subsequent tests that need it.
  *
  * @since [version]
  *
@@ -41,12 +44,7 @@ export async function fillField( page, selector, value ) {
  * @return {Promise<void>}
  */
 export async function logoutUser( page ) {
-	await page.goto( '/wp-login.php?action=logout' );
-	const confirmLink = page.locator( 'a[href*="action=logout"]' );
-	if ( await confirmLink.count() > 0 ) {
-		await confirmLink.click();
-	}
-	await page.waitForLoadState( 'networkidle' );
+	await page.context().clearCookies();
 }
 
 /**
