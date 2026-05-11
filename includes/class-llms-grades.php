@@ -38,11 +38,51 @@ class LLMS_Grades {
 
 		$this->rounding_precision = apply_filters( 'llms_grade_rounding_precision', $this->rounding_precision );
 
-		// Bust the per-student grade cache when student state changes that could affect a grade.
-		add_action( 'llms_mark_complete', array( $this, 'clear_student_cache_from_mark' ), 10, 1 );
-		add_action( 'llms_mark_incomplete', array( $this, 'clear_student_cache_from_mark' ), 10, 1 );
-		add_action( 'lifterlms_quiz_completed', array( $this, 'clear_student_cache' ), 10, 1 );
-		add_action( 'llms_user_enrollment_deleted', array( $this, 'clear_student_cache' ), 10, 1 );
+	}
+
+	/**
+	 * Register hooks that flush the per-student grade cache when student
+	 * state changes that could affect a grade.
+	 *
+	 * Hooked once during plugin bootstrap by {@see LifterLMS::__construct()}.
+	 * Lives outside the constructor so the hooks survive the WordPress test
+	 * suite's `restore_hooks()` (`__construct()` only runs the first time the
+	 * singleton is instantiated and would not re-register after each test).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function init_grade_cache_hooks() {
+		add_action( 'llms_mark_complete', array( __CLASS__, 'clear_student_cache_from_mark_static' ), 10, 1 );
+		add_action( 'llms_mark_incomplete', array( __CLASS__, 'clear_student_cache_from_mark_static' ), 10, 1 );
+		add_action( 'lifterlms_quiz_completed', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+		add_action( 'llms_user_enrollment_deleted', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+	}
+
+	/**
+	 * Static wrapper for {@see LLMS_Grades::clear_student_cache()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id User ID.
+	 * @return void
+	 */
+	public static function clear_student_cache_static( $student_id ) {
+		self::instance()->clear_student_cache( $student_id );
+	}
+
+	/**
+	 * Static wrapper that maps the `llms_mark_*` action's first parameter
+	 * (the student ID) to {@see LLMS_Grades::clear_student_cache()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id User ID of the student whose state changed.
+	 * @return void
+	 */
+	public static function clear_student_cache_from_mark_static( $student_id ) {
+		self::instance()->clear_student_cache_from_mark( $student_id );
 	}
 
 	/**
