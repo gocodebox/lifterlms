@@ -50,7 +50,6 @@
 
       "CHANGELOG.md",
       "composer.json",
-      "docker-compose.yml",
       "lerna.json",
       "package.json",
       "package-lock.json",
@@ -101,7 +100,6 @@
       "\"vendor/bin/phpcs\" --config-set ignore_warnings_on_exit 1"
     ],
     "env": "\"vendor/bin/llms-env\"",
-    "env:setup": "./tests/bin/setup-e2e.sh",
     "fix-cs": "\"vendor/bin/phpcbf\"",
     "post-install-cmd": "@post-update-install-cmd",
     "post-update-cmd": "@post-update-install-cmd",
