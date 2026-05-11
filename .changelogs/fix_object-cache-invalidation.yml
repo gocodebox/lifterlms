@@ -1,0 +1,8 @@
+significance: patch
+type: fixed
+attributions:
+  - "@flintfromthebasement"
+entry: Fix stale object cache for core forms, membership-associated posts,
+  student grades, and product active-subscription count. The read paths had no
+  matching cache invalidation on writes; on persistent object-cache hosts
+  (Redis, Memcached) the cached values could become indefinitely stale.
