@@ -15,20 +15,21 @@ import {
 
 test.describe( 'OpenRegistration', () => {
 
-	test.describe( 'Registration', () => {
+	test.describe( 'Registration enabled', () => {
 
-		test( 'should not allow registration because user is already logged in', async ( { admin, page } ) => {
+		test.beforeEach( async ( { admin, page } ) => {
 			await admin.visitAdminPage( '/' );
 			await toggleOpenRegistration( page, true );
+		} );
+
+		test( 'should not allow registration because user is already logged in', async ( { page } ) => {
 			await visitPage( page, 'dashboard' );
 			await expect(
 				page.locator( '.llms-new-person-form-wrapper > h4.llms-form-heading' )
 			).toHaveCount( 0 );
 		} );
 
-		test( 'should allow registration', async ( { admin, page } ) => {
-			await admin.visitAdminPage( '/' );
-			await toggleOpenRegistration( page, true );
+		test( 'should allow registration', async ( { page } ) => {
 			await logoutUser( page );
 			await visitPage( page, 'dashboard' );
 			await expect(
@@ -36,16 +37,21 @@ test.describe( 'OpenRegistration', () => {
 			).toHaveText( 'Register' );
 		} );
 
-		test( 'should register a new user', async ( { admin, page } ) => {
-			await admin.visitAdminPage( '/' );
-			await toggleOpenRegistration( page, true );
+		test( 'should register a new user', async ( { page } ) => {
 			await registerStudent( page );
 			await expect( page.locator( 'h2.llms-sd-title' ) ).toHaveText( 'Dashboard' );
 		} );
 
-		test( 'should not allow registration because open registration is disabled', async ( { admin, page } ) => {
+	} );
+
+	test.describe( 'Registration disabled', () => {
+
+		test.beforeEach( async ( { admin, page } ) => {
 			await admin.visitAdminPage( '/' );
 			await toggleOpenRegistration( page, false );
+		} );
+
+		test( 'should not allow registration because open registration is disabled', async ( { page } ) => {
 			await logoutUser( page );
 			await visitPage( page, 'dashboard' );
 			await expect(
@@ -57,9 +63,12 @@ test.describe( 'OpenRegistration', () => {
 
 	test.describe( 'Localization', () => {
 
-		test( 'should localize city, state, and postcode fields when changing the selected country', async ( { admin, page } ) => {
+		test.beforeEach( async ( { admin, page } ) => {
 			await admin.visitAdminPage( '/' );
 			await toggleOpenRegistration( page, true );
+		} );
+
+		test( 'should localize city, state, and postcode fields when changing the selected country', async ( { page } ) => {
 			await logoutUser( page );
 			await visitPage( page, 'dashboard' );
 

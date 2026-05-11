@@ -9,50 +9,55 @@ import { logoutUser, loginStudent, setCheckboxSetting, visitPage, visitSettingsP
 
 test.describe( 'Setting/CopyPrevention', () => {
 
-	test( 'is allowed to copy content (admin)', async ( { admin, page } ) => {
-		await admin.visitAdminPage( '/' );
-		await visitSettingsPage( page );
-		await setCheckboxSetting( page, '#lifterlms_content_protection', true );
-		await visitPage( page, 'integrity-test' );
-		const title = page.locator( '.entry-title, .wp-block-post-title, h1' ).first();
-		await expect( title ).toBeVisible();
+	test.describe( 'Protection enabled', () => {
+
+		test.beforeEach( async ( { admin, page } ) => {
+			await admin.visitAdminPage( '/' );
+			await visitSettingsPage( page );
+			await setCheckboxSetting( page, '#lifterlms_content_protection', true );
+		} );
+
+		test( 'is allowed to copy content (admin)', async ( { page } ) => {
+			await visitPage( page, 'integrity-test' );
+			const title = page.locator( '.entry-title, .wp-block-post-title, h1' ).first();
+			await expect( title ).toBeVisible();
+		} );
+
+		test( 'is not allowed to copy content (student)', async ( { page } ) => {
+			await logoutUser( page );
+			await loginStudent( page, 'validcreds@email.tld', 'password' );
+			await visitPage( page, 'integrity-test' );
+
+			const copyPrevScript = page.locator( 'script[src*="llms-copy-prevention"]' );
+			const bodyClass = await page.locator( 'body' ).getAttribute( 'class' );
+			expect(
+				bodyClass?.includes( 'llms-content-protection' ) ||
+				await copyPrevScript.count() > 0
+			).toBeTruthy();
+		} );
+
+		test( 'is not allowed to copy content (logged out)', async ( { page } ) => {
+			await logoutUser( page );
+			await visitPage( page, 'integrity-test' );
+
+			const copyPrevScript = page.locator( 'script[src*="llms-copy-prevention"]' );
+			const bodyClass = await page.locator( 'body' ).getAttribute( 'class' );
+			expect(
+				bodyClass?.includes( 'llms-content-protection' ) ||
+				await copyPrevScript.count() > 0
+			).toBeTruthy();
+		} );
+
 	} );
 
-	test( 'is not allowed to copy content (student)', async ( { admin, page } ) => {
-		await admin.visitAdminPage( '/' );
-		await visitSettingsPage( page );
-		await setCheckboxSetting( page, '#lifterlms_content_protection', true );
-		await logoutUser( page );
-		await loginStudent( page, 'validcreds@email.tld', 'password' );
-		await visitPage( page, 'integrity-test' );
+	test.describe( 'Cleanup', () => {
 
-		const copyPrevScript = page.locator( 'script[src*="llms-copy-prevention"]' );
-		const bodyClass = await page.locator( 'body' ).getAttribute( 'class' );
-		expect(
-			bodyClass?.includes( 'llms-content-protection' ) ||
-			await copyPrevScript.count() > 0
-		).toBeTruthy();
-	} );
+		test( 'disable copy prevention', async ( { admin, page } ) => {
+			await admin.visitAdminPage( '/' );
+			await visitSettingsPage( page );
+			await setCheckboxSetting( page, '#lifterlms_content_protection', false );
+		} );
 
-	test( 'is not allowed to copy content (logged out)', async ( { admin, page } ) => {
-		await admin.visitAdminPage( '/' );
-		await visitSettingsPage( page );
-		await setCheckboxSetting( page, '#lifterlms_content_protection', true );
-		await logoutUser( page );
-		await visitPage( page, 'integrity-test' );
-
-		const copyPrevScript = page.locator( 'script[src*="llms-copy-prevention"]' );
-		const bodyClass = await page.locator( 'body' ).getAttribute( 'class' );
-		expect(
-			bodyClass?.includes( 'llms-content-protection' ) ||
-			await copyPrevScript.count() > 0
-		).toBeTruthy();
-	} );
-
-	test( 'cleanup: disable copy prevention', async ( { admin, page } ) => {
-		await admin.visitAdminPage( '/' );
-		await visitSettingsPage( page );
-		await setCheckboxSetting( page, '#lifterlms_content_protection', false );
 	} );
 
 } );
