@@ -11,7 +11,7 @@ test.describe( 'ViewManager', () => {
 
 	test( 'should display the View Manager in the admin bar', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
-		await visitPage( page, '' );
+		await visitPage( page, 'dashboard' );
 
 		const viewMenu = page.locator( '#wp-admin-bar-llms-view-as-menu' );
 		await expect( viewMenu ).toBeVisible();
@@ -19,7 +19,7 @@ test.describe( 'ViewManager', () => {
 
 	test( 'should switch to visitor view', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
-		await visitPage( page, '' );
+		await visitPage( page, 'dashboard' );
 
 		const topLevel = page.locator( '#wp-admin-bar-llms-view-as-menu' );
 		await topLevel.hover();
@@ -31,9 +31,9 @@ test.describe( 'ViewManager', () => {
 		await expect( topLevel ).toBeVisible();
 	} );
 
-	test( 'should switch to student view', async ( { admin, page } ) => {
+	test( 'should switch to student view and back to self', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
-		await visitPage( page, '' );
+		await visitPage( page, 'dashboard' );
 
 		const topLevel = page.locator( '#wp-admin-bar-llms-view-as-menu' );
 		await topLevel.hover();
@@ -43,20 +43,15 @@ test.describe( 'ViewManager', () => {
 		await page.waitForLoadState( 'networkidle' );
 
 		await expect( topLevel ).toBeVisible();
-	} );
 
-	test( 'should switch back to self view', async ( { admin, page } ) => {
-		await admin.visitAdminPage( '/' );
-		await visitPage( page, '' );
-
-		const topLevel = page.locator( '#wp-admin-bar-llms-view-as-menu' );
-		await topLevel.hover();
+		const topLevel2 = page.locator( '#wp-admin-bar-llms-view-as-menu' );
+		await topLevel2.hover();
 
 		const selfLink = page.locator( '#wp-admin-bar-llms-view-as--self a.ab-item' );
 		await selfLink.click();
 		await page.waitForLoadState( 'networkidle' );
 
-		await expect( topLevel ).toBeVisible();
+		await expect( topLevel2 ).toBeVisible();
 	} );
 
 } );

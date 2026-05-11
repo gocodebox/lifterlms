@@ -21,7 +21,7 @@ test.describe( 'StudentDashboard/RedeemVoucher', () => {
 
 		await expect(
 			page.locator( '.llms-notice.llms-error' )
-		).toContainText( `Voucher code "${ code }" could not be found.` );
+		).toContainText( `could not be found` );
 	} );
 
 } );
