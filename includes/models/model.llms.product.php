@@ -437,4 +437,72 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Invalidate the cache used by {@see LLMS_Product::has_active_subscriptions()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $product_id Product post ID.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache( $product_id ) {
+		$product_id = absint( $product_id );
+		if ( $product_id ) {
+			wp_cache_delete( $product_id, 'llms_product_subscriptions_count' );
+		}
+	}
+
+	/**
+	 * Register hooks that bust the active-subscriptions cache when an order's
+	 * status changes or an order is deleted.
+	 *
+	 * Hooked once during plugin bootstrap by {@see LifterLMS::__construct()}.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function init_active_subscriptions_cache_hooks() {
+		add_action( 'transition_post_status', array( __CLASS__, 'flush_active_subscriptions_cache_on_status_change' ), 10, 3 );
+		add_action( 'before_delete_post', array( __CLASS__, 'flush_active_subscriptions_cache_on_post_delete' ) );
+	}
+
+	/**
+	 * Bust the active-subscriptions cache when an `llms_order` post changes status.
+	 *
+	 * The cached count covers orders in `llms-active`, `llms-pending-cancel`, and
+	 * `llms-on-hold`. Any transition into or out of one of those buckets can change
+	 * the count, so we invalidate on every status change of an order.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache_on_status_change( $new_status, $old_status, $post ) {
+		if ( ! $post instanceof WP_Post || 'llms_order' !== $post->post_type || $new_status === $old_status ) {
+			return;
+		}
+		$product_id = (int) get_post_meta( $post->ID, '_llms_product_id', true );
+		self::flush_active_subscriptions_cache( $product_id );
+	}
+
+	/**
+	 * Bust the active-subscriptions cache when an `llms_order` post is deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id Post ID being deleted.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache_on_post_delete( $post_id ) {
+		if ( 'llms_order' !== get_post_type( $post_id ) ) {
+			return;
+		}
+		$product_id = (int) get_post_meta( $post_id, '_llms_product_id', true );
+		self::flush_active_subscriptions_cache( $product_id );
+	}
+
 }

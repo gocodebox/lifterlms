@@ -38,6 +38,58 @@ class LLMS_Grades {
 
 		$this->rounding_precision = apply_filters( 'llms_grade_rounding_precision', $this->rounding_precision );
 
+		// Bust the per-student grade cache when student state changes that could affect a grade.
+		add_action( 'llms_mark_complete', array( $this, 'clear_student_cache_from_mark' ), 10, 1 );
+		add_action( 'llms_mark_incomplete', array( $this, 'clear_student_cache_from_mark' ), 10, 1 );
+		add_action( 'lifterlms_quiz_completed', array( $this, 'clear_student_cache' ), 10, 1 );
+		add_action( 'llms_user_enrollment_deleted', array( $this, 'clear_student_cache' ), 10, 1 );
+	}
+
+	/**
+	 * Returns the cache group name used for cached grades for a given student.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id User ID.
+	 * @return string
+	 */
+	public static function get_cache_group( $student_id ) {
+		return sprintf( 'student_%d', absint( $student_id ) );
+	}
+
+	/**
+	 * Invalidate every cached grade for a student.
+	 *
+	 * Uses the {@see LLMS_Cache_Helper} prefix-bump pattern so a single call
+	 * orphans every cached grade across all posts for that student, without
+	 * relying on the unreliable `wp_cache_flush_group()` API.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id User ID.
+	 * @return void
+	 */
+	public function clear_student_cache( $student_id ) {
+		$student_id = absint( $student_id );
+		if ( $student_id ) {
+			LLMS_Cache_Helper::invalidate_group( self::get_cache_group( $student_id ) );
+		}
+	}
+
+	/**
+	 * `llms_mark_complete` / `llms_mark_incomplete` callback that maps the action's
+	 * first parameter (the student ID) to {@see LLMS_Grades::clear_student_cache()}.
+	 *
+	 * Declared separately so the callback signature matches the action arity without
+	 * forcing every caller of `clear_student_cache()` to pass through unused args.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id User ID of the student whose state changed.
+	 * @return void
+	 */
+	public function clear_student_cache_from_mark( $student_id ) {
+		$this->clear_student_cache( $student_id );
 	}
 
 	/**
@@ -224,11 +276,9 @@ class LLMS_Grades {
 			$grade = $this->calculate_grade( $post, $student );
 
 			// Store in the cache.
-			wp_cache_set(
-				sprintf( '%d_grade', $post->get( 'id' ) ),
-				$grade,
-				sprintf( 'student_%d', $student->get( 'id' ) )
-			);
+			$cache_group = self::get_cache_group( $student->get( 'id' ) );
+			$cache_key   = LLMS_Cache_Helper::get_prefix( $cache_group ) . sprintf( '%d_grade', $post->get( 'id' ) );
+			wp_cache_set( $cache_key, $grade, $cache_group );
 
 		}
 
@@ -249,10 +299,10 @@ class LLMS_Grades {
 	 */
 	private function get_grade_from_cache( $post, $student ) {
 
-		return wp_cache_get(
-			sprintf( '%d_grade', $post->get( 'id' ) ),
-			sprintf( 'student_%d', $student->get( 'id' ) )
-		);
+		$cache_group = self::get_cache_group( $student->get( 'id' ) );
+		$cache_key   = LLMS_Cache_Helper::get_prefix( $cache_group ) . sprintf( '%d_grade', $post->get( 'id' ) );
+
+		return wp_cache_get( $cache_key, $cache_group );
 
 	}
 
