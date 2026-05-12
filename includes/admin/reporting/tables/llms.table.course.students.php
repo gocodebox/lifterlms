@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.15.0
  * @version 3.17.6
+ * @since [version] Added "Time in Course" column with export support.
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -174,6 +175,30 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->course_id ) );
 				break;
 
+			case 'time_in_course':
+				$total = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Session::format_time( $total );
+
+				$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
+				if ( ! $global_tracking ) {
+					$course = llms_get_post( $this->course_id );
+					if ( $course && is_a( $course, 'LLMS_Course' ) ) {
+						$lessons     = $course->get_lessons( 'ids' );
+						$all_tracked = true;
+						foreach ( $lessons as $lid ) {
+							$l = llms_get_post( $lid );
+							if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+								$all_tracked = false;
+								break;
+							}
+						}
+						if ( ! $all_tracked ) {
+							$value .= ' <span class="description">(' . esc_html__( 'Partial', 'lifterlms' ) . ')</span>';
+						}
+					}
+				}
+				break;
+
 			default:
 				$value = $key;
 
@@ -215,6 +240,30 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 			case 'progress':
 				$value = $student->get_progress( $this->course_id ) . '%';
+				break;
+
+			case 'time_in_course':
+				$total = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Session::format_time( $total );
+
+				$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
+				if ( ! $global_tracking ) {
+					$course = llms_get_post( $this->course_id );
+					if ( $course && is_a( $course, 'LLMS_Course' ) ) {
+						$lessons     = $course->get_lessons( 'ids' );
+						$all_tracked = true;
+						foreach ( $lessons as $lid ) {
+							$l = llms_get_post( $lid );
+							if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+								$all_tracked = false;
+								break;
+							}
+						}
+						if ( ! $all_tracked ) {
+							$value .= ' (' . __( 'Partial', 'lifterlms' ) . ')';
+						}
+					}
+				}
 				break;
 
 			default:
@@ -457,9 +506,14 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				'sortable'   => false,
 				'title'      => __( 'Grade', 'lifterlms' ),
 			),
-			'last_lesson' => array(
+			'last_lesson'    => array(
 				'sortable' => false,
 				'title'    => __( 'Last Lesson', 'lifterlms' ),
+			),
+			'time_in_course' => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Time in Course', 'lifterlms' ),
 			),
 		);
 

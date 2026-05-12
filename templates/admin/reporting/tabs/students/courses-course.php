@@ -10,7 +10,8 @@
  *               Add edit link tooltip and update icon.
  *               Add a link to view full course reporting screen.
  * @since 6.0.0 Provide existing hooks with more information and add a new hook.
- * @version 6.0.0
+ * @since [version] Added "Total Course Time" widget.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -152,6 +153,18 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 				'data'      => $grade,
 				'data_type' => is_numeric( $grade ) ? 'percentage' : 'text',
 				'text'      => __( 'Grade', 'lifterlms' ),
+			)
+		);
+
+		$course_time = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $course_id );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of5',
+				'icon'      => 'clock-o',
+				'id'        => 'llms-reporting-student-course-total-time',
+				'data'      => LLMS_Lesson_Time_Session::format_time( $course_time ),
+				'data_type' => 'text',
+				'text'      => __( 'Total Course Time', 'lifterlms' ),
 			)
 		);
 

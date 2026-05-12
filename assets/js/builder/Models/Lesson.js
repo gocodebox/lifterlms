@@ -2,7 +2,8 @@
  * Lesson Model
  *
  * @since 3.13.0
- * @version 4.20.0
+ * @since [version] Added minimum time on lesson properties.
+ * @version [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -63,6 +64,11 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				content: '',
 				audio_embed: '',
 				has_prerequisite: 'no',
+				has_minimum_time: 'no',
+				minimum_time: 0,
+				minimum_time_hours: 0,
+				minimum_time_minutes: 0,
+				minimum_time_seconds: 0,
 				require_passing_grade: 'yes',
 				require_assignment_passing_grade: 'yes',
 				video_embed: '',
@@ -98,6 +104,12 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.maybe_init_assignments();
 			this.init_relationships();
 
+			// Decompose minimum_time (total seconds) into H/M/S display fields.
+			this.fill_minimum_time_fields();
+
+			// Recompose H/M/S back to total seconds when any component changes.
+			this.on( 'change:minimum_time_hours change:minimum_time_minutes change:minimum_time_seconds', this.compute_minimum_time, this );
+
 			// If the lesson ID isn't set on a quiz, set it.
 			var quiz = this.get( 'quiz' );
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
@@ -105,6 +117,43 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			}
 
 			window.llms.hooks.doAction( 'llms_lesson_model_init', this );
+
+		},
+
+		/**
+		 * Decompose minimum_time (total seconds) into hours, minutes, seconds fields.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		fill_minimum_time_fields: function() {
+
+			var total   = parseInt( this.get( 'minimum_time' ), 10 ) || 0,
+				hours   = Math.floor( total / 3600 ),
+				minutes = Math.floor( ( total % 3600 ) / 60 ),
+				seconds = total % 60;
+
+			this.set( 'minimum_time_hours', hours, { silent: true } );
+			this.set( 'minimum_time_minutes', minutes, { silent: true } );
+			this.set( 'minimum_time_seconds', seconds, { silent: true } );
+
+		},
+
+		/**
+		 * Recompose hours, minutes, seconds into minimum_time (total seconds).
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		compute_minimum_time: function() {
+
+			var hours   = parseInt( this.get( 'minimum_time_hours' ), 10 ) || 0,
+				minutes = parseInt( this.get( 'minimum_time_minutes' ), 10 ) || 0,
+				seconds = parseInt( this.get( 'minimum_time_seconds' ), 10 ) || 0;
+
+			this.set( 'minimum_time', ( hours * 3600 ) + ( minutes * 60 ) + seconds );
 
 		},
 

@@ -34,6 +34,7 @@ class LLMS_Controller_Lesson_Progression {
 
 		add_action( 'lifterlms_quiz_completed', array( $this, 'quiz_complete' ), 10, 3 );
 		add_filter( 'llms_allow_lesson_completion', array( $this, 'quiz_maybe_prevent_lesson_completion' ), 10, 5 );
+		add_filter( 'llms_allow_lesson_completion', array( $this, 'minimum_time_maybe_prevent_lesson_completion' ), 15, 5 );
 
 		add_action( 'llms_trigger_lesson_completion', array( $this, 'mark_complete' ), 10, 4 );
 
@@ -289,6 +290,41 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		return $allow_completion;
+
+	}
+
+	/**
+	 * Prevent lesson completion if minimum time requirement has not been met.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool   $allow     Whether completion is allowed.
+	 * @param int    $user_id   WP User ID.
+	 * @param int    $lesson_id Lesson post ID.
+	 * @param string $trigger   Completion trigger.
+	 * @param array  $args      Additional arguments.
+	 * @return bool
+	 */
+	public function minimum_time_maybe_prevent_lesson_completion( $allow, $user_id, $lesson_id, $trigger, $args ) {
+
+		if ( ! $allow ) {
+			return $allow;
+		}
+
+		$lesson = llms_get_post( $lesson_id );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
+			return $allow;
+		}
+
+		if ( 0 === strpos( $trigger, 'admin_' ) ) {
+			LLMS_Lesson_Time_Session::record_admin_override( $user_id, $lesson_id, $trigger );
+			return $allow;
+		}
+
+		$total    = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson_id );
+		$required = absint( $lesson->get( 'minimum_time' ) );
+
+		return $total >= $required;
 
 	}
 

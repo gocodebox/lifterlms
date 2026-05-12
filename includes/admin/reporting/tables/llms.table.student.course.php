@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.2.0
  * @since 3.21.0 Unknown.
  * @since 3.35.0 Get student ID more reliably.
+ * @since [version] Added "Time on Lesson" column.
  */
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
@@ -147,6 +148,23 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			case 'completed':
 				$date  = $this->student->get_completion_date( $lesson->get( 'id' ) );
 				$value = $date ? $date : '&ndash;';
+				break;
+
+			case 'time_on_lesson':
+				$total = LLMS_Lesson_Time_Session::get_total_seconds( $this->student->get_id(), $lesson->get( 'id' ) );
+				$value = LLMS_Lesson_Time_Session::format_time( $total );
+
+				if ( $lesson->has_minimum_time() ) {
+					$required = absint( $lesson->get( 'minimum_time' ) );
+					if ( $total < $required ) {
+						$value = '<span style="color: #dc3232;">' . $value . '</span>';
+					}
+				}
+
+				$override = LLMS_Lesson_Time_Session::get_admin_override( $this->student->get_id(), $lesson->get( 'id' ) );
+				if ( $override ) {
+					$value .= ' <span class="dashicons dashicons-admin-users" title="' . esc_attr__( 'Completed via admin override', 'lifterlms' ) . '"></span>';
+				}
 				break;
 
 			case 'grade':
@@ -293,10 +311,14 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			'grade'     => array(
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
-			'completed' => array(
+			'completed'      => array(
 				'title' => __( 'Completed', 'lifterlms' ),
 			),
-			'actions'   => array(
+			'time_on_lesson' => array(
+				'exportable' => true,
+				'title'      => __( 'Time on Lesson', 'lifterlms' ),
+			),
+			'actions'        => array(
 				'exportable' => false,
 				'title'      => __( 'Actions', 'lifterlms' ),
 			),
