@@ -118,6 +118,13 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
 		 * Our CSS extractor puts things in our preferred directory structure.
 		 */
 		'MiniCssExtractPlugin',
+
+		/**
+		 * Remove the default RTL CSS plugin.
+		 *
+		 * We use our own webpack-rtl-plugin to put things in our preferred directory structure.
+		 */
+		'RtlCssPlugin',
 	];
 	plugins = plugins.filter( ( plugin ) => {
 		const { name: pluginName } = plugin.constructor;
