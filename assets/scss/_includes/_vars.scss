@@ -1,3 +1,4 @@
+@use 'sass:color';
 // ----- LifterLMS Brand Colors ----- \\
 $color-brand-dark-blue: #243c56;
 
@@ -59,7 +60,7 @@ $color-darkblue:		#0185a3;
 
 $color-border: #dedede;
 
-$el-box-shadow: 0 1px 2px 0 rgba($color-black,0.4);
+$el-box-shadow: 0 1px 2px 0 color.change($color-black, $alpha: 0.4);
 $el-background: #f1f1f1;
 $el-background-hover: #eaeaea;
 
