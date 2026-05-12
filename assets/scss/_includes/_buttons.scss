@@ -86,12 +86,12 @@ a.llms-button-primary {
 	color: $color-cinder;
 	&:hover {
 		color: #414141;
-		background: darken( #e1e1e1, 8 );
+		background: #cdcdcd;
 	}
 	&:focus,
 	&:active {
 		color: #414141;
-		background: lighten( #e1e1e1, 4 );
+		background: #ebebeb;
 	}
 }
 /* Fix for cases where link color overrides the button color */
@@ -114,11 +114,11 @@ a.llms-button-secondary {
 .llms-button-danger {
 	background: $color-danger;
 	&:hover {
-		background: darken( $color-danger, 8 );
+		background: #981c17;
 	}
 	&:focus,
 	&:active {
-		background: lighten( $color-danger, 4 );
+		background: #cd261f;
 	}
 }
 
