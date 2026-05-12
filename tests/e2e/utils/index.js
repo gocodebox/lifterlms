@@ -1,13 +1,13 @@
 /**
  * Playwright E2E Test Utilities for LifterLMS
  *
- * @since [version]
+ * @since 10.0.1
  */
 
 /**
  * Visit a front-end page by path.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page Playwright page.
  * @param {string}                          path URL path relative to site root.
@@ -20,7 +20,7 @@ export async function visitPage( page, path ) {
 /**
  * Fill a form field by selector, clearing it first.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page     Playwright page.
  * @param {string}                          selector CSS selector.
@@ -38,7 +38,7 @@ export async function fillField( page, selector, value ) {
  * This clears cookies client-side without hitting WordPress's logout endpoint,
  * so the server session remains valid for subsequent tests that need it.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page Playwright page.
  * @return {Promise<void>}
@@ -50,7 +50,7 @@ export async function logoutUser( page ) {
 /**
  * Log in as a student user via the LifterLMS dashboard form.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page     Playwright page.
  * @param {string}                          email    Email address.
@@ -68,7 +68,7 @@ export async function loginStudent( page, email, password ) {
 /**
  * Select a value from a Select2 dropdown.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page     Playwright page.
  * @param {string}                          selector CSS selector of the underlying select element.
@@ -88,7 +88,7 @@ export async function select2Select( page, selector, text ) {
 /**
  * Register a new student via the LifterLMS open registration form.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page Playwright page.
  * @param {Object}                          opts Registration options.
@@ -139,7 +139,7 @@ export async function registerStudent( page, {
 /**
  * Toggle the open registration setting.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page   Playwright page.
  * @param {boolean}                         enable Whether to enable or disable.
@@ -164,7 +164,7 @@ export async function toggleOpenRegistration( page, enable ) {
 /**
  * Visit the LifterLMS settings page.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page Playwright page.
  * @param {Object}                          opts Options.
@@ -178,7 +178,7 @@ export async function visitSettingsPage( page, { tab = 'general' } = {} ) {
 /**
  * Set a checkbox setting value.
  *
- * @since [version]
+ * @since 10.0.1
  *
  * @param {import('@playwright/test').Page} page     Playwright page.
  * @param {string}                          selector CSS selector.

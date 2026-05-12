@@ -3,7 +3,7 @@
  *
  * Activates the correct theme and runs the setup wizard.
  *
- * @since [version]
+ * @since 10.0.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

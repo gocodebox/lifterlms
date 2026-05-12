@@ -512,7 +512,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * Supports section, lesson, llms_quiz, and llms_question post types.
 	 *
-	 * @since [version]
+	 * @since 10.0.1
 	 *
 	 * @param int $id WP_Post ID of a builder child object.
 	 * @return int Parent course ID, or 0 if the relationship cannot be resolved.

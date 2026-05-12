@@ -1,7 +1,7 @@
 /**
  * Test the LifterLMS View Manager
  *
- * @since [version]
+ * @since 10.0.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
