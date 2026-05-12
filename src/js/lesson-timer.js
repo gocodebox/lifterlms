@@ -184,7 +184,7 @@
 
 		var data = new FormData();
 		data.append( 'action', 'lesson_time_heartbeat' );
-		data.append( 'nonce', nonce );
+		data.append( '_ajax_nonce', nonce );
 		data.append( 'session_token', token );
 
 		fetch( ajaxUrl, {
@@ -237,7 +237,7 @@
 		}
 		var data = new FormData();
 		data.append( 'action', 'lesson_time_end' );
-		data.append( 'nonce', nonce );
+		data.append( '_ajax_nonce', nonce );
 		data.append( 'session_token', token );
 
 		if ( navigator.sendBeacon ) {

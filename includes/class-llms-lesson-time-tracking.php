@@ -44,10 +44,7 @@ class LLMS_Lesson_Time_Tracking {
 			return false;
 		}
 
-		$session     = new LLMS_Lesson_Time_Session();
-		$session->id = absint( $id );
-
-		return $session;
+		return new LLMS_Lesson_Time_Session( absint( $id ) );
 	}
 
 	/**
@@ -99,7 +96,7 @@ class LLMS_Lesson_Time_Tracking {
 			$credit       = min( $delta, $max_credit );
 			$wall_elapsed = $now_ts - $start_ts;
 
-			$interval  = absint(
+			$interval = absint(
 				/**
 				 * Filter the heartbeat interval in seconds.
 				 *

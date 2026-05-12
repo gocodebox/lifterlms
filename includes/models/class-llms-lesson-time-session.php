@@ -21,6 +21,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Lesson_Time_Session extends LLMS_Abstract_Database_Store {
 
 	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param int|null $id Record ID.
+	 */
+	public function __construct( $id = null ) {
+		$this->id = $id;
+		parent::__construct();
+	}
+
+	/**
 	 * Database table name suffix.
 	 *
 	 * @var string
