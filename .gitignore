@@ -31,7 +31,7 @@ assets/css/lifterlms.min.css
 assets/css/llms-admin-addons.css
 assets/css/llms-admin-addons-rtl.css
 assets/css/llms-focus-mode*
-
+assets/js/llms-lesson-timer.js
 assets/js/llms-builder.js
 assets/js/llms-builder.min.js
 assets/js/llms-admin-elementor-editor.js

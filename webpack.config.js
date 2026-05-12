@@ -18,7 +18,7 @@ const { resolve } = require( 'path' ),
 			'admin-certificate-editor',
 			'admin-media-protection-block-protect',
 			'admin-elementor-editor',
-			'llms-lesson-timer',
+			'lesson-timer',
 			'quill-wordcount',
 
 			// Module packages.
@@ -29,7 +29,7 @@ const { resolve } = require( 'path' ),
 		],
 		css: [
 			'admin-addons',
-			'llms-lesson-timer',
+			'lesson-timer',
 		],
 	} );
 
