@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v10.0.1 - 2026-05-12
+--------------------
+
+##### Security Fixes
+
++ Check that items updated in the course builder belong to the same course.
+
+
 v10.0.0 - 2026-05-01
 --------------------
 
