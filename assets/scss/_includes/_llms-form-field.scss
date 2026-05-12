@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .llms-form-fields {
 	@extend %clearfix;
 	box-sizing: border-box;
@@ -95,7 +97,7 @@
 
 		&.valid {
 			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
-				background: rgba( #83c373, .3 );
+				background: color.change( #83c373, $alpha: 0.3 );
 				border-color: #83c373;
 			}
 		}
@@ -103,7 +105,7 @@
 		&.error,
 		&.invalid {
 			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
-				background: rgba( $color-red, .3 );
+				background: color.change( $color-red, $alpha: 0.3 );
 				border-color: $color-red;
 			}
 		}
@@ -263,7 +265,7 @@
 		&.very-weak {
 			border-color: #e35b5b;
 			&:before {
-				background: rgba( #e35b5b, 0.25 );
+				background: color.change( #e35b5b, $alpha: 0.25 );
 				width: 25%;
 			}
 		}
@@ -275,7 +277,7 @@
 		&.weak {
 			border-color: #f78b53;
 			&:before {
-				background: rgba( #f78b53, 0.25 );
+				background: color.change( #f78b53, $alpha: 0.25 );
 				width: 50%;
 			}
 		}
@@ -283,7 +285,7 @@
 		&.medium {
 			border-color: #ffc733;
 			&:before {
-				background: rgba( #ffc733, 0.25 );
+				background: color.change( #ffc733, $alpha: 0.25 );
 				width: 75%;
 			}
 		}
@@ -291,7 +293,7 @@
 		&.strong {
 			border-color: #83c373;
 			&:before {
-				background: rgba( #83c373, 0.25 );
+				background: color.change( #83c373, $alpha: 0.25 );
 				width: 100%;
 			}
 		}

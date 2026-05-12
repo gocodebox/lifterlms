@@ -1,5 +1,7 @@
+@use 'sass:color';
+
 .llms-notice {
-	background: rgba( $color-brand-blue, .3 );
+	background: color.change( $color-brand-blue, $alpha: 0.3 );
 	border-color: $color-brand-blue;
 	border-style: solid;
 	border-width: 1px;
@@ -20,17 +22,17 @@
 	}
 
 	&.llms-debug {
-		background: rgba( #cacaca, .3 );
+		background: color.change( #cacaca, $alpha: 0.3 );
 		border-color: #cacaca;
 	}
 
 	&.llms-error {
-		background: rgba( $color-red, .15 );
+		background: color.change( $color-red, $alpha: 0.15 );
 		border-color: $color-red;
 	}
 
 	&.llms-success {
-		background: rgba( $color-green, .15 );
+		background: color.change( $color-green, $alpha: 0.15 );
 		border-color: $color-green;
 	}
 

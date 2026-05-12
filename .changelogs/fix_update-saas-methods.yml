@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Removing deprecated methods in the scss files.
