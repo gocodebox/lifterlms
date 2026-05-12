@@ -103,7 +103,7 @@ function llms_lesson_time_maybe_hide_mark_complete( $show, $lesson ) {
 		return $show;
 	}
 
-	$total    = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson->get( 'id' ) );
+	$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson->get( 'id' ) );
 	$required = absint( $lesson->get( 'minimum_time' ) );
 
 	return $total >= $required;

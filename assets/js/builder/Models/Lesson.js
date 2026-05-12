@@ -2,8 +2,7 @@
  * Lesson Model
  *
  * @since 3.13.0
- * @since [version] Added minimum time on lesson properties.
- * @version [version]
+ * @version 4.20.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 

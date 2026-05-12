@@ -127,7 +127,7 @@
 		}
 		disconnectBannerEl = document.createElement( 'div' );
 		disconnectBannerEl.className = 'llms-lesson-timer-disconnect-banner';
-		disconnectBannerEl.textContent = settings.i18n_disconnect || 'Your time on this lesson has not been recorded for the past several minutes. Please check your internet connection. Time spent while disconnected may not be credited.';
+		disconnectBannerEl.textContent = LLMS.l10n.translate( 'Your time on this lesson has not been recorded for the past several minutes. Please check your internet connection. Time spent while disconnected may not be credited.' );
 
 		var timerContainer = document.getElementById( 'llms-lesson-timer' );
 		if ( timerContainer ) {
@@ -210,14 +210,14 @@
 				} else if ( result.data && result.data.code ) {
 					if ( 'session_superseded' === result.data.code ) {
 						showModal(
-							settings.i18n_superseded || 'Your session on this lesson has expired because you opened another timed lesson or this lesson in a different tab. Please reload this page to continue.',
-							settings.i18n_reload || 'Reload Page',
+							LLMS.l10n.translate( 'Your session on this lesson has expired because you opened another timed lesson or this lesson in a different tab. Please reload this page to continue.' ),
+							LLMS.l10n.translate( 'Reload Page' ),
 							function() { window.location.reload(); }
 						);
 					} else if ( 'not_logged_in' === result.data.code ) {
 						showModal(
-							settings.i18n_logged_out || 'Your session has expired. Please log in again to continue tracking your time on this lesson.',
-							settings.i18n_login || 'Log In',
+							LLMS.l10n.translate( 'Your session has expired. Please log in again to continue tracking your time on this lesson.' ),
+							LLMS.l10n.translate( 'Log In' ),
 							function() { window.location.href = settings.login_url || '/wp-login.php'; }
 						);
 					}

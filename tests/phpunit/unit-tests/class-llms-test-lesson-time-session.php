@@ -61,7 +61,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_start_session() {
-		$session = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 
 		$this->assertInstanceOf( 'LLMS_Lesson_Time_Session', $session );
 		$this->assertNotEmpty( $session->get( 'session_token' ) );
@@ -79,12 +79,12 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_start_session_expires_prior() {
-		$session1 = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session1 = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$token1   = $session1->get( 'session_token' );
 
-		$session2 = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session2 = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 
-		$old_session = LLMS_Lesson_Time_Session::find_by_token( $token1 );
+		$old_session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token1 );
 		$this->assertNotNull( $old_session->get( 'session_end' ) );
 	}
 
@@ -96,10 +96,10 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_find_by_token() {
-		$session = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$token   = $session->get( 'session_token' );
 
-		$found = LLMS_Lesson_Time_Session::find_by_token( $token );
+		$found = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
 		$this->assertInstanceOf( 'LLMS_Lesson_Time_Session', $found );
 		$this->assertEquals( $session->get_id(), $found->get_id() );
 	}
@@ -112,7 +112,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_find_by_token_invalid() {
-		$this->assertFalse( LLMS_Lesson_Time_Session::find_by_token( 'nonexistent_token' ) );
+		$this->assertFalse( LLMS_Lesson_Time_Tracking::instance()->find_by_token( 'nonexistent_token' ) );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_get_total_seconds_no_sessions() {
-		$total = LLMS_Lesson_Time_Session::get_total_seconds( $this->student_id, $this->lesson_id, false );
+		$total = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $this->student_id, $this->lesson_id, false );
 		$this->assertEquals( 0, $total );
 	}
 
@@ -135,11 +135,11 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_format_time() {
-		$this->assertEquals( '0:00:00', LLMS_Lesson_Time_Session::format_time( 0 ) );
-		$this->assertEquals( '0:01:00', LLMS_Lesson_Time_Session::format_time( 60 ) );
-		$this->assertEquals( '0:10:30', LLMS_Lesson_Time_Session::format_time( 630 ) );
-		$this->assertEquals( '1:00:00', LLMS_Lesson_Time_Session::format_time( 3600 ) );
-		$this->assertEquals( '2:30:45', LLMS_Lesson_Time_Session::format_time( 9045 ) );
+		$this->assertEquals( '0:00:00', LLMS_Lesson_Time_Tracking::instance()->format_time( 0 ) );
+		$this->assertEquals( '0:01:00', LLMS_Lesson_Time_Tracking::instance()->format_time( 60 ) );
+		$this->assertEquals( '0:10:30', LLMS_Lesson_Time_Tracking::instance()->format_time( 630 ) );
+		$this->assertEquals( '1:00:00', LLMS_Lesson_Time_Tracking::instance()->format_time( 3600 ) );
+		$this->assertEquals( '2:30:45', LLMS_Lesson_Time_Tracking::instance()->format_time( 9045 ) );
 	}
 
 	/**
@@ -153,9 +153,9 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_id );
 
-		LLMS_Lesson_Time_Session::record_admin_override( $this->student_id, $this->lesson_id, 'admin_' . $admin_id );
+		LLMS_Lesson_Time_Tracking::instance()->record_admin_override( $this->student_id, $this->lesson_id, 'admin_' . $admin_id );
 
-		$override = LLMS_Lesson_Time_Session::get_admin_override( $this->student_id, $this->lesson_id );
+		$override = LLMS_Lesson_Time_Tracking::instance()->get_admin_override( $this->student_id, $this->lesson_id );
 		$this->assertIsArray( $override );
 		$this->assertEquals( $admin_id, $override['admin_id'] );
 		$this->assertEquals( $this->student_id, $override['student_id'] );
@@ -213,7 +213,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 */
 	public function test_heartbeat_valid() {
 		wp_set_current_user( $this->student_id );
-		$session = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 
 		sleep( 1 );
 
@@ -238,10 +238,10 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 */
 	public function test_heartbeat_superseded() {
 		wp_set_current_user( $this->student_id );
-		$session1 = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session1 = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$token1   = $session1->get( 'session_token' );
 
-		LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 
 		$result = LLMS_AJAX_Handler::lesson_time_heartbeat( array(
 			'session_token' => $token1,
@@ -292,7 +292,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 */
 	public function test_lesson_time_end() {
 		wp_set_current_user( $this->student_id );
-		$session = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$token   = $session->get( 'session_token' );
 
 		$result = LLMS_AJAX_Handler::lesson_time_end( array(
@@ -302,7 +302,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 		$this->assertIsArray( $result );
 		$this->assertTrue( $result['ended'] );
 
-		$ended = LLMS_Lesson_Time_Session::find_by_token( $token );
+		$ended = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
 		$this->assertNotNull( $ended->get( 'session_end' ) );
 	}
 
@@ -350,7 +350,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 
 		$this->assertTrue( $result );
 
-		$override = LLMS_Lesson_Time_Session::get_admin_override( $this->student_id, $this->lesson_id );
+		$override = LLMS_Lesson_Time_Tracking::instance()->get_admin_override( $this->student_id, $this->lesson_id );
 		$this->assertIsArray( $override );
 	}
 
@@ -394,12 +394,12 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 			),
 		) );
 
-		$session1 = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session1 = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$token1   = $session1->get( 'session_token' );
 
-		$session2 = LLMS_Lesson_Time_Session::start_session( $this->student_id, $lesson_id_2 );
+		$session2 = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $lesson_id_2 );
 
-		$old_session = LLMS_Lesson_Time_Session::find_by_token( $token1 );
+		$old_session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token1 );
 		$this->assertNotNull( $old_session->get( 'session_end' ) );
 
 		$this->assertNull( $session2->get( 'session_end' ) );
@@ -413,14 +413,14 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_cached_totals() {
-		$session = LLMS_Lesson_Time_Session::start_session( $this->student_id, $this->lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
 		$session->set( 'accumulated_seconds', 120 );
 		$session->set( 'session_end', current_time( 'mysql' ) );
 		$session->save();
 
-		LLMS_Lesson_Time_Session::update_cached_time( $this->student_id, $this->lesson_id );
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $this->student_id, $this->lesson_id );
 
-		$total = LLMS_Lesson_Time_Session::get_total_seconds( $this->student_id, $this->lesson_id );
+		$total = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $this->student_id, $this->lesson_id );
 		$this->assertGreaterThanOrEqual( 120, $total );
 	}
 }

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.15.0
  * @version 3.17.6
- * @since [version] Added "Time in Course" column with export support.
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -176,8 +175,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				break;
 
 			case 'time_in_course':
-				$total = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $this->course_id );
-				$value = LLMS_Lesson_Time_Session::format_time( $total );
+				$total = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
 
 				$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
 				if ( ! $global_tracking ) {
@@ -243,8 +242,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				break;
 
 			case 'time_in_course':
-				$total = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $this->course_id );
-				$value = LLMS_Lesson_Time_Session::format_time( $total );
+				$total = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
 
 				$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
 				if ( ! $global_tracking ) {

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.36.2 'start' drip method made avialble only if the parent course has a start date set.
- * @since [version] Added minimum time on lesson fields.
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -47,7 +46,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.36.2 'start' drip method made available only if the parent course has a start date set.
 	 * @since 7.1.3 Replace outdated URLs to WordPress' documentation about the list of sites you can embed from.
-	 * @since [version] Added minimum time on lesson fields.
 	 *
 	 * @return array
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.5.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,6 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	 *
 	 * @since 3.5.0
 	 * @since 7.5.0 Added settings for enabling/disabling favorites.
-	 * @since [version] Added Lesson Time Tracking settings section.
 	 *
 	 * @return array
 	 */

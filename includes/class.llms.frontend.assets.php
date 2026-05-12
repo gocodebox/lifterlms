@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 7.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -53,7 +53,6 @@ class LLMS_Frontend_Assets {
 	 * @since 3.4.1
 	 * @since 3.17.5 Unknown.
 	 * @since 5.6.0 Add content protection inline script enqueue.
-	 * @since [version] Add lesson time tracking on template_redirect.
 	 *
 	 * @return void
 	 */
@@ -331,12 +330,12 @@ class LLMS_Frontend_Assets {
 		$user_id   = get_current_user_id();
 		$lesson_id = $lesson->get( 'id' );
 
-		$session = LLMS_Lesson_Time_Session::start_session( $user_id, $lesson_id );
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $user_id, $lesson_id );
 		if ( ! $session ) {
 			return;
 		}
 
-		$accumulated = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson_id );
+		$accumulated = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
 		$required    = $has_minimum ? absint( $lesson->get( 'minimum_time' ) ) : 0;
 		$met         = $required > 0 ? $accumulated >= $required : true;
 
@@ -350,7 +349,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script(
 			'llms-lesson-timer',
 			LLMS_PLUGIN_URL . 'assets/js/llms-lesson-timer' . LLMS_ASSETS_SUFFIX . '.js',
-			array(),
+			array( 'llms' ),
 			LLMS()->version,
 			true
 		);
@@ -371,11 +370,6 @@ class LLMS_Frontend_Assets {
 			'nonce'              => wp_create_nonce( 'llms-ajax' ),
 			'ajax_url'           => admin_url( 'admin-ajax.php' ),
 			'login_url'          => wp_login_url( get_permalink() ),
-			'i18n_superseded'    => __( 'Your session on this lesson has expired because you opened another timed lesson or this lesson in a different tab. Please reload this page to continue.', 'lifterlms' ),
-			'i18n_logged_out'    => __( 'Your session has expired. Please log in again to continue tracking your time on this lesson.', 'lifterlms' ),
-			'i18n_reload'        => __( 'Reload Page', 'lifterlms' ),
-			'i18n_login'         => __( 'Log In', 'lifterlms' ),
-			'i18n_disconnect'    => __( 'Your time on this lesson has not been recorded for the past several minutes. Please check your internet connection. Time spent while disconnected may not be credited.', 'lifterlms' ),
 		) );
 
 		add_action( 'lifterlms_single_lesson_before_summary', array( __CLASS__, 'output_lesson_timer' ), 5 );
@@ -399,7 +393,7 @@ class LLMS_Frontend_Assets {
 		$lesson_id   = $lesson->get( 'id' );
 		$has_minimum = $lesson->has_minimum_time();
 		$required    = $has_minimum ? absint( $lesson->get( 'minimum_time' ) ) : 0;
-		$accumulated = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson_id );
+		$accumulated = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
 		$met         = $required > 0 ? $accumulated >= $required : true;
 
 		$format = get_option(
@@ -410,14 +404,14 @@ class LLMS_Frontend_Assets {
 		$display_text = str_replace(
 			array( '{CURRENT_TIME}', '{MINIMUM_TIME}' ),
 			array(
-				LLMS_Lesson_Time_Session::format_time( $accumulated ),
-				LLMS_Lesson_Time_Session::format_time( $required ),
+				LLMS_Lesson_Time_Tracking::instance()->format_time( $accumulated ),
+				LLMS_Lesson_Time_Tracking::instance()->format_time( $required ),
 			),
 			$format
 		);
 
 		if ( $required <= 0 ) {
-			$display_text = LLMS_Lesson_Time_Session::format_time( $accumulated );
+			$display_text = LLMS_Lesson_Time_Tracking::instance()->format_time( $accumulated );
 		}
 
 		llms_get_template(

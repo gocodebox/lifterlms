@@ -317,11 +317,11 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		if ( 0 === strpos( $trigger, 'admin_' ) ) {
-			LLMS_Lesson_Time_Session::record_admin_override( $user_id, $lesson_id, $trigger );
+			LLMS_Lesson_Time_Tracking::instance()->record_admin_override( $user_id, $lesson_id, $trigger );
 			return $allow;
 		}
 
-		$total    = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson_id );
+		$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
 		$required = absint( $lesson->get( 'minimum_time' ) );
 
 		return $total >= $required;

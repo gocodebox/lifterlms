@@ -156,13 +156,13 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 			)
 		);
 
-		$course_time = LLMS_Lesson_Time_Session::get_course_time( $student->get_id(), $course_id );
+		$course_time = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $course_id );
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of5',
 				'icon'      => 'clock-o',
 				'id'        => 'llms-reporting-student-course-total-time',
-				'data'      => LLMS_Lesson_Time_Session::format_time( $course_time ),
+				'data'      => LLMS_Lesson_Time_Tracking::instance()->format_time( $course_time ),
 				'data_type' => 'text',
 				'text'      => __( 'Total Course Time', 'lifterlms' ),
 			)

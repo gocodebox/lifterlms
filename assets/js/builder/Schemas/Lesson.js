@@ -1,9 +1,8 @@
 /**
  * Lesson Schemas
  *
- * @since 3.17.0
- * @since [version] Added minimum time on lesson fields.
- * @version [version]
+ * @since    3.17.0
+ * @version  3.25.4
  */
 define( [], function() {
 
@@ -51,14 +50,14 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
 			},
-				], [
-				{
-					attribute: 'free_lesson',
-					id: 'free-lesson',
-					label: LLMS.l10n.translate( 'Free Lesson' ),
-					tip: LLMS.l10n.translate( 'Free lessons can be accessed without enrollment.' ),
-					type: 'switch',
-		},
+			], [
+					{
+						attribute: 'free_lesson',
+						id: 'free-lesson',
+						label: LLMS.l10n.translate( 'Free Lesson' ),
+						tip: LLMS.l10n.translate( 'Free lessons can be accessed without enrollment.' ),
+						type: 'switch',
+			},
 					{
 						attribute: 'has_minimum_time',
 						id: 'has-minimum-time',

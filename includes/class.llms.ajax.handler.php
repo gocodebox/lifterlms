@@ -1269,7 +1269,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
 		}
 
-		$session = LLMS_Lesson_Time_Session::find_by_token( $token );
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
 		if ( ! $session ) {
 			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
 		}
@@ -1326,10 +1326,10 @@ class LLMS_AJAX_Handler {
 		}
 		$session->save();
 
-		LLMS_Lesson_Time_Session::update_cached_time( $user_id, absint( $session->get( 'lesson_id' ) ) );
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, absint( $session->get( 'lesson_id' ) ) );
 
 		$lesson_id = absint( $session->get( 'lesson_id' ) );
-		$total     = LLMS_Lesson_Time_Session::get_total_seconds( $user_id, $lesson_id );
+		$total     = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
 		$lesson    = llms_get_post( $lesson_id );
 		$required  = ( $lesson && $lesson->has_minimum_time() ) ? absint( $lesson->get( 'minimum_time' ) ) : 0;
 
@@ -1356,7 +1356,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
 		}
 
-		$session = LLMS_Lesson_Time_Session::find_by_token( $token );
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
 		if ( ! $session ) {
 			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
 		}
@@ -1393,7 +1393,7 @@ class LLMS_AJAX_Handler {
 		$session->save();
 
 		$lesson_id = absint( $session->get( 'lesson_id' ) );
-		LLMS_Lesson_Time_Session::update_cached_time( $user_id, $lesson_id );
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
 
 		return array( 'ended' => true );
 	}

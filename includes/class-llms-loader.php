@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 7.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -233,7 +233,6 @@ class LLMS_Loader {
 	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since 7.0.0 Include `LLMS_Controller_Checkout`.
 	 * @since 7.2.0 Include `LLMS_Shortcodes_Blocks`.
-	 * @since [version] Include `LLMS_Lesson_Time_Session` model.
 	 *
 	 * @return void
 	 */
@@ -299,6 +298,7 @@ class LLMS_Loader {
 
 		// Models.
 		require_once LLMS_PLUGIN_DIR . 'includes/models/class-llms-lesson-time-session.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-lesson-time-tracking.php';
 
 		// Hooks.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.template.hooks.php';
