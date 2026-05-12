@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: Check that items updated in the course builder belong to the same course.
