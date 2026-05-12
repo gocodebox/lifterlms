@@ -508,6 +508,37 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
+	 * Resolve the parent course ID for a builder child object.
+	 *
+	 * Supports section, lesson, llms_quiz, and llms_question post types.
+	 *
+	 * @since 10.0.1
+	 *
+	 * @param int $id WP_Post ID of a builder child object.
+	 * @return int Parent course ID, or 0 if the relationship cannot be resolved.
+	 */
+	private static function get_object_parent_course_id( $id ) {
+
+		$post_type = get_post_type( $id );
+
+		if ( 'llms_question' === $post_type ) {
+			$question = llms_get_post( $id );
+			if ( ! $question || ! is_a( $question, 'LLMS_Question' ) ) {
+				return 0;
+			}
+			$quiz = $question->get_quiz();
+			if ( ! $quiz || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
+				return 0;
+			}
+			$course = $quiz->get_course();
+			return $course ? absint( $course->get( 'id' ) ) : 0;
+		}
+
+		$course = llms_get_post_parent_course( $id );
+		return $course ? absint( $course->get( 'id' ) ) : 0;
+	}
+
+	/**
 	 * Modify the "Take Over" link on the post locked modal to send users to the builder when taking over a course
 	 *
 	 * @since 3.13.0
@@ -696,6 +727,14 @@ class LLMS_Admin_Builder {
 				continue;
 			}
 
+			if ( ! empty( $data['id'] ) ) {
+				$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
+				if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
+					array_push( $ret, $res );
+					continue;
+				}
+			}
+
 			$post = llms_get_post( $id );
 			if ( ! is_a( $post, 'LLMS_Post_Model' ) ) {
 				array_push( $ret, $res );
@@ -740,8 +779,10 @@ class LLMS_Admin_Builder {
 
 		$ret = array();
 
+		$course_id = isset( $data['id'] ) ? $data['id'] : 0;
+
 		foreach ( $data['trash'] as $id ) {
-			$ret[] = self::process_trash_item( $id );
+			$ret[] = self::process_trash_item( $id, $course_id );
 		}
 
 		return $ret;
@@ -752,12 +793,13 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @param mixed $id Item id. Usually a WP_Post ID but can also be custom ID strings.
+	 * @param mixed $id        Item id. Usually a WP_Post ID but can also be custom ID strings.
+	 * @param int   $course_id WP_Post ID of the authorized builder course.
 	 * @return array Associative array containing information about the trashed item.
 	 *               On success returns an array with an `id` key corresponding to the item's id.
 	 *               On failure returns the `id` as well as an `error` key which is a string describing the error.
 	 */
-	private static function process_trash_item( $id ) {
+	private static function process_trash_item( $id, $course_id ) {
 
 		// Default response.
 		$res = array(
@@ -786,6 +828,20 @@ class LLMS_Admin_Builder {
 		$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
 		if ( $custom ) {
 			return $custom;
+		}
+
+		// Verify the object belongs to the authorized course.
+		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
+		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
+			$parts    = explode( ':', $id );
+			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
+		}
+
+		if ( $course_id && $check_id ) {
+			$parent_course_id = self::get_object_parent_course_id( $check_id );
+			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $course_id ) ) {
+				return $res;
+			}
 		}
 
 		// Determine the element's post type.
@@ -1002,11 +1058,12 @@ class LLMS_Admin_Builder {
 	 * @since 5.1.3 Made sure a lesson moved in a just created section is correctly assigned to it.
 	 * @since 7.3.0 Skip revision creation when creating a brand new lesson.
 	 *
-	 * @param array        $lessons Lesson data from heartbeat.
-	 * @param LLMS_Section $section instance of the parent LLMS_Section.
+	 * @param array        $lessons   Lesson data from heartbeat.
+	 * @param LLMS_Section $section   Instance of the parent LLMS_Section.
+	 * @param int          $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_lessons( $lessons, $section ) {
+	private static function update_lessons( $lessons, $section, $course_id = 0 ) {
 
 		$ret = array();
 
@@ -1040,6 +1097,16 @@ class LLMS_Admin_Builder {
 				$lesson  = llms_get_post( $lesson_data['id'] );
 				$created = false;
 
+				// Verify the lesson belongs to this course.
+				if ( $course_id && $lesson && is_a( $lesson, 'LLMS_Lesson' ) ) {
+					$parent = self::get_object_parent_course_id( $lesson->get( 'id' ) );
+					if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+						// Translators: %s = Lesson post id.
+						$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
+						array_push( $ret, $res );
+						continue;
+					}
+				}
 			}
 
 			if ( empty( $lesson ) || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
@@ -1117,7 +1184,7 @@ class LLMS_Admin_Builder {
 				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
-					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
+					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson, $course_id );
 				}
 			}
 
@@ -1140,9 +1207,10 @@ class LLMS_Admin_Builder {
 	 *
 	 * @param array                   $questions Question data array.
 	 * @param LLMS_Quiz|LLMS_Question $parent    Instance of an LLMS_Quiz or LLMS_Question (group).
+	 * @param int                     $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_questions( $questions, $parent ) {
+	private static function update_questions( $questions, $parent, $course_id = 0 ) {
 
 		$res = array();
 
@@ -1158,6 +1226,15 @@ class LLMS_Admin_Builder {
 			// Remove temp id if we have one so we'll create a new question.
 			if ( self::is_temp_id( $q_data['id'] ) ) {
 				unset( $q_data['id'] );
+			} else {
+				// Verify the question belongs to this course.
+				$q_parent = $course_id ? self::get_object_parent_course_id( absint( $q_data['id'] ) ) : 0;
+				if ( $q_parent && absint( $q_parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Question post id.
+					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
+					array_push( $res, $ret );
+					continue;
+				}
 			}
 
 			// Remove choices because we'll add them individually after creation.
@@ -1235,7 +1312,7 @@ class LLMS_Admin_Builder {
 					}
 				} elseif ( $questions ) {
 
-					$ret['questions'] = self::update_questions( $questions, $question );
+					$ret['questions'] = self::update_questions( $questions, $question, $course_id );
 
 				}
 			}
@@ -1255,9 +1332,10 @@ class LLMS_Admin_Builder {
 	 *
 	 * @param array       $quiz_data Array of quiz updates.
 	 * @param LLMS_Lesson $lesson    Instance of the parent LLMS_Lesson.
+	 * @param int         $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_quiz( $quiz_data, $lesson ) {
+	private static function update_quiz( $quiz_data, $lesson, $course_id = 0 ) {
 
 		$res = array_merge(
 			$quiz_data,
@@ -1281,6 +1359,15 @@ class LLMS_Admin_Builder {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
 
+			// Verify the quiz belongs to this course.
+			if ( $course_id && $quiz && is_a( $quiz, 'LLMS_Quiz' ) ) {
+				$parent = self::get_object_parent_course_id( $quiz->get( 'id' ) );
+				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Quiz post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
+					return $res;
+				}
+			}
 		}
 
 		$lesson->set( 'quiz', $quiz->get( 'id' ) );
@@ -1327,7 +1414,7 @@ class LLMS_Admin_Builder {
 			$res['name']      = $quiz->get( 'name' );
 
 			if ( isset( $quiz_data['questions'] ) && is_array( $quiz_data['questions'] ) ) {
-				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
+				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz, $course_id );
 			}
 
 			// Update all custom fields.
@@ -1368,6 +1455,15 @@ class LLMS_Admin_Builder {
 
 			$section = llms_get_post( $section_data['id'] );
 
+			// Verify the section belongs to this course.
+			if ( $course_id && $section && is_a( $section, 'LLMS_Section' ) ) {
+				$parent = self::get_object_parent_course_id( $section->get( 'id' ) );
+				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Section post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
+					return $res;
+				}
+			}
 		}
 
 		// We don't have a proper section to work with...
@@ -1392,7 +1488,7 @@ class LLMS_Admin_Builder {
 
 			if ( isset( $section_data['lessons'] ) && is_array( $section_data['lessons'] ) ) {
 
-				$res['lessons'] = self::update_lessons( $section_data['lessons'], $section );
+				$res['lessons'] = self::update_lessons( $section_data['lessons'], $section, $course_id );
 
 			}
 		}
