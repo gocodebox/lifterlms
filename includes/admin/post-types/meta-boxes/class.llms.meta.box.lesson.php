@@ -53,6 +53,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
 		$lesson = llms_get_post( $this->post );
 
+		$total_seconds  = $lesson ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+		$min_time_hours = floor( $total_seconds / 3600 );
+		$min_time_mins  = floor( ( $total_seconds % 3600 ) / 60 );
+		$min_time_secs  = $total_seconds % 60;
+
 		$methods = array(
 			'date'       => __( 'On a specific date', 'lifterlms' ),
 			'enrollment' => __( 'After course enrollment', 'lifterlms' ),
@@ -102,14 +107,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'type'          => 'checkbox',
 						'value'         => 'yes',
 					),
-				),
-			),
-			array(
-				'title'  => __( 'Time Requirements', 'lifterlms' ),
-				'fields' => array(
 					array(
 						'class'         => '',
 						'controls'      => '#' . $this->prefix . 'minimum_time_hours, #' . $this->prefix . 'minimum_time_minutes, #' . $this->prefix . 'minimum_time_seconds',
+						'controller'       => '#' . $this->prefix . 'free_lesson',
+						'controller_value' => 'false',
 						'desc'          => __( 'Require students to spend a minimum amount of time on this lesson before they can mark it complete.', 'lifterlms' ),
 						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
 						'id'            => $this->prefix . 'has_minimum_time',
@@ -126,6 +128,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'desc_class'       => 'd-all',
 						'id'               => $this->prefix . 'minimum_time_hours',
 						'label'            => __( 'Hours', 'lifterlms' ),
+						'meta'             => $min_time_hours,
 						'min'              => 0,
 						'max'              => 999,
 						'type'             => 'number',
@@ -138,6 +141,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'desc_class'       => 'd-all',
 						'id'               => $this->prefix . 'minimum_time_minutes',
 						'label'            => __( 'Minutes', 'lifterlms' ),
+						'meta'             => $min_time_mins,
 						'min'              => 0,
 						'max'              => 59,
 						'type'             => 'number',
@@ -150,6 +154,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'desc_class'       => 'd-all',
 						'id'               => $this->prefix . 'minimum_time_seconds',
 						'label'            => __( 'Seconds', 'lifterlms' ),
+						'meta'             => $min_time_secs,
 						'min'              => 0,
 						'max'              => 59,
 						'type'             => 'number',

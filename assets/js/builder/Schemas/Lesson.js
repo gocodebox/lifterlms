@@ -59,6 +59,41 @@ define( [], function() {
 						type: 'switch',
 			},
 					{
+						attribute: 'require_passing_grade',
+						id: 'require-passing-grade',
+						label: LLMS.l10n.translate( 'Require Passing Grade on Quiz' ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this quiz before the lesson can be completed.' ),
+						type: 'switch',
+						condition: function() {
+							return ( 'yes' === this.get( 'quiz_enabled' ) );
+						},
+			},
+					{
+						attribute: 'require_assignment_passing_grade',
+						id: 'require-assignment-passing-grade',
+						label: LLMS.l10n.translate( 'Require Passing Grade on Assignment' ),
+						tip: LLMS.l10n.translate( 'When enabled, students must pass this assignment before the lesson can be completed.' ),
+						type: 'switch',
+						condition: function() {
+							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
+						},
+			},
+					{
+						attribute: 'points',
+						id: 'points',
+						label: LLMS.l10n.translate( 'Lesson Weight' ),
+						label_after: LLMS.l10n.translate( 'POINTS' ),
+						min: 0,
+						max: 99,
+						tip: LLMS.l10n.translate( 'Determines the weight of the lesson when calculating the overall grade of the course.' ),
+						tip_position: 'top-left',
+						type: 'number',
+						condition: function() {
+							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
+						},
+			},
+				], [
+					{
 						attribute: 'has_minimum_time',
 						id: 'has-minimum-time',
 						label: LLMS.l10n.translate( 'Minimum Time on Lesson' ),
@@ -99,40 +134,6 @@ define( [], function() {
 						type: 'number',
 						condition: function() {
 							return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
-						},
-			},
-					{
-						attribute: 'require_passing_grade',
-						id: 'require-passing-grade',
-						label: LLMS.l10n.translate( 'Require Passing Grade on Quiz' ),
-						tip: LLMS.l10n.translate( 'When enabled, students must pass this quiz before the lesson can be completed.' ),
-						type: 'switch',
-						condition: function() {
-							return ( 'yes' === this.get( 'quiz_enabled' ) );
-						},
-			},
-					{
-						attribute: 'require_assignment_passing_grade',
-						id: 'require-assignment-passing-grade',
-						label: LLMS.l10n.translate( 'Require Passing Grade on Assignment' ),
-						tip: LLMS.l10n.translate( 'When enabled, students must pass this assignment before the lesson can be completed.' ),
-						type: 'switch',
-						condition: function() {
-							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
-						},
-			},
-					{
-						attribute: 'points',
-						id: 'points',
-						label: LLMS.l10n.translate( 'Lesson Weight' ),
-						label_after: LLMS.l10n.translate( 'POINTS' ),
-						min: 0,
-						max: 99,
-						tip: LLMS.l10n.translate( 'Determines the weight of the lesson when calculating the overall grade of the course.' ),
-						tip_position: 'top-left',
-						type: 'number',
-						condition: function() {
-							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
 			},
 				], [
