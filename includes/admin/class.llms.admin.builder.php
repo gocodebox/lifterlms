@@ -727,10 +727,12 @@ class LLMS_Admin_Builder {
 				continue;
 			}
 
-			$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
-			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
-				array_push( $ret, $res );
-				continue;
+			if ( ! empty( $data['id'] ) ) {
+				$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
+				if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
+					array_push( $ret, $res );
+					continue;
+				}
 			}
 
 			$post = llms_get_post( $id );
@@ -777,8 +779,10 @@ class LLMS_Admin_Builder {
 
 		$ret = array();
 
+		$course_id = isset( $data['id'] ) ? $data['id'] : 0;
+
 		foreach ( $data['trash'] as $id ) {
-			$ret[] = self::process_trash_item( $id, $data['id'] );
+			$ret[] = self::process_trash_item( $id, $course_id );
 		}
 
 		return $ret;
@@ -833,7 +837,7 @@ class LLMS_Admin_Builder {
 			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
 		}
 
-		if ( $check_id ) {
+		if ( $course_id && $check_id ) {
 			$parent_course_id = self::get_object_parent_course_id( $check_id );
 			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $course_id ) ) {
 				return $res;
@@ -1059,7 +1063,7 @@ class LLMS_Admin_Builder {
 	 * @param int          $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_lessons( $lessons, $section, $course_id ) {
+	private static function update_lessons( $lessons, $section, $course_id = 0 ) {
 
 		$ret = array();
 
@@ -1094,7 +1098,7 @@ class LLMS_Admin_Builder {
 				$created = false;
 
 				// Verify the lesson belongs to this course.
-				if ( $lesson && is_a( $lesson, 'LLMS_Lesson' ) ) {
+				if ( $course_id && $lesson && is_a( $lesson, 'LLMS_Lesson' ) ) {
 					$parent = self::get_object_parent_course_id( $lesson->get( 'id' ) );
 					if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
 						// Translators: %s = Lesson post id.
@@ -1206,7 +1210,7 @@ class LLMS_Admin_Builder {
 	 * @param int                     $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_questions( $questions, $parent, $course_id ) {
+	private static function update_questions( $questions, $parent, $course_id = 0 ) {
 
 		$res = array();
 
@@ -1224,7 +1228,7 @@ class LLMS_Admin_Builder {
 				unset( $q_data['id'] );
 			} else {
 				// Verify the question belongs to this course.
-				$q_parent = self::get_object_parent_course_id( absint( $q_data['id'] ) );
+				$q_parent = $course_id ? self::get_object_parent_course_id( absint( $q_data['id'] ) ) : 0;
 				if ( $q_parent && absint( $q_parent ) !== absint( $course_id ) ) {
 					// Translators: %s = Question post id.
 					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
@@ -1331,7 +1335,7 @@ class LLMS_Admin_Builder {
 	 * @param int         $course_id WP_Post ID of the authorized builder course.
 	 * @return array
 	 */
-	private static function update_quiz( $quiz_data, $lesson, $course_id ) {
+	private static function update_quiz( $quiz_data, $lesson, $course_id = 0 ) {
 
 		$res = array_merge(
 			$quiz_data,
@@ -1356,7 +1360,7 @@ class LLMS_Admin_Builder {
 			$quiz = llms_get_post( $quiz_data['id'] );
 
 			// Verify the quiz belongs to this course.
-			if ( $quiz && is_a( $quiz, 'LLMS_Quiz' ) ) {
+			if ( $course_id && $quiz && is_a( $quiz, 'LLMS_Quiz' ) ) {
 				$parent = self::get_object_parent_course_id( $quiz->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
 					// Translators: %s = Quiz post id.
@@ -1452,7 +1456,7 @@ class LLMS_Admin_Builder {
 			$section = llms_get_post( $section_data['id'] );
 
 			// Verify the section belongs to this course.
-			if ( $section && is_a( $section, 'LLMS_Section' ) ) {
+			if ( $course_id && $section && is_a( $section, 'LLMS_Section' ) ) {
 				$parent = self::get_object_parent_course_id( $section->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
 					// Translators: %s = Section post id.
