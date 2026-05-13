@@ -156,7 +156,25 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 			)
 		);
 
-		$course_time = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $course_id );
+		$course_time     = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $course_id );
+		$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
+		$time_label      = __( 'Total Course Time', 'lifterlms' );
+
+		if ( ! $global_tracking && $course && is_a( $course, 'LLMS_Course' ) ) {
+			$lessons     = $course->get_lessons( 'ids' );
+			$all_tracked = true;
+			foreach ( $lessons as $lid ) {
+				$l = llms_get_post( $lid );
+				if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+					$all_tracked = false;
+					break;
+				}
+			}
+			if ( ! $all_tracked ) {
+				$time_label .= ' (' . __( 'Partial', 'lifterlms' ) . ')';
+			}
+		}
+
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of5',
@@ -164,7 +182,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 				'id'        => 'llms-reporting-student-course-total-time',
 				'data'      => LLMS_Lesson_Time_Tracking::instance()->format_time( $course_time ),
 				'data_type' => 'text',
-				'text'      => __( 'Total Course Time', 'lifterlms' ),
+				'text'      => $time_label,
 			)
 		);
 

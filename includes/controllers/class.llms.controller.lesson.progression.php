@@ -37,6 +37,7 @@ class LLMS_Controller_Lesson_Progression {
 		add_filter( 'llms_allow_lesson_completion', array( $this, 'minimum_time_maybe_prevent_lesson_completion' ), 15, 5 );
 
 		add_action( 'llms_trigger_lesson_completion', array( $this, 'mark_complete' ), 10, 4 );
+		add_action( 'before_llms_mark_incomplete', array( $this, 'clear_lesson_time_override' ), 10, 3 );
 
 	}
 
@@ -325,6 +326,26 @@ class LLMS_Controller_Lesson_Progression {
 		$required = absint( $lesson->get( 'minimum_time' ) );
 
 		return $total >= $required;
+
+	}
+
+	/**
+	 * Clear the admin override meta when a lesson is marked incomplete.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $student_id  WP_User ID.
+	 * @param int    $object_id   WP_Post ID.
+	 * @param string $object_type Object type.
+	 * @return void
+	 */
+	public function clear_lesson_time_override( $student_id, $object_id, $object_type ) {
+
+		if ( 'lesson' !== $object_type ) {
+			return;
+		}
+
+		delete_user_meta( $student_id, 'llms_lesson_time_override_' . $object_id );
 
 	}
 

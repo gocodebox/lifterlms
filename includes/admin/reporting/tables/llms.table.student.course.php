@@ -161,8 +161,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 				}
 
 				$override = LLMS_Lesson_Time_Tracking::instance()->get_admin_override( $this->student->get_id(), $lesson->get( 'id' ) );
-				if ( $override ) {
-					$value .= ' <span class="dashicons dashicons-admin-users" title="' . esc_attr__( 'Completed via admin override', 'lifterlms' ) . '"></span>';
+				if ( $override && $this->student->get_completion_date( $lesson->get( 'id' ) ) ) {
+					$value .= ' ' . __( '(Overridden)', 'lifterlms' );
 				}
 				break;
 
