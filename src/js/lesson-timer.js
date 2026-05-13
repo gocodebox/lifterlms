@@ -5,6 +5,8 @@
  *
  * @since [version]
  */
+import '../scss/lesson-timer.scss';
+
 ( function() {
 
 	var settings = window.llms_lesson_timer || {};
@@ -14,6 +16,7 @@
 
 	var token              = settings.session_token,
 		requiredSeconds    = parseInt( settings.required_seconds, 10 ) || 0,
+		hasMinimum         = !! settings.has_minimum,
 		accumulated        = parseInt( settings.accumulated, 10 ) || 0,
 		heartbeatInterval  = ( parseInt( settings.heartbeat_interval, 10 ) || 30 ) * 1000,
 		displayFormat      = settings.display_format || '{CURRENT_TIME}',
@@ -21,13 +24,12 @@
 		ajaxUrl            = settings.ajax_url || '',
 		timerEl            = document.getElementById( 'llms-lesson-timer-display' ),
 		markCompleteBtn    = document.querySelector( '.llms-complete-lesson-mark-button' ),
+		takeQuizBtn        = document.getElementById( 'llms_start_quiz' ),
 		heartbeatTimer     = null,
 		displayTimer       = null,
-		lastAckTime        = Date.now(),
 		localAccumulated   = accumulated,
 		lastTickTime       = Date.now(),
-		stopped            = false,
-		disconnectBannerEl = null;
+		stopped            = false;
 
 	/**
 	 * Format seconds as H:MM:SS.
@@ -44,7 +46,7 @@
 	 * Update the display element.
 	 */
 	function updateDisplay() {
-		if ( ! timerEl ) {
+		if ( ! timerEl || ! hasMinimum ) {
 			return;
 		}
 
@@ -81,12 +83,23 @@
 	 * Show/enable the mark complete button if time is met.
 	 */
 	function checkMarkComplete() {
-		if ( ! markCompleteBtn ) {
+		if ( ! hasMinimum ) {
 			return;
 		}
-		if ( requiredSeconds <= 0 || localAccumulated >= requiredSeconds ) {
+
+		var met = requiredSeconds <= 0 || localAccumulated >= requiredSeconds;
+
+		if ( markCompleteBtn && met ) {
 			markCompleteBtn.disabled = false;
 			markCompleteBtn.classList.remove( 'llms-lesson-time-disabled' );
+		}
+
+		if ( takeQuizBtn && met ) {
+			takeQuizBtn.classList.remove( 'llms-lesson-time-disabled' );
+		}
+
+		if ( met ) {
+			document.dispatchEvent( new CustomEvent( 'llms-lesson-time-met' ) );
 		}
 	}
 
@@ -119,62 +132,6 @@
 	}
 
 	/**
-	 * Show the disconnect warning banner.
-	 */
-	function showDisconnectBanner() {
-		if ( disconnectBannerEl ) {
-			return;
-		}
-		disconnectBannerEl = document.createElement( 'div' );
-		disconnectBannerEl.className = 'llms-lesson-timer-disconnect-banner';
-		disconnectBannerEl.textContent = LLMS.l10n.translate( 'Your time on this lesson has not been recorded for the past several minutes. Please check your internet connection. Time spent while disconnected may not be credited.' );
-
-		var timerContainer = document.getElementById( 'llms-lesson-timer' );
-		if ( timerContainer ) {
-			timerContainer.parentNode.insertBefore( disconnectBannerEl, timerContainer.nextSibling );
-		} else {
-			document.body.insertBefore( disconnectBannerEl, document.body.firstChild );
-		}
-	}
-
-	/**
-	 * Hide the disconnect banner.
-	 */
-	function hideDisconnectBanner() {
-		if ( disconnectBannerEl ) {
-			disconnectBannerEl.remove();
-			disconnectBannerEl = null;
-		}
-	}
-
-	/**
-	 * beforeunload handler.
-	 */
-	function onBeforeUnload( e ) {
-		e.preventDefault();
-		e.returnValue = '';
-		return '';
-	}
-
-	/**
-	 * Manage the beforeunload warning based on last ack time.
-	 */
-	function updateBeforeUnloadState() {
-		var elapsed = Date.now() - lastAckTime;
-		if ( elapsed > heartbeatInterval ) {
-			window.addEventListener( 'beforeunload', onBeforeUnload );
-		} else {
-			window.removeEventListener( 'beforeunload', onBeforeUnload );
-		}
-
-		if ( elapsed > 300000 ) {
-			showDisconnectBanner();
-		} else {
-			hideDisconnectBanner();
-		}
-	}
-
-	/**
 	 * Send a heartbeat to the server.
 	 */
 	function sendHeartbeat() {
@@ -197,12 +154,10 @@
 			} )
 			.then( function( result ) {
 				if ( result.success && result.data ) {
-					lastAckTime = Date.now();
 					accumulated = result.data.total;
 					localAccumulated = accumulated;
 					lastTickTime = Date.now();
 					updateDisplay();
-					updateBeforeUnloadState();
 
 					if ( result.data.met ) {
 						checkMarkComplete();
@@ -223,9 +178,7 @@
 					}
 				}
 			} )
-			.catch( function() {
-				updateBeforeUnloadState();
-			} );
+			.catch( function() {} );
 	}
 
 	/**
@@ -251,18 +204,23 @@
 	function init() {
 		updateDisplay();
 
-		if ( markCompleteBtn && requiredSeconds > 0 && localAccumulated < requiredSeconds ) {
-			markCompleteBtn.disabled = true;
-			markCompleteBtn.classList.add( 'llms-lesson-time-disabled' );
+		if ( hasMinimum && requiredSeconds > 0 && localAccumulated < requiredSeconds ) {
+			if ( markCompleteBtn ) {
+				markCompleteBtn.disabled = true;
+				markCompleteBtn.classList.add( 'llms-lesson-time-disabled' );
+			}
+			if ( takeQuizBtn ) {
+				takeQuizBtn.classList.add( 'llms-lesson-time-disabled' );
+			}
 		}
 
 		heartbeatTimer = setInterval( sendHeartbeat, heartbeatInterval );
 
-		displayTimer = setInterval( tick, 1000 );
+		if ( hasMinimum ) {
+			displayTimer = setInterval( tick, 1000 );
+		}
 
 		window.addEventListener( 'pagehide', sendEndBeacon );
-
-		setInterval( updateBeforeUnloadState, 5000 );
 	}
 
 	if ( document.readyState === 'loading' ) {

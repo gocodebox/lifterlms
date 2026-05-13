@@ -112,42 +112,6 @@ function llms_lesson_time_maybe_hide_mark_complete( $show, $lesson ) {
 add_filter( 'llms_show_mark_complete_button', 'llms_lesson_time_maybe_hide_mark_complete', 15, 2 );
 
 /**
- * Hide the Take Quiz button when the lesson's minimum time requirement has not been met.
- *
- * @since [version]
- *
- * @param bool        $show   Whether the button should be shown.
- * @param LLMS_Lesson $lesson LLMS_Lesson instance.
- * @return bool
- */
-function llms_lesson_time_maybe_hide_take_quiz( $show, $lesson ) {
-
-	if ( ! $show ) {
-		return $show;
-	}
-
-	if ( ! is_a( $lesson, 'LLMS_Lesson' ) ) {
-		$lesson = llms_get_post( $lesson );
-	}
-
-	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
-		return $show;
-	}
-
-	$user_id = get_current_user_id();
-	if ( ! $user_id ) {
-		return $show;
-	}
-
-	$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson->get( 'id' ) );
-	$required = absint( $lesson->get( 'minimum_time' ) );
-
-	return $total >= $required;
-
-}
-add_filter( 'llms_show_take_quiz_button', 'llms_lesson_time_maybe_hide_take_quiz', 15, 2 );
-
-/**
  * Determines whether or not a "Take Quiz" button should be displayed for a given lesson.
  *
  * @param   obj $lesson LLMS_Lesson.

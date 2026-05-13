@@ -429,6 +429,18 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		if ( isset( $request['lesson_id'] ) ) {
+			$lesson = llms_get_post( absint( $request['lesson_id'] ) );
+			if ( $lesson && is_a( $lesson, 'LLMS_Lesson' ) && $lesson->has_minimum_time() ) {
+				$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $student->get_id(), $lesson->get( 'id' ) );
+				$required = absint( $lesson->get( 'minimum_time' ) );
+				if ( $total < $required ) {
+					$err->add( 400, __( 'You must spend the required minimum time on the lesson before taking the quiz.', 'lifterlms' ) );
+					return $err;
+				}
+			}
+		}
+
 		$attempt = false;
 		if ( ! empty( $request['attempt_key'] ) ) {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );

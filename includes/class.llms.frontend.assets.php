@@ -367,12 +367,15 @@ class LLMS_Frontend_Assets {
 			'accumulated'        => $accumulated,
 			'heartbeat_interval' => $interval,
 			'display_format'     => $format,
+			'has_minimum'        => $has_minimum,
 			'nonce'              => wp_create_nonce( 'llms-ajax' ),
 			'ajax_url'           => admin_url( 'admin-ajax.php' ),
 			'login_url'          => wp_login_url( get_permalink() ),
 		) );
 
-		add_action( 'lifterlms_single_lesson_before_summary', array( __CLASS__, 'output_lesson_timer' ), 5 );
+		if ( $has_minimum ) {
+			add_action( 'lifterlms_single_lesson_before_summary', array( __CLASS__, 'output_lesson_timer' ), 5 );
+		}
 	}
 
 	/**
