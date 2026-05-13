@@ -33,18 +33,21 @@ class LLMS_Lesson_Time_Tracking {
 	public function find_by_token( $token ) {
 
 		global $wpdb;
-		$id = $wpdb->get_var(
+		$row = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT id FROM {$wpdb->prefix}lifterlms_lesson_time_sessions WHERE session_token = %s LIMIT 1",
+				"SELECT * FROM {$wpdb->prefix}lifterlms_lesson_time_sessions WHERE session_token = %s LIMIT 1",
 				$token
-			)
+			),
+			ARRAY_A
 		);
 
-		if ( ! $id ) {
+		if ( ! $row ) {
 			return false;
 		}
 
-		return new LLMS_Lesson_Time_Session( absint( $id ) );
+		$session = new LLMS_Lesson_Time_Session( absint( $row['id'] ) );
+		$session->setup( $row );
+		return $session;
 	}
 
 	/**
@@ -224,7 +227,7 @@ class LLMS_Lesson_Time_Tracking {
 		if ( $lesson && is_a( $lesson, 'LLMS_Lesson' ) ) {
 			$course_id = $lesson->get( 'parent_course' );
 			if ( $course_id ) {
-				$this->update_cached_course_time( $user_id, $course_id );
+				delete_user_meta( $user_id, 'llms_course_time_' . $course_id );
 			}
 		}
 	}

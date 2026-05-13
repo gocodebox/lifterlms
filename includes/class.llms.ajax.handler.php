@@ -1338,12 +1338,13 @@ class LLMS_AJAX_Handler {
 		}
 		$session->save();
 
-		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, absint( $session->get( 'lesson_id' ) ) );
-
 		$lesson_id = absint( $session->get( 'lesson_id' ) );
-		$total     = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
-		$lesson    = llms_get_post( $lesson_id );
-		$required  = ( $lesson && $lesson->has_minimum_time() ) ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
+
+		$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$lesson   = llms_get_post( $lesson_id );
+		$required = ( $lesson && $lesson->has_minimum_time() ) ? absint( $lesson->get( 'minimum_time' ) ) : 0;
 
 		return array(
 			'total'     => $total,
