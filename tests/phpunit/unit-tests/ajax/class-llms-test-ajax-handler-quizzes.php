@@ -20,6 +20,13 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	protected $student;
 
 	/**
+	 * Course instance.
+	 *
+	 * @var LLMS_Course
+	 */
+	protected $course;
+
+	/**
 	 * Quiz's lesson instance.
 	 *
 	 * @var LLMS_Lesson
@@ -46,10 +53,13 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 
 		$this->student = $this->get_mock_student();
 		// Create new course with quiz.
-		$courses      = $this->generate_mock_courses( 1, 1, 1, 1, 1 );
-		$course       = llms_get_post( $courses[0] );
-		$this->lesson = $course->get_lessons()[0];
-		$this->quiz   = $this->lesson->get_quiz();
+		$courses        = $this->generate_mock_courses( 1, 1, 1, 1, 1 );
+		$this->course   = llms_get_post( $courses[0] );
+		$this->lesson   = $this->course->get_lessons()[0];
+		$this->quiz     = $this->lesson->get_quiz();
+
+		// Enroll the student so enrollment checks in the AJAX handler pass.
+		llms_enroll_student( $this->student->get( 'id' ), $this->course->get( 'id' ) );
 
 	}
 
@@ -197,6 +207,72 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 
 		// Reset.
 		$this->quiz->set( 'limit_attempts', 'no' );
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * Test that a student not enrolled in the course cannot start a quiz.
+	 *
+	 * @since 10.0.2
+	 *
+	 * @return void
+	 */
+	public function test_quiz_start_unenrolled_student() {
+
+		$unenrolled = $this->get_mock_student();
+		wp_set_current_user( $unenrolled->get( 'id' ) );
+
+		$res = LLMS_AJAX_Handler::quiz_start(
+			array(
+				'quiz_id'   => $this->quiz->get( 'id' ),
+				'lesson_id' => $this->lesson->get( 'id' ),
+			)
+		);
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 403, $res );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * Test that a student unenrolled mid-session cannot retrieve quiz questions.
+	 *
+	 * @since 10.0.2
+	 *
+	 * @return void
+	 */
+	public function test_quiz_get_question_unenrolled_student() {
+
+		// Start the quiz while still enrolled.
+		wp_set_current_user( $this->student->get( 'id' ) );
+
+		$start = LLMS_AJAX_Handler::quiz_start(
+			array(
+				'quiz_id'   => $this->quiz->get( 'id' ),
+				'lesson_id' => $this->lesson->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayHasKey( 'attempt_key', $start );
+		$attempt_key = $start['attempt_key'];
+		$question_id = $start['question_id'];
+
+		// Unenroll the student to simulate losing access mid-session.
+		llms_unenroll_student( $this->student->get( 'id' ), $this->course->get( 'id' ) );
+
+		$res = LLMS_AJAX_Handler::quiz_get_question(
+			array(
+				'attempt_key' => $attempt_key,
+				'question_id' => $question_id,
+			)
+		);
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 403, $res );
+
 		wp_set_current_user( 0 );
 
 	}
