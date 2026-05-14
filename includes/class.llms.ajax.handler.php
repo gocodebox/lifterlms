@@ -404,7 +404,7 @@ class LLMS_AJAX_Handler {
 	 * When a quiz_id is provided, also validates that the lesson actually owns
 	 * that quiz to prevent authorization bypass via user-controlled keys.
 	 *
-	 * @since [version]
+	 * @since 10.0.2
 	 *
 	 * @param LLMS_Student $student   Student object.
 	 * @param int          $lesson_id WP Post ID of the lesson.

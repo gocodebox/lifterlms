@@ -214,7 +214,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student not enrolled in the course cannot start a quiz.
 	 *
-	 * @since [version]
+	 * @since 10.0.2
 	 *
 	 * @return void
 	 */
@@ -240,7 +240,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student unenrolled mid-session cannot retrieve quiz questions.
 	 *
-	 * @since [version]
+	 * @since 10.0.2
 	 *
 	 * @return void
 	 */
