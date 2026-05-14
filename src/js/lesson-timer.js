@@ -23,13 +23,20 @@ import '../scss/lesson-timer.scss';
 		nonce              = settings.nonce || '',
 		ajaxUrl            = settings.ajax_url || '',
 		timerEl            = document.getElementById( 'llms-lesson-timer-display' ),
-		markCompleteBtn    = document.querySelector( '.llms-complete-lesson-mark-button' ),
-		takeQuizBtn        = document.getElementById( 'llms_start_quiz' ),
 		heartbeatTimer     = null,
 		displayTimer       = null,
 		localAccumulated   = accumulated,
 		lastTickTime       = Date.now(),
 		stopped            = false;
+
+	/**
+	 * Apply a callback to all instances of mark-complete buttons, take-quiz buttons,
+	 * and mark-complete form submit inputs. Handles Focus Mode which renders duplicate copies.
+	 */
+	function eachActionButton( callback ) {
+		document.querySelectorAll( '.llms-complete-lesson-form [type="submit"]' ).forEach( callback );
+		document.querySelectorAll( '#llms_start_quiz, [id="llms_start_quiz"]' ).forEach( callback );
+	}
 
 	/**
 	 * Format seconds as H:MM:SS.
@@ -80,7 +87,7 @@ import '../scss/lesson-timer.scss';
 	}
 
 	/**
-	 * Show/enable the mark complete button if time is met.
+	 * Enable action buttons when the minimum time requirement is met.
 	 */
 	function checkMarkComplete() {
 		if ( ! hasMinimum ) {
@@ -89,16 +96,11 @@ import '../scss/lesson-timer.scss';
 
 		var met = requiredSeconds <= 0 || localAccumulated >= requiredSeconds;
 
-		if ( markCompleteBtn && met ) {
-			markCompleteBtn.disabled = false;
-			markCompleteBtn.classList.remove( 'llms-lesson-time-disabled' );
-		}
-
-		if ( takeQuizBtn && met ) {
-			takeQuizBtn.classList.remove( 'llms-lesson-time-disabled' );
-		}
-
 		if ( met ) {
+			eachActionButton( function( btn ) {
+				btn.disabled = false;
+				btn.classList.remove( 'llms-lesson-time-disabled' );
+			} );
 			document.dispatchEvent( new CustomEvent( 'llms-lesson-time-met' ) );
 		}
 	}
@@ -206,13 +208,10 @@ import '../scss/lesson-timer.scss';
 		updateDisplay();
 
 		if ( hasMinimum && requiredSeconds > 0 && localAccumulated < requiredSeconds ) {
-			if ( markCompleteBtn ) {
-				markCompleteBtn.disabled = true;
-				markCompleteBtn.classList.add( 'llms-lesson-time-disabled' );
-			}
-			if ( takeQuizBtn ) {
-				takeQuizBtn.classList.add( 'llms-lesson-time-disabled' );
-			}
+			eachActionButton( function( btn ) {
+				btn.disabled = true;
+				btn.classList.add( 'llms-lesson-time-disabled' );
+			} );
 		}
 
 		heartbeatTimer = setInterval( sendHeartbeat, heartbeatInterval );
