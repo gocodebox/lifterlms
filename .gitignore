@@ -1,6 +1,7 @@
 # Package managers.
 node_modules/
 /vendor/
+.cursor
 
 # Lock file intentionally excluded to allow easier testing against multiple php versions
 # This follows the precedent put forth by the WordPress core {@link https://github.com/WordPress/wordpress-develop/commit/0e442c4615bdcdc1c2e4f8db6f88f57e6859c2ff}
