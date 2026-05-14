@@ -398,6 +398,48 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Verify the current user has enrollment access to a quiz's lesson/course.
+	 *
+	 * Users with the `manage_lifterlms` capability bypass enrollment checks.
+	 * When a quiz_id is provided, also validates that the lesson actually owns
+	 * that quiz to prevent authorization bypass via user-controlled keys.
+	 *
+	 * @since 10.0.2
+	 *
+	 * @param LLMS_Student $student   Student object.
+	 * @param int          $lesson_id WP Post ID of the lesson.
+	 * @param int          $quiz_id   Optional. WP Post ID of the quiz. When provided the method
+	 *                                verifies the lesson's assigned quiz matches this ID.
+	 * @return true|WP_Error True if access is granted, WP_Error otherwise.
+	 */
+	private static function verify_quiz_access( $student, $lesson_id, $quiz_id = 0 ) {
+
+		if ( current_user_can( 'manage_lifterlms' ) ) {
+			return true;
+		}
+
+		$lesson = llms_get_post( absint( $lesson_id ) );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			return new WP_Error( 403, __( 'Invalid lesson.', 'lifterlms' ) );
+		}
+
+		if ( $quiz_id && absint( $lesson->get( 'quiz' ) ) !== absint( $quiz_id ) ) {
+			return new WP_Error( 403, __( 'This quiz does not belong to the specified lesson.', 'lifterlms' ) );
+		}
+
+		$course = $lesson->get_course();
+		if ( ! $course ) {
+			return new WP_Error( 403, __( 'This quiz is not associated with a valid course.', 'lifterlms' ) );
+		}
+
+		if ( ! $student->is_enrolled( $course->get( 'id' ) ) ) {
+			return new WP_Error( 403, __( 'You must be enrolled in this course to take this quiz.', 'lifterlms' ) );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Start a Quiz Attempt.
 	 *
 	 * @since 3.9.0
@@ -421,6 +463,21 @@ class LLMS_AJAX_Handler {
 		if ( ! $student ) {
 			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
 			return $err;
+		}
+
+		$access_lesson_id = isset( $request['lesson_id'] ) ? absint( $request['lesson_id'] ) : null;
+		$access_quiz_id   = isset( $request['quiz_id'] ) ? absint( $request['quiz_id'] ) : 0;
+		if ( ! $access_lesson_id && ! empty( $request['attempt_key'] ) ) {
+			$existing_attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
+			if ( $existing_attempt ) {
+				$access_lesson_id = absint( $existing_attempt->get( 'lesson_id' ) );
+			}
+		}
+		if ( $access_lesson_id ) {
+			$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
+			if ( is_wp_error( $access_check ) ) {
+				return $access_check;
+			}
 		}
 
 		// Limit reached?
@@ -514,6 +571,11 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		$access_check = self::verify_quiz_access( $student, $attempt->get( 'lesson_id' ) );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
+		}
+
 		$quiz = $attempt->get_quiz();
 		if ( empty( $quiz ) ) {
 			$err->add( 400, __( 'No quiz found.', 'lifterlms' ) );
@@ -603,6 +665,11 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		$access_check = self::verify_quiz_access( $student, $attempt->get( 'lesson_id' ) );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
+		}
+
 		$question_id = $attempt->get_question( $question_id );
 
 		if ( ! $question_id ) {
@@ -661,6 +728,11 @@ class LLMS_AJAX_Handler {
 		if ( ! $attempt || 'incomplete' !== $attempt->get( 'status' ) || ( $attempt->get_quiz()->can_be_resumed() && ! $attempt->can_be_resumed() ) ) {
 			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
 			return $err;
+		}
+
+		$access_check = self::verify_quiz_access( $student, $attempt->get( 'lesson_id' ) );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
 		}
 
 		/**
@@ -756,6 +828,11 @@ class LLMS_AJAX_Handler {
 			if ( ! $attempt ) {
 				$err->add( 404, __( 'The requested attempt could not be found.', 'lifterlms' ) );
 				return $err;
+			}
+
+			$access_check = self::verify_quiz_access( $student, $attempt->get( 'lesson_id' ) );
+			if ( is_wp_error( $access_check ) ) {
+				return $access_check;
 			}
 		}
 
