@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: Check access to the course a quiz is associated with.
