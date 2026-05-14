@@ -162,14 +162,15 @@ import '../scss/lesson-timer.scss';
 					if ( result.data.met ) {
 						checkMarkComplete();
 					}
-				} else if ( result.data && result.data.code ) {
-					if ( 'session_superseded' === result.data.code ) {
+				} else if ( hasMinimum ) {
+					var code = ( result.data && result.data.code ) || result.code || '';
+					if ( 'session_superseded' === code ) {
 						showModal(
 							LLMS.l10n.translate( 'Your session on this lesson has expired because you opened another timed lesson or this lesson in a different tab. Please reload this page to continue.' ),
 							LLMS.l10n.translate( 'Reload Page' ),
 							function() { window.location.reload(); }
 						);
-					} else if ( 'not_logged_in' === result.data.code ) {
+					} else if ( 'not_logged_in' === code ) {
 						showModal(
 							LLMS.l10n.translate( 'Your session has expired. Please log in again to continue tracking your time on this lesson.' ),
 							LLMS.l10n.translate( 'Log In' ),

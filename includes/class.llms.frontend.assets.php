@@ -348,7 +348,7 @@ class LLMS_Frontend_Assets {
 
 		wp_enqueue_script(
 			'llms-lesson-timer',
-			LLMS_PLUGIN_URL . 'assets/js/llms-lesson-timer' . LLMS_ASSETS_SUFFIX . '.js',
+			LLMS_PLUGIN_URL . 'assets/js/llms-lesson-timer.js',
 			array( 'llms' ),
 			LLMS()->version,
 			true
@@ -356,7 +356,7 @@ class LLMS_Frontend_Assets {
 
 		wp_enqueue_style(
 			'llms-lesson-timer',
-			LLMS_PLUGIN_URL . 'assets/css/llms-lesson-timer' . LLMS_ASSETS_SUFFIX . '.css',
+			LLMS_PLUGIN_URL . 'assets/css/llms-lesson-timer.css',
 			array(),
 			LLMS()->version
 		);
