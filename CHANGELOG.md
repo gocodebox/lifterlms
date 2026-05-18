@@ -6,7 +6,7 @@ v10.0.2 - 2026-05-14
 
 ##### Security Fixes
 
-+ Check access to the course a quiz is associated with. Thanks [@RegorSec](https://github.com/RegorSec)
++ Check access to the course a quiz is associated with. Thanks [@RegorSec](https://github.com/RegorSec)!
 
 
 v10.0.1 - 2026-05-12
