@@ -4,13 +4,9 @@ LifterLMS Changelog
 v10.0.2 - 2026-05-14
 --------------------
 
-##### Developer Notes
-
-+ Removing deprecated methods in the scss files.
-
 ##### Security Fixes
 
-+ Check access to the course a quiz is associated with.
++ Check access to the course a quiz is associated with. Thanks [@RegorSec](https://github.com/RegorSec)
 
 
 v10.0.1 - 2026-05-12
