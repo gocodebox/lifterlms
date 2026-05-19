@@ -1274,6 +1274,18 @@ class LLMS_AJAX_Handler {
 
 			$raw_plan_data = wp_unslash( $raw_plan_data );
 
+			if ( ! empty( $raw_plan_data['id'] ) ) {
+				$existing_plan = llms_get_post( absint( $raw_plan_data['id'] ) );
+				if ( ! $existing_plan || ! is_a( $existing_plan, 'LLMS_Access_Plan' ) ) {
+					$errors[] = new WP_Error( 'invalid-plan', esc_html__( 'Invalid access plan ID.', 'lifterlms' ) );
+					continue;
+				}
+				if ( absint( $existing_plan->get( 'product_id' ) ) !== $post_id ) {
+					$errors[] = new WP_Error( 'unauthorized-plan', esc_html__( 'Access plan does not belong to this product.', 'lifterlms' ) );
+					continue;
+				}
+			}
+
 			// Ensure we can switch plans that used to be paid to free.
 			if ( isset( $raw_plan_data['is_free'] ) && llms_parse_bool( $raw_plan_data['is_free'] ) && ! isset( $raw_plan_data['price'] ) ) {
 				$raw_plan_data['price'] = 0;
