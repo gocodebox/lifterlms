@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Avoid sending an email notification if the status is not new, if the
-  background processor does not finish correctly.

@@ -1,4 +1,0 @@
-significance: patch
-type: security
-entry: Additional verifications for updates and reads to course builder and
-  access plan data.

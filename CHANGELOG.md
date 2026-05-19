@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v10.0.3 - 2026-05-19
+--------------------
+
+##### Bug Fixes
+
++ Avoid sending an email notification if the status is not new, if the background processor does not finish correctly.
+
+##### Security Fixes
+
++ Additional verifications for updates and reads to course builder and access plan data.
+
+
 v10.0.2 - 2026-05-14
 --------------------
 

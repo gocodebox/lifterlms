@@ -280,7 +280,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Prevents duplicate emails when the background queue is replayed after a
 	 * process interruption that left the batch in wp_options uncleaned.
 	 *
-	 * @since [version]
+	 * @since 10.0.3
 	 *
 	 * @return void
 	 */
