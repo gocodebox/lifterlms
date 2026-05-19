@@ -826,6 +826,20 @@ class LLMS_Admin_Builder {
 			'id'    => $id,
 		);
 
+		// Verify the object belongs to the authorized course.
+		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
+		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
+			$parts    = explode( ':', $id );
+			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
+		}
+
+		if ( $course_id && $check_id ) {
+			$parent_course_id = self::get_object_parent_course_id( $check_id );
+			if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $course_id ) ) {
+				return $res;
+			}
+		}
+
 		/**
 		 * Custom or 3rd party items can perform custom deletion actions using this filter.
 		 *
@@ -846,20 +860,6 @@ class LLMS_Admin_Builder {
 		$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
 		if ( $custom ) {
 			return $custom;
-		}
-
-		// Verify the object belongs to the authorized course.
-		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
-		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
-			$parts    = explode( ':', $id );
-			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
-		}
-
-		if ( $course_id && $check_id ) {
-			$parent_course_id = self::get_object_parent_course_id( $check_id );
-			if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $course_id ) ) {
-				return $res;
-			}
 		}
 
 		// Determine the element's post type.
