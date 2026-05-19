@@ -343,7 +343,7 @@ class LLMS_Admin_Builder {
 					return array();
 				}
 				$parent_course = self::get_object_parent_course_id( $id );
-				if ( $parent_course && absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+				if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
 					return array();
 				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
@@ -747,7 +747,7 @@ class LLMS_Admin_Builder {
 
 			if ( ! empty( $data['id'] ) ) {
 				$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
-				if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
+				if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $data['id'] ) ) {
 					array_push( $ret, $res );
 					continue;
 				}
@@ -857,7 +857,7 @@ class LLMS_Admin_Builder {
 
 		if ( $course_id && $check_id ) {
 			$parent_course_id = self::get_object_parent_course_id( $check_id );
-			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $course_id ) ) {
+			if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $course_id ) ) {
 				return $res;
 			}
 		}
@@ -1124,6 +1124,11 @@ class LLMS_Admin_Builder {
 						array_push( $ret, $res );
 						continue;
 					}
+					if ( ! $parent && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+						$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
+						array_push( $ret, $res );
+						continue;
+					}
 				}
 			}
 
@@ -1382,6 +1387,10 @@ class LLMS_Admin_Builder {
 				$parent = self::get_object_parent_course_id( $quiz->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
 					// Translators: %s = Quiz post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
+					return $res;
+				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
 					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 					return $res;
 				}
