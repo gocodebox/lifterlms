@@ -1258,6 +1258,12 @@ class LLMS_Admin_Builder {
 					array_push( $res, $ret );
 					continue;
 				}
+				if ( $course_id && ! $q_parent && ! current_user_can( 'edit_post', absint( $q_data['id'] ) ) ) {
+					// Translators: %s = Question post id.
+					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
+					array_push( $res, $ret );
+					continue;
+				}
 			}
 
 			// Remove choices because we'll add them individually after creation.
@@ -1486,6 +1492,11 @@ class LLMS_Admin_Builder {
 			if ( $course_id && $section && is_a( $section, 'LLMS_Section' ) ) {
 				$parent = self::get_object_parent_course_id( $section->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Section post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
+					return $res;
+				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $section->get( 'id' ) ) ) {
 					// Translators: %s = Section post id.
 					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 					return $res;
