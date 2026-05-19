@@ -342,6 +342,10 @@ class LLMS_Admin_Builder {
 				if ( ! $id ) {
 					return array();
 				}
+				$parent_course = self::get_object_parent_course_id( $id );
+				if ( $parent_course && absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+					return array();
+				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
 				$slug  = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
 				$link  = get_sample_permalink( $id, $title, $slug );
@@ -357,8 +361,22 @@ class LLMS_Admin_Builder {
 			case 'lazy_load':
 				$ret = array();
 				if ( isset( $request['load_id'] ) ) {
-					$post = llms_get_post( absint( $request['load_id'] ) );
-					$ret  = $post->toArray();
+					$load_id       = absint( $request['load_id'] );
+					$post_type     = get_post_type( $load_id );
+					$allowed_types = array( 'section', 'lesson', 'llms_quiz', 'llms_question' );
+					if ( ! $post_type || ! in_array( $post_type, $allowed_types, true ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$parent_course = self::get_object_parent_course_id( $load_id );
+					if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$post = llms_get_post( $load_id );
+					if ( $post && is_a( $post, 'LLMS_Post_Model' ) ) {
+						$ret = $post->toArray();
+					}
 				}
 				wp_send_json( $ret );
 
