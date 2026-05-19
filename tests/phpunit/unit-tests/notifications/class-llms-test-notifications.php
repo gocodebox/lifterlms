@@ -275,6 +275,76 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test email processor task() skips notifications that are not in "new" status.
+	 *
+	 * Prevents duplicate emails when the background queue is replayed after a
+	 * process interruption that left the batch in wp_options uncleaned.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_email_processor_task_skips_non_new_notifications() {
+
+		$order = $this->get_mock_order();
+		$txn   = $order->record_transaction(
+			array(
+				'amount'             => $order->get_initial_price( array(), 'float' ),
+				'source_description' => 'Mock Payment',
+				'transaction_id'     => uniqid( 'mock-' ),
+				'status'             => 'llms-txn-succeeded',
+				'payment_gateway'    => 'manual',
+			)
+		);
+
+		$email_processor = $this->main->get_processor( 'email' );
+
+		$statuses_to_skip = array( 'sent', 'error', 'read' );
+
+		foreach ( $statuses_to_skip as $status ) {
+
+			$this->logs->clear( 'notifications' );
+
+			$n   = new LLMS_Notification();
+			$nid = $n->create(
+				array(
+					'post_id'    => $txn->get( 'id' ),
+					'subscriber' => $this->factory->user->create(),
+					'type'       => 'email',
+					'trigger_id' => 'purchase_receipt',
+					'user_id'    => get_current_user_id(),
+				)
+			);
+
+			$n->set( 'status', $status );
+
+			$res = LLMS_Unit_Test_Util::call_method( $email_processor, 'task', array( $nid ) );
+
+			$this->assertFalse( $res, "task() should return false for status '{$status}'" );
+
+			// Status should remain unchanged.
+			$this->assertEquals( $status, $n->get( 'status', true ), "Status should stay '{$status}' after being skipped" );
+
+			// A skip log message should be written.
+			$log = implode( $this->logs->get( 'notifications' ) );
+			$this->assertStringContainsString(
+				"Skipping email notification ID #{$nid}",
+				$log,
+				"Expected skip log for status '{$status}'"
+			);
+			$this->assertStringContainsString(
+				$status,
+				$log,
+				"Skip log should include the current status '{$status}'"
+			);
+
+		}
+
+		$this->logs->clear( 'notifications' );
+
+	}
+
+	/**
 	 * Test email processor task's method on errored notification.
 	 *
 	 * @since 7.1.0
