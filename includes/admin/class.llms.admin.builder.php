@@ -342,6 +342,10 @@ class LLMS_Admin_Builder {
 				if ( ! $id ) {
 					return array();
 				}
+				$parent_course = self::get_object_parent_course_id( $id );
+				if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+					return array();
+				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
 				$slug  = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
 				$link  = get_sample_permalink( $id, $title, $slug );
@@ -357,8 +361,22 @@ class LLMS_Admin_Builder {
 			case 'lazy_load':
 				$ret = array();
 				if ( isset( $request['load_id'] ) ) {
-					$post = llms_get_post( absint( $request['load_id'] ) );
-					$ret  = $post->toArray();
+					$load_id       = absint( $request['load_id'] );
+					$post_type     = get_post_type( $load_id );
+					$allowed_types = array( 'section', 'lesson', 'llms_quiz', 'llms_question' );
+					if ( ! $post_type || ! in_array( $post_type, $allowed_types, true ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$parent_course = self::get_object_parent_course_id( $load_id );
+					if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$post = llms_get_post( $load_id );
+					if ( $post && is_a( $post, 'LLMS_Post_Model' ) ) {
+						$ret = $post->toArray();
+					}
 				}
 				wp_send_json( $ret );
 
@@ -729,7 +747,7 @@ class LLMS_Admin_Builder {
 
 			if ( ! empty( $data['id'] ) ) {
 				$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
-				if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
+				if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $data['id'] ) ) {
 					array_push( $ret, $res );
 					continue;
 				}
@@ -808,6 +826,20 @@ class LLMS_Admin_Builder {
 			'id'    => $id,
 		);
 
+		// Verify the object belongs to the authorized course.
+		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
+		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
+			$parts    = explode( ':', $id );
+			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
+		}
+
+		if ( $course_id && $check_id ) {
+			$parent_course_id = self::get_object_parent_course_id( $check_id );
+			if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $course_id ) ) {
+				return $res;
+			}
+		}
+
 		/**
 		 * Custom or 3rd party items can perform custom deletion actions using this filter.
 		 *
@@ -828,20 +860,6 @@ class LLMS_Admin_Builder {
 		$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
 		if ( $custom ) {
 			return $custom;
-		}
-
-		// Verify the object belongs to the authorized course.
-		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
-		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
-			$parts    = explode( ':', $id );
-			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
-		}
-
-		if ( $course_id && $check_id ) {
-			$parent_course_id = self::get_object_parent_course_id( $check_id );
-			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $course_id ) ) {
-				return $res;
-			}
 		}
 
 		// Determine the element's post type.
@@ -1106,6 +1124,11 @@ class LLMS_Admin_Builder {
 						array_push( $ret, $res );
 						continue;
 					}
+					if ( ! $parent && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+						$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
+						array_push( $ret, $res );
+						continue;
+					}
 				}
 			}
 
@@ -1230,6 +1253,12 @@ class LLMS_Admin_Builder {
 				// Verify the question belongs to this course.
 				$q_parent = $course_id ? self::get_object_parent_course_id( absint( $q_data['id'] ) ) : 0;
 				if ( $q_parent && absint( $q_parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Question post id.
+					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
+					array_push( $res, $ret );
+					continue;
+				}
+				if ( $course_id && ! $q_parent && ! current_user_can( 'edit_post', absint( $q_data['id'] ) ) ) {
 					// Translators: %s = Question post id.
 					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
 					array_push( $res, $ret );
@@ -1367,6 +1396,10 @@ class LLMS_Admin_Builder {
 					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 					return $res;
 				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
+					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
+					return $res;
+				}
 			}
 		}
 
@@ -1459,6 +1492,11 @@ class LLMS_Admin_Builder {
 			if ( $course_id && $section && is_a( $section, 'LLMS_Section' ) ) {
 				$parent = self::get_object_parent_course_id( $section->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Section post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
+					return $res;
+				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $section->get( 'id' ) ) ) {
 					// Translators: %s = Section post id.
 					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 					return $res;
