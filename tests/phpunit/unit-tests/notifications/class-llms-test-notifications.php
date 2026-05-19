@@ -426,7 +426,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 		);
 
 		$this->assertEquals( false, $res );
-		$this->assertEquals( 'error', $n1->get('status') );
+		$this->assertEquals( 'error', $n1->get( 'status', true ) );
 
 		$this->assertStringContainsString(
 			'Error caught Call to a member function get_order() on null',
