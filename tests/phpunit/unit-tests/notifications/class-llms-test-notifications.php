@@ -418,6 +418,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 
 		// Delete the first transaction so that a fatal will be triggered.
 		wp_delete_post( $txn->get( 'id' ) );
+		$n1->set( 'status', 'new' );
 		$res = LLMS_Unit_Test_Util::call_method(
 			$email_processor,
 			'task',
