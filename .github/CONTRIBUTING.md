@@ -68,6 +68,8 @@ If you need to extend behaviour:
 
 All PHPUnit and Playwright E2E tests run automatically on pull requests via [GitHub Actions](https://github.com/gocodebox/lifterlms/actions).
 
+We do not aim for 100% coverage, with a focus on an E2E test or two for larger new features. Tests are not required in a new PR, though if a change causes an existing test to fail it should be fixed or modified so it passes.
+
 
 ### Contribute Translations
 
