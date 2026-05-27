@@ -42,6 +42,14 @@ LifterLMS is a project that services a great many users. A feature which is attr
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
 + Ensure new code doesn't break existing tests. For critical components (enrollment, checkout, access plans, core models) aim for good PHPUnit coverage. For large user-facing workflows prefer E2E tests. See the [PHPUnit testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/phpunit/README.md) and the [E2E testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/e2e/README.md) to get started. Let us know if you want help writing tests, we're happy to help!
 + When making changes to (S)CSS and JavaScript files, you should only modify the **source** files (under `src/`). Compiled and minified assets are build artifacts, are gitignored, and *should not be committed* or included in your PR. If you add a new source file, make sure the corresponding output path is covered by `.gitignore`.
++ **Add a changelog entry.** Most changes warrant a changelog entry. Run the interactive helper from the repo root:
+
+  ```
+  npm run dev changelog add -- -i
+  ```
+
+  This creates a YAML file in `.changelogs/` describing the change. Choose the appropriate significance (`patch`, `minor`, `major`) and type (`added`, `changed`, `fixed`, `deprecated`, `removed`, `dev`, `performance`, `security`). The entry is compiled into the release changelog automatically during the release process.
+
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork.
 + Submit a pull request to the 'trunk' branch of the LifterLMS repo.

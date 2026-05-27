@@ -91,7 +91,9 @@ A link in the form of a URL, such as related GitHub issue or other documentation
  * @link https://github.com/gocodebox/lifterlms/issues/1234567890
 ```
 
-### Changelogs
+### Inline Changelog Tags
+
+This section covers `@since` and `@deprecated` tags inside docblocks. For the **project-level changelog** (YAML entries in `.changelogs/`), see the [Contributing guide](https://github.com/gocodebox/lifterlms/blob/trunk/.github/CONTRIBUTING.md#contributing-code). Most code changes should include a project changelog entry — that is separate from inline docblock tags.
 
 `@since` tags document when an element was introduced. `@deprecated` tags document when an element is marked for removal. No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
