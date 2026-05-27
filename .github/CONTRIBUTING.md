@@ -36,7 +36,7 @@ LifterLMS is a project that services a great many users. A feature which is attr
 
 + Fork the repository on GitHub.
 + [Install LifterLMS for development](../docs/installing.md).
-+ Create a new branch from the 'trunk' branch.
++ Create a new branch from the 'dev' branch.
 + Make the changes to your forked repository.
 + Ensure you stick to our [coding standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md) and have properly documented new and updated functions, methods, actions, and filters following our [documentation standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/documentation-standards.md).
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
@@ -52,7 +52,7 @@ LifterLMS is a project that services a great many users. A feature which is attr
 
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork.
-+ Submit a pull request to the 'trunk' branch of the LifterLMS repo.
++ Submit a pull request to the 'dev' branch of the LifterLMS repo.
 + We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
 
 #### Preserving Public API Signatures
