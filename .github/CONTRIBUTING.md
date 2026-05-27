@@ -36,16 +36,39 @@ LifterLMS is a project that services a great many users. A feature which is attr
 
 + Fork the repository on GitHub.
 + [Install LifterLMS for development](../docs/installing.md).
-+ Create a new branch from the 'trunk' branch.
++ Create a new branch from the 'dev' branch.
 + Make the changes to your forked repository.
 + Ensure you stick to our [coding standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md) and have properly documented new and updated functions, methods, actions, and filters following our [documentation standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/documentation-standards.md).
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
-+ Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/phpunit/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
-+ When making changes to (S)CSS and Javascript files, you should only modify the source files. The compiled and minified files *should not be committed* or included in your PR.
++ Ensure new code doesn't break existing tests. For critical components (enrollment, checkout, access plans, core models) aim for good PHPUnit coverage. For large user-facing workflows prefer E2E tests. See the [PHPUnit testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/phpunit/README.md) and the [E2E testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/e2e/README.md) to get started. Let us know if you want help writing tests, we're happy to help!
++ When making changes to (S)CSS and JavaScript files, you should only modify the **source** files (under `src/`). Compiled and minified assets are build artifacts, are gitignored, and *should not be committed* or included in your PR. If you add a new source file, make sure the corresponding output path is covered by `.gitignore`.
++ **Add a changelog entry.** Most changes warrant a changelog entry. Run the interactive helper from the repo root:
+
+  ```
+  npm run dev changelog add -- -i
+  ```
+
+  This creates a YAML file in `.changelogs/` describing the change. Choose the appropriate significance (`patch`, `minor`, `major`) and type (`added`, `changed`, `fixed`, `deprecated`, `removed`, `dev`, `performance`, `security`). The entry is compiled into the release changelog automatically during the release process.
+
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
-+ Push the changes to your fork
++ Push the changes to your fork.
 + Submit a pull request to the 'dev' branch of the LifterLMS repo.
 + We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
+
+#### Preserving Public API Signatures
+
+Do **not** modify the signature of any publicly accessible function, method, or hook (action/filter) unless there is a very good reason. Third-party plugins, add-ons, and customer sites depend on these signatures — changing or reordering existing parameters can cause fatal errors or silent bugs.
+
+If you need to extend behaviour:
+
++ **Append** a new optional parameter with a default value so existing callers continue to work.
++ If the change is significant enough that the existing signature can't accommodate it, **deprecate** the old function/method and create a new one instead. Document the deprecation with an `@deprecated` tag and point callers to the replacement.
+
+### Automated Testing
+
+All PHPUnit and Playwright E2E tests run automatically on pull requests via [GitHub Actions](https://github.com/gocodebox/lifterlms/actions).
+
+We do not aim for 100% coverage, with a focus on an E2E test or two for larger new features. Tests are not required in a new PR, though if a change causes an existing test to fail it should be fixed or modified so it passes.
 
 
 ### Contribute Translations
