@@ -203,6 +203,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 *
 	 * @since 3.15.0
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */
@@ -210,16 +211,27 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		$vars = array();
+		$from  = "FROM {$wpdb->prefix}lifterlms_user_postmeta";
+		$where = $this->sql_where();
 
-		$vars[] = $this->get_skip();
-		$vars[] = $this->get( 'per_page' );
+		if ( $this->get( 'count_only' ) ) {
+			return "SELECT COUNT(*) AS total {$from} {$where};";
+		}
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$this->count_query = "SELECT COUNT(*) {$from} {$where}";
+		}
+
+		$vars = array(
+			$this->get_skip(),
+			$this->get( 'per_page' ),
+		);
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS meta_id
-			 FROM {$wpdb->prefix}lifterlms_user_postmeta
-			 {$this->sql_where()}
+			"SELECT meta_id
+			 {$from}
+			 {$where}
 			 {$this->sql_orderby()}
 			 LIMIT %d, %d;",
 			$vars

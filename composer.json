@@ -29,10 +29,10 @@
     "php": ">=7.4",
     "composer/installers": "~1.9.0",
     "deliciousbrains/wp-background-processing": "1.0.2",
-    "lifterlms/lifterlms-blocks": "2.7.0",
+    "lifterlms/lifterlms-blocks": "2.7.2",
     "lifterlms/lifterlms-cli": "0.0.5",
-    "lifterlms/lifterlms-helper": "3.5.7",
-    "lifterlms/lifterlms-rest": "1.0.3",
+    "lifterlms/lifterlms-helper": "3.5.9",
+    "lifterlms/lifterlms-rest": "1.0.5",
     "woocommerce/action-scheduler": "3.5.4",
     "gocodebox/banner-notifications": "1.1.1"
   },
@@ -50,7 +50,6 @@
 
       "CHANGELOG.md",
       "composer.json",
-      "docker-compose.yml",
       "lerna.json",
       "package.json",
       "package-lock.json",
@@ -101,7 +100,6 @@
       "\"vendor/bin/phpcs\" --config-set ignore_warnings_on_exit 1"
     ],
     "env": "\"vendor/bin/llms-env\"",
-    "env:setup": "./tests/bin/setup-e2e.sh",
     "fix-cs": "\"vendor/bin/phpcbf\"",
     "post-install-cmd": "@post-update-install-cmd",
     "post-update-cmd": "@post-update-install-cmd",

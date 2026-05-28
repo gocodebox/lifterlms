@@ -404,7 +404,10 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 */
 	public function save() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'lifterlms-settings' ) ) {
 			return;
 		}
 

@@ -91,22 +91,21 @@ A link in the form of a URL, such as related GitHub issue or other documentation
  * @link https://github.com/gocodebox/lifterlms/issues/1234567890
 ```
 
-### Changelogs
+### Inline Changelog Tags
 
-Whenever any code is changed within an element, a `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
+This section covers `@since` and `@deprecated` tags inside docblocks. For the **project-level changelog** (YAML entries in `.changelogs/`), see the [Contributing guide](https://github.com/gocodebox/lifterlms/blob/trunk/.github/CONTRIBUTING.md#contributing-code). Most code changes should include a project changelog entry — that is separate from inline docblock tags.
 
-No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
+`@since` tags document when an element was introduced. `@deprecated` tags document when an element is marked for removal. No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
-#### Changes Warranting a Changelog Entry
+#### When to Add `@since`
 
-Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
+Add a `@since [version]` tag only when creating a **new** element (function, method, class, hook, property, etc.). Do **not** add additional `@since` changelog entries to existing elements when modifying them — the git history provides that context.
 
-+ **Classes**: Any breaking changes, deprecations, or the introduction of new class elements (elements which do not have their own changelog, such as class properties) require an accompanying `@since` tag entry. Changes to a class method should be recorded on the method's changelog, not on the class changelog.
-+ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry
+#### Constructors
 
-Changes which do not affect the functionality or execution of the element *should not* be recorded on the element's changelog. For example, a coding standards change such as alignment or spacing should not be recorded.
+A docblock on a class constructor (`__construct`) is optional. If the constructor only assigns properties or calls parent constructors and its purpose is obvious from the class docblock, you may omit it.
 
 #### Recording the Version Number
 
@@ -114,13 +113,6 @@ Versions should be expressed in the 3-digit `x.x.x` style.
 
 ```
  * @since 3.29.0
-```
-
-When any change has been made to the element an additional `@since` tag can be added with a short description of the changes which were made.
-
-```
- * @since 3.3.0
- * @since 3.5.0 Added optional 3rd argument.
 ```
 
 #### Deprecations
@@ -141,7 +133,7 @@ When adding documentation on an existing element which does not yet have a chang
 
 #### File Headers
 
-Whenever an element within a file is updated, the `@version` tag in the header should be updated to the current version of the codebase.
+The `@version` tag in file headers is only used for **template files** (files that may be overridden by themes). For all other files, omit `@version` — the git history tracks file-level changes.
 
 #### Tag alignment and order
 
@@ -171,21 +163,14 @@ Multiple logs with version numbers of differing lengths should not be aligned to
 
 #### Using Placeholders
 
-When contributing code we recommend using the placeholder `[version]` in favor of trying to guess what version the element will be released with.
+When contributing code use the placeholder `[version]` in favor of trying to guess what version the element will be released with.
 
-Our release workflow automatically replaces with `@since`, `@version`, and `@deprecated` followed by `[version]` with the actual version of the release being packaged.
+Our release workflow automatically replaces `@since`, `@version`, and `@deprecated` followed by `[version]` with the actual version of the release being packaged.
 
 For a new element:
 
 ```
  * @since [version]
-```
-
-When updating an existing element:
-
-```
- * @since 3.5.0
- * @since [version] Updated element.
 ```
 
 
@@ -385,8 +370,7 @@ The file header DocBlock is used to give an overview of what is contained in the
  * @package LifterLMS/SecondaryPackage/TertiaryPackage
  *
  * @since x.x.x
- * @since x.x.x Description of file changes.
- * @version x.x.x
+ * @version x.x.x  ← template files only
  */
 ```
 

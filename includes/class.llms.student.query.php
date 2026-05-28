@@ -153,6 +153,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * @since 3.13.0 Unknown.
 	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */
@@ -160,40 +161,50 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		$vars = array();
+		$search_vars = array();
 
 		if ( $this->get( 'search' ) ) {
 			$search = '%' . $wpdb->esc_like( $this->get( 'search' ) ) . '%';
-			$vars[] = $search;
-			$vars[] = $search;
-			$vars[] = $search;
+			$search_vars[] = $search;
+			$search_vars[] = $search;
+			$search_vars[] = $search;
 		}
 
-		$limit_clause = '';
-		if ( ! $this->get( 'count_only' ) ) {
-			$vars[]       = $this->get_skip();
-			$vars[]       = $this->get( 'per_page' );
-			$limit_clause = 'LIMIT %d, %d';
-		}
-
-		$count_wrapper_start = $count_wrapper_end = '';
-		if ( $this->get( 'count_only' ) ) {
-			$count_wrapper_start = 'SELECT COUNT(*) AS total FROM (';
-			$count_wrapper_end   = ') as t';
-		}
-
-		$sql_query = "{$count_wrapper_start}SELECT {$this->sql_select()}
+		$base_query = "SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
-			{$this->sql_having()}
-			{$this->sql_orderby()}
-			{$limit_clause}{$count_wrapper_end};";
+			{$this->sql_having()}";
 
-		if ( empty( $vars ) ) {
-			// If we don't have placeholders, we can't use prepare().
-			return $sql_query;
+		if ( $this->get( 'count_only' ) ) {
+			$sql_query = "SELECT COUNT(*) AS total FROM ({$base_query}) as t;";
+
+			if ( empty( $search_vars ) ) {
+				return $sql_query;
+			}
+
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			return $wpdb->prepare( $sql_query, $search_vars );
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		}
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$count_sql = "SELECT COUNT(*) FROM ({$base_query}) as t";
+			if ( ! empty( $search_vars ) ) {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+				$this->count_query = $wpdb->prepare( $count_sql, $search_vars );
+			} else {
+				$this->count_query = $count_sql;
+			}
+		}
+
+		$vars = $search_vars;
+		$vars[] = $this->get_skip();
+		$vars[] = $this->get( 'per_page' );
+
+		$sql_query = "{$base_query}
+			{$this->sql_orderby()}
+			LIMIT %d, %d;";
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items.

@@ -67,6 +67,15 @@ defined( 'ABSPATH' ) || exit;
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
+					<# } else if ( 'page_builder_notice' === field.type ) { #>
+
+						<p>
+							<?php
+								esc_html_e( "This lesson's content was created outside of the Course Builder.", 'lifterlms' );
+							?>
+							<a href="{{{ data.model.get_edit_post_link() }}}" target="_blank"><?php esc_html_e( 'Edit in WordPress', 'lifterlms' ); ?></a>
+						</p>
+
 					<# } else if ( 'upsell' === field.type ) { #>
 
 						<a target="_blank" href="{{{ field.url }}}">

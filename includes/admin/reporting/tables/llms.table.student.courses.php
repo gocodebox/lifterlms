@@ -132,14 +132,20 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 * @since 9.2.3 Added object-level authorization check on the student.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
 		$args = $this->clean_args( $args );
+
+		$student_id = is_numeric( $args['student'] ) ? absint( $args['student'] ) : ( $args['student'] ? $args['student']->get_id() : 0 );
+		if ( $student_id && ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return;
+		}
 
 		if ( is_numeric( $args['student'] ) ) {
 			$args['student'] = new LLMS_Student( $args['student'] );

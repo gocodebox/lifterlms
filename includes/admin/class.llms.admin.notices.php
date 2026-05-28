@@ -246,7 +246,7 @@ class LLMS_Admin_Notices {
 	 */
 	public static function hide_notices() {
 		if ( ( isset( $_GET['llms-hide-notice'] ) || isset( $_GET['llms-remind-notice'] ) ) && isset( $_GET['_llms_notice_nonce'] ) ) {
-			if ( ! llms_verify_nonce( '_llms_notice_nonce', 'llms_hide_notices_nonce', 'GET' ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_llms_notice_nonce'] ) ), 'llms_hide_notices_nonce' ) ) {
 				wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {

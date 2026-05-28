@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import "_includes/vars";
 
 $input_padding: 0.3em 0.6em;
@@ -56,7 +57,7 @@ $input_padding: 0.3em 0.6em;
 
 	p.error {
 		color: $color-red;
-		background: rgba($color-red,0.1);
+		background: color.change($color-red, $alpha: 0.1);
 		border: 1px solid currentColor;
 		padding: 1em;
 		border-radius: 4px;

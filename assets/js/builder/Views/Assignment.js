@@ -114,6 +114,8 @@ define( [
 					 */
 					this.model.set_parent( this.lesson );
 
+					this.listenTo( this.model, 'change:permalink', this.render_settings );
+
 				}
 
 				this.on( 'model-trashed', this.on_trashed );
@@ -155,6 +157,23 @@ define( [
 			},
 
 			/**
+			 * Re-render the settings subview when permalink updates after saving.
+			 *
+			 * @since 10.0.0
+			 *
+			 * @return {Void}
+			 */
+			render_settings: function() {
+
+				var view = this.get_subview( 'settings' );
+				if ( view && view.instance ) {
+					view.instance.render();
+					this.init_selects();
+				}
+
+			},
+
+			/**
 			 * Adds a new assignment to a lesson which currently has no assignment associated with it.
 			 *
 			 * @since 3.17.0
@@ -176,6 +195,7 @@ define( [
 					this.lesson.set( 'assignment_enabled', 'yes' );
 					this.lesson.set( 'assignment', this.model );
 
+					this.listenTo( this.model, 'change:permalink', this.render_settings );
 					this.render();
 
 				} else {
@@ -221,6 +241,7 @@ define( [
 				this.lesson.set( 'assignment', assignment );
 				this.model = assignment;
 
+				this.listenTo( this.model, 'change:permalink', this.render_settings );
 				this.render();
 
 			},

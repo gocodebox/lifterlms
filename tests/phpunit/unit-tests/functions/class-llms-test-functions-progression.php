@@ -58,6 +58,144 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test llms_show_mark_complete_button() when quiz has not been attempted.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_show_mark_complete_button_quiz_not_attempted() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$student = $this->factory->student->create_and_get();
+
+		wp_set_current_user( $student->get( 'id' ) );
+		$student->enroll( $course->get( 'id' ) );
+
+		// Quiz exists but no attempts - should not show mark complete.
+		$this->assertFalse( llms_show_mark_complete_button( $lesson ) );
+
+	}
+
+	/**
+	 * Test llms_show_mark_complete_button() when quiz has been passed.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_show_mark_complete_button_quiz_passed() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz   = $lesson->get_quiz();
+		$student = $this->factory->student->create_and_get();
+
+		wp_set_current_user( $student->get( 'id' ) );
+		$student->enroll( $course->get( 'id' ) );
+
+		// Set passing grade requirement.
+		$lesson->set( 'require_passing_grade', 'yes' );
+		$quiz->set( 'passing_percent', 50 );
+
+		// Simulate a passing quiz attempt.
+		$attempt = LLMS_Quiz_Attempt::init( $quiz->get( 'id' ), $lesson->get( 'id' ), $student->get( 'id' ) );
+		$attempt->start();
+
+		// Get all questions and answer them correctly (100% score).
+		$questions = $attempt->get_questions();
+		foreach ( $questions as $key => $question ) {
+			$questions[ $key ]['answer'] = 'correct_answer';
+			$questions[ $key ]['earned'] = $questions[ $key ]['points'];
+		}
+		$attempt->set_questions( $questions, true );
+		$attempt->end();
+
+		// Quiz passed - should show mark complete button.
+		$this->assertTrue( llms_show_mark_complete_button( $lesson ) );
+
+	}
+
+	/**
+	 * Test llms_show_mark_complete_button() when quiz failed and passing is required.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_show_mark_complete_button_quiz_failed_passing_required() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz   = $lesson->get_quiz();
+		$student = $this->factory->student->create_and_get();
+
+		wp_set_current_user( $student->get( 'id' ) );
+		$student->enroll( $course->get( 'id' ) );
+
+		// Set passing grade requirement.
+		$lesson->set( 'require_passing_grade', 'yes' );
+		$quiz->set( 'passing_percent', 80 );
+
+		// Simulate a failing quiz attempt (0% score).
+		$attempt = LLMS_Quiz_Attempt::init( $quiz->get( 'id' ), $lesson->get( 'id' ), $student->get( 'id' ) );
+		$attempt->start();
+
+		// Get all questions and answer them incorrectly (0% score).
+		$questions = $attempt->get_questions();
+		foreach ( $questions as $key => $question ) {
+			$questions[ $key ]['answer'] = 'wrong_answer';
+			$questions[ $key ]['earned'] = 0;
+		}
+		$attempt->set_questions( $questions, true );
+		$attempt->end();
+
+		// Quiz failed and passing required - should NOT show mark complete button.
+		$this->assertFalse( llms_show_mark_complete_button( $lesson ) );
+
+	}
+
+	/**
+	 * Test llms_show_mark_complete_button() when quiz failed but passing is NOT required.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_show_mark_complete_button_quiz_failed_passing_not_required() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz   = $lesson->get_quiz();
+		$student = $this->factory->student->create_and_get();
+
+		wp_set_current_user( $student->get( 'id' ) );
+		$student->enroll( $course->get( 'id' ) );
+
+		// Passing grade is NOT required.
+		$lesson->set( 'require_passing_grade', 'no' );
+		$quiz->set( 'passing_percent', 80 );
+
+		// Simulate a failing quiz attempt (0% score).
+		$attempt = LLMS_Quiz_Attempt::init( $quiz->get( 'id' ), $lesson->get( 'id' ), $student->get( 'id' ) );
+		$attempt->start();
+
+		// Get all questions and answer them incorrectly (0% score).
+		$questions = $attempt->get_questions();
+		foreach ( $questions as $key => $question ) {
+			$questions[ $key ]['answer'] = 'wrong_answer';
+			$questions[ $key ]['earned'] = 0;
+		}
+		$attempt->set_questions( $questions, true );
+		$attempt->end();
+
+		// Quiz failed but passing NOT required - should show mark complete button.
+		$this->assertTrue( llms_show_mark_complete_button( $lesson ) );
+
+	}
+
+	/**
 	 * Test the llms_show_take_quiz_button()
 	 * @return  void
 	 * @since   3.29.0

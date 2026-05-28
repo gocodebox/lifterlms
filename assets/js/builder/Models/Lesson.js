@@ -76,6 +76,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				quiz: {}, // Quiz model/data.
 				quiz_enabled: 'no',
 
+				content_added_in_builder: '',
+
 				_forceSync: false,
 
 			};

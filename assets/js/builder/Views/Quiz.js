@@ -125,6 +125,8 @@ define( [
 				this.model.set_parent( this.lesson );
 
 				this.listenTo( this.model, 'change:_points', this.render_points );
+				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.listenTo( this.model, 'change:name', this.render_settings );
 
 			}
 
@@ -227,6 +229,27 @@ define( [
 		},
 
 		/**
+		 * Re-render the settings subview.
+		 *
+		 * Used when the permalink is updated after saving so the settings
+		 * panel reflects the new permalink without a full re-render.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @return {Void}
+		 */
+		render_settings: function() {
+
+			var view = this.get_subview( 'settings' );
+			if ( view && view.instance ) {
+				view.instance.render();
+				this.init_datepickers();
+				this.init_selects();
+			}
+
+		},
+
+		/**
 		 * Bulk expand / collapse question buttons.
 		 *
 		 * @since 3.16.0
@@ -261,6 +284,9 @@ define( [
 			}
 
 			this.model = quiz;
+			this.listenTo( this.model, 'change:_points', this.render_points );
+			this.listenTo( this.model, 'change:permalink', this.render_settings );
+			this.listenTo( this.model, 'change:name', this.render_settings );
 			this.render();
 
 		},
@@ -298,6 +324,9 @@ define( [
 
 			this.lesson.add_quiz( quiz );
 			this.model = this.lesson.get( 'quiz' );
+			this.listenTo( this.model, 'change:_points', this.render_points );
+			this.listenTo( this.model, 'change:permalink', this.render_settings );
+			this.listenTo( this.model, 'change:name', this.render_settings );
 			this.render();
 
 		},

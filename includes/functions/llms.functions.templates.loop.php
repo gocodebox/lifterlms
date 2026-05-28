@@ -181,7 +181,7 @@ function llms_paginate_links( $args ) {
 
 	$links = paginate_links(
 		array(
-			'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+			'base'      => str_replace( 999999, '%#%', get_pagenum_link( 999999, false ) ),
 			'format'    => '?page=%#%',
 			'total'     => $args['total'],
 			'current'   => $args['current'],

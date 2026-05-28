@@ -23,7 +23,7 @@
 	@media all and (min-width: 600px) {
 		$cols: 1;
 		@while $cols <= 6 {
-			&.cols-#{$cols} .llms-loop-item {
+			&.cols-#{$cols} {
 				grid-template-columns: repeat($cols, minmax(0, 1fr));
 			}
 			$cols: $cols + 1;

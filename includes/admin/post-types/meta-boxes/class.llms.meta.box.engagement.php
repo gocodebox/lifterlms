@@ -71,12 +71,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_course',
 				'label'            => __( 'Select a Course', 'lifterlms' ),
+				'placeholder'      => __( 'Any Course', 'lifterlms' ),
 			),
 
 			'lesson'           => array(
 				'controller_value' => array( 'lesson_completed' ),
 				'id'               => '_faux_engagement_trigger_post_lesson',
 				'label'            => __( 'Select a Lesson', 'lifterlms' ),
+				'placeholder'      => __( 'Any Lesson', 'lifterlms' ),
 			),
 
 			'llms_access_plan' => array(
@@ -85,6 +87,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_access_plan',
 				'label'            => __( 'Select an Access Plan', 'lifterlms' ),
+				'placeholder'      => __( 'Any Access Plan', 'lifterlms' ),
 			),
 
 			'llms_membership'  => array(
@@ -94,6 +97,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_membership',
 				'label'            => __( 'Select a Membership', 'lifterlms' ),
+				'placeholder'      => __( 'Any Membership', 'lifterlms' ),
 			),
 
 			'llms_quiz'        => array(
@@ -104,12 +108,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_quiz',
 				'label'            => __( 'Select a Quiz', 'lifterlms' ),
+				'placeholder'      => __( 'Any Quiz', 'lifterlms' ),
 			),
 
 			'section'          => array(
 				'controller_value' => array( 'section_completed' ),
 				'id'               => '_faux_engagement_trigger_post_section',
 				'label'            => __( 'Select a Section', 'lifterlms' ),
+				'placeholder'      => __( 'Any Section', 'lifterlms' ),
 			),
 
 		);
@@ -118,11 +124,16 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 			$data['controller_value'] = apply_filters( 'llms_engagement_controller_values_' . $post_type, $data['controller_value'] );
 
-			if ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
-				$val = llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true ) ) );
+			$trigger_post_val = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true );
+			if ( 'any' === $trigger_post_val || empty( $trigger_post_val ) ) {
+				$val = array();
+			} elseif ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
+				$val = llms_make_select2_post_array( array( $trigger_post_val ) );
 			} else {
 				$val = array();
 			}
+
+			$placeholder = isset( $data['placeholder'] ) ? $data['placeholder'] : $data['label'];
 
 			$fields[] = array(
 				'allow_null'       => false,
@@ -131,9 +142,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'controller_value' => implode( ',', $data['controller_value'] ),
 				'data_attributes'  => array(
 					'allow_clear' => true,
-					'placeholder' => $data['label'],
+					'placeholder' => $placeholder,
 					'post-type'   => $post_type,
 				),
+				'desc'             => __( 'Leave blank to apply to all.', 'lifterlms' ),
 				'id'               => $data['id'],
 				'label'            => $data['label'],
 				'type'             => 'select',
@@ -156,19 +168,24 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			);
 		}
 
+		$track_selected = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true );
+		if ( 'any' === $track_selected ) {
+			$track_selected = '';
+		}
+
 		$fields[] = array(
-			'allow_null'       => false,
+			'allow_null'       => true,
 			'class'            => 'llms-select2',
 			'controller'       => '#' . $this->prefix . 'trigger_type',
 			'controller_value' => implode( ',', apply_filters( 'llms_engagement_controller_values_track', array( 'course_track_completed' ) ) ),
 			'data_attributes'  => array(
 				'allow_clear' => true,
-				'placeholder' => __( 'Select a Course Track', 'lifterlms' ),
+				'placeholder' => __( 'Any Course Track', 'lifterlms' ),
 			),
 			'id'               => '_faux_engagement_trigger_post_track',
 			'label'            => __( 'Select a Course Track', 'lifterlms' ),
 			'type'             => 'select',
-			'selected'         => get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true ),
+			'selected'         => $track_selected,
 			'value'            => $track_options,
 		);
 
@@ -234,7 +251,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 */
 	public function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! isset( $_REQUEST['lifterlms_meta_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_meta_nonce'] ) ), 'lifterlms_save_data' ) ) {
 			return;
 		}
 
@@ -332,6 +352,11 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		if ( $var ) {
 
 			$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
+
+			// An empty trigger post means "any" — store explicitly so the intent is clear.
+			if ( empty( $val ) ) {
+				$val = 'any';
+			}
 
 		} else {
 

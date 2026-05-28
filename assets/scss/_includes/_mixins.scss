@@ -1,3 +1,4 @@
+@use 'sass:color';
 
 @mixin clearfix() {
 	&:before,
@@ -93,7 +94,7 @@
 		&.llms-pass, // quiz
 		&.llms-txn-succeeded {
 			color: $color-green;
-			background-color: rgba( $color-green, .15 );
+			background-color: color.change( $color-green, $alpha: 0.15 );
 		}
 
 		&.llms-fail, // quiz
@@ -102,7 +103,7 @@
 		&.llms-cancelled,
 		&.llms-txn-failed {
 			color: $color-red;
-			background-color: rgba( $color-red, .15 );
+			background-color: color.change( $color-red, $alpha: 0.15 );
 		}
 
 		&.llms-incomplete, // assignment
@@ -113,7 +114,7 @@
 		&.llms-txn-pending,
 		&.llms-txn-refunded {
 			color: $color-orange;
-			background-color: rgba( $color-orange, .15 );
+			background-color: color.change( $color-orange, $alpha: 0.15 );
 		}
 
 	}

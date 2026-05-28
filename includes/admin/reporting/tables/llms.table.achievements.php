@@ -171,6 +171,11 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		$args = $this->clean_args( $args );
 
+		$student_id = is_numeric( $args['student'] ) ? absint( $args['student'] ) : ( $args['student'] ? $args['student']->get_id() : 0 );
+		if ( $student_id && ! current_user_can( 'view_others_lifterlms_reports' ) && ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+			return;
+		}
+
 		if ( is_numeric( $args['student'] ) ) {
 			$args['student'] = new LLMS_Student( $args['student'] );
 		}

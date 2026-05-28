@@ -49,6 +49,11 @@ define( [], function() {
 				// publish event
 				Backbone.pubSub.trigger( 'model-trashed', this.model );
 
+				// close the editor sidebar if the trashed model is the one currently being edited
+				if ( this.model.get( '_selected' ) ) {
+					Backbone.pubSub.trigger( 'sidebar-editor-close' );
+				}
+
 				// trigger local event so extending views can run other actions where necessary
 				this.trigger( 'model-trashed', this.model );
 

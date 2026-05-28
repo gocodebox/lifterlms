@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 body.admin_page_llms-course-builder {
 	background: #fff;
 
@@ -186,6 +188,9 @@ body.admin_page_llms-course-builder {
 					.llms-lessons { overflow: visible; }
 				}
 				&.selected {
+					border-left: 3px solid $color-brand-blue;
+					box-shadow: 2px 2px 8px rgba( 0, 0, 0, 0.12 );
+					margin-left: -2px;
 					.llms-drag-utility.drag-section {
 						border-color: $color-brand-blue;
 					}
@@ -356,7 +361,7 @@ body.admin_page_llms-course-builder {
 
 			&.llms-sortable-placeholder {
 				border: 3px dashed $color-brand-blue;
-				background: rgba( $color-brand-blue, 0.3 );
+				background: color.change( $color-brand-blue, $alpha: 0.3 );
 				margin: 0 10px;
 				padding: 5px;
 				&:before { display: none; }
@@ -1575,7 +1580,7 @@ body.admin_page_llms-course-builder {
 
 				li.llms-question-choice.llms-sortable-placeholder {
 					border: 3px dashed $color-brand-blue !important;
-					background: rgba( $color-brand-blue, 0.3 );
+					background: color.change( $color-brand-blue, $alpha: 0.3 );
 				}
 
 				li.llms-question-choice.ui-sortable-helper {
@@ -1596,7 +1601,7 @@ body.admin_page_llms-course-builder {
 
 		li.llms-question.llms-sortable-placeholder {
 			border: 3px dashed $color-brand-blue !important;
-			background: rgba( $color-brand-blue, 0.3 );
+			background: color.change( $color-brand-blue, $alpha: 0.3 );
 		}
 
 	}

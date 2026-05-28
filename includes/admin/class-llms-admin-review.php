@@ -87,7 +87,7 @@ class LLMS_Admin_Review {
 		// Conditionally filter footer text with our content.
 		if ( ! empty( $show_footer ) ) {
 
-			$url  = 'https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post';
+			$url  = 'https://wordpress.org/support/plugin/lifterlms/reviews/#new-post';
 			$text = sprintf(
 				wp_kses(
 					/* Translators: %1$s = LifterLMS plugin name; %2$s = WP.org review link; %3$s = WP.org review link. */
@@ -123,7 +123,7 @@ class LLMS_Admin_Review {
 	 */
 	public function dismiss() {
 
-		if ( ! current_user_can( 'manage_lifterlms' ) || ! llms_verify_nonce( 'nonce', 'llms-admin-review-request-dismiss' ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! isset( $_REQUEST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ), 'llms-admin-review-request-dismiss' ) ) {
 			wp_die();
 		}
 

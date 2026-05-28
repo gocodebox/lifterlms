@@ -51,7 +51,10 @@ class LLMS_Controller_Account {
 	public function cancel_subscription() {
 
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
+		if ( ! isset( $_REQUEST['_cancel_sub_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_cancel_sub_nonce'] ) ), 'llms_cancel_subscription' ) ) {
 			return;
 		} elseif ( empty( $_POST['order_id'] ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
@@ -99,7 +102,10 @@ class LLMS_Controller_Account {
 	 */
 	public function update() {
 
-		if ( ! llms_verify_nonce( '_llms_update_person_nonce', 'llms_update_person' ) ) {
+		if ( ! isset( $_REQUEST['_llms_update_person_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_update_person_nonce'] ) ), 'llms_update_person' ) ) {
 			return;
 		}
 
@@ -154,7 +160,10 @@ class LLMS_Controller_Account {
 	public function lost_password() {
 
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_lost_password_nonce', 'llms_lost_password', 'POST' ) ) {
+		if ( ! isset( $_REQUEST['_lost_password_nonce'] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_lost_password_nonce'] ) ), 'llms_lost_password' ) ) {
 			return null;
 		}
 
@@ -257,7 +266,7 @@ class LLMS_Controller_Account {
 	 */
 	public function redeem_voucher() {
 
-		if ( ! llms_verify_nonce( 'lifterlms_voucher_nonce', 'lifterlms_voucher_check' ) || ! get_current_user_id() ) {
+		if ( ! isset( $_REQUEST['lifterlms_voucher_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['lifterlms_voucher_nonce'] ) ), 'lifterlms_voucher_check' ) || ! get_current_user_id() ) {
 			return null;
 		}
 
@@ -314,7 +323,10 @@ class LLMS_Controller_Account {
 	private function reset_password_handler() {
 
 		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password' ) ) {
+		if ( ! isset( $_REQUEST['_reset_password_nonce'] ) ) {
+			return null;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_reset_password_nonce'] ) ), 'llms_reset_password' ) ) {
 			return null;
 		}
 

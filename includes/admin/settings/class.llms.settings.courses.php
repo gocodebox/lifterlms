@@ -77,8 +77,43 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'type'    => 'checkbox',
 				),
 
-				array(
-					'title'   => __( 'Lesson Favorites', 'lifterlms' ),
+			array(
+				'desc'    => __( 'Enabling this setting will display lessons in a distraction-free focus mode.', 'lifterlms' ),
+				'default' => 'no',
+				'id'      => 'lifterlms_enable_focus_mode',
+				'title'   => __( 'Focus Mode', 'lifterlms' ),
+				'type'    => 'checkbox',
+			),
+
+			array(
+				'default' => '960',
+				'desc'    => __( 'Set the maximum width of the lesson content area in focus mode.', 'lifterlms' ),
+				'id'      => 'lifterlms_focus_mode_content_width',
+				'options' => array(
+					'full' => __( 'Full Width', 'lifterlms' ),
+					'1600' => __( 'Extra Wide (1600px)', 'lifterlms' ),
+					'1180' => __( 'Wide (1180px)', 'lifterlms' ),
+					'960'  => __( 'Default (960px)', 'lifterlms' ),
+					'768'  => __( 'Narrow (768px)', 'lifterlms' ),
+				),
+				'title'   => __( 'Focus Mode Content Width', 'lifterlms' ),
+				'type'    => 'select',
+			),
+
+			array(
+				'default' => 'left',
+				'desc'    => __( 'Choose which side the course syllabus sidebar appears on.', 'lifterlms' ),
+				'id'      => 'lifterlms_focus_mode_sidebar_position',
+				'options' => array(
+					'left'  => __( 'Left', 'lifterlms' ),
+					'right' => __( 'Right', 'lifterlms' ),
+				),
+				'title'   => __( 'Focus Mode Sidebar Position', 'lifterlms' ),
+				'type'    => 'select',
+			),
+
+			array(
+				'title'   => __( 'Lesson Favorites', 'lifterlms' ),
 					'desc'    => __( 'Enabling this setting allows students to mark a lesson as "favorite".', 'lifterlms' ),
 					'id'      => 'lifterlms_favorites',
 					'default' => 'yes',

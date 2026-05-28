@@ -140,6 +140,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 *
 	 * @since 4.6.0
 	 * @since 4.7.0 Added `SQL_CALC_FOUND_ROWS` and improved query to exclude results with a completed payment plan.
+	 * @since 10.0.0 Replaced SQL_CALC_FOUND_ROWS with a separate COUNT(*) query.
 	 *
 	 * @return object[]
 	 */
@@ -147,9 +148,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		global $wpdb;
 
-		$orders = $wpdb->get_results(
-			"SELECT SQL_CALC_FOUND_ROWS p.ID
-			   FROM {$wpdb->posts} AS p
+		$from_joins_where = "FROM {$wpdb->posts} AS p
 		  LEFT JOIN {$wpdb->postmeta} AS m
 			     ON p.ID = m.post_ID
 			    AND m.meta_key = '_llms_plan_ended'
@@ -161,13 +160,18 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			    AND p.post_type   = 'llms_order'
 			    AND p.post_status = 'llms-active'
 			    AND a.action_id IS NULL
-			    AND m.meta_value IS NULL
+			    AND m.meta_value IS NULL";
+
+		$total = $wpdb->get_var( "SELECT COUNT(*) {$from_joins_where}" ); // no-cache ok.
+		wp_cache_set( sprintf( '%s-total-results', $this->id ), $total, 'llms_tool_data' );
+
+		$orders = $wpdb->get_results(
+			"SELECT p.ID
+			   {$from_joins_where}
 		   ORDER BY p.ID ASC
 			  LIMIT 50
 			;"
 		); // no-cache ok -- Caching implemented in `get_orders()`.
-
-		wp_cache_set( sprintf( '%s-total-results', $this->id ), $wpdb->get_var( 'SELECT FOUND_ROWS()' ), 'llms_tool_data' );
 
 		return $orders;
 

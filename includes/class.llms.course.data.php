@@ -130,7 +130,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		$ids = implode( ',', $this->get_all_ids() );
+		$ids = implode( ',', array_map( 'absint', $this->get_all_ids() ) );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_var(
@@ -163,13 +163,15 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$lesson_ids = $this->post->get_lessons( 'ids' );
 
 		// Return early for courses without any lessons.
-		if ( empty( $lessons ) ) {
+		if ( empty( $lesson_ids ) ) {
 			return 0;
 		}
+
+		$lessons = implode( ',', array_map( 'absint', $this->post->get_lessons( 'ids' ) ) );
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $wpdb->get_var(
 			$wpdb->prepare(
@@ -229,7 +231,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		if ( $order_ids ) {
 
-			$order_ids = implode( ',', $order_ids );
+			$order_ids = implode( ',', array_map( 'absint', $order_ids ) );
 
 			global $wpdb;
 			$revenue = $wpdb->get_var(

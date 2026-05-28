@@ -253,7 +253,8 @@ abstract class LLMS_Abstract_Email_Provider {
 	 */
 	protected function can_remote_install() {
 
-		if ( ! llms_verify_nonce( '_llms_' . $this->id . '_nonce', 'llms-' . $this->id . '-install' ) ) {
+		$nonce_field = '_llms_' . $this->id . '_nonce';
+		if ( ! isset( $_REQUEST[ $nonce_field ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce_field ] ) ), 'llms-' . $this->id . '-install' ) ) {
 			return array(
 				'code'    => 'llms_' . $this->id . '_install_nonce_failure',
 				'message' => esc_html__( 'Security check failed.', 'lifterlms' ),
@@ -326,9 +327,9 @@ abstract class LLMS_Abstract_Email_Provider {
 		}
 
 		if ( ! $this->is_installed() ) {
-			// Translators: %s = title of the email delivery plugin.
 			return array(
 				'code'    => 'llms_' . $this->id . '_not_found',
+				/* translators: %s: title of the email delivery plugin. */
 				'message' => sprintf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ),
 				'status'  => 400,
 			);

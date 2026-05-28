@@ -348,6 +348,7 @@ class LLMS_Sessions {
 			$args['exclude'][]   = $end->get( 'id' );
 		}
 
+		$args['no_found_rows'] = true;
 		$query = new LLMS_Events_Query( $args );
 		return $query->get_events();
 

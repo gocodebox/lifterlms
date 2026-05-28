@@ -92,7 +92,10 @@ class LLMS_Meta_Box_Visibility {
 	 */
 	public function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'llms_catalog_visibility_nonce', 'llms-catalog-visibility-nonce' ) ) {
+		if ( ! isset( $_REQUEST['llms_catalog_visibility_nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms_catalog_visibility_nonce'] ) ), 'llms-catalog-visibility-nonce' ) ) {
 			return;
 		}
 

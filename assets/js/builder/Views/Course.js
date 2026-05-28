@@ -89,6 +89,12 @@ define( [
 
 			Backbone.pubSub.on( 'lesson-selected', this.active_lesson_change, this );
 
+			// Select the first section by default on load.
+			var firstSection = this.model.get( 'sections' ).first();
+			if ( firstSection ) {
+				this.sectionListView.setSelectedModel( firstSection );
+			}
+
 		},
 
 		/**
@@ -133,11 +139,11 @@ define( [
 		active_section_change: function( current, previous ) {
 
 			_.each( current, function( model ) {
-				model.set( '_selected', true );
+				model.set( '_selected', true, { silent: true } );
 			} );
 
 			_.each( previous, function( model ) {
-				model.set( '_selected', false );
+				model.set( '_selected', false, { silent: true } );
 			} );
 
 		},
@@ -167,8 +173,7 @@ define( [
 		 */
 		on_section_toggle: function( model ) {
 
-			var selected = model.get( '_expanded' ) ? [ model ] : [];
-			this.sectionListView.setSelectedModels( selected );
+			this.sectionListView.setSelectedModel( model );
 
 		},
 

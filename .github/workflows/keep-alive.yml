@@ -28,7 +28,7 @@ jobs:
     name: Keep Repo Alive
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.ORG_WORKFLOWS }}
           fetch-depth: 0

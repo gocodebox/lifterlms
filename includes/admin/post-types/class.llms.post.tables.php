@@ -155,7 +155,7 @@ class LLMS_Admin_Post_Tables {
 				if ( ! $r ) {
 					LLMS_Admin_Notices::flash_notice( esc_html__( 'There was an error detaching the post.', 'lifterlms' ), 'error' );
 				}
-				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
+				wp_safe_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
 				exit;
 
 			case 'llms-clone-post':
@@ -166,7 +166,7 @@ class LLMS_Admin_Post_Tables {
 				if ( is_wp_error( $r ) ) {
 					LLMS_Admin_Notices::flash_notice( $r->get_error_message(), 'error' );
 				}
-				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
+				wp_safe_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
 				exit;
 
 		}
