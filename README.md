@@ -54,7 +54,13 @@ The LifterLMS core includes several additional packages which are included in re
 These packages have their own GitHub repositories:
 
 + [LifterLMS Blocks](https://github.com/gocodebox/lifterlms-blocks)
++ [LifterLMS CLI](https://github.com/gocodebox/lifterlms-cli)
 + [LifterLMS REST API](https://github.com/gocodebox/lifterlms-rest)
+
+
+### AI Agent Integration
+
+LifterLMS supports AI coding assistants through its [CLI](https://github.com/gocodebox/lifterlms-cli) (for shell-based agents like Claude Code and Cursor) and [MCP server](https://github.com/gocodebox/lifterlms-mcp) (for chat-based agents like Claude Desktop). See the [AI agent guide](docs/ai-agents.md) for setup and usage.
 
 
 ### Reporting a Bug
