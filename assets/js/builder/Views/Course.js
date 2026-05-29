@@ -139,11 +139,11 @@ define( [
 		active_section_change: function( current, previous ) {
 
 			_.each( current, function( model ) {
-				model.set( '_selected', true );
+				model.set( '_selected', true, { silent: true } );
 			} );
 
 			_.each( previous, function( model ) {
-				model.set( '_selected', false );
+				model.set( '_selected', false, { silent: true } );
 			} );
 
 		},

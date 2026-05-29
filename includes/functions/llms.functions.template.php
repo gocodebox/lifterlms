@@ -258,7 +258,7 @@ function llms_get_template_override_directories() {
  * For lessons and quizzes, uses the parent course focus mode setting (or global setting).
  * Add-ons (e.g. LifterLMS Assignments) can use the filter to enable focus mode for their post types.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param int $post_id The ID of the post (lesson, quiz, etc.).
  * @return bool
@@ -301,7 +301,7 @@ function llms_is_focus_mode_enabled( $post_id ) {
 	 * Used by add-ons (e.g. LifterLMS Assignments) to enable focus mode for their post types
 	 * when focus mode is enabled globally and/or for the course.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @param bool $result  Whether focus mode is enabled.
 	 * @param int  $post_id The post ID.
@@ -314,7 +314,7 @@ function llms_is_focus_mode_enabled( $post_id ) {
  *
  * Checks the parent course setting first (for lesson/quiz), then falls back to global.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param int $post_id The ID of the post (lesson, quiz, or other focus-mode post type).
  * @return string Width value: 'full', '1600', '1180', '960', or '768'.
@@ -335,7 +335,7 @@ function llms_get_focus_mode_content_width( $post_id ) {
  *
  * Checks the parent course setting first (for lesson/quiz), then falls back to global.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param int $post_id The ID of the post (lesson, quiz, or other focus-mode post type).
  * @return string 'left' or 'right'.
@@ -354,7 +354,7 @@ function llms_get_focus_mode_sidebar_position( $post_id ) {
 /**
  * Get focus mode content width select options for course-level settings.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param bool $include_inherit Whether to include the "Inherit" option with the current global value.
  * @return array Array of key/title option arrays.
@@ -396,7 +396,7 @@ function llms_get_focus_mode_content_width_options( $include_inherit = false ) {
 /**
  * Get focus mode sidebar position select options for course-level settings.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param bool $include_inherit Whether to include the "Inherit" option with the current global value.
  * @return array Array of key/title option arrays.
@@ -435,7 +435,7 @@ function llms_get_focus_mode_sidebar_position_options( $include_inherit = false 
 /**
  * Add body classes for focus mode.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @param array $classes Body classes.
  * @return array
@@ -447,7 +447,7 @@ function llms_focus_mode_body_class( $classes ) {
 	 * Add-ons (e.g. LifterLMS Assignments) can add their post types here and use
 	 * the `llms_is_focus_mode_enabled` filter to return true when appropriate.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @param string[] $post_types Post type names. Default: [ 'lesson', 'llms_quiz' ].
 	 */
@@ -470,7 +470,7 @@ add_filter( 'body_class', 'llms_focus_mode_body_class' );
 /**
  * Enqueue focus mode frontend scripts.
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @return void
  */
@@ -504,7 +504,7 @@ add_action( 'wp_enqueue_scripts', 'llms_focus_mode_enqueue_scripts' );
  *   remove_action( 'llms_focus_mode_the_content', 'llms_focus_mode_render_content' );
  *   add_action( 'llms_focus_mode_the_content', 'my_theme_render_content' );
  *
- * @since [version]
+ * @since 10.0.0
  *
  * @return void
  */

@@ -1,6 +1,7 @@
 # Package managers.
 node_modules/
 /vendor/
+.cursor
 
 # Lock file intentionally excluded to allow easier testing against multiple php versions
 # This follows the precedent put forth by the WordPress core {@link https://github.com/WordPress/wordpress-develop/commit/0e442c4615bdcdc1c2e4f8db6f88f57e6859c2ff}
@@ -52,6 +53,7 @@ assets/js/llms.js
 assets/js/*.min.js
 assets/js/*.asset.php
 assets/js/llms-metaboxes.js
+assets/js/vendor/*.min.js
 blocks/certificate-title/*
 blocks/my-account/*
 blocks/pricing-table/*
@@ -96,3 +98,8 @@ languages/lifterlms.pot
 # Non-distributable configs.
 phpunit.xml
 .llmsenv
+
+# Playwright / E2E test artifacts.
+/artifacts/
+/playwright-report/
+/test-results/

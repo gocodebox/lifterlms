@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2943"
-entry: Avoid "Launch Course Builder" showing on orphaned lessons.

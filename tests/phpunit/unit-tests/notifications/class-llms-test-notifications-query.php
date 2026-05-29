@@ -17,7 +17,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	 * and does not use SQL_CALC_FOUND_ROWS.
 	 *
 	 * @since 7.1.0
-	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
+	 * @since 10.0.0 Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	 * Test that the notifications query, passing no_found_rows as true, does not set count_query.
 	 *
 	 * @since 7.1.0
-	 * @since [version] Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
+	 * @since 10.0.0 Updated: SQL_CALC_FOUND_ROWS replaced with count_query.
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test found_results and max_pages with real notifications data.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Test_Notifications_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that no_found_rows skips counting.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */

@@ -1,13 +1,14 @@
+@use 'sass:color';
 // ----- LifterLMS Brand Colors ----- \\
 $color-brand-dark-blue: #243c56;
 
 $color-brand-blue: #466dd8;
-$color-brand-blue-dark: darken( $color-brand-blue, 12 ); // #0077e4
-$color-brand-blue-light: lighten( $color-brand-blue, 8 );
+$color-brand-blue-dark: #274eba;
+$color-brand-blue-light: #6888df;
 
 $color-brand-orange: #f8954f;
 $color-brand-orange-dark: #f67d28;
-$color-brand-orange-light: lighten( $color-brand-orange, 8 );
+$color-brand-orange-light: #faad76;
 
 $color-brand-aqua: #17bebb;
 
@@ -25,7 +26,7 @@ $color-aqua: #35bbaa;
 $color-purple: #845ef7;
 $color-orange: #c05621;
 
-$color-red-hover: darken($color-red,5);
+$color-red-hover: #a51f19;
 
 
 // ----- state / action names ----- \\
@@ -59,7 +60,7 @@ $color-darkblue:		#0185a3;
 
 $color-border: #dedede;
 
-$el-box-shadow: 0 1px 2px 0 rgba($color-black,0.4);
+$el-box-shadow: 0 1px 2px 0 color.change($color-black, $alpha: 0.4);
 $el-background: #f1f1f1;
 $el-background-hover: #eaeaea;
 

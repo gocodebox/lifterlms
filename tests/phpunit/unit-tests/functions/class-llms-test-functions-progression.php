@@ -60,7 +60,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test llms_show_mark_complete_button() when quiz has not been attempted.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test llms_show_mark_complete_button() when quiz has been passed.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test llms_show_mark_complete_button() when quiz failed and passing is required.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test llms_show_mark_complete_button() when quiz failed but passing is NOT required.
 	 *
-	 * @since [version]
+	 * @since 10.0.0
 	 *
 	 * @return void
 	 */

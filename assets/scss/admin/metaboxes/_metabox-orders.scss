@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .post-type-llms_order #post-body-content { display: none; }
 #lifterlms-order-details {
 	.handlediv,
@@ -12,8 +14,8 @@
 
 // failed transaction color
 .llms-table tbody tr.llms-txn-failed td {
-	background-color: rgba( $color-red, 0.5 );
-	border-bottom-color: rgba( $color-red, 0.5 );
+	background-color: color.change( $color-red, $alpha: 0.5 );
+	border-bottom-color: color.change( $color-red, $alpha: 0.5 );
 }
 
 // refunded transaction color

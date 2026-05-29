@@ -46,6 +46,17 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			'helps' => $protector->is_media_protected( $post->ID ) ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
 		);
 
+		/**
+		 * Filter the LifterLMS media protection attachment field.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param array                $field     Attachment field definition.
+		 * @param WP_Post              $post      Attachment post object.
+		 * @param LLMS_Media_Protector $protector Media protector instance.
+		 */
+		$form_fields['llms_media_protection_post'] = apply_filters( 'llms_media_protection_attachment_field', $form_fields['llms_media_protection_post'], $post, $protector );
+
 		return $form_fields;
 	}
 
@@ -106,22 +117,28 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 				$base_dir     = dirname( $file );
 				$new_base_dir = dirname( $new_file );
 
+				// Multiple registered sizes can share the same physical file.
+				$moved_files = array();
+
 				foreach ( $metadata['sizes'] as $size => $size_info ) {
+					if ( in_array( $size_info['file'], $moved_files, true ) ) {
+						continue;
+					}
+
 					$old_thumb = $base_dir . '/' . $size_info['file'];
 					$new_thumb = $new_base_dir . '/' . $size_info['file'];
+					if ( ! $wp_filesystem->exists( $old_thumb ) ) {
+						error_log( 'Registered metadata thumbnail file does not exist. Skipping. ' . $old_thumb );
+						continue;
+					}
 					if ( ! $wp_filesystem->move( $old_thumb, $new_thumb ) ) {
-						error_log( 'Unable to move protected file. Thumbnail moving failed: ' . $new_thumb );
+						error_log( 'Unable to move protected file. Thumbnail moving failed: ' . $old_thumb . ' to ' . $new_thumb );
 
 						// Move the file back along with any thumbnails we already moved.
 						$wp_filesystem->move( $new_file, $file );
-						foreach ( $metadata['sizes'] as $s => $size_info ) {
-							if ( $s === $size ) {
-								// We've reached the spot where we failed, so we can stop.
-								return false;
-							}
-
-							$old_thumb = $base_dir . '/' . $size_info['file'];
-							$new_thumb = $new_base_dir . '/' . $size_info['file'];
+						foreach ( $moved_files as $moved_file ) {
+							$old_thumb = $base_dir . '/' . $moved_file;
+							$new_thumb = $new_base_dir . '/' . $moved_file;
 							if ( $wp_filesystem->exists( $new_thumb ) ) {
 								$wp_filesystem->move( $new_thumb, $old_thumb );
 							}
@@ -129,6 +146,8 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 
 						return false;
 					}
+
+					$moved_files[] = $size_info['file'];
 				}
 			}
 

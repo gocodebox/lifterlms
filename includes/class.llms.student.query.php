@@ -153,7 +153,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * @since 3.13.0 Unknown.
 	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
 	 * @since 6.0.0 Renamed from `preprare_query()`.
-	 * @since [version] Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
+	 * @since 10.0.0 Build count_query from shared clauses instead of using SQL_CALC_FOUND_ROWS.
 	 *
 	 * @return string
 	 */

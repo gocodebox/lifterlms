@@ -38,6 +38,7 @@ class LLMS_Shortcodes {
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
 	 * @since 7.5.0 Added `LLMS_Shortcode_Favorites` class in shortcodes array.
+	 * @since 10.0.0 Added `LLMS_Shortcode_Lesson_Navigation` class in shortcodes array.
 	 *
 	 * @return void
 	 */
@@ -66,6 +67,7 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Courses',
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
+				'LLMS_Shortcode_Lesson_Navigation',
 				'LLMS_Shortcode_Membership_Link',
 				'LLMS_Shortcode_Membership_Instructors',
 				'LLMS_Shortcode_My_Achievements',

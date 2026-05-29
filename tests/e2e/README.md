@@ -1,79 +1,74 @@
-LifterLMS E2E (End-to-End) Tests
+LifterLMS E2E Tests (Playwright)
 ================================
 
-## Requirements
+End-to-end tests run in a real browser via [Playwright](https://playwright.dev/) against a [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) WordPress instance.
 
-The E2E test suite requires [Node](https://nodejs.org/en/download/) to run tests via the terminal of your choosing.
+## Prerequisites
 
-[Docker](https://docs.docker.com/install/) is not required, but it is recommended. You could configure any WordPress site (local or publicly accessible) to be used for testing.
++ Node.js 24 and npm 10+
++ Docker (required by `wp-env`)
 
-**If you choose to run tests on an environment other than Docker, the setup and configuration will differ from what is outlined here and you will also risk polluting your site with unwanted test content and data.**
+## Installing
 
+1. Install all Node dependencies from the repository root:
 
-## Installation
+   ```
+   npm ci
+   ```
 
-To install the test suite:
+2. Build the plugin assets:
 
-+ `npm install`: Install Node dependencies.
-+ `composer install`: Install all required PHP dependencies.
-+ `composer run env up`: Build and install the local environment.
-+ `composer run env:setup`: Setup the local environment.
+   ```
+   npm run build
+   ```
 
-After installation a WordPress site should be accessible at [http://localhost:8080](http://localhost:8080) using the username `admin` and password `password`.
+3. Install the Playwright browsers (Chromium is all you need):
 
+   ```
+   npx playwright install --with-deps chromium
+   ```
+
+4. Start the `wp-env` environment:
+
+   ```
+   npx wp-env start
+   ```
+
+5. Bootstrap the test data (creates pages, users, courses, etc.):
+
+   ```
+   bash tests/e2e/bin/setup-env.sh
+   ```
 
 ## Running Tests
 
-To run tests:
-
-+ `npm run test`: Runs all tests in a headless browser.
-+ `npm run test:dev`: Runs tests in an interactive browser with "slow" motion enabled. This mode is helpful when writing tests so you can see what's going on.
-+ `npm run test -- -t SuiteName`: Run a single test suite by name. "SuiteName" will be the name of a test file `describe()`. For  example "SetupWizard".
-+ `npm run test -- -t "test expect description"`: Run a single test by its "should" description block. For example "should load and run the entire setup wizard.".
-
-
-## Managing Docker Containers
-
-The local environment is powered by docker containers which can be managed with the following commands:
+Run the full suite:
 
 ```
-config:  Creates configuration override files
-down:    Stop and remove containers and volumes
-up:      Start containers
-ps:      List containers
-reset:   Destroy and recreate containers and volumes
-restart: Restart containers
-rm:      Remove containers and volumes
-ssh:     Open an interactive bash session with the PHP service container
-stop:    Stop containers without removing them
-wp:      Execute a wp-cli command inside the PHP service container
+npm test
 ```
 
-To run these commands, run `composer run env <command>` where `<command>` is the name of the command you wish to run.
+Run a single spec file:
 
-For additionally information and options for each command run, the command with the `-h` or `--help` flag to view usage information.
+```
+npx wp-scripts test-playwright -- tests/e2e/specs/student/login.spec.js
+```
 
+Run tests matching a name:
 
-## Test Organization
+```
+npx wp-scripts test-playwright -- --grep "login"
+```
 
-All tests are stored in the [tests/e2e/tests](./tests) directory.
+## Automated Testing
 
-Tests should organized into subdirectories by group and each file should function as a secondary level of organization for grouping tests.
+Tests run automatically on pull requests via [GitHub Actions](https://github.com/gocodebox/lifterlms/actions/workflows/test-e2e-playwright.yml). On failure the workflow uploads a `playwright-report` artifact you can download to review traces and screenshots.
 
+## Writing Tests
 
-## Credits
-
-Tools and libraries used:
-
-+ [Puppeteer](https://github.com/GoogleChrome/puppeteer): a Node library which provides a high-level API to control Chrome or Chromium over the DevTools Protocol.
-+ [Jest](https://github.com/facebook/jest): A comprehensive JavaScript testing solution.
-+ [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer): A test runner to run tests using Jest & Puppeteer.
-+ [expect-puppeteer](https://github.com/smooth-code/jest-puppeteer/tree/master/packages/expect-puppeteer): Assertion library for Puppeteer.
-
-The following utility packages are used to help facilitate e2e tests in WordPress and LifterLMS:
-
-+ [@wordpress/scripts](https://github.com/WordPress/gutenberg/tree/master/packages/scripts): A collection of reusable scripts tailored for WordPress development.
-+ [@wordpress/e2e-test-utils](https://github.com/WordPress/gutenberg/tree/master/packages/e2e-test-utils): End-To-End (E2E) test utils for WordPress.
-+ [llms-e2e-test-utils](https://github.com/gocodebox/lifterlms/tree/trunk/packages/llms-e2e-test-utils): End-To-End (E2E) test utils for LifterLMS.
-
-A debt of gratitude is owed to [WP React Starter by devowl.io](https://github.com/devowlio/wp-react-starter), without the open-source code found in this repository our lead developer would surely have descended into eventual madness trying to figure out how to mount a working directory into a Docker container. I know you're saying it sounds simple and in retrospect he agrees with you but you know how things go sometimes...
++ Test specs live in `tests/e2e/specs/` and are organized by feature area.
++ Shared helpers live in `tests/e2e/utils/`.
++ Playwright config is at the repository root in `playwright.config.js` (extends `@wordpress/scripts`).
++ Focus E2E coverage on core user-facing workflows — enrollment, checkout, access restrictions, login, and similar critical paths.
++ Use `@wordpress/e2e-test-utils-playwright` helpers (such as `Admin` and `RequestUtils`) whenever possible to keep tests concise.
++ If a test needs specific data, add setup steps to `tests/e2e/bin/setup-env.sh` so the environment is reproducible.

@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "9.2.3",
+  "version": "10.0.3",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -12,9 +12,12 @@
     "url": "https://github.com/gocodebox/lifterlms/issues"
   },
   "homepage": "https://lifterlms.com",
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@emotion/styled": "^11.6.0",
@@ -26,15 +29,18 @@
     "@lifterlms/dev": "file:packages/dev",
     "@lifterlms/fontawesome": "file:packages/fontawesome",
     "@lifterlms/icons": "file:packages/icons",
-    "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
     "@lifterlms/utils": "file:packages/utils",
+    "@playwright/test": "^1.58.0",
     "@wordpress/docgen": "^1.18.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.41.0",
+    "@wordpress/env": "^10.39.0",
+    "@wordpress/scripts": "^27.9.0",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-uglify": "^3.0.2",
-    "lerna": "^5.5.2",
+    "lerna": "^9.0.7",
     "lifterlms-lib-tasks": "^4.0.1",
     "postcss": "^8.4.6"
   },
@@ -49,14 +55,13 @@
     "dev": "llms-dev",
     "lerna": "lerna",
     "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
-    "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
-    "test:dev": "npm run test -- --puppeteer-interactive",
+    "test": "wp-scripts test-playwright",
     "test:unit": "wp-scripts test-unit-js ./src/js --config packages/scripts/config/jest-unit.config.js --verbose",
+    "wp-env": "wp-env",
     "pkg:docgen": "lerna run docgen",
-    "pkg:hoist": "lerna bootstrap --hoist",
+    "pkg:hoist": "echo 'Dependencies hoisted via npm workspaces'",
     "pkg:lint:js": "lerna run lint:js",
     "pkg:test": "wp-scripts test-unit-js ./packages --config packages/scripts/config/jest-unit.config.js --verbose",
-    "postinstall": "npm run pkg:hoist",
     "start": "wp-scripts start",
     "start:legacy": "gulp watch",
     "start:blocks": "wp-scripts start --config packages/scripts/config/blocks-webpack.config.js"

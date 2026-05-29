@@ -1,7 +1,0 @@
-significance: minor
-type: added
-links:
-  - "#3109"
-entry: Added an explicit 'Any' trigger option for engagements so one engagement
-  can apply to all matching courses, memberships, lessons, quizzes, sections,
-  access plans, or tracks.
