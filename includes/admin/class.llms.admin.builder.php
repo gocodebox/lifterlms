@@ -1085,6 +1085,15 @@ class LLMS_Admin_Builder {
 
 		$ret = array();
 
+		/**
+		 * Resolve the course these lessons must belong to and confirm the current user can edit it.
+		 *
+		 * Authorizing the target relationship here keeps the method self-contained rather than
+		 * relying solely on a permission check performed earlier in the heartbeat request.
+		 */
+		$authorized_course_id = $course_id ? absint( $course_id ) : absint( $section->get( 'parent_course' ) );
+		$can_edit_course      = ! $authorized_course_id || current_user_can( 'edit_course', $authorized_course_id );
+
 		foreach ( $lessons as $lesson_data ) {
 
 			if ( ! isset( $lesson_data['id'] ) ) {
@@ -1097,6 +1106,13 @@ class LLMS_Admin_Builder {
 					'orig_id' => $lesson_data['id'],
 				)
 			);
+
+			if ( ! $can_edit_course ) {
+				// Translators: %s = Lesson post id.
+				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $lesson_data['id'] );
+				array_push( $ret, $res );
+				continue;
+			}
 
 			// Create a new lesson.
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
@@ -1185,7 +1201,6 @@ class LLMS_Admin_Builder {
 				}
 
 				// Force the lesson into the authorized course and section.
-				$authorized_course_id = $course_id ? absint( $course_id ) : absint( $section->get( 'parent_course' ) );
 				$lesson->set( 'parent_section', $section->get( 'id' ) );
 				if ( $authorized_course_id ) {
 					$lesson->set( 'parent_course', $authorized_course_id );
@@ -1385,6 +1400,14 @@ class LLMS_Admin_Builder {
 			)
 		);
 
+		// Confirm the current user can edit the course this quiz belongs to, independent of earlier checks.
+		$authorized_course_id = $course_id ? absint( $course_id ) : absint( $lesson->get( 'parent_course' ) );
+		if ( $authorized_course_id && ! current_user_can( 'edit_course', $authorized_course_id ) ) {
+			// Translators: %s = Quiz post id.
+			$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $quiz_data['id'] );
+			return $res;
+		}
+
 		// Create a quiz.
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
@@ -1491,6 +1514,13 @@ class LLMS_Admin_Builder {
 				'orig_id' => $section_data['id'],
 			)
 		);
+
+		// Confirm the current user can edit the course this section belongs to, independent of earlier checks.
+		if ( $course_id && ! current_user_can( 'edit_course', absint( $course_id ) ) ) {
+			// Translators: %s = Section post id.
+			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $section_data['id'] );
+			return $res;
+		}
 
 		// Create a new section.
 		if ( self::is_temp_id( $section_data['id'] ) ) {
