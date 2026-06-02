@@ -1142,14 +1142,6 @@ class LLMS_Admin_Builder {
 				// Don't create useless revision on "creating".
 				add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
-				/**
-				 * If the parent section was just created the lesson will have a temp id
-				 * replace it with the newly created section's real ID.
-				 */
-				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
-					$lesson_data['parent_section'] = $section->get( 'id' );
-				}
-
 				// Return the real ID (important when creating a new lesson).
 				$res['id'] = $lesson->get( 'id' );
 
@@ -1162,6 +1154,17 @@ class LLMS_Admin_Builder {
 				);
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
+
+				/**
+				 * Never trust client-supplied parent relationships.
+				 *
+				 * A lesson saved through the builder must belong to the authorized course and
+				 * one of its sections. These props are skipped in the generic update loop and
+				 * set explicitly below to prevent injecting or moving a lesson into a course
+				 * the current user is not authorized to edit.
+				 */
+				$skip_props[] = 'parent_course';
+				$skip_props[] = 'parent_section';
 
 				// Don't overwrite content if the content editor doesn't display.
 				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
@@ -1180,6 +1183,15 @@ class LLMS_Admin_Builder {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
+
+				// Force the lesson into the authorized course and section.
+				$authorized_course_id = $course_id ? absint( $course_id ) : absint( $section->get( 'parent_course' ) );
+				$lesson->set( 'parent_section', $section->get( 'id' ) );
+				if ( $authorized_course_id ) {
+					$lesson->set( 'parent_course', $authorized_course_id );
+				}
+				$res['parent_section'] = $lesson->get( 'parent_section' );
+				$res['parent_course']  = $lesson->get( 'parent_course' );
 
 				// Update all custom fields.
 				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );
@@ -1436,11 +1448,14 @@ class LLMS_Admin_Builder {
 			);
 
 			// Update all updatable properties.
+			// Never trust a client-supplied lesson_id; the quiz must belong to the authorized lesson.
 			foreach ( $properties as $prop ) {
-				if ( isset( $quiz_data[ $prop ] ) ) {
+				if ( isset( $quiz_data[ $prop ] ) && 'lesson_id' !== $prop ) {
 					$quiz->set( $prop, $quiz_data[ $prop ] );
 				}
 			}
+			$quiz->set( 'lesson_id', $lesson->get( 'id' ) );
+			$res['lesson_id'] = $lesson->get( 'id' );
 
 			// Include permalink and slug in the response so the builder can update the model.
 			$res['permalink'] = get_permalink( $quiz->get( 'id' ) );

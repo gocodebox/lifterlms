@@ -585,6 +585,136 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test that a lesson cannot be moved into a course the builder is not authorized to edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_cannot_move_to_another_course() {
+
+		// Authorized course (A) the builder is editing, with a section + lesson.
+		$course_a  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$section_a = $course_a->get_sections()[0];
+		$lesson_a  = $course_a->get_lessons()[0];
+
+		// Course (B) with its own section.
+		$course_b  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_b = $course_b->get_sections()[0];
+
+		// Craft builder data attempting to move lesson A into course B / section B.
+		$lessons_data = array(
+			array(
+				'id'             => $lesson_a->get( 'id' ),
+				'parent_course'  => $course_b->get( 'id' ),
+				'parent_section' => $section_b->get( 'id' ),
+			),
+		);
+
+		LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section_a, $course_a->get( 'id' ) )
+		);
+
+		// The lesson must remain in the authorized course/section.
+		$lesson_a = llms_get_post( $lesson_a->get( 'id' ) );
+		$this->assertEquals( $course_a->get( 'id' ), $lesson_a->get( 'parent_course' ) );
+		$this->assertEquals( $section_a->get( 'id' ), $lesson_a->get_parent_section() );
+	}
+
+	/**
+	 * Test that a newly created lesson cannot be injected into another course via the builder.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_cannot_inject_into_another_course() {
+
+		// Authorized course (A) with a section.
+		$course_a  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_a = $course_a->get_sections()[0];
+
+		// Victim course (B) with its own section.
+		$course_b  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_b = $course_b->get_sections()[0];
+
+		$lessons_data = array(
+			array(
+				'id'             => 'temp_1',
+				'title'          => 'Injected lesson',
+				'parent_course'  => $course_b->get( 'id' ),
+				'parent_section' => $section_b->get( 'id' ),
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section_a, $course_a->get( 'id' ) )
+		);
+
+		$new_lesson = llms_get_post( $res[0]['id'] );
+
+		// The new lesson must belong to the authorized course/section, not the victim course.
+		$this->assertEquals( $course_a->get( 'id' ), $new_lesson->get( 'parent_course' ) );
+		$this->assertEquals( $section_a->get( 'id' ), $new_lesson->get_parent_section() );
+		$this->assertEmpty( $course_b->get_lessons() );
+	}
+
+	/**
+	 * Test that a quiz's lesson_id is forced to the authorized lesson and cannot be pointed elsewhere.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_quiz_forces_lesson_id_to_authorized_lesson() {
+
+		$course = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$lesson = $course->get_lessons()[0];
+
+		// A victim lesson the attacker should not be able to point the quiz at.
+		$victim_lesson_id = $this->factory->post->create( array( 'post_type' => 'lesson' ) );
+
+		$quiz_data = array(
+			'id'        => 'temp_1',
+			'title'     => 'Quiz',
+			'lesson_id' => $victim_lesson_id,
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_quiz',
+			array( $quiz_data, $lesson, $course->get( 'id' ) )
+		);
+
+		$quiz = llms_get_post( $res['id'] );
+		$this->assertEquals( $lesson->get( 'id' ), $quiz->get( 'lesson_id' ) );
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.
