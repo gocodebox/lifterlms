@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v10.0.4 - 2026-06-04
+--------------------
+
+##### Developer Notes
+
++ Add AGENTS.md and CLAUDE.md to surface project context, contribution workflow, and AI integration interfaces to AI coding agents working in the repo.
+
+##### Security Fixes
+
++ Additional checks on permissions with the REST API. Thanks [@RegorSec](https://github.com/RegorSec)!
++ Improved checks when saving Course Builder data.
+
+
 v10.0.3 - 2026-05-19
 --------------------
 
