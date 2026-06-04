@@ -589,7 +589,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that a lesson cannot be moved into a course the builder is not authorized to edit.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
@@ -638,7 +638,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that a newly created lesson cannot be injected into another course via the builder.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
@@ -688,7 +688,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that a quiz's lesson_id is forced to the authorized lesson and cannot be pointed elsewhere.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
@@ -726,7 +726,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Test that a user who can only edit one course cannot use a builder heartbeat to move or
 	 * inject lessons into a different course they are not allowed to edit.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
@@ -804,7 +804,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that update_section refuses to write into a course the current user cannot edit.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
@@ -834,7 +834,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that update_quiz refuses to write into a course the current user cannot edit.
 	 *
-	 * @since [version]
+	 * @since 10.0.4
 	 *
 	 * @return void
 	 */
