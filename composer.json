@@ -48,6 +48,8 @@
       "*.xml.dist",
       "*.config.js",
 
+      "artifacts",
+
       "CHANGELOG.md",
       "composer.json",
       "lerna.json",
