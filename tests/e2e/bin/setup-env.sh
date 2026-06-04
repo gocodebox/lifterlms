@@ -60,4 +60,30 @@ if [ -z "$COURSE_ID" ]; then
   fi
 fi
 
+# 7. Create a free course (course + section + lesson + free access plan) for the
+#    enrollment loop test, so a student can self-enroll and complete a lesson.
+FREE_COURSE_ID=$($CLI wp post list --post_type=course --name=free-course --field=ID --posts_per_page=1 2>/dev/null | tail -1 || echo "")
+if [ -z "$FREE_COURSE_ID" ]; then
+  FREE_COURSE_ID=$($CLI wp post create --post_type=course --post_title="Free Course" --post_name="free-course" --post_status=publish --post_content="Welcome to the free course." --porcelain 2>/dev/null | tail -1 || echo "")
+  if [ -n "$FREE_COURSE_ID" ]; then
+    FREE_SECTION_ID=$($CLI wp post create --post_type=section --post_title="Free Section" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_SECTION_ID" _llms_parent_course "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_SECTION_ID" _llms_order 1 2>/dev/null || true
+
+    FREE_LESSON_ID=$($CLI wp post create --post_type=lesson --post_title="Free Lesson" --post_name="free-lesson" --post_status=publish --post_content="Read this and mark it complete." --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_parent_course "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_parent_section "$FREE_SECTION_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_order 1 2>/dev/null || true
+
+    FREE_PLAN_ID=$($CLI wp post create --post_type=llms_access_plan --post_title="Free Access" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_product_id "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_is_free yes 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_price 0 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_frequency 0 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_availability open 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_access_expiration lifetime 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_enroll_text "Enroll" 2>/dev/null || true
+  fi
+fi
+
 echo "E2E environment bootstrapped successfully."
