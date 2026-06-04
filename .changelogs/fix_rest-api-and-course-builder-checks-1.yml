@@ -1,0 +1,5 @@
+significance: patch
+type: security
+attributions:
+  - "@RegorSec"
+entry: Additional checks on permissions with the REST API.

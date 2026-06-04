@@ -546,6 +546,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 */
 	public function test_move_lesson_in_a_brand_new_section() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		// Create a Course with a Lesson.
 		$course = $this->factory->course->create_and_get( array(
 			'sections' => 1,
@@ -582,6 +584,282 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 		$this->assertEquals( $course->get( 'id' ), $lesson->get( 'parent_course' ) );
 		$this->assertEquals( $section->get( 'id' ), $lesson->get_parent_section() );
 
+	}
+
+	/**
+	 * Test that a lesson cannot be moved into a course the builder is not authorized to edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_cannot_move_to_another_course() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// Course the builder is editing, with a section + lesson.
+		$course_a  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$section_a = $course_a->get_sections()[0];
+		$lesson_a  = $course_a->get_lessons()[0];
+
+		// A different course with its own section.
+		$course_b  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_b = $course_b->get_sections()[0];
+
+		// Craft builder data attempting to move the lesson into course B / section B.
+		$lessons_data = array(
+			array(
+				'id'             => $lesson_a->get( 'id' ),
+				'parent_course'  => $course_b->get( 'id' ),
+				'parent_section' => $section_b->get( 'id' ),
+			),
+		);
+
+		LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section_a, $course_a->get( 'id' ) )
+		);
+
+		// The lesson must remain in the authorized course/section.
+		$lesson_a = llms_get_post( $lesson_a->get( 'id' ) );
+		$this->assertEquals( $course_a->get( 'id' ), $lesson_a->get( 'parent_course' ) );
+		$this->assertEquals( $section_a->get( 'id' ), $lesson_a->get_parent_section() );
+	}
+
+	/**
+	 * Test that a newly created lesson cannot be injected into another course via the builder.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_cannot_inject_into_another_course() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// Course being edited, with a section.
+		$course_a  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_a = $course_a->get_sections()[0];
+
+		// A different course with its own section.
+		$course_b  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_b = $course_b->get_sections()[0];
+
+		$lessons_data = array(
+			array(
+				'id'             => 'temp_1',
+				'title'          => 'New lesson',
+				'parent_course'  => $course_b->get( 'id' ),
+				'parent_section' => $section_b->get( 'id' ),
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section_a, $course_a->get( 'id' ) )
+		);
+
+		$new_lesson = llms_get_post( $res[0]['id'] );
+
+		// The new lesson must belong to the authorized course/section, not course B.
+		$this->assertEquals( $course_a->get( 'id' ), $new_lesson->get( 'parent_course' ) );
+		$this->assertEquals( $section_a->get( 'id' ), $new_lesson->get_parent_section() );
+		$this->assertEmpty( $course_b->get_lessons() );
+	}
+
+	/**
+	 * Test that a quiz's lesson_id is forced to the authorized lesson and cannot be pointed elsewhere.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_quiz_forces_lesson_id_to_authorized_lesson() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$lesson = $course->get_lessons()[0];
+
+		// A lesson outside the builder context that the quiz must not be pointed at.
+		$other_lesson_id = $this->factory->post->create( array( 'post_type' => 'lesson' ) );
+
+		$quiz_data = array(
+			'id'        => 'temp_1',
+			'title'     => 'Quiz',
+			'lesson_id' => $other_lesson_id,
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_quiz',
+			array( $quiz_data, $lesson, $course->get( 'id' ) )
+		);
+
+		$quiz = llms_get_post( $res['id'] );
+		$this->assertEquals( $lesson->get( 'id' ), $quiz->get( 'lesson_id' ) );
+	}
+
+	/**
+	 * Test that a user who can only edit one course cannot use a builder heartbeat to move or
+	 * inject lessons into a different course they are not allowed to edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_heartbeat_cannot_move_or_inject_lessons_into_unauthorized_course() {
+
+		$user_with_access    = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$user_without_access = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		// Course B is owned by a different user.
+		wp_set_current_user( $user_without_access );
+		$course_b  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section_b = $course_b->get_sections()[0];
+
+		// Course A is owned by the user performing the save.
+		wp_set_current_user( $user_with_access );
+		$course_a  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$section_a = $course_a->get_sections()[0];
+		$lesson_a  = $course_a->get_lessons()[0];
+
+		// The privilege boundary this test depends on.
+		$this->assertTrue( current_user_can( 'edit_course', $course_a->get( 'id' ) ) );
+		$this->assertFalse( current_user_can( 'edit_course', $course_b->get( 'id' ) ) );
+
+		// Heartbeat for course A that attempts to move the existing lesson and inject a new one into course B.
+		$builder_data = array(
+			'id'      => $course_a->get( 'id' ),
+			'updates' => array(
+				'id'       => $course_a->get( 'id' ),
+				'sections' => array(
+					array(
+						'id'      => $section_a->get( 'id' ),
+						'lessons' => array(
+							array(
+								'id'             => $lesson_a->get( 'id' ),
+								'parent_course'  => $course_b->get( 'id' ),
+								'parent_section' => $section_b->get( 'id' ),
+							),
+							array(
+								'id'             => 'temp_1',
+								'title'          => 'New lesson',
+								'parent_course'  => $course_b->get( 'id' ),
+								'parent_section' => $section_b->get( 'id' ),
+							),
+						),
+					),
+				),
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'heartbeat_received',
+			array( array(), array( 'llms_builder' => wp_json_encode( $builder_data ) ) )
+		);
+
+		$this->assertEquals( 'success', $res['llms_builder']['status'] );
+
+		// The existing lesson stays in course A.
+		$lesson_a = llms_get_post( $lesson_a->get( 'id' ) );
+		$this->assertEquals( $course_a->get( 'id' ), $lesson_a->get( 'parent_course' ) );
+		$this->assertEquals( $section_a->get( 'id' ), $lesson_a->get_parent_section() );
+
+		// Course B gains no lessons from the crafted request.
+		$this->assertEmpty( $course_b->get_lessons() );
+	}
+
+	/**
+	 * Test that update_section refuses to write into a course the current user cannot edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_section_requires_edit_course_capability() {
+
+		$owner = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $owner );
+		$course = $this->factory->course->create_and_get( array(
+			'sections' => 0,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+
+		// A different user without access to the course attempts the save.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_section',
+			array( array( 'id' => 'temp_1', 'title' => 'New section' ), $course->get( 'id' ) )
+		);
+
+		$this->assertArrayHasKey( 'error', $res );
+		$this->assertEmpty( $course->get_sections() );
+	}
+
+	/**
+	 * Test that update_quiz refuses to write into a course the current user cannot edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_quiz_requires_edit_course_capability() {
+
+		$owner = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $owner );
+		$course = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$lesson = $course->get_lessons()[0];
+
+		// A different user without access to the course attempts the save.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_quiz',
+			array( array( 'id' => 'temp_1', 'title' => 'New quiz' ), $lesson, $course->get( 'id' ) )
+		);
+
+		$this->assertArrayHasKey( 'error', $res );
+		$this->assertFalse( $lesson->is_quiz_enabled() );
 	}
 
 	/**
