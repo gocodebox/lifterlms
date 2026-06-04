@@ -1,0 +1,7 @@
+significance: patch
+type: security
+comment: 'Two guards in llms.functions.access.php that fire when a quiz''s parent lesson no longer exists (deleted/trashed). One was missing entirely; one was a copy-paste error checking $lesson_id (already confirmed truthy) instead of $lesson after llms_get_post().'
+links: []
+attributions:
+  - '@thisismyurl'
+entry: "Fix fatal error when accessing a quiz whose parent lesson has been deleted. `llms_is_post_restricted_by_prerequisite()` was missing a null-check on the `llms_get_post()` result before calling `->get_course()`. `llms_is_post_restricted_by_time_period()` had a copy-paste bug where the guard re-tested `$lesson_id` (already truthy) instead of `$lesson` after the same `llms_get_post()` call, rendering it dead code and leaving `->get( 'parent_course' )` unprotected."

@@ -364,6 +364,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.11 Unknown.
  * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
+ * @since $$next-version$$ Guard against a fatal error when the quiz's parent lesson no longer exists.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -395,6 +396,10 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	}
 
 	$lesson = llms_get_post( $lesson_id );
+	if ( ! $lesson ) {
+		return false;
+	}
+
 	$course = $lesson->get_course();
 
 	if ( ! $course ) {
@@ -452,6 +457,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @since 3.16.11 Unknown.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
  * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
+ * @since $$next-version$$ Fix copy-paste error: guard checked `$lesson_id` (already truthy) instead of `$lesson` after `llms_get_post()`.
  *
  * @param int      $post_id WP Post ID of a course, lesson, or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -475,7 +481,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 				return false;
 			}
 			$lesson = llms_get_post( $lesson_id );
-			if ( ! $lesson_id ) {
+			if ( ! $lesson ) {
 				return false;
 			}
 			$course_id = $lesson->get( 'parent_course' );
