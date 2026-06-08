@@ -95,6 +95,17 @@ Authoritative source: [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md). The 
   ```
 
   This drops a YAML file in `.changelogs/`. Pick the right significance (`patch`, `minor`, `major`) and type (`added`, `changed`, `fixed`, `deprecated`, `removed`, `dev`, `performance`, `security`). The entry compiles into the next release changelog automatically.
+
+  **Non-interactive environments (AI agents, CI):** the `-i` flag needs a TTY and will not work for an agent without an interactive shell. In that case, write the YAML file by hand directly in `.changelogs/`. Two hard requirements:
+
+  - The filename **must** end in `.yml` (or `.yaml`). The release tooling silently skips any file without that extension — see `packages/dev/src/utils/get-changelog-entries.js` — so an extensionless file is dropped with no error and never makes it into the changelog.
+  - The file contents are YAML with the keys `significance`, `type`, and `entry`. Example:
+
+  ```yaml
+  significance: patch
+  type: fixed
+  entry: "Fixed a thing. Sentence case, ends with punctuation."
+  ```
 - **Source-only commits.** Edit source files in `src/`. Compiled and minified assets in `assets/` are gitignored build outputs and must not be committed.
 - **Tests welcomed, not required.** Critical paths (enrollment, checkout, access plans, core models) deserve PHPUnit coverage; large user-facing flows deserve a Playwright E2E. PRs are not blocked on missing tests, but a change that breaks an existing test must fix or update it.
 
