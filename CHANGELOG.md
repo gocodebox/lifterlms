@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v10.0.5 - 2026-06-08
+--------------------
+
+##### Deprecations
+
++ Deprecated method for querying quiz questions. Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
+
+
 v10.0.4 - 2026-06-04
 --------------------
 
