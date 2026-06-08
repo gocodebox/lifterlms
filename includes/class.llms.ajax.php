@@ -142,13 +142,13 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
+	 * @deprecated 10.0.5 Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
 	 *
 	 * @return void
 	 */
 	public function query_quiz_questions() {
 
-		llms_deprecated_function( 'LLMS_AJAX::query_quiz_questions()', '[version]', 'the Course Builder llms_builder AJAX flow' );
+		llms_deprecated_function( 'LLMS_AJAX::query_quiz_questions()', '10.0.5', 'the Course Builder llms_builder AJAX flow' );
 
 		wp_die( '', '', array( 'response' => 403 ) );
 	}

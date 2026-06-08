@@ -1,3 +1,0 @@
-significance: patch
-type: deprecated
-entry: "Deprecated method for querying quiz questions. Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow."
