@@ -79,7 +79,6 @@ class LLMS_AJAX {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
 		}
-
 	}
 
 	/**
@@ -105,7 +104,6 @@ class LLMS_AJAX {
 		wp_send_json_success( $response );
 
 		die();
-
 	}
 
 	public static function scrub_request( $request ) {
@@ -120,7 +118,6 @@ class LLMS_AJAX {
 		}
 
 		return $request;
-
 	}
 
 	/**
@@ -154,7 +151,6 @@ class LLMS_AJAX {
 		llms_deprecated_function( 'LLMS_AJAX::query_quiz_questions()', '[version]', 'the Course Builder llms_builder AJAX flow' );
 
 		wp_die( '', '', array( 'response' => 403 ) );
-
 	}
 
 	/**
@@ -199,9 +195,7 @@ class LLMS_AJAX {
 		);
 
 		wp_die();
-
 	}
-
 }
 
 new LLMS_AJAX();
