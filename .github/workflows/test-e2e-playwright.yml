@@ -55,9 +55,6 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install chromium
-        env:
-          NEEDRESTARTMODE: a
-          DEBIANFRONTEND: noninteractive
 
       - name: Start wp-env
         run: npx wp-env start
