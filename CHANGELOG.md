@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v10.0.5 - 2026-06-08
+--------------------
+
+##### Deprecations
+
++ Deprecated method for querying quiz questions. Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
+
+
+v10.0.4 - 2026-06-04
+--------------------
+
+##### Developer Notes
+
++ Add AGENTS.md and CLAUDE.md to surface project context, contribution workflow, and AI integration interfaces to AI coding agents working in the repo.
+
+##### Security Fixes
+
++ Additional checks on permissions with the REST API. Thanks [@RegorSec](https://github.com/RegorSec)!
++ Improved checks when saving Course Builder data.
+
+
 v10.0.3 - 2026-05-19
 --------------------
 

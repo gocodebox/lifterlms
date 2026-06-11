@@ -45,8 +45,7 @@ class LLMS_AJAX {
 	public function __construct() {
 
 		$ajax_events = array(
-			'query_quiz_questions' => false,
-			'favorite_object'      => false,
+			'favorite_object' => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -80,7 +79,6 @@ class LLMS_AJAX {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
 		}
-
 	}
 
 	/**
@@ -106,7 +104,6 @@ class LLMS_AJAX {
 		wp_send_json_success( $response );
 
 		die();
-
 	}
 
 	public static function scrub_request( $request ) {
@@ -121,7 +118,6 @@ class LLMS_AJAX {
 		}
 
 		return $request;
-
 	}
 
 	/**
@@ -146,67 +142,15 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 10.0.5 Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
 	 *
 	 * @return void
 	 */
 	public function query_quiz_questions() {
 
-		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term' ) : '';
-		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
+		llms_deprecated_function( 'LLMS_AJAX::query_quiz_questions()', '10.0.5', 'the Course Builder llms_builder AJAX flow' );
 
-		global $wpdb;
-
-		$limit = 30;
-		$start = $limit * $page;
-
-		if ( $term ) {
-			$like = " AND post_title LIKE '%s'";
-			$vars = array( '%' . $term . '%', $start, $limit );
-		} else {
-			$like = '';
-			$vars = array( $start, $limit );
-		}
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		$questions = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT ID, post_title
-			 FROM $wpdb->posts
-			 WHERE
-			 	    post_type = 'llms_question'
-			 	AND post_status = 'publish'
-			 	$like
-			 ORDER BY post_title
-			 LIMIT %d, %d
-			",
-				$vars
-			)
-		);
-
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		$r = array();
-		foreach ( $questions as $q ) {
-
-			$r[] = array(
-				'id'   => $q->ID,
-				'name' => $q->post_title . ' (' . $q->ID . ')',
-			);
-
-		}
-
-		echo json_encode(
-			array(
-				'items'   => $r,
-				'more'    => count( $r ) === $limit,
-				'success' => true,
-			)
-		);
-
-		wp_die();
-
+		wp_die( '', '', array( 'response' => 403 ) );
 	}
 
 	/**
@@ -251,9 +195,7 @@ class LLMS_AJAX {
 		);
 
 		wp_die();
-
 	}
-
 }
 
 new LLMS_AJAX();

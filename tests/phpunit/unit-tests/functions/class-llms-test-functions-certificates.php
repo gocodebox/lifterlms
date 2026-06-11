@@ -179,6 +179,15 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 		$reusable_pattern = '/<!-- wp:block {"ref":{REUSABLE_BLOCK_(\d+?)}} \/-->/';
 
+		/**
+		 * WordPress 7.0+ adds a `wp-block-paragraph` class to rendered paragraph blocks.
+		 * Detect the rendered output so the expected snapshots match across WP versions.
+		 */
+		$paragraph_class = false !== strpos(
+			do_blocks( '<!-- wp:paragraph --><p>x</p><!-- /wp:paragraph -->' ),
+			'wp-block-paragraph'
+		) ? ' class="wp-block-paragraph"' : '';
+
 		foreach ( $template_posts as $key => $template_post ) {
 
 			$reusable_key = $key < 100 ? $key : $key - 100;
@@ -196,6 +205,10 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 			$sequence_id = str_pad( $sequence_id, 6, '0', STR_PAD_LEFT );
 			$expected    = str_replace( '{certificate_id}', $template_post->ID, $expected );
 			$expected    = str_replace( '{sequential_id}', $sequence_id, $expected );
+
+			if ( '' !== $paragraph_class ) {
+				$expected = str_replace( '<p>', '<p' . $paragraph_class . '>', $expected );
+			}
 
 			$this->assertEquals(
 				$expected,
