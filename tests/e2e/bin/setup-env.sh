@@ -39,6 +39,21 @@ $CLI wp user create validcreds validcreds@email.tld --role=student --user_pass=p
 $CLI wp user create restrictionstester restrictions@email.tld --role=student --user_pass=password 2>/dev/null || true
 $CLI wp user create hasacert hasacert@email.tld --role=student --user_pass=password 2>/dev/null || true
 
+# The checkout form's name + billing fields are required by default. Free
+# enrollment submits those as hidden inputs populated from the user's stored
+# values, so a student missing them fails validation and gets silently
+# redirected to checkout instead of enrolled. Populate them for validcreds.
+VALIDCREDS_ID=$($CLI wp user get validcreds --field=ID 2>/dev/null | tail -1 || echo "")
+if [ -n "$VALIDCREDS_ID" ]; then
+  $CLI wp user meta update "$VALIDCREDS_ID" first_name Valid
+  $CLI wp user meta update "$VALIDCREDS_ID" last_name Creds
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_address_1 "1 Avenue Street"
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_city "A City"
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_state TX
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_zip 52342
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_country US
+fi
+
 # 4. Set options.
 $CLI wp option update can_compress_scripts 1
 
