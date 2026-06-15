@@ -108,19 +108,11 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			case 'order':
 				$order_id = $data->get( 'id' );
 				$url      = esc_url( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
-				$name     = $data->get_customer_name();
-				$value    = '<a href="' . $url . '">#' . $order_id . '</a> ';
-				$value   .= esc_html__( 'by', 'lifterlms' ) . ' ';
-				$value   .= esc_html( $name );
+				$value    = '<a href="' . $url . '">#' . $order_id . '</a>';
 				break;
 
 			case 'customer':
-				$name  = $data->get_customer_name();
-				$email = $data->get( 'billing_email' );
-				$value = esc_html( $name );
-				if ( $email ) {
-					$value .= '<br><small>' . esc_html( $email ) . '</small>';
-				}
+				$value = $this->get_customer_html( $data );
 				break;
 
 			case 'product':
@@ -174,7 +166,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				break;
 
 			case 'date':
-				$value = $data->get_date( 'date', get_option( 'date_format' ) );
+				$value = $data->get_date( 'date', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 				break;
 
 			default:
@@ -182,6 +174,34 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		}
 
 		return $this->filter_get_data( $value, $key, $data );
+	}
+
+	/**
+	 * Build the customer cell HTML: name linked to the user profile, email as a mailto link.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_customer_html( $order ) {
+
+		$name = $order->get_customer_name();
+
+		// Link to the customer's user profile (and email) unless the order is
+		// anonymized or has no associated WordPress user, mirroring the legacy orders table.
+		if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
+			return esc_html( $name );
+		}
+
+		$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+		$value          = $edit_user_link ? '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $name ) . '</a>' : esc_html( $name );
+		$email          = $order->get( 'billing_email' );
+		if ( $email ) {
+			$value .= '<br><a href="' . esc_url( 'mailto:' . $email ) . '"><small>' . esc_html( $email ) . '</small></a>';
+		}
+
+		return $value;
 	}
 
 	/**
@@ -334,6 +354,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		switch ( $this->get_orderby() ) {
 			case 'order':
 				$query_args['orderby'] = 'ID';
+				break;
+			case 'product':
+				$query_args['orderby']  = 'meta_value';
+				$query_args['meta_key'] = '_llms_product_title';
 				break;
 			case 'next_payment':
 				$query_args['orderby']  = 'meta_value';
@@ -514,7 +538,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			),
 			'product'             => array(
 				'exportable' => true,
-				'sortable'   => false,
+				'sortable'   => true,
 				'title'      => __( 'Product', 'lifterlms' ),
 			),
 			'status'              => array(

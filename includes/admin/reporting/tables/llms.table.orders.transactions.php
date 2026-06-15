@@ -112,6 +112,13 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	protected $coupon_filter = 0;
 
 	/**
+	 * Active custom sort mode for the `posts_clauses` filter ('product' or 'amount').
+	 *
+	 * @var string
+	 */
+	protected $sort_mode = '';
+
+	/**
 	 * Retrieve data for a cell.
 	 *
 	 * @since [version]
@@ -121,6 +128,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return mixed
 	 */
 	protected function get_data( $key, $data ) {
+
+		// Rows can be either a transaction or a transaction-less order (free, trial, pending payment).
+		if ( $data instanceof LLMS_Order ) {
+			return $this->filter_get_data( $this->get_order_row_data( $key, $data ), $key, $data );
+		}
 
 		$order = $this->get_order_for_transaction( $data );
 		$value = '';
@@ -142,39 +154,19 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'order':
 				if ( $order ) {
-					$order_id = $order->get( 'id' );
-					$url      = esc_url( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
-					$value    = '<a href="' . $url . '">#' . $order_id . '</a>';
+					$value = $this->get_order_link( $order );
 				}
 				break;
 
 			case 'customer':
 				if ( $order ) {
-					$name = $order->get_customer_name();
-
-					// Link to the customer's user profile (and email) unless the order is
-					// anonymized or has no associated WordPress user, mirroring the legacy orders table.
-					if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
-						$value = esc_html( $name );
-					} else {
-						$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
-						$value          = $edit_user_link ? '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $name ) . '</a>' : esc_html( $name );
-						$email          = $order->get( 'billing_email' );
-						if ( $email ) {
-							$value .= '<br><a href="' . esc_url( 'mailto:' . $email ) . '"><small>' . esc_html( $email ) . '</small></a>';
-						}
-					}
+					$value = $this->get_customer_html( $order );
 				}
 				break;
 
 			case 'product':
 				if ( $order ) {
-					$product_id = $order->get( 'product_id' );
-					if ( llms_get_post( $product_id ) ) {
-						$value = '<a href="' . esc_url( get_edit_post_link( $product_id ) ) . '">' . esc_html( $order->get( 'product_title' ) ) . '</a>';
-					} else {
-						$value = esc_html__( '[DELETED]', 'lifterlms' ) . ' ' . esc_html( $order->get( 'product_title' ) );
-					}
+					$value = $this->get_product_html( $order );
 				}
 				break;
 
@@ -184,20 +176,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				break;
 
 			case 'status':
-				$status      = $data->get( 'status' );
-				$status_obj  = get_post_status_object( $status );
-				$status_name = $status_obj ? $status_obj->label : $status;
-				$value       = '<span class="llms-status ' . esc_attr( $status ) . '">' . esc_html( $status_name ) . '</span>';
+				$value = $this->get_status_html( $data->get( 'status' ) );
 				break;
 
 			case 'payment_type':
-				$type  = $data->get( 'payment_type' );
-				$types = array(
-					'single'    => __( 'One-time', 'lifterlms' ),
-					'recurring' => __( 'Recurring', 'lifterlms' ),
-					'trial'     => __( 'Trial', 'lifterlms' ),
-				);
-				$value = isset( $types[ $type ] ) ? $types[ $type ] : $type;
+				$value = $this->get_payment_type_label( $data->get( 'payment_type' ) );
 				break;
 
 			case 'date':
@@ -212,6 +195,163 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Retrieve cell data for a transaction-less order row (free, trial, or pending-payment order).
+	 *
+	 * @since [version]
+	 *
+	 * @param string     $key   The column id / key.
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_order_row_data( $key, $order ) {
+
+		switch ( $key ) {
+
+			case 'transaction_id':
+				$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
+				$value     = '&ndash;';
+				$value    .= '<div class="row-actions">';
+				$value    .= '<span class="view-order"><a href="' . esc_url( $order_url ) . '">' . esc_html__( 'View Order', 'lifterlms' ) . '</a></span>';
+				$value    .= '</div>';
+				return $value;
+
+			case 'order':
+				return $this->get_order_link( $order );
+
+			case 'customer':
+				return $this->get_customer_html( $order );
+
+			case 'product':
+				return $this->get_product_html( $order );
+
+			case 'amount':
+				return wp_kses( $order->get_initial_price( array(), 'html' ), LLMS_ALLOWED_HTML_PRICES );
+
+			case 'status':
+				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
+
+			case 'payment_type':
+				return $this->get_order_payment_type_label( $order );
+
+			case 'date':
+				return $order->get_date( 'date', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+
+			default:
+				return '';
+		}
+	}
+
+	/**
+	 * Build a linked order number.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_order_link( $order ) {
+		$order_id = $order->get( 'id' );
+		$url      = esc_url( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
+		return '<a href="' . $url . '">#' . $order_id . '</a>';
+	}
+
+	/**
+	 * Build the customer cell HTML: name linked to the user profile, email as a mailto link.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_customer_html( $order ) {
+
+		$name = $order->get_customer_name();
+
+		// Link to the customer's user profile (and email) unless the order is
+		// anonymized or has no associated WordPress user, mirroring the legacy orders table.
+		if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
+			return esc_html( $name );
+		}
+
+		$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+		$value          = $edit_user_link ? '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $name ) . '</a>' : esc_html( $name );
+		$email          = $order->get( 'billing_email' );
+		if ( $email ) {
+			$value .= '<br><a href="' . esc_url( 'mailto:' . $email ) . '"><small>' . esc_html( $email ) . '</small></a>';
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Build the product cell HTML.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_product_html( $order ) {
+		$product_id = $order->get( 'product_id' );
+		if ( llms_get_post( $product_id ) ) {
+			return '<a href="' . esc_url( get_edit_post_link( $product_id ) ) . '">' . esc_html( $order->get( 'product_title' ) ) . '</a>';
+		}
+		return esc_html__( '[DELETED]', 'lifterlms' ) . ' ' . esc_html( $order->get( 'product_title' ) );
+	}
+
+	/**
+	 * Build a status badge.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $status Status slug (transaction or order post status).
+	 * @param string $label  Optional. Pre-resolved label. Defaults to the registered post status label.
+	 * @return string
+	 */
+	protected function get_status_html( $status, $label = '' ) {
+		if ( ! $label ) {
+			$status_obj = get_post_status_object( $status );
+			$label      = $status_obj ? $status_obj->label : $status;
+		}
+		return '<span class="llms-status llms-size--large ' . esc_attr( $status ) . '">' . esc_html( $label ) . '</span>';
+	}
+
+	/**
+	 * Get the human-readable payment type label for a transaction.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Transaction payment type.
+	 * @return string
+	 */
+	protected function get_payment_type_label( $type ) {
+		$types = array(
+			'single'    => __( 'One-time', 'lifterlms' ),
+			'recurring' => __( 'Recurring', 'lifterlms' ),
+			'trial'     => __( 'Trial', 'lifterlms' ),
+		);
+		return isset( $types[ $type ] ) ? $types[ $type ] : $type;
+	}
+
+	/**
+	 * Derive a payment type label for a transaction-less order row.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_order_payment_type_label( $order ) {
+		if ( $order->has_trial() ) {
+			return __( 'Trial', 'lifterlms' );
+		}
+		if ( 0 >= (float) $order->get( 'total' ) ) {
+			return __( 'Free', 'lifterlms' );
+		}
+		return $order->is_recurring() ? __( 'Recurring', 'lifterlms' ) : __( 'One-time', 'lifterlms' );
+	}
+
+	/**
 	 * Retrieve data for a cell in an export file.
 	 *
 	 * @since [version]
@@ -221,6 +361,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return mixed
 	 */
 	public function get_export_data( $key, $data ) {
+
+		// Transaction-less order row (free, trial, or pending-payment order).
+		if ( $data instanceof LLMS_Order ) {
+			return $this->get_order_row_export_data( $key, $data );
+		}
 
 		$order = $this->get_order_for_transaction( $data );
 
@@ -273,13 +418,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				return $status_obj ? $status_obj->label : $data->get( 'status' );
 
 			case 'payment_type':
-				$type  = $data->get( 'payment_type' );
-				$types = array(
-					'single'    => __( 'One-time', 'lifterlms' ),
-					'recurring' => __( 'Recurring', 'lifterlms' ),
-					'trial'     => __( 'Trial', 'lifterlms' ),
-				);
-				return isset( $types[ $type ] ) ? $types[ $type ] : $type;
+				return $this->get_payment_type_label( $data->get( 'payment_type' ) );
 
 			case 'product':
 				return $order ? $order->get( 'product_title' ) : '';
@@ -289,6 +428,68 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			default:
 				return $this->get_data( $key, $data );
+		}
+	}
+
+	/**
+	 * Retrieve export cell data for a transaction-less order row.
+	 *
+	 * @since [version]
+	 *
+	 * @param string     $key   The column id / key.
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_order_row_export_data( $key, $order ) {
+
+		switch ( $key ) {
+
+			case 'transaction_id':
+				return '';
+
+			case 'order':
+				return $order->get( 'id' );
+
+			case 'customer':
+				return $order->get_customer_name();
+
+			case 'customer_first_name':
+				return $order->get( 'billing_first_name' );
+
+			case 'customer_last_name':
+				return $order->get( 'billing_last_name' );
+
+			case 'customer_email':
+				return $order->get( 'billing_email' );
+
+			case 'billing_address_1':
+			case 'billing_address_2':
+			case 'billing_city':
+			case 'billing_state':
+			case 'billing_zip':
+			case 'billing_country':
+				return $order->get( $key );
+
+			case 'gateway_transaction_id':
+				return '';
+
+			case 'amount':
+				return $order->get_initial_price( array(), 'float' );
+
+			case 'status':
+				return llms_get_order_status_name( $order->get( 'status' ) );
+
+			case 'payment_type':
+				return $this->get_order_payment_type_label( $order );
+
+			case 'product':
+				return $order->get( 'product_title' );
+
+			case 'date':
+				return $order->get_date( 'date', 'Y-m-d H:i:s' );
+
+			default:
+				return '';
 		}
 	}
 
@@ -311,7 +512,8 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return void
 	 */
 	public function output_table_filters_html() {
-		$statuses = llms_get_transaction_statuses();
+		$txn_statuses   = llms_get_transaction_statuses();
+		$order_statuses = llms_get_order_statuses();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -320,14 +522,23 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				</label>
 				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
-					<?php foreach ( $statuses as $status ) : ?>
-						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
-							<?php
-							$status_obj = get_post_status_object( $status );
-							echo esc_html( $status_obj ? $status_obj->label : $status );
-							?>
-						</option>
-					<?php endforeach; ?>
+					<optgroup label="<?php esc_attr_e( 'Transactions', 'lifterlms' ); ?>">
+						<?php foreach ( $txn_statuses as $status ) : ?>
+							<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
+								<?php
+								$status_obj = get_post_status_object( $status );
+								echo esc_html( $status_obj ? $status_obj->label : $status );
+								?>
+							</option>
+						<?php endforeach; ?>
+					</optgroup>
+					<optgroup label="<?php esc_attr_e( 'Orders', 'lifterlms' ); ?>">
+						<?php foreach ( $order_statuses as $status => $label ) : ?>
+							<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
+								<?php echo esc_html( $label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</optgroup>
 				</select>
 			</div>
 			<div class="llms-table-filter-wrap">
@@ -400,30 +611,25 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		$this->parse_args( $args );
 
+		// Query both transactions and orders. Orders that already have at least one
+		// transaction are represented by their transaction rows, so they're excluded
+		// below; orders with no transaction (free, trial, pending payment) appear as
+		// their own row.
 		$query_args = array(
-			'post_type'      => 'llms_transaction',
+			'post_type'      => array( 'llms_transaction', 'llms_order' ),
 			'posts_per_page' => $this->get_per_page(),
 			'paged'          => $this->get_current_page(),
 			'order'          => $this->get_order(),
 			'post_status'    => 'any',
-			'meta_query'     => array(),
 		);
 
-		$sort_by_product = false;
-
-		// Map the sortable column to valid WP_Query ordering arguments.
+		// Map the sortable column to valid WP_Query ordering arguments. Product and
+		// amount span both post types, so they're handled via `posts_clauses` below.
+		$this->sort_mode = '';
 		switch ( $this->get_orderby() ) {
-			case 'transaction_id':
-				$query_args['orderby'] = 'ID';
-				break;
-			case 'amount':
-				$query_args['orderby']  = 'meta_value_num';
-				$query_args['meta_key'] = '_llms_amount';
-				break;
 			case 'product':
-				// The product title lives on the parent order, so sorting requires a
-				// custom join applied via the `posts_clauses` filter below.
-				$sort_by_product = true;
+			case 'amount':
+				$this->sort_mode = $this->get_orderby();
 				break;
 			case 'date':
 			default:
@@ -431,7 +637,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				break;
 		}
 
-		// Filter by transaction status.
+		// Filter by status (applies to post_status for both transactions and orders).
 		if ( '' !== $this->status_filter ) {
 			$query_args['post_status'] = $this->status_filter;
 		}
@@ -445,6 +651,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				),
 			);
 		}
+
+		// Order IDs that already have at least one transaction.
+		$orders_with_txns = $this->get_order_ids_with_transactions();
 
 		// Build a set of order IDs to restrict to when searching and/or filtering by coupon.
 		$order_id_sets = array();
@@ -468,35 +677,112 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				return;
 			}
 
-			$query_args['meta_query'][] = array(
-				'key'     => '_llms_order_id',
-				'value'   => $order_ids,
-				'compare' => 'IN',
+			// Restrict to the matching orders' transactions plus the matching orders
+			// that have no transaction. Using an explicit post__in keeps both post
+			// types correctly scoped within a single query.
+			$post_in = array_map(
+				'absint',
+				array_merge(
+					$this->get_transaction_ids_for_orders( $order_ids ),
+					array_values( array_diff( $order_ids, $orders_with_txns ) )
+				)
 			);
+
+			if ( empty( $post_in ) ) {
+				$this->tbody_data = array();
+				return;
+			}
+
+			$query_args['post__in'] = $post_in;
+
+		} elseif ( ! empty( $orders_with_txns ) ) {
+
+			// No search/coupon filter: exclude order posts that are already represented
+			// by their transaction rows.
+			$query_args['post__not_in'] = array_map( 'absint', $orders_with_txns );
 		}
 
-		if ( $sort_by_product ) {
-			add_filter( 'posts_clauses', array( $this, 'product_orderby_clauses' ), 10, 2 );
+		if ( $this->sort_mode ) {
+			add_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10, 2 );
 		}
 
 		$query = new WP_Query( $query_args );
 
-		if ( $sort_by_product ) {
-			remove_filter( 'posts_clauses', array( $this, 'product_orderby_clauses' ), 10 );
+		if ( $this->sort_mode ) {
+			remove_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10 );
 		}
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
 
-		$transactions = array();
+		$rows = array();
 		foreach ( $query->posts as $post ) {
-			$txn = llms_get_post( $post );
-			if ( $txn instanceof LLMS_Transaction ) {
-				$transactions[] = $txn;
+			$obj = llms_get_post( $post );
+			if ( $obj instanceof LLMS_Transaction || $obj instanceof LLMS_Order ) {
+				$rows[] = $obj;
 			}
 		}
 
-		$this->tbody_data = $transactions;
+		$this->tbody_data = $rows;
+	}
+
+	/**
+	 * Retrieve the IDs of all orders that have at least one transaction.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[] Array of order IDs.
+	 */
+	private function get_order_ids_with_transactions() {
+
+		global $wpdb;
+
+		$cache_key = 'order_ids_with_transactions';
+		$ids       = wp_cache_get( $cache_key, 'llms_orders_transactions' );
+
+		if ( false === $ids ) {
+			$ids = $wpdb->get_col(
+				"SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_llms_order_id'"
+			);
+			$ids = array_map( 'absint', (array) $ids );
+			wp_cache_set( $cache_key, $ids, 'llms_orders_transactions', HOUR_IN_SECONDS );
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Retrieve transaction IDs belonging to a set of orders.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $order_ids Array of order IDs.
+	 * @return int[] Array of transaction IDs.
+	 */
+	private function get_transaction_ids_for_orders( $order_ids ) {
+
+		if ( empty( $order_ids ) ) {
+			return array();
+		}
+
+		$query = new WP_Query(
+			array(
+				'post_type'      => 'llms_transaction',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'post_status'    => 'any',
+				'no_found_rows'  => true,
+				'meta_query'     => array(
+					array(
+						'key'     => '_llms_order_id',
+						'value'   => $order_ids,
+						'compare' => 'IN',
+					),
+				),
+			)
+		);
+
+		return $query->posts;
 	}
 
 	/**
@@ -603,10 +889,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Modify the query clauses to sort transactions by their parent order's product title.
+	 * Modify the query clauses to sort the mixed transaction/order result set.
 	 *
-	 * The product title is stored as meta on the parent order (`_llms_product_title`), which is
-	 * itself referenced by the transaction's `_llms_order_id` meta, so two joins are required.
+	 * Both the product title and the amount can live on either the row's own post
+	 * (for order rows) or on the parent order referenced by the transaction's
+	 * `_llms_order_id` meta (for transaction rows). A `COALESCE` over the row's own
+	 * ID and that meta value resolves the correct order in both cases.
 	 *
 	 * @since [version]
 	 *
@@ -614,15 +902,23 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @param WP_Query $query   The WP_Query instance (passed by reference).
 	 * @return array
 	 */
-	public function product_orderby_clauses( $clauses, $query ) {
+	public function mixed_orderby_clauses( $clauses, $query ) {
 
 		global $wpdb;
 
 		$order = ( 'ASC' === strtoupper( $this->get_order() ) ) ? 'ASC' : 'DESC';
 
-		$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_txn_oid ON ( {$wpdb->posts}.ID = llms_txn_oid.post_id AND llms_txn_oid.meta_key = '_llms_order_id' )";
-		$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_txn_pt ON ( llms_txn_oid.meta_value = llms_txn_pt.post_id AND llms_txn_pt.meta_key = '_llms_product_title' )";
-		$clauses['orderby'] = "llms_txn_pt.meta_value {$order}";
+		// Resolve the effective order ID: the transaction's parent order, or the row itself when it is an order.
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_oid ON ( {$wpdb->posts}.ID = llms_oid.post_id AND llms_oid.meta_key = '_llms_order_id' )";
+
+		if ( 'amount' === $this->sort_mode ) {
+			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_amt ON ( {$wpdb->posts}.ID = llms_amt.post_id AND llms_amt.meta_key = '_llms_amount' )";
+			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_tot ON ( COALESCE( llms_oid.meta_value, {$wpdb->posts}.ID ) = llms_tot.post_id AND llms_tot.meta_key = '_llms_total' )";
+			$clauses['orderby'] = "CAST( COALESCE( llms_amt.meta_value, llms_tot.meta_value, 0 ) AS DECIMAL(20,2) ) {$order}";
+		} else {
+			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_pt ON ( COALESCE( llms_oid.meta_value, {$wpdb->posts}.ID ) = llms_pt.post_id AND llms_pt.meta_key = '_llms_product_title' )";
+			$clauses['orderby'] = "llms_pt.meta_value {$order}";
+		}
 
 		return $clauses;
 	}
@@ -674,7 +970,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			$months = $wpdb->get_results(
 				"SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
 				 FROM {$wpdb->posts}
-				 WHERE post_type = 'llms_transaction'
+				 WHERE post_type IN ( 'llms_transaction', 'llms_order' )
 				   AND post_status NOT IN ( 'auto-draft', 'trash' )
 				 ORDER BY post_date DESC"
 			);
@@ -757,7 +1053,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		return array(
 			'transaction_id'         => array(
 				'exportable' => true,
-				'sortable'   => true,
+				'sortable'   => false,
 				'title'      => __( 'Transaction', 'lifterlms' ),
 			),
 			'order'                  => array(
