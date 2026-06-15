@@ -327,10 +327,24 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			'posts_per_page' => $this->get_per_page(),
 			'paged'          => $this->get_current_page(),
 			'order'          => $this->get_order(),
-			'orderby'        => $this->get_orderby(),
 			'post_status'    => 'any',
 			'meta_query'     => array(),
 		);
+
+		// Map the sortable column to valid WP_Query ordering arguments.
+		switch ( $this->get_orderby() ) {
+			case 'transaction_id':
+				$query_args['orderby'] = 'ID';
+				break;
+			case 'amount':
+				$query_args['orderby']  = 'meta_value_num';
+				$query_args['meta_key'] = '_llms_amount';
+				break;
+			case 'date':
+			default:
+				$query_args['orderby'] = 'date';
+				break;
+		}
 
 		// Filter by transaction status.
 		if ( 'status' === $this->get_filterby() && '' !== $this->get_filter() ) {

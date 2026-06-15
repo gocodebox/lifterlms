@@ -321,7 +321,6 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			'posts_per_page' => $this->get_per_page(),
 			'paged'          => $this->get_current_page(),
 			'order'          => $this->get_order(),
-			'orderby'        => $this->get_orderby(),
 			'post_status'    => 'any',
 			'meta_query'     => array(
 				array(
@@ -330,6 +329,21 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				),
 			),
 		);
+
+		// Map the sortable column to valid WP_Query ordering arguments.
+		switch ( $this->get_orderby() ) {
+			case 'order':
+				$query_args['orderby'] = 'ID';
+				break;
+			case 'next_payment':
+				$query_args['orderby']  = 'meta_value';
+				$query_args['meta_key'] = '_llms_date_next_payment';
+				break;
+			case 'date':
+			default:
+				$query_args['orderby'] = 'date';
+				break;
+		}
 
 		// Filter by order status.
 		if ( 'status' === $this->get_filterby() && '' !== $this->get_filter() ) {

@@ -21,6 +21,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Page_Orders {
 
 	/**
+	 * Hook suffixes for the registered pages.
+	 *
+	 * These match the `WP_Screen::$id` values and are used to enqueue the
+	 * admin tables JS on the correct screens.
+	 *
+	 * @since [version]
+	 *
+	 * @var string[]
+	 */
+	protected $page_hooks = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since [version]
@@ -29,29 +41,71 @@ class LLMS_Admin_Page_Orders {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_pages' ) );
-		add_action( 'admin_menu', array( $this, 'hide_default_orders_submenu' ), 999 );
+		add_action( 'admin_menu', array( $this, 'reorder_orders_menu' ), 999 );
 		add_filter( 'llms_load_table_resources_pages', array( $this, 'add_table_resource_pages' ) );
 		add_action( 'admin_init', array( $this, 'maybe_redirect_old_listing' ) );
 		add_action( 'admin_init', array( $this, 'maybe_serve_transaction_receipt' ) );
 	}
 
 	/**
-	 * Hide the default "All Orders" submenu item from the Orders CPT menu.
+	 * Reorder the Orders submenu so the new views land first.
 	 *
-	 * The CPT edit screen remains accessible by direct URL for editing individual orders.
+	 * WordPress points a CPT's top-level menu link at its first submenu item. By
+	 * removing the default "All Orders" list-table link and promoting the new
+	 * "Orders & Transactions" page to the top, clicking the top-level "Orders"
+	 * menu opens the new view instead of the raw CPT listing (or Coupons).
+	 *
+	 * The single-order edit screen (`post.php`) remains fully accessible.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function hide_default_orders_submenu() {
-		remove_submenu_page( 'edit.php?post_type=llms_order', 'edit.php?post_type=llms_order' );
+	public function reorder_orders_menu() {
+
+		global $submenu;
+
+		$parent = 'edit.php?post_type=llms_order';
+
+		if ( empty( $submenu[ $parent ] ) ) {
+			return;
+		}
+
+		// Desired leading order, keyed by page slug.
+		$priority = array(
+			'llms-orders-transactions' => 0,
+			'llms-subscriptions'       => 1,
+		);
+
+		$front = array();
+		$rest  = array();
+
+		foreach ( $submenu[ $parent ] as $item ) {
+
+			$slug = $item[2];
+
+			// Drop the default "All Orders" list-table link (slug equals the parent slug).
+			if ( $parent === $slug ) {
+				continue;
+			}
+
+			if ( isset( $priority[ $slug ] ) ) {
+				$front[ $priority[ $slug ] ] = $item;
+			} else {
+				$rest[] = $item;
+			}
+		}
+
+		ksort( $front );
+
+		$submenu[ $parent ] = array_merge( array_values( $front ), $rest );
 	}
 
 	/**
 	 * Redirect the old CPT listing URL to the new Orders & Transactions page.
 	 *
-	 * Only redirects when viewing the listing (not the single edit screen).
+	 * Only redirects when viewing the raw CPT listing (not the single edit screen
+	 * and not one of our own custom pages).
 	 *
 	 * @since [version]
 	 *
@@ -67,6 +121,11 @@ class LLMS_Admin_Page_Orders {
 
 		$post_type = llms_filter_input( INPUT_GET, 'post_type' );
 		if ( 'llms_order' !== $post_type ) {
+			return;
+		}
+
+		// Never redirect our own custom pages (prevents a redirect loop).
+		if ( llms_filter_input( INPUT_GET, 'page' ) ) {
 			return;
 		}
 
@@ -91,20 +150,25 @@ class LLMS_Admin_Page_Orders {
 
 		$parent_slug = 'edit.php?post_type=llms_order';
 
-		add_submenu_page(
+		// The LLMS_Admin_Table AJAX handlers (pagination/search/export) require
+		// `view_lifterlms_reports`, so gate the pages with the same capability to
+		// keep the initial render and subsequent AJAX requests consistent.
+		$capability = 'view_lifterlms_reports';
+
+		$this->page_hooks[] = add_submenu_page(
 			$parent_slug,
 			__( 'Orders & Transactions', 'lifterlms' ),
-			__( 'Transactions', 'lifterlms' ),
-			apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ),
+			__( 'Orders &amp; Transactions', 'lifterlms' ),
+			$capability,
 			'llms-orders-transactions',
 			array( $this, 'render_orders_transactions_page' )
 		);
 
-		add_submenu_page(
+		$this->page_hooks[] = add_submenu_page(
 			$parent_slug,
 			__( 'Subscriptions', 'lifterlms' ),
 			__( 'Subscriptions', 'lifterlms' ),
-			apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ),
+			$capability,
 			'llms-subscriptions',
 			array( $this, 'render_subscriptions_page' )
 		);
@@ -113,15 +177,16 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Add the new pages to the list of pages that load table JS resources.
 	 *
+	 * The hook suffixes returned by `add_submenu_page()` match the
+	 * `WP_Screen::$id` of each page, so they can be used directly.
+	 *
 	 * @since [version]
 	 *
 	 * @param string[] $pages Array of screen IDs.
 	 * @return string[]
 	 */
 	public function add_table_resource_pages( $pages ) {
-		$pages[] = 'llms_order_page_llms-orders-transactions';
-		$pages[] = 'llms_order_page_llms-subscriptions';
-		return $pages;
+		return array_merge( $pages, $this->page_hooks );
 	}
 
 	/**
