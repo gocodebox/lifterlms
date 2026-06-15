@@ -38,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '24.15.0'
           cache: 'npm'
 
       - name: Install Node dependencies
@@ -50,11 +50,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Install Playwright system deps
-        run: sudo DEBIAN_FRONTEND=noninteractive npx playwright install-deps chromium
-
       - name: Install Playwright browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Start wp-env
         run: npx wp-env start
