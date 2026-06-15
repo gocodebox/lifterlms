@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 	/**
+	 * Object cache group for this table's cached aggregate queries.
+	 *
+	 * @var string
+	 */
+	const CACHE_GROUP = 'llms_orders_transactions';
+
+	/**
 	 * Unique ID for the Table.
 	 *
 	 * @var string
@@ -228,6 +235,10 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				return wp_kses( $order->get_initial_price( array(), 'html' ), LLMS_ALLOWED_HTML_PRICES );
 
 			case 'status':
+				$txn_status = $this->map_order_status_to_transaction_status( $order->get( 'status' ) );
+				if ( $txn_status ) {
+					return $this->get_status_html( $txn_status );
+				}
 				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
 
 			case 'payment_type':
@@ -314,6 +325,46 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			$label      = $status_obj ? $status_obj->label : $status;
 		}
 		return '<span class="llms-status llms-size--large ' . esc_attr( $status ) . '">' . esc_html( $label ) . '</span>';
+	}
+
+	/**
+	 * Map the table's transaction statuses onto the equivalent order post statuses.
+	 *
+	 * The combined table presents a single, transaction-centric set of statuses for
+	 * both row types: a transaction-less order is shown using the transaction status
+	 * it corresponds to (e.g. a free/completed enrollment reads as "Succeeded", a
+	 * never-paid order reads as "Pending"). Subscription lifecycle statuses (active,
+	 * on-hold, pending cancellation, expired, etc.) intentionally live in the
+	 * Subscriptions table -- a transaction itself is never "pending cancellation".
+	 *
+	 * @since [version]
+	 *
+	 * @return array Map of transaction status slug => array of equivalent order status slugs.
+	 */
+	protected function get_status_groups() {
+		return array(
+			'llms-txn-succeeded' => array( 'llms-completed', 'llms-active' ),
+			'llms-txn-failed'    => array( 'llms-failed' ),
+			'llms-txn-pending'   => array( 'llms-pending' ),
+			'llms-txn-refunded'  => array( 'llms-refunded' ),
+		);
+	}
+
+	/**
+	 * Resolve the transaction status that an order status maps to in this table.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $order_status Order post status slug.
+	 * @return string The equivalent transaction status slug, or empty string if there's no mapping.
+	 */
+	protected function map_order_status_to_transaction_status( $order_status ) {
+		foreach ( $this->get_status_groups() as $txn_status => $order_statuses ) {
+			if ( in_array( $order_status, $order_statuses, true ) ) {
+				return $txn_status;
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -477,6 +528,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				return $order->get_initial_price( array(), 'float' );
 
 			case 'status':
+				$txn_status = $this->map_order_status_to_transaction_status( $order->get( 'status' ) );
+				if ( $txn_status ) {
+					$status_obj = get_post_status_object( $txn_status );
+					return $status_obj ? $status_obj->label : $txn_status;
+				}
 				return llms_get_order_status_name( $order->get( 'status' ) );
 
 			case 'payment_type':
@@ -512,8 +568,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return void
 	 */
 	public function output_table_filters_html() {
-		$txn_statuses   = llms_get_transaction_statuses();
-		$order_statuses = llms_get_order_statuses();
+		$statuses = llms_get_transaction_statuses();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -522,23 +577,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				</label>
 				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
-					<optgroup label="<?php esc_attr_e( 'Transactions', 'lifterlms' ); ?>">
-						<?php foreach ( $txn_statuses as $status ) : ?>
-							<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
-								<?php
-								$status_obj = get_post_status_object( $status );
-								echo esc_html( $status_obj ? $status_obj->label : $status );
-								?>
-							</option>
-						<?php endforeach; ?>
-					</optgroup>
-					<optgroup label="<?php esc_attr_e( 'Orders', 'lifterlms' ); ?>">
-						<?php foreach ( $order_statuses as $status => $label ) : ?>
-							<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
-								<?php echo esc_html( $label ); ?>
-							</option>
-						<?php endforeach; ?>
-					</optgroup>
+					<?php foreach ( $statuses as $status ) : ?>
+						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
+							<?php
+							$status_obj = get_post_status_object( $status );
+							echo esc_html( $status_obj ? $status_obj->label : $status );
+							?>
+						</option>
+					<?php endforeach; ?>
 				</select>
 			</div>
 			<div class="llms-table-filter-wrap">
@@ -637,9 +683,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				break;
 		}
 
-		// Filter by status (applies to post_status for both transactions and orders).
+		// Filter by status. Each transaction status also matches the equivalent order
+		// statuses so transaction-less orders are included (e.g. "Succeeded" matches
+		// completed/active orders, "Pending" matches never-paid orders).
 		if ( '' !== $this->status_filter ) {
-			$query_args['post_status'] = $this->status_filter;
+			$groups                    = $this->get_status_groups();
+			$query_args['post_status'] = isset( $groups[ $this->status_filter ] )
+				? array_merge( array( $this->status_filter ), $groups[ $this->status_filter ] )
+				: $this->status_filter;
 		}
 
 		// Filter by month (YYYYMM).
@@ -738,17 +789,34 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		global $wpdb;
 
 		$cache_key = 'order_ids_with_transactions';
-		$ids       = wp_cache_get( $cache_key, 'llms_orders_transactions' );
+		$ids       = wp_cache_get( $cache_key, self::CACHE_GROUP );
 
 		if ( false === $ids ) {
 			$ids = $wpdb->get_col(
 				"SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_llms_order_id'"
 			);
 			$ids = array_map( 'absint', (array) $ids );
-			wp_cache_set( $cache_key, $ids, 'llms_orders_transactions', HOUR_IN_SECONDS );
+			wp_cache_set( $cache_key, $ids, self::CACHE_GROUP, HOUR_IN_SECONDS );
 		}
 
 		return $ids;
+	}
+
+	/**
+	 * Flush the table's cached aggregate queries.
+	 *
+	 * Called when an order or transaction is created, updated, or deleted so the
+	 * report (which may sit behind a persistent object cache) doesn't show stale
+	 * rows -- e.g. an order showing both as its own row and as a transaction row
+	 * after its first payment is recorded.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function clear_cache() {
+		wp_cache_delete( 'order_ids_with_transactions', self::CACHE_GROUP );
+		wp_cache_delete( 'transaction_months', self::CACHE_GROUP );
 	}
 
 	/**
@@ -964,7 +1032,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		global $wpdb;
 
 		$cache_key = 'transaction_months';
-		$months    = wp_cache_get( $cache_key, 'llms_orders_transactions' );
+		$months    = wp_cache_get( $cache_key, self::CACHE_GROUP );
 
 		if ( false === $months ) {
 			$months = $wpdb->get_results(
@@ -974,7 +1042,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				   AND post_status NOT IN ( 'auto-draft', 'trash' )
 				 ORDER BY post_date DESC"
 			);
-			wp_cache_set( $cache_key, $months, 'llms_orders_transactions', HOUR_IN_SECONDS );
+			wp_cache_set( $cache_key, $months, self::CACHE_GROUP, HOUR_IN_SECONDS );
 		}
 
 		return $months;
