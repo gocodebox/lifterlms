@@ -51,7 +51,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Start wp-env
         run: npx wp-env start
