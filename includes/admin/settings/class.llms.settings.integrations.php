@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.18.2 Unknown.
+ * @since 10.0.6 Replaced the "Integration ID" column with a "Description" column
+ *              and added a "Configured" column to the integrations list.
  */
 class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
@@ -122,7 +124,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	 *
 	 * @return   string
 	 * @since    3.18.2
-	 * @version  3.18.2
+	 * @version  10.0.6
 	 */
 	private function get_table_html() {
 
@@ -134,8 +136,9 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Integration', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Integration ID', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Installed', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Configured', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
@@ -148,7 +151,12 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				?>
 				<tr>
 					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo esc_html( $integration->title ); ?></a></td>
-					<td><?php echo esc_html( $integration->id ); ?></td>
+					<td>
+						<?php echo wp_kses_post( $integration->description ); ?>
+						<?php if ( ! empty( $integration->learn_more_url ) ) : ?>
+							<a href="<?php echo esc_url( $integration->learn_more_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'lifterlms' ); ?></a>
+						<?php endif; ?>
+					</td>
 					<td class="status available">
 						<?php if ( $integration->is_installed() ) : ?>
 							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Installed', 'lifterlms' ); ?>">
@@ -157,6 +165,19 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 							</span>
 						<?php else : ?>
 							&ndash;
+						<?php endif; ?>
+					</td>
+					<td class="status configured">
+						<?php if ( $integration->is_configured() ) : ?>
+							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Configured', 'lifterlms' ); ?>">
+								<span class="screen-reader-text"><?php esc_html_e( 'Configured', 'lifterlms' ); ?></span>
+								<i class="fa fa-check-circle" aria-hidden="true"></i>
+							</span>
+						<?php else : ?>
+							<span class="tip--bottom-right" data-tip="<?php echo ! empty( $integration->configured_help ) ? esc_attr( $integration->configured_help ) : esc_attr__( 'Not configured', 'lifterlms' ); ?>">
+								<span class="screen-reader-text"><?php esc_html_e( 'Not configured', 'lifterlms' ); ?></span>
+								&ndash;
+							</span>
 						<?php endif; ?>
 					</td>
 					<td class="status enabled">

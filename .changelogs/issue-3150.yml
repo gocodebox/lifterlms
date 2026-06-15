@@ -1,0 +1,3 @@
+significance: minor
+type: changed
+entry: "Restructured the Integrations list table: removed the Integration ID column, added a Description column with a Learn More link, and added a Configured column to indicate when an integration's required credentials are present."

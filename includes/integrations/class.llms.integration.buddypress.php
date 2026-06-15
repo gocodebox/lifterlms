@@ -80,9 +80,9 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	public function set_title_and_description() {
-		$this->title = __( 'BuddyPress', 'lifterlms' );
-		/* translators: %1$s: Open learn more link tag, %2$s: Closing tag. */
-		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
+		$this->title          = __( 'BuddyPress', 'lifterlms' );
+		$this->description    = __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories.', 'lifterlms' );
+		$this->learn_more_url = 'https://lifterlms.com/docs/lifterlms-and-buddypress/';
 	}
 
 	/**
@@ -210,6 +210,19 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function is_installed() {
 		return ( class_exists( 'BuddyPress' ) );
+	}
+
+	/**
+	 * Determine if the integration is configured.
+	 *
+	 * BuddyPress requires no API keys or credentials.
+	 *
+	 * @since 10.0.6
+	 *
+	 * @return bool
+	 */
+	public function is_configured() {
+		return true;
 	}
 
 	/**

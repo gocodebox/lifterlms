@@ -38,11 +38,27 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Integration Description
 	 *
+	 * A short, one-sentence description of the integration shown in the
+	 * Integrations list table.
+	 *
 	 * Should be defined by extending class in configure() function (so it can be translated).
 	 *
 	 * @var string
 	 */
 	public $description = '';
+
+	/**
+	 * Integration "Learn More" URL
+	 *
+	 * Optional URL to the integration's getting started / documentation page.
+	 *
+	 * When defined, the Integrations list table renders a "Learn More" link
+	 * alongside the integration's description.
+	 *
+	 * @since 10.0.6
+	 * @var string
+	 */
+	public $learn_more_url = '';
 
 	/**
 	 * Integration Missing Dependencies Description
@@ -55,6 +71,17 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * @var string
 	 */
 	public $description_missing = '';
+
+	/**
+	 * Integration "Configured" help text
+	 *
+	 * Optional short string used as a tooltip in the Integrations list table
+	 * when the integration is not yet configured (e.g. `"Add your API key to enable."`).
+	 *
+	 * @since 10.0.6
+	 * @var string
+	 */
+	public $configured_help = '';
 
 	/**
 	 * Reference to the integration plugin's main plugin file basename
@@ -294,6 +321,22 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * @return boolean
 	 */
 	public function is_installed() {
+		return true;
+	}
+
+	/**
+	 * Determine if the integration has been configured.
+	 *
+	 * "Configured" means any required credentials (e.g. API keys) have been
+	 * provided. Extending classes should override this to perform credential
+	 * checks; the default returns `true` for integrations that do not require
+	 * configuration.
+	 *
+	 * @since 10.0.6
+	 *
+	 * @return boolean
+	 */
+	public function is_configured() {
 		return true;
 	}
 
