@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed media library attachment detail screen incorrectly showing course-protected files as protected by an assignment submission."

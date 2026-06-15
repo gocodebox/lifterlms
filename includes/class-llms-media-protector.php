@@ -416,6 +416,21 @@ class LLMS_Media_Protector {
 	}
 
 	/**
+	 * Get the authorization filter hook name for a protected media file.
+	 *
+	 * Returns the name of the filter hook that controls access to the file,
+	 * or an empty string if the file is not protected.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @return string Filter hook name, or empty string if not protected.
+	 */
+	public function get_authorization_filter_name( $media_id ) {
+		return (string) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
+	/**
 	 * Returns true if the user is authorized to view the requested media file, false if not authorized,
 	 * or null if the media file is not protected.
 	 *
