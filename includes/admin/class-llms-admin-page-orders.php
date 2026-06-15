@@ -157,8 +157,8 @@ class LLMS_Admin_Page_Orders {
 
 		$this->page_hooks[] = add_submenu_page(
 			$parent_slug,
-			__( 'Orders & Transactions', 'lifterlms' ),
-			__( 'Orders &amp; Transactions', 'lifterlms' ),
+			__( 'Orders', 'lifterlms' ),
+			__( 'Orders', 'lifterlms' ),
 			$capability,
 			'llms-orders-transactions',
 			array( $this, 'render_orders_transactions_page' )
@@ -199,7 +199,10 @@ class LLMS_Admin_Page_Orders {
 	public function render_orders_transactions_page() {
 		$table = new LLMS_Table_Orders_Transactions();
 		$table->get_results();
+		// The page renders its own H1, so suppress the table's duplicate title.
+		$table->set( 'title', '' );
 		echo '<div class="wrap lifterlms llms-orders-transactions-wrap">';
+		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Orders', 'lifterlms' ) . '</h1>';
 		$table->output_table_html();
 		echo '</div>';
 	}
@@ -214,7 +217,10 @@ class LLMS_Admin_Page_Orders {
 	public function render_subscriptions_page() {
 		$table = new LLMS_Table_Subscriptions();
 		$table->get_results();
+		// The page renders its own H1, so suppress the table's duplicate title.
+		$table->set( 'title', '' );
 		echo '<div class="wrap lifterlms llms-subscriptions-wrap">';
+		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Subscriptions', 'lifterlms' ) . '</h1>';
 		$table->output_table_html();
 		echo '</div>';
 	}

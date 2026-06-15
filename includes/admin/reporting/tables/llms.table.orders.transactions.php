@@ -91,6 +91,27 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	protected $filterby = 'status';
 
 	/**
+	 * Currently selected transaction status filter.
+	 *
+	 * @var string
+	 */
+	protected $status_filter = '';
+
+	/**
+	 * Currently selected month filter, formatted `YYYYMM`.
+	 *
+	 * @var string
+	 */
+	protected $date_filter = '';
+
+	/**
+	 * Currently selected coupon ID filter.
+	 *
+	 * @var int
+	 */
+	protected $coupon_filter = 0;
+
+	/**
 	 * Retrieve data for a cell.
 	 *
 	 * @since [version]
@@ -129,11 +150,19 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'customer':
 				if ( $order ) {
-					$name  = $order->get_customer_name();
-					$email = $order->get( 'billing_email' );
-					$value = esc_html( $name );
-					if ( $email ) {
-						$value .= '<br><small>' . esc_html( $email ) . '</small>';
+					$name = $order->get_customer_name();
+
+					// Link to the customer's user profile (and email) unless the order is
+					// anonymized or has no associated WordPress user, mirroring the legacy orders table.
+					if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
+						$value = esc_html( $name );
+					} else {
+						$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+						$value          = $edit_user_link ? '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $name ) . '</a>' : esc_html( $name );
+						$email          = $order->get( 'billing_email' );
+						if ( $email ) {
+							$value .= '<br><a href="' . esc_url( 'mailto:' . $email ) . '"><small>' . esc_html( $email ) . '</small></a>';
+						}
 					}
 				}
 				break;
@@ -283,7 +312,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_transaction_statuses();
-		$current  = $this->get_filter();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -293,7 +321,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $status ) : ?>
-						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $current, $status ); ?>>
+						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
 							<?php
 							$status_obj = get_post_status_object( $status );
 							echo esc_html( $status_obj ? $status_obj->label : $status );
@@ -302,8 +330,58 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 					<?php endforeach; ?>
 				</select>
 			</div>
+			<div class="llms-table-filter-wrap">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-date-filter">
+					<?php esc_html_e( 'Filter by Date', 'lifterlms' ); ?>
+				</label>
+				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
+					<option value=""><?php esc_html_e( 'All Dates', 'lifterlms' ); ?></option>
+					<?php
+					foreach ( $this->get_available_months() as $month ) :
+						$value = sprintf( '%04d%02d', $month->year, $month->month );
+						$label = date_i18n( 'F Y', mktime( 0, 0, 0, $month->month, 1, $month->year ) );
+						?>
+						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $this->date_filter, $value ); ?>>
+							<?php echo esc_html( $label ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<div class="llms-table-filter-wrap">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-coupon-filter">
+					<?php esc_html_e( 'Filter by Coupon', 'lifterlms' ); ?>
+				</label>
+				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
+					<option value=""><?php esc_html_e( 'All Coupons', 'lifterlms' ); ?></option>
+					<?php foreach ( $this->get_coupons() as $coupon ) : ?>
+						<option value="<?php echo esc_attr( $coupon->ID ); ?>" <?php selected( $this->coupon_filter, $coupon->ID ); ?>>
+							<?php echo esc_html( $coupon->post_title ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Retrieve coupons available to filter by.
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Post[]
+	 */
+	private function get_coupons() {
+		return get_posts(
+			array(
+				'post_type'        => 'llms_coupon',
+				'posts_per_page'   => -1,
+				'post_status'      => array( 'publish', 'pending', 'draft', 'private' ),
+				'orderby'          => 'title',
+				'order'            => 'ASC',
+				'suppress_filters' => false,
+			)
+		);
 	}
 
 	/**
@@ -331,6 +409,8 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			'meta_query'     => array(),
 		);
 
+		$sort_by_product = false;
+
 		// Map the sortable column to valid WP_Query ordering arguments.
 		switch ( $this->get_orderby() ) {
 			case 'transaction_id':
@@ -340,6 +420,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$query_args['orderby']  = 'meta_value_num';
 				$query_args['meta_key'] = '_llms_amount';
 				break;
+			case 'product':
+				// The product title lives on the parent order, so sorting requires a
+				// custom join applied via the `posts_clauses` filter below.
+				$sort_by_product = true;
+				break;
 			case 'date':
 			default:
 				$query_args['orderby'] = 'date';
@@ -347,28 +432,58 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		}
 
 		// Filter by transaction status.
-		if ( 'status' === $this->get_filterby() && '' !== $this->get_filter() ) {
-			$query_args['post_status'] = $this->get_filter();
+		if ( '' !== $this->status_filter ) {
+			$query_args['post_status'] = $this->status_filter;
 		}
 
-		// Search handling.
+		// Filter by month (YYYYMM).
+		if ( $this->date_filter && preg_match( '/^(\d{4})(\d{2})$/', $this->date_filter, $matches ) ) {
+			$query_args['date_query'] = array(
+				array(
+					'year'  => absint( $matches[1] ),
+					'month' => absint( $matches[2] ),
+				),
+			);
+		}
+
+		// Build a set of order IDs to restrict to when searching and/or filtering by coupon.
+		$order_id_sets = array();
+
 		$search = $this->get_search();
 		if ( $search ) {
-			$order_ids = $this->search_orders( $search );
-			if ( ! empty( $order_ids ) ) {
-				$query_args['meta_query'][] = array(
-					'key'     => '_llms_order_id',
-					'value'   => $order_ids,
-					'compare' => 'IN',
-				);
-			} else {
-				// No matching orders found, return empty.
+			$order_id_sets[] = $this->search_orders( $search );
+		}
+
+		if ( $this->coupon_filter ) {
+			$order_id_sets[] = $this->get_order_ids_for_coupon( $this->coupon_filter );
+		}
+
+		if ( ! empty( $order_id_sets ) ) {
+
+			// Intersect so combined filters (e.g. coupon + search) narrow the results.
+			$order_ids = count( $order_id_sets ) > 1 ? array_values( call_user_func_array( 'array_intersect', $order_id_sets ) ) : $order_id_sets[0];
+
+			if ( empty( $order_ids ) ) {
 				$this->tbody_data = array();
 				return;
 			}
+
+			$query_args['meta_query'][] = array(
+				'key'     => '_llms_order_id',
+				'value'   => $order_ids,
+				'compare' => 'IN',
+			);
+		}
+
+		if ( $sort_by_product ) {
+			add_filter( 'posts_clauses', array( $this, 'product_orderby_clauses' ), 10, 2 );
 		}
 
 		$query = new WP_Query( $query_args );
+
+		if ( $sort_by_product ) {
+			remove_filter( 'posts_clauses', array( $this, 'product_orderby_clauses' ), 10 );
+		}
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
@@ -488,6 +603,88 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Modify the query clauses to sort transactions by their parent order's product title.
+	 *
+	 * The product title is stored as meta on the parent order (`_llms_product_title`), which is
+	 * itself referenced by the transaction's `_llms_order_id` meta, so two joins are required.
+	 *
+	 * @since [version]
+	 *
+	 * @param array    $clauses Array of SQL clauses.
+	 * @param WP_Query $query   The WP_Query instance (passed by reference).
+	 * @return array
+	 */
+	public function product_orderby_clauses( $clauses, $query ) {
+
+		global $wpdb;
+
+		$order = ( 'ASC' === strtoupper( $this->get_order() ) ) ? 'ASC' : 'DESC';
+
+		$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_txn_oid ON ( {$wpdb->posts}.ID = llms_txn_oid.post_id AND llms_txn_oid.meta_key = '_llms_order_id' )";
+		$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_txn_pt ON ( llms_txn_oid.meta_value = llms_txn_pt.post_id AND llms_txn_pt.meta_key = '_llms_product_title' )";
+		$clauses['orderby'] = "llms_txn_pt.meta_value {$order}";
+
+		return $clauses;
+	}
+
+	/**
+	 * Retrieve order IDs associated with a given coupon.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $coupon_id WP_Post ID of the coupon.
+	 * @return int[] Array of matching order IDs.
+	 */
+	private function get_order_ids_for_coupon( $coupon_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'      => 'llms_order',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'post_status'    => 'any',
+				'no_found_rows'  => true,
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_coupon_id',
+						'value' => absint( $coupon_id ),
+					),
+				),
+			)
+		);
+
+		return $query->posts;
+	}
+
+	/**
+	 * Retrieve the distinct year/month combinations that have transactions.
+	 *
+	 * @since [version]
+	 *
+	 * @return object[] Array of objects with `year` and `month` properties.
+	 */
+	private function get_available_months() {
+
+		global $wpdb;
+
+		$cache_key = 'transaction_months';
+		$months    = wp_cache_get( $cache_key, 'llms_orders_transactions' );
+
+		if ( false === $months ) {
+			$months = $wpdb->get_results(
+				"SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+				 FROM {$wpdb->posts}
+				 WHERE post_type = 'llms_transaction'
+				   AND post_status NOT IN ( 'auto-draft', 'trash' )
+				 ORDER BY post_date DESC"
+			);
+			wp_cache_set( $cache_key, $months, 'llms_orders_transactions', HOUR_IN_SECONDS );
+		}
+
+		return $months;
+	}
+
+	/**
 	 * Parse arguments passed to get_results().
 	 *
 	 * @since [version]
@@ -516,6 +713,18 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		}
 
+		if ( isset( $args['status'] ) ) {
+			$this->status_filter = sanitize_text_field( $args['status'] );
+		}
+
+		if ( isset( $args['date'] ) ) {
+			$this->date_filter = preg_replace( '/[^0-9]/', '', $args['date'] );
+		}
+
+		if ( isset( $args['coupon'] ) ) {
+			$this->coupon_filter = absint( $args['coupon'] );
+		}
+
 		if ( isset( $args['search'] ) ) {
 			$this->search = $args['search'];
 		}
@@ -531,6 +740,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	public function set_args() {
 		return array(
 			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $this->per_page ),
+			'status'   => $this->status_filter,
+			'date'     => $this->date_filter,
+			'coupon'   => $this->coupon_filter,
 		);
 	}
 
@@ -575,7 +787,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			),
 			'product'                => array(
 				'exportable' => true,
-				'sortable'   => false,
+				'sortable'   => true,
 				'title'      => __( 'Product', 'lifterlms' ),
 			),
 			'amount'                 => array(
@@ -644,6 +856,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return string
 	 */
 	protected function set_title() {
-		return __( 'Orders & Transactions', 'lifterlms' );
+		return __( 'Orders', 'lifterlms' );
 	}
 }
