@@ -1,7 +1,8 @@
 /**
  * Bootstrap E2E Tests.
  *
- * Activates the correct theme and runs the setup wizard.
+ * Smoke test that the WordPress admin loads with LifterLMS active. The full
+ * setup wizard walkthrough lives in `setup-wizard.spec.js`.
  *
  * @since 10.0.1
  */

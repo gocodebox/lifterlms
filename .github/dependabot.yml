@@ -1,0 +1,44 @@
+###
+#
+# This Dependabot config is the source of truth that gets deployed into every org repository via the
+# "Sync Organization Files" workflow. It is also active for this (.github) repository.
+#
+# Direct edits to the synced copy in other repos are at risk of being overwritten by the next sync.
+# All edits should be made here.
+#
+# Security updates only. "open-pull-requests-limit: 0" disables routine version-update PRs for the
+# ecosystem; Dependabot still raises pull requests for security vulnerabilities. The "applies-to:
+# security-updates" group batches all of an ecosystem's security fixes into a single pull request,
+# avoiding the lockfile rebase cascade you get when every dependency opens its own PR.
+#
+# Requires "Dependabot alerts" and "Dependabot security updates" to be enabled (org/repo security
+# settings). github-actions is intentionally omitted: action versions are managed centrally and
+# synced from this repo, not bumped per-repo by Dependabot.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Source file {@link https://github.com/gocodebox/.github/blob/trunk/.github/dependabot.yml}
+#
+###
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+    groups:
+      composer:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+    groups:
+      npm:
+        applies-to: security-updates
+        patterns:
+          - "*"

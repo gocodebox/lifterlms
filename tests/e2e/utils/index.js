@@ -162,6 +162,39 @@ export async function toggleOpenRegistration( page, enable ) {
 }
 
 /**
+ * Enroll the current (logged-in) student into a course via its free access plan.
+ *
+ * Visits the course sales page and submits the free enrollment form rendered in
+ * the pricing table.
+ *
+ * @since 10.0.1
+ *
+ * @param {import('@playwright/test').Page} page       Playwright page.
+ * @param {string}                          courseSlug Course post slug.
+ * @return {Promise<void>}
+ */
+export async function enrollInFreeCourse( page, courseSlug ) {
+	await page.goto( `/course/${ courseSlug }/` );
+	await page.locator( '.llms-free-enroll-form button[type="submit"]' ).click();
+	await page.waitForLoadState( 'networkidle' );
+}
+
+/**
+ * Mark a lesson complete from the lesson's front-end page.
+ *
+ * @since 10.0.1
+ *
+ * @param {import('@playwright/test').Page} page       Playwright page.
+ * @param {string}                          lessonSlug Lesson post slug.
+ * @return {Promise<void>}
+ */
+export async function completeLesson( page, lessonSlug ) {
+	await page.goto( `/lesson/${ lessonSlug }/` );
+	await page.locator( '#llms_mark_complete' ).click();
+	await page.waitForLoadState( 'networkidle' );
+}
+
+/**
  * Visit the LifterLMS settings page.
  *
  * @since 10.0.1

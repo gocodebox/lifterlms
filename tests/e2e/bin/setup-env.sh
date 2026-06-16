@@ -39,6 +39,21 @@ $CLI wp user create validcreds validcreds@email.tld --role=student --user_pass=p
 $CLI wp user create restrictionstester restrictions@email.tld --role=student --user_pass=password 2>/dev/null || true
 $CLI wp user create hasacert hasacert@email.tld --role=student --user_pass=password 2>/dev/null || true
 
+# The checkout form's name + billing fields are required by default. Free
+# enrollment submits those as hidden inputs populated from the user's stored
+# values, so a student missing them fails validation and gets silently
+# redirected to checkout instead of enrolled. Populate them for validcreds.
+VALIDCREDS_ID=$($CLI wp user get validcreds --field=ID 2>/dev/null | tail -1 || echo "")
+if [ -n "$VALIDCREDS_ID" ]; then
+  $CLI wp user meta update "$VALIDCREDS_ID" first_name Valid
+  $CLI wp user meta update "$VALIDCREDS_ID" last_name Creds
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_address_1 "1 Avenue Street"
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_city "A City"
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_state TX
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_zip 52342
+  $CLI wp user meta update "$VALIDCREDS_ID" llms_billing_country US
+fi
+
 # 4. Set options.
 $CLI wp option update can_compress_scripts 1
 
@@ -57,6 +72,32 @@ if [ -z "$COURSE_ID" ]; then
     if [ -n "$LESSON_ID" ]; then
       $CLI wp post meta update "$LESSON_ID" _llms_parent_course "$COURSE_ID" 2>/dev/null || true
     fi
+  fi
+fi
+
+# 7. Create a free course (course + section + lesson + free access plan) for the
+#    enrollment loop test, so a student can self-enroll and complete a lesson.
+FREE_COURSE_ID=$($CLI wp post list --post_type=course --name=free-course --field=ID --posts_per_page=1 2>/dev/null | tail -1 || echo "")
+if [ -z "$FREE_COURSE_ID" ]; then
+  FREE_COURSE_ID=$($CLI wp post create --post_type=course --post_title="Free Course" --post_name="free-course" --post_status=publish --post_content="Welcome to the free course." --porcelain 2>/dev/null | tail -1 || echo "")
+  if [ -n "$FREE_COURSE_ID" ]; then
+    FREE_SECTION_ID=$($CLI wp post create --post_type=section --post_title="Free Section" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_SECTION_ID" _llms_parent_course "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_SECTION_ID" _llms_order 1 2>/dev/null || true
+
+    FREE_LESSON_ID=$($CLI wp post create --post_type=lesson --post_title="Free Lesson" --post_name="free-lesson" --post_status=publish --post_content="Read this and mark it complete." --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_parent_course "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_parent_section "$FREE_SECTION_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_LESSON_ID" _llms_order 1 2>/dev/null || true
+
+    FREE_PLAN_ID=$($CLI wp post create --post_type=llms_access_plan --post_title="Free Access" --post_status=publish --porcelain 2>/dev/null | tail -1 || echo "")
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_product_id "$FREE_COURSE_ID" 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_is_free yes 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_price 0 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_frequency 0 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_availability open 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_access_expiration lifetime 2>/dev/null || true
+    $CLI wp post meta update "$FREE_PLAN_ID" _llms_enroll_text "Enroll" 2>/dev/null || true
   fi
 fi
 
