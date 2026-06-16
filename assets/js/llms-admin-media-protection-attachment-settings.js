@@ -33,7 +33,19 @@
 			const $select = jQuery( '.media-modal .llms-posts-select2' );
 			if ( $select.length && ! $select.data( 'select2' )) {
 				$select.llmsPostsSelect2();
+				$select.on( 'select2:select select2:clear', this.toggleUnprotectWarning );
 			}
+			this.toggleUnprotectWarning();
+		},
+
+		toggleUnprotectWarning: function() {
+			const $select  = jQuery( '.media-modal .llms-posts-select2' );
+			const $warning = jQuery( '.media-modal .llms-media-protection-unprotect-warning' );
+			if ( ! $warning.length ) {
+				return;
+			}
+			const hasValue = $select.val() && '' !== $select.val();
+			$warning.toggle( ! hasValue );
 		},
 
 		refreshAttachmentUrl: function() {

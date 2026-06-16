@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added ability to undo a protected media file by clearing the selected course or membership. The file is moved back to its original public location and all protection metadata is removed."
