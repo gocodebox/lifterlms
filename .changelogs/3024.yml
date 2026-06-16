@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#3024"
+description: Display the quiz post ID in the course builder quiz card header so quizzes with identical titles can be distinguished.

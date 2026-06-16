@@ -3,7 +3,8 @@
  * Builder quiz model view
  *
  * @since   3.16.0
- * @version 3.17.6
+ * @since   [Next Version] Added quiz ID display in the header.
+ * @version [Next Version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-template">
@@ -35,6 +36,10 @@
 			<h3 class="llms-headline llms-model-title">
 				<?php esc_html_e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 			</h3>
+
+			<# if ( ! data.has_temp_id() ) { #>
+				<span class="llms-item-id"><?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}</span>
+			<# } #>
 
 			<div class="llms-headline llms-quiz-points">
 				<?php esc_html_e( 'Total Points', 'lifterlms' ); ?>: <strong id="llms-quiz-total-points">{{{ data.get( '_points' ) }}}</strong>
