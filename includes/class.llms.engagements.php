@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 6.6.0
+ * @version 10.0.6
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *              - Deprecated the `LLMS_Engagements::log()` method.
  *                Engagement debug logging is removed. Use the {@see llms_log()} function directly instead.
  *              - Removed the deprecated `LLMS_Engagements::$_instance` property.
+ * @since 10.0.6 Added `llms_user_earned_certificate` as an engagement trigger hook.
  */
 class LLMS_Engagements {
 
@@ -223,6 +224,7 @@ class LLMS_Engagements {
 
 		$hooks = array(
 			'lifterlms_access_plan_purchased',
+			'llms_user_earned_certificate',
 			'lifterlms_course_completed',
 			'lifterlms_course_track_completed',
 			'lifterlms_lesson_completed',
@@ -445,6 +447,10 @@ class LLMS_Engagements {
 			case 'lifterlms_access_plan_purchased':
 			case 'lifterlms_product_purchased':
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
+				break;
+
+			case 'llms_user_earned_certificate':
+				$trigger_type = 'certificate_earned';
 				break;
 		}
 

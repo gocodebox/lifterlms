@@ -7,6 +7,7 @@
  * @group notifications
  *
  * @since 6.0.0
+ * @since 10.0.6 Added tests for email notification support.
  */
 class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCase {
 
@@ -91,6 +92,69 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 		$mini_cert = LLMS_Unit_Test_Util::call_method( $view, 'set_merge_data', array( '{{MINI_CERTIFICATE}}' ) );
 		$this->assertEquals( 0, strpos( '<div class="llms-mini-cert">', $mini_cert ) );
 		$this->assertStringContainsString( "<h2 class=\"llms-mini-cert-title\">{$cert->get( 'title' )}</h2>", $mini_cert );
+
+	}
+
+	/**
+	 * Test that the email notification type is supported.
+	 *
+	 * @since 10.0.6
+	 *
+	 * @return void
+	 */
+	public function test_email_supported() {
+
+		$controller = $this->get_controller();
+		$types      = LLMS_Unit_Test_Util::call_method( $controller, 'get_supported_types' );
+
+		$this->assertArrayHasKey( 'email', $types );
+		$this->assertArrayHasKey( 'basic', $types );
+
+	}
+
+	/**
+	 * Test email subscriber options.
+	 *
+	 * @since 10.0.6
+	 *
+	 * @return void
+	 */
+	public function test_email_subscriber_options() {
+
+		$controller = $this->get_controller();
+		$options    = LLMS_Unit_Test_Util::call_method( $controller, 'get_subscriber_options', array( 'email' ) );
+
+		$types = array();
+		foreach ( $options as $option ) {
+			$types[] = $option['subscriber_type'];
+		}
+
+		$this->assertContains( 'student', $types );
+		$this->assertContains( 'custom', $types );
+
+	}
+
+	/**
+	 * Test email view subject and body.
+	 *
+	 * @since 10.0.6
+	 *
+	 * @return void
+	 */
+	public function test_email_view() {
+
+		$notification = $this->get_notification();
+		$notification->set( 'type', 'email' );
+
+		$view = llms()->notifications()->get_view( $notification );
+
+		$subject = LLMS_Unit_Test_Util::call_method( $view, 'set_subject' );
+		$body    = LLMS_Unit_Test_Util::call_method( $view, 'set_body' );
+		$title   = LLMS_Unit_Test_Util::call_method( $view, 'set_title' );
+
+		$this->assertStringContainsString( '{{CERTIFICATE_TITLE}}', $subject );
+		$this->assertStringContainsString( '{{CERTIFICATE_URL}}', $body );
+		$this->assertStringContainsString( 'certificate', strtolower( $title ) );
 
 	}
 

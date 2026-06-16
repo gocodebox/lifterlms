@@ -443,6 +443,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * @return array
  * @since 3.1.0
  * @since 3.24.1
+ * @since 10.0.6 Added `certificate_earned` trigger.
  */
 function llms_get_engagement_triggers() {
 	/**
@@ -460,6 +461,7 @@ function llms_get_engagement_triggers() {
 			'course_enrollment'      => __( 'Student enrolls in a course', 'lifterlms' ),
 			'course_purchased'       => __( 'Student purchases a course', 'lifterlms' ),
 			'course_completed'       => __( 'Student completes a course', 'lifterlms' ),
+			'certificate_earned'    => __( 'Student earns a certificate', 'lifterlms' ),
 			// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo.
 			'lesson_completed'       => __( 'Student completes a lesson', 'lifterlms' ),
 			'quiz_completed'         => __( 'Student completes a quiz', 'lifterlms' ),

@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Controllers/Classes
  *
  * @since 3.8.0
- * @version 3.8.0
+ * @version 10.0.6
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,7 +99,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  10.0.6
 	 */
 	protected function set_subscriber_options( $type ) {
 
@@ -109,6 +109,11 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				break;
+
+			case 'email':
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 
 		}
@@ -123,11 +128,12 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 *
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  10.0.6
 	 */
 	protected function set_supported_types() {
 		return array(
 			'basic' => __( 'Popup', 'lifterlms' ),
+			'email' => __( 'Email', 'lifterlms' ),
 		);
 	}
 }
