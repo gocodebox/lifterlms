@@ -45,6 +45,7 @@ class LLMS_Admin_Page_Orders {
 		add_filter( 'llms_load_table_resources_pages', array( $this, 'add_table_resource_pages' ) );
 		add_action( 'admin_init', array( $this, 'maybe_redirect_old_listing' ) );
 		add_action( 'admin_init', array( $this, 'maybe_serve_transaction_receipt' ) );
+		add_action( 'admin_notices', array( $this, 'maybe_render_transaction_parent_notice' ) );
 	}
 
 	/**
@@ -223,6 +224,53 @@ class LLMS_Admin_Page_Orders {
 		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Subscriptions', 'lifterlms' ) . '</h1>';
 		$table->output_table_html();
 		echo '</div>';
+	}
+
+	/**
+	 * Render a note on the order edit screen when arriving from a transaction row.
+	 *
+	 * When a transaction in the Orders & Transactions table links to its parent
+	 * order, the link carries `llms_txn_id`. This surfaces a note at the top of the
+	 * order edit screen letting the user know the transaction itself lives in the
+	 * Transactions list below, with a jump link to it.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_render_transaction_parent_notice() {
+
+		global $pagenow;
+
+		if ( 'post.php' !== $pagenow ) {
+			return;
+		}
+
+		$txn_id = absint( llms_filter_input( INPUT_GET, 'llms_txn_id', FILTER_SANITIZE_NUMBER_INT ) );
+		if ( ! $txn_id ) {
+			return;
+		}
+
+		$post_id = absint( llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT ) );
+		if ( ! $post_id || 'llms_order' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		// Only show the note when the transaction actually belongs to this order.
+		$transaction = llms_get_post( $txn_id );
+		if ( ! $transaction instanceof LLMS_Transaction || absint( $transaction->get( 'order_id' ) ) !== $post_id ) {
+			return;
+		}
+
+		printf(
+			'<div class="notice notice-info"><p>%1$s <a href="#lifterlms-order-transactions">%2$s</a></p></div>',
+			sprintf(
+				/* translators: %d: transaction ID */
+				esc_html__( 'Viewing details on the parent order for transaction #%d. The transaction can be found below.', 'lifterlms' ),
+				$txn_id
+			),
+			esc_html__( 'View transactions', 'lifterlms' )
+		);
 	}
 
 	/**

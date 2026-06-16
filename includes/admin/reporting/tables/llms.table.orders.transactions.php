@@ -153,7 +153,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$value      .= '<div class="row-actions">';
 				$value      .= '<span class="receipt"><a href="' . esc_url( $receipt_url ) . '" target="_blank">' . esc_html__( 'Receipt', 'lifterlms' ) . '</a></span>';
 				if ( $order ) {
-					$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
+					$order_url = $this->get_order_url( $order->get( 'id' ), $txn_id );
 					$value    .= ' | <span class="view-order"><a href="' . esc_url( $order_url ) . '">' . esc_html__( 'View Order', 'lifterlms' ) . '</a></span>';
 				}
 				$value .= '</div>';
@@ -161,7 +161,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'order':
 				if ( $order ) {
-					$value = $this->get_order_link( $order );
+					$value = $this->get_order_link( $order, $data->get( 'id' ) );
 				}
 				break;
 
@@ -260,10 +260,34 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @param LLMS_Order $order Order object.
 	 * @return string
 	 */
-	protected function get_order_link( $order ) {
+	protected function get_order_link( $order, $txn_id = 0 ) {
 		$order_id = $order->get( 'id' );
-		$url      = esc_url( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
+		$url      = esc_url( $this->get_order_url( $order_id, $txn_id ) );
 		return '<a href="' . $url . '">#' . $order_id . '</a>';
+	}
+
+	/**
+	 * Build the edit URL for an order.
+	 *
+	 * When a transaction ID is provided, it's appended so the order edit screen can
+	 * surface a "you're viewing the parent order for transaction #x" note with a
+	 * jump link to the transactions list.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $order_id Order post ID.
+	 * @param int $txn_id   Optional. Transaction post ID the link originated from.
+	 * @return string
+	 */
+	protected function get_order_url( $order_id, $txn_id = 0 ) {
+		$args = array(
+			'post'   => $order_id,
+			'action' => 'edit',
+		);
+		if ( $txn_id ) {
+			$args['llms_txn_id'] = $txn_id;
+		}
+		return add_query_arg( $args, admin_url( 'post.php' ) );
 	}
 
 	/**
