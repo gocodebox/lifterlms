@@ -27,7 +27,7 @@
     "@wordpress/icons": "^6.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.5",
+    "@babel/core": "^7.29.6",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "cheerio": "^1.0.0-rc.10",
