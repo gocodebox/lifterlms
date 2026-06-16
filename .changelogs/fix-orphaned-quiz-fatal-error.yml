@@ -1,5 +1,5 @@
 significance: patch
-type: security
+type: fixed
 comment: >
   Two guards in llms.functions.access.php prevent a fatal error when a quiz belongs
   to a lesson that has since been deleted. llms_is_post_restricted_by_prerequisite()
