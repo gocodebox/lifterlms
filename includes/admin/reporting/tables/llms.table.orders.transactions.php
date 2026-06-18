@@ -581,7 +581,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search by order number, customer name, or email...', 'lifterlms' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search by order or transaction number, customer name, or email...', 'lifterlms' ) );
 	}
 
 	/**
@@ -730,38 +730,43 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		// Order IDs that already have at least one transaction.
 		$orders_with_txns = $this->get_order_ids_with_transactions();
 
-		// Build a set of order IDs to restrict to when searching and/or filtering by coupon.
-		$order_id_sets = array();
-
 		$search = $this->get_search();
-		if ( $search ) {
-			$order_id_sets[] = $this->search_orders( $search );
-		}
 
-		if ( $this->coupon_filter ) {
-			$order_id_sets[] = $this->get_order_ids_for_coupon( $this->coupon_filter );
-		}
+		if ( $search || $this->coupon_filter ) {
 
-		if ( ! empty( $order_id_sets ) ) {
-
-			// Intersect so combined filters (e.g. coupon + search) narrow the results.
-			$order_ids = count( $order_id_sets ) > 1 ? array_values( call_user_func_array( 'array_intersect', $order_id_sets ) ) : $order_id_sets[0];
-
-			if ( empty( $order_ids ) ) {
-				$this->tbody_data = array();
-				return;
+			// Resolve the search term to the post IDs (transactions and/or
+			// transaction-less orders) that should appear.
+			$search_post_ids = null;
+			if ( $search ) {
+				$search_post_ids = $this->get_search_post_ids( $search, $orders_with_txns );
+				if ( empty( $search_post_ids ) ) {
+					$this->tbody_data = array();
+					return;
+				}
 			}
 
-			// Restrict to the matching orders' transactions plus the matching orders
-			// that have no transaction. Using an explicit post__in keeps both post
-			// types correctly scoped within a single query.
-			$post_in = array_map(
-				'absint',
-				array_merge(
-					$this->get_transaction_ids_for_orders( $order_ids ),
-					array_values( array_diff( $order_ids, $orders_with_txns ) )
-				)
-			);
+			// Resolve the coupon filter to the same kind of post ID set.
+			$coupon_post_ids = null;
+			if ( $this->coupon_filter ) {
+				$coupon_order_ids = $this->get_order_ids_for_coupon( $this->coupon_filter );
+				if ( empty( $coupon_order_ids ) ) {
+					$this->tbody_data = array();
+					return;
+				}
+				$coupon_post_ids = array_merge(
+					$this->get_transaction_ids_for_orders( $coupon_order_ids ),
+					array_values( array_diff( $coupon_order_ids, $orders_with_txns ) )
+				);
+			}
+
+			// Intersect when both constraints are present so they narrow the results.
+			if ( ! is_null( $search_post_ids ) && ! is_null( $coupon_post_ids ) ) {
+				$post_in = array_intersect( $search_post_ids, $coupon_post_ids );
+			} else {
+				$post_in = is_null( $search_post_ids ) ? $coupon_post_ids : $search_post_ids;
+			}
+
+			$post_in = array_map( 'absint', (array) $post_in );
 
 			if ( empty( $post_in ) ) {
 				$this->tbody_data = array();
@@ -875,6 +880,53 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		);
 
 		return $query->posts;
+	}
+
+	/**
+	 * Resolve a search term to the post IDs (transactions and/or transaction-less
+	 * orders) that should appear in the table.
+	 *
+	 * A numeric term is treated as a post ID and can match either a transaction
+	 * (shows just that transaction) or an order (shows that order's transactions,
+	 * plus the order itself when it has none). A text term matches customers and
+	 * expands to their orders' rows.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $term             Search term.
+	 * @param int[]  $orders_with_txns Order IDs that have at least one transaction.
+	 * @return int[] Array of matching post IDs.
+	 */
+	private function get_search_post_ids( $term, $orders_with_txns ) {
+
+		if ( is_numeric( $term ) ) {
+
+			$id   = absint( $term );
+			$type = get_post_type( $id );
+
+			if ( 'llms_transaction' === $type ) {
+				return array( $id );
+			}
+
+			if ( 'llms_order' === $type ) {
+				return array_merge(
+					$this->get_transaction_ids_for_orders( array( $id ) ),
+					in_array( $id, $orders_with_txns, true ) ? array() : array( $id )
+				);
+			}
+
+			return array();
+		}
+
+		$order_ids = $this->search_orders( $term );
+		if ( empty( $order_ids ) ) {
+			return array();
+		}
+
+		return array_merge(
+			$this->get_transaction_ids_for_orders( $order_ids ),
+			array_values( array_diff( $order_ids, $orders_with_txns ) )
+		);
 	}
 
 	/**
@@ -1244,6 +1296,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return string
 	 */
 	protected function set_title() {
-		return __( 'Orders', 'lifterlms' );
+		return __( 'Orders & Transactions', 'lifterlms' );
 	}
 }
