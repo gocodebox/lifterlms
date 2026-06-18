@@ -1,0 +1,5 @@
+significance: patch
+type: security
+attributions:
+  - "@0xEr3n"
+entry: Additional check when updating a quiz question.

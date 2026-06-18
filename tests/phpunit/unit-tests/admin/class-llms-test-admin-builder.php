@@ -863,6 +863,142 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test that an existing question's parent_id is forced to the authorized quiz and cannot be re-parented.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_questions_forces_parent_id_to_authorized_quiz() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// Course A with a quiz + question (the builder context).
+		$course_a   = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 1,
+		) );
+		$quiz_a     = $course_a->get_lessons()[0]->get_quiz();
+		$question_a = $quiz_a->get_questions()[0];
+
+		// Course B with its own quiz (the victim).
+		$course_b           = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 1,
+		) );
+		$quiz_b             = $course_b->get_lessons()[0]->get_quiz();
+		$quiz_b_count_start = count( $quiz_b->get_questions() );
+
+		// Craft question data attempting to move the question into quiz B.
+		$questions_data = array(
+			array(
+				'id'        => $question_a->get( 'id' ),
+				'parent_id' => $quiz_b->get( 'id' ),
+				'title'     => 'Injected question',
+			),
+		);
+
+		LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_questions',
+			array( $questions_data, $quiz_a, $course_a->get( 'id' ) )
+		);
+
+		// The question stays attached to quiz A.
+		$question_a = llms_get_post( $question_a->get( 'id' ) );
+		$this->assertEquals( $quiz_a->get( 'id' ), $question_a->get( 'parent_id' ) );
+
+		// Quiz B gains no questions from the crafted request.
+		$this->assertEquals( $quiz_b_count_start, count( $quiz_b->get_questions() ) );
+	}
+
+	/**
+	 * Test that a user who can edit one course cannot use a builder heartbeat to move one of its
+	 * questions into a quiz belonging to a course they are not allowed to edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_heartbeat_cannot_move_question_into_unauthorized_quiz() {
+
+		$user_with_access    = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$user_without_access = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		// Course B (victim) is owned by a different user.
+		wp_set_current_user( $user_without_access );
+		$course_b           = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 1,
+		) );
+		$quiz_b             = $course_b->get_lessons()[0]->get_quiz();
+		$quiz_b_count_start = count( $quiz_b->get_questions() );
+
+		// Course A is owned by the user performing the save.
+		wp_set_current_user( $user_with_access );
+		$course_a   = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 1,
+		) );
+		$section_a  = $course_a->get_sections()[0];
+		$lesson_a   = $course_a->get_lessons()[0];
+		$quiz_a     = $lesson_a->get_quiz();
+		$question_a = $quiz_a->get_questions()[0];
+
+		// The privilege boundary this test depends on.
+		$this->assertTrue( current_user_can( 'edit_course', $course_a->get( 'id' ) ) );
+		$this->assertFalse( current_user_can( 'edit_course', $course_b->get( 'id' ) ) );
+
+		// Heartbeat for course A that attempts to re-parent the question into quiz B.
+		$builder_data = array(
+			'id'      => $course_a->get( 'id' ),
+			'updates' => array(
+				'id'       => $course_a->get( 'id' ),
+				'sections' => array(
+					array(
+						'id'      => $section_a->get( 'id' ),
+						'lessons' => array(
+							array(
+								'id'   => $lesson_a->get( 'id' ),
+								'quiz' => array(
+									'id'        => $quiz_a->get( 'id' ),
+									'lesson_id' => $lesson_a->get( 'id' ),
+									'questions' => array(
+										array(
+											'id'        => $question_a->get( 'id' ),
+											'parent_id' => $quiz_b->get( 'id' ),
+											'title'     => 'Injected question',
+										),
+									),
+								),
+							),
+						),
+					),
+				),
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'heartbeat_received',
+			array( array(), array( 'llms_builder' => wp_json_encode( $builder_data ) ) )
+		);
+
+		$this->assertEquals( 'success', $res['llms_builder']['status'] );
+
+		// The question stays attached to quiz A.
+		$question_a = llms_get_post( $question_a->get( 'id' ) );
+		$this->assertEquals( $quiz_a->get( 'id' ), $question_a->get( 'parent_id' ) );
+
+		// Quiz B gains no questions from the crafted request.
+		$this->assertEquals( $quiz_b_count_start, count( $quiz_b->get_questions() ) );
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.
