@@ -22,7 +22,10 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="llms-achievement-info">
 		<div class="llms-achievement-content"><?php echo wp_kses_post( $achievement->get( 'content' ) ); ?></div>
-		<div class="llms-achievement-date"><?php printf( esc_html_x( 'Awarded on %s', 'achievement earned date', 'lifterlms' ), esc_html( $achievement->get_earned_date() ) ); ?></div>
+		<div class="llms-achievement-date"><?php
+		// translators: %s: value.
+		printf( esc_html_x( 'Awarded on %s', 'achievement earned date', 'lifterlms' ), esc_html( $achievement->get_earned_date() ) );
+		?></div>
 	</div>
 
 	<?php do_action( 'lifterlms_after_achievement', $achievement ); ?>

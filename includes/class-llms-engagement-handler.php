@@ -68,6 +68,7 @@ class LLMS_Engagement_Handler {
 		$checks = array();
 
 		// User must exist.
+		// translators: %d: user ID
 		$user_check = get_userdata( $user_id ) ? true : new WP_Error( 'llms-engagement-check-user--not-found', sprintf( __( 'User "%d" not found.', 'lifterlms' ), $user_id ) );
 		$checks[]   = $user_check;
 
@@ -570,6 +571,7 @@ class LLMS_Engagement_Handler {
 
 		$meta_key = '_email_sent';
 
+		// translators: %1$d: ID, %2$d: ID, %3$s: ID
 		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $email_id, $person_id, $related_id ? '#' . $related_id : 'N/A' );
 
 		if ( $related_id && absint( $email_id ) === absint( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) ) {

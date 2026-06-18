@@ -81,6 +81,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 			case 'order':
 				echo '<a href="' . esc_url( admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ) . '">';
+					// translators: %d: ID
 					printf( esc_html_x( '#%d', 'order number display', 'lifterlms' ), esc_html( $post_id ) );
 				echo '</a> ';
 

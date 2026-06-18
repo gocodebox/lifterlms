@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Added missing translators comments above translation calls containing placeholders and corrected placement and casing of comments from the bulk i18n fix. Resolves WordPress.WP.I18n.MissingTranslatorsComment PHPCS warnings.

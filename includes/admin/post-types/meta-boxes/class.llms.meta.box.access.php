@@ -61,6 +61,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 						'controls'   => '#' . $this->prefix . 'restricted_levels',
 						'desc_class' => 'd-1of2 t-1of2 m-1of2',
 						'id'         => $this->prefix . 'is_restricted',
+						// translators: %s: value
 						'label'      => sprintf( _x( 'Restrict this %s', 'apply membership restriction to post type', 'lifterlms' ), $post_type->labels->singular_name ),
 						'type'       => 'checkbox',
 						'value'      => 'yes',
@@ -70,6 +71,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 						'data_attributes' => array(
 							'post-type' => 'llms_membership',
 						),
+						// translators: %s: value
 						'desc'            => sprintf( __( 'Visitors must belong to one of these memberships to access this %s', 'lifterlms' ), strtolower( $post_type->labels->singular_name ) ),
 						'id'              => $this->prefix . 'restricted_levels',
 						'label'           => __( 'Memberships', 'lifterlms' ),

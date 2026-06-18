@@ -684,6 +684,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	public function get_title() {
 		$student = $this->get_student();
 		$name    = $student ? $this->get_student()->get_name() : apply_filters( 'llms_quiz_attempt_deleted_student_name', __( '[Deleted]', 'lifterlms' ) );
+		// translators: %1$d: question number, %2$s: name
 		return sprintf( __( 'Quiz Attempt #%1$d by %2$s', 'lifterlms' ), $this->get( 'attempt' ), $name );
 	}
 

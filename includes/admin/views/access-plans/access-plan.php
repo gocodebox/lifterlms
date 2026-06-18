@@ -56,7 +56,10 @@ if ( ! isset( $plan ) ) {
 			<h3>
 				<?php if ( $plan ) : ?>
 					<span class="llms-plan-title" data-default="<?php esc_attr_e( 'Unnamed Access Plan', 'lifterlms' ); ?>"><?php echo esc_html( $plan->get( 'title' ) ); ?></span>
-					<small>(<?php printf( esc_html_x( 'ID# %s', 'Product Access Plan ID', 'lifterlms' ), esc_html( $plan->get( 'id' ) ) ); ?>)</small>
+					<small>(<?php
+						// translators: %s: access plan ID number.
+						printf( esc_html_x( 'ID# %s', 'Product Access Plan ID', 'lifterlms' ), esc_html( $plan->get( 'id' ) ) );
+					?>)</small>
 				<?php else : ?>
 					<span class="llms-plan-title" data-default="<?php esc_attr_e( 'New Access Plan', 'lifterlms' ); ?>"><?php esc_html_e( 'New Access Plan', 'lifterlms' ); ?></span>
 				<?php endif; ?>
@@ -127,7 +130,10 @@ if ( ! isset( $plan ) ) {
 		<?php endif; ?>
 
 		<?php if ( $plan && $checkout_url ) : ?>
-			<p class="llms-plan-link"><?php printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' ); ?></p>
+			<p class="llms-plan-link"><?php
+				// translators: %s: checkout URL.
+				printf( esc_html__( 'Direct to Checkout Purchase Link: %s', 'lifterlms' ), '<code>' . esc_url( $checkout_url ) . '</code>' );
+			?></p>
 		<?php endif; ?>
 
 		<div class="llms-plan-row-1">
@@ -334,7 +340,10 @@ if ( ! isset( $plan ) ) {
 						<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][length]" data-controller="llms-plan-period" data-value-is="year" name="_llms_plans[<?php echo esc_attr( $order ); ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 							<option value="0"<?php selected( 0, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php esc_html_e( 'for all time', 'lifterlms' ); ?></option>
 							<?php $i = 1; while ( $i <= 6 ) : ?>
-								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( esc_html( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ) ), esc_html( $i ) ); ?></option>
+								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'year' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php
+									// translators: %s: number of years.
+									printf( esc_html( _n( 'for %s year', 'for %s years', $i, 'lifterlms' ) ), esc_html( $i ) );
+								?></option>
 								<?php
 								++$i;
 	endwhile;
@@ -344,7 +353,10 @@ if ( ! isset( $plan ) ) {
 						<select data-controller="llms-plan-period" data-value-is="month" name="_llms_plans[<?php echo esc_attr( $order ); ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 							<option value="0"<?php selected( 0, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php esc_html_e( 'for all time', 'lifterlms' ); ?></option>
 							<?php $i = 1; while ( $i <= 24 ) : ?>
-								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( esc_html( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ) ), esc_html( $i ) ); ?></option>
+								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'month' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php
+									// translators: %s: number of months.
+									printf( esc_html( _n( 'for %s month', 'for %s months', $i, 'lifterlms' ) ), esc_html( $i ) );
+								?></option>
 								<?php
 								++$i;
 	endwhile;
@@ -354,7 +366,10 @@ if ( ! isset( $plan ) ) {
 						<select data-controller="llms-plan-period" data-value-is="week" name="_llms_plans[<?php echo esc_attr( $order ); ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 							<option value="0"<?php selected( 0, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php esc_html_e( 'for all time', 'lifterlms' ); ?></option>
 							<?php $i = 1; while ( $i <= 52 ) : ?>
-								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( esc_html( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ) ), esc_html( $i ) ); ?></option>
+								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'week' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php
+									// translators: %s: number of weeks.
+									printf( esc_html( _n( 'for %s week', 'for %s weeks', $i, 'lifterlms' ) ), esc_html( $i ) );
+								?></option>
 								<?php
 								++$i;
 	endwhile;
@@ -364,7 +379,10 @@ if ( ! isset( $plan ) ) {
 						<select data-controller="llms-plan-period" data-value-is="day" name="_llms_plans[<?php echo esc_attr( $order ); ?>][length]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 							<option value="0"<?php selected( 0, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php esc_html_e( 'for all time', 'lifterlms' ); ?></option>
 							<?php $i = 1; while ( $i <= 90 ) : ?>
-								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>><?php printf( esc_html( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ) ), esc_html( $i ) ); ?></option>
+								<option value="<?php echo esc_attr( $i ); ?>"<?php selected( $i, ( $plan && 'day' === $period ) ? $plan->get( 'length' ) : '' ); ?>"><?php
+									// translators: %s: number of days.
+									printf( esc_html( _n( 'for %s day', 'for %s days', $i, 'lifterlms' ) ), esc_html( $i ) );
+								?></option>
 								<?php
 								++$i;
 	endwhile;
@@ -632,7 +650,10 @@ if ( ! isset( $plan ) ) {
 						<select id="_llms_plans[<?php echo esc_attr( $order ); ?>][availability_restrictions][]" class="llms-availability-restrictions" data-post-type="llms_membership" multiple="multiple" name="_llms_plans[<?php echo esc_attr( $order ); ?>][availability_restrictions][]" required="required" style="width:100%; height: 25px;" <?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 						<?php if ( $plan ) : ?>
 								<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
-									<option value="<?php echo esc_attr( $membership_id ); ?>" selected="selected"><?php echo esc_html( get_the_title( $membership_id ) ); ?> (<?php printf( esc_html__( 'ID# %d', 'lifterlms' ), esc_html( $membership_id ) ); ?>)</option>
+									<option value="<?php echo esc_attr( $membership_id ); ?>" selected="selected"><?php echo esc_html( get_the_title( $membership_id ) ); ?> (<?php
+										// translators: %d: membership ID.
+										printf( esc_html__( 'ID# %d', 'lifterlms' ), esc_html( $membership_id ) );
+									?>)</option>
 								<?php endforeach; ?>
 							<?php endif; ?>
 						</select>

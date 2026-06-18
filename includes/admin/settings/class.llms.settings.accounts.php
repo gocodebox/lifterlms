@@ -64,7 +64,12 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 			array(
 				'title'             => __( 'Dashboard Page', 'lifterlms' ),
-				'desc'              => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ) . ' ' . sprintf( __( 'Requires the %1$s[lifterlms_my_account]%2$s shortcode or the "My Account" block.', 'lifterlms' ), '<code>', '</code>' ),
+				'desc'              => __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ) . ' ' . sprintf(
+					// translators: %1$s: opening code tag, %2$s: closing code tag.
+					__( 'Requires the %1$s[lifterlms_my_account]%2$s shortcode or the "My Account" block.', 'lifterlms' ),
+					'<code>',
+					'</code>'
+				),
 				'id'                => 'lifterlms_myaccount_page_id',
 				'default'           => '',
 				'desc_tip'          => true,
@@ -294,6 +299,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'autoload'          => false,
 				'desc'              => sprintf(
+					// translators: %1$s: value, %2$s: value
 					__( 'Select a page where your site\'s Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information', 'lifterlms' ),
 					'<a href="' . esc_url( admin_url( 'privacy.php' ) ) . '">',
 					'</a>'

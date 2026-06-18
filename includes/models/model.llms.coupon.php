@@ -127,6 +127,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 				return __( 'Percentage Discount', 'lifterlms' );
 			break;
 			case 'dollar':
+				// translators: %s: value
 				return sprintf( _x( '%s Discount', 'flat rate coupon discount', 'lifterlms' ), get_lifterlms_currency_symbol() );
 			break;
 		}
@@ -287,14 +288,17 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 		} elseif ( $this->is_expired() ) {
 
+			// translators: %s: coupon code
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_date( 'expiration_date', 'F d, Y' ) );
 
 		} elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
 
+			// translators: %s: coupon code
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), get_the_title( $plan->get( 'product_id' ) ) );
 
 		} elseif ( ! $this->applies_to_plan( $plan ) ) {
 
+			// translators: %s: coupon code
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), $plan->get( 'title' ) );
 
 		}

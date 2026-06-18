@@ -127,6 +127,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 						'data-post-type'   => 'page',
 						'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 					),
+					// translators: %1$s: course name, %2$s: course name
 					'desc'              => sprintf( __( 'This page will be shown to students when they complete the course. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-completion-page/" target="_blank">', '</a>' ),
 					'id'                => 'lifterlms_course_completion_page_id',
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_course_completion_page_id', '' ) ),
@@ -158,6 +159,7 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 						'data-post-type'   => 'page',
 						'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 					),
+					// translators: %1$s: value, %2$s: value
 					'desc'              => sprintf( __( 'This page is where your visitors will find a list of all your available courses. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-catalog/" target="_blank">', '</a>' ),
 					'id'                => 'lifterlms_shop_page_id',
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_shop_page_id', '' ) ),

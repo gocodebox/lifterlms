@@ -68,6 +68,7 @@ class LLMS_Admin_Notices_Core {
 
 		if ( class_exists( 'LifterLMS_Labs' ) && llms_parse_bool( get_option( 'llms_lab_beaver-builder_enabled' ) ) && current_user_can( 'manage_lifterlms' ) ) {
 			$html = sprintf(
+				// translators: %1$s: opening link tag to disable Beaver Builder lab, %2$s: closing link tag.
 				__( 'Improved Beaver Builder support is now included in core! To use it, %1$sdisable the Beaver Builder lab%2$s.', 'lifterlms' ),
 				'<a href="' . admin_url( 'admin.php?page=llms-labs' ) . '">',
 				'</a>',
@@ -102,6 +103,7 @@ class LLMS_Admin_Notices_Core {
 		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', llms()->payment_gateways()->has_gateways( true ) ) ) {
 			$html  = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
 			$html .= sprintf(
+				// translators: %1$s: opening link tag to Checkout Settings, %2$s: closing link tag, %3$s: opening link tag to LifterLMS Payment Gateways, %4$s: closing link tag.
 				__( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ),
 				'<a href="' . add_query_arg(
 					array(
@@ -207,6 +209,7 @@ class LLMS_Admin_Notices_Core {
 		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $theme->get_template(), llms_get_core_supported_themes(), true ) ) {
 
 			$msg = sprintf(
+				// translators: %1$s: theme name, %2$s: opening link tag to integration guide, %3$s: closing link tag, %4$s: opening link tag to LaunchPad theme, %5$s: closing link tag.
 				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
 				$theme->get( 'Name' ),
 				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">',

@@ -577,6 +577,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// Build the verbose enroll text, if requested.
 		if ( $verbose ) {
 			$plan_name = $this->get( 'title' );
+			// translators: %1$s: value, %2$s: name
 			$text      = sprintf( _x( '%1$s: Select the %2$s plan.', 'Verbose enrollment text', 'lifterlms' ), $text, $plan_name );
 		}
 
@@ -596,8 +597,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$expiration = $this->get( 'access_expiration' );
 		if ( 'limited-date' === $expiration ) {
+			// translators: %s: value
 			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires' ) );
 		} elseif ( 'limited-period' === $expiration ) {
+			// translators: %1$d: count, %2$s: value
 			$ret = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
 		}
 
@@ -623,14 +626,17 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		if ( $frequency > 0 ) {
 
 			if ( 1 === $frequency ) {
+				// translators: %s: value
 				$ret = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
 			} else {
+				// translators: %1$d: count, %2$s: value
 				$ret = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 			}
 
 			// Add length sentence if applicable.
 			if ( $length > 0 ) {
 
+				// translators: %1$d: count
 				$ret .= ' ' . sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
 
 			}
@@ -654,6 +660,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			$length  = $this->get( 'trial_length' );
 			$period  = $this->get( 'trial_period' );
+			// translators: %1$d: count, %2$s: value
 			$details = sprintf( _x( 'for %1$d %2$s', 'trial offer description', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
 
 		}

@@ -39,7 +39,10 @@ endif;
 			<li>
 				<a
 					href="<?php echo esc_url( $item->get_permalink() ); ?>"
-					title="<?php printf( esc_attr__( 'Posted %s', 'lifterlms' ), esc_attr( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ) ); ?>"
+					title="<?php
+						// translators: %s: date string.
+						printf( esc_attr__( 'Posted %s', 'lifterlms' ), esc_attr( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ) );
+					?>"
 					target="_blank"
 					rel="noopener"><?php echo esc_html( $item->get_title() ); ?></a>
 					<?php echo esc_html( date_i18n( get_option( 'date_format' ), $item->get_date( 'U' ) ) ); ?>

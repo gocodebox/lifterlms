@@ -59,6 +59,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-orders',
 				'data'         => $data->get_orders( 'current' ),
 				'data_compare' => $data->get_orders( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'New orders %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -71,6 +72,7 @@ $now         = current_time( 'timestamp' );
 				'data'         => $data->get_revenue( 'current' ),
 				'data_compare' => $data->get_revenue( 'previous' ),
 				'data_type'    => 'monetary',
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Total sales %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -81,6 +83,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-enrollments',
 				'data'         => $data->get_enrollments( 'current' ),
 				'data_compare' => $data->get_enrollments( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'New enrollments %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -91,6 +94,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-unenrollments',
 				'data'         => $data->get_unenrollments( 'current' ),
 				'data_compare' => $data->get_unenrollments( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Unenrollments %s', 'lifterlms' ), $period_text ),
 				'impact'       => 'negative',
 			)
@@ -103,6 +107,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-achievements',
 				'data'         => $data->get_engagements( 'achievement_earned', 'current' ),
 				'data_compare' => $data->get_engagements( 'achievement_earned', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Achievements earned %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -114,6 +119,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-certificates',
 				'data'         => $data->get_engagements( 'certificate_earned', 'current' ),
 				'data_compare' => $data->get_engagements( 'certificate_earned', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Certificates earned %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -125,6 +131,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-membership-email',
 				'data'         => $data->get_engagements( 'email_sent', 'current' ),
 				'data_compare' => $data->get_engagements( 'email_sent', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Emails sent %s', 'lifterlms' ), $period_text ),
 			)
 		);

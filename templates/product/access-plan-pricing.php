@@ -39,7 +39,10 @@ $expires  = $plan->get_expiration_details();
 	<?php endif; ?>
 
 	<?php if ( $plan->is_on_sale() && $plan->get( 'sale_end' ) ) : ?>
-		<div class="llms-access-plan-sale-end"><?php echo esc_html( sprintf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', get_option( 'date_format' ) ) ) ); ?></div>
+		<div class="llms-access-plan-sale-end"><?php
+			// translators: %s: value
+			echo esc_html( sprintf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', get_option( 'date_format' ) ) ) );
+		?></div>
 	<?php endif; ?>
 
 </div>

@@ -51,8 +51,10 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
+			// translators: %1$s: name, %2$s: name
 			return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
 		}
+		// translators: %s: student name
 		return sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{COURSE_TITLE}}' );
 	}
 
@@ -126,6 +128,7 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	 * @version  3.8.0
 	 */
 	protected function set_subject() {
+		// translators: %1$s: name, %2$s: name
 		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
 	}
 
@@ -137,6 +140,7 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
+		// translators: %s: course name
 		return sprintf( __( '%s Completed a Course', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 

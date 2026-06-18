@@ -50,6 +50,7 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 	 * @version  3.8.0
 	 */
 	protected function set_body() {
+		// translators: %1$s: course name, %2$s: course name
 		return sprintf( __( 'Congratulations! %1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
@@ -128,6 +129,7 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 	 * @version  3.8.0
 	 */
 	protected function set_subject() {
+		// translators: %1$s: course name, %2$s: course name
 		return sprintf( __( '%1$s enrolled in %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
@@ -139,6 +141,7 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
+		// translators: %1$s: course name
 		return sprintf( __( '%1$s enrollment success!', 'lifterlms' ), '{{TYPE}}' );
 	}
 

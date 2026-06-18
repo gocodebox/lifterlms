@@ -631,9 +631,11 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 		$page_title = '';
 
 		if ( is_search() ) {
+			// translators: %s: value
 			$page_title = sprintf( __( 'Search Results: &ldquo;%s&rdquo;', 'lifterlms' ), get_search_query() );
 
 			if ( get_query_var( 'paged' ) ) {
+				// translators: %s: value
 				$page_title .= sprintf( __( '&nbsp;&ndash; Page %s', 'lifterlms' ), get_query_var( 'paged' ) );
 			}
 		} elseif ( is_tax() ) {

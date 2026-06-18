@@ -60,7 +60,10 @@ defined( 'ABSPATH' ) || exit;
 					<th><?php esc_html_e( 'Trial Total', 'lifterlms' ); ?></th>
 					<td>
 						<?php echo wp_kses( $order->get_price( 'trial_total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
-						<?php echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ) ); ?>
+						<?php
+						// translators: %1$d: trial length, %2$s: trial period.
+						echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ) );
+						?>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -114,7 +117,10 @@ defined( 'ABSPATH' ) || exit;
 						);
 						?>
 						<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
-							<?php echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ) ); ?>
+							<?php
+							// translators: %1$d: billing cycle, %2$s: billing period.
+							echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ) );
+							?>
 						<?php endif; ?>
 					<?php else : ?>
 						<?php esc_html_e( 'One-time', 'lifterlms' ); ?>

@@ -125,6 +125,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		if ( $order->is_recurring() && isset( $_POST['total'] ) && is_numeric( $_POST['total'] ) ) {
 			$total = floatval( $_POST['total'] );
 			$order->set( 'total', $total );
+			// translators: %s: count
 			$order->add_note( sprintf( __( 'Order total for future payments updated to %s.', 'lifterlms' ), $order->get_price( 'total' ) ) );
 		}
 

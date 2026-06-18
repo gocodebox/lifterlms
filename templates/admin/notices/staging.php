@@ -22,6 +22,7 @@ if ( ! is_admin() ) {
 <p>
 <?php
 printf(
+	// translators: %1$s: link tag, %2$s: link tag
 	esc_html__( 'You can choose to enable automatic recurring payments using the buttons below. If you\'re not sure what to do, you can learn more %1$shere%2$s. You can always change your mind later by clicking "Reset Automatic Payments" on the LifterLMS General Settings screen under Tools and Utilities.', 'lifterlms' ),
 	'<a href="https://lifterlms.com/docs/staging-sites-and-lifterlms-recurring-payments" target="_blank">',
 	'</a>'

@@ -71,6 +71,7 @@ class LLMS_Sessions {
 		// Adds every 5 minutes to the existing schedules.
 		$schedules['every_five_mins'] = array(
 			'interval' => MINUTE_IN_SECONDS * 5,
+			// translators: %d: interval in minutes
 			'display'  => sprintf( __( 'Every %d Minutes', 'lifterlms' ), 5 ),
 		);
 		return $schedules;

@@ -86,10 +86,23 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		);
 
 		ob_start();
-		?><p><?php printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( esc_html__( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
-		<p><?php printf( esc_html__( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
-		<h4><?php printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
+		?>
+		<p><?php
+			// translators: %s: customer name.
+			printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' );
+		?></p>
+		<p><?php
+			// translators: %1$s: product title, %2$s: next payment date.
+			printf( esc_html__( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+		?></p>
+		<p><?php
+			// translators: %1$s: opening link tag, %2$s: closing link tag.
+			printf( esc_html__( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' );
+		?></p>
+		<h4><?php
+			// translators: %s: order ID.
+			printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
+		?></h4>
 		<?php $mailer->output_table_html( $rows ); ?>
 		<p><a href="{{ORDER_URL}}"><?php esc_html_e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
@@ -226,6 +239,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * @return string
 	 */
 	protected function set_subject() {
+		// translators: %1$s: value, %2$s: value
 		return sprintf( __( 'Automatic payment for %1$s failed, retry scheduled for %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
 	}
 

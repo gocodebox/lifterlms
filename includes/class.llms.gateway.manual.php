@@ -147,6 +147,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		$order->set( 'gateway_source_id', '' );
 		$order->set( 'gateway_subscription_id', '' );
 
+		// translators: %1$s: value, %2$s: value
 		$order->add_note( sprintf( __( 'Payment method switched from "%1$s" to "%2$s"', 'lifterlms' ), $previous_gateway, $this->get_admin_title() ) );
 
 	}

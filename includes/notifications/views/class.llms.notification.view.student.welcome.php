@@ -35,8 +35,15 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	protected function set_body() {
 
 		ob_start();
-		?><p><?php printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{STUDENT_NAME}}' ); ?></p>
-		<p><?php printf( esc_html__( 'Here\'s some helpful information to help you get started at %s.', 'lifterlms' ), '{{SITE_TITLE}}' ); ?></p>
+		?>
+		<p><?php
+			// translators: %s: student name.
+			printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{STUDENT_NAME}}' );
+		?></p>
+		<p><?php
+			// translators: %s: site title.
+			printf( esc_html__( 'Here\'s some helpful information to help you get started at %s.', 'lifterlms' ), '{{SITE_TITLE}}' );
+		?></p>
 		<p><b><?php esc_html_e( 'Your Login', 'lifterlms' ); ?></b>: {{STUDENT_LOGIN}}</p>
 		<p><b><?php esc_html_e( 'Your Dashboard', 'lifterlms' ); ?></b>: <a href="{{DASHBOARD_URL}}">{{DASHBOARD_URL}}</a></p>
 		<p><?php esc_html_e( 'If you forgot or don\'t have a password you can reset it now so you can login and get started:', 'lifterlms' ); ?> <a href="{{PASSWORD_RESET_URL}}">{{PASSWORD_RESET_URL}}</a></p>
@@ -129,6 +136,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	 * @version  3.8.0
 	 */
 	protected function set_subject() {
+		// translators: %s: student name
 		return sprintf( __( 'Welcome to %s', 'lifterlms' ), '{{SITE_TITLE}}' );
 	}
 
@@ -140,6 +148,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
+		// translators: %s: student name
 		return sprintf( __( 'Let\'s get started %s', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 }

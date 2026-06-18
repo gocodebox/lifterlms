@@ -182,11 +182,13 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				$trigger = $student->get_enrollment_trigger( $this->post_id );
 				if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
 					$tid   = $student->get_enrollment_trigger_id( $this->post_id );
+					// translators: %d: ID
 					$value = $this->get_post_link( $tid, sprintf( __( 'Order #%d', 'lifterlms' ), $tid ) );
 				} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
 					$tid        = $student->get_enrollment_trigger_id( $this->post_id );
 					$admin      = llms_get_student( $tid );
 					$admin_name = $admin ? $admin->get_name() : __( '[Deleted]', 'lifterlms' );
+					// translators: %1$s: admin name, %2$d: ID
 					$value      = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin_name, $tid ) );
 				} else {
 					$value = $trigger;

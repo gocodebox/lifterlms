@@ -506,6 +506,7 @@ class LLMS_Person_Handler {
 			// Ensure required fields are submitted.
 			if ( ! empty( $field['required'] ) && empty( $val ) ) {
 
+				// translators: %s: field label
 				$err->add( $field['id'], sprintf( __( '%s is a required field', 'lifterlms' ), $label ), 'required' );
 				continue;
 
@@ -513,6 +514,7 @@ class LLMS_Person_Handler {
 
 			// Email fields must be emails.
 			if ( 'email' === $field_type && ! is_email( $val ) ) {
+				// translators: %s: field label
 				$err->add( $field['id'], sprintf( __( '%s must be a valid email address', 'lifterlms' ), $label ), 'invalid' );
 			}
 		}

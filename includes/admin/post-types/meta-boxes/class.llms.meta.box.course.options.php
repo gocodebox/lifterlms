@@ -146,6 +146,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'class'      => 'llms-select2',
 						'id'         => $this->prefix . 'post_course_difficulty',
+						// translators: %1$s: course attribute, %2$s: course attribute
 						'desc'       => sprintf( __( 'Choose a course difficulty level. New difficulties can be added via %1$sCourses -> Difficulties%2$s.', 'lifterlms' ), '<a href="' . admin_url( 'edit-tags.php?taxonomy=course_difficulty&post_type=course' ) . '">', '</a>' ),
 						'desc_class' => 'd-all',
 						'group'      => 'bottom',
@@ -217,6 +218,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
+						// translators: %s: value
 						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'video_embed',
 						'class' => 'code input-full',
@@ -232,6 +234,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Audio', 'lifterlms' ),
+						// translators: %s: value
 						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
@@ -251,9 +254,11 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 							'allow-clear' => true,
 							'post-type'   => 'page',
 							'placeholder' => get_option( 'lifterlms_course_completion_page_id', '' ) ?
+								// translators: %s: setting label
 								sprintf( __( 'Global setting (%s)', 'lifterlms' ), get_the_title( get_option( 'lifterlms_course_completion_page_id' ) ) ) :
 								__( 'Global setting (none)', 'lifterlms' ),
 						),
+						// translators: %1$s: course name, %2$s: course name
 						'desc'            => sprintf( __( 'This page will be shown to students when they complete the course. %1$sMore Information%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/course-completion-page/" target="_blank">', '</a>' ),
 						'id'              => $this->prefix . 'completion_page_id',
 						'value'           => llms_make_select2_post_array( array( $course->get( 'completion_page_id' ) ) ),
@@ -307,7 +312,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class'            => 'input-full',
 						'controller'       => '#' . $this->prefix . 'enrollment_period',
 						'controller_value' => 'yes',
+						// translators: %d: course name
 						'default'          => sprintf( __( 'Enrollment in this course opens on [lifterlms_course_info id="%d" key="enrollment_start_date"].', 'lifterlms' ), $this->post->ID ),
+						// translators: %d: course name
 						'desc'             => sprintf( __( 'This message will be displayed to non-enrolled visitors before the Enrollment Start Date. You may use shortcodes like [lifterlms_course_info id="%d" key="enrollment_start_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id'               => $this->prefix . 'enrollment_opens_message',
 						'label'            => __( 'Enrollment Opens Message', 'lifterlms' ),
@@ -318,7 +325,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class'            => 'input-full',
 						'controller'       => '#' . $this->prefix . 'enrollment_period',
 						'controller_value' => 'yes',
+						// translators: %d: course name
 						'default'          => sprintf( __( 'Enrollment in this course closed on [lifterlms_course_info id="%d" key="enrollment_end_date"].', 'lifterlms' ), $this->post->ID ),
+						// translators: %d: course name
 						'desc'             => sprintf( __( 'This message will be displayed to non-enrolled visitors once the Enrollment End Date has passed. You may use shortcodes like [lifterlms_course_info id="%d" key="enrollment_end_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id'               => $this->prefix . 'enrollment_closed_message',
 						'label'            => __( 'Enrollment Closed Message', 'lifterlms' ),
@@ -357,7 +366,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class'            => 'input-full',
 						'controller'       => '#' . $this->prefix . 'time_period',
 						'controller_value' => 'yes',
+						// translators: %d: value
 						'default'          => sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $this->post->ID ),
+						// translators: %d: course name
 						'desc'             => sprintf( __( 'This message will be displayed to non-enrolled visitors before the Course Start Date. You may use shortcodes like [lifterlms_course_info id="%d" key="start_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id'               => $this->prefix . 'course_opens_message',
 						'label'            => __( 'Course Opens Message', 'lifterlms' ),
@@ -368,7 +379,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'class'            => 'input-full',
 						'controller'       => '#' . $this->prefix . 'time_period',
 						'controller_value' => 'yes',
+						// translators: %d: value
 						'default'          => sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $this->post->ID ),
+						// translators: %d: course name
 						'desc'             => sprintf( __( 'This message will be displayed to non-enrolled visitors once the Course End Date has passed. You may use shortcodes like [lifterlms_course_info id="%d" key="end_date"] in this message.', 'lifterlms' ), $this->post->ID ),
 						'id'               => $this->prefix . 'course_closed_message',
 						'label'            => __( 'Course Closed Message', 'lifterlms' ),

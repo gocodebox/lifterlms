@@ -63,7 +63,10 @@ class LLMS_Meta_Box_Visibility {
 
 			<div id="llms-catalog-visibility-select" class="hide-if-js">
 
-				<p><?php printf( esc_html__( 'Choose the visibility of the %s in your catalog. It will always be available directly.', 'lifterlms' ), esc_html( $product->get_post_type_label() ) ); ?></p>
+				<p><?php
+					// translators: %s: post type label.
+					printf( esc_html__( 'Choose the visibility of the %s in your catalog. It will always be available directly.', 'lifterlms' ), esc_html( $product->get_post_type_label() ) );
+				?></p>
 				<?php foreach ( $options as $name => $label ) : ?>
 					<input data-label="<?php echo esc_attr( $label ); ?>" id="_llms_visibility_<?php echo esc_attr( $name ); ?>" name="_llms_visibility" type="radio" value="<?php echo esc_attr( $name ); ?>" <?php checked( $visibility, $name ); ?> />
 					<label for="_llms_visibility_<?php echo esc_attr( $name ); ?>" class="selectit"><?php echo esc_attr( $label ); ?></label><br>

@@ -43,6 +43,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			'input' => 'html',
 			// TODO: Add selected course/membership to the select2 dropdown if known for this attachment post.
 			'html'  => "$protection_warning_html<select id='attachments-" . $post->ID . "-llms_media_protection_post' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='attachments[" . $post->ID . "][llms_media_protection_post]'>$selected_product_html</select>",
+			// translators: %1$s: link tag, %2$s: link tag
 			'helps' => $protector->is_media_protected( $post->ID ) ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
 		);
 

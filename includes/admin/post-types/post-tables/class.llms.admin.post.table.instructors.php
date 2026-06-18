@@ -126,6 +126,7 @@ class LLMS_Admin_Post_Table_Instructors {
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$label = sprintf(
+			// translators: %s: number of posts.
 			_nx(
 				'Mine <span class="count">(%s)</span>',
 				'Mine <span class="count">(%s)</span>',

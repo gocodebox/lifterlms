@@ -31,7 +31,10 @@ defined( 'ABSPATH' ) || exit;
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
 		<div class="llms-no-plans-msg">
-			<div class="notice notice-warning inline"><p><?php printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p></div>
+			<div class="notice notice-warning inline"><p><?php
+			// translators: %s: value.
+			printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) );
+			?></p></div>
 		</div>
 		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>
 			<?php include 'access-plan.php'; ?>

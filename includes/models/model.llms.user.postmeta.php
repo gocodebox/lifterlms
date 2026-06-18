@@ -123,35 +123,42 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 		switch ( $key ) {
 
 			case '_achievement_earned':
+				// translators: %1$s: name, %2$s: achievement title
 				$string = sprintf( __( '%1$s earned the achievement "%2$s"', 'lifterlms' ), $name, get_the_title( $this->get( 'meta_value' ) ) );
 
 				break;
 
 			case '_certificate_earned':
+				// translators: %1$s: name, %2$s: value
 				$string = sprintf( __( '%1$s earned the certificate "%2$s"', 'lifterlms' ), $name, get_the_title( $this->get( 'meta_value' ) ) );
 
 				break;
 
 			case '_email_sent':
+				// translators: %1$s: value, %2$s: name
 				$string = sprintf( __( 'Email "%1$s" was sent to %2$s', 'lifterlms' ), get_the_title( $this->get( 'meta_value' ) ), $name );
 
 				break;
 
 			case '_enrollment_trigger':
+				// translators: %1$s: name, %2$s: name
 				$string = sprintf( __( '%1$s purchased the %2$s', 'lifterlms' ), $name, $post_name );
 
 				break;
 
 			case '_status':
 				if ( 'enrolled' === $this->get( 'meta_value' ) ) {
+					// translators: %1$s: name, %2$s: name
 					$string = sprintf( __( '%1$s enrolled into the %2$s', 'lifterlms' ), $name, $post_name );
 				} else {
+					// translators: %1$s: name, %2$s: name
 					$string = sprintf( __( '%1$s unenrolled from the %2$s', 'lifterlms' ), $name, $post_name );
 				}
 
 				break;
 
 			case '_is_complete':
+				// translators: %1$s: name, %2$s: name
 				$string = sprintf( __( '%1$s completed the %2$s', 'lifterlms' ), $name, $post_name );
 
 				break;

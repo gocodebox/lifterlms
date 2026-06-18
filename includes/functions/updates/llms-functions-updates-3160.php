@@ -647,6 +647,7 @@ function llms_update_3160_builder_notice() {
 		'update-3160',
 		array(
 			'html'        => sprintf(
+				// translators: %1$s: student name, %2$s: student name
 				__( 'Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under "Courses" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s.', 'lifterlms' ),
 				'<a href="http://blog.lifterlms.com/hello-quizzes/" target="_blank">',
 				'</a>'

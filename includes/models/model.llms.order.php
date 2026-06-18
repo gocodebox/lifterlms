@@ -768,6 +768,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( $gateway && ( $gateway->is_enabled() || is_admin() ) ) {
 			return $gateway;
 		} else {
+			// translators: %s: value
 			return new WP_Error( 'error', sprintf( __( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ), $this->get( 'payment_gateway' ) ) );
 		}
 	}

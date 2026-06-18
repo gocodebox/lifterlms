@@ -34,7 +34,10 @@ defined( 'ABSPATH' ) || exit;
 					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
 					<span class="llms-points">
 						<?php if ( $attempt_question->get( 'points' ) ) : ?>
-							<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
+							<?php
+							// translators: %1$d: earned points, %2$d: total points.
+							echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) );
+							?>
 						<?php endif; ?>
 					</span>
 					<?php echo wp_kses_post( $attempt_question->get_status_icon() ); ?>
@@ -58,7 +61,10 @@ defined( 'ABSPATH' ) || exit;
 
 				<?php if ( $quiz_question->get( 'points' ) ) : ?>
 					<span class="llms-points">
-						<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
+						<?php
+						// translators: %1$d: earned points, %2$d: total points.
+						echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) );
+						?>
 					</span>
 				<?php endif; ?>
 

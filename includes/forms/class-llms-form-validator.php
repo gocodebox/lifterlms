@@ -191,6 +191,7 @@ class LLMS_Form_Validator {
 			return new WP_Error(
 				'llms-form-field-invalid',
 				sprintf(
+					// translators: %1$s: course attribute, %2$d: course attribute
 					__( 'The %1$s must be at least %2$d characters in length.', 'lifterlms' ),
 					isset( $field['label'] ) ? $field['label'] : $field['name'],
 					$minlength
@@ -325,6 +326,7 @@ class LLMS_Form_Validator {
 	 */
 	protected function validate_field_user_email( $posted_value ) {
 		if ( email_exists( $posted_value ) ) {
+			// translators: %s: value
 			return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $posted_value ) );
 		}
 
@@ -344,8 +346,10 @@ class LLMS_Form_Validator {
 	 */
 	protected function validate_field_user_login( $posted_value ) {
 		if ( in_array( $posted_value, llms_get_usernames_blocklist(), true ) || ! validate_username( $posted_value ) ) {
+			// translators: %s: name
 			return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The username "%s" is invalid, please try a different username.', 'lifterlms' ), $posted_value ), $posted_value );
 		} elseif ( username_exists( $posted_value ) ) {
+			// translators: %s: name
 			return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the username "%s" already exists.', 'lifterlms' ), $posted_value ), $posted_value );
 		}
 
@@ -450,6 +454,7 @@ class LLMS_Form_Validator {
 			if ( $val !== $match ) {
 
 				$match_name = isset( $match_field['label'] ) ? $match_field['label'] : $match_field['name'];
+				// translators: %1$s: name, %2$s: name
 				$err->add( 'llms-form-field-not-matched', sprintf( __( '%1$s must match %2$s.', 'lifterlms' ), $field_name, $match_name ) );
 				$err_data[] = array( $field, $match_field );
 

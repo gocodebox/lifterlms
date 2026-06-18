@@ -323,6 +323,7 @@ function llms_setup_pending_order( $data = array() ) {
 	// Check t & c if configured.
 	if ( llms_are_terms_and_conditions_required() ) {
 		if ( ! isset( $data['agree_to_terms'] ) || ! llms_parse_bool( $data['agree_to_terms'] ) ) {
+			// translators: %s: value
 			$err->add( 'terms-violation', sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id' ) ) ) );
 			return $err;
 		}
@@ -354,6 +355,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 		// Coupon couldn't be found.
 		if ( ! $coupon_id ) {
+			// translators: %s: coupon code
 			$err->add( 'coupon-not-found', sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $data['coupon_code'] ) );
 			return $err;
 		}

@@ -111,6 +111,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 				$quiz    = llms_get_post( $attempt->get( 'quiz_id' ) );
 				$student = llms_get_student( $attempt->get( 'student_id' ) );
 				if ( $attempt && $student ) {
+					// translators: %1$d: question number, %2$s: total questions, %3$s: value
 					$options[ $attempt->get( 'id' ) ] = esc_attr( sprintf( __( 'Attempt #%1$d for Quiz "%2$s" by %3$s', 'lifterlms' ), $attempt->get( 'id' ), $quiz->get( 'title' ), $student->get_name() ) );
 				}
 			}

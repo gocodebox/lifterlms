@@ -120,6 +120,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				if ( $delay ) {
 
+					// translators: %d: value
 					printf( esc_html__( '%d days', 'lifterlms' ), esc_html( $delay ) );
 
 				} else {

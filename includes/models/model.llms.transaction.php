@@ -252,6 +252,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		return new WP_Error(
 			'error',
 			sprintf(
+				// translators: %s: value
 				__( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ),
 				$this->get( 'payment_gateway' )
 			)

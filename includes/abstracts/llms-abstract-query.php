@@ -583,9 +583,9 @@ abstract class LLMS_Abstract_Query {
 			$results[0],
 			'total'
 		) ) {
-			/* Translators: %s - name of class. */
 			error_log(
 				sprintf(
+					// translators: %s: class name.
 					__( '[LifterLMS] Found results with count_only has no result rows in %s.', 'lifterlms' ),
 					get_class( $this )
 				)

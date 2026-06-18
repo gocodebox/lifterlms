@@ -82,10 +82,23 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 		);
 
 		ob_start();
-		?><p><?php printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( esc_html__( 'A payment for your subscription to %1$s is due.', 'lifterlms' ), '{{PRODUCT_TITLE}}' ); ?></p>
-		<p><?php printf( esc_html__( 'Sign in to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
-		<h4><?php printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
+		?>
+		<p><?php
+			// translators: %s: customer name.
+			printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' );
+		?></p>
+		<p><?php
+			// translators: %s: product title.
+			printf( esc_html__( 'A payment for your subscription to %1$s is due.', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		?></p>
+		<p><?php
+			// translators: %1$s: opening link tag, %2$s: closing link tag.
+			printf( esc_html__( 'Sign in to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' );
+		?></p>
+		<h4><?php
+			// translators: %s: order ID.
+			printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
+		?></h4>
 		<?php
 		$mailer->output_table_html( $rows );
 		?>
@@ -224,6 +237,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	 * @return string
 	 */
 	protected function set_subject() {
+		// translators: %s: value
 		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 

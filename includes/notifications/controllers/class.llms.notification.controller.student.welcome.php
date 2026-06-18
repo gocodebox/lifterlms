@@ -133,6 +133,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 		foreach ( $query->get_results() as $user ) {
 			$student = llms_get_student( $user );
 			if ( $student ) {
+				// translators: %1$s: value, %2$s: value
 				$options[ $student->get_id() ] = esc_attr( sprintf( __( '%1$s <%2$s>', 'lifterlms' ), $student->get_name(), $student->get( 'user_email' ) ) );
 			}
 		}

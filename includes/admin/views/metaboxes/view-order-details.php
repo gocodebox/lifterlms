@@ -30,7 +30,9 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 	<?php do_action( 'lifterlms_before_order_meta_box', $order ); ?>
 
 
+	<?php // translators: %s: order number ?>
 	<h2><?php echo esc_html( sprintf( __( 'Order #%s', 'lifterlms' ), $order->get( 'id' ) ) ); ?></h2>
+	<?php // translators: %s: processor name ?>
 	<h3><?php echo esc_html( sprintf( __( 'Processed by %s', 'lifterlms' ), is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title() ) ); ?></h3>
 
 
@@ -116,7 +118,10 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<div class="llms-metabox-field">
 				<label><?php esc_html_e( 'Total:', 'lifterlms' ); ?></label>
 				<?php echo wp_kses( $order->get_price( 'trial_total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
-				<?php echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ) ); ?>
+				<?php
+				// translators: %1$d: trial length, %2$s: trial period.
+				echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ) );
+				?>
 			</div>
 
 		<?php endif; ?>
@@ -178,7 +183,10 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				//phpcs:enable WordPress.WP.I18n.MissingSingularPlaceholder
 				?>
 				<?php if ( $order->get( 'billing_length' ) > 0 ) : ?>
-					<?php echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_length' ), 'lifterlms' ), $order->get( 'billing_length' ), $order->get( 'billing_period' ) ) ); ?>
+					<?php
+					// translators: %1$d: billing length, %2$s: billing period.
+					echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_length' ), 'lifterlms' ), $order->get( 'billing_length' ), $order->get( 'billing_period' ) ) );
+					?>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php esc_html_e( 'One-time', 'lifterlms' ); ?>

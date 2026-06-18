@@ -79,8 +79,14 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 				<li class="llms-order-note" id="llms-order-note-<?php echo esc_attr( $note->comment_ID ); ?>">
 					<div class="llms-order-note-content"><?php echo wp_kses_post( wpautop( get_comment_text( $note->comment_ID ) ) ); ?></div>
 					<div class="llms-order-note-meta">
-						<?php printf( esc_html_x( 'by %s', 'order note author', 'lifterlms' ), esc_html( get_comment_author( $note->comment_ID ) ) ); ?>
-						<?php printf( esc_html_x( 'on %s', 'order note date', 'lifterlms' ), esc_html( get_comment_date( 'M j, Y h:i a', $note->comment_ID ) ) ); ?>
+						<?php
+						// translators: %s: note author name.
+						printf( esc_html_x( 'by %s', 'order note author', 'lifterlms' ), esc_html( get_comment_author( $note->comment_ID ) ) );
+						?>
+						<?php
+						// translators: %s: note date.
+						printf( esc_html_x( 'on %s', 'order note date', 'lifterlms' ), esc_html( get_comment_date( 'M j, Y h:i a', $note->comment_ID ) ) );
+						?>
 					</div>
 
 				</li>
@@ -96,10 +102,12 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 			}
 
 			if ( ! empty( $prev_url ) ) {
+				// translators: %s: value
 				echo '<a class="button" href="' . esc_url( $prev_url ) . '">' . sprintf( esc_html__( '%s Newer', 'lifterlms' ), '&laquo;' ) . '</a> ';
 			}
 
 			if ( ! empty( $next_url ) ) {
+				// translators: %s: value
 				echo '<a class="button" href="' . esc_url( $next_url ) . '">' . sprintf( esc_html__( 'Older %s', 'lifterlms' ), '&raquo;' ) . '</a>';
 			}
 		} else {

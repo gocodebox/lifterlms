@@ -17,5 +17,8 @@ if ( ! $course->get( 'length' ) ) {
 ?>
 
 <div class="llms-meta llms-course-length">
-	<p><?php echo wp_kses_post( sprintf( __( 'Estimated Time: <span class="length">%s</span>', 'lifterlms' ), $course->get( 'length' ) ) ); ?></p>
+	<p><?php
+		// translators: %s: course attribute
+		echo wp_kses_post( sprintf( __( 'Estimated Time: <span class="length">%s</span>', 'lifterlms' ), $course->get( 'length' ) ) );
+	?></p>
 </div>

@@ -123,14 +123,14 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		$count = count( $this->get_csv() );
 
 		$desc = sprintf(
-			// Translators: %1$s = opening anchor link to documentation; %2$s = closing anchor link.
+			// translators: %1$s = opening anchor link to documentation; %2$s = closing anchor link.
 			__( 'The method used to determine when a limited-billing recurring order has completed its payment plan changed during version 5.3.0. This tool provides a report of orders which may been affected by this change. %1$sRead more%2$s about this change.', 'lifterlms' ),
 			'<a href="https://lifterlms.com/docs/payment-plan-orders-530/" target="_blank">',
 			'</a>'
 		);
 		$desc .= ' ';
-		// Translators: %d = the number of pending batches.
 		$desc .= sprintf(
+			// translators: %d = the number of orders.
 			_n(
 				'There is %d order that should be reviewed.',
 				'There are %d orders that should be reviewed.',

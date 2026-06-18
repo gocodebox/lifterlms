@@ -99,11 +99,17 @@ $price_step = number_format( 0.01, get_lifterlms_decimals() );
 			<th colspan="10">
 
 				<?php if ( ! empty( $prev_url ) ) : ?>
-					<a class="button" href="<?php echo esc_url( $prev_url ); ?>"><?php printf( esc_html__( '%s Newer', 'lifterlms' ), '&laquo;' ); ?></a>
+					<a class="button" href="<?php echo esc_url( $prev_url ); ?>"><?php
+						// translators: %s: value
+						printf( esc_html__( '%s Newer', 'lifterlms' ), '&laquo;' );
+					?></a>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $next_url ) ) : ?>
-					<a class="button" href="<?php echo esc_url( $next_url ); ?>"><?php printf( esc_html__( 'Older %s', 'lifterlms' ), '&raquo;' ); ?></a>
+					<a class="button" href="<?php echo esc_url( $next_url ); ?>"><?php
+						// translators: %s: value
+						printf( esc_html__( 'Older %s', 'lifterlms' ), '&raquo;' );
+					?></a>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $all_url ) ) : ?>
@@ -135,7 +141,10 @@ $price_step = number_format( 0.01, get_lifterlms_decimals() );
 
 			<div class="llms-metabox-field">
 				<button class="button button-primary tooltip" data-gateway="manual" name="llms_process_refund" title="<?php esc_attr_e( 'The refund will be recorded and you will need to manually issue a refund', 'lifterlms' ); ?>" value="manual"><?php esc_html_e( 'Refund Manually', 'lifterlms' ); ?></button>
-				<button class="button button-primary gateway-btn" data-gateway="0" name="llms_process_refund" style="display:none;" value="gateway"><?php printf( esc_html_x( 'Refund via %s', 'refund via payment gateway', 'lifterlms' ), '<span class="llms-gateway-title"></span>' ); ?></button>
+				<button class="button button-primary gateway-btn" data-gateway="0" name="llms_process_refund" style="display:none;" value="gateway"><?php
+					// translators: %s: value
+					printf( esc_html_x( 'Refund via %s', 'refund via payment gateway', 'lifterlms' ), '<span class="llms-gateway-title"></span>' );
+				?></button>
 			</div>
 
 			<input disabled="disabled" type="hidden" name="llms_refund_txn_id">

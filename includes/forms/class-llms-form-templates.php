@@ -190,6 +190,7 @@ class LLMS_Form_Templates {
 				'field'               => $block['confirm'],
 				'id'                  => $block['attrs']['id'] . '_confirm',
 				'name'                => $block['attrs']['id'] . '_confirm',
+				// translators: %s: value
 				'label'               => sprintf( __( 'Confirm %s', 'lifterlms' ), $block['attrs']['label'] ),
 				'columns'             => 6,
 				'last_column'         => is_rtl() ? false : true,

@@ -41,8 +41,8 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		$desc  = __( 'Check active recurring orders to ensure their recurring payment action is properly scheduled for the next payment. If a recurring payment is due and not scheduled it will be rescheduled.', 'lifterlms' );
 		$desc .= ' ';
-		// Translators: %d = the number of pending batches.
 		$desc .= sprintf(
+			// translators: %d = the number of orders.
 			_n(
 				'There is %d order that will be checked.',
 				'There are %d orders that will be checked in batches of 50.',

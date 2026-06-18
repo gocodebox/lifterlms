@@ -19,7 +19,10 @@ if ( $course->has_prerequisite( 'course' ) && ! $course->is_prerequisite_complet
 	$prereq_id = $course->get_prerequisite_id( 'course' );
 	?>
 
-	<?php llms_print_notice( sprintf( __( 'Before starting this course you must complete the required prerequisite course: %s', 'lifterlms' ), '<a href="' . get_permalink( $prereq_id ) . '">' . get_the_title( $prereq_id ) . '</a>' ), 'error' ); ?>
+	<?php
+	// translators: %s: prerequisite course title.
+	llms_print_notice( sprintf( __( 'Before starting this course you must complete the required prerequisite course: %s', 'lifterlms' ), '<a href="' . get_permalink( $prereq_id ) . '">' . get_the_title( $prereq_id ) . '</a>' ), 'error' );
+	?>
 
 <?php endif; ?>
 
@@ -28,7 +31,10 @@ if ( $course->has_prerequisite( 'course_track' ) && ! $course->is_prerequisite_c
 	$track = new LLMS_Track( $course->get_prerequisite_id( 'course_track' ) );
 	?>
 
-	<?php llms_print_notice( sprintf( __( 'Before starting this course you must complete the required prerequisite track: %s', 'lifterlms' ), '<a href="' . $track->get_permalink() . '">' . $track->term->name . '</a>' ), 'error' ); ?>
+	<?php
+	// translators: %s: prerequisite track title.
+	llms_print_notice( sprintf( __( 'Before starting this course you must complete the required prerequisite track: %s', 'lifterlms' ), '<a href="' . $track->get_permalink() . '">' . $track->term->name . '</a>' ), 'error' );
+	?>
 
 	<?php
 endif;

@@ -31,21 +31,33 @@ $passing_percent = $quiz->get( 'passing_percent' );
 <ul class="llms-quiz-meta-info">
 	<?php if ( $passing_percent ) : ?>
 	<li class="llms-quiz-meta-item llms-passing-percent">
-		<?php printf( esc_html__( 'Minimum Passing Grade: %s', 'lifterlms' ), '<span class="llms-pass-perc">' . esc_html( $passing_percent ) . '%</span>' ); ?>
+		<?php
+		// translators: %s: passing percentage.
+		printf( esc_html__( 'Minimum Passing Grade: %s', 'lifterlms' ), '<span class="llms-pass-perc">' . esc_html( $passing_percent ) . '%</span>' );
+		?>
 	</li>
 	<?php endif; ?>
 
 	<li class="llms-quiz-meta-item llms-attempts">
-		<?php printf( esc_html__( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . esc_html( $student->quizzes()->get_attempts_remaining_for_quiz( $quiz->get( 'id' ) ) ) . '</span>' ); ?>
+		<?php
+		// translators: %s: number of remaining attempts.
+		printf( esc_html__( 'Remaining Attempts: %s', 'lifterlms' ), '<span class="llms-attempts">' . esc_html( $student->quizzes()->get_attempts_remaining_for_quiz( $quiz->get( 'id' ) ) ) . '</span>' );
+		?>
 	</li>
 
 	<li class="llms-quiz-meta-item llms-question-count">
-		<?php printf( esc_html__( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . esc_html( $quiz->get_questions_count() ) . '</span>' ); ?>
+		<?php
+		// translators: %s: number of questions.
+		printf( esc_html__( 'Questions: %s', 'lifterlms' ), '<span class="llms-question-count">' . esc_html( $quiz->get_questions_count() ) . '</span>' );
+		?>
 	</li>
 
 	<?php if ( $quiz->has_time_limit() && ! $student->has_unlimited_quiz_time() ) : ?>
 	<li class="llms-quiz-meta-item llms-time-limit">
-		<?php printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . esc_html( $quiz->get_time_limit_string() ) . '</span>' ); ?>
+		<?php
+		// translators: %s: time limit string.
+		printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . esc_html( $quiz->get_time_limit_string() ) . '</span>' );
+		?>
 	</li>
 	<?php endif; ?>
 </ul>

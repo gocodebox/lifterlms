@@ -140,6 +140,7 @@ class LLMS_Student_Bulk_Enroll {
 		$this->user_ids = filter_input( INPUT_GET, 'users', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $this->user_ids ) ) {
+			// translators: %s: emphasized text
 			$message = sprintf( __( 'Please select users to enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
@@ -191,6 +192,7 @@ class LLMS_Student_Bulk_Enroll {
 
 		// Bail if for some reason, no users are found (because they were deleted in the bg?).
 		if ( empty( $users ) ) {
+			// translators: %s: emphasized text
 			$message = sprintf( __( 'No such users found. Cannot enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
@@ -246,6 +248,7 @@ class LLMS_Student_Bulk_Enroll {
 		$type = ( ! $enrolled ) ? 'error' : 'success';
 
 		// Figure out notice message string based on notice type.
+		// translators: %1$s: student display name, %2$s: product title.
 		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' );
 
 		// Get formatted message with username and product title.

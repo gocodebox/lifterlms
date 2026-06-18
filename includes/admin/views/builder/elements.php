@@ -14,6 +14,7 @@
 			/* translators: %s: link to course builder tutorial */
 			echo wp_kses(
 				sprintf(
+					// translators: %s: value
 					__( 'Drag or click on the different course elements below to build your course syllabus. <a href="%s" target="_blank">Visit the course builder tutorial here</a>.', 'lifterlms' ),
 					'https://lifterlms.com/docs/using-course-builder/'
 				),

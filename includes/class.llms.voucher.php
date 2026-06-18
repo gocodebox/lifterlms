@@ -281,14 +281,17 @@ class LLMS_Voucher {
 
 		if ( empty( $voucher ) ) {
 
+			// translators: %s: value
 			return new WP_Error( 'not-found', sprintf( __( 'Voucher code "%s" could not be found.', 'lifterlms' ), $code ) );
 
 		} elseif ( $voucher->redemption_count <= $voucher->used ) {
 
+			// translators: %s: value
 			return new WP_Error( 'max', sprintf( __( 'Voucher code "%s" has already been redeemed the maximum number of times.', 'lifterlms' ), $code ) );
 
 		} elseif ( '1' === $voucher->is_deleted || 'publish' !== get_post_status( $voucher->voucher_id ) ) { // @todo because get_voucher_code() adds `is_deleted=0` we should never get here, I think.
 
+			// translators: %s: value
 			return new WP_Error( 'deleted', sprintf( __( 'Voucher code "%s" is no longer valid.', 'lifterlms' ), $code ) );
 
 		}

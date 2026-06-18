@@ -80,6 +80,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-orders',
 				'data'         => $data->get_orders( 'current' ),
 				'data_compare' => $data->get_orders( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'New orders %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -91,6 +92,7 @@ $now         = current_time( 'timestamp' );
 				'data'         => $data->get_revenue( 'current' ),
 				'data_compare' => $data->get_revenue( 'previous' ),
 				'data_type'    => 'monetary',
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Total sales %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -102,6 +104,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-enrollments',
 				'data'         => $data->get_enrollments( 'current' ),
 				'data_compare' => $data->get_enrollments( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'New enrollments %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -112,6 +115,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-unenrollments',
 				'data'         => $data->get_unenrollments( 'current' ),
 				'data_compare' => $data->get_unenrollments( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Unenrollments %s', 'lifterlms' ), $period_text ),
 				'impact'       => 'negative',
 			)
@@ -123,6 +127,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-lessons-completed',
 				'data'         => $data->get_lesson_completions( 'current' ),
 				'data_compare' => $data->get_lesson_completions( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Lessons completed %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -133,6 +138,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-course-completions',
 				'data'         => $data->get_completions( 'current' ),
 				'data_compare' => $data->get_completions( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Course completions %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -144,6 +150,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-achievements',
 				'data'         => $data->get_engagements( 'achievement_earned', 'current' ),
 				'data_compare' => $data->get_engagements( 'achievement_earned', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Achievements earned %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -155,6 +162,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-certificates',
 				'data'         => $data->get_engagements( 'certificate_earned', 'current' ),
 				'data_compare' => $data->get_engagements( 'certificate_earned', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Certificates earned %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -166,6 +174,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-course-email',
 				'data'         => $data->get_engagements( 'email_sent', 'current' ),
 				'data_compare' => $data->get_engagements( 'email_sent', 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Emails sent %s', 'lifterlms' ), $period_text ),
 			)
 		);

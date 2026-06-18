@@ -98,7 +98,10 @@ if ( ! is_admin() ) {
 
 					<select class="llms-select2-post" data-placeholder="<?php esc_attr_e( 'Filter by Course(s)', 'lifterlms' ); ?>" data-post-type="course" id="llms-course-ids-filter" name="course_ids[]" multiple="multiple">
 						<?php foreach ( $current_courses as $course_id ) : ?>
-							<option value="<?php echo esc_attr( $course_id ); ?>" selected><?php echo esc_html( get_the_title( $course_id ) ); ?> <?php printf( esc_html__( '(ID# %d)', 'lifterlms' ), esc_html( $course_id ) ); ?></option>
+							<option value="<?php echo esc_attr( $course_id ); ?>" selected><?php echo esc_html( get_the_title( $course_id ) ); ?> <?php
+								// translators: %d: ID
+								printf( esc_html__( '(ID# %d)', 'lifterlms' ), esc_html( $course_id ) );
+							?></option>
 						<?php endforeach; ?>
 					</select>
 
@@ -110,7 +113,10 @@ if ( ! is_admin() ) {
 
 					<select class="llms-select2-post" data-placeholder="<?php esc_attr_e( 'Filter by Memberships(s)', 'lifterlms' ); ?>" data-post-type="llms_membership" id="llms-membership-ids-filter" name="membership_ids[]" multiple="multiple">
 						<?php foreach ( $current_memberships as $membership_id ) : ?>
-							<option value="<?php echo esc_attr( $membership_id ); ?>" selected><?php echo esc_html( get_the_title( $membership_id ) ); ?> <?php printf( esc_html__( '(ID# %d)', 'lifterlms' ), esc_html( $membership_id ) ); ?></option>
+							<option value="<?php echo esc_attr( $membership_id ); ?>" selected><?php echo esc_html( get_the_title( $membership_id ) ); ?> <?php
+								// translators: %d: ID
+								printf( esc_html__( '(ID# %d)', 'lifterlms' ), esc_html( $membership_id ) );
+							?></option>
 						<?php endforeach; ?>
 					</select>
 

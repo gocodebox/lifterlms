@@ -56,7 +56,10 @@ function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
 			<span class="month"><?php echo esc_html( date_i18n( 'F', $timestamp ) ); ?></span>
 			<span class="day"><?php echo esc_html( date_i18n( 'j', $timestamp ) ); ?></span>
 			<span class="year"><?php echo esc_html( date_i18n( 'Y', $timestamp ) ); ?></span>
-			<span class="diff"><?php printf( esc_html__( '%s ago', 'lifterlms' ), esc_html( llms_get_date_diff( $timestamp, current_time( 'timestamp' ) ) ) ); ?>
+			<span class="diff"><?php
+			// translators: %s: date/time.
+			printf( esc_html__( '%s ago', 'lifterlms' ), esc_html( llms_get_date_diff( $timestamp, current_time( 'timestamp' ) ) ) );
+			?>
 		</div>
 		<?php
 		$html = ob_get_clean();

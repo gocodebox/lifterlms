@@ -36,6 +36,7 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 		if ( 'email' === $this->notification->get( 'type' ) ) {
 			return $this->set_body_email();
 		}
+		// translators: %s: name
 		$content  = sprintf( __( 'Congratulations! You passed %s!', 'lifterlms' ), '{{QUIZ_TITLE}}' );
 		$content .= "\r\n\r\n{{GRADE_BAR}}";
 		return $content;
@@ -60,6 +61,7 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 	 * @version  3.8.0
 	 */
 	protected function set_subject() {
+		// translators: %1$s: name, %2$s: name
 		return sprintf( __( 'Congratulations! %1$s passed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{QUIZ_TITLE}}' );
 	}
 
@@ -71,6 +73,7 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
+		// translators: %s: student name
 		return sprintf( __( '%s passed a quiz', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 

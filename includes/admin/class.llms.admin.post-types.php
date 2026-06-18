@@ -132,32 +132,42 @@ class LLMS_Admin_Post_Types {
 
 				$link_format = ' <a href="%1$s">%2$s</a>.';
 
+				// translators: %s: name
 				$permalink_html    = sprintf( $link_format, $permalink, sprintf( __( 'View %s', 'lifterlms' ), $name ) );
+				// translators: %s: name
 				$preview_link_html = sprintf( $link_format, $permalink, sprintf( __( 'Preview %s', 'lifterlms' ), $name ) );
 			}
 
 			$messages[ $type ] = array(
 				0  => '',
+				// translators: %s: name
 				1  => sprintf( __( '%s updated.', 'lifterlms' ), $name ) . $permalink_html,
 				2  => __( 'Custom field updated.', 'lifterlms' ),
 				3  => __( 'Custom field deleted.', 'lifterlms' ),
+				// translators: %s: name
 				4  => sprintf( __( '%s updated.', 'lifterlms' ), $name ),
 				5  => isset( $_GET['revision'] ) ? // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- No need to verify the nonce here.
 					sprintf(
+						// translators: %1$s: value, %2$s: value
 						__( '%1$s restored to revision from %2$s.', 'lifterlms' ),
 						$name,
 						wp_post_revision_title( llms_filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT ), false )
 					)
 					:
 					false,
+				// translators: %s: name
 				6  => sprintf( __( '%s published.', 'lifterlms' ), $name ) . $permalink_html,
+				// translators: %s: name
 				7  => sprintf( __( '%s saved.', 'lifterlms' ), $name ),
+				// translators: %s: name
 				8  => sprintf( __( '%s submitted.', 'lifterlms' ), $name ) . $preview_link_html,
 				9  => sprintf(
+					// translators: %1$s: value, %2$s: bold text
 					__( '%1$s scheduled for: <strong>%2$s</strong>.', 'lifterlms' ),
 					$name,
 					date_i18n( __( 'M j, Y @ G:i', 'lifterlms' ), strtotime( $post->post_date ) )
 				) . $preview_link_html,
+				// translators: %1$s: name
 				10 => sprintf( __( '%1$s draft updated.', 'lifterlms' ), $name ) . $preview_link_html,
 			);
 

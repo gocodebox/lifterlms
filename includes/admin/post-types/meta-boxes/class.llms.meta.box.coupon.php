@@ -99,6 +99,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 							),
 							array(
 								'key'   => 'dollar',
+								// translators: %s: value
 								'title' => sprintf( __( '%s Discount', 'lifterlms' ), get_lifterlms_currency_symbol() ),
 							),
 						),
@@ -132,6 +133,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					array(
 						'type'       => 'number',
 						'label'      => __( 'Discount Amount', 'lifterlms' ),
+						// translators: %1$s: value
 						'desc'       => sprintf( __( 'The amount to be subtracted from the "Price" of an applicable access plan. Do not include symbols such as %1$s.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
 						'id'         => $this->prefix . 'coupon_amount',
 						'class'      => 'code input-full',
@@ -151,6 +153,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					array(
 						'type'       => 'number',
 						'label'      => __( 'Trial Discount Amount', 'lifterlms' ),
+						// translators: %1$s: value
 						'desc'       => sprintf( __( 'The amount to be subtracted from the "Trial Price" of an applicable access plan. Do not include symbols such as %1$s.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
 						'id'         => $this->prefix . 'trial_amount',
 						'class'      => 'code input-full',

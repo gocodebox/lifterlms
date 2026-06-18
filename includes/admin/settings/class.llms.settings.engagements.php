@@ -373,6 +373,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	private function get_award_image_desc( $post_type ) {
 
 		$desc = sprintf(
+			// translators: %1$s: value
 			__( 'A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image.', 'lifterlms' ),
 			$post_type
 		);

@@ -50,6 +50,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-quiz-total-attempts',
 				'data'         => $data->get_attempt_count( 'current' ),
 				'data_compare' => $data->get_attempt_count( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Attempts %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -62,6 +63,7 @@ $now         = current_time( 'timestamp' );
 				'data'         => $data->get_average_grade( 'current' ),
 				'data_compare' => $data->get_average_grade( 'previous' ),
 				'data_type'    => 'percentage',
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Average grade %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -72,6 +74,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-quiz-passes',
 				'data'         => $data->get_pass_count( 'current' ),
 				'data_compare' => $data->get_pass_count( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Passed attempts %s', 'lifterlms' ), $period_text ),
 			)
 		);
@@ -82,6 +85,7 @@ $now         = current_time( 'timestamp' );
 				'id'           => 'llms-reporting-quiz-fails',
 				'data'         => $data->get_fail_count( 'current' ),
 				'data_compare' => $data->get_fail_count( 'previous' ),
+				// translators: %s: time period
 				'text'         => sprintf( __( 'Failed attempts %s', 'lifterlms' ), $period_text ),
 				'impact'       => 'negative',
 			)

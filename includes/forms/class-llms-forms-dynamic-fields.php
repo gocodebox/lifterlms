@@ -203,7 +203,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 */
 	private function get_toggle_button_html( $fields, $field_label ) {
 
-		// Translator: %s = user-selected label for the given field being toggled.
+		// translators: %s = user-selected label for the given field being toggled.
 		$change_text = sprintf( esc_attr_x( 'Change %s', 'Toggle button for changing email or password', 'lifterlms' ), $field_label );
 		$cancel_text = esc_attr_x( 'Cancel', 'Cancel password or email address change button text', 'lifterlms' );
 
@@ -567,6 +567,7 @@ class LLMS_Forms_Dynamic_Fields {
 				'type'            => 'password',
 				'id'              => 'password_current',
 				'name'            => 'password_current',
+				// translators: %s: current value
 				'label'           => sprintf( __( 'Current %s', 'lifterlms' ), $password[1]['attrs']['label'] ),
 				'required'        => true,
 				'disabled'        => true,

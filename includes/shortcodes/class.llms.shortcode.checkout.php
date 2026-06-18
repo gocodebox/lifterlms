@@ -101,8 +101,10 @@ class LLMS_Shortcode_Checkout {
 			}
 
 			$user = get_userdata( self::$uid );
+			// translators: %1$s: emphasized text, %2$s: value
 			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
 		} else {
+			// translators: %s: value
 			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
 		}
 
@@ -320,6 +322,7 @@ class LLMS_Shortcode_Checkout {
 
 		} else {
 
+			// translators: %s: value
 			self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
 		}

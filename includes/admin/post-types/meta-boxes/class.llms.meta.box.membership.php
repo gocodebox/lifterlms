@@ -170,6 +170,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Video', 'lifterlms' ),
+						// translators: %s: value
 						'desc'  => sprintf( __( 'Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'video_embed',
 						'class' => 'code input-full',
@@ -185,6 +186,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 					array(
 						'type'  => 'text',
 						'label' => __( 'Featured Audio', 'lifterlms' ),
+						// translators: %s: value
 						'desc'  => sprintf( __( 'Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s.', 'lifterlms' ), '<a href="https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from" target="_blank">WordPress oEmbeds</a>' ),
 						'id'    => $this->prefix . 'audio_embed',
 						'class' => 'code input-full',
@@ -264,7 +266,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 					),
 					array(
 						'class'    => 'full-width',
+						// translators: %s: code tag
 						'desc'     => sprintf( __( 'Shortcodes like %s can be used in this message', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
+						// translators: %s: value
 						'default'  => sprintf( __( 'You must belong to the %s membership to access this content.', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
 						'id'       => $this->prefix . 'restriction_notice',
 						'label'    => __( 'Restricted Content Notice', 'lifterlms' ),
@@ -332,6 +336,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'label'      => __( 'Automatic Enrollment', 'lifterlms' ),
+						// translators: %1$s: name, %2$s: name
 						'desc'       => sprintf( __( 'When a student joins this membership they will be automatically enrolled in these courses. Click %1$shere%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/membership-auto-enrollment/" target="_blank">', '</a>' ),
 						'id'         => $this->prefix . 'content_table',
 						'titles'     => array( '', __( 'Course Name', 'lifterlms' ), '' ),

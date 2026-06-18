@@ -34,6 +34,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	protected function set_body() {
 
 		return sprintf(
+			// translators: %1$s: student name, %2$s: plan title, %3$s: order number, %4$s: cancellation date
 			__( '%1$s has cancelled their subscription (#%2$s) to the %3$s %4$s', 'lifterlms' ),
 			'{{CUSTOMER_NAME}}',
 			'{{ORDER_ID}}',
@@ -159,6 +160,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	 * @return string
 	 */
 	protected function set_title() {
+		// translators: %1$s: value
 		return sprintf( esc_html__( '%1$s subscription cancellation', 'lifterlms' ), '{{PRODUCT_TYPE}}' );
 	}
 

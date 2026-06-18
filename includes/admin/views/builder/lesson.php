@@ -95,6 +95,7 @@
 				'action'           => 'edit-assignment',
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip'              => esc_attr__( 'Add an assignment', 'lifterlms' ),
+				// translators: %s: value
 				'tip_active'       => sprintf( esc_attr__( 'Edit assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
 				'icon'             => '<i class="fa fa-check-square-o"></i> ' . esc_html__( 'Add assignment', 'lifterlms' ),
 				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . esc_html__( 'Edit assignment', 'lifterlms' ),
@@ -104,6 +105,7 @@
 				'action'           => 'edit-quiz',
 				'active_condition' => "'yes' === data.get( 'quiz_enabled' )",
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
+				// translators: %s: value
 				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
 				'icon'             => '<i class="fa fa-question-circle"></i> ' . esc_html__( 'Add quiz', 'lifterlms' ),
 				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ),

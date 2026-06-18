@@ -192,6 +192,7 @@ class LLMS_Post_Types {
 			),
 			'llms-expired'        => array(
 				'label'       => _x( 'Expired', 'Order status', 'lifterlms' ),
+				// translators: %s: value
 				'label_count' => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-on-hold'        => array(
@@ -201,6 +202,7 @@ class LLMS_Post_Types {
 			),
 			'llms-pending-cancel' => array(
 				'label'       => _x( 'Pending Cancellation', 'Order status', 'lifterlms' ),
+				// translators: %s: value
 				'label_count' => _n_noop( 'Pending Cancellation <span class="count">(%s)</span>', 'Pending Cancellation <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
@@ -1263,6 +1265,7 @@ class LLMS_Post_Types {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: value
 					'label_count'               => _n_noop( 'Succeeded <span class="count">(%s)</span>', 'Succeeded <span class="count">(%s)</span>', 'lifterlms' ),
 				),
 			)

@@ -162,6 +162,7 @@ class LLMS_Date {
 	 * @todo  deprecate
 	 */
 	public static function get_localized_date_string() {
+		// translators: %2$d: day
 		return strftime( _x( '%1$b %2$d, %3$Y @ %4$I:%5$M %6$p', 'Localized Order DateTime', 'lifterlms' ) ); // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- Unused deprecated function to be removed shortly.
 	}
 
@@ -187,6 +188,7 @@ class LLMS_Date {
 				$hour_desc = __( 'hour', 'lifterlms' );
 			}
 
+			// translators: %1$d: number of hours, %2$s: description
 			$hours_string = sprintf( __( '%1$d %2$s ', 'lifterlms' ), $hours, $hour_desc );
 		} else {
 			if ( ! empty( $seconds ) ) {

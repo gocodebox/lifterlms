@@ -1141,6 +1141,7 @@ class LLMS_Admin_Builder {
 						continue;
 					}
 					if ( ! $parent && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+						// translators: %s: value
 						$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
 						array_push( $ret, $res );
 						continue;
@@ -1432,6 +1433,7 @@ class LLMS_Admin_Builder {
 					return $res;
 				}
 				if ( ! $parent && ! current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
+					// translators: %s: value
 					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 					return $res;
 				}

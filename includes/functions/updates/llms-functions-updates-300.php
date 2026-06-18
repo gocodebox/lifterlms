@@ -431,7 +431,9 @@ function llms_update_300_migrate_course_postmeta() {
 			)
 		); // db call ok; no-cache ok.
 		add_post_meta( $r->post_id, '_llms_time_period', 'yes' );
+		// translators: %d: value
 		add_post_meta( $r->post_id, '_llms_course_opens_message', sprintf( __( 'This course opens on [lifterlms_course_info id="%d" key="start_date"].', 'lifterlms' ), $r->post_id ) );
+		// translators: %d: value
 		add_post_meta( $r->post_id, '_llms_course_closed_message', sprintf( __( 'This course closed on [lifterlms_course_info id="%d" key="end_date"].', 'lifterlms' ), $r->post_id ) );
 	}
 
@@ -662,6 +664,7 @@ function llms_update_300_update_orders() {
 			$order->set( 'original_total', $total );
 			$order->set( 'total', $total );
 
+			// translators: %1$s: link tag, %2$s: link tag
 			$order->add_note( sprintf( __( 'This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-orders#migration" target="_blank">', '</a>' ) );
 
 			// Remove deprecated.

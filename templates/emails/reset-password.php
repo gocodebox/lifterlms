@@ -8,7 +8,10 @@
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<p><?php echo wp_kses_post( sprintf( __( 'Someone recently requested that the password be reset for %s.', 'lifterlms' ), '<strong>{user_login}</strong>' ) ); ?></p>
+<p><?php
+// translators: %s: value
+echo wp_kses_post( sprintf( __( 'Someone recently requested that the password be reset for %s.', 'lifterlms' ), '<strong>{user_login}</strong>' ) );
+?></p>
 
 <p><?php esc_html_e( 'To reset your password, click on the button below:', 'lifterlms' ); ?></p>
 

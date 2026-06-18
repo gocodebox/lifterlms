@@ -18,5 +18,8 @@ if ( ! $course->get_difficulty() ) {
 ?>
 
 <div class="llms-meta llms-difficulty">
-	<p><?php echo wp_kses_post( sprintf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $course->get_difficulty() ) ); ?></p>
+	<p><?php
+		// translators: %s: course attribute
+		echo wp_kses_post( sprintf( __( 'Difficulty: <span class="difficulty">%s</span>', 'lifterlms' ), $course->get_difficulty() ) );
+	?></p>
 </div>

@@ -124,6 +124,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			case '{{ACHIEVEMENT_IMAGE}}':
 				$title = $this->set_merge_data( '{{ACHIEVEMENT_TITLE}}' );
 				$url   = $this->set_merge_data( '{{ACHIEVEMENT_IMAGE_URL}}' );
+				// translators: %s: title
 				$code  = '<img alt="' . sprintf( _x( '%s Icon', 'Achievement icon alt text', 'lifterlms' ), $title ) . '" src="' . $url . '">';
 				break;
 

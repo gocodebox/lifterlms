@@ -49,6 +49,7 @@ function llms_update_3130_builder_notice() {
 		'update-3130',
 		array(
 			'html'        => sprintf(
+				// translators: %1$s: name, %3$s: name, %2$s: name
 				__( 'Welcome to LifterLMS 3.13.0! We\'ve packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s.', 'lifterlms' ),
 				'<a href="https://lifterlms.com/docs/using-course-builder/" target="_blank">',
 				'<a href="https://lifterlms.com/docs/roles-and-capabilities/" target="_blank">',

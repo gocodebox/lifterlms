@@ -123,7 +123,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php if ( $lesson && $section ) : ?>
 
-				<p><strong><?php printf( esc_html__( 'Course: %s', 'lifterlms' ), wp_kses_post( $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ) ); ?></strong></p>
+				<p><strong><?php
+					// translators: %s: course title.
+					printf( esc_html__( 'Course: %s', 'lifterlms' ), wp_kses_post( $this->get_title_html( $course->get( 'title' ), get_edit_post_link( $course->get( 'id' ) ) ) ) );
+				?></strong></p>
 
 				<?php $this->output_section( $section, 'previous' ); ?>
 
@@ -170,7 +173,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		}
 		?>
 
-		<p><strong><?php printf( esc_html__( 'Section %1$d: %2$s', 'lifterlms' ), esc_html( $section->get( 'order' ) ), wp_kses_post( $this->get_title_html( $section->get( 'title' ), $url ) ) ); ?></strong></p>
+		<p><strong><?php
+			// translators: %1$d: section order number, %2$s: section name.
+			printf( esc_html__( 'Section %1$d: %2$s', 'lifterlms' ), esc_html( $section->get( 'order' ) ), wp_kses_post( $this->get_title_html( $section->get( 'title' ), $url ) ) );
+		?></strong></p>
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>

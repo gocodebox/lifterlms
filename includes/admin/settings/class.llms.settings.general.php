@@ -66,6 +66,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		$settings[] = array(
 			'type'  => 'custom-html',
 			'value' => sprintf(
+				// translators: %s: bold text
 				__( 'Automatic Recurring Payments: <strong>%s</strong>', 'lifterlms' ),
 				LLMS_Site::get_feature( 'recurring_payments' ) ? __( 'Enabled', 'lifterlms' ) : __( 'Disabled', 'lifterlms' )
 			),

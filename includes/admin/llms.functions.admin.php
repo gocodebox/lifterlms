@@ -257,6 +257,7 @@ function llms_get_checkout_redirection_types( $product_type = '' ) {
 	return apply_filters(
 		'llms_checkout_redirection_types',
 		array(
+			// translators: %s: value
 			'self' => sprintf( __( '(Default) Return to %s', 'lifterlms' ), $product_type ),
 			'page' => __( 'Redirect to a WordPress Page', 'lifterlms' ),
 			'url'  => __( 'Redirect to a custom URL', 'lifterlms' ),

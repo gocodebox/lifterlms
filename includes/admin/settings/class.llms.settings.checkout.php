@@ -177,7 +177,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Payment Gateways', 'lifterlms' ),
-				'desc'  => sprintf( __( 'Gateways allow you to accept payments on your site. %1$1sLearn More%2$2s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/what-payment-gateways-can-i-use-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=Resource%20Screen&utm_campaign=Backend%20Help%20Page">', '</a>' ),
+				'desc'  => sprintf(
+					// translators: %1$s: opening link tag, %2$s: closing link tag.
+					__( 'Gateways allow you to accept payments on your site. %1$1sLearn More%2$2s', 'lifterlms' ),
+					'<a href="https://lifterlms.com/docs/what-payment-gateways-can-i-use-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=Resource%20Screen&utm_campaign=Backend%20Help%20Page">',
+					'</a>'
+				),
 				'type'  => 'title',
 				'id'    => 'checkout_settings_gateways_list_title',
 			),
@@ -206,7 +211,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title'             => __( 'Checkout Page', 'lifterlms' ),
-				'desc'              => __( 'Page used for displaying the checkout form.', 'lifterlms' ) . ' ' . sprintf( __( 'Requires the %1$s[lifterlms_checkout]%2$s shortcode or the "Checkout" block.', 'lifterlms' ), '<code>', '</code>' ),
+				'desc'              => __( 'Page used for displaying the checkout form.', 'lifterlms' ) . ' ' . sprintf(
+					// translators: %1$s: opening code tag, %2$s: closing code tag.
+					__( 'Requires the %1$s[lifterlms_checkout]%2$s shortcode or the "Checkout" block.', 'lifterlms' ),
+					'<code>',
+					'</code>'
+				),
 				'id'                => 'lifterlms_checkout_page_id',
 				'type'              => 'select',
 				'default'           => '',
@@ -230,7 +240,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'title'   => __( 'Force SSL', 'lifterlms' ),
 				'desc'    => __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
-								'<p class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf(
+									// translators: %1$s: opening link tag, %2$s: closing link tag.
+									__( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ),
+									'<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">',
+									'</a>'
+								) . '</p>',
 				'id'      => 'lifterlms_checkout_force_ssl',
 				'type'    => 'checkbox',
 				'default' => 'no',
@@ -239,7 +254,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			array(
 				'default' => 'yes',
 				'desc'    => __( 'Enable automatic retry of failed recurring payments.', 'lifterlms' ) .
-								'<p class="description">' . sprintf( esc_html__( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">', '</a>' ) . '</p>',
+								'<p class="description">' . sprintf(
+									// translators: %1$s: opening link tag, %2$s: closing link tag.
+									esc_html__( 'Recover lost revenue from temporarily declined payment methods. %1$sLearn More%2$s', 'lifterlms' ),
+									'<a href="https://lifterlms.com/docs/automatic-retry-failed-payments/" target="_blank">',
+									'</a>'
+								) . '</p>',
 				'id'      => 'lifterlms_recurring_payment_retry',
 				'title'   => __( 'Retry Failed Payments', 'lifterlms' ),
 				'type'    => 'checkbox',
@@ -369,6 +389,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			);
 
 			$settings[] = array(
+				// translators: %s: section
 				'title' => sprintf( __( 'Error: "%s" is not a valid payment gateway', 'lifterlms' ), $curr_section ),
 				'type'  => 'subtitle',
 				'id'    => 'title_gateway_settings_' . $curr_section,
@@ -377,6 +398,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		} else {
 
 			$settings[] = array(
+				// translators: %s: gateway title
 				'title' => sprintf( __( '%s Payment Gateway Settings', 'lifterlms' ), $gateway->get_admin_title() ),
 				'type'  => 'title',
 				'id'    => 'title_gateway_settings_' . $curr_section,

@@ -94,16 +94,20 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		echo '<p>';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
+		// translators: %s: value
 		printf( esc_html_x( 'Status: %s', 'enrollment status', 'lifterlms' ), $select );
 		echo '</p>';
 
 		echo '<p>';
+		// translators: %s: course name
 		printf( esc_html_x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) ) );
 		echo '</p>';
 		echo '<p>';
+		// translators: %s: value
 		printf( esc_html_x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) ) );
 		echo '</p>';
 		echo '<p>';
+		// translators: %s: value
 		printf( esc_html_x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), esc_html( $student->get_enrollment_trigger( $order->get( 'product_id' ) ) ) );
 		echo '</p>';
 
@@ -195,6 +199,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		if ( ! $old_status ) {
 
+			// translators: %s: name
 			$note = sprintf( __( 'Student enrollment status changed to %s.', 'lifterlms' ), $new_status_name );
 
 		} else {

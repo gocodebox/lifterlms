@@ -175,6 +175,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		);
 
 		if ( is_wp_error( $refund ) ) {
+			// translators: %s: value
 			$this->add_error( sprintf( _x( 'Refund Error: %s', 'admin error message', 'lifterlms' ), $refund->get_error_message() ) );
 		}
 
@@ -219,6 +220,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		}
 
 		if ( is_wp_error( $txn ) ) {
+			// translators: %s: value
 			$this->add_error( sprintf( _x( 'Refund Error: %s', 'admin error message', 'lifterlms' ), $refund->get_error_message() ) );
 		}
 

@@ -196,6 +196,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		if ( 'no' !== $this->get_attribute( 'mine' ) && ! llms_get_student() ) {
 
 			printf(
+				// translators: %1$s: value, %2$s: value
 				esc_html__( 'You must be logged in to view this information. Click %1$shere%2$s to login.', 'lifterlms' ),
 				'<a href="' . esc_url( llms_get_page_url( 'myaccount' ) ) . '">',
 				'</a>'
