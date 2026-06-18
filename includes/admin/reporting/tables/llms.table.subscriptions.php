@@ -250,6 +250,12 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			case 'billing_country':
 				return $data->get( 'billing_country' );
 
+			case 'product':
+				return $data->get( 'product_title' );
+
+			case 'plan':
+				return wp_strip_all_tags( $this->get_data( 'plan', $data ) );
+
 			case 'status':
 				return llms_get_order_status_name( $data->get( 'status' ) );
 
