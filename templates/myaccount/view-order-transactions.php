@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 			<th><?php esc_html_e( 'Date', 'lifterlms' ); ?></th>
 			<th><?php esc_html_e( 'Amount', 'lifterlms' ); ?></th>
 			<th><?php esc_html_e( 'Method', 'lifterlms' ); ?></th>
+			<th><?php esc_html_e( 'Receipt', 'lifterlms' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,6 +42,9 @@ defined( 'ABSPATH' ) || exit;
 				<?php endif; ?>
 			</td>
 			<td><?php echo wp_kses_post( $txn->get( 'gateway_source_description' ) ); ?></td>
+			<td>
+				<a class="llms-button-secondary small" href="<?php echo esc_url( llms_get_transaction_receipt_url( $txn->get( 'id' ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Download', 'lifterlms' ); ?></a>
+			</td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

@@ -222,6 +222,14 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'sanitize' => 'slug',
 			),
 			array(
+				'title'    => __( 'Subscriptions', 'lifterlms' ),
+				'desc'     => __( 'Students can review and manage their subscriptions on this page', 'lifterlms' ),
+				'id'       => 'lifterlms_myaccount_subscriptions_endpoint',
+				'type'     => 'text',
+				'default'  => 'subscriptions',
+				'sanitize' => 'slug',
+			),
+			array(
 				'id'   => 'course_account_endpoint_options_end',
 				'type' => 'sectionend',
 			),

@@ -1,0 +1,7 @@
+significance: minor
+type: added
+entry: Added a "My Subscriptions" student dashboard tab (shown only when the student
+  has at least one subscription) for managing recurring orders, converted the Order
+  History endpoint to list individual transactions and transaction-less orders, and
+  added per-transaction receipt downloads (PDF via the LifterLMS PDFs add-on, HTML
+  otherwise).
