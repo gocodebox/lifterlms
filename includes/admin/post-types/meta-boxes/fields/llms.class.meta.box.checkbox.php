@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 4.0.0 Remove reliance on `LLMS_Svg` class.
  */
-class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements LLMS_Metabox_Field_Interface {
 
 	/**
 	 * Class constructor

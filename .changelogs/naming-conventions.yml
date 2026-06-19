@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed naming-convention warnings reported by WordPress.org Plugin Check. Renamed several internal helper functions (llms_get_course, llms_get_lesson, llms_get_section_data, llms_get_lesson_data, llms_get_product_query_var, llms_get_available_payment_options) and the internal admin meta-box field interface (LLMS_Metabox_Field_Interface). Public API functions, template variables, WordPress core hook names, and vendored libraries were not changed. Deprecated wrappers added for backward compatibility."

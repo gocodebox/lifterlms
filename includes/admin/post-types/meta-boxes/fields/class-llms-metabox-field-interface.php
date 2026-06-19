@@ -11,11 +11,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta_Box_Field_Interface interface
+ * LLMS_Metabox_Field_Interface interface
  *
  * @since Unknown
+ * @deprecated [version] The old interface name `Meta_Box_Field_Interface` is deprecated. Use `LLMS_Metabox_Field_Interface`.
  */
-interface Meta_Box_Field_Interface {
+interface LLMS_Metabox_Field_Interface {
 
 	public function output();
 }

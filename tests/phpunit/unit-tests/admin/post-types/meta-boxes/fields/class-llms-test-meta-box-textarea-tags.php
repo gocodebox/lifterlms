@@ -26,7 +26,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 		parent::set_up_before_class();
 
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/class-llms-metabox-field-interface.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.textarea.tags.php';
 

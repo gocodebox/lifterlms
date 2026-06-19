@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @param array             $args       Arguments to pass to the LLMS_Course Constructor.
  * @return LLMS_Course
  */
-function get_course( $the_course = false, $args = array() ) {
+function llms_get_course( $the_course = false, $args = array() ) {
 
 	if ( ! $the_course ) {
 		global $post;
@@ -29,6 +29,19 @@ function get_course( $the_course = false, $args = array() ) {
 
 	return new LLMS_Course( $the_course, $args );
 
+}
+
+/**
+ * Get course object
+ *
+ * @deprecated [version] Use llms_get_course() instead.
+ *
+ * @param WP_Post|int|false $the_course Course post object or id. If `false` uses the global `$post` object.
+ * @param array             $args       Arguments to pass to the LLMS_Course Constructor.
+ * @return LLMS_Course
+ */
+function get_course( $the_course = false, $args = array() ) {
+	return llms_get_course( $the_course, $args );
 }
 
 /**
@@ -41,7 +54,7 @@ function get_course( $the_course = false, $args = array() ) {
  * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
  * @return LLMS_Lesson
  */
-function get_lesson( $the_lesson = false, $args = array() ) {
+function llms_get_lesson( $the_lesson = false, $args = array() ) {
 
 	if ( ! $the_lesson ) {
 		global $post;
@@ -50,4 +63,17 @@ function get_lesson( $the_lesson = false, $args = array() ) {
 
 	return new LLMS_Lesson( $the_lesson, $args );
 
+}
+
+/**
+ * Get lesson object
+ *
+ * @deprecated [version] Use llms_get_lesson() instead.
+ *
+ * @param WP_Post|int|false $the_lesson Lesson post object or id. If `false` uses the global `$post` object.
+ * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
+ * @return LLMS_Lesson
+ */
+function get_lesson( $the_lesson = false, $args = array() ) {
+	return llms_get_lesson( $the_lesson, $args );
 }

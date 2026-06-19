@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 3.36.0 When outputting the field's value convert quotes (double and single) HTML entities back to characters.
  */
-class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements LLMS_Metabox_Field_Interface {
 
 
 	public function __construct( $_field ) {

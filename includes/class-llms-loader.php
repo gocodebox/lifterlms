@@ -44,7 +44,7 @@ class LLMS_Loader {
 		// Meta box fields.
 		'llms_metabox_field'                 => 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php',
 		'llms_metabox_textarea_w_tags_field' => 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.textarea.tags.php',
-		'meta_box_field_interface'           => 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php',
+		'llms_metabox_field_interface'       => 'includes/admin/post-types/meta-boxes/fields/class-llms-metabox-field-interface.php',
 
 		// Missing "Model" from class name.
 		'llms_access_plan'                   => 'includes/models/model.llms.access.plan.php',

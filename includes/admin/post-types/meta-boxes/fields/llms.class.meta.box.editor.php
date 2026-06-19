@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 3.30.3 Explicitly define class properties.
  */
-class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements LLMS_Metabox_Field_Interface {
 
 	/**
 	 * Array of editor arguments.

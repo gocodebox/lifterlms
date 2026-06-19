@@ -540,7 +540,7 @@ function llms_setup_lesson_data( $post ) {
 				$parent_course = get_post( $courseid );
 			}
 
-			$GLOBALS['lesson'] = get_lesson( $post );
+			$GLOBALS['lesson'] = llms_get_lesson( $post );
 
 			llms_setup_course_data( $parent_course );
 
@@ -556,7 +556,7 @@ add_action( 'the_post', 'llms_setup_lesson_data' );
  * @param array
  * @return array
  */
-function get_section_data( $sections ) {
+function llms_get_section_data( $sections ) {
 	global $post;
 	$html = '';
 	$args = array(
@@ -585,12 +585,24 @@ function get_section_data( $sections ) {
 }
 
 /**
+ * Returns post array of data for sections associated with a course
+ *
+ * @deprecated [version] Use llms_get_section_data() instead.
+ *
+ * @param array $sections Array of section IDs.
+ * @return array
+ */
+function get_section_data( $sections ) {
+	return llms_get_section_data( $sections );
+}
+
+/**
  * Returns post array of data for lessons associated with a course
  *
  * @param array
  * @return array
  */
-function get_lesson_data( $lessons ) {
+function llms_get_lesson_data( $lessons ) {
 	global $post;
 	$html = '';
 	$args = array(
@@ -616,6 +628,18 @@ function get_lesson_data( $lessons ) {
 	endforeach;
 
 	return $array;
+}
+
+/**
+ * Returns post array of data for lessons associated with a course
+ *
+ * @deprecated [version] Use llms_get_lesson_data() instead.
+ *
+ * @param array $lessons Array of lesson IDs.
+ * @return array
+ */
+function get_lesson_data( $lessons ) {
+	return llms_get_lesson_data( $lessons );
 }
 
 /**
@@ -1019,11 +1043,23 @@ function llms_person_my_courses_url() {
  * @param  array $vars [array of query variables]
  * @return array $vars [array of query variables]
  */
-function get_product_query_var( $vars ) {
+function llms_get_product_query_var( $vars ) {
 	$vars[] = 'product';
 	return $vars;
 }
-add_filter( 'query_vars', 'get_product_query_var' );
+add_filter( 'query_vars', 'llms_get_product_query_var' );
+
+/**
+ * Get Product Query Var
+ *
+ * @deprecated [version] Use llms_get_product_query_var() instead.
+ *
+ * @param  array $vars [array of query variables]
+ * @return array $vars [array of query variables]
+ */
+function get_product_query_var( $vars ) {
+	return llms_get_product_query_var( $vars );
+}
 
 /**
  * Get available payment gateway options
@@ -1031,7 +1067,7 @@ add_filter( 'query_vars', 'get_product_query_var' );
  *
  * @return void
  */
-function get_available_payment_options() {
+function llms_get_available_payment_options() {
 
 	$_available_options = array();
 	$option_prefix      = 'lifterlms_gateway_enable_';
@@ -1052,6 +1088,17 @@ function get_available_payment_options() {
 		llms_get_template( 'checkout/' . $option . '.php' );
 
 	}
+}
+
+/**
+ * Get available payment gateway options
+ *
+ * @deprecated [version] Use llms_get_available_payment_options() instead.
+ *
+ * @return void
+ */
+function get_available_payment_options() {
+	return llms_get_available_payment_options();
 }
 
 /**

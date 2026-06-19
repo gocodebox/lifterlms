@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since Unknown
  */
-class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+class LLMS_Metabox_Search_Field extends LLMS_Metabox_Field implements LLMS_Metabox_Field_Interface {
 
 	/**
 	 * Class constructor

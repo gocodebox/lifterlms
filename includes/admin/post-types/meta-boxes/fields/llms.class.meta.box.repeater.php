@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.11.0
  * @version 3.17.3
  */
-class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
+class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements LLMS_Metabox_Field_Interface {
 
 	/**
 	 * Class constructor
