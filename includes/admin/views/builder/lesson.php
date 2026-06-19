@@ -7,6 +7,7 @@
  * @since 7.2.0 Added lesson id.
  * @version 7.2.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
 
