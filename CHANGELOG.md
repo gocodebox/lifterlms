@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v10.0.6 - 2026-06-19
+--------------------
+
+##### Developer Notes
+
++ Additional E2E tests.
+
+##### Security Fixes
+
++ Additional check when updating a quiz question. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+
 v10.0.5 - 2026-06-08
 --------------------
 

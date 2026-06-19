@@ -865,7 +865,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that an existing question's parent_id is forced to the authorized quiz and cannot be re-parented.
 	 *
-	 * @since [version]
+	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
@@ -918,7 +918,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Test that a user who can edit one course cannot use a builder heartbeat to move one of its
 	 * questions into a quiz belonging to a course they are not allowed to edit.
 	 *
-	 * @since [version]
+	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
