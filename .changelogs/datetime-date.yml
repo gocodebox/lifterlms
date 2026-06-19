@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Replaced PHP `date()` calls flagged by `WordPress.DateTime.RestrictedFunctions.date_date` with timezone-aware alternatives (`gmdate()`, `wp_date()`, `current_time()`). Project PHPCS ruleset no longer excludes the `date_date` sniff.
