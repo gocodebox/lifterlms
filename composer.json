@@ -51,7 +51,6 @@
       "artifacts",
 
       "CHANGELOG.md",
-      "composer.json",
       "lerna.json",
       "package.json",
       "package-lock.json",
