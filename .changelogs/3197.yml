@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Replaced raw PHP filesystem operations (fopen, fread, fwrite, fclose, unlink, rename, is_writable) with WordPress WP_Filesystem APIs and wp_delete_file() helpers across 5 files to resolve Plugin Check file_system_operations warnings.
