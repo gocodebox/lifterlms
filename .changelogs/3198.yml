@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Added ABSPATH direct file access protection guards to 15 PHP files flagged by Plugin Check's missing_direct_file_access_protection check. Fix applies to builder template views, access plan dialog, and order view function file."
