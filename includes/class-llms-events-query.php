@@ -125,7 +125,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 				if ( ! is_numeric( $date ) ) {
 					$date = strtotime( $date );
 				}
-				$this->arguments[ $key ] = date( 'Y-m-d H:i:s', $date );
+				$this->arguments[ $key ] = gmdate( 'Y-m-d H:i:s', $date );
 			}
 		}
 

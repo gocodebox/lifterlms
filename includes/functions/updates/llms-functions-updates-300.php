@@ -144,8 +144,8 @@ function llms_update_300_create_access_plans() {
 
 				if ( 'yes' === $plan['on_sale'] ) {
 
-					$plan['sale_end']   = ! empty( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
-					$plan['sale_start'] = ! empty( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
+					$plan['sale_end']   = ! empty( $meta['_sale_price_dates_to'][0] ) ? gmdate( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
+					$plan['sale_start'] = ! empty( $meta['_sale_price_dates_from'][0] ) ? gmdate( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
 					$plan['sale_price'] = $meta['_sale_price'][0];
 
 				}
@@ -424,7 +424,7 @@ function llms_update_300_migrate_course_postmeta() {
 		$wpdb->update(
 			$wpdb->postmeta,
 			array(
-				'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ),
+				'meta_value' => gmdate( 'm/d/Y', strtotime( $r->meta_value ) ),
 			),
 			array(
 				'meta_id' => $r->meta_id,

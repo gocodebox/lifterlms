@@ -351,7 +351,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			return llms_current_time( 'mysql' );
 		}
 
-		return date( 'Y-m-d H:i:s', strtotime( $raw_date ) );
+		return gmdate( 'Y-m-d H:i:s', strtotime( $raw_date ) );
 	}
 
 	/**

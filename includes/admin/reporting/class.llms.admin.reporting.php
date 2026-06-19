@@ -170,26 +170,26 @@ class LLMS_Admin_Reporting {
 
 		$dates = array(
 			'start' => '',
-			'end'   => date( 'Y-m-d', $now ),
+			'end'   => wp_date( 'Y-m-d', $now ),
 		);
 
 		switch ( $range ) {
 
 			case 'this-year':
-				$dates['start'] = date( 'Y', $now ) . '-01-01';
+				$dates['start'] = wp_date( 'Y', $now ) . '-01-01';
 				break;
 
 			case 'last-month':
-				$dates['start'] = date( 'Y-m-d', strtotime( 'first day of last month', $now ) );
-				$dates['end']   = date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
+				$dates['start'] = wp_date( 'Y-m-d', strtotime( 'first day of last month', $now ) );
+				$dates['end']   = wp_date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
 				break;
 
 			case 'this-month':
-				$dates['start'] = date( 'Y-m', $now ) . '-01';
+				$dates['start'] = wp_date( 'Y-m', $now ) . '-01';
 				break;
 
 			case 'last-7-days':
-				$dates['start'] = date( 'Y-m-d', strtotime( '-7 days', $now ) );
+				$dates['start'] = wp_date( 'Y-m-d', strtotime( '-7 days', $now ) );
 				break;
 
 			case 'custom':

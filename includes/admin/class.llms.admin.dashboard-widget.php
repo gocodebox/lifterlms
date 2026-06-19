@@ -129,7 +129,7 @@ class LLMS_Admin_Dashboard_Widget {
 						'current_courses'     => array(),
 						'current_memberships' => array(),
 						'dates'               => array(
-							'start' => date( 'Y-m-d', strtotime( '-1 week' ) ),
+							'start' => gmdate( 'Y-m-d', strtotime( '-1 week' ) ),
 							'end'   => current_time( 'Y-m-d' ),
 						),
 					)

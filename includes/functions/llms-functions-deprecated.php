@@ -125,11 +125,11 @@ function llms_expire_membership() {
 			);
 
 			// add expiration terms to start date
-			$exp_date = date( 'Y-m-d', strtotime( date( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +' . $interval . ' ' . $period ) );
+			$exp_date = gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', strtotime( $start_date[0]->updated_date ) ) . ' +' . $interval . ' ' . $period ) );
 
 			// get current datetime
 			$today = current_time( 'mysql' );
-			$today = date( 'Y-m-d', strtotime( $today ) );
+			$today = gmdate( 'Y-m-d', strtotime( $today ) );
 
 			// if a date parse causes exp date to be unmodified then return.
 			if ( $exp_date == $start_date[0]->updated_date ) {

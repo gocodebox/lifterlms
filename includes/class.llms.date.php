@@ -31,9 +31,9 @@ class LLMS_Date {
 	public static function pretty_date( $date, $type = '' ) {
 
 		if ( 'au' === $type ) {
-			return date( 'd/m/Y', strtotime( $date ) );
+			return wp_date( 'd/m/Y', strtotime( $date ) );
 		} else {
-			return date( 'm/d/Y', strtotime( $date ) );
+			return wp_date( 'm/d/Y', strtotime( $date ) );
 		}
 
 	}
@@ -70,7 +70,7 @@ class LLMS_Date {
 			list($d, $m, $y) = preg_split( '/\//', $date );
 			$date            = sprintf( '%4d-%02d-%02d', $y, $m, $d );
 		} else {
-			$date = date( 'Y-m-d', strtotime( $date ) );
+			$date = gmdate( 'Y-m-d', strtotime( $date ) );
 		}
 
 		return $date;
@@ -87,8 +87,8 @@ class LLMS_Date {
 	public static function get_date_range_by_filter( $filter ) {
 
 		$today         = current_time( 'Y-m-d' );
-		$current_month = date( 'm', strtotime( $today ) );
-		$current_year  = date( 'Y', strtotime( $today ) );
+		$current_month = wp_date( 'm', strtotime( $today ) );
+		$current_year  = wp_date( 'Y', strtotime( $today ) );
 
 		if ( 'week' === $filter ) {
 
@@ -97,8 +97,8 @@ class LLMS_Date {
 
 		} elseif ( 'month' === $filter ) {
 
-			$start_date = date( 'Y-m-01', strtotime( $today ) );
-			$end_date   = date( 'Y-m-t', strtotime( $today ) );
+			$start_date = wp_date( 'Y-m-01', strtotime( $today ) );
+			$end_date   = wp_date( 'Y-m-t', strtotime( $today ) );
 
 		} elseif ( 'quarter' === $filter ) {
 
@@ -141,7 +141,7 @@ class LLMS_Date {
 	public function last_seven_days( $where = '' ) {
 		global $wpdb;
 
-		$where .= $wpdb->prepare( ' AND post_date > %s', date( 'Y-m-d', strtotime( '-7 days' ) ) );
+		$where .= $wpdb->prepare( ' AND post_date > %s', gmdate( 'Y-m-d', strtotime( '-7 days' ) ) );
 
 		return $where;
 	}
@@ -151,7 +151,7 @@ class LLMS_Date {
 		$date = get_user_meta( $user_id, 'llms_last_login', true );
 
 		if ( $date ) {
-			return date( 'd.m.Y H:i:s', get_user_meta( $user_id, 'llms_last_login', true ) );
+			return wp_date( 'd.m.Y H:i:s', get_user_meta( $user_id, 'llms_last_login', true ) );
 		} else {
 			return false;
 		}

@@ -85,7 +85,7 @@ abstract class LLMS_Abstract_Post_Data {
 	 */
 	protected function strtotime( $date ) {
 		if ( ! is_numeric( $date ) ) {
-			$date = date( 'U', strtotime( $date ) );
+			$date = strtotime( $date );
 		}
 		return $date;
 	}
@@ -101,7 +101,7 @@ abstract class LLMS_Abstract_Post_Data {
 	 */
 	protected function get_date( $period, $date ) {
 
-		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
+		return gmdate( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
 
 	}
 

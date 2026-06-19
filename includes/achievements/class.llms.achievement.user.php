@@ -253,7 +253,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 			$this->user_firstname,
 			$this->user_lastname,
 			$this->user_email,
-			date( 'M d, Y', strtotime( current_time( 'mysql' ) ) ),
+			wp_date( 'M d, Y', strtotime( current_time( 'mysql' ) ) ),
 		);
 
 		$content = $this->format_string( $this->content );

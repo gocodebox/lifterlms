@@ -216,8 +216,8 @@ class LLMS_Voucher {
 		global $wpdb;
 
 		$data['voucher_id'] = $this->id;
-		$data['created_at'] = date( 'Y-m-d H:i:s' );
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
+		$data['created_at'] = current_time( 'mysql' );
+		$data['updated_at'] = current_time( 'mysql' );
 
 		return $wpdb->insert( $this->get_codes_table_name(), $data );
 	}
@@ -234,7 +234,7 @@ class LLMS_Voucher {
 
 		global $wpdb;
 
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
+		$data['updated_at'] = current_time( 'mysql' );
 
 		$where = array(
 			'id' => $data['id'],
@@ -255,7 +255,7 @@ class LLMS_Voucher {
 
 		global $wpdb;
 
-		$data['updated_at'] = date( 'Y-m-d H:i:s' );
+		$data['updated_at'] = current_time( 'mysql' );
 		$data['is_deleted'] = 1;
 
 		$where = array(
@@ -428,7 +428,7 @@ class LLMS_Voucher {
 
 		global $wpdb;
 
-		$data['redemption_date'] = date( 'Y-m-d H:i:s' );
+		$data['redemption_date'] = current_time( 'mysql' );
 
 		return $wpdb->insert( $this->get_redemptions_table_name(), $data );
 	}

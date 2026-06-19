@@ -130,7 +130,7 @@ class LLMS_Events {
 
 		// Convert timestamps to MYSQL date.
 		if ( isset( $raw_event['time'] ) && is_numeric( $raw_event['time'] ) ) {
-			$prepared['date'] = date( 'Y-m-d H:i:s', $raw_event['time'] );
+			$prepared['date'] = gmdate( 'Y-m-d H:i:s', $raw_event['time'] );
 		}
 
 		if ( isset( $raw_event['url'] ) ) {

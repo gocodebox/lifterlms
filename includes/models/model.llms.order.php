@@ -340,7 +340,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param string     $format The requested date format.
 		 * @param LLMS_Order $order  The order object.
 		 */
-		return apply_filters( 'llms_order_calculate_next_payment_date', date( $format, $next_payment_time ), $format, $this );
+		return apply_filters( 'llms_order_calculate_next_payment_date', gmdate( $format, $next_payment_time ), $format, $this );
 	}
 
 	/**
@@ -1754,7 +1754,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			sprintf(
 				// Translators: %s = next attempt date.
 				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
-				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
+				wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
 			)
 		);
 
@@ -1850,7 +1850,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date_val = strtotime( $date_val );
 		}
 
-		$this->set( 'date_' . $date_key, date( 'Y-m-d H:i:s', $date_val ) );
+		$this->set( 'date_' . $date_key, gmdate( 'Y-m-d H:i:s', $date_val ) );
 
 		switch ( $date_key ) {
 

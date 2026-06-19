@@ -1019,7 +1019,7 @@ class LLMS_Media_Protector {
 	 * @return array
 	 */
 	public function upload_dir( $uploads ) {
-		$uploads['subdir'] = trailingslashit( $this->get_upload_basedir() ) . date( 'Y/m' );
+		$uploads['subdir'] = trailingslashit( $this->get_upload_basedir() ) . current_time( 'Y/m' );
 		$uploads['path']   = $uploads['basedir'] . $uploads['subdir'];
 		$uploads['url']    = $uploads['baseurl'] . $uploads['subdir'];
 

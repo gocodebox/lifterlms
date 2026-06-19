@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 		<hr class="wp-header-end">
 
 		<div class="llms-dashboard-activity">
-			<h2><?php printf( esc_html__( 'Recent Activity: %1$1s to %2$2s', 'lifterlms' ), esc_html( date( get_option( 'date_format' ), current_time( 'timestamp' ) - WEEK_IN_SECONDS ) ), esc_html( date( get_option( 'date_format' ), current_time( 'timestamp' ) ) ) ); ?></h2>
+			<h2><?php printf( esc_html__( 'Recent Activity: %1$1s to %2$2s', 'lifterlms' ), esc_html( wp_date( get_option( 'date_format' ), current_time( 'timestamp' ) - WEEK_IN_SECONDS ) ), esc_html( wp_date( get_option( 'date_format' ), current_time( 'timestamp' ) ) ) ); ?></h2>
 			<?php echo '<style type="text/css">#llms-charts-wrapper{display:none;}</style>'; ?>
 			<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template.
@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 								'current_courses'     => array(),
 								'current_memberships' => array(),
 								'dates'               => array(
-									'start' => date( 'Y-m-d', current_time( 'timestamp' ) - WEEK_IN_SECONDS ),
+									'start' => gmdate( 'Y-m-d', current_time( 'timestamp' ) - WEEK_IN_SECONDS ),
 									'end'   => current_time( 'Y-m-d' ),
 								),
 							)
