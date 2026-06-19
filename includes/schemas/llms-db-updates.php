@@ -212,4 +212,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'10.1.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'backfill_has_transaction_flag',
+			'update_db_version',
+		),
+	),
 );

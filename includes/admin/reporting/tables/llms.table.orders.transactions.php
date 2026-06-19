@@ -727,9 +727,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			);
 		}
 
-		// Order IDs that already have at least one transaction.
-		$orders_with_txns = $this->get_order_ids_with_transactions();
-
 		$search = $this->get_search();
 
 		if ( $search || $this->coupon_filter ) {
@@ -738,7 +735,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			// transaction-less orders) that should appear.
 			$search_post_ids = null;
 			if ( $search ) {
-				$search_post_ids = $this->get_search_post_ids( $search, $orders_with_txns );
+				$search_post_ids = $this->get_search_post_ids( $search );
 				if ( empty( $search_post_ids ) ) {
 					$this->tbody_data = array();
 					return;
@@ -755,7 +752,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				}
 				$coupon_post_ids = array_merge(
 					$this->get_transaction_ids_for_orders( $coupon_order_ids ),
-					array_values( array_diff( $coupon_order_ids, $orders_with_txns ) )
+					$this->get_orders_without_transactions( $coupon_order_ids )
 				);
 			}
 
@@ -775,11 +772,27 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			$query_args['post__in'] = $post_in;
 
-		} elseif ( ! empty( $orders_with_txns ) ) {
+		} elseif ( $this->is_has_transaction_backfilled() ) {
 
-			// No search/coupon filter: exclude order posts that are already represented
-			// by their transaction rows.
-			$query_args['post__not_in'] = array_map( 'absint', $orders_with_txns );
+			// Backfill complete: every order with a transaction carries the
+			// `_llms_has_transaction` flag, so an indexed `NOT EXISTS` lookup excludes
+			// them (transactions and transaction-less orders both pass) without
+			// materializing a large `post__not_in` list.
+			$query_args['meta_query'] = array(
+				array(
+					'key'     => '_llms_has_transaction',
+					'compare' => 'NOT EXISTS',
+				),
+			);
+
+		} else {
+
+			// Backfill still pending: fall back to the explicit exclusion list so
+			// not-yet-flagged legacy orders don't double-list as their own order row.
+			$orders_with_txns = $this->get_order_ids_with_transactions();
+			if ( ! empty( $orders_with_txns ) ) {
+				$query_args['post__not_in'] = array_map( 'absint', $orders_with_txns );
+			}
 		}
 
 		if ( $this->sort_mode ) {
@@ -893,11 +906,10 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $term             Search term.
-	 * @param int[]  $orders_with_txns Order IDs that have at least one transaction.
+	 * @param string $term Search term.
 	 * @return int[] Array of matching post IDs.
 	 */
-	private function get_search_post_ids( $term, $orders_with_txns ) {
+	private function get_search_post_ids( $term ) {
 
 		if ( is_numeric( $term ) ) {
 
@@ -911,7 +923,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			if ( 'llms_order' === $type ) {
 				return array_merge(
 					$this->get_transaction_ids_for_orders( array( $id ) ),
-					in_array( $id, $orders_with_txns, true ) ? array() : array( $id )
+					$this->get_orders_without_transactions( array( $id ) )
 				);
 			}
 
@@ -925,8 +937,62 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		return array_merge(
 			$this->get_transaction_ids_for_orders( $order_ids ),
-			array_values( array_diff( $order_ids, $orders_with_txns ) )
+			$this->get_orders_without_transactions( $order_ids )
 		);
+	}
+
+	/**
+	 * Given a bounded set of order IDs, return those that have NO transaction.
+	 *
+	 * Used by the search/coupon paths to decide which matched orders should appear
+	 * as their own (transaction-less) row. Detection is done directly against
+	 * `_llms_order_id` on the bounded set rather than the global flag, so it stays
+	 * correct regardless of `_llms_has_transaction` backfill state.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $order_ids Bounded set of order IDs to test.
+	 * @return int[] Subset of `$order_ids` that have no transaction.
+	 */
+	private function get_orders_without_transactions( $order_ids ) {
+
+		$order_ids = array_values( array_filter( array_map( 'absint', (array) $order_ids ) ) );
+
+		if ( empty( $order_ids ) ) {
+			return array();
+		}
+
+		// Map the bounded set's transactions back to their parent order to determine
+		// which of the matched orders actually have a transaction.
+		$with_txns = array();
+		foreach ( $this->get_transaction_ids_for_orders( $order_ids ) as $txn_id ) {
+			$with_txns[] = absint( get_post_meta( $txn_id, '_llms_order_id', true ) );
+		}
+
+		return array_values( array_diff( $order_ids, $with_txns ) );
+	}
+
+	/**
+	 * Whether the `_llms_has_transaction` backfill migration has completed.
+	 *
+	 * Gates the indexed `NOT EXISTS` query path. Until the backfill finishes, legacy
+	 * orders may lack the flag and would double-list, so the explicit `post__not_in`
+	 * fallback is used instead. New installs report the current db version and use the
+	 * flag path immediately.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private function is_has_transaction_backfilled() {
+
+		static $backfilled = null;
+
+		if ( null === $backfilled ) {
+			$backfilled = version_compare( get_option( 'lifterlms_db_version' ), '10.1.0', '>=' );
+		}
+
+		return $backfilled;
 	}
 
 	/**
