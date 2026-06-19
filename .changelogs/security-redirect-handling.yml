@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed redirect handling in content restriction and lesson completion, replacing unsafe `wp_redirect()` with `llms_redirect_and_exit()` for open redirect protection.
