@@ -69,20 +69,23 @@ class LLMS_Student_Dashboard {
 	 */
 	private static function current_student_has_subscriptions() {
 
-		static $has_subscriptions = null;
+		static $cache = array();
 
-		if ( null !== $has_subscriptions ) {
-			return $has_subscriptions;
+		$user_id = get_current_user_id();
+
+		if ( isset( $cache[ $user_id ] ) ) {
+			return $cache[ $user_id ];
 		}
 
 		$has_subscriptions = false;
 
-		$user_id = get_current_user_id();
 		if ( $user_id ) {
 			$student           = new LLMS_Student( $user_id );
 			$subscriptions     = $student->get_subscriptions( array( 'count' => 1 ) );
 			$has_subscriptions = ! empty( $subscriptions['count'] );
 		}
+
+		$cache[ $user_id ] = $has_subscriptions;
 
 		return $has_subscriptions;
 	}
