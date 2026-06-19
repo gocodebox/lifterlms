@@ -19,9 +19,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Voucher {
 
-	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 	/**
 	 * ID of the voucher
 	 * This will be a LifterLMS Voucher custom post type Post ID
@@ -129,8 +126,12 @@ class LLMS_Voucher {
 
 		$table = $this->get_codes_table_name();
 
-		$query = "SELECT * FROM $table WHERE `voucher_id` = $this->id AND `is_deleted` = 0 LIMIT 1";
-		return $wpdb->get_row( $query );
+		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT * FROM {$table} WHERE `voucher_id` = %d AND `is_deleted` = 0 LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$this->id
+			)
+		);
 	}
 
 	/**
@@ -176,13 +177,18 @@ class LLMS_Voucher {
 		$table          = $this->get_codes_table_name();
 		$redeemed_table = $this->get_redemptions_table_name();
 
-		$query = "SELECT c.*, count(r.id) as used
-                  FROM $table as c
-                  LEFT JOIN $redeemed_table as r
-                  ON c.`id` = r.`code_id`
-                  WHERE `voucher_id` = $this->id AND `is_deleted` = 0
-                  GROUP BY c.id";
-		return $wpdb->get_results( $query, $format );
+		return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT c.*, count(r.id) as used
+				FROM {$table} as c
+				LEFT JOIN {$redeemed_table} as r
+				ON c.`id` = r.`code_id`
+				WHERE `voucher_id` = %d AND `is_deleted` = 0
+				GROUP BY c.id",
+				$this->id
+			),
+			$format
+		);
 	}
 
 	/**
@@ -199,8 +205,12 @@ class LLMS_Voucher {
 
 		$table = $this->get_codes_table_name();
 
-		$query = $wpdb->prepare( 'SELECT * FROM $table WHERE `id` = %d AND `is_deleted` = 0 LIMIT 1', $code_id );
-		return $wpdb->get_row( $query );
+		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT * FROM {$table} WHERE `id` = %d AND `is_deleted` = 0 LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$code_id
+			)
+		);
 	}
 
 	/**
@@ -382,15 +392,19 @@ class LLMS_Voucher {
 		$redeemed_table = $this->get_redemptions_table_name();
 		$users_table    = $wpdb->prefix . 'users';
 
-		$query = "SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
-                  FROM $table as c
-                  JOIN $redeemed_table as r
-                  ON c.`id` = r.`code_id`
-                  JOIN $users_table as u
-                  ON r.`user_id` = u.`ID`
-                  WHERE c.`is_deleted` = 0 AND c.`voucher_id` = $this->id";
-
-		return $wpdb->get_results( $query, $format );
+		return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT r.`id`, c.`id` as code_id, c.`voucher_id`, c.`code`, c.`redemption_count`, r.`user_id`, u.`user_email`, r.`redemption_date`
+				FROM {$table} as c
+				JOIN {$redeemed_table} as r
+				ON c.`id` = r.`code_id`
+				JOIN {$users_table} as u
+				ON r.`user_id` = u.`ID`
+				WHERE c.`is_deleted` = 0 AND c.`voucher_id` = %d",
+				$this->id
+			),
+			$format
+		);
 	}
 
 	/**
@@ -448,7 +462,12 @@ class LLMS_Voucher {
 
 		$table = $this->get_product_to_voucher_table_name();
 
-		$products = $wpdb->get_col( $wpdb->prepare( "SELECT product_id FROM {$table} WHERE `voucher_id` = %d;", $this->id ) ); //phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$products = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->prepare(
+			"SELECT product_id FROM {$table} WHERE `voucher_id` = %d;", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->id
+		)
+	);
 
 		if ( ! empty( $products ) ) {
 
@@ -507,19 +526,23 @@ class LLMS_Voucher {
 	public function is_code_duplicate( $codes ) {
 
 		global $wpdb;
-		$codes_as_string = join( '","', $codes );
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$codes = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT code
-             FROM {$this->get_codes_table_name()}
-             WHERE code IN ( {$codes_as_string} )
-               AND voucher_id != %d",
-				array( $this->id )
-			),
+
+		// Sanitize the codes and build placeholders.
+		$codes = array_map( 'sanitize_text_field', $codes );
+
+		$placeholders = implode( ', ', array_fill( 0, count( $codes ), '%s' ) );
+		$query        = $wpdb->prepare(
+			"SELECT code
+			FROM {$this->get_codes_table_name()}
+			WHERE code IN ( {$placeholders} )
+			AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			array_merge( $codes, array( $this->id ) )
+		);
+
+		$codes = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$query,
 			ARRAY_A
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( count( $codes ) ) {
 			return $codes;
@@ -565,6 +588,3 @@ class LLMS_Voucher {
 		);
 	}
 }
-
-// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
-// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

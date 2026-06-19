@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Hardened database queries in the voucher model and lesson duplication handler against SQL injection by replacing raw SQL interpolation with prepared statements and `$wpdb->insert()` calls."
