@@ -42,6 +42,7 @@ class LLMS_Turnstile extends LLMS_Captcha {
 			return;
 		}
 
+		// phpcs:ignore PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent -- Cloudflare Turnstile is a third-party CAPTCHA widget API loaded from the official Cloudflare CDN, not plugin code offloaded to a remote server.
 		wp_enqueue_script( 'cloudflare-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js' );
 	}
 

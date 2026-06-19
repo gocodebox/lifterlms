@@ -234,6 +234,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			$order_ids = implode( ',', array_map( 'absint', $order_ids ) );
 
 			global $wpdb;
+			// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $order_ids is built via array_map( 'absint', $order_ids ) above, so it is a comma-separated list of integer values only.
 			$revenue = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT SUM( m2.meta_value )

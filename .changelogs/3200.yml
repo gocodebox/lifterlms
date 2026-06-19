@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed WordPress.org Plugin Check compliance issues: added phpcs:ignore annotations for PluginCheck.CodeAnalysis.EnqueuedResourceOffloading (Cloudflare Turnstile external CAPTCHA API), PluginCheck.Security.DirectDB.UnescapedDBParameter (two $wpdb->prepare() queries with safely-assembled SQL fragments), and Generic.PHP.ForbiddenFunctions.Found (_cleanup_header_comment() WP core function used in plugin file header parsing)."

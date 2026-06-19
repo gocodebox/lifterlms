@@ -189,6 +189,7 @@ class LLMS_Data {
 		$version   = '';
 
 		if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( '@version', '/' ) . '(.*)$/mi', $file_data, $match ) && $match[1] ) {
+			// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- _cleanup_header_comment() is a WordPress core function (wp-includes/functions.php) used to parse plugin file headers; safe within the WP runtime.
 			$version = _cleanup_header_comment( $match[1] );
 		}
 

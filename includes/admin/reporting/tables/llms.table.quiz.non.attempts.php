@@ -283,6 +283,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			$course->get( 'id' ),
 		);
 
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $from_joins_where is a static SQL fragment; dynamic parts ($status_sql, $search_sql) are built via $wpdb->prepare() or hardcoded literals, and all variable values are passed through $prepare_args below.
 		$total_results = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(DISTINCT u.ID) {$from_joins_where}",
@@ -290,6 +291,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			)
 		); // db call ok; no-cache ok.
 
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $from_joins_where is a static SQL fragment; dynamic parts ($status_sql, $search_sql) are built via $wpdb->prepare() or hardcoded literals, and all variable values are passed through $prepare_args below.
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT DISTINCT
