@@ -1053,7 +1053,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		global $wpdb;
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $post_statuses is prepared above.
-		$grosse = $wpdb->get_var(
+		$grosse = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare(
 				"SELECT SUM( m2.meta_value )
 			 FROM $wpdb->posts AS p
@@ -1276,7 +1276,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			apply_filters(
 				'llms_order_get_transactions_query',
 				array(
-					'meta_query'     => array(
+					'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						'relation' => 'AND',
 						array(
 							'key'   => $this->meta_prefix . 'order_id',

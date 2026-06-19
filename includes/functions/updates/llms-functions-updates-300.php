@@ -362,7 +362,7 @@ function llms_update_300_migrate_coupon_data() {
 
 	global $wpdb;
 
-	$coupon_title_metas = $wpdb->get_results(
+	$coupon_title_metas = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT * FROM {$wpdb->postmeta}
 		 WHERE meta_key = '_llms_coupon_title';"
 	);
@@ -411,7 +411,7 @@ function llms_update_300_migrate_course_postmeta() {
 	llms_update_util_rekey_meta( 'course', '_llms_end_date', '_course_dates_to' );
 
 	// Updates course enrollment settings and reformats existing dates.
-	$dates = $wpdb->get_results(
+	$dates = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT m.meta_id, m.post_id, m.meta_value
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
@@ -421,10 +421,10 @@ function llms_update_300_migrate_course_postmeta() {
 		// If no value in the field skip it otherwise we end up with start of the epoch.
 		if ( ! $r->meta_value ) {
 			continue; }
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->postmeta,
 			array(
-				'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ),
+				'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			),
 			array(
 				'meta_id' => $r->meta_id,
@@ -436,7 +436,7 @@ function llms_update_300_migrate_course_postmeta() {
 	}
 
 	// Update course capacity bool and related settings.
-	$capacity = $wpdb->get_results(
+	$capacity = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT m.post_id, m.meta_value
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
@@ -450,7 +450,7 @@ function llms_update_300_migrate_course_postmeta() {
 	}
 
 	// Convert numeric has_preqeq to "yes".
-	$prereq = $wpdb->query(
+	$prereq = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'yes'
@@ -458,7 +458,7 @@ function llms_update_300_migrate_course_postmeta() {
 	); // db call ok; no-cache ok.
 
 	// Convert empty has_prereq to "no".
-	$prereq = $wpdb->query(
+	$prereq = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'no'
@@ -501,7 +501,7 @@ function llms_update_300_migrate_lesson_postmeta() {
 	// Convert numeric has_preqeq to "yes".
 	// Convert numeric free_lesson to "yes".
 	// Convert numeric require_passing_grade to "yes".
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'yes'
@@ -515,7 +515,7 @@ function llms_update_300_migrate_lesson_postmeta() {
 	// Convert empty has_prereq to "no".
 	// Convert empty free_lesson to "no".
 	// Convert empty require_passing_grade to "no".
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_value = 'no'
@@ -527,7 +527,7 @@ function llms_update_300_migrate_lesson_postmeta() {
 	); // db call ok; no-cache ok.
 
 	// Updates course enrollment settings and reformats existing dates.
-	$drips = $wpdb->get_results(
+	$drips = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT m.post_id
 		 FROM {$wpdb->postmeta} AS m
 		 INNER JOIN {$wpdb->posts} AS p ON p.ID = m.post_ID
@@ -551,7 +551,7 @@ function llms_update_300_migrate_order_data() {
 	global $wpdb;
 
 	// Prefix the old unprefixed order post type.
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->posts}
 		 SET post_type = 'llms_order'
 		 WHERE post_type = 'order';"

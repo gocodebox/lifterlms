@@ -149,11 +149,11 @@ class LLMS_Data {
 
 		$data = array();
 
-		$data['certificates']       = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_certificate_earned'" ) );
-		$data['achievements']       = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_achievement_earned'" ) );
-		$enrollments                = $wpdb->get_results( "SELECT meta_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND ( meta_value = 'Enrolled' OR meta_value = 'enrolled' ) GROUP BY user_id, post_id" );
+		$data['certificates']       = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_certificate_earned'" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$data['achievements']       = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_achievement_earned'" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$enrollments                = $wpdb->get_results( "SELECT meta_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND ( meta_value = 'Enrolled' OR meta_value = 'enrolled' ) GROUP BY user_id, post_id" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$data['enrollments']        = count( $enrollments );
-		$data['course_completions'] = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' " ) );
+		$data['course_completions'] = absint( $wpdb->get_var( "SELECT COUNT( * ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' " ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		return $data;
 

@@ -864,8 +864,8 @@ class LLMS_Media_Protector {
 			$query    = new WP_Query(
 				array(
 					'fields'      => 'ids',
-					'meta_key'    => '_wp_attached_file',
-					'meta_value'  => $attached_file,
+					'meta_key'    => '_wp_attached_file', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'  => $attached_file, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					'post_status' => 'any',
 					'post_type'   => 'attachment',
 				)

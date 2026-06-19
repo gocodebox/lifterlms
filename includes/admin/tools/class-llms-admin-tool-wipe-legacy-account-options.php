@@ -105,7 +105,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 		DELETE FROM {$wpdb->options}
 		WHERE option_name IN (" . implode( ', ', array_fill( 0, count( $options_to_wipe ), '%s' ) ) . ')';
 
-		$wpdb->query(
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare(
 				$sql,  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$options_to_wipe
@@ -133,7 +133,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 			global $wpdb;
 
 			return ! empty(
-				$wpdb->get_var(
+				$wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 					"SELECT COUNT(*) FROM {$wpdb->options}
 				WHERE option_name='lifterlms_registration_generate_username'"
 				)

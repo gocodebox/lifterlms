@@ -736,7 +736,7 @@ function llms_filter_input_sanitize_string( $type, $variable_name, $flags = arra
 function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 
 	global $wpdb;
-	return $wpdb->get_var(
+	return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT ID
 		 FROM {$wpdb->posts}

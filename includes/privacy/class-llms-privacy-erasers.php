@@ -132,7 +132,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		$messages = array();
 		global $wpdb;
-		$deleted = $wpdb->query(
+		$deleted = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->prefix}lifterlms_notifications WHERE user_id = %d OR subscriber = %d",
 				$student->get( 'id' ),
@@ -310,7 +310,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		if ( apply_filters( 'llms_privacy_erase_postmeta_data', $enabled, $attempt ) ) {
 
 			global $wpdb;
-			$deleted = $wpdb->query(
+			$deleted = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"DELETE FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d",
 					$student->get( 'id' )

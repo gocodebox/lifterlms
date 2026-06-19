@@ -62,7 +62,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			'status'         => array(),
 			'status_exclude' => array(),
 			'attempt'        => null,
-			'exclude'        => array(),
+			'exclude'        => array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'can_be_resumed' => null,
 			'search'         => '',
 		);

@@ -42,7 +42,7 @@ function reset_course_calc_data_locks() {
 	$per_page = \llms_update_util_get_items_per_page();
 
 	// Find a page of locked courses.
-	$course_ids = $wpdb->get_col(
+	$course_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT DISTINCT pm.post_id

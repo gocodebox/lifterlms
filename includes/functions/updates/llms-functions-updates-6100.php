@@ -62,7 +62,7 @@ function migrate_spanish_users() {
 			'orderby'        => array(
 				'ID' => 'ASC',
 			),
-			'meta_query'     => array(
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'relation' => 'AND',
 				array(
 					'key'     => 'llms_billing_country',

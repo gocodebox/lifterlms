@@ -123,7 +123,7 @@ class LLMS_Generator {
 
 		$wpdb->hide_errors();
 
-		$wpdb->query( 'START TRANSACTION' ); // db call ok; no-cache ok.
+		$wpdb->query( 'START TRANSACTION' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		/**
 		 * Action run immediately prior to a LifterLMS Generator running.
@@ -150,9 +150,9 @@ class LLMS_Generator {
 		do_action( 'llms_generator_after_generate', $this );
 
 		if ( $this->is_error() ) {
-			$wpdb->query( 'ROLLBACK' ); // db call ok; no-cache ok.
+			$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		} else {
-			$wpdb->query( 'COMMIT' ); // db call ok; no-cache ok.
+			$wpdb->query( 'COMMIT' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		}
 
 	}

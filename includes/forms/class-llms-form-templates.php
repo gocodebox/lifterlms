@@ -105,8 +105,8 @@ class LLMS_Form_Templates {
 				'posts_per_page' => 1,
 				'no_found_rows'  => true,
 				'post_type'      => 'wp_block',
-				'meta_key'       => '_llms_field_id',
-				'meta_value'     => $field_id,
+				'meta_key'       => '_llms_field_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'     => $field_id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			)
 		);
 

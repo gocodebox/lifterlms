@@ -173,7 +173,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		$query = get_users(
 			array(
 				'fields'   => array( 'ID', 'display_name' ),
-				'meta_key' => 'last_name',
+				'meta_key' => 'last_name', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'orderby'  => 'meta_value',
 				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
 			)

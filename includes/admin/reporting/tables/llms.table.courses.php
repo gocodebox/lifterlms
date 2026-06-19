@@ -156,7 +156,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 		$query = get_users(
 			array(
 				'fields'   => array( 'ID', 'display_name' ),
-				'meta_key' => 'last_name',
+				'meta_key' => 'last_name', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'orderby'  => 'meta_value',
 				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
 			)
@@ -212,7 +212,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 			);
 			$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
 
-			$query_args['meta_query'] = array(
+			$query_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'compare' => 'LIKE',
 					'key'     => '_llms_instructors',
@@ -223,10 +223,10 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 		}
 
 		if ( 'progress' === $this->orderby ) {
-			$query_args['meta_key'] = '_llms_average_progress';
+			$query_args['meta_key'] = '_llms_average_progress'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			$query_args['orderby']  = 'meta_value_num';
 		} elseif ( 'grade' === $this->orderby ) {
-			$query_args['meta_key'] = '_llms_average_progress';
+			$query_args['meta_key'] = '_llms_average_progress'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			$query_args['orderby']  = 'meta_value_num';
 		}
 

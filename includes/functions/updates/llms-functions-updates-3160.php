@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 function llms_update_3160_update_quiz_settings() {
 
 	global $wpdb;
-	$ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_quiz'" );
+	$ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_quiz'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	foreach ( $ids as $id ) {
 
@@ -47,13 +47,13 @@ function llms_update_3160_update_quiz_settings() {
 function llms_update_3160_lesson_to_quiz_relationships_migration() {
 
 	global $wpdb;
-	$wpdb->update(
+	$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->postmeta,
 		array(
-			'meta_key' => '_llms_quiz',
+			'meta_key' => '_llms_quiz', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 		),
 		array(
-			'meta_key' => '_llms_assigned_quiz',
+			'meta_key' => '_llms_assigned_quiz', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 		)
 	); // db call ok; no-cache ok.
 
@@ -70,7 +70,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 function llms_update_3160_attempt_migration() {
 
 	global $wpdb;
-	$query = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" ); // db call ok; no-cache ok.
+	$query = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	// Finished.
 	if ( ! $query ) {
@@ -168,7 +168,7 @@ function llms_update_3160_attempt_migration() {
 
 				}
 
-				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format ); // db call ok; no-cache ok.
+				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			}
 		}
@@ -206,7 +206,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 	set_transient( 'llms_3160_skipper_dupe_q', $skip + 20, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$question_ids = $wpdb->get_col(
+	$question_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT ID
 		 FROM {$wpdb->posts}
@@ -242,7 +242,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$quiz_ids = $wpdb->get_col(
+		$quiz_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			"
 			SELECT post_id
 			FROM {$wpdb->postmeta}
@@ -271,7 +271,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 				// Update references to the quiz in quiz attempts.
 				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$attempt_ids = $wpdb->get_col(
+				$attempt_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					"
 					SELECT id
 					FROM {$wpdb->prefix}lifterlms_quiz_attempts
@@ -321,7 +321,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 	set_transient( 'llms_3160_skipper_dupe_l', $skip + 100, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_results(
+	$res = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT post_id AS lesson_id, meta_value AS quiz_id
 		 FROM {$wpdb->postmeta}
@@ -380,7 +380,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 			$lesson->set( 'quiz', $dupe_quiz_id );
 
 			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$attempt_ids = $wpdb->get_col(
+			$attempt_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 				"
 				SELECT id
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
@@ -434,7 +434,7 @@ function llms_update_3160_update_question_data() {
 	set_transient( 'llms_3160_skipper_qdata', $skip + 100, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_results(
+	$res = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT post_id AS quiz_id, meta_value AS questions
 		 FROM {$wpdb->postmeta}
@@ -562,7 +562,7 @@ function llms_update_3160_update_attempt_question_data() {
 	set_transient( 'llms_update_3160_skipper', $skip + 500, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}lifterlms_quiz_attempts ORDER BY id ASC LIMIT %d, 500", $skip ) ); // db call ok; no-cache ok.
+	$res = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}lifterlms_quiz_attempts ORDER BY id ASC LIMIT %d, 500", $skip ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	// Finished.
 	if ( ! $res ) {
@@ -612,7 +612,7 @@ function llms_update_3160_update_quiz_to_lesson_rels() {
 	}
 
 	global $wpdb;
-	$ids = $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_quiz_enabled' AND meta_value = 'yes'" );
+	$ids = $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_quiz_enabled' AND meta_value = 'yes'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	foreach ( $ids as $id ) {
 

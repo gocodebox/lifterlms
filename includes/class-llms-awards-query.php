@@ -319,7 +319,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		$args['post_type'] = $this->post_types();
 
 		// Add meta query.
-		$args['meta_query'] = $this->prepare_meta_query();
+		$args['meta_query'] = $this->prepare_meta_query(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 
 		// Remove empty arrays.
 		return array_filter(

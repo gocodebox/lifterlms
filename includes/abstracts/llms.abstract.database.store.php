@@ -298,7 +298,7 @@ abstract class LLMS_Abstract_Database_Store {
 		$id = $this->id;
 		global $wpdb;
 		$where = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
-		$res   = $wpdb->delete( $this->get_table(), $where, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$res   = $wpdb->delete( $this->get_table(), $where, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( $res ) {
 			$this->id   = null;
 			$this->data = array();
@@ -335,7 +335,7 @@ abstract class LLMS_Abstract_Database_Store {
 		if ( is_array( $keys ) ) {
 			$keys = implode( ', ', $keys );
 		}
-		$res = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$res = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
 			ARRAY_A
 		);
@@ -359,7 +359,7 @@ abstract class LLMS_Abstract_Database_Store {
 		global $wpdb;
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $data ) );
 		$where  = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
-		$res    = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$res    = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( $res ) {
 
 			/**

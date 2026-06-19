@@ -31,12 +31,12 @@ function llms_update_500_legacy_options_autoload_off() {
 		UPDATE {$wpdb->options} SET autoload='no'
 		WHERE option_name IN (" . implode( ', ', array_fill( 0, count( $legacy_options_to_stop_autoloading ), '%s' ) ) . ')';
 
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 		$wpdb->prepare(
 			$sql, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No user input, it's safe.
 			$legacy_options_to_stop_autoloading
 		)
-	); // db call ok; no-cache ok.
+	);
 
 	return false;
 

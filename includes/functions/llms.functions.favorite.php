@@ -27,14 +27,14 @@ function llms_get_object_total_favorites( $object_id = false ) {
 		$object_id = get_the_ID();
 	}
 
-	$res = $wpdb->get_var(
+	$res = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT COUNT(DISTINCT meta_id) FROM {$wpdb->prefix}lifterlms_user_postmeta
 				WHERE post_id = %d AND meta_key = %s ORDER BY updated_date DESC",
 			$object_id,
 			'_favorite'
 		)
-	); // db call ok; no-cache ok.
+	);
 
 	return $res;
 

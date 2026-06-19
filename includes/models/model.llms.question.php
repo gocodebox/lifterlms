@@ -245,7 +245,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	public function get_choices( $return = 'choices' ) {
 
 		global $wpdb;
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT meta_key AS id
 				  , meta_value AS data
@@ -787,7 +787,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		global $wpdb;
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$query = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			"SELECT post_id
 			 FROM {$wpdb->postmeta}
 			 WHERE meta_key = '_llms_questions'

@@ -58,7 +58,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT COUNT( id )
@@ -85,7 +85,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		$grade = $wpdb->get_var(
+		$grade = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT ROUND( AVG( grade ), 3 )
@@ -115,7 +115,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT COUNT( id )

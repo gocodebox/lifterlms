@@ -174,7 +174,7 @@ class LLMS_Notification implements JsonSerializable {
 
 		global $wpdb;
 
-		if ( 1 !== $wpdb->insert( $this->get_table(), $data, $format ) ) {
+		if ( 1 !== $wpdb->insert( $this->get_table(), $data, $format ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			return false;
 		}
 
@@ -218,7 +218,7 @@ class LLMS_Notification implements JsonSerializable {
 		// get the value from the database.
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );  // db call ok; no-cache ok.
+		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 	}
 
@@ -288,10 +288,10 @@ class LLMS_Notification implements JsonSerializable {
 
 		global $wpdb;
 
-		$notification = $wpdb->get_row(
+		$notification = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
-		); // db call ok; no-cache ok.
+		);
 
 		if ( $notification ) {
 
@@ -335,7 +335,7 @@ class LLMS_Notification implements JsonSerializable {
 			default:
 				$this->$key = $val;
 				if ( $this->id ) {
-					// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					return $wpdb->query(
 						$wpdb->prepare(
 							"UPDATE {$this->get_table()} SET {$key} = %s, updated = %s WHERE id = %d",
@@ -343,8 +343,8 @@ class LLMS_Notification implements JsonSerializable {
 							current_time( 'mysql' ),
 							$this->id
 						)
-					); // db call ok; no-cache ok.
-					// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					);
+					// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 				}
 				return true;
 			break;

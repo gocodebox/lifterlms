@@ -44,7 +44,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 				'post_status'    => array( 'llms-active', 'llms-on-hold' ),
 				'posts_per_page' => -1,
 				'orderby'        => 'ID',
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'     => '_llms_billing_length',
 						'value'   => 1,

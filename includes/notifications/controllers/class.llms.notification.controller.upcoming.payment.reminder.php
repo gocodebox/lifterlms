@@ -410,7 +410,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 				'post_type'      => 'llms_order',
 				'posts_per_page' => 25,
 				'post_status'    => array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ),
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'and',
 					array(
 						'key'     => '_llms_order_type',

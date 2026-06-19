@@ -34,7 +34,7 @@ function _get_db_version() {
  */
 function maybe_remove_pwc() {
 	global $wpdb;
-	$found_pwc_meta = $wpdb->get_results(
+	$found_pwc_meta = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT *
 		 FROM {$wpdb->usermeta}
 		 WHERE meta_key = 'password_confirm'"
@@ -43,7 +43,7 @@ function maybe_remove_pwc() {
 	if ( $found_pwc_meta ) {
 		update_option( 'llms_pwc_notice', 'yes' );
 
-		$wpdb->query(
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			"DELETE
 		 FROM {$wpdb->usermeta}
 		 WHERE meta_key = 'password_confirm'"
@@ -105,7 +105,7 @@ function show_notice() {
 function update_db_version() {
 	global $wpdb;
 
-	$found_pwc_meta = $wpdb->get_results(
+	$found_pwc_meta = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT *
 		 FROM {$wpdb->usermeta}
 		 WHERE meta_key = 'password_confirm'"

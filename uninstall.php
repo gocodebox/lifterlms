@@ -41,6 +41,8 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	// Remove roles.
 	LLMS_Roles::remove_roles();
 
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+
 	// Delete options.
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'lifterlms\_%';" );
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'llms\_%';" );
@@ -89,4 +91,6 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 	// Delete order notes comments.
 	$wpdb->query( "DELETE FROM {$wpdb->comments} WHERE comment_type IN ( 'llms_order_note' );" );
 	$wpdb->query( "DELETE meta FROM {$wpdb->commentmeta} meta LEFT JOIN {$wpdb->comments} comments ON comments.comment_ID = meta.comment_id WHERE comments.comment_ID IS NULL;" );
+
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 }

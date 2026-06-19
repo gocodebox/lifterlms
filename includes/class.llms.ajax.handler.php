@@ -124,7 +124,7 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
-		$res   = $wpdb->get_results(
+		$res   = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is a prefixed table name; $codes is esc_sql'd above.
 			$wpdb->prepare(
 				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				array( $post_id )
@@ -981,7 +981,7 @@ class LLMS_AJAX_Handler {
 			$vars = array( $start, $limit );
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $join, $post_types, $post_statuses are pre-sanitized; $vars is an array of two elements.
 		$posts = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT p.ID as ID, p.post_title as post_title, p.post_type as post_type
@@ -996,7 +996,7 @@ class LLMS_AJAX_Handler {
 				$vars
 			) // phpcs:ignore -- The number of params is correct, $vars is an array of two elements.
 		);// no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		$items = array();
 

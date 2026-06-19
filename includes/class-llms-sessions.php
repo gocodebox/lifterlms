@@ -117,7 +117,7 @@ class LLMS_Sessions {
 
 		if ( ! is_wp_error( $end ) ) {
 			global $wpdb;
-			$wpdb->query(
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					DELETE FROM {$wpdb->prefix}lifterlms_events_open_sessions
@@ -264,7 +264,7 @@ class LLMS_Sessions {
 		$user_id = $user_id ? $user_id : get_current_user_id();
 
 		global $wpdb;
-		return $wpdb->get_row(
+		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT *
 			   FROM {$wpdb->prefix}lifterlms_events
@@ -293,7 +293,7 @@ class LLMS_Sessions {
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col(
+		$sessions = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			   SELECT event_id
@@ -334,7 +334,7 @@ class LLMS_Sessions {
 			$args,
 			array(
 				'date_after' => $start->get( 'date' ),
-				'exclude'    => array( $start->get( 'id' ) ),
+				'exclude'    => array( $start->get( 'id' ) ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 				'actor'      => $start->get( 'actor_id' ),
 				'sort'       => array(
 					'date' => 'ASC',
@@ -365,7 +365,7 @@ class LLMS_Sessions {
 	public function get_session_end( $start ) {
 
 		global $wpdb;
-		$end = $wpdb->get_var(
+		$end = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT id
 			   FROM {$wpdb->prefix}lifterlms_events
@@ -442,7 +442,7 @@ class LLMS_Sessions {
 
 		if ( ! is_wp_error( $start ) ) {
 			global $wpdb;
-			$wpdb->query( // db call ok; no-cache ok.
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES ( %d )

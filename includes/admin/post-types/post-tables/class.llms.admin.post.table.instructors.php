@@ -105,7 +105,7 @@ class LLMS_Admin_Post_Table_Instructors {
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Statuses are sanitized.
 
 		$count = intval(
-			$wpdb->get_var(
+			$wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 			SELECT COUNT( 1 )

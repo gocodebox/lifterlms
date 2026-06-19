@@ -243,7 +243,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$this->get( 'per_page' ),
 		);
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- SQL is prepared in other functions.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- SQL is prepared in other functions; $vars is an array of two elements.
 		$sql = $wpdb->prepare(
 			"SELECT {$this->sql_select_columns()}
 			{$from}
@@ -254,7 +254,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			;",
 			$vars
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		return $sql;
 	}

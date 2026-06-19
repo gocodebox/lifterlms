@@ -75,7 +75,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 				'posts_per_page' => -1,
 				'no_found_rows'  => true,
 				'post_type'      => 'wp_block',
-				'meta_key'       => '_llms_field_id',
+				'meta_key'       => '_llms_field_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'meta_compare'   => 'EXISTS',
 				'orderby'        => 'meta_value',
 			)

@@ -77,7 +77,7 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 
 	global $wpdb;
 
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID

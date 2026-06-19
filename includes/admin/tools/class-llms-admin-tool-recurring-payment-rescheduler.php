@@ -162,6 +162,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			    AND a.action_id IS NULL
 			    AND m.meta_value IS NULL";
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $from_joins_where is built from static SQL fragments with no user input; caching is handled in get_orders().
 		$total = $wpdb->get_var( "SELECT COUNT(*) {$from_joins_where}" ); // no-cache ok.
 		wp_cache_set( sprintf( '%s-total-results', $this->id ), $total, 'llms_tool_data' );
 
@@ -172,6 +173,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			  LIMIT 50
 			;"
 		); // no-cache ok -- Caching implemented in `get_orders()`.
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $orders;
 

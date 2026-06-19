@@ -133,7 +133,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 		global $wpdb;
 
-		$count = (int) $wpdb->get_var(
+		$count = (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT COUNT( pm.meta_id )

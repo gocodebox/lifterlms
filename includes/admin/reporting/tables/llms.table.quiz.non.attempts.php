@@ -283,6 +283,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 			$course->get( 'id' ),
 		);
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $from_joins_where and $order_sql are built from prepared fragments; $prepare_args is merged dynamically.
 		$total_results = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(DISTINCT u.ID) {$from_joins_where}",
@@ -307,6 +308,7 @@ class LLMS_Table_Quiz_Non_Attempts extends LLMS_Admin_Table {
 				array_merge( $prepare_args, array( $offset, $per ) )
 			)
 		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		$this->max_pages    = ceil( $total_results / $per );
 		$this->is_last_page = ( $this->current_page >= $this->max_pages );

@@ -70,7 +70,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT DISTINCT COUNT( user_id )
@@ -100,7 +100,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT DISTINCT COUNT( user_id )
@@ -133,7 +133,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		$ids = implode( ',', array_map( 'absint', $this->get_all_ids() ) );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT DISTINCT COUNT( user_id )
@@ -146,7 +146,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'start' ),
 				$this->get_date( $period, 'end' )
 			)
-		);// db call ok; no-cache ok.
+		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
@@ -173,7 +173,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		$lessons = implode( ',', array_map( 'absint', $this->post->get_lessons( 'ids' ) ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT COUNT( * )
@@ -234,7 +234,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			$order_ids = implode( ',', array_map( 'absint', $order_ids ) );
 
 			global $wpdb;
-			$revenue = $wpdb->get_var(
+			$revenue = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $order_ids is absint'd via array_map above.
 				$wpdb->prepare(
 					"SELECT SUM( m2.meta_value )
 				 FROM $wpdb->posts AS p
@@ -270,7 +270,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var(
+		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT DISTINCT COUNT( user_id )
@@ -303,8 +303,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			'post_type'      => 'llms_order',
 			'post_status'    => array( 'llms-active', 'llms-completed' ),
 			'posts_per_page' => $num_orders,
-			'meta_key'       => '_llms_product_id',
-			'meta_value'     => $this->post_id,
+			'meta_key'       => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'meta_value'     => $this->post_id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 		);
 
 		if ( ! empty( $dates ) ) {

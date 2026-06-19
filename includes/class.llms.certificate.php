@@ -257,13 +257,13 @@ class LLMS_Certificate {
 		);
 
 		foreach ( $user_metadatas as $key => $value ) {
-			$update_user_postmeta = $wpdb->insert(
+			$update_user_postmeta = $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id'      => $this->userid,
 					'post_id'      => $this->lesson_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
+					'meta_key'     => $key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'   => $value, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					'updated_date' => current_time( 'mysql' ),
 				)
 			);

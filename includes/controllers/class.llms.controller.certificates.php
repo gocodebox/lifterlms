@@ -105,7 +105,7 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 			global $wpdb;
-			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok.
+			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok. phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			if ( $post_id && 'llms_certificate' === get_post_type( $post_id ) ) {
 				$post_type_args['publicly_queryable'] = true;
 			}

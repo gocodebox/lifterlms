@@ -126,7 +126,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 		global $wpdb;
 
-		$count = (int) $wpdb->get_var(
+		$count = (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT COUNT( pm.meta_id )

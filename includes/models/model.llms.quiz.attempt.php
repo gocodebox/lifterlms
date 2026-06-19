@@ -998,7 +998,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		 * excluding the current one.
 		 */
 		$sibling_query_args = array(
-			'exclude'  => $this->get_id( 'id' ),
+			'exclude'  => $this->get_id( 'id' ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'per_page' => 1,
 		);
 

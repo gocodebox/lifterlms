@@ -227,7 +227,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			$this->get( 'per_page' ),
 		);
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $from and $where are built from prepared fragments; $vars is an array of two elements.
 		$sql = $wpdb->prepare(
 			"SELECT meta_id
 			 {$from}
@@ -236,7 +236,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			 LIMIT %d, %d;",
 			$vars
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		return $sql;
 

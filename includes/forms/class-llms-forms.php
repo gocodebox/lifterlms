@@ -586,7 +586,7 @@ class LLMS_Forms {
 				'no_found_rows'  => true,
 				// Only show published forms to end users but allow admins to "preview" drafts.
 				'post_status'    => current_user_can( $this->get_capability() ) ? array( 'publish', 'draft' ) : 'publish',
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
 						'key'   => '_llms_form_location',
@@ -670,7 +670,7 @@ AND locations.meta_value IN ({$locations_placeholders})
 AND is_cores.meta_value = 'yes'
 GROUP BY locations.meta_value";
 
-		$form_ids = $wpdb->get_col(
+		$form_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->prepare(
 				$query, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
 				$prepare_values

@@ -167,7 +167,7 @@ class LLMS_Question_Manager {
 
 		$query = new WP_Query(
 			array(
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_llms_parent_id',
 						'value' => $this->get_parent()->get( 'id' ),

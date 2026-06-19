@@ -334,7 +334,7 @@ class LLMS_Shortcodes {
 			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
 			'order'          => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
 			'orderby'        => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
-			'tax_query'      => isset( $tax ) ? $tax : '',
+			'tax_query'      => isset( $tax ) ? $tax : '', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		);
 
 		if ( isset( $atts['id'] ) ) {
@@ -551,7 +551,7 @@ class LLMS_Shortcodes {
 				'posts_per_page' => isset( $atts['per_page'] ) ? $atts['per_page'] : -1,
 				'order'          => isset( $atts['order'] ) ? $atts['order'] : 'ASC',
 				'orderby'        => isset( $atts['orderby'] ) ? $atts['orderby'] : 'title',
-				'tax_query'      => isset( $tax ) ? $tax : '',
+				'tax_query'      => isset( $tax ) ? $tax : '', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			)
 		);
 

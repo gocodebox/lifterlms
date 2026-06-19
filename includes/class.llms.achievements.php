@@ -128,7 +128,7 @@ class LLMS_Achievements {
 			'llms_achievements_by_post_query_args',
 			array(
 				'post_type'      => 'llms_engagement',
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_llms_engagement_type',
 						'value' => 'achievement',

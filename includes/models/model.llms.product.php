@@ -408,7 +408,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 			global $wpdb;
 
-			$subscriptions_count = $wpdb->get_var(
+			$subscriptions_count = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->prepare(
 					"
 					SELECT COUNT(*) FROM {$wpdb->posts} as p

@@ -310,8 +310,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		$query = new WP_Query(
 			array(
-				'meta_key'               => '_llms_parent_course',
-				'meta_value'             => $this->get( 'id' ),
+				'meta_key'               => '_llms_parent_course', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'             => $this->get( 'id' ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'post_type'              => 'lesson',
 				'posts_per_page'         => -1,
 				'no_found_rows'          => true,
@@ -358,8 +358,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		$q = new WP_Query(
 			array(
-				'meta_key'       => '_llms_order',
-				'meta_query'     => array(
+				'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_llms_parent_course',
 						'value' => $this->id,

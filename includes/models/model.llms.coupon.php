@@ -200,7 +200,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 		$query = new WP_Query(
 			array(
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => $this->meta_prefix . 'coupon_code',
 						'value' => $this->get( 'title' ),

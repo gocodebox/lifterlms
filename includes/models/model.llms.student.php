@@ -224,7 +224,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			array(
 				'order'          => 'DESC',
 				'orderby'        => 'modified',
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
 						'key'   => '_llms_user_id',
@@ -277,7 +277,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$limit_clause = $limit < 1 ? '' : 'LIMIT 0, ' . intval( $limit );
 
-		$res = $wpdb->get_results(
+		$res = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
 					WHERE meta_key = %s AND user_id = %d ORDER BY %s %s %s;",
@@ -323,7 +323,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		++$args['limit'];
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$q = $wpdb->get_results(
+		$q = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare(
 				"SELECT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
@@ -380,7 +380,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$q = $wpdb->get_var(
+		$q = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 				array( $this->get_id(), $object_id )
@@ -472,7 +472,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$prepare_args = array( $post_type, $this->get_id() );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $from_where is built from prepared fragments; $prepare_args is merged dynamically; $args['orderby'] is whitelisted.
 		$found = absint(
 			$wpdb->get_var(
 				$wpdb->prepare(
@@ -496,7 +496,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			),
 			'OBJECT_K'
 		); // db call ok; no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		return array(
 			'found'   => $found,
@@ -534,7 +534,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			global $wpdb;
 
 			// Get the oldest recorded Enrollment date.
-			$res = $wpdb->get_var(
+			$res = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = %s AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 					array( $key, $this->get_id(), $product_id )
@@ -597,7 +597,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			global $wpdb;
 
 			// Get the most recent recorded status.
-			$status = $wpdb->get_var(
+			$status = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta
 					 WHERE meta_key = '_status' AND user_id = %d AND post_id = %d
@@ -988,7 +988,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			array(
 				'order'          => 'DESC',
 				'orderby'        => 'date',
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_llms_user_id',
 						'value' => $this->get_id(),
@@ -1247,22 +1247,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			 * Lessons that were completed will have an '_is_complete' record of 'yes',
 			 * Lessons that have been completed once but were marked incomplete will have an '_is_complete' record of 'no'
 			 */
-			$update = $wpdb->update(
+			$update = $wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id'      => $this->get_id(),
 					'post_id'      => $object_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
+					'meta_key'     => $key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'   => $value, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					'updated_date' => current_time( 'mysql' ),
 				),
 				array(
 					'user_id'  => $this->get_id(),
 					'post_id'  => $object_id,
-					'meta_key' => $key,
+					'meta_key' => $key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				),
 				array( '%d', '%d', '%s', '%s', '%s' )
-			); // db call ok; no-cache ok.
+			); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 			if ( false === $update ) {
 
@@ -1493,7 +1493,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 		// Locate all enrollments triggered by this membership level.
-		$q = $wpdb->get_results(
+		$q = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
 				array( $this->get_id(), 'membership_' . $membership_id )

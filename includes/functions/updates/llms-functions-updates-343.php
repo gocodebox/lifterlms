@@ -22,7 +22,7 @@ function llms_update_343_update_relationships() {
 	global $wpdb;
 
 	// Update parent course key for courses and lessons.
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 		 SET m.meta_key = '_llms_parent_course'
@@ -31,7 +31,7 @@ function llms_update_343_update_relationships() {
 	);
 
 	// Update parent section key for lessons.
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 		 SET m.meta_key = '_llms_parent_section'

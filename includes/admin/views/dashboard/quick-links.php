@@ -53,7 +53,7 @@ defined( 'ABSPATH' ) || exit;
 		// Count enrollments across the whole LMS.
 		global $wpdb;
 		$enrollments_check = false;
-		$enrollments       = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" ); // no-cache ok.
+		$enrollments       = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		// If more than 10 enrollments, they are "set up".
 		if ( $enrollments >= 10 ) {
 			$enrollments_check = true;

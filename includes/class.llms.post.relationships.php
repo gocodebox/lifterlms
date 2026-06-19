@@ -31,7 +31,7 @@ class LLMS_Post_Relationships {
 		'course'          => array(
 			array(
 				'action'    => 'delete',
-				'meta_key'  => '_llms_product_id',
+				'meta_key'  => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_access_plan',
 			),
 		),
@@ -39,7 +39,7 @@ class LLMS_Post_Relationships {
 		'llms_membership' => array(
 			array(
 				'action'    => 'delete',
-				'meta_key'  => '_llms_product_id',
+				'meta_key'  => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_access_plan',
 			),
 		),
@@ -145,12 +145,12 @@ class LLMS_Post_Relationships {
 		);
 
 		global $wpdb;
-		$wpdb->delete(
+		$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			"{$wpdb->prefix}lifterlms_user_postmeta",
 			array(
 				'user_id'    => $earned_engagement->get_user_id(),
-				'meta_key'   => '_' . str_replace( 'llms_my_', '', $post_type ) . '_earned',
-				'meta_value' => $post_id,
+				'meta_key'   => '_' . str_replace( 'llms_my_', '', $post_type ) . '_earned', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value' => $post_id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			),
 			array( '%d', '%s', '%d' )
 		); // no-cache ok.
@@ -360,7 +360,7 @@ class LLMS_Post_Relationships {
 	private function get_related_posts( $post_id, $post_type, $meta_key ) {
 
 		global $wpdb;
-		return $wpdb->get_col(
+		return $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT p.ID
 			 FROM {$wpdb->posts} AS p

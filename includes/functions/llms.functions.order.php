@@ -116,7 +116,7 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 
 	global $wpdb;
 
-	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) ); // no-cache ok.
+	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) ); // no-cache ok. phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	if ( $id && 'order' === $return ) {
 		return new LLMS_Order( $id );
@@ -227,7 +227,7 @@ function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
 			'fields'         => 'ids',
 			'posts_per_page' => 1,
 			'no_found_rows'  => true,
-			'meta_query'     => array(
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'relation' => 'AND',
 				array(
 					'key'   => '_llms_billing_email',
@@ -258,7 +258,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 	global $wpdb;
 
 	// Query.
-	$id = $wpdb->get_var(
+	$id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT ID FROM {$wpdb->prefix}posts AS p
 			 JOIN {$wpdb->prefix}postmeta AS pm_user ON pm_user.post_id = p.ID AND pm_user.meta_key = '_llms_user_id'

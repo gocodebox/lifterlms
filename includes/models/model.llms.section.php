@@ -209,8 +209,8 @@ class LLMS_Section extends LLMS_Post_Model {
 
 		$query = new WP_Query(
 			array(
-				'meta_key'       => '_llms_order',
-				'meta_query'     => array(
+				'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_llms_parent_section',
 						'value' => $this->get( 'id' ),

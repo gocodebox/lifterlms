@@ -236,7 +236,7 @@ if ( ! function_exists( '_llms_query_user_postmeta' ) ) :
 		$val = $meta_value ? $wpdb->prepare( 'AND meta_value = %s', $meta_value ) : '';
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$res = $wpdb->get_results(
+		$res = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
 				 WHERE user_id = %d AND post_id = %d {$key} {$val} ORDER BY updated_date DESC",

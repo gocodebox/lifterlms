@@ -21,7 +21,7 @@ function llms_update_3120_update_order_end_dates() {
 
 	global $wpdb;
 
-	$ids = $wpdb->get_col(
+	$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT posts.ID
 		 FROM {$wpdb->posts} AS posts
 		 JOIN {$wpdb->postmeta} AS meta1 ON meta1.post_id = posts.ID AND meta1.meta_key = '_llms_billing_length'
@@ -29,7 +29,7 @@ function llms_update_3120_update_order_end_dates() {
 		 WHERE posts.post_type = 'llms_order'
 		   AND meta2.meta_value IS NULL
 		   AND meta1.meta_value > 0;"
-	); // db call ok; no-cache ok.
+	);
 
 	foreach ( $ids as $id ) {
 
@@ -54,7 +54,7 @@ function llms_update_3120_update_order_end_dates() {
 function llms_update_3120_update_integration_options() {
 
 	global $wpdb;
-	$wpdb->update(
+	$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->options,
 		array(
 			'option_name' => 'llms_integration_bbpress_enabled',
@@ -62,9 +62,9 @@ function llms_update_3120_update_integration_options() {
 		array(
 			'option_name' => 'lifterlms_bbpress_enabled',
 		)
-	); // db call ok; no-cache ok.
+	);
 
-	$wpdb->update(
+	$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->options,
 		array(
 			'option_name' => 'llms_integration_buddypress_enabled',
@@ -72,7 +72,7 @@ function llms_update_3120_update_integration_options() {
 		array(
 			'option_name' => 'lifterlms_buddypress_enabled',
 		)
-	); // db call ok; no-cache ok.
+	);
 
 }
 

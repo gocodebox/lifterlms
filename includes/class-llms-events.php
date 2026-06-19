@@ -233,7 +233,7 @@ class LLMS_Events {
 	public function record_many( $events = array() ) {
 
 		global $wpdb;
-		$wpdb->query( 'START TRANSACTION' );
+		$wpdb->query( 'START TRANSACTION' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		$recorded = array();
 		$errors   = array();
@@ -249,11 +249,11 @@ class LLMS_Events {
 		}
 
 		if ( count( $errors ) ) {
-			$wpdb->query( 'ROLLBACK' );
+			$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			return new WP_Error( 'llms_events_record_many_errors', __( 'There was one or more errors encountered while recording the events.', 'lifterlms' ), $errors );
 		}
 
-		$wpdb->query( 'COMMIT' );
+		$wpdb->query( 'COMMIT' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		return $recorded;
 	}

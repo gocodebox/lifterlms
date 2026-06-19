@@ -23,7 +23,7 @@ function llms_update_4150_remove_orphan_access_plans() {
 
 	global $wpdb;
 
-	$orphan_access_plans = $wpdb->get_col(
+	$orphan_access_plans = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"SELECT pm.post_id AS apid
 			FROM {$wpdb->postmeta} AS pm

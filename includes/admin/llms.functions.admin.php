@@ -41,14 +41,14 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	// Search for an existing page with the specified page content like a shortcode.
 	if ( strlen( $content ) > 0 ) {
-		$page_id = $wpdb->get_var(
+		$page_id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;",
 				"%{$content}%"
 			)
 		);// no-cache ok.
 	} else {
-		$page_id = $wpdb->get_var(
+		$page_id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;",
 				$slug
@@ -75,14 +75,14 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	// Look in the trashed page by content.
 	if ( strlen( $content ) > 0 ) {
-		$trashed_id = $wpdb->get_var(
+		$trashed_id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;",
 				"%{$content}%"
 			)
 		);// no-cache ok.
 	} else {
-		$trashed_id = $wpdb->get_var(
+		$trashed_id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;",
 				$slug

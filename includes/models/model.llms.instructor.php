@@ -67,7 +67,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	public function get_assistants() {
 
 		global $wpdb;
-		$results = $wpdb->get_col(
+		$results = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT user_id FROM {$wpdb->usermeta}
 			 WHERE meta_key = 'llms_parent_instructors'
@@ -147,7 +147,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			array(
 				'post_type'   => array( 'course', 'llms_membership' ),
 				'post_status' => 'publish',
-				'meta_query'  => array(
+				'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'compare' => 'LIKE',
 						'key'     => '_llms_instructors',

@@ -42,8 +42,8 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	protected $columns = array(
 		'user_id'      => '%d',
 		'post_id'      => '%d',
-		'meta_key'     => '%s',
-		'meta_value'   => '%s',
+		'meta_key'     => '%s', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		'meta_value'   => '%s', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 		'updated_date' => '%s',
 	);
 

@@ -216,7 +216,7 @@ class LLMS_Admin_Post_Table_Orders {
 				$vars = array_merge(
 					$vars,
 					array(
-						'meta_key' => '_llms_product_title',
+						'meta_key' => '_llms_product_title', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						'orderby'  => 'meta_value',
 					)
 				);
@@ -306,7 +306,7 @@ class LLMS_Admin_Post_Table_Orders {
 			$user_query2 = new WP_User_Query(
 				array(
 					'fields'     => 'ID',
-					'meta_query' => array(
+					'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						'relation' => 'OR',
 						array(
 							'key'     => 'first_name',

@@ -138,7 +138,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	protected function perform_query() {
 
 		global $wpdb;
-		return $wpdb->get_results( $this->query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		return $wpdb->get_results( $this->query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 	}
 
 	/**
@@ -182,7 +182,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			return 0;
 		}
 
-		return (int) $wpdb->get_var( $this->count_query ); // db call ok; no-cache ok.
+		return (int) $wpdb->get_var( $this->count_query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
 	}
 
 	/**
@@ -322,7 +322,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			);
 
 			global $wpdb;
-			$this->found_results = (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
+			$this->found_results = (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
 		}
 

@@ -63,7 +63,7 @@ function migrate_award_templates() {
 			'post_type'      => array( 'llms_achievement', 'llms_certificate' ),
 			'posts_per_page' => $per_page,
 			'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
-			'meta_query'     => array(
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'relation' => 'OR',
 				array(
 					'key'     => '_llms_achievement_image',
@@ -182,7 +182,7 @@ function _migrate_awards( $type ) {
 		'posts_per_page' => $per_page,
 		'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
 		'fields'         => 'ids', // We just need the ID for the updates we'll perform.
-		'meta_query'     => array(
+		'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'relation' => 'OR',
 			array(
 				'key'     => "_llms_{$type}_title",

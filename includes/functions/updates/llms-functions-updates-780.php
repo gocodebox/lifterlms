@@ -35,7 +35,7 @@ function _get_db_version() {
 function maybe_set_option_llms_access_plans_allow_skus() {
 	// Find postmeta values for `_llms_plan_sku` that are not empty.
 	global $wpdb;
-	$found_plan_skus = $wpdb->get_results(
+	$found_plan_skus = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"SELECT *
 		 FROM {$wpdb->postmeta}
 		 WHERE meta_key = '_llms_sku'
