@@ -53,7 +53,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 		$course = new LLMS_Course( $this->post );
 
-		$course_tracks_options = get_terms( 'course_track', 'hide_empty=0' );
+		$course_tracks_options = get_terms( array( 'taxonomy' => 'course_track', 'hide_empty' => false ) );
 		$course_tracks         = array();
 		foreach ( (array) $course_tracks_options as $term ) {
 			$course_tracks[] = array(
@@ -63,7 +63,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		}
 
 		// Setup course difficulty select options.
-		$difficulty_terms   = get_terms( 'course_difficulty', 'hide_empty=0' );
+		$difficulty_terms   = get_terms( array( 'taxonomy' => 'course_difficulty', 'hide_empty' => false ) );
 		$difficulty_options = array();
 		foreach ( $difficulty_terms as $term ) {
 			$difficulty_options[] = array(

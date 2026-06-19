@@ -373,6 +373,7 @@ class LLMS_Block_Templates {
 		$template                 = new WP_Block_Template();
 		$template->id             = $theme ? $theme . '//' . $template_slug : $namespace . '//' . $template_slug;
 		$template->theme          = $theme ? $theme : $namespace;
+		// phpcs:ignore WordPress.WP.RequiresWP -- Fallback to deprecated _inject_theme_attribute_in_block_template_content() handled below for WP < 6.4.0.
 		$template->content        = function_exists( 'traverse_and_serialize_blocks' ) ?
 			traverse_and_serialize_blocks( parse_blocks( $template_content ), '_inject_theme_attribute_in_template_part_block' ) :
 			_inject_theme_attribute_in_block_template_content( $template_content );
