@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: "Replaced deprecated `get_terms()` two-argument string form (e.g. `'hide_empty=0'`, removed in WP 4.5.0) with the modern single-argument array form in the course options meta box. Adjusted the `traverse_and_serialize_blocks()` reference to be conditional on WordPress 6.4.0+ via a `phpcs:ignore` annotation while preserving the existing `function_exists()` fallback to `_inject_theme_attribute_in_block_template_content()` for older WordPress versions."
