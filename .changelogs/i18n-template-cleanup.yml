@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed HTML-wrapped translatable string in parent course template for WordPress i18n compliance.
