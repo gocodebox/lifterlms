@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: "Fixed WordPress.org Plugin Check compliance items: excluded AI agent markdown files from production archive and restored composer.json in distribution package."

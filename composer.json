@@ -50,8 +50,9 @@
 
       "artifacts",
 
+      "AGENTS.md",
       "CHANGELOG.md",
-      "composer.json",
+      "CLAUDE.md",
       "lerna.json",
       "package.json",
       "package-lock.json",
