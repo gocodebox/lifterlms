@@ -68,7 +68,7 @@ class LLMS_Admin_Export_Download {
 		header( 'Content-Disposition: attachment; filename="' . $export . '"' );
 
 		$file = file_get_contents( $path );
-		unlink( $path );
+		wp_delete_file( $path );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $file;
 		exit;

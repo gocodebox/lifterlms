@@ -275,8 +275,13 @@ class LLMS_Admin_Page_Status {
 			$handle = sanitize_title( wp_unslash( $_REQUEST['llms_delete_log'] ) );
 			$log    = isset( $logs[ $handle ] ) ? $logs[ $handle ] : false;
 
-			if ( $log && is_file( $log ) && is_writable( $log ) ) {
-				unlink( $log );
+			global $wp_filesystem;
+			/** @var WP_Filesystem_Base $wp_filesystem */
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+
+			if ( $log && $wp_filesystem->exists( $log ) && $wp_filesystem->is_writable( $log ) ) {
+				wp_delete_file( $log );
 				llms_redirect_and_exit( esc_url_raw( self::get_url( 'logs' ) ) );
 			}
 		}

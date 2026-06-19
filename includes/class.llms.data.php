@@ -175,16 +175,22 @@ class LLMS_Data {
 			return '';
 		}
 
-		// We don't need to write to the file, so just open for reading..
-		$fp = fopen( $file, 'r' );
+		global $wp_filesystem;
+		/** @var WP_Filesystem_Base $wp_filesystem */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		// Pull only the first 8kiB of the file in..
-		$file_data = fread( $fp, 8192 );
+		if ( ! WP_Filesystem() ) {
+			return '';
+		}
 
-		// PHP will close file handle, but we are good citizens..
-		fclose( $fp );
+		// Pull only the first 8kiB of the file in.
+		$file_data = $wp_filesystem->get_contents( $file );
+		if ( false === $file_data ) {
+			return '';
+		}
+		$file_data = substr( $file_data, 0, 8192 );
 
-		// Make sure we catch CR-only line endings..
+		// Make sure we catch CR-only line endings.
 		$file_data = str_replace( "\r", "\n", $file_data );
 		$version   = '';
 

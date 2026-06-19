@@ -179,28 +179,50 @@ class LLMS_Meta_Box_Voucher_Export {
 		}// End if().
 	}
 
+	/**
+	 * Convert an array of associative arrays into a CSV string.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array  $data      Array of associative arrays (rows).
+	 * @param string $delimiter Field delimiter.
+	 * @param string $enclosure Field enclosure.
+	 * @return string
+	 */
 	public static function array_to_csv( $data, $delimiter = ',', $enclosure = '"' ) {
 
-		$handle   = fopen( 'php://temp', 'r+' );
 		$contents = '';
 
-		$names = array();
+		if ( ! empty( $data ) ) {
+			$contents .= self::csv_row( array_keys( $data[0] ), $delimiter, $enclosure );
 
-		foreach ( $data[0] as $name => $item ) {
-			$names[] = $name;
+			foreach ( $data as $line ) {
+				$contents .= self::csv_row( array_values( $line ), $delimiter, $enclosure );
+			}
 		}
 
-		fputcsv( $handle, $names, $delimiter, $enclosure );
-
-		foreach ( $data as $line ) {
-			fputcsv( $handle, $line, $delimiter, $enclosure );
-		}
-		rewind( $handle );
-		while ( ! feof( $handle ) ) {
-			$contents .= fread( $handle, 8192 );
-		}
-		fclose( $handle );
 		return $contents;
+	}
+
+	/**
+	 * Build a single CSV row string.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array  $fields     Field values in row order.
+	 * @param string $delimiter  Field delimiter.
+	 * @param string $enclosure  Field enclosure.
+	 * @return string
+	 */
+	private static function csv_row( $fields, $delimiter, $enclosure ) {
+		$row = '';
+		foreach ( $fields as $i => $field ) {
+			if ( $i > 0 ) {
+				$row .= $delimiter;
+			}
+			$row .= $enclosure . str_replace( $enclosure, $enclosure . $enclosure, (string) $field ) . $enclosure;
+		}
+		return $row . "\n";
 	}
 
 	/**
@@ -228,26 +250,34 @@ class LLMS_Meta_Box_Voucher_Export {
 		$subject = 'Your LifterLMS Voucher Export';
 		$message = 'Please find the attached voucher csv export for ' . $title . '.';
 
-		// Create temp file.
-		$temp = tempnam( '/tmp', 'vouchers' );
+		// Create temp file with .csv extension.
+		$temp      = wp_tempnam( 'vouchers' );
+		$csv_file  = preg_replace( '/\.\w+$/', '.csv', $temp );
+		$extension = pathinfo( $temp, PATHINFO_EXTENSION );
 
-		// Write CSV.
-		$handle = fopen( $temp, 'w' );
-		fwrite( $handle, $csv );
+		global $wp_filesystem;
+		/** @var WP_Filesystem_Base $wp_filesystem */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		// Prepare filename.
-		$temp_data     = stream_get_meta_data( $handle );
-		$temp_filename = $temp_data['uri'];
+		if ( ! WP_Filesystem() ) {
+			if ( '' !== $extension ) {
+				wp_delete_file( $temp );
+			}
+			return false;
+		}
 
-		$new_filename = substr_replace( $temp_filename, '', 13 ) . '.csv';
-		rename( $temp_filename, $new_filename );
+		$wp_filesystem->put_contents( $csv_file, $csv, FS_CHMOD_FILE );
+
+		// Clean up the original .tmp file if wp_tempnam produced a different path.
+		if ( $temp !== $csv_file ) {
+			wp_delete_file( $temp );
+		}
 
 		// Send email/s.
-		$mail = wp_mail( $emails, $subject, $message, '', $new_filename );
+		$mail = wp_mail( $emails, $subject, $message, '', $csv_file );
 
 		// And remove it.
-		fclose( $handle );
-		unlink( $new_filename );
+		wp_delete_file( $csv_file );
 
 		return $mail;
 	}

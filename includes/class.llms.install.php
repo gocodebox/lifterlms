@@ -172,6 +172,11 @@ class LLMS_Install {
 	 * @return void
 	 */
 	public static function create_files() {
+		global $wp_filesystem;
+		/** @var WP_Filesystem_Base $wp_filesystem */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+
 		$upload_dir = wp_upload_dir();
 		$files      = array(
 			array(
@@ -197,12 +202,9 @@ class LLMS_Install {
 		);
 
 		foreach ( $files as $file ) {
-			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
-				if ( $file_handle ) {
-					fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
-					fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
-				}
+			$file_path = trailingslashit( $file['base'] ) . $file['file'];
+			if ( wp_mkdir_p( $file['base'] ) && ! $wp_filesystem->exists( $file_path ) ) {
+				$wp_filesystem->put_contents( $file_path, $file['content'], 0644 );
 			}
 		}
 	}
