@@ -275,20 +275,29 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test init_cookie() when a new cookie is created
+	 * Test init_cookie() when a new session is started.
 	 *
-	 * @since 4.0.0
+	 * A brand-new session does not emit a cookie until data is written, so anonymous,
+	 * cache-eligible responses stay free of a `Set-Cookie` header. The deferred cookie
+	 * is emitted the moment data is first written via `set()`.
+	 *
+	 * @since [version]
 	 *
 	 * @return void
 	 */
 	public function test_init_cookie_new() {
 
-		$original = $this->get_raw_cookie();
 		$this->cookies->unset_all();
 
+		// New session, nothing written yet: no cookie emitted, flagged as new.
 		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
-		$this->assertNotEquals( $original, $this->get_raw_cookie() );
+		$this->assertNull( $this->get_raw_cookie() );
+		$this->assertTrue( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
 
+		// Writing the first piece of data emits the deferred cookie.
+		$this->main->set( 'something', 123 );
+		$this->assertNotNull( $this->get_raw_cookie() );
+		$this->assertFalse( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
 
 	}
 

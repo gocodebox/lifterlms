@@ -48,6 +48,20 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	protected $expiring;
 
 	/**
+	 * Whether a new session has been started whose cookie has not yet been emitted.
+	 *
+	 * A brand-new anonymous visitor does not receive a session cookie until something
+	 * actually writes to the session (an applied coupon, a queued notice, etc.). While
+	 * this flag is `true` the session exists only in memory: no `Set-Cookie` header has
+	 * been sent and no row has been written to the database. This keeps otherwise
+	 * anonymous page views free of a `Set-Cookie` header so full-page caches (Surge,
+	 * Cloudflare, Varnish, WP Super Cache, W3 Total Cache, and similar) can store them.
+	 *
+	 * @var boolean
+	 */
+	protected $is_new = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -187,17 +201,63 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		} else {
 
-			$this->id       = $this->generate_id();
-			$this->data     = array();
-			$this->is_clean = false;
-			$set_cookie     = true;
+			$this->id   = $this->generate_id();
+			$this->data = array();
 			$this->set_expiration();
+
+			/**
+			 * Defer emitting the session cookie until session data is actually written.
+			 *
+			 * The session stays in memory only (no `Set-Cookie` header, no database row)
+			 * until `set()` stores something, which keeps anonymous, cache-eligible
+			 * responses free of a `Set-Cookie` header. The cookie is emitted from `set()`
+			 * the moment the first piece of data is written.
+			 */
+			$this->is_new = true;
+			$set_cookie   = false;
 
 		}
 
 		if ( $set_cookie ) {
 			$this->set_cookie();
 		}
+
+	}
+
+	/**
+	 * Store a piece of data on the session.
+	 *
+	 * Overrides the abstract setter so a deferred session cookie is emitted the
+	 * moment data is first written to a brand-new session. Anonymous visitors who
+	 * never write session data never receive the cookie, which keeps their page
+	 * views eligible for full-page caching.
+	 *
+	 * The cookie can only be emitted before output starts. In the rare case where
+	 * the first write happens after headers have already been sent, the data is
+	 * still persisted to the database on `shutdown` but no cookie is emitted, so it
+	 * cannot be read back on a subsequent request. All first-party write paths
+	 * (coupons, notices, gift and group checkout) write during request processing,
+	 * well before output, so this is an edge case rather than a regression.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key   Session data key.
+	 * @param mixed  $value Session data value.
+	 * @return mixed The stored value.
+	 */
+	public function set( $key, $value ) {
+
+		$value = parent::set( $key, $value );
+
+		// A brand-new session now has data: emit the deferred cookie while we still can.
+		if ( $this->is_new && ! $this->is_clean ) {
+			if ( ! headers_sent() ) {
+				$this->set_cookie();
+			}
+			$this->is_new = false;
+		}
+
+		return $value;
 
 	}
 
