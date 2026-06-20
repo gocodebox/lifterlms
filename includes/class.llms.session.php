@@ -230,14 +230,10 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * Overrides the abstract setter so a deferred session cookie is emitted the
 	 * moment data is first written to a brand-new session. Anonymous visitors who
 	 * never write session data never receive the cookie, which keeps their page
-	 * views eligible for full-page caching.
-	 *
-	 * The cookie can only be emitted before output starts. In the rare case where
-	 * the first write happens after headers have already been sent, the data is
-	 * still persisted to the database on `shutdown` but no cookie is emitted, so it
-	 * cannot be read back on a subsequent request. All first-party write paths
-	 * (coupons, notices, gift and group checkout) write during request processing,
-	 * well before output, so this is an edge case rather than a regression.
+	 * views eligible for full-page caching. Every first-party write path (coupons,
+	 * notices, gift and group checkout) runs during request processing, before any
+	 * output, so the cookie is emitted in time to take effect, the same way the
+	 * cookie was previously emitted from the constructor.
 	 *
 	 * @since [version]
 	 *
@@ -249,11 +245,9 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$value = parent::set( $key, $value );
 
-		// A brand-new session now has data: emit the deferred cookie while we still can.
+		// A brand-new session now has data: emit the deferred cookie.
 		if ( $this->is_new && ! $this->is_clean ) {
-			if ( ! headers_sent() ) {
-				$this->set_cookie();
-			}
+			$this->set_cookie();
 			$this->is_new = false;
 		}
 

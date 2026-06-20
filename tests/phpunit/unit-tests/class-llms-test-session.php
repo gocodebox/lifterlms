@@ -192,6 +192,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 */
 	public function test_get_cookie() {
 
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
+
 		$parts = LLMS_Unit_Test_Util::call_method( $this->main, 'get_cookie' );
 
 		$this->assertEquals( $this->main->get_id(), $parts[0] );
@@ -240,6 +243,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 */
 	public function test_init_cookie_from_existing_expiring() {
 
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
+
 		// Expiring is in the past.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'expiring', 0 );
 
@@ -260,6 +266,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 * @return void
 	 */
 	public function test_init_cookie_from_existing_user_logged_in() {
+
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
 
 		$id  = $this->main->get_id();
 		$uid = $this->factory->user->create();
