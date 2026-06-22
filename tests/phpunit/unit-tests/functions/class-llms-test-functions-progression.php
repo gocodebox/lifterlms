@@ -36,6 +36,49 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test the llms_can_user_complete_lesson() function.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_user_complete_lesson() {
+
+		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$lesson    = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+
+		$student = $this->factory->student->create_and_get();
+		wp_set_current_user( $student->get( 'id' ) );
+
+		// Invalid lesson.
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), 0 ) );
+
+		// Not enrolled.
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		// Enrolled and available (accepts both an ID and an object).
+		$student->enroll( $course->get( 'id' ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson ) );
+
+		// Enrolled but lesson is not yet available (dripped).
+		$lesson->set( 'drip_method', 'date' );
+		$lesson->set( 'date_available', date( 'm/d/Y', strtotime( '+1 year' ) ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		$lesson->set( 'drip_method', '' );
+
+		// An instructor/admin who can edit the lesson is always allowed, even when not enrolled.
+		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin );
+		$this->assertTrue( llms_can_user_complete_lesson( $admin, $lesson_id ) );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test the llms_show_mark_complete_button() method.
 	 *
 	 * @return  void
