@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v10.0.7 - 2026-06-22
+--------------------
+
+##### Performance Improvements
+
++ Anonymous visitors no longer receive a LifterLMS session cookie until session data is actually written (an applied coupon, a queued notice, etc.), so otherwise-anonymous page views stay eligible for full-page caching instead of being skipped by the page cache. [#3210](https://github.com/gocodebox/lifterlms/issues/3210)
+
+##### Security Fixes
+
++ Additional checks in the course builder when associating protected media.
++ Additional checks on lesson progression form submissions.
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.0.7/templates/course/complete-lesson-link.php)
+
+
 v10.0.6 - 2026-06-19
 --------------------
 
