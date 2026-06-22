@@ -97,7 +97,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
 
 		}
-
 	}
 
 	/**
@@ -122,7 +121,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		// Destroy the cookie.
 		return llms_setcookie( $this->cookie, '', time() - YEAR_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $this->use_secure_cookie(), true );
-
 	}
 
 	/**
@@ -162,7 +160,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return $parts;
-
 	}
 
 	/**
@@ -221,7 +218,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		if ( $set_cookie ) {
 			$this->set_cookie();
 		}
-
 	}
 
 	/**
@@ -245,14 +241,44 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$value = parent::set( $key, $value );
 
-		// A brand-new session now has data: emit the deferred cookie.
+		// A brand-new session now has data: emit the deferred cookie —
+		// but only if the data is actually non-empty. An empty write
+		// (e.g. llms_clear_notices storing []) should not trigger cookie
+		// emission or a database row.
 		if ( $this->is_new && ! $this->is_clean ) {
-			$this->set_cookie();
-			$this->is_new = false;
+			if ( $this->session_has_data() ) {
+				$this->set_cookie();
+				$this->is_new = false;
+			} else {
+				// All values are empty — reset so shutdown won't write a useless DB row.
+				$this->is_clean = true;
+			}
 		}
 
 		return $value;
+	}
 
+	/**
+	 * Determine whether the session contains any non-empty data.
+	 *
+	 * Used by set() to decide whether a brand-new session should emit its
+	 * deferred cookie. An empty array written by llms_clear_notices() should
+	 * not trigger cookie emission or a database insert.
+	 *
+	 * @since 10.0.7
+	 *
+	 * @return boolean
+	 */
+	protected function session_has_data() {
+
+		foreach ( $this->data as $v ) {
+			$uv = maybe_unserialize( $v );
+			if ( is_array( $uv ) ? ! empty( $uv ) : ( null !== $uv && false !== $uv && '' !== $uv ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -274,7 +300,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -293,7 +318,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -315,7 +339,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -339,7 +362,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $init Whether or not initialization should take place.
 		 */
 		return apply_filters( 'llms_session_should_init', $init );
-
 	}
 
 	/**
@@ -363,7 +385,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -400,7 +421,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$this->expires  = time() + $duration;
 		$this->expiring = $this->expires - $variance;
-
 	}
 
 	/**
@@ -422,7 +442,5 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $secure Whether or not a secure cookie should be used.
 		 */
 		return apply_filters( 'llms_session_use_secure_cookie', $secure );
-
 	}
-
 }
