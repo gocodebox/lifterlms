@@ -290,7 +290,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 * cache-eligible responses stay free of a `Set-Cookie` header. The deferred cookie
 	 * is emitted the moment data is first written via `set()`.
 	 *
-	 * @since 10.0.7
+	 * @since [version]
 	 *
 	 * @return void
 	 */

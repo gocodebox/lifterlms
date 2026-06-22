@@ -163,7 +163,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student cannot complete a lesson in a course they are not enrolled in.
 	 *
-	 * @since 10.0.7
+	 * @since [version]
 	 *
 	 * @return void
 	 */

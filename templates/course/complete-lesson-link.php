@@ -6,8 +6,8 @@
  *
  * @since 1.0.0
  * @since 3.33.0 Only render on lesson post types.
- * @since 10.0.7 Use `llms_can_user_complete_lesson()` to gate rendering.
- * @version 10.0.7
+ * @since [version] Use `llms_can_user_complete_lesson()` to gate rendering.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
