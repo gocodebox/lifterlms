@@ -11,8 +11,8 @@ v10.0.7 - 2026-06-23
 ##### Security Fixes
 
 + Additional checks in the course builder when associating protected media.
-+ Improved validation of submitted filenames in the admin table export workflow.
-+ Additional checks on lesson progression form submissions.
++ Improved validation of submitted filenames in the admin table export workflow. Thanks [Duy Tran](https://mrdarkroot.github.io/)!
++ Additional checks on lesson progression form submissions. Thanks [@0xEr3n](https://github.com/0xEr3n)!
 
 ##### Updated Templates
 
