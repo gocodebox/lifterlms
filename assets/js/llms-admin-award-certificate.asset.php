@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('llms-components', 'llms-utils', 'react', 'wp-components', 'wp-core-data', 'wp-data', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url'), 'version' => '31c20f17fcb5049daa15');
