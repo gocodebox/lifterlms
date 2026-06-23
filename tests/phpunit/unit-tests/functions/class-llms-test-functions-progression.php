@@ -38,7 +38,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the llms_can_user_complete_lesson() function.
 	 *
-	 * @since [version]
+	 * @since 10.0.7
 	 *
 	 * @return void
 	 */

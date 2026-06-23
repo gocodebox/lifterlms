@@ -231,7 +231,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * output, so the cookie is emitted in time to take effect, the same way the
 	 * cookie was previously emitted from the constructor.
 	 *
-	 * @since [version]
+	 * @since 10.0.7
 	 *
 	 * @param string $key   Session data key.
 	 * @param mixed  $value Session data value.

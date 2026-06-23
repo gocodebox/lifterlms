@@ -38,7 +38,7 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * admins who can edit the lesson are always allowed; everyone else must be enrolled in the
  * lesson's parent course and the lesson must be available (drip).
  *
- * @since [version]
+ * @since 10.0.7
  *
  * @param int             $user_id WP User ID of the student.
  * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
@@ -63,7 +63,7 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	/**
 	 * Filter whether a user is authorized to mark a lesson complete or incomplete.
 	 *
-	 * @since [version]
+	 * @since 10.0.7
 	 *
 	 * @param bool             $allowed Whether or not the user is authorized.
 	 * @param int              $user_id WP User ID of the student.
