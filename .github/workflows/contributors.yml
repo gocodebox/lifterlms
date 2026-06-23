@@ -24,9 +24,9 @@ jobs:
           token: ${{ secrets.ORG_WORKFLOWS }}
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '24.15.0'
           cache: 'npm'
 
       - name: Install dependencies
