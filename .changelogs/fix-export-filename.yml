@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Improved validation of submitted filenames in the admin table export workflow."
