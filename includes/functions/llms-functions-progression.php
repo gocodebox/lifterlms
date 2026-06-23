@@ -31,6 +31,48 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
 }
 
 /**
+ * Determine whether a user is authorized to mark a given lesson complete or incomplete.
+ *
+ * Used both to decide whether to render the front-end mark complete/incomplete buttons and to
+ * authorize the form submission server-side, so the two cannot drift apart. Instructors and
+ * admins who can edit the lesson are always allowed; everyone else must be enrolled in the
+ * lesson's parent course and the lesson must be available (drip).
+ *
+ * @since 10.0.7
+ *
+ * @param int             $user_id WP User ID of the student.
+ * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
+ * @return bool
+ */
+function llms_can_user_complete_lesson( $user_id, $lesson ) {
+
+	if ( ! $lesson instanceof LLMS_Lesson ) {
+		$lesson = llms_get_post( $lesson );
+	}
+
+	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+		$allowed = false;
+	} elseif ( current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+		// Instructors / admins able to edit the lesson are always allowed.
+		$allowed = true;
+	} else {
+		// The student must be enrolled in the lesson's parent course and the lesson must be available.
+		$allowed = ( $user_id && llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) && $lesson->is_available() );
+	}
+
+	/**
+	 * Filter whether a user is authorized to mark a lesson complete or incomplete.
+	 *
+	 * @since 10.0.7
+	 *
+	 * @param bool             $allowed Whether or not the user is authorized.
+	 * @param int              $user_id WP User ID of the student.
+	 * @param LLMS_Lesson|bool $lesson  LLMS_Lesson instance, or `false` for an invalid lesson.
+	 */
+	return apply_filters( 'llms_can_user_complete_lesson', $allowed, $user_id, $lesson );
+}
+
+/**
  * Determines whether or not a "Mark Complete" button should be displayed for a given lesson
  *
  * If the lesson has a quiz, the button will only be shown if the current user has
@@ -71,7 +113,6 @@ function llms_show_mark_complete_button( $lesson ) {
 	}
 
 	return apply_filters( 'llms_show_mark_complete_button', $show, $lesson );
-
 }
 
 
@@ -101,5 +142,4 @@ function llms_show_take_quiz_button( $lesson ) {
 
 	// allow 3rd parties to modify default behavior.
 	return apply_filters( 'llms_show_take_quiz_button', $show, $lesson );
-
 }
