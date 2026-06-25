@@ -867,6 +867,87 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test validate_plan() rejects a member-only plan when the user isn't a member.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_plan_member_only_not_available() {
+
+		wp_set_current_user( 0 );
+
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		$plan = $this->get_mock_plan( 0 );
+		$plan->set( 'availability', 'members' );
+		$plan->set( 'availability_restrictions', array( $membership_id ) );
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_plan_id' => $plan->get( 'id' ),
+		) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'plan-not-available', $res );
+
+	}
+
+	/**
+	 * Test validate_plan() allows a member-only plan for an enrolled member.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_plan_member_only_available() {
+
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		$student = $this->factory->student->create_and_get();
+		$student->enroll( $membership_id );
+		wp_set_current_user( $student->get( 'id' ) );
+
+		$plan = $this->get_mock_plan( 0 );
+		$plan->set( 'availability', 'members' );
+		$plan->set( 'availability_restrictions', array( $membership_id ) );
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_plan_id' => $plan->get( 'id' ),
+		) );
+
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' ) );
+
+	}
+
+	/**
+	 * Test validate_plan() rejects a plan whose product has purchase restrictions (e.g. capacity reached).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_plan_product_restricted() {
+
+		$plan    = $this->get_mock_plan( 0 );
+		$course  = new LLMS_Course( $plan->get( 'product_id' ) );
+
+		// Restrict enrollment by closing the enrollment period in the past.
+		$course->set( 'enrollment_period', 'yes' );
+		$course->set( 'enrollment_start_date', '01/01/2000' );
+		$course->set( 'enrollment_end_date', '01/02/2000' );
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_plan_id' => $plan->get( 'id' ),
+		) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'product-not-purchasable', $res );
+
+	}
+
+	/**
 	 * Test validate_terms() when terms aren't required.
 	 *
 	 * @since 7.0.0
