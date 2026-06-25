@@ -451,7 +451,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Ensure no form field stores submitted data into a protected user property.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @param array[] $fields Array of LifterLMS Form Fields.
 	 * @return true|WP_Error Returns `true` when all fields are allowed or a `WP_Error` when a protected field is found.
@@ -488,7 +488,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Determine if a storage destination targets a protected user property.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @param string $store Storage location. Either "users" or "usermeta".
 	 * @param string $key   Storage key (column name for "users" or meta key for "usermeta").
@@ -501,7 +501,7 @@ class LLMS_Form_Handler {
 		/**
 		 * Filter the list of protected user storage destinations that form fields may not write to.
 		 *
-		 * @since [version]
+		 * @since 10.0.8
 		 *
 		 * @param array $protected {
 		 *     Array of protected storage keys, keyed by storage location.

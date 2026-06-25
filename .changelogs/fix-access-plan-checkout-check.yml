@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: "Additional checks during checkout order creation."

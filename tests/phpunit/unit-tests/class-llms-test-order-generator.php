@@ -869,7 +869,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() rejects a member-only plan when the user isn't a member.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -896,7 +896,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() allows a member-only plan for an enrolled member.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -923,7 +923,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() rejects a plan whose product has purchase restrictions (e.g. capacity reached).
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */

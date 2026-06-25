@@ -342,7 +342,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	/**
 	 * Ensure the current user is allowed to assign a role to a user created during import
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @param string $role WP_User role to be assigned to the new user.
 	 * @return WP_Error|true Returns `true` when the role may be assigned or a `WP_Error` when it may not.

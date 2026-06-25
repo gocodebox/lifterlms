@@ -286,7 +286,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
  *
- * @since [version]
+ * @since 10.0.8
  *
  * @param LLMS_Access_Plan $plan    The access plan being purchased.
  * @param int|null         $user_id Optional. WP_User ID of the purchasing user. Defaults to the current user.
@@ -310,7 +310,7 @@ function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
 	/**
 	 * Filters whether an access plan can be purchased during checkout.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @param true|WP_Error         $can_purchase Whether the plan can be purchased. `true` if it can, a `WP_Error` otherwise.
 	 * @param LLMS_Access_Plan|null $plan         The access plan being purchased.

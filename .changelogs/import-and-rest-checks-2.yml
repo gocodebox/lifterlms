@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: "Additional checks when creating users during course and membership imports."

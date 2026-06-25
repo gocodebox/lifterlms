@@ -315,7 +315,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_user() uses a safe default role when none is supplied.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -332,7 +332,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_user() allows an importer to create a user with a role they can assign.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_user() prevents an importer from creating a user with a role they cannot assign.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */

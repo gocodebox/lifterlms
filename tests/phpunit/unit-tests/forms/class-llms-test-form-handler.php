@@ -574,7 +574,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Append a text field block to a form.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @param string $location Form location ID.
 	 * @param array  $attrs    Block attributes.
@@ -594,7 +594,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * A field that stores to a protected user property prevents the submission.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -625,7 +625,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * A legitimate custom usermeta field is still saved (the guard does not block normal fields).
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
@@ -653,7 +653,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Directly test the protected field guard against various field shapes.
 	 *
-	 * @since [version]
+	 * @since 10.0.8
 	 *
 	 * @return void
 	 */
