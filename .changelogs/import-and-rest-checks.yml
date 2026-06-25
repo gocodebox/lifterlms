@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Additional checks on the data saved when submitting account and registration forms."
