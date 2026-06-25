@@ -32,7 +32,7 @@
     "lifterlms/lifterlms-blocks": "2.7.2",
     "lifterlms/lifterlms-cli": "0.0.5",
     "lifterlms/lifterlms-helper": "3.5.9",
-    "lifterlms/lifterlms-rest": "1.0.6",
+    "lifterlms/lifterlms-rest": "1.0.7",
     "woocommerce/action-scheduler": "3.5.4",
     "gocodebox/banner-notifications": "1.1.1"
   },

@@ -685,6 +685,12 @@ class LLMS_Order_Generator {
 		}
 
 		$this->plan = $plan;
+
+		$purchasable = llms_check_access_plan_purchasable( $plan );
+		if ( is_wp_error( $purchasable ) ) {
+			return $this->error( $purchasable->get_error_code(), $purchasable->get_error_message() );
+		}
+
 		return true;
 
 	}
