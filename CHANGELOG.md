@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v10.0.8 - 2026-06-25
+--------------------
+
+##### Security Fixes
+
++ Additional checks during checkout order creation. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks when creating users during course and membership imports. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks on the data saved when submitting account and registration forms. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+
 v10.0.7 - 2026-06-23
 --------------------
 
