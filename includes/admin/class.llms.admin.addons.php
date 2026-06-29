@@ -337,6 +337,7 @@ class LLMS_Admin_AddOns {
 
 					<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
 
+					<?php if ( current_user_can( 'install_plugins' ) ) : ?>
 					<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
 
 						<a class="llms-bulk-close" href="#">
@@ -367,6 +368,7 @@ class LLMS_Admin_AddOns {
 						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
 
 					</div>
+					<?php endif; ?>
 
 				</form>
 
