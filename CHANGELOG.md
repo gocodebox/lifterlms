@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v10.0.9 - 2026-06-29
+--------------------
+
+##### Bug Fixes
+
++ Fixed the "Add New Plan" access plan dialog not scrolling within the block editor meta boxes area in WordPress 7.0.
+
+##### Security Fixes
+
++ Additional checks when starting a quiz.
++ Additional checks on the add-ons management screen.
++ Additional checks when authenticating REST API requests.
+
+
 v10.0.8 - 2026-06-25
 --------------------
 
