@@ -473,11 +473,9 @@ class LLMS_AJAX_Handler {
 				$access_lesson_id = absint( $existing_attempt->get( 'lesson_id' ) );
 			}
 		}
-		if ( $access_lesson_id ) {
-			$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
-			if ( is_wp_error( $access_check ) ) {
-				return $access_check;
-			}
+		$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
 		}
 
 		// Limit reached?
