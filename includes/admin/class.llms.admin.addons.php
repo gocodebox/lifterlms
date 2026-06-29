@@ -238,6 +238,11 @@ class LLMS_Admin_AddOns {
 	 */
 	public function handle_actions() {
 
+		// Installing, activating, deactivating, and uninstalling add-ons manages plugins/themes.
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
 		// Activate & deactivate addons.
 		if ( isset( $_REQUEST['_llms_manage_addon_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_manage_addon_nonce'] ) ), 'llms_manage_addon' ) ) {
 
