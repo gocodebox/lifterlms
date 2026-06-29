@@ -31,8 +31,8 @@
     "deliciousbrains/wp-background-processing": "1.0.2",
     "lifterlms/lifterlms-blocks": "2.7.2",
     "lifterlms/lifterlms-cli": "0.0.5",
-    "lifterlms/lifterlms-helper": "3.5.9",
-    "lifterlms/lifterlms-rest": "1.0.7",
+    "lifterlms/lifterlms-helper": "3.5.10",
+    "lifterlms/lifterlms-rest": "1.0.8",
     "woocommerce/action-scheduler": "3.5.4",
     "gocodebox/banner-notifications": "1.1.1"
   },
