@@ -10,7 +10,7 @@ v10.0.9 - 2026-06-29
 
 ##### Security Fixes
 
-+ Additional checks when starting a quiz.
++ Additional checks when starting a quiz. Thanks [@Civitasmass](https://github.com/Civitasmass)!
 + Additional checks on the add-ons management screen.
 + Additional checks when authenticating REST API requests.
 
