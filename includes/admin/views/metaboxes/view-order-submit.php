@@ -40,8 +40,22 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<?php $next_time = $order->get_next_payment_due_date( 'U' ); ?>
 
 			<?php if ( $order->has_trial() ) : ?>
+				<?php
+				/**
+				 * Filter the label for an order's trial end date field.
+				 *
+				 * Add-ons that repurpose the trial fields (for example a coupon that discounts only the
+				 * first payment) can use this to relabel the field without affecting amounts or dates.
+				 *
+				 * @since [version]
+				 *
+				 * @param string     $label The default label.
+				 * @param LLMS_Order $order The order object.
+				 */
+				$trial_end_date_label = apply_filters( 'llms_order_trial_end_date_label', __( 'Trial End Date', 'lifterlms' ), $order );
+				?>
 				<div class="llms-metabox-field">
-					<label><?php esc_html_e( 'Trial End Date', 'lifterlms' ); ?>:</label>
+					<label><?php echo esc_html( $trial_end_date_label ); ?>:</label>
 					<?php if ( $supports_modify_recurring_payments ) : ?>
 						<span
 							id="llms-editable-trial-end-date"

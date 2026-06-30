@@ -97,7 +97,22 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 
 		<?php if ( $order->has_trial() ) : ?>
 
-			<h4><?php esc_html_e( 'Trial Information', 'lifterlms' ); ?></h4>
+			<h4>
+				<?php
+				/**
+				 * Filter the heading for an order's trial information section.
+				 *
+				 * Add-ons that repurpose the trial fields (for example a coupon that discounts only the
+				 * first payment) can use this to relabel the heading without affecting amounts or dates.
+				 *
+				 * @since [version]
+				 *
+				 * @param string     $label The default heading.
+				 * @param LLMS_Order $order The order object.
+				 */
+				echo esc_html( apply_filters( 'llms_order_trial_information_label', __( 'Trial Information', 'lifterlms' ), $order ) );
+				?>
+			</h4>
 
 			<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
 				<div class="llms-metabox-field">

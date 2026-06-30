@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @since [version] Made the trial total label filterable via `llms_order_trial_label`.
+ * @version [version]
  *
  * @var LLMS_Order                    $order   Current order object.
  * @var LLMS_Payment_Gateway|WP_Error $gateway Instance of the LLMS_Payment_Gateway extending class used for the payment.
@@ -57,7 +58,22 @@ defined( 'ABSPATH' ) || exit;
 				<?php endif; ?>
 
 				<tr>
-					<th><?php esc_html_e( 'Trial Total', 'lifterlms' ); ?></th>
+					<th>
+						<?php
+						/**
+						 * Filter the label for an order's trial total field.
+						 *
+						 * Add-ons that repurpose the trial fields (for example a coupon that discounts only the
+						 * first payment) can use this to relabel the field without affecting amounts or dates.
+						 *
+						 * @since [version]
+						 *
+						 * @param string     $label The default label.
+						 * @param LLMS_Order $order The order object.
+						 */
+						echo esc_html( apply_filters( 'llms_order_trial_total_label', __( 'Trial Total', 'lifterlms' ), $order ) );
+						?>
+					</th>
 					<td>
 						<?php echo wp_kses( $order->get_price( 'trial_total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
 						<?php echo esc_html( sprintf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'trial_length' ), 'lifterlms' ), $order->get( 'trial_length' ), $order->get( 'trial_period' ) ) ); ?>
