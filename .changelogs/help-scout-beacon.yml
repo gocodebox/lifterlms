@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added a HelpScout help beacon to the LifterLMS admin screens and to the screens under the Courses, Memberships, Engagements, and Orders menus. The support beacon is shown to sites with a valid license and the pre-sales beacon otherwise, the current user's name and email are pre-filled, and the LifterLMS system report is attached to conversations as agent-only session data. The beacon only loads after the user opts in via a consent prompt."

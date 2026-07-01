@@ -333,6 +333,7 @@ class LLMS_Loader {
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
+	 * @since [version] Include `LLMS_Admin_Help_Beacon` class.
 	 *
 	 * @return void
 	 */
@@ -346,6 +347,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-plugins.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-help-beacon.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
