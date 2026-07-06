@@ -24,10 +24,6 @@ defined( 'ABSPATH' ) || exit;
  * Engagements and Orders menus it is loaded on all pages, including the editors. It
  * is never loaded on the Course Builder.
  *
- * Two separate beacons are used: a support beacon shown when the site has a valid
- * add-on license and a pre-sales beacon shown otherwise. The LifterLMS system
- * report is attached to both beacons as agent-only session data.
- *
  * To respect the user's privacy the beacon script (which may set cookies) is not
  * loaded until the user clicks the launcher and confirms a consent prompt.
  *
@@ -36,18 +32,11 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Help_Beacon {
 
 	/**
-	 * HelpScout beacon ID shown to sites without a valid license (pre-sales).
+	 * HelpScout pre-sales beacon ID.
 	 *
 	 * @var string
 	 */
-	const PRESALES_BEACON_ID = '52c19826-01aa-491c-9a95-10ab704fc0df';
-
-	/**
-	 * HelpScout beacon ID shown to sites with a valid license (support).
-	 *
-	 * @var string
-	 */
-	const SUPPORT_BEACON_ID = '3a1a4de4-d043-4b9c-8321-4b49596f7476';
+	const BEACON_ID = '52c19826-01aa-491c-9a95-10ab704fc0df';
 
 	/**
 	 * Constructor.
@@ -74,14 +63,8 @@ class LLMS_Admin_Help_Beacon {
 			return;
 		}
 
-		$is_licensed = $this->is_licensed();
-		$beacon_id   = $this->get_beacon_id( $is_licensed );
-		if ( empty( $beacon_id ) ) {
-			return;
-		}
-
 		llms()->assets->enqueue_inline( 'llms-help-beacon-styles', $this->get_inline_styles(), 'style' );
-		llms()->assets->enqueue_inline( 'llms-help-beacon', $this->get_inline_script( $beacon_id ), 'footer' );
+		llms()->assets->enqueue_inline( 'llms-help-beacon', $this->get_inline_script( self::BEACON_ID ), 'footer' );
 	}
 
 	/**
@@ -173,126 +156,6 @@ class LLMS_Admin_Help_Beacon {
 	}
 
 	/**
-	 * Determine whether the site has a valid LifterLMS add-on license.
-	 *
-	 * @since [version]
-	 *
-	 * @return boolean
-	 */
-	public function is_licensed() {
-
-		$licensed = false;
-
-		if ( function_exists( 'llms_helper_options' ) ) {
-			foreach ( llms_helper_options()->get_license_keys() as $key ) {
-				if ( isset( $key['status'] ) && 1 == $key['status'] ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Status is stored as a numeric string.
-					$licensed = true;
-					break;
-				}
-			}
-		}
-
-		/**
-		 * Filters whether the site is considered licensed when determining which help beacon to display.
-		 *
-		 * @since [version]
-		 *
-		 * @param boolean $licensed Whether a valid license key was found.
-		 */
-		return (bool) apply_filters( 'llms_help_beacon_is_licensed', $licensed );
-	}
-
-	/**
-	 * Retrieve the HelpScout beacon ID for the current license state.
-	 *
-	 * @since [version]
-	 *
-	 * @param boolean|null $is_licensed Whether the site is licensed. When `null` the license state is determined automatically.
-	 * @return string
-	 */
-	public function get_beacon_id( $is_licensed = null ) {
-
-		$is_licensed = is_null( $is_licensed ) ? $this->is_licensed() : (bool) $is_licensed;
-		$beacon_id   = $is_licensed ? self::SUPPORT_BEACON_ID : self::PRESALES_BEACON_ID;
-
-		/**
-		 * Filters the HelpScout beacon ID to display.
-		 *
-		 * @since [version]
-		 *
-		 * @param string  $beacon_id   The HelpScout beacon ID.
-		 * @param boolean $is_licensed Whether the site has a valid license.
-		 */
-		return apply_filters( 'llms_help_beacon_id', $beacon_id, $is_licensed );
-	}
-
-	/**
-	 * Build the beacon session data from the LifterLMS system report.
-	 *
-	 * The data is attached to the beacon as agent-only session data. It is visible in
-	 * the HelpScout conversation activity but is not added to the customer's message.
-	 * Each top-level system report section becomes a single session data attribute.
-	 *
-	 * @since [version]
-	 *
-	 * @return array Associative array of attribute label => string value.
-	 */
-	protected function get_session_data() {
-
-		if ( ! class_exists( 'LLMS_Data' ) ) {
-			return array();
-		}
-
-		$report = LLMS_Data::get_data( 'system_report' );
-		$data   = array();
-
-		foreach ( $report as $section => $values ) {
-			$label = 'LifterLMS: ' . ucwords( str_replace( '_', ' ', $section ) );
-			$value = is_array( $values ) ? $this->stringify_report_section( $values ) : (string) $values;
-			// HelpScout limits session data values to 10,000 characters.
-			$data[ $label ] = strlen( $value ) > 10000 ? substr( $value, 0, 9997 ) . '...' : $value;
-		}
-
-		// HelpScout limits session data to 20 attribute/value pairs.
-		$data = array_slice( $data, 0, 20, true );
-
-		/**
-		 * Filters the session data attached to the help beacon.
-		 *
-		 * Return an empty array to prevent the system report from being attached to beacon conversations.
-		 *
-		 * @since [version]
-		 *
-		 * @param array $data Associative array of session data attribute labels and string values.
-		 */
-		return apply_filters( 'llms_help_beacon_session_data', $data );
-	}
-
-	/**
-	 * Flatten a system report section into a human-readable multi-line string.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $section Associative array of report values.
-	 * @return string
-	 */
-	protected function stringify_report_section( $section ) {
-
-		$lines = array();
-
-		foreach ( $section as $key => $value ) {
-			if ( is_bool( $value ) ) {
-				$value = $value ? 'true' : 'false';
-			} elseif ( is_array( $value ) ) {
-				$value = wp_json_encode( $value );
-			}
-			$lines[] = $key . ': ' . $value;
-		}
-
-		return implode( "\n", $lines );
-	}
-
-	/**
 	 * Build the inline styles for the beacon launcher button.
 	 *
 	 * @since [version]
@@ -331,12 +194,6 @@ class LLMS_Admin_Help_Beacon {
 			),
 		);
 
-		// Attach the LifterLMS system report as agent-only session data on both the support and pre-sales beacons.
-		$session_data = $this->get_session_data();
-		if ( ! empty( $session_data ) ) {
-			$settings['sessionData'] = $session_data;
-		}
-
 		// Encode with tag/amp hex escaping so the data is safe to embed within the inline <script> tag.
 		$json = wp_json_encode( $settings, JSON_HEX_TAG | JSON_HEX_AMP );
 
@@ -350,9 +207,6 @@ class LLMS_Admin_Help_Beacon {
 		window.Beacon( 'init', settings.beaconId );
 		if ( settings.prefill && settings.prefill.email ) {
 			window.Beacon( 'prefill', settings.prefill );
-		}
-		if ( settings.sessionData ) {
-			window.Beacon( 'session-data', settings.sessionData );
 		}
 		loaded = true;
 	}
