@@ -1,5 +1,0 @@
-significance: patch
-type: security
-attributions:
-  - "@devploit"
-entry: "Additional checks on post search AJAX requests."
