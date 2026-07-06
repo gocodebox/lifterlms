@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Additional sanitization of pricing display markup."
