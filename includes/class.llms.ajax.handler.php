@@ -473,11 +473,9 @@ class LLMS_AJAX_Handler {
 				$access_lesson_id = absint( $existing_attempt->get( 'lesson_id' ) );
 			}
 		}
-		if ( $access_lesson_id ) {
-			$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
-			if ( is_wp_error( $access_check ) ) {
-				return $access_check;
-			}
+		$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
 		}
 
 		// Limit reached?
@@ -925,7 +923,7 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
-		if ( ! is_user_logged_in() ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die();
 		}
 
@@ -937,10 +935,30 @@ class LLMS_AJAX_Handler {
 
 		// Get post type(s).
 		$post_type        = sanitize_text_field( llms_filter_input_sanitize_string( INPUT_POST, 'post_type' ) );
-		$post_types_array = explode( ',', $post_type );
-		foreach ( $post_types_array as &$str ) {
-			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		$post_types_array = array_filter( array_map( 'trim', explode( ',', $post_type ) ) );
+		$post_types_array = array_filter(
+			$post_types_array,
+			function ( $type ) {
+				$object = get_post_type_object( $type );
+				return $object && ( $object->public || current_user_can( $object->cap->edit_posts ) );
+			}
+		);
+
+		if ( empty( $post_types_array ) ) {
+			echo json_encode(
+				array(
+					'items'   => array(),
+					'more'    => false,
+					'success' => true,
+				)
+			);
+			wp_die();
 		}
+
+		foreach ( $post_types_array as &$str ) {
+			$str = "'" . esc_sql( $str ) . "'";
+		}
+		unset( $str );
 		$post_types = implode( ',', $post_types_array );
 
 		// Get post status(es).
