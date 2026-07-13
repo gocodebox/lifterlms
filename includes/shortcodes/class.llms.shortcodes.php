@@ -212,6 +212,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 3.2.5
 	 * @since 3.4.1 Unknown.
+	 * @since 10.0.11 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
 	 *
 	 * @param array  $atts    Associative array of shortcode attributes.
 	 * @param string $content Optional. Shortcode content, enables custom text/html in the button. Default empty string.
@@ -235,7 +236,7 @@ class LLMS_Shortcodes {
 		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
 			$plan = new LLMS_Access_Plan( $atts['id'] );
 
-			$classes  = 'llms-button-' . $atts['type'];
+			$classes  = 'llms-button-' . $atts['type'] . ' wp-element-button';
 			$classes .= ! empty( $atts['size'] ) ? ' ' . $atts['size'] : '';
 			$classes .= ! empty( $atts['classes'] ) ? ' ' . $atts['classes'] : '';
 
