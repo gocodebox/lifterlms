@@ -70,15 +70,15 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'course_purchased',
 				),
 				'id'               => '_faux_engagement_trigger_post_course',
-				'label'            => __( 'Select a Course', 'lifterlms' ),
-				'placeholder'      => __( 'Any Course', 'lifterlms' ),
+				'label'            => __( 'Select Course(s)', 'lifterlms' ),
+				'placeholder'      => __( 'Add courses to limit this trigger', 'lifterlms' ),
 			),
 
 			'lesson'           => array(
 				'controller_value' => array( 'lesson_completed' ),
 				'id'               => '_faux_engagement_trigger_post_lesson',
-				'label'            => __( 'Select a Lesson', 'lifterlms' ),
-				'placeholder'      => __( 'Any Lesson', 'lifterlms' ),
+				'label'            => __( 'Select Lesson(s)', 'lifterlms' ),
+				'placeholder'      => __( 'Add lessons to limit this trigger', 'lifterlms' ),
 			),
 
 			'llms_access_plan' => array(
@@ -86,8 +86,8 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'access_plan_purchased',
 				),
 				'id'               => '_faux_engagement_trigger_post_access_plan',
-				'label'            => __( 'Select an Access Plan', 'lifterlms' ),
-				'placeholder'      => __( 'Any Access Plan', 'lifterlms' ),
+				'label'            => __( 'Select Access Plan(s)', 'lifterlms' ),
+				'placeholder'      => __( 'Add access plans to limit this trigger', 'lifterlms' ),
 			),
 
 			'llms_membership'  => array(
@@ -96,8 +96,8 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'membership_purchased',
 				),
 				'id'               => '_faux_engagement_trigger_post_membership',
-				'label'            => __( 'Select a Membership', 'lifterlms' ),
-				'placeholder'      => __( 'Any Membership', 'lifterlms' ),
+				'label'            => __( 'Select Membership(s)', 'lifterlms' ),
+				'placeholder'      => __( 'Add memberships to limit this trigger', 'lifterlms' ),
 			),
 
 			'llms_quiz'        => array(
@@ -107,15 +107,15 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'quiz_failed',
 				),
 				'id'               => '_faux_engagement_trigger_post_quiz',
-				'label'            => __( 'Select a Quiz', 'lifterlms' ),
-				'placeholder'      => __( 'Any Quiz', 'lifterlms' ),
+				'label'            => __( 'Select Quiz(zes)', 'lifterlms' ),
+				'placeholder'      => __( 'Add quizzes to limit this trigger', 'lifterlms' ),
 			),
 
 			'section'          => array(
 				'controller_value' => array( 'section_completed' ),
 				'id'               => '_faux_engagement_trigger_post_section',
-				'label'            => __( 'Select a Section', 'lifterlms' ),
-				'placeholder'      => __( 'Any Section', 'lifterlms' ),
+				'label'            => __( 'Select Section(s)', 'lifterlms' ),
+				'placeholder'      => __( 'Add sections to limit this trigger', 'lifterlms' ),
 			),
 
 		);
@@ -128,7 +128,8 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			if ( 'any' === $trigger_post_val || empty( $trigger_post_val ) ) {
 				$val = array();
 			} elseif ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
-				$val = llms_make_select2_post_array( array( $trigger_post_val ) );
+				$ids = array_map( 'absint', explode( ',', $trigger_post_val ) );
+				$val = llms_make_select2_post_array( array_filter( $ids ) );
 			} else {
 				$val = array();
 			}
@@ -145,9 +146,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'placeholder' => $placeholder,
 					'post-type'   => $post_type,
 				),
-				'desc'             => __( 'Leave blank to apply to all.', 'lifterlms' ),
+				'desc'             => __( 'Leave blank to apply to all. Select multiple to limit.', 'lifterlms' ),
 				'id'               => $data['id'],
 				'label'            => $data['label'],
+				'multi'            => true,
 				'type'             => 'select',
 				'value'            => $val,
 			);
@@ -351,11 +353,17 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		if ( $var ) {
 
-			$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
+			$posted = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? $_POST[ '_faux_engagement_trigger_post_' . $var ] : '';
 
-			// An empty trigger post means "any" — store explicitly so the intent is clear.
-			if ( empty( $val ) ) {
-				$val = 'any';
+			if ( is_array( $posted ) ) {
+				$ids = array_map( 'absint', $posted );
+				$ids = array_filter( $ids );
+				$val = $ids ? implode( ',', $ids ) : 'any';
+			} else {
+				$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
+				if ( empty( $val ) ) {
+					$val = 'any';
+				}
 			}
 
 		} else {

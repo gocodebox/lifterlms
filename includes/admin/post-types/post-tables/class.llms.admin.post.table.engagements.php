@@ -79,16 +79,25 @@ class LLMS_Admin_Post_Table_Engagements {
 
 					echo '<br>';
 
-					if ( 'course_track_completed' === $trigger ) {
-						$term  = get_term( $tid, 'course_track' );
-						$title = $term->name;
-						$link  = get_edit_term_link( $tid, 'course_track', 'course' );
-					} else {
-						$title = get_the_title( $tid );
-						$link  = get_edit_post_link( $tid );
+					$ids = array_map( 'absint', explode( ',', $tid ) );
+					$ids = array_filter( $ids );
+					$links = array();
+					foreach ( $ids as $id ) {
+
+						if ( 'course_track_completed' === $trigger ) {
+							$term  = get_term( $id, 'course_track' );
+							$title = $term ? $term->name : sprintf( __( 'Term #%d', 'lifterlms' ), $id );
+							$url   = get_edit_term_link( $id, 'course_track', 'course' );
+						} else {
+							$title = get_the_title( $id );
+							$url   = get_edit_post_link( $id );
+						}
+
+						$links[] = sprintf( '<a href="%s">%s (ID# %d)</a>', esc_url( $url ), esc_html( $title ), esc_html( $id ) );
+
 					}
 
-					printf( '<a href="%s">%s (ID# %d)</a>', esc_url( $link ), esc_html( $title ), esc_html( $tid ) );
+					echo wp_kses_post( implode( ', ', $links ) );
 
 				} elseif ( 'any' === $tid ) {
 
