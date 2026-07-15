@@ -354,7 +354,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		if ( $var ) {
 
 			// The nonce is verified at the top of save(). Read the posted IDs directly.
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$posted = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? wp_unslash( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) : array();
 
 			$posted = is_array( $posted ) ? $posted : array_map( 'trim', explode( ',', (string) $posted ) );
