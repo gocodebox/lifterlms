@@ -74,32 +74,36 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				echo isset( $triggers[ $trigger ] ) ? esc_html( $triggers[ $trigger ] ) : esc_html( $trigger );
 
-				$tid = get_post_meta( $post_id, '_llms_engagement_trigger_post', true );
-				if ( $tid && 'any' !== $tid ) {
+				$tids = get_post_meta( $post_id, '_llms_engagement_trigger_post', false );
+				$ids  = array_filter( array_map( 'absint', (array) $tids ) );
+
+				if ( $ids ) {
 
 					echo '<br>';
 
-					$ids = array_map( 'absint', explode( ',', $tid ) );
-					$ids = array_filter( $ids );
-					$links = array();
+					$first = true;
 					foreach ( $ids as $id ) {
 
 						if ( 'course_track_completed' === $trigger ) {
 							$term  = get_term( $id, 'course_track' );
-							$title = $term ? $term->name : sprintf( __( 'Term #%d', 'lifterlms' ), $id );
+							$title = ( $term && ! is_wp_error( $term ) ) ? $term->name : sprintf( __( 'Term #%d', 'lifterlms' ), $id );
 							$url   = get_edit_term_link( $id, 'course_track', 'course' );
 						} else {
 							$title = get_the_title( $id );
 							$url   = get_edit_post_link( $id );
 						}
 
-						$links[] = sprintf( '<a href="%s">%s (ID# %d)</a>', esc_url( $url ), esc_html( $title ), esc_html( $id ) );
+						if ( $first ) {
+							$first = false;
+						} else {
+							echo ', ';
+						}
+
+						printf( '<a href="%s">%s (ID# %d)</a>', esc_url( $url ), esc_html( $title ), esc_html( $id ) );
 
 					}
 
-					echo wp_kses_post( implode( ', ', $links ) );
-
-				} elseif ( 'any' === $tid ) {
+				} elseif ( $tids && 1 === count( $tids ) && 'any' === reset( $tids ) ) {
 
 					echo '<br><em>' . esc_html__( 'Any', 'lifterlms' ) . '</em>';
 

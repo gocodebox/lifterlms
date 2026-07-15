@@ -71,14 +71,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_course',
 				'label'            => __( 'Select Course(s)', 'lifterlms' ),
-				'placeholder'      => __( 'Add courses to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Course', 'lifterlms' ),
 			),
 
 			'lesson'           => array(
 				'controller_value' => array( 'lesson_completed' ),
 				'id'               => '_faux_engagement_trigger_post_lesson',
 				'label'            => __( 'Select Lesson(s)', 'lifterlms' ),
-				'placeholder'      => __( 'Add lessons to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Lesson', 'lifterlms' ),
 			),
 
 			'llms_access_plan' => array(
@@ -87,7 +87,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_access_plan',
 				'label'            => __( 'Select Access Plan(s)', 'lifterlms' ),
-				'placeholder'      => __( 'Add access plans to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Access Plan', 'lifterlms' ),
 			),
 
 			'llms_membership'  => array(
@@ -97,7 +97,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_membership',
 				'label'            => __( 'Select Membership(s)', 'lifterlms' ),
-				'placeholder'      => __( 'Add memberships to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Membership', 'lifterlms' ),
 			),
 
 			'llms_quiz'        => array(
@@ -108,14 +108,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				),
 				'id'               => '_faux_engagement_trigger_post_quiz',
 				'label'            => __( 'Select Quiz(zes)', 'lifterlms' ),
-				'placeholder'      => __( 'Add quizzes to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Quiz', 'lifterlms' ),
 			),
 
 			'section'          => array(
 				'controller_value' => array( 'section_completed' ),
 				'id'               => '_faux_engagement_trigger_post_section',
 				'label'            => __( 'Select Section(s)', 'lifterlms' ),
-				'placeholder'      => __( 'Add sections to limit this trigger', 'lifterlms' ),
+				'placeholder'      => __( 'Any Section', 'lifterlms' ),
 			),
 
 		);
@@ -124,12 +124,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 			$data['controller_value'] = apply_filters( 'llms_engagement_controller_values_' . $post_type, $data['controller_value'] );
 
-			$trigger_post_val = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true );
-			if ( 'any' === $trigger_post_val || empty( $trigger_post_val ) ) {
+			$trigger_post_vals = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', false );
+			if ( empty( $trigger_post_vals ) || ( 1 === count( $trigger_post_vals ) && 'any' === reset( $trigger_post_vals ) ) ) {
 				$val = array();
 			} elseif ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
-				$ids = array_map( 'absint', explode( ',', $trigger_post_val ) );
-				$val = llms_make_select2_post_array( array_filter( $ids ) );
+				$ids = array_filter( array_map( 'absint', (array) $trigger_post_vals ) );
+				$val = llms_make_select2_post_array( $ids );
 			} else {
 				$val = array();
 			}
@@ -353,25 +353,28 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		if ( $var ) {
 
-			$posted = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? $_POST[ '_faux_engagement_trigger_post_' . $var ] : '';
+			// The nonce is verified at the top of save(). Read the posted IDs directly.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$posted = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? wp_unslash( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) : array();
 
-			if ( is_array( $posted ) ) {
-				$ids = array_map( 'absint', $posted );
-				$ids = array_filter( $ids );
-				$val = $ids ? implode( ',', $ids ) : 'any';
-			} else {
-				$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
-				if ( empty( $val ) ) {
-					$val = 'any';
-				}
-			}
+			$posted = is_array( $posted ) ? $posted : array_map( 'trim', explode( ',', (string) $posted ) );
+			$ids    = array_filter( array_map( 'absint', $posted ) );
 
 		} else {
 
-			$val = '';
+			$ids = array();
 
 		}
 
-		update_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $val );
+		// Store each selected ID in its own meta row so the trigger query can use a regular equality/IN match instead of FIND_IN_SET. An empty selection stores a single 'any' row.
+		delete_post_meta( $post_id, $this->prefix . 'engagement_trigger_post' );
+
+		if ( $ids ) {
+			foreach ( $ids as $id ) {
+				add_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $id );
+			}
+		} else {
+			add_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', 'any' );
+		}
 	}
 }
