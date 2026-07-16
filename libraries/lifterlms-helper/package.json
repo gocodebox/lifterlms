@@ -4,26 +4,20 @@
   "description": "Assists premium LifterLMS theme and plugin updates",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gocodebox/lifterlms-updater.git"
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "libraries/lifterlms-helper"
   },
-  "author": "Thomas Patrick Levy",
-  "license": "GPL-2.0",
-  "bugs": {
-    "url": "https://github.com/gocodebox/lifterlms-updater/issues"
-  },
-  "homepage": "https://github.com/gocodebox/lifterlms-updater#readme",
+  "author": "Team LifterLMS <team@lifterlms.com>",
+  "license": "GPL-3.0",
   "devDependencies": {
-    "@lifterlms/dev": "^0.2.2",
-    "rtlcss": "^3.3.0",
-    "sass": "^1.37.5"
+    "rtlcss": "^4.3.0",
+    "sass": "^1.77.0"
   },
   "scripts": {
-    "build:styles": "npm run build:styles:dev && npm run build:styles:min && npm run styles:rtl",
+    "build": "npm run build:styles:dev && npm run build:styles:min && npm run styles:rtl",
     "build:styles:min": "sass assets/scss/llms-helper.scss:assets/css/llms-helper.min.css --style=compressed",
     "build:styles:dev": "sass assets/scss/llms-helper.scss:assets/css/llms-helper.css --style=expanded",
-    "dev": "llms-dev",
     "watch:styles": "npm run build:styles:dev -- --watch",
-    "styles:rtl": "rtlcss assets/css/llms-helper.css assets/css/llms-helper-rtl.css && rtlcss assets/css/llms-helper.min.css assets/css/llms-helper-rtl.min.css",
-    "build": "npm run build:styles && llms-dev pot"
+    "styles:rtl": "rtlcss assets/css/llms-helper.css assets/css/llms-helper-rtl.css && rtlcss assets/css/llms-helper.min.css assets/css/llms-helper-rtl.min.css"
   }
 }

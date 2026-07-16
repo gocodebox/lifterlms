@@ -1,17 +1,15 @@
 {
   "name": "lifterlms-blocks",
   "version": "2.8.0",
-  "description": "blocks",
+  "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
   "author": "LifterLMS",
   "homepage": "https://lifterlms.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gocodebox/lifterlms-blocks.git"
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "libraries/lifterlms-blocks"
   },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
-  },
+  "license": "GPL-3.0",
   "dependencies": {
     "@dnd-kit/core": "^3.1.1",
     "@dnd-kit/modifiers": "^3.0.0",
@@ -22,26 +20,14 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@lifterlms/dev": "^0.2.2",
-    "@lifterlms/llms-e2e-test-utils": "^4.0.0",
-    "@lifterlms/scripts": "^3.1.0",
-    "jest": "^27.4.5",
-    "jest-dev-server": "^6.0.2",
-    "jest-environment-node": "^27.4.4",
-    "node-version-compare": "^1.0.3"
+    "@lifterlms/scripts": "file:../../packages/scripts"
   },
   "scripts": {
-    "build": "npm run build:scripts:prod && npm run build:pot",
-    "build:scripts:dev": "NODE_ENV=dev wp-scripts build",
-    "build:scripts:prod": "NODE_ENV=production wp-scripts build",
-    "build:pot": "llms-dev pot --text-domain=lifterlms && mv ./i18n/lifterlms.pot ./i18n/lifterlms-blocks.pot",
-    "dev": "llms-dev",
+    "build": "NODE_ENV=production wp-scripts build",
+    "build:dev": "NODE_ENV=dev wp-scripts build",
     "fix:js": "npm run lint:js -- --fix",
     "lint:css": "wp-scripts lint-style ./src/js",
     "lint:js": "wp-scripts lint-js ./src/js",
-    "lint:js:errors": "npm run lint:js -- --quiet",
-    "test": "wp-scripts test-e2e --config tests/e2e/jest.config.js",
-    "test:dev": "npm run test -- --puppeteer-interactive",
     "start": "wp-scripts start"
   }
 }

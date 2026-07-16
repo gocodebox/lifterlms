@@ -8,16 +8,19 @@
  */
 
 const
+	path     = require( 'path' ),
 	generate = require( '@lifterlms/scripts/config/webpack.config' ),
 	config   = generate( {
 		css: [ 'blocks' ],
 		js: [ 'blocks', 'blocks-backwards-compat' ],
-	} );
+	} ),
+	// Absolute path so sass resolves the import regardless of the importing file's location.
+	varsPath = path.resolve( __dirname, 'src/scss/_vars.scss' ).replace( /\\/g, '/' );
 
 config.module.rules.forEach( rule => {
 
 	if ( '\\.(sc|sa)ss$' === rule.test.source ) {
-		rule.use[ 3 ].options.additionalData = '@import "./src/scss/_vars.scss";\n';
+		rule.use[ 3 ].options.additionalData = `@import "${ varsPath }";\n`;
 	}
 
 } );

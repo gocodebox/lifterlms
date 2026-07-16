@@ -41,7 +41,7 @@
   position: absolute;
   left: -1px;
   padding: 20px;
-  top: calc( 100% - 2px );
+  top: calc(100% - 2px);
   width: 90%;
 }
 .wrap.lifterlms-addons .llms-licenses .llms-key-field textarea {
@@ -82,7 +82,7 @@
   }
 }
 .llms-status--betas .llms-beta-aside {
-  background: #fef7f7;
+  background: rgb(253.8216748768, 247.2955665025, 246.9783251232);
   border: 1px solid #e5554e;
   padding: 20px;
 }
