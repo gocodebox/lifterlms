@@ -2,9 +2,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
-	PanelRow,
 	Disabled,
-	SelectControl,
 	Spinner,
 } from '@wordpress/components';
 import {
@@ -18,26 +16,17 @@ import { useMemo } from '@wordpress/element';
 // Internal dependencies.
 import blockJson from './block.json';
 import Icon from './icon.jsx';
-import {
-	usePostOptions,
-	PostSelect,
-} from '../../../packages/components/src/post-select';
-
-const postTypeOptions = [
-	{ label: __( 'Course', 'lifterlms' ), value: 'course' },
-	{ label: __( 'Membership', 'lifterlms' ), value: 'llms_membership' },
-];
+import { PostSelect } from '../../../packages/components/src/post-select';
 
 const Edit = ( props ) => {
-	const { attributes, setAttributes } = props;
+	const { attributes } = props;
 	const blockProps = useBlockProps();
-	const courseOptions = usePostOptions();
 
 	const memoizedServerSideRender = useMemo( () => {
-		let emptyPlaceholder = __( 'Author not found. This block will not be displayed.', 'lifterlms' );
+		let emptyPlaceholder = __( 'Product not found. This block will not be displayed.', 'lifterlms' );
 
-		if ( ! attributes.product && courseOptions.length > 0 ) {
-			emptyPlaceholder = __( 'No course selected. Please choose a Course from the block sidebar panel.', 'lifterlms' );
+		if ( ! attributes.product ) {
+			emptyPlaceholder = __( 'No product selected. Please choose a Course or Membership from the block sidebar panel.', 'lifterlms' );
 		}
 
 		return <ServerSideRender
@@ -58,22 +47,12 @@ const Edit = ( props ) => {
 	return <>
 		<InspectorControls>
 			<PanelBody title={ __( 'Pricing Table Settings', 'lifterlms' ) }>
-				<PanelRow>
-					<SelectControl
-						label={ __( 'Post Type', 'lifterlms' ) }
-						value={ attributes.postType }
-						options={ postTypeOptions }
-						onChange={ ( postType ) => setAttributes( {
-							postType,
-							product: '',
-						} ) }
-					/>
-				</PanelRow>
 				<PostSelect
 					{ ...{
 						...props,
-						postType: attributes?.postType ?? 'course',
+						postType: [ 'course', 'llms_membership' ],
 						attribute: 'product',
+						postTypeAttribute: 'postType',
 					} }
 				/>
 			</PanelBody>
