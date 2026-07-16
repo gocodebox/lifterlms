@@ -1,0 +1,47 @@
+{
+  "name": "lifterlms-blocks",
+  "version": "2.8.0",
+  "description": "blocks",
+  "author": "LifterLMS",
+  "homepage": "https://lifterlms.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms-blocks.git"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^3.1.1",
+    "@dnd-kit/modifiers": "^3.0.0",
+    "@dnd-kit/sortable": "^4.0.0",
+    "llmsWPData": "npm:@wordpress/data@^5.1.2",
+    "react-select": "^4.1.0",
+    "throttle-debounce": "^2.0.1",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@lifterlms/dev": "^0.2.2",
+    "@lifterlms/llms-e2e-test-utils": "^4.0.0",
+    "@lifterlms/scripts": "^3.1.0",
+    "jest": "^27.4.5",
+    "jest-dev-server": "^6.0.2",
+    "jest-environment-node": "^27.4.4",
+    "node-version-compare": "^1.0.3"
+  },
+  "scripts": {
+    "build": "npm run build:scripts:prod && npm run build:pot",
+    "build:scripts:dev": "NODE_ENV=dev wp-scripts build",
+    "build:scripts:prod": "NODE_ENV=production wp-scripts build",
+    "build:pot": "llms-dev pot --text-domain=lifterlms && mv ./i18n/lifterlms.pot ./i18n/lifterlms-blocks.pot",
+    "dev": "llms-dev",
+    "fix:js": "npm run lint:js -- --fix",
+    "lint:css": "wp-scripts lint-style ./src/js",
+    "lint:js": "wp-scripts lint-js ./src/js",
+    "lint:js:errors": "npm run lint:js -- --quiet",
+    "test": "wp-scripts test-e2e --config tests/e2e/jest.config.js",
+    "test:dev": "npm run test -- --puppeteer-interactive",
+    "start": "wp-scripts start"
+  }
+}
