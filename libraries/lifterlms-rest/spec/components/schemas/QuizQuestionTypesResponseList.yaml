@@ -1,0 +1,25 @@
+anyOf:
+  - title: Multiple Choice
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypeChoice'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
+  - title: Picture Choice
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypePictureChoice'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
+  - title: True / False
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypeTrueFalse'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
+  - title: Content
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypeContent'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
+  - title: Fill in the Blank
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypeBlank'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
+  - title: Long Answer
+    allOf:
+      - $ref: '#/components/schemas/QuizQuestionTypeLongAnswer'
+      - $ref: '#/components/schemas/QuizQuestionResponse'
