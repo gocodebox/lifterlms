@@ -342,6 +342,10 @@ class LLMS_Admin_Builder {
 				if ( ! $id ) {
 					return array();
 				}
+				$parent_course = self::get_object_parent_course_id( $id );
+				if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+					return array();
+				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
 				$slug  = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
 				$link  = get_sample_permalink( $id, $title, $slug );
@@ -357,8 +361,22 @@ class LLMS_Admin_Builder {
 			case 'lazy_load':
 				$ret = array();
 				if ( isset( $request['load_id'] ) ) {
-					$post = llms_get_post( absint( $request['load_id'] ) );
-					$ret  = $post->toArray();
+					$load_id       = absint( $request['load_id'] );
+					$post_type     = get_post_type( $load_id );
+					$allowed_types = array( 'section', 'lesson', 'llms_quiz', 'llms_question' );
+					if ( ! $post_type || ! in_array( $post_type, $allowed_types, true ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$parent_course = self::get_object_parent_course_id( $load_id );
+					if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+						wp_send_json( $ret );
+						break;
+					}
+					$post = llms_get_post( $load_id );
+					if ( $post && is_a( $post, 'LLMS_Post_Model' ) ) {
+						$ret = $post->toArray();
+					}
 				}
 				wp_send_json( $ret );
 
@@ -729,7 +747,7 @@ class LLMS_Admin_Builder {
 
 			if ( ! empty( $data['id'] ) ) {
 				$parent_course_id = self::get_object_parent_course_id( absint( $id ) );
-				if ( $parent_course_id && absint( $parent_course_id ) !== absint( $data['id'] ) ) {
+				if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $data['id'] ) ) {
 					array_push( $ret, $res );
 					continue;
 				}
@@ -808,6 +826,20 @@ class LLMS_Admin_Builder {
 			'id'    => $id,
 		);
 
+		// Verify the object belongs to the authorized course.
+		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
+		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
+			$parts    = explode( ':', $id );
+			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
+		}
+
+		if ( $course_id && $check_id ) {
+			$parent_course_id = self::get_object_parent_course_id( $check_id );
+			if ( ! $parent_course_id || absint( $parent_course_id ) !== absint( $course_id ) ) {
+				return $res;
+			}
+		}
+
 		/**
 		 * Custom or 3rd party items can perform custom deletion actions using this filter.
 		 *
@@ -828,20 +860,6 @@ class LLMS_Admin_Builder {
 		$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
 		if ( $custom ) {
 			return $custom;
-		}
-
-		// Verify the object belongs to the authorized course.
-		$check_id = is_numeric( $id ) ? absint( $id ) : 0;
-		if ( ! $check_id && is_string( $id ) && false !== strpos( $id, ':' ) ) {
-			$parts    = explode( ':', $id );
-			$check_id = is_numeric( $parts[0] ) ? absint( $parts[0] ) : 0;
-		}
-
-		if ( $course_id && $check_id ) {
-			$parent_course_id = self::get_object_parent_course_id( $check_id );
-			if ( $parent_course_id && absint( $parent_course_id ) !== absint( $course_id ) ) {
-				return $res;
-			}
 		}
 
 		// Determine the element's post type.
@@ -1067,6 +1085,15 @@ class LLMS_Admin_Builder {
 
 		$ret = array();
 
+		/**
+		 * Resolve the course these lessons must belong to and confirm the current user can edit it.
+		 *
+		 * Authorizing the target relationship here keeps the method self-contained rather than
+		 * relying solely on a permission check performed earlier in the heartbeat request.
+		 */
+		$authorized_course_id = $course_id ? absint( $course_id ) : absint( $section->get( 'parent_course' ) );
+		$can_edit_course      = ! $authorized_course_id || current_user_can( 'edit_course', $authorized_course_id );
+
 		foreach ( $lessons as $lesson_data ) {
 
 			if ( ! isset( $lesson_data['id'] ) ) {
@@ -1079,6 +1106,13 @@ class LLMS_Admin_Builder {
 					'orig_id' => $lesson_data['id'],
 				)
 			);
+
+			if ( ! $can_edit_course ) {
+				// Translators: %s = Lesson post id.
+				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $lesson_data['id'] );
+				array_push( $ret, $res );
+				continue;
+			}
 
 			// Create a new lesson.
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
@@ -1106,6 +1140,11 @@ class LLMS_Admin_Builder {
 						array_push( $ret, $res );
 						continue;
 					}
+					if ( ! $parent && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+						$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
+						array_push( $ret, $res );
+						continue;
+					}
 				}
 			}
 
@@ -1119,14 +1158,6 @@ class LLMS_Admin_Builder {
 				// Don't create useless revision on "creating".
 				add_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
 
-				/**
-				 * If the parent section was just created the lesson will have a temp id
-				 * replace it with the newly created section's real ID.
-				 */
-				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
-					$lesson_data['parent_section'] = $section->get( 'id' );
-				}
-
 				// Return the real ID (important when creating a new lesson).
 				$res['id'] = $lesson->get( 'id' );
 
@@ -1139,6 +1170,17 @@ class LLMS_Admin_Builder {
 				);
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
+
+				/**
+				 * Never trust client-supplied parent relationships.
+				 *
+				 * A lesson saved through the builder must belong to the authorized course and
+				 * one of its sections. These props are skipped in the generic update loop and
+				 * set explicitly below to prevent injecting or moving a lesson into a course
+				 * the current user is not authorized to edit.
+				 */
+				$skip_props[] = 'parent_course';
+				$skip_props[] = 'parent_section';
 
 				// Don't overwrite content if the content editor doesn't display.
 				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
@@ -1157,6 +1199,14 @@ class LLMS_Admin_Builder {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
+
+				// Force the lesson into the authorized course and section.
+				$lesson->set( 'parent_section', $section->get( 'id' ) );
+				if ( $authorized_course_id ) {
+					$lesson->set( 'parent_course', $authorized_course_id );
+				}
+				$res['parent_section'] = $lesson->get( 'parent_section' );
+				$res['parent_course']  = $lesson->get( 'parent_course' );
 
 				// Update all custom fields.
 				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );
@@ -1235,6 +1285,12 @@ class LLMS_Admin_Builder {
 					array_push( $res, $ret );
 					continue;
 				}
+				if ( $course_id && ! $q_parent && ! current_user_can( 'edit_post', absint( $q_data['id'] ) ) ) {
+					// Translators: %s = Question post id.
+					$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
+					array_push( $res, $ret );
+					continue;
+				}
 			}
 
 			// Remove choices because we'll add them individually after creation.
@@ -1293,9 +1349,11 @@ class LLMS_Admin_Builder {
 						} else {
 							$choice_res['id'] = $choice_id;
 
-							if ( isset( $c_data['choice']['id'] ) ) {
+							$choice_media_id = isset( $c_data['choice']['id'] ) ? absint( $c_data['choice']['id'] ) : 0;
+							// Only bind the protected-media meta when the current user is allowed to edit that specific media object.
+							if ( $choice_media_id && current_user_can( 'edit_post', $choice_media_id ) ) {
 								// The quiz IDs are needed for later verification of access by the protected media filters.
-								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
+								$quiz_ids = get_post_meta( $choice_media_id, '_llms_quiz_id', true );
 								if ( ! is_array( $quiz_ids ) ) {
 									$quiz_ids = array();
 								}
@@ -1303,7 +1361,7 @@ class LLMS_Admin_Builder {
 								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
 									$quiz_ids[] = $quiz_id;
 								}
-								update_post_meta( $c_data['choice']['id'], '_llms_quiz_id', $quiz_ids );
+								update_post_meta( $choice_media_id, '_llms_quiz_id', $quiz_ids );
 							}
 						}
 
@@ -1344,6 +1402,14 @@ class LLMS_Admin_Builder {
 			)
 		);
 
+		// Confirm the current user can edit the course this quiz belongs to, independent of earlier checks.
+		$authorized_course_id = $course_id ? absint( $course_id ) : absint( $lesson->get( 'parent_course' ) );
+		if ( $authorized_course_id && ! current_user_can( 'edit_course', $authorized_course_id ) ) {
+			// Translators: %s = Quiz post id.
+			$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $quiz_data['id'] );
+			return $res;
+		}
+
 		// Create a quiz.
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
@@ -1364,6 +1430,10 @@ class LLMS_Admin_Builder {
 				$parent = self::get_object_parent_course_id( $quiz->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
 					// Translators: %s = Quiz post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
+					return $res;
+				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $quiz->get( 'id' ) ) ) {
 					$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 					return $res;
 				}
@@ -1403,11 +1473,14 @@ class LLMS_Admin_Builder {
 			);
 
 			// Update all updatable properties.
+			// Never trust a client-supplied lesson_id; the quiz must belong to the authorized lesson.
 			foreach ( $properties as $prop ) {
-				if ( isset( $quiz_data[ $prop ] ) ) {
+				if ( isset( $quiz_data[ $prop ] ) && 'lesson_id' !== $prop ) {
 					$quiz->set( $prop, $quiz_data[ $prop ] );
 				}
 			}
+			$quiz->set( 'lesson_id', $lesson->get( 'id' ) );
+			$res['lesson_id'] = $lesson->get( 'id' );
 
 			// Include permalink and slug in the response so the builder can update the model.
 			$res['permalink'] = get_permalink( $quiz->get( 'id' ) );
@@ -1444,6 +1517,13 @@ class LLMS_Admin_Builder {
 			)
 		);
 
+		// Confirm the current user can edit the course this section belongs to, independent of earlier checks.
+		if ( $course_id && ! current_user_can( 'edit_course', absint( $course_id ) ) ) {
+			// Translators: %s = Section post id.
+			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". You are not allowed to edit the parent course.', 'lifterlms' ), $section_data['id'] );
+			return $res;
+		}
+
 		// Create a new section.
 		if ( self::is_temp_id( $section_data['id'] ) ) {
 
@@ -1459,6 +1539,11 @@ class LLMS_Admin_Builder {
 			if ( $course_id && $section && is_a( $section, 'LLMS_Section' ) ) {
 				$parent = self::get_object_parent_course_id( $section->get( 'id' ) );
 				if ( $parent && absint( $parent ) !== absint( $course_id ) ) {
+					// Translators: %s = Section post id.
+					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
+					return $res;
+				}
+				if ( ! $parent && ! current_user_can( 'edit_post', $section->get( 'id' ) ) ) {
 					// Translators: %s = Section post id.
 					$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 					return $res;

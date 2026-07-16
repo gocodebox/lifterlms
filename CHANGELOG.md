@@ -1,16 +1,108 @@
 LifterLMS Changelog
 ===================
 
-v10.0.2 - 2026-05-14
+v10.0.10 - 2026-07-06
+---------------------
+
+##### Security Fixes
+
++ Additional sanitization of pricing display markup. Thanks Mustafa Ahmed!
++ Additional checks on post search AJAX requests. Thanks [@devploit](https://github.com/devploit)!
+
+
+v10.0.9 - 2026-06-29
+--------------------
+
+##### Bug Fixes
+
++ Fixed the "Add New Plan" access plan dialog not scrolling within the block editor meta boxes area in WordPress 7.0.
+
+##### Security Fixes
+
++ Additional checks when starting a quiz. Thanks [@Civitasmass](https://github.com/Civitasmass)!
++ Additional checks on the add-ons management screen.
++ Additional checks when authenticating REST API requests.
+
+
+v10.0.8 - 2026-06-25
+--------------------
+
+##### Security Fixes
+
++ Additional checks during checkout order creation. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks when creating users during course and membership imports. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks on the data saved when submitting account and registration forms. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+
+v10.0.7 - 2026-06-23
+--------------------
+
+##### Performance Improvements
+
++ Anonymous visitors no longer receive a LifterLMS session cookie until session data is actually written (an applied coupon, a queued notice, etc.), so otherwise-anonymous page views stay eligible for full-page caching instead of being skipped by the page cache. [#3210](https://github.com/gocodebox/lifterlms/issues/3210)
+
+##### Security Fixes
+
++ Additional checks in the course builder when associating protected media.
++ Improved validation of submitted filenames in the admin table export workflow. Thanks [Duy Tran](https://mrdarkroot.github.io/)!
++ Additional checks on lesson progression form submissions. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.0.7/templates/course/complete-lesson-link.php)
+
+
+v10.0.6 - 2026-06-19
 --------------------
 
 ##### Developer Notes
 
-+ Removing deprecated methods in the scss files.
++ Additional E2E tests.
 
 ##### Security Fixes
 
-+ Check access to the course a quiz is associated with.
++ Additional check when updating a quiz question. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+
+v10.0.5 - 2026-06-08
+--------------------
+
+##### Deprecations
+
++ Deprecated method for querying quiz questions. Quiz question searching is handled by the Course Builder via the `llms_builder` AJAX flow.
+
+
+v10.0.4 - 2026-06-04
+--------------------
+
+##### Developer Notes
+
++ Add AGENTS.md and CLAUDE.md to surface project context, contribution workflow, and AI integration interfaces to AI coding agents working in the repo.
+
+##### Security Fixes
+
++ Additional checks on permissions with the REST API. Thanks [@RegorSec](https://github.com/RegorSec)!
++ Improved checks when saving Course Builder data.
+
+
+v10.0.3 - 2026-05-19
+--------------------
+
+##### Bug Fixes
+
++ Avoid sending an email notification if the status is not new, if the background processor does not finish correctly.
+
+##### Security Fixes
+
++ Additional verifications for updates and reads to course builder and access plan data.
+
+
+v10.0.2 - 2026-05-14
+--------------------
+
+##### Security Fixes
+
++ Check access to the course a quiz is associated with. Thanks [@RegorSec](https://github.com/RegorSec)!
 
 
 v10.0.1 - 2026-05-12

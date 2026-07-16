@@ -26,7 +26,7 @@
   "dependencies": {
     "@jest/test-sequencer": "^29.7.0",
     "@wordpress/eslint-plugin": "^11.1.0",
-    "@wordpress/scripts": "^27.9.0",
+    "@wordpress/scripts": "^33.0.0",
     "dotenv": "^8.2.0",
     "eslint-import-resolver-node": "^0.3.6",
     "fast-glob": "^3.2.11",

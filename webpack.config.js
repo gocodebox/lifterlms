@@ -9,7 +9,6 @@
 
 const { resolve } = require( 'path' ),
 	blocksConfig = require( '@lifterlms/scripts/config/blocks-webpack.config' ),
-	{ CleanWebpackPlugin } = require( 'clean-webpack-plugin' ),
 	generate = require( '@lifterlms/scripts/config/webpack.config' ),
 	config = generate( {
 		js: [
@@ -32,21 +31,6 @@ const { resolve } = require( 'path' ),
 			'lesson-timer',
 		],
 	} );
-
-// Remove the default directory clearer, since we include source JS in the assets/js directory we need to not clear the dest directory (for now).
-config.plugins = config.plugins.filter( plugin => {
-	return 'CleanWebpackPlugin' !== plugin.constructor.name;
-} );
-
-// Modified clean.
-config.plugins.push( new CleanWebpackPlugin( {
-
-	cleanOnceBeforeBuildPatterns: [
-		// Source maps.
-		`assets/js/*.js.map`,
-	],
-
-} ) );
 
 // config.entry.fontawesome = resolve( './src/scss/fontawesome.scss' );
 

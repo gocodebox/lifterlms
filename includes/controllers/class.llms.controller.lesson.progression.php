@@ -37,8 +37,11 @@ class LLMS_Controller_Lesson_Progression {
 		add_filter( 'llms_allow_lesson_completion', array( $this, 'minimum_time_maybe_prevent_lesson_completion' ), 15, 5 );
 
 		add_action( 'llms_trigger_lesson_completion', array( $this, 'mark_complete' ), 10, 4 );
+<<<<<<< HEAD
 		add_action( 'before_llms_mark_incomplete', array( $this, 'clear_lesson_time_override' ), 10, 3 );
 
+=======
+>>>>>>> dev
 	}
 
 	/**
@@ -69,7 +72,7 @@ class LLMS_Controller_Lesson_Progression {
 		$lesson_id = absint( $lesson_id );
 
 		// Invalid lesson ID.
-		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
+		if ( ! $lesson_id ) {
 
 			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
 			return null;
@@ -77,7 +80,6 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		return $lesson_id;
-
 	}
 
 	/**
@@ -114,7 +116,6 @@ class LLMS_Controller_Lesson_Progression {
 		} elseif ( 'incomplete' === $action ) {
 			llms_mark_incomplete( $student_id, $lesson_id, 'lesson', $trigger );
 		}
-
 	}
 
 	/**
@@ -146,6 +147,12 @@ class LLMS_Controller_Lesson_Progression {
 		 */
 		$user_id = apply_filters( 'llms_lesson_completion_user_id', get_current_user_id() );
 
+		// Verify the user is actually allowed to complete the submitted lesson.
+		if ( ! llms_can_user_complete_lesson( $user_id, $lesson_id ) ) {
+			llms_add_notice( __( 'You are not allowed to complete this lesson.', 'lifterlms' ), 'error' );
+			return;
+		}
+
 		do_action( 'llms_trigger_lesson_completion', $user_id, $lesson_id, 'lesson_' . $lesson_id );
 
 		if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
@@ -159,7 +166,6 @@ class LLMS_Controller_Lesson_Progression {
 
 			}
 		}
-
 	}
 
 	/**
@@ -190,12 +196,17 @@ class LLMS_Controller_Lesson_Progression {
 		 */
 		$user_id = apply_filters( 'llms_lesson_incomplete_user_id', get_current_user_id() );
 
+		// Verify the user is actually allowed to mark the submitted lesson incomplete.
+		if ( ! llms_can_user_complete_lesson( $user_id, $lesson_id ) ) {
+			llms_add_notice( __( 'You are not allowed to update this lesson.', 'lifterlms' ), 'error' );
+			return;
+		}
+
 		// Mark incomplete and add a notice on success.
 		if ( llms_mark_incomplete( $user_id, $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
 			// Translators: %s is the title of the lesson.
 			llms_add_notice( sprintf( __( 'The lesson %s is now marked as incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 		}
-
 	}
 
 	/**
@@ -217,7 +228,6 @@ class LLMS_Controller_Lesson_Progression {
 			llms_mark_complete( $user_id, $lesson_id, 'lesson', $trigger );
 
 		}
-
 	}
 
 	/**
@@ -241,7 +251,6 @@ class LLMS_Controller_Lesson_Progression {
 				'attempt' => $attempt,
 			)
 		);
-
 	}
 
 	/**
@@ -291,8 +300,8 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		return $allow_completion;
-
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Prevent lesson completion if minimum time requirement has not been met.
@@ -349,6 +358,8 @@ class LLMS_Controller_Lesson_Progression {
 
 	}
 
+=======
+>>>>>>> dev
 }
 
 return new LLMS_Controller_Lesson_Progression();

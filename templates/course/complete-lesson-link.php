@@ -6,7 +6,8 @@
  *
  * @since 1.0.0
  * @since 3.33.0 Only render on lesson post types.
- * @version 3.33.0
+ * @since 10.0.7 Use `llms_can_user_complete_lesson()` to gate rendering.
+ * @version 10.0.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +19,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 	return;
 }
 
-if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
+if ( ! llms_can_user_complete_lesson( get_current_user_id(), $lesson ) ) {
 	return;
 }
 

@@ -40,9 +40,16 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 	protected function task( $notification_id ) {
 
 		$this->log( sprintf( 'sending email notification ID #%d', $notification_id ) );
-		try {
 
-			$notification = new LLMS_Notification( $notification_id );
+		$notification = new LLMS_Notification( $notification_id );
+
+		$status = $notification->get( 'status', true );
+		if ( 'new' !== $status ) {
+			$this->log( sprintf( 'Skipping email notification ID #%d - status is "%s", not "new"', $notification_id, $status ) );
+			return false;
+		}
+
+		try {
 
 			$view = $notification->get_view();
 
