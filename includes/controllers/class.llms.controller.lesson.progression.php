@@ -37,11 +37,7 @@ class LLMS_Controller_Lesson_Progression {
 		add_filter( 'llms_allow_lesson_completion', array( $this, 'minimum_time_maybe_prevent_lesson_completion' ), 15, 5 );
 
 		add_action( 'llms_trigger_lesson_completion', array( $this, 'mark_complete' ), 10, 4 );
-<<<<<<< HEAD
 		add_action( 'before_llms_mark_incomplete', array( $this, 'clear_lesson_time_override' ), 10, 3 );
-
-=======
->>>>>>> dev
 	}
 
 	/**
@@ -301,8 +297,6 @@ class LLMS_Controller_Lesson_Progression {
 
 		return $allow_completion;
 	}
-<<<<<<< HEAD
-
 	/**
 	 * Prevent lesson completion if minimum time requirement has not been met.
 	 *
@@ -335,7 +329,6 @@ class LLMS_Controller_Lesson_Progression {
 		$required = absint( $lesson->get( 'minimum_time' ) );
 
 		return $total >= $required;
-
 	}
 
 	/**
@@ -355,11 +348,7 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		delete_user_meta( $student_id, 'llms_lesson_time_override_' . $object_id );
-
 	}
-
-=======
->>>>>>> dev
 }
 
 return new LLMS_Controller_Lesson_Progression();
