@@ -8,8 +8,8 @@
  *
  * @since 3.23.0
  * @since 4.2.0 Added `llms_display_free_enroll_form` filter hook.
- * @since 10.0.11 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
- * @version 10.0.11
+ * @since 10.0.10 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
+ * @version 10.0.10
  */
 defined( 'ABSPATH' ) || exit;
 ?>

@@ -212,7 +212,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 3.2.5
 	 * @since 3.4.1 Unknown.
-	 * @since 10.0.11 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
+	 * @since 10.0.10 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
 	 *
 	 * @param array  $atts    Associative array of shortcode attributes.
 	 * @param string $content Optional. Shortcode content, enables custom text/html in the button. Default empty string.

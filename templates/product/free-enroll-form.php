@@ -9,8 +9,8 @@
  * @since 3.4.0
  * @since 3.30.0 Added redirect field.
  * @since 5.0.0 Use `LLMS_Forms::get_free_enroll_form_html()` in favor of deprecated `LLMS_Person_Handler::get_available_fields()`.
- * @since 10.0.11 Added `wp-element-button` class so the submit button inherits theme button styling from `theme.json`.
- * @version 10.0.11
+ * @since 10.0.10 Added `wp-element-button` class so the submit button inherits theme button styling from `theme.json`.
+ * @version 10.0.10
  *
  * @property LLMS_Access_Plan $plan Instance of the plan object.
  */
