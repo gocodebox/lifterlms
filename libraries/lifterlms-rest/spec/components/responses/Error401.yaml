@@ -1,0 +1,6 @@
+x-summary: Unauthorized.
+description: Invalid API Credentials.
+content:
+  application/json:
+    schema:
+      $ref: '#/components/schemas/Error401'
