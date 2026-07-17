@@ -323,8 +323,12 @@ class LLMS_Frontend_Assets {
 			return;
 		}
 
-		if ( 'yes' === $lesson->get( 'free_lesson' ) ) {
-			return;
+		// Free lessons are viewable without enrollment; only track students actually enrolled in the course.
+		if ( $lesson->is_free() ) {
+			$course = $lesson->get_course();
+			if ( ! $course || ! llms_is_user_enrolled( get_current_user_id(), $course->get( 'id' ) ) ) {
+				return;
+			}
 		}
 
 		$user_id   = get_current_user_id();
@@ -361,17 +365,21 @@ class LLMS_Frontend_Assets {
 			LLMS()->version
 		);
 
-		wp_localize_script( 'llms-lesson-timer', 'llms_lesson_timer', array(
-			'session_token'      => $session->get( 'session_token' ),
-			'required_seconds'   => $required,
-			'accumulated'        => $accumulated,
-			'heartbeat_interval' => $interval,
-			'display_format'     => $format,
-			'has_minimum'        => $has_minimum,
-			'nonce'              => wp_create_nonce( 'llms-ajax' ),
-			'ajax_url'           => admin_url( 'admin-ajax.php' ),
-			'login_url'          => wp_login_url( get_permalink() ),
-		) );
+		wp_localize_script(
+			'llms-lesson-timer',
+			'llms_lesson_timer',
+			array(
+				'session_token'      => $session->get( 'session_token' ),
+				'required_seconds'   => $required,
+				'accumulated'        => $accumulated,
+				'heartbeat_interval' => $interval,
+				'display_format'     => $format,
+				'has_minimum'        => $has_minimum,
+				'nonce'              => wp_create_nonce( 'llms-ajax' ),
+				'ajax_url'           => admin_url( 'admin-ajax.php' ),
+				'login_url'          => wp_login_url( get_permalink() ),
+			)
+		);
 
 		if ( $has_minimum ) {
 			add_action( 'lifterlms_single_lesson_before_summary', array( __CLASS__, 'output_lesson_timer' ), 5 );
