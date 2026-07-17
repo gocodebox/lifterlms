@@ -296,6 +296,10 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.login.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.registration.php';
 
+		// Models.
+		require_once LLMS_PLUGIN_DIR . 'includes/models/class-llms-lesson-time-session.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-lesson-time-tracking.php';
+
 		// Hooks.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.template.hooks.php';
 

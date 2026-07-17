@@ -93,6 +93,55 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	public $course_id = null;
 
 	/**
+	 * Whether the course has partial time tracking (not all lessons have minimum time).
+	 *
+	 * Computed once per table render and reused for every row.
+	 *
+	 * @since [version]
+	 *
+	 * @var bool|null Null until computed, then true/false.
+	 */
+	protected $is_partial_tracking = null;
+
+	/**
+	 * Check whether this course has partial time tracking.
+	 *
+	 * Returns true when global tracking is off and at least one lesson lacks a minimum time.
+	 * Result is computed once and cached on the instance.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	protected function is_partial_tracking() {
+
+		if ( null !== $this->is_partial_tracking ) {
+			return $this->is_partial_tracking;
+		}
+
+		$this->is_partial_tracking = false;
+
+		if ( 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' ) ) {
+			return $this->is_partial_tracking;
+		}
+
+		$course = llms_get_post( $this->course_id );
+		if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+			return $this->is_partial_tracking;
+		}
+
+		foreach ( $course->get_lessons( 'ids' ) as $lid ) {
+			$l = llms_get_post( $lid );
+			if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+				$this->is_partial_tracking = true;
+				break;
+			}
+		}
+
+		return $this->is_partial_tracking;
+	}
+
+	/**
 	 * Retrieve data for the columns
 	 *
 	 * @since 3.15.0
@@ -174,6 +223,15 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->course_id ) );
 				break;
 
+			case 'time_in_course':
+				$total = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
+
+				if ( $this->is_partial_tracking() ) {
+					$value .= ' <span class="description">(' . esc_html__( 'Partial', 'lifterlms' ) . ')</span>';
+				}
+				break;
+
 			default:
 				$value = $key;
 
@@ -215,6 +273,15 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 			case 'progress':
 				$value = $student->get_progress( $this->course_id ) . '%';
+				break;
+
+			case 'time_in_course':
+				$total = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id );
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
+
+				if ( $this->is_partial_tracking() ) {
+					$value .= ' (' . __( 'Partial', 'lifterlms' ) . ')';
+				}
 				break;
 
 			default:
@@ -457,9 +524,14 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				'sortable'   => false,
 				'title'      => __( 'Grade', 'lifterlms' ),
 			),
-			'last_lesson' => array(
+			'last_lesson'    => array(
 				'sortable' => false,
 				'title'    => __( 'Last Lesson', 'lifterlms' ),
+			),
+			'time_in_course' => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Time in Course', 'lifterlms' ),
 			),
 		);
 
