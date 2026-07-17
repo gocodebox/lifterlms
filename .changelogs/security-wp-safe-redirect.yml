@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Replaced wp_redirect() with wp_safe_redirect() in the template loader and lesson progression controller to mitigate open redirect risks."
