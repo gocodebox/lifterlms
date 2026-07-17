@@ -1,0 +1,33 @@
+{
+  "name": "lifterlms-blocks",
+  "version": "2.8.0",
+  "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
+  "author": "LifterLMS",
+  "homepage": "https://lifterlms.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "libraries/lifterlms-blocks"
+  },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@dnd-kit/core": "^3.1.1",
+    "@dnd-kit/modifiers": "^3.0.0",
+    "@dnd-kit/sortable": "^4.0.0",
+    "llmsWPData": "npm:@wordpress/data@^5.1.2",
+    "react-select": "^4.1.0",
+    "throttle-debounce": "^2.0.1",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@lifterlms/scripts": "file:../../packages/scripts"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production wp-scripts build",
+    "build:dev": "NODE_ENV=dev wp-scripts build",
+    "fix:js": "npm run lint:js -- --fix",
+    "lint:css": "wp-scripts lint-style ./src/js",
+    "lint:js": "wp-scripts lint-js ./src/js",
+    "start": "wp-scripts start"
+  }
+}

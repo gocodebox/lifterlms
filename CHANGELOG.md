@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v10.0.10 - 2026-07-06
+---------------------
+
+##### Security Fixes
+
++ Additional sanitization of pricing display markup. Thanks Mustafa Ahmed!
++ Additional checks on post search AJAX requests. Thanks [@devploit](https://github.com/devploit)!
+
+
 v10.0.9 - 2026-06-29
 --------------------
 

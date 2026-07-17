@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "10.0.9",
+  "version": "10.0.10",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -13,7 +13,9 @@
   },
   "homepage": "https://lifterlms.com",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "libraries/lifterlms-blocks",
+    "libraries/lifterlms-helper"
   ],
   "engines": {
     "node": ">=20.0.0",
@@ -34,7 +36,7 @@
     "@playwright/test": "^1.58.0",
     "@wordpress/docgen": "^1.18.0",
     "@wordpress/env": "^10.39.0",
-    "@wordpress/scripts": "^27.9.0",
+    "@wordpress/scripts": "^33.0.0",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
@@ -45,7 +47,8 @@
   },
   "scripts": {
     "clean": "rm -f assets/js/*.min.js assets/js/*.asset.php assets/css/*.map assets/js/*.map assets/maps/*.map assets/css/*.map",
-    "build": "npm run clean && npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
+    "build": "npm run clean && npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:libraries && npm run build:pot && llms-dev readme",
+    "build:libraries": "npm run build --workspace=lifterlms-blocks --workspace=lifterlms-helper",
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:scripts": "wp-scripts build",
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",

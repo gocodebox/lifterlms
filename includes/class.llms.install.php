@@ -518,6 +518,22 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `session_key` (`session_key`)
 ) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_lesson_time_sessions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `lesson_id` bigint(20) unsigned NOT NULL,
+  `session_token` varchar(64) NOT NULL,
+  `session_start` datetime NOT NULL,
+  `session_end` datetime DEFAULT NULL,
+  `last_heartbeat_at` datetime NOT NULL,
+  `accumulated_seconds` int(10) unsigned NOT NULL DEFAULT 0,
+  `heartbeat_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `flagged_gaps` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_lesson` (`user_id`, `lesson_id`),
+  KEY `idx_token` (`session_token`),
+  KEY `idx_user_open` (`user_id`, `session_end`)
+) $collate;
 ";
 
 		/**

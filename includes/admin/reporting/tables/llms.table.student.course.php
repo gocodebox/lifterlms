@@ -149,6 +149,23 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 				$value = $date ? $date : '&ndash;';
 				break;
 
+			case 'time_on_lesson':
+				$total = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $this->student->get_id(), $lesson->get( 'id' ) );
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
+
+				if ( $lesson->has_minimum_time() ) {
+					$required = absint( $lesson->get( 'minimum_time' ) );
+					if ( $total < $required ) {
+						$value = '<span style="color: #dc3232;">' . $value . '</span>';
+					}
+				}
+
+				$override = LLMS_Lesson_Time_Tracking::instance()->get_admin_override( $this->student->get_id(), $lesson->get( 'id' ) );
+				if ( $override && $this->student->get_completion_date( $lesson->get( 'id' ) ) ) {
+					$value .= ' ' . __( '(Overridden)', 'lifterlms' );
+				}
+				break;
+
 			case 'grade':
 				$grade = $this->student->get_grade( $lesson->get( 'id' ) );
 				$value = is_numeric( $grade ) ? $grade . '%' : $grade;
@@ -293,10 +310,14 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			'grade'     => array(
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
-			'completed' => array(
+			'completed'      => array(
 				'title' => __( 'Completed', 'lifterlms' ),
 			),
-			'actions'   => array(
+			'time_on_lesson' => array(
+				'exportable' => true,
+				'title'      => __( 'Time on Lesson', 'lifterlms' ),
+			),
+			'actions'        => array(
 				'exportable' => false,
 				'title'      => __( 'Actions', 'lifterlms' ),
 			),

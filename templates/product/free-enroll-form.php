@@ -9,7 +9,8 @@
  * @since 3.4.0
  * @since 3.30.0 Added redirect field.
  * @since 5.0.0 Use `LLMS_Forms::get_free_enroll_form_html()` in favor of deprecated `LLMS_Person_Handler::get_available_fields()`.
- * @version 5.0.0
+ * @since [version] Added `wp-element-button` class so the submit button inherits theme button styling from `theme.json`.
+ * @version [version]
  *
  * @property LLMS_Access_Plan $plan Instance of the plan object.
  */
@@ -37,6 +38,6 @@ if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 
 	<?php do_action( 'lifterlms_after_free_enroll_fields' ); ?>
 
-	<button class="llms-button-action button" type="submit" aria-label="<?php echo esc_attr( $plan->get_enroll_text( true ) ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></button>
+	<button class="llms-button-action button wp-element-button" type="submit" aria-label="<?php echo esc_attr( $plan->get_enroll_text( true ) ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></button>
 
 </form>
