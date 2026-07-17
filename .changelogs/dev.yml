@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added `wp llms course content <id>` command to retrieve course structure
+  (sections and lessons) in a single call.

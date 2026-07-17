@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added AI agent usage guide (`docs/ai-agents.md`) for CLI with patterns
+  for Claude Code, Cursor, Codex, and similar tools.
