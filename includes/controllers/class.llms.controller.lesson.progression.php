@@ -124,7 +124,6 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @since 3.17.1
 	 * @since 3.29.0 Unknown.
-	 * @since 10.1.0 Replaced `wp_redirect()` with `llms_redirect_and_exit()` for safe redirect.
 	 *
 	 * @return void
 	 */
@@ -153,7 +152,8 @@ class LLMS_Controller_Lesson_Progression {
 			$next_lesson_id = $lesson->get_next_lesson();
 			if ( $next_lesson_id ) {
 
-				llms_redirect_and_exit( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+				wp_safe_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+				exit;
 
 			}
 		}

@@ -87,7 +87,6 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.0.0
 	 * @since 7.4.0 Added `nocache_headers()` to prevent caching of redirects.
-	 * @since 10.1.0 Replaced `wp_redirect()` with `llms_redirect_and_exit()` for safe redirect.
 	 *
 	 * @param string $msg      Notice message to display.
 	 * @param string $redirect Optional. Url to redirect to after setting a notice. Default empty string.
@@ -101,7 +100,9 @@ class LLMS_Template_Loader {
 		}
 
 		if ( $redirect ) {
-			llms_redirect_and_exit( $redirect );
+			nocache_headers();
+			wp_safe_redirect( $redirect );
+			exit;
 		}
 	}
 
