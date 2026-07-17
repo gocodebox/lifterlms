@@ -1,0 +1,48 @@
+title: True / False
+description: True / False quiz question type
+allOf:
+  - $ref: '#/components/schemas/QuizQuestion'
+  - type: object
+    properties:
+      question_type:
+        description: The type of question.
+        type: string
+        default: true_false
+      choices:
+        description: A collection of choices available for the question.
+        type: array
+        minItems: 2
+        maxItems: 2
+        example: [
+          {
+            "marker": "A",
+            "choice": "True",
+            "correct": false
+          },
+          {
+            "marker": "B",
+            "choice": "False",
+            "correct": true
+          }
+        ]
+        items:
+          type: object
+          properties:
+            id:
+              description: Unique resource identifier for the choice.
+              type: string
+              readOnly: true
+            marker:
+              description: The marker used to visually identify and order the choices.
+              type: string
+              enum:
+                - A
+                - B
+              default: A
+            choice:
+              description: Raw choice text.
+              type: string
+            correct:
+              description: Determines if the choice is correct.
+              type: boolean
+              default: false

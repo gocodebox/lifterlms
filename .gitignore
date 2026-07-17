@@ -77,10 +77,11 @@ blocks/registration/*
 includes/class.llms.l10n.frontend.php
 languages/lifterlms.pot
 
-# Ignore composer-installed libs.
-/libraries/*
-!/libraries/index.php
-!/libraries/README.md
+# Bundled libraries: ignore built artifacts and per-library node_modules only.
+/libraries/**/node_modules/
+/libraries/lifterlms-blocks/assets/
+/libraries/lifterlms-blocks/i18n/
+/libraries/lifterlms-rest/web_deploy/
 
 # Exclude maps.
 /blocks/**/*.js.map
