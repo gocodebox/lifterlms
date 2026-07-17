@@ -155,7 +155,7 @@ class LLMS_Controller_Lesson_Progression {
 			$next_lesson_id = $lesson->get_next_lesson();
 			if ( $next_lesson_id ) {
 
-				wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+				wp_safe_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
 				exit;
 
 			}
