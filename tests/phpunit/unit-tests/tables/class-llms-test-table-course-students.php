@@ -305,7 +305,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 
 		$cols = $this->table->set_columns();
 		$this->assertTrue( is_array( $cols ) );
-		$this->assertEquals( 11, count( $cols ) );
+		$this->assertEquals( 12, count( $cols ) );
 		$this->assertEquals( array(
 			'id',
 			'name',
@@ -318,6 +318,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 			'progress',
 			'grade',
 			'last_lesson',
+			'time_in_course',
 		), array_keys( $cols ) );
 	}
 }

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+TAGS=""
+
+if [[ ! -z "$BEHAT_TAGS" ]]; then
+	TAGS=" --tags=$BEHAT_TAGS"
+fi
+
+echo vendor/bin/behat --format progress --strict --rerun$TAGS "$@"
+vendor/bin/behat --format progress --strict --rerun$TAGS "$@"
