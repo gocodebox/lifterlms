@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since Unknown
  */
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Legacy interface, backward compatibility.
 interface Meta_Box_Field_Interface {
 
 	public function output();
