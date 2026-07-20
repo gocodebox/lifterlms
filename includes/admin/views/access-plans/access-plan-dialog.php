@@ -1,3 +1,4 @@
+<?php defined( 'ABSPATH' ) || exit; ?>
 <div
 	id="llms-access-plan-dialog"
 	class="llms-dialog-container"
