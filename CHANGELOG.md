@@ -1,6 +1,57 @@
 LifterLMS Changelog
 ===================
 
+v10.0.10 - 2026-07-06
+---------------------
+
+##### Security Fixes
+
++ Additional sanitization of pricing display markup. Thanks Mustafa Ahmed!
++ Additional checks on post search AJAX requests. Thanks [@devploit](https://github.com/devploit)!
+
+
+v10.0.9 - 2026-06-29
+--------------------
+
+##### Bug Fixes
+
++ Fixed the "Add New Plan" access plan dialog not scrolling within the block editor meta boxes area in WordPress 7.0.
+
+##### Security Fixes
+
++ Additional checks when starting a quiz. Thanks [@Civitasmass](https://github.com/Civitasmass)!
++ Additional checks on the add-ons management screen.
++ Additional checks when authenticating REST API requests.
+
+
+v10.0.8 - 2026-06-25
+--------------------
+
+##### Security Fixes
+
++ Additional checks during checkout order creation. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks when creating users during course and membership imports. Thanks [@0xEr3n](https://github.com/0xEr3n)!
++ Additional checks on the data saved when submitting account and registration forms. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+
+v10.0.7 - 2026-06-23
+--------------------
+
+##### Performance Improvements
+
++ Anonymous visitors no longer receive a LifterLMS session cookie until session data is actually written (an applied coupon, a queued notice, etc.), so otherwise-anonymous page views stay eligible for full-page caching instead of being skipped by the page cache. [#3210](https://github.com/gocodebox/lifterlms/issues/3210)
+
+##### Security Fixes
+
++ Additional checks in the course builder when associating protected media.
++ Improved validation of submitted filenames in the admin table export workflow. Thanks [Duy Tran](https://mrdarkroot.github.io/)!
++ Additional checks on lesson progression form submissions. Thanks [@0xEr3n](https://github.com/0xEr3n)!
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.0.7/templates/course/complete-lesson-link.php)
+
+
 v10.0.6 - 2026-06-19
 --------------------
 

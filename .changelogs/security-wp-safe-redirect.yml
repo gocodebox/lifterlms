@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Improved redirect handling in the template loader and lesson progression controller."

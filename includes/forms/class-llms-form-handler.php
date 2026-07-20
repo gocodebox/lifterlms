@@ -449,6 +449,94 @@ class LLMS_Form_Handler {
 	}
 
 	/**
+	 * Ensure no form field stores submitted data into a protected user property.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param array[] $fields Array of LifterLMS Form Fields.
+	 * @return true|WP_Error Returns `true` when all fields are allowed or a `WP_Error` when a protected field is found.
+	 */
+	protected function validate_protected_fields( $fields ) {
+
+		foreach ( $fields as $field ) {
+
+			$store = empty( $field['data_store'] ) ? '' : $field['data_store'];
+
+			if ( ! in_array( $store, array( 'users', 'usermeta' ), true ) ) {
+				continue;
+			}
+
+			// Determine the effective storage key, falling back to the field name as `LLMS_Form_Field` does.
+			$key = '';
+			if ( ! empty( $field['data_store_key'] ) ) {
+				$key = $field['data_store_key'];
+			} elseif ( ! empty( $field['name'] ) ) {
+				$key = $field['name'];
+			}
+
+			if ( $key && $this->is_protected_user_field( $store, $key ) ) {
+				return new WP_Error(
+					'llms-form-protected-field',
+					__( 'This form contains a field that cannot be saved. Please contact the site administrator.', 'lifterlms' )
+				);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if a storage destination targets a protected user property.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param string $store Storage location. Either "users" or "usermeta".
+	 * @param string $key   Storage key (column name for "users" or meta key for "usermeta").
+	 * @return bool
+	 */
+	protected function is_protected_user_field( $store, $key ) {
+
+		global $wpdb;
+
+		/**
+		 * Filter the list of protected user storage destinations that form fields may not write to.
+		 *
+		 * @since 10.0.8
+		 *
+		 * @param array $protected {
+		 *     Array of protected storage keys, keyed by storage location.
+		 *
+		 *     @type string[] $users    Protected `wp_users` column names.
+		 *     @type string[] $usermeta Protected `wp_usermeta` meta keys.
+		 * }
+		 */
+		$protected = apply_filters(
+			'llms_form_protected_user_fields',
+			array(
+				'users'    => array( 'role', 'user_level' ),
+				'usermeta' => array(
+					'role',
+					$wpdb->prefix . 'capabilities',
+					$wpdb->prefix . 'user_level',
+				),
+			)
+		);
+
+		$keys = isset( $protected[ $store ] ) ? (array) $protected[ $store ] : array();
+
+		if ( in_array( $key, $keys, true ) ) {
+			return true;
+		}
+
+		// Also match custom-prefixed capability and level meta keys.
+		if ( 'usermeta' === $store && ( preg_match( '/capabilities$/', $key ) || preg_match( '/user_level$/', $key ) ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Form fields submission validation.
 	 *
 	 * @since 7.0.0
@@ -460,6 +548,12 @@ class LLMS_Form_Handler {
 	 * @return boolean|WP_Error Returns `true` on success and an error object on failure.
 	 */
 	protected function validate_fields( $posted_data, $location, $fields, $action ) {
+
+		// Ensure no field maps submitted data to a protected user property (e.g. role or capabilities).
+		$protected = $this->validate_protected_fields( $fields );
+		if ( is_wp_error( $protected ) ) {
+			return $this->submit_error( $protected, $posted_data, $action );
+		}
 
 		/**
 		 * Run an action immediately prior to user registration or update.

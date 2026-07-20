@@ -1,0 +1,14 @@
+type: object
+properties:
+  title:
+    description: Raw quiz title. Most likely in the form of a question.
+    type: string
+    example: What is your favorite color?
+  content:
+    description: Raw quiz content. Useful for providing additional information or context to the question.
+    type: string
+    example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+  answer_clarification:
+    description: Raw additional clarifying information displayed on the quiz attempt review screen when the question was answered incorrectly.
+    type: string
+    example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>

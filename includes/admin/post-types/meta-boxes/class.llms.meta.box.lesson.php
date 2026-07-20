@@ -53,6 +53,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
 		$lesson = llms_get_post( $this->post );
 
+		$total_seconds  = $lesson ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+		$min_time_hours = floor( $total_seconds / 3600 );
+		$min_time_mins  = floor( ( $total_seconds % 3600 ) / 60 );
+		$min_time_secs  = $total_seconds % 60;
+
 		$methods = array(
 			'date'       => __( 'On a specific date', 'lifterlms' ),
 			'enrollment' => __( 'After course enrollment', 'lifterlms' ),
@@ -101,6 +106,58 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'label'         => __( 'Free Lesson', 'lifterlms' ),
 						'type'          => 'checkbox',
 						'value'         => 'yes',
+					),
+					array(
+						'class'            => '',
+						'controls'         => '#' . $this->prefix . 'minimum_time_hours, #' . $this->prefix . 'minimum_time_minutes, #' . $this->prefix . 'minimum_time_seconds',
+						'controller'       => '#' . $this->prefix . 'free_lesson',
+						'controller_value' => 'false',
+						'desc'             => __( 'Require students to spend a minimum amount of time on this lesson before they can mark it complete.', 'lifterlms' ),
+						'desc_class'       => 'd-3of4 t-3of4 m-1of2',
+						'id'               => $this->prefix . 'has_minimum_time',
+						'is_controller'    => true,
+						'label'            => __( 'Enable Minimum Time', 'lifterlms' ),
+						'type'             => 'checkbox',
+						'value'            => 'yes',
+					),
+					array(
+						'class'            => 'input-full',
+						'controller'       => '#' . $this->prefix . 'has_minimum_time',
+						'controller_value' => 'yes',
+						'desc'             => __( 'Hours', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'id'               => $this->prefix . 'minimum_time_hours',
+						'label'            => __( 'Hours', 'lifterlms' ),
+						'meta'             => $min_time_hours,
+						'min'              => 0,
+						'max'              => 999,
+						'type'             => 'number',
+					),
+					array(
+						'class'            => 'input-full',
+						'controller'       => '#' . $this->prefix . 'has_minimum_time',
+						'controller_value' => 'yes',
+						'desc'             => __( 'Minutes (0-59)', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'id'               => $this->prefix . 'minimum_time_minutes',
+						'label'            => __( 'Minutes', 'lifterlms' ),
+						'meta'             => $min_time_mins,
+						'min'              => 0,
+						'max'              => 59,
+						'type'             => 'number',
+					),
+					array(
+						'class'            => 'input-full',
+						'controller'       => '#' . $this->prefix . 'has_minimum_time',
+						'controller_value' => 'yes',
+						'desc'             => __( 'Seconds (0-59)', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'id'               => $this->prefix . 'minimum_time_seconds',
+						'label'            => __( 'Seconds', 'lifterlms' ),
+						'meta'             => $min_time_secs,
+						'min'              => 0,
+						'max'              => 59,
+						'type'             => 'number',
 					),
 				),
 			),
@@ -201,6 +258,32 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Compute minimum_time (total seconds) from H/M/S fields after save.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP Post ID of the post being saved.
+	 * @return void
+	 */
+	protected function save_after( $post_id ) {
+
+		$has_minimum_time = get_post_meta( $post_id, $this->prefix . 'has_minimum_time', true );
+
+		if ( 'yes' !== $has_minimum_time ) {
+			update_post_meta( $post_id, $this->prefix . 'minimum_time', 0 );
+			return;
+		}
+
+		$hours   = absint( get_post_meta( $post_id, $this->prefix . 'minimum_time_hours', true ) );
+		$minutes = absint( get_post_meta( $post_id, $this->prefix . 'minimum_time_minutes', true ) );
+		$seconds = absint( get_post_meta( $post_id, $this->prefix . 'minimum_time_seconds', true ) );
+
+		$total = ( $hours * 3600 ) + ( $minutes * 60 ) + $seconds;
+
+		update_post_meta( $post_id, $this->prefix . 'minimum_time', $total );
 	}
 
 	/**

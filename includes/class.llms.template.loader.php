@@ -101,7 +101,7 @@ class LLMS_Template_Loader {
 
 		if ( $redirect ) {
 			nocache_headers();
-			wp_redirect( $redirect );
+			wp_safe_redirect( $redirect );
 			exit;
 		}
 	}

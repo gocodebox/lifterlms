@@ -7,6 +7,7 @@
  * @since 7.4.0 Escaped strings in labels.
  * @version 7.4.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-question-template">
 
