@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .single-llms_quiz {
 	#llms-quiz-wrapper {
 		@import "../_includes/quiz-result-question-list";
@@ -129,7 +131,7 @@
 
 	.llms-error {
 		@include clearfix();
-		background: rgba( $color-red, .15 );
+		background: color.change( $color-red, $alpha: 0.15 );
 		border: 1px solid $color-red;
 		border-radius: $radius-small;
 		margin: 20px 0;

@@ -79,7 +79,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 */
 		$args['per_page'] = apply_filters( 'llms_table_generate_export_file_per_page_boost', 250 );
 
-		$filename    = $filename ? $filename : $this->get_export_file_name() . '.' . $type;
+		$filename    = $filename ? basename( $filename ) : $this->get_export_file_name() . '.' . $type;
 		$file_path   = LLMS_TMP_DIR . $filename;
 		$option_name = 'llms_gen_export_' . basename( $filename, '.' . $type );
 		$args        = get_option( $option_name, $args );

@@ -1,0 +1,12 @@
+allOf:
+  - type: object
+    required:
+      - title
+      - order
+      - parent_id
+    properties:
+      title:
+        type: string
+        description: Raw title.
+        example: Getting Started with LifterLMS
+  - $ref: '#/components/schemas/Section'

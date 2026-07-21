@@ -76,6 +76,8 @@ define( [
 				var change_events = window.llms.hooks.applyFilters( 'llms_lesson_rerender_change_events', [
 					'change:date_available',
 					'change:drip_method',
+					'change:free_lesson',
+					'change:has_minimum_time',
 					'change:permalink',
 					'change:content_added_in_builder',
 					'change:name',

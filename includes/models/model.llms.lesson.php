@@ -43,6 +43,8 @@ defined( 'ABSPATH' ) || exit;
  * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
  * @property string $video_embed                      URL to an oEmbed enable video URL.
  * @property string $content_added_in_builder         Whether content was (at least initially) added within the page builder.
+ * @property string $has_minimum_time                 Whether minimum time is enabled [yes|no].
+ * @property int    $minimum_time                     Minimum time in seconds a student must spend on the lesson.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 
@@ -74,6 +76,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		// Quizzes.
 		'quiz'                             => 'absint',
 		'quiz_enabled'                     => 'yesno',
+
+		// Minimum time.
+		'has_minimum_time'                 => 'yesno',
+		'minimum_time'                     => 'absint',
 
 	);
 
@@ -117,6 +123,22 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		$this->construct_audio_video_embed();
 		parent::__construct( $model, $args );
+	}
+
+	/**
+	 * Determine if the lesson has a minimum time requirement.
+	 *
+	 * Free lessons cannot enforce minimum time since they allow non-logged-in access.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_minimum_time() {
+		if ( 'yes' === $this->get( 'free_lesson' ) ) {
+			return false;
+		}
+		return 'yes' === $this->get( 'has_minimum_time' ) && $this->get( 'minimum_time' ) > 0;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 # Package managers.
 node_modules/
 /vendor/
+.cursor
 
 # Lock file intentionally excluded to allow easier testing against multiple php versions
 # This follows the precedent put forth by the WordPress core {@link https://github.com/WordPress/wordpress-develop/commit/0e442c4615bdcdc1c2e4f8db6f88f57e6859c2ff}
@@ -31,7 +32,8 @@ assets/css/lifterlms.min.css
 assets/css/llms-admin-addons.css
 assets/css/llms-admin-addons-rtl.css
 assets/css/llms-focus-mode*
-
+assets/css/llms-lesson-timer*
+assets/js/llms-lesson-timer.js
 assets/js/llms-builder.js
 assets/js/llms-builder.min.js
 assets/js/llms-admin-elementor-editor.js
@@ -52,6 +54,7 @@ assets/js/llms.js
 assets/js/*.min.js
 assets/js/*.asset.php
 assets/js/llms-metaboxes.js
+assets/js/vendor/*.min.js
 blocks/certificate-title/*
 blocks/my-account/*
 blocks/pricing-table/*
@@ -74,10 +77,11 @@ blocks/registration/*
 includes/class.llms.l10n.frontend.php
 languages/lifterlms.pot
 
-# Ignore composer-installed libs.
-/libraries/*
-!/libraries/index.php
-!/libraries/README.md
+# Bundled libraries: ignore built artifacts and per-library node_modules only.
+/libraries/**/node_modules/
+/libraries/lifterlms-blocks/assets/
+/libraries/lifterlms-blocks/i18n/
+/libraries/lifterlms-rest/web_deploy/
 
 # Exclude maps.
 /blocks/**/*.js.map
@@ -96,3 +100,8 @@ languages/lifterlms.pot
 # Non-distributable configs.
 phpunit.xml
 .llmsenv
+
+# Playwright / E2E test artifacts.
+/artifacts/
+/playwright-report/
+/test-results/

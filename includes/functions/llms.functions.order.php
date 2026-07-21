@@ -277,6 +277,49 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 }
 
 /**
+ * Determines whether an access plan can be purchased by a user during checkout.
+ *
+ * Mirrors the front-end purchasability gating so that restricted access plans and products cannot be purchased
+ * by submitting a crafted access plan ID directly to the checkout handlers. Enforces member-only plan availability
+ * and course restrictions (enrollment window and student capacity).
+ *
+ * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
+ * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
+ *
+ * @since 10.0.8
+ *
+ * @param LLMS_Access_Plan $plan    The access plan being purchased.
+ * @param int|null         $user_id Optional. WP_User ID of the purchasing user. Defaults to the current user.
+ * @return true|WP_Error Returns `true` when the plan can be purchased or a `WP_Error` describing why it cannot.
+ */
+function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
+
+	$can_purchase = true;
+
+	if ( ! $plan || ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
+		$can_purchase = new WP_Error( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
+	} elseif ( ! $plan->is_available_to_user( $user_id ) ) {
+		$can_purchase = new WP_Error( 'plan-not-available', __( 'This access plan is not available.', 'lifterlms' ) );
+	} else {
+		$product = $plan->get_product();
+		if ( ! $product || $product->has_restrictions() ) {
+			$can_purchase = new WP_Error( 'product-not-purchasable', __( 'This product is not available for purchase.', 'lifterlms' ) );
+		}
+	}
+
+	/**
+	 * Filters whether an access plan can be purchased during checkout.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param true|WP_Error         $can_purchase Whether the plan can be purchased. `true` if it can, a `WP_Error` otherwise.
+	 * @param LLMS_Access_Plan|null $plan         The access plan being purchased.
+	 * @param int|null              $user_id      WP_User ID of the purchasing user, or `null` for the current user.
+	 */
+	return apply_filters( 'llms_check_access_plan_purchasable', $can_purchase, $plan, $user_id );
+}
+
+/**
  * Setup a pending order which can be passed to an LLMS_Payment_Gateway for processing.
  *
  * @since 3.29.0
@@ -339,6 +382,11 @@ function llms_setup_pending_order( $data = array() ) {
 	if ( ! $plan || 'llms_access_plan' !== $plan->get( 'type' ) ) {
 		$err->add( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
 		return $err;
+	}
+
+	$purchasable = llms_check_access_plan_purchasable( $plan );
+	if ( is_wp_error( $purchasable ) ) {
+		return $purchasable;
 	}
 
 	// Used later.

@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Added ABSPATH direct file access protection guards."

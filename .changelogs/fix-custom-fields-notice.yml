@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3161"
+entry: Fixed the appearance of the custom fields notice on the forms screen under WordPress 7.0.

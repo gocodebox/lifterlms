@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .llms-quiz-attempt-results {
 	margin: 0;
 	padding: 0;
@@ -20,20 +22,20 @@
 
 		&.status--waiting.correct,
 		&.status--waiting.incorrect {
-			background: rgba( $color-orange, 0.2 );
+			background: color.change( $color-orange, $alpha: 0.2 );
 			.llms-status-icon {
 				background-color: $color-orange;
 			}
 		}
 
 		&.status--graded.correct {
-			background: rgba( $color-green, 0.15 );
+			background: color.change( $color-green, $alpha: 0.15 );
 			.llms-status-icon {
 				background-color: $color-green;
 			}
 		}
 		&.status--graded.incorrect {
-			background: rgba( $color-red, 0.15 );
+			background: color.change( $color-red, $alpha: 0.15 );
 			.llms-status-icon {
 				background-color: $color-red;
 			}
@@ -96,7 +98,7 @@
 			}
 
 			.llms-quiz-attempt-answer-section {
-				border-top: 2px solid rgba( #fff, 0.5 );
+				border-top: 2px solid color.change( #fff, $alpha: 0.5 );
 				margin-top: 20px;
 				padding-top: 20px;
 				&:first-child {

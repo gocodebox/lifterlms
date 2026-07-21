@@ -1,0 +1,31 @@
+{
+  "name": "lifterlms-rest",
+  "version": "1.0.8",
+  "description": "REST API feature plugin for the LifterLMS Core.",
+  "author": "LifterLMS",
+  "homepage": "https://lifterlms.com/",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms-rest.git"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gocodebox/lifterlms-rest/issues"
+  },
+  "devDependencies": {
+    "@lifterlms/dev": "^0.2.1",
+    "openapi-snippet": "^0.9.1",
+    "swagger-repo": "^2.0.0-rc.15"
+  },
+  "scripts": {
+    "dev": "llms-dev",
+    "start": "swagger-repo serve -p 8888",
+    "build": "npm run build:docs && llms-dev pot",
+    "build:docs": "npm run build:spec && npm run build:snippets && npm run build:spec",
+    "build:snippets": "./.bin/snippets",
+    "build:spec": "swagger-repo build -o web_deploy && ./.bin/cache-bust",
+    "test": "swagger-repo validate",
+    "gh-pages": "swagger-repo gh-pages"
+  }
+}
