@@ -125,6 +125,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			$data['controller_value'] = apply_filters( 'llms_engagement_controller_values_' . $post_type, $data['controller_value'] );
 
 			$trigger_post_vals = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', false );
+			$ids               = array();
 			if ( empty( $trigger_post_vals ) || ( 1 === count( $trigger_post_vals ) && 'any' === reset( $trigger_post_vals ) ) ) {
 				$val = array();
 			} elseif ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
@@ -150,6 +151,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'id'               => $data['id'],
 				'label'            => $data['label'],
 				'multi'            => true,
+				'selected'         => $ids,
 				'type'             => 'select',
 				'value'            => $val,
 			);
