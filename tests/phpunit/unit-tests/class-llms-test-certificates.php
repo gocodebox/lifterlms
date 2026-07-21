@@ -177,9 +177,13 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			if ( in_array( $host, array( 'unreacha.ble', 'unreach.able' ), true ) ) {
 				return new WP_Error( 'http_request_failed', 'Could not resolve host.' );
 			}
-			if ( 'raw.githubusercontent.com' === $host || 'fonts.googleapis.com' === $host ) {
+			$bodies = array(
+				'raw.githubusercontent.com' => '.llms-remote-github-css{color:#123456;}',
+				'fonts.googleapis.com'      => '.llms-remote-google-css{color:#654321;}',
+			);
+			if ( isset( $bodies[ $host ] ) ) {
 				return array(
-					'body'     => 'body{color:#123456;}',
+					'body'     => $bodies[ $host ],
 					'response' => array( 'code' => 200, 'message' => 'OK' ),
 					'headers'  => array( 'content-type' => 'text/css' ),
 				);
@@ -279,9 +283,13 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			if ( in_array( $host, array( 'unreacha.ble', 'unreach.able' ), true ) ) {
 				return new WP_Error( 'http_request_failed', 'Could not resolve host.' );
 			}
-			if ( 'raw.githubusercontent.com' === $host || 'upload.wikimedia.org' === $host ) {
+			$bodies = array(
+				'raw.githubusercontent.com' => "\xFF\xD8\xFF\xE0\x00\x10JFIF github stub image bytes",
+				'upload.wikimedia.org'      => "\xFF\xD8\xFF\xE0\x00\x10JFIF wikimedia stub image bytes",
+			);
+			if ( isset( $bodies[ $host ] ) ) {
 				return array(
-					'body'     => "\xFF\xD8\xFF\xE0\x00\x10JFIF stub image bytes",
+					'body'     => $bodies[ $host ],
 					'response' => array( 'code' => 200, 'message' => 'OK' ),
 					'headers'  => array( 'content-type' => 'image/jpeg' ),
 				);
