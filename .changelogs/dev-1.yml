@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added `wp llms course enrollments <id>` command to list students enrolled
+  in a specific course.

@@ -17,6 +17,7 @@ const { resolve } = require( 'path' ),
 			'admin-certificate-editor',
 			'admin-media-protection-block-protect',
 			'admin-elementor-editor',
+			'lesson-timer',
 			'quill-wordcount',
 
 			// Module packages.
@@ -26,7 +27,8 @@ const { resolve } = require( 'path' ),
 			'utils',
 		],
 		css: [
-			'admin-addons'
+			'admin-addons',
+			'lesson-timer',
 		],
 	} );
 

@@ -109,7 +109,8 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 
 		$res = LLMS_AJAX_Handler::quiz_start(
 			array(
-				'quiz_id' => $this->quiz->get( 'id' ),
+				'quiz_id'   => $this->quiz->get( 'id' ),
+				'lesson_id' => $this->lesson->get( 'id' ),
 			)
 		);
 

@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '10.0.5';
+	public $version = '10.0.10';
 
 	/**
 	 * LLMS_Assets instance
@@ -166,7 +166,6 @@ final class LifterLMS {
 			'href'            => true,
 			'rel'             => true,
 			'rev'             => true,
-			'onclick'         => true,
 			'target'          => true,
 			'novalidate'      => true,
 			'value'           => true,
@@ -240,7 +239,6 @@ final class LifterLMS {
 			'size'            => true,
 			'span'            => true,
 			'spellcheck'      => true,
-			'srcdoc'          => true,
 			'srclang'         => true,
 			'start'           => true,
 			'step'            => true,

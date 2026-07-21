@@ -121,8 +121,8 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
 <a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
-<a href="https://github.com/actual-saurabh"><img src="https://avatars.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
+<a href="https://github.com/actual-saurabh"><img src="https://avatars.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
 <a href="https://github.com/nikolapasic"><img src="https://avatars.githubusercontent.com/u/10199798?v=4" title="nikolapasic" width="80" height="80"></a>
 <a href="https://github.com/AndreaBarghigiani"><img src="https://avatars.githubusercontent.com/u/190159?v=4" title="AndreaBarghigiani" width="80" height="80"></a>
 <a href="https://github.com/yojance"><img src="https://avatars.githubusercontent.com/u/1916064?v=4" title="yojance" width="80" height="80"></a>
@@ -135,9 +135,12 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/tnorthcutt"><img src="https://avatars.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>
 <a href="https://github.com/nicolas-jaussaud"><img src="https://avatars.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
+<a href="https://github.com/lifterlms-maurice"><img src="https://avatars.githubusercontent.com/u/272279717?v=4" title="lifterlms-maurice" width="80" height="80"></a>
 <a href="https://github.com/mrosati84"><img src="https://avatars.githubusercontent.com/u/855068?v=4" title="mrosati84" width="80" height="80"></a>
 <a href="https://github.com/jasonyingling"><img src="https://avatars.githubusercontent.com/u/4986487?v=4" title="jasonyingling" width="80" height="80"></a>
 <a href="https://github.com/jasonyingling-hlk"><img src="https://avatars.githubusercontent.com/u/196813470?v=4" title="jasonyingling-hlk" width="80" height="80"></a>
+<a href="https://github.com/flintfromthebasement"><img src="https://avatars.githubusercontent.com/u/267404437?v=4" title="flintfromthebasement" width="80" height="80"></a>
+<a href="https://github.com/faisalahammad"><img src="https://avatars.githubusercontent.com/u/13257516?v=4" title="faisalahammad" width="80" height="80"></a>
 <a href="https://github.com/bsetiawan88"><img src="https://avatars.githubusercontent.com/u/5827051?v=4" title="bsetiawan88" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
 <a href="https://github.com/sujaypawar"><img src="https://avatars.githubusercontent.com/u/2222249?v=4" title="sujaypawar" width="80" height="80"></a>
@@ -156,7 +159,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/cadengrey"><img src="https://avatars.githubusercontent.com/u/30481164?v=4" title="cadengrey" width="80" height="80"></a>
 <a href="https://github.com/andrewvaughan"><img src="https://avatars.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
 <a href="https://github.com/andrewlimaza"><img src="https://avatars.githubusercontent.com/u/12629136?v=4" title="andrewlimaza" width="80" height="80"></a>
-<a href="https://github.com/README1ST"><img src="https://avatars.githubusercontent.com/u/30046495?v=4" title="README1ST" width="80" height="80"></a>
 
 [//]: contributor-faces
 

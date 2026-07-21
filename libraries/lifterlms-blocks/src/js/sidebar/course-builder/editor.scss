@@ -1,0 +1,68 @@
+.edit-post-post-status {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+
+	h2 {
+		order: -2;
+	}
+}
+
+.llms-launch-course-builder {
+	order: -1;
+	margin: 0 0 16px;
+}
+
+.llms-primary-background-color {
+	background-color: #466dd8 !important;
+	color: #fff !important;
+
+	&:hover,
+	&.clicked {
+		background-color: #2b55cb !important;
+	}
+}
+
+.llms-course-builder-panel {
+
+	&--close {
+
+		.components-panel__body-title {
+			margin-bottom: -16px !important;
+		}
+
+		.components-panel__arrow {
+			transform: rotate(180deg) translateY(50%) !important;
+		}
+
+		> div {
+			display: none;
+		}
+	}
+}
+
+#side-sortables #course_builder {
+	display: none;
+}
+
+.post-type-course,
+.post-type-lesson,
+.post-type-llms_membership {
+
+	.llms-button-primary {
+		-webkit-appearance:none;
+		display: inline-flex;
+		justify-content: center;
+		font-size: 14px;
+		font-weight: 400;
+		border-radius: 2px;
+		height: 38px;
+	}
+}
+
+.llms-launch-course-builder {
+
+	.llms-button-primary {
+		width: 100%;
+	}
+}

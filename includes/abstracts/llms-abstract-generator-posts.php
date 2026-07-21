@@ -284,10 +284,16 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param string $role WP_User role. Default role is 'administrator'.
+		 * @param string $role WP_User role. Default role is the value of the `default_role` option (typically 'subscriber').
 		 * @param array  $raw  Original raw author data.
 		 */
-		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_user_default_role', 'administrator', $raw ) : $raw['role'];
+		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_user_default_role', get_option( 'default_role', 'subscriber' ), $raw ) : $raw['role'];
+
+		// Ensure the importing user is allowed to assign the requested role.
+		$authorized = $this->authorize_new_user_role( $raw['role'] );
+		if ( is_wp_error( $authorized ) ) {
+			return $authorized;
+		}
 
 		$data = array(
 			'role'       => $raw['role'],
@@ -331,6 +337,31 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $author_id;
+	}
+
+	/**
+	 * Ensure the current user is allowed to assign a role to a user created during import
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param string $role WP_User role to be assigned to the new user.
+	 * @return WP_Error|true Returns `true` when the role may be assigned or a `WP_Error` when it may not.
+	 */
+	protected function authorize_new_user_role( $role ) {
+
+		// Load admin functions to get access to `get_editable_roles()`.
+		require_once ABSPATH . 'wp-admin/includes/admin.php';
+
+		$editable_roles = get_editable_roles();
+
+		if ( empty( $editable_roles[ $role ] ) ) {
+			return new WP_Error(
+				'llms-generator-unauthorized-role',
+				__( 'You are not allowed to create a user with the requested role.', 'lifterlms' )
+			);
+		}
+
+		return true;
 	}
 
 	/**
