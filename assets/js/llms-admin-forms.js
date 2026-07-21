@@ -58,6 +58,7 @@
 			'font-size: 23px;',
 			'height: 30px;',
 			'line-height: 1;',
+			'min-height: 30px;',
 			'margin-left: 5px;',
 			'padding: 0;',
 			'position: relative;',
@@ -66,7 +67,7 @@
 			'width: 30px;',
 		].join( ';' );
 
-		btn.innerHTML = '<span class="screen-reader-text>' + txt + '</span>';
+		btn.innerHTML = '<span class="screen-reader-text">' + txt + '</span>';
 		btn.title     = __( 'Help', 'lifterlms' );
 
 		btn.addEventListener( 'click', toggleHelpNode );
