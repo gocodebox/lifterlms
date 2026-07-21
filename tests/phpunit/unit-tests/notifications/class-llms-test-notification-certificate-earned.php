@@ -126,7 +126,7 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 
 		$types = array();
 		foreach ( $options as $option ) {
-			$types[] = $option['subscriber_type'];
+			$types[] = $option['id'];
 		}
 
 		$this->assertContains( 'student', $types );
