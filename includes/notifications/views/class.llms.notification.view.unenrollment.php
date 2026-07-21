@@ -49,6 +49,9 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * @version [version]
 	 */
 	protected function set_body() {
+		if ( 'email' === $this->notification->get( 'type' ) ) {
+			return sprintf( __( 'You have been unenrolled from %s.', 'lifterlms' ), '{{TITLE}}' );
+		}
 		return sprintf( __( '%1$s has been unenrolled from %2$s.', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
@@ -127,6 +130,9 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * @version [version]
 	 */
 	protected function set_subject() {
+		if ( $this->is_for_self() ) {
+			return sprintf( __( 'You have been unenrolled from %s', 'lifterlms' ), '{{TITLE}}' );
+		}
 		return sprintf( __( '%1$s unenrolled from %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TITLE}}' );
 	}
 
