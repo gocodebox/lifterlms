@@ -87,8 +87,31 @@ define( [
 
 			this.listenTo( this.model, 'change', this.render );
 
+			this._bind_quiz_listener();
+			this.listenTo( this.model, 'change:quiz_enabled', this._bind_quiz_listener );
+
 			Backbone.pubSub.on(  'lesson-selected', this.on_select, this );
 			Backbone.pubSub.on(  'new-lesson-added', this.maybe_open_editor, this );
+
+		},
+
+		/**
+		 * Listen for quiz model ID changes so the displayed quiz ID updates after save.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		_bind_quiz_listener: function() {
+
+			var quiz = this.model.get( 'quiz' );
+			if ( quiz instanceof Backbone.Model && quiz !== this._quiz_ref ) {
+				if ( this._quiz_ref ) {
+					this.stopListening( this._quiz_ref, 'change:id' );
+				}
+				this._quiz_ref = quiz;
+				this.listenTo( quiz, 'change:id', this.render );
+			}
 
 		},
 
