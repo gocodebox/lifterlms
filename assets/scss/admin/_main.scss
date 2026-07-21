@@ -252,6 +252,31 @@ div[id^="lifterlms-"] .inside {
 		display: inline-block;
 	}
 
+	// WP 7.0's `div.notice a` rule underlines links and recolors them, overriding the button styles.
+	a.llms-button-action,
+	a.llms-button-danger,
+	a.llms-button-primary {
+		color: $color-white;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-white;
+		}
+	}
+
+	a.llms-button-secondary {
+		color: $color-cinder;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-cinder;
+		}
+	}
+
 	p {
 		font-size: 14px;
 		line-height: 22px;
