@@ -37,10 +37,6 @@
 				<?php esc_html_e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 			</h3>
 
-			<# if ( ! data.has_temp_id() ) { #>
-				<span class="llms-item-id"><?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}</span>
-			<# } #>
-
 			<div class="llms-headline llms-quiz-points">
 				<?php esc_html_e( 'Total Points', 'lifterlms' ); ?>: <strong id="llms-quiz-total-points">{{{ data.get( '_points' ) }}}</strong>
 			</div>
@@ -52,6 +48,10 @@
 			</label>
 
 			<div class="llms-action-icons">
+
+				<# if ( ! data.has_temp_id() ) { #>
+					<span class="llms-item-id"><?php esc_html_e( 'ID:', 'lifterlms' ); ?> {{{ data.get( 'id' ) }}}</span>
+				<# } #>
 
 				<# if ( ! data.has_temp_id() ) { #>
 					<a class="llms-action-icon danger tip--bottom-left" data-tip="<?php esc_attr_e( 'Detach Quiz', 'lifterlms' ); ?>" href="#llms-detach-model">
