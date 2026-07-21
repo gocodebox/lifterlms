@@ -421,7 +421,7 @@ class LLMS_Media_Protector {
 	 * Returns the name of the filter hook that controls access to the file,
 	 * or an empty string if the file is not protected.
 	 *
-	 * @since 9.0.0
+	 * @since [version]
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @return string Filter hook name, or empty string if not protected.
