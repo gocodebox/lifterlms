@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Hardened database queries in the voucher and lesson handler classes."
