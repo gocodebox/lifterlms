@@ -6,14 +6,12 @@
  *
  * @group media_protection
  *
- * @since 10.0.6
+ * @since [version]
  */
 class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 	/**
 	 * Cache group used by the media protector.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @var string
 	 */
@@ -23,8 +21,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 * Set up before class.
 	 *
 	 * Loads the media protector class file.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
@@ -36,8 +32,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Set up before each test.
 	 *
-	 * @since 10.0.6
-	 *
 	 * @return void
 	 */
 	public function set_up() {
@@ -47,8 +41,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 	/**
 	 * Build a cache key for a given media/user pair to match the key format used internally.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @param int $media_id Media post ID.
 	 * @param int $user_id  User ID.
@@ -60,8 +52,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 	/**
 	 * Test that invalidate_authorization_cache() deletes a pre-existing entry for the supplied user.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
@@ -85,8 +75,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 	/**
 	 * Test that invalidate_authorization_cache() without a user argument targets the current user only.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
@@ -120,8 +108,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 * Reproduces the bug in issue #3167: with a persistent object cache the cached
 	 * authorization result survives the protection state change and the URL is not rewritten.
 	 *
-	 * @since 10.0.6
-	 *
 	 * @return void
 	 */
 	public function test_add_authorization_meta_invalidates_cached_authorization() {
@@ -154,8 +140,6 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 *
 	 * This verifies the fix to use wp_cache_set() in place of wp_cache_add() so a stale sentinel
 	 * cannot be retained by a persistent object cache.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
