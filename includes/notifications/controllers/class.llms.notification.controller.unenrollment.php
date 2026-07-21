@@ -55,7 +55,6 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 * @param string $new_status  New enrollment status applied to the user.
 	 * @return void
 	 * @since [version]
-	 * @version [version]
 	 */
 	public function action_callback( $user_id = null, $post_id = null, $trigger = null, $new_status = null ) {
 
@@ -73,7 +72,6 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 * @param string $subscriber Subscriber type string.
 	 * @return int|false
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -102,7 +100,6 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	public function get_title() {
 		return __( 'Unenrollment', 'lifterlms' );
@@ -117,7 +114,6 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 * @param string $type Notification type id.
 	 * @return array
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_subscriber_options( $type ) {
 

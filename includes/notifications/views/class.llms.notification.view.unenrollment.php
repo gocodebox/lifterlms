@@ -46,7 +46,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -60,7 +59,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_footer() {
 		return '';
@@ -71,7 +69,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'negative' );
@@ -82,7 +79,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return array
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -98,7 +94,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -127,7 +122,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_subject() {
 		if ( $this->is_for_self() ) {
@@ -141,7 +135,6 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @return string
 	 * @since [version]
-	 * @version [version]
 	 */
 	protected function set_title() {
 		return sprintf( __( '%1$s unenrollment', 'lifterlms' ), '{{TYPE}}' );
