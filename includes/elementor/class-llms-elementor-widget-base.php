@@ -199,48 +199,33 @@ abstract class LLMS_Elementor_Widget_Base extends \Elementor\Widget_Base {
 	protected function is_visible( $attrs ) {
 
 		$visibility = ! empty( $attrs['llms_visibility'] ) ? $attrs['llms_visibility'] : 'all';
+		$uid        = get_current_user_id();
+		$visible    = true;
 
-		// Always show when set to everyone.
 		if ( 'all' === $visibility ) {
-			return true;
+			$visible = true;
+		} elseif ( 'logged_in' === $visibility ) {
+			$visible = (bool) $uid;
+		} elseif ( 'logged_out' === $visibility ) {
+			$visible = ! $uid;
+		} elseif ( 'enrolled' === $visibility ) {
+			$visibility_in = ! empty( $attrs['llms_visibility_in'] ) ? $attrs['llms_visibility_in'] : 'any';
+			$visible       = $uid && $this->check_enrollment( $uid, $visibility_in );
+		} elseif ( 'not_enrolled' === $visibility ) {
+			$visibility_in = ! empty( $attrs['llms_visibility_in'] ) ? $attrs['llms_visibility_in'] : 'any';
+			$visible       = ! $uid || ! $this->check_enrollment( $uid, $visibility_in );
 		}
 
-		$uid = get_current_user_id();
-
-		// Show only to logged-in users.
-		if ( 'logged_in' === $visibility ) {
-			return (bool) $uid;
-		}
-
-		// Show only to logged-out visitors.
-		if ( 'logged_out' === $visibility ) {
-			return ! $uid;
-		}
-
-		$visibility_in = ! empty( $attrs['llms_visibility_in'] ) ? $attrs['llms_visibility_in'] : 'any';
-
-		if ( 'enrolled' === $visibility ) {
-
-			// Must be logged in to be enrolled.
-			if ( ! $uid ) {
-				return false;
-			}
-
-			return $this->check_enrollment( $uid, $visibility_in );
-		}
-
-		if ( 'not_enrolled' === $visibility ) {
-
-			// Logged-out visitors are never enrolled.
-			if ( ! $uid ) {
-				return true;
-			}
-
-			return ! $this->check_enrollment( $uid, $visibility_in );
-		}
-
-		// Unknown mode — show by default.
-		return true;
+		/**
+		 * Filter whether an Elementor widget should be visible.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool  $visible Whether the widget should be shown.
+		 * @param array $attrs   Visibility attribute map from widget settings.
+		 * @param int   $uid     Current user ID (0 for logged-out visitors).
+		 */
+		return apply_filters( 'llms_elementor_widget_is_visible', $visible, $attrs, $uid );
 	}
 
 	/**
@@ -283,14 +268,15 @@ abstract class LLMS_Elementor_Widget_Base extends \Elementor\Widget_Base {
 	/**
 	 * Render the widget-specific front-end output.
 	 *
-	 * Subclasses implement this method to output their content. It is called
-	 * by `render()` only after the enrollment visibility check passes.
+	 * Subclasses should override this method to output their content.
+	 * A no-op default is provided to avoid fatal errors for any
+	 * subclass not yet migrated to the new rendering contract.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	abstract protected function render_widget();
+	protected function render_widget() {}
 
 	/**
 	 * Elementor live preview template.
