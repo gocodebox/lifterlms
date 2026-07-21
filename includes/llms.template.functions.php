@@ -534,9 +534,10 @@ function llms_setup_lesson_data( $post ) {
 			if ( empty( $post->post_type ) ) {
 				return; }
 
-			$courseid = get_post_meta( $post->ID, '_llms_parent_course' );
+			$parent_course = null;
+			$courseid      = get_post_meta( $post->ID, '_llms_parent_course', true );
 
-			if ( isset( $courseid ) ) {
+			if ( $courseid ) {
 				$parent_course = get_post( $courseid );
 			}
 
