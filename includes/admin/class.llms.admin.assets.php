@@ -392,7 +392,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register the media protection scripts when the media is enqueued.
 	 *
-	 * @since 9.0.6
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -494,7 +494,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Add translatable strings used by the media protection block editor toolbar.
 	 *
-	 * @since 10.0.6
+	 * @since [version]
 	 *
 	 * @param array $strings Array of JS l10n strings.
 	 * @return array
