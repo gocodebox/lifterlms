@@ -1,0 +1,137 @@
+allOf:
+  - type: object
+    properties:
+      id:
+        description: Unique lesson identifier. The WordPress Post `ID`.
+        readOnly: true
+  - $ref: '#/components/schemas/PostPublic'
+  - type: object
+    properties:
+      id:
+        readOnly: true
+        example: 789
+      permalink:
+        example: https://example.com/lesson/getting-started-with-lifterlms
+      post_type:
+        default: lesson
+        type: string
+      audio_embed:
+        description: URL to an oEmbed enable audio URL.
+        type: string
+        example: https://open.spotify.com/track/trackid
+      video_embed:
+        description: URL to an oEmbed enable video URL.
+        type: string
+        example: https://www.youtube.com/watch?v=videoid
+      prerequisite:
+        description: Lesson ID of the prerequisite lesson.
+        type: integer
+        example: 321
+      public:
+        description: Denotes a lesson that's publicly accessible regardless of course enrollment.
+        type: boolean
+        default: false
+      course_id:
+        description: WordPress post ID of the lesson's parent course.
+        type: integer
+        minimum: 1
+        example: 1234
+        readOnly: true
+      parent_id:
+        description: WordPress post ID of the parent item.<br> Must be a Section ID. `0` indicates an "orphaned" lesson which can be edited and viewed by instructors and admins but cannot be read by students.
+        type: integer
+        minimum: 0
+        example: 987
+      points:
+        description: Determines the weight of the lesson when grading the course.
+        type: integer
+        minimum: 0
+        default: 1
+      order:
+        description: Order of the lesson within its immediate parent.
+        type: integer
+        default: 1
+        minimum: 1
+      drip_method:
+        description: |
+          Determine the method with which to make the lesson content available.
+
+          - `none`: Drip is disabled; the lesson is immediately available.
+          - `date`: Lesson is made available at a specific date and time.
+          - `enrollment`: Lesson is made available a specific number of days after enrollment into the course.
+          - `start`: Lesson is made available a specific number of days after the course's start date. Only available on courses with a `access_opens_date`.
+          - `prerequisite`: Lesson is made available a specific number of days after the `prerequisite` lesson is completed.
+        type: string
+        enum:
+          - none
+          - date
+          - enrollment
+          - start
+          - prerequisite
+        default: none
+      drip_days:
+        description: Number of days to wait before allowing access to the lesson. Applicable only when `drip_method` is `enrollment`, `start`, or `prerequisite`.
+        type: integer
+        minimum: 1
+        default: 1
+      drip_date:
+        description: 'The date and time when the lesson becomes available. Applicable only when `drip_method` is `date`. Format: `Y-m-d H:i:s`.'
+        type: string
+        nullable: true
+        example: '2019-12-12 23:23:59'
+      quiz:
+        description: Associate a quiz with this lesson.
+        type: object
+        properties:
+          enabled:
+            description: Determines if a quiz is enabled for the lesson.
+            type: boolean
+            default: false
+            example: true
+          id:
+            description: The post ID of the associated quiz.
+            type: integer
+            minimum: 0
+            default: 0
+            example: 432
+          progression:
+            description: |
+              Determines lesson progression requirements related to the quiz.
+
+              - `complete`: The quiz must be completed (with any grade) to progress the lesson.
+              - `pass`: A passing grade must be earned to progress the lesson.
+            type: string
+            enum:
+              - complete
+              - pass
+            default: complete
+      assignment:
+        description: |
+          Associate an assignment with this lesson.
+
+          _While assignment functionality is included with the LifterLMS Core REST API, the assignments themselves are implemented by the LifterLMS Assignments add-on._
+        type: object
+        properties:
+          enabled:
+            description: Determines if an assignment is enabled for the lesson.
+            type: boolean
+            default: false
+            example: true
+          id:
+            description: The post ID of the associated assingment.
+            type: integer
+            minimum: 0
+            default: 0
+            example: 876
+          progression:
+            description: |
+              Determines lesson progression requirements related to the assignment.
+
+              - `complete`: The assignment must be completed (with any grade) to progress the lesson.
+              - `pass`: A passing grade must be earned to progress the lesson.
+            type: string
+            enum:
+              - complete
+              - pass
+            default: complete
+

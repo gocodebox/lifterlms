@@ -1349,9 +1349,11 @@ class LLMS_Admin_Builder {
 						} else {
 							$choice_res['id'] = $choice_id;
 
-							if ( isset( $c_data['choice']['id'] ) ) {
+							$choice_media_id = isset( $c_data['choice']['id'] ) ? absint( $c_data['choice']['id'] ) : 0;
+							// Only bind the protected-media meta when the current user is allowed to edit that specific media object.
+							if ( $choice_media_id && current_user_can( 'edit_post', $choice_media_id ) ) {
 								// The quiz IDs are needed for later verification of access by the protected media filters.
-								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
+								$quiz_ids = get_post_meta( $choice_media_id, '_llms_quiz_id', true );
 								if ( ! is_array( $quiz_ids ) ) {
 									$quiz_ids = array();
 								}
@@ -1359,7 +1361,7 @@ class LLMS_Admin_Builder {
 								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
 									$quiz_ids[] = $quiz_id;
 								}
-								update_post_meta( $c_data['choice']['id'], '_llms_quiz_id', $quiz_ids );
+								update_post_meta( $choice_media_id, '_llms_quiz_id', $quiz_ids );
 							}
 						}
 

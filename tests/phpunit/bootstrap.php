@@ -62,6 +62,12 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 		// install LLMS
 		LLMS_Install::install();
 
+		// Prevent webhook pings during bundled REST API library tests.
+		add_filter( 'llms_rest_webhook_pre_ping', '__return_true' );
+
+		// Admin functions used by bundled library tests (helper).
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
+
 		// Reload capabilities after install, see https://core.trac.wordpress.org/ticket/28374
 		if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
 			$GLOBALS['wp_roles']->reinit();

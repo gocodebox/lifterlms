@@ -1,0 +1,19 @@
+title: Fill in the Blank
+description: Fill in the Blank quiz question type
+allOf:
+  - $ref: '#/components/schemas/QuizQuestion'
+  - type: object
+    properties:
+      question_type:
+        description: The type of question.
+        type: string
+        default: blank
+      correct_value:
+        description: |
+          Specify the correct value(s) for each blank in the `title` property and enable automatic grading of the question.
+
+          For questions with multiple blanks, separate each blank by with a pipe (`|`) character. The correct values should be supplied in the same order as the blanks.
+        type: string
+        example: 'foo|bar'
+
+

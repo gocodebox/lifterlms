@@ -280,7 +280,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 		$this->assertEquals( $raw['first_name'], $user->first_name );
 		$this->assertEquals( $raw['last_name'], $user->last_name );
 		$this->assertEquals( $raw['description'], $user->description );
-		$this->assertTrue( $user->has_cap( 'administrator' ) ); // Default role.
+		$this->assertTrue( $user->has_cap( get_option( 'default_role', 'subscriber' ) ) ); // Default role.
 
 		// Pass in a role.
 		$res = LLMS_Unit_Test_Util::call_method( $this->stub, 'get_author_id', array( array(
@@ -309,6 +309,83 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 		$this->setExpectedException( Exception::class, 'Cannot create a user with an empty login name.', 1002 );
 		LLMS_Unit_Test_Util::call_method( $this->stub, 'get_author_id', array( array( 'email' => 'fake@test.tld' ) ) );
 		remove_filter( 'llms_generator_new_author_data', $handler );
+
+	}
+
+	/**
+	 * Test create_user() uses a safe default role when none is supplied.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_create_user_default_role() {
+
+		$res  = LLMS_Unit_Test_Util::call_method( $this->stub, 'create_user', array( array( 'email' => 'default-role@test.tld' ) ) );
+		$user = get_user_by( 'ID', $res );
+
+		$this->assertTrue( $user->has_cap( get_option( 'default_role', 'subscriber' ) ) );
+		$this->assertFalse( $user->has_cap( 'administrator' ) );
+
+	}
+
+	/**
+	 * Test create_user() allows an importer to create a user with a role they can assign.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_create_user_authorized_role() {
+
+		$manager = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+		wp_set_current_user( $manager );
+
+		// LMS Managers can assign instructor and student roles.
+		foreach ( array( 'instructor', 'student' ) as $role ) {
+			$res = LLMS_Unit_Test_Util::call_method(
+				$this->stub,
+				'create_user',
+				array(
+					array(
+						'email' => "authorized-{$role}@test.tld",
+						'role'  => $role,
+					),
+				)
+			);
+
+			$this->assertIsInt( $res );
+			$this->assertTrue( get_user_by( 'ID', $res )->has_cap( $role ) );
+		}
+
+	}
+
+	/**
+	 * Test create_user() prevents an importer from creating a user with a role they cannot assign.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_create_user_unauthorized_role() {
+
+		$manager = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+		wp_set_current_user( $manager );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->stub,
+			'create_user',
+			array(
+				array(
+					'email' => 'unauthorized-admin@test.tld',
+					'role'  => 'administrator',
+				),
+			)
+		);
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms-generator-unauthorized-role', $res );
+		$this->assertFalse( get_user_by( 'email', 'unauthorized-admin@test.tld' ) );
 
 	}
 

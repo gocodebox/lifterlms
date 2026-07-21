@@ -5,6 +5,7 @@
  * @since   3.16.0
  * @version 3.17.2
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-section-template">
 
