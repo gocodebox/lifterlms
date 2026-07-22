@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 7.7.0
- * @version 7.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,6 +52,22 @@ class LLMS_Media_Protector {
 	 * @var string
 	 */
 	public const AUTHORIZATION_FILTER_KEY = '_llms_media_authorization_filter';
+
+	/**
+	 * The meta key used to record the original public location of a media file before it was moved to the protected
+	 * uploads directory.
+	 *
+	 * The value is the original `_wp_attached_file` relative path (e.g. `2023/01/image.jpg`). It is used to restore the
+	 * file's public location when the file is unprotected.
+	 *
+	 * The key is protected by prefixing it with an underscore '_', which causes WordPress to not display it in
+	 * a custom fields interface. {@see is_protected_meta()}.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	public const ORIGINAL_FILE_META_KEY = '_llms_media_protection_original_file';
 
 	/**
 	 * Serve the media file by reading and outputting it with the readfile() function.
@@ -1040,5 +1056,41 @@ class LLMS_Media_Protector {
 		}
 
 		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, $hook_name );
+	}
+
+	/**
+	 * Remove the authorization meta from the post.
+	 *
+	 * Also clears the per-request media authorization cache for this attachment so that any URLs that
+	 * were previously authorized are immediately invalidated for the current user.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id The attachment post ID.
+	 * @return void
+	 */
+	public function remove_authorization_meta_from_media_post( $post_id ) {
+		if ( ! is_numeric( $post_id ) ) {
+			return;
+		}
+
+		delete_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY );
+		wp_cache_delete( 'llms-media-authorization-' . $post_id . '-' . get_current_user_id(), 'llms_media_authorization' );
+	}
+
+	/**
+	 * Returns the original public `_wp_attached_file` relative path recorded before the file was protected.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $media_id The attachment post ID.
+	 * @return string The original relative path, or an empty string if none was recorded.
+	 */
+	public function get_original_attached_file( $media_id ) {
+		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
+			return '';
+		}
+
+		return (string) get_post_meta( $media_id, self::ORIGINAL_FILE_META_KEY, true );
 	}
 }

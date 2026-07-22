@@ -118,23 +118,63 @@ class LLMS_REST_Fields {
 					return get_post_meta( $object['id'], '_llms_media_protection_product_id', true );
 				},
 				'update_callback' => function ( $value, $object ) {
-					$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
+					$settings  = new LLMS_Admin_Media_Protection_Attachment_Settings();
 					$protector = new LLMS_Media_Protector();
+
+					// An empty value means "unprotect this media". The clear action is also
+					// available for already-unprotected files (which is a no-op).
+					if ( empty( $value ) ) {
+						if ( $protector->is_media_protected( $object->ID ) ) {
+							$result = $settings->move_attachment_to_public_dir( $object->ID );
+							if ( true === $result ) {
+								delete_post_meta( $object->ID, '_llms_media_protection_product_id' );
+							}
+							return $result;
+						}
+
+						delete_post_meta( $object->ID, '_llms_media_protection_product_id' );
+						return true;
+					}
 
 					if ( $protector->is_media_protected( $object->ID ) ) {
 						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
 
-						return;
+						return true;
 					}
 
 					if ( $settings->move_attachment_to_protected_dir( $object->ID ) ) {
 						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+						return true;
 					}
+
+					return new WP_Error(
+						'llms_media_protection_failed',
+						__( 'Failed to move the media file to the protected directory.', 'lifterlms' )
+					);
 				},
 				'schema'          => array(
-					'description' => __( 'The ID of the product that protects this media.', 'lifterlms' ),
+					'description' => __( 'The ID of the product that protects this media. Set to an empty value to unprotect the media.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
+
+		// Read-only field exposing the media's original public location so that the block editor
+		// can render the "Originally located in" note without a second request.
+		register_rest_field(
+			'attachment',
+			'_llms_media_protection_original_file',
+			array(
+				'get_callback' => function ( $object ) {
+					$protector = new LLMS_Media_Protector();
+					return $protector->get_original_attached_file( $object['id'] );
+				},
+				'schema'      => array(
+					'description' => __( 'The original public location of the media file before it was protected, relative to the uploads directory.', 'lifterlms' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
 				),
 			)
 		);

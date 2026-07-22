@@ -54,16 +54,30 @@
 
 			const [ isModalOpen, setModalOpen ] = useState( false );
 			const [ productTitle, setProductTitle ] = useState( null );
+			const [ originalFile, setOriginalFile ] = useState( '' );
+			const [ showUnprotectWarning, setShowUnprotectWarning ] = useState( false );
 			const selectRef = useRef( null );
 
 			useEffect( () => {
 				if ( isModalOpen && selectRef.current ) {
 					jQuery( selectRef.current ).llmsPostsSelect2();
+					const handleChange = function() {
+						const val = jQuery( this ).val();
+						setShowUnprotectWarning( ! val );
+					};
+					const $el = jQuery( selectRef.current );
+					$el.on( 'change', handleChange );
+					return () => {
+						$el.off( 'change', handleChange );
+					};
 				}
 			}, [ isModalOpen ] );
 
 			const handleProtectImage = () => {
-				const selectedId = jQuery( selectRef.current ).val();
+				const rawValue = jQuery( selectRef.current ).val();
+				// An empty string from a cleared select2 means "unprotect this media".
+				// The REST update callback treats an empty value as a request to unprotect.
+				const selectedId = rawValue && '' !== rawValue ? rawValue : 0;
 
 				apiFetch( {
 					path: `/wp/v2/media/${ props.attributes.id }`,
@@ -75,6 +89,8 @@
 					const urlAttr = getUrlAttr( props.name );
 					props.setAttributes( { [ urlAttr ]: updatedMedia.source_url } );
 					setProductTitle( null );
+					setOriginalFile( '' );
+					setShowUnprotectWarning( false );
 				} ).catch( ( err ) => {
 					console.error( 'Error updating media meta:', err );
 				} );
@@ -93,8 +109,11 @@
 						const productId = media._llms_media_protection_product_id;
 						if ( ! productId ) {
 							setProductTitle( null );      // media isn’t protected yet
+							setOriginalFile( '' );
 							return;
 						}
+
+						setOriginalFile( media._llms_media_protection_original_file || '' );
 
 						const tryEndpoints = [ 'courses', 'memberships' ];
 						( async () => {
@@ -115,6 +134,7 @@
 					.catch( ( er ) => {
 						console.error( 'Unable to read media meta', er );
 						setProductTitle( null );
+						setOriginalFile( '' );
 					} );
 			}, [ isModalOpen, props.attributes.id ] );
 
@@ -151,7 +171,7 @@
 									ref={ selectRef }
 									className='llms-block-protect llms-posts-select2'
 									data-no-view-button='true'
-									data-allow_clear='false'
+									data-allow_clear='true'
 									data-post-type='course,llms_membership'
 									></select>
 								</FlexItem>
@@ -161,6 +181,19 @@
 										<strong>{ productTitle }</strong>
 									</FlexItem>
 								) }
+								{ originalFile && (
+									<FlexItem>
+										{ LLMS.l10n.translate( 'Originally located in:' ) }&nbsp;
+										<code>wp-content/uploads/{ originalFile }</code>
+									</FlexItem>
+								) }
+								{ showUnprotectWarning && originalFile && (
+									<FlexItem>
+										<Notice status="warning" isDismissible={false}>
+											{ LLMS.l10n.translate( 'Clearing the selected product will move this file back to its original public location. Existing protected links to this media will no longer work.' ) }
+										</Notice>
+									</FlexItem>
+								) }
 								<FlexItem>
 									<Button
 										isPrimary
@@ -168,7 +201,7 @@
 											handleProtectImage();
 										} }
 									>
-										Protect Image
+										{ productTitle ? LLMS.l10n.translate( 'Update Protection' ) : LLMS.l10n.translate( 'Protect Image' ) }
 									</Button>
 								</FlexItem>
 							</Flex>
