@@ -320,6 +320,32 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test validate_field_attribute_minlength() clamps values below 6 to 6
+	 *
+	 * @since 7.0.4
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_attribute_minlength_clamps_to_six() {
+
+		$field = $this->get_field_arr( 'password', array(
+			'attributes' => array(
+				'minlength' => 1,
+			),
+		) );
+
+		// 5-character password should be too short because the minimum is clamped to 6.
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( 'short', 1, $field ) );
+		$this->assertIsWPError( $res );
+		$this->assertEquals( 'llms-form-field-invalid', $res->get_error_code() );
+
+		// 6-character password should pass.
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( 'longer', 1, $field ) );
+		$this->assertTrue( $res );
+
+	}
+
+	/**
 	 * Test validate_field() for a field with an html minlength attribute
 	 *
 	 * @since 5.0.0
@@ -351,32 +377,6 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 				$this->assertIsWPError( $res );
 			}
 		}
-
-	}
-
-	/**
-	 * Test validate_field_attribute_minlength() clamps values below 6 to 6
-	 *
-	 * @since 7.0.4
-	 *
-	 * @return void
-	 */
-	public function test_validate_field_attribute_minlength_clamps_to_six() {
-
-		$field = $this->get_field_arr( 'password', array(
-			'attributes' => array(
-				'minlength' => 1,
-			),
-		) );
-
-		// 5-character password should be too short because the minimum is clamped to 6.
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( 'short', 1, $field ) );
-		$this->assertIsWPError( $res );
-		$this->assertEquals( 'llms-form-field-invalid', $res->get_error_code() );
-
-		// 6-character password should pass.
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( 'longer', 1, $field ) );
-		$this->assertTrue( $res );
 
 	}
 
