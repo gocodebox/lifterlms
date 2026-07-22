@@ -47,6 +47,17 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	 */
 	protected function setup_args() {
 
+		// The notification defaults to "no" for all subscribers, so enable
+		// the student subscription for tests that need a notification to fire.
+		$this->get_controller()->set_option(
+			'email_subscribers',
+			array(
+				'author'  => 'no',
+				'student' => 'yes',
+				'custom'  => 'no',
+			)
+		);
+
 		$order = $this->get_mock_order();
 		$this->order = $order;
 
@@ -98,6 +109,46 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	 */
 	public function test_get_title() {
 		$this->assertEquals( 'Order Failed', $this->get_controller()->get_title() );
+	}
+
+	/**
+	 * Test that only one notification is sent when both action hooks fire
+	 * for the same order in a single request (e.g. terminal retry failure
+	 * cascading into the `llms-failed` status transition).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_double_send_prevention() {
+
+		// The notification defaults to "no" for all subscribers, so enable
+		// the student subscription for the test to actually create a notification.
+		$this->get_controller()->set_option(
+			'email_subscribers',
+			array(
+				'author'  => 'no',
+				'student' => 'yes',
+				'custom'  => 'no',
+			)
+		);
+
+		$order = $this->get_mock_order();
+
+		$controller = $this->get_controller();
+
+		// Simulate both action hooks firing for the same order in one request.
+		$controller->action_callback( $order );
+		$controller->action_callback( $order );
+
+		$query = new LLMS_Notifications_Query(
+			array(
+				'post_id' => $order->get( 'id' ),
+			)
+		);
+
+		$this->assertCount( 1, $query->get_notifications() );
+
 	}
 
 }

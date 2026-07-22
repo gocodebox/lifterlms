@@ -159,7 +159,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
-				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'student', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 
@@ -248,12 +248,12 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	public function send_test( $type, $data = array() ) {
 
 		if ( empty( $data['order_id'] ) ) {
-			return;
+			return false;
 		}
 
 		$order         = llms_get_post( $data['order_id'] );
 		if ( ! is_a( $order, 'LLMS_Order' ) ) {
-			return;
+			return false;
 		}
 		$this->user_id = $order->get( 'user_id' );
 		$this->post_id = $order->get( 'id' );

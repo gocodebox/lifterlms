@@ -53,7 +53,7 @@ class LLMS_Notification_View_Order_Failed extends LLMS_Abstract_Notification_Vie
 
 		ob_start();
 		?><p><?php printf( esc_html__( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( esc_html__( 'We were unable to process the payment for your %1$s on order #%2$d. {{RETRY_NOTICE}}', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{ORDER_ID}}' ); ?></p>
+		<p><?php printf( esc_html__( 'We were unable to process the payment for your %1$s on order #%2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{ORDER_ID}}' ); ?></p>
 		<p><?php printf( esc_html__( 'To resolve this you can login to your account and %1$spay now%2$s or update your payment method.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
 		<h4><?php printf( esc_html__( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
 		<?php $mailer->output_table_html( $rows ); ?>
@@ -211,7 +211,7 @@ class LLMS_Notification_View_Order_Failed extends LLMS_Abstract_Notification_Vie
 	 * @return string
 	 */
 	protected function set_title() {
-		// Translators: %d = The order ID.
-		return sprintf( __( 'Order #%d payment failed', 'lifterlms' ), '{{ORDER_ID}}' );
+		// Translators: %s = The order ID.
+		return sprintf( __( 'Order #%s payment failed', 'lifterlms' ), '{{ORDER_ID}}' );
 	}
 }
