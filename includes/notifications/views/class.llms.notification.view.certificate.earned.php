@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 10.0.6
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,7 +78,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Setup body content for output.
 	 *
 	 * @since 3.8.0
-	 * @version 10.0.6
+	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -214,7 +214,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Setup notification subject for output.
 	 *
 	 * @since 3.8.0
-	 * @version 10.0.6
+	 * @version [version]
 	 *
 	 * @return string
 	 */
@@ -237,7 +237,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Defines field support for the view.
 	 *
 	 * @since 3.8.0
-	 * @version 10.0.6
+	 * @version [version]
 	 *
 	 * @return array
 	 */

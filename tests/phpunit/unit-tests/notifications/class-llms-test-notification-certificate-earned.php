@@ -7,7 +7,7 @@
  * @group notifications
  *
  * @since 6.0.0
- * @since 10.0.6 Added tests for email notification support.
+ * @since [version] Added tests for email notification support.
  */
 class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCase {
 
@@ -98,8 +98,6 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 	/**
 	 * Test that the email notification type is supported.
 	 *
-	 * @since 10.0.6
-	 *
 	 * @return void
 	 */
 	public function test_email_supported() {
@@ -114,8 +112,6 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 
 	/**
 	 * Test email subscriber options.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */
@@ -136,8 +132,6 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 
 	/**
 	 * Test email view subject and body.
-	 *
-	 * @since 10.0.6
 	 *
 	 * @return void
 	 */

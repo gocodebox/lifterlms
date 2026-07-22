@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 10.0.6
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,6 @@ defined( 'ABSPATH' ) || exit;
  *              - Deprecated the `LLMS_Engagements::log()` method.
  *                Engagement debug logging is removed. Use the {@see llms_log()} function directly instead.
  *              - Removed the deprecated `LLMS_Engagements::$_instance` property.
- * @since 10.0.6 Added `llms_user_earned_certificate` as an engagement trigger hook.
  */
 class LLMS_Engagements {
 

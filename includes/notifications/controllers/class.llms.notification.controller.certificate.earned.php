@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Controllers/Classes
  *
  * @since 3.8.0
- * @version 10.0.6
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,7 +99,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  10.0.6
+	 * @version  [version]
 	 */
 	protected function set_subscriber_options( $type ) {
 
@@ -128,7 +128,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	 *
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
 	 * @since    3.8.0
-	 * @version  10.0.6
+	 * @version  [version]
 	 */
 	protected function set_supported_types() {
 		return array(

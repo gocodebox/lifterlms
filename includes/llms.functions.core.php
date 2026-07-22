@@ -443,7 +443,6 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * @return array
  * @since 3.1.0
  * @since 3.24.1
- * @since 10.0.6 Added `certificate_earned` trigger.
  */
 function llms_get_engagement_triggers() {
 	/**
