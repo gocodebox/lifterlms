@@ -35,6 +35,18 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 			'course',
 			'llms_membership',
 		);
+
+		/**
+		 * Filters the post types on which the Access Plans metabox is registered.
+		 *
+		 * Return an empty array to disable the metabox entirely.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $screens Post type slugs.
+		 */
+		$this->screens = apply_filters( 'llms_metabox_product_screens', $this->screens );
+
 		$this->priority = 'high';
 
 		// Output PHP variables for JS access.

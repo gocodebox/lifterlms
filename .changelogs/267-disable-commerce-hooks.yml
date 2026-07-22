@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added a new `llms_metabox_product_screens` filter that allows developers to customize or disable the Access Plans metabox on courses and memberships."
