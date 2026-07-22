@@ -227,8 +227,8 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		}
 
 		// The original public location must have been recorded when the file was protected.
-		$original_relative = $protector->get_original_attached_file( $attachment_id );
-		if ( ! $original_relative ) {
+		$original_file_path = $protector->get_original_attached_file( $attachment_id );
+		if ( ! $original_file_path ) {
 			error_log( 'Unable to unprotect attachment ' . $attachment_id . ': original location is not recorded.' );
 			return false;
 		}
@@ -236,8 +236,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		$metadata    = wp_get_attachment_metadata( $attachment_id );
 		$current_file = get_attached_file( $attachment_id );
 
-		$uploads     = wp_upload_dir();
-		$target_file = $uploads['basedir'] . DIRECTORY_SEPARATOR . $original_relative;
+		$target_file = $original_file_path;
 		$target_dir  = dirname( $target_file );
 
 		global $wp_filesystem;
@@ -373,20 +372,11 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 	 * @return void
 	 */
 	protected function store_original_attached_file( $attachment_id, $metadata, $file ) {
-		$relative = '';
-
-		// Prefer the relative path stored in `_wp_attached_file` so it stays accurate even
-		// if the upload base directory has been customized.
-		$attached = get_post_meta( $attachment_id, '_wp_attached_file', true );
-		if ( $attached ) {
-			$relative = ltrim( $attached, '/' );
-		}
-
-		if ( ! $relative ) {
+		if ( ! $file ) {
 			return;
 		}
 
-		update_post_meta( $attachment_id, LLMS_Media_Protector::ORIGINAL_FILE_META_KEY, $relative );
+		update_post_meta( $attachment_id, LLMS_Media_Protector::ORIGINAL_FILE_META_KEY, $file );
 	}
 
 	/**
