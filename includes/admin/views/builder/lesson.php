@@ -5,7 +5,8 @@
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 7.2.0 Added lesson id.
- * @version 7.2.0
+ * @since [version] Added quiz id display in lesson listing.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -107,7 +108,7 @@ defined( 'ABSPATH' ) || exit;
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
 				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
 				'icon'             => '<i class="fa fa-question-circle"></i> ' . esc_html__( 'Add quiz', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ) . ' <span class="llms-item-id">' . esc_html__( 'ID:', 'lifterlms' ) . " {{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'id' ) : '' }}}</span>",
 			),
 
 			'video'       => array(
