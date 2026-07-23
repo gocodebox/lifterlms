@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed media protection URL rewrite failing when a persistent object cache (such as Object Cache Pro) is enabled. The cached authorization result is now invalidated when a media file is protected and cache writes are idempotent, so protected URLs are rewritten immediately.

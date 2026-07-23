@@ -161,6 +161,9 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			}
 
 			$protector->add_authorization_meta_to_media_post( $attachment_id );
+			// Clear the current user's cached authorization so the URL is rewritten on the
+			// next render, even when a persistent object cache (e.g. Object Cache Pro) is in use.
+			$protector->invalidate_authorization_cache( $attachment_id );
 
 			return true;
 		}

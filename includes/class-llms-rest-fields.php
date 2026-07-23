@@ -129,6 +129,7 @@ class LLMS_REST_Fields {
 
 					if ( $settings->move_attachment_to_protected_dir( $object->ID ) ) {
 						update_post_meta( $object->ID, '_llms_media_protection_product_id', absint( $value ) );
+						$protector->invalidate_authorization_cache( $object->ID );
 					}
 				},
 				'schema'          => array(
