@@ -177,4 +177,62 @@ class LLMS_Test_Admin_Site_Health extends LLMS_Unit_Test_Case {
 		$this->assertArrayHasKey( 'lifterlms-settings', $info );
 	}
 
-}
+	/**
+	 * Test that every LifterLMS section renders even when its source data is empty.
+	 *
+	 * WordPress core skips any Site Health section with empty fields. On a fresh install
+	 * with no gateways or integrations the source maps are empty, so each section must
+	 * still carry a placeholder row.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_debug_info_sections_visible_when_data_empty() {
+
+		$info = LLMS_Admin_Site_Health::add_debug_info( array() );
+
+		$expected = array(
+			'lifterlms-settings',
+			'lifterlms-gateways',
+			'lifterlms-integrations',
+			'lifterlms-templates',
+			'lifterlms-constants',
+		);
+
+		foreach ( $expected as $section_id ) {
+			$this->assertNotEmpty( $info[ $section_id ]['fields'], "$section_id must render even with no data." );
+		}
+	}
+
+	/**
+	 * Test that all LifterLMS sections render after every non-LifterLMS section.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_debug_info_pins_llms_sections_to_bottom() {
+
+		$existing = array(
+			'wp-core'     => array( 'label' => 'WordPress', 'fields' => array( 'v' => array( 'label' => 'Version', 'value' => '7.0' ) ) ),
+			'wp-database' => array( 'label' => 'Database', 'fields' => array( 'v' => array( 'label' => 'Version', 'value' => '10.6' ) ) ),
+		);
+
+		$info = LLMS_Admin_Site_Health::add_debug_info( $existing );
+		$keys = array_keys( $info );
+
+		// Verify that once the first LifterLMS section appears, no non-LifterLMS section follows.
+		$seen_llms = false;
+		foreach ( $keys as $slug ) {
+			if ( 0 === strpos( $slug, 'lifterlms-' ) ) {
+				$seen_llms = true;
+			} elseif ( $seen_llms ) {
+				$this->fail( "Non-LifterLMS section '$slug' appeared after a LifterLMS section. Expected LifterLMS sections only at the bottom." );
+			}
+		}
+
+		$this->assertTrue( $seen_llms, 'Expected at least one LifterLMS section in debug info.' );
+	} // end test_add_debug_info_pins_llms_sections_to_bottom
+
+} // class LLMS_Test_Admin_Site_Health

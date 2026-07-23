@@ -67,16 +67,25 @@ class LLMS_Admin_Site_Health {
 
 		$report = LLMS_Data::get_data( 'system_report' );
 
-		$info['lifterlms-settings']     = self::section_from_map( __( 'LifterLMS Settings', 'lifterlms' ), $report['settings'] );
-		$info['lifterlms-gateways']     = self::section_from_map( __( 'Payment Gateways', 'lifterlms' ), $report['gateways'] );
-		$info['lifterlms-integrations'] = self::section_from_map( __( 'Integrations', 'lifterlms' ), $report['integrations'] );
-		$info['lifterlms-templates']    = self::section_templates( $report['template_overrides'] );
+		$info['lifterlms-settings']     = self::section_from_map( __( 'LifterLMS Settings', 'lifterlms' ), isset( $report['settings'] ) ? $report['settings'] : array() );
+		$info['lifterlms-gateways']     = self::section_from_map( __( 'Payment Gateways', 'lifterlms' ), isset( $report['gateways'] ) ? $report['gateways'] : array() );
+		$info['lifterlms-integrations'] = self::section_from_map( __( 'Integrations', 'lifterlms' ), isset( $report['integrations'] ) ? $report['integrations'] : array() );
+		$info['lifterlms-templates']    = self::section_templates( isset( $report['template_overrides'] ) ? $report['template_overrides'] : array() );
+		$info['lifterlms-constants']    = self::section_from_map( __( 'LifterLMS Constants', 'lifterlms' ), isset( $report['constants'] ) ? $report['constants'] : array() );
 
-		if ( isset( $report['constants'] ) ) {
-			$info['lifterlms-constants'] = self::section_from_map( __( 'LifterLMS Constants', 'lifterlms' ), $report['constants'] );
+		// Pin LifterLMS sections after every core section so they stay grouped at the bottom.
+		$core = array();
+		$llms = array();
+
+		foreach ( $info as $slug => $section ) {
+			if ( 0 === strpos( $slug, 'lifterlms-' ) ) {
+				$llms[ $slug ] = $section;
+			} else {
+				$core[ $slug ] = $section;
+			}
 		}
 
-		return $info;
+		return array_merge( $core, $llms );
 	}
 
 	/**
@@ -97,6 +106,15 @@ class LLMS_Admin_Site_Health {
 				'label'   => self::humanize( $key ),
 				'value'   => self::to_string( $value ),
 				'private' => self::is_sensitive_key( $key ),
+			);
+		}
+
+		// WordPress core skips any Site Health section whose fields are empty, so always
+		// surface at least one row even when there is nothing to report.
+		if ( empty( $fields ) ) {
+			$fields['no_data'] = array(
+				'label' => __( 'Status', 'lifterlms' ),
+				'value' => __( 'No data available.', 'lifterlms' ),
 			);
 		}
 
