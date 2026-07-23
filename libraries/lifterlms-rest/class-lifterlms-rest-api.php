@@ -96,6 +96,13 @@ final class LifterLMS_REST_API {
 			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/admin/class-llms-rest-admin-form-controller.php';
 		}
 
+		// Abilities API integration (WP 6.9+).
+		if ( function_exists( 'wp_register_ability' ) ) {
+			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/abilities/class-llms-rest-ability-factory.php';
+			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/abilities/class-llms-rest-abilities.php';
+			LLMS_REST_Abilities::init();
+		}
+
 		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
 		add_action( 'rest_api_init', array( $this, 'rest_api_controllers_init' ), 10 );
 
