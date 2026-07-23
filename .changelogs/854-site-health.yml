@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: "Migrated the System Report tab on the Status screen to a notice linking to the WordPress core Site Health info tab, where the same diagnostic data is now collected and copied as part of the single unified debug view."

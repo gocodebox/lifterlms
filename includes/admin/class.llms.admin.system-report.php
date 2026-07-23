@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * Admin System Report Class.
  *
  * @since 2.1.0
+ * @deprecated [version] Use the WordPress Site Health Info screen (Tools > Site Health > Info) instead.
+ *                       Kept for backwards compatibility; may be removed in a future release.
  */
 class LLMS_Admin_System_Report {
 
@@ -26,6 +28,8 @@ class LLMS_Admin_System_Report {
 	 * @return void
 	 */
 	public static function output() {
+
+		_deprecated_function( __METHOD__, '[version]', 'The WordPress Site Health Info screen (Tools > Site Health > Info)' );
 
 		echo '<div class="wrap lifterlms">';
 

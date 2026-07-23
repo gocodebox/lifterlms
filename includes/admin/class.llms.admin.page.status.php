@@ -206,7 +206,7 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
+		$current_tab = empty( $_GET['tab'] ) ? 'tools' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
 		?>
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo esc_attr( $current_tab ); ?>">
@@ -238,7 +238,7 @@ class LLMS_Admin_Page_Status {
 					break;
 
 				case 'report':
-					LLMS_Admin_System_Report::output();
+					self::output_system_report_redirect();
 					break;
 
 				case 'tools':
@@ -251,6 +251,35 @@ class LLMS_Admin_Page_Status {
 
 		</div>
 
+		<?php
+	}
+
+	/**
+	 * Output a notice pointing users to the WordPress Site Health Info screen.
+	 *
+	 * The LifterLMS System Report data now lives on the core Tools > Site Health > Info page,
+	 * so this tab no longer renders the old report directly.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private static function output_system_report_redirect() {
+		?>
+		<div class="wrap lifterlms">
+			<p class="llms-info-box">
+				<?php
+				printf(
+					wp_kses(
+						/* translators: %s: URL to the Site Health Info screen. */
+						__( 'The LifterLMS System Report has moved to the WordPress Site Health info screen. Visit <a href="%s">Tools &rsaquo; Site Health &rsaquo; Info</a> to view LifterLMS diagnostics there.', 'lifterlms' ),
+						array( 'a' => array( 'href' => array() ) )
+					),
+					esc_url( admin_url( 'site-health.php?tab=debug' ) )
+				);
+				?>
+			</p>
+		</div>
 		<?php
 	}
 
