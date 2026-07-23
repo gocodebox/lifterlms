@@ -217,7 +217,7 @@ class LLMS_REST_Abilities {
 				// Translators: %s = singular resource noun (e.g. "course").
 				'description' => sprintf( __( 'Updates an existing %s by its ID.', 'lifterlms' ), $noun_singular ),
 				'operation'   => 'update',
-				'method'      => 'POST',
+				'method'      => 'PATCH',
 				'route'       => $resource['route'] . '/{id}',
 			),
 			$base + array(

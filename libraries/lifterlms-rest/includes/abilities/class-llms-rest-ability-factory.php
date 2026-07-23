@@ -99,6 +99,9 @@ class LLMS_REST_Ability_Factory {
 			return null;
 		}
 
+		// Captured by the callbacks below so requests built outside REST dispatch carry the same defaults.
+		$config['default_params'] = self::get_default_params( $config );
+
 		$args = array(
 			'label'               => $config['label'],
 			'description'         => $config['description'],
@@ -160,6 +163,36 @@ class LLMS_REST_Ability_Factory {
 	 */
 	private static function get_input_schema( $config ) {
 
+		$schema = self::sanitize_args_to_schema( self::get_endpoint_args( $config ) );
+
+		foreach ( self::get_path_params( $config ) as $param => $description ) {
+
+			$schema['properties'][ $param ] = array(
+				'type'        => 'integer',
+				'description' => $description,
+			);
+
+			$schema['required']   = isset( $schema['required'] ) ? $schema['required'] : array();
+			$schema['required'][] = $param;
+		}
+
+		if ( isset( $schema['required'] ) ) {
+			$schema['required'] = array_values( array_unique( $schema['required'] ) );
+		}
+
+		return $schema;
+	}
+
+	/**
+	 * Retrieve the raw endpoint args (WP REST format) for the configured operation.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $config Ability configuration.
+	 * @return array
+	 */
+	private static function get_endpoint_args( $config ) {
+
 		$controller = self::get_controller( ! empty( $config['schema_controller'] ) ? $config['schema_controller'] : $config['controller'] );
 		$args       = array();
 
@@ -198,24 +231,33 @@ class LLMS_REST_Ability_Factory {
 			}
 		}
 
-		$schema = self::sanitize_args_to_schema( is_array( $args ) ? $args : array() );
+		return is_array( $args ) ? $args : array();
+	}
 
-		foreach ( self::get_path_params( $config ) as $param => $description ) {
+	/**
+	 * Retrieve the default values of the endpoint args for the configured operation.
+	 *
+	 * During REST dispatch the server applies these defaults from the route registration.
+	 * Requests built manually for the ability callbacks skip route matching, so the same
+	 * defaults are set on the request explicitly (e.g. the enrollments `trigger` param,
+	 * which permission checks read before dispatch occurs).
+	 *
+	 * @since [version]
+	 *
+	 * @param array $config Ability configuration.
+	 * @return array Map of param name to default value.
+	 */
+	private static function get_default_params( $config ) {
 
-			$schema['properties'][ $param ] = array(
-				'type'        => 'integer',
-				'description' => $description,
-			);
+		$defaults = array();
 
-			$schema['required']   = isset( $schema['required'] ) ? $schema['required'] : array();
-			$schema['required'][] = $param;
+		foreach ( self::get_endpoint_args( $config ) as $key => $arg ) {
+			if ( is_array( $arg ) && array_key_exists( 'default', $arg ) ) {
+				$defaults[ $key ] = $arg['default'];
+			}
 		}
 
-		if ( isset( $schema['required'] ) ) {
-			$schema['required'] = array_values( array_unique( $schema['required'] ) );
-		}
-
-		return $schema;
+		return $defaults;
 	}
 
 	/**
@@ -322,8 +364,11 @@ class LLMS_REST_Ability_Factory {
 	 * Build an internal REST request from ability input.
 	 *
 	 * Route placeholders (e.g. `{id}`) are substituted with the corresponding input values
-	 * and removed from the request parameters; all remaining input is passed as query or
-	 * body parameters depending on the HTTP method.
+	 * and moved from the query/body parameters into the request's URL parameters. Setting
+	 * them as URL params keeps them readable (e.g. `$request['id']`) by controller
+	 * permission checks invoked directly via {@see LLMS_REST_Ability_Factory::check_permission()},
+	 * where no route matching occurs to populate them, while keeping the request body free
+	 * of path parameters the controllers don't expect there.
 	 *
 	 * @since [version]
 	 *
@@ -333,22 +378,30 @@ class LLMS_REST_Ability_Factory {
 	 */
 	private static function build_request( $config, $input = null ) {
 
-		$input  = is_array( $input ) ? $input : array();
-		$route  = $config['route'];
-		$params = $input;
+		$input      = is_array( $input ) ? $input : array();
+		$route      = $config['route'];
+		$params     = $input;
+		$url_params = array();
 
 		foreach ( array_keys( self::get_path_params( $config ) ) as $param ) {
 			if ( isset( $params[ $param ] ) ) {
-				$route = str_replace( '{' . $param . '}', (string) absint( $params[ $param ] ), $route );
+				$url_params[ $param ] = absint( $params[ $param ] );
+				$route                = str_replace( '{' . $param . '}', (string) $url_params[ $param ], $route );
+				unset( $params[ $param ] );
 			}
 		}
 
 		$request = new WP_REST_Request( $config['method'], $route );
+		$request->set_url_params( $url_params );
 
 		if ( in_array( $config['method'], array( 'GET', 'DELETE' ), true ) ) {
 			$request->set_query_params( $params );
 		} else {
 			$request->set_body_params( $params );
+		}
+
+		if ( ! empty( $config['default_params'] ) ) {
+			$request->set_default_params( $config['default_params'] );
 		}
 
 		return $request;

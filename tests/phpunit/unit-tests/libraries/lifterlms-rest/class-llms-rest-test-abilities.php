@@ -195,6 +195,16 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 		$this->assertFalse( is_wp_error( $course ) );
 		$this->assertEquals( $course_id, $course['id'] );
 
+		// Update.
+		$updated = $this->get_ability( 'update-course' )->execute(
+			array(
+				'id'    => $course_id,
+				'title' => 'Abilities API Test Course (Updated)',
+			)
+		);
+		$this->assertFalse( is_wp_error( $updated ), is_wp_error( $updated ) ? $updated->get_error_message() : '' );
+		$this->assertEquals( 'Abilities API Test Course (Updated)', $updated['title']['rendered'] );
+
 		// List.
 		$list = $this->get_ability( 'list-courses' )->execute( array() );
 		$this->assertFalse( is_wp_error( $list ) );
@@ -232,6 +242,19 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 		$list = $this->get_ability( 'list-enrollments' )->execute( array( 'id' => $student_id ) );
 		$this->assertFalse( is_wp_error( $list ) );
 		$this->assertContains( $course_id, wp_list_pluck( $list, 'post_id' ) );
+
+		// Enrollment status rows are ordered by timestamp: wait so the updated status is subsequent to the one set on creation.
+		sleep( 1 );
+
+		$updated = $this->get_ability( 'update-enrollment' )->execute(
+			array(
+				'id'      => $student_id,
+				'post_id' => $course_id,
+				'status'  => 'expired',
+			)
+		);
+		$this->assertFalse( is_wp_error( $updated ), is_wp_error( $updated ) ? $updated->get_error_message() : '' );
+		$this->assertEquals( 'expired', $updated['status'] );
 
 		$deleted = $this->get_ability( 'unenroll-student' )->execute(
 			array(
