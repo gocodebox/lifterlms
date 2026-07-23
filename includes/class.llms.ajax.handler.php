@@ -1376,7 +1376,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle a lesson time tracking heartbeat.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $request POST data from the AJAX request.
 	 * @return array|WP_Error
@@ -1464,7 +1464,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle lesson time session end (fired via sendBeacon on page unload).
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $request POST data.
 	 * @return array|WP_Error

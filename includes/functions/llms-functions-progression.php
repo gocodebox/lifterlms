@@ -119,7 +119,7 @@ function llms_show_mark_complete_button( $lesson ) {
 /**
  * Hide the Mark Complete button when the lesson's minimum time requirement has not been met.
  *
- * @since [version]
+ * @since 10.1.0
  *
  * @param bool        $show   Whether the button should be shown.
  * @param LLMS_Lesson $lesson LLMS_Lesson instance.

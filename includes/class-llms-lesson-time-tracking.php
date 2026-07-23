@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Service class for lesson time tracking operations including session
  * management, cached time totals, and admin overrides.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_Lesson_Time_Tracking {
 
@@ -25,7 +25,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Find a session by its token.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $token Session token.
 	 * @return LLMS_Lesson_Time_Session|false Session object or false if not found.
@@ -55,7 +55,7 @@ class LLMS_Lesson_Time_Tracking {
 	 *
 	 * Sets session_end and applies final credit for each open session.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $user_id WP User ID.
 	 * @return void
@@ -69,7 +69,7 @@ class LLMS_Lesson_Time_Tracking {
 			/**
 			 * Filter the maximum seconds credited per heartbeat.
 			 *
-			 * @since [version]
+			 * @since 10.1.0
 			 *
 			 * @param int $max_credit Maximum seconds. Default 300 (5 minutes).
 			 */
@@ -103,7 +103,7 @@ class LLMS_Lesson_Time_Tracking {
 				/**
 				 * Filter the heartbeat interval in seconds.
 				 *
-				 * @since [version]
+				 * @since 10.1.0
 				 *
 				 * @param int $interval Heartbeat interval. Default 30.
 				 */
@@ -137,7 +137,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Create a new lesson time session.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $user_id   WP User ID.
 	 * @param int $lesson_id Lesson post ID.
@@ -170,7 +170,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Get total accumulated seconds for a user on a lesson across all sessions.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int  $user_id   WP User ID.
 	 * @param int  $lesson_id Lesson post ID.
@@ -213,7 +213,7 @@ class LLMS_Lesson_Time_Tracking {
 	 *
 	 * Updates both the per-lesson and per-course cached totals.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $user_id   WP User ID.
 	 * @param int $lesson_id Lesson post ID.
@@ -235,7 +235,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Update cached course time for a user.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $user_id   WP User ID.
 	 * @param int $course_id Course post ID.
@@ -266,7 +266,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Get cached course time for a user.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int  $user_id   WP User ID.
 	 * @param int  $course_id Course post ID.
@@ -291,7 +291,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Record an admin override for lesson completion.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int    $user_id   WP User ID of the student.
 	 * @param int    $lesson_id Lesson post ID.
@@ -317,7 +317,7 @@ class LLMS_Lesson_Time_Tracking {
 		/**
 		 * Fires when an admin overrides the minimum time requirement to complete a lesson.
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @param array $data Override details.
 		 */
@@ -329,7 +329,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Check if a lesson was completed via admin override.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $user_id   WP User ID.
 	 * @param int $lesson_id Lesson post ID.
@@ -344,7 +344,7 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Format seconds as H:MM:SS.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $seconds Total seconds.
 	 * @return string Formatted time string.
