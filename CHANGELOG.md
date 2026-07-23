@@ -25,8 +25,8 @@ v10.1.0 - 2026-07-23
 ##### Bug Fixes
 
 + Fixed media library attachment detail screen incorrectly showing course-protected files as protected by an assignment submission.
-+ Fixed media protection URL rewrite failing when a persistent object cache is enabled.
-+ Added ABSPATH direct file access protection guards.
++ Fixed media protection URL rewrite failing when a persistent object cache is enabled. Thanks [@faisalahammad](https://github.com/faisalahammad)!
++ Added ABSPATH direct file access protection guards. Thanks [@faisalahammad](https://github.com/faisalahammad)!
 + Fixed course titles showing HTML character codes in block settings. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
 + Made the course selection dropdown in course blocks searchable. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
 + Fixed the appearance of the custom fields notice on the forms screen under WordPress 7.0. [#3161](https://github.com/gocodebox/lifterlms/issues/3161)
