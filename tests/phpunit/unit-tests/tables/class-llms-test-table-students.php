@@ -321,9 +321,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 		$student = new LLMS_Student( $user_id );
 
 		$cases = array(
-			'12'  => wp_date( 'Y-m-d', strtotime( $utc_date_string . ' UTC' ) + ( 12 * HOUR_IN_SECONDS ) ),
-			'-12' => wp_date( 'Y-m-d', strtotime( $utc_date_string . ' UTC' ) - ( 12 * HOUR_IN_SECONDS ) ),
-			'0'   => wp_date( 'Y-m-d', strtotime( $utc_date_string . ' UTC' ) ),
+			'12'  => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) + ( 12 * HOUR_IN_SECONDS ) ),
+			'-12' => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) - ( 12 * HOUR_IN_SECONDS ) ),
+			'0'   => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) ),
 		);
 
 		foreach ( $cases as $offset => $expected ) {
