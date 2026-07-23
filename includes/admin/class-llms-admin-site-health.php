@@ -17,8 +17,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * Hooks the {@see 'debug_information'} filter to surface LifterLMS-specific
  * data (settings, gateways, integrations, template overrides, constants) on the
- * Tools > Site Health > Info screen. Core-provided sections (WordPress, Server,
- * Theme, Plugins) are intentionally not duplicated.
+ * Tools > Site Health > Info screen. Core-provided sections are intentionally not
+ * duplicated.
  *
  * Data is sourced from {@see LLMS_Data::get_data()}, which is also used by the
  * telemetry tracker, so the underlying data class is left untouched.
@@ -68,8 +68,8 @@ class LLMS_Admin_Site_Health {
 		$report = LLMS_Data::get_data( 'system_report' );
 
 		$info['lifterlms-settings']     = self::section_from_map( __( 'LifterLMS Settings', 'lifterlms' ), isset( $report['settings'] ) ? $report['settings'] : array() );
-		$info['lifterlms-gateways']     = self::section_from_map( __( 'Payment Gateways', 'lifterlms' ), isset( $report['gateways'] ) ? $report['gateways'] : array() );
-		$info['lifterlms-integrations'] = self::section_from_map( __( 'Integrations', 'lifterlms' ), isset( $report['integrations'] ) ? $report['integrations'] : array() );
+		$info['lifterlms-gateways']     = self::section_from_map( __( 'LifterLMS Payment Gateways', 'lifterlms' ), isset( $report['gateways'] ) ? $report['gateways'] : array() );
+		$info['lifterlms-integrations'] = self::section_from_map( __( 'LifterLMS Integrations', 'lifterlms' ), isset( $report['integrations'] ) ? $report['integrations'] : array() );
 		$info['lifterlms-templates']    = self::section_templates( isset( $report['template_overrides'] ) ? $report['template_overrides'] : array() );
 		$info['lifterlms-constants']    = self::section_from_map( __( 'LifterLMS Constants', 'lifterlms' ), isset( $report['constants'] ) ? $report['constants'] : array() );
 
@@ -91,6 +91,8 @@ class LLMS_Admin_Site_Health {
 	/**
 	 * Build a Site Health section from a flat key => value map.
 	 *
+	 * Emits one benign row when the data is empty so WordPress core doesn't skip the section.
+	 *
 	 * @since [version]
 	 *
 	 * @param string $label Section label.
@@ -101,12 +103,14 @@ class LLMS_Admin_Site_Health {
 
 		$fields = array();
 
-		foreach ( $data as $key => $value ) {
-			$fields[ $key ] = array(
-				'label'   => self::humanize( $key ),
-				'value'   => self::to_string( $value ),
-				'private' => self::is_sensitive_key( $key ),
-			);
+		if ( ! empty( $data ) && is_array( $data ) ) {
+			foreach ( $data as $key => $value ) {
+				$fields[ $key ] = array(
+					'label'   => self::humanize( $key ),
+					'value'   => self::to_string( $value ),
+					'private' => self::is_sensitive_key( $key ),
+				);
+			}
 		}
 
 		// WordPress core skips any Site Health section whose fields are empty, so always
@@ -139,18 +143,20 @@ class LLMS_Admin_Site_Health {
 
 		$rows = array();
 
-		foreach ( $overrides as $override ) {
-			$rows[] = sprintf(
-				'%1$s (core: %2$s) - %3$s (version: %4$s)',
-				$override['template'],
-				$override['core_version'],
-				$override['location'],
-				$override['version']
-			);
+		if ( is_array( $overrides ) && ! empty( $overrides ) ) {
+			foreach ( $overrides as $override ) {
+				$rows[] = sprintf(
+					'%1$s (core: %2$s) - %3$s (version: %4$s)',
+					$override['template'],
+					$override['core_version'],
+					$override['location'],
+					$override['version']
+				);
+			}
 		}
 
 		return array(
-			'label'      => __( 'Template Overrides', 'lifterlms' ),
+			'label'      => __( 'LifterLMS Template Overrides', 'lifterlms' ),
 			'show_count' => true,
 			'fields'     => array(
 				'overrides' => array(
