@@ -38,18 +38,30 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			$protection_warning_html = '<div class="llms-media-protection-warning">' . sprintf( __( 'This media is not protected. If you select a product here, the media will be moved to the protected uploads directory and existing links to the media will no longer work. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) . '</div>';
 		}
 
+		$auth_filter        = $protector->get_authorization_filter_name( $post->ID );
+		$is_addon_protected = $auth_filter && 'llms_attachment_is_access_allowed' !== $auth_filter;
+		$is_core_protected  = $protector->is_media_protected( $post->ID ) && ! $is_addon_protected;
+
 		$form_fields['llms_media_protection_post'] = array(
 			'label' => __( 'LifterLMS Media Protection:', 'lifterlms' ),
 			'input' => 'html',
 			// TODO: Add selected course/membership to the select2 dropdown if known for this attachment post.
 			'html'  => "$protection_warning_html<select id='attachments-" . $post->ID . "-llms_media_protection_post' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='attachments[" . $post->ID . "][llms_media_protection_post]'>$selected_product_html</select>",
-			'helps' => $protector->is_media_protected( $post->ID ) ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
+			'helps' => $is_core_protected ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
 		);
+
+		if ( $is_core_protected ) {
+			return $form_fields;
+		}
 
 		/**
 		 * Filter the LifterLMS media protection attachment field.
 		 *
-		 * @since 10.0.0
+		 * Only runs for unprotected files or files protected by add-ons (i.e., a filter hook
+		 * other than the default 'llms_attachment_is_access_allowed'). Core-protected files
+		 * use the standard label and help text above so add-ons cannot overwrite them.
+		 *
+		 * @since [version]
 		 *
 		 * @param array                $field     Attachment field definition.
 		 * @param WP_Post              $post      Attachment post object.
