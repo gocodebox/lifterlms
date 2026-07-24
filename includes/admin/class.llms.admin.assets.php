@@ -35,7 +35,6 @@ class LLMS_Admin_Assets {
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
-		add_filter( 'lifterlms_js_l10n_admin', array( $this, 'add_media_protection_js_l10n' ) );
 	}
 
 	/**
@@ -489,28 +488,6 @@ class LLMS_Admin_Assets {
 		 * @param array $opts Associative array of option data.
 		 */
 		return apply_filters( 'llms_get_analytics_js_options', compact( 'currency_format' ) );
-	}
-
-	/**
-	 * Add translatable strings used by the media protection block editor toolbar.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $strings Array of JS l10n strings.
-	 * @return array
-	 */
-	public function add_media_protection_js_l10n( $strings ) {
-		return array_merge(
-			$strings,
-			array(
-				'Protect %s' => __( 'Protect %s', 'lifterlms' ),
-				'Select a Course or Membership to protect this %s:' => __( 'Select a Course or Membership to protect this %s:', 'lifterlms' ),
-				'image' => __( 'image', 'lifterlms' ),
-				'audio' => __( 'audio', 'lifterlms' ),
-				'video' => __( 'video', 'lifterlms' ),
-				'file' => __( 'file', 'lifterlms' ),
-			)
-		);
 	}
 
 	/**
