@@ -93,7 +93,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 				'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
 			),
 			'default'           => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-			'desc'              => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
+			'desc'              => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships. To bypass a restriction, the user must also be able to edit the content, for example by being assigned as an instructor of the course.', 'lifterlms' ),
 			'id'                => 'llms_grant_site_access',
 			'options'           => array_filter(
 				LLMS_Roles::get_all_role_names(),
