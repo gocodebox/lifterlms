@@ -7,7 +7,8 @@
  * @since 3.15.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING` and validate the period exists before attempting to use it.
- * @version 5.9.0
+ * @since [version] Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,6 +39,7 @@ $now         = current_time( 'timestamp' );
 			<h3><?php esc_html_e( 'Course Overview', 'lifterlms' ); ?></h3>
 
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 
 		do_action( 'llms_reporting_single_course_overview_before_widgets', $course );
@@ -172,6 +174,7 @@ $now         = current_time( 'timestamp' );
 
 		do_action( 'llms_reporting_single_course_overview_after_widgets', $course );
 		?>
+		</div>
 
 	</section>
 

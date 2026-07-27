@@ -8,6 +8,8 @@
  * @since 3.17.3 Unknown.
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
  * @since 7.8.0 Add information on whether the attempt can be resumed or not and disable resume attempt button.
+ * @since [version] Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version [version]
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -36,6 +38,7 @@ if ( $student ) {
 		<header>
 			<h3><?php echo wp_kses_post( $attempt->get_title() ); ?></h3>
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 
 		do_action( 'llms_reporting_single_quiz_attempt_before_widgets', $attempt );
@@ -137,6 +140,7 @@ if ( $student ) {
 
 		do_action( 'llms_reporting_single_quiz_attempt_after_widgets', $attempt );
 		?>
+		</div>
 
 		<div class="clear"></div>
 

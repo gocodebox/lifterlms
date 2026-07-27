@@ -11,6 +11,7 @@
  *               Add a link to view full course reporting screen.
  * @since 6.0.0 Provide existing hooks with more information and add a new hook.
  * @since [version] Added "Total Course Time" widget.
+ * @since [version] Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height and rebalanced them to thirds.
  * @version [version]
  */
 
@@ -86,6 +87,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 			</h3>
 
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 		/**
 		 * Action run before the default widgets on the student course reporting screen.
@@ -100,7 +102,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'calendar',
 				'id'        => 'llms-reporting-student-course-enrollment-date',
 				'data'      => $student->get_enrollment_date( $course_id, 'enrolled' ),
@@ -112,7 +114,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$enrollment_status = $student->get_enrollment_status( $course_id );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'enrolled' === $enrollment_status ? 'check-circle' : 'exclamation-triangle',
 				'id'        => 'llms-reporting-student-course-enrollment-status',
 				'data'      => llms_get_enrollment_status_name( $enrollment_status ),
@@ -124,7 +126,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$is_complete = $student->is_complete( $course_id, 'course' );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'calendar',
 				'id'        => 'llms-reporting-student-course-completed-date',
 				'data'      => $is_complete ? $student->get_completion_date( $course_id ) : $student->get_enrollment_date( $course_id, 'updated' ),
@@ -135,7 +137,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'line-chart',
 				'id'        => 'llms-reporting-student-course-progress',
 				'data'      => $student->get_progress( $course_id, 'course' ),
@@ -147,7 +149,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$grade = $student->get_grade( $course_id );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'graduation-cap',
 				'id'        => 'llms-reporting-student-course-grade',
 				'data'      => $grade,
@@ -177,7 +179,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'clock-o',
 				'id'        => 'llms-reporting-student-course-total-time',
 				'data'      => LLMS_Lesson_Time_Tracking::instance()->format_time( $course_time ),
@@ -197,6 +199,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		 */
 		do_action( 'llms_reporting_single_student_course_after_widgets', $student, $course );
 		?>
+		</div>
 
 		<?php $table->output_table_html(); ?>
 
