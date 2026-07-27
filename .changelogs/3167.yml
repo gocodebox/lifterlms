@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-attributions:
-  - "@faisalahammad"
-entry: Fixed media protection URL rewrite failing when a persistent object cache is enabled.

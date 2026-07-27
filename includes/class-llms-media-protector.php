@@ -421,7 +421,7 @@ class LLMS_Media_Protector {
 	 * Returns the name of the filter hook that controls access to the file,
 	 * or an empty string if the file is not protected.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @return string Filter hook name, or empty string if not protected.
@@ -541,7 +541,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Build the cache key used for the authorization result of a media/user pair.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @param int $user_id  The ID of the user wanting to view the media file.
@@ -557,7 +557,7 @@ class LLMS_Media_Protector {
 	 * When the protection state of a media item changes the cached authorization result must be
 	 * removed so the next request does not reuse a stale value from a persistent object cache.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int      $media_id The post ID of the media file.
 	 * @param int|null $user_id  Optional. The ID of the user whose cached result should be removed.
@@ -1093,7 +1093,7 @@ class LLMS_Media_Protector {
 	 * stale values being retained by persistent object caches such as Object Cache Pro.
 	 *
 	 * @since 7.7.0
-	 * @since [version] Invalidates the cached authorization result for the current user.
+	 * @since 10.1.0 Invalidates the cached authorization result for the current user.
 	 *
 	 * @param $post_id
 	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.

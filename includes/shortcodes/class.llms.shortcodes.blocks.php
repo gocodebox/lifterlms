@@ -213,7 +213,7 @@ class LLMS_Shortcodes_Blocks {
 	 * already enrolled in the product (or previewing a non-purchasable product) would
 	 * see an empty preview.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $attributes The block attributes.
 	 * @return string

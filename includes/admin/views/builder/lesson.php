@@ -5,8 +5,8 @@
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 7.2.0 Added lesson id.
- * @since [version] Added quiz id display in lesson listing.
- * @version [version]
+ * @since 10.1.0 Added quiz id display in lesson listing.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
