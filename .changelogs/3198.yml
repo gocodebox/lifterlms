@@ -1,3 +1,5 @@
 significance: patch
 type: fixed
+attributions:
+  - "@faisalahammad"
 entry: "Added ABSPATH direct file access protection guards."
