@@ -1,52 +1,6 @@
 LifterLMS Changelog
 ===================
 
-v10.1.0 - 2026-07-23
---------------------
-
-##### New Features
-
-+ Added WordPress Abilities API (WP 6.9+) integration, registering the LifterLMS REST API endpoints for courses, sections, lessons, memberships, access plans, students, enrollments, and student progress as discoverable abilities for AI clients and automation tools.
-+ Added a Quizzes subtab to the single course reporting view.
-+ Added `wp llms course enrollments <id>` command to list students enrolled in a specific course.
-+ Added AI agent usage guide (`docs/ai-agents.md`) for CLI with patterns for Claude Code, Cursor, Codex, and similar tools.
-+ Added `wp llms course content <id>` command to retrieve course structure (sections and lessons) in a single call.
-+ Added course and membership selection to the Pricing Table block. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
-+ Added a HelpScout help beacon to the LifterLMS admin screens.
-+ Lesson time tracking and minimum time required on lesson enforcement.
-
-##### Updates and Enhancements
-
-+ Added the `wp-element-button` class to the access plan button and free enrollment form so they inherit theme button styling from `theme.json`.
-+ Adding quiz ID to the lesson listing in the Course Builder. [#3024](https://github.com/gocodebox/lifterlms/issues/3024)
-+ Bundled lifterlms-blocks, lifterlms-cli, lifterlms-helper, lifterlms-rest, and banner-notifications directly into core; standalone copies are no longer released separately.
-+ Increased the voucher admin "Uses" field width so redemption counts with more than two digits are readable.
-
-##### Bug Fixes
-
-+ Fixed media library attachment detail screen incorrectly showing course-protected files as protected by an assignment submission.
-+ Fixed media protection URL rewrite failing when a persistent object cache is enabled. Thanks [@faisalahammad](https://github.com/faisalahammad)!
-+ Added ABSPATH direct file access protection guards. Thanks [@faisalahammad](https://github.com/faisalahammad)!
-+ Fixed course titles showing HTML character codes in block settings. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
-+ Made the course selection dropdown in course blocks searchable. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
-+ Fixed the appearance of the custom fields notice on the forms screen under WordPress 7.0. [#3161](https://github.com/gocodebox/lifterlms/issues/3161)
-+ Fixed the parent course lookup when setting up lesson data. Thanks [@soydiloreto](https://github.com/soydiloreto)! [#3230](https://github.com/gocodebox/lifterlms/issues/3230)
-
-##### Security Fixes
-
-+ Hardened database queries in the voucher and lesson handler classes.
-+ Improved redirect handling in content restriction and lesson completion.
-+ Improved redirect handling in the template loader and lesson progression controller.
-
-##### Updated Templates
-
-+ [templates/admin/reporting/tabs/courses/quizzes.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/courses/quizzes.php)
-+ [templates/admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/students/courses-course.php)
-+ [templates/lesson/minimum-time.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/lesson/minimum-time.php)
-+ [templates/product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/product/access-plan-button.php)
-+ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/product/free-enroll-form.php)
-
-
 v10.0.10 - 2026-07-06
 ---------------------
 

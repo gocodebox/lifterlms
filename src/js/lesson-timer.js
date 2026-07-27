@@ -3,7 +3,7 @@
  *
  * Heartbeat-based time tracking for lesson minimum time requirements.
  *
- * @since 10.1.0
+ * @since [version]
  */
 import '../scss/lesson-timer.scss';
 

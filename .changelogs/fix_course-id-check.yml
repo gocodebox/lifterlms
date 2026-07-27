@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "#3230"
+attributions:
+  - "@soydiloreto"
+entry: Fixed the parent course lookup when setting up lesson data.

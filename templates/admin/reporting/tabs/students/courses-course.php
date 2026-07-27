@@ -10,8 +10,8 @@
  *               Add edit link tooltip and update icon.
  *               Add a link to view full course reporting screen.
  * @since 6.0.0 Provide existing hooks with more information and add a new hook.
- * @since 10.1.0 Added "Total Course Time" widget.
- * @version 10.1.0
+ * @since [version] Added "Total Course Time" widget.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

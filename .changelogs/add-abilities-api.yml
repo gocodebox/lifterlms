@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added WordPress Abilities API (WP 6.9+) integration, registering the LifterLMS REST API endpoints for courses, sections, lessons, memberships, access plans, students, enrollments, and student progress as discoverable abilities for AI clients and automation tools.

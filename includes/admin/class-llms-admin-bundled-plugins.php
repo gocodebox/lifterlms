@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since 10.1.0
- * @version 10.1.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * maintained within the LifterLMS core plugin. Standalone copies no longer receive updates and should
  * be deactivated and deleted.
  *
- * @since 10.1.0
+ * @since [version]
  */
 class LLMS_Admin_Bundled_Plugins {
 
@@ -31,7 +31,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Constructor.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Retrieves a list of bundled plugin basenames and their names.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return array Array mapping plugin basenames to plugin names.
 	 */
@@ -59,7 +59,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Retrieves installed standalone copies of bundled plugins.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return array Array mapping plugin basenames to plugin names for installed standalone copies.
 	 */
@@ -77,7 +77,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Adds an admin notice and plugin row messages when standalone copies are installed.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Adds the dismissable admin notice.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @param array $plugins Array mapping plugin basenames to plugin names.
 	 * @return void
@@ -129,7 +129,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Outputs a notice within a standalone plugin's row on the plugins screen.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @param string $plugin_file Plugin basename.
 	 * @param array  $plugin_data Plugin data.
