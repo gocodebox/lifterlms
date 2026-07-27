@@ -111,7 +111,7 @@ class LLMS_Admin_Bundled_Plugins {
 
 		$html = sprintf(
 			// Translators: %s = comma-separated list of plugin names.
-			__( 'The following plugins are now bundled with LifterLMS and no longer receive standalone updates: %s. Please deactivate and delete them from the Plugins screen. The versions bundled with LifterLMS are used automatically.', 'lifterlms' ),
+			__( 'The following plugins are now bundled with LifterLMS and no longer receive standalone updates: %s. Please deactivate and delete them from the Plugins screen.', 'lifterlms' ),
 			'<strong>' . implode( '</strong>, <strong>', array_values( $plugins ) ) . '</strong>'
 		);
 
@@ -152,7 +152,7 @@ class LLMS_Admin_Bundled_Plugins {
 					<?php
 					printf(
 						// Translators: %s = the plugin's name.
-						esc_html__( '%s is now bundled with LifterLMS and this standalone copy no longer receives updates. Please deactivate and delete it; the version bundled with LifterLMS is used automatically.', 'lifterlms' ),
+						esc_html__( '%s is now bundled with LifterLMS and this standalone copy no longer receives updates. Please deactivate and delete it.', 'lifterlms' ),
 						'<strong>' . esc_html( $plugin_data['Name'] ?? $plugin_file ) . '</strong>'
 					);
 					?>
