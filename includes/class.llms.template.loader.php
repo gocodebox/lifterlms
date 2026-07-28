@@ -59,6 +59,9 @@ class LLMS_Template_Loader {
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
+		// Feeds (RSS/Atom) bypass `template_include` and never fire `rest_api_init`, so gate them separately.
+		add_action( 'template_redirect', array( $this, 'maybe_prepare_feed_content_restriction' ) );
+
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
 			'llms_restriction_reasons',
@@ -699,6 +702,34 @@ class LLMS_Template_Loader {
 	 * @return void
 	 */
 	public function maybe_restrict_post_content( $post, $query ) {
+
+		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) ) {
+			return;
+		}
+
+		// Needed by `llms_page_restricted()` to work as expected.
+		$is_singular        = $query->is_singular;
+		$query->is_singular = true;
+
+		$page_restricted = llms_page_restricted( get_the_ID() );
+
+		if ( $page_restricted['is_restricted'] ) {
+			$msg                = $this->get_content_restriction_message( $page_restricted );
+			$post->post_content = $msg;
+			$post->post_excerpt = $msg;
+		}
+
+		$query->is_singular = $is_singular;
+	}
+
+	/**
+	 * Retrieve the post types whose content restriction is handled elsewhere (LifterLMS templates / REST API).
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	private function get_content_restriction_skip_post_types() {
 		/**
 		 * Filters the post types that must be skipped.
 		 *
@@ -708,7 +739,7 @@ class LLMS_Template_Loader {
 		 *
 		 * @param string[] $post_types The array of post types to skip.
 		 */
-		$skip = apply_filters(
+		return apply_filters(
 			'llms_in_rest_restrict_content_skip_post_types',
 			array(
 				'course',
@@ -720,53 +751,107 @@ class LLMS_Template_Loader {
 				'llms_my_certificate',
 			)
 		);
+	}
 
-		if ( in_array( get_post_type( $post ), $skip, true ) ) {
+	/**
+	 * Retrieve the message to display in place of restricted content.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $page_restricted Array of restriction info from `llms_page_restricted()`.
+	 * @return string
+	 */
+	private function get_content_restriction_message( $page_restricted ) {
+
+		$msg    = __( 'This content is restricted', 'lifterlms' );
+		$reason = $page_restricted['reason'];
+
+		if ( in_array( $reason, array( 'membership', 'sitewide_membership' ), true ) ) {
+
+			$membership_id = $page_restricted['restriction_id'];
+
+			if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
+
+				$membership = new LLMS_Membership( $membership_id );
+
+				if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
+					$msg = $membership->get( 'restriction_notice' );
+				}
+			}
+		}
+
+		/**
+		 * Filters the restriction message.
+		 *
+		 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
+		 *
+		 * @since 3.41.1
+		 *
+		 * @param string $message     Restriction message.
+		 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
+		 */
+		return apply_filters( "llms_in_rest_restricted_by_{$reason}_message", $msg, $page_restricted );
+	}
+
+	/**
+	 * Maybe restrict membership-restricted post content in feed (RSS/Atom) requests.
+	 *
+	 * Feeds are served by `do_feed()` after `template_redirect` and do not pass through the
+	 * `template_include` filter used to gate the front end, nor do they fire `rest_api_init`.
+	 * Without this, a membership-restricted standard post or page is exposed in full (or as its
+	 * excerpt) to anonymous callers of `/feed/`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_prepare_feed_content_restriction() {
+
+		if ( ! is_feed() ) {
 			return;
 		}
 
-		// Needed by `llms_page_restricted()` to work as expected.
-		$is_singular        = $query->is_singular;
-		$query->is_singular = true;
+		add_filter( 'the_content_feed', array( $this, 'maybe_restrict_feed_content' ), 9999 );
+		add_filter( 'the_excerpt_rss', array( $this, 'maybe_restrict_feed_content' ), 9999 );
+	}
 
-		$page_restricted = llms_page_restricted( get_the_ID() );
+	/**
+	 * Replace membership-restricted post content/excerpt in a feed with the restriction notice.
+	 *
+	 * Runs on the `the_content_feed` and `the_excerpt_rss` filters. Unlike the front end and the
+	 * REST API, `get_the_content()` in a feed reads from the global `$pages` array set up by
+	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
+	 * value must be replaced at the feed-content filter itself.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content Feed content or excerpt.
+	 * @return string
+	 */
+	public function maybe_restrict_feed_content( $content ) {
 
-		if ( $page_restricted['is_restricted'] ) {
+		$post_id = get_the_ID();
 
-			$msg    = __( 'This content is restricted', 'lifterlms' );
-			$reason = $page_restricted['reason'];
-
-			if ( in_array( $reason, array( 'membership', 'sitewide_membership' ), true ) ) {
-
-				$membership_id = $page_restricted['restriction_id'];
-
-				if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
-
-					$membership = new LLMS_Membership( $membership_id );
-
-					if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
-						$msg = $membership->get( 'restriction_notice' );
-					}
-				}
-			}
-
-			/**
-			 * Filters the restriction message.
-			 *
-			 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
-			 *
-			 * @since 3.41.1
-			 *
-			 * @param string $message     Restriction message.
-			 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
-			 */
-			$msg = apply_filters( "llms_in_rest_restricted_by_{$reason}_message", $msg, $page_restricted );
-
-			$post->post_content = $msg;
-			$post->post_excerpt = $msg;
+		if ( ! $post_id || in_array( get_post_type( $post_id ), $this->get_content_restriction_skip_post_types(), true ) ) {
+			return $content;
 		}
 
-		$query->is_singular = $is_singular;
+		// `llms_page_restricted()` only evaluates membership restrictions in a singular context.
+		global $wp_query;
+		$restore = isset( $wp_query ) ? $wp_query->is_singular : null;
+		if ( isset( $wp_query ) ) {
+			$wp_query->is_singular = true;
+		}
+
+		$page_restricted = llms_page_restricted( $post_id );
+
+		if ( null !== $restore ) {
+			$wp_query->is_singular = $restore;
+		}
+
+		return empty( $page_restricted['is_restricted'] )
+			? $content
+			: $this->get_content_restriction_message( $page_restricted );
 	}
 }
 
