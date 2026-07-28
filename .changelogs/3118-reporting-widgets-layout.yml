@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed misaligned reporting widgets on admin reporting screens when extra widgets are added by add-ons."

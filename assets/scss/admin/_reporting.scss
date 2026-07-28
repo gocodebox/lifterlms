@@ -341,6 +341,19 @@
 	@include clearfix;
 }
 
+@media (min-width: 1030px) {
+
+	.llms-reporting-widgets {
+		display: flex;
+		flex-wrap: wrap;
+
+		> header,
+		> .llms-table-wrap {
+			width: 100%;
+		}
+	}
+}
+
 .llms-reporting-widget {
 
 	border-top: 4px solid $color-brand-blue;
