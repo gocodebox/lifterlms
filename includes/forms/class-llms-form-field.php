@@ -311,8 +311,9 @@ class LLMS_Form_Field {
 			case 'button':
 			case 'reset':
 			case 'submit':
-				$tag                 = 'button';
-				$classes             = array( 'llms-field-button' );
+				$tag = 'button';
+				// The `wp-element-button` class lets the theme's button styling (via `theme.json` or classic theme defaults) apply.
+				$classes             = array( 'llms-field-button', 'wp-element-button' );
 				$inner_html          = $this->settings['value'];
 				$extra_attrs['type'] = $this->settings['type'];
 				break;

@@ -6,7 +6,8 @@
  * @since 3.25.0 Unknown.
  * @since 4.17.0 Early bail on orphan quiz.
  * @since 7.8.0 Added support for quiz resume.
- * @version 7.8.0
+ * @since [version] Added `wp-element-button` class to the quiz buttons so they inherit theme button styling.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +47,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 				<?php if ( $quiz->can_be_resumed_by_student() ) : ?>
 					<?php
 						$message  = esc_html__( 'You have a partially completed attempt for this quiz. You can continue where you left off by clicking the Resume Quiz button below.', 'lifterlms' );
-						$message .= '<div><button class="llms-start-quiz-button llms-button-secondary button" id="llms_start_quiz" name="llms_start_quiz" type="submit">';
+						$message .= '<div><button class="llms-start-quiz-button llms-button-secondary button wp-element-button" id="llms_start_quiz" name="llms_start_quiz" type="submit">';
 
 						/**
 						 * Filters the restart quiz button text
@@ -64,7 +65,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 					<?php llms_print_notice( $message, 'notice' ); ?>
 				<?php else : ?>
 
-					<button class="llms-start-quiz-button llms-button-action button" id="llms_start_quiz" name="llms_start_quiz" type="submit">
+					<button class="llms-start-quiz-button llms-button-action button wp-element-button" id="llms_start_quiz" name="llms_start_quiz" type="submit">
 						<?php
 							/**
 							 * Filters the quiz button text
@@ -94,7 +95,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
 				<?php wp_nonce_field( 'llms_resume_quiz' ); ?>
 
-				<button class="llms-resume-quiz-button llms-button-action button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
+				<button class="llms-resume-quiz-button llms-button-action button wp-element-button" id="llms_resume_quiz" name="llms_resume_quiz" type="submit">
 					<?php
 						/**
 						 * Filters the quiz resume button text.
@@ -113,7 +114,7 @@ if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 		<?php endif; ?>
 
 		<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
-			<a href="<?php echo esc_url( get_permalink( $lesson->get_next_lesson() ) ); ?>" class="button llms-button-secondary llms-next-lesson"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
+			<a href="<?php echo esc_url( get_permalink( $lesson->get_next_lesson() ) ); ?>" class="button llms-button-secondary llms-next-lesson wp-element-button"><?php esc_html_e( 'Next Lesson', 'lifterlms' ); ?></a>
 		<?php endif; ?>
 
 	<?php else : ?>

@@ -688,7 +688,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 		$html = llms_get_progress_bar_html( $progress );
 
 		if ( $button ) {
-			$html .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
+			$html .= '<' . $tag . ' class="llms-button-primary llms-purchase-button wp-element-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
 		}
 
 		if ( $echo ) {
@@ -769,7 +769,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
 			if ( $lesson ) { ?>
 
-				<a class="llms-button-primary llms-course-continue-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
+				<a class="llms-button-primary llms-course-continue-button wp-element-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
 
 					<?php if ( 0 == $progress ) : ?>
 

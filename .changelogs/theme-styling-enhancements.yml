@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed potentially low-contrast button text when a theme styles buttons carrying the `wp-element-button` class; LifterLMS button colors no longer apply to theme-styled buttons.

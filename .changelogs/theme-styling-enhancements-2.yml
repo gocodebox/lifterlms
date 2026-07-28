@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Added the `wp-element-button` class to front-end buttons (pricing tables, checkout, registration, quizzes, dashboard, certificates) so they inherit theme button styling.
