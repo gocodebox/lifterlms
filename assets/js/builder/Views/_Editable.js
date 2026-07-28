@@ -487,7 +487,8 @@ define( [], function() {
 			if ( 'INPUT' === $el[0].tagName ) {
 				$el.val( val );
 			} else if ( $el.attr( 'data-formatting' ) || $el.hasClass( 'ql-editor' ) ) {
-				$el.html( val );
+				// Restore formatted content through the same tag whitelist applied when saving.
+				$el.html( _.stripFormatting( val, this.get_allowed_tags( $el ) ) );
 			} else {
 				$el.text( val );
 			}
