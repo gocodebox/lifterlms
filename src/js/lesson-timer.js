@@ -124,7 +124,7 @@ import '../scss/lesson-timer.scss';
 		modal.appendChild( msg );
 
 		var btn = document.createElement( 'button' );
-		btn.className = 'llms-button-primary';
+		btn.className = 'llms-button-primary wp-element-button';
 		btn.textContent = buttonText;
 		btn.addEventListener( 'click', buttonAction );
 		modal.appendChild( btn );

@@ -6,7 +6,8 @@
  *
  * @since 2.0.0
  * @since 4.12.0 Updated the label `for` attribute and added an `id` to the input element.
- * @version 4.12.0
+ * @since [version] Added `wp-element-button` class to the submit button so it inherits theme button styling.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<footer class="llms-form-fields">
 		<div class="llms-form-field type-submit llms-cols-6 llms-cols-last"">
-			<button id="llms-redeem-voucher-submit" type="submit" class="llms-field-button llms-button-action"><?php echo esc_html_x( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
+			<button id="llms-redeem-voucher-submit" type="submit" class="llms-field-button llms-button-action wp-element-button"><?php echo esc_html_x( 'Submit', 'Voucher Code', 'lifterlms' ); ?></button>
 		</div>
 		<?php wp_nonce_field( 'lifterlms_voucher_check', 'lifterlms_voucher_nonce' ); ?>
 	</footer>

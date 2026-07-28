@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since    3.0.0
- * @version  7.6.0
+ * @since [version] Added `wp-element-button` class to the View button so it inherits theme button styling.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php endif; ?>
 					</td>
 					<td>
-						<a class="llms-button-primary small" href="<?php echo esc_url( $order->get_view_link() ); ?>"><?php esc_html_e( 'View', 'lifterlms' ); ?></a>
+						<a class="llms-button-primary small wp-element-button" href="<?php echo esc_url( $order->get_view_link() ); ?>"><?php esc_html_e( 'View', 'lifterlms' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
