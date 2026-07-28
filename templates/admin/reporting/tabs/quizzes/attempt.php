@@ -8,8 +8,8 @@
  * @since 3.17.3 Unknown.
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
  * @since 7.8.0 Add information on whether the attempt can be resumed or not and disable resume attempt button.
- * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
- * @version 10.1.0
+ * @since [version] Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version [version]
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since 10.1.0
- * @version 10.1.0
+ * @since [version]
+ * @version [version]
  *
  * @var string $display_text The formatted timer text.
  * @var int    $required     Required time in seconds (0 if no minimum).

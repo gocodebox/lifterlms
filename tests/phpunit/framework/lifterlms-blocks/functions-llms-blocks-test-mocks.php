@@ -77,7 +77,7 @@ if ( ! class_exists( 'Classic_Editor' ) ) {
 	 * The blocks code only performs `class_exists()` checks against this class
 	 * and reads the plugin's options, so an empty stub is sufficient.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 */
 	class Classic_Editor {}
 

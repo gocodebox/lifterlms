@@ -7,14 +7,14 @@
  * @group abilities
  * @group rest_abilities
  *
- * @since 10.1.0
+ * @since [version]
  */
 class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Retrieve a registered LifterLMS ability, initializing the abilities registry.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @param string $name Un-namespaced ability name.
 	 * @return WP_Ability|null
@@ -42,7 +42,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test all expected abilities are registered.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test the LifterLMS ability category is registered.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test derived input schemas.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test derived output schemas and annotations.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test course create/get/list/delete round trip through ability execution.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test enrollment abilities round trip.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -270,7 +270,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test permission callbacks deny unauthorized users and allow authorized ones.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -301,7 +301,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test REST error responses are returned as WP_Error from execution.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

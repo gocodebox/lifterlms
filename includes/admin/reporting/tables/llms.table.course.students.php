@@ -97,7 +97,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 *
 	 * Computed once per table render and reused for every row.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @var bool|null Null until computed, then true/false.
 	 */
@@ -109,7 +109,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Returns true when global tracking is off and at least one lesson lacks a minimum time.
 	 * Result is computed once and cached on the instance.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return bool
 	 */
