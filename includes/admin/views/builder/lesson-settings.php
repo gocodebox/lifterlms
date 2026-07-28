@@ -3,7 +3,8 @@
  * Builder lesson settings template
  *
  * @since   3.17.0
- * @version 3.17.2
+ * @since   [version] Escaped lesson title output.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -12,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 	<header class="llms-model-header" id="llms-lesson-header">
 
 		<h3 class="llms-headline llms-model-title">
-			<?php esc_html_e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
+			<?php esc_html_e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{ _.unescape( data.get( 'title' ) ) }}" data-required="required">{{ _.unescape( data.get( 'title' ) ) }}</span>
 		</h3>
 
 		<label class="llms-switch llms-model-status">

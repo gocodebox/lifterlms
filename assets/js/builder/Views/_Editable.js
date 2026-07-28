@@ -10,7 +10,8 @@
  * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @since 10.0.0 Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
- * @version 10.0.0
+ * @since [version] Revert edits as plain text unless the element allows formatting.
+ * @version [version]
  */
 define( [], function() {
 
@@ -476,12 +477,22 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		revert_edits: function( event ) {
+
 			var $el = $( event.target ),
 				val = $el.attr( 'data-original-content' );
-			$el.html( val );
+
+			if ( 'INPUT' === $el[0].tagName ) {
+				$el.val( val );
+			} else if ( $el.attr( 'data-formatting' ) || $el.hasClass( 'ql-editor' ) ) {
+				// Restore formatted content through the same tag whitelist applied when saving.
+				$el.html( _.stripFormatting( val, this.get_allowed_tags( $el ) ) );
+			} else {
+				$el.text( val );
+			}
+
 		},
 
 		/**

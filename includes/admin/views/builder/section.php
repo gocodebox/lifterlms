@@ -3,7 +3,8 @@
  * Builder section model
  *
  * @since   3.16.0
- * @version 3.17.2
+ * @since   [version] Escaped section title output.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -14,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 	<header class="llms-builder-header">
 
 		<h2 class="llms-headline">
-			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.title }}}" data-required="required">{{{ data.title }}}</span>
+			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{ _.unescape( data.title ) }}" data-required="required">{{ _.unescape( data.title ) }}</span>
 		</h2>
 
 		<div class="llms-action-icons">
