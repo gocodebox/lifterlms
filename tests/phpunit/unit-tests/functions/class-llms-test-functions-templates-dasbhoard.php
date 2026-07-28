@@ -59,7 +59,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 
 		$this->assertStringContainsString( '<section class="llms-sd-section llms-my-achievements">', $output );
 		$this->assertStringContainsString( '<h3 class="llms-sd-section-title">', $output );
-		$this->assertStringContainsString( '<a class="llms-button-secondary" href="?my-achievements">View All My Achievements</a>', $output );
+		$this->assertStringContainsString( '<a class="llms-button-secondary wp-element-button" href="?my-achievements">View All My Achievements</a>', $output );
 
 	}
 
@@ -79,7 +79,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 		$this->assertStringContainsString( '<section class="llms-sd-section llms-my-achievements">', $output );
 
 		$this->assertStringNotContainsString( '<h3 class="llms-sd-section-title">', $output );
-		$this->assertStringNotContainsString( '<a class="llms-button-secondary" href="?my-achievements">View All My Achievements</a>', $output );
+		$this->assertStringNotContainsString( '<a class="llms-button-secondary wp-element-button" href="?my-achievements">View All My Achievements</a>', $output );
 
 	}
 
@@ -130,7 +130,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 
 		$this->assertStringContainsString( '<section class="llms-sd-section llms-my-certificates">', $output );
 		$this->assertStringContainsString( '<h3 class="llms-sd-section-title">', $output );
-		$this->assertStringContainsString( '<a class="llms-button-secondary" href="?my-certificates">View All My Certificates</a>', $output );
+		$this->assertStringContainsString( '<a class="llms-button-secondary wp-element-button" href="?my-certificates">View All My Certificates</a>', $output );
 
 	}
 
@@ -150,7 +150,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 		$this->assertStringContainsString( '<section class="llms-sd-section llms-my-certificates">', $output );
 
 		$this->assertStringNotContainsString( '<h3 class="llms-sd-section-title">', $output );
-		$this->assertStringNotContainsString( '<a class="llms-button-secondary" href="?my-certificates">View All My Certificates</a>', $output );
+		$this->assertStringNotContainsString( '<a class="llms-button-secondary wp-element-button" href="?my-certificates">View All My Certificates</a>', $output );
 
 	}
 
