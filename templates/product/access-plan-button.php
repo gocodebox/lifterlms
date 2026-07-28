@@ -8,8 +8,7 @@
  *
  * @since 3.23.0
  * @since 4.2.0 Added `llms_display_free_enroll_form` filter hook.
- * @since [version] Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
- * @version [version]
+ * @version 4.2.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -26,5 +25,5 @@ if ( apply_filters( 'llms_display_free_enroll_form', get_current_user_id() && $p
 	?>
 	<?php llms_get_template( 'product/free-enroll-form.php', compact( 'plan' ) ); ?>
 <?php else : ?>
-	<a class="llms-button-action button wp-element-button" href="<?php echo esc_url( $plan->get_checkout_url() ); ?>" aria-label="<?php echo esc_attr( $plan->get_enroll_text( true ) ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></a>
+	<a class="llms-button-action button" href="<?php echo esc_url( $plan->get_checkout_url() ); ?>" aria-label="<?php echo esc_attr( $plan->get_enroll_text( true ) ); ?>"><?php echo esc_html( $plan->get_enroll_text() ); ?></a>
 <?php endif; ?>

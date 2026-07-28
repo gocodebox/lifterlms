@@ -93,7 +93,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 		$ob = $this->get_ob( 'llms_template_access_plan_button', array( 0 ) );
 
 		// purchase button link
-		$this->assertTrue( false !== strpos( $ob['html'], '<a class="llms-button-action button wp-element-button"' ) );
+		$this->assertTrue( false !== strpos( $ob['html'], '<a class="llms-button-action button"' ) );
 		$this->assertTrue( false !== strpos( $ob['html'], sprintf( 'href="%s"', esc_url( $ob['plan']->get_checkout_url() ) ) ) );
 
 		// check free enroll form
