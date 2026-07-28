@@ -6,7 +6,7 @@
  *
  * @group lesson_time
  *
- * @since 10.1.0
+ * @since [version]
  */
 class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 
@@ -34,7 +34,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test start_session creates a new session.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test that starting a new session expires old ones.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test find_by_token returns the correct session.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test find_by_token returns false for invalid token.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -118,7 +118,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test get_total_seconds returns 0 when no sessions exist.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test format_time outputs correct H:MM:SS.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -145,7 +145,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test record and get admin override.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test has_minimum_time returns false for free lessons.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test has_minimum_time returns false when not enabled.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test has_minimum_time returns false when time is 0.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test heartbeat AJAX handler with valid session.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test heartbeat with expired/superseded session.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -254,7 +254,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test heartbeat with missing token.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -269,7 +269,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test heartbeat with invalid token.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -286,7 +286,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test lesson_time_end handler.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -309,7 +309,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test minimum_time_maybe_prevent_lesson_completion blocks when time not met.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test admin override allows completion.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -357,7 +357,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test completion allowed for lessons without minimum time.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -380,7 +380,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test one active session per student globally.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -408,7 +408,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test cached totals are updated.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

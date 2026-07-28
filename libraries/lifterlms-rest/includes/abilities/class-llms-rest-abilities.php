@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Abilities
  *
- * @since 10.1.0
- * @version 10.1.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * abilities so abilities-aware AI clients can discover and execute LifterLMS
  * functionality natively.
  *
- * @since 10.1.0
+ * @since [version]
  */
 class LLMS_REST_Abilities {
 
@@ -27,7 +27,7 @@ class LLMS_REST_Abilities {
 	 *
 	 * A no-op on WordPress versions without the Abilities API.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Register the LifterLMS ability category.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Register all LifterLMS abilities.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Retrieve the configuration for every ability to be registered.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return array[] List of ability configuration arrays. See {@see LLMS_REST_Ability_Factory::register()}.
 	 */
@@ -99,7 +99,7 @@ class LLMS_REST_Abilities {
 		 * Add-ons providing their own `llms/v1` REST controllers can append configurations
 		 * here to have their endpoints registered as WordPress abilities.
 		 *
-		 * @since 10.1.0
+		 * @since [version]
 		 *
 		 * @param array[] $configs List of ability configuration arrays. See {@see LLMS_REST_Ability_Factory::register()}.
 		 */
@@ -109,7 +109,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Retrieve definitions for resources exposing standard CRUD abilities.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return array[]
 	 */
@@ -164,7 +164,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Build the five standard CRUD ability configurations for a resource.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @param array $resource Resource definition. See {@see LLMS_REST_Abilities::get_crud_resources()}.
 	 * @return array[]
@@ -239,7 +239,7 @@ class LLMS_REST_Abilities {
 	 * Covers course content and course enrollments sub-resources, student enrollments,
 	 * and student progress.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return array[]
 	 */

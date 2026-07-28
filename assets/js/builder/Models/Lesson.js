@@ -122,7 +122,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Decompose minimum_time (total seconds) into hours, minutes, seconds fields.
 		 *
-		 * @since 10.1.0
+		 * @since [version]
 		 *
 		 * @return {void}
 		 */
@@ -142,7 +142,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Recompose hours, minutes, seconds into minimum_time (total seconds).
 		 *
-		 * @since 10.1.0
+		 * @since [version]
 		 *
 		 * @return {void}
 		 */

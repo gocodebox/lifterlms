@@ -23,7 +23,7 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * Resets superglobal state modified by these tests so it doesn't leak into other tests in the suite.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */

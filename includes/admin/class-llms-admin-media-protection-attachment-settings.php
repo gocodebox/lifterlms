@@ -61,7 +61,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		 * other than the default 'llms_attachment_is_access_allowed'). Core-protected files
 		 * use the standard label and help text above so add-ons cannot overwrite them.
 		 *
-		 * @since 10.1.0
+		 * @since [version]
 		 *
 		 * @param array                $field     Attachment field definition.
 		 * @param WP_Post              $post      Attachment post object.
