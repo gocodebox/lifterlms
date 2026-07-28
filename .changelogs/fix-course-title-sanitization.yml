@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed course, section, lesson, and quiz titles containing quotes or HTML characters displaying incorrectly in the course builder.

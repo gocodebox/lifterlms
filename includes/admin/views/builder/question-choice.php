@@ -3,7 +3,8 @@
  * Builder question view
  *
  * @since   3.16.0
- * @version 3.17.8
+ * @since   [version] Escaped choice content in the original-content attribute.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -21,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<# if ( 'text' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-input-wrapper">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u,em,strong" data-original-content="{{{ data.get( 'choice' ) }}}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
+			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u,em,strong" data-original-content="{{ data.get( 'choice' ) }}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
 		</div>
 	<# } else if ( 'image' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-editable-image">
