@@ -235,7 +235,7 @@ class LLMS_Shortcodes {
 		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
 			$plan = new LLMS_Access_Plan( $atts['id'] );
 
-			$classes  = 'llms-button-' . $atts['type'] . ' wp-element-button';
+			$classes  = 'llms-button-' . $atts['type'];
 			$classes .= ! empty( $atts['size'] ) ? ' ' . $atts['size'] : '';
 			$classes .= ! empty( $atts['classes'] ) ? ' ' . $atts['classes'] : '';
 
