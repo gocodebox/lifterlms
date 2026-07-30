@@ -39,6 +39,7 @@ class LLMS_Admin_Menus {
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
+		add_action( 'admin_menu', array( $this, 'display_orders_menu' ), 20 );
 
 		// Shame shame shame.
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
@@ -81,6 +82,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.2.0 Unknown.
 	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
 	 * @since 7.1.0 Added `llms-dashboard` to the order array in first position.
+	 * @since [version] Order Orders submenu: Orders, Customers, Coupons, Vouchers.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool
@@ -123,7 +125,61 @@ class LLMS_Admin_Menus {
 
 		}
 
+		if ( isset( $submenu['edit.php?post_type=llms_order'] ) ) {
+
+			$order_menu  = 'edit.php?post_type=llms_order';
+			$order       = array(
+				'edit.php?post_type=llms_order',
+				'llms-customers',
+				'edit.php?post_type=llms_coupon',
+				'edit.php?post_type=llms_voucher',
+			);
+			$new_submenu = array();
+			$num_items   = count( $submenu[ $order_menu ] );
+
+			foreach ( $submenu[ $order_menu ] as $item ) {
+				$key = array_search( $item[2], $order, true );
+				if ( false === $key ) {
+					$key = ++$num_items;
+				}
+				$new_submenu[ $key ] = $item;
+			}
+
+			ksort( $new_submenu );
+			$submenu[ $order_menu ] = array_values( $new_submenu );
+		}
+
 		return $flag;
+	}
+
+	/**
+	 * Register the Customers submenu under Orders.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function display_orders_menu() {
+
+		add_submenu_page(
+			'edit.php?post_type=llms_order',
+			__( 'Customers', 'lifterlms' ),
+			__( 'Customers', 'lifterlms' ),
+			apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ),
+			'llms-customers',
+			array( $this, 'customers_page_init' )
+		);
+	}
+
+	/**
+	 * Output the Customers admin screen.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function customers_page_init() {
+		LLMS_Admin_Customers::output();
 	}
 
 	/**

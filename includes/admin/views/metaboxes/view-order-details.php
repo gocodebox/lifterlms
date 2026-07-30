@@ -267,11 +267,18 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				<?php echo esc_html( $order->get_customer_name() ); ?>
 			<?php else : ?>
 				<?php
-				$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
-				echo ! $edit_user_link ? esc_html( $order->get_customer_name() ) . '<br>' : '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $order->get_customer_name() ) . '</a>';
+				$customer_url = $order->get( 'user_id' ) ? llms_get_customers_admin_url( $order->get( 'user_id' ) ) : '';
+				echo ! $customer_url ? esc_html( $order->get_customer_name() ) : '<a href="' . esc_url( $customer_url ) . '">' . esc_html( $order->get_customer_name() ) . '</a>';
 				?>
 			<?php endif; ?>
 		</div>
+
+		<?php if ( ! llms_parse_bool( $order->get( 'anonymized' ) ) && $order->get( 'user_id' ) && llms_get_student( $order->get( 'user_id' ) ) ) : ?>
+			<div class="llms-metabox-field">
+				<label><?php esc_html_e( 'Customer:', 'lifterlms' ); ?></label>
+				<a href="<?php echo esc_url( llms_get_customers_admin_url( $order->get( 'user_id' ) ) ); ?>"><?php esc_html_e( 'View customer', 'lifterlms' ); ?></a>
+			</div>
+		<?php endif; ?>
 
 		<div class="llms-metabox-field">
 			<label><?php esc_html_e( 'Buyer Email:', 'lifterlms' ); ?></label>

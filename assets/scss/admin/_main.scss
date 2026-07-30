@@ -399,3 +399,74 @@ a.llms-view-as {
 		outline: 2px solid #0000;
 	}
 }
+
+.llms-customers-wrap {
+	.llms-customer-segments {
+		margin: 16px 0 20px;
+
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			margin: 0;
+
+			a {
+				background: #fff;
+				border: 1px solid #c3c4c7;
+				border-radius: 4px;
+				color: #1d2327;
+				display: inline-block;
+				padding: 6px 12px;
+				text-decoration: none;
+
+				&:hover {
+					border-color: #466dd8;
+					color: #466dd8;
+				}
+			}
+
+			&.llms-active a {
+				background: #466dd8;
+				border-color: #466dd8;
+				color: #fff;
+			}
+		}
+	}
+
+	.llms-customer-name {
+		align-items: center;
+		display: inline-flex;
+		gap: 8px;
+		text-decoration: none;
+
+		img {
+			border-radius: 50%;
+		}
+	}
+
+	.llms-customer-header-links {
+		margin: 8px 0 0;
+	}
+
+	.llms-customer-billing,
+	.llms-customer-enrollments {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			margin: 0 0 12px;
+		}
+	}
+
+	.llms-customer-orders-table {
+		margin-top: 12px;
+		width: 100%;
+	}
+}
