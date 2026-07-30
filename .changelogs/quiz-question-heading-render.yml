@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed multi-line quiz question spacing on the front end. Change quiz question header from h3 to div for accessibility.

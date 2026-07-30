@@ -383,4 +383,117 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_question() converts br-separated lines to paragraphs for html format.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_question_converts_br_to_paragraphs() {
+
+		$this->create( 'title' );
+		$this->set_question_title_html( 'Line one<br>Line two<br />Line three' );
+
+		$this->assertSame(
+			'<p>Line one</p><p>Line two</p><p>Line three</p>',
+			$this->obj->get_question( 'html' )
+		);
+	}
+
+	/**
+	 * Test get_question() preserves empty br segments as spacing paragraphs.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_question_converts_empty_br_segments() {
+
+		$this->create( 'title' );
+		$this->set_question_title_html( 'Line one<br><br>Line two' );
+
+		$this->assertSame(
+			'<p>Line one</p><p><br></p><p>Line two</p>',
+			$this->obj->get_question( 'html' )
+		);
+	}
+
+	/**
+	 * Test get_question() leaves titles without br tags unchanged.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_question_without_br_unchanged() {
+
+		$this->create( 'title' );
+		$this->set_question_title_html( 'Single line <strong>question</strong>' );
+
+		$this->assertSame(
+			'Single line <strong>question</strong>',
+			$this->obj->get_question( 'html' )
+		);
+	}
+
+	/**
+	 * Test get_question() does not re-wrap titles that already contain paragraphs.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_question_existing_paragraphs_unchanged() {
+
+		$this->create( 'title' );
+		$this->set_question_title_html( '<p>Line one</p><p>Line two<br>still in para</p>' );
+
+		$this->assertSame(
+			'<p>Line one</p><p>Line two<br>still in para</p>',
+			$this->obj->get_question( 'html' )
+		);
+	}
+
+	/**
+	 * Test get_question() plain format is not converted to paragraphs.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_question_plain_format_skips_conversion() {
+
+		$this->create( 'title' );
+		$this->set_question_title_html( 'Line one<br>Line two' );
+
+		$this->assertSame(
+			'Line one<br>Line two',
+			$this->obj->get_question( 'plain' )
+		);
+	}
+
+	/**
+	 * Persist HTML in post_title without title_save_pre stripping tags.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $title Question title HTML.
+	 * @return void
+	 */
+	private function set_question_title_html( $title ) {
+
+		global $wpdb;
+
+		$wpdb->update(
+			$wpdb->posts,
+			array( 'post_title' => $title ),
+			array( 'ID' => $this->obj->get( 'id' ) ),
+			array( '%s' ),
+			array( '%d' )
+		);
+		clean_post_cache( $this->obj->get( 'id' ) );
+		$this->obj = llms_get_post( $this->obj->get( 'id' ) );
+	}
+
 }
