@@ -34,7 +34,7 @@ $reporting_url = add_query_arg(
 	admin_url( 'admin.php' )
 );
 ?>
-<div class="wrap lifterlms llms-customers-wrap">
+<div class="wrap lifterlms llms-reporting llms-customers-wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Customers', 'lifterlms' ); ?></h1>
 	<hr class="wp-header-end">
 
@@ -42,7 +42,7 @@ $reporting_url = add_query_arg(
 
 		<header class="llms-reporting-breadcrumbs">
 			<a href="<?php echo esc_url( llms_get_customers_admin_url() ); ?>"><?php esc_html_e( 'Customers', 'lifterlms' ); ?></a>
-			<span><?php echo esc_html( $student->get_name() ); ?></span>
+			<a href="<?php echo esc_url( llms_get_customers_admin_url( $student->get_id() ) ); ?>"><?php echo esc_html( $student->get_name() ); ?></a>
 		</header>
 
 		<div class="llms-reporting-body">
