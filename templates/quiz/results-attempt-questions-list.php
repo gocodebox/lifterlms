@@ -71,10 +71,10 @@ defined( 'ABSPATH' ) || exit;
 					</span>
 				<?php endif; ?>
 
-				<?php echo wp_kses_post( $attempt_question->get_status_icon() ); ?>
-
 				<span class="llms-toggle-answer-icon" aria-hidden="true"></span>
 				<span class="sr-only llms-toggle-answer-text"><?php esc_html_e( 'Show answer details', 'lifterlms' ); ?></span>
+
+				<?php echo wp_kses_post( $attempt_question->get_status_icon() ); ?>
 
 			</button>
 		</header>

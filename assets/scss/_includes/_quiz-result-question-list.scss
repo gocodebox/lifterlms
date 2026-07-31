@@ -22,7 +22,7 @@
 			font: inherit;
 			gap: 10px;
 			justify-content: space-between;
-			padding: 15px 35px 15px 15px;
+			padding: 15px;
 			text-align: left;
 			text-decoration: none;
 			width: 100%;
@@ -30,6 +30,12 @@
 			&:focus-visible {
 				outline: 2px solid currentColor;
 				outline-offset: -2px;
+			}
+
+			// Keep the status badge in normal flow so it doesn't overlap the chevron.
+			.llms-status-icon-tip {
+				position: static;
+				flex: 0 0 auto;
 			}
 		}
 
@@ -39,13 +45,15 @@
 			display: inline-block;
 			flex: 0 0 auto;
 			height: 0.55em;
-			margin-left: 0.25em;
+			margin-left: 8px;
+			opacity: 0.7;
 			transform: rotate(45deg);
-			transition: transform 0.2s ease;
+			transition: transform 0.2s ease, opacity 0.2s ease;
 			width: 0.55em;
 		}
 
 		.toggle-answer[aria-expanded="true"] .llms-toggle-answer-icon {
+			opacity: 1;
 			transform: rotate(-135deg);
 		}
 
