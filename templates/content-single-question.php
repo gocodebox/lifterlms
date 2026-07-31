@@ -5,7 +5,8 @@
  * @since 1.0.0
  * @since 3.16.0 Unknown.
  * @since 7.8.0 Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
- * @version 7.8.0
+ * @since [version] Use a div wrapper so multi-line question text can render as paragraphs.
+ * @version [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance
@@ -20,12 +21,12 @@ defined( 'ABSPATH' ) || exit;
  */
 do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-	<h3 class="llms-question-text">
+	<div class="llms-question-text">
 	<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the question templates.
 			echo $question->get_question( 'html', $attempt );
 	?>
-	</h3>
+	</div>
 
 	<?php
 		/**
