@@ -311,9 +311,13 @@ class LLMS_Form_Field {
 			case 'button':
 			case 'reset':
 			case 'submit':
-				$tag = 'button';
-				// The `wp-element-button` class lets the theme's button styling (via `theme.json` or classic theme defaults) apply.
-				$classes             = array( 'llms-field-button', 'wp-element-button' );
+				$tag     = 'button';
+				$classes = array( 'llms-field-button' );
+				// Front-end (and editor block SSR): inherit theme button styles via `theme.json` / classic defaults.
+				// Admin screens keep LifterLMS button chrome instead.
+				if ( ! is_admin() || llms_is_editor_block_rendering() ) {
+					$classes[] = 'wp-element-button';
+				}
 				$inner_html          = $this->settings['value'];
 				$extra_attrs['type'] = $this->settings['type'];
 				break;

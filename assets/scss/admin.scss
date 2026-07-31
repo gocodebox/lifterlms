@@ -6,6 +6,9 @@
 @import "_includes/vars-brand-colors";
 
 @import "_includes/extends";
+// Admin UI always uses LifterLMS button chrome; theme inheritance via
+// `wp-element-button` is front-end only (settings, reporting, notices, etc.).
+$llms-buttons-theme-inherit: false;
 @import "_includes/buttons";
 @import "_includes/mixins";
 
