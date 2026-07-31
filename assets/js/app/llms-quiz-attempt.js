@@ -4,7 +4,8 @@
  * @package LifterLMS/Scripts
  *
  * @since 7.3.0
- * @version 7.3.0
+ * @since [version] Toggle aria-expanded and screen-reader labels on answer details.
+ * @version [version]
  */
 
 LLMS.Quiz_Attempt = {
@@ -15,18 +16,28 @@ LLMS.Quiz_Attempt = {
 	 */
 	init: function() {
 
-		$( '.llms-quiz-attempt-question-header a.toggle-answer' ).on( 'click', function( e ) {
+		$( '.llms-quiz-attempt-question-header .toggle-answer' ).on( 'click', function( e ) {
 
 			e.preventDefault();
 
-			var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
+			var $btn      = $( this ),
+				$curr     = $btn.closest( 'header' ).next( '.llms-quiz-attempt-question-main' ),
+				$siblings = $btn.closest( 'li' ).siblings(),
+				expand    = $btn.attr( 'data-label-expand' ) || '',
+				collapse  = $btn.attr( 'data-label-collapse' ) || '';
 
-			$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
+			$siblings.find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
+			$siblings.find( '.toggle-answer' ).attr( 'aria-expanded', 'false' )
+				.find( '.llms-toggle-answer-text' ).text( expand );
 
 			if ( $curr.is( ':visible' ) ) {
 				$curr.slideUp( 200 );
-			}  else {
+				$btn.attr( 'aria-expanded', 'false' );
+				$btn.find( '.llms-toggle-answer-text' ).text( expand );
+			} else {
 				$curr.slideDown( 200 );
+				$btn.attr( 'aria-expanded', 'true' );
+				$btn.find( '.llms-toggle-answer-text' ).text( collapse );
 			}
 
 		} );

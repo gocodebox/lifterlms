@@ -4,13 +4,14 @@
  *
  * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  *
+ * @since 3.16.0
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
  * @since 7.3.0 Script moved into the main llms.js.
  * @since 7.8.0 Hide answers if resumable attempt is incomplete.
- * @version 7.3.0
- *
- * @since 3.16.0
+ * @since [version] Use a div wrapper and HTML question text so multi-line titles render as paragraphs.
+ *                     Use an accessible expand/collapse control for answer details.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 			data-points-curr="<?php echo esc_attr( $attempt_question->get( 'earned' ) ); ?>">
 			<header class="llms-quiz-attempt-question-header">
 				<span class="toggle-answer">
-					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
+					<div class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></div>
 					<span class="llms-points">
 						<?php if ( $attempt_question->get( 'points' ) ) : ?>
 							<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
@@ -44,6 +45,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php
 			continue;
 		}
+		$panel_id = 'llms-quiz-attempt-question-main-' . $quiz_question->get( 'id' );
 		?>
 
 	<li class="llms-quiz-attempt-question type--<?php echo esc_attr( $quiz_question->get( 'question_type' ) ); ?> status--<?php echo esc_attr( $attempt_question->get_status() ); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
@@ -52,9 +54,16 @@ defined( 'ABSPATH' ) || exit;
 		data-points="<?php echo esc_attr( $attempt_question->get( 'points' ) ); ?>"
 		data-points-curr="<?php echo esc_attr( $attempt_question->get( 'earned' ) ); ?>">
 		<header class="llms-quiz-attempt-question-header">
-			<a class="toggle-answer" href="#">
+			<button
+				type="button"
+				class="toggle-answer"
+				aria-expanded="false"
+				aria-controls="<?php echo esc_attr( $panel_id ); ?>"
+				data-label-expand="<?php esc_attr_e( 'Show answer details', 'lifterlms' ); ?>"
+				data-label-collapse="<?php esc_attr_e( 'Hide answer details', 'lifterlms' ); ?>"
+			>
 
-				<h3 class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'plain' ) ); ?></h3>
+				<div class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'html' ) ); ?></div>
 
 				<?php if ( $quiz_question->get( 'points' ) ) : ?>
 					<span class="llms-points">
@@ -62,12 +71,15 @@ defined( 'ABSPATH' ) || exit;
 					</span>
 				<?php endif; ?>
 
+				<span class="llms-toggle-answer-icon" aria-hidden="true"></span>
+				<span class="sr-only llms-toggle-answer-text"><?php esc_html_e( 'Show answer details', 'lifterlms' ); ?></span>
+
 				<?php echo wp_kses_post( $attempt_question->get_status_icon() ); ?>
 
-			</a>
+			</button>
 		</header>
 
-		<section class="llms-quiz-attempt-question-main">
+		<section class="llms-quiz-attempt-question-main" id="<?php echo esc_attr( $panel_id ); ?>">
 
 			<?php if ( apply_filters( 'llms_quiz_show_question_description', true, $attempt, $attempt_question, $quiz_question ) && $quiz_question->has_description() ) : ?>
 				<div class="llms-quiz-attempt-answer-section llms-question-description">
