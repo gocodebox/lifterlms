@@ -12,12 +12,41 @@
 		position: relative;
 		list-style-type: none;
 		.toggle-answer {
+			align-items: center;
+			background: none;
+			border: none;
+			box-sizing: border-box;
 			color: inherit;
+			cursor: pointer;
 			display: flex;
+			font: inherit;
 			gap: 10px;
 			justify-content: space-between;
 			padding: 15px 35px 15px 15px;
+			text-align: left;
 			text-decoration: none;
+			width: 100%;
+
+			&:focus-visible {
+				outline: 2px solid currentColor;
+				outline-offset: -2px;
+			}
+		}
+
+		.llms-toggle-answer-icon {
+			border-bottom: 2px solid currentColor;
+			border-right: 2px solid currentColor;
+			display: inline-block;
+			flex: 0 0 auto;
+			height: 0.55em;
+			margin-left: 0.25em;
+			transform: rotate(45deg);
+			transition: transform 0.2s ease;
+			width: 0.55em;
+		}
+
+		.toggle-answer[aria-expanded="true"] .llms-toggle-answer-icon {
+			transform: rotate(-135deg);
 		}
 
 		&.status--waiting.correct,
@@ -44,6 +73,7 @@
 			overflow: auto;
 		}
 		.llms-question-title {
+			flex: 1 1 auto;
 			font-size: 22px;
 			margin: 0;
 			line-height: 1.4;
