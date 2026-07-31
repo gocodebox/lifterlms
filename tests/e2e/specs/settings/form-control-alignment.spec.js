@@ -76,8 +76,9 @@ test.describe( 'Settings/FormControlAlignment', () => {
 			};
 		} );
 
-		// Clear must sit fully left of the arrow with a usable gap.
-		expect( layout.gap ).toBeGreaterThanOrEqual( 4 );
+		// Clear must sit left of the arrow with a tight, clickable gap.
+		expect( layout.gap ).toBeGreaterThanOrEqual( 2 );
+		expect( layout.gap ).toBeLessThanOrEqual( 14 );
 
 		await clear.click();
 		await expect( container.locator( '.select2-selection__clear' ) ).toHaveCount( 0 );

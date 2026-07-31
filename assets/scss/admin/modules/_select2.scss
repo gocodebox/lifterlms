@@ -16,19 +16,26 @@
 			.select2-selection__rendered {
 				color: #1e1e1e;
 				line-height: 38px;
-				// 12px left matches WP inputs; 40px right reserves the clear (x) + chevron.
-				padding: 0 40px 0 12px;
+				// 12px left matches WP inputs; ~28px right keeps the clear (x)
+				// just left of the chevron without a large empty gap.
+				padding: 0 28px 0 12px;
 			}
 
-			// Float clear left of the 20px arrow so it stays clickable.
 			.select2-selection__clear {
-				margin-right: 20px;
 				position: relative;
 				z-index: 1;
 			}
 
 			.select2-selection__arrow {
 				height: 38px;
+				width: 24px;
+				// Same dashicons arrow-down-alt2 SVG as `.wp-core-ui select`.
+				background: transparent url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+				background-size: 16px 16px;
+
+				b {
+					display: none;
+				}
 			}
 		}
 
