@@ -45,6 +45,45 @@ test.describe( 'Settings/FormControlAlignment', () => {
 		expect( Math.abs( select2Width - nativeWidth ) ).toBeLessThanOrEqual( 2 );
 	} );
 
+	test( 'Select2 clear control is spaced from the chevron and clickable', async ( { admin, page } ) => {
+		await admin.visitAdminPage( '/' );
+		await visitSettingsPage( page, { tab: 'courses' } );
+
+		const isWp70 = await page.evaluate( () => document.body.classList.contains( 'llms-wp-version-gte-70' ) );
+		test.skip( ! isWp70, 'WP 7.0+ form-control sizing only' );
+
+		const container = page.locator( '#lifterlms_course_completion_page_id + .select2-container' );
+		await expect( container ).toBeVisible();
+
+		// Ensure a value is selected so the clear (x) renders.
+		let clear = container.locator( '.select2-selection__clear' );
+		if ( await clear.count() === 0 ) {
+			await container.locator( '.select2-selection--single' ).click();
+			await page.locator( '.select2-results__option' ).first().click();
+			clear = container.locator( '.select2-selection__clear' );
+		}
+		await expect( clear ).toBeVisible();
+
+		const layout = await container.evaluate( ( el ) => {
+			const clearEl = el.querySelector( '.select2-selection__clear' );
+			const arrowEl = el.querySelector( '.select2-selection__arrow' );
+			const clearBox = clearEl.getBoundingClientRect();
+			const arrowBox = arrowEl.getBoundingClientRect();
+			return {
+				clearRight: clearBox.right,
+				arrowLeft: arrowBox.left,
+				gap: arrowBox.left - clearBox.right,
+			};
+		} );
+
+		// Clear must sit fully left of the arrow with a usable gap.
+		expect( layout.gap ).toBeGreaterThanOrEqual( 4 );
+
+		await clear.click();
+		await expect( container.locator( '.select2-selection__clear' ) ).toHaveCount( 0 );
+		await expect( page.locator( '#lifterlms_course_completion_page_id' ) ).toHaveValue( '' );
+	} );
+
 	test( 'Select2 singles match native select height on Account settings', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
 		await visitSettingsPage( page, { tab: 'account' } );

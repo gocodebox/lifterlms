@@ -16,7 +16,15 @@
 			.select2-selection__rendered {
 				color: #1e1e1e;
 				line-height: 38px;
-				padding: 0 12px;
+				// 12px left matches WP inputs; 40px right reserves the clear (x) + chevron.
+				padding: 0 40px 0 12px;
+			}
+
+			// Float clear left of the 20px arrow so it stays clickable.
+			.select2-selection__clear {
+				margin-right: 20px;
+				position: relative;
+				z-index: 1;
 			}
 
 			.select2-selection__arrow {
