@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Certificates
  *
  * @since 6.0.0
- * @since [version] Added `wp-element-button` class to the action buttons so they inherit theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the action buttons so they inherit theme button styling.
+ * @version 10.1.0
  *
  * @param LLMS_User_Certificate $certificate       Certificate object.
  * @param string                $back_link         URL for the back link.

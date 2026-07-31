@@ -3,8 +3,8 @@
  * Builder main course view
  *
  * @since   3.16.0
- * @since   [version] Escaped course title output.
- * @version [version]
+ * @since   10.1.0 Escaped course title output.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

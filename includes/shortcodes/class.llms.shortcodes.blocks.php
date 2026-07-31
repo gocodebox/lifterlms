@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 7.2.0
- * @version [version]
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -213,7 +213,7 @@ class LLMS_Shortcodes_Blocks {
 	 * already enrolled in the product (or previewing a non-purchasable product) would
 	 * see an empty preview.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $attributes The block attributes.
 	 * @return string
@@ -319,7 +319,7 @@ class LLMS_Shortcodes_Blocks {
 	 * via theme `[type="submit"]` rules. Stripping `button` only during editor block
 	 * rendering keeps the class on the front end for classic themes (e.g. Storefront).
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $html Block HTML.
 	 * @return string

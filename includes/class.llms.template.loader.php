@@ -725,7 +725,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Retrieve the post types whose content restriction is handled elsewhere (LifterLMS templates / REST API).
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return string[]
 	 */
@@ -756,7 +756,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Retrieve the message to display in place of restricted content.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $page_restricted Array of restriction info from `llms_page_restricted()`.
 	 * @return string
@@ -801,7 +801,7 @@ class LLMS_Template_Loader {
 	 * Without this, a membership-restricted standard post or page is exposed in full (or as its
 	 * excerpt) to anonymous callers of `/feed/`.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -823,7 +823,7 @@ class LLMS_Template_Loader {
 	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
 	 * value must be replaced at the feed-content filter itself.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $content Feed content or excerpt.
 	 * @return string

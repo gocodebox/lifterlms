@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Abilities
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * Execution dispatches an internal `WP_REST_Request` through `rest_do_request()`, so all
  * existing route permission callbacks, validation, sanitization, and hooks apply unchanged.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_REST_Ability_Factory {
 
@@ -70,7 +70,7 @@ class LLMS_REST_Ability_Factory {
 	 *
 	 * Expected configuration keys:
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config {
 	 *     Ability configuration.
@@ -135,7 +135,7 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Retrieve a (cached) controller instance.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $class_name Controller class name.
 	 * @return object|null
@@ -156,7 +156,7 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Derive the ability input schema from the controller for the configured operation.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config Ability configuration.
 	 * @return array JSON Schema object.
@@ -186,7 +186,7 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Retrieve the raw endpoint args (WP REST format) for the configured operation.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config Ability configuration.
 	 * @return array
@@ -242,7 +242,7 @@ class LLMS_REST_Ability_Factory {
 	 * defaults are set on the request explicitly (e.g. the enrollments `trigger` param,
 	 * which permission checks read before dispatch occurs).
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config Ability configuration.
 	 * @return array Map of param name to default value.
@@ -267,7 +267,7 @@ class LLMS_REST_Ability_Factory {
 	 * Abilities API strictly validates execution output against the output schema, and
 	 * REST item schemas don't always match the exact shapes controllers return.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config Ability configuration.
 	 * @return array JSON Schema object.
@@ -306,7 +306,7 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Execute the ability by dispatching an internal REST request.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array      $config Ability configuration.
 	 * @param array|null $input  Validated ability input.
@@ -342,7 +342,7 @@ class LLMS_REST_Ability_Factory {
 	 * through `rest_do_request()` anyway, which enforces the route's own permission callback
 	 * and surfaces its detailed error.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array      $config Ability configuration.
 	 * @param array|null $input  Ability input.
@@ -370,7 +370,7 @@ class LLMS_REST_Ability_Factory {
 	 * where no route matching occurs to populate them, while keeping the request body free
 	 * of path parameters the controllers don't expect there.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array      $config Ability configuration.
 	 * @param array|null $input  Ability input.
@@ -413,7 +413,7 @@ class LLMS_REST_Ability_Factory {
 	 * Placeholders are parsed from the configured route. Descriptions can be customized
 	 * via the `path_params` configuration key.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $config Ability configuration.
 	 * @return array Map of param name to description.
@@ -443,7 +443,7 @@ class LLMS_REST_Ability_Factory {
 	 * Strips PHP callbacks and other non-schema keys, converts per-field boolean `required`
 	 * flags into a JSON Schema `required` array, and recursively sanitizes nested schemas.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $args WordPress REST API arguments array.
 	 * @return array JSON Schema object.
@@ -493,7 +493,7 @@ class LLMS_REST_Ability_Factory {
 	 * Copies only valid JSON Schema keywords, normalizes types, and recurses into
 	 * `properties`, `items`, and `additionalProperties`.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $schema A JSON Schema node (or a WP REST arg definition).
 	 * @return array Sanitized schema node.
@@ -561,7 +561,7 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Normalize a schema `type` value to valid JSON Schema types.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array        $schema The schema node being built.
 	 * @param string|array $type   The type value to normalize.
@@ -599,7 +599,7 @@ class LLMS_REST_Ability_Factory {
 	 * to a permissive union and strip `format` constraints. Input schemas keep their
 	 * tighter constraints.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $schema A sanitized JSON Schema node.
 	 * @return array Relaxed schema node.
@@ -638,7 +638,7 @@ class LLMS_REST_Ability_Factory {
 	 * Single scalar types and unions composed solely of scalars and/or `null` are widened.
 	 * Types declaring compound members (`object`, `array`) are left alone.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string|array $type Schema `type` value.
 	 * @return boolean

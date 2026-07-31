@@ -6,8 +6,8 @@
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @since [version] Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
- * @version [version]
+ * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
+ * @version 10.1.0
  */
 ( function( $ ) {
 

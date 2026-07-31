@@ -9,9 +9,9 @@
  * @since 5.3.0 Display removed questions too.
  * @since 7.3.0 Script moved into the main llms.js.
  * @since 7.8.0 Hide answers if resumable attempt is incomplete.
- * @since [version] Use a div wrapper and HTML question text so multi-line titles render as paragraphs.
+ * @since 10.1.0 Use a div wrapper and HTML question text so multi-line titles render as paragraphs.
  *                     Use an accessible expand/collapse control for answer details.
- * @version [version]
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

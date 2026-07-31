@@ -3,8 +3,8 @@
  * Builder quiz model view
  *
  * @since   3.16.0
- * @since   [version] Escaped quiz title output.
- * @version [version]
+ * @since   10.1.0 Escaped quiz title output.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

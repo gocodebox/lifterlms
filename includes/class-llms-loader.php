@@ -337,7 +337,7 @@ class LLMS_Loader {
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
-	 * @since [version] Include `LLMS_Admin_Help_Beacon` class.
+	 * @since 10.1.0 Include `LLMS_Admin_Help_Beacon` class.
 	 *
 	 * @return void
 	 */

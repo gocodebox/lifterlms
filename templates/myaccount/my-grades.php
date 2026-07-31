@@ -3,8 +3,8 @@
  * My Grades Template
  *
  * @since    3.24.0
- * @since [version] Added `wp-element-button` class to the sort button so it inherits theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the sort button so it inherits theme button styling.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 llms_print_notices();

@@ -5,8 +5,8 @@
  * @since 1.0.0
  * @since 3.16.0 Unknown.
  * @since 7.8.0 Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
- * @since [version] Use a div wrapper so multi-line question text can render as paragraphs.
- * @version [version]
+ * @since 10.1.0 Use a div wrapper so multi-line question text can render as paragraphs.
+ * @version 10.1.0
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance

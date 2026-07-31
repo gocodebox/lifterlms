@@ -6,7 +6,7 @@
  *
  * @group media_protection
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 

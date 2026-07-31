@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -383,7 +383,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Quill's wrapping `<p>` elements. Converting those breaks back to paragraphs restores
 	 * normal block spacing that cannot be achieved by styling `<br>` alone.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $html Question title HTML.
 	 * @return string

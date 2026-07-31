@@ -10,8 +10,8 @@
  * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @since 10.0.0 Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
- * @since [version] Revert edits as plain text unless the element allows formatting.
- * @version [version]
+ * @since 10.1.0 Revert edits as plain text unless the element allows formatting.
+ * @version 10.1.0
  */
 define( [], function() {
 
@@ -477,7 +477,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  10.1.0
 		 */
 		revert_edits: function( event ) {
 

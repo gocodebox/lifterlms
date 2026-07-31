@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3286"
-entry: Fixed multi-line quiz question spacing and accessibility on the front end.

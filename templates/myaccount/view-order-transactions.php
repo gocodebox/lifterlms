@@ -6,8 +6,8 @@
  *
  * @since 3.10.0
  * @since 6.0.0 Logic to return empty when no transactions present has been moved to the template function.
- * @since [version] Added `wp-element-button` class to the pagination buttons so they inherit theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the pagination buttons so they inherit theme button styling.
+ * @version 10.1.0
  *
  * @var array $transactions Result array from {@see LLMS_Order::get_transactions()}.
  */

@@ -4,8 +4,8 @@
  * @package LifterLMS/Scripts
  *
  * @since 7.3.0
- * @since [version] Toggle aria-expanded and screen-reader labels on answer details.
- * @version [version]
+ * @since 10.1.0 Toggle aria-expanded and screen-reader labels on answer details.
+ * @version 10.1.0
  */
 
 LLMS.Quiz_Attempt = {

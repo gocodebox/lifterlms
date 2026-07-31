@@ -7,8 +7,8 @@
  * @since 1.0.0
  * @since 3.33.0 Only render on lesson post types.
  * @since 10.0.7 Use `llms_can_user_complete_lesson()` to gate rendering.
- * @since [version] Added `wp-element-button` class to the Take Quiz button so it inherits theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the Take Quiz button so it inherits theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

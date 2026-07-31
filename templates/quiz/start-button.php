@@ -6,8 +6,8 @@
  * @since 3.25.0 Unknown.
  * @since 4.17.0 Early bail on orphan quiz.
  * @since 7.8.0 Added support for quiz resume.
- * @since [version] Added `wp-element-button` class to the quiz buttons so they inherit theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the quiz buttons so they inherit theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

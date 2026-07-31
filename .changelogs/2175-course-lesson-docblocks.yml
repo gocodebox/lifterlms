@@ -1,5 +1,0 @@
-significance: patch
-type: dev
-links:
-  - "#2175"
-entry: Corrected the docblocks for `get_course()` and `get_lesson()` so the documented `$the_course`/`$the_lesson` and `$args` parameters match the `LLMS_Course` and `LLMS_Lesson` constructors they forward to.

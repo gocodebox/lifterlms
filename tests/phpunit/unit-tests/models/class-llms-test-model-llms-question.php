@@ -386,7 +386,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_question() converts br-separated lines to paragraphs for html format.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -404,7 +404,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_question() preserves empty br segments as spacing paragraphs.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -422,7 +422,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_question() leaves titles without br tags unchanged.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -440,7 +440,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_question() does not re-wrap titles that already contain paragraphs.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -458,7 +458,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_question() plain format is not converted to paragraphs.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -476,7 +476,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Persist HTML in post_title without title_save_pre stripping tags.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $title Question title HTML.
 	 * @return void
