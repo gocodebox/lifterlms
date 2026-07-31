@@ -2,4 +2,4 @@ significance: patch
 type: changed
 links:
   - "#3288"
-entry: Limited the pricing table to a maximum of 3 access plan columns per row.
+entry: Limited the pricing table to a maximum of 3 access plan columns per row, using 2 columns when there are exactly 4 plans.

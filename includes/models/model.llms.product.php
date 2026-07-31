@@ -215,6 +215,9 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		if ( ! $count ) {
 			$cols = 1;
+		} elseif ( 4 === $count ) {
+			// Prefer two rows of two over a row of three plus a lonely fourth plan.
+			$cols = 2;
 		} else {
 			$cols = min( $count, 3 );
 		}
