@@ -4,13 +4,13 @@
  *
  * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  *
+ * @since 3.16.0
  * @since 3.17.8 Unknown.
  * @since 5.3.0 Display removed questions too.
  * @since 7.3.0 Script moved into the main llms.js.
  * @since 7.8.0 Hide answers if resumable attempt is incomplete.
- * @version 7.3.0
- *
- * @since 3.16.0
+ * @since [version] Use a div wrapper and HTML question text so multi-line titles render as paragraphs.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
 			data-points-curr="<?php echo esc_attr( $attempt_question->get( 'earned' ) ); ?>">
 			<header class="llms-quiz-attempt-question-header">
 				<span class="toggle-answer">
-					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></h3>
+					<div class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'lifterlms' ); ?></div>
 					<span class="llms-points">
 						<?php if ( $attempt_question->get( 'points' ) ) : ?>
 							<?php echo esc_html( sprintf( __( '%1$d / %2$d points', 'lifterlms' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ) ); ?>
@@ -54,7 +54,7 @@ defined( 'ABSPATH' ) || exit;
 		<header class="llms-quiz-attempt-question-header">
 			<a class="toggle-answer" href="#">
 
-				<h3 class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'plain' ) ); ?></h3>
+				<div class="llms-question-title"><?php echo wp_kses_post( $quiz_question->get_question( 'html' ) ); ?></div>
 
 				<?php if ( $quiz_question->get( 'points' ) ) : ?>
 					<span class="llms-points">
