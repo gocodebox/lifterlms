@@ -16,9 +16,10 @@
 			.select2-selection__rendered {
 				color: #1e1e1e;
 				line-height: 38px;
-				// 12px left matches WP inputs; ~28px right keeps the clear (x)
-				// just left of the chevron without a large empty gap.
-				padding: 0 28px 0 12px;
+				// 12px left matches WP inputs. Right padding clears the 16px
+				// chevron inset 8px from the edge (same as `.wp-core-ui select`)
+				// plus a tight slot for the clear (x).
+				padding: 0 32px 0 12px;
 			}
 
 			.select2-selection__clear {
@@ -27,9 +28,10 @@
 			}
 
 			.select2-selection__arrow {
+				// Match `.wp-core-ui select` chevron: 16px icon, 8px from right.
 				height: 38px;
-				width: 24px;
-				// Same dashicons arrow-down-alt2 SVG as `.wp-core-ui select`.
+				width: 16px;
+				right: 8px;
 				background: transparent url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
 				background-size: 16px 16px;
 
