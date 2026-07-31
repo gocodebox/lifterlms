@@ -160,7 +160,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param bool         $visbile_only Whether or not to exclude the hidden access plans.
 		 */
 		return apply_filters( 'llms_get_product_access_plans', $plans, $this, $free_only, $visible_only );
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class LLMS_Product extends LLMS_Post_Model {
 			return $options[ $visibility ];
 		}
 		return $visibility;
-
 	}
 
 
@@ -215,18 +213,13 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		$count = count( $this->get_access_plans( $free_only ) );
 
-		switch ( $count ) {
-
-			case 0:
-				$cols = 1;
-				break;
-
-			case 6:
-				$cols = 3;
-				break;
-
-			default:
-				$cols = $count;
+		if ( ! $count ) {
+			$cols = 1;
+		} elseif ( 4 === $count ) {
+			// Prefer two rows of two over a row of three plus a lonely fourth plan.
+			$cols = 2;
+		} else {
+			$cols = min( $count, 3 );
 		}
 
 		/**
@@ -284,7 +277,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product      The LLMS_Product object.
 		 */
 		return apply_filters( 'llms_product_get_restrictions', $restrictions, $this );
-
 	}
 
 
@@ -308,7 +300,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product              The LLMS_Product instance.
 		 */
 		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ), $this );
-
 	}
 
 	/**
@@ -335,7 +326,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product          The LLMS_Product object.
 		 */
 		return apply_filters( 'llms_product_has_restrictions', $has_restrictions, $restrictions, $this );
-
 	}
 
 	/**
@@ -370,7 +360,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product     The LLMS_Product instance.
 		 */
 		return apply_filters( 'llms_product_is_purchasable', $purchasable, $this );
-
 	}
 
 	/**
@@ -434,7 +423,5 @@ class LLMS_Product extends LLMS_Post_Model {
 		}
 
 		return (bool) $subscriptions_count;
-
 	}
-
 }
