@@ -117,6 +117,17 @@
 			&.small { width: 20%; }
 			&.tiny { width: 10%; }
 		}
+
+		// Select2 sets an inline width from the original <select>; keep it aligned
+		// with the 50% field width used by sibling inputs/selects above. Cap at
+		// 25rem to match `.wp-core-ui select { max-width: 25rem; }`.
+		select + .select2-container {
+			width: 50% !important;
+			max-width: 25rem;
+		}
+		select.medium + .select2-container { width: 30% !important; }
+		select.small + .select2-container { width: 20% !important; }
+		select.tiny + .select2-container { width: 10% !important; }
 	}
 
 	@media only screen and (min-width: 782px) {
