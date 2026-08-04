@@ -219,7 +219,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $gateway_confirm;
-
 	}
 
 
@@ -231,11 +230,29 @@ class LLMS_Order_Generator {
 	 * @return WP_Error|LLMS_Order
 	 */
 	protected function create() {
+		/*
+		 * Serialize concurrent checkouts using the same limited coupon so its
+		 * usage limit can't be exceeded between validation and recording the use.
+		 * The lock is held until the order (which records the use) is initialized.
+		 */
+		if ( $this->coupon ) {
+			$this->coupon->lock_usage();
+			if ( ! $this->coupon->has_remaining_uses() ) {
+				$this->coupon->unlock_usage();
+				return $this->error(
+					self::E_COUPON_INVALID,
+					__( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' )
+				);
+			}
+		}
 
 		$order = new LLMS_Order( $this->get_order_id() );
 
 		// If there's no id we can't proceed, return an error.
 		if ( ! $order->get( 'id' ) ) {
+			if ( $this->coupon ) {
+				$this->coupon->unlock_usage();
+			}
 			return $this->error(
 				self::E_CREATE_ORDER,
 				__( 'There was an error creating your order, please try again.', 'lifterlms' )
@@ -244,8 +261,11 @@ class LLMS_Order_Generator {
 
 		$order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
 
-		return $order;
+		if ( $this->coupon ) {
+			$this->coupon->unlock_usage();
+		}
 
+		return $order;
 	}
 
 	/**
@@ -270,7 +290,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $user_id;
-
 	}
 
 	/**
@@ -294,7 +313,6 @@ class LLMS_Order_Generator {
 		}
 
 		return new WP_Error( $code, $message, array_merge( $data, $extra_data ) );
-
 	}
 
 	/**
@@ -319,7 +337,6 @@ class LLMS_Order_Generator {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -348,7 +365,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $this->create();
-
 	}
 
 	/**
@@ -409,7 +425,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $order_id ? $order_id : 'new';
-
 	}
 
 	/**
@@ -485,7 +500,6 @@ class LLMS_Order_Generator {
 		$data['user_id'] = $this->student ? $this->student->get( 'id' ) : '';
 
 		return $data;
-
 	}
 
 	/**
@@ -555,7 +569,6 @@ class LLMS_Order_Generator {
 		 * @param boolean|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
 		return apply_filters( 'llms_after_generate_order_validation', true );
-
 	}
 
 	/**
@@ -627,7 +640,6 @@ class LLMS_Order_Generator {
 
 		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 		return true;
-
 	}
 
 	/**
@@ -660,7 +672,6 @@ class LLMS_Order_Generator {
 
 		$this->order = $order;
 		return true;
-
 	}
 
 	/**
@@ -692,7 +703,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -716,7 +726,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -749,5 +758,4 @@ class LLMS_Order_Generator {
 
 		return true;
 	}
-
 }
