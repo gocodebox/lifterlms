@@ -416,6 +416,21 @@ class LLMS_Media_Protector {
 	}
 
 	/**
+	 * Get the authorization filter hook name for a protected media file.
+	 *
+	 * Returns the name of the filter hook that controls access to the file,
+	 * or an empty string if the file is not protected.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @return string Filter hook name, or empty string if not protected.
+	 */
+	public function get_authorization_filter_name( $media_id ) {
+		return (string) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
+	/**
 	 * Returns true if the user is authorized to view the requested media file, false if not authorized,
 	 * or null if the media file is not protected.
 	 *
@@ -432,7 +447,7 @@ class LLMS_Media_Protector {
 			return null;
 		}
 
-		$cache_key     = 'llms-media-authorization-' . $media_id . '-' . $user_id;
+		$cache_key     = $this->get_authorization_cache_key( $media_id, $user_id );
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
 			return ( ( $authorization === 'null' ) ? null : $authorization );
@@ -441,7 +456,10 @@ class LLMS_Media_Protector {
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 		if ( ! $authorization_filter ) {
 			// We need to use string of 'null' since on some hosting like wordpress.com the value of null comes back as bool false.
-			wp_cache_add( $cache_key, 'null', 'llms_media_authorization' );
+			// Use the same cache expiration as authorized results so unprotected->protected transitions
+			// clear consistently even when the protection meta is added without an explicit invalidation.
+			$cache_expiration = apply_filters( 'llms_media_protection_cache_expiration_time', MINUTE_IN_SECONDS * 1, $media_id, $user_id );
+			wp_cache_set( $cache_key, 'null', 'llms_media_authorization', $cache_expiration );
 
 			return null;
 		}
@@ -515,9 +533,50 @@ class LLMS_Media_Protector {
 		 */
 		$cache_expiration = apply_filters( 'llms_media_protection_cache_expiration_time', MINUTE_IN_SECONDS * 1, $media_id, $user_id );
 
-		wp_cache_add( $cache_key, $is_authorized, 'llms_media_authorization', $cache_expiration );
+		wp_cache_set( $cache_key, $is_authorized, 'llms_media_authorization', $cache_expiration );
 
 		return $is_authorized;
+	}
+
+	/**
+	 * Build the cache key used for the authorization result of a media/user pair.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $user_id  The ID of the user wanting to view the media file.
+	 * @return string
+	 */
+	protected function get_authorization_cache_key( $media_id, $user_id ) {
+		return 'llms-media-authorization-' . $media_id . '-' . $user_id;
+	}
+
+	/**
+	 * Clear the cached authorization result for a media file.
+	 *
+	 * When the protection state of a media item changes the cached authorization result must be
+	 * removed so the next request does not reuse a stale value from a persistent object cache.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int      $media_id The post ID of the media file.
+	 * @param int|null $user_id  Optional. The ID of the user whose cached result should be removed.
+	 *                           Defaults to the current user. When null is passed, only the current
+	 *                           user's cache is cleared; other users' entries expire naturally via
+	 *                           the `llms_media_protection_cache_expiration_time` filter.
+	 * @return void
+	 */
+	public function invalidate_authorization_cache( $media_id, $user_id = null ) {
+		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
+			return;
+		}
+
+		$user_id = is_null( $user_id ) ? get_current_user_id() : intval( $user_id );
+		if ( ! $user_id ) {
+			return;
+		}
+
+		wp_cache_delete( $this->get_authorization_cache_key( $media_id, $user_id ), 'llms_media_authorization' );
 	}
 
 	/**
@@ -1029,6 +1088,13 @@ class LLMS_Media_Protector {
 	/**
 	 * Add authorization meta to the post.
 	 *
+	 * Clears any cached authorization result for the current user so a subsequent read
+	 * recomputes the authorization against the new protection state. This protects against
+	 * stale values being retained by persistent object caches such as Object Cache Pro.
+	 *
+	 * @since 7.7.0
+	 * @since 10.1.0 Invalidates the cached authorization result for the current user.
+	 *
 	 * @param $post_id
 	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
@@ -1040,5 +1106,6 @@ class LLMS_Media_Protector {
 		}
 
 		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, $hook_name );
+		$this->invalidate_authorization_cache( $post_id );
 	}
 }

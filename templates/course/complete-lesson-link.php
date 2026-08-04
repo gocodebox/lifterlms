@@ -7,7 +7,8 @@
  * @since 1.0.0
  * @since 3.33.0 Only render on lesson post types.
  * @since 10.0.7 Use `llms_can_user_complete_lesson()` to gate rendering.
- * @version 10.0.7
+ * @since 10.1.0 Added `wp-element-button` class to the Take Quiz button so it inherits theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,7 +111,7 @@ $student = llms_get_student( get_current_user_id() );
 
 		<?php do_action( 'llms_before_start_quiz_button' ); ?>
 
-		<a class="llms-button-action auto button" id="llms_start_quiz" href="<?php echo esc_url( get_permalink( $lesson->get( 'quiz' ) ) ); ?>">
+		<a class="llms-button-action auto button wp-element-button" id="llms_start_quiz" href="<?php echo esc_url( get_permalink( $lesson->get( 'quiz' ) ) ); ?>">
 			<?php echo wp_kses_post( apply_filters( 'lifterlms_start_quiz_button_text', esc_html__( 'Take Quiz', 'lifterlms' ), $lesson->get( 'quiz' ), $lesson ) ); ?>
 		</a>
 

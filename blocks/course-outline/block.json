@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/course-outline",
+  "title": "Course Outline",
+  "category": "llms-blocks",
+  "description": "Outputs the course outline as displayed by the widget of the same name. Can show full course outline or just the current section outline. Setting the Outline Type to Current Sections refers to the section that contains the next uncompleted lesson for current student. If the student is not enrolled then the first section in the course will be displayed.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "collapse": {
+      "type": "boolean",
+      "default": false
+    },
+    "course_id": {
+      "type": "integer"
+    },
+    "outline_type": {
+      "type": "string",
+      "default": "full"
+    },
+    "toggles": {
+      "type": "boolean",
+      "default": false
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js"
+}

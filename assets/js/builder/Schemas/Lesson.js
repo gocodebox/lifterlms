@@ -50,7 +50,7 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
 			},
-				], [
+			], [
 					{
 						attribute: 'free_lesson',
 						id: 'free-lesson',
@@ -92,7 +92,52 @@ define( [], function() {
 							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
 			},
-				], [
+			], [
+				{
+					attribute: 'has_minimum_time',
+					id: 'has-minimum-time',
+					label: LLMS.l10n.translate( 'Minimum Time on Lesson' ),
+					tip: LLMS.l10n.translate( 'Require students to spend a minimum amount of time on this lesson before they can mark it complete' ),
+					type: 'switch',
+					condition: function() {
+						return 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+			], [
+				{
+					attribute: 'minimum_time_hours',
+					id: 'minimum-time-hours',
+					label: LLMS.l10n.translate( 'Hours' ),
+					min: 0,
+					max: 999,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+				{
+					attribute: 'minimum_time_minutes',
+					id: 'minimum-time-minutes',
+					label: LLMS.l10n.translate( 'Minutes' ),
+					min: 0,
+					max: 59,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+				{
+					attribute: 'minimum_time_seconds',
+					id: 'minimum-time-seconds',
+					label: LLMS.l10n.translate( 'Seconds' ),
+					min: 0,
+					max: 59,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+			], [
 					{
 						attribute: 'prerequisite',
 						condition: function() {
