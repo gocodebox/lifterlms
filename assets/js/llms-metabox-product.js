@@ -6,7 +6,8 @@
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @version 7.3.0
+ * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
+ * @version 10.1.0
  */
 ( function( $ ) {
 
@@ -182,6 +183,10 @@
 
 			var dialogEl = document.getElementById( 'llms-access-plan-dialog' );
 			if ( dialogEl ) {
+				// The WP 7.0+ block editor renders meta boxes in a resizable pane that establishes the
+				// containing block for `position: fixed`, trapping the dialog inside the (often short)
+				// pane. Move it to the body so it overlays the whole viewport.
+				document.body.appendChild( dialogEl );
 				self.$plan_dialog = new A11yDialog( dialogEl );
 			}
 

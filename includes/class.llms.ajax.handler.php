@@ -484,6 +484,18 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		if ( isset( $request['lesson_id'] ) ) {
+			$lesson = llms_get_post( absint( $request['lesson_id'] ) );
+			if ( $lesson && is_a( $lesson, 'LLMS_Lesson' ) && $lesson->has_minimum_time() ) {
+				$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $student->get_id(), $lesson->get( 'id' ) );
+				$required = absint( $lesson->get( 'minimum_time' ) );
+				if ( $total < $required ) {
+					$err->add( 400, __( 'You must spend the required minimum time on the lesson before taking the quiz.', 'lifterlms' ) );
+					return $err;
+				}
+			}
+		}
+
 		$attempt = false;
 		if ( ! empty( $request['attempt_key'] ) ) {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
@@ -1359,6 +1371,151 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $success;
+	}
+
+	/**
+	 * Handle a lesson time tracking heartbeat.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $request POST data from the AJAX request.
+	 * @return array|WP_Error
+	 */
+	public static function lesson_time_heartbeat( $request ) {
+
+		$token = isset( $request['session_token'] ) ? sanitize_text_field( $request['session_token'] ) : '';
+		if ( empty( $token ) ) {
+			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
+		}
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
+		if ( ! $session ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return new WP_Error( 'not_logged_in', __( 'You must be logged in.', 'lifterlms' ) );
+		}
+
+		if ( absint( $session->get( 'user_id' ) ) !== $user_id ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session.', 'lifterlms' ) );
+		}
+
+		if ( $session->get( 'session_end' ) ) {
+			return new WP_Error(
+				'session_superseded',
+				__( 'This session has been replaced. Please reload the page to continue tracking time.', 'lifterlms' ),
+				array( 'status' => 409 )
+			);
+		}
+
+		$now_ts     = current_time( 'timestamp' );
+		$start_ts   = strtotime( $session->get( 'session_start' ) );
+		$last_hb_ts = strtotime( $session->get( 'last_heartbeat_at' ) );
+
+		$wall_elapsed = $now_ts - $start_ts;
+		$delta        = $now_ts - $last_hb_ts;
+
+		$interval   = absint( apply_filters( 'llms_lesson_time_heartbeat_interval', 30 ) );
+		$max_credit = absint( apply_filters( 'llms_lesson_time_max_credit_per_heartbeat', 300 ) );
+		$tolerance  = $interval;
+
+		$max_heartbeats = (int) ceil( $wall_elapsed / max( 1, $interval / 2 ) );
+		$current_count  = absint( $session->get( 'heartbeat_count' ) );
+		if ( $current_count + 1 > $max_heartbeats && $max_heartbeats > 0 ) {
+			return new WP_Error( 'too_many_heartbeats', __( 'Rate limit exceeded.', 'lifterlms' ) );
+		}
+
+		$credit = min( $delta, $max_credit );
+
+		$accumulated = absint( $session->get( 'accumulated_seconds' ) );
+		$proposed    = $accumulated + $credit;
+		if ( $proposed > $wall_elapsed + $tolerance ) {
+			$credit = max( 0, $wall_elapsed + $tolerance - $accumulated );
+		}
+
+		$gap_flagged = ( $delta > $interval * 2 );
+
+		$session->set( 'accumulated_seconds', $accumulated + $credit );
+		$session->set( 'last_heartbeat_at', current_time( 'mysql' ) );
+		$session->set( 'heartbeat_count', $current_count + 1 );
+		if ( $gap_flagged ) {
+			$session->set( 'flagged_gaps', absint( $session->get( 'flagged_gaps' ) ) + 1 );
+		}
+		$session->save();
+
+		$lesson_id = absint( $session->get( 'lesson_id' ) );
+
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
+
+		$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$lesson   = llms_get_post( $lesson_id );
+		$required = ( $lesson && $lesson->has_minimum_time() ) ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+
+		return array(
+			'total'     => $total,
+			'remaining' => max( 0, $required - $total ),
+			'met'       => $required > 0 ? $total >= $required : true,
+			'credited'  => $credit,
+		);
+	}
+
+	/**
+	 * Handle lesson time session end (fired via sendBeacon on page unload).
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $request POST data.
+	 * @return array|WP_Error
+	 */
+	public static function lesson_time_end( $request ) {
+
+		$token = isset( $request['session_token'] ) ? sanitize_text_field( $request['session_token'] ) : '';
+		if ( empty( $token ) ) {
+			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
+		}
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
+		if ( ! $session ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id || absint( $session->get( 'user_id' ) ) !== $user_id ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session.', 'lifterlms' ) );
+		}
+
+		if ( $session->get( 'session_end' ) ) {
+			return array( 'ended' => true );
+		}
+
+		$now_ts     = current_time( 'timestamp' );
+		$last_hb_ts = strtotime( $session->get( 'last_heartbeat_at' ) );
+		$start_ts   = strtotime( $session->get( 'session_start' ) );
+		$delta      = $now_ts - $last_hb_ts;
+
+		$max_credit   = absint( apply_filters( 'llms_lesson_time_max_credit_per_heartbeat', 300 ) );
+		$interval     = absint( apply_filters( 'llms_lesson_time_heartbeat_interval', 30 ) );
+		$tolerance    = $interval;
+		$credit       = min( $delta, $max_credit );
+		$accumulated  = absint( $session->get( 'accumulated_seconds' ) );
+		$wall_elapsed = $now_ts - $start_ts;
+
+		$proposed = $accumulated + $credit;
+		if ( $proposed > $wall_elapsed + $tolerance ) {
+			$credit = max( 0, $wall_elapsed + $tolerance - $accumulated );
+		}
+
+		$session->set( 'accumulated_seconds', $accumulated + $credit );
+		$session->set( 'session_end', current_time( 'mysql' ) );
+		$session->set( 'last_heartbeat_at', current_time( 'mysql' ) );
+		$session->save();
+
+		$lesson_id = absint( $session->get( 'lesson_id' ) );
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
+
+		return array( 'ended' => true );
 	}
 }
 

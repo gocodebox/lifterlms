@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 7.2.0
- * @version 7.2.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -106,6 +106,9 @@ class LLMS_Shortcodes_Blocks {
 			'my-achievements'      => array(
 				'render' => array( 'LLMS_Shortcode_My_Achievements', 'output' ),
 			),
+			'pricing-table'        => array(
+				'render' => array( $this, 'render_pricing_table' ),
+			),
 			'registration'         => array(
 				'render' => array( 'LLMS_Shortcode_Registration', 'output' ),
 			),
@@ -204,6 +207,46 @@ class LLMS_Shortcodes_Blocks {
 	}
 
 	/**
+	 * Renders the pricing table block.
+	 *
+	 * When rendering an editor preview the table display is forced, otherwise editors
+	 * already enrolled in the product (or previewing a non-purchasable product) would
+	 * see an empty preview.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $attributes The block attributes.
+	 * @return string
+	 */
+	public function render_pricing_table( array $attributes ): string {
+
+		if ( ! llms_is_editor_block_rendering() ) {
+			return LLMS_Shortcodes::pricing_table( $attributes );
+		}
+
+		$product_id = ! empty( $attributes['product'] ) ? absint( $attributes['product'] ) : get_the_ID();
+
+		if ( $product_id && in_array( get_post_type( $product_id ), array( 'course', 'llms_membership' ), true ) ) {
+			$product = new LLMS_Product( $product_id );
+
+			if ( ! $product->get_access_plans() ) {
+				return '<p>' . esc_html__( 'No access plans found.', 'lifterlms' ) . '</p>';
+			}
+		}
+
+		// Force display of the table within the editor preview.
+		add_filter( 'llms_product_pricing_table_enrollment_status', '__return_false' );
+		add_filter( 'llms_product_is_purchasable', '__return_true' );
+
+		$html = LLMS_Shortcodes::pricing_table( $attributes );
+
+		remove_filter( 'llms_product_pricing_table_enrollment_status', '__return_false' );
+		remove_filter( 'llms_product_is_purchasable', '__return_true' );
+
+		return $html;
+	}
+
+	/**
 	 * Renders a shortcode block.
 	 *
 	 * @since 7.2.0
@@ -256,10 +299,51 @@ class LLMS_Shortcodes_Blocks {
 			return '';
 		}
 
+		if ( llms_is_editor_block_rendering() ) {
+			$html = $this->strip_core_ui_button_class( $html );
+		}
+
 		return sprintf(
 			'<div %1$s>%2$s</div>',
 			get_block_wrapper_attributes(),
 			trim( $html )
+		);
+	}
+
+	/**
+	 * Remove the generic `button` class from LifterLMS buttons in editor SSR HTML.
+	 *
+	 * WordPress admin styles target `.wp-core-ui .button` at higher specificity than
+	 * theme and LifterLMS front-end button rules. That makes pricing-table Purchase
+	 * links (anchors) render as admin chrome while free-enroll submits look correct
+	 * via theme `[type="submit"]` rules. Stripping `button` only during editor block
+	 * rendering keeps the class on the front end for classic themes (e.g. Storefront).
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param string $html Block HTML.
+	 * @return string
+	 */
+	private function strip_core_ui_button_class( string $html ): string {
+
+		return preg_replace_callback(
+			'/\bclass=(["\'])([^"\']*)\1/',
+			static function ( $matches ) {
+				$classes = $matches[2];
+
+				if ( false === strpos( $classes, 'llms-button-' ) && false === strpos( $classes, 'llms-field-button' ) ) {
+					return $matches[0];
+				}
+
+				if ( ! preg_match( '/(^|\s)button(\s|$)/', $classes ) ) {
+					return $matches[0];
+				}
+
+				$classes = trim( preg_replace( '/\s+/', ' ', preg_replace( '/(^|\s)button(\s|$)/', ' ', $classes ) ) );
+
+				return 'class=' . $matches[1] . $classes . $matches[1];
+			},
+			$html
 		);
 	}
 }

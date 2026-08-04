@@ -2,9 +2,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
-	PanelRow,
 	Disabled,
-	SelectControl,
 	Spinner,
 } from '@wordpress/components';
 import {
@@ -13,34 +11,45 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
 import Icon from './icon.jsx';
-import {
-	usePostOptions,
-	PostSelect,
-} from '../../../packages/components/src/post-select';
-
-const postTypeOptions = [
-	{ label: __( 'Course', 'lifterlms' ), value: 'course' },
-	{ label: __( 'Membership', 'lifterlms' ), value: 'llms_membership' },
-];
+import { PostSelect } from '../../../packages/components/src/post-select';
 
 const Edit = ( props ) => {
-	const { attributes, setAttributes } = props;
+	const { attributes } = props;
 	const blockProps = useBlockProps();
-	const courseOptions = usePostOptions();
+
+	// The product metabox fires this jQuery event after access plans are saved or
+	// deleted; bump a key to force the preview to re-render since the plan changes
+	// aren't reflected in the block's attributes.
+	const [ refreshKey, setRefreshKey ] = useState( 0 );
+
+	useEffect( () => {
+		const { jQuery } = window;
+
+		if ( ! jQuery ) {
+			return;
+		}
+
+		const onUpdate = () => setRefreshKey( ( prevKey ) => prevKey + 1 );
+
+		jQuery( document ).on( 'llms-access-plans-updated', onUpdate );
+
+		return () => jQuery( document ).off( 'llms-access-plans-updated', onUpdate );
+	}, [] );
 
 	const memoizedServerSideRender = useMemo( () => {
-		let emptyPlaceholder = __( 'Author not found. This block will not be displayed.', 'lifterlms' );
+		let emptyPlaceholder = __( 'Product not found. This block will not be displayed.', 'lifterlms' );
 
-		if ( ! attributes.product && courseOptions.length > 0 ) {
-			emptyPlaceholder = __( 'No course selected. Please choose a Course from the block sidebar panel.', 'lifterlms' );
+		if ( ! attributes.product ) {
+			emptyPlaceholder = __( 'No product selected. Please choose a Course or Membership from the block sidebar panel.', 'lifterlms' );
 		}
 
 		return <ServerSideRender
+			key={ refreshKey }
 			block={ blockJson.name }
 			attributes={ attributes }
 			LoadingResponsePlaceholder={ () =>
@@ -53,27 +62,17 @@ const Edit = ( props ) => {
 				<p className={ 'llms-block-empty' }>{ emptyPlaceholder }</p>
 			}
 		/>;
-	}, [ attributes ] );
+	}, [ attributes, refreshKey ] );
 
 	return <>
 		<InspectorControls>
 			<PanelBody title={ __( 'Pricing Table Settings', 'lifterlms' ) }>
-				<PanelRow>
-					<SelectControl
-						label={ __( 'Post Type', 'lifterlms' ) }
-						value={ attributes.postType }
-						options={ postTypeOptions }
-						onChange={ ( postType ) => setAttributes( {
-							postType,
-							product: '',
-						} ) }
-					/>
-				</PanelRow>
 				<PostSelect
 					{ ...{
 						...props,
-						postType: attributes?.postType ?? 'course',
+						postType: [ 'course', 'llms_membership' ],
 						attribute: 'product',
+						postTypeAttribute: 'postType',
 					} }
 				/>
 			</PanelBody>

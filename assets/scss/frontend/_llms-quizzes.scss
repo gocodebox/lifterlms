@@ -175,6 +175,14 @@
 		font-size: 30px;
 		font-weight: 400;
 		margin-bottom: 15px;
+
+		p {
+			margin: 0 0 0.75em;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 
 	.llms-question-choices {

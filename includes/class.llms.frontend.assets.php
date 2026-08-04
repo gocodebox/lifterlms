@@ -63,6 +63,7 @@ class LLMS_Frontend_Assets {
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
 		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'output_footer_scripts' ), 1 );
 		add_action( 'wp', array( __CLASS__, 'enqueue_content_protection' ) );
+		add_action( 'template_redirect', array( __CLASS__, 'maybe_start_lesson_time_tracking' ), 20 );
 	}
 
 	/**
@@ -295,6 +296,144 @@ class LLMS_Frontend_Assets {
 		}
 
 		return $urls;
+	}
+
+	/**
+	 * Maybe start lesson time tracking.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public static function maybe_start_lesson_time_tracking() {
+
+		if ( ! is_singular( 'lesson' ) || ! is_user_logged_in() ) {
+			return;
+		}
+
+		$lesson = llms_get_post( get_the_ID() );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			return;
+		}
+
+		$has_minimum    = $lesson->has_minimum_time();
+		$global_enabled = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
+
+		if ( ! $has_minimum && ! $global_enabled ) {
+			return;
+		}
+
+		// Free lessons are viewable without enrollment; only track students actually enrolled in the course.
+		if ( $lesson->is_free() ) {
+			$course = $lesson->get_course();
+			if ( ! $course || ! llms_is_user_enrolled( get_current_user_id(), $course->get( 'id' ) ) ) {
+				return;
+			}
+		}
+
+		$user_id   = get_current_user_id();
+		$lesson_id = $lesson->get( 'id' );
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $user_id, $lesson_id );
+		if ( ! $session ) {
+			return;
+		}
+
+		$accumulated = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$required    = $has_minimum ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+		$met         = $required > 0 ? $accumulated >= $required : true;
+
+		$interval = absint( apply_filters( 'llms_lesson_time_heartbeat_interval', 30 ) );
+
+		$format = get_option(
+			'lifterlms_lesson_timer_display_format',
+			'{CURRENT_TIME} (Minimum required time: {MINIMUM_TIME})'
+		);
+
+		wp_enqueue_script(
+			'llms-lesson-timer',
+			LLMS_PLUGIN_URL . 'assets/js/llms-lesson-timer.js',
+			array( 'llms' ),
+			LLMS()->version,
+			true
+		);
+
+		wp_enqueue_style(
+			'llms-lesson-timer',
+			LLMS_PLUGIN_URL . 'assets/css/llms-lesson-timer.css',
+			array(),
+			LLMS()->version
+		);
+
+		wp_localize_script(
+			'llms-lesson-timer',
+			'llms_lesson_timer',
+			array(
+				'session_token'      => $session->get( 'session_token' ),
+				'required_seconds'   => $required,
+				'accumulated'        => $accumulated,
+				'heartbeat_interval' => $interval,
+				'display_format'     => $format,
+				'has_minimum'        => $has_minimum,
+				'nonce'              => wp_create_nonce( 'llms-ajax' ),
+				'ajax_url'           => admin_url( 'admin-ajax.php' ),
+				'login_url'          => wp_login_url( get_permalink() ),
+			)
+		);
+
+		if ( $has_minimum ) {
+			add_action( 'lifterlms_single_lesson_before_summary', array( __CLASS__, 'output_lesson_timer' ), 5 );
+		}
+	}
+
+	/**
+	 * Output the lesson timer display.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public static function output_lesson_timer() {
+
+		$lesson = llms_get_post( get_the_ID() );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			return;
+		}
+
+		$user_id     = get_current_user_id();
+		$lesson_id   = $lesson->get( 'id' );
+		$has_minimum = $lesson->has_minimum_time();
+		$required    = $has_minimum ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+		$accumulated = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$met         = $required > 0 ? $accumulated >= $required : true;
+
+		$format = get_option(
+			'lifterlms_lesson_timer_display_format',
+			'{CURRENT_TIME} (Minimum required time: {MINIMUM_TIME})'
+		);
+
+		$display_text = str_replace(
+			array( '{CURRENT_TIME}', '{MINIMUM_TIME}' ),
+			array(
+				LLMS_Lesson_Time_Tracking::instance()->format_time( $accumulated ),
+				LLMS_Lesson_Time_Tracking::instance()->format_time( $required ),
+			),
+			$format
+		);
+
+		if ( $required <= 0 ) {
+			$display_text = LLMS_Lesson_Time_Tracking::instance()->format_time( $accumulated );
+		}
+
+		llms_get_template(
+			'lesson/minimum-time.php',
+			array(
+				'display_text' => $display_text,
+				'required'     => $required,
+				'accumulated'  => $accumulated,
+				'met'          => $met,
+			)
+		);
 	}
 
 	/**

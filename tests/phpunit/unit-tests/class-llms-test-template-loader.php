@@ -211,6 +211,146 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_prepare_feed_content_restriction(): filters are only attached on feed requests.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prepare_feed_content_restriction() {
+
+		global $wp_query;
+
+		$wp_query->is_feed = false;
+		$this->main->maybe_prepare_feed_content_restriction();
+		$this->assertFalse( has_filter( 'the_content_feed', array( $this->main, 'maybe_restrict_feed_content' ) ) );
+		$this->assertFalse( has_filter( 'the_excerpt_rss', array( $this->main, 'maybe_restrict_feed_content' ) ) );
+
+		$wp_query->is_feed = true;
+		$this->main->maybe_prepare_feed_content_restriction();
+		$this->assertEquals( 9999, has_filter( 'the_content_feed', array( $this->main, 'maybe_restrict_feed_content' ) ) );
+		$this->assertEquals( 9999, has_filter( 'the_excerpt_rss', array( $this->main, 'maybe_restrict_feed_content' ) ) );
+
+		$wp_query->is_feed = false;
+		remove_filter( 'the_content_feed', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
+		remove_filter( 'the_excerpt_rss', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): for a skipped post type.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_skipped_post_type() {
+
+		global $post;
+
+		$post = $this->get_post_for_restrictions( 'course' );
+
+		$this->assertEquals( 'content', $this->main->maybe_restrict_feed_content( 'content' ) );
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): for a valid post type that's not restricted.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_not_restricted() {
+
+		global $post;
+
+		$post = $this->get_post_for_restrictions();
+
+		$this->assertEquals( 'content', $this->main->maybe_restrict_feed_content( 'content' ) );
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): for a post restricted by a membership (when not accessible by the user).
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_restricted_by_membership_not_accessible() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$post = $this->get_post_for_restrictions();
+
+		update_post_meta( $post->ID, '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+		update_post_meta( $post->ID, '_llms_is_restricted', 'yes' );
+
+		$this->assertEquals( 'no access.', $this->main->maybe_restrict_feed_content( 'content' ) );
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): for a post restricted by a membership that is accessible by the user.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_restricted_by_membership_is_accessible() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$post = $this->get_post_for_restrictions();
+
+		update_post_meta( $post->ID, '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+		update_post_meta( $post->ID, '_llms_is_restricted', 'yes' );
+
+		$student = $this->get_mock_student();
+		$student->enroll( $membership->get( 'id' ) );
+		wp_set_current_user( $student->get( 'id' ) );
+
+		$this->assertEquals( 'content', $this->main->maybe_restrict_feed_content( 'content' ) );
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): for a custom restriction applied via filter by a 3rd party.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_restricted_by_other() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $post;
+
+		$post = $this->get_post_for_restrictions();
+
+		$this->assertEquals( 'This content is restricted', $this->main->maybe_restrict_feed_content( 'content' ) );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
 	 * Test template_loader() with a screen we don't care about modifying
 	 *
 	 * @since 4.10.1

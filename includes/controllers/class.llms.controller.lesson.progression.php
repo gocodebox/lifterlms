@@ -34,8 +34,10 @@ class LLMS_Controller_Lesson_Progression {
 
 		add_action( 'lifterlms_quiz_completed', array( $this, 'quiz_complete' ), 10, 3 );
 		add_filter( 'llms_allow_lesson_completion', array( $this, 'quiz_maybe_prevent_lesson_completion' ), 10, 5 );
+		add_filter( 'llms_allow_lesson_completion', array( $this, 'minimum_time_maybe_prevent_lesson_completion' ), 15, 5 );
 
 		add_action( 'llms_trigger_lesson_completion', array( $this, 'mark_complete' ), 10, 4 );
+		add_action( 'before_llms_mark_incomplete', array( $this, 'clear_lesson_time_override' ), 10, 3 );
 	}
 
 	/**
@@ -155,7 +157,7 @@ class LLMS_Controller_Lesson_Progression {
 			$next_lesson_id = $lesson->get_next_lesson();
 			if ( $next_lesson_id ) {
 
-				wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+				wp_safe_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
 				exit;
 
 			}
@@ -294,6 +296,58 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		return $allow_completion;
+	}
+	/**
+	 * Prevent lesson completion if minimum time requirement has not been met.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param bool   $allow     Whether completion is allowed.
+	 * @param int    $user_id   WP User ID.
+	 * @param int    $lesson_id Lesson post ID.
+	 * @param string $trigger   Completion trigger.
+	 * @param array  $args      Additional arguments.
+	 * @return bool
+	 */
+	public function minimum_time_maybe_prevent_lesson_completion( $allow, $user_id, $lesson_id, $trigger, $args ) {
+
+		if ( ! $allow ) {
+			return $allow;
+		}
+
+		$lesson = llms_get_post( $lesson_id );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
+			return $allow;
+		}
+
+		if ( 0 === strpos( $trigger, 'admin_' ) ) {
+			LLMS_Lesson_Time_Tracking::instance()->record_admin_override( $user_id, $lesson_id, $trigger );
+			return $allow;
+		}
+
+		$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$required = absint( $lesson->get( 'minimum_time' ) );
+
+		return $total >= $required;
+	}
+
+	/**
+	 * Clear the admin override meta when a lesson is marked incomplete.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int    $student_id  WP_User ID.
+	 * @param int    $object_id   WP_Post ID.
+	 * @param string $object_type Object type.
+	 * @return void
+	 */
+	public function clear_lesson_time_override( $student_id, $object_id, $object_type ) {
+
+		if ( 'lesson' !== $object_type ) {
+			return;
+		}
+
+		delete_user_meta( $student_id, 'llms_lesson_time_override_' . $object_id );
 	}
 }
 
