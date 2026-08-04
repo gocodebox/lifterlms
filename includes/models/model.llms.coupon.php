@@ -47,13 +47,6 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	protected $model_post_type = 'coupon';
 
 	/**
-	 * Whether this instance currently holds the usage-capacity lock.
-	 *
-	 * @var boolean
-	 */
-	protected $usage_locked = false;
-
-	/**
 	 * Determine if the coupon can be applied to an access plan
 	 *
 	 * @since    3.0.0
@@ -244,86 +237,6 @@ class LLMS_Coupon extends LLMS_Post_Model {
 			return ( $uses >= 1 ) ? true : false;
 		}
 		return true;
-	}
-
-	/**
-	 * Acquire a cross-request lock guarding this coupon's usage capacity.
-	 *
-	 * Serializes concurrent checkouts that use the same coupon so its global
-	 * usage limit can't be exceeded by requests that each validate remaining
-	 * capacity before any of them records a use. Callers should acquire the
-	 * lock, re-check {@see LLMS_Coupon::has_remaining_uses()}, create the order
-	 * (which records the use), then call {@see LLMS_Coupon::unlock_usage()}.
-	 *
-	 * Coupons without a finite usage limit can't be over-used, so this returns
-	 * `true` without acquiring a lock for them.
-	 *
-	 * Implemented as a MySQL named lock held on the request's database
-	 * connection. If the request ends before the lock is released the database
-	 * releases it automatically, so a fatal error can't leave it stuck.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $timeout Maximum number of seconds to wait for the lock.
-	 * @return boolean Whether the lock was acquired.
-	 */
-	public function lock_usage( $timeout = 15 ) {
-
-		// Unlimited coupons can't be over-used, so there's nothing to serialize.
-		if ( ! $this->get( 'usage_limit' ) ) {
-			return true;
-		}
-
-		global $wpdb;
-
-		$acquired = (int) $wpdb->get_var(
-			$wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $this->get_usage_lock_name(), $timeout )
-		);
-
-		$this->usage_locked = ( 1 === $acquired );
-
-		return $this->usage_locked;
-	}
-
-	/**
-	 * Release the usage-capacity lock acquired by {@see LLMS_Coupon::lock_usage()}.
-	 *
-	 * Safe to call unconditionally; it does nothing if this instance isn't
-	 * currently holding the lock.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function unlock_usage() {
-
-		if ( ! $this->usage_locked ) {
-			return;
-		}
-
-		global $wpdb;
-
-		$wpdb->get_var(
-			$wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $this->get_usage_lock_name() )
-		);
-
-		$this->usage_locked = false;
-	}
-
-	/**
-	 * Retrieve the MySQL named-lock identifier for this coupon's usage capacity.
-	 *
-	 * Namespaced by database name and table prefix so sites sharing a MySQL
-	 * server don't contend on one another's locks, and hashed to stay within
-	 * MySQL's 64-character lock-name limit.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_usage_lock_name() {
-		global $wpdb;
-		return 'llms_coupon_' . md5( DB_NAME . $wpdb->prefix . $this->get( 'id' ) );
 	}
 
 	/**
