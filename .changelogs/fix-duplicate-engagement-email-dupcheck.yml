@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed duplicate engagement emails sent to all recipients when multiple emails share the same triggering post, such as when a manually graded quiz is completed and later graded.
