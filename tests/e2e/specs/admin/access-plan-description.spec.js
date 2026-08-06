@@ -132,6 +132,10 @@ async function setPlanDescription( page, planId, description ) {
 /**
  * Read the plan description from the editor UI.
  *
+ * Returns the raw editor content (which may include markup TinyMCE adds, e.g.
+ * `<p>` wrappers). Assertions should use substring matching against the plain
+ * text description that was entered.
+ *
  * @param {import('@playwright/test').Page} page   Playwright page.
  * @param {number}                          planId Access plan ID.
  * @return {Promise<string>}
@@ -143,10 +147,7 @@ async function getPlanDescriptionFromEditor( page, planId ) {
 			return window.tinyMCE.get( id ).getContent( { format: 'text' } ).trim();
 		}
 		const el = document.getElementById( id );
-		if ( ! el ) {
-			return '';
-		}
-		return new DOMParser().parseFromString( el.value, 'text/html' ).body.textContent.trim();
+		return el ? el.value.trim() : '';
 	}, editorId );
 }
 

@@ -117,14 +117,14 @@
 
 		};
 
-/**
- * Bind DOM Events.
- *
- * @since 3.0.0
- * @since 3.30.0 Add checkout redirect fields events.
- *
- * @return {Void}
- */
+		/**
+		 * Bind DOM Events.
+		 *
+		 * @since 3.0.0
+		 * @since 3.30.0 Add checkout redirect fields events.
+		 *
+		 * @return {Void}
+		 */
 		this.bind = function() {
 
 			var self = this;
