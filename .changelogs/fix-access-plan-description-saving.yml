@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3256"
+entry: Fixed access plan details not saving when using the course or membership Save button in the block editor.

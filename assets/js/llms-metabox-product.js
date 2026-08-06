@@ -7,7 +7,8 @@
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
  * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
- * @version 10.1.0
+ * @since [version] Persist access plans when the block editor saves the course/membership post.
+ * @version [version]
  */
 ( function( $ ) {
 
@@ -116,14 +117,14 @@
 
 		};
 
-		/**
-		 * Bind DOM Events.
-		 *
-		 * @since 3.0.0
-		 * @since 3.30.0 Add checkout redirect fields events.
-		 *
-		 * @return {Void}
-		 */
+/**
+ * Bind DOM Events.
+ *
+ * @since 3.0.0
+ * @since 3.30.0 Add checkout redirect fields events.
+ *
+ * @return {Void}
+ */
 		this.bind = function() {
 
 			var self = this;
@@ -143,6 +144,8 @@
 				e.preventDefault();
 				self.save_plans();
 			} );
+
+			self.bind_editor_save();
 
 			// bind change events to form element that controls another form element
 			self.$plans.on( 'change', '[data-controller-id]', function() {
@@ -616,16 +619,18 @@
 		 *
 		 * @return  array
 		 * @since   3.29.0
-		 * @version 3.29.0
+		 * @version [version]
 		 */
 		this.get_plans_array = function() {
 
 			// ensure all content editors are saved properly.
 			tinyMCE.triggerSave();
 
-			var self  = this,
-				form  = self.$plans.closest( 'form' ).serializeArray(),
-				plans = [];
+			var self      = this,
+				$fields   = self.$plans.find( 'input, select, textarea' ),
+				form      = $fields.length ? $fields.serializeArray() : self.$plans.closest( 'form' ).serializeArray(),
+				plansMap  = {},
+				orderKeys = [];
 
 			for ( var i = 0; i < form.length; i++ ) {
 
@@ -634,31 +639,38 @@
 					continue;
 				}
 
-				var keys  = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
-					index = ( keys[0] * 1 ) - 1,
-					name  = keys[1].replace( ']', '' ),
-					type  = 3 === keys.length ? 'array' : 'single';
+				var keys     = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
+					orderKey = String( keys[0] ),
+					name     = keys[1].replace( ']', '' ),
+					type     = 3 === keys.length ? 'array' : 'single';
 
-				if ( ! plans[ index ] ) {
-					plans[ index ] = {};
+				if ( ! plansMap[ orderKey ] ) {
+					plansMap[ orderKey ] = {};
+					orderKeys.push( orderKey );
 				}
 
 				if ( 'array' === type ) {
 
-					if ( ! plans[ index ][ name ] ) {
-						plans[ index ][ name ] = [];
+					if ( ! plansMap[ orderKey ][ name ] ) {
+						plansMap[ orderKey ][ name ] = [];
 					}
-					plans[ index ][ name ].push( form[ i ].value );
+					plansMap[ orderKey ][ name ].push( form[ i ].value );
 
 				} else {
 
-					plans[ index ][ name ] = form[ i ].value;
+					plansMap[ orderKey ][ name ] = form[ i ].value;
 
 				}
 
 			}
 
-			return plans;
+			orderKeys.sort( function( a, b ) {
+				return ( a * 1 ) - ( b * 1 );
+			} );
+
+			return orderKeys.map( function( key ) {
+				return plansMap[ key ];
+			} );
 
 		};
 
@@ -733,6 +745,60 @@
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
+
+		};
+
+		/**
+		 * Persist access plans when the block editor saves the post.
+		 *
+		 * Access plan fields are stored via AJAX (not the post save request), so
+		 * listen for non-autosave editor saves and run the same path as "Save All Plans".
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		this.bind_editor_save = function() {
+
+			var self = this,
+				wasSaving = false;
+
+			// init()/bind() re-run after each AJAX save; only subscribe once.
+			if ( self.editor_save_bound ) {
+				return;
+			}
+
+			if ( ! window.wp || ! wp.data || 'function' !== typeof wp.data.subscribe ) {
+				return;
+			}
+
+			self.editor_save_bound = true;
+
+			wp.data.subscribe( function() {
+
+				var editor = wp.data.select( 'core/editor' ),
+					isSaving;
+
+				if ( ! editor || 'function' !== typeof editor.isSavingPost ) {
+					return;
+				}
+
+				// Ignore autosaves; only persist on explicit Save / Update / Publish.
+				isSaving = editor.isSavingPost() && ! editor.isAutosavingPost();
+
+				if (
+					isSaving &&
+					! wasSaving &&
+					self.$save &&
+					self.$save.length &&
+					! self.$save.is( ':disabled' )
+				) {
+					self.save_plans();
+				}
+
+				wasSaving = isSaving;
+
+			} );
 
 		};
 
