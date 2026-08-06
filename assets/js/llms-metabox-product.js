@@ -634,15 +634,15 @@
 
 			for ( var i = 0; i < form.length; i++ ) {
 
-				// Skip non plan data from the form.
-				if ( -1 === form[ i ].name.indexOf( '_llms_plans' ) ) {
+				// Parse `_llms_plans[{order}][{name}]` and `_llms_plans[{order}][{name}][]`.
+				var match = form[ i ].name.match( /^_llms_plans\[(\d+)\]\[([^\]]+)\](\[\])?$/ );
+				if ( ! match ) {
 					continue;
 				}
 
-				var keys     = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
-					orderKey = String( keys[0] ),
-					name     = keys[1].replace( ']', '' ),
-					type     = 3 === keys.length ? 'array' : 'single';
+				var orderKey = match[1],
+					name     = match[2],
+					type     = match[3] ? 'array' : 'single';
 
 				if ( ! plansMap[ orderKey ] ) {
 					plansMap[ orderKey ] = {};

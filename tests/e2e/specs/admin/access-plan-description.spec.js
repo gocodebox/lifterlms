@@ -143,7 +143,10 @@ async function getPlanDescriptionFromEditor( page, planId ) {
 			return window.tinyMCE.get( id ).getContent( { format: 'text' } ).trim();
 		}
 		const el = document.getElementById( id );
-		return el ? el.value.replace( /<[^>]+>/g, '' ).trim() : '';
+		if ( ! el ) {
+			return '';
+		}
+		return new DOMParser().parseFromString( el.value, 'text/html' ).body.textContent.trim();
 	}, editorId );
 }
 
