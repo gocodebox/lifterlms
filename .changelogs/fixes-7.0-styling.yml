@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3291"
+entry: Aligned admin Select2 fields with WordPress 7.0 form control sizing.

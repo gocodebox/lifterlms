@@ -23,6 +23,9 @@ $llms-buttons-theme-inherit: false;
 // forms
 @import "admin/modules/forms";
 
+// Select2 (WP 7.0+ form-control alignment)
+@import "admin/modules/select2";
+
 // voucher
 @import "admin/modules/voucher";
 

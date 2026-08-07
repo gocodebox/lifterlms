@@ -5,7 +5,8 @@
  *
  * @since 3.17.0
  * @since 3.35.2 Added filter `llms_lesson_rerender_change_events` to view re-render change events.
- * @version 3.35.2
+ * @since [version] Only autofocus the title on the initial render.
+ * @version [version]
  */
 define( [
 		'Views/_Detachable',
@@ -100,34 +101,46 @@ define( [
 
 			},
 
-			/**
-			 * Render the view
-			 *
-			 * @return   obj
-			 * @since    3.17.0
-			 * @version  3.24.0
-			 */
-			render: function() {
+		/**
+		 * Render the view
+		 *
+		 * @since 3.17.0
+		 * @since 3.24.0 Unknown.
+		 * @since [version] Only autofocus the title on the initial render.
+		 *                     Refocusing after permalink/`name` changes left `_has_focus` set and
+		 *                     caused attached lessons to be skipped on save.
+		 *
+		 * @return {Object}
+		 */
+		render: function() {
 
-				this.$el.html( this.template( this.model ) );
+			var is_initial = ! this._has_rendered;
 
-				this.remove_subview( 'settings' );
+			this.$el.html( this.template( this.model ) );
 
-				this.render_subview( 'settings', {
-					el: '#llms-lesson-settings-fields',
-					model: this.model,
-				} );
+			this.remove_subview( 'settings' );
 
-				this.init_datepickers();
-				this.init_selects();
+			this.render_subview( 'settings', {
+				el: '#llms-lesson-settings-fields',
+				model: this.model,
+			} );
 
-				this.render_points_percentage();
+			this.init_datepickers();
+			this.init_selects();
 
+			this.render_points_percentage();
+
+			this._has_rendered = true;
+
+			// Only steal focus when the editor is first opened, not on subsequent re-renders
+			// (e.g. after editing the permalink, which triggers change:name → render).
+			if ( is_initial ) {
 				this.$('.llms-editable-title').focus();
+			}
 
-				return this;
+			return this;
 
-			},
+		},
 
 			/**
 			 * Render the portion of the template which displays the points percentage
