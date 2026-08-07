@@ -101,8 +101,14 @@ test.describe( 'Course Builder / Attach Existing Lesson', () => {
 		await saveBtn.click();
 		await expect( saveBtn ).toHaveAttribute( 'data-status', 'saved', { timeout: 15000 } );
 
-		// Must stay saved (not flip back to unsaved from a stuck _forceSync / focus state).
-		await page.waitForTimeout( 2000 );
+		// Must stay saved — residual tracking dirt from quiz/relationship init used to
+		// flip this back to "Save changes" after a successful attach/clone sync.
+		await page.waitForTimeout( 3000 );
+		await expect( saveBtn ).toHaveAttribute( 'data-status', 'saved' );
+		await expect( saveBtn ).toBeDisabled();
+
+		// Still clean after another changes-check interval.
+		await page.waitForTimeout( 1500 );
 		await expect( saveBtn ).toHaveAttribute( 'data-status', 'saved' );
 
 		// Reload the builder — the attached lesson must still be present with the new title.

@@ -317,23 +317,74 @@ define( [], function() {
 		};
 
 		/**
+		 * Recursively restart change tracking on a model and its relationship children.
+		 *
+		 * Used after a full sync (temp-id create or `_forceSync` attach) so residual
+		 * dirty state from relationship initialization cannot keep the save button active.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} model Backbone.Model instance.
+		 * @return {void}
+		 */
+		function restart_tracking_tree( model ) {
+
+			if ( ! model || ! model.restartTracking ) {
+				return;
+			}
+
+			model.unset( '_forceSync' );
+			model.restartTracking();
+
+			if ( ! model.get_relationships ) {
+				return;
+			}
+
+			_.each( model.get_child_props(), function( prop ) {
+
+				var child = model.get( prop );
+
+				if ( child instanceof Backbone.Model ) {
+					restart_tracking_tree( child );
+				} else if ( child instanceof Backbone.Collection ) {
+					child.each( restart_tracking_tree );
+				}
+
+			} );
+
+		}
+
+		/**
 		 * Compares changes synced to the server against current model and restarts
 		 * tracking on elements that haven't changed since the last sync
 		 *
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @param    obj   data   data set that was processed by the server
-		 * @return   void
+		 * @return   {Boolean} True when this was a full sync (caller should restart the tree).
 		 * @since    3.16.11
-		 * @version  3.19.4
+		 * @since    3.19.4 Unknown.
+		 * @since    [version] Return whether this was a full sync; fix child-prop omit;
+		 *                     defer tree restart to the caller until after child updates apply.
+		 * @version  [version]
 		 */
 		function maybe_restart_tracking( model, data ) {
 
 			Backbone.pubSub.trigger( model.get( 'type' ) + '-maybe-restart-tracking', model, data );
 
+			var full_sync = true === model.get( '_forceSync' ) ||
+				( data.orig_id && ! _.isNumber( data.orig_id ) && 0 === String( data.orig_id ).indexOf( 'temp_' ) );
+
+			model.unset( '_forceSync' );
+
+			// Full syncs: caller runs restart_tracking_tree() after child updates are applied.
+			if ( full_sync ) {
+				return true;
+			}
+
 			var omit = [ 'id', 'orig_id' ];
 
 			if ( model.get_relationships ) {
-				omit.concat( model.get_child_props() );
+				omit = omit.concat( model.get_child_props() );
 			}
 
 			_.each( _.omit( data, omit ), function( val, prop ) {
@@ -345,8 +396,7 @@ define( [], function() {
 
 			} );
 
-			// if syncing was forced, allow tracking to move forward as normal moving forward
-			model.unset( '_forceSync' );
+			return false;
 
 		};
 
@@ -447,7 +497,21 @@ define( [], function() {
 						model.set( 'content_added_in_builder', info.content_added_in_builder );
 					}
 
-					maybe_restart_tracking( model, info );
+					// Keep client parent/order in sync with server-authoritative values before tracking reset.
+					if ( info.parent_course ) {
+						model.set( 'parent_course', info.parent_course );
+					}
+					if ( info.parent_section ) {
+						model.set( 'parent_section', info.parent_section );
+					}
+					if ( info.order ) {
+						model.set( 'order', info.order );
+					}
+					if ( info.lesson_id ) {
+						model.set( 'lesson_id', info.lesson_id );
+					}
+
+					var full_sync = maybe_restart_tracking( model, info );
 
 					// check children
 					if ( model.get_relationships ) {
@@ -456,6 +520,10 @@ define( [], function() {
 							_.extend( data[ type ], process_object_updates( data[ type ], child_key, model, main_data ) );
 						} );
 
+					}
+
+					if ( full_sync ) {
+						restart_tracking_tree( model );
 					}
 
 				}
@@ -490,8 +558,20 @@ define( [], function() {
 							model.set( 'content_added_in_builder', info.content_added_in_builder );
 						}
 
+						if ( info.parent_course ) {
+							model.set( 'parent_course', info.parent_course );
+						}
+						if ( info.parent_section ) {
+							model.set( 'parent_section', info.parent_section );
+						}
+						if ( info.order ) {
+							model.set( 'order', info.order );
+						}
+						if ( info.lesson_id ) {
+							model.set( 'lesson_id', info.lesson_id );
+						}
 
-						maybe_restart_tracking( model, info );
+						var full_sync = maybe_restart_tracking( model, info );
 
 						// check children
 						if ( model.get_relationships ) {
@@ -500,6 +580,10 @@ define( [], function() {
 								_.extend( data[ type ], process_object_updates( data[ type ][ index ], child_key, model, main_data ) );
 							} );
 
+						}
+
+						if ( full_sync ) {
+							restart_tracking_tree( model );
 						}
 
 					}
