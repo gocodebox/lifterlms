@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed saving when attaching an existing lesson after editing its title or permalink in the Course Builder.

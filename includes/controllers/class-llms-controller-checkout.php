@@ -65,7 +65,6 @@ class LLMS_Controller_Checkout {
 			add_action( 'init', array( $this, "{$action}_ajax" ), 5 );
 			add_action( 'init', array( $this, $action ) );
 		}
-
 	}
 
 	/**
@@ -112,6 +111,12 @@ class LLMS_Controller_Checkout {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
 
+		// Ensure the current request is authorized to confirm the located order.
+		$email = llms_filter_input( INPUT_POST, 'email_address', FILTER_SANITIZE_EMAIL );
+		if ( ! llms_current_user_can_resume_order( $order, $email ) ) {
+			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
+		}
+
 		// Can the order be confirmed?
 		if ( ! $order->can_be_confirmed() ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
@@ -122,7 +127,6 @@ class LLMS_Controller_Checkout {
 
 		// Pass the order to the gateway.
 		$gateway->confirm_pending_order( $order );
-
 	}
 
 	/**
@@ -152,7 +156,6 @@ class LLMS_Controller_Checkout {
 		// Confirm the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$this->send_json( $generator->confirm() );
-
 	}
 
 	/**
@@ -247,7 +250,9 @@ class LLMS_Controller_Checkout {
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
-			if ( $locate ) {
+			$email  = llms_filter_input( INPUT_POST, 'email_address', FILTER_SANITIZE_EMAIL ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+			// Only reuse the located order when the current request is authorized to resume it; otherwise create a new order.
+			if ( $locate && llms_current_user_can_resume_order( $locate, $email ) ) {
 				$order_id = $locate;
 			}
 		}
@@ -265,9 +270,11 @@ class LLMS_Controller_Checkout {
 
 		$order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
 
+		// Bind guest orders to the current session so they can be resumed only from the browser that created them.
+		llms_set_pending_order_session( $order );
+
 		// Pass to the gateway to start processing.
 		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
-
 	}
 
 	/**
@@ -309,13 +316,15 @@ class LLMS_Controller_Checkout {
 			$generator->get_coupon()
 		);
 
+		// Bind guest orders to the current session so they can be resumed only from the browser that created them.
+		llms_set_pending_order_session( $order );
+
 		// Automatically add the order key to non-error return arrays.
 		if ( ! is_wp_error( $handle ) ) {
 			$handle['order_key'] = $order->get( 'order_key' );
 		}
 
 		$this->send_json( $handle );
-
 	}
 
 	/**
@@ -339,7 +348,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -367,7 +375,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		return $user_data;
-
 	}
 
 	/**
@@ -412,7 +419,6 @@ class LLMS_Controller_Checkout {
 
 		// Redirect to the checkout screen.
 		llms_redirect_and_exit( $plan->get_checkout_url() );
-
 	}
 
 	/**
@@ -449,7 +455,6 @@ class LLMS_Controller_Checkout {
 
 		// Don't process the non-ajax method.
 		remove_action( 'init', array( $this, $method ) );
-
 	}
 
 	/**
@@ -480,7 +485,6 @@ class LLMS_Controller_Checkout {
 		if ( ! llms_notice_count( 'error' ) ) {
 			$this->switch_payment_source_success( $data );
 		}
-
 	}
 
 	/**
@@ -543,7 +547,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $gateway_res );
-
 	}
 
 	/**
@@ -617,7 +620,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return compact( 'old_gateway', 'new_gateway', 'order' );
-
 	}
 
 	/**
@@ -666,7 +668,6 @@ class LLMS_Controller_Checkout {
 
 		// Cleanup temp data.
 		delete_post_meta( $order->get( 'id' ), '_llms_temp_gateway_ids' );
-
 	}
 
 	/**
@@ -694,9 +695,7 @@ class LLMS_Controller_Checkout {
 		}
 
 		return true;
-
 	}
-
 }
 
 return LLMS_Controller_Checkout::instance();
