@@ -2,7 +2,8 @@
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @version 4.17.0
+ * @since [version] Always sync temp-id and `_forceSync` models even while focused.
+ * @version [version]
  */
 define( [], function() {
 
@@ -194,15 +195,19 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @since    [version] Always sync temp-id and `_forceSync` models even while focused.
+		 *                     Skipping them dropped attached/cloned lessons from the save payload
+		 *                     when the settings panel auto-focused the title after a permalink edit.
+		 * @version  [version]
 		 */
 		function get_changed_attributes( model ) {
 
 			var atts = {},
 				sync_type;
 
-			// don't save mid editing
-			if ( model.get( '_has_focus' ) ) {
+			// New or force-synced models must always sync (e.g. attaching an existing lesson).
+			// Only skip partial edits while the field still has focus.
+			if ( model.get( '_has_focus' ) && ! has_temp_id( model ) && true !== model.get( '_forceSync' ) ) {
 				return atts;
 			}
 
