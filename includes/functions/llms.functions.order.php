@@ -127,6 +127,79 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 }
 
 /**
+ * Determines whether the current request is authorized to resume or confirm a pending order located by its order key.
+ *
+ * The order key is an identifier that appears in URLs, emails, and checkout responses. It must not be treated as a
+ * bearer credential: locating an order by key does not, by itself, authorize the requester to modify or confirm it.
+ * This check binds a key-located order to its rightful owner.
+ *
+ * Ownership rules:
+ *   - Orders owned by a registered user (`user_id` > 0) may only be resumed by that same logged-in user.
+ *   - Orders without an owner yet (`user_id` of 0, e.g. AJAX checkout before the account is committed, or guest
+ *     checkout) may only be resumed within the same session that created them (identified by the order key stored
+ *     via {@see llms_set_pending_order_session()}) or by supplying the email address stored on the order.
+ *
+ * @since [version]
+ *
+ * @param LLMS_Order|int $order An `LLMS_Order` object or a WP_Post ID.
+ * @param string|null    $email Optional. Email address submitted with the request, used to authorize resumption of
+ *                              an unowned (guest) order when it matches the order's billing email. Default `null`.
+ * @return bool Returns `true` when the current request may resume/confirm the order, otherwise `false`.
+ */
+function llms_current_user_can_resume_order( $order, $email = null ) {
+
+	$order = is_a( $order, 'LLMS_Order' ) ? $order : llms_get_post( $order );
+	if ( ! is_a( $order, 'LLMS_Order' ) ) {
+		return false;
+	}
+
+	$order_user_id = absint( $order->get( 'user_id' ) );
+
+	if ( $order_user_id ) {
+		$can = is_user_logged_in() && get_current_user_id() === $order_user_id;
+	} else {
+		// The order has no owner yet, so authorize on the session-bound key or a matching billing email.
+		$session_key   = llms()->session->get( 'llms_pending_order_key' );
+		$session_match = ! empty( $session_key ) && hash_equals( (string) $order->get( 'order_key' ), (string) $session_key );
+
+		$billing_email = $order->get( 'billing_email' );
+		$email_match   = ! empty( $email ) && ! empty( $billing_email ) && 0 === strcasecmp( trim( $email ), trim( $billing_email ) );
+
+		$can = $session_match || $email_match;
+	}
+
+	/**
+	 * Filters whether the current request can resume or confirm a pending order located by its order key.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool       $can   Whether the current request may resume/confirm the order.
+	 * @param LLMS_Order $order The order object.
+	 */
+	return (bool) apply_filters( 'llms_current_user_can_resume_order', $can, $order );
+}
+
+/**
+ * Binds a pending order key to the current session so a guest can resume it later.
+ *
+ * Only stores guest (`user_id` of 0) order keys; registered users are authorized by their WP_User ID instead
+ * and don't require session binding.
+ *
+ * @since [version]
+ *
+ * @param LLMS_Order $order The order object.
+ * @return void
+ */
+function llms_set_pending_order_session( $order ) {
+
+	if ( ! is_a( $order, 'LLMS_Order' ) || absint( $order->get( 'user_id' ) ) ) {
+		return;
+	}
+
+	llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
+}
+
+/**
  * Get the human readable status for a LifterLMS status.
  *
  * @since 3.0.0

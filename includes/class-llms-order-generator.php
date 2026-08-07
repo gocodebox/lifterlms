@@ -219,7 +219,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $gateway_confirm;
-
 	}
 
 
@@ -245,7 +244,6 @@ class LLMS_Order_Generator {
 		$order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
 
 		return $order;
-
 	}
 
 	/**
@@ -270,7 +268,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $user_id;
-
 	}
 
 	/**
@@ -294,7 +291,6 @@ class LLMS_Order_Generator {
 		}
 
 		return new WP_Error( $code, $message, array_merge( $data, $extra_data ) );
-
 	}
 
 	/**
@@ -319,7 +315,6 @@ class LLMS_Order_Generator {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -348,7 +343,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $this->create();
-
 	}
 
 	/**
@@ -393,6 +387,10 @@ class LLMS_Order_Generator {
 		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
 			$order_id = $this->sanitize_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
+			// Ignore the submitted key unless the current request is authorized to resume the located order.
+			if ( $order_id && ! llms_current_user_can_resume_order( $order_id, $email ) ) {
+				$order_id = null;
+			}
 		}
 
 		// Try to lookup by user ID.
@@ -409,7 +407,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $order_id ? $order_id : 'new';
-
 	}
 
 	/**
@@ -485,7 +482,6 @@ class LLMS_Order_Generator {
 		$data['user_id'] = $this->student ? $this->student->get( 'id' ) : '';
 
 		return $data;
-
 	}
 
 	/**
@@ -555,7 +551,6 @@ class LLMS_Order_Generator {
 		 * @param boolean|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
 		return apply_filters( 'llms_after_generate_order_validation', true );
-
 	}
 
 	/**
@@ -627,7 +622,6 @@ class LLMS_Order_Generator {
 
 		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 		return true;
-
 	}
 
 	/**
@@ -660,7 +654,6 @@ class LLMS_Order_Generator {
 
 		$this->order = $order;
 		return true;
-
 	}
 
 	/**
@@ -692,7 +685,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -716,7 +708,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -749,5 +740,4 @@ class LLMS_Order_Generator {
 
 		return true;
 	}
-
 }
