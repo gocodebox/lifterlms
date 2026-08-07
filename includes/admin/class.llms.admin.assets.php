@@ -35,6 +35,26 @@ class LLMS_Admin_Assets {
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
+		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+	}
+
+	/**
+	 * Add WordPress version body classes used for admin CSS compatibility.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $classes Space-separated admin body classes.
+	 * @return string
+	 */
+	public function admin_body_class( $classes ) {
+
+		global $wp_version;
+
+		if ( version_compare( $wp_version, '7.0', '>=' ) ) {
+			$classes .= ' llms-wp-version-gte-70';
+		}
+
+		return $classes;
 	}
 
 	/**

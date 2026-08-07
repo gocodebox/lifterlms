@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3301"
+entry: Fixed the "View add-on details" tooltip being cut off on the Add-ons screen.

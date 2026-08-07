@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+ - "#3295"
+entry: "Fixed lesson completion being rejected when the Mark Complete button was clicked the moment the minimum time requirement was reached, before the next time-tracking heartbeat had persisted the elapsed time."

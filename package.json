@@ -36,7 +36,7 @@
     "@playwright/test": "^1.58.0",
     "@wordpress/docgen": "^1.18.0",
     "@wordpress/env": "^10.39.0",
-    "@wordpress/scripts": "^33.0.0",
+    "@wordpress/scripts": "^34.0.0",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
