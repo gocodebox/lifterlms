@@ -999,6 +999,72 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test attaching an orphan lesson via update_lessons while also updating title and slug.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_can_attach_orphan_with_title_and_name() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section = $course->get_sections()[0];
+
+		// Orphan lesson (no parent course/section) with a quiz, matching the attach path.
+		$orphan_id = $this->factory->post->create( array(
+			'post_type'  => 'lesson',
+			'post_title' => 'Orphan Lesson',
+			'post_name'  => 'orphan-lesson',
+		) );
+		$orphan    = llms_get_post( $orphan_id );
+		$this->assertTrue( $orphan->is_orphan() );
+
+		$quiz = new LLMS_Quiz( 'new', array( 'post_title' => 'Orphan Quiz' ) );
+		$orphan->set( 'quiz', $quiz->get( 'id' ) );
+		$orphan->set( 'quiz_enabled', 'yes' );
+		$quiz->set( 'lesson_id', $orphan->get( 'id' ) );
+
+		$lessons_data = array(
+			array(
+				'id'             => $orphan->get( 'id' ),
+				'title'          => 'Attached Lesson Title',
+				'name'           => 'attached-lesson-slug',
+				'parent_course'  => $course->get( 'id' ),
+				'parent_section' => $section->get( 'id' ),
+				// Intentionally omit `order` — partial syncs after attach can leave it out,
+				// and the builder's section lesson query requires `_llms_order`.
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section, $course->get( 'id' ) )
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$orphan = llms_get_post( $orphan->get( 'id' ) );
+		$this->assertEquals( $course->get( 'id' ), $orphan->get( 'parent_course' ) );
+		$this->assertEquals( $section->get( 'id' ), $orphan->get( 'parent_section' ) );
+		$this->assertEquals( 'Attached Lesson Title', $orphan->get( 'title', true ) );
+		$this->assertEquals( 'attached-lesson-slug', $orphan->get( 'name' ) );
+		$this->assertNotEmpty( $orphan->get( 'order' ) );
+		$this->assertFalse( $orphan->is_orphan() );
+
+		// Fresh section instance — builder reload queries lessons by `_llms_parent_section` + `_llms_order`.
+		$section         = llms_get_post( $section->get( 'id' ) );
+		$section_lessons = $section->get_lessons( 'ids' );
+		$this->assertContains( $orphan->get( 'id' ), $section_lessons );
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.
