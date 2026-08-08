@@ -89,6 +89,9 @@ class LLMS_REST_Ability_Factory {
 	 *                                         Defaults to `controller`.
 	 *     @type string $args_method           Optional. HTTP method passed to `get_endpoint_args_for_item_schema()`
 	 *                                         when deriving input args. Defaults based on `operation`.
+	 *     @type array  $args                  Optional. Explicit endpoint args (WP REST args format) used to derive
+	 *                                         the input schema instead of the controller's schema. Useful for custom
+	 *                                         routes (e.g. grading) whose args are defined inline in `register_routes()`.
 	 *     @type array  $path_params           Optional. Map of route placeholder names to descriptions.
 	 * }
 	 * @return WP_Ability|null The registered ability on success, `null` on failure.
@@ -192,6 +195,10 @@ class LLMS_REST_Ability_Factory {
 	 * @return array
 	 */
 	private static function get_endpoint_args( $config ) {
+
+		if ( ! empty( $config['args'] ) && is_array( $config['args'] ) ) {
+			return $config['args'];
+		}
 
 		$controller = self::get_controller( ! empty( $config['schema_controller'] ) ? $config['schema_controller'] : $config['controller'] );
 		$args       = array();

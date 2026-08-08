@@ -4,7 +4,7 @@ properties:
   id:
     description: Unique quiz identifer. The WordPress Post `ID`.
     type: integer
-    minimum: 234
+    example: 234
     readOnly: true
   date_created:
     description: 'Creation date. Format: `Y-m-d H:i:s`.'
@@ -45,7 +45,18 @@ properties:
       - publish
       - draft
     default: draft
-  attempt_limiting:
+  lesson_id:
+    description: WordPress post ID of the quiz's parent lesson. `0` indicates an "orphaned" quiz which can be edited and viewed by instructors and admins but cannot be taken by students.
+    type: integer
+    minimum: 0
+    example: 789
+  passing_percent:
+    description: Determines the grade required to consider an attempt "passing".
+    type: number
+    minimum: 0
+    maximum: 100
+    default: 65
+  limit_attempts:
     description: |
       Determine if attempt limiting is enabled.
 
@@ -53,11 +64,12 @@ properties:
     type: boolean
     default: false
     example: true
-  attempts_allowed:
-    description: Limit the number of times a student can attempt the quiz before the quiz is locked. Only used when `attempt_limiting` is `true`.
+  allowed_attempts:
+    description: Limit the number of times a student can attempt the quiz before the quiz is locked. Only used when `limit_attempts` is `true`.
     type: integer
     minimum: 1
-  time_limiting:
+    example: 5
+  limit_time:
     description: |
       Determine if a time limit is enforced for each attempt.
 
@@ -66,37 +78,23 @@ properties:
     default: false
     example: true
   time_limit:
-    description: Determines the number of minutes allowed for each quiz attempt. Only used when `time_limiting` is `true`.
+    description: Determines the number of minutes allowed for each quiz attempt. Only used when `limit_time` is `true`.
     type: integer
     minimum: 1
     example: 90
-  passing_percentage:
-    description: Determines the grade required to consider an attempt "passing".
-    type: number
-    minimum: 0
-    default: 65
-  total_points:
-    description: The total points of all questions within the quiz.
-    type: integer
-    minimum: 0
-    example: 10
-    readOnly: true
   show_correct_answer:
     description: When enabled, students will be shown the correct answers to questions they answered incorrectly during quiz reviews.
     type: boolean
     default: false
-  randomize_questions:
+  random_questions:
     description: When enabled, questions will be shuffled into a random order for each new quiz attempt.
     type: boolean
     default: false
-  course_id:
-    description: WordPress post ID of the quizzes's parent course.
-    type: integer
-    minimum: 1
-    example: 1234
-    readOnly: true
-  parent_id:
-    description: WordPress post ID of the parent item.<br> Must be a Lesson ID. `0` indicates an "orphaned" quiz which can be edited and viewed by instructors and admins but cannot be taken by students.
-    type: integer
-    minimum: 0
-    example: 789
+  can_be_resumed:
+    description: When enabled, an incomplete quiz attempt can be paused and resumed by the student.
+    type: boolean
+    default: false
+  disable_retake:
+    description: When enabled, students cannot retake the quiz after completing it.
+    type: boolean
+    default: false

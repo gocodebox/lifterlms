@@ -50,8 +50,8 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 
 		$expected = array();
 
-		foreach ( array( 'course', 'section', 'lesson', 'membership', 'access-plan', 'student' ) as $resource ) {
-			$plural     = 'access-plan' === $resource ? 'access-plans' : "{$resource}s";
+		foreach ( array( 'course', 'section', 'lesson', 'membership', 'access-plan', 'student', 'quiz', 'question', 'certificate' ) as $resource ) {
+			$plural     = 'access-plan' === $resource ? 'access-plans' : ( 'quiz' === $resource ? 'quizzes' : "{$resource}s" );
 			$expected[] = "list-{$plural}";
 			$expected[] = "get-{$resource}";
 			$expected[] = "create-{$resource}";
@@ -71,6 +71,18 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 				'get-progress',
 				'update-progress',
 				'delete-progress',
+				'get-quiz-questions',
+				'list-quiz-attempts',
+				'get-quiz-attempt',
+				'grade-quiz-attempt',
+				'delete-quiz-attempt',
+				'list-orders',
+				'get-order',
+				'get-order-transactions',
+				'list-awarded-certificates',
+				'get-awarded-certificate',
+				'award-certificate',
+				'revoke-awarded-certificate',
 			)
 		);
 

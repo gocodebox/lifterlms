@@ -1,0 +1,134 @@
+description: A student's attempt at a quiz.
+type: object
+properties:
+  id:
+    description: Unique quiz attempt identifier.
+    type: integer
+    example: 42
+    readOnly: true
+  student_id:
+    description: The WordPress user ID of the student.
+    type: integer
+    example: 123
+    readOnly: true
+  quiz_id:
+    description: The WordPress post ID of the quiz.
+    type: integer
+    example: 234
+    readOnly: true
+  lesson_id:
+    description: The WordPress post ID of the lesson the quiz is attached to.
+    type: integer
+    example: 789
+    readOnly: true
+  start_date:
+    description: 'Date the attempt was started. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+    readOnly: true
+  update_date:
+    description: 'Date the attempt was last updated. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  end_date:
+    description: 'Date the attempt was completed. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:35:05'
+    readOnly: true
+  status:
+    description: The attempt status. Attempts with the `pending` status contain questions requiring manual grading.
+    type: string
+    example: pass
+    enum:
+      - incomplete
+      - pending
+      - fail
+      - pass
+    readOnly: true
+  attempt:
+    description: The attempt number for this student and quiz.
+    type: integer
+    example: 1
+    readOnly: true
+  grade:
+    description: The attempt grade (percentage).
+    type: number
+    example: 85.5
+    readOnly: true
+  can_be_resumed:
+    description: Whether the (incomplete) attempt can be resumed by the student.
+    type: boolean
+    readOnly: true
+  questions:
+    description: The attempt's answered questions, including raw and rendered answers, grading status, remarks, and file data for upload-type answers. Can be omitted via the `_fields` parameter.
+    type: array
+    readOnly: true
+    items:
+      type: object
+      properties:
+        id:
+          description: The WordPress post ID of the question.
+          type: integer
+          example: 456
+        title:
+          description: The question title.
+          type: string
+          example: What is the airspeed velocity of an unladen swallow?
+        question_type:
+          description: The question type.
+          type: string
+          example: choice
+        points:
+          description: The number of points the question is worth.
+          type: integer
+          example: 10
+        earned:
+          description: The number of points earned for the answer. `null` when not yet graded.
+          type: integer
+          nullable: true
+          example: 10
+        correct:
+          description: Whether the answer is correct.
+          type: boolean
+        status:
+          description: The grading status of the question.
+          type: string
+          example: graded
+        can_be_manually_graded:
+          description: Whether the question can be manually graded via the grade endpoint.
+          type: boolean
+        remarks:
+          description: Instructor remarks (HTML) displayed to the student for this answer.
+          type: string
+          nullable: true
+        answer:
+          description: The raw submitted answer values. Choice IDs for choice questions, text for open-ended questions, or a WordPress attachment ID for file uploads.
+          type: array
+          items:
+            type: string
+        answer_rendered:
+          description: The submitted answer rendered as HTML.
+          type: string
+        files:
+          description: File data for answers which are uploaded files. Use the `url` to retrieve the submitted file (e.g. for AI-assisted grading).
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                description: The WordPress attachment ID.
+                type: integer
+                example: 205
+              url:
+                description: The file URL.
+                type: string
+                example: https://example.tld/wp-content/uploads/2019/05/essay.pdf
+              filename:
+                description: The file name.
+                type: string
+                example: essay.pdf
+              mime_type:
+                description: The file MIME type.
+                type: string
+                example: application/pdf
