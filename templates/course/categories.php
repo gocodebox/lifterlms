@@ -10,6 +10,10 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
+if ( ! $post instanceof WP_Post ) {
+	return;
+}
+
 // Return if the course doesn't have a course_cat.
 if ( ! has_term( '', 'course_cat', $post->ID ) ) {
 	return;
