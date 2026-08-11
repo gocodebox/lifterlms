@@ -384,6 +384,20 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 
 		$memberships = $student->get_membership_levels();
 
+		/**
+		 * Filter the maximum number of memberships displayed in the "My Memberships" loop.
+		 *
+		 * @since [version]
+		 *
+		 * @param int          $limit   Maximum number of memberships to display. Default `500`.
+		 * @param LLMS_Student $student Student object.
+		 */
+		$limit = apply_filters( 'llms_my_memberships_loop_limit', 500, $student );
+
+		if ( $limit > 0 && count( $memberships ) > $limit ) {
+			$memberships = array_slice( $memberships, 0, $limit );
+		}
+
 		if ( ! $memberships ) {
 
 			printf(

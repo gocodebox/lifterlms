@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Added a filterable limit to the number of memberships displayed in the student dashboard My Memberships loop."
