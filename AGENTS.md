@@ -36,8 +36,12 @@ includes/                     # The bulk of the codebase (PHP source)
   widgets/                    # Legacy WP widgets
 src/                          # Source files for compiled JS / (S)CSS
   js/, blocks/, scss/         # Compile into assets/ — never commit compiled output
-libraries/                    # Vendored packages (populated by composer install)
-  lifterlms-rest/             # Installed from gocodebox/lifterlms-rest
+libraries/                    # Bundled packages, released with core (edit in place)
+  banner-notifications/       # Admin banner notifications
+  lifterlms-blocks/           # WordPress Editor (Gutenberg) blocks
+  lifterlms-cli/              # WP-CLI commands (`wp llms ...`)
+  lifterlms-helper/           # Add-on update/install/beta tooling
+  lifterlms-rest/             # REST API endpoints
 packages/                     # Internal monorepo packages (npm workspaces + lerna)
   dev/                        # Maintainer CLI: changelog, release, pot, readme
   brand, components, icons,   # Internal shared code
@@ -55,13 +59,15 @@ tests/
 .changelogs/                  # Pending changelog YAML entries (one per PR)
 ```
 
-### Bundled packages with their own repositories
+### Bundled packages (now part of this repository)
 
-These ship inside LifterLMS core releases via Composer but are developed in separate **public** repos:
+These live under `libraries/`, are committed to this repository, and are released with LifterLMS core. They were formerly developed in separate public repos (now archived) and installed via Composer; that is no longer the case — edit them in place and follow the normal core contribution workflow (changelog entries in `.changelogs/`). See [`libraries/README.md`](libraries/README.md). They are not installable as standalone plugins.
 
-- [`lifterlms-blocks`](https://github.com/gocodebox/lifterlms-blocks) — Gutenberg blocks
-- [`lifterlms-cli`](https://github.com/gocodebox/lifterlms-cli) — WP-CLI commands (`wp llms ...`)
-- [`lifterlms-rest`](https://github.com/gocodebox/lifterlms-rest) — REST API endpoints (vendored into `libraries/lifterlms-rest/` during development setup)
+- `banner-notifications` — admin banner notifications
+- `lifterlms-blocks` — Gutenberg blocks
+- `lifterlms-cli` — WP-CLI commands (`wp llms ...`)
+- `lifterlms-helper` — add-on update/install/beta tooling
+- `lifterlms-rest` — REST API endpoints
 
 ### The add-on ecosystem
 
@@ -166,9 +172,9 @@ See [`.github/SECURITY.md`](.github/SECURITY.md) and https://lifterlms.com/secur
 | Front-end form rendering and processing | `includes/forms/` |
 | Admin UI screens and metaboxes | `includes/admin/` |
 | Hooks (actions / filters) | grep `includes/` for `do_action` or `apply_filters` |
-| REST endpoints | the [`lifterlms-rest`](https://github.com/gocodebox/lifterlms-rest) repo, or `libraries/lifterlms-rest/` after `composer install` |
-| CLI command shapes | the [`lifterlms-cli`](https://github.com/gocodebox/lifterlms-cli) repo |
-| Block definitions | the [`lifterlms-blocks`](https://github.com/gocodebox/lifterlms-blocks) repo |
+| REST endpoints | `libraries/lifterlms-rest/` |
+| CLI command shapes | `libraries/lifterlms-cli/` |
+| Block definitions | `libraries/lifterlms-blocks/` |
 | Sample / fixture data | `sample-data/` |
 | Front-end PHP templates | `templates/` |
 | Build configuration | `webpack.config.js`, `gulpfile.js/`, `package.json` |
