@@ -374,6 +374,9 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.student.bulk.enroll.php';
 
+		// Orders & Transactions admin pages.
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-page-orders.php';
+
 		// Post types.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/class.llms.post.tables.php';
 

@@ -1662,6 +1662,71 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( 1, did_action( 'lifterlms_transaction_status_succeeded' ) );
 		$this->assertEquals( 1, did_action( 'lifterlms_order_status_active' ) );
 
+		// Recording a transaction flags the order as having one.
+		$this->assertEquals( 'yes', $order->get( 'has_transaction' ) );
+
+	}
+
+	/**
+	 * Test that record_transaction() sets the `_llms_has_transaction` order flag.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_record_transaction_sets_has_transaction_flag() {
+
+		$order = $this->get_order();
+		$this->assertEmpty( get_post_meta( $order->get( 'id' ), '_llms_has_transaction', true ) );
+
+		$order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'single',
+			)
+		);
+
+		$this->assertEquals( 'yes', get_post_meta( $order->get( 'id' ), '_llms_has_transaction', true ) );
+	}
+
+	/**
+	 * Test that the `_llms_has_transaction` flag is cleared only when an order's
+	 * last transaction is deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_transaction_flag_cleared_on_last_transaction_delete() {
+
+		$order   = $this->get_order();
+		$order_id = $order->get( 'id' );
+
+		$txn_one = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'recurring',
+			)
+		);
+		$txn_two = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'recurring',
+			)
+		);
+
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		// Deleting one of two transactions retains the flag.
+		wp_delete_post( $txn_one->get( 'id' ), true );
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		// Deleting the last transaction clears the flag.
+		wp_delete_post( $txn_two->get( 'id' ), true );
+		$this->assertEmpty( get_post_meta( $order_id, '_llms_has_transaction', true ) );
 	}
 
 	/**

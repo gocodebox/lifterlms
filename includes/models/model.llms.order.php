@@ -152,6 +152,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		'coupon_type'          => 'text',
 		'coupon_used'          => 'text',
 		'currency'             => 'text',
+		'has_transaction'      => 'yesno',
 		'on_sale'              => 'text',
 		'order_key'            => 'text',
 		'order_type'           => 'text',
@@ -1825,6 +1826,14 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'payment_gateway', $payment_gateway );
 		$txn->set( 'payment_type', $payment_type );
 		$txn->set( 'status', $status );
+
+		// Flag the order as having at least one transaction so reporting queries can
+		// cheaply exclude it from the "transaction-less orders" set via an indexed
+		// `NOT EXISTS` lookup (see LLMS_Table_Orders_Transactions). Guarded to avoid a
+		// redundant write on every recurring charge.
+		if ( 'yes' !== $this->get( 'has_transaction' ) ) {
+			$this->set( 'has_transaction', 'yes' );
+		}
 
 		return $txn;
 	}

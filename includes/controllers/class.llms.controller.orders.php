@@ -50,6 +50,14 @@ class LLMS_Controller_Orders {
 		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted.
 		add_action( 'llms_user_enrollment_deleted', array( $this, 'on_user_enrollment_deleted' ), 10, 3 );
 
+		// Keep the Orders & Transactions report's cached aggregates fresh when orders/transactions change.
+		add_action( 'save_post_llms_order', array( $this, 'clear_orders_transactions_report_cache' ) );
+		add_action( 'save_post_llms_transaction', array( $this, 'clear_orders_transactions_report_cache' ) );
+		add_action( 'before_delete_post', array( $this, 'maybe_clear_orders_transactions_report_cache' ) );
+
+		// Clear the order's `_llms_has_transaction` flag when its last transaction is deleted.
+		add_action( 'before_delete_post', array( $this, 'maybe_clear_order_has_transaction_flag' ) );
+
 		// Transaction status changes cascade up to the order to change the order status.
 		add_action( 'lifterlms_transaction_status_failed', array( $this, 'transaction_failed' ), 10, 1 );
 		add_action( 'lifterlms_transaction_status_refunded', array( $this, 'transaction_refunded' ), 10, 1 );
@@ -234,6 +242,80 @@ class LLMS_Controller_Orders {
 		$order = llms_get_post( $post_id );
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+		}
+	}
+
+	/**
+	 * Flush the Orders & Transactions admin report's cached aggregate queries.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function clear_orders_transactions_report_cache() {
+		if ( class_exists( 'LLMS_Table_Orders_Transactions' ) ) {
+			LLMS_Table_Orders_Transactions::clear_cache();
+		}
+	}
+
+	/**
+	 * Flush the Orders & Transactions report cache when an order or transaction is deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the post being deleted.
+	 * @return void
+	 */
+	public function maybe_clear_orders_transactions_report_cache( $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( 'llms_order' === $post_type || 'llms_transaction' === $post_type ) {
+			$this->clear_orders_transactions_report_cache();
+		}
+	}
+
+	/**
+	 * Clear an order's `_llms_has_transaction` flag when its last transaction is deleted.
+	 *
+	 * Keeps the Orders & Transactions report accurate: an order whose only transaction(s)
+	 * are deleted should reappear as a transaction-less order row.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the post being deleted.
+	 * @return void
+	 */
+	public function maybe_clear_order_has_transaction_flag( $post_id ) {
+
+		if ( 'llms_transaction' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		$order_id = absint( get_post_meta( $post_id, '_llms_order_id', true ) );
+		if ( ! $order_id ) {
+			return;
+		}
+
+		// `before_delete_post` fires before the post is removed, so exclude the
+		// transaction being deleted when checking for remaining transactions.
+		$remaining = new WP_Query(
+			array(
+				'post_type'      => 'llms_transaction',
+				'post_status'    => 'any',
+				'fields'         => 'ids',
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+				'post__not_in'   => array( $post_id ),
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_order_id',
+						'value' => $order_id,
+					),
+				),
+			)
+		);
+
+		if ( empty( $remaining->posts ) ) {
+			delete_post_meta( $order_id, '_llms_has_transaction' );
 		}
 	}
 

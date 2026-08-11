@@ -37,6 +37,69 @@ class LLMS_Controller_Account {
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'cancel_subscription' ) );
 		add_action( 'init', array( $this, 'redeem_voucher' ) );
+		add_action( 'template_redirect', array( $this, 'maybe_serve_transaction_receipt' ) );
+	}
+
+	/**
+	 * Serve a single transaction receipt to the student who owns it.
+	 *
+	 * Triggered on the front-end via URL parameter: ?llms_receipt_txn={transaction_id}&_wpnonce={nonce}
+	 * (see {@see llms_get_transaction_receipt_url()}). Generates a PDF when the LifterLMS PDFs
+	 * add-on is active (via the `llms_serve_transaction_receipt` action) or an HTML receipt otherwise.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_serve_transaction_receipt() {
+
+		$txn_id = absint( llms_filter_input( INPUT_GET, 'llms_receipt_txn', FILTER_SANITIZE_NUMBER_INT ) );
+		if ( ! $txn_id ) {
+			return;
+		}
+
+		$nonce = llms_filter_input( INPUT_GET, '_wpnonce' );
+		if ( ! wp_verify_nonce( $nonce, 'llms_txn_receipt_' . $txn_id ) ) {
+			wp_die( esc_html__( 'Invalid request.', 'lifterlms' ) );
+		}
+
+		$transaction = llms_get_post( $txn_id );
+		if ( ! $transaction instanceof LLMS_Transaction ) {
+			wp_die( esc_html__( 'Transaction not found.', 'lifterlms' ) );
+		}
+
+		$order = llms_get_post( $transaction->get( 'order_id' ) );
+		if ( ! $order instanceof LLMS_Order ) {
+			wp_die( esc_html__( 'Order not found.', 'lifterlms' ) );
+		}
+
+		// Only the student who owns the order (or a user who can view reports) may download the receipt.
+		if ( get_current_user_id() !== (int) $order->get( 'user_id' ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
+			wp_die( esc_html__( 'You do not have permission to view this receipt.', 'lifterlms' ) );
+		}
+
+		/**
+		 * Allow the LifterLMS PDFs add-on to handle single-transaction PDF generation.
+		 *
+		 * If a plugin hooks in and handles this action (e.g. generates a PDF), it should
+		 * call exit() to prevent the HTML fallback from rendering.
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Transaction $transaction The transaction object.
+		 * @param LLMS_Order       $order       The parent order object.
+		 */
+		do_action( 'llms_serve_transaction_receipt', $transaction, $order );
+
+		// HTML fallback: render the printable receipt template.
+		llms_get_template(
+			'myaccount/receipt-transaction.php',
+			array(
+				'transaction' => $transaction,
+				'order'       => $order,
+			)
+		);
+		exit;
 	}
 
 	/**

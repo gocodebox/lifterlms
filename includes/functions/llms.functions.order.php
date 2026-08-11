@@ -144,6 +144,35 @@ function llms_get_order_status_name( $status ) {
 }
 
 /**
+ * Retrieve the front-end (student dashboard) URL for downloading a single transaction receipt.
+ *
+ * The resulting URL is served by {@see LLMS_Controller_Account::maybe_serve_transaction_receipt()}
+ * which generates a PDF (when the LifterLMS PDFs add-on is active) or an HTML receipt otherwise.
+ *
+ * @since [version]
+ *
+ * @param int $txn_id Transaction post ID.
+ * @return string
+ */
+function llms_get_transaction_receipt_url( $txn_id ) {
+
+	$url = wp_nonce_url(
+		add_query_arg( 'llms_receipt_txn', $txn_id, llms_get_page_url( 'myaccount' ) ),
+		'llms_txn_receipt_' . $txn_id
+	);
+
+	/**
+	 * Filters the front-end transaction receipt download URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url    The receipt URL.
+	 * @param int    $txn_id Transaction post ID.
+	 */
+	return apply_filters( 'llms_transaction_receipt_url', $url, $txn_id );
+}
+
+/**
  * Retrieve an array of registered and available LifterLMS Order Post Statuses.
  *
  * @since 3.0.0
