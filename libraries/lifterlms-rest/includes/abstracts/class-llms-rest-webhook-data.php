@@ -88,7 +88,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 			array(
 				'section'              => 'webhooks',
 				'delete-webhook'       => $this->get( 'id' ),
-				'delete-webhook-nonce' => wp_create_nonce( 'delete' ),
+				'delete-webhook-nonce' => wp_create_nonce( 'delete-' . $this->get( 'id' ) ),
 			),
 			LLMS_REST_API()->keys()->get_admin_url()
 		);

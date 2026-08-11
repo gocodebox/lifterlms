@@ -1,7 +1,7 @@
 /**
  * Access plan description saving via course editor Save vs Save All Plans.
  *
- * @since [version]
+ * @since 10.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

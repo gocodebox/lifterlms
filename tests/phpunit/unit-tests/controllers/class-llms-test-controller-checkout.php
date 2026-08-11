@@ -158,9 +158,6 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set_status( 'llms-failed' );
 
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
-
 		$this->mockPostRequest( array(
 			'_wpnonce'       => wp_create_nonce( $this->main::ACTION_CONFIRM_PENDING_ORDER ),
 			'action'         => $this->main::ACTION_CONFIRM_PENDING_ORDER,
@@ -193,9 +190,6 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		// Setup the order.
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-pending-success' );
-
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
 
 		// Mock the request.
 		$this->mockPostRequest( array(

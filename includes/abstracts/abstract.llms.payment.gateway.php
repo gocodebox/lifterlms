@@ -501,7 +501,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieve the access plan for an order, if available.
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return LLMS_Access_Plan|false
@@ -523,7 +523,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Same-origin URLs are allowed. Off-site URLs are only allowed when they match
 	 * the access plan's configured custom checkout redirect URL.
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @param string                 $url  Candidate redirect URL.
 	 * @param LLMS_Access_Plan|false $plan Access plan for the order, if any.

@@ -255,7 +255,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Retrieve the redirect URL from this plan's settings only (ignores querystring).
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @return string
 	 */
@@ -269,7 +269,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Same-origin URLs are allowed. Off-site URLs are only allowed when they match
 	 * this plan's configured custom checkout redirect URL.
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @param string $url Candidate redirect URL.
 	 * @return bool

@@ -387,10 +387,6 @@ class LLMS_Order_Generator {
 		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
 			$order_id = $this->sanitize_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
-			// Ignore the submitted key unless the current request is authorized to resume the located order.
-			if ( $order_id && ! llms_current_user_can_resume_order( $order_id, $email ) ) {
-				$order_id = null;
-			}
 		}
 
 		// Try to lookup by user ID.

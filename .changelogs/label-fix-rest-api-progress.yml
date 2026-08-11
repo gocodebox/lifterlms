@@ -1,3 +1,0 @@
-significance: patch
-type: dev
-entry: Corrected the REST API student progress `status` property description to reflect the completion status rather than the enrollment status, and noted that the students ability lists LifterLMS students only.

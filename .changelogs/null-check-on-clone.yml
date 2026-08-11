@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: "Prevented a fatal error when cloning a course or creating a course cohort if a cloned lesson or course could not be loaded during prerequisite handling."

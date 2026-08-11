@@ -1,7 +1,7 @@
 /**
  * Course Builder — attach existing lesson, edit title/permalink, save.
  *
- * @since [version]
+ * @since 10.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
