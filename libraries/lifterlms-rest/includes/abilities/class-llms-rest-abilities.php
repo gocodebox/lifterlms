@@ -157,6 +157,7 @@ class LLMS_REST_Abilities {
 				'slugs'      => array( 'student', 'students' ),
 				'labels'     => array( __( 'Student', 'lifterlms' ), __( 'Students', 'lifterlms' ) ),
 				'nouns'      => array( __( 'student', 'lifterlms' ), __( 'students', 'lifterlms' ) ),
+				'list_note'  => __( 'Returns LifterLMS students only. Check the WordPress users endpoint to find out whether someone already has an account.', 'lifterlms' ),
 			),
 		);
 	}
@@ -171,21 +172,23 @@ class LLMS_REST_Abilities {
 	 */
 	private static function get_crud_configs( $resource ) {
 
-		list( $slug_singular, $slug_plural ) = $resource['slugs'];
+		list( $slug_singular, $slug_plural )   = $resource['slugs'];
 		list( $label_singular, $label_plural ) = $resource['labels'];
-		list( $noun_singular, $noun_plural ) = $resource['nouns'];
+		list( $noun_singular, $noun_plural )   = $resource['nouns'];
 
 		$base = array(
 			'controller' => $resource['controller'],
 		);
+
+		$list_note = empty( $resource['list_note'] ) ? '' : ' ' . $resource['list_note'];
 
 		return array(
 			$base + array(
 				'name'        => "list-{$slug_plural}",
 				// Translators: %s = plural resource label (e.g. "Courses").
 				'label'       => sprintf( __( 'List %s', 'lifterlms' ), $label_plural ),
-				// Translators: %s = plural resource noun (e.g. "courses").
-				'description' => sprintf( __( 'Retrieves a paginated list of %s from this LifterLMS site. Supports filtering, ordering, and pagination parameters.', 'lifterlms' ), $noun_plural ),
+				// Translators: %1$s = plural resource noun (e.g. "courses"); %2$s = optional resource-specific note.
+				'description' => sprintf( __( 'Retrieves a paginated list of %1$s from this LifterLMS site. Supports filtering, ordering, and pagination parameters.%2$s', 'lifterlms' ), $noun_plural, $list_note ),
 				'operation'   => 'list',
 				'method'      => 'GET',
 				'route'       => $resource['route'],

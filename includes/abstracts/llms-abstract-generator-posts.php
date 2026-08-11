@@ -352,6 +352,19 @@ abstract class LLMS_Abstract_Generator_Posts {
 		// Load admin functions to get access to `get_editable_roles()`.
 		require_once ABSPATH . 'wp-admin/includes/admin.php';
 
+		/*
+		 * Creating a user and assigning it a role are governed by WordPress core user-management
+		 * capabilities. `manage_lifterlms` grants access to the importer but must not, on its own,
+		 * be enough to mint a user of an arbitrary role: a custom role with `manage_lifterlms` and
+		 * neither `create_users` nor `promote_users` has no business creating users during import.
+		 */
+		if ( ! current_user_can( 'create_users' ) || ! current_user_can( 'promote_users' ) ) {
+			return new WP_Error(
+				'llms-generator-unauthorized-role',
+				__( 'You are not allowed to create a user with the requested role.', 'lifterlms' )
+			);
+		}
+
 		$editable_roles = get_editable_roles();
 
 		if ( empty( $editable_roles[ $role ] ) ) {
