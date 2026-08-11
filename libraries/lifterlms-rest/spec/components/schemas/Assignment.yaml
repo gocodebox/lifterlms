@@ -127,7 +127,7 @@ properties:
           type: string
           example: '1'
         marker:
-          description: The task marker (A, B, C...) used for ordering.
+          description: The task marker (A, B, C...) used for ordering. Automatically sequenced from the submitted list order when omitted.
           type: string
           example: A
         title:

@@ -286,7 +286,16 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 			}
 		}
 
-		return $data;
+		/**
+		 * Filters question data prepared for the REST response.
+		 *
+		 * @since [version]
+		 *
+		 * @param array           $data     Array of question properties prepared for response.
+		 * @param LLMS_Question   $question Question object.
+		 * @param WP_REST_Request $request  Request object.
+		 */
+		return apply_filters( 'llms_rest_prepare_llms_question_object_response', $data, $question, $request );
 	}
 
 	/**
