@@ -92,6 +92,15 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 			return $prepared_item;
 		}
 
+		// Default new quizzes to published when status is omitted (LLMS_Post_Model otherwise creates drafts).
+		if ( empty( $request['id'] ) && empty( $prepared_item['post_status'] ) ) {
+			$status = $this->handle_status_param( 'publish' );
+			if ( is_wp_error( $status ) ) {
+				return $status;
+			}
+			$prepared_item['post_status'] = $status;
+		}
+
 		$schema = $this->get_item_schema();
 
 		if ( ! empty( $schema['properties']['lesson_id'] ) && isset( $request['lesson_id'] ) ) {

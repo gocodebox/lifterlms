@@ -1041,23 +1041,13 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		// LLMS Post status.
-		if ( ! empty( $schema['properties']['status'] ) ) {
-			if ( isset( $request['status'] ) ) {
-				$status = $this->handle_status_param( $request['status'] );
-			} elseif ( empty( $request['id'] ) && ! empty( $schema['properties']['status']['default'] ) ) {
-				// On create, apply the schema default so LLMS_Post_Model doesn't fall back to draft.
-				$status = $this->handle_status_param( $schema['properties']['status']['default'] );
-			} else {
-				$status = null;
-			}
-
+		if ( ! empty( $schema['properties']['status'] ) && isset( $request['status'] ) ) {
+			$status = $this->handle_status_param( $request['status'] );
 			if ( is_wp_error( $status ) ) {
 				return $status;
 			}
 
-			if ( null !== $status ) {
-				$prepared_item['post_status'] = $status;
-			}
+			$prepared_item['post_status'] = $status;
 		}
 
 		// LLMS Post date.
