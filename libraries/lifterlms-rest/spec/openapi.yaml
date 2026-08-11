@@ -461,6 +461,47 @@ tags:
 
       <SchemaDefinition schemaRef="#/components/schemas/GroupSeat" showReadOnly={true} showWriteOnly={true} />
 
+  - name: Assignments
+    description: |
+
+      Assignments are gradable course content attached to lessons. The assignments API allows you to create, view, update, and delete assignments.
+
+      The lesson association can also be managed through the lesson's `assignment` object when the add-on is active.
+
+      ## Requirements
+
+      The assignments API is only available through the [LifterLMS Assignments advanced add-on](https://lifterlms.com/product/lifterlms-assignments/). This plugin must be installed and activated in order to utilize the Assignments API.
+
+      ## Assignment Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AssignmentResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Assignment Submissions
+    description: |
+
+      The assignment submissions API allows you to list and retrieve student submissions and grade them (including leaving remarks without a grade for an AI-assisted first pass).
+
+      ## Requirements
+
+      The assignment submissions API is only available through the [LifterLMS Assignments advanced add-on](https://lifterlms.com/product/lifterlms-assignments/). This plugin must be installed and activated in order to utilize the Assignment Submissions API.
+
+      ## Assignment Submission Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AssignmentSubmission" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Events
+    description: |
+
+      Scheduled events can be associated with courses, memberships, or lessons so enrolled students can see them. The events API allows you to create, view, update, and delete scheduled events.
+
+      ## Requirements
+
+      The events API is only available through the [LifterLMS Events advanced add-on](https://lifterlms.com/product/events/). This plugin must be installed and activated in order to utilize the Events API.
+
+      ## Event Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/EventResponse" showReadOnly={true} showWriteOnly={true} />
+
 x-tagGroups:
 
   - name: API Keys
@@ -515,4 +556,7 @@ x-tagGroups:
       - Group Invitations
       - Group Members
       - Group Seats
+      - Assignments
+      - Assignment Submissions
+      - Events
 

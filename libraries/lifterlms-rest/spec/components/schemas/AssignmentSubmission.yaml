@@ -1,0 +1,146 @@
+description: Student assignment submission object.
+type: object
+properties:
+  id:
+    description: Unique assignment submission identifier.
+    type: integer
+    example: 55
+    readOnly: true
+  assignment_id:
+    description: The WordPress post ID of the assignment.
+    type: integer
+    example: 876
+    readOnly: true
+  student_id:
+    description: The WordPress user ID of the student.
+    type: integer
+    example: 123
+    readOnly: true
+  assignment_type:
+    description: The type of the assignment.
+    type: string
+    enum:
+      - tasklist
+      - essay
+      - upload
+    example: upload
+    readOnly: true
+  status:
+    description: |
+      The status of the submission.
+
+      Submissions with the `pending` status require manual grading.
+    type: string
+    enum:
+      - fail
+      - incomplete
+      - pass
+      - pending
+    example: pending
+    readOnly: true
+  grade:
+    description: The grade of the submission as a percentage. `null` when not yet graded.
+    type: number
+    nullable: true
+    minimum: 0
+    maximum: 100
+    example: 88
+    readOnly: true
+  created:
+    description: 'Date the submission was created. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-21 14:22:05'
+    readOnly: true
+  updated:
+    description: 'Date the submission was last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-21 19:22:05'
+    readOnly: true
+  submitted:
+    description: 'Date the submission was submitted by the student. Format: `Y-m-d H:i:s`. `null` when not yet submitted.'
+    type: string
+    nullable: true
+    example: '2019-05-21 18:00:00'
+    readOnly: true
+  remarks:
+    description: Instructor remarks (HTML) displayed to the student. `null` when no remarks have been left.
+    type: string
+    nullable: true
+    example: <p>Nice work — consider expanding on your conclusion.</p>
+    readOnly: true
+  submission:
+    description: |
+      The raw submission content.
+
+      - Essay: the submitted text.
+      - Tasklist: the task list (with completion statuses).
+      - Upload: the uploaded attachment ID.
+    nullable: true
+    readOnly: true
+  file:
+    description: |
+      File data for upload assignments. Use the `url` to retrieve the submitted file.
+
+      `null` for non-upload submissions.
+    type: object
+    nullable: true
+    readOnly: true
+    properties:
+      id:
+        description: WordPress attachment ID.
+        type: integer
+        example: 4321
+      url:
+        description: Absolute URL to the uploaded file.
+        type: string
+        format: uri
+        example: https://example.tld/wp-content/uploads/essay.pdf
+      filename:
+        description: Original filename of the upload.
+        type: string
+        example: essay.pdf
+      mime_type:
+        description: MIME type of the upload.
+        type: string
+        example: application/pdf
+  _links:
+    description: A map of links to other related API resources.
+    type: object
+    readOnly: true
+    properties:
+      self:
+        description: REST URI to the submission.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/assignment-submissions/55
+      collection:
+        description: REST URI to the submissions collection.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/assignment-submissions
+      assignment:
+        description: REST URI to the parent assignment.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/assignments/876
+      student:
+        description: REST URI to the student.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/students/123
