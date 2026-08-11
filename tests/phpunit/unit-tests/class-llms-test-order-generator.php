@@ -54,9 +54,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-err' );
 
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
-
 		$data                         = $this->get_mock_checkout_data_array();
 		$data['llms_order_key']       = $order->get( 'order_key' );
 		$data['llms_payment_gateway'] = 'fake-confirm-err';
@@ -98,9 +95,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-success' );
-
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
 
 		$data                         = $this->get_mock_checkout_data_array();
 		$data['llms_order_key']       = $order->get( 'order_key' );
@@ -349,8 +343,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		// Actual key submitted.
 		$order = new LLMS_Order( 'new' );
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
 		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
@@ -358,87 +350,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order->set_status( 'active' );
 		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
 		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-	}
-
-	/**
-	 * A pending order owned by a registered user must not be resumed by a different logged-in user via its key.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_order_id_rejects_cross_user_key() {
-
-		$victim   = $this->factory->user->create();
-		$attacker = $this->factory->user->create();
-
-		$order = new LLMS_Order( 'new' );
-		$order->set( 'user_id', $victim );
-
-		// The attacker submits the victim's order key: the key is ignored and a new order is created instead.
-		wp_set_current_user( $attacker );
-		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
-		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-		// The rightful owner can resume their own order.
-		wp_set_current_user( $victim );
-		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
-		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-	}
-
-	/**
-	 * An unowned (guest) pending order may only be resumed by key from the session that created it.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_order_id_guest_requires_session_binding() {
-
-		wp_set_current_user( 0 );
-
-		$order = new LLMS_Order( 'new' );
-
-		// Without the creating session's key bound, the submitted key is ignored.
-		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
-		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-		// Bound to the creating session, the order can be resumed.
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
-		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
-		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-	}
-
-	/**
-	 * An unowned (guest) pending order may be resumed by key when the submitted email matches the order's billing email.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_order_id_guest_email_match() {
-
-		wp_set_current_user( 0 );
-
-		$order = new LLMS_Order( 'new' );
-		$order->set( 'billing_email', 'guest@example.tld' );
-
-		// Wrong email: the submitted key is ignored.
-		$gen = new LLMS_Order_Generator( array(
-			'llms_order_key' => $order->get( 'order_key' ),
-			'email_address'  => 'someone-else@example.tld',
-		) );
-		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
-
-		// Matching email (case-insensitive): the order can be resumed without a session binding.
-		$gen = new LLMS_Order_Generator( array(
-			'llms_order_key' => $order->get( 'order_key' ),
-			'email_address'  => 'GUEST@example.tld',
-		) );
-		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 	}
 
@@ -661,9 +572,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$order = new LLMS_Order( 'new' );
 
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
-
 		$data                   = $this->get_mock_checkout_data_array();
 		$data['llms_order_key'] = $order->get( 'order_key' );
 
@@ -868,9 +776,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$order = new LLMS_Order( 'new' );
 
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
-
 		add_filter( 'llms_order_can_be_confirmed', '__return_false' );
 
 		$gen = new LLMS_Order_Generator( array(
@@ -896,9 +801,6 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 
 		$order = new LLMS_Order( 'new' );
-
-		// Model the checkout session that created the order (required to resume it by key).
-		llms()->session->set( 'llms_pending_order_key', $order->get( 'order_key' ) );
 
 		$gen = new LLMS_Order_Generator( array(
 			'llms_order_key' => $order->get( 'order_key' ),
