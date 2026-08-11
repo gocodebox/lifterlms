@@ -44,7 +44,7 @@ properties:
     enum:
       - publish
       - draft
-    default: draft
+    default: publish
   lesson_id:
     description: WordPress post ID of the quiz's parent lesson. `0` indicates an "orphaned" quiz which can be edited and viewed by instructors and admins but cannot be taken by students.
     type: integer

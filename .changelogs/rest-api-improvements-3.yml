@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: New quizzes and other REST-created post types now default to published status when status is omitted from the create request.
