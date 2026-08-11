@@ -132,7 +132,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 		// Boolean ("yesno") quiz settings.
 		foreach ( array( 'limit_attempts', 'limit_time', 'show_correct_answer', 'random_questions', 'can_be_resumed', 'disable_retake' ) as $prop ) {
 			if ( ! empty( $schema['properties'][ $prop ] ) && isset( $request[ $prop ] ) ) {
-				$prepared_item[ $prop ] = llms_bool_to_string( $request[ $prop ] );
+				$prepared_item[ $prop ] = $request[ $prop ] ? 'yes' : 'no';
 			}
 		}
 

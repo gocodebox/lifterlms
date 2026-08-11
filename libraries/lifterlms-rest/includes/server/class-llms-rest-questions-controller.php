@@ -161,21 +161,21 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 
 		if ( ! empty( $schema['properties']['video_src'] ) && isset( $request['video_src'] ) ) {
 			$prepared_item['video_src']     = $request['video_src'];
-			$prepared_item['video_enabled'] = llms_bool_to_string( ! empty( $request['video_src'] ) );
+			$prepared_item['video_enabled'] = empty( $request['video_src'] ) ? 'no' : 'yes';
 		}
 
 		if ( ! empty( $schema['properties']['clarifications'] ) && isset( $request['clarifications'] ) ) {
 			$prepared_item['clarifications']         = $request['clarifications'];
-			$prepared_item['clarifications_enabled'] = llms_bool_to_string( ! empty( $request['clarifications'] ) );
+			$prepared_item['clarifications_enabled'] = empty( $request['clarifications'] ) ? 'no' : 'yes';
 		}
 
 		if ( ! empty( $schema['properties']['multi_choices'] ) && isset( $request['multi_choices'] ) ) {
-			$prepared_item['multi_choices'] = llms_bool_to_string( $request['multi_choices'] );
+			$prepared_item['multi_choices'] = $request['multi_choices'] ? 'yes' : 'no';
 		}
 
 		// The question description lives in post_content and its display is controlled by description_enabled.
 		if ( isset( $prepared_item['post_content'] ) ) {
-			$prepared_item['description_enabled'] = llms_bool_to_string( ! empty( $prepared_item['post_content'] ) );
+			$prepared_item['description_enabled'] = empty( $prepared_item['post_content'] ) ? 'no' : 'yes';
 		}
 
 		/**
