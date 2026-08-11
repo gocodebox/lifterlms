@@ -2,8 +2,8 @@
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @since [version] Always sync temp-id and `_forceSync` models even while focused.
- * @version [version]
+ * @since 10.1.1 Always sync temp-id and `_forceSync` models even while focused.
+ * @version 10.1.1
  */
 define( [], function() {
 
@@ -195,10 +195,10 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @since    [version] Always sync temp-id and `_forceSync` models even while focused.
+		 * @since    10.1.1 Always sync temp-id and `_forceSync` models even while focused.
 		 *                     Skipping them dropped attached/cloned lessons from the save payload
 		 *                     when the settings panel auto-focused the title after a permalink edit.
-		 * @version  [version]
+		 * @version  10.1.1
 		 */
 		function get_changed_attributes( model ) {
 
@@ -322,7 +322,7 @@ define( [], function() {
 		 * Used after a full sync (temp-id create or `_forceSync` attach) so residual
 		 * dirty state from relationship initialization cannot keep the save button active.
 		 *
-		 * @since [version]
+		 * @since 10.1.1
 		 *
 		 * @param {Object} model Backbone.Model instance.
 		 * @return {void}
@@ -363,9 +363,9 @@ define( [], function() {
 		 * @return   {Boolean} True when this was a full sync (caller should restart the tree).
 		 * @since    3.16.11
 		 * @since    3.19.4 Unknown.
-		 * @since    [version] Return whether this was a full sync; fix child-prop omit;
+		 * @since    10.1.1 Return whether this was a full sync; fix child-prop omit;
 		 *                     defer tree restart to the caller until after child updates apply.
-		 * @version  [version]
+		 * @version  10.1.1
 		 */
 		function maybe_restart_tracking( model, data ) {
 

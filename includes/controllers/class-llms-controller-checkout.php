@@ -111,12 +111,6 @@ class LLMS_Controller_Checkout {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
 
-		// Ensure the current request is authorized to confirm the located order.
-		$email = llms_filter_input( INPUT_POST, 'email_address', FILTER_SANITIZE_EMAIL );
-		if ( ! llms_current_user_can_resume_order( $order, $email ) ) {
-			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
-		}
-
 		// Can the order be confirmed?
 		if ( ! $order->can_be_confirmed() ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
@@ -250,9 +244,7 @@ class LLMS_Controller_Checkout {
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
-			$email  = llms_filter_input( INPUT_POST, 'email_address', FILTER_SANITIZE_EMAIL ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
-			// Only reuse the located order when the current request is authorized to resume it; otherwise create a new order.
-			if ( $locate && llms_current_user_can_resume_order( $locate, $email ) ) {
+			if ( $locate ) {
 				$order_id = $locate;
 			}
 		}
@@ -269,9 +261,6 @@ class LLMS_Controller_Checkout {
 		$_POST['llms_order_key'] = $order->get( 'order_key' );
 
 		$order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
-
-		// Bind guest orders to the current session so they can be resumed only from the browser that created them.
-		llms_set_pending_order_session( $order );
 
 		// Pass to the gateway to start processing.
 		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
@@ -315,9 +304,6 @@ class LLMS_Controller_Checkout {
 			$generator->get_user_data(),
 			$generator->get_coupon()
 		);
-
-		// Bind guest orders to the current session so they can be resumed only from the browser that created them.
-		llms_set_pending_order_session( $order );
 
 		// Automatically add the order key to non-error return arrays.
 		if ( ! is_wp_error( $handle ) ) {

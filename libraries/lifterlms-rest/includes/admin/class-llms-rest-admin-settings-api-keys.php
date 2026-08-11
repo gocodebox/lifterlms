@@ -178,7 +178,7 @@ class LLMS_Rest_Admin_Settings_API_Keys {
 								'admin.php'
 							)
 						),
-						'dl-key',
+						'dl-key-' . $key->get( 'id' ),
 						'dl-key-nonce'
 					);
 					$buttons     .= '<a class="llms-button-primary" href="' . $download_url . '" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> ' . __( 'Download Keys', 'lifterlms' ) . '</a>';

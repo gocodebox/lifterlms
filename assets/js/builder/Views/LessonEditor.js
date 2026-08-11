@@ -5,8 +5,8 @@
  *
  * @since 3.17.0
  * @since 3.35.2 Added filter `llms_lesson_rerender_change_events` to view re-render change events.
- * @since [version] Only autofocus the title on the initial render.
- * @version [version]
+ * @since 10.1.1 Only autofocus the title on the initial render.
+ * @version 10.1.1
  */
 define( [
 		'Views/_Detachable',
@@ -106,7 +106,7 @@ define( [
 		 *
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Only autofocus the title on the initial render.
+		 * @since 10.1.1 Only autofocus the title on the initial render.
 		 *                     Refocusing after permalink/`name` changes left `_has_focus` set and
 		 *                     caused attached lessons to be skipped on save.
 		 *

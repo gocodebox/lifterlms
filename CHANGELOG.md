@@ -1,6 +1,34 @@
 LifterLMS Changelog
 ===================
 
+v10.1.1 - 2026-08-11
+--------------------
+
+##### Updates and Enhancements
+
++ Increased entropy used when generating order keys.
+
+##### Bug Fixes
+
++ Fixed saving when attaching an existing lesson after editing its title or permalink in the Course Builder.
++ Fixed the "View add-on details" tooltip being cut off on the Add-ons screen. [#3301](https://github.com/gocodebox/lifterlms/issues/3301)
++ Fixed access plan details not saving when using the course or membership Save button in the block editor. [#3256](https://github.com/gocodebox/lifterlms/issues/3256), [#3300](https://github.com/gocodebox/lifterlms/issues/3300)
++ Fixed duplicate engagement emails sent to all recipients when multiple emails share the same triggering post.
++ Aligned admin Select2 fields with WordPress 7.0 form control sizing. [#3291](https://github.com/gocodebox/lifterlms/issues/3291)
++ Fixed lesson completion being rejected when the Mark Complete button was clicked the moment the minimum time requirement was reached, before the next time-tracking heartbeat had persisted the elapsed time. [#3295](https://github.com/gocodebox/lifterlms/issues/3295)
++ Prevented a fatal error when cloning a course or creating a course cohort if a cloned lesson or course could not be loaded during prerequisite handling.
+
+##### Developer Notes
+
++ Corrected the REST API student progress `status` property description to reflect the completion status rather than the enrollment status, and noted that the students ability lists LifterLMS students only.
+
+##### Security Fixes
+
++ Additional checks on checkout completion redirects.
++ Additional checks when creating users during course import.
++ Additional authorization checks on REST API key and webhook admin actions.
+
+
 v10.1.0 - 2026-07-31
 --------------------
 

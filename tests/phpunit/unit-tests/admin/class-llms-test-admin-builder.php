@@ -1001,7 +1001,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test attaching an orphan lesson via update_lessons while also updating title and slug.
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @return void
 	 */
