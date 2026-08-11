@@ -5,7 +5,7 @@
  * restart_tracking_tree runs after a temp-id quiz sync (circular
  * Backbone parent/child refs in model attributes).
  *
- * @since [version]
+ * @since 10.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

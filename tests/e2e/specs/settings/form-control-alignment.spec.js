@@ -1,7 +1,7 @@
 /**
  * Admin form control alignment (WP 7.0+)
  *
- * @since [version]
+ * @since 10.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

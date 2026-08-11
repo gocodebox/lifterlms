@@ -41,7 +41,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Add WordPress version body classes used for admin CSS compatibility.
 	 *
-	 * @since [version]
+	 * @since 10.1.1
 	 *
 	 * @param string $classes Space-separated admin body classes.
 	 * @return string

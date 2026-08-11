@@ -1,3 +1,0 @@
-significance: patch
-type: security
-entry: "Additional authorization checks on REST API key and webhook admin actions."

@@ -7,8 +7,8 @@
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
  * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
- * @since [version] Persist access plans when the block editor saves the course/membership post.
- * @version [version]
+ * @since 10.1.1 Persist access plans when the block editor saves the course/membership post.
+ * @version 10.1.1
  */
 ( function( $ ) {
 
@@ -619,7 +619,7 @@
 		 *
 		 * @return  array
 		 * @since   3.29.0
-		 * @version [version]
+		 * @version 10.1.1
 		 */
 		this.get_plans_array = function() {
 
@@ -754,7 +754,7 @@
 		 * Access plan fields are stored via AJAX (not the post save request), so
 		 * listen for non-autosave editor saves and run the same path as "Save All Plans".
 		 *
-		 * @since [version]
+		 * @since 10.1.1
 		 *
 		 * @return {void}
 		 */
