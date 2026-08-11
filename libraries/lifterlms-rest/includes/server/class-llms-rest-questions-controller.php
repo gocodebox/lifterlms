@@ -32,6 +32,22 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	protected $rest_base = 'questions';
 
 	/**
+	 * Schema properties available for ordering the collection.
+	 *
+	 * Default to menu_order to match {@see LLMS_Question_Manager::get_questions()}.
+	 *
+	 * @var string[]
+	 */
+	protected $orderby_properties = array(
+		'menu_order',
+		'id',
+		'title',
+		'date_created',
+		'date_updated',
+		'relevance',
+	);
+
+	/**
 	 * Register routes.
 	 *
 	 * Registers the default CRUD routes and an additional nested collection
@@ -178,6 +194,12 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 			$prepared_item['description_enabled'] = empty( $prepared_item['post_content'] ) ? 'no' : 'yes';
 		}
 
+		// Auto-sequence among siblings when creating without an explicit positive menu_order.
+		// The shared posts schema defaults menu_order to 0, so treat 0 as "unset" here.
+		if ( empty( $request['id'] ) && ! empty( $prepared_item['parent_id'] ) && empty( $prepared_item['menu_order'] ) ) {
+			$prepared_item['menu_order'] = $this->get_next_menu_order( $prepared_item['parent_id'] );
+		}
+
 		/**
 		 * Filters a question before it is inserted via the REST API.
 		 *
@@ -188,6 +210,45 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 		 * @param array           $schema        The item schema.
 		 */
 		return apply_filters( 'llms_rest_pre_insert_llms_question', $prepared_item, $request, $schema );
+	}
+
+	/**
+	 * Retrieve the next menu_order for a new question under a quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $parent_id Quiz post ID.
+	 * @return int
+	 */
+	protected function get_next_menu_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'llms_question',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'menu_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_id',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		$last = get_post( $query->posts[0] );
+
+		return $last ? absint( $last->menu_order ) + 1 : 1;
 	}
 
 	/**

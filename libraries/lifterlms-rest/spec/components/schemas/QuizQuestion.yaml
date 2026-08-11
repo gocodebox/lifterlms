@@ -82,19 +82,19 @@ properties:
     description: Whether blank-question answers are treated as case-sensitive during auto-grading. Requires LifterLMS Advanced Quizzes.
     type: boolean
     default: false
-  word_count_min:
+  enable_word_count_min:
     description: Whether a minimum word count is enforced for long-answer questions. Requires LifterLMS Advanced Quizzes.
     type: boolean
     default: false
-  word_count_max:
+  enable_word_count_max:
     description: Whether a maximum word count is enforced for long-answer questions. Requires LifterLMS Advanced Quizzes.
     type: boolean
     default: false
-  words_min:
-    description: Minimum word count for long-answer questions when word_count_min is enabled. Requires LifterLMS Advanced Quizzes.
+  word_count_min:
+    description: Minimum word count for long-answer questions. Only used when enable_word_count_min is true. Requires LifterLMS Advanced Quizzes.
     type: integer
-  words_max:
-    description: Maximum word count for long-answer questions when word_count_max is enabled. Requires LifterLMS Advanced Quizzes.
+  word_count_max:
+    description: Maximum word count for long-answer questions. Only used when enable_word_count_max is true. Requires LifterLMS Advanced Quizzes.
     type: integer
   upload_restrict_filetypes:
     description: Whether uploaded files are restricted to the listed mime types. Requires LifterLMS Advanced Quizzes.

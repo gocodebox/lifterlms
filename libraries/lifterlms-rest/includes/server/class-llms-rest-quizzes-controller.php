@@ -136,6 +136,14 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 			}
 		}
 
+		// Don't persist companion values when their limit toggle is explicitly off.
+		if ( isset( $request['limit_attempts'] ) && ! $request['limit_attempts'] ) {
+			unset( $prepared_item['allowed_attempts'] );
+		}
+		if ( isset( $request['limit_time'] ) && ! $request['limit_time'] ) {
+			unset( $prepared_item['time_limit'] );
+		}
+
 		/**
 		 * Filters a quiz before it is inserted via the REST API.
 		 *
@@ -257,10 +265,10 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 
 		$data['lesson_id']           = $quiz->get( 'lesson_id' );
 		$data['passing_percent']     = $quiz->get( 'passing_percent' );
-		$data['allowed_attempts']    = $quiz->get( 'allowed_attempts' );
 		$data['limit_attempts']      = llms_parse_bool( $quiz->get( 'limit_attempts' ) );
 		$data['limit_time']          = llms_parse_bool( $quiz->get( 'limit_time' ) );
-		$data['time_limit']          = $quiz->get( 'time_limit' );
+		$data['allowed_attempts']    = $data['limit_attempts'] ? absint( $quiz->get( 'allowed_attempts' ) ) : null;
+		$data['time_limit']          = $data['limit_time'] ? absint( $quiz->get( 'time_limit' ) ) : null;
 		$data['show_correct_answer'] = llms_parse_bool( $quiz->get( 'show_correct_answer' ) );
 		$data['random_questions']    = llms_parse_bool( $quiz->get( 'random_questions' ) );
 		$data['can_be_resumed']      = llms_parse_bool( $quiz->get( 'can_be_resumed' ) );
@@ -304,9 +312,8 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 				'context'     => array( 'view', 'edit' ),
 			),
 			'allowed_attempts'    => array(
-				'description' => __( 'Number of times a student is allowed to take the quiz before being locked out of it. Only used when limit_attempts is true.', 'lifterlms' ),
-				'type'        => 'integer',
-				'default'     => 5,
+				'description' => __( 'Number of times a student is allowed to take the quiz before being locked out of it. Only used when limit_attempts is true. `null` when limit_attempts is false.', 'lifterlms' ),
+				'type'        => array( 'integer', 'null' ),
 				'context'     => array( 'view', 'edit' ),
 				'arg_options' => array(
 					'sanitize_callback' => 'absint',
@@ -319,9 +326,8 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 				'context'     => array( 'view', 'edit' ),
 			),
 			'time_limit'          => array(
-				'description' => __( 'Quiz time limit, in minutes. Only used when limit_time is true.', 'lifterlms' ),
-				'type'        => 'integer',
-				'default'     => 30,
+				'description' => __( 'Quiz time limit, in minutes. Only used when limit_time is true. `null` when limit_time is false.', 'lifterlms' ),
+				'type'        => array( 'integer', 'null' ),
 				'context'     => array( 'view', 'edit' ),
 				'arg_options' => array(
 					'sanitize_callback' => 'absint',

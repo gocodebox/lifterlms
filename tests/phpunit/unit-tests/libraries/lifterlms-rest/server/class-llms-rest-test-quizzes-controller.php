@@ -85,6 +85,87 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	}
 
 	/**
+	 * Test create without attempt limiting does not return a default allowed_attempts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_item_unlimited_attempts() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$response = $this->perform_mock_request(
+			'POST',
+			$this->route,
+			array(
+				'title'   => 'Unlimited Attempts Quiz',
+				'content' => 'No attempt limit.',
+			)
+		);
+
+		$this->assertResponseStatusEquals( 201, $response );
+
+		$data = $response->get_data();
+		$this->assertFalse( $data['limit_attempts'] );
+		$this->assertNull( $data['allowed_attempts'] );
+		$this->assertFalse( $data['limit_time'] );
+		$this->assertNull( $data['time_limit'] );
+	}
+
+	/**
+	 * Test questions are listed by menu_order and auto-sequenced on create.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_questions_ordered_by_menu_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$quiz_id = $this->perform_mock_request(
+			'POST',
+			$this->route,
+			array(
+				'title'   => 'Ordered Quiz',
+				'content' => 'Questions should follow menu_order.',
+			)
+		)->get_data()['id'];
+
+		$first = $this->perform_mock_request(
+			'POST',
+			'/llms/v1/questions',
+			array(
+				'title'     => 'First question',
+				'parent_id' => $quiz_id,
+			)
+		);
+		$this->assertResponseStatusEquals( 201, $first );
+		$this->assertEquals( 1, $first->get_data()['menu_order'] );
+
+		$second = $this->perform_mock_request(
+			'POST',
+			'/llms/v1/questions',
+			array(
+				'title'     => 'Second question',
+				'parent_id' => $quiz_id,
+			)
+		);
+		$this->assertResponseStatusEquals( 201, $second );
+		$this->assertEquals( 2, $second->get_data()['menu_order'] );
+
+		$list = $this->perform_mock_request( 'GET', '/llms/v1/quizzes/' . $quiz_id . '/questions' );
+		$this->assertResponseStatusEquals( 200, $list );
+
+		$ids = wp_list_pluck( $list->get_data(), 'id' );
+		$this->assertEquals(
+			array( $first->get_data()['id'], $second->get_data()['id'] ),
+			$ids
+		);
+	}
+
+	/**
 	 * Test creating a question with boolean-backed settings.
 	 *
 	 * @since [version]

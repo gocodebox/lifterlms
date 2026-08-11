@@ -65,8 +65,9 @@ properties:
     default: false
     example: true
   allowed_attempts:
-    description: Limit the number of times a student can attempt the quiz before the quiz is locked. Only used when `limit_attempts` is `true`.
+    description: Limit the number of times a student can attempt the quiz before the quiz is locked. Only used when `limit_attempts` is `true`. `null` when `limit_attempts` is `false`.
     type: integer
+    nullable: true
     minimum: 1
     example: 5
   limit_time:
@@ -78,8 +79,9 @@ properties:
     default: false
     example: true
   time_limit:
-    description: Determines the number of minutes allowed for each quiz attempt. Only used when `limit_time` is `true`.
+    description: Determines the number of minutes allowed for each quiz attempt. Only used when `limit_time` is `true`. `null` when `limit_time` is `false`.
     type: integer
+    nullable: true
     minimum: 1
     example: 90
   show_correct_answer:
