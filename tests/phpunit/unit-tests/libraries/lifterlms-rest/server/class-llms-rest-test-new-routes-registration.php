@@ -38,6 +38,7 @@ class LLMS_REST_Test_New_Routes_Registration extends LLMS_REST_Unit_Test_Case_Se
 			'/llms/v1/certificates/(?P<id>[\d]+)',
 			'/llms/v1/awarded-certificates',
 			'/llms/v1/awarded-certificates/(?P<id>[\d]+)',
+			'/llms/v1/students/(?P<id>[\d]+)/grades',
 		);
 
 		foreach ( $expected as $route ) {

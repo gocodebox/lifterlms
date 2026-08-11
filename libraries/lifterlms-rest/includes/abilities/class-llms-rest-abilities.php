@@ -361,6 +361,20 @@ class LLMS_REST_Abilities {
 				),
 			),
 
+			// Student grades.
+			array(
+				'name'        => 'get-student-grades',
+				'label'       => __( 'Get Student Grades', 'lifterlms' ),
+				'description' => __( 'Retrieves a student\'s grades for each enrolled course, including the overall course grade and a per-lesson breakdown with lesson, quiz, and (when available via add-ons) assignment grades. Optionally filter by course.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Students_Grades_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/students/{id}/grades',
+				'path_params' => array(
+					'id' => $student_id_desc,
+				),
+			),
+
 			// Quizzes: sub-resources.
 			array(
 				'name'        => 'get-quiz-questions',

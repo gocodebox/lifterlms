@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: Added a read-only REST API endpoint for student grades with per-lesson course grade breakdowns, added a readonly grade field to student progress responses, and registered a student grades ability with the WordPress Abilities API.

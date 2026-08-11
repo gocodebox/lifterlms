@@ -250,6 +250,12 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 					'type'        => 'number',
 					'readonly'    => true,
 				),
+				'grade'        => array(
+					'description' => __( 'Student\'s grade for the course or lesson as a percentage. `null` when no gradable elements have been graded yet.', 'lifterlms' ),
+					'type'        => array( 'number', 'null' ),
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
 			),
 		);
 	}
@@ -296,6 +302,9 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		$obj->status = $obj->progress < 100 ? 'incomplete' : 'complete';
+
+		$grade      = $student->get_grade( $post_id, false );
+		$obj->grade = is_numeric( $grade ) ? (float) $grade : null;
 
 		$obj->date_updated = $this->get_date( $student, $post, 'DESC' );
 		$obj->date_created = $this->get_date( $student, $post, 'ASC' );

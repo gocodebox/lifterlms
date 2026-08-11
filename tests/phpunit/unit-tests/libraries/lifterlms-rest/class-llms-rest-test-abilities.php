@@ -71,6 +71,7 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 				'get-progress',
 				'update-progress',
 				'delete-progress',
+				'get-student-grades',
 				'get-quiz-questions',
 				'list-quiz-attempts',
 				'get-quiz-attempt',

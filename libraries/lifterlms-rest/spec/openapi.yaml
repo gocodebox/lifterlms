@@ -262,6 +262,16 @@ tags:
 
       <SchemaDefinition schemaRef="#/components/schemas/Progress" showReadOnly={true} showWriteOnly={true} />
 
+  - name: Student Grades
+    description: |
+      The Student Grades API allows you to retrieve a student's grades for each course they are enrolled in, including the overall course grade and a per-lesson breakdown with lesson and quiz grades.
+
+      When the LifterLMS Assignments add-on is active, each lesson additionally includes an `assignment` grade block, and assignment grades are automatically factored into lesson and course grades.
+
+      ## Student Grades Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/StudentGrades" showReadOnly={true} showWriteOnly={true} />
+
   - name: Webhooks
     description: |
       Webhooks can be created to notify you about LMS-related events that happen on your site.
@@ -492,6 +502,7 @@ x-tagGroups:
       - Students
       - Student Enrollments
       - Student Progress
+      - Student Grades
 
   - name: Webhooks
     tags:
