@@ -78,12 +78,22 @@ require( [
 			/**
 			 * Recursively clone an object via _.clone().
 			 *
+			 * Relationship children (Backbone.Model / Backbone.Collection) are kept by
+			 * reference. They form parent↔child cycles (e.g. lesson.quiz → questions →
+			 * collection.parent → quiz) and are change-tracked on their own models.
+			 *
 			 * @since 3.17.7
 			 *
 			 * @param {Object} obj Object to clone.
 			 * @return {Object}
 			 */
 			deepClone: function( obj ) {
+
+				// Nested relationship models/collections are tracked separately; cloning
+				// them recurses forever via collection.parent / model.collection cycles.
+				if ( obj instanceof Backbone.Model || obj instanceof Backbone.Collection ) {
+					return obj;
+				}
 
 				var clone = _.clone( obj );
 
