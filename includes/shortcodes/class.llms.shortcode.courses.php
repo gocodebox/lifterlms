@@ -189,6 +189,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	protected function get_output() {
 
 		$this->enqueue_script( 'llms-jquery-matchheight' );
+		llms()->assets->enqueue_style( 'lifterlms-styles' );
 
 		ob_start();
 

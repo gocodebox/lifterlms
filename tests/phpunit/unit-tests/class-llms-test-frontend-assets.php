@@ -25,7 +25,26 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 
 		parent::set_up();
 		$this->clear_inline_scripts();
+		$this->dequeue_test_assets();
 
+	}
+
+	/**
+	 * Dequeue assets that tests may add to the WP scripts/styles queue so each test starts clean.
+	 *
+	 * @return void
+	 */
+	private function dequeue_test_assets() {
+
+		$scripts = array( 'llms', 'llms-ajax', 'llms-form-checkout', 'llms-notifications', 'llms-quiz', 'llms-favorites', 'llms-iziModal', 'llms-select2', 'llms-jquery-matchheight', 'webui-popover', 'jquery-ui-tooltip', 'jquery-ui-datepicker', 'jquery-ui-slider' );
+		$styles  = array( 'lifterlms-styles', 'webui-popover', 'llms-select2-styles', 'llms-iziModal', 'certificates' );
+
+		foreach ( $scripts as $handle ) {
+			wp_dequeue_script( $handle );
+		}
+		foreach ( $styles as $handle ) {
+			wp_dequeue_style( $handle );
+		}
 	}
 
 	/**
@@ -142,10 +161,160 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 
 		// Dashboard.
 		$this->go_to( llms_get_endpoint_url( 'orders', 123, llms_get_page_url( 'myaccount' ) ) );
-		$this->assertEquals( 
-			array( 'switchPaymentSource' ), 
+		$this->assertEquals(
+			array( 'switchPaymentSource' ),
 			array_keys( LLMS_Unit_Test_Util::call_method( 'LLMS_Frontend_Assets', 'get_checkout_urls' ) )
 		);
 	}
 
+	/**
+	 * Data provider for context-specific asset handles.
+	 *
+	 * @return array[]
+	 */
+	public function data_provider_llms_context_handles() {
+
+		return array(
+			array( 'script', 'llms-ajax' ),
+			array( 'script', 'jquery-ui-tooltip' ),
+			array( 'script', 'jquery-ui-datepicker' ),
+			array( 'script', 'jquery-ui-slider' ),
+			array( 'script', 'webui-popover' ),
+			array( 'style', 'webui-popover' ),
+		);
+	}
+
+	/**
+	 * Test that context-specific assets are NOT enqueued on a plain (non-LifterLMS) page.
+	 *
+	 * @dataProvider data_provider_llms_context_handles
+	 *
+	 * @param string $type   Asset type ('script' or 'style').
+	 * @param string $handle Asset handle.
+	 * @return void
+	 */
+	public function test_context_assets_not_enqueued_on_plain_page( $type, $handle ) {
+
+		$this->go_to( home_url( '/?p=1' ) );
+
+		LLMS_Frontend_Assets::enqueue_styles();
+		LLMS_Frontend_Assets::enqueue_scripts();
+
+		$this->assertAssetNotEnqueued( $type, $handle );
+	}
+
+	/**
+	 * Test that context-specific assets ARE enqueued on a LifterLMS course page.
+	 *
+	 * @dataProvider data_provider_llms_context_handles
+	 *
+	 * @param string $type   Asset type ('script' or 'style').
+	 * @param string $handle Asset handle.
+	 * @return void
+	 */
+	public function test_context_assets_enqueued_on_course_page( $type, $handle ) {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$this->go_to( get_permalink( $course_id ) );
+
+		LLMS_Frontend_Assets::enqueue_styles();
+		LLMS_Frontend_Assets::enqueue_scripts();
+
+		$this->assertAssetIsEnqueued( $type, $handle );
+	}
+
+	/**
+	 * Test that the llms-form-checkout script loads on account and checkout pages.
+	 *
+	 * @return void
+	 */
+	public function test_form_checkout_enqueued_on_account_and_checkout() {
+
+		LLMS_Install::create_pages();
+
+		// Checkout page.
+		$this->go_to( llms_get_page_url( 'checkout' ) );
+		LLMS_Frontend_Assets::enqueue_scripts();
+		$this->assertAssetIsEnqueued( 'script', 'llms-form-checkout' );
+
+		wp_dequeue_script( 'llms-form-checkout' );
+
+		// Account page.
+		$this->go_to( llms_get_page_url( 'myaccount' ) );
+		LLMS_Frontend_Assets::enqueue_scripts();
+		$this->assertAssetIsEnqueued( 'script', 'llms-form-checkout' );
+	}
+
+	/**
+	 * Test the llms_load_frontend_assets filter can force-load assets on a plain page.
+	 *
+	 * @return void
+	 */
+	public function test_load_frontend_assets_filter_force_on() {
+
+		$callback = function () {
+			return true;
+		};
+		add_filter( 'llms_load_frontend_assets', $callback );
+
+		$this->go_to( home_url( '/?p=1' ) );
+
+		LLMS_Frontend_Assets::enqueue_styles();
+		LLMS_Frontend_Assets::enqueue_scripts();
+
+		$this->assertAssetIsEnqueued( 'script', 'llms-ajax' );
+		$this->assertAssetIsEnqueued( 'script', 'webui-popover' );
+		$this->assertAssetIsEnqueued( 'style', 'webui-popover' );
+
+		remove_filter( 'llms_load_frontend_assets', $callback );
+	}
+
+	/**
+	 * Test that lifterlms-styles and the llms script still load by default on a plain page.
+	 *
+	 * These stay always-on for backward compatibility; the filter exists to suppress them.
+	 *
+	 * @return void
+	 */
+	public function test_core_styles_scripts_always_on_by_default() {
+
+		$this->go_to( home_url( '/?p=1' ) );
+
+		LLMS_Frontend_Assets::enqueue_styles();
+		LLMS_Frontend_Assets::enqueue_scripts();
+
+		$this->assertAssetIsEnqueued( 'style', 'lifterlms-styles' );
+		$this->assertAssetIsEnqueued( 'script', 'llms' );
+	}
+
+	/**
+	 * Test the llms_load_frontend_assets filter can suppress the gated context assets.
+	 *
+	 * On an LLMS page with the filter forced off, the gated assets stay suppressed
+	 * while the always-on core assets (lifterlms-styles, llms) still load.
+	 *
+	 * @return void
+	 */
+	public function test_load_frontend_assets_filter_force_off() {
+
+		$callback = function () {
+			return false;
+		};
+		add_filter( 'llms_load_frontend_assets', $callback );
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$this->go_to( get_permalink( $course_id ) );
+
+		LLMS_Frontend_Assets::enqueue_styles();
+		LLMS_Frontend_Assets::enqueue_scripts();
+
+		// Gated assets stay suppressed even on an LLMS page.
+		$this->assertAssetNotEnqueued( 'script', 'llms-ajax' );
+		$this->assertAssetNotEnqueued( 'script', 'webui-popover' );
+		$this->assertAssetNotEnqueued( 'style', 'webui-popover' );
+
+		remove_filter( 'llms_load_frontend_assets', $callback );
+	}
+
 }
+
