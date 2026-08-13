@@ -575,7 +575,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 				'can_be_manually_graded' => $attempt_question->can_be_manually_graded(),
 				'remarks'                => $attempt_question->get( 'remarks' ),
 				'answer'                 => (array) $attempt_question->get( 'answer' ),
-				'answer_rendered'        => $attempt_question->get_answer(),
+				'answer_rendered'        => $question ? $attempt_question->get_answer() : '',
 				'files'                  => $this->get_answer_files( $attempt_question ),
 			);
 
