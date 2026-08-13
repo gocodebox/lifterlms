@@ -1170,6 +1170,53 @@ class LLMS_REST_Test_Students_Controllers extends LLMS_REST_Unit_Test_Case_Users
 	}
 
 	/**
+	 * Test search is not limited to the student role.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_search_includes_non_student_roles() {
+
+		wp_set_current_user( $this->user_admin );
+
+		$admin_id = $this->factory->user->create(
+			array(
+				'role'         => 'administrator',
+				'display_name' => 'Unique Admin Searchname ' . wp_generate_password( 8, false ),
+			)
+		);
+		$admin    = get_userdata( $admin_id );
+
+		$listed = $this->perform_mock_request( 'GET', $this->route );
+		$this->assertFalse( in_array( $admin_id, wp_list_pluck( $listed->get_data(), 'id' ), true ) );
+
+		$searched = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'search' => $admin->display_name,
+			)
+		);
+
+		$this->assertResponseStatusEquals( 200, $searched );
+		$this->assertContains( $admin_id, wp_list_pluck( $searched->get_data(), 'id' ) );
+
+		$filtered = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'search' => $admin->display_name,
+				'roles'  => 'student',
+			)
+		);
+
+		$this->assertFalse( in_array( $admin_id, wp_list_pluck( $filtered->get_data(), 'id' ), true ) );
+	}
+
+	/**
 	 * Test search with wrong search columns
 	 *
 	 * @since 1.0.0-beta.12
