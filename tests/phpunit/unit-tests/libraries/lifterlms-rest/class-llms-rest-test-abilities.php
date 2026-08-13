@@ -325,5 +325,6 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 		$result = $this->get_ability( 'get-course' )->execute( array( 'id' => 99999999 ) );
 
 		$this->assertTrue( is_wp_error( $result ) );
+		$this->assertEquals( 'llms_rest_not_found', $result->get_error_code() );
 	}
 }

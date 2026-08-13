@@ -367,10 +367,10 @@ class LLMS_REST_Ability_Factory {
 	/**
 	 * Check permissions by delegating to the controller's permission check for the operation.
 	 *
-	 * The controller's `WP_Error` results are normalized to `false`: `WP_Ability::execute()`
-	 * treats a `WP_Error` permission result as incorrect usage, and execution dispatches
-	 * through `rest_do_request()` anyway, which enforces the route's own permission callback
-	 * and surfaces its detailed error.
+	 * `WP_Ability::execute()` treats a `WP_Error` permission result as incorrect usage, so
+	 * controller errors are normalized to a boolean. A 404 is treated as allowed so
+	 * execution can dispatch through `rest_do_request()` and surface the real not-found
+	 * error. Authorization failures (401/403) remain `false`.
 	 *
 	 * @since 10.1.0
 	 *
@@ -387,7 +387,19 @@ class LLMS_REST_Ability_Factory {
 			return false;
 		}
 
-		return true === $controller->{$method}( self::build_request( $config, $input ) );
+		$result = $controller->{$method}( self::build_request( $config, $input ) );
+
+		if ( true === $result ) {
+			return true;
+		}
+
+		if ( is_wp_error( $result ) ) {
+			$data   = $result->get_error_data();
+			$status = is_array( $data ) && isset( $data['status'] ) ? (int) $data['status'] : 0;
+			return 404 === $status;
+		}
+
+		return false;
 	}
 
 	/**

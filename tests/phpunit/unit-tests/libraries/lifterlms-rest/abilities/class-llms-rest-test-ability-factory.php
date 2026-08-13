@@ -91,4 +91,72 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 		$this->assertArrayHasKey( 'quiz_id', $schema['properties'] );
 		$this->assertArrayHasKey( 'anyOf', $schema );
 	}
+
+	/**
+	 * Item ability config used by permission tests.
+	 *
+	 * @return array
+	 */
+	private function get_item_config() {
+		return array(
+			'method'     => 'GET',
+			'route'      => '/llms/v1/courses/{id}',
+			'operation'  => 'get',
+			'controller' => 'LLMS_REST_Courses_Controller',
+		);
+	}
+
+	/**
+	 * Test that a REST 404 from the permission check is treated as allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_check_permission_allows_not_found() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$allowed = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'check_permission',
+			array(
+				$this->get_item_config(),
+				array( 'id' => 99999999 ),
+			)
+		);
+
+		$this->assertTrue( $allowed );
+	}
+
+	/**
+	 * Test that authorization failures from the permission check remain denied.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_check_permission_denies_unauthorized() {
+
+		wp_set_current_user( 0 );
+
+		$allowed = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'check_permission',
+			array(
+				array(
+					'method'     => 'POST',
+					'route'      => '/llms/v1/courses',
+					'operation'  => 'create',
+					'controller' => 'LLMS_REST_Courses_Controller',
+				),
+				array(
+					'title'   => 'Nope',
+					'content' => 'Nope',
+				),
+			)
+		);
+
+		$this->assertFalse( $allowed );
+	}
 }
