@@ -429,7 +429,7 @@ class LLMS_Media_Protector {
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ), 10, 1 );
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
-		$this->add_authorization_meta_to_media_post( $media_id );
+		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
 
 		return $media_id;
 	}
