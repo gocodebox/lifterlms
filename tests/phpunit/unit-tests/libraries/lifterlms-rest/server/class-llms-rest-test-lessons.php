@@ -516,6 +516,41 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test creating lessons without order assigns sequential sibling order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_auto_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quiz'     => 0,
+			)
+		);
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $course->get_sections( 'ids' )[0],
+			)
+		);
+
+		$first  = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+		$second = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $first );
+		$this->assertResponseStatusEquals( 201, $second );
+		$this->assertEquals( 1, $first->get_data()['order'] );
+		$this->assertEquals( 2, $second->get_data()['order'] );
+	}
+
+	/**
 	 * Test creating lesson auth errors.
 	 *
 	 * @since 1.0.0-beta.7

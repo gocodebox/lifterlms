@@ -207,6 +207,35 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test creating sections without order assigns sequential sibling order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_section_auto_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course_id    = $this->factory->course->create( array( 'sections' => 0 ) );
+		$section_args = $this->sample_section_args;
+		$section_args['parent_id'] = $course_id;
+
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_body_params( $section_args );
+		$first = $this->server->dispatch( $request );
+
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_body_params( $section_args );
+		$second = $this->server->dispatch( $request );
+
+		$this->assertEquals( 201, $first->get_status() );
+		$this->assertEquals( 201, $second->get_status() );
+		$this->assertEquals( 1, $first->get_data()['order'] );
+		$this->assertEquals( 2, $second->get_data()['order'] );
+	}
+
+	/**
 	 * Test that an instructor cannot create a section inside a course they cannot edit.
 	 *
 	 * @since 1.0.6

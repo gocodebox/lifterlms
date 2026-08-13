@@ -195,6 +195,9 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			}
 
 			$prepared_item['order'] = $request['order'];
+		} elseif ( empty( $request['id'] ) && ! is_wp_error( $prepared_item ) ) {
+			$parent_id              = isset( $prepared_item['parent_section'] ) ? $prepared_item['parent_section'] : 0;
+			$prepared_item['order'] = $this->get_next_order( $parent_id );
 		}
 
 		// Public (free lesson).
@@ -275,6 +278,44 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 		 * @param array           $schema        The item schema.
 		 */
 		return apply_filters( 'llms_rest_pre_insert_lesson', $prepared_item, $request, $schema );
+	}
+
+	/**
+	 * Retrieve the next order for a new lesson in a section.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $parent_id Section post ID.
+	 * @return int
+	 */
+	protected function get_next_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'lesson',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_section',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_meta( $query->posts[0], '_llms_order', true ) ) + 1;
 	}
 
 	/**
@@ -361,12 +402,10 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			'order'        => array(
 				'description' => __( 'Order of the lesson within its immediate parent.', 'lifterlms' ),
 				'type'        => 'integer',
-				'default'     => 1,
 				'context'     => array( 'view', 'edit' ),
 				'arg_options' => array(
 					'sanitize_callback' => 'absint',
 				),
-				'required'    => true,
 			),
 			'prerequisite' => array(
 				'description' => __( 'Lesson ID of the prerequisite lesson.', 'lifterlms' ),
