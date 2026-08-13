@@ -179,6 +179,29 @@ class LLMS_REST_Ability_Factory {
 			$schema['required'][] = $param;
 		}
 
+		$path_params = array_keys( self::get_path_params( $config ) );
+		if ( 1 === count( $path_params ) && 'id' !== $path_params[0] ) {
+			$param          = $path_params[0];
+			$other_required = array_values( array_diff( $schema['required'], array( $param ) ) );
+
+			$schema['properties']['id'] = array(
+				'type'        => 'integer',
+				'description' => sprintf(
+					/* translators: %s: parent path parameter name, e.g. quiz_id */
+					__( 'Alias for %s.', 'lifterlms' ),
+					$param
+				),
+			);
+			$schema['anyOf'] = array(
+				array( 'required' => array_merge( $other_required, array( $param ) ) ),
+				array( 'required' => array_merge( $other_required, array( 'id' ) ) ),
+			);
+			$schema['required'] = $other_required;
+			if ( empty( $schema['required'] ) ) {
+				unset( $schema['required'] );
+			}
+		}
+
 		if ( isset( $schema['required'] ) ) {
 			$schema['required'] = array_values( array_unique( $schema['required'] ) );
 		}
@@ -385,12 +408,18 @@ class LLMS_REST_Ability_Factory {
 	 */
 	private static function build_request( $config, $input = null ) {
 
-		$input      = is_array( $input ) ? $input : array();
-		$route      = $config['route'];
-		$params     = $input;
-		$url_params = array();
+		$input       = is_array( $input ) ? $input : array();
+		$route       = $config['route'];
+		$params      = $input;
+		$url_params  = array();
+		$path_params = array_keys( self::get_path_params( $config ) );
 
-		foreach ( array_keys( self::get_path_params( $config ) ) as $param ) {
+		if ( 1 === count( $path_params ) && 'id' !== $path_params[0] && isset( $params['id'] ) && ! isset( $params[ $path_params[0] ] ) ) {
+			$params[ $path_params[0] ] = $params['id'];
+			unset( $params['id'] );
+		}
+
+		foreach ( $path_params as $param ) {
 			if ( isset( $params[ $param ] ) ) {
 				$url_params[ $param ] = absint( $params[ $param ] );
 				$route                = str_replace( '{' . $param . '}', (string) $url_params[ $param ], $route );
