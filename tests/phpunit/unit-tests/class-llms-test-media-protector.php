@@ -423,4 +423,46 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 		$this->assertTrue( $authorized );
 	}
+
+	/**
+	 * Test that handle_upload() stores the supplied authorization hook name.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_upload_persists_custom_hook_name() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
+		file_put_contents( $tmp, 'test' );
+
+		$_FILES['file'] = array(
+			'name'     => 'llms-media-protector-test.txt',
+			'tmp_name' => $tmp,
+			'type'     => 'text/plain',
+			'error'    => 0,
+			'size'     => filesize( $tmp ),
+		);
+
+		$protector = new LLMS_Media_Protector();
+		$media_id  = $protector->handle_upload(
+			'file',
+			0,
+			'llms_test_authorize_media_view',
+			array(),
+			array(
+				'test_form' => false,
+				'action'    => 'testing',
+			)
+		);
+
+		unset( $_FILES['file'] );
+
+		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
+		$this->assertSame( 'llms_test_authorize_media_view', $protector->get_authorization_filter_name( $media_id ) );
+	}
 }
