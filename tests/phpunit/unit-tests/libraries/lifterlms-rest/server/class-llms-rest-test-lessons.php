@@ -412,6 +412,9 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 			}
 		}
 
+		$attached_quiz = llms_get_post( $quiz );
+		$this->assertEquals( $lesson->get( 'id' ), absint( $attached_quiz->get( 'lesson_id' ) ) );
+
 		// Check that if we create a course with no prerequisite the $lessons->has_prerequisite() returns false
 		unset( $sample_lesson['prerequisite'] );
 		$res = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
@@ -858,6 +861,59 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 		// Ensure the victim quiz was NOT attached to the attacker lesson.
 		$lesson = llms_get_post( $attacker_lesson_id );
 		$this->assertEquals( 0, absint( $lesson->get( 'quiz' ) ) );
+	}
+
+	/**
+	 * Test that attaching a quiz via update-lesson keeps quiz.lesson_id in sync.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_item_syncs_quiz_lesson_id() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$source = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 1,
+			)
+		);
+		$quiz_id = absint( $source->get_lessons()[0]->get( 'quiz' ) );
+		$this->assertTrue( $quiz_id > 0 );
+
+		$target = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$lesson_id = $target->get_lessons( 'ids' )[0];
+
+		$res = $this->perform_mock_request(
+			'POST',
+			"{$this->route}/{$lesson_id}",
+			array(
+				'quiz' => array(
+					'id' => $quiz_id,
+				),
+			)
+		);
+
+		$this->assertResponseStatusEquals( 200, $res );
+
+		$quiz   = llms_get_post( $quiz_id );
+		$lesson = llms_get_post( $lesson_id );
+
+		$this->assertEquals( $lesson_id, absint( $quiz->get( 'lesson_id' ) ) );
+		$this->assertEquals( $quiz_id, absint( $lesson->get( 'quiz' ) ) );
+		$this->assertTrue( llms_parse_bool( $lesson->get( 'quiz_enabled' ) ) );
+
+		$source_lesson = $source->get_lessons()[0];
+		$this->assertEquals( 0, absint( $source_lesson->get( 'quiz' ) ) );
 	}
 
 	/**

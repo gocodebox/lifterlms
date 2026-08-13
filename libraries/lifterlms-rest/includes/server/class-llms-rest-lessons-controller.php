@@ -363,6 +363,65 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			}
 		}
 
+		if ( ! empty( $schema['properties']['quiz']['properties']['id'] ) && ! empty( $request['quiz']['id'] ) ) {
+
+			$quiz_id   = absint( $request['quiz']['id'] );
+			$lesson_id = absint( $lesson->get( 'id' ) );
+			$quiz      = llms_get_post( $quiz_id );
+
+			if ( is_a( $quiz, 'LLMS_Quiz' ) ) {
+
+				$previous_quizzes = get_posts(
+					array(
+						'post_type'      => 'llms_quiz',
+						'post_status'    => 'any',
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+						'post__not_in'   => array( $quiz_id ),
+						'meta_key'       => '_llms_lesson_id',
+						'meta_value'     => $lesson_id,
+					)
+				);
+
+				foreach ( $previous_quizzes as $previous_quiz_id ) {
+					$previous_quiz = llms_get_post( $previous_quiz_id );
+					if ( is_a( $previous_quiz, 'LLMS_Quiz' ) ) {
+						$previous_quiz->set( 'lesson_id', 0 );
+					}
+				}
+
+				$attached_lessons = get_posts(
+					array(
+						'post_type'      => 'lesson',
+						'post_status'    => 'any',
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+						'meta_key'       => '_llms_quiz',
+						'meta_value'     => $quiz_id,
+					)
+				);
+
+				foreach ( $attached_lessons as $attached_lesson_id ) {
+					if ( absint( $attached_lesson_id ) === $lesson_id ) {
+						continue;
+					}
+					$old_lesson = llms_get_post( $attached_lesson_id );
+					if ( is_a( $old_lesson, 'LLMS_Lesson' ) ) {
+						$old_lesson->set( 'quiz', 0 );
+						$old_lesson->set( 'quiz_enabled', 'no' );
+					}
+				}
+
+				$quiz->set( 'lesson_id', $lesson_id );
+
+				if ( ! isset( $request['quiz']['enabled'] ) ) {
+					$lesson->set( 'quiz_enabled', 'yes' );
+				}
+
+				$to_set['quiz'] = $quiz_id;
+			}
+		}
+
 		if ( ! empty( $error->errors ) ) {
 			return $error;
 		}
