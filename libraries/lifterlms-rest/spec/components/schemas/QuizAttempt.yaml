@@ -111,7 +111,7 @@ properties:
           description: The submitted answer rendered as HTML.
           type: string
         files:
-          description: File data for answers which are uploaded files. Use the `url` to retrieve the submitted file (e.g. for AI-assisted grading).
+          description: File data for answers which are uploaded files. Use the `download_url` to retrieve the submitted file (e.g. for AI-assisted grading).
           type: array
           items:
             type: object
@@ -121,9 +121,14 @@ properties:
                 type: integer
                 example: 205
               url:
-                description: The file URL.
+                description: The file URL. Protected uploads require an authenticated WordPress session to download.
                 type: string
                 example: https://example.tld/wp-content/uploads/2019/05/essay.pdf
+              download_url:
+                description: URL to download the file. For protected uploads this is a temporary signed URL which expires (1 hour by default); fetch it promptly and do not store it. Matches `url` for unprotected files.
+                type: string
+                format: uri
+                example: https://example.tld/?llms_media_id=205&llms_media_expires=1754934000&llms_media_token=abc123&llms_media_file=essay.pdf
               filename:
                 description: The file name.
                 type: string

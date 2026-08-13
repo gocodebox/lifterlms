@@ -612,7 +612,8 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 */
 	protected function get_answer_files( $attempt_question ) {
 
-		$files = array();
+		$files     = array();
+		$protector = class_exists( 'LLMS_Media_Protector' ) ? new LLMS_Media_Protector() : false;
 
 		foreach ( (array) $attempt_question->get( 'answer' ) as $value ) {
 
@@ -620,12 +621,22 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 				continue;
 			}
 
-			$id      = (int) $value;
+			$id           = (int) $value;
+			$url          = wp_get_attachment_url( $id );
+			$download_url = $url;
+
+			// Protected uploads require a WordPress session to download; provide a signed,
+			// expiring URL so external tools (e.g. AI graders) can fetch the file.
+			if ( $protector && $protector->is_media_protected( $id ) ) {
+				$download_url = $protector->get_signed_url( $id );
+			}
+
 			$files[] = array(
-				'id'        => $id,
-				'url'       => wp_get_attachment_url( $id ),
-				'filename'  => basename( (string) get_attached_file( $id ) ),
-				'mime_type' => get_post_mime_type( $id ),
+				'id'           => $id,
+				'url'          => $url,
+				'download_url' => $download_url,
+				'filename'     => basename( (string) get_attached_file( $id ) ),
+				'mime_type'    => get_post_mime_type( $id ),
 			);
 		}
 
@@ -767,22 +778,27 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 								'type'        => 'string',
 							),
 							'files'                  => array(
-								'description' => __( 'File data for answers which resolve to uploaded attachments (e.g. upload-type questions). Use the url to retrieve the submitted file.', 'lifterlms' ),
+								'description' => __( 'File data for answers which resolve to uploaded attachments (e.g. upload-type questions). Use the download_url to retrieve the submitted file.', 'lifterlms' ),
 								'type'        => 'array',
 								'items'       => array(
 									'type'       => 'object',
 									'properties' => array(
-										'id'        => array(
+										'id'           => array(
 											'type' => 'integer',
 										),
-										'url'       => array(
+										'url'          => array(
 											'type'   => 'string',
 											'format' => 'uri',
 										),
-										'filename'  => array(
+										'download_url' => array(
+											'description' => __( 'URL to download the file. For protected uploads this is a temporary signed URL which expires; fetch it promptly and do not store it.', 'lifterlms' ),
+											'type'        => 'string',
+											'format'      => 'uri',
+										),
+										'filename'     => array(
 											'type' => 'string',
 										),
-										'mime_type' => array(
+										'mime_type'    => array(
 											'type' => 'string',
 										),
 									),

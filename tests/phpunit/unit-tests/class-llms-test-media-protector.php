@@ -174,4 +174,253 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 		$this->assertNotSame( 'null', $cached, 'Cached value should be overwritten once protection is set.' );
 		$this->assertTrue( (bool) $cached );
 	}
+
+	/**
+	 * Create a protected attachment post with a real file in the uploads directory.
+	 *
+	 * @since [version]
+	 *
+	 * @return int Attachment post ID.
+	 */
+	private function create_protected_attachment() {
+
+		$author_id     = $this->factory->user->create();
+		$attachment_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $author_id,
+			)
+		);
+
+		$upload_dir = wp_upload_dir();
+		$filename   = 'llms-signed-url-test-' . $attachment_id . '.pdf';
+		file_put_contents( trailingslashit( $upload_dir['basedir'] ) . $filename, 'test file contents' );
+
+		update_post_meta( $attachment_id, '_wp_attached_file', $filename );
+		update_post_meta( $attachment_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+
+		return $attachment_id;
+	}
+
+	/**
+	 * Mock the current request with the query args parsed from a signed URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url Signed URL as returned by LLMS_Media_Protector::get_signed_url().
+	 * @return array Parsed query args.
+	 */
+	private function mock_signed_request( $url ) {
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+		$this->mockGetRequest( $args );
+
+		return $args;
+	}
+
+	/**
+	 * Test that get_signed_url() produces a URL with the expected parameters.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$url           = ( new LLMS_Media_Protector() )->get_signed_url( $attachment_id );
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+
+		$this->assertEquals( $attachment_id, $args[ LLMS_Media_Protector::URL_PARAMETER_ID ] );
+		$this->assertGreaterThan( time(), (int) $args[ LLMS_Media_Protector::URL_PARAMETER_EXPIRES ] );
+		$this->assertMatchesRegularExpression( '/^[0-9a-f]{64}$/', $args[ LLMS_Media_Protector::URL_PARAMETER_TOKEN ] );
+
+		// The cosmetic file name parameter is last so the URL ends with the file extension.
+		$this->assertStringEndsWith( '.pdf', $url );
+	}
+
+	/**
+	 * Test that get_signed_url() returns an empty string for invalid media IDs.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url_invalid_media() {
+
+		$protector = new LLMS_Media_Protector();
+
+		$this->assertSame( '', $protector->get_signed_url( 0 ) );
+		$this->assertSame( '', $protector->get_signed_url( 999999999 ) );
+
+		// Non-attachment posts cannot be signed.
+		$this->assertSame( '', $protector->get_signed_url( $this->factory->post->create() ) );
+	}
+
+	/**
+	 * Test that the llms_media_signed_url_ttl filter controls the expiration timestamp.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url_ttl_filter() {
+
+		$attachment_id = $this->create_protected_attachment();
+
+		$ttl_filter = function () {
+			return 5 * MINUTE_IN_SECONDS;
+		};
+		add_filter( 'llms_media_signed_url_ttl', $ttl_filter );
+
+		$url = ( new LLMS_Media_Protector() )->get_signed_url( $attachment_id, DAY_IN_SECONDS );
+
+		remove_filter( 'llms_media_signed_url_ttl', $ttl_filter );
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+
+		$expires = (int) $args[ LLMS_Media_Protector::URL_PARAMETER_EXPIRES ];
+		$this->assertLessThanOrEqual( time() + 5 * MINUTE_IN_SECONDS, $expires );
+	}
+
+	/**
+	 * Test that a signed URL validates via is_valid_signed_request().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		$this->assertTrue( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that an expired token is rejected.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request_expired() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$expires = time() - 10;
+		$token   = LLMS_Unit_Test_Util::call_method( $protector, 'get_signed_url_token', array( $attachment_id, $expires ) );
+
+		$this->mockGetRequest(
+			array(
+				LLMS_Media_Protector::URL_PARAMETER_ID      => $attachment_id,
+				LLMS_Media_Protector::URL_PARAMETER_EXPIRES => $expires,
+				LLMS_Media_Protector::URL_PARAMETER_TOKEN   => $token,
+			)
+		);
+
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that tampered tokens and parameters are rejected.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request_tampered() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$args = $this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		// Tampered token.
+		$this->mockGetRequest(
+			array_merge(
+				$args,
+				array( LLMS_Media_Protector::URL_PARAMETER_TOKEN => str_repeat( '0', 64 ) )
+			)
+		);
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+
+		// Extended expiration with the original token.
+		$this->mockGetRequest(
+			array_merge(
+				$args,
+				array( LLMS_Media_Protector::URL_PARAMETER_EXPIRES => time() + YEAR_IN_SECONDS )
+			)
+		);
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+
+		// Token minted for another file.
+		$other_attachment_id = $this->create_protected_attachment();
+		$this->mockGetRequest( $args );
+		$this->assertFalse( $protector->is_valid_signed_request( $other_attachment_id ) );
+
+		// Missing token / expires.
+		$this->mockGetRequest( array( LLMS_Media_Protector::URL_PARAMETER_ID => $attachment_id ) );
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that serve_file() authorizes a valid signed request for a protected file
+	 * even when the current user is not authorized to view it.
+	 *
+	 * The `llms_media_serve_method` filter runs immediately after the authorization
+	 * decision and receives it, making it a safe observation point which avoids
+	 * actually serving the file.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_serve_file_authorizes_valid_signed_request() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		// The current (anonymous) user is not authorized on their own.
+		wp_set_current_user( 0 );
+		add_filter( 'llms_test_media_authorization', '__return_false' );
+		$this->assertFalse( $protector->is_authorized_to_view( 0, $attachment_id ) );
+
+		$this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		$authorized   = null;
+		$interceptor  = function ( $serve_method, $media_id, $is_authorized ) use ( &$authorized ) {
+			$authorized = $is_authorized;
+			throw new LLMS_Unit_Test_Exception_Exit( 'intercepted' );
+		};
+		add_filter( 'llms_media_serve_method', $interceptor, 10, 3 );
+
+		// Swallow "headers already sent" warnings raised by header() calls in the CLI test environment.
+		set_error_handler(
+			function ( $errno, $errstr ) {
+				return false !== strpos( $errstr, 'Cannot modify header information' );
+			},
+			E_WARNING
+		);
+
+		try {
+			$protector->serve_file();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			// Expected: serving was intercepted after the authorization decision.
+		} finally {
+			restore_error_handler();
+			remove_filter( 'llms_media_serve_method', $interceptor );
+			remove_filter( 'llms_test_media_authorization', '__return_false' );
+		}
+
+		$this->assertTrue( $authorized );
+	}
 }
