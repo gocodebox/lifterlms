@@ -411,7 +411,8 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 		$data['student_id']     = $certificate->get_user_id();
 		$data['related_id']     = $certificate->get_related_post_id();
 		$data['engagement_id']  = $certificate->get( 'engagement' );
-		$data['sequential_id']  = $certificate->get_sequential_id();
+		// `get_sequential_id()` returns the display-formatted (zero-padded) string; the schema declares an integer.
+		$data['sequential_id']  = absint( $certificate->get( 'sequential_id' ) );
 		$data['allow_sharing']  = $certificate->is_sharing_enabled();
 
 		return $data;
