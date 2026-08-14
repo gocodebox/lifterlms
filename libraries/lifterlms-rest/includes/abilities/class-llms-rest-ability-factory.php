@@ -179,6 +179,12 @@ class LLMS_REST_Ability_Factory {
 			$schema['required'][] = $param;
 		}
 
+		// Abilities are an authenticated agent surface: reads default to the edit context
+		// so responses include full resource data and searches cover edit-only columns.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && isset( $schema['properties']['context'] ) ) {
+			$schema['properties']['context']['default'] = 'edit';
+		}
+
 		$path_params = array_keys( self::get_path_params( $config ) );
 		if ( 1 === count( $path_params ) && 'id' !== $path_params[0] ) {
 			$param          = $path_params[0];
@@ -285,6 +291,11 @@ class LLMS_REST_Ability_Factory {
 			if ( is_array( $arg ) && array_key_exists( 'default', $arg ) ) {
 				$defaults[ $key ] = $arg['default'];
 			}
+		}
+
+		// Mirror the edit-context default applied to read operation input schemas.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && array_key_exists( 'context', $defaults ) ) {
+			$defaults['context'] = 'edit';
 		}
 
 		return $defaults;

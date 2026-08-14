@@ -93,6 +93,51 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Test that read operations default the context to edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_read_operations_default_to_edit_context() {
+
+		$list_config = array(
+			'method'     => 'GET',
+			'route'      => '/llms/v1/courses',
+			'operation'  => 'list',
+			'controller' => 'LLMS_REST_Courses_Controller',
+		);
+
+		$schema = LLMS_Unit_Test_Util::call_method( 'LLMS_REST_Ability_Factory', 'get_input_schema', array( $list_config ) );
+		$this->assertEquals( 'edit', $schema['properties']['context']['default'] );
+
+		$defaults = LLMS_Unit_Test_Util::call_method( 'LLMS_REST_Ability_Factory', 'get_default_params', array( $list_config ) );
+		$this->assertEquals( 'edit', $defaults['context'] );
+
+		$get_config = array_merge( $this->get_item_config() );
+
+		$schema = LLMS_Unit_Test_Util::call_method( 'LLMS_REST_Ability_Factory', 'get_input_schema', array( $get_config ) );
+		$this->assertEquals( 'edit', $schema['properties']['context']['default'] );
+
+		$defaults = LLMS_Unit_Test_Util::call_method( 'LLMS_REST_Ability_Factory', 'get_default_params', array( $get_config ) );
+		$this->assertEquals( 'edit', $defaults['context'] );
+
+		// Explicit input still wins over the default.
+		$request = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'build_request',
+			array(
+				array_merge( $get_config, array( 'default_params' => $defaults ) ),
+				array(
+					'id'      => 123,
+					'context' => 'view',
+				),
+			)
+		);
+		$this->assertEquals( 'view', $request['context'] );
+	}
+
+	/**
 	 * Item ability config used by permission tests.
 	 *
 	 * @return array
