@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Declared and validated the `status` parameter on the REST enrollment update endpoint.

@@ -212,6 +212,9 @@ class LLMS_REST_Ability_Factory {
 			$schema['required'] = array_values( array_unique( $schema['required'] ) );
 		}
 
+		// Reject unknown input keys so mistyped parameters fail loudly instead of being silently ignored.
+		$schema['additionalProperties'] = false;
+
 		return $schema;
 	}
 

@@ -93,6 +93,37 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Test that input schemas reject unknown properties.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_input_schema_rejects_unknown_properties() {
+
+		$schema = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'get_input_schema',
+			array(
+				array(
+					'method'     => 'GET',
+					'route'      => '/llms/v1/sections',
+					'operation'  => 'list',
+					'controller' => 'LLMS_REST_Sections_Controller',
+				),
+			)
+		);
+
+		$this->assertFalse( $schema['additionalProperties'] );
+
+		$result = rest_validate_value_from_schema( array( 'not_a_real_param' => 123 ), $schema, 'input' );
+		$this->assertIsWPError( $result );
+
+		$result = rest_validate_value_from_schema( array( 'parent' => 123 ), $schema, 'input' );
+		$this->assertTrue( $result );
+	}
+
+	/**
 	 * Test that a list operation returning a deliberate REST 404 yields an empty array.
 	 *
 	 * @since [version]

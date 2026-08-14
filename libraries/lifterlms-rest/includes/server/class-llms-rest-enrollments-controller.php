@@ -95,6 +95,16 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 					'validate_callback' => 'rest_validate_request_arg',
 				),
 			);
+
+			// The update route consumes `status` from the request body; declare it so it's documented and validated.
+			if ( 'PATCH' === $method ) {
+				$args['status'] = array(
+					'description'       => __( 'The status of the enrollment.', 'lifterlms' ),
+					'type'              => 'string',
+					'enum'              => array_keys( llms_get_enrollment_statuses() ),
+					'validate_callback' => 'rest_validate_request_arg',
+				);
+			}
 		} else {
 			$args = parent::get_endpoint_args_for_item_schema( $method );
 		}
