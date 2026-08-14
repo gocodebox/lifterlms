@@ -1018,7 +1018,7 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 		// Quiz.
 		$expected['quiz']['enabled']     = llms_parse_bool( $lesson->get( 'quiz_enabled' ) );
 		$expected['quiz']['id']          = absint( $lesson->get( 'quiz' ) );
-		$expected['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'completed';
+		$expected['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'complete';
 
 		// Drip method.
 		$expected['drip_method'] = $lesson->get( 'drip_method' );

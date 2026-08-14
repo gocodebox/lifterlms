@@ -680,7 +680,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 		// Quiz.
 		$data['quiz']['enabled']     = llms_parse_bool( $lesson->get( 'quiz_enabled' ) );
 		$data['quiz']['id']          = absint( $lesson->get( 'quiz' ) );
-		$data['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'completed';
+		$data['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'complete';
 
 		// Drip method.
 		$data['drip_method'] = $lesson->get( 'drip_method' );
