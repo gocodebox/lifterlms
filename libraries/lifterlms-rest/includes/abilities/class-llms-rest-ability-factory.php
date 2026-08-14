@@ -363,7 +363,15 @@ class LLMS_REST_Ability_Factory {
 		}
 
 		if ( $response->is_error() ) {
-			return $response->as_error();
+
+			$error = $response->as_error();
+
+			// Some list routes deliberately 404 on empty collections; agents expect an empty list.
+			if ( 'list' === $config['operation'] && in_array( 'llms_rest_not_found', $error->get_error_codes(), true ) ) {
+				return array();
+			}
+
+			return $error;
 		}
 
 		if ( 'delete' === $config['operation'] ) {

@@ -93,6 +93,36 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Test that a list operation returning a deliberate REST 404 yields an empty array.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_execute_returns_empty_array_for_empty_list() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$student_id = $this->factory->student->create();
+
+		$result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array(
+				array(
+					'method'     => 'GET',
+					'route'      => '/llms/v1/students/{id}/enrollments',
+					'operation'  => 'list',
+					'controller' => 'LLMS_REST_Enrollments_Controller',
+				),
+				array( 'id' => $student_id ),
+			)
+		);
+
+		$this->assertSame( array(), $result );
+	}
+
+	/**
 	 * Test that read operations default the context to edit.
 	 *
 	 * @since [version]
