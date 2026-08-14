@@ -700,7 +700,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 					'readonly'    => true,
 				),
 				'status'         => array(
-					'description' => __( 'The status of the quiz attempt. Attempts with the pending status require manual grading.', 'lifterlms' ),
+					'description' => __( 'The status of the quiz attempt. Attempts with the pending status require manual grading. Pass/fail is determined against the quiz passing grade in effect when the attempt was graded; later changes to the passing grade do not re-evaluate stored attempts.', 'lifterlms' ),
 					'type'        => 'string',
 					'enum'        => array_keys( llms_get_quiz_attempt_statuses() ),
 					'context'     => array( 'view', 'edit' ),

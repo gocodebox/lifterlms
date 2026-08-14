@@ -93,6 +93,33 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Test that delete operation input schemas expose the `force` param.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_delete_operation_input_schema_includes_force() {
+
+		$schema = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'get_input_schema',
+			array(
+				array(
+					'method'     => 'DELETE',
+					'route'      => '/llms/v1/courses/{id}',
+					'operation'  => 'delete',
+					'controller' => 'LLMS_REST_Courses_Controller',
+				),
+			)
+		);
+
+		$this->assertArrayHasKey( 'force', $schema['properties'] );
+		$this->assertEquals( 'boolean', $schema['properties']['force']['type'] );
+		$this->assertFalse( $schema['properties']['force']['default'] );
+	}
+
+	/**
 	 * Test that list operations strip rendered fields when a raw counterpart exists.
 	 *
 	 * @since [version]
