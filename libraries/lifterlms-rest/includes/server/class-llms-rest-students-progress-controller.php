@@ -111,6 +111,15 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 
 		if ( 'lesson' !== $post->get( 'type' ) ) {
 			llms_mark_incomplete( $request['id'], $post->get( 'id' ), $post->get( 'type' ) );
+		} else {
+			// The raw meta deletion above bypasses `llms_mark_incomplete()`, so reset the
+			// student's cached progress for the lesson's ancestors (section, course, tracks).
+			$student = llms_get_student( $request['id'] );
+			if ( $student ) {
+				foreach ( llms_get_progress_cache_keys( $post->get( 'id' ), 'lesson' ) as $key ) {
+					$student->set( $key, '' );
+				}
+			}
 		}
 
 		return true;
