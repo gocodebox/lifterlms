@@ -383,7 +383,43 @@ class LLMS_REST_Ability_Factory {
 			);
 		}
 
-		return $response->get_data();
+		$data = $response->get_data();
+
+		// Trim heavy rendered markup from list payloads; `get` operations return the full resource.
+		if ( 'list' === $config['operation'] ) {
+			$data = self::strip_rendered_fields( $data );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Recursively remove `rendered` values where a `raw` counterpart exists.
+	 *
+	 * List payloads can carry large amounts of rendered HTML (course syllabi, media embeds)
+	 * that bloat agent context without adding information beyond the `raw` value.
+	 * `rendered` is preserved when no `raw` counterpart exists (e.g. `view` context requests).
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed $data Response data.
+	 * @return mixed
+	 */
+	private static function strip_rendered_fields( $data ) {
+
+		if ( ! is_array( $data ) ) {
+			return $data;
+		}
+
+		if ( array_key_exists( 'rendered', $data ) && array_key_exists( 'raw', $data ) ) {
+			unset( $data['rendered'] );
+		}
+
+		foreach ( $data as $key => $value ) {
+			$data[ $key ] = self::strip_rendered_fields( $value );
+		}
+
+		return $data;
 	}
 
 	/**

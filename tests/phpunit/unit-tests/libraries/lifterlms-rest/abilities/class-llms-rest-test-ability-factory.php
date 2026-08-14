@@ -93,6 +93,68 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Test that list operations strip rendered fields when a raw counterpart exists.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_list_operations_strip_rendered_fields() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$this->factory->course->create( array( 'sections' => 0, 'lessons' => 0 ) );
+
+		$config = array(
+			'method'     => 'GET',
+			'route'      => '/llms/v1/courses',
+			'operation'  => 'list',
+			'controller' => 'LLMS_REST_Courses_Controller',
+		);
+
+		$result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array( $config, array( 'context' => 'edit' ) )
+		);
+
+		$this->assertArrayHasKey( 'raw', $result[0]['content'] );
+		$this->assertArrayNotHasKey( 'rendered', $result[0]['content'] );
+		$this->assertArrayHasKey( 'raw', $result[0]['title'] );
+		$this->assertArrayNotHasKey( 'rendered', $result[0]['title'] );
+
+		// A get operation keeps the full payload.
+		$get_result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array(
+				array_merge(
+					$config,
+					array(
+						'operation' => 'get',
+						'route'     => '/llms/v1/courses/{id}',
+					)
+				),
+				array(
+					'id'      => $result[0]['id'],
+					'context' => 'edit',
+				),
+			)
+		);
+
+		$this->assertArrayHasKey( 'rendered', $get_result['content'] );
+
+		// Without a raw counterpart (view context), rendered is preserved.
+		$view_result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array( $config, array( 'context' => 'view' ) )
+		);
+
+		$this->assertArrayHasKey( 'rendered', $view_result[0]['content'] );
+	}
+
+	/**
 	 * Test that input schemas reject unknown properties.
 	 *
 	 * @since [version]
