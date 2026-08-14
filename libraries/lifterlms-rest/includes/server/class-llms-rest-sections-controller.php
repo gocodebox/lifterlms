@@ -367,6 +367,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['parent_id'] = array(
+			'description'       => __( 'Alias for `parent`. Ignored when `parent` is provided.', 'lifterlms' ),
+			'type'              => 'integer',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		return $query_params;
 	}
 
@@ -419,6 +425,11 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 					'orderby'  => 'meta_value_num',
 				)
 			);
+		}
+
+		// `parent_id` is an alias for `parent`, matching the item schema's field name.
+		if ( empty( $request['parent'] ) && ! empty( $request['parent_id'] ) ) {
+			$request['parent'] = absint( $request['parent_id'] );
 		}
 
 		if ( isset( $this->parent_id ) ) {

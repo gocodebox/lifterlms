@@ -681,6 +681,46 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 
 
 	/**
+	 * Test filtering lessons by parent section via the `parent_id` alias.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lessons_filter_by_parent_id_alias() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course      = $this->factory->course->create_and_get( array( 'sections' => 2, 'lessons' => 2 ) );
+		$sections    = $course->get_sections( 'ids' );
+		$section_id  = $sections[0];
+
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent_id', $section_id );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $lesson ) {
+			$this->assertEquals( $section_id, $lesson['parent_id'] );
+		}
+
+		// `parent` wins when both are provided.
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent', $sections[1] );
+		$request->set_param( 'parent_id', $section_id );
+		$response = $this->server->dispatch( $request );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $lesson ) {
+			$this->assertEquals( $sections[1], $lesson['parent_id'] );
+		}
+	}
+
+	/**
 	 * Test links.
 	 *
 	 * @since 1.0.0-beta.7
