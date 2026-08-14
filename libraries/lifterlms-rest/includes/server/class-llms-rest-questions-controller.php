@@ -268,6 +268,12 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 */
 	protected function update_additional_object_fields( $question, $request, $schema, $prepared_item, $creating = true ) {
 
+		// Meta-only updates (choices, points, etc.) never touch wp_posts, so bump the
+		// modified date to keep the `date_updated` response field accurate.
+		if ( ! $creating ) {
+			wp_update_post( array( 'ID' => $question->get( 'id' ) ) );
+		}
+
 		if ( empty( $schema['properties']['choices'] ) || ! isset( $request['choices'] ) ) {
 			return false;
 		}
