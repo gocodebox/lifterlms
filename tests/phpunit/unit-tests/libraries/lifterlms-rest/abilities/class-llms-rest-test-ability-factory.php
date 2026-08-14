@@ -272,6 +272,19 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 		$defaults = LLMS_Unit_Test_Util::call_method( 'LLMS_REST_Ability_Factory', 'get_default_params', array( $get_config ) );
 		$this->assertEquals( 'edit', $defaults['context'] );
 
+		// Omitted context is a real query param so rest_do_request() cannot
+		// overwrite it with the matched route's context=view default.
+		$request = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'build_request',
+			array(
+				$get_config,
+				array( 'id' => 123 ),
+			)
+		);
+		$this->assertEquals( 'edit', $request['context'] );
+		$this->assertEquals( 'edit', $request->get_query_params()['context'] );
+
 		// Explicit input still wins over the default.
 		$request = LLMS_Unit_Test_Util::call_method(
 			'LLMS_REST_Ability_Factory',
@@ -285,6 +298,58 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 			)
 		);
 		$this->assertEquals( 'view', $request['context'] );
+		$this->assertEquals( 'view', $request->get_query_params()['context'] );
+	}
+
+	/**
+	 * Test that get-student returns edit fields when context is omitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_execute_get_student_defaults_to_edit_context() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$student_id = $this->factory->student->create(
+			array(
+				'user_email' => 'ability-edit-context@mock.tld',
+			)
+		);
+
+		$config = array(
+			'method'     => 'GET',
+			'route'      => '/llms/v1/students/{id}',
+			'operation'  => 'get',
+			'controller' => 'LLMS_REST_Students_Controller',
+		);
+
+		$result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array(
+				$config,
+				array( 'id' => $student_id ),
+			)
+		);
+
+		$this->assertArrayHasKey( 'email', $result );
+		$this->assertEquals( 'ability-edit-context@mock.tld', $result['email'] );
+
+		$view_result = LLMS_Unit_Test_Util::call_method(
+			'LLMS_REST_Ability_Factory',
+			'execute',
+			array(
+				$config,
+				array(
+					'id'      => $student_id,
+					'context' => 'view',
+				),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'email', $view_result );
 	}
 
 	/**

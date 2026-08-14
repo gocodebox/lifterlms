@@ -497,6 +497,14 @@ class LLMS_REST_Ability_Factory {
 			}
 		}
 
+		// rest_do_request() matches the real REST route and overwrites request
+		// defaults with the route's registered defaults (context=view). Put the
+		// ability's edit default on the actual params so it survives dispatch
+		// when the caller omitted context.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && ! array_key_exists( 'context', $params ) ) {
+			$params['context'] = 'edit';
+		}
+
 		$request = new WP_REST_Request( $config['method'], $route );
 		$request->set_url_params( $url_params );
 
