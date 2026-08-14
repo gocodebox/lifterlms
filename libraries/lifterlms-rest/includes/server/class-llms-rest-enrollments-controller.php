@@ -726,7 +726,7 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 					'type'        => 'string',
 				),
 				'trigger'      => array(
-					'description' => __( 'The enrollment trigger. Default is `any`.', 'lifterlms' ),
+					'description' => __( 'The enrollment trigger. Requests default to `any`, which matches an enrollment with any trigger; enrollments created without an explicit trigger are stored as `unspecified`.', 'lifterlms' ),
 					'context'     => array( 'view', 'edit' ),
 					'type'        => 'string',
 					'default'     => 'any',
