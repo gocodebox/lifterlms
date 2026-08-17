@@ -95,7 +95,7 @@ test.describe( 'Course Builder / Quiz Save', () => {
 
 		// Create a new quiz.
 		await page.locator( '#llms-new-quiz' ).click();
-		await expect( page.locator( '#llms-quiz-questions' ) ).toBeVisible();
+		await expect( page.locator( '#llms-show-question-bank' ) ).toBeVisible();
 
 		// Open question bank, then add a multiple choice question.
 		await clickBuilderAction( page.locator( '#llms-show-question-bank' ) );

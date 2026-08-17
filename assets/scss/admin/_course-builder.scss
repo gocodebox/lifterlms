@@ -81,10 +81,6 @@ body.admin_page_llms-course-builder {
 				min-width: 0;
 				overflow-x: hidden;
 				overflow-y: auto;
-
-				&.tab--quiz {
-					overflow: hidden;
-				}
 			}
 
 			.llms-builder-save {
@@ -1119,14 +1115,12 @@ body.admin_page_llms-course-builder {
 						display: flex;
 						flex-direction: column;
 						min-height: 0;
-						overflow: hidden;
+						overflow-x: hidden;
+						overflow-y: auto;
 
 						.llms-quiz-questions {
-							flex: 1 1 auto;
-							min-height: 0;
+							flex: 1 0 auto;
 							min-width: 0;
-							overflow-x: hidden;
-							overflow-y: auto;
 
 							// groups
 							.llms-quiz-questions {
