@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed course builder tooltips being clipped by the editor sidebar and outline.
