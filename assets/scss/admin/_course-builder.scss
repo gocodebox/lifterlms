@@ -71,6 +71,7 @@ body.admin_page_llms-course-builder {
 				flex-direction: column;
 				height: auto;
 				min-height: 0;
+				min-width: 0;
 			}
 
 			.llms-editor-tab {
@@ -1106,7 +1107,8 @@ body.admin_page_llms-course-builder {
 			.llms-editor-tab {
 				display: none;
 				height: calc( 100% - 90px );
-				overflow: scroll;
+				overflow-x: hidden;
+				overflow-y: auto;
 				position: relative;
 				z-index: 1;
 				&.active {
@@ -1117,11 +1119,14 @@ body.admin_page_llms-course-builder {
 						display: flex;
 						flex-direction: column;
 						min-height: 0;
+						overflow: hidden;
 
 						.llms-quiz-questions {
 							flex: 1 1 auto;
 							min-height: 0;
-							overflow: auto;
+							min-width: 0;
+							overflow-x: hidden;
+							overflow-y: auto;
 
 							// groups
 							.llms-quiz-questions {
@@ -1376,7 +1381,7 @@ body.admin_page_llms-course-builder {
 	.llms-quiz-footer {
 		display: flex;
 		gap: 8px;
-		padding: 1px;
+		padding: 0;
 		button.llms-element-button {
 			flex: 1;
 			margin: 0;
@@ -1469,8 +1474,8 @@ body.admin_page_llms-course-builder {
 	// Quiz Questions
 	ul.llms-quiz-questions {
 
-		margin: 10px 3px;
-		padding: 5px;
+		margin: 8px 0;
+		padding: 0;
 		transition: box-shadow 0.6s ease;
 
 		&.dragging {
