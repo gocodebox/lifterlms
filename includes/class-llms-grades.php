@@ -41,6 +41,72 @@ class LLMS_Grades {
 	}
 
 	/**
+	 * Register hooks that invalidate the per-student grade cache when data affecting a grade changes.
+	 *
+	 * Registered during plugin bootstrap by {@see LifterLMS::__construct()} rather than in this
+	 * class' constructor: the singleton constructor only runs the first time the instance is
+	 * requested, so hooks added there would not re-register after the WordPress test suite's
+	 * `restore_hooks()` wipes them between tests.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function init_grade_cache_hooks() {
+		add_action( 'llms_mark_complete', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+		add_action( 'llms_mark_incomplete', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+		add_action( 'lifterlms_quiz_completed', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+		add_action( 'llms_user_enrollment_deleted', array( __CLASS__, 'clear_student_cache_static' ), 10, 1 );
+	}
+
+	/**
+	 * Static wrapper for {@see LLMS_Grades::clear_student_cache()} usable as a hook callback.
+	 *
+	 * All of the actions registered by {@see LLMS_Grades::init_grade_cache_hooks()} pass the
+	 * student's user ID as their first parameter.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID of the student.
+	 * @return void
+	 */
+	public static function clear_student_cache_static( $student_id ) {
+		self::instance()->clear_student_cache( $student_id );
+	}
+
+	/**
+	 * Retrieves the cache group name used for a student's cached grades.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID of the student.
+	 * @return string
+	 */
+	public static function get_cache_group( $student_id ) {
+		return sprintf( 'student_%d', absint( $student_id ) );
+	}
+
+	/**
+	 * Invalidates every cached grade for a student.
+	 *
+	 * Uses the {@see LLMS_Cache_Helper} prefix-bump pattern so a single call orphans all
+	 * cached grades for the student without relying on `wp_cache_flush_group()`, which
+	 * is not supported by some persistent object cache backends.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID of the student.
+	 * @return void
+	 */
+	public function clear_student_cache( $student_id ) {
+
+		$student_id = absint( $student_id );
+		if ( $student_id ) {
+			LLMS_Cache_Helper::invalidate_group( self::get_cache_group( $student_id ) );
+		}
+	}
+
+	/**
 	 * Calculates the grades for elements that have a list of children which are averaged / weighted to come up with the total grade
 	 *
 	 * @param    array        $children list of child objects
@@ -224,11 +290,9 @@ class LLMS_Grades {
 			$grade = $this->calculate_grade( $post, $student );
 
 			// Store in the cache.
-			wp_cache_set(
-				sprintf( '%d_grade', $post->get( 'id' ) ),
-				$grade,
-				sprintf( 'student_%d', $student->get( 'id' ) )
-			);
+			$cache_group = self::get_cache_group( $student->get( 'id' ) );
+			$cache_key   = LLMS_Cache_Helper::get_prefix( $cache_group ) . sprintf( '%d_grade', $post->get( 'id' ) );
+			wp_cache_set( $cache_key, $grade, $cache_group, HOUR_IN_SECONDS );
 
 		}
 
@@ -249,10 +313,17 @@ class LLMS_Grades {
 	 */
 	private function get_grade_from_cache( $post, $student ) {
 
-		return wp_cache_get(
-			sprintf( '%d_grade', $post->get( 'id' ) ),
-			sprintf( 'student_%d', $student->get( 'id' ) )
-		);
+		$cache_group = self::get_cache_group( $student->get( 'id' ) );
+		$cache_key   = LLMS_Cache_Helper::get_prefix( $cache_group ) . sprintf( '%d_grade', $post->get( 'id' ) );
+
+		$cached = wp_cache_get( $cache_key, $cache_group );
+
+		// Persistent object caches (Redis, Memcached) can deserialize a cached null as an empty string.
+		if ( '' === $cached ) {
+			return false;
+		}
+
+		return $cached;
 
 	}
 

@@ -501,6 +501,8 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * Test `has_active_subscriptions()` using cache mechanism.
 	 *
 	 * @since 5.4.0
+	 * @since [version] The cache is now invalidated on order status transitions, so the
+	 *                  cached and fresh reads always agree after a status change.
 	 *
 	 * @return void
 	 */
@@ -514,20 +516,18 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		$order_recurring->set( 'product_id', $product->get('id') );
 		$order_recurring->set( 'status', 'llms-active' );
 
+		// Warm the cache with the active subscription present.
 		$this->assertTrue( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
-
-		// Cancel subscription.
-		$order_recurring->set( 'status', 'llms-cancelled' );
-		// Use cache, I expect an active subscription.
 		$this->assertTrue( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
-		// Do not use cache, I expect no active subscriptions.
+
+		// Cancel subscription. The `transition_post_status` hook busts the cache.
+		$order_recurring->set( 'status', 'llms-cancelled' );
+		$this->assertFalse( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
 		$this->assertFalse( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
 
-		// Activate it again.
+		// Activate it again. Same hook re-busts.
 		$order_recurring->set( 'status', 'llms-active' );
-		// Use cache, I expect no active subscriptions.
-		$this->assertFalse( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
-		// Do not use cache, I expect an active subscription.
+		$this->assertTrue( $product->has_active_subscriptions( true ), $order_recurring->get( 'status' ) );
 		$this->assertTrue( $product->has_active_subscriptions( false ), $order_recurring->get( 'status' ) );
 
 	}
