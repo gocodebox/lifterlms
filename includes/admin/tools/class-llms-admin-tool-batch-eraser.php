@@ -93,7 +93,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 			global $wpdb;
 			$count = absint( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '%llms_%_batch_%';" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 
-			wp_cache_set( $this->id, $count, 'llms_tool_data' );
+			wp_cache_set( $this->id, $count, 'llms_tool_data', HOUR_IN_SECONDS );
 
 		}
 
