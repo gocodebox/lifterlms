@@ -51,7 +51,6 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 		);
 
 		return $desc;
-
 	}
 
 	/**
@@ -98,7 +97,6 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 		}
 
 		return $count;
-
 	}
 
 	/**
@@ -118,7 +116,6 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 		$res = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%llms_%_batch_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		wp_cache_delete( $this->id, 'llms_tool_data' );
 		return $res > 0;
-
 	}
 
 	/**
@@ -133,9 +130,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	protected function should_load() {
 
 		return $this->get_pending_batches() > 0;
-
 	}
-
 }
 
 return new LLMS_Admin_Tool_Batch_Eraser();
