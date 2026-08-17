@@ -59,9 +59,40 @@ body.admin_page_llms-course-builder {
 		}
 
 		.llms-builder-sidebar {
+			display: flex;
+			flex-direction: column;
 			padding: 10px;
 			width: calc( 100% - 200px );
 			z-index: 3;
+
+			.llms-editor {
+				display: flex;
+				flex: 1 1 auto;
+				flex-direction: column;
+				height: auto;
+				min-height: 0;
+			}
+
+			.llms-editor-tab {
+				flex: 1 1 auto;
+				height: auto;
+				min-height: 0;
+				min-width: 0;
+				overflow-x: hidden;
+				overflow-y: auto;
+
+				&.tab--quiz {
+					overflow: hidden;
+				}
+			}
+
+			.llms-builder-save {
+				bottom: auto;
+				flex-shrink: 0;
+				left: auto;
+				position: relative;
+				right: auto;
+			}
 		}
 		@media only screen and ( min-width: 1200px ) {
 			.llms-builder-main {
@@ -901,7 +932,6 @@ body.admin_page_llms-course-builder {
 			gap: 8px;
 			justify-content: center;
 			margin: 0;
-			overflow: hidden;
 			padding: 12px 16px;
 			position: relative;
 			text-align: center;
@@ -913,7 +943,7 @@ body.admin_page_llms-course-builder {
 
 			&.secondary {
 				background: var( --llms-builder-surface );
-				box-shadow: 0 0 0 1px var( --llms-builder-border );
+				box-shadow: inset 0 0 0 1px var( --llms-builder-border );
 				color: $color-brand-dark-blue;
 				&:hover {
 					background: var( --llms-builder-muted );
@@ -1086,15 +1116,21 @@ body.admin_page_llms-course-builder {
 
 						display: flex;
 						flex-direction: column;
+						min-height: 0;
 
 						.llms-quiz-questions {
-							flex: 1 0 auto;
-							overflow: scroll;
+							flex: 1 1 auto;
+							min-height: 0;
+							overflow: auto;
 
 							// groups
 							.llms-quiz-questions {
 								overflow: visible;
 							}
+						}
+
+						.llms-quiz-footer {
+							flex-shrink: 0;
 						}
 
 					}
@@ -1340,9 +1376,11 @@ body.admin_page_llms-course-builder {
 	.llms-quiz-footer {
 		display: flex;
 		gap: 8px;
+		padding: 1px;
 		button.llms-element-button {
 			flex: 1;
 			margin: 0;
+			min-width: 0;
 			&.llms-show-question-bank {
 				flex: 2;
 			}

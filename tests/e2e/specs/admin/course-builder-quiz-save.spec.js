@@ -26,6 +26,19 @@ async function setContentEditable( locator, text ) {
 	}, text );
 }
 
+/**
+ * Click a builder control that may sit in a nested scroll area under sticky chrome.
+ *
+ * @param {import('@playwright/test').Locator} locator Target control.
+ */
+async function clickBuilderAction( locator ) {
+	await locator.waitFor( { state: 'visible' } );
+	await locator.evaluate( ( el ) => {
+		el.scrollIntoView( { block: 'center', inline: 'nearest' } );
+	} );
+	await locator.click( { force: true } );
+}
+
 test.describe( 'Course Builder / Quiz Save', () => {
 
 	test( 'adding a quiz with a multiple choice question saves without stack overflow', async ( {
@@ -85,9 +98,8 @@ test.describe( 'Course Builder / Quiz Save', () => {
 		await expect( page.locator( '#llms-quiz-questions' ) ).toBeVisible();
 
 		// Open question bank, then add a multiple choice question.
-		await page.locator( '#llms-show-question-bank' ).click();
-		await page.locator( '#llms-add-question--choice' ).scrollIntoViewIfNeeded();
-		await page.locator( '#llms-add-question--choice' ).click();
+		await clickBuilderAction( page.locator( '#llms-show-question-bank' ) );
+		await clickBuilderAction( page.locator( '#llms-add-question--choice' ) );
 		const question = page.locator( '#llms-quiz-questions .llms-question' ).first();
 		await expect( question ).toBeVisible();
 
