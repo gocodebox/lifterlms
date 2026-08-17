@@ -241,7 +241,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		$csv = wp_cache_get( $this->id, 'llms_tool_data' );
 		if ( ! $csv ) {
 			$csv = $this->generate_csv();
-			wp_cache_set( $this->id, $csv, 'llms_tool_data' );
+			wp_cache_set( $this->id, $csv, 'llms_tool_data', HOUR_IN_SECONDS );
 		}
 
 		return $csv;
@@ -258,6 +258,9 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	protected function handle() {
 
 		$file = $this->get_csv_file();
+
+		// Ensure the next tool run re-queries instead of serving a stale report from a persistent object cache.
+		wp_cache_delete( $this->id, 'llms_tool_data' );
 
 		if ( ! headers_sent() ) { // This makes the method testable via phpunit.
 			header( 'Content-Type: text/csv' );
