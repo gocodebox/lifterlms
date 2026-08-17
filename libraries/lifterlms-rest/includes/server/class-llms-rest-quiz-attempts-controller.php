@@ -191,6 +191,12 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Check if a given request has access to grade an item.
 	 *
+	 * Grading intentionally shares the read gate (`view_lifterlms_reports` +
+	 * `edit_post` on the quiz): anyone who can view an attempt's answers and
+	 * grades is a grader. This is a superset of the admin grading screen,
+	 * which requires only `edit_post` on the quiz
+	 * ({@see LLMS_Controller_Admin_Quiz_Attempts::maybe_run_actions()}).
+	 *
 	 * @since [version]
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
