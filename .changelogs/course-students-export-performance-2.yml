@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: The course students reporting table now sorts by student ID by default instead of by name, avoiding expensive name joins and filesorts on large sites. Columns remain click-sortable.

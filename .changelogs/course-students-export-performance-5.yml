@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Zero-value lesson time totals are no longer cached in user meta, and an automatic database update removes previously created zero-value rows.
