@@ -6,7 +6,7 @@ v10.1.1 - 2026-08-11
 
 ##### Updates and Enhancements
 
-+ Increased entropy used when generating order keys.
++ Increased entropy used when generating order keys. Thanks [@enterlectury](https://github.com/enterlectury)!
 
 ##### Bug Fixes
 
@@ -24,9 +24,9 @@ v10.1.1 - 2026-08-11
 
 ##### Security Fixes
 
-+ Additional checks on checkout completion redirects.
-+ Additional checks when creating users during course import.
-+ Additional authorization checks on REST API key and webhook admin actions.
++ Additional checks on checkout completion redirects. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional checks when creating users during course import. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional authorization checks on REST API key and webhook admin actions. Thanks [@enterlectury](https://github.com/enterlectury)!
 
 
 v10.1.0 - 2026-07-31
