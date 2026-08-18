@@ -520,7 +520,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param string     $order_key The generated order key.
 		 * @param LLMS_Order $order_key Order object.
 		 */
-		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ), $this );
+		return apply_filters( 'lifterlms_generate_order_key', 'order-' . wp_generate_password( 32, false ), $this );
 	}
 
 	/**
