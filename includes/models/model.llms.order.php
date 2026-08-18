@@ -1759,7 +1759,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			sprintf(
 				// Translators: %s = next attempt date.
 				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
-				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
+				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
 			)
 		);
 
