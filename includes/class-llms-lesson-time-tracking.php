@@ -200,12 +200,9 @@ class LLMS_Lesson_Time_Tracking {
 			)
 		);
 
-		// Only persist non-zero totals: caching zeros mass-inserts usermeta rows for students who never tracked time.
-		if ( $total ) {
-			$student = llms_get_student( $user_id );
-			if ( $student ) {
-				$student->set( 'lesson_time_' . $lesson_id, $total );
-			}
+		$student = llms_get_student( $user_id );
+		if ( $student ) {
+			$student->set( 'lesson_time_' . $lesson_id, $total );
 		}
 
 		return $total;

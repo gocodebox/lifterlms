@@ -1,3 +1,3 @@
-significance: minor
+significance: patch
 type: fixed
-entry: Zero-value lesson time totals are no longer cached in user meta, and an automatic database update removes previously created zero-value rows.
+entry: Course reports and exports no longer bulk-create per-lesson time cache rows in user meta, and an automatic database update removes the zero-value rows previously created this way.
