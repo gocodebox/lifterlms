@@ -216,7 +216,7 @@ return array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
-			'delete_zero_time_tracking_caches',
+			'delete_zero_lesson_time_caches',
 			'update_db_version',
 		),
 	),

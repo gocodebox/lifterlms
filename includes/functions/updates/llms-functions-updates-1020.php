@@ -26,19 +26,23 @@ function _get_db_version() {
 }
 
 /**
- * Deletes zero-value lesson and course time tracking cache rows from the usermeta table.
+ * Deletes zero-value per-lesson time tracking cache rows from the usermeta table.
  *
  * Versions 10.1.x cached a `llms_lesson_time_{$lesson_id}` usermeta row for every
- * student and lesson touched by reporting screens and exports, even when the student
- * had no tracked time, bloating the usermeta table with zero-value rows. Zero totals
- * are no longer cached per lesson, and course totals are recomputed cheaply on demand,
- * so all zero-value rows can be safely removed.
+ * student and lesson touched by course reporting screens and exports, even when the
+ * student had no tracked time, bloating the usermeta table with zero-value rows.
+ * Those screens now compute time at the course level and no longer read or write
+ * per-lesson caches, so the bulk-created zero rows can be safely removed: they only
+ * get recreated individually when a specific student/lesson is viewed.
+ *
+ * Course-level (`llms_course_time_{$course_id}`) rows are intentionally kept, as
+ * reports still use them and would recreate them on the next render.
  *
  * @since [version]
  *
  * @return bool Returns `true` if more records need to be deleted and `false` upon completion.
  */
-function delete_zero_time_tracking_caches() {
+function delete_zero_lesson_time_caches() {
 
 	global $wpdb;
 
@@ -47,11 +51,10 @@ function delete_zero_time_tracking_caches() {
 	$deleted = $wpdb->query(
 		$wpdb->prepare(
 			"DELETE FROM {$wpdb->usermeta}
-			 WHERE ( meta_key LIKE %s OR meta_key LIKE %s )
+			 WHERE meta_key LIKE %s
 			   AND meta_value = '0'
 			 LIMIT %d",
 			$wpdb->esc_like( 'llms_lesson_time_' ) . '%',
-			$wpdb->esc_like( 'llms_course_time_' ) . '%',
 			$per_page
 		)
 	);
