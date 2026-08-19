@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed course builder deep links so the lesson or quiz settings panel opens on load.
