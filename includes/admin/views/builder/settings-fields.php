@@ -43,9 +43,9 @@ defined( 'ABSPATH' ) || exit;
 						<div class="llms-editable-select{{{ field.classes }}}" >
 							<label class="llms-switch">
 								<span class="llms-label">
-									{{{ field.label }}}
+									<span class="llms-label-text">{{{ field.label }}}</span>
 									<# if ( field.tip ) { #>
-										<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+										<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
 									<# } #>
 								</span>
 								<input data-on="{{{ field.switch_on }}}" data-off="{{{ field.switch_off }}}" data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
@@ -54,9 +54,9 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					<# } else if ( field.label ) { #>
 						<span class="llms-label">
-							{{{ field.label }}}
+							<span class="llms-label-text">{{{ field.label }}}</span>
 							<# if ( field.tip ) { #>
-								<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+								<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
 							<# } #>
 						</span>
 					<# } #>
