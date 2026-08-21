@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3116"
+entry: Fixed stale object cache values for core forms, membership-associated posts, student grades, product active-subscription counts, and theme template override directories on sites using a persistent object cache (Redis, Memcached).

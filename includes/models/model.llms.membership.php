@@ -352,9 +352,10 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		global $wpdb;
 
 		// See if we have a cached result first.
-		$cache = sprintf( 'membership_%1$d_associated_%2$s', $this->get( 'id' ), $post_type );
-		$found = null;
-		$ids   = wp_cache_get( $cache, '', false, $found );
+		$cache_group = self::get_associated_posts_cache_group( $this->get( 'id' ) );
+		$cache_key   = LLMS_Cache_Helper::get_prefix( $cache_group ) . $post_type;
+		$found       = null;
+		$ids         = wp_cache_get( $cache_key, $cache_group, false, $found );
 
 		// We don't, perform a query.
 		if ( ! $found ) {
@@ -384,11 +385,148 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 			$ids = array_map( 'absint', $ids );
 
 			// Cache the result.
-			wp_cache_set( $cache, $ids );
+			wp_cache_set( $cache_key, $ids, $cache_group, HOUR_IN_SECONDS );
 
 		}
 
 		return $ids;
+	}
+
+	/**
+	 * Retrieves the cache group name used by {@see LLMS_Membership::query_associated_posts()}.
+	 *
+	 * The group is per-membership so {@see LLMS_Cache_Helper::invalidate_group()} can orphan
+	 * every cached associated post type for the membership in a single call.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $membership_id WP_Post ID of the membership.
+	 * @return string
+	 */
+	public static function get_associated_posts_cache_group( $membership_id ) {
+		return sprintf( 'llms_membership_%d_associated', absint( $membership_id ) );
+	}
+
+	/**
+	 * Invalidates the associated-posts cache for one or more memberships.
+	 *
+	 * @since [version]
+	 *
+	 * @param int|int[] $membership_ids One or more membership post IDs.
+	 * @return void
+	 */
+	public static function flush_associated_posts_cache( $membership_ids ) {
+		foreach ( (array) $membership_ids as $membership_id ) {
+			$membership_id = absint( $membership_id );
+			if ( $membership_id ) {
+				LLMS_Cache_Helper::invalidate_group( self::get_associated_posts_cache_group( $membership_id ) );
+			}
+		}
+	}
+
+	/**
+	 * Registers hooks that invalidate the associated-posts cache when restriction or
+	 * access-plan-availability metadata changes on an associated post.
+	 *
+	 * Registered during plugin bootstrap by {@see LifterLMS::__construct()}.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function init_associated_posts_cache_hooks() {
+
+		// Capture the prior membership list before meta is updated so removals also bust the cache.
+		add_filter( 'update_post_metadata', array( __CLASS__, 'capture_associated_posts_pre_update_meta' ), 10, 4 );
+
+		foreach ( array( 'added_post_meta', 'updated_post_meta', 'deleted_post_meta' ) as $action ) {
+			add_action( $action, array( __CLASS__, 'flush_associated_posts_cache_on_meta_change' ), 10, 4 );
+		}
+
+		// Post deletion / trash status changes can remove an association without touching meta.
+		add_action( 'before_delete_post', array( __CLASS__, 'flush_associated_posts_cache_on_post_change' ) );
+		add_action( 'trashed_post', array( __CLASS__, 'flush_associated_posts_cache_on_post_change' ) );
+		add_action( 'untrashed_post', array( __CLASS__, 'flush_associated_posts_cache_on_post_change' ) );
+	}
+
+	/**
+	 * Retrieves the meta keys that drive the associated-posts cache.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function get_associated_posts_meta_keys() {
+		return array(
+			'_llms_restricted_levels',
+			'_llms_availability_restrictions',
+		);
+	}
+
+	/**
+	 * Captures the existing membership list before a restriction meta value is overwritten.
+	 *
+	 * `updated_post_meta` only exposes the new value, so memberships removed from the list
+	 * would otherwise never have their cache invalidated.
+	 *
+	 * @since [version]
+	 *
+	 * @param null|bool $check      Whether to allow the metadata update; returned untouched.
+	 * @param int       $object_id  WP_Post ID whose meta is being updated.
+	 * @param string    $meta_key   Meta key being updated.
+	 * @param mixed     $meta_value New meta value (unused).
+	 * @return null|bool The original `$check` value, never modified.
+	 */
+	public static function capture_associated_posts_pre_update_meta( $check, $object_id, $meta_key, $meta_value ) {
+
+		if ( in_array( $meta_key, self::get_associated_posts_meta_keys(), true ) ) {
+			$old = get_post_meta( $object_id, $meta_key, true );
+			if ( ! empty( $old ) ) {
+				self::flush_associated_posts_cache( (array) $old );
+			}
+		}
+
+		return $check;
+	}
+
+	/**
+	 * Invalidates the cache for memberships referenced by a changed meta value.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $meta_id    Meta row ID (unused).
+	 * @param int    $object_id  WP_Post ID whose meta changed.
+	 * @param string $meta_key   Meta key that changed.
+	 * @param mixed  $meta_value The new (or now-deleted) meta value.
+	 * @return void
+	 */
+	public static function flush_associated_posts_cache_on_meta_change( $meta_id, $object_id, $meta_key, $meta_value ) {
+
+		if ( ! in_array( $meta_key, self::get_associated_posts_meta_keys(), true ) ) {
+			return;
+		}
+
+		if ( ! empty( $meta_value ) ) {
+			self::flush_associated_posts_cache( (array) $meta_value );
+		}
+	}
+
+	/**
+	 * Invalidates the cache when a post that may be associated to a membership is deleted, trashed, or untrashed.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID being deleted, trashed, or untrashed.
+	 * @return void
+	 */
+	public static function flush_associated_posts_cache_on_post_change( $post_id ) {
+
+		foreach ( self::get_associated_posts_meta_keys() as $meta_key ) {
+			$value = get_post_meta( $post_id, $meta_key, true );
+			if ( ! empty( $value ) ) {
+				self::flush_associated_posts_cache( (array) $value );
+			}
+		}
 	}
 
 	/**
