@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: Additional checks on access plan button output.

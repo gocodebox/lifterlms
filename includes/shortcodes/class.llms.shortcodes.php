@@ -214,7 +214,7 @@ class LLMS_Shortcodes {
 	 * @since 3.4.1 Unknown.
 	 *
 	 * @param array  $atts    Associative array of shortcode attributes.
-	 * @param string $content Optional. Shortcode content, enables custom text/html in the button. Default empty string.
+	 * @param string $content Optional. Shortcode content, used as the button label. Default empty string.
 	 * @return string
 	 */
 	public static function access_plan_button( $atts, $content = '' ) {
@@ -241,7 +241,7 @@ class LLMS_Shortcodes {
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . esc_html( $text ) . '</a>';
 		}
 
 		/**
@@ -251,7 +251,7 @@ class LLMS_Shortcodes {
 		 *
 		 * @param string $ret     The shortcode output.
 		 * @param array  $atts    Associative array of shortcode attributes.
-		 * @param string $content Shortcode content, enables custom text/html in the button. Default empty string.
+		 * @param string $content Shortcode content, used as the button label. Default empty string.
 		 */
 		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
 	}

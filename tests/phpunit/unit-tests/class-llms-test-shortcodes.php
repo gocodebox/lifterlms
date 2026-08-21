@@ -138,6 +138,77 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test access plan button output escapes custom label text.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_escapes_custom_text() {
+
+		$plan = $this->get_mock_plan();
+		$html = LLMS_Shortcodes::access_plan_button(
+			array( 'id' => $plan->get( 'id' ) ),
+			'Custom <b>Label</b>'
+		);
+
+		$this->assertStringContains( esc_html( 'Custom <b>Label</b>' ), $html );
+		$this->assertStringNotContains( '<b>Label</b>', $html );
+
+	}
+
+	/**
+	 * Test access plan button output escapes the plan enroll text fallback.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_escapes_enroll_text() {
+
+		$plan = $this->get_mock_plan();
+
+		$handler = function ( $text ) {
+			return 'Enroll <b>Now</b>';
+		};
+		add_filter( 'llms_plan_get_enroll_text', $handler );
+
+		$html = LLMS_Shortcodes::access_plan_button( array( 'id' => $plan->get( 'id' ) ) );
+
+		remove_filter( 'llms_plan_get_enroll_text', $handler );
+
+		$this->assertStringContains( esc_html( 'Enroll <b>Now</b>' ), $html );
+		$this->assertStringNotContains( '<b>Now</b>', $html );
+
+	}
+
+	/**
+	 * Test the access plan button block escapes its text attribute.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_block_escapes_text_attribute() {
+
+		$plan    = $this->get_mock_plan();
+		$markup  = sprintf(
+			'<!-- wp:llms/access-plan-button %s /-->',
+			wp_json_encode(
+				array(
+					'id'   => (string) $plan->get( 'id' ),
+					'text' => 'Buy <b>Now</b>',
+				)
+			)
+		);
+		$html = do_blocks( $markup );
+
+		$this->assertStringContains( esc_html( 'Buy <b>Now</b>' ), $html );
+		$this->assertStringNotContains( '<b>Now</b>', $html );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0
