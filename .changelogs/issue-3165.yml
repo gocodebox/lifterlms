@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed media protection block editor labels incorrectly showing "Protect Image" for file, video, and audio blocks.
