@@ -1,3 +1,5 @@
 significance: patch
 type: security
+attributions:
+  - "@thaer-assfour"
 entry: Additional checks on settings save.
