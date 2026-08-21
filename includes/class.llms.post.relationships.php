@@ -110,6 +110,66 @@ class LLMS_Post_Relationships {
 		add_action( 'pre_delete_post', array( __CLASS__, 'maybe_prevent_product_deletion' ), 10, 2 );
 
 		add_action( 'before_delete_post', array( __CLASS__, 'maybe_clean_earned_engagments_related_user_post_meta' ) );
+
+		add_action( 'trashed_post', array( __CLASS__, 'maybe_reset_progress_cache' ) );
+		add_action( 'untrashed_post', array( __CLASS__, 'maybe_reset_progress_cache' ) );
+		add_action( 'before_delete_post', array( __CLASS__, 'maybe_reset_progress_cache' ) );
+		add_action( 'update_post_meta', array( __CLASS__, 'maybe_reset_progress_cache_on_reparent' ), 10, 4 );
+	}
+
+	/**
+	 * Reset all students' cached progress when a lesson or section is trashed, untrashed, or deleted.
+	 *
+	 * Structural changes alter every student's course/section progress, but the cached aggregates in
+	 * user meta are only reset when an individual student's own completion status changes.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP Post ID.
+	 * @return void
+	 */
+	public static function maybe_reset_progress_cache( $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		if ( in_array( $post_type, array( 'lesson', 'section' ), true ) ) {
+			llms_reset_progress_cache( $post_id, $post_type );
+		}
+	}
+
+	/**
+	 * Reset all students' cached progress when a lesson or section is moved to a new parent.
+	 *
+	 * Runs on the `update_post_meta` action, which fires before the meta is updated, so the
+	 * old ancestor tree is still readable from the database and both the old and new
+	 * ancestors' caches can be reset.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $meta_id    Meta row ID.
+	 * @param int    $object_id  WP Post ID.
+	 * @param string $meta_key   Meta key being updated.
+	 * @param mixed  $meta_value New meta value.
+	 * @return void
+	 */
+	public static function maybe_reset_progress_cache_on_reparent( $meta_id, $object_id, $meta_key, $meta_value ) {
+
+		if ( ! in_array( $meta_key, array( '_llms_parent_section', '_llms_parent_course' ), true ) ) {
+			return;
+		}
+
+		$post_type = get_post_type( $object_id );
+		if ( ! in_array( $post_type, array( 'lesson', 'section' ), true ) ) {
+			return;
+		}
+
+		// Old ancestors (the meta still holds the previous parent at this point).
+		llms_reset_progress_cache( $object_id, $post_type );
+
+		// New ancestor tree.
+		if ( $meta_value ) {
+			llms_reset_progress_cache( absint( $meta_value ), '_llms_parent_section' === $meta_key ? 'section' : 'course' );
+		}
 	}
 
 	/**

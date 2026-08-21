@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Ability input schemas reject unknown parameters instead of silently ignoring them.

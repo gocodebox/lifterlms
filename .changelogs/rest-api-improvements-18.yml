@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: List abilities omit rendered markup when a raw counterpart is available, reducing payload size.

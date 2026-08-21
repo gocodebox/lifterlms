@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Nested abilities accept id as the parent resource identifier.

@@ -1,0 +1,12 @@
+allOf:
+  - $ref: '#/components/schemas/Assignment'
+  - type: object
+    properties:
+      title:
+        type: string
+        description: Raw title.
+        example: Essay on the Renaissance
+      content:
+        type: string
+        description: Raw content / assignment description.
+        example: <p>Write a 500 word essay on the Renaissance.</p>

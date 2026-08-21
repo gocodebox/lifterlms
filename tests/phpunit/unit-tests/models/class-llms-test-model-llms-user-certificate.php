@@ -753,6 +753,9 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 				case '{last_name}':
 					$expected = $user_info['last_name'];
 					break;
+				case '{student_name}':
+					$expected = $user->get( 'display_name' );
+					break;
 				case '{student_id}':
 					$expected = $user->get( 'id' );
 					break;

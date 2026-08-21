@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Ability reads default to the edit context, returning complete resource data.

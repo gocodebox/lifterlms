@@ -120,6 +120,44 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test filtering sections by parent via the `parent_id` alias.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sections_filter_by_parent_id_alias() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$courses = $this->factory->course->create_many( 2, array( 'sections' => 2, 'lessons' => 0 ) );
+
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent_id', $courses[0] );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $section ) {
+			$this->assertEquals( $courses[0], $section['parent_id'] );
+		}
+
+		// `parent` wins when both are provided.
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent', $courses[1] );
+		$request->set_param( 'parent_id', $courses[0] );
+		$response = $this->server->dispatch( $request );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $section ) {
+			$this->assertEquals( $courses[1], $section['parent_id'] );
+		}
+	}
+
+	/**
 	 * Test links.
 	 *
 	 * @since 1.0.0-beta.7
@@ -204,6 +242,35 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 		// Test the created section and the response are equal
 		$this->llms_posts_fields_match( $sections[0], $res_data );
 		$this->assertEquals( $section_args['title']['rendered'], $res_data['title']['rendered'] );
+	}
+
+	/**
+	 * Test creating sections without order assigns sequential sibling order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_section_auto_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course_id    = $this->factory->course->create( array( 'sections' => 0 ) );
+		$section_args = $this->sample_section_args;
+		$section_args['parent_id'] = $course_id;
+
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_body_params( $section_args );
+		$first = $this->server->dispatch( $request );
+
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_body_params( $section_args );
+		$second = $this->server->dispatch( $request );
+
+		$this->assertEquals( 201, $first->get_status() );
+		$this->assertEquals( 201, $second->get_status() );
+		$this->assertEquals( 1, $first->get_data()['order'] );
+		$this->assertEquals( 2, $second->get_data()['order'] );
 	}
 
 	/**

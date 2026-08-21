@@ -73,6 +73,91 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 }
 
 /**
+ * Retrieve the student progress cache keys affected by a change to a given object.
+ *
+ * Student progress is cached in user meta under deterministic keys (e.g. `course_123_progress`,
+ * stored prefixed as `llms_course_123_progress`). This returns the (unprefixed) keys for the
+ * object's ancestor tree: the parent section (for lessons), the section itself (for sections),
+ * the parent course, and the course's tracks.
+ *
+ * @since [version]
+ *
+ * @param int         $object_id   WP Post ID of a lesson, section, or course.
+ * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
+ * @return string[] List of unprefixed user meta cache keys.
+ */
+function llms_get_progress_cache_keys( $object_id, $object_type = null ) {
+
+	$object_type = $object_type ? $object_type : get_post_type( $object_id );
+
+	$section_id = 0;
+	$course_id  = 0;
+
+	if ( 'lesson' === $object_type ) {
+		$lesson = llms_get_post( $object_id );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			return array();
+		}
+		$section_id = absint( $lesson->get( 'parent_section' ) );
+		$course_id  = absint( $lesson->get( 'parent_course' ) );
+	} elseif ( 'section' === $object_type ) {
+		$section = llms_get_post( $object_id );
+		if ( ! $section || ! is_a( $section, 'LLMS_Section' ) ) {
+			return array();
+		}
+		$section_id = absint( $object_id );
+		$course_id  = absint( $section->get( 'parent_course' ) );
+	} elseif ( 'course' === $object_type ) {
+		$course_id = absint( $object_id );
+	} else {
+		return array();
+	}
+
+	$keys = array();
+
+	if ( $section_id ) {
+		$keys[] = sprintf( 'section_%d_progress', $section_id );
+	}
+
+	if ( $course_id ) {
+		$keys[] = sprintf( 'course_%d_progress', $course_id );
+
+		$course = llms_get_post( $course_id );
+		if ( $course && is_a( $course, 'LLMS_Course' ) ) {
+			foreach ( wp_list_pluck( $course->get_tracks(), 'term_id' ) as $track_id ) {
+				$keys[] = sprintf( 'course_track_%d_progress', $track_id );
+			}
+		}
+	}
+
+	return $keys;
+}
+
+/**
+ * Reset the cached student progress for an object's ancestor tree, for all students.
+ *
+ * Used when a structural change (trash, delete, untrash, reparent) invalidates the cached
+ * progress of every student at once, in contrast to `LLMS_Student::update_completion_status()`
+ * which resets the cache for a single student when their own completion changes.
+ *
+ * @since [version]
+ *
+ * @param int         $object_id   WP Post ID of a lesson, section, or course.
+ * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
+ * @return string[] List of unprefixed cache keys that were reset.
+ */
+function llms_reset_progress_cache( $object_id, $object_type = null ) {
+
+	$keys = llms_get_progress_cache_keys( $object_id, $object_type );
+
+	foreach ( $keys as $key ) {
+		delete_metadata( 'user', 0, 'llms_' . $key, '', true );
+	}
+
+	return $keys;
+}
+
+/**
  * Determines whether or not a "Mark Complete" button should be displayed for a given lesson
  *
  * If the lesson has a quiz, the button will only be shown if the current user has

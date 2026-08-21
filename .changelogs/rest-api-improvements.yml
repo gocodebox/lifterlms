@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "REST API: added endpoints for quizzes, quiz questions, quiz attempts (including grading), orders and their transactions, certificate templates, and awarded certificates, with new webhook topics and WordPress Abilities API registration."
