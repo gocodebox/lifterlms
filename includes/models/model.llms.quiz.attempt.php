@@ -986,6 +986,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			return false;
 		}
 
+		/*
+		 * Deleting an attempt can change the computed quiz/lesson/course grade even when the
+		 * lesson remains complete (no `llms_mark_incomplete` fires), so the per-student grade
+		 * cache must be invalidated directly.
+		 */
+		llms()->grades()->clear_student_cache( $this->get( 'student_id' ) );
+
 		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
 
 		// No lesson, or lesson incomplete, nothing special to do here.

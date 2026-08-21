@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Clarified the REST schema documentation for the `meta` field serialization and the enrollment `trigger` default.

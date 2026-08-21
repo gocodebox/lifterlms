@@ -1,0 +1,82 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique Assignment Identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve an assignment
+  description: |
+    Retrieve the details of an existing assignment.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignments
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the assignment.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssignmentResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update an assignment
+  description: |
+    Update the specified assignment by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignments
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AssignmentRequest'
+  responses:
+    200:
+      description: Successfully updated the assignment.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssignmentResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete an assignment
+  description: |
+    Delete an existing assignment.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignments
+  responses:
+    204:
+      description: Successfully deleted the assignment.
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

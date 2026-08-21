@@ -1,0 +1,40 @@
+parameters:
+  - name: quiz_id
+    in: path
+    description: Unique quiz identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: List a quiz's questions
+  description: Retrieve a list of the questions belonging to a quiz.
+  tags:
+    - Quizzes
+  parameters:
+    - $ref: '#/components/parameters/Context'
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+  responses:
+    200:
+      description: Successfully returned a list of the quiz's questions.
+      headers:
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuizQuestionResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

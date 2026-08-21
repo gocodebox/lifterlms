@@ -1,6 +1,6 @@
 {
   "name": "lifterlms-rest",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "REST API feature plugin for the LifterLMS Core.",
   "author": "LifterLMS",
   "homepage": "https://lifterlms.com/",

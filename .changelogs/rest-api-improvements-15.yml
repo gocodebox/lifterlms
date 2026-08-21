@@ -1,0 +1,3 @@
+significance: patch
+type: added
+entry: The sections and lessons list endpoints accept `parent_id` as an alias for the `parent` filter.

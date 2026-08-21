@@ -23,20 +23,13 @@ get:
         default: id
     - $ref: '#/components/parameters/Include'
     - $ref: '#/components/parameters/Exclude'
-    - name: parent
-      description: Filter quizzes by the parent post (lesson) ID.
+    - name: lesson
+      description: Filter quizzes by the parent lesson ID.
       in: query
       schema:
         type: integer
         minimum: 1
         example: 789
-    - name: course
-      description: Filter quizzes by the parent couse ID.
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        example: 1234
     - name: status
       description: Filter quizzes by the post status.
       in: query

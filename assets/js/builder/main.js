@@ -15,7 +15,8 @@ require( [
 	'Controllers/Sync',
 	'Models/loader',
 	'Views/Course',
-	'Views/Sidebar'
+	'Views/Sidebar',
+	'Views/Tooltip'
 	], function(
 	Hooks,
 	CV,
@@ -26,7 +27,8 @@ require( [
 	Sync,
 	Models,
 	CourseView,
-	SidebarView
+	SidebarView,
+	TooltipView
 	) {
 
 		window.llms_builder.debug     = new Debug( window.llms_builder.debug );
@@ -323,6 +325,8 @@ require( [
 		var Sidebar = new SidebarView( {
 			CourseView: Course
 		} );
+
+		new TooltipView();
 
 		$( document ).trigger( 'llms-builder-init', {
 			course: Course,

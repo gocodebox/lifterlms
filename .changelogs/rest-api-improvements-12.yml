@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: List abilities return an empty list instead of a not-found error for empty collections.

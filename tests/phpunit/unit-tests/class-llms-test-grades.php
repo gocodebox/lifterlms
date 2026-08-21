@@ -140,7 +140,8 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 
 			$grade = $possible_grades[ rand( 0, count( $possible_grades ) - 1 ) ];
 			$this->take_quiz( $quiz_id, $student->get( 'id' ), $grade );
-			$this->assertNull( $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ) ) ); // cached
+			// Cache is busted by `lifterlms_quiz_completed`, so the cached read sees the new grade.
+			$this->assertEquals( $grade, $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ) ) ); // cached
 			$this->assertEquals( $grade, $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ), false ) ); // no cache
 			$this->assertEquals( $grade, $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ) ) ); // cached
 			$lesson_grades[] = $grade;
@@ -159,6 +160,117 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 		$this->assertEquals( round( $course_grade, 2 ), $grader->get_grade( $course->get( 'id' ), $student->get( 'id' ), false ) );
 		$this->assertEquals( round( $course_grade, 2 ), $grader->get_grade( $course->get( 'id' ), $student->get( 'id' ) ) );
 
+
+	}
+
+	/**
+	 * Test get_grade() treats an empty string in the cache as a miss.
+	 *
+	 * Simulates a persistent object cache (Redis, Memcached) deserializing a cached null as ''.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_empty_string_cache_treated_as_miss() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$group      = LLMS_Grades::get_cache_group( $student_id );
+		$cache_key  = LLMS_Cache_Helper::get_prefix( $group ) . sprintf( '%d_grade', $course_id );
+
+		// Simulate a persistent cache returning '' for a cached null grade.
+		wp_cache_set( $cache_key, '', $group );
+
+		// Should treat '' as a cache miss and recalculate, returning null since no quizzes were taken.
+		$this->assertNull( $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
+	 * Test get_grade() returns a numeric grade from the cache without recalculating.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_numeric_cache_returned() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$group      = LLMS_Grades::get_cache_group( $student_id );
+		$cache_key  = LLMS_Cache_Helper::get_prefix( $group ) . sprintf( '%d_grade', $course_id );
+
+		wp_cache_set( $cache_key, 85.5, $group );
+
+		$this->assertEquals( 85.5, $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
+	 * Test get_grade() treats null in the cache as a valid "no grade" hit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_null_cache_is_valid_hit() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$course_id  = $course->get( 'id' );
+		$student_id = $student->get( 'id' );
+		$group      = LLMS_Grades::get_cache_group( $student_id );
+		$cache_key  = LLMS_Cache_Helper::get_prefix( $group ) . sprintf( '%d_grade', $course_id );
+
+		wp_cache_set( $cache_key, null, $group );
+
+		$this->assertNull( $grader->get_grade( $course_id, $student_id ) );
+
+	}
+
+	/**
+	 * Test that deleting a quiz attempt invalidates the student's cached grades.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_grade_cache_invalidated_on_attempt_deletion() {
+
+		$grader  = llms()->grades();
+		$student = $this->get_mock_student();
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 1 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		$lesson  = llms_get_post( $course->get_lessons( 'ids' )[0] );
+		$quiz_id = $lesson->get( 'quiz' );
+
+		$this->take_quiz( $quiz_id, $student->get( 'id' ), 100 );
+		$this->assertEquals( 100, $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ) ) );
+
+		// Delete the only attempt; the cached grade must not survive.
+		$attempt = $student->quizzes()->get_best_attempt( $quiz_id );
+		$attempt->delete();
+
+		$this->assertNull( $grader->get_grade( $lesson->get( 'id' ), $student->get( 'id' ) ) );
 
 	}
 

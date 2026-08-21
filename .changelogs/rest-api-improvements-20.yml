@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Ability get and list operations now use the edit context when the caller omits it.

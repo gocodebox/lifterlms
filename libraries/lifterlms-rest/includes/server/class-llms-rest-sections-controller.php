@@ -225,9 +225,49 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			}
 
 			$prepared_item['order'] = $request['order'];
+		} elseif ( empty( $request['id'] ) && ! is_wp_error( $prepared_item ) && ! empty( $prepared_item['parent_course'] ) ) {
+			$prepared_item['order'] = $this->get_next_order( $prepared_item['parent_course'] );
 		}
 
 		return $prepared_item;
+	}
+
+	/**
+	 * Retrieve the next order for a new section in a course.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $parent_id Course post ID.
+	 * @return int
+	 */
+	protected function get_next_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'section',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_course',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_meta( $query->posts[0], '_llms_order', true ) ) + 1;
 	}
 
 	/**
@@ -259,12 +299,10 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 		$schema['properties']['order'] = array(
 			'description' => __( 'Order of the section within the course.', 'lifterlms' ),
 			'type'        => 'integer',
-			'default'     => 1,
 			'context'     => array( 'view', 'edit' ),
 			'arg_options' => array(
 				'sanitize_callback' => 'absint',
 			),
-			'required'    => true,
 		);
 
 		// remove unnecessary properties.
@@ -329,6 +367,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['parent_id'] = array(
+			'description'       => __( 'Alias for `parent`. Ignored when `parent` is provided.', 'lifterlms' ),
+			'type'              => 'integer',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		return $query_params;
 	}
 
@@ -381,6 +425,11 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 					'orderby'  => 'meta_value_num',
 				)
 			);
+		}
+
+		// `parent_id` is an alias for `parent`, matching the item schema's field name.
+		if ( empty( $request['parent'] ) && ! empty( $request['parent_id'] ) ) {
+			$request['parent'] = absint( $request['parent_id'] );
 		}
 
 		if ( isset( $this->parent_id ) ) {

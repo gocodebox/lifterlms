@@ -4,7 +4,7 @@ properties:
   id:
     description: Unique question identifer. The WordPress Post `ID`.
     type: integer
-    minimum: 234
+    example: 234
     readOnly: true
   date_created:
     description: 'Creation date. Format: `Y-m-d H:i:s`.'
@@ -29,28 +29,125 @@ properties:
       - $ref: '#/components/schemas/PostType'
     type: string
     default: llms_question
-  order:
-    description: Order of the question within its immediate parent.
-    type: integer
-    default: 1
-    minimum: 1
   parent_id:
-    description: Resource ID of the question's parent (quiz).
+    description: WordPress post ID of the question's parent quiz. `0` indicates an "orphaned" question.
     type: integer
-    minimum: 1
+    minimum: 0
     example: 234
+  question_type:
+    description: The type of the question. Additional types may be registered by add-ons such as LifterLMS Advanced Quizzes.
+    type: string
+    default: choice
+    example: choice
+    enum:
+      - content
+      - choice
+      - picture_choice
+      - true_false
+      - blank
+      - reorder
+      - picture_reorder
+      - short_answer
+      - long_answer
+      - upload
+      - code
+      - scale
   points:
-    description: Number of points awarded for correctly answering the question.
+    description: The number of points awarded for a correct answer to the question.
     type: integer
     minimum: 0
     default: 1
     example: 10
-  video_embed:
-    description: URL to an oEmbed enable video URL.
+  multi_choices:
+    description: Whether students may select more than one choice. Only used by choice-type questions.
+    type: boolean
+    default: false
+  clarifications:
+    description: Clarification text (HTML) displayed to students when reviewing the question after grading.
+    type: string
+    example: The correct answer is <strong>B</strong> because...
+  video_src:
+    description: URL to an oEmbed enabled video to display with the question.
     type: string
     example: https://www.youtube.com/watch?v=videoid
-  featured_media:
-    description: Featured image ID.
+  auto_grade:
+    description: Whether the question is automatically graded. Used by blank and scale question types. Requires LifterLMS Advanced Quizzes.
+    type: boolean
+    default: false
+  correct_value:
+    description: The correct answer used when auto-grading. For blank questions, separate multiple blanks with a pipe (|). Providing a non-empty value enables auto_grade when that field is omitted. Requires LifterLMS Advanced Quizzes.
+    type: string
+    example: MVP
+  case_sensitive:
+    description: Whether blank-question answers are treated as case-sensitive during auto-grading. Requires LifterLMS Advanced Quizzes.
+    type: boolean
+    default: false
+  enable_word_count_min:
+    description: Whether a minimum word count is enforced for long-answer questions. Requires LifterLMS Advanced Quizzes.
+    type: boolean
+    default: false
+  enable_word_count_max:
+    description: Whether a maximum word count is enforced for long-answer questions. Requires LifterLMS Advanced Quizzes.
+    type: boolean
+    default: false
+  word_count_min:
+    description: Minimum word count for long-answer questions. Only used when enable_word_count_min is true. Requires LifterLMS Advanced Quizzes.
     type: integer
-    example: 205
-
+  word_count_max:
+    description: Maximum word count for long-answer questions. Only used when enable_word_count_max is true. Requires LifterLMS Advanced Quizzes.
+    type: integer
+  upload_restrict_filetypes:
+    description: Whether uploaded files are restricted to the listed mime types. Requires LifterLMS Advanced Quizzes.
+    type: boolean
+    default: false
+  upload_filetypes:
+    description: Allowed upload mime-type keys (as returned by get_allowed_mime_types(), e.g. "pdf", "jpg|jpeg|jpe"). Providing a non-empty list enables upload_restrict_filetypes when that field is omitted. Requires LifterLMS Advanced Quizzes.
+    type: array
+    items:
+      type: string
+    example:
+      - pdf
+  code_language:
+    description: Code editor language for code questions. Requires LifterLMS Advanced Quizzes.
+    type: string
+  scale_min:
+    description: Minimum value for scale questions. Requires LifterLMS Advanced Quizzes.
+    type: integer
+  scale_min_label:
+    description: Label for the minimum scale value. Requires LifterLMS Advanced Quizzes.
+    type: string
+  scale_max:
+    description: Maximum value for scale questions. Requires LifterLMS Advanced Quizzes.
+    type: integer
+  scale_max_label:
+    description: Label for the maximum scale value. Requires LifterLMS Advanced Quizzes.
+    type: string
+  choices:
+    description: 'List of the question''s choices. Only used by question types which support choices. Treated as the complete set on update: existing choices omitted from the list are deleted.'
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          description: The choice unique identifier. Provide to update an existing choice, omit to create a new choice.
+          type: string
+          example: ABC123
+        choice:
+          description: The choice content. A string for text choices or an object (`id`, `src`) for image choices.
+          type: string
+          example: Answer text.
+        choice_type:
+          description: The type of the choice content.
+          type: string
+          enum:
+            - text
+            - image
+          default: text
+        correct:
+          description: Whether the choice is a correct answer.
+          type: boolean
+          default: false
+        marker:
+          description: The choice marker (A, B, C...). Automatically generated when omitted.
+          type: string
+          example: A

@@ -28,7 +28,21 @@ class LLMS_Cache_Helper {
 	public function __construct() {
 
 		add_action( 'wp', array( $this, 'maybe_no_cache' ) );
+		add_action( 'switch_theme', array( __CLASS__, 'clear_template_override_directories_cache' ) );
+	}
 
+	/**
+	 * Clears the cached list of theme override directories used by `llms_get_template_override_directories()`.
+	 *
+	 * The cached value contains absolute paths derived from the active theme; on hosts with a
+	 * persistent object cache the stale paths would otherwise survive a theme switch.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function clear_template_override_directories_cache() {
+		wp_cache_delete( 'theme-override-directories', 'llms_template_functions' );
 	}
 
 	/**
@@ -88,7 +102,6 @@ class LLMS_Cache_Helper {
 		}
 
 		return sprintf( 'llms_cache_%s_', $prefix );
-
 	}
 
 	/**
@@ -160,7 +173,6 @@ class LLMS_Cache_Helper {
 			remove_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
 		}
-
 	}
 
 	/**
@@ -199,9 +211,7 @@ class LLMS_Cache_Helper {
 		$headers['Cache-Control'] = implode( ', ', $nocache_headers_cache_control );
 
 		return $headers;
-
 	}
-
 }
 
 return new LLMS_Cache_Helper();
