@@ -79,6 +79,11 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 */
 		$args['per_page'] = apply_filters( 'llms_table_generate_export_file_per_page_boost', 250 );
 
+		// A fresh export must compute its own page count; ignore any client-supplied value.
+		if ( empty( $filename ) ) {
+			unset( $args['export_max_pages'] );
+		}
+
 		$filename    = $filename ? basename( $filename ) : $this->get_export_file_name() . '.' . $type;
 		$file_path   = LLMS_TMP_DIR . $filename;
 		$option_name = 'llms_gen_export_' . basename( $filename, '.' . $type );
@@ -107,6 +112,10 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		if ( ! $this->is_last_page() ) {
 
 			$args['page'] = $this->get_current_page() + 1;
+
+			// Persist the page count so subsequent requests can skip re-counting the full result set.
+			$args['export_max_pages'] = $this->get_max_pages();
+
 			update_option( $option_name, $args );
 			$progress = round( ( $this->get_current_page() / $this->get_max_pages() ) * 100, 2 );
 

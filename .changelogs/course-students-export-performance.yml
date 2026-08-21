@@ -1,0 +1,3 @@
+significance: patch
+type: performance
+entry: Improved the performance of the Time in Course column on the course students reporting screen and export by computing course totals with a single query, adding a lesson index to the time sessions table, and skipping all per-student queries when a course has no tracked time.

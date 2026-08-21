@@ -209,6 +209,35 @@ class LLMS_Lesson_Time_Tracking {
 	}
 
 	/**
+	 * Determine if any time tracking sessions exist for a course's lessons.
+	 *
+	 * Used to short-circuit per-student time calculations on reporting screens
+	 * when a course has no tracked time at all.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $course_id Course post ID.
+	 * @return bool
+	 */
+	public function course_has_time_data( $course_id ) {
+
+		global $wpdb;
+
+		return (bool) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT 1
+				 FROM {$wpdb->postmeta} AS pm
+				 INNER JOIN {$wpdb->prefix}lifterlms_lesson_time_sessions AS s
+					ON s.lesson_id = pm.post_id
+				 WHERE pm.meta_key = '_llms_parent_course'
+				   AND pm.meta_value = %s
+				 LIMIT 1",
+				absint( $course_id )
+			)
+		);
+	}
+
+	/**
 	 * Update cached time values for a user and lesson.
 	 *
 	 * Updates both the per-lesson and per-course cached totals.
@@ -235,6 +264,9 @@ class LLMS_Lesson_Time_Tracking {
 	/**
 	 * Update cached course time for a user.
 	 *
+	 * Computes the course total with a single query across all the course's lessons
+	 * rather than querying (and caching) each lesson individually.
+	 *
 	 * @since 10.1.0
 	 *
 	 * @param int $user_id   WP User ID.
@@ -248,12 +280,21 @@ class LLMS_Lesson_Time_Tracking {
 			return 0;
 		}
 
-		$lessons = $course->get_lessons( 'ids' );
-		$total   = 0;
+		global $wpdb;
 
-		foreach ( $lessons as $lid ) {
-			$total += $this->get_total_seconds( $user_id, $lid );
-		}
+		$total = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COALESCE( SUM( s.accumulated_seconds ), 0 )
+				 FROM {$wpdb->prefix}lifterlms_lesson_time_sessions AS s
+				 INNER JOIN {$wpdb->postmeta} AS pm
+					ON pm.post_id = s.lesson_id
+				   AND pm.meta_key = '_llms_parent_course'
+				 WHERE s.user_id = %d
+				   AND pm.meta_value = %s",
+				$user_id,
+				absint( $course_id )
+			)
+		);
 
 		$student = llms_get_student( $user_id );
 		if ( $student ) {
