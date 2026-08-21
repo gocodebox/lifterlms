@@ -138,13 +138,13 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test access plan button output escapes custom label text.
+	 * Test access plan button output allows safe HTML in custom label text.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_access_plan_button_escapes_custom_text() {
+	public function test_access_plan_button_allows_safe_html() {
 
 		$plan = $this->get_mock_plan();
 		$html = LLMS_Shortcodes::access_plan_button(
@@ -152,24 +152,44 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 			'Custom <b>Label</b>'
 		);
 
-		$this->assertStringContains( esc_html( 'Custom <b>Label</b>' ), $html );
-		$this->assertStringNotContains( '<b>Label</b>', $html );
+		$this->assertStringContains( '<b>Label</b>', $html );
 
 	}
 
 	/**
-	 * Test access plan button output escapes the plan enroll text fallback.
+	 * Test access plan button output strips disallowed markup from custom label text.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_access_plan_button_escapes_enroll_text() {
+	public function test_access_plan_button_strips_unsafe_html() {
+
+		$plan = $this->get_mock_plan();
+		$html = LLMS_Shortcodes::access_plan_button(
+			array( 'id' => $plan->get( 'id' ) ),
+			'Buy <script>bad</script><img src="x" onerror="bad">'
+		);
+
+		$this->assertStringNotContains( '<script>', $html );
+		$this->assertStringNotContains( 'onerror', $html );
+		$this->assertStringContains( '<img', $html );
+
+	}
+
+	/**
+	 * Test access plan button output sanitizes the plan enroll text fallback.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_sanitizes_enroll_text() {
 
 		$plan = $this->get_mock_plan();
 
 		$handler = function ( $text ) {
-			return 'Enroll <b>Now</b>';
+			return 'Enroll <b>Now</b><script>bad</script>';
 		};
 		add_filter( 'llms_plan_get_enroll_text', $handler );
 
@@ -177,34 +197,34 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 		remove_filter( 'llms_plan_get_enroll_text', $handler );
 
-		$this->assertStringContains( esc_html( 'Enroll <b>Now</b>' ), $html );
-		$this->assertStringNotContains( '<b>Now</b>', $html );
+		$this->assertStringContains( '<b>Now</b>', $html );
+		$this->assertStringNotContains( '<script>', $html );
 
 	}
 
 	/**
-	 * Test the access plan button block escapes its text attribute.
+	 * Test the access plan button block sanitizes its text attribute.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_access_plan_button_block_escapes_text_attribute() {
+	public function test_access_plan_button_block_sanitizes_text_attribute() {
 
-		$plan    = $this->get_mock_plan();
-		$markup  = sprintf(
+		$plan   = $this->get_mock_plan();
+		$markup = sprintf(
 			'<!-- wp:llms/access-plan-button %s /-->',
 			wp_json_encode(
 				array(
 					'id'   => (string) $plan->get( 'id' ),
-					'text' => 'Buy <b>Now</b>',
+					'text' => 'Buy <b>Now</b><script>bad</script>',
 				)
 			)
 		);
 		$html = do_blocks( $markup );
 
-		$this->assertStringContains( esc_html( 'Buy <b>Now</b>' ), $html );
-		$this->assertStringNotContains( '<b>Now</b>', $html );
+		$this->assertStringContains( '<b>Now</b>', $html );
+		$this->assertStringNotContains( '<script>', $html );
 
 	}
 
