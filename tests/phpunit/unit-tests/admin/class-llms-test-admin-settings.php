@@ -388,4 +388,75 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Test save() dies when the nonce is missing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_missing_nonce() {
+
+		$this->mockPostRequest(
+			array(
+				'save' => 'Save Changes',
+			)
+		);
+
+		$this->expectException( 'WPDieException' );
+		LLMS_Admin_Settings::save();
+	}
+
+	/**
+	 * Test save() dies when the nonce is invalid.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_invalid_nonce() {
+
+		$this->mockPostRequest(
+			array(
+				'_wpnonce' => 'fake',
+				'save'     => 'Save Changes',
+			)
+		);
+
+		$this->expectException( 'WPDieException' );
+		LLMS_Admin_Settings::save();
+	}
+
+	/**
+	 * Test save() proceeds when the nonce is valid.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_valid_nonce() {
+
+		global $current_tab;
+		$current_tab = 'general';
+
+		$this->mockPostRequest(
+			array(
+				'_wpnonce' => wp_create_nonce( 'lifterlms-settings' ),
+				'save'     => 'Save Changes',
+			)
+		);
+
+		$saved = false;
+		add_action(
+			'lifterlms_settings_saved',
+			function () use ( &$saved ) {
+				$saved = true;
+			}
+		);
+
+		LLMS_Admin_Settings::save();
+
+		$this->assertTrue( $saved );
+	}
+
 }
