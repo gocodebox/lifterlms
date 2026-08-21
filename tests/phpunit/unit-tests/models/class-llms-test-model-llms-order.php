@@ -1642,6 +1642,41 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test that the first retry stays scheduled when a failed payment moves an active order to on-hold.
+	 *
+	 * The `lifterlms_order_status_on-hold` transition triggers `LLMS_Controller_Orders::error_order()`,
+	 * which unschedules pending recurring payments. The retry must survive that transition.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_schedule_retry_on_active_order() {
+
+		$this->mock_gateway_support( 'recurring_retry' );
+
+		$order = $this->get_order();
+		$order->set_status( 'active' );
+
+		$txn = $order->record_transaction( array(
+			'amount'       => 25.99,
+			'status'       => 'llms-txn-pending',
+			'payment_type' => 'recurring',
+		) );
+		$txn->set( 'status', 'llms-txn-failed' );
+
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		$this->assertEquals( 'llms-on-hold', $order->get( 'status' ) );
+		$this->assertEquals( 1, did_action( 'llms_automatic_payment_retry_scheduled' ) );
+
+		$action_time = as_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) );
+		$this->assertNotFalse( $action_time, 'The scheduled retry was unscheduled by the on-hold status transition.' );
+		$this->assertEqualsWithDelta( $order->get_next_payment_due_date( 'U' ), $action_time, $this->date_delta );
+
+	}
+
+	/**
 	 * Test record_transaction() method
 	 *
 	 * @since Unknown

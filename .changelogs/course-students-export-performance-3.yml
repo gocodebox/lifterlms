@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Course and membership student exports now honor the boosted export page size, reducing the number of requests required to generate an export file by up to 10x.

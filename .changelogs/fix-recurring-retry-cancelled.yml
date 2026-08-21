@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed automatic recurring payment retries never running when a failed payment placed an active order on hold.
