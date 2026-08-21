@@ -1,0 +1,3 @@
+significance: patch
+type: performance
+entry: Course and membership student exports now count the total result set once instead of re-running the count query on every page of the export.
