@@ -239,7 +239,12 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			return false;
 		}
 
-		$this->set( 'title', get_post_meta( $template_id, "_llms_{$this->model_post_type}_title", true ) );
+		// Templates built since 6.0 store the title on the post itself; the meta value is deprecated and often empty.
+		$title = get_post_meta( $template_id, "_llms_{$this->model_post_type}_title", true );
+		if ( ! $title ) {
+			$title = $template->get( 'title' );
+		}
+		$this->set( 'title', $title );
 		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
 			! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) )
 		) {

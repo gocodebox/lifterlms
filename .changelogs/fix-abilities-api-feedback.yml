@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Awarded certificates and achievements now fall back to the template's post title when the deprecated title meta value is empty.

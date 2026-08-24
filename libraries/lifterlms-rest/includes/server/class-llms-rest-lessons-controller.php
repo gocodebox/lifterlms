@@ -319,6 +319,55 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Insert a lesson at its explicit order among its section siblings and resequence them.
+	 *
+	 * The explicit `order` is treated as a 1-based position: the position is clamped to the
+	 * number of lessons in the section, siblings at that position and after are shifted,
+	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Lesson $lesson Lesson instance whose stored order is the requested position.
+	 * @return void
+	 */
+	protected function resequence_siblings( $lesson ) {
+
+		$parent_id = absint( $lesson->get( 'parent_section' ) );
+		if ( ! $parent_id ) {
+			return;
+		}
+
+		$siblings = get_posts(
+			array(
+				'post_type'              => 'lesson',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => -1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'ASC',
+				'fields'                 => 'ids',
+				'post__not_in'           => array( $lesson->get( 'id' ) ),
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_section',
+						'value' => $parent_id,
+					),
+				),
+			)
+		);
+
+		$position = min( max( 1, absint( $lesson->get( 'order' ) ) ), count( $siblings ) + 1 );
+		array_splice( $siblings, $position - 1, 0, array( absint( $lesson->get( 'id' ) ) ) );
+
+		foreach ( $siblings as $index => $sibling_id ) {
+			if ( absint( get_post_meta( $sibling_id, '_llms_order', true ) ) !== $index + 1 ) {
+				update_post_meta( $sibling_id, '_llms_order', $index + 1 );
+			}
+		}
+	}
+
+	/**
 	 * Updates a single llms lesson.
 	 *
 	 * @since 1.0.0-beta.7
@@ -426,6 +475,11 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			return $error;
 		}
 
+		// An explicit order is a position request: resequence siblings so orders stay unique.
+		if ( ! empty( $schema['properties']['order'] ) && ! empty( $request['order'] ) ) {
+			$this->resequence_siblings( $lesson );
+		}
+
 		return ! empty( $to_set );
 	}
 
@@ -459,7 +513,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 				'readonly'    => true,
 			),
 			'order'        => array(
-				'description' => __( 'Order of the lesson within its immediate parent.', 'lifterlms' ),
+				'description' => __( 'Order of the lesson within its immediate parent. Treated as a 1-based position on create/update: sibling lessons at that position and after are shifted so orders remain unique. Omit to append the lesson after its siblings.', 'lifterlms' ),
 				'type'        => 'integer',
 				'context'     => array( 'view', 'edit' ),
 				'arg_options' => array(
