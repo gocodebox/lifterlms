@@ -19,9 +19,12 @@ test.describe( 'Settings/IntegrationsListing', () => {
 		const header = table.locator( 'thead' );
 		await expect( header ).toContainText( 'Integration' );
 		await expect( header ).toContainText( 'Description' );
+		await expect( header ).toContainText( 'Installed' );
 		await expect( header ).toContainText( 'Activated' );
+		await expect( header ).toContainText( 'Enabled' );
 		await expect( header ).toContainText( 'Documentation' );
 		await expect( header ).not.toContainText( 'Integration ID' );
+		await expect( header ).not.toContainText( 'Integration Settings' );
 
 		await expect( table ).toContainText( 'LifterLMS BuddyPress' );
 		await expect( table ).toContainText( 'LifterLMS bbPress' );
@@ -36,6 +39,10 @@ test.describe( 'Settings/IntegrationsListing', () => {
 			await expect( kitCell.first() ).toContainText( /Kit/ );
 		}
 
+		await expect( table ).toContainText( 'View Docs' );
+		await expect( table ).toContainText( 'Learn More' );
+		await expect( table ).toContainText( 'LifterLMS Advanced Videos' );
+
 		expect( await table.locator( 'tbody tr' ).count() ).toBeGreaterThan( 2 );
 	} );
 
@@ -49,7 +56,9 @@ test.describe( 'Settings/IntegrationsListing', () => {
 		const header = table.locator( 'thead' );
 		await expect( header ).toContainText( 'Gateway' );
 		await expect( header ).toContainText( 'Description' );
+		await expect( header ).toContainText( 'Installed' );
 		await expect( header ).toContainText( 'Activated' );
+		await expect( header ).toContainText( 'Enabled' );
 		await expect( header ).toContainText( 'Documentation' );
 		await expect( header ).not.toContainText( 'Gateway ID' );
 

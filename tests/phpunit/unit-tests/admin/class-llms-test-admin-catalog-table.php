@@ -122,6 +122,18 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 						'update_file'   => 'lifterlms-advanced-quizzes/lifterlms-advanced-quizzes.php',
 						'categories'    => array( 'advanced' => 'Advanced' ),
 					),
+					array(
+						'id'              => 'lifterlms-com-lifterlms-advanced-videos',
+						'slug'            => 'lifterlms-advanced-videos',
+						'title'           => 'LifterLMS Advanced Videos',
+						'description'     => 'Require video completion.',
+						'documentation'   => 'https://lifterlms.com/doc-category/lifterlms-extensions/advanced-videos/',
+						'getting_started' => 'https://lifterlms.com/docs/getting-started-with-advanced-videos/',
+						'permalink'       => 'https://lifterlms.com/product/advanced-videos/',
+						'type'            => 'plugin',
+						'update_file'     => 'lifterlms-advanced-videos/lifterlms-advanced-videos.php',
+						'categories'      => array( 'advanced' => 'Advanced' ),
+					),
 				),
 			)
 		);
@@ -156,6 +168,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 		$this->assertContains( 'lifterlms-com-convertkit', $ids );
 		$this->assertContains( 'lifterlms-com-lifterlms-twilio', $ids );
 		$this->assertContains( 'lifterlms-com-advanced-quizzes', $ids );
+		$this->assertContains( 'lifterlms-com-lifterlms-advanced-videos', $ids );
 		$this->assertNotContains( 'lifterlms-com-stripe-extension', $ids );
 		$this->assertNotContains( 'lifterlms-com-lifterlms-pro', $ids );
 		$this->assertNotContains( 'lifterlms-com-office-hours', $ids );
@@ -216,6 +229,23 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 
 		$matched = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( array( 'stripe' ), 'checkout' );
 		$this->assertContains( 'lifterlms-com-stripe-extension', $matched );
+
+		$av = llms_get_add_on( 'lifterlms-com-lifterlms-advanced-videos' );
+		$this->assertTrue( LLMS_Admin_Catalog_Table::addon_matches_plugin_dir( $av, 'lifterlms-advanced-videos' ) );
+		$this->assertFalse( LLMS_Admin_Catalog_Table::addon_matches_plugin_dir( $av, 'lifterlms-convertkit' ) );
+		$this->assertFalse( LLMS_Admin_Catalog_Table::addon_matches_registered_id( $av, 'av_vimeo' ) );
+		$this->assertEquals(
+			'https://lifterlms.com/docs/getting-started-with-advanced-videos/',
+			LLMS_Admin_Catalog_Table::get_addon_docs_url( $av )
+		);
+		$this->assertEquals(
+			'LifterLMS Advanced Videos: Vimeo',
+			LLMS_Admin_Catalog_Table::get_grouped_display_title( 'Videos: Vimeo', 'av_vimeo', $av, 3 )
+		);
+		$this->assertEquals(
+			'Videos: Vimeo',
+			LLMS_Admin_Catalog_Table::get_grouped_display_title( 'Videos: Vimeo', 'av_vimeo', $av, 1 )
+		);
 	}
 
 	/**
@@ -231,14 +261,18 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 
 		$html = LLMS_Unit_Test_Util::call_method( new LLMS_Settings_Integrations(), 'get_table_html' );
 
-		$this->assertStringContainsString( 'Description', $html );
+		$this->assertStringContainsString( 'Installed', $html );
 		$this->assertStringContainsString( 'Activated', $html );
+		$this->assertStringContainsString( 'Enabled', $html );
 		$this->assertStringContainsString( 'Documentation', $html );
+		$this->assertStringContainsString( 'View Docs', $html );
+		$this->assertStringContainsString( 'Learn More', $html );
 		$this->assertStringNotContainsString( 'Integration ID', $html );
 		$this->assertStringContainsString( 'LifterLMS BuddyPress', $html );
 		$this->assertStringContainsString( 'LifterLMS bbPress', $html );
 		$this->assertStringContainsString( 'Kit Extension', $html );
 		$this->assertStringContainsString( 'LifterLMS Twilio', $html );
+		$this->assertStringContainsString( 'LifterLMS Advanced Videos', $html );
 		$this->assertStringNotContainsString( 'LifterLMS Stripe', $html );
 		$this->assertStringNotContainsString( 'Powerpack', $html );
 		$this->assertStringNotContainsString( 'Office Hours', $html );

@@ -128,12 +128,14 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 		$integrations   = llms()->integrations()->get_integrations();
 		$registered_ids = array();
+		$objects        = array();
 		foreach ( $integrations as $integration ) {
 			if ( is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
-				$registered_ids[] = $integration->id;
+				$registered_ids[]            = $integration->id;
+				$objects[ $integration->id ] = $integration;
 			}
 		}
-		$matched_catalog_ids = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( $registered_ids, 'integrations' );
+		$matched_catalog_ids = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( $registered_ids, 'integrations', $objects );
 
 		ob_start();
 		?>
@@ -143,7 +145,9 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				<tr>
 					<th><?php esc_html_e( 'Integration', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Description', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Installed', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Activated', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Documentation', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
@@ -153,24 +157,26 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				if ( ! is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
 					continue;
 				}
-				$title    = LLMS_Admin_Catalog_Table::get_display_title( $integration->title, $integration->id );
+				$addon    = LLMS_Admin_Catalog_Table::get_addon_for_registered( $integration->id, 'integrations', $integration );
+				$siblings = $addon ? LLMS_Admin_Catalog_Table::get_registered_sibling_count( $addon->get( 'id' ), $registered_ids, 'integrations', $objects ) : 1;
+				$title    = LLMS_Admin_Catalog_Table::get_grouped_display_title( $integration->title, $integration->id, $addon, $siblings );
 				$docs_url = LLMS_Admin_Catalog_Table::get_core_docs_url( $integration->id );
-				if ( ! $docs_url ) {
-					foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'integrations' ) as $addon ) {
-						if ( LLMS_Admin_Catalog_Table::addon_matches_registered_id( $addon, $integration->id ) ) {
-							$docs_url = $addon->get( 'documentation' );
-							break;
-						}
-					}
+				if ( ! $docs_url && $addon ) {
+					$docs_url = LLMS_Admin_Catalog_Table::get_addon_docs_url( $addon );
 				}
+				$state      = LLMS_Admin_Catalog_Table::get_row_plugin_state( $integration->id, $addon, $integration->is_installed() );
+				$learn_more = ( $addon && ! $state['installed'] ) ? LLMS_Admin_Catalog_Table::get_product_url( $addon, 'Integrations Screen' ) : '';
 				?>
 				<tr>
 					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo esc_html( $title ); ?></a></td>
 					<?php
 					LLMS_Admin_Catalog_Table::render_status_cells(
 						wp_strip_all_tags( $integration->description ),
-						$integration->is_enabled(),
-						$docs_url
+						$state['activated'],
+						$docs_url,
+						$state['installed'],
+						$learn_more,
+						$integration->is_enabled()
 					);
 					?>
 				</tr>
@@ -180,8 +186,9 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				if ( in_array( $addon->get( 'id' ), $matched_catalog_ids, true ) ) {
 					continue;
 				}
-				$title = LLMS_Admin_Catalog_Table::get_display_title( $addon->get( 'title' ), $addon->get( 'id' ) );
-				$url   = LLMS_Admin_Catalog_Table::get_catalog_row_url( $addon, 'Integrations Screen' );
+				$title      = LLMS_Admin_Catalog_Table::get_display_title( $addon->get( 'title' ), $addon->get( 'id' ) );
+				$url        = LLMS_Admin_Catalog_Table::get_catalog_row_url( $addon, 'Integrations Screen' );
+				$learn_more = $addon->is_installed() ? '' : LLMS_Admin_Catalog_Table::get_product_url( $addon, 'Integrations Screen' );
 				?>
 				<tr>
 					<td><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a></td>
@@ -189,7 +196,10 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 					LLMS_Admin_Catalog_Table::render_status_cells(
 						wp_strip_all_tags( $addon->get( 'description' ) ),
 						$addon->is_active(),
-						$addon->get( 'documentation' )
+						LLMS_Admin_Catalog_Table::get_addon_docs_url( $addon ),
+						$addon->is_installed(),
+						$learn_more,
+						null
 					);
 					?>
 				</tr>
