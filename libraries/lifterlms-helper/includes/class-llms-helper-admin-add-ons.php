@@ -309,11 +309,6 @@ class LLMS_Helper_Admin_Add_Ons {
 					<textarea name="llms_add_keys" id="llms_keys_field" placeholder="<?php esc_attr_e( 'Enter each license on a new line', 'lifterlms' ); ?>"></textarea>
 				</label>
 				<button class="llms-button-primary small" name="llms_activate_keys" type="submit"><?php esc_html_e( 'Add New', 'lifterlms' ); ?></button>
-				<p class="llms-lifetime-license-cta">
-					<a href="<?php echo esc_url( 'https://lifterlms.com/lifetime/?utm_source=LifterLMS%20Plugin&utm_medium=License%20Key%20UI&utm_campaign=Plugin%20to%20Sale' ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php esc_html_e( 'Lifetime License Available', 'lifterlms' ); ?>
-					</a>
-				</p>
 				<?php wp_nonce_field( 'llms_manage_keys', '_llms_manage_keys_nonce' ); ?>
 			</form>
 		</section>
