@@ -1,3 +1,0 @@
-allOf:
-  - $ref: '#/components/schemas/PostContentRequest'
-  - $ref: '#/components/schemas/Lesson'

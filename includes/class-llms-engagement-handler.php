@@ -207,8 +207,13 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function create( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$title    = get_post_meta( $template_id, "_llms_{$type}_title", true );
 		$template = get_post( $template_id );
+
+		// Templates built since 6.0 store the title on the post itself; the meta value is deprecated and often empty.
+		$title = get_post_meta( $template_id, "_llms_{$type}_title", true );
+		if ( ! $title && $template ) {
+			$title = $template->post_title;
+		}
 
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
