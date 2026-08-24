@@ -126,7 +126,15 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	 */
 	private function get_table_html() {
 
-		$integrations = llms()->integrations()->get_integrations();
+		$integrations   = llms()->integrations()->get_integrations();
+		$registered_ids = array();
+		foreach ( $integrations as $integration ) {
+			if ( is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
+				$registered_ids[] = $integration->id;
+			}
+		}
+		$matched_catalog_ids = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( $registered_ids, 'integrations' );
+
 		ob_start();
 		?>
 
@@ -134,9 +142,9 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Integration', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Integration ID', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Installed', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Activated', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Documentation', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -145,30 +153,45 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				if ( ! is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
 					continue;
 				}
+				$title    = LLMS_Admin_Catalog_Table::get_display_title( $integration->title, $integration->id );
+				$docs_url = LLMS_Admin_Catalog_Table::get_core_docs_url( $integration->id );
+				if ( ! $docs_url ) {
+					foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'integrations' ) as $addon ) {
+						if ( LLMS_Admin_Catalog_Table::addon_matches_registered_id( $addon, $integration->id ) ) {
+							$docs_url = $addon->get( 'documentation' );
+							break;
+						}
+					}
+				}
 				?>
 				<tr>
-					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo esc_html( $integration->title ); ?></a></td>
-					<td><?php echo esc_html( $integration->id ); ?></td>
-					<td class="status available">
-						<?php if ( $integration->is_installed() ) : ?>
-							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Installed', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Installed', 'lifterlms' ); ?></span>
-								<i class="fa fa-check-circle" aria-hidden="true"></i>
-							</span>
-						<?php else : ?>
-							&ndash;
-						<?php endif; ?>
-					</td>
-					<td class="status enabled">
-						<?php if ( $integration->is_enabled() ) : ?>
-							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></span>
-								<i class="fa fa-check-circle" aria-hidden="true"></i>
-							</span>
-						<?php else : ?>
-							&ndash;
-						<?php endif; ?>
-					</td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $integration->description ),
+						$integration->is_enabled(),
+						$docs_url
+					);
+					?>
+				</tr>
+			<?php endforeach; ?>
+			<?php
+			foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'integrations' ) as $addon ) :
+				if ( in_array( $addon->get( 'id' ), $matched_catalog_ids, true ) ) {
+					continue;
+				}
+				$title = LLMS_Admin_Catalog_Table::get_display_title( $addon->get( 'title' ), $addon->get( 'id' ) );
+				$url   = LLMS_Admin_Catalog_Table::get_catalog_row_url( $addon, 'Integrations Screen' );
+				?>
+				<tr>
+					<td><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $addon->get( 'description' ) ),
+						$addon->is_active(),
+						$addon->get( 'documentation' )
+					);
+					?>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

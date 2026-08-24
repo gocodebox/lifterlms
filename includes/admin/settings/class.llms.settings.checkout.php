@@ -59,6 +59,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		usort( $gateways, array( $this, 'sort_gateways' ) );
 
+		$registered_ids = array();
+		foreach ( $gateways as $gateway ) {
+			$registered_ids[] = $gateway->get_id();
+		}
+		$matched_catalog_ids = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( $registered_ids, 'checkout' );
+
 		ob_start();
 		?>
 
@@ -67,29 +73,58 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				<tr>
 					<th class="sort"></th>
 					<th><?php esc_html_e( 'Gateway', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Gateway ID', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Activated', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Documentation', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php foreach ( $gateways as $gateway ) : ?>
+				<?php
+				$title    = LLMS_Admin_Catalog_Table::get_display_title( $gateway->get_admin_title(), $gateway->get_id() );
+				$docs_url = LLMS_Admin_Catalog_Table::get_core_docs_url( $gateway->get_id() );
+				if ( ! $docs_url ) {
+					foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'checkout' ) as $addon ) {
+						if ( LLMS_Admin_Catalog_Table::addon_matches_registered_id( $addon, $gateway->get_id() ) ) {
+							$docs_url = $addon->get( 'documentation' );
+							break;
+						}
+					}
+				}
+				?>
 				<tr>
 					<td class="sort">
 						<i class="fa fa-bars llms-action-icon" aria-hidden="true"></i>
 						<input type="hidden" name="<?php echo esc_attr( $gateway->get_option_name( 'display_order' ) ); ?>" value="<?php echo esc_attr( $gateway->get_display_order() ); ?>">
 					</td>
-					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $gateway->get_admin_title() ); ?></a></td>
-					<td><?php echo esc_html( $gateway->get_id() ); ?></td>
-					<td class="status">
-						<?php if ( $gateway->is_enabled() ) : ?>
-							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></span>
-								<i class="fa fa-check-circle" aria-hidden="true"></i>
-							</span>
-						<?php else : ?>
-							&ndash;
-						<?php endif; ?>
-					</td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $gateway->get_admin_description() ),
+						$gateway->is_enabled(),
+						$docs_url
+					);
+					?>
+				</tr>
+			<?php endforeach; ?>
+			<?php
+			foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'checkout' ) as $addon ) :
+				if ( in_array( $addon->get( 'id' ), $matched_catalog_ids, true ) ) {
+					continue;
+				}
+				$title = LLMS_Admin_Catalog_Table::get_display_title( $addon->get( 'title' ), $addon->get( 'id' ) );
+				$url   = LLMS_Admin_Catalog_Table::get_catalog_row_url( $addon, 'Checkout Screen' );
+				?>
+				<tr>
+					<td class="sort"></td>
+					<td><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $addon->get( 'description' ) ),
+						$addon->is_active(),
+						$addon->get( 'documentation' )
+					);
+					?>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

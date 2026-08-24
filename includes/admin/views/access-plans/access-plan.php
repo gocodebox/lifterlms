@@ -402,7 +402,7 @@ if ( ! isset( $plan ) ) {
 									printf(
 										wp_kses(
 											/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
-											__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more.', 'lifterlms' ),
+											__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more. All Ecommerce Add-ons are available in the Earth Bundle and higher plans.', 'lifterlms' ),
 											$allowed_ecommerce_add_ons_html
 										),
 										'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale'

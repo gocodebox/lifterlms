@@ -270,6 +270,16 @@ define( [], function() {
 						return ! window.llms_builder.events;
 					},
 				},
+			], [
+				{
+					label: LLMS.l10n.translate( 'Require Video Completion / Auto-Advance Videos' ),
+					id: 'llms-av-promo',
+					type: 'heading',
+					detail: LLMS.l10n.translate( 'Require lesson video completion, auto-advance lessons on video completion, customize video player controls, and more with the LifterLMS Advanced Videos add-on.' ) + ' <a href="https://lifterlms.com/product/advanced-videos/?utm_source=LifterLMS%20Plugin&utm_medium=Course%20Builder%20Upsell&utm_campaign=Plugin%20to%20Sale" target="_blank">' + LLMS.l10n.translate( 'Learn More' ) + '</a>',
+					condition: function() {
+						return ! window.llms_builder.av;
+					},
+				},
 			],
 		],
 	},
