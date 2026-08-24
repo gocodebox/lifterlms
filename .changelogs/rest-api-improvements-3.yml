@@ -1,3 +1,0 @@
-significance: minor
-type: added
-entry: Added time-limited signed download URLs for protected media files, exposed as a download_url field in assignment submission and quiz attempt REST API responses.

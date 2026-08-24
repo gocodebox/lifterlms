@@ -1647,7 +1647,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * The `lifterlms_order_status_on-hold` transition triggers `LLMS_Controller_Orders::error_order()`,
 	 * which unschedules pending recurring payments. The retry must survive that transition.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

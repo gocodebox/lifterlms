@@ -118,7 +118,7 @@ class LLMS_REST_Test_Students_Progress_Controller extends LLMS_REST_Unit_Test_Ca
 	/**
 	 * Test that deleting a lesson's progress resets the student's cached ancestor progress.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

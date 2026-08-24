@@ -65,7 +65,7 @@ class LLMS_Forms {
 	 * on form posts. Whenever a form is saved, trashed, untrashed, or deleted the cached set
 	 * may diverge from the live data; flush it so the next read re-queries.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Forms {
 	/**
 	 * Flushes the core forms cache when a form post is deleted.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int     $post_id WP_Post ID.
 	 * @param WP_Post $post    Post object.
@@ -92,7 +92,7 @@ class LLMS_Forms {
 	/**
 	 * Flushes the core forms cache when one of the meta keys the cache is derived from changes.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int    $meta_id   Meta row ID (unused).
 	 * @param int    $object_id WP_Post ID whose meta changed.
@@ -115,7 +115,7 @@ class LLMS_Forms {
 	/**
 	 * Flushes the core forms cache when a form post is trashed or untrashed.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return void

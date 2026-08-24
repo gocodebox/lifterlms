@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Manages certificate templates (the `llms_certificate` post type).
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 
@@ -39,7 +39,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	 * Unlike courses or lessons, certificate templates are not public content:
 	 * reading them requires template editing capabilities.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -56,7 +56,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a certificate template can be read.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $object The certificate template object.
 	 * @return bool Whether the template can be read.
@@ -71,7 +71,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	 * The `llms_certificate` post type has no dedicated post model: core itself models
 	 * templates with `LLMS_User_Certificate` (see `llms_get_certificate()`), so we do the same.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int|WP_Post $id Object ID or already retrieved WP_Post.
 	 * @return LLMS_User_Certificate|WP_Error
@@ -89,7 +89,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Create an LLMS_User_Certificate wrapping a certificate template post.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param array $object_args Object args.
 	 * @return LLMS_User_Certificate|WP_Error
@@ -110,7 +110,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepares a single certificate template for create or update.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return array|WP_Error Array of template args or WP_Error.
@@ -140,7 +140,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 		/**
 		 * Filters a certificate template before it is inserted via the REST API.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $prepared_item Array of item properties prepared for database.
 		 * @param WP_REST_Request $request       Full details about the request.
@@ -152,7 +152,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Updates additional information not handled by the main post insert.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $certificate   Certificate template object.
 	 * @param WP_REST_Request       $request       Full details about the request.
@@ -200,7 +200,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $certificate Certificate template object.
 	 * @param WP_REST_Request       $request     Full details about the request.
@@ -226,7 +226,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Get the Certificate template's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -315,7 +315,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $object  Object data.
 	 * @param WP_REST_Request       $request Request object.

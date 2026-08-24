@@ -391,7 +391,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save() dies when the nonce is missing.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -410,7 +410,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save() dies when the nonce is invalid.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -430,7 +430,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save() proceeds when the nonce is valid.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

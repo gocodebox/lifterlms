@@ -111,7 +111,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test that generate_export_file() honors the per-page boost.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test that generate_export_file() persists the page count and skips re-counting on subsequent pages.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -345,7 +345,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	 *
 	 * Sorting by name requires usermeta joins and a filesort in the student query.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -357,7 +357,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the time_in_course column short-circuits and writes no zero-value cache rows when a course has no tracked time.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -384,7 +384,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the time_in_course column computes totals when a course has tracked time.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

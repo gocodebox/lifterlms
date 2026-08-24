@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Quiz attempts live in the `{$prefix}lifterlms_quiz_attempts` custom table and are
  * queried via LLMS_Query_Quiz_Attempt.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 
@@ -44,7 +44,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 *
 	 * Public so the grading ability can derive its input schema from the same definition.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array
 	 */
@@ -152,7 +152,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Check if a given request has access to read items.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -169,7 +169,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Check if a given request has access to read an item.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -197,7 +197,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * which requires only `edit_post` on the quiz
 	 * ({@see LLMS_Controller_Admin_Quiz_Attempts::maybe_run_actions()}).
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -213,7 +213,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * abilities-aware clients (which delegate to the standard permission
 	 * methods) can check access to the grade ability.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -225,7 +225,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Check if a given request has access to delete an item.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -254,7 +254,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * Matches the admin reporting screen: reporting access plus the ability to
 	 * edit the attempt's quiz.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
 	 * @return bool
@@ -267,7 +267,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Get object.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int|LLMS_Quiz_Attempt $id Quiz attempt ID or object.
 	 * @return LLMS_Quiz_Attempt|WP_Error
@@ -286,7 +286,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Delete the object.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt $object  Quiz attempt object.
 	 * @param WP_REST_Request   $request Request object.
@@ -302,7 +302,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieves the query params for the objects collection.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -345,7 +345,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Map schema to query arguments to retrieve a collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param array           $prepared   Array of collection arguments.
 	 * @param array           $registered Registered collection params.
@@ -392,7 +392,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve a query object based on arguments from a `get_items()` (collection) request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param array           $prepared Array of collection arguments.
 	 * @param WP_REST_Request $request  Request object.
@@ -406,7 +406,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve an array of objects from the result of `$this->get_objects_query()`.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Query_Quiz_Attempt $query Query result.
 	 * @return LLMS_Quiz_Attempt[]
@@ -419,7 +419,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve pagination information from an objects query.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Query_Quiz_Attempt $query    Objects query result.
 	 * @param array                   $prepared Array of collection arguments.
@@ -444,7 +444,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * recalculated. When all gradeable questions have been graded, completion
 	 * actions are triggered.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -520,7 +520,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
 	 * @param WP_REST_Request   $request Full details about the request.
@@ -556,7 +556,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare the attempt's answered questions for the response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
 	 * @param WP_REST_Request   $request Full details about the request.
@@ -591,7 +591,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			 * Allows add-ons (such as LifterLMS Advanced Quizzes) to enrich the
 			 * question data, for example adding file information for upload-type answers.
 			 *
-			 * @since [version]
+			 * @since 10.2.0
 			 *
 			 * @param array                      $data             Prepared question data.
 			 * @param LLMS_Quiz_Attempt_Question $attempt_question Attempt question object.
@@ -611,7 +611,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * file information is included so API consumers (e.g. AI graders) can retrieve
 	 * the submitted file.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt_Question $attempt_question Attempt question object.
 	 * @return array[]
@@ -652,7 +652,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Get the Quiz Attempt's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array
 	 */
@@ -820,7 +820,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz_Attempt $object  Quiz attempt object.
 	 * @param WP_REST_Request   $request Request object.

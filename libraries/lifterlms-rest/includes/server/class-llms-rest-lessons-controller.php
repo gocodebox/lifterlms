@@ -283,7 +283,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the next order for a new lesson in a section.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $parent_id Section post ID.
 	 * @return int
@@ -325,7 +325,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	 * number of lessons in the section, siblings at that position and after are shifted,
 	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Lesson $lesson Lesson instance whose stored order is the requested position.
 	 * @return void

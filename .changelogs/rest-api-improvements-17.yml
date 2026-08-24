@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: The lesson REST response emits `complete` for `quiz.progression`, matching the documented schema enum and the accepted input values.

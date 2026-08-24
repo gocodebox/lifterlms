@@ -245,7 +245,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 			 * When enabled, linked resources marked as embeddable (students, quizzes,
 			 * lessons, products, etc.) are embedded in the payload under `_embedded`.
 			 *
-			 * @since [version]
+			 * @since 10.2.0
 			 *
 			 * @param bool   $embed    Whether to embed linked resources. Default `false`.
 			 * @param int    $id       Webhook ID.

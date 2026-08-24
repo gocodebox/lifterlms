@@ -1,6 +1,60 @@
 LifterLMS Changelog
 ===================
 
+v10.2.0 - 2026-08-24
+--------------------
+
+##### New Features
+
++ The sections and lessons list endpoints accept `parent_id` as an alias for the `parent` filter.
++ Added a read-only REST API endpoint for student grades with per-lesson course grade breakdowns, added a readonly grade field to student progress responses, and registered a student grades ability with the WordPress Abilities API.
++ Added time-limited signed download URLs for protected media files, exposed as a download_url field in assignment submission and quiz attempt REST API responses.
++ Added a certificate merge code for the student's display name.
++ REST API: added endpoints for quizzes, quiz questions, quiz attempts (including grading), orders and their transactions, certificate templates, and awarded certificates, with new webhook topics and WordPress Abilities API registration.
+
+##### Updates and Enhancements
+
++ The course students reporting table now sorts by student ID by default instead of by name, avoiding expensive name joins and filesorts on large sites. Columns remain click-sortable.
++ Improved cache miss detection and added expiration times to object cache entries for more reliable behavior on persistent object cache backends.
++ Student search is not limited to the student role.
++ List abilities return an empty list instead of a not-found error for empty collections.
++ Ability input schemas reject unknown parameters instead of silently ignoring them.
++ List abilities omit rendered markup when a raw counterpart is available, reducing payload size.
++ Nested abilities accept id as the parent resource identifier.
++ Section and lesson order is optional on create.
+
+##### Bug Fixes
+
++ Course and membership student exports now honor the boosted export page size, reducing the number of requests required to generate an export file by up to 10x.
++ Course reports and exports no longer bulk-create per-lesson time cache rows in user meta, and an automatic database update removes the zero-value rows previously created this way.
++ Awarded certificates and achievements now fall back to the template's post title when the deprecated title meta value is empty.
++ Fixed course builder deep links so the lesson or quiz settings panel opens on load. [#3328](https://github.com/gocodebox/lifterlms/issues/3328)
++ Fixed course builder tooltips being clipped by the editor sidebar and outline. [#3315](https://github.com/gocodebox/lifterlms/issues/3315)
++ Fixed stale object cache values for core forms, membership-associated posts, student grades, product active-subscription counts, and theme template override directories on sites using a persistent object cache (Redis, Memcached). [#3116](https://github.com/gocodebox/lifterlms/issues/3116)
++ Fixed automatic recurring payment retries never running when a failed payment placed an active order on hold.
++ Fixed media protection block editor labels incorrectly showing "Protect Image" for file, video, and audio blocks.
++ Preserve the authorization hook name passed to media upload.
++ Ability reads default to the edit context, returning complete resource data.
++ Declared and validated the `status` parameter on the REST enrollment update endpoint.
++ Cached student progress is reset when lesson progress is deleted via the REST API and when lessons or sections are trashed, restored, deleted, or moved to a new parent.
++ The lesson REST response emits `complete` for `quiz.progression`, matching the documented schema enum and the accepted input values.
++ Clarified the REST schema documentation for the `meta` field serialization and the enrollment `trigger` default.
++ Ability get and list operations now use the edit context when the caller omits it.
++ Hardened quiz attempt answer retrieval.
++ Lesson quiz updates keep the quiz's lesson association in sync.
++ Abilities return not-found errors from missing resources.
+
+##### Performance Improvements
+
++ Course and membership student exports now count the total result set once instead of re-running the count query on every page of the export.
++ Improved the performance of the Time in Course column on the course students reporting screen and export by computing course totals with a single query, adding a lesson index to the time sessions table, and skipping all per-student queries when a course has no tracked time.
+
+##### Security Fixes
+
++ Additional checks on access plan button output. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
++ Additional checks on settings save. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
+
+
 v10.1.1 - 2026-08-11
 --------------------
 

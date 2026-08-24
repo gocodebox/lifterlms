@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * (e.g. LifterLMS Assignments) can append additional gradable elements to each
  * lesson via the `llms_rest_student_grades_lesson_data` filter.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 
@@ -42,7 +42,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	 * Students can read their own grades; otherwise reporting and student
 	 * visibility capabilities are required.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return true|WP_Error
@@ -98,7 +98,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve the query collection params.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array
 	 */
@@ -122,7 +122,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve the query for the collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param array           $prepared Array of collection args.
 	 * @param WP_REST_Request $request  Request object.
@@ -176,7 +176,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve an array of objects from the result of `$this->get_objects_query()`.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object $query Objects query result.
 	 * @return object[]
@@ -197,7 +197,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve pagination information from an objects query.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object          $query    Objects query result.
 	 * @param array           $prepared Array of collection args.
@@ -219,7 +219,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	 * Collection objects are built by `$this->get_objects_from_query()` and passed
 	 * through unchanged; there is no single-item route for this resource.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object $object Object from the collection query.
 	 * @return object
@@ -235,7 +235,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	 * Permissions are validated for the whole collection in
 	 * `$this->get_items_permissions_check()`.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object $object Object.
 	 * @return bool
@@ -248,7 +248,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare an object for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object          $object  Object with `id` (course ID) and `student_id` properties.
 	 * @param WP_REST_Request $request Request object.
@@ -275,7 +275,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 		/**
 		 * Filters the student grades data prepared for the REST response.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $data    Array of course grade data for the student.
 		 * @param LLMS_Student    $student Student object.
@@ -287,7 +287,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare the grades data for a single lesson.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Lesson     $lesson  Lesson object.
 	 * @param LLMS_Student    $student Student object.
@@ -330,7 +330,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 		 * Allows add-ons providing additional gradable elements (e.g. assignments)
 		 * to append their grade data to each lesson.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $lesson_data Array of lesson grade data.
 		 * @param LLMS_Lesson     $lesson      Lesson object.
@@ -343,7 +343,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve a grade for a course or lesson as a float, or null when ungraded.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int          $post_id Course or lesson ID.
 	 * @param LLMS_Student $student Student object.
@@ -360,7 +360,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param object          $object  Object with `id` (course ID) and `student_id` properties.
 	 * @param WP_REST_Request $request Request object.
@@ -390,7 +390,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 	/**
 	 * Get the item schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array
 	 */

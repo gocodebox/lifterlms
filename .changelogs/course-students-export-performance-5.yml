@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Course reports and exports no longer bulk-create per-lesson time cache rows in user meta, and an automatic database update removes the zero-value rows previously created this way.

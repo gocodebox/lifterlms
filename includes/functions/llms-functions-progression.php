@@ -80,7 +80,7 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
  * object's ancestor tree: the parent section (for lessons), the section itself (for sections),
  * the parent course, and the course's tracks.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @param int         $object_id   WP Post ID of a lesson, section, or course.
  * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
@@ -140,7 +140,7 @@ function llms_get_progress_cache_keys( $object_id, $object_type = null ) {
  * progress of every student at once, in contrast to `LLMS_Student::update_completion_status()`
  * which resets the cache for a single student when their own completion changes.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @param int         $object_id   WP Post ID of a lesson, section, or course.
  * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.

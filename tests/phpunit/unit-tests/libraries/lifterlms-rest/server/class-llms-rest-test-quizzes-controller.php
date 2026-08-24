@@ -10,7 +10,7 @@
  * @group REST
  * @group rest_quizzes
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server {
 
@@ -24,7 +24,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Setup our test server, endpoints, and user info.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Test creating a quiz with only a title: the content (description) is optional.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -63,7 +63,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Test creating a quiz with boolean settings converts them to "yesno" values.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -113,7 +113,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Test create without attempt limiting does not return a default allowed_attempts.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Test questions are listed by menu_order and auto-sequenced on create.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Test creating a question with boolean-backed settings.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

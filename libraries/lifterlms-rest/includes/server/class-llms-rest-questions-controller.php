@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_REST_Questions_Controller class.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 
@@ -53,7 +53,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * Registers the default CRUD routes and an additional nested collection
 	 * route to list all questions belonging to a specific quiz.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieves the query params for the objects collection.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -104,7 +104,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Format query arguments to retrieve a collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error
@@ -134,7 +134,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepares a single question for create or update.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return array|WP_Error Array of question args or WP_Error.
@@ -203,7 +203,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 		/**
 		 * Filters a question before it is inserted via the REST API.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $prepared_item Array of question item properties prepared for database.
 		 * @param WP_REST_Request $request       Full details about the request.
@@ -215,7 +215,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the next menu_order for a new question under a quiz.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $parent_id Quiz post ID.
 	 * @return int
@@ -257,7 +257,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * Submitted choices are treated as the complete set: existing choices which
 	 * are not included in the request are deleted.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Question   $question      LLMS_Question instance.
 	 * @param WP_REST_Request $request       Full details about the request.
@@ -323,7 +323,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Question   $question Question object.
 	 * @param WP_REST_Request $request  Full details about the request.
@@ -356,7 +356,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 		/**
 		 * Filters question data prepared for the REST response.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $data     Array of question properties prepared for response.
 		 * @param LLMS_Question   $question Question object.
@@ -368,7 +368,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Get the Question's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -480,7 +480,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Question   $object  Object data.
 	 * @param WP_REST_Request $request Request object.

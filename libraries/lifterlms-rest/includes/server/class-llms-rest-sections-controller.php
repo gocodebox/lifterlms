@@ -235,7 +235,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the next order for a new section in a course.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $parent_id Course post ID.
 	 * @return int
@@ -273,7 +273,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Resequence section orders after a create/update with an explicit order.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Section    $section       LLMS_Section instance.
 	 * @param WP_REST_Request $request       Full details about the request.
@@ -300,7 +300,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 * number of sections in the course, siblings at that position and after are shifted,
 	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Section $section Section instance whose stored order is the requested position.
 	 * @return void

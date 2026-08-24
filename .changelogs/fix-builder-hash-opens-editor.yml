@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3328"
-entry: Fixed course builder deep links so the lesson or quiz settings panel opens on load.

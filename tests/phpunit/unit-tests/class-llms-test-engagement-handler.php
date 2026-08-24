@@ -231,7 +231,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test create() falls back to the template's post title when the deprecated title meta is empty.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

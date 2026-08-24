@@ -168,7 +168,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	 *
 	 * Simulates a persistent object cache (Redis, Memcached) deserializing a cached null as ''.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -196,7 +196,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * Test get_grade() returns a numeric grade from the cache without recalculating.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -222,7 +222,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * Test get_grade() treats null in the cache as a valid "no grade" hit.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -248,7 +248,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * Test that deleting a quiz attempt invalidates the student's cached grades.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

@@ -411,7 +411,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register the media protection scripts when the media is enqueued.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

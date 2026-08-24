@@ -1,3 +1,0 @@
-significance: patch
-type: changed
-entry: Improved cache miss detection and added expiration times to object cache entries for more reliable behavior on persistent object cache backends.

@@ -7,7 +7,7 @@
  * @group REST
  * @group rest_quiz_attempts
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_Server {
 
@@ -21,7 +21,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Setup our test server, endpoints, and user info.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Create an attachment post with an attached file meta.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param bool $protected Whether to add protection meta to the attachment.
 	 * @return int Attachment post ID.
@@ -59,7 +59,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Build a mock attempt question whose answer resolves to the given values.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param array $answer Raw answer values.
 	 * @return LLMS_Quiz_Attempt_Question
@@ -75,7 +75,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Test that unprotected upload answers get a download_url matching the plain url.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Test that protected upload answers get a signed, expiring download_url.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -124,7 +124,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Test that non-attachment answer values produce no file data.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

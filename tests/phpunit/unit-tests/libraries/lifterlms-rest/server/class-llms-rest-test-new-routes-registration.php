@@ -7,14 +7,14 @@
  * @group REST
  * @group rest_routes
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Test_New_Routes_Registration extends LLMS_REST_Unit_Test_Case_Server {
 
 	/**
 	 * Test all new routes are registered.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class LLMS_REST_Test_New_Routes_Registration extends LLMS_REST_Unit_Test_Case_Se
 	/**
 	 * Test orders routes are read-only.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

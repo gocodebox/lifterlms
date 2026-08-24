@@ -5,14 +5,14 @@
  * @group quizzes
  * @group quiz_attempt
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_Test_Model_Quiz_Attempt_Question extends LLMS_UnitTestCase {
 
 	/**
 	 * Test answer retrieval when the question post has been deleted.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

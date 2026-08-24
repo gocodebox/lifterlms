@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_REST_Quizzes_Controller class.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 
@@ -34,7 +34,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieves the query params for the objects collection.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -53,7 +53,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Format query arguments to retrieve a collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error
@@ -80,7 +80,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepares a single quiz for create or update.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return array|WP_Error Array of quiz args or WP_Error.
@@ -147,7 +147,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 		/**
 		 * Filters a quiz before it is inserted via the REST API.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param array           $prepared_item Array of quiz item properties prepared for database.
 		 * @param WP_REST_Request $request       Full details about the request.
@@ -159,7 +159,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Keep the lesson <-> quiz relationship meta in sync, mirroring the course builder.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz       $quiz          LLMS_Quiz instance.
 	 * @param WP_REST_Request $request       Full details about the request.
@@ -216,7 +216,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * Detaches the quiz from any lesson before deletion.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -253,7 +253,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz       $quiz    Quiz object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -280,7 +280,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Get the Quiz's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -370,7 +370,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Quiz       $object  Object data.
 	 * @param WP_REST_Request $request Request object.
