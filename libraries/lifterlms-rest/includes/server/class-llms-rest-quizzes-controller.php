@@ -288,6 +288,9 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 
 		$schema = parent::get_item_schema_base();
 
+		// The quiz description (content) is optional.
+		$schema['properties']['content']['required'] = false;
+
 		$quiz_properties = array(
 			'lesson_id'           => array(
 				'description' => __( 'WordPress post ID of the quiz\'s parent lesson. 0 indicates an "orphaned" quiz not attached to any lesson.', 'lifterlms' ),

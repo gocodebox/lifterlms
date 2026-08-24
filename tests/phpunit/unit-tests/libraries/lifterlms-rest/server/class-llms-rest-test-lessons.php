@@ -554,6 +554,80 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test creating a lesson with an explicit order shifts the existing siblings.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_explicit_order_shifts_siblings() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 3,
+				'quiz'     => 0,
+			)
+		);
+
+		$section  = llms_get_post( $course->get_sections( 'ids' )[0] );
+		$existing = $section->get_lessons( 'ids' );
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $section->get( 'id' ),
+				'order'     => 2,
+			)
+		);
+
+		$response = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $response );
+		$this->assertEquals( 2, $response->get_data()['order'] );
+
+		// Former lessons at positions 2 and 3 are shifted; orders remain unique and sequential.
+		$this->assertEquals( 1, llms_get_post( $existing[0] )->get( 'order' ) );
+		$this->assertEquals( 3, llms_get_post( $existing[1] )->get( 'order' ) );
+		$this->assertEquals( 4, llms_get_post( $existing[2] )->get( 'order' ) );
+	}
+
+	/**
+	 * Test that an explicit order beyond the number of siblings is clamped to the end.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_explicit_order_clamped() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quiz'     => 0,
+			)
+		);
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $course->get_sections( 'ids' )[0],
+				'order'     => 50,
+			)
+		);
+
+		$response = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $response );
+		$this->assertEquals( 3, $response->get_data()['order'] );
+	}
+
+	/**
 	 * Test creating lesson auth errors.
 	 *
 	 * @since 1.0.0-beta.7

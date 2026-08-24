@@ -35,6 +35,32 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	}
 
 	/**
+	 * Test creating a quiz with only a title: the content (description) is optional.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_item_title_only() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$response = $this->perform_mock_request(
+			'POST',
+			$this->route,
+			array(
+				'title' => 'Title Only Quiz',
+			)
+		);
+
+		$this->assertResponseStatusEquals( 201, $response );
+
+		$data = $response->get_data();
+		$this->assertEquals( 'Title Only Quiz', $data['title']['raw'] );
+		$this->assertEquals( '', $data['content']['raw'] );
+	}
+
+	/**
 	 * Test creating a quiz with boolean settings converts them to "yesno" values.
 	 *
 	 * @since [version]
