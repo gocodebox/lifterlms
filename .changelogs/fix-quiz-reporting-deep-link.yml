@@ -1,0 +1,4 @@
+significance: patch
+type: fixed
+entry: Fixed the link to a quiz in the reporting screen not opening the quiz
+  settings panel in the course builder.

@@ -353,9 +353,9 @@ require( [
 				LLMS.wait_for( function() {
 					return ( undefined !== _.getEditor() && undefined !== window.tinymce );
                     }, function() {
-					$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+					$lesson.closest( '.llms-builder-item.llms-section' ).find( '.llms-action-icon.expand' ).trigger( 'click' );
 					var subtab = parts[1] ? parts[1] : 'lesson';
-					$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+					$( '#llms-lesson-' + parts[0] ).find( '.llms-action-icon.edit-' + subtab ).trigger( 'click' );
 				} );
 
 			}
