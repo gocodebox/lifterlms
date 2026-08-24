@@ -1,0 +1,50 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique assignment submission identifier.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+post:
+  summary: Grade an assignment submission
+  description: |
+    Grade an assignment submission and/or leave remarks for the student.
+
+    Supplying a `grade` completes grading: the submission status is set and completion actions (lesson completion, notifications) are triggered. Submitting remarks without a grade leaves the submission in its current status for later review — useful for an AI-assisted first grading pass.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignment Submissions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            grade:
+              description: The grade (0-100) to assign to the submission. When omitted, only remarks are saved and the submission stays in its current status for later review.
+              type: number
+              minimum: 0
+              maximum: 100
+              example: 88
+            remarks:
+              description: Instructor remarks (HTML allowed) displayed to the student.
+              type: string
+              example: Nice work — consider expanding on your conclusion.
+  responses:
+    200:
+      description: Successfully graded the assignment submission.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssignmentSubmission'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

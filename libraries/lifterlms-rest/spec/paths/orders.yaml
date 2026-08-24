@@ -1,0 +1,91 @@
+get:
+  summary: List orders
+  description: Retrieve a list of orders. Orders are read-only via the REST API — they are created through checkout and managed via the admin panel.
+  tags:
+    - Orders
+  parameters:
+    - $ref: '#/components/parameters/Context'
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - $ref: '#/components/parameters/Search'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - date_created
+          - date_updated
+          - title
+        default: id
+    - $ref: '#/components/parameters/Include'
+    - $ref: '#/components/parameters/Exclude'
+    - name: status
+      description: Limit results to orders assigned one or more statuses. By default orders of any status are returned.
+      in: query
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - active
+            - cancelled
+            - completed
+            - expired
+            - failed
+            - on-hold
+            - pending-cancel
+            - pending
+            - refunded
+        example: [active, completed]
+    - name: student
+      description: Limit results to orders placed by a specific student. Accepts a WordPress user ID.
+      in: query
+      schema:
+        type: integer
+        example: 123
+    - name: product
+      description: Limit results to orders for a specific product (course or membership). Accepts a WordPress post ID.
+      in: query
+      schema:
+        type: integer
+        example: 1234
+    - name: plan
+      description: Limit results to orders for a specific access plan. Accepts a WordPress post ID.
+      in: query
+      schema:
+        type: integer
+        example: 567
+  responses:
+    200:
+      description: Successfully returned a list of orders.
+      headers:
+        Link:
+          description: Pagination links for the collection.
+          schema:
+            type: string
+            example: >-
+              </wp-json/llms/v1/orders?page=1>; rel="first",
+              </wp-json/llms/v1/orders?page=2>; rel="prev",
+              </wp-json/llms/v1/orders?page=4>; rel="next",
+              </wp-json/llms/v1/orders?page=5>; rel="last"
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Order'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

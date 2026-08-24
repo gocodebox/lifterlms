@@ -527,7 +527,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
 		$res       = $this->cache_get( $cache_key );
 
-		if ( false === $res ) {
+		// Persistent object caches (Redis, Memcached) can deserialize a cached null as an empty string; treat it as a miss.
+		if ( false === $res || '' === $res ) {
 
 			$key = ( 'enrolled' === $date ) ? '_start_date' : '_status';
 
@@ -589,10 +590,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		/**
 		 * After checking the cache, $status will be:
 		 *     + `false` if there was nothing in the cache or the function was instructed to not use the cache: Query the database to get the status.
+		 *     + `''` if a persistent object cache deserialized a cached `null` as an empty string: Query the database to get the status.
 		 *     + a string if there was a status: No need to query the database.
 		 *     + `null` if there's no status: No need to query the database.
 		 */
-		if ( false === $status ) {
+		if ( false === $status || '' === $status ) {
 
 			global $wpdb;
 

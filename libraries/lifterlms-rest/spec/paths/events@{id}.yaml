@@ -1,0 +1,82 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique Event Identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve an event
+  description: |
+    Retrieve the details of an existing scheduled event.
+
+    _Available when the [LifterLMS Events](https://lifterlms.com/product/events/) add-on is active._
+  tags:
+    - Events
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the event.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update an event
+  description: |
+    Update the specified event by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+
+    _Available when the [LifterLMS Events](https://lifterlms.com/product/events/) add-on is active._
+  tags:
+    - Events
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/EventRequest'
+  responses:
+    200:
+      description: Successfully updated the event.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete an event
+  description: |
+    Delete an existing scheduled event.
+
+    _Available when the [LifterLMS Events](https://lifterlms.com/product/events/) add-on is active._
+  tags:
+    - Events
+  responses:
+    204:
+      description: Successfully deleted the event.
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

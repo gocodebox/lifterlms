@@ -109,6 +109,65 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that generate_export_file() honors the per-page boost.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_generate_export_file_honors_per_page_boost() {
+
+		$course = $this->factory->course->create_and_get();
+		$args   = array( 'course_id' => $course->get( 'id' ) );
+
+		$this->factory->student->create_and_enroll_many( 30, $course->get( 'id' ) );
+
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_id );
+
+		// With the default 250/page boost, 30 students complete in a single request.
+		$file = $this->table->generate_export_file( $args );
+		$this->assertEquals( 100, $file['progress'] );
+	}
+
+	/**
+	 * Test that generate_export_file() persists the page count and skips re-counting on subsequent pages.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_generate_export_file_persists_max_pages() {
+
+		$course = $this->factory->course->create_and_get();
+		$args   = array( 'course_id' => $course->get( 'id' ) );
+
+		$this->factory->student->create_and_enroll_many( 50, $course->get( 'id' ) );
+
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_id );
+
+		// Unboost to force multiple pages.
+		add_filter( 'llms_table_generate_export_file_per_page_boost', function () {
+			return 25;
+		} );
+
+		$file = $this->table->generate_export_file( $args );
+		$this->assertEquals( 50, $file['progress'] );
+
+		$option_name = 'llms_gen_export_' . basename( $file['filename'], '.csv' );
+		$stored      = get_option( $option_name );
+		$this->assertEquals( 2, $stored['page'] );
+		$this->assertEquals( 2, $stored['export_max_pages'] );
+
+		// Finishing the export uses the stored page count and cleans up the option.
+		$table = new LLMS_Table_Course_Students();
+		$file  = $table->generate_export_file( $args, $file['filename'] );
+		$this->assertEquals( 100, $file['progress'] );
+		$this->assertFalse( get_option( $option_name ) );
+	}
+
+	/**
 	 * Test generate_export_file(): prevent invalid filetypes.
 	 *
 	 * @since 5.10.0
@@ -279,6 +338,72 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 		$expected        = $student_statuses;
 		arsort( $expected );
 		$this->assert_student_results_equal( $args, $expected );
+	}
+
+	/**
+	 * Test that the table defaults to sorting by ID.
+	 *
+	 * Sorting by name requires usermeta joins and a filesort in the student query.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_default_orderby_is_id() {
+
+		$this->assertEquals( 'id', $this->table->get_orderby() );
+	}
+
+	/**
+	 * Test the time_in_course column short-circuits and writes no zero-value cache rows when a course has no tracked time.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_time_in_course_no_time_data() {
+
+		global $wpdb;
+
+		$course                 = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 3 ) );
+		$this->table->course_id = $course->get( 'id' );
+
+		$student = $this->factory->student->create_and_get();
+		$student->enroll( $course->get( 'id' ) );
+		$student_id = $student->get( 'id' );
+
+		$this->assertStringStartsWith( '0:00:00', $this->table->get_export_data( 'time_in_course', $student ) );
+
+		// No zero-value lesson/course time cache rows were written.
+		$count = (int) $wpdb->get_var(
+			"SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE user_id = {$student_id} AND ( meta_key LIKE 'llms\_lesson\_time\_%' OR meta_key LIKE 'llms\_course\_time\_%' )"
+		);
+		$this->assertSame( 0, $count );
+	}
+
+	/**
+	 * Test the time_in_course column computes totals when a course has tracked time.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_time_in_course_with_time_data() {
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 3 ) );
+		$lessons = $course->get_lessons( 'ids' );
+
+		$student = $this->factory->student->create_and_get();
+		$student->enroll( $course->get( 'id' ) );
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $student->get( 'id' ), $lessons[0] );
+		$session->set( 'accumulated_seconds', 90 );
+		$session->save();
+
+		$table            = new LLMS_Table_Course_Students();
+		$table->course_id = $course->get( 'id' );
+
+		$this->assertStringStartsWith( '0:01:30', $table->get_export_data( 'time_in_course', $student ) );
 	}
 
 	/**

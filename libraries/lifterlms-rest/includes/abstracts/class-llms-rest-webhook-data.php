@@ -227,11 +227,38 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 				$endpoint = sprintf( '/llms/v1/students/%1$d/enrollments/%2$d', $args[0], $args[1] );
 			} elseif ( 'progress' === $resource ) {
 				$endpoint = sprintf( '/llms/v1/students/%1$d/progress/%2$d', $args[0], $args[1] );
+			} elseif ( 'quiz-attempt' === $resource ) {
+				// Quiz attempt hooks pass ( $student_id, $quiz_id, $attempt ). When delivered
+				// asynchronously the attempt object arg is converted to the attempt ID during scheduling.
+				$attempt_id = is_object( $args[2] ) ? $args[2]->get( 'id' ) : absint( $args[2] );
+				$endpoint   = sprintf( '/llms/v1/quiz-attempts/%d', $attempt_id );
+			} elseif ( 'awarded-certificate' === $resource && 'created' === $event ) {
+				// The `llms_user_earned_certificate` hook passes ( $user_id, $certificate_id ).
+				$endpoint = sprintf( '/llms/v1/awarded-certificates/%d', $args[1] );
 			} else {
 				$endpoint = sprintf( '/llms/v1/%1$ss/%2$d', $resource, $args[0] );
 			}
 
-			$payload = llms_rest_get_api_endpoint_data( $endpoint );
+			/**
+			 * Filter whether the webhook payload should include embedded resources.
+			 *
+			 * When enabled, linked resources marked as embeddable (students, quizzes,
+			 * lessons, products, etc.) are embedded in the payload under `_embedded`.
+			 *
+			 * @since 10.2.0
+			 *
+			 * @param bool   $embed    Whether to embed linked resources. Default `false`.
+			 * @param int    $id       Webhook ID.
+			 * @param string $resource Webhook resource.
+			 * @param string $event    Webhook event.
+			 */
+			$embed = apply_filters( 'llms_rest_webhook_payload_embed', false, $this->get( 'id' ), $resource, $event );
+
+			$payload = llms_rest_get_api_endpoint_data(
+				$endpoint,
+				$embed ? array( '_embed' => true ) : array(),
+				$embed
+			);
 
 		}
 

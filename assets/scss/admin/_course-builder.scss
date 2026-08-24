@@ -1690,9 +1690,62 @@ body.admin_page_llms-course-builder {
 			border-radius: 4px;
 		}
 	}
+
+	// CSS ::before/::after tips are replaced by the floating body tooltip.
+	&.llms-builder--floating-tips {
+		[data-tip],
+		[data-title-default],
+		[data-title-active] {
+			&:before,
+			&:after {
+				content: none !important;
+				display: none !important;
+			}
+		}
+	}
 }
 
+.llms-builder-tooltip {
+	$bgcolor: #444;
+	background: $bgcolor;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #fff;
+	font-size: 13px;
+	line-height: 1.2;
+	max-width: min( 300px, calc( 100vw - 16px ) );
+	opacity: 0;
+	padding: 8px;
+	pointer-events: none;
+	position: fixed;
+	visibility: hidden;
+	width: max-content;
+	z-index: 1000000;
 
+	&.is-visible {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&:after {
+		border: 6px solid transparent;
+		border-top-color: $bgcolor;
+		content: '';
+		height: 0;
+		left: var( --llms-tip-arrow, 12px );
+		position: absolute;
+		top: 100%;
+		transform: translateX( -50% );
+		width: 0;
+	}
+
+	&.is-below:after {
+		border-bottom-color: $bgcolor;
+		border-top-color: transparent;
+		bottom: 100%;
+		top: auto;
+	}
+}
 
 .llms-multi-input .llms-input-wrapper {
 	width: 50%;
