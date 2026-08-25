@@ -28,6 +28,21 @@
 		}
 	};
 
+	const getMediaTypeLabel = ( blockName ) => {
+		switch ( blockName ) {
+			case 'core/image':
+				return LLMS.l10n.translate( 'image' );
+			case 'core/audio':
+				return LLMS.l10n.translate( 'audio' );
+			case 'core/video':
+				return LLMS.l10n.translate( 'video' );
+			case 'core/file':
+				return LLMS.l10n.translate( 'file' );
+			default:
+				return LLMS.l10n.translate( 'image' );
+		}
+	};
+
 	const withProtectImageToolbar = createHigherOrderComponent( ( BlockEdit ) => {
 		return ( props ) => {
 			const warningText = createInterpolateElement(
@@ -62,7 +77,7 @@
 				}
 			}, [ isModalOpen ] );
 
-			const handleProtectImage = () => {
+			const handleProtectMedia = () => {
 				const selectedId = jQuery( selectRef.current ).val();
 
 				apiFetch( {
@@ -118,13 +133,15 @@
 					} );
 			}, [ isModalOpen, props.attributes.id ] );
 
+			const mediaTypeLabel = getMediaTypeLabel( props.name );
+
 			return (
 				<Fragment>
 					<BlockEdit { ...props } />
 					<BlockControls group="inline">
 						<ToolbarButton
 							icon="lock"
-							label="Protect Image"
+							label={ LLMS.l10n.replace( 'Protect %s', { '%s': mediaTypeLabel } ) }
 							onClick={ () => setModalOpen( true ) }
 						/>
 					</BlockControls>
@@ -136,7 +153,7 @@
 						>
 							<Flex direction="column" gap={4}>
 								<FlexItem>
-									<label htmlFor="llms-protect-image-select">{ LLMS.l10n.translate( 'Select a Course or Membership to protect this image:' ) }</label>
+									<label htmlFor="llms-protect-image-select">{ LLMS.l10n.replace( 'Select a Course or Membership to protect this %s:', { '%s': mediaTypeLabel } ) }</label>
 								</FlexItem>
 
 								<FlexItem>
@@ -165,10 +182,10 @@
 									<Button
 										isPrimary
 										onClick={ () => {
-											handleProtectImage();
+											handleProtectMedia();
 										} }
 									>
-										Protect Image
+										{ LLMS.l10n.replace( 'Protect %s', { '%s': mediaTypeLabel } ) }
 									</Button>
 								</FlexItem>
 							</Flex>

@@ -89,6 +89,9 @@ class LLMS_REST_Ability_Factory {
 	 *                                         Defaults to `controller`.
 	 *     @type string $args_method           Optional. HTTP method passed to `get_endpoint_args_for_item_schema()`
 	 *                                         when deriving input args. Defaults based on `operation`.
+	 *     @type array  $args                  Optional. Explicit endpoint args (WP REST args format) used to derive
+	 *                                         the input schema instead of the controller's schema. Useful for custom
+	 *                                         routes (e.g. grading) whose args are defined inline in `register_routes()`.
 	 *     @type array  $path_params           Optional. Map of route placeholder names to descriptions.
 	 * }
 	 * @return WP_Ability|null The registered ability on success, `null` on failure.
@@ -176,9 +179,41 @@ class LLMS_REST_Ability_Factory {
 			$schema['required'][] = $param;
 		}
 
+		// Abilities are an authenticated agent surface: reads default to the edit context
+		// so responses include full resource data and searches cover edit-only columns.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && isset( $schema['properties']['context'] ) ) {
+			$schema['properties']['context']['default'] = 'edit';
+		}
+
+		$path_params = array_keys( self::get_path_params( $config ) );
+		if ( 1 === count( $path_params ) && 'id' !== $path_params[0] ) {
+			$param          = $path_params[0];
+			$other_required = array_values( array_diff( $schema['required'], array( $param ) ) );
+
+			$schema['properties']['id'] = array(
+				'type'        => 'integer',
+				'description' => sprintf(
+					/* translators: %s: parent path parameter name, e.g. quiz_id */
+					__( 'Alias for %s.', 'lifterlms' ),
+					$param
+				),
+			);
+			$schema['anyOf'] = array(
+				array( 'required' => array_merge( $other_required, array( $param ) ) ),
+				array( 'required' => array_merge( $other_required, array( 'id' ) ) ),
+			);
+			$schema['required'] = $other_required;
+			if ( empty( $schema['required'] ) ) {
+				unset( $schema['required'] );
+			}
+		}
+
 		if ( isset( $schema['required'] ) ) {
 			$schema['required'] = array_values( array_unique( $schema['required'] ) );
 		}
+
+		// Reject unknown input keys so mistyped parameters fail loudly instead of being silently ignored.
+		$schema['additionalProperties'] = false;
 
 		return $schema;
 	}
@@ -192,6 +227,10 @@ class LLMS_REST_Ability_Factory {
 	 * @return array
 	 */
 	private static function get_endpoint_args( $config ) {
+
+		if ( ! empty( $config['args'] ) && is_array( $config['args'] ) ) {
+			return $config['args'];
+		}
 
 		$controller = self::get_controller( ! empty( $config['schema_controller'] ) ? $config['schema_controller'] : $config['controller'] );
 		$args       = array();
@@ -255,6 +294,11 @@ class LLMS_REST_Ability_Factory {
 			if ( is_array( $arg ) && array_key_exists( 'default', $arg ) ) {
 				$defaults[ $key ] = $arg['default'];
 			}
+		}
+
+		// Mirror the edit-context default applied to read operation input schemas.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && array_key_exists( 'context', $defaults ) ) {
+			$defaults['context'] = 'edit';
 		}
 
 		return $defaults;
@@ -322,7 +366,15 @@ class LLMS_REST_Ability_Factory {
 		}
 
 		if ( $response->is_error() ) {
-			return $response->as_error();
+
+			$error = $response->as_error();
+
+			// Some list routes deliberately 404 on empty collections; agents expect an empty list.
+			if ( 'list' === $config['operation'] && in_array( 'llms_rest_not_found', $error->get_error_codes(), true ) ) {
+				return array();
+			}
+
+			return $error;
 		}
 
 		if ( 'delete' === $config['operation'] ) {
@@ -331,16 +383,52 @@ class LLMS_REST_Ability_Factory {
 			);
 		}
 
-		return $response->get_data();
+		$data = $response->get_data();
+
+		// Trim heavy rendered markup from list payloads; `get` operations return the full resource.
+		if ( 'list' === $config['operation'] ) {
+			$data = self::strip_rendered_fields( $data );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Recursively remove `rendered` values where a `raw` counterpart exists.
+	 *
+	 * List payloads can carry large amounts of rendered HTML (course syllabi, media embeds)
+	 * that bloat agent context without adding information beyond the `raw` value.
+	 * `rendered` is preserved when no `raw` counterpart exists (e.g. `view` context requests).
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param mixed $data Response data.
+	 * @return mixed
+	 */
+	private static function strip_rendered_fields( $data ) {
+
+		if ( ! is_array( $data ) ) {
+			return $data;
+		}
+
+		if ( array_key_exists( 'rendered', $data ) && array_key_exists( 'raw', $data ) ) {
+			unset( $data['rendered'] );
+		}
+
+		foreach ( $data as $key => $value ) {
+			$data[ $key ] = self::strip_rendered_fields( $value );
+		}
+
+		return $data;
 	}
 
 	/**
 	 * Check permissions by delegating to the controller's permission check for the operation.
 	 *
-	 * The controller's `WP_Error` results are normalized to `false`: `WP_Ability::execute()`
-	 * treats a `WP_Error` permission result as incorrect usage, and execution dispatches
-	 * through `rest_do_request()` anyway, which enforces the route's own permission callback
-	 * and surfaces its detailed error.
+	 * `WP_Ability::execute()` treats a `WP_Error` permission result as incorrect usage, so
+	 * controller errors are normalized to a boolean. A 404 is treated as allowed so
+	 * execution can dispatch through `rest_do_request()` and surface the real not-found
+	 * error. Authorization failures (401/403) remain `false`.
 	 *
 	 * @since 10.1.0
 	 *
@@ -357,7 +445,19 @@ class LLMS_REST_Ability_Factory {
 			return false;
 		}
 
-		return true === $controller->{$method}( self::build_request( $config, $input ) );
+		$result = $controller->{$method}( self::build_request( $config, $input ) );
+
+		if ( true === $result ) {
+			return true;
+		}
+
+		if ( is_wp_error( $result ) ) {
+			$data   = $result->get_error_data();
+			$status = is_array( $data ) && isset( $data['status'] ) ? (int) $data['status'] : 0;
+			return 404 === $status;
+		}
+
+		return false;
 	}
 
 	/**
@@ -378,17 +478,31 @@ class LLMS_REST_Ability_Factory {
 	 */
 	private static function build_request( $config, $input = null ) {
 
-		$input      = is_array( $input ) ? $input : array();
-		$route      = $config['route'];
-		$params     = $input;
-		$url_params = array();
+		$input       = is_array( $input ) ? $input : array();
+		$route       = $config['route'];
+		$params      = $input;
+		$url_params  = array();
+		$path_params = array_keys( self::get_path_params( $config ) );
 
-		foreach ( array_keys( self::get_path_params( $config ) ) as $param ) {
+		if ( 1 === count( $path_params ) && 'id' !== $path_params[0] && isset( $params['id'] ) && ! isset( $params[ $path_params[0] ] ) ) {
+			$params[ $path_params[0] ] = $params['id'];
+			unset( $params['id'] );
+		}
+
+		foreach ( $path_params as $param ) {
 			if ( isset( $params[ $param ] ) ) {
 				$url_params[ $param ] = absint( $params[ $param ] );
 				$route                = str_replace( '{' . $param . '}', (string) $url_params[ $param ], $route );
 				unset( $params[ $param ] );
 			}
+		}
+
+		// rest_do_request() matches the real REST route and overwrites request
+		// defaults with the route's registered defaults (context=view). Put the
+		// ability's edit default on the actual params so it survives dispatch
+		// when the caller omitted context.
+		if ( in_array( $config['operation'], array( 'list', 'get' ), true ) && ! array_key_exists( 'context', $params ) ) {
+			$params['context'] = 'edit';
 		}
 
 		$request = new WP_REST_Request( $config['method'], $route );

@@ -436,7 +436,8 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 		// Remove object & array arguments before scheduling to avoid hitting column index size issues imposed by the ActionScheduler lib.
 		foreach ( $args as $index => &$arg ) {
 			if ( is_array( $arg ) || is_object( $arg ) ) {
-				$arg = null;
+				// Preserve identifiable objects (e.g. LLMS_Quiz_Attempt) as their ID so payloads can be built asynchronously.
+				$arg = ( is_object( $arg ) && method_exists( $arg, 'get' ) ) ? $arg->get( 'id' ) : null;
 			}
 		}
 

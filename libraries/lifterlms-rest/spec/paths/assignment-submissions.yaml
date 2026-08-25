@@ -1,0 +1,78 @@
+get:
+  summary: List assignment submissions
+  description: |
+    Retrieve a list of student assignment submissions.
+
+    Filter by `status=pending` to retrieve the queue of submissions awaiting manual grading. Upload submissions include the file URL so the submitted artifact can be retrieved and reviewed.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignment Submissions
+  parameters:
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - created
+          - updated
+          - submitted
+          - grade
+        default: id
+    - name: assignment
+      description: Limit results to a specific assignment or a list of assignments. Accepts a single post `id` or a comma separated list of post `id`s.
+      in: query
+      schema:
+        type: string
+        example: [876,877]
+    - name: student
+      description: Limit results to a specific student or a list of students. Accepts a single user `id` or a comma separated list of user `id`s.
+      in: query
+      schema:
+        type: string
+        example: [123,456]
+    - name: status
+      description: Limit results to submissions matching a specific status. Use `pending` to retrieve the queue of submissions awaiting manual grading.
+      in: query
+      schema:
+        type: string
+        enum:
+          - fail
+          - incomplete
+          - pass
+          - pending
+
+  responses:
+    200:
+      description: Successfully returned a list of assignment submissions.
+      headers:
+        Link:
+          description: Pagination links for the collection.
+          schema:
+            type: string
+            example: >-
+              </wp-json/llms/v1/assignment-submissions?page=1>; rel="first",
+              </wp-json/llms/v1/assignment-submissions?page=2>; rel="prev",
+              </wp-json/llms/v1/assignment-submissions?page=4>; rel="next",
+              </wp-json/llms/v1/assignment-submissions?page=5>; rel="last"
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AssignmentSubmission'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

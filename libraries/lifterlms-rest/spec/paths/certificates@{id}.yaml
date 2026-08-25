@@ -1,0 +1,77 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique certificate template identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a certificate template
+  description: Retrieve the details of an existing certificate template.
+  tags:
+    - Certificates
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the certificate template.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CertificateResponse'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update a certificate template
+  description: >-
+    Update the specified certificate template by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+  tags:
+    - Certificates
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CertificateRequest'
+  responses:
+    200:
+      description: Successfully updated the certificate template.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CertificateResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a certificate template
+  description: Delete an existing certificate template. Certificates already awarded from the template are not affected.
+  tags:
+    - Certificates
+  parameters:
+    - name: force
+      description: Bypass the trash and force certificate template deletion.
+      in: query
+      schema:
+        type: boolean
+        default: false
+  responses:
+    204:
+      description: Successfully deleted the certificate template.
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
