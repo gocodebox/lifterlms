@@ -112,6 +112,39 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 						'categories'    => array(),
 					),
 					array(
+						'id'            => 'lifterlms-com-lifterlms-car',
+						'slug'          => 'lifterlms-car',
+						'title'         => 'LifterLMS Cart Abandonment Recovery',
+						'description'   => 'Recover abandoned checkouts.',
+						'documentation' => 'https://lifterlms.com/docs/car/',
+						'permalink'     => 'https://lifterlms.com/product/car/',
+						'type'          => 'plugin',
+						'update_file'   => 'lifterlms-car/lifterlms-car.php',
+						'categories'    => array( 'e-commerce' => 'E-Commerce' ),
+					),
+					array(
+						'id'            => 'lifterlms-com-woocommerce-extension',
+						'slug'          => 'lifterlms-integration-woocommerce',
+						'title'         => 'LifterLMS WooCommerce Integration',
+						'description'   => 'Sell with WooCommerce.',
+						'documentation' => 'https://lifterlms.com/docs/woocommerce/',
+						'permalink'     => 'https://lifterlms.com/product/woocommerce/',
+						'type'          => 'plugin',
+						'update_file'   => 'lifterlms-integration-woocommerce/lifterlms-integration-woocommerce.php',
+						'categories'    => array( 'e-commerce' => 'E-Commerce' ),
+					),
+					array(
+						'id'            => 'lifterlms-com-paypal-extension',
+						'slug'          => 'lifterlms-gateway-paypal',
+						'title'         => 'LifterLMS PayPal Payments',
+						'description'   => 'Accept PayPal.',
+						'documentation' => 'https://lifterlms.com/docs/paypal/',
+						'permalink'     => 'https://lifterlms.com/product/paypal/',
+						'type'          => 'plugin',
+						'update_file'   => 'lifterlms-gateway-paypal/lifterlms-gateway-paypal.php',
+						'categories'    => array( 'e-commerce' => 'E-Commerce' ),
+					),
+					array(
 						'id'            => 'lifterlms-com-advanced-quizzes',
 						'slug'          => 'lifterlms-advanced-quizzes',
 						'title'         => 'LifterLMS Advanced Quizzes',
@@ -152,7 +185,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Integrations catalog excludes ecommerce, helper, powerpack, and office hours.
+	 * Integrations catalog includes non-gateway ecommerce and excludes payment gateways.
 	 *
 	 * @since [version]
 	 *
@@ -169,21 +202,24 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 		$this->assertContains( 'lifterlms-com-lifterlms-twilio', $ids );
 		$this->assertContains( 'lifterlms-com-advanced-quizzes', $ids );
 		$this->assertContains( 'lifterlms-com-lifterlms-advanced-videos', $ids );
+		$this->assertContains( 'lifterlms-com-lifterlms-name-your-price', $ids );
+		$this->assertContains( 'lifterlms-com-lifterlms-car', $ids );
+		$this->assertContains( 'lifterlms-com-woocommerce-extension', $ids );
 		$this->assertNotContains( 'lifterlms-com-stripe-extension', $ids );
+		$this->assertNotContains( 'lifterlms-com-paypal-extension', $ids );
 		$this->assertNotContains( 'lifterlms-com-lifterlms-pro', $ids );
 		$this->assertNotContains( 'lifterlms-com-office-hours', $ids );
 		$this->assertNotContains( 'lifterlms-com-lifterlms-helper', $ids );
-		$this->assertNotContains( 'lifterlms-com-lifterlms-name-your-price', $ids );
 	}
 
 	/**
-	 * Checkout catalog includes ecommerce and Name Your Price.
+	 * Checkout catalog includes payment gateways only.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_checkout_catalog_includes_ecommerce() {
+	public function test_checkout_catalog_includes_gateways_only() {
 
 		$ids = array();
 		foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'checkout' ) as $addon ) {
@@ -191,8 +227,44 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 		}
 
 		$this->assertContains( 'lifterlms-com-stripe-extension', $ids );
-		$this->assertContains( 'lifterlms-com-lifterlms-name-your-price', $ids );
+		$this->assertContains( 'lifterlms-com-paypal-extension', $ids );
 		$this->assertNotContains( 'lifterlms-com-convertkit', $ids );
+		$this->assertNotContains( 'lifterlms-com-lifterlms-name-your-price', $ids );
+		$this->assertNotContains( 'lifterlms-com-lifterlms-car', $ids );
+		$this->assertNotContains( 'lifterlms-com-woocommerce-extension', $ids );
+	}
+
+	/**
+	 * Catalog gateway detection uses the product ID list and gateway-prefixed plugin files.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_catalog_gateway() {
+
+		$stripe = llms_get_add_on(
+			array(
+				'id'          => 'lifterlms-com-stripe-extension',
+				'update_file' => 'lifterlms-stripe/lifterlms-stripe.php',
+			)
+		);
+		$paypal = llms_get_add_on(
+			array(
+				'id'          => 'lifterlms-com-unlisted-gateway',
+				'update_file' => 'lifterlms-gateway-square/lifterlms-gateway-square.php',
+			)
+		);
+		$car    = llms_get_add_on(
+			array(
+				'id'          => 'lifterlms-com-lifterlms-car',
+				'update_file' => 'lifterlms-car/lifterlms-car.php',
+			)
+		);
+
+		$this->assertTrue( LLMS_Admin_Catalog_Table::is_catalog_gateway( $stripe ) );
+		$this->assertTrue( LLMS_Admin_Catalog_Table::is_catalog_gateway( $paypal ) );
+		$this->assertFalse( LLMS_Admin_Catalog_Table::is_catalog_gateway( $car ) );
 	}
 
 	/**

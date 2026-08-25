@@ -68,6 +68,10 @@ test.describe( 'Settings/IntegrationsListing', () => {
 		if ( await stripe.count() ) {
 			await expect( stripe.first() ).toBeVisible();
 		}
+
+		await expect( table ).not.toContainText( 'Cart Abandonment Recovery' );
+		await expect( table ).not.toContainText( 'Name Your Price' );
+		await expect( table ).not.toContainText( 'WooCommerce Integration' );
 	} );
 
 } );

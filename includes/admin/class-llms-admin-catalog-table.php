@@ -46,27 +46,49 @@ class LLMS_Admin_Catalog_Table {
 	}
 
 	/**
-	 * Extra catalog IDs that belong on Checkout despite missing the e-commerce category.
+	 * Catalog product IDs that are payment gateways.
+	 *
+	 * Used when the products feed has no dedicated gateway category.
 	 *
 	 * @since [version]
 	 *
 	 * @return string[]
 	 */
-	public static function get_checkout_extra_ids() {
+	public static function get_checkout_gateway_ids() {
 
 		/**
-		 * Filters extra catalog IDs shown on the Checkout gateways table.
+		 * Filters catalog product IDs treated as payment gateways on the Checkout table.
 		 *
 		 * @since [version]
 		 *
 		 * @param string[] $ids Product IDs.
 		 */
 		return apply_filters(
-			'llms_settings_checkout_catalog_extra_ids',
+			'llms_settings_checkout_catalog_ids',
 			array(
-				'lifterlms-com-lifterlms-name-your-price',
+				'lifterlms-com-stripe-extension',
+				'lifterlms-com-paypal-extension',
+				'lifterlms-com-authorize-net',
 			)
 		);
+	}
+
+	/**
+	 * Whether a catalog add-on is a payment gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Add_On $addon Add-on model.
+	 * @return bool
+	 */
+	public static function is_catalog_gateway( $addon ) {
+
+		if ( in_array( $addon->get( 'id' ), self::get_checkout_gateway_ids(), true ) ) {
+			return true;
+		}
+
+		$file = strtolower( (string) $addon->get( 'update_file' ) );
+		return (bool) preg_match( '#(^|/)lifterlms-gateway-#', $file );
 	}
 
 	/**
@@ -85,7 +107,6 @@ class LLMS_Admin_Catalog_Table {
 		}
 
 		$excluded = self::get_excluded_ids();
-		$extra    = self::get_checkout_extra_ids();
 		$addons   = array();
 
 		foreach ( $data['items'] as $item ) {
@@ -100,14 +121,13 @@ class LLMS_Admin_Catalog_Table {
 				continue;
 			}
 
-			$categories = array_keys( (array) $addon->get( 'categories' ) );
-			$is_ecom    = in_array( 'e-commerce', $categories, true ) || in_array( $id, $extra, true );
+			$is_gateway = self::is_catalog_gateway( $addon );
 
-			if ( 'checkout' === $screen && ! $is_ecom ) {
+			if ( 'checkout' === $screen && ! $is_gateway ) {
 				continue;
 			}
 
-			if ( 'integrations' === $screen && $is_ecom ) {
+			if ( 'integrations' === $screen && $is_gateway ) {
 				continue;
 			}
 
