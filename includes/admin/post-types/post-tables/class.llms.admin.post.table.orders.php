@@ -90,8 +90,8 @@ class LLMS_Admin_Post_Table_Orders {
 				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
 					echo esc_html( $order->get_customer_name() );
 				} else {
-					$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
-					echo ! $edit_user_link ? esc_html( $order->get_customer_name() ) . '<br>' : '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $order->get_customer_name() ) . '</a><br>';
+					$customer_url = $order->get( 'user_id' ) ? llms_get_customers_admin_url( $order->get( 'user_id' ) ) : '';
+					echo ! $customer_url ? esc_html( $order->get_customer_name() ) . '<br>' : '<a href="' . esc_url( $customer_url ) . '">' . esc_html( $order->get_customer_name() ) . '</a><br>';
 					echo '<a href="' . esc_url( 'mailto:' . $order->get( 'billing_email' ) ) . '">' . esc_html( $order->get( 'billing_email' ) ) . '</a>';
 				}
 
