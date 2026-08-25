@@ -10,7 +10,8 @@
  * @since 3.37.18 Don't localize the price "step" html attribute.
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
  * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
- * @version 7.3.0
+ * @since [version] Link Earth Bundle in the manual-gateway payment notice.
+ * @version [version]
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.
@@ -390,22 +391,13 @@ if ( ! isset( $plan ) ) {
 
 								<div class="llms-admin-notice-content">
 								<?php
-									$allowed_ecommerce_add_ons_html = array(
-										'a'  => array(
-											'href'   => array(),
-											'target' => array(),
-											'title'  => array(),
-											'rel'    => array(),
-										),
-										'em' => array(),
-									);
 									printf(
-										wp_kses(
-											/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
-											__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more. All Ecommerce Add-ons are available in the Earth Bundle and higher plans.', 'lifterlms' ),
-											$allowed_ecommerce_add_ons_html
-										),
-										'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale'
+										/* translators: 1: opening anchor for ecommerce add-ons; 2: closing anchor; 3: opening anchor for Earth Bundle; 4: closing anchor */
+										esc_html__( 'Your site is not set up to process payments. Check out the %1$sEcommerce Add-ons for LifterLMS%2$s to enable live payments via credit card, PayPal, and more. All Ecommerce Add-ons are available in the %3$sEarth Bundle%4$s and higher plans.', 'lifterlms' ),
+										'<a href="' . esc_url( 'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale' ) . '" target="_blank">',
+										'</a>',
+										'<a href="' . esc_url( 'https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale' ) . '" target="_blank">',
+										'</a>'
 									);
 								?>
 									<a href="
