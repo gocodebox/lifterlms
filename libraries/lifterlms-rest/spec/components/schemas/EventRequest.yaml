@@ -1,0 +1,12 @@
+allOf:
+  - $ref: '#/components/schemas/Event'
+  - type: object
+    properties:
+      title:
+        type: string
+        description: Raw title.
+        example: Live Q&A
+      excerpt:
+        type: string
+        description: Raw excerpt / event description.
+        example: Join us for a live Q&A session with the instructor.

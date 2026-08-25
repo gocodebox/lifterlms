@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '10.1.1';
+	public $version = '10.2.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -85,6 +85,9 @@ final class LifterLMS {
 
 		add_action( 'init', array( $this, 'localize' ), 0 );
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( 'LLMS_Membership', 'init_associated_posts_cache_hooks' ), 0 );
+		add_action( 'init', array( 'LLMS_Product', 'init_active_subscriptions_cache_hooks' ), 0 );
+		add_action( 'init', array( 'LLMS_Grades', 'init_grade_cache_hooks' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
