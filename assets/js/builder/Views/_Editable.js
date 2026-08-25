@@ -235,9 +235,15 @@ define( [], function() {
 		 */
 		init_selects: function() {
 
-			this.$el.find( '.llms-editable-select select' ).llmsSelect2( {
-				width: '100%',
-			} ).trigger( 'change' );
+			this.$el.find( '.llms-editable-select select' ).each( function() {
+				var $select = $( this );
+				$select.llmsSelect2( {
+					width: '100%',
+				} );
+				if ( ! $select.prop( 'disabled' ) ) {
+					$select.trigger( 'change' );
+				}
+			} );
 
 		},
 
@@ -318,8 +324,13 @@ define( [], function() {
 
 			event.stopPropagation();
 
-			var $el       = $( event.target ),
-				multi     = ( $el.attr( 'multiple' ) ),
+			var $el = $( event.target );
+
+			if ( $el.prop( 'disabled' ) ) {
+				return;
+			}
+
+			var multi     = ( $el.attr( 'multiple' ) ),
 				attr      = $el.attr( 'name' ),
 				$selected = $el.find( 'option:selected' ),
 				val;

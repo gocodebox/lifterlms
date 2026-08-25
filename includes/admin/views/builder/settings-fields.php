@@ -5,7 +5,8 @@
  * @since 3.17.0
  * @since 3.24.0 Unknown.
  * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
- * @version 7.4.0
+ * @since [version] Allow settings selects to be rendered disabled.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -29,13 +30,20 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-settings-group-body">
 
 		<# _.each( group_data.fields, function( row, row_index ) { #>
-			<div class="llms-settings-row">
-			<# _.each( row, function( orig_field, field_index ) { #>
-
-				<#
+			<#
+				var visible_fields = [];
+				_.each( row, function( orig_field, field_index ) {
 					var field = data.setup_field( orig_field, field_index );
-					if ( ! field ) { return; }
-				#>
+					if ( field ) {
+						visible_fields.push( field );
+					}
+				} );
+				if ( ! visible_fields.length ) {
+					return;
+				}
+			#>
+			<div class="llms-settings-row">
+			<# _.each( visible_fields, function( field ) { #>
 
 				<div class="llms-settings-field settings-field--{{{ field.type }}}<# if ( field.label_after ) { #> has-label-after<# } #>" id="llms-model-settings-field--{{{ field.id }}}">
 
@@ -85,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 					<# } else if ( 'select' === field.type || ( 'switch-select' === field.type && data.is_switch_condition_met( field ) ) ) { #>
 
 						<div class="llms-editable-select{{{ field.classes }}}" >
-							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
+							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}{{{ field.disabled ? ' disabled' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
 						</div>
 
 					<# } else if ( 'radio' === field.type || ( 'switch-radio' === field.type && data.is_switch_condition_met( field ) ) ) { #>
