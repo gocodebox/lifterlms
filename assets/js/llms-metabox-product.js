@@ -282,12 +282,6 @@
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
 						break;
-					case 'sale':
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Sale' ) ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
-						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
-						break;
 					case 'presell':
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Pre-sale' ) ).change();
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
