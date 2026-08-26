@@ -1,0 +1,9 @@
+significance: patch
+type: fixed
+comment: Ensures that  no extra comma shows in address display if there's no
+  state/region/province
+links:
+  - "#3020"
+attributions:
+  - "@robindevitt"
+entry: Show address fields that are populated.
