@@ -24,22 +24,12 @@ class LLMS_Admin_Addon_Notices {
 	 */
 	public function __construct() {
 
-		if ( ! class_exists( 'LLMS_Advanced_Coupons' ) ) {
-			add_filter( 'llms_metabox_fields_lifterlms_coupon', array( $this, 'add_coupons_promo_tab' ) );
-		}
-
-		if ( ! class_exists( 'LifterLMS_Advanced_Videos' ) ) {
-			add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'add_videos_promo_tab' ) );
-		}
-
-		if ( ! class_exists( 'LLMS_Integration_PDFS' ) ) {
-			add_filter( 'llms_metabox_fields_lifterlms_certificate', array( $this, 'add_certificate_pdf_button' ) );
-			add_action( 'add_meta_boxes', array( $this, 'add_awarded_certificate_pdf_metabox' ) );
-			add_action( 'lifterlms_after_order_meta_box', array( $this, 'output_pdf_lock_button' ) );
-			add_action( 'llms_reporting_single_student_course_actions', array( $this, 'output_pdf_lock_button' ), 50 );
-			add_action( 'admin_footer', array( $this, 'output_pdf_dialog' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_pdf_promo_assets' ) );
-		}
+		add_filter( 'llms_metabox_fields_lifterlms_coupon', array( $this, 'add_coupons_promo_tab' ) );
+		add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'add_videos_promo_tab' ) );
+		add_action( 'lifterlms_after_order_meta_box', array( $this, 'output_order_pdf_lock_button' ) );
+		add_action( 'llms_reporting_single_student_course_actions', array( $this, 'output_reporting_pdf_lock_button' ), 50 );
+		add_action( 'admin_footer', array( $this, 'output_pdf_dialog' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_pdf_promo_assets' ) );
 	}
 
 	/**
@@ -51,6 +41,10 @@ class LLMS_Admin_Addon_Notices {
 	 * @return array
 	 */
 	public function add_coupons_promo_tab( $tabs ) {
+
+		if ( class_exists( 'LLMS_Advanced_Coupons' ) ) {
+			return $tabs;
+		}
 
 		$tabs[] = array(
 			'title'  => __( 'Advanced Coupons', 'lifterlms' ),
@@ -93,6 +87,10 @@ class LLMS_Admin_Addon_Notices {
 	 */
 	public function add_videos_promo_tab( $tabs ) {
 
+		if ( class_exists( 'LifterLMS_Advanced_Videos' ) ) {
+			return $tabs;
+		}
+
 		$tabs[] = array(
 			'title'  => __( 'Advanced Videos', 'lifterlms' ),
 			'fields' => array(
@@ -125,57 +123,67 @@ class LLMS_Admin_Addon_Notices {
 	}
 
 	/**
-	 * Add a locked PDF download control on the certificate template metabox.
+	 * Output a locked PDF download button matching the PDFs add-on order layout.
 	 *
 	 * @since [version]
 	 *
-	 * @param array $tabs Existing tabs.
-	 * @return array
+	 * @return void
 	 */
-	public function add_certificate_pdf_button( $tabs ) {
+	public function output_order_pdf_lock_button() {
 
-		if ( empty( $tabs[0]['fields'] ) ) {
-			$tabs[0]['fields'] = array();
+		if ( $this->is_pdfs_loaded() ) {
+			return;
 		}
 
-		$tabs[0]['fields'][] = array(
-			'id'    => '_llms_pdfs_promo',
-			'type'  => 'custom-html',
-			'label' => '',
-			'value' => $this->get_pdf_lock_button_html(),
+		llms_form_field(
+			array(
+				'attributes'      => array(
+					'data-llms-addon-promo' => 'pdfs',
+					'style'                 => 'margin-top: 30px',
+				),
+				'classes'         => 'llms-button-secondary auto llms-addon-promo-trigger',
+				'columns'         => 12,
+				'id'              => 'llms-dl-orders-promo',
+				'last_column'     => true,
+				'name'            => false,
+				'type'            => 'button',
+				'value'           => $this->get_pdf_download_button_label(),
+				'wrapper_classes' => 'align-right',
+			)
 		);
-
-		return $tabs;
 	}
 
 	/**
-	 * Add a locked PDF download metabox on awarded certificates.
+	 * Output a locked PDF download button matching the PDFs add-on reporting layout.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function add_awarded_certificate_pdf_metabox() {
+	public function output_reporting_pdf_lock_button() {
 
-		add_meta_box(
-			'llms-pdfs-promo',
-			__( 'Download', 'lifterlms' ),
-			array( $this, 'output_pdf_lock_button' ),
-			'llms_my_certificate',
-			'side',
-			'high'
+		if ( $this->is_pdfs_loaded() ) {
+			return;
+		}
+
+		echo '<style>.llms-addon-promo-dl{display:inline-block;float:right;margin-right:20px;margin-top:-4px;width:200px}</style>';
+		echo '<div class="llms-addon-promo-dl">';
+		llms_form_field(
+			array(
+				'attributes'      => array(
+					'data-llms-addon-promo' => 'pdfs',
+				),
+				'classes'         => 'llms-button-secondary small auto llms-addon-promo-trigger',
+				'columns'         => 12,
+				'id'              => 'llms-dl-grades-promo',
+				'last_column'     => true,
+				'name'            => false,
+				'type'            => 'button',
+				'value'           => $this->get_pdf_download_button_label(),
+				'wrapper_classes' => 'align-right',
+			)
 		);
-	}
-
-	/**
-	 * Output a locked PDF download button.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function output_pdf_lock_button() {
-		echo wp_kses( $this->get_pdf_lock_button_html(), $this->get_button_kses() );
+		echo '</div>';
 	}
 
 	/**
@@ -187,7 +195,7 @@ class LLMS_Admin_Addon_Notices {
 	 */
 	public function enqueue_pdf_promo_assets() {
 
-		if ( ! $this->is_pdf_promo_screen() ) {
+		if ( $this->is_pdfs_loaded() || ! $this->is_pdf_promo_screen() ) {
 			return;
 		}
 
@@ -203,7 +211,7 @@ class LLMS_Admin_Addon_Notices {
 	 */
 	public function output_pdf_dialog() {
 
-		if ( ! $this->is_pdf_promo_screen() ) {
+		if ( $this->is_pdfs_loaded() || ! $this->is_pdf_promo_screen() ) {
 			return;
 		}
 
@@ -261,8 +269,6 @@ class LLMS_Admin_Addon_Notices {
 		return in_array(
 			$screen->id,
 			array(
-				'llms_certificate',
-				'llms_my_certificate',
 				'llms_order',
 				'lifterlms_page_llms-reporting',
 			),
@@ -271,43 +277,28 @@ class LLMS_Admin_Addon_Notices {
 	}
 
 	/**
-	 * Retrieve HTML for the locked PDF download button.
+	 * Whether the LifterLMS PDFs plugin is loaded.
+	 *
+	 * Checked at callback time so plugin load order cannot leak the promo UI
+	 * next to the real download buttons.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private function is_pdfs_loaded() {
+		return function_exists( 'llms_pdfs' );
+	}
+
+	/**
+	 * Label HTML for promo PDF download buttons.
 	 *
 	 * @since [version]
 	 *
 	 * @return string
 	 */
-	private function get_pdf_lock_button_html() {
-
-		ob_start();
-		?>
-		<button type="button" class="llms-button-secondary auto llms-addon-promo-trigger" data-llms-addon-promo="pdfs">
-			<?php esc_html_e( 'Download', 'lifterlms' ); ?>
-			<i class="fa fa-lock" aria-hidden="true"></i>
-		</button>
-		<?php
-		return ob_get_clean();
-	}
-
-	/**
-	 * KSES allowlist for the locked PDF button.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	private function get_button_kses() {
-		return array(
-			'button' => array(
-				'type'                  => true,
-				'class'                 => true,
-				'data-llms-addon-promo' => true,
-			),
-			'i'      => array(
-				'class'       => true,
-				'aria-hidden' => true,
-			),
-		);
+	private function get_pdf_download_button_label() {
+		return esc_html__( 'Download', 'lifterlms' ) . ' <i class="fa fa-cloud-download" aria-hidden="true"></i>';
 	}
 }
 
