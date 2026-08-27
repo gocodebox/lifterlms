@@ -149,7 +149,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 */
 	public function test_get_feature_clone_disables_recurring_payments() {
 
-		$original = get_site_url();
+		$original_siteurl = get_option( 'siteurl' );
+		$original_lock    = get_option( 'llms_site_url' );
 
 		try {
 			LLMS_Site::update_feature( 'recurring_payments', true );
@@ -159,10 +160,11 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 			$this->assertTrue( LLMS_Site::is_clone() );
 			$this->assertFalse( LLMS_Site::get_feature( 'recurring_payments' ) );
 
-			update_option( 'siteurl', $original );
+			update_option( 'siteurl', $original_siteurl );
 			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
 		} finally {
-			update_option( 'siteurl', $original );
+			update_option( 'siteurl', $original_siteurl );
+			update_option( 'llms_site_url', $original_lock );
 		}
 
 	}
@@ -179,7 +181,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 */
 	public function test_get_feature_constant_overrides_clone() {
 
-		$original = get_site_url();
+		$original_siteurl = get_option( 'siteurl' );
+		$original_lock    = get_option( 'llms_site_url' );
 
 		try {
 			LLMS_Site::update_feature( 'recurring_payments', true );
@@ -189,7 +192,8 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
 			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
 		} finally {
-			update_option( 'siteurl', $original );
+			update_option( 'siteurl', $original_siteurl );
+			update_option( 'llms_site_url', $original_lock );
 		}
 
 	}

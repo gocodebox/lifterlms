@@ -643,11 +643,10 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 */
 	public function test_recurring_charge_skipped_on_clone_before_admin_visit() {
 
-		$original = get_site_url();
+		add_filter( 'llms_site_is_clone', '__return_true' );
 
 		try {
 			LLMS_Site::update_feature( 'recurring_payments', true );
-			update_option( 'siteurl', 'http://fakeurl.tld' );
 
 			$plan  = $this->get_mock_plan( '200.00', 1 );
 			$order = $this->get_mock_order( $plan );
@@ -660,7 +659,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 			$this->assertSame( $note_actions + 1, did_action( 'llms_new_order_note_added' ) );
 			$this->assertSame( $skip_actions + 1, did_action( 'llms_order_recurring_charge_skipped' ) );
 		} finally {
-			update_option( 'siteurl', $original );
+			remove_filter( 'llms_site_is_clone', '__return_true' );
 		}
 
 	}
