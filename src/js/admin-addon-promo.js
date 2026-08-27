@@ -21,13 +21,15 @@
 			return;
 		}
 
-		document.querySelectorAll( '.llms-addon-promo-trigger' ).forEach( function( button ) {
-			button.addEventListener( 'click', function( event ) {
-				event.preventDefault();
-				if ( typeof dialog.showModal === 'function' ) {
-					dialog.showModal();
-				}
-			} );
+		document.addEventListener( 'click', function( event ) {
+			const button = event.target.closest( '.llms-addon-promo-trigger' );
+			if ( ! button ) {
+				return;
+			}
+			event.preventDefault();
+			if ( typeof dialog.showModal === 'function' ) {
+				dialog.showModal();
+			}
 		} );
 
 		const closeBtn = dialog.querySelector( '.llms-addon-promo-dialog-close' );

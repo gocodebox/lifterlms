@@ -70,6 +70,16 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				<?php esc_html_e( 'Download', 'lifterlms' ); ?>
 				<i class="fa fa-cloud-download" aria-hidden="true"></i>
 			</button>
+			<?php
+			/**
+			 * Fires after the HTML certificate download button in student reporting.
+			 *
+			 * @since [version]
+			 *
+			 * @param int $certificate_id Awarded certificate post ID.
+			 */
+			do_action( 'llms_reporting_certificate_after_download_button', $certificate_id );
+			?>
 
 			<button type="submit" class="llms-button-danger small" id="llms_delete_cert" name="llms_delete_cert">
 				<?php esc_html_e( 'Delete', 'lifterlms' ); ?>

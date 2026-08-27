@@ -28,6 +28,7 @@ class LLMS_Admin_Addon_Notices {
 		add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'add_videos_promo_tab' ) );
 		add_action( 'lifterlms_after_order_meta_box', array( $this, 'output_order_pdf_lock_button' ) );
 		add_action( 'llms_reporting_single_student_course_actions', array( $this, 'output_reporting_pdf_lock_button' ), 50 );
+		add_action( 'llms_reporting_certificate_after_download_button', array( $this, 'output_certificate_pdf_lock_button' ) );
 		add_action( 'admin_footer', array( $this, 'output_pdf_dialog' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_pdf_promo_assets' ) );
 	}
@@ -184,6 +185,26 @@ class LLMS_Admin_Addon_Notices {
 			)
 		);
 		echo '</div>';
+	}
+
+	/**
+	 * Output a locked PDF download button next to the admin certificate HTML download.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_certificate_pdf_lock_button() {
+
+		if ( $this->is_pdfs_loaded() ) {
+			return;
+		}
+		?>
+		<button type="button" class="llms-button-secondary small llms-addon-promo-trigger" data-llms-addon-promo="pdfs">
+			<?php esc_html_e( 'Download PDF', 'lifterlms' ); ?>
+			<i class="fa fa-cloud-download" aria-hidden="true"></i>
+		</button>
+		<?php
 	}
 
 	/**
