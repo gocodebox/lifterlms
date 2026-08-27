@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Redirected the setup wizard skip button to the LifterLMS dashboard and added a Launch Setup Wizard link on the plugins screen.
