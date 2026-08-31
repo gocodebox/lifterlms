@@ -82,6 +82,51 @@
 	.subsubsub {
 		color: #dcdcde;
 	}
+
+	.llms-dashboard-widget-section {
+		margin: 0 -12px;
+		padding: 10px 12px;
+		background: #f6f7f7;
+		border-top: 1px solid #e8e8e8;
+		border-bottom: 1px solid #e8e8e8;
+
+		h3 {
+			margin: 0;
+			font-size: 13px;
+		}
+	}
+
+	.llms-dashboard-widget-newsletter {
+		display: flex;
+		justify-content: center;
+		padding: 14px 16px;
+		border-top: 1px solid #e8e8e8;
+	}
+
+	.llms-dashboard-widget-newsletter-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 18px;
+		border: 1px solid #2271b1;
+		border-radius: 4px;
+		color: #2271b1;
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 1.2;
+		text-decoration: none;
+
+		.dashicons {
+			font-size: 16px;
+			width: 16px;
+			height: 16px;
+		}
+
+		&:hover {
+			background: #2271b1;
+			color: #fff;
+		}
+	}
 }
 
 .llms-dashboard-widget-feed {
@@ -97,5 +142,9 @@
 
 	span {
 		display: block;
+	}
+
+	&.llms-dashboard-widget-tools {
+		background-color: #fff;
 	}
 }
