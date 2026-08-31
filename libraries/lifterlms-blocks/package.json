@@ -17,7 +17,7 @@
     "llmsWPData": "npm:@wordpress/data@^5.1.2",
     "react-select": "^4.1.0",
     "throttle-debounce": "^2.0.1",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@lifterlms/scripts": "file:../../packages/scripts"
