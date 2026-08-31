@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Improved prevention of recurring charges when the site URL no longer matches the stored lock.
