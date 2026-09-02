@@ -269,10 +269,14 @@ input[type="text"].cc_cvv,
 }
 
 .llms-lesson-button-wrapper {
-  width: 100%;
-  display: block;
+  align-items: center;
   clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
   text-align: center;
+  width: 100%;
 }
 .llms-template-wrapper {
   width: 100%;
