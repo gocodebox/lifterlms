@@ -202,7 +202,29 @@ body.admin_page_llms-course-builder {
 
 				> .llms-builder-footer {
 					border-top: 1px solid #efefef;
+					display: flex;
+					flex-wrap: wrap;
+					gap: 8px;
 					padding: 20px 20px 20px 30px;
+
+					.existing-lesson {
+						background: #fff;
+						border: 1px solid #d4d4d4;
+						color: $color-cinder;
+
+						&:hover,
+						&:active {
+							background: #f6f6f6;
+							border-color: #c4c4c4;
+							color: #414141;
+						}
+
+						&:focus {
+							background: #fff;
+							border-color: $color-brand-blue;
+							color: $color-cinder;
+						}
+					}
 				}
 			}
 
