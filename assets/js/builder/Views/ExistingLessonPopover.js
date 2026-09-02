@@ -9,6 +9,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, LessonSearch
 	/**
 	 * Show the popover used to attach or clone an existing lesson.
 	 *
+	 * webuiPopover keeps its instance on the trigger and ignores later inits, so
+	 * destroy any previous instance first. Leave cache on so the select is moved
+	 * (not cloned) into the popover — Select2 is initialized on that node via
+	 * setTimeout after it is in the DOM.
+	 *
 	 * @since [version]
 	 *
 	 * @param {String|Element} el        Popover trigger selector or element.
@@ -17,7 +22,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, LessonSearch
 	 */
 	return function( el, placement ) {
 
-		var pop, onLessonSelect;
+		var $el = $( el ), pop, onLessonSelect;
+
+		if ( $el.data( 'plugin_webuiPopover' ) ) {
+			$el.webuiPopover( 'destroy' );
+		}
 
 		pop = new Popover( {
 			el: el,
@@ -40,9 +49,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, LessonSearch
 		} );
 
 		onLessonSelect = function() {
-			pop.hide();
+			if ( $el.data( 'plugin_webuiPopover' ) ) {
+				$el.webuiPopover( 'destroy' );
+			}
 
-			// Ref #3097 — pop.hide() doesn't always remove the DOM elements.
+			// Ref #3097 — hide/destroy leaves the popover and backdrop in the DOM.
 			$( '.webui-popover' ).remove();
 			$( '.webui-popover-backdrop' ).remove();
 		};
