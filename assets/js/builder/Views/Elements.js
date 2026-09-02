@@ -2,9 +2,9 @@
  * Sidebar Elements View
  *
  * @since    3.16.0
- * @version  3.16.12
+ * @version  [version]
  */
-define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/PostSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
+define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/ExistingLessonPopover' ], function( Section, SectionView, Lesson, LessonView, show_existing_lesson_popover ) {
 
 	return Backbone.View.extend( {
 
@@ -124,44 +124,12 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
-		 * @version  3.16.12
+		 * @version  [version]
 		 */
 		add_existing_lesson: function( event ) {
 
 			event.preventDefault();
-
-			var pop, onLessonSelect;
-
-			pop = new Popover( {
-				el: '#llms-existing-lesson',
-				args: {
-					backdrop: true,
-					closeable: true,
-					container: '.wrap.lifterlms.llms-builder',
-					dismissible: true,
-					placement: 'left',
-					width: 480,
-					title: LLMS.l10n.translate( 'Add Existing Lesson' ),
-					content: new LessonSearch( {
-						post_type: 'lesson',
-						searching_message: LLMS.l10n.translate( 'Search for existing lessons...' ),
-					} ).render().$el,
-					onHide: function() {
-						Backbone.pubSub.off( 'lesson-search-select', onLessonSelect );
-					},
-				}
-			} );
-
-			onLessonSelect = function() {
-				pop.hide();
-
-				// Ref #3097 — pop.hide() doesn't always remove the DOM elements.
-				$( '.webui-popover' ).remove();
-				$( '.webui-popover-backdrop' ).remove();
-			};
-
-			pop.show();
-			Backbone.pubSub.once( 'lesson-search-select', onLessonSelect );
+			show_existing_lesson_popover( '#llms-existing-lesson', 'left' );
 
 		},
 
