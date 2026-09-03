@@ -423,4 +423,31 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 		$total = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $this->student_id, $this->lesson_id );
 		$this->assertGreaterThanOrEqual( 120, $total );
 	}
+
+	/**
+	 * Test llms_has_met_lesson_minimum_time().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_has_met_lesson_minimum_time() {
+
+		$lesson = llms_get_post( $this->lesson_id );
+
+		$this->assertFalse( llms_has_met_lesson_minimum_time( $this->student_id, $lesson ) );
+		$this->assertFalse( llms_has_met_lesson_minimum_time( $this->student_id, $this->lesson_id ) );
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->start_session( $this->student_id, $this->lesson_id );
+		$session->set( 'accumulated_seconds', 600 );
+		$session->set( 'session_end', current_time( 'mysql' ) );
+		$session->save();
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $this->student_id, $this->lesson_id );
+
+		$this->assertTrue( llms_has_met_lesson_minimum_time( $this->student_id, $lesson ) );
+
+		update_post_meta( $this->lesson_id, '_llms_has_minimum_time', 'no' );
+		$lesson = llms_get_post( $this->lesson_id );
+		$this->assertTrue( llms_has_met_lesson_minimum_time( $this->student_id, $lesson ) );
+	}
 }
