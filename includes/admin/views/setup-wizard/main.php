@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 
 				<p class="llms-setup-actions">
 					<?php if ( 'intro' === $current ) : ?>
-						<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php esc_html_e( 'Skip setup', 'lifterlms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-dashboard' ) ); ?>" class="llms-button-secondary large"><?php esc_html_e( 'Skip setup', 'lifterlms' ); ?></a>
 						<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php esc_html_e( 'Get Started Now', 'lifterlms' ); ?></a>
 					<?php else : ?>
 
