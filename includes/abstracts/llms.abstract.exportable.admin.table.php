@@ -106,7 +106,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		$delim = apply_filters( 'llms_table_generate_export_file_delimiter', ',', $this, $args );
 
 		foreach ( $this->get_export( $args ) as $row ) {
-			fputcsv( $handle, $row, $delim );
+			// The `$escape` arg is passed explicitly because relying on its default is deprecated as of PHP 8.4.
+			fputcsv( $handle, $row, $delim, '"', '\\' );
 		}
 
 		if ( ! $this->is_last_page() ) {
