@@ -186,7 +186,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @param string|bool $step Step to use as current.
 	 * @return string|bool
 	 */
-	public function get_next_step( ?string $step = null ) {
+	public function get_next_step( $step = null ) {
 		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
@@ -207,7 +207,7 @@ abstract class LLMS_Abstract_Admin_Wizard {
 	 * @param string|bool $step Step to use as current.
 	 * @return string|bool
 	 */
-	public function get_prev_step( ?string $step = null ) {
+	public function get_prev_step( $step = null ) {
 		$step = $step ?? $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
 		$i    = array_search( $step, $keys, true );
