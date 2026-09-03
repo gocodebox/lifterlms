@@ -59,6 +59,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		usort( $gateways, array( $this, 'sort_gateways' ) );
 
+		$registered_ids = array();
+		$objects        = array();
+		foreach ( $gateways as $gateway ) {
+			$registered_ids[]              = $gateway->get_id();
+			$objects[ $gateway->get_id() ] = $gateway;
+		}
+		$matched_catalog_ids = LLMS_Admin_Catalog_Table::get_matched_catalog_ids( $registered_ids, 'checkout', $objects );
+
 		ob_start();
 		?>
 
@@ -67,29 +75,66 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				<tr>
 					<th class="sort"></th>
 					<th><?php esc_html_e( 'Gateway', 'lifterlms' ); ?></th>
-					<th><?php esc_html_e( 'Gateway ID', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Description', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Installed', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Activated', 'lifterlms' ); ?></th>
 					<th><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></th>
+					<th><?php esc_html_e( 'Documentation', 'lifterlms' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php foreach ( $gateways as $gateway ) : ?>
+				<?php
+				$addon    = LLMS_Admin_Catalog_Table::get_addon_for_registered( $gateway->get_id(), 'checkout', $gateway );
+				$siblings = $addon ? LLMS_Admin_Catalog_Table::get_registered_sibling_count( $addon->get( 'id' ), $registered_ids, 'checkout', $objects ) : 1;
+				$title    = LLMS_Admin_Catalog_Table::get_grouped_display_title( $gateway->get_admin_title(), $gateway->get_id(), $addon, $siblings );
+				$docs_url = LLMS_Admin_Catalog_Table::get_core_docs_url( $gateway->get_id() );
+				if ( ! $docs_url && $addon ) {
+					$docs_url = LLMS_Admin_Catalog_Table::get_addon_docs_url( $addon );
+				}
+				$state      = LLMS_Admin_Catalog_Table::get_row_plugin_state( $gateway->get_id(), $addon, true );
+				$learn_more = ( $addon && ! $state['installed'] ) ? LLMS_Admin_Catalog_Table::get_product_url( $addon, 'Checkout Screen' ) : '';
+				?>
 				<tr>
 					<td class="sort">
 						<i class="fa fa-bars llms-action-icon" aria-hidden="true"></i>
 						<input type="hidden" name="<?php echo esc_attr( $gateway->get_option_name( 'display_order' ) ); ?>" value="<?php echo esc_attr( $gateway->get_display_order() ); ?>">
 					</td>
-					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $gateway->get_admin_title() ); ?></a></td>
-					<td><?php echo esc_html( $gateway->get_id() ); ?></td>
-					<td class="status">
-						<?php if ( $gateway->is_enabled() ) : ?>
-							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Enabled', 'lifterlms' ); ?></span>
-								<i class="fa fa-check-circle" aria-hidden="true"></i>
-							</span>
-						<?php else : ?>
-							&ndash;
-						<?php endif; ?>
-					</td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $gateway->get_admin_description() ),
+						$state['activated'],
+						$docs_url,
+						$state['installed'],
+						$learn_more,
+						$gateway->is_enabled()
+					);
+					?>
+				</tr>
+			<?php endforeach; ?>
+			<?php
+			foreach ( LLMS_Admin_Catalog_Table::get_catalog_addons( 'checkout' ) as $addon ) :
+				if ( in_array( $addon->get( 'id' ), $matched_catalog_ids, true ) ) {
+					continue;
+				}
+				$title      = LLMS_Admin_Catalog_Table::get_display_title( $addon->get( 'title' ), $addon->get( 'id' ) );
+				$url        = LLMS_Admin_Catalog_Table::get_catalog_row_url( $addon, 'Checkout Screen' );
+				$learn_more = $addon->is_installed() ? '' : LLMS_Admin_Catalog_Table::get_product_url( $addon, 'Checkout Screen' );
+				?>
+				<tr>
+					<td class="sort"></td>
+					<td><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a></td>
+					<?php
+					LLMS_Admin_Catalog_Table::render_status_cells(
+						wp_strip_all_tags( $addon->get( 'description' ) ),
+						$addon->is_active(),
+						LLMS_Admin_Catalog_Table::get_addon_docs_url( $addon ),
+						$addon->is_installed(),
+						$learn_more,
+						null
+					);
+					?>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

@@ -6,7 +6,8 @@
  *
  * @since 7.1.0
  * @since 7.3.0 Added `llms_dashboard_checklist` filter.
- * @version 7.3.0
+ * @since [version] Added growth tools and newsletter CTA.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -90,6 +91,23 @@ defined( 'ABSPATH' ) || exit;
 		</ul>
 		<a class="llms-button-action" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ); ?>"><i class="fa fa-plug" aria-hidden="true"></i> <?php esc_html_e( 'Add Advanced Features', 'lifterlms' ); ?></a>
 	</div>
+</div>
+<div class="llms-growth-tools">
+	<h3><?php esc_html_e( 'Free Tools to Grow Your Education Organization', 'lifterlms' ); ?></h3>
+	<ul>
+		<?php foreach ( LLMS_Admin_Dashboard_Widget::get_growth_tools( 'Dashboard Screen' ) as $tool ) : ?>
+			<li>
+				<a href="<?php echo esc_url( $tool['url'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $tool['title'] ); ?></a>
+				<span class="llms-growth-tool-meta"><?php echo esc_html( $tool['meta'] ); ?></span>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+	<p class="llms-dashboard-newsletter">
+		<a class="llms-dashboard-widget-newsletter-btn" href="<?php echo esc_url( LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/newsletter/', 'Dashboard Screen' ) ); ?>" target="_blank" rel="noopener">
+			<span class="dashicons dashicons-email" aria-hidden="true"></span>
+			<?php esc_html_e( 'Subscribe to newsletter', 'lifterlms' ); ?>
+		</a>
+	</p>
 </div>
 <hr />
 <div class="llms-help-links">

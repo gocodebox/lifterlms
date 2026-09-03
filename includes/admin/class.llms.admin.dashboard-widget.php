@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.2.0
- * @version 7.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -68,7 +68,22 @@ class LLMS_Admin_Dashboard_Widget {
 		<div class="activity-block">
 			<?php echo $this->get_widgets(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template file. ?>
 		</div>
-		<div class="activity-block">
+		<div class="llms-dashboard-widget-section">
+			<h3><?php esc_html_e( 'Free Tools to Grow Your Education Organization', 'lifterlms' ); ?></h3>
+		</div>
+		<ul class="llms-dashboard-widget-feed llms-dashboard-widget-tools">
+			<?php foreach ( self::get_growth_tools() as $tool ) : ?>
+				<li>
+					<a href="<?php echo esc_url( $tool['url'] ); ?>" target="_blank" rel="noopener">
+						<?php echo esc_html( $tool['title'] ); ?>
+					</a>
+					<span class="llms-dashboard-widget-feed-date">
+						<?php echo esc_html( $tool['meta'] ); ?>
+					</span>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+		<div class="llms-dashboard-widget-section">
 			<h3><?php esc_html_e( 'LifterLMS News & Podcasts', 'lifterlms' ); ?></h3>
 		</div>
 		<ul class="llms-dashboard-widget-feed">
@@ -85,6 +100,12 @@ class LLMS_Admin_Dashboard_Widget {
 				</li>
 			<?php endforeach; ?>
 		</ul>
+		<div class="llms-dashboard-widget-newsletter">
+			<a class="llms-dashboard-widget-newsletter-btn" href="<?php echo esc_url( LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/newsletter/', 'Dashboard Widget' ) ); ?>" target="_blank" rel="noopener">
+				<span class="dashicons dashicons-email" aria-hidden="true"></span>
+				<?php esc_html_e( 'Subscribe to newsletter', 'lifterlms' ); ?>
+			</a>
+		</div>
 		<ul class="subsubsub">
 			<li>
 				<a href="https://lifterlms.com/blog/" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Opens in a new tab', 'lifterlms' ); ?>">
@@ -105,9 +126,55 @@ class LLMS_Admin_Dashboard_Widget {
 					<?php esc_html_e( 'Get support', 'lifterlms' ); ?>
 					<span aria-hidden="true" class="dashicons dashicons-external"></span>
 				</a>
+				|
+			</li>
+			<li>
+				<a href="<?php echo esc_url( LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/rate-and-review/', 'Dashboard Widget' ) ); ?>" target="_blank" rel="noopener" aria-label="<?php esc_attr_e( 'Opens in a new tab', 'lifterlms' ); ?>">
+					<?php esc_html_e( 'Rate and review', 'lifterlms' ); ?>
+					<span aria-hidden="true" class="dashicons dashicons-external"></span>
+				</a>
 			</li>
 		</ul>
 		<?php
+	}
+
+	/**
+	 * Growth tools listed on the dashboard widget and LifterLMS Dashboard.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $medium UTM medium. Default "Dashboard Widget".
+	 * @return array[]
+	 */
+	public static function get_growth_tools( $medium = 'Dashboard Widget' ) {
+
+		return array(
+			array(
+				'title' => __( 'Shopping Assistant', 'lifterlms' ),
+				'meta'  => __( 'Find the right LifterLMS plan in 60 seconds.', 'lifterlms' ),
+				'url'   => LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/choose/', $medium ),
+			),
+			array(
+				'title' => __( 'ROI Calculator', 'lifterlms' ),
+				'meta'  => __( 'See what your course business could earn.', 'lifterlms' ),
+				'url'   => LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/roi/', $medium ),
+			),
+			array(
+				'title' => __( '3 Course Blueprints', 'lifterlms' ),
+				'meta'  => __( 'Three proven course structures for your next launch.', 'lifterlms' ),
+				'url'   => LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlms.com/free-lifterlms-course/', $medium ),
+			),
+			array(
+				'title' => __( 'Education Entrepreneur Masterclass', 'lifterlms' ),
+				'meta'  => __( 'Free Academy course on building a course business.', 'lifterlms' ),
+				'url'   => LLMS_Admin_Addon_Promo::get_utm_url( 'https://academy.lifterlms.com/course/education-entrepreneur-masterclass/', $medium ),
+			),
+			array(
+				'title' => __( 'Ask Me Anything Live Call', 'lifterlms' ),
+				'meta'  => __( 'Weekly live Q&A with the LifterLMS team.', 'lifterlms' ),
+				'url'   => LLMS_Admin_Addon_Promo::get_utm_url( 'https://lifterlikes.com/presales-streamyard', $medium ),
+			),
+		);
 	}
 
 	/**
