@@ -1,3 +1,5 @@
 significance: patch
 type: fixed
+links:
+  - "#3352"
 entry: Disabled the Mark Complete button in markup while a lesson's minimum time is still running, and left it disabled when other progression requirements remain.
