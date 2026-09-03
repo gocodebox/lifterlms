@@ -1,5 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
+	"core": "https://wordpress.org/wordpress-7.1.zip",
 	"plugins": [ "." ],
 	"mappings": {
 		"wp-content/mu-plugins": "./tests/e2e/mu-plugins"

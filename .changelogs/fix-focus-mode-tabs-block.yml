@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed interactive blocks not working in focus mode."
