@@ -856,7 +856,8 @@ final class LifterLMS {
 			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>',
 		);
 
-		if ( 3 === count( $links ) ) {
+		// LLMS_Admin_Plugins already prepended Dashboard, Settings, and Setup Wizard.
+		if ( isset( $links['dashboard'] ) ) {
 			return $links;
 		}
 

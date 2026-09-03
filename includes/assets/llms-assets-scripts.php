@@ -35,6 +35,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 7.0.0 Added llms-spinner.
  * @since 7.4.0 Renamed llms-admin-setup to llms-admin-wizard.
  * @since 7.5.0 Added llms-favorites.
+ * @since [version] Added llms-admin-addon-promo.
  */
 return array(
 
@@ -59,6 +60,10 @@ return array(
 	'llms-addons'                               => array(
 		'asset_file' => true,
 		'file_name'  => 'llms-admin-addons',
+		'suffix'     => '',
+	),
+	'llms-admin-addon-promo'                    => array(
+		'asset_file' => true,
 		'suffix'     => '',
 	),
 	'llms-admin-award-certificate'              => array(

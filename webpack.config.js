@@ -13,6 +13,7 @@ const { resolve } = require( 'path' ),
 	config = generate( {
 		js: [
 			'admin-addons',
+			'admin-addon-promo',
 			'admin-award-certificate',
 			'admin-certificate-editor',
 			'admin-media-protection-block-protect',

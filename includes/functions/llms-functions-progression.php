@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -70,6 +70,34 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	 * @param LLMS_Lesson|bool $lesson  LLMS_Lesson instance, or `false` for an invalid lesson.
 	 */
 	return apply_filters( 'llms_can_user_complete_lesson', $allowed, $user_id, $lesson );
+}
+
+/**
+ * Determine whether a student has met a lesson's minimum time requirement.
+ *
+ * Returns true when the lesson has no minimum time, or when the student's
+ * accumulated time is at least the required number of seconds.
+ *
+ * @since [version]
+ *
+ * @param int             $user_id WP User ID of the student.
+ * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
+ * @return bool
+ */
+function llms_has_met_lesson_minimum_time( $user_id, $lesson ) {
+
+	if ( ! $lesson instanceof LLMS_Lesson ) {
+		$lesson = llms_get_post( $lesson );
+	}
+
+	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
+		return true;
+	}
+
+	$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson->get( 'id' ) );
+	$required = absint( $lesson->get( 'minimum_time' ) );
+
+	return $total >= $required;
 }
 
 /**

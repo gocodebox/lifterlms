@@ -1210,7 +1210,7 @@ function llms_php_error_constant_to_code( $code ) {
 		E_USER_ERROR        => 'E_USER_ERROR', // 256.
 		E_USER_WARNING      => 'E_USER_WARNING', // 512.
 		E_USER_NOTICE       => 'E_USER_NOTICE', // 1024.
-		E_STRICT            => 'E_STRICT', // 2048.
+		2048                => 'E_STRICT', // Referencing the E_STRICT constant is deprecated as of PHP 8.4.
 		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR', // 4096.
 		E_DEPRECATED        => 'E_DEPRECATED', // 8192.
 		E_USER_DEPRECATED   => 'E_USER_DEPRECATED', // 16384.
