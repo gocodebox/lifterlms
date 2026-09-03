@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 10.0.0
- * @version 10.0.0
+ * @since [version] Render post content before `wp_head()` so block script modules populate the import map.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,6 +34,20 @@ $next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $
 
 $prev_restricted = $prev_id ? llms_page_restricted( $prev_id, get_current_user_id() ) : array( 'is_restricted' => false );
 $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_id() ) : array( 'is_restricted' => false );
+
+/*
+ * Render block content before <head> so script modules (e.g. core/tabs) populate
+ * the import map. Matches wp-includes/template-canvas.php. On block themes the
+ * map prints in wp_head(); processing after that leaves @wordpress/interactivity
+ * unresolved and interactive blocks dead.
+ */
+$llms_focus_mode_content = '';
+if ( have_posts() ) {
+	the_post();
+	ob_start();
+	do_action( 'llms_focus_mode_the_content' );
+	$llms_focus_mode_content = ob_get_clean();
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -112,27 +127,13 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 			?>
 			<main class="<?php echo esc_attr( implode( ' ', array_filter( $content_classes ) ) ); ?>">
 				<?php
-				while ( have_posts() ) :
-					the_post();
-					$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
-					$lesson_content_classes = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
-					?>
-					<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
-					<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
-						<?php
-						/**
-						 * Renders the post content in focus mode.
-						 *
-						 * @since 10.0.0
-						 *
-						 * @see llms_focus_mode_render_content() Default handler.
-						 */
-						do_action( 'llms_focus_mode_the_content' );
-						?>
-					</div>
-					<?php
-				endwhile;
+				$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
+				$lesson_content_classes = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
 				?>
+				<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
+				<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
+					<?php echo $llms_focus_mode_content; ?>
+				</div>
 			</main>
 
 			<?php if ( 'lesson' === $post_type && $lesson ) : ?>
