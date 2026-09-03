@@ -49,7 +49,6 @@ class LLMS_Add_On {
 
 		$this->id   = ! empty( $addon['id'] ) ? $addon['id'] : '';
 		$this->data = $addon ? $addon : array();
-
 	}
 
 	/**
@@ -93,7 +92,6 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on name.
 		return new WP_Error( 'activation', sprintf( __( 'Could not activate %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
 	}
 
 	/**
@@ -118,7 +116,6 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on name.
 		return new WP_Error( 'deactivation', sprintf( __( 'Could not deactivate %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
 	}
 
 	/**
@@ -161,7 +158,6 @@ class LLMS_Add_On {
 		}
 
 		return $translate ? $this->get_l10n( $ret ) : $ret;
-
 	}
 
 	/**
@@ -229,7 +225,6 @@ class LLMS_Add_On {
 		);
 
 		return $strings[ $string ];
-
 	}
 
 	/**
@@ -249,7 +244,6 @@ class LLMS_Add_On {
 		}
 
 		return $translate ? $this->get_l10n( $ret ) : $ret;
-
 	}
 
 	/**
@@ -258,22 +252,22 @@ class LLMS_Add_On {
 	 * @since 3.22.0
 	 * @since 4.21.3 Use `rawurlencode()` in favor of `urlencode()`.
 	 *
+	 * @param string $utm_medium Optional UTM medium. Default "Add-Ons Screen".
 	 * @return string
 	 */
-	public function get_permalink() {
+	public function get_permalink( $utm_medium = 'Add-Ons Screen' ) {
 
 		$url = add_query_arg(
 			array(
 				'utm_source'   => rawurlencode( 'LifterLMS Plugin' ),
 				'utm_campaign' => rawurlencode( 'Plugin to Sale' ),
-				'utm_medium'   => rawurlencode( 'Add-Ons Screen' ),
+				'utm_medium'   => rawurlencode( $utm_medium ),
 				'utm_content'  => rawurlencode( sprintf( '%1$s Ad %2$s', $this->get( 'title' ), LLMS_VERSION ) ),
 			),
 			$this->get( 'permalink' )
 		);
 
 		return $url;
-
 	}
 
 	/**
@@ -303,7 +297,6 @@ class LLMS_Add_On {
 		}
 
 		return $type;
-
 	}
 
 	/**
@@ -328,7 +321,6 @@ class LLMS_Add_On {
 		}
 
 		return $ret;
-
 	}
 
 	/**
@@ -387,7 +379,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -426,7 +417,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -471,7 +461,6 @@ class LLMS_Add_On {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -496,7 +485,6 @@ class LLMS_Add_On {
 		}
 
 		return $this->uninstall_real();
-
 	}
 
 	/**
@@ -530,7 +518,5 @@ class LLMS_Add_On {
 
 		// Translators: %s = Add-on title.
 		return sprintf( __( '%s was successfully uninstalled.', 'lifterlms' ), $this->get( 'title' ) );
-
 	}
-
 }

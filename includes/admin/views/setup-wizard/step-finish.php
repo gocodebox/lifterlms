@@ -7,7 +7,8 @@
  * @since 4.4.4
  * @since 4.8.0 Unknown.
  * @since 7.4.0 Escape output.
- * @version 7.4.0
+ * @since [version] Update finish-step copy and add a Course Blueprints resource link.
+ * @version [version]
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */
@@ -16,11 +17,12 @@ defined( 'ABSPATH' ) || exit;
 
 $courses = LLMS_Export_API::list( 1, 3 );
 ?>
-<h1><?php esc_html_e( 'Setup Complete!', 'lifterlms' ); ?></h1>
+<h1><?php esc_html_e( 'You are all set.', 'lifterlms' ); ?></h1>
 <p><?php esc_html_e( 'Here\'s some resources to help you get familiar with LifterLMS:', 'lifterlms' ); ?></p>
 <ul>
-	<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%Video%20Tutorials" target="_blank"><?php esc_html_e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
+	<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%Video%20Tutorials" target="_blank"><?php esc_html_e( 'Take the free LifterLMS Quickstart Course', 'lifterlms' ); ?></a></li>
 	<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-guide-with-lifterlms-resources/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=LifterLMS%Getting%20Started" target="_blank"><?php esc_html_e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
+	<li><span class="dashicons dashicons-editor-table"></span> <a href="https://lifterlms.com/free-lifterlms-course/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Wizard&utm_content=3%20Course%20Blueprints" target="_blank"><?php esc_html_e( 'Pick your course structure with the 3 Course Blueprints', 'lifterlms' ); ?></a></li>
 </ul>
 <br>
 
@@ -36,7 +38,7 @@ $courses = LLMS_Export_API::list( 1, 3 );
 	}
 	?>
 
-<h1><?php esc_html_e( 'Import Sample Courses and Templates!', 'lifterlms' ); ?></h1>
+<h1><?php esc_html_e( 'Start with a sample course or template...', 'lifterlms' ); ?></h1>
 <p><?php esc_html_e( 'Accelerate your progress by installing a quick LifterLMS training course and useful course templates.', 'lifterlms' ); ?></p>
 
 	<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
