@@ -187,6 +187,8 @@ class LLMS_Form_Validator {
 	 */
 	protected function validate_field_attribute_minlength( $posted_value, $minlength, $field ) {
 
+		$minlength = max( 6, absint( $minlength ) );
+
 		if ( strlen( $posted_value ) < $minlength ) {
 			return new WP_Error(
 				'llms-form-field-invalid',
