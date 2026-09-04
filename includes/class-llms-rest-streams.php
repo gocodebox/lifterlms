@@ -307,8 +307,23 @@ class LLMS_REST_Streams {
 			'controller'  => 'LLMS_REST_Enrollments_Controller',
 			'operation'   => 'update',
 			'method'      => 'PATCH',
-			'args_method' => 'PATCH',
 			'route'       => '/llms/v1/students/{id}/enrollments/{post_id}',
+			// Enrollments PATCH args are hardcoded to trigger/status and never pick up
+			// register_rest_field( 'stream' ). Explicit args replace those so the ability
+			// input schema includes stream (required) and trigger (default any, used by
+			// permission checks that run before REST route matching applies defaults).
+			'args'        => array(
+				'stream'  => array(
+					'description' => __( 'Selected course stream id.', 'lifterlms' ),
+					'type'        => 'string',
+					'required'    => true,
+				),
+				'trigger' => array(
+					'description' => __( 'The trigger of the enrollment to act on.', 'lifterlms' ),
+					'type'        => 'string',
+					'default'     => 'any',
+				),
+			),
 			'path_params' => array(
 				'id'      => $student_id_desc,
 				'post_id' => $post_id_desc,

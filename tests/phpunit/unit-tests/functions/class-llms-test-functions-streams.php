@@ -424,5 +424,16 @@ class LLMS_Test_Functions_Streams extends LLMS_UnitTestCase {
 		$names   = wp_list_pluck( $configs, 'name' );
 		$this->assertContains( 'get-student-stream', $names );
 		$this->assertContains( 'set-student-stream', $names );
+
+		$set_config = null;
+		foreach ( $configs as $config ) {
+			if ( 'set-student-stream' === $config['name'] ) {
+				$set_config = $config;
+				break;
+			}
+		}
+		$this->assertIsArray( $set_config );
+		$this->assertArrayHasKey( 'stream', $set_config['args'] );
+		$this->assertTrue( $set_config['args']['stream']['required'] );
 	}
 }

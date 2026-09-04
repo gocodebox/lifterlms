@@ -68,6 +68,8 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 				'enroll-student',
 				'update-enrollment',
 				'unenroll-student',
+				'get-student-stream',
+				'set-student-stream',
 				'get-progress',
 				'update-progress',
 				'delete-progress',
@@ -154,6 +156,15 @@ class LLMS_REST_Test_Abilities extends LLMS_REST_Unit_Test_Case_Base {
 		$schema = $this->get_ability( 'enroll-student' )->get_input_schema();
 		$this->assertContains( 'id', $schema['required'] );
 		$this->assertContains( 'post_id', $schema['required'] );
+
+		// Enrollments PATCH args omit register_rest_field properties; set-student-stream
+		// supplies stream explicitly so additionalProperties: false does not reject it.
+		$schema = $this->get_ability( 'set-student-stream' )->get_input_schema();
+		$this->assertArrayHasKey( 'stream', $schema['properties'] );
+		$this->assertContains( 'stream', $schema['required'] );
+		$this->assertContains( 'id', $schema['required'] );
+		$this->assertContains( 'post_id', $schema['required'] );
+		$this->assertFalse( $schema['additionalProperties'] );
 	}
 
 	/**
