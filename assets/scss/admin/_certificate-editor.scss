@@ -1,0 +1,52 @@
+/**
+ * Certificate / achievement editor document sidebar.
+ *
+ * WP 7.0+ bumped Gutenberg TextControl height to 40px. The inner-margin
+ * labels used a negative top margin sized for the old shorter inputs, which
+ * then sat on top of the fields. Classic side metaboxes (sync awarded) also
+ * sat flush against the settings panel, and the full-width Sync button
+ * overflowed the ~280px complementary area.
+ */
+
+.llms-certificate-doc-settings.components-panel__body {
+	.components-panel__body-content {
+		padding-bottom: 16px;
+	}
+
+	.llms-certificate-sequential-id-control {
+		margin-bottom: 0;
+	}
+
+	.llms-certificate-margin-control__label {
+		display: block;
+		margin: 4px 0 0 4px;
+	}
+}
+
+.interface-complementary-area #poststuff,
+.editor-sidebar #poststuff,
+.edit-post-sidebar #poststuff {
+	box-sizing: border-box;
+	min-width: 0;
+	width: 100%;
+}
+
+#certificate_sync,
+#achievement_sync {
+	margin-top: 16px;
+
+	.inside {
+		overflow-x: hidden;
+	}
+
+	.llms-sync-action-wrap {
+		margin: 1em 0 0;
+	}
+
+	.sync-action {
+		box-sizing: border-box;
+		display: inline-block;
+		max-width: 100%;
+		width: auto;
+	}
+}
