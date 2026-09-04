@@ -960,7 +960,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_next_lesson( $course_id ) {
 
 		$course  = new LLMS_Course( $course_id );
-		$lessons = $course->get_lessons( 'ids' );
+		$lessons = llms_filter_lessons_by_stream( $course->get_lessons( 'ids' ), $course, $this );
 
 		foreach ( $lessons as $lesson ) {
 			if ( ! $this->is_complete( $lesson, 'lesson' ) ) {
@@ -1047,7 +1047,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			if ( 'course' === $type ) {
 
 				$course  = new LLMS_Course( $object_id );
-				$lessons = $course->get_lessons( 'ids' );
+				$lessons = llms_filter_lessons_by_stream( $course->get_lessons( 'ids' ), $course, $this );
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
@@ -1067,7 +1067,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			} elseif ( 'section' === $type ) {
 
 				$section = new LLMS_Section( $object_id );
-				$lessons = $section->get_lessons( 'ids' );
+				$lessons = llms_filter_lessons_by_stream( $section->get_lessons( 'ids' ), $section->get_course(), $this );
 				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {

@@ -71,6 +71,7 @@ class LLMS_Template_Loader {
 				'course_time_period',
 				'enrollment_lesson',
 				'lesson_drip',
+				'lesson_stream',
 				'lesson_prerequisite',
 				'membership',
 				'sitewide_membership',
@@ -292,6 +293,30 @@ class LLMS_Template_Loader {
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_lesson_drip_message', $msg, $info ),
 			apply_filters( 'llms_restricted_by_lesson_drip_redirect', $redirect, $info ),
+			'error'
+		);
+	}
+
+	/**
+	 * Handle redirects when a user attempts to access a lesson that is not in their selected stream.
+	 *
+	 * Redirect to the parent course and display a notice.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $info Array of restriction info from `llms_page_restricted()`.
+	 * @return void
+	 */
+	public function restricted_by_lesson_stream( $info ) {
+
+		$lesson = new LLMS_Lesson( $info['restriction_id'] );
+
+		$msg      = llms_get_restriction_message( $info );
+		$redirect = get_permalink( $lesson->get( 'parent_course' ) );
+
+		$this->handle_restriction(
+			apply_filters( 'llms_restricted_by_lesson_stream_message', $msg, $info ),
+			apply_filters( 'llms_restricted_by_lesson_stream_redirect', $redirect, $info ),
 			'error'
 		);
 	}

@@ -58,6 +58,9 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	} else {
 		// The student must be enrolled in the lesson's parent course and the lesson must be available.
 		$allowed = ( $user_id && llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) && $lesson->is_available() );
+		if ( $allowed && llms_is_post_restricted_by_stream( $lesson->get( 'id' ), $user_id ) ) {
+			$allowed = false;
+		}
 	}
 
 	/**

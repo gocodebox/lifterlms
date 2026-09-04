@@ -326,6 +326,80 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Store data for the course streams metabox repeater.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return void
+	 */
+	public static function streams_mb_store( $request ) {
+
+		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
+			wp_die();
+		}
+
+		if ( ! llms_current_user_can_edit_product( $request['post_id'] ) ) {
+			wp_die();
+		}
+
+		$course = llms_get_post( $request['post_id'] );
+		if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+			wp_die();
+		}
+
+		switch ( $request['store_action'] ) {
+
+			case 'load':
+				$streams = llms_get_course_streams( $course );
+				break;
+
+			case 'save':
+				$raw = array();
+				if ( ! empty( $request['rows'] ) && is_array( $request['rows'] ) ) {
+					foreach ( $request['rows'] as $row ) {
+						$stream = array(
+							'id'   => '',
+							'name' => '',
+						);
+						foreach ( (array) $row as $key => $val ) {
+							if ( 0 === strpos( $key, '_llms_stream_id' ) ) {
+								$stream['id'] = $val;
+							} elseif ( 0 === strpos( $key, '_llms_stream_name' ) ) {
+								$stream['name'] = $val;
+							}
+						}
+						$raw[] = $stream;
+					}
+				}
+				$streams = llms_sanitize_course_streams( $raw );
+				$course->set( 'streams', $streams );
+				break;
+
+			default:
+				$streams = array();
+				break;
+
+		}
+
+		$data = array();
+		foreach ( $streams as $stream ) {
+			$data[] = array(
+				'_llms_stream_id'   => $stream['id'],
+				'_llms_stream_name' => $stream['name'],
+			);
+		}
+
+		wp_send_json(
+			array(
+				'data'    => $data,
+				'message' => 'success',
+				'success' => true,
+			)
+		);
+	}
+
+	/**
 	 * Handle notification display & dismissal.
 	 *
 	 * @since 3.8.0

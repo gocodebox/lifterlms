@@ -2,7 +2,7 @@
  * Lesson Model
  *
  * @since 3.13.0
- * @version 4.20.0
+ * @version [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -80,6 +80,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 				quiz: {}, // Quiz model/data.
 				quiz_enabled: 'no',
+
+				streams: [],
 
 				content_added_in_builder: '',
 

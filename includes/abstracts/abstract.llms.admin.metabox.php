@@ -578,6 +578,82 @@ abstract class LLMS_Admin_Metabox {
 		return true;
 	}
 
+	/**
+	 * Save course streams from the repeater field.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $post_id WP_Post ID.
+	 * @param array $field   Metabox field array.
+	 * @param array $request Posted data.
+	 * @return bool
+	 */
+	protected function handler_streams_mb_store( $post_id, $field, $request ) {
+
+		if ( ! llms_current_user_can_edit_product( $post_id ) ) {
+			return false;
+		}
+
+		$course = llms_get_post( $post_id );
+		if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+			return false;
+		}
+
+		$course->set( 'streams', $this->parse_streams_from_request( $request ) );
+
+		return true;
+	}
+
+	/**
+	 * Retrieve select options for the default stream field.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course Course object.
+	 * @return array
+	 */
+	protected function get_stream_select_options( $course ) {
+
+		$options = array();
+		foreach ( llms_get_course_streams( $course ) as $stream ) {
+			$options[] = array(
+				'key'   => $stream['id'],
+				'title' => $stream['name'],
+			);
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Parse stream rows from a repeater request payload.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request Request data.
+	 * @return array[]
+	 */
+	protected function parse_streams_from_request( $request ) {
+
+		$streams = array();
+
+		foreach ( $request as $key => $val ) {
+			if ( ! preg_match( '/^_llms_stream_name_[0-9]+$/', $key ) ) {
+				continue;
+			}
+
+			$key_id = str_replace( '_llms_stream_name_', '', $key );
+			$id_key = '_llms_stream_id_' . $key_id;
+
+			$streams[] = array(
+				'id'   => isset( $request[ $id_key ] ) ? $request[ $id_key ] : '',
+				'name' => $val,
+			);
+		}
+
+		return llms_sanitize_course_streams( $streams );
+	}
+
 
 	/**
 	 * Save field in the db.

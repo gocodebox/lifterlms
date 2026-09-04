@@ -51,6 +51,9 @@ defined( 'ABSPATH' ) || exit;
  * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
  * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
  * @property string $video_embed                URL to an oEmbed enable video URL.
+ * @property string $streams_enabled            Whether course streams are enabled [yes|no].
+ * @property array  $streams                    List of course streams, each an array with `id` and `name` keys.
+ * @property string $streams_default             Stream id used when a student has not selected a stream.
  */
 class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
@@ -94,6 +97,9 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'days_before_available'      => 'absint',
 		'featured_pricing'           => 'html',
 		'completion_page_id'         => 'absint',
+		'streams_enabled'            => 'yesno',
+		'streams'                    => 'array',
+		'streams_default'            => 'text',
 
 		// Private.
 		'temp_calc_data'             => 'array',
@@ -108,6 +114,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 */
 	protected $property_defaults = array(
 		'enrolled_students' => 0,
+		'streams_enabled'   => 'no',
+		'streams'           => array(),
 	);
 
 	/**

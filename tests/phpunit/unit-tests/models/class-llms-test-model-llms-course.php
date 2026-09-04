@@ -64,6 +64,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'time_period'                => 'yesno',
 			'start_date'                 => 'text',
 			'video_embed'                => 'text',
+			'streams_enabled'            => 'yesno',
+			'streams'                    => 'array',
+			'streams_default'            => 'text',
 		);
 	}
 
@@ -103,6 +106,14 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'sales_page_content_url' => 'https://lifterlms.com',
 			'start_date' => '2017-05-01',
 			'video_embed' => 'http://example.tld/video_embed',
+			'streams_enabled' => 'yes',
+			'streams' => array(
+				array(
+					'id'   => 'morning',
+					'name' => 'Morning',
+				),
+			),
+			'streams_default' => 'morning',
 		);
 	}
 

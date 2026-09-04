@@ -318,6 +318,39 @@ define( [], function() {
 		],
 	},
 
+	streams: {
+		title: LLMS.l10n.translate( 'Streams' ),
+		toggleable: true,
+		fields: [
+			[
+				{
+					attribute: 'streams',
+					id: 'streams',
+					label: LLMS.l10n.translate( 'Streams' ),
+					tip: LLMS.l10n.translate( 'Leave empty to include this lesson in every stream.' ),
+					type: 'select',
+					multiple: true,
+					condition: function() {
+						var course = this.get_course();
+						return course && 'yes' === course.get( 'streams_enabled' ) && ( course.get( 'streams' ) || [] ).length;
+					},
+					options: function() {
+						var course = this.get_course();
+						if ( ! course ) {
+							return [];
+						}
+						return _.map( course.get( 'streams' ) || [], function( stream ) {
+							return {
+								key: stream.id,
+								val: stream.name,
+							};
+						} );
+					},
+				},
+			],
+		],
+	},
+
 	};
 
 	schema.default.fields.splice(

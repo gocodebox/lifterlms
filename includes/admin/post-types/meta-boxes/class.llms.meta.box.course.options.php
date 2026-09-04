@@ -489,6 +489,60 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 				),
 			),
 			array(
+				'title'  => __( 'Streams', 'lifterlms' ),
+				'fields' => array(
+					array(
+						'type'          => 'checkbox',
+						'label'         => __( 'Enable Streams', 'lifterlms' ),
+						'desc'          => __( 'Let students choose a stream. The syllabus, progress, and lesson requirements are limited to lessons in the selected stream. Lessons with no streams assigned appear in every stream.', 'lifterlms' ),
+						'id'            => $this->prefix . 'streams_enabled',
+						'is_controller' => true,
+						'value'         => 'yes',
+						'class'         => '',
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+					),
+					array(
+						'button'           => array(
+							'text' => __( 'Add Stream', 'lifterlms' ),
+						),
+						'controller'       => '#' . $this->prefix . 'streams_enabled',
+						'controller_value' => 'yes',
+						'handler'          => 'streams_mb_store',
+						'header'           => array(
+							'default' => __( 'New Stream', 'lifterlms' ),
+						),
+						'id'               => $this->prefix . 'streams_data',
+						'label'            => __( 'Streams', 'lifterlms' ),
+						'type'             => 'repeater',
+						'fields'           => array(
+							array(
+								'id'    => $this->prefix . 'stream_id',
+								'type'  => 'hidden',
+								'value' => '',
+							),
+							array(
+								'class' => 'input-full llms-collapsible-header-title-field',
+								'id'    => $this->prefix . 'stream_name',
+								'type'  => 'text',
+								'label' => __( 'Name', 'lifterlms' ),
+							),
+						),
+					),
+					array(
+						'allow_null'       => false,
+						'class'            => 'llms-select2',
+						'controller'       => '#' . $this->prefix . 'streams_enabled',
+						'controller_value' => 'yes',
+						'desc'             => __( 'Assigned to students until they choose a stream.', 'lifterlms' ),
+						'desc_class'       => 'd-all',
+						'id'               => $this->prefix . 'streams_default',
+						'label'            => __( 'Default Stream', 'lifterlms' ),
+						'type'             => 'select',
+						'value'            => $this->get_stream_select_options( $course ),
+					),
+				),
+			),
+			array(
 				'title'  => __( 'Instructors', 'lifterlms' ),
 				'fields' => array(
 					array(

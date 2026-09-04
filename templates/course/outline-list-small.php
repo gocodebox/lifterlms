@@ -11,7 +11,8 @@
  * @property  $student          obj    Instance of the LLMS_Student for the current user
  * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
  * @since     1.0.0
- * @version   3.19.2
+ * @since [version] Filter lessons by the student's selected course stream.
+ * @version   [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -22,6 +23,12 @@ defined( 'ABSPATH' ) || exit;
 	<ul class="llms-course-outline">
 
 		<?php foreach ( $sections as $section ) : ?>
+			<?php
+			$lessons = llms_filter_lessons_by_stream( $section->get_lessons(), $course, $student );
+			if ( ! $lessons ) {
+				continue;
+			}
+			?>
 
 			<li class="llms-section<?php echo ( $collapse ) ? ( ( $section->get( 'id' ) == $current_section ) ? ' llms-section--opened' : ' llms-section--closed' ) : ''; ?>">
 
@@ -45,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 
 				<?php
-				foreach ( $section->get_lessons() as $lesson ) :
+				foreach ( $lessons as $lesson ) :
 					$current     = ( $current_lesson == $lesson->get( 'id' ) );
 					$is_complete = $student ? $student->is_complete( $lesson->get( 'id' ), 'lesson' ) : false;
 					$restricted  = llms_page_restricted( $lesson->get( 'id' ) );

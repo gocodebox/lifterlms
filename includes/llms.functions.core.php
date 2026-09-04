@@ -18,6 +18,7 @@ require_once 'functions/llms-functions-forms.php';
 require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
+require_once 'functions/llms-functions-streams.php';
 require_once 'functions/llms-functions-user-information-fields.php';
 require_once 'functions/llms-functions-wrappers.php';
 

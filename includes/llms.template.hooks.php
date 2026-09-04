@@ -39,6 +39,7 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites', 55 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_stream_selector', 80 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
 

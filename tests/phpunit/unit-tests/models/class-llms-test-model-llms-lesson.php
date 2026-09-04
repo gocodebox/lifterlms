@@ -73,6 +73,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'quiz'                  => 'absint',
 			'quiz_enabled'          => 'yesno',
 
+			'streams'               => 'array',
+
 		);
 	}
 
@@ -103,6 +105,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'require_passing_grade' => 'yes',
 			'time_available'        => '12:34 PM',
 			'video_embed'           => 'http://example.tld/video_embed',
+			'streams'               => array( 'morning' ),
 		);
 	}
 

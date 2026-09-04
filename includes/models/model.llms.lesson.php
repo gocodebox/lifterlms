@@ -45,6 +45,7 @@ defined( 'ABSPATH' ) || exit;
  * @property string $content_added_in_builder         Whether content was (at least initially) added within the page builder.
  * @property string $has_minimum_time                 Whether minimum time is enabled [yes|no].
  * @property int    $minimum_time                     Minimum time in seconds a student must spend on the lesson.
+ * @property array  $streams                             Stream ids this lesson belongs to. An empty list means the lesson belongs to every stream.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 
@@ -81,6 +82,9 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'has_minimum_time'                 => 'yesno',
 		'minimum_time'                     => 'absint',
 
+		// Streams.
+		'streams'                          => 'array',
+
 	);
 
 	/**
@@ -90,7 +94,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * @var array
 	 */
 	protected $property_defaults = array(
-		'points' => 1,
+		'points'  => 1,
+		'streams' => array(),
 	);
 
 	/**
@@ -776,6 +781,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function get_next_lesson() {
 
+		$stream_sibling = $this->get_stream_sibling( 'next' );
+		if ( null !== $stream_sibling ) {
+			return $stream_sibling;
+		}
+
 		return $this->get_sibling( 'next' );
 	}
 
@@ -794,7 +804,40 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function get_previous_lesson() {
 
+		$stream_sibling = $this->get_stream_sibling( 'prev' );
+		if ( null !== $stream_sibling ) {
+			return $stream_sibling;
+		}
+
 		return $this->get_sibling( 'prev' );
+	}
+
+	/**
+	 * Retrieve the adjacent lesson in the current student's stream.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return int|false|null WP_Post ID of the sibling lesson, `false` if none exists, or `null` when streams are not enabled.
+	 */
+	protected function get_stream_sibling( $direction ) {
+
+		$course = $this->get_course();
+		if ( ! $course || ! llms_course_streams_enabled( $course ) ) {
+			return null;
+		}
+
+		$lessons = array_map( 'absint', llms_filter_lessons_by_stream( $course->get_lessons( 'ids' ), $course ) );
+		$index   = array_search( absint( $this->get( 'id' ) ), $lessons, true );
+		if ( false === $index ) {
+			return false;
+		}
+
+		if ( 'next' === $direction ) {
+			return isset( $lessons[ $index + 1 ] ) ? $lessons[ $index + 1 ] : false;
+		}
+
+		return isset( $lessons[ $index - 1 ] ) ? $lessons[ $index - 1 ] : false;
 	}
 
 	/**

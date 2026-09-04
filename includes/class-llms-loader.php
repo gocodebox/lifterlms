@@ -249,6 +249,8 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-library.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-rest-fields.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-rest-streams.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-prevent-concurrent-logins.php';
@@ -287,6 +289,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-awards.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.certificates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.lesson.progression.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-course-streams.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-checkout.php'; // Added out of alpha order to preserve action load order.
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.orders.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.quizzes.php';

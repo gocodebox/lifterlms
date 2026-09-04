@@ -173,6 +173,16 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				/* This filter is documented above. */
 				return apply_filters( 'llms_page_restricted', $results, $post_id );
 			}
+
+			$stream_lesson_id = llms_is_post_restricted_by_stream( $post_id, $user_id );
+			if ( $stream_lesson_id ) {
+
+				$results['is_restricted']  = true;
+				$results['reason']         = 'lesson_stream';
+				$results['restriction_id'] = $stream_lesson_id;
+				/* This filter is documented above. */
+				return apply_filters( 'llms_page_restricted', $results, $post_id );
+			}
 		}
 	}
 
@@ -259,6 +269,19 @@ function llms_get_restriction_message( $restriction ) {
 				),
 				$lesson->get( 'title' ),
 				$lesson->get_available_date()
+			);
+			break;
+
+		case 'lesson_stream':
+			$lesson = new LLMS_Lesson( $restriction['restriction_id'] );
+			$msg    = sprintf(
+				/* Translators: %s = lesson title */
+				_x(
+					'The lesson "%s" is not part of your selected stream.',
+					'lesson restricted by stream message',
+					'lifterlms'
+				),
+				$lesson->get( 'title' )
 			);
 			break;
 
@@ -356,6 +379,52 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
+}
+
+/**
+ * Determine if a lesson or quiz is restricted by the student's selected course stream.
+ *
+ * @since [version]
+ *
+ * @param int      $post_id WP Post ID of a lesson or quiz.
+ * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+ * @return int|false Lesson ID if restricted, false otherwise.
+ */
+function llms_is_post_restricted_by_stream( $post_id, $user_id = null ) {
+
+	$post_type = get_post_type( $post_id );
+
+	switch ( $post_type ) {
+		case 'lesson':
+			$lesson_id = $post_id;
+			break;
+		case 'llms_quiz':
+			$quiz      = llms_get_post( $post_id );
+			$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : 0;
+			if ( ! $lesson_id ) {
+				return false;
+			}
+			break;
+		default:
+			return false;
+	}
+
+	$lesson = llms_get_post( $lesson_id );
+	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+		return false;
+	}
+
+	$course = $lesson->get_course();
+	if ( ! $course || ! llms_course_streams_enabled( $course ) ) {
+		return false;
+	}
+
+	$stream_id = llms_get_student_stream( $user_id ? $user_id : get_current_user_id(), $course );
+	if ( llms_lesson_in_stream( $lesson, $stream_id ) ) {
+		return false;
+	}
+
+	return $lesson_id;
 }
 
 /**

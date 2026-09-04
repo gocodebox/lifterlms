@@ -322,6 +322,7 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS_ASSETS_VERSION, true );
 				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-a11y-dialog' ), LLMS_ASSETS_VERSION, true );
 				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS_ASSETS_VERSION, true );
+				wp_enqueue_script( 'llms-metabox-course-streams', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-course-streams' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-metaboxes' ), LLMS_ASSETS_VERSION, true );
 				wp_enqueue_script( 'llms-metabox-options', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-options' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-quill' ), LLMS_ASSETS_VERSION, true );
 
 				wp_enqueue_style( 'llms-quill-bubble' );

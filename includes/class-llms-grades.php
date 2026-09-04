@@ -180,7 +180,7 @@ class LLMS_Grades {
 
 		return apply_filters(
 			'llms_calculate_course_grade',
-			$this->calculate_grade_from_children( $course->get_lessons( 'ids' ), $student ),
+			$this->calculate_grade_from_children( llms_filter_lessons_by_stream( $course->get_lessons( 'ids' ), $course, $student ), $student ),
 			$course,
 			$student
 		);
