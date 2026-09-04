@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added a new 'Order Failed' email notification that is sent to the customer (and optionally the product author) when an order fails at checkout or after recurring payment retries are exhausted."
