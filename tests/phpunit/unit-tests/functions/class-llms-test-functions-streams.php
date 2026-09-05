@@ -350,6 +350,70 @@ class LLMS_Test_Functions_Streams extends LLMS_UnitTestCase {
 		}
 
 		$this->assertSame( 'evening', llms_get_student_stream( $student, $course ) );
+
+		$this->mockPostRequest(
+			array(
+				'llms_change_stream'        => '1',
+				'llms_change_stream_nonce' => wp_create_nonce( 'llms_change_stream' ),
+				'llms_stream_course_id'    => $course->get( 'id' ),
+				'llms_stream_id'           => 'morning',
+				'llms_stream_redirect'    => get_permalink( $fixture['shared']->get( 'id' ) ),
+			)
+		);
+
+		try {
+			$controller->handle_stream_form();
+			$this->fail( 'Expected a redirect after a successful stream change.' );
+		} catch ( LLMS_Unit_Test_Exception_Redirect $exception ) {
+			$this->assertSame(
+				get_permalink( $fixture['shared']->get( 'id' ) ) . ' [302] YES',
+				$exception->getMessage()
+			);
+		}
+
+		$this->assertSame( 'morning', llms_get_student_stream( $student, $course ) );
+	}
+
+	/**
+	 * Test the stream selector renders for enrolled students on the course and in lesson (focus mode) context.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_stream_selector_template() {
+
+		$fixture = $this->create_stream_course();
+		$course  = $fixture['course'];
+		$student = $fixture['student'];
+		$lesson  = $fixture['morning'];
+
+		ob_start();
+		lifterlms_template_course_stream_selector( $course );
+		$this->assertSame( '', ob_get_clean() );
+
+		wp_set_current_user( $student->get_id() );
+
+		ob_start();
+		lifterlms_template_course_stream_selector( $course );
+		$html = ob_get_clean();
+		$this->assertStringContainsString( 'llms-stream-selector', $html );
+		$this->assertStringContainsString( 'name="llms_stream_id"', $html );
+		$this->assertStringContainsString( 'morning', $html );
+		$this->assertStringContainsString( 'evening', $html );
+
+		$GLOBALS['post'] = get_post( $lesson->get( 'id' ) );
+		setup_postdata( $GLOBALS['post'] );
+
+		ob_start();
+		lifterlms_template_course_stream_selector();
+		$html = ob_get_clean();
+		$this->assertStringContainsString( 'llms-stream-selector', $html );
+		$this->assertStringContainsString( get_permalink( $lesson->get( 'id' ) ), $html );
+
+		wp_reset_postdata();
+
+		$this->assertNotFalse( has_action( 'lifterlms_outline_before', 'lifterlms_template_course_stream_selector' ) );
 	}
 
 	/**

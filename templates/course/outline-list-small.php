@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-widget-syllabus<?php echo ( $collapse ) ? ' llms-widget-syllabus--collapsible' : ''; ?>">
 
-	<?php do_action( 'lifterlms_outline_before' ); ?>
+	<?php do_action( 'lifterlms_outline_before', $course ); ?>
 
 	<ul class="llms-course-outline">
 

@@ -56,7 +56,12 @@ class LLMS_Controller_Course_Streams {
 
 		llms_set_student_stream( $user_id, $course_id, $stream_id );
 
-		$redirect = get_permalink( $course_id );
+		$redirect = llms_filter_input( INPUT_POST, 'llms_stream_redirect', FILTER_UNSAFE_RAW );
+		$redirect = $redirect ? wp_validate_redirect( esc_url_raw( wp_unslash( $redirect ) ), false ) : false;
+		if ( ! $redirect ) {
+			$redirect = get_permalink( $course_id );
+		}
+
 		if ( $redirect ) {
 			llms_redirect_and_exit( $redirect );
 		}

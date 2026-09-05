@@ -9,9 +9,10 @@
  * @since [version]
  * @version [version]
  *
- * @property LLMS_Course  $course  Course object.
- * @property array        $streams Course streams.
- * @property string       $current Current stream id.
+ * @property LLMS_Course  $course   Course object.
+ * @property array        $streams  Course streams.
+ * @property string       $current  Current stream id.
+ * @property string       $redirect URL to return to after changing stream.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,12 +20,17 @@ defined( 'ABSPATH' ) || exit;
 if ( empty( $course ) || empty( $streams ) ) {
 	return;
 }
+
+if ( empty( $redirect ) ) {
+	$redirect = get_permalink();
+}
 ?>
 <div class="llms-stream-selector-wrapper">
 	<form method="post" class="llms-stream-selector" action="">
 		<?php wp_nonce_field( 'llms_change_stream', 'llms_change_stream_nonce' ); ?>
 		<input type="hidden" name="llms_change_stream" value="1">
 		<input type="hidden" name="llms_stream_course_id" value="<?php echo esc_attr( $course->get( 'id' ) ); ?>">
+		<input type="hidden" name="llms_stream_redirect" value="<?php echo esc_url( $redirect ); ?>">
 		<label for="llms_stream_id"><?php esc_html_e( 'Stream', 'lifterlms' ); ?></label>
 		<select name="llms_stream_id" id="llms_stream_id" onchange="this.form.submit()">
 			<?php foreach ( $streams as $stream ) : ?>

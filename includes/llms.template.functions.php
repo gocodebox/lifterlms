@@ -381,6 +381,7 @@ if ( ! function_exists( 'lifterlms_template_single_syllabus' ) ) {
 
 	function lifterlms_template_single_syllabus() {
 
+		lifterlms_template_course_stream_selector();
 		llms_get_template( 'course/syllabus.php' );
 	}
 }

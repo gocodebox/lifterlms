@@ -199,6 +199,24 @@ $admin-bar-height-mobile: 46px;
 			overflow-y: auto;
 			padding: 20px;
 
+			.llms-stream-selector-wrapper {
+				margin: 0 0 16px;
+				padding-bottom: 16px;
+				border-bottom: 1px solid #e5e5e5;
+
+				.llms-stream-selector {
+					flex-direction: column;
+					align-items: stretch;
+
+					label {
+						font-size: 12px;
+						text-transform: uppercase;
+						letter-spacing: 0.02em;
+						color: #666;
+					}
+				}
+			}
+
 			.llms-widget-syllabus:not(.llms-widget-syllabus--collapsible) {
 
 				.section-title {
