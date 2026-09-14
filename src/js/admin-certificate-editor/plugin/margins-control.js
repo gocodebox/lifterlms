@@ -34,12 +34,15 @@ function getDesc( index ) {
  * @since 6.0.0
  */
 const StyledTextControl = styled( TextControl )`
+	margin-bottom: 0;
+
 	& .components-base-control__field {
 		position: relative;
+		margin-bottom: 0;
 
 		&:hover:after,
 		&:focus-within:after {
-		    right: 25px;
+			right: 25px;
 		}
 
 		&:after {
@@ -48,7 +51,8 @@ const StyledTextControl = styled( TextControl )`
 			pointer-events: none;
 			position: absolute;
 			right: 6px;
-			top: 6px;
+			top: 50%;
+			transform: translateY( -50% );
 			transition: right 0.05s ease-in-out;
 		}
 	}
@@ -70,7 +74,10 @@ function MarginControl( { margin, index, editMargins } ) {
 		marginId = [ 'top', 'right', 'bottom', 'left' ][ index ];
 
 	return (
-		<div style={ { flex: 1 } }>
+		<div
+			className="llms-certificate-margin-control"
+			style={ { flex: 1, minWidth: 0 } }
+		>
 			<StyledTextControl
 				id={ `llms-certificate-control--margin--${ marginId }` }
 				value={ currMargin }
@@ -79,7 +86,9 @@ function MarginControl( { margin, index, editMargins } ) {
 					editMargins( val, index, setMargin );
 				} }
 			/>
-			<em style={ { display: 'block', marginLeft: '4px', marginTop: '-8px' } }>{ getDesc( index ) }</em>
+			<em className="llms-certificate-margin-control__label">
+				{ getDesc( index ) }
+			</em>
 		</div>
 	);
 }
@@ -104,11 +113,17 @@ export default function MarginsControl( { margins } ) {
 
 	return (
 		<BaseControl
+			className="llms-certificate-margins-control"
 			label={ __( 'Inner Margins', 'lifterlms' ) }
 			id="llms-certificate-margins-control"
 		>
-			<div style={ { display: 'flex' } }>
-				{ margins.map( ( margin, index ) => ( <MarginControl key={ index } { ...{ margin, index, editMargins } } /> ) ) }
+			<div style={ { display: 'flex', gap: '4px' } }>
+				{ margins.map( ( margin, index ) => (
+					<MarginControl
+						key={ index }
+						{ ...{ margin, index, editMargins } }
+					/>
+				) ) }
 			</div>
 		</BaseControl>
 	);
