@@ -85,7 +85,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	 * test the llms_template_access_plan_button method
 	 * @return   void
 	 * @since    3.23.0
-	 * @version  3.23.0
+	 * @since    10.2.4 Confirm single-course pages route free enrollment through checkout.
+	 * @version  10.2.4
 	 */
 	public function test_llms_template_access_plan_button() {
 
@@ -102,6 +103,12 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 		$ob['plan']->set( 'is_free', 'yes' );
 		$ob = $this->get_ob( 'llms_template_access_plan_button', array(), $ob['plan'] );
 		$this->assertTrue( 0 === strpos( $ob['html'], '<form' ) );
+
+		// Single-course pages display only the checkout link, even for logged-in students.
+		$this->go_to( get_permalink( $ob['plan']->get( 'product_id' ) ) );
+		$ob = $this->get_ob( 'llms_template_access_plan_button', array(), $ob['plan'] );
+		$this->assertTrue( 0 === strpos( $ob['html'], '<a class="llms-button-action button wp-element-button"' ) );
+		$this->assertTrue( false === strpos( $ob['html'], '<form' ) );
 
 	}
 

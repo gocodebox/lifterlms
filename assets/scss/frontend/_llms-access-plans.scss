@@ -224,3 +224,75 @@
 		}
 	}
 }
+
+body.single-course .llms-access-plans {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat( auto-fit, minmax( min( 100%, 260px ), 1fr ) );
+	margin: 28px 0;
+
+	.llms-access-plan {
+		float: none;
+		width: 100%;
+
+		.llms-access-plan-content,
+		.llms-access-plan-footer {
+			background: $color-white;
+			border-color: rgba( $color-brand-dark-blue, 0.14 );
+		}
+
+		.llms-access-plan-content {
+			border: 1px solid rgba( $color-brand-dark-blue, 0.14 );
+			border-bottom: 0;
+			border-radius: $radius-medium $radius-medium 0 0;
+			box-shadow: 0 10px 28px rgba( $color-brand-dark-blue, 0.07 );
+		}
+
+		.llms-access-plan-title {
+			background: $color-brand-dark-blue;
+			padding: 16px 18px;
+		}
+
+		.llms-access-plan-footer {
+			border: 1px solid rgba( $color-brand-dark-blue, 0.14 );
+			border-radius: 0 0 $radius-medium $radius-medium;
+			box-shadow: 0 10px 28px rgba( $color-brand-dark-blue, 0.07 );
+			margin: 0 2px 2px;
+			padding: 18px;
+		}
+	}
+}
+
+// On block-based single course pages, present enrollment as one direct action.
+body.single-course .entry-content > .wp-block-llms-pricing-table .llms-access-plans {
+	display: block;
+	margin: 0;
+
+	.llms-access-plan {
+		display: inline-block;
+		width: auto;
+
+		.llms-access-plan-featured,
+		.llms-access-plan-content {
+			display: none;
+		}
+
+		.llms-access-plan-footer {
+			background: transparent;
+			border: 0;
+			border-radius: 0;
+			box-shadow: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.llms-button-action {
+			align-items: center;
+			display: inline-flex;
+			justify-content: center;
+			min-height: 54px;
+			padding-left: clamp( 30px, 4vw, 44px );
+			padding-right: clamp( 30px, 4vw, 44px );
+		}
+	}
+}

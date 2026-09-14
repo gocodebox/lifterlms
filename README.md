@@ -34,6 +34,31 @@ Welcome to the LifterLMS GitHub repository. This repository serves as the core p
 If you're not a developer or contributor, please use [LifterLMS plugin page][link-wp-repo] at WordPress.org.
 
 
+### Better Together USA frontend (BTU-173)
+
+The `BTU-173` branch contains the Better Together USA frontend customization of LifterLMS 10.2.4. It modernizes the student-facing experience while preserving LifterLMS course, enrollment, progress, and access behavior.
+
+The customization includes:
+
++ A responsive student dashboard with a clearer navigation rail, more generous content spacing, and redesigned dashboard cards.
++ A reorganized single-course layout with course content, information, syllabus, and enrollment presented as one cohesive experience.
++ A streamlined course enrollment action that presents the primary sign-up button without an unnecessary surrounding promotional box. Free single-course enrollment continues through checkout so configured validation, including Turnstile, remains in the enrollment path.
++ Updated standard lesson and focus-mode lesson layouts, including accessible mobile focus navigation.
++ Responsive styling designed for desktop, tablet, and mobile use. The course catalog remains unchanged by this work.
+
+Primary source files are in `assets/scss/frontend/`, `assets/scss/llms-focus-mode.scss`, `assets/js/llms-focus-mode.js`, and the related templates under `templates/`. Regression coverage is in `tests/e2e/specs/student/` and `tests/phpunit/unit-tests/functions-templates/`.
+
+Build the installable archive from the repository root:
+
+```sh
+npm run build:styles
+npm run build:scripts:legacy
+npm run dev release archive -- --dir dist
+```
+
+The deployment artifact is `dist/lifterlms-10.2.4.zip`. After installing it, purge the WordPress application cache and any Breeze, Cloudways, or Cloudflare caches before reviewing the frontend.
+
+
 ### Getting Help and Support
 
 GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support][link-support] or the [community forums][link-support-forums]. If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert][link-experts].
