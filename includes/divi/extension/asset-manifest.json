@@ -1,0 +1,6 @@
+{
+  "builder.css": "/styles/backend-style.min.css",
+  "builder.js": "/scripts/builder-bundle.min.js",
+  "frontend.css": "/styles/backend-style.min.css",
+  "frontend.js": "/scripts/frontend-bundle.min.js"
+}
