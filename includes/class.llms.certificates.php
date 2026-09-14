@@ -527,7 +527,7 @@ class LLMS_Certificates {
 	 * The path must exist, remain inside ABSPATH after resolving traversal/symlinks,
 	 * and match the expected type (CSS stylesheet or image).
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $url  URL whose path is mapped onto ABSPATH.
 	 * @param string $kind Either 'stylesheet' or 'image'.

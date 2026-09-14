@@ -6,8 +6,8 @@
  *
  * @since 7.1.0
  * @since 7.3.0 Added `llms_dashboard_checklist` filter.
- * @since [version] Added growth tools and newsletter CTA.
- * @version [version]
+ * @since 10.2.1 Added growth tools and newsletter CTA.
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;

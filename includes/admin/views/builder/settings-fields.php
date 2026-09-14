@@ -5,8 +5,8 @@
  * @since 3.17.0
  * @since 3.24.0 Unknown.
  * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
- * @since [version] Allow settings selects to be rendered disabled.
- * @version [version]
+ * @since 10.2.1 Allow settings selects to be rendered disabled.
+ * @version 10.2.1
  */
 defined( 'ABSPATH' ) || exit;
 ?>

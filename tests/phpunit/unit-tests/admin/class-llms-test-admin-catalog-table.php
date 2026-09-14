@@ -7,14 +7,14 @@
  * @group admin
  * @group catalog_table
  *
- * @since [version]
+ * @since 10.2.1
  */
 class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Teardown test.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Integrations catalog includes non-gateway ecommerce and excludes payment gateways.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -215,7 +215,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Checkout catalog includes payment gateways only.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -237,7 +237,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Catalog gateway detection uses the product ID list and gateway-prefixed plugin files.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -270,7 +270,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Display title overrides for core integrations and Twilio.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -286,7 +286,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Catalog items match registered gateway/integration ids without duplicating Stripe.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -323,7 +323,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Integrations table HTML uses the new columns and core rows.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -354,7 +354,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Catalog-only name URL: docs when installed, My Add-Ons when licensed, else sales.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -429,7 +429,7 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 	/**
 	 * Mocked catalog add-on for name-URL tests.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param array $data      Add-on data.
 	 * @param bool  $installed Whether the add-on is installed.

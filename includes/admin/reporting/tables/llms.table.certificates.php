@@ -74,7 +74,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			/**
 			 * Fires after the HTML certificate download button in student reporting.
 			 *
-			 * @since [version]
+			 * @since 10.2.1
 			 *
 			 * @param int $certificate_id Awarded certificate post ID.
 			 */

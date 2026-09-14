@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 7.2.0
- * @version [version]
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -141,7 +141,7 @@ class LLMS_Admin_Dashboard_Widget {
 	/**
 	 * Growth tools listed on the dashboard widget and LifterLMS Dashboard.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $medium UTM medium. Default "Dashboard Widget".
 	 * @return array[]

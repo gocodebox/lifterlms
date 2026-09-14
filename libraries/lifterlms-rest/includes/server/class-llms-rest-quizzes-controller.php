@@ -37,7 +37,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	 * Quizzes are not public REST content: listing them requires
 	 * quiz editing capabilities.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -54,7 +54,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a quiz can be read.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Quiz $quiz The quiz object.
 	 * @return bool Whether the quiz can be read.

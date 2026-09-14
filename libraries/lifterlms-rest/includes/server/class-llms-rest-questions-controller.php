@@ -88,7 +88,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * Questions are quiz-builder internals and are not public content:
 	 * listing them requires question editing capabilities.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -105,7 +105,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a question can be read.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Question $question The question object.
 	 * @return bool Whether the question can be read.

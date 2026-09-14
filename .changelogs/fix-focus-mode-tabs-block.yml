@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3350"
-entry: "Fixed interactive blocks not working in focus mode."

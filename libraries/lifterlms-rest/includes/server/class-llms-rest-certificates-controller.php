@@ -70,7 +70,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * Matches the admin UI gate (`lifterlms_admin_certificates_access`).
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return string
 	 */
@@ -81,7 +81,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a certificate template can be created.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return bool Whether the template can be created.
 	 */
@@ -92,7 +92,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a certificate template can be edited.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Post_Model $object Optional. The object. Default null.
 	 * @return bool Whether the template can be edited.
@@ -104,7 +104,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if a certificate template can be deleted.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Post_Model $object The object.
 	 * @return bool Whether the template can be deleted.
