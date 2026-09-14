@@ -32,8 +32,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Certificates {
 
-	use LLMS_Trait_Singleton,
-		LLMS_Trait_Award_Default_Images;
+	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Award_Default_Images;
 
 	/**
 	 * The ID for the award type.
@@ -132,7 +132,6 @@ class LLMS_Certificates {
 				array()
 			)
 		);
-
 	}
 
 	/**
@@ -193,7 +192,6 @@ class LLMS_Certificates {
 		fclose( $file );
 
 		return $filepath;
-
 	}
 
 	/**
@@ -230,7 +228,6 @@ class LLMS_Certificates {
 		}
 
 		return $filepath;
-
 	}
 
 	/**
@@ -265,7 +262,6 @@ class LLMS_Certificates {
 		 * @param int    $certificate_id WP_Post ID of the earned certificate.
 		 */
 		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
-
 	}
 
 	/**
@@ -302,11 +298,10 @@ class LLMS_Certificates {
 		do {
 			$length = $min_strlen + floor( $i / 5 );
 			$slug   = $title . strtolower( wp_generate_password( absint( $length ), false ) );
-			$i++;
+			++$i;
 		} while ( wp_unique_post_slug( $slug, 0, 'publish', 'llms_my_certificate', 0 ) !== $slug );
 
 		return $slug;
-
 	}
 
 	/**
@@ -369,7 +364,6 @@ class LLMS_Certificates {
 		libxml_use_internal_errors( $libxml_state );
 
 		return $html;
-
 	}
 
 	/**
@@ -419,7 +413,6 @@ class LLMS_Certificates {
 		while ( $links && $links->length ) {
 			$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
 		}
-
 	}
 
 	/**
@@ -442,14 +435,17 @@ class LLMS_Certificates {
 
 		// Get the actual CSS.
 		if ( in_array( $href_host, $this->export_local_hosts, true ) ) { // Is local?
-			$raw = file_get_contents( untrailingslashit( ABSPATH ) . wp_parse_url( $stylesheet_href, PHP_URL_PATH ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+			$path = $this->get_safe_local_export_path( $stylesheet_href, 'stylesheet' );
+			if ( ! $path ) {
+				return false;
+			}
+			$raw = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
 		} else {
-			$response = wp_remote_get( $stylesheet_href );
+			$response = wp_safe_remote_get( $stylesheet_href );
 			$raw      = wp_remote_retrieve_body( $response );
 		}
 
 		return $raw;
-
 	}
 
 	/**
@@ -489,7 +485,6 @@ class LLMS_Certificates {
 		foreach ( $to_remove as $img ) {
 			$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
-
 	}
 
 	/**
@@ -511,17 +506,66 @@ class LLMS_Certificates {
 		}
 
 		if ( in_array( $src_host, $this->export_local_hosts, true ) ) { // Is local?
-			$imgpath = untrailingslashit( ABSPATH ) . wp_parse_url( $image_src, PHP_URL_PATH );
-			$data    = file_get_contents( $imgpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
-			$type    = LLMS_Mime_Type_Extractor::from_file_path( $imgpath );
+			$imgpath = $this->get_safe_local_export_path( $image_src, 'image' );
+			if ( ! $imgpath ) {
+				return false;
+			}
+			$data = file_get_contents( $imgpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+			$type = LLMS_Mime_Type_Extractor::from_file_path( $imgpath );
 		} else {
-			$response = wp_remote_get( $image_src );
+			$response = wp_safe_remote_get( $image_src );
 			$data     = wp_remote_retrieve_body( $response );
 			$type     = wp_remote_retrieve_header( $response, 'content-type' );
 		}
 
 		return compact( 'data', 'type' );
+	}
 
+	/**
+	 * Resolve a local export URL to a filesystem path that is safe to read.
+	 *
+	 * The path must exist, remain inside ABSPATH after resolving traversal/symlinks,
+	 * and match the expected type (CSS stylesheet or image).
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url  URL whose path is mapped onto ABSPATH.
+	 * @param string $kind Either 'stylesheet' or 'image'.
+	 * @return string|false Absolute filesystem path, or false if the URL is not a safe local file.
+	 */
+	private function get_safe_local_export_path( $url, $kind ) {
+
+		$path = wp_parse_url( $url, PHP_URL_PATH );
+		if ( ! is_string( $path ) || '' === $path ) {
+			return false;
+		}
+
+		$abspath  = realpath( ABSPATH );
+		$resolved = realpath( untrailingslashit( ABSPATH ) . $path );
+		if ( ! $abspath || ! $resolved ) {
+			return false;
+		}
+
+		$abspath  = trailingslashit( wp_normalize_path( $abspath ) );
+		$resolved = wp_normalize_path( $resolved );
+		if ( 0 !== strpos( $resolved, $abspath ) ) {
+			return false;
+		}
+
+		if ( 'stylesheet' === $kind ) {
+			if ( 'css' !== strtolower( pathinfo( $resolved, PATHINFO_EXTENSION ) ) ) {
+				return false;
+			}
+		} elseif ( 'image' === $kind ) {
+			$mime = LLMS_Mime_Type_Extractor::from_file_path( $resolved );
+			if ( 0 !== strpos( (string) $mime, 'image/' ) ) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+		return $resolved;
 	}
 
 	/**
@@ -573,7 +617,5 @@ class LLMS_Certificates {
 		}
 
 		return wp_remote_retrieve_body( $req );
-
 	}
-
 }

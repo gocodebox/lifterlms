@@ -140,8 +140,12 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 			$course_ids = array_values(
 				array_filter(
 					array_map( 'absint', $prepared['course'] ),
-					function ( $course_id ) {
-						return 'course' === get_post_type( $course_id );
+					function ( $course_id ) use ( $student_id ) {
+						if ( 'course' !== get_post_type( $course_id ) ) {
+							return false;
+						}
+
+						return llms_is_user_enrolled( $student_id, $course_id ) || current_user_can( 'edit_post', $course_id );
 					}
 				)
 			);
