@@ -22,6 +22,39 @@ async function setContentEditable( locator, text ) {
 	}, text );
 }
 
+/**
+ * Attach an existing lesson via the section footer's "Add Existing Lesson" button.
+ *
+ * @param {import('@playwright/test').Page}    page      Playwright page.
+ * @param {import('@playwright/test').Locator} sectionEl Section locator.
+ * @param {string}                             title     Lesson title to search for.
+ * @return {Promise<void>}
+ */
+async function attachExistingLessonFromSection( page, sectionEl, title ) {
+
+	const btn = sectionEl.locator( '.llms-builder-footer .existing-lesson' );
+	await expect( btn ).toBeVisible();
+	await btn.click();
+
+	const popover = page.locator( '.webui-popover' ).filter( { hasText: 'Add Existing Lesson' } );
+	await expect( popover ).toBeVisible();
+
+	const select2 = popover.locator( '.select2-container' );
+	await expect( select2 ).toBeVisible();
+	await expect.poll( async () => {
+		const box = await select2.boundingBox();
+		return box?.width ?? 0;
+	} ).toBeGreaterThan( 200 );
+
+	await select2.click();
+	await page.locator( '.select2-search__field' ).fill( title );
+	await page.locator( `.select2-results__option:has-text("${ title }")` ).first().click();
+
+	await expect( popover ).toHaveCount( 0, { timeout: 5000 } );
+	await expect( page.locator( '.webui-popover-backdrop' ) ).toHaveCount( 0 );
+
+}
+
 test.describe( 'Course Builder / Attach Existing Lesson', () => {
 
 	test( 'attaching an orphan lesson, editing title and permalink, then saving persists the lesson', async ( {
@@ -126,6 +159,96 @@ test.describe( 'Course Builder / Attach Existing Lesson', () => {
 		expect( saved.parent_id ).toBe( section.id );
 		const title = typeof saved.title === 'object' ? saved.title.raw : saved.title;
 		expect( title ).toBe( newTitle );
+	} );
+
+	test( 'section footer can attach two existing lessons to the same section', async ( {
+		page,
+		requestUtils,
+	} ) => {
+
+		const stamp = Date.now();
+		const firstTitle = `Orphan A ${ stamp }`;
+		const secondTitle = `Orphan B ${ stamp }`;
+
+		const course = await requestUtils.rest( {
+			method: 'POST',
+			path: '/llms/v1/courses',
+			data: {
+				title: `Builder Attach Two ${ stamp }`,
+				content: 'x',
+				status: 'publish',
+			},
+		} );
+
+		const section = await requestUtils.rest( {
+			method: 'POST',
+			path: '/llms/v1/sections',
+			data: {
+				title: 'Section 1',
+				parent_id: course.id,
+				order: 1,
+			},
+		} );
+
+		const first = await requestUtils.rest( {
+			method: 'POST',
+			path: '/llms/v1/lessons',
+			data: {
+				title: firstTitle,
+				content: 'orphan a',
+				status: 'publish',
+				parent_id: 0,
+			},
+		} );
+
+		const second = await requestUtils.rest( {
+			method: 'POST',
+			path: '/llms/v1/lessons',
+			data: {
+				title: secondTitle,
+				content: 'orphan b',
+				status: 'publish',
+				parent_id: 0,
+			},
+		} );
+
+		await page.goto( `/wp-admin/admin.php?page=llms-course-builder&course_id=${ course.id }` );
+		await page.locator( '.wrap.lifterlms.llms-builder' ).waitFor( { state: 'visible' } );
+
+		const sectionEl = page.locator( `#llms-section-${ section.id }` );
+		await sectionEl.waitFor( { state: 'visible' } );
+
+		await attachExistingLessonFromSection( page, sectionEl, firstTitle );
+		await expect( sectionEl.locator( `#llms-lesson-${ first.id }` ) ).toBeVisible( { timeout: 10000 } );
+
+		await attachExistingLessonFromSection( page, sectionEl, secondTitle );
+		await expect( sectionEl.locator( `#llms-lesson-${ second.id }` ) ).toBeVisible( { timeout: 10000 } );
+
+		await expect( sectionEl.locator( `#llms-lesson-${ first.id }` ) ).toBeVisible();
+		await expect( sectionEl.locator( `#llms-lesson-${ second.id }` ) ).toBeVisible();
+
+		const saveBtn = page.locator( '#llms-save-button' );
+		await expect( saveBtn ).toHaveAttribute( 'data-status', 'unsaved', { timeout: 5000 } );
+		await saveBtn.click();
+		await expect( saveBtn ).toHaveAttribute( 'data-status', 'saved', { timeout: 15000 } );
+
+		await page.reload();
+		await page.locator( '.wrap.lifterlms.llms-builder' ).waitFor( { state: 'visible' } );
+		await expect( page.locator( `#llms-lesson-${ first.id }` ) ).toBeVisible( { timeout: 10000 } );
+		await expect( page.locator( `#llms-lesson-${ second.id }` ) ).toBeVisible();
+
+		const savedFirst = await requestUtils.rest( {
+			method: 'GET',
+			path: `/llms/v1/lessons/${ first.id }`,
+			params: { context: 'edit' },
+		} );
+		const savedSecond = await requestUtils.rest( {
+			method: 'GET',
+			path: `/llms/v1/lessons/${ second.id }`,
+			params: { context: 'edit' },
+		} );
+		expect( savedFirst.parent_id ).toBe( section.id );
+		expect( savedSecond.parent_id ).toBe( section.id );
 	} );
 
 } );
