@@ -1,0 +1,603 @@
+<?php
+/**
+ * Tests for the LLMS_Engagements_Scanner and LLMS_Engagements_Thresholds classes
+ *
+ * @package LifterLMS/Tests
+ *
+ * @group engagements
+ * @group engagements_scanner
+ *
+ * @since [version]
+ */
+class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
+
+	/**
+	 * @var LLMS_Engagements_Scanner
+	 */
+	private $scanner;
+
+	/**
+	 * Setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
+		$this->scanner = llms()->engagements()->scanner;
+		reset_phpmailer_instance();
+	}
+
+	/**
+	 * Teardown the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		llms_tests_reset_current_time();
+		parent::tear_down();
+	}
+
+	/**
+	 * Backdate all user postmeta rows for a given user & post.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $user_id WP_User ID.
+	 * @param int    $post_id WP_Post ID.
+	 * @param string $date    MySQL datetime string.
+	 * @return void
+	 */
+	private function backdate_user_postmeta( $user_id, $post_id, $date ) {
+		global $wpdb;
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$wpdb->prefix}lifterlms_user_postmeta SET updated_date = %s WHERE user_id = %d AND post_id = %d",
+				$date,
+				$user_id,
+				$post_id
+			)
+		);
+	}
+
+	/**
+	 * Create an engagement configured for a scan-based trigger.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $trigger_type Trigger type slug.
+	 * @param int    $trigger_post WP_Post ID of the trigger (related) post.
+	 * @param int    $period       Inactivity period in days.
+	 * @return WP_Post
+	 */
+	private function create_scan_engagement( $trigger_type, $trigger_post, $period ) {
+		$engagement = $this->create_mock_engagement( $trigger_type, 'email', 0, $trigger_post );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_period', $period );
+		return $engagement;
+	}
+
+	/**
+	 * Test that core scannable triggers are registered and the registration filter works.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_scannable_triggers() {
+
+		$triggers = $this->scanner->get_scannable_triggers();
+
+		$expected = array(
+			'days_since_login',
+			'course_inactivity',
+			'course_never_started',
+			'course_completion_deadline',
+			'quiz_attempt_abandoned',
+		);
+		foreach ( $expected as $slug ) {
+			$this->assertArrayHasKey( $slug, $triggers, $slug );
+			$this->assertTrue( is_callable( $triggers[ $slug ] ), $slug );
+		}
+
+		// Add-ons can register additional scannable triggers.
+		$callback = function ( $triggers ) {
+			$triggers['mock_scan_trigger'] = '__return_empty_array';
+			return $triggers;
+		};
+		add_filter( 'llms_scannable_engagement_triggers', $callback );
+		$this->assertArrayHasKey( 'mock_scan_trigger', $this->scanner->get_scannable_triggers() );
+		remove_filter( 'llms_scannable_engagement_triggers', $callback );
+	}
+
+	/**
+	 * Test the days_since_login candidate query, including the never-logged-in registration fallback.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_days_since_login() {
+
+		$engagement = $this->create_scan_engagement( 'days_since_login', 0, 14 );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
+
+		$inactive = $this->factory->user->create();
+		$active   = $this->factory->user->create();
+		update_user_meta( $inactive, 'llms_last_login', gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) ) );
+		update_user_meta( $active, 'llms_last_login', llms_current_time( 'mysql' ) );
+
+		// Never logged in: falls back to the registration date (recent, so not a candidate).
+		$never = $this->factory->user->create();
+
+		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $inactive, $user_ids );
+		$this->assertNotContains( $active, $user_ids );
+		$this->assertNotContains( $never, $user_ids );
+	}
+
+	/**
+	 * Test course_inactivity and course_never_started are mutually exclusive.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_activity_mutual_exclusivity() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		$stalled       = $this->factory->student->create();
+		$never_started = $this->factory->student->create();
+		$fresh         = $this->factory->student->create();
+
+		llms_enroll_student( $stalled, $course_id );
+		llms_enroll_student( $never_started, $course_id );
+		llms_enroll_student( $fresh, $course_id );
+
+		llms_mark_complete( $stalled, $lesson_id, 'lesson' );
+
+		// Backdate everything for the stalled and never-started students by 30 days.
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+			$this->backdate_user_postmeta( $stalled, $post_id, $backdate );
+			$this->backdate_user_postmeta( $never_started, $post_id, $backdate );
+		}
+
+		$inactivity_engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$started_engagement    = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		$inactivity_result = $this->scanner->query_course_inactivity( get_post( $inactivity_engagement->ID ), 0, 500 );
+		$inactivity_ids    = wp_list_pluck( $inactivity_result['candidates'], 'user_id' );
+
+		$never_result = $this->scanner->query_course_never_started( get_post( $started_engagement->ID ), 0, 500 );
+		$never_ids    = wp_list_pluck( $never_result['candidates'], 'user_id' );
+
+		// The stalled student started (completed a lesson) then went idle: inactivity only.
+		$this->assertContains( $stalled, $inactivity_ids );
+		$this->assertNotContains( $stalled, $never_ids );
+
+		// The never-started student is exclusively a never-started candidate.
+		$this->assertContains( $never_started, $never_ids );
+		$this->assertNotContains( $never_started, $inactivity_ids );
+
+		// The freshly-enrolled student matches neither.
+		$this->assertNotContains( $fresh, $inactivity_ids );
+		$this->assertNotContains( $fresh, $never_ids );
+
+		// No double-fire is structurally possible.
+		$this->assertEmpty( array_intersect( $inactivity_ids, $never_ids ) );
+	}
+
+	/**
+	 * Test that recent quiz attempt activity prevents a student from being considered inactive.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_inactivity_quiz_attempts_count_as_activity() {
+
+		global $wpdb;
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 1,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+		$quiz_id   = $course->get_quizzes()[0];
+
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+		llms_mark_complete( $student, $lesson_id, 'lesson' );
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+			$this->backdate_user_postmeta( $student, $post_id, $backdate );
+		}
+
+		$engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+
+		// Without quiz activity the student is a candidate.
+		$result = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$this->assertContains( $student, wp_list_pluck( $result['candidates'], 'user_id' ) );
+
+		// A recent (failed or incomplete) quiz attempt counts as activity.
+		$wpdb->insert(
+			"{$wpdb->prefix}lifterlms_quiz_attempts",
+			array(
+				'student_id'  => $student,
+				'quiz_id'     => $quiz_id,
+				'status'      => 'fail',
+				'update_date' => llms_current_time( 'mysql' ),
+			)
+		);
+
+		$result = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$this->assertNotContains( $student, wp_list_pluck( $result['candidates'], 'user_id' ) );
+	}
+
+	/**
+	 * Test the course_completion_deadline candidate query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_completion_deadline() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+
+		$overdue   = $this->factory->student->create();
+		$completed = $this->factory->student->create();
+
+		llms_enroll_student( $overdue, $course_id );
+		llms_enroll_student( $completed, $course_id );
+
+		foreach ( $course->get_lessons( 'ids' ) as $lesson_id ) {
+			llms_mark_complete( $completed, $lesson_id, 'lesson' );
+		}
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		$this->backdate_user_postmeta( $overdue, $course_id, $backdate );
+
+		// Backdate the completed student's enrollment too: completion should still exclude them.
+		global $wpdb;
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$wpdb->prefix}lifterlms_user_postmeta SET updated_date = %s WHERE user_id = %d AND post_id = %d AND meta_key = '_start_date'",
+				$backdate,
+				$completed,
+				$course_id
+			)
+		);
+
+		$engagement = $this->create_scan_engagement( 'course_completion_deadline', $course_id, 14 );
+		$result     = $this->scanner->query_course_completion_deadline( get_post( $engagement->ID ), 0, 500 );
+		$user_ids   = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $overdue, $user_ids );
+		$this->assertNotContains( $completed, $user_ids );
+	}
+
+	/**
+	 * Test the quiz_attempt_abandoned candidate query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_quiz_attempt_abandoned() {
+
+		global $wpdb;
+
+		$quiz_id    = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$student    = $this->factory->student->create();
+		$engagement = $this->create_scan_engagement( 'quiz_attempt_abandoned', $quiz_id, 7 );
+
+		$old = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 10 * DAY_IN_SECONDS ) );
+
+		$insert = function ( $status, $date ) use ( $wpdb, $student, $quiz_id ) {
+			$wpdb->insert(
+				"{$wpdb->prefix}lifterlms_quiz_attempts",
+				array(
+					'student_id'  => $student,
+					'quiz_id'     => $quiz_id,
+					'status'      => $status,
+					'update_date' => $date,
+				)
+			);
+			return $wpdb->insert_id;
+		};
+
+		$abandoned = $insert( 'incomplete', $old );
+		$insert( 'incomplete', llms_current_time( 'mysql' ) ); // Recent: not abandoned yet.
+		$insert( 'fail', $old ); // Completed attempts are never candidates.
+
+		$result  = $this->scanner->query_quiz_attempt_abandoned( get_post( $engagement->ID ), 0, 500 );
+		$anchors = wp_list_pluck( $result['candidates'], 'anchor' );
+
+		$this->assertEquals( array( $abandoned ), $anchors );
+		$this->assertEquals( $student, $result['candidates'][0]['user_id'] );
+		$this->assertEquals( $quiz_id, $result['candidates'][0]['related_post_id'] );
+	}
+
+	/**
+	 * Test fire-once / re-arm semantics of maybe_fire().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_fire_rearm() {
+
+		$course_id  = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$student    = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+
+		$post       = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$engagement = (object) array(
+			'trigger_id'    => $post->ID,
+			'engagement_id' => get_post_meta( $post->ID, '_llms_engagement', true ),
+			'trigger_event' => 'course_inactivity',
+			'event_type'    => 'email',
+			'delay'         => 0,
+		);
+
+		$candidate = array(
+			'user_id'         => $student,
+			'related_post_id' => $course_id,
+			'anchor'          => '2026-01-01 00:00:00',
+		);
+
+		// First encounter fires.
+		$this->assertTrue( $this->scanner->maybe_fire( $engagement, $candidate ) );
+
+		// Same anchor: still idle since the last fire, no re-fire.
+		$this->assertFalse( $this->scanner->maybe_fire( $engagement, $candidate ) );
+
+		// Newer anchor: the student was active again and went idle again, re-fire.
+		$candidate['anchor'] = '2026-02-01 00:00:00';
+		$this->assertTrue( $this->scanner->maybe_fire( $engagement, $candidate ) );
+
+		// And the marker advanced.
+		$this->assertFalse( $this->scanner->maybe_fire( $engagement, $candidate ) );
+	}
+
+	/**
+	 * Test that re-armed fires bypass the sent-email dupcheck while other emails don't.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_bypass_email_dupcheck() {
+
+		$scan_engagement  = $this->create_scan_engagement( 'course_inactivity', $this->factory->post->create( array( 'post_type' => 'course' ) ), 14 );
+		$event_engagement = $this->create_mock_engagement( 'course_completed', 'email' );
+
+		// Scan-based trigger: duplicate emails are allowed (the re-arm marker is the dupcheck).
+		$this->assertFalse( $this->scanner->maybe_bypass_email_dupcheck( true, 1, 2, 3, $scan_engagement->ID ) );
+
+		// Event-based triggers keep the normal dupcheck.
+		$this->assertTrue( $this->scanner->maybe_bypass_email_dupcheck( true, 1, 2, 3, $event_engagement->ID ) );
+
+		// Unknown engagement: unchanged.
+		$this->assertTrue( $this->scanner->maybe_bypass_email_dupcheck( true, 1, 2, 3, null ) );
+
+		// Non-duplicates are never modified.
+		$this->assertFalse( $this->scanner->maybe_bypass_email_dupcheck( false, 1, 2, 3, $scan_engagement->ID ) );
+	}
+
+	/**
+	 * Test do_batch() schedules a follow-up batch when a full page is returned.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_batch_pagination() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$students = $this->factory->student->create_many( 3 );
+		foreach ( $students as $student ) {
+			llms_enroll_student( $student, $course_id );
+		}
+
+		$engagement = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		$batch_size = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagements_scan_batch_size', $batch_size );
+
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		$this->scanner->do_batch( $engagement->ID, 0 );
+
+		// A full page (2 of 3 students) was scanned: the next page is scheduled.
+		$this->assertTrue(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $engagement->ID, $students[1] ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+
+		remove_filter( 'llms_engagements_scan_batch_size', $batch_size );
+	}
+
+	/**
+	 * Test the course_progress threshold trigger fires once when crossed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_course_progress_trigger() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lessons   = $course->get_lessons( 'ids' );
+
+		$engagement = $this->create_mock_engagement( 'course_progress', 'email', 0, $course_id );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_percentage', 50 );
+
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		// Completing lesson 1 of 2 crosses the 50% threshold.
+		llms_mark_complete( $student, $lessons[0], 'lesson' );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Completing the second lesson does not re-fire.
+		llms_mark_complete( $student, $lessons[1], 'lesson' );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test the quiz_failed_multiple threshold count logic and marker reset on pass.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_quiz_failed_multiple_trigger() {
+
+		global $wpdb;
+
+		$quiz_id    = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$student    = $this->factory->student->create();
+		$engagement = $this->create_mock_engagement( 'quiz_failed_multiple', 'email', 0, $quiz_id );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_count', 2 );
+
+		$thresholds = llms()->engagements()->thresholds;
+
+		$add_fail = function () use ( $wpdb, $student, $quiz_id ) {
+			$wpdb->insert(
+				"{$wpdb->prefix}lifterlms_quiz_attempts",
+				array(
+					'student_id'  => $student,
+					'quiz_id'     => $quiz_id,
+					'status'      => 'fail',
+					'update_date' => llms_current_time( 'mysql' ),
+				)
+			);
+		};
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		// One failure: below the threshold of 2.
+		$add_fail();
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_id );
+		$this->assertEquals( $actions, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Second failure reaches the threshold.
+		$add_fail();
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_id );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// A third failure does not re-fire (marker).
+		$add_fail();
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_id );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Passing clears the marker: two more failures fire again.
+		$thresholds->clear_quiz_failed_markers( $student, $quiz_id );
+		$add_fail();
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_id );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test enrollment cancellation fires the course_enrollment_cancelled trigger.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_enrollment_cancelled_trigger() {
+
+		$course_id  = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$engagement = $this->create_mock_engagement( 'course_enrollment_cancelled', 'email', 0, $course_id );
+
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		llms_unenroll_student( $student, $course_id, 'cancelled', 'any' );
+
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test order failure fires the order_failed trigger with the order's product as the related post.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_order_failed_trigger() {
+
+		$order      = $this->get_mock_order();
+		$product_id = $order->get( 'product_id' );
+
+		$engagement = $this->create_mock_engagement( 'order_failed', 'email', 0, $product_id );
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		$order->set( 'status', 'llms-failed' );
+
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+}
