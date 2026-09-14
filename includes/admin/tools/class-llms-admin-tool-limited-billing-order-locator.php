@@ -100,7 +100,8 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		ob_start();
 		$fh = fopen( 'php://output', 'w' );
 		foreach ( $csv as $line ) {
-			fputcsv( $fh, $line );
+			// The `$escape` arg is passed explicitly because relying on its default is deprecated as of PHP 8.4.
+			fputcsv( $fh, $line, ',', '"', '\\' );
 		}
 		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 

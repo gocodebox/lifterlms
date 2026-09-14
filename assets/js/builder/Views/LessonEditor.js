@@ -74,7 +74,7 @@ define( [
 
 				this.model = data.lesson;
 
-				var change_events = window.llms.hooks.applyFilters( 'llms_lesson_rerender_change_events', [
+				var change_events = [
 					'change:date_available',
 					'change:drip_method',
 					'change:free_lesson',
@@ -83,7 +83,11 @@ define( [
 					'change:content_added_in_builder',
 					'change:name',
 					'change:time_available',
-				] );
+				];
+				if ( ! window.llms_builder.av ) {
+					change_events.push( 'change:video_embed' );
+				}
+				change_events = window.llms.hooks.applyFilters( 'llms_lesson_rerender_change_events', change_events );
 				_.each( change_events, function( event ) {
 					this.listenTo( this.model, event, this.render );
 				}, this );
