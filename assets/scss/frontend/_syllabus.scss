@@ -203,3 +203,115 @@
 		display: block;
 	}
 }
+
+body.single-course .llms-syllabus-wrapper {
+	background: $color-white;
+	border: 1px solid $color-border;
+	border-radius: $radius-medium;
+	box-shadow: 0 12px 32px rgba( $color-brand-dark-blue, 0.07 );
+	box-sizing: border-box;
+	margin: 24px 0;
+	padding: clamp( 20px, 3vw, 30px );
+
+	.llms-section-title {
+		background: rgba( $color-brand-dark-blue, 0.045 );
+		border: 1px solid rgba( $color-brand-dark-blue, 0.12 );
+		border-radius: 10px 10px 0 0;
+		color: $color-brand-dark-blue;
+		font-size: 1.125rem;
+		letter-spacing: -0.01em;
+		margin: 28px 0 0;
+		padding: 16px 18px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		+ .llms-lesson-preview {
+			border-top: 0;
+		}
+	}
+
+	.llms-lesson-preview {
+		border-color: rgba( $color-brand-dark-blue, 0.14 );
+
+		&:last-of-type {
+			border-radius: 0 0 10px 10px;
+			overflow: hidden;
+		}
+
+		.llms-lesson-link {
+			padding: 16px 18px;
+		}
+
+		.llms-lesson-title {
+			color: $color-brand-dark-blue;
+			line-height: 1.4;
+		}
+
+		&.current-lesson section {
+			background: rgba( $color-brand-blue, 0.09 );
+			box-shadow: inset 3px 0 0 $color-brand-blue;
+		}
+
+		&.is-complete section {
+			background: rgba( $color-green, 0.06 );
+		}
+
+		.llms-lesson-locked {
+			background: #f4f5f6;
+			color: $color-darkgrey;
+		}
+	}
+}
+
+body.single-lesson:not(.llms-focus-mode) .llms-course-navigation {
+	gap: 16px;
+	margin: 20px 0 0;
+
+	.llms-lesson-preview {
+		border-color: rgba( $color-brand-dark-blue, 0.16 );
+		border-radius: $radius-medium;
+		box-shadow: 0 6px 18px rgba( $color-brand-dark-blue, 0.06 );
+		overflow: hidden;
+	}
+
+	.llms-lesson-link {
+		min-height: 74px;
+		padding: 16px;
+	}
+
+	.llms-pre-text {
+		color: $color-darkgrey;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.llms-lesson-title {
+		color: $color-brand-dark-blue;
+		font-size: 1rem;
+	}
+}
+
+@media all and ( max-width: 600px ) {
+	body.single-lesson:not(.llms-focus-mode) .llms-course-navigation {
+		flex-wrap: wrap;
+
+		.llms-course-nav {
+			flex: 1 1 calc( 50% - 8px );
+			min-width: 0;
+		}
+
+		.llms-back-to-course {
+			flex-basis: 100%;
+			order: -1;
+		}
+
+		.llms-lesson-excerpt,
+		.llms-lesson-meta {
+			display: none;
+		}
+	}
+}

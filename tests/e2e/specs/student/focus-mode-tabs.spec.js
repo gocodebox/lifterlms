@@ -39,6 +39,35 @@ test.describe( 'FocusModeTabs', () => {
 			'true'
 		);
 
-		expect( interactivityErrors, 'Interactivity API failed to resolve' ).toEqual( [] );
+		 expect( interactivityErrors, 'Interactivity API failed to resolve' ).toEqual( [] );
+	} );
+
+	test( 'opens and closes mobile course navigation accessibly', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await logoutUser( page );
+		await loginStudent( page, 'validcreds@email.tld', 'password' );
+
+		await page.goto( '/lesson/focus-mode-tabs-lesson/' );
+
+		const toggle = page.getByRole( 'button', { name: 'Lessons', exact: true } );
+		const sidebar = page.locator( '#llms-focus-mode-sidebar' );
+
+		await expect( toggle ).toBeVisible();
+		await expect( toggle ).toHaveAttribute( 'aria-expanded', 'false' );
+		await expect( sidebar ).toHaveAttribute( 'aria-hidden', 'true' );
+
+		await toggle.click();
+
+		await expect( toggle ).toHaveAttribute( 'aria-expanded', 'true' );
+		await expect( page.locator( 'body' ) ).toHaveClass( /llms-mobile-sidebar-open/ );
+		await expect( sidebar ).not.toHaveAttribute( 'aria-hidden', 'true' );
+		await expect( sidebar ).toBeFocused();
+
+		await page.keyboard.press( 'Escape' );
+
+		await expect( toggle ).toHaveAttribute( 'aria-expanded', 'false' );
+		await expect( page.locator( 'body' ) ).not.toHaveClass( /llms-mobile-sidebar-open/ );
+		await expect( sidebar ).toHaveAttribute( 'aria-hidden', 'true' );
+		await expect( toggle ).toBeFocused();
 	} );
 } );

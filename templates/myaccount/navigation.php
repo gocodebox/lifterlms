@@ -3,7 +3,8 @@
  * My Account Navigation Links
  *
  * @since    2.?.?
- * @version  3.17.5
+ * @since [version] Added current-page and mobile navigation labels.
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +21,13 @@ $current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 	<ul class="llms-sd-items">
 		<?php foreach ( LLMS_Student_Dashboard::get_tabs_for_nav() as $var => $data ) : ?>
 			<li class="llms-sd-item <?php echo esc_attr( sprintf( '%1$s %2$s', $var, ( $var === $current ) ? ' current' : '' ) ); ?>">
-				<a class="llms-sd-link" href="<?php echo esc_url( $data['url'] ); ?>"><?php echo esc_html( $data['title'] ); ?></a>
+				<a
+					class="llms-sd-link"
+					href="<?php echo esc_url( $data['url'] ); ?>"
+					<?php if ( $var === $current ) : ?>
+						aria-current="page"
+					<?php endif; ?>
+				><?php echo esc_html( $data['title'] ); ?></a>
 				<span class="llms-sep"><?php echo wp_kses_post( $sep ); ?></span>
 			</li>
 		<?php endforeach; ?>
