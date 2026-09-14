@@ -74,12 +74,27 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 		if ( $notes ) {
 			echo '<ul class="llms-order-notes">';
 			foreach ( $notes  as $note ) {
+
+				$note_author = sprintf(
+					/* translators: %s: Order note author name. */
+					esc_html_x( 'by %s', 'order note author', 'lifterlms' ),
+					esc_html( get_comment_author( $note->comment_ID ) )
+				);
+
+				$note_text = get_comment_text( $note->comment_ID );
+
+				if ( 0 !== (int) $note->user_id ) {
+					$profile_url  = get_edit_user_link( $note->user_id );
+					$profile_link = sprintf( ' (<a href="%s">#%d</a>)', esc_url( $profile_url ), absint( $note->user_id ) );
+
+					$note_text .= ' ' . $note_author . $profile_link;
+				}
 				?>
 
 				<li class="llms-order-note" id="llms-order-note-<?php echo esc_attr( $note->comment_ID ); ?>">
-					<div class="llms-order-note-content"><?php echo wp_kses_post( wpautop( get_comment_text( $note->comment_ID ) ) ); ?></div>
+					<div class="llms-order-note-content"><?php echo wp_kses_post( wpautop( $note_text ) ); ?></div>
 					<div class="llms-order-note-meta">
-						<?php printf( esc_html_x( 'by %s', 'order note author', 'lifterlms' ), esc_html( get_comment_author( $note->comment_ID ) ) ); ?>
+						<?php echo esc_html( $note_author ); ?>
 						<?php printf( esc_html_x( 'on %s', 'order note date', 'lifterlms' ), esc_html( get_comment_date( 'M j, Y h:i a', $note->comment_ID ) ) ); ?>
 					</div>
 
