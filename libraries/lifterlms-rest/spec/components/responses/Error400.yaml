@@ -1,6 +1,0 @@
-x-summary: Bad request.
-description: Invalid or malformed request syntax.
-content:
-  application/json:
-    schema:
-      $ref: '#/components/schemas/Error400'

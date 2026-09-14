@@ -1,6 +1,0 @@
-name: enrollment_status
-in: query
-description: Limit results by enrollment status.
-required: false
-schema:
-  $ref: '#/components/schemas/EnrollmentStatus'

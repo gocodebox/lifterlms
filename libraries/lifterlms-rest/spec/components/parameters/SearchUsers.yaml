@@ -1,7 +1,0 @@
-name: search
-in: query
-description: Filter results to those matching the specified search string.
-required: false
-schema:
-  type: string
-  example: jamie@lifterlms.com

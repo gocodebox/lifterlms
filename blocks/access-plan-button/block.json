@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/access-plan-button",
+  "title": "Access Plan Button",
+  "category": "llms-blocks",
+  "description": "Outputs a button which links to the purchase page for a LifterLMS access plan. Useful if you’re creating custom sales pages for courses or memberships.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "classes": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string",
+      "default": "default"
+    },
+    "type": {
+      "type": "string",
+      "default": "primary"
+    },
+    "text": {
+      "type": "string",
+      "default": "Buy Now"
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "editorScript": "file:./index.js"
+}

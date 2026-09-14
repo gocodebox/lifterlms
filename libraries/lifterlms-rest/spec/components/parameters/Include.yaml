@@ -1,6 +1,0 @@
-name: include
-in: query
-description: Limit results to a list of `id`s. Accepts a single `id` or a comma separated list of `id`s.
-schema:
-  type: string
-  example: [1,2,3]
