@@ -9,8 +9,8 @@
  * @since 3.23.0
  * @since 4.2.0 Added `llms_display_free_enroll_form` filter hook.
  * @since 10.1.0 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
- * @since 10.2.4 Route single-course enrollment through checkout so pricing tables can remain a direct call to action.
- * @version 10.2.4
+ * @since [version] Route single-course enrollment through checkout so pricing tables can remain a direct call to action.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>

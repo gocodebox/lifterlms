@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.1
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Addon_Notices class.
  *
- * @since [version]
+ * @since 10.2.1
  */
 class LLMS_Admin_Addon_Notices {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 */
 	public function __construct() {
 
@@ -36,7 +36,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Add an Advanced Coupons promo tab on the coupon metabox.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param array $tabs Existing tabs.
 	 * @return array
@@ -81,7 +81,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Add an Advanced Videos promo tab on the course options metabox.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param array $tabs Existing tabs.
 	 * @return array
@@ -126,7 +126,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Output a locked PDF download button matching the PDFs add-on order layout.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -157,7 +157,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Output a locked PDF download button matching the PDFs add-on reporting layout.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Output a locked PDF download button next to the admin certificate HTML download.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -210,7 +210,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Enqueue assets for the PDF promo dialog.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Output the PDF promo dialog once in the admin footer.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Whether the current admin screen should load the PDF promo dialog.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return bool
 	 */
@@ -303,7 +303,7 @@ class LLMS_Admin_Addon_Notices {
 	 * Checked at callback time so plugin load order cannot leak the promo UI
 	 * next to the real download buttons.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return bool
 	 */
@@ -314,7 +314,7 @@ class LLMS_Admin_Addon_Notices {
 	/**
 	 * Label HTML for promo PDF download buttons.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return string
 	 */

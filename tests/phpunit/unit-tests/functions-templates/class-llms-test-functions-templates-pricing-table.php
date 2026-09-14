@@ -85,8 +85,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	 * test the llms_template_access_plan_button method
 	 * @return   void
 	 * @since    3.23.0
-	 * @since    10.2.4 Confirm single-course pages route free enrollment through checkout.
-	 * @version  10.2.4
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_button() {
 

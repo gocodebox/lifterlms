@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 10.0.0
- * @since [version] Render post content before `wp_head()` so block script modules populate the import map.
+ * @since 10.2.1 Render post content before `wp_head()` so block script modules populate the import map.
  * @since [version] Added accessible mobile lesson navigation.
  * @version [version]
  */

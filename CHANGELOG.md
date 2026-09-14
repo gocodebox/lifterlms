@@ -1,6 +1,37 @@
 LifterLMS Changelog
 ===================
 
+v10.2.1 - 2026-09-14
+--------------------
+
+##### New Features
+
++ Added informative notices about available add-ons in the admin.
++ Makes Course IDs easier to find. [#3321](https://github.com/gocodebox/lifterlms/issues/3321)
+
+##### Updates and Enhancements
+
++ Added a Name Your Price add-on option to the new access plan dialog and removed the Sale template.
++ Redirected the setup wizard skip button to the LifterLMS dashboard and added a Launch Setup Wizard link on the plugins screen.
++ Updates for PHP 8.4 compatibility.
+
+##### Bug Fixes
+
++ Fixed interactive blocks not working in focus mode. [#3350](https://github.com/gocodebox/lifterlms/issues/3350)
++ Disabled the Mark Complete button in markup while a lesson's minimum time is still running, and left it disabled when other progression requirements remain. [#3352](https://github.com/gocodebox/lifterlms/issues/3352)
+
+##### Security Fixes
+
++ Hardened certificate export handling.
++ Additional checks in admin reporting.
++ Additional authorization checks on REST API endpoints.
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/course/complete-lesson-link.php)
++ [templates/single-lesson-focus.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/single-lesson-focus.php)
+
+
 v10.2.0 - 2026-08-24
 --------------------
 

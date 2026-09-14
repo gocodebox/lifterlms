@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,7 +78,7 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
  * Returns true when the lesson has no minimum time, or when the student's
  * accumulated time is at least the required number of seconds.
  *
- * @since [version]
+ * @since 10.2.1
  *
  * @param int             $user_id WP User ID of the student.
  * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.

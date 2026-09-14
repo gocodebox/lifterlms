@@ -7,8 +7,8 @@
  * @since 4.4.4
  * @since 4.8.0 Unknown.
  * @since 7.4.0 Escape output.
- * @since [version] Update finish-step copy and add a Course Blueprints resource link.
- * @version [version]
+ * @since 10.2.1 Update finish-step copy and add a Course Blueprints resource link.
+ * @version 10.2.1
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */

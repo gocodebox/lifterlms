@@ -4,8 +4,6 @@
  * @package LifterLMS
  *
  * @since 10.0.0
- * @since [version] Added accessible mobile lesson navigation.
- * @version [version]
  */
 ( function() {
 	'use strict';

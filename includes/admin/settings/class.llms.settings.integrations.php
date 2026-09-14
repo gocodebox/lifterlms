@@ -191,7 +191,13 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				$learn_more = $addon->is_installed() ? '' : LLMS_Admin_Catalog_Table::get_product_url( $addon, 'Integrations Screen' );
 				?>
 				<tr>
-					<td><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a></td>
+					<td>
+						<?php if ( $url ) : ?>
+							<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $title ); ?></a>
+						<?php else : ?>
+							<?php echo esc_html( $title ); ?>
+						<?php endif; ?>
+					</td>
 					<?php
 					LLMS_Admin_Catalog_Table::render_status_cells(
 						wp_strip_all_tags( $addon->get( 'description' ) ),
@@ -199,7 +205,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 						LLMS_Admin_Catalog_Table::get_addon_docs_url( $addon ),
 						$addon->is_installed(),
 						$learn_more,
-						null
+						$addon->is_active()
 					);
 					?>
 				</tr>

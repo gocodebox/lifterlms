@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.1
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Addon_Promo class.
  *
- * @since [version]
+ * @since 10.2.1
  */
 class LLMS_Admin_Addon_Promo {
 
 	/**
 	 * Retrieve promotional HTML.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param array $args {
 	 *     Promo configuration.
@@ -86,7 +86,7 @@ class LLMS_Admin_Addon_Promo {
 	/**
 	 * Retrieve a product URL with campaign query args.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $url     Destination URL.
 	 * @param string $medium  UTM medium.

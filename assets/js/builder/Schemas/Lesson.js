@@ -2,14 +2,14 @@
  * Lesson Schemas
  *
  * @since    3.17.0
- * @version  [version]
+ * @version  10.2.1
  */
 define( [], function() {
 
 	/**
 	 * Whether the Advanced Videos promo fields should render.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return {boolean}
 	 */
@@ -20,7 +20,7 @@ define( [], function() {
 	/**
 	 * Dummy cascading options matching Advanced Videos selects.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return {Array}
 	 */

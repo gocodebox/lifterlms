@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.1
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Catalog_Table class.
  *
- * @since [version]
+ * @since 10.2.1
  */
 class LLMS_Admin_Catalog_Table {
 
 	/**
 	 * Catalog product IDs that should never appear on settings tables.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return string[]
 	 */
@@ -29,7 +29,7 @@ class LLMS_Admin_Catalog_Table {
 		/**
 		 * Filters catalog product IDs excluded from Integrations and Checkout tables.
 		 *
-		 * @since [version]
+		 * @since 10.2.1
 		 *
 		 * @param string[] $ids Product IDs.
 		 */
@@ -50,7 +50,7 @@ class LLMS_Admin_Catalog_Table {
 	 *
 	 * Used when the products feed has no dedicated gateway category.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return string[]
 	 */
@@ -59,7 +59,7 @@ class LLMS_Admin_Catalog_Table {
 		/**
 		 * Filters catalog product IDs treated as payment gateways on the Checkout table.
 		 *
-		 * @since [version]
+		 * @since 10.2.1
 		 *
 		 * @param string[] $ids Product IDs.
 		 */
@@ -76,7 +76,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Whether a catalog add-on is a payment gateway.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon Add-on model.
 	 * @return bool
@@ -94,7 +94,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Retrieve installable first-party catalog add-ons for a settings screen.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $screen Either "integrations" or "checkout".
 	 * @return LLMS_Add_On[]
@@ -141,7 +141,7 @@ class LLMS_Admin_Catalog_Table {
 			 * Return an array of product IDs to limit the catalog rows to that list.
 			 * Return null to include every eligible catalog add-on.
 			 *
-			 * @since [version]
+			 * @since 10.2.1
 			 *
 			 * @param null|string[] $ids Product IDs, or null for all eligible items.
 			 */
@@ -161,7 +161,7 @@ class LLMS_Admin_Catalog_Table {
 		/**
 		 * Filters catalog add-ons included on a settings screen table.
 		 *
-		 * @since [version]
+		 * @since 10.2.1
 		 *
 		 * @param LLMS_Add_On[] $addons Add-on models.
 		 * @param string        $screen Screen id ("integrations" or "checkout").
@@ -172,7 +172,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Display title for a table row.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $title Original title.
 	 * @param string $id    Integration, gateway, or catalog id.
@@ -201,7 +201,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Prefix a registered title with its catalog add-on when several integrations share one plugin.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string           $title          Registered title.
 	 * @param string           $id             Registered id.
@@ -235,7 +235,7 @@ class LLMS_Admin_Catalog_Table {
 	 *
 	 * Core LifterLMS classes return empty so they only match catalog rows by id.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param object $object Integration or gateway instance.
 	 * @return string
@@ -277,7 +277,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Whether a catalog add-on is the plugin that registered an object.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon      Catalog add-on.
 	 * @param string      $plugin_dir Plugin directory slug.
@@ -294,7 +294,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Documentation URL for a core integration or gateway.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $id Registered id.
 	 * @return string
@@ -313,7 +313,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Whether a catalog add-on represents an already-registered integration or gateway.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon          Catalog add-on.
 	 * @param string      $registered_id  Integration or gateway id.
@@ -359,7 +359,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Whether a catalog add-on represents a registered integration or gateway.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon         Catalog add-on.
 	 * @param string      $registered_id Integration or gateway id.
@@ -382,7 +382,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Catalog add-on matching a registered integration or gateway, if any.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string      $registered_id Integration or gateway id.
 	 * @param string      $screen        Screen id.
@@ -403,7 +403,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Catalog IDs already represented by registered objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string[] $registered_ids Integration or gateway ids.
 	 * @param string   $screen         Screen id.
@@ -429,7 +429,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Count of registered objects that belong to the same catalog add-on.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string   $addon_id       Catalog add-on id.
 	 * @param string[] $registered_ids Integration or gateway ids.
@@ -454,7 +454,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Product permalink with a settings-screen UTM medium.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon  Add-on model.
 	 * @param string      $medium UTM medium.
@@ -467,9 +467,11 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Name-column URL for a catalog-only row.
 	 *
-	 * Licensed but uninstalled add-ons link to My Add-Ons for install.
+	 * Installed add-ons link to docs (empty when the feed has none). Licensed
+	 * but uninstalled add-ons link to My Add-Ons for install. Otherwise the
+	 * product sales URL.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon  Add-on model.
 	 * @param string      $medium UTM medium.
@@ -477,7 +479,11 @@ class LLMS_Admin_Catalog_Table {
 	 */
 	public static function get_catalog_row_url( $addon, $medium ) {
 
-		if ( ! $addon->is_installed() && $addon->is_licensed() ) {
+		if ( $addon->is_installed() ) {
+			return (string) self::get_addon_docs_url( $addon );
+		}
+
+		if ( $addon->is_licensed() ) {
 			return admin_url( 'admin.php?page=llms-add-ons&section=mine' );
 		}
 
@@ -489,7 +495,7 @@ class LLMS_Admin_Catalog_Table {
 	 *
 	 * Prefers a getting-started URL when the products feed provides one.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param LLMS_Add_On $addon Add-on model.
 	 * @return string
@@ -509,7 +515,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * WP plugin basename for a core integration's third-party dependency.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string $id Integration id.
 	 * @return string
@@ -527,7 +533,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Installed / activated state for a table row.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string           $registered_id Integration or gateway id.
 	 * @param LLMS_Add_On|null $addon         Matching catalog add-on.
@@ -563,7 +569,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Render a status checkmark or an em dash.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param bool   $is_yes Whether the status is affirmative.
 	 * @param string $label  Screen-reader / tooltip label.
@@ -587,7 +593,7 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Render shared table cells for description, install, activation, enabled, and documentation.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @param string    $description    Description text (plain).
 	 * @param bool      $activated      Whether the plugin is activated.
