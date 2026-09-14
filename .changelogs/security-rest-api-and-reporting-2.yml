@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Hardened certificate export handling."
