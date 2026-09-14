@@ -350,4 +350,102 @@ class LLMS_Test_Admin_Catalog_Table extends LLMS_UnitTestCase {
 		$this->assertStringNotContainsString( 'Office Hours', $html );
 		$this->assertStringNotContainsString( 'LifterLMS Helper', $html );
 	}
+
+	/**
+	 * Catalog-only name URL: docs when installed, My Add-Ons when licensed, else sales.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_catalog_row_url() {
+
+		$installed = $this->get_catalog_row_url_addon(
+			array(
+				'documentation'   => 'https://lifterlms.com/docs/advanced-quizzes/',
+				'getting_started' => 'https://lifterlms.com/docs/getting-started-with-advanced-quizzes/',
+				'permalink'       => 'https://lifterlms.com/product/advanced-quizzes/',
+			),
+			true,
+			false
+		);
+		$this->assertEquals(
+			'https://lifterlms.com/docs/getting-started-with-advanced-quizzes/',
+			LLMS_Admin_Catalog_Table::get_catalog_row_url( $installed, 'Integrations Screen' )
+		);
+
+		$installed_docs_only = $this->get_catalog_row_url_addon(
+			array(
+				'documentation' => 'https://lifterlms.com/docs/advanced-quizzes/',
+				'permalink'     => 'https://lifterlms.com/product/advanced-quizzes/',
+			),
+			true,
+			false
+		);
+		$this->assertEquals(
+			'https://lifterlms.com/docs/advanced-quizzes/',
+			LLMS_Admin_Catalog_Table::get_catalog_row_url( $installed_docs_only, 'Integrations Screen' )
+		);
+
+		$installed_no_docs = $this->get_catalog_row_url_addon(
+			array(
+				'permalink' => 'https://lifterlms.com/product/no-docs/',
+			),
+			true,
+			false
+		);
+		$this->assertSame(
+			'',
+			LLMS_Admin_Catalog_Table::get_catalog_row_url( $installed_no_docs, 'Integrations Screen' )
+		);
+
+		$licensed = $this->get_catalog_row_url_addon(
+			array(
+				'permalink' => 'https://lifterlms.com/product/advanced-quizzes/',
+			),
+			false,
+			true
+		);
+		$this->assertEquals(
+			admin_url( 'admin.php?page=llms-add-ons&section=mine' ),
+			LLMS_Admin_Catalog_Table::get_catalog_row_url( $licensed, 'Integrations Screen' )
+		);
+
+		$unlicensed = $this->get_catalog_row_url_addon(
+			array(
+				'title'     => 'LifterLMS Advanced Quizzes',
+				'permalink' => 'https://lifterlms.com/product/advanced-quizzes/',
+			),
+			false,
+			false
+		);
+		$this->assertEquals(
+			LLMS_Admin_Catalog_Table::get_product_url( $unlicensed, 'Integrations Screen' ),
+			LLMS_Admin_Catalog_Table::get_catalog_row_url( $unlicensed, 'Integrations Screen' )
+		);
+		$this->assertStringContainsString( 'lifterlms.com/product/advanced-quizzes/', LLMS_Admin_Catalog_Table::get_catalog_row_url( $unlicensed, 'Integrations Screen' ) );
+	}
+
+	/**
+	 * Mocked catalog add-on for name-URL tests.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data      Add-on data.
+	 * @param bool  $installed Whether the add-on is installed.
+	 * @param bool  $licensed  Whether the add-on is licensed.
+	 * @return LLMS_Add_On
+	 */
+	protected function get_catalog_row_url_addon( $data, $installed, $licensed ) {
+
+		$addon = $this->getMockBuilder( 'LLMS_Add_On' )
+			->setConstructorArgs( array( $data ) )
+			->onlyMethods( array( 'is_installed', 'is_licensed' ) )
+			->getMock();
+
+		$addon->method( 'is_installed' )->willReturn( $installed );
+		$addon->method( 'is_licensed' )->willReturn( $licensed );
+
+		return $addon;
+	}
 }

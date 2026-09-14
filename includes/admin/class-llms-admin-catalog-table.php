@@ -467,7 +467,9 @@ class LLMS_Admin_Catalog_Table {
 	/**
 	 * Name-column URL for a catalog-only row.
 	 *
-	 * Licensed but uninstalled add-ons link to My Add-Ons for install.
+	 * Installed add-ons link to docs (empty when the feed has none). Licensed
+	 * but uninstalled add-ons link to My Add-Ons for install. Otherwise the
+	 * product sales URL.
 	 *
 	 * @since [version]
 	 *
@@ -477,7 +479,11 @@ class LLMS_Admin_Catalog_Table {
 	 */
 	public static function get_catalog_row_url( $addon, $medium ) {
 
-		if ( ! $addon->is_installed() && $addon->is_licensed() ) {
+		if ( $addon->is_installed() ) {
+			return (string) self::get_addon_docs_url( $addon );
+		}
+
+		if ( $addon->is_licensed() ) {
 			return admin_url( 'admin.php?page=llms-add-ons&section=mine' );
 		}
 
