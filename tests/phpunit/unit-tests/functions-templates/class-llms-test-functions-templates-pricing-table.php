@@ -103,11 +103,10 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 		$ob = $this->get_ob( 'llms_template_access_plan_button', array(), $ob['plan'] );
 		$this->assertTrue( 0 === strpos( $ob['html'], '<form' ) );
 
-		// Single-course pages display only the checkout link, even for logged-in students.
+		// Check the free enroll form on a single course page.
 		$this->go_to( get_permalink( $ob['plan']->get( 'product_id' ) ) );
 		$ob = $this->get_ob( 'llms_template_access_plan_button', array(), $ob['plan'] );
-		$this->assertTrue( 0 === strpos( $ob['html'], '<a class="llms-button-action button wp-element-button"' ) );
-		$this->assertTrue( false === strpos( $ob['html'], '<form' ) );
+		$this->assertTrue( 0 === strpos( $ob['html'], '<form' ) );
 
 	}
 

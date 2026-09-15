@@ -9,8 +9,7 @@
  * @since 3.23.0
  * @since 4.2.0 Added `llms_display_free_enroll_form` filter hook.
  * @since 10.1.0 Added `wp-element-button` class so the button inherits theme button styling from `theme.json`.
- * @since [version] Route single-course enrollment through checkout so pricing tables can remain a direct call to action.
- * @version [version]
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -23,9 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @param boolean          $display Whether or not displaying the free enroll form.
  * @param LLMS_Access_Plan $plan    Instance of the LLMS_Access_Plan.
  */
-$display_free_enroll_form = ! is_singular( 'course' ) && get_current_user_id() && $plan->has_free_checkout() && $plan->is_available_to_user();
-
-if ( apply_filters( 'llms_display_free_enroll_form', $display_free_enroll_form, $plan ) ) :
+if ( apply_filters( 'llms_display_free_enroll_form', get_current_user_id() && $plan->has_free_checkout() && $plan->is_available_to_user(), $plan ) ) :
 	?>
 	<?php llms_get_template( 'product/free-enroll-form.php', compact( 'plan' ) ); ?>
 <?php else : ?>

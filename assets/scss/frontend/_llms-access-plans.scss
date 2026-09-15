@@ -286,6 +286,38 @@ body.single-course .entry-content > .wp-block-llms-pricing-table .llms-access-pl
 			padding: 0;
 		}
 
+		.llms-free-enroll-form {
+			display: inline-block;
+			margin: 0;
+
+			.llms-button-action {
+				appearance: none;
+				background: $color-brand-dark-blue;
+				border: 1px solid $color-brand-dark-blue;
+				border-radius: $radius-small;
+				box-shadow: 0 8px 20px rgba( $color-brand-dark-blue, 0.18 );
+				color: $color-white;
+				font-family: inherit;
+				font-size: 16px;
+				font-weight: 700;
+				line-height: 1.2;
+				transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+
+				&:hover,
+				&:focus {
+					background: $color-brand-blue;
+					border-color: $color-brand-blue;
+					color: $color-white;
+					transform: translateY( -1px );
+				}
+
+				&:focus-visible {
+					box-shadow: 0 0 0 3px rgba( $color-brand-blue, 0.24 ), 0 8px 20px rgba( $color-brand-dark-blue, 0.18 );
+					outline: 0;
+				}
+			}
+		}
+
 		.llms-button-action {
 			align-items: center;
 			display: inline-flex;
