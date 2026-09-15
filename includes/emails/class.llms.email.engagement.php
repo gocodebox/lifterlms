@@ -48,14 +48,17 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$this->student    = new WP_User( $args['person_id'] );
 		$this->email_post = get_post( $args['email_id'] );
 
+		$related_id = absint( $args['related_id'] ?? 0 );
+
 		$this->add_merge_data(
 			array(
-				'{user_login}'    => stripslashes( $this->student->user_login ),
-				'{first_name}'    => stripslashes( $this->student->first_name ),
-				'{last_name}'     => stripslashes( $this->student->last_name ),
-				'{email_address}' => stripslashes( $this->student->user_email ),
-				'{site_url}'      => get_permalink( llms_get_page_id( 'myaccount' ) ),
-				'{current_date}'  => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
+				'{user_login}'         => stripslashes( $this->student->user_login ),
+				'{first_name}'         => stripslashes( $this->student->first_name ),
+				'{last_name}'          => stripslashes( $this->student->last_name ),
+				'{email_address}'      => stripslashes( $this->student->user_email ),
+				'{site_url}'           => get_permalink( llms_get_page_id( 'myaccount' ) ),
+				'{current_date}'       => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
+				'{related_post_title}' => $related_id ? get_the_title( $related_id ) : '',
 			)
 		);
 
@@ -82,7 +85,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 				$this->add_recipient( $email, $type );
 			}
 		}
-
 	}
 
 	/**
@@ -109,7 +111,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$merged = str_replace( $codes, $addresses, $list );
 		$array  = explode( ',', $merged );
 		return array_map( 'trim', $array );
-
 	}
 
 	/**
@@ -128,7 +129,6 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
 
 		return $ret;
-
 	}
 
 	/**
@@ -142,5 +142,4 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	public function set_shortcode_user( $uid ) {
 		return $this->student->ID;
 	}
-
 }

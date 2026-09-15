@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#3051"
+entry: "Added new engagement triggers: course progress percentage reached, course completed with a low grade, quiz failed multiple times, enrollment cancelled or expired, order failed/refunded/cancelled, and daily-scanned inactivity triggers for no course progress, course never started, days since last login, course completion deadline, and abandoned quiz attempts."
