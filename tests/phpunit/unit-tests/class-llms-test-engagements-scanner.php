@@ -450,16 +450,95 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
 		$this->scanner->do_batch( $engagement->ID, 0 );
 
-		// A full page (2 of 3 students) was scanned: the next page is scheduled.
+		// A full page (2 of 3 enrollments) was scanned: the next page is scheduled,
+		// cursored on the second student's enrollment `_status` row.
+		global $wpdb;
+		$expected_cursor = absint(
+			$wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT MAX( meta_id ) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND post_id = %d AND meta_key = '_status'",
+					$students[1],
+					$course_id
+				)
+			)
+		);
+
 		$this->assertTrue(
 			as_has_scheduled_action(
 				LLMS_Engagements_Scanner::BATCH_HOOK,
-				array( $engagement->ID, $students[1] ),
+				array( $engagement->ID, $expected_cursor ),
 				LLMS_Engagements_Scanner::AS_GROUP
 			)
 		);
 
 		remove_filter( 'llms_engagements_scan_batch_size', $batch_size );
+	}
+
+	/**
+	 * Test "any course" scan engagements produce one candidate per idle enrollment with per-course re-arm markers.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_inactivity_any_course() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		);
+		$course_a    = $this->factory->course->create( $course_args );
+		$course_b    = $this->factory->course->create( $course_args );
+
+		$student = $this->factory->student->create();
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+
+		foreach ( array( $course_a, $course_b ) as $course_id ) {
+			$course = llms_get_post( $course_id );
+			llms_enroll_student( $student, $course_id );
+			llms_mark_complete( $student, $course->get_lessons( 'ids' )[0], 'lesson' );
+			foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+				$this->backdate_user_postmeta( $student, $post_id, $backdate );
+			}
+		}
+
+		$post = $this->create_scan_engagement( 'course_inactivity', 0, 14 );
+		update_post_meta( $post->ID, '_llms_engagement_trigger_post', 'any' );
+
+		$result     = $this->scanner->query_course_inactivity( get_post( $post->ID ), 0, 500 );
+		$candidates = array();
+		foreach ( $result['candidates'] as $candidate ) {
+			if ( $student === $candidate['user_id'] ) {
+				$candidates[ $candidate['related_post_id'] ] = $candidate;
+			}
+		}
+
+		// One candidate per idle enrollment, each related to its own course.
+		$this->assertArrayHasKey( $course_a, $candidates );
+		$this->assertArrayHasKey( $course_b, $candidates );
+
+		$engagement = (object) array(
+			'trigger_id'    => $post->ID,
+			'engagement_id' => get_post_meta( $post->ID, '_llms_engagement', true ),
+			'trigger_event' => 'course_inactivity',
+			'event_type'    => 'email',
+			'delay'         => 0,
+		);
+
+		// Both courses fire independently: no "first idle course wins".
+		$this->assertTrue( $this->scanner->maybe_fire( $engagement, $candidates[ $course_a ] ) );
+		$this->assertTrue( $this->scanner->maybe_fire( $engagement, $candidates[ $course_b ] ) );
+
+		// Markers hold per course on the next scan.
+		$this->assertFalse( $this->scanner->maybe_fire( $engagement, $candidates[ $course_a ] ) );
+		$this->assertFalse( $this->scanner->maybe_fire( $engagement, $candidates[ $course_b ] ) );
+
+		// New activity in one course re-arms only that course.
+		$candidates[ $course_a ]['anchor'] = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) );
+		$this->assertTrue( $this->scanner->maybe_fire( $engagement, $candidates[ $course_a ] ) );
+		$this->assertFalse( $this->scanner->maybe_fire( $engagement, $candidates[ $course_b ] ) );
 	}
 
 	/**
@@ -550,6 +629,56 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$add_fail();
 		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_id );
 		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test the {related_post_title} merge code in engagement emails.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_related_post_title_merge_code() {
+
+		$course_id = $this->factory->post->create(
+			array(
+				'post_type'  => 'course',
+				'post_title' => 'Photography 101',
+			)
+		);
+		$student   = $this->factory->student->create();
+		$email_id  = $this->factory->post->create(
+			array(
+				'post_type'    => 'llms_email',
+				'post_content' => 'You have not made progress in {related_post_title}.',
+				'meta_input'   => array(
+					'_llms_email_subject' => 'Keep going in {related_post_title}',
+				),
+			)
+		);
+
+		$email = llms()->mailer()->get_email(
+			'engagement',
+			array(
+				'person_id'  => $student,
+				'email_id'   => $email_id,
+				'related_id' => $course_id,
+			)
+		);
+
+		$this->assertEquals( 'Keep going in Photography 101', $email->get_subject() );
+
+		// No related post: the merge code outputs an empty string.
+		$email = llms()->mailer()->get_email(
+			'engagement',
+			array(
+				'person_id'  => $student,
+				'email_id'   => $email_id,
+				'related_id' => '',
+			)
+		);
+
+		$this->assertEquals( 'Keep going in', trim( $email->get_subject() ) );
 	}
 
 	/**

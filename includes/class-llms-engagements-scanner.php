@@ -47,11 +47,15 @@ class LLMS_Engagements_Scanner {
 	const AS_GROUP = 'llms_engagements_scan';
 
 	/**
-	 * User postmeta key used to record the fired (re-arm) marker.
+	 * User postmeta key used to record the fired (re-arm) markers.
 	 *
 	 * Stored with `post_id` set to the `llms_engagement` post ID so markers work
 	 * for site-wide triggers with no related post, join cheaply against candidate
 	 * queries, and can never be miscounted as course activity.
+	 *
+	 * The value is an array mapping related post IDs (`0` when there is no related
+	 * post) to the anchor recorded at fire time, so a single "any course" engagement
+	 * tracks each of a student's courses independently.
 	 *
 	 * @var string
 	 */
@@ -250,8 +254,10 @@ class LLMS_Engagements_Scanner {
 	 * Fire an engagement for a candidate unless its re-arm marker prevents it.
 	 *
 	 * A marker records the candidate's anchor (last-activity date or source row ID)
-	 * at fire time. The engagement only fires again when the current anchor is newer
-	 * than the recorded one, i.e. the student became active again and then went idle again.
+	 * at fire time, keyed by the candidate's related post so "any course" engagements
+	 * track each course independently. The engagement only fires again when the current
+	 * anchor is newer than the recorded one, i.e. the student became active again and
+	 * then went idle again.
 	 *
 	 * @since [version]
 	 *
@@ -269,18 +275,22 @@ class LLMS_Engagements_Scanner {
 
 		$user_id = absint( $candidate['user_id'] ?? 0 );
 		$anchor  = $candidate['anchor'] ?? '';
+		$related = absint( $candidate['related_post_id'] ?? 0 );
 
 		if ( ! $user_id || '' === $anchor ) {
 			return false;
 		}
 
-		$marker = llms_get_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, true );
+		$markers = llms_get_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, true );
+		$markers = is_array( $markers ) ? $markers : array();
+		$marker  = $markers[ $related ] ?? '';
 
 		if ( ! empty( $marker ) && $anchor <= $marker ) {
 			return false;
 		}
 
-		llms_update_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, $anchor, true );
+		$markers[ $related ] = $anchor;
+		llms_update_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, $markers, true );
 
 		llms()->engagements()->trigger( $engagement, $user_id, $candidate['related_post_id'] ?? '' );
 
@@ -410,6 +420,52 @@ class LLMS_Engagements_Scanner {
 		); // db call ok; no-cache ok.
 
 		return array_map( 'absint', $ids );
+	}
+
+	/**
+	 * Retrieve one keyset-paginated page of current course enrollments as (user, course) pairs.
+	 *
+	 * Pages over the latest `_status` row of each enrollment using the row's `meta_id`
+	 * as the cursor, which allows a single query to cover either one course or every
+	 * course on the site ("any course" engagements). Only posts of the `course` post
+	 * type are considered, so membership rows in the user postmeta table are ignored.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $course_id WP_Post ID of the course, or `0` for all courses.
+	 * @param int $cursor    Last processed `meta_id` or `0` for the first page.
+	 * @param int $per_page  Number of enrollment rows per page.
+	 * @return object[] Array of objects with `meta_id`, `user_id`, and `post_id` properties.
+	 */
+	protected function get_enrollments( $course_id, $cursor, $per_page ) {
+
+		global $wpdb;
+
+		// When no specific course is configured `%d = 0` disables the course condition.
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT upm.meta_id, upm.user_id, upm.post_id
+				 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+				 JOIN {$wpdb->posts} AS posts ON posts.ID = upm.post_id AND posts.post_type = 'course'
+				 WHERE upm.meta_key = '_status'
+				   AND upm.meta_value = 'enrolled'
+				   AND upm.meta_id > %d
+				   AND ( %d = 0 OR upm.post_id = %d )
+				   AND upm.updated_date = (
+				       SELECT MAX( upm2.updated_date )
+				       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+				       WHERE upm2.user_id = upm.user_id
+				         AND upm2.post_id = upm.post_id
+				         AND upm2.meta_key = '_status'
+				   )
+				 ORDER BY upm.meta_id ASC
+				 LIMIT %d",
+				$cursor,
+				$course_id,
+				$course_id,
+				$per_page
+			)
+		); // db call ok; no-cache ok.
 	}
 
 	/**
@@ -676,13 +732,13 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Candidate query: enrolled students who started a course but have had no activity for N days.
 	 *
-	 * Requires a specific course: mutually exclusive with `course_never_started` by
-	 * construction, since only students with at least one completion row are considered.
+	 * Mutually exclusive with `course_never_started` by construction, since only
+	 * students with at least one completion row are considered.
 	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post $engagement Engagement post object.
-	 * @param int     $cursor     Last processed WP_User ID.
+	 * @param int     $cursor     Last processed enrollment row `meta_id`.
 	 * @param int     $per_page   Batch size.
 	 * @return array See {@see LLMS_Engagements_Scanner::get_scannable_triggers()} for the return shape.
 	 */
@@ -696,7 +752,7 @@ class LLMS_Engagements_Scanner {
 	 * @since [version]
 	 *
 	 * @param WP_Post $engagement Engagement post object.
-	 * @param int     $cursor     Last processed WP_User ID.
+	 * @param int     $cursor     Last processed enrollment row `meta_id`.
 	 * @param int     $per_page   Batch size.
 	 * @return array See {@see LLMS_Engagements_Scanner::get_scannable_triggers()} for the return shape.
 	 */
@@ -707,10 +763,16 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Shared candidate query for `course_inactivity` and `course_never_started`.
 	 *
+	 * Pages over (user, course) enrollment pairs so "any course" engagements scan
+	 * every enrollment independently: each pair produces its own candidate with the
+	 * course as the related post, rather than one candidate per student. The batch
+	 * is grouped by course so the course-tree and last-activity queries run once
+	 * per course in the page.
+	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post $engagement Engagement post object.
-	 * @param int     $cursor     Last processed WP_User ID.
+	 * @param int     $cursor     Last processed enrollment row `meta_id`.
 	 * @param int     $per_page   Batch size.
 	 * @param boolean $started    `true` to return started-but-stalled students (course_inactivity),
 	 *                            `false` to return never-started students (course_never_started).
@@ -723,73 +785,96 @@ class LLMS_Engagements_Scanner {
 			'cursor'     => null,
 		);
 		$period = $this->get_period( $engagement );
-		$course = $this->get_trigger_post_id( $engagement );
-
-		// Course-scoped scan triggers require a specific course; "any" is intentionally unsupported.
-		if ( ! $period || ! $course ) {
+		if ( ! $period ) {
 			return $done;
 		}
 
-		$tree = $this->get_course_tree( $course );
-		if ( ! $tree ) {
+		$rows = $this->get_enrollments( $this->get_trigger_post_id( $engagement ), $cursor, $per_page );
+		if ( ! $rows ) {
 			return $done;
 		}
 
-		$user_ids = $this->get_enrolled_user_ids( $course, $cursor, $per_page );
-		if ( ! $user_ids ) {
-			return $done;
-		}
-
-		$cutoff      = $this->get_cutoff( $period );
-		$started_ids = $this->get_started_user_ids( $user_ids, $tree );
-
+		$cutoff     = $this->get_cutoff( $period );
 		$candidates = array();
 
-		if ( $started ) {
+		foreach ( $this->group_enrollments_by_course( $rows ) as $course_id => $user_ids ) {
 
-			$scan_ids = array_values( array_intersect( $user_ids, $started_ids ) );
-			$activity = $scan_ids ? $this->get_last_activity( $scan_ids, $course, $tree ) : array();
-
-			foreach ( $scan_ids as $user_id ) {
-				$last = $activity[ $user_id ] ?? '';
-				if ( $last && $last < $cutoff ) {
-					$candidates[] = array(
-						'user_id'         => $user_id,
-						'related_post_id' => $course,
-						'anchor'          => $last,
-					);
-				}
+			$tree = $this->get_course_tree( $course_id );
+			if ( ! $tree ) {
+				continue;
 			}
-		} else {
 
-			$scan_ids    = array_values( array_diff( $user_ids, $started_ids ) );
-			$enrollments = $scan_ids ? $this->get_enrollment_dates( $scan_ids, $course ) : array();
+			$started_ids = $this->get_started_user_ids( $user_ids, $tree );
 
-			foreach ( $scan_ids as $user_id ) {
-				$enrolled = $enrollments[ $user_id ] ?? '';
-				if ( $enrolled && $enrolled < $cutoff ) {
-					$candidates[] = array(
-						'user_id'         => $user_id,
-						'related_post_id' => $course,
-						'anchor'          => $enrolled,
-					);
+			if ( $started ) {
+
+				$scan_ids = array_values( array_intersect( $user_ids, $started_ids ) );
+				$activity = $scan_ids ? $this->get_last_activity( $scan_ids, $course_id, $tree ) : array();
+
+				foreach ( $scan_ids as $user_id ) {
+					$last = $activity[ $user_id ] ?? '';
+					if ( $last && $last < $cutoff ) {
+						$candidates[] = array(
+							'user_id'         => $user_id,
+							'related_post_id' => $course_id,
+							'anchor'          => $last,
+						);
+					}
+				}
+			} else {
+
+				$scan_ids    = array_values( array_diff( $user_ids, $started_ids ) );
+				$enrollments = $scan_ids ? $this->get_enrollment_dates( $scan_ids, $course_id ) : array();
+
+				foreach ( $scan_ids as $user_id ) {
+					$enrolled = $enrollments[ $user_id ] ?? '';
+					if ( $enrolled && $enrolled < $cutoff ) {
+						$candidates[] = array(
+							'user_id'         => $user_id,
+							'related_post_id' => $course_id,
+							'anchor'          => $enrolled,
+						);
+					}
 				}
 			}
 		}
+
+		$last_row = end( $rows );
 
 		return array(
 			'candidates' => $candidates,
-			'cursor'     => count( $user_ids ) === $per_page ? end( $user_ids ) : null,
+			'cursor'     => count( $rows ) === $per_page ? absint( $last_row->meta_id ) : null,
 		);
+	}
+
+	/**
+	 * Group a page of enrollment rows into user ID lists keyed by course ID.
+	 *
+	 * @since [version]
+	 *
+	 * @param object[] $rows Enrollment rows, see {@see LLMS_Engagements_Scanner::get_enrollments()}.
+	 * @return array Associative array mapping course IDs to lists of WP_User IDs.
+	 */
+	protected function group_enrollments_by_course( $rows ) {
+
+		$grouped = array();
+		foreach ( $rows as $row ) {
+			$grouped[ absint( $row->post_id ) ][] = absint( $row->user_id );
+		}
+
+		return $grouped;
 	}
 
 	/**
 	 * Candidate query: enrolled students who haven't completed a course N days after enrolling.
 	 *
+	 * Pages over (user, course) enrollment pairs so "any course" engagements check
+	 * every enrollment independently.
+	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post $engagement Engagement post object.
-	 * @param int     $cursor     Last processed WP_User ID.
+	 * @param int     $cursor     Last processed enrollment row `meta_id`.
 	 * @param int     $per_page   Batch size.
 	 * @return array See {@see LLMS_Engagements_Scanner::get_scannable_triggers()} for the return shape.
 	 */
@@ -802,50 +887,54 @@ class LLMS_Engagements_Scanner {
 			'cursor'     => null,
 		);
 		$period = $this->get_period( $engagement );
-		$course = $this->get_trigger_post_id( $engagement );
-
-		if ( ! $period || ! $course ) {
+		if ( ! $period ) {
 			return $done;
 		}
 
-		$user_ids = $this->get_enrolled_user_ids( $course, $cursor, $per_page );
-		if ( ! $user_ids ) {
+		$rows = $this->get_enrollments( $this->get_trigger_post_id( $engagement ), $cursor, $per_page );
+		if ( ! $rows ) {
 			return $done;
 		}
 
-		$cutoff      = $this->get_cutoff( $period );
-		$enrollments = $this->get_enrollment_dates( $user_ids, $course );
-
-		$completed = array_map(
-			'absint',
-			$wpdb->get_col(
-				$wpdb->prepare(
-					"SELECT DISTINCT user_id
-					 FROM {$wpdb->prefix}lifterlms_user_postmeta
-					 WHERE user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . " )
-					   AND post_id = %d
-					   AND meta_key = '_is_complete'
-					   AND meta_value = 'yes'",
-					array_merge( $user_ids, array( $course ) )
-				)
-			)
-		); // db call ok; no-cache ok.
-
+		$cutoff     = $this->get_cutoff( $period );
 		$candidates = array();
-		foreach ( array_diff( $user_ids, $completed ) as $user_id ) {
-			$enrolled = $enrollments[ $user_id ] ?? '';
-			if ( $enrolled && $enrolled < $cutoff ) {
-				$candidates[] = array(
-					'user_id'         => $user_id,
-					'related_post_id' => $course,
-					'anchor'          => $enrolled,
-				);
+
+		foreach ( $this->group_enrollments_by_course( $rows ) as $course_id => $user_ids ) {
+
+			$enrollments = $this->get_enrollment_dates( $user_ids, $course_id );
+
+			$completed = array_map(
+				'absint',
+				$wpdb->get_col(
+					$wpdb->prepare(
+						"SELECT DISTINCT user_id
+						 FROM {$wpdb->prefix}lifterlms_user_postmeta
+						 WHERE user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . " )
+						   AND post_id = %d
+						   AND meta_key = '_is_complete'
+						   AND meta_value = 'yes'",
+						array_merge( $user_ids, array( $course_id ) )
+					)
+				)
+			); // db call ok; no-cache ok.
+
+			foreach ( array_diff( $user_ids, $completed ) as $user_id ) {
+				$enrolled = $enrollments[ $user_id ] ?? '';
+				if ( $enrolled && $enrolled < $cutoff ) {
+					$candidates[] = array(
+						'user_id'         => $user_id,
+						'related_post_id' => $course_id,
+						'anchor'          => $enrolled,
+					);
+				}
 			}
 		}
 
+		$last_row = end( $rows );
+
 		return array(
 			'candidates' => $candidates,
-			'cursor'     => count( $user_ids ) === $per_page ? end( $user_ids ) : null,
+			'cursor'     => count( $rows ) === $per_page ? absint( $last_row->meta_id ) : null,
 		);
 	}
 
