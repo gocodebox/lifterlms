@@ -489,3 +489,188 @@
 		}
 	}
 }
+
+// Modern student dashboard.
+.llms-student-dashboard {
+	color: $color-brand-dark-blue;
+	font-size: 16px;
+	line-height: 1.6;
+	margin-block-start: clamp( 48px, 6vw, 72px );
+	margin-block-end: clamp( 56px, 7vw, 88px );
+
+	.llms-sd-title {
+		color: $color-brand-dark-blue;
+		font-size: clamp( 1.75rem, 3vw, 2.25rem );
+		letter-spacing: -0.025em;
+		line-height: 1.2;
+		margin: 0 0 24px;
+	}
+
+	.llms-sd-nav {
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-radius: $radius-medium;
+		box-shadow: 0 12px 32px rgba( $color-brand-dark-blue, 0.08 );
+		padding: 14px;
+
+		select {
+			background-color: $color-white;
+			border: 1px solid $color-lightgrey;
+			border-radius: 8px;
+			color: $color-brand-dark-blue;
+			font-size: 16px;
+			min-height: 48px;
+			padding: 10px 12px;
+		}
+	}
+
+	.llms-sd-items {
+		margin: 0;
+	}
+
+	.llms-sd-item {
+		margin: 2px 0;
+		width: 100%;
+
+		.llms-sd-link {
+			border-radius: 8px;
+			color: $color-cinder;
+			font-weight: 600;
+			padding: 12px 20px;
+			text-decoration: none;
+			transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+			&:hover,
+			&:focus-visible {
+				background: rgba( $color-brand-blue, 0.08 );
+				color: $color-brand-blue-dark;
+			}
+
+			&:focus-visible {
+				box-shadow: 0 0 0 3px rgba( $color-brand-blue, 0.22 );
+				outline: 0;
+			}
+		}
+
+		&.current .llms-sd-link {
+			background: rgba( $color-brand-blue, 0.12 );
+			box-shadow: inset 3px 0 0 $color-brand-blue;
+			color: $color-brand-blue-dark;
+		}
+	}
+
+	.llms-sd-section {
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-radius: $radius-medium;
+		box-shadow: 0 12px 32px rgba( $color-brand-dark-blue, 0.07 );
+		margin-bottom: 24px;
+		padding: clamp( 18px, 3vw, 28px );
+
+		.llms-sd-section-title:first-child {
+			color: $color-brand-dark-blue;
+			font-size: 1.375rem;
+			letter-spacing: -0.015em;
+			margin-bottom: 18px;
+		}
+
+		.llms-sd-section-footer {
+			border-top: 1px solid rgba( $color-border, 0.75 );
+			margin-top: 20px;
+			padding-top: 16px;
+		}
+	}
+
+	&.dashboard .llms-sd-section {
+		border-radius: $radius-medium;
+		margin-bottom: 24px;
+		padding: clamp( 18px, 3vw, 28px );
+	}
+
+	.llms-loop-list {
+		gap: 20px;
+		grid-template-columns: repeat( auto-fit, minmax( min( 100%, 220px ), 1fr ) );
+		margin: 20px 0 0;
+	}
+
+	.llms-loop-item {
+		border-color: rgba( $color-brand-dark-blue, 0.14 );
+		border-radius: $radius-medium;
+		box-shadow: 0 5px 18px rgba( $color-brand-dark-blue, 0.06 );
+		margin: 0;
+		overflow: hidden;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+
+		&:hover,
+		&:focus-within {
+			border-color: rgba( $color-brand-blue, 0.45 );
+			box-shadow: 0 12px 28px rgba( $color-brand-dark-blue, 0.12 );
+			transform: translateY( -2px );
+		}
+
+		.llms-featured-image {
+			aspect-ratio: 16 / 9;
+			object-fit: cover;
+			width: 100%;
+		}
+
+		.llms-loop-title {
+			color: $color-brand-dark-blue;
+			font-size: 1.125rem;
+			line-height: 1.35;
+			margin: 18px 0 12px;
+		}
+	}
+
+	.llms-progress .llms-progress-bar {
+		background: rgba( $color-brand-dark-blue, 0.12 );
+		border-radius: 999px;
+		overflow: hidden;
+
+		.progress-bar-complete {
+			background: $color-brand-blue;
+			border-radius: inherit;
+		}
+	}
+
+	.llms-achievement,
+	.llms-certificate {
+		border-radius: $radius-medium;
+	}
+}
+
+.logged-in .llms-sd-layout-columns {
+	@media all and ( min-width: 600px ) {
+		grid-gap: clamp( 36px, 5vw, 64px );
+		grid-template-columns: minmax( 220px, 250px ) minmax( 0, 1fr );
+
+		.llms-sd-nav .llms-sd-items .llms-sd-item .llms-sd-link {
+			box-sizing: border-box;
+			padding: 12px 20px;
+		}
+	}
+}
+
+@media all and ( max-width: 599px ) {
+	.llms-student-dashboard {
+		margin-block-start: 36px;
+		margin-block-end: 56px;
+
+		.llms-sd-nav {
+			background: transparent;
+			border: 0;
+			box-shadow: none;
+			padding: 0;
+		}
+
+		.llms-sd-nav select {
+			margin-bottom: 20px;
+		}
+
+		.llms-sd-section .llms-sd-section-footer a.llms-button-secondary {
+			box-sizing: border-box;
+			text-align: center;
+			width: 100%;
+		}
+	}
+}

@@ -543,4 +543,375 @@ $admin-bar-height-mobile: 46px;
 	}
 }
 
+// Modern focus-mode learning workspace.
+.llms-focus-mode {
+	background: #f4f6f9;
+	color: $color-brand-dark-blue;
+
+	.llms-focus-mode-header {
+		border-bottom-color: rgba( $color-brand-dark-blue, 0.12 );
+		box-shadow: 0 4px 18px rgba( $color-brand-dark-blue, 0.06 );
+		padding-inline: 24px;
+
+		.llms-progress-bar {
+			background: rgba( $color-brand-dark-blue, 0.12 );
+			border-radius: 999px;
+			overflow: hidden;
+		}
+
+		.progress-bar-complete {
+			background: $color-brand-blue;
+			border-radius: inherit;
+		}
+	}
+
+	.llms-parent-course-link {
+		margin: 0;
+
+		.llms-lesson-link {
+			color: $color-brand-blue-dark;
+			font-weight: 700;
+			text-decoration: none;
+
+			&:before {
+				content: "\2190";
+				margin-right: 8px;
+			}
+
+			&:hover,
+			&:focus-visible {
+				text-decoration: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: 4px;
+			}
+		}
+	}
+
+	.llms-focus-mode-nav-btn {
+		border-color: rgba( $color-brand-dark-blue, 0.18 );
+		border-radius: 8px;
+		color: $color-brand-dark-blue;
+		font-weight: 650;
+		min-height: 36px;
+
+		&:hover {
+			background: rgba( $color-brand-blue, 0.08 );
+			border-color: rgba( $color-brand-blue, 0.45 );
+			color: $color-brand-blue-dark;
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 3px rgba( $color-brand-blue, 0.24 );
+			outline: 0;
+		}
+	}
+
+	.llms-focus-mode-sidebar {
+		border-color: rgba( $color-brand-dark-blue, 0.12 );
+		box-shadow: 8px 0 28px rgba( $color-brand-dark-blue, 0.05 );
+
+		.llms-focus-mode-sidebar-header {
+			border-bottom-color: rgba( $color-brand-dark-blue, 0.12 );
+			color: $color-brand-dark-blue;
+			padding: 20px 22px;
+		}
+
+		.llms-focus-mode-sidebar-content {
+			padding: 16px;
+
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.llms-section {
+				margin: 0 0 16px;
+			}
+
+			.section-header {
+				align-items: center;
+				border-bottom: 1px solid rgba( $color-brand-dark-blue, 0.1 );
+				color: $color-brand-dark-blue;
+				display: flex;
+				font-size: 0.875rem;
+				font-weight: 700;
+				gap: 8px;
+				padding: 12px 10px;
+			}
+
+			.llms-lesson > li {
+				align-items: flex-start;
+				border-radius: 8px;
+				display: flex;
+				gap: 10px;
+				line-height: 1.35;
+				margin: 3px 0;
+				padding: 11px 10px;
+			}
+
+			.llms-lesson.current-lesson > li {
+				background: rgba( $color-brand-blue, 0.11 );
+				box-shadow: inset 3px 0 0 $color-brand-blue;
+			}
+
+			.llms-lesson-complete {
+				color: $color-grey;
+				flex: 0 0 auto;
+
+				&.done {
+					color: $color-green;
+				}
+			}
+
+			.lesson-title {
+				font-size: 0.9rem;
+
+				a {
+					color: $color-brand-dark-blue;
+					text-decoration: none;
+
+					&:hover,
+					&:focus-visible {
+						color: $color-brand-blue-dark;
+						text-decoration: underline;
+						text-underline-offset: 3px;
+					}
+				}
+			}
+
+			.llms-lesson-locked > li {
+				color: $color-darkgrey;
+				opacity: 0.75;
+			}
+		}
+	}
+
+	.llms-focus-mode-sidebar-toggle {
+		border-color: rgba( $color-brand-dark-blue, 0.16 );
+		box-shadow: 0 4px 12px rgba( $color-brand-dark-blue, 0.13 );
+
+		&:focus-visible {
+			box-shadow: 0 0 0 3px rgba( $color-brand-blue, 0.24 );
+			outline: 0;
+		}
+	}
+
+	.llms-focus-mode-mobile-sidebar-toggle,
+	.llms-focus-mode-sidebar-backdrop {
+		display: none;
+	}
+
+	.llms-focus-mode-content {
+		padding: clamp( 28px, 4vw, 56px );
+
+		.llms-focus-mode-title {
+			color: $color-brand-dark-blue;
+			font-size: clamp( 1.8rem, 3vw, 2.5rem );
+			letter-spacing: -0.03em;
+			line-height: 1.15;
+			margin-bottom: 28px;
+		}
+
+		.llms-lesson-content {
+			background: $color-white;
+			border: 1px solid rgba( $color-brand-dark-blue, 0.12 );
+			border-radius: $radius-medium;
+			box-shadow: 0 16px 40px rgba( $color-brand-dark-blue, 0.08 );
+			box-sizing: border-box;
+			padding: clamp( 22px, 4vw, 42px );
+
+			> .llms-parent-course-link,
+			> .llms-course-navigation,
+			> .llms-lesson-button-wrapper {
+				display: none;
+			}
+
+			.llms-video-wrapper {
+				border-radius: 10px;
+				margin-bottom: 28px;
+				overflow: hidden;
+			}
+		}
+	}
+
+	.llms-focus-mode-footer {
+		border-top-color: rgba( $color-brand-dark-blue, 0.12 );
+		box-shadow: 0 -6px 22px rgba( $color-brand-dark-blue, 0.06 );
+
+		.llms-lesson-button-wrapper {
+			padding: 16px 24px;
+
+			.llms-button-primary,
+			.llms-button-secondary,
+			.llms-button-action {
+				min-width: 220px;
+				text-align: center;
+			}
+		}
+	}
+
+	@media ( max-width: 768px ) {
+		.llms-focus-mode-header {
+			display: grid;
+			gap: 8px 12px;
+			grid-template-columns: auto minmax( 80px, 1fr ) auto;
+			height: auto;
+			min-height: 104px;
+			padding: 10px 14px;
+
+			.llms-focus-mode-header-left {
+				grid-column: 1 / -1;
+				grid-row: 2;
+			}
+
+			.llms-focus-mode-header-center {
+				grid-column: 2;
+				grid-row: 1;
+			}
+
+			.llms-focus-mode-header-nav {
+				grid-column: 3;
+				grid-row: 1;
+			}
+		}
+
+		.llms-focus-mode-mobile-sidebar-toggle {
+			align-items: center;
+			background: transparent;
+			border: 0;
+			border-radius: 8px;
+			color: $color-brand-dark-blue;
+			display: inline-flex;
+			font-size: 0.875rem;
+			font-weight: 700;
+			gap: 8px;
+			grid-column: 1;
+			grid-row: 1;
+			min-height: 40px;
+			padding: 8px;
+
+			svg {
+				fill: currentColor;
+				height: 16px;
+				width: 16px;
+			}
+
+			&:focus-visible {
+				box-shadow: 0 0 0 3px rgba( $color-brand-blue, 0.24 );
+				outline: 0;
+			}
+		}
+
+		.llms-focus-mode-body {
+			flex-direction: row;
+			height: auto;
+			overflow: hidden;
+		}
+
+		.llms-focus-mode-main {
+			flex: 1;
+			overflow: hidden;
+		}
+
+		.llms-focus-mode-content {
+			overflow-y: auto;
+			padding: 24px 16px;
+
+			.llms-lesson-content {
+				border-radius: 10px;
+				padding: 20px;
+			}
+		}
+
+		.llms-focus-mode-sidebar,
+		&.llms-sidebar-collapsed .llms-focus-mode-sidebar {
+			border: 0;
+			bottom: 0;
+			box-shadow: 16px 0 40px rgba( $color-brand-dark-blue, 0.22 );
+			display: flex;
+			left: 0;
+			max-width: 88vw;
+			min-width: 0;
+			order: initial;
+			position: fixed;
+			top: 0;
+			transform: translateX( -105% );
+			transition: transform 0.2s ease;
+			width: 360px;
+			z-index: 50;
+
+			.llms-focus-mode-sidebar-header,
+			.llms-focus-mode-sidebar-content {
+				display: block;
+			}
+
+			.llms-focus-mode-sidebar-content {
+				overflow-y: auto;
+			}
+		}
+
+		.llms-focus-mode-sidebar-toggle {
+			display: none;
+		}
+
+		.llms-focus-mode-sidebar-backdrop {
+			background: rgba( $color-brand-dark-blue, 0.48 );
+			border: 0;
+			bottom: 0;
+			display: block;
+			left: 0;
+			opacity: 0;
+			pointer-events: none;
+			position: fixed;
+			right: 0;
+			top: 0;
+			transition: opacity 0.2s ease;
+			z-index: 45;
+		}
+
+		&.llms-mobile-sidebar-open {
+			.llms-focus-mode-sidebar {
+				transform: translateX( 0 );
+			}
+
+			.llms-focus-mode-sidebar-backdrop {
+				opacity: 1;
+				pointer-events: auto;
+			}
+		}
+
+		&.llms-focus-mode-sidebar-right {
+			.llms-focus-mode-body {
+				flex-direction: row;
+			}
+
+			.llms-focus-mode-sidebar {
+				left: auto;
+				right: 0;
+				transform: translateX( 105% );
+			}
+
+			&.llms-mobile-sidebar-open .llms-focus-mode-sidebar {
+				transform: translateX( 0 );
+			}
+		}
+
+		.llms-focus-mode-footer.llms-focus-mode-footer--mobile {
+			position: relative;
+
+			.llms-lesson-button-wrapper {
+				padding: 12px 16px;
+
+				.llms-form-field,
+				.llms-button-primary,
+				.llms-button-secondary,
+				.llms-button-action {
+					box-sizing: border-box;
+					width: 100%;
+				}
+			}
+		}
+	}
+}
 

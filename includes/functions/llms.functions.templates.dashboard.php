@@ -1025,13 +1025,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_select_mobile_navi
 	 * Output the student dashboard mobile navigation
 	 *
 	 * @since 9.0.0
-	 *
 	 * @param string $current The current tab slug.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_select_mobile_navigation( $current ) {
 		?>
-		<select onChange="window.location.replace(this.options[this.selectedIndex].value)">
+		<select aria-label="<?php esc_attr_e( 'Student dashboard navigation', 'lifterlms' ); ?>" onChange="window.location.replace(this.options[this.selectedIndex].value)">
 			<?php foreach ( LLMS_Student_Dashboard::get_tabs_for_nav() as $var => $data ) : ?>
 				<option value="<?php echo esc_attr( esc_url( $data['url'] ) ); ?>" <?php selected( $var, $current ); ?>>
 					<?php echo esc_html( $data['title'] ); ?>

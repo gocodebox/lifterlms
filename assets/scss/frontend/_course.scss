@@ -17,3 +17,299 @@
 	max-width: 480px;
 	text-align: center;
 }
+
+// Modern single-course presentation. Keep catalog and shortcode loops unchanged.
+body.single-course {
+	--llms-course-wide-size: var( --wp--style--global--wide-size, 1184px );
+
+	.wp-block-post-title {
+		box-sizing: border-box;
+		font-size: clamp( 2.5rem, 5vw, 4.5rem );
+		letter-spacing: -0.04em;
+		line-height: 0.98;
+		margin-bottom: clamp( 28px, 4vw, 44px ) !important;
+		max-width: var( --llms-course-wide-size ) !important;
+		padding-bottom: 28px;
+		position: relative;
+
+		&::after {
+			background: $color-red;
+			bottom: 0;
+			content: "";
+			height: 4px;
+			left: 0;
+			position: absolute;
+			width: 72px;
+		}
+	}
+
+	.entry-content {
+		background: $color-white;
+		border: 1px solid rgba( $color-brand-dark-blue, 0.12 );
+		border-radius: 20px;
+		box-shadow: 0 24px 64px rgba( $color-brand-dark-blue, 0.1 );
+		box-sizing: border-box;
+		margin-bottom: clamp( 64px, 8vw, 104px ) !important;
+		max-width: var( --llms-course-wide-size ) !important;
+		padding: clamp( 28px, 5vw, 64px ) !important;
+		position: relative;
+
+		> * {
+			box-sizing: border-box;
+			max-width: none !important;
+		}
+
+		> .wp-block-heading {
+			font-size: clamp( 1.75rem, 3vw, 2.5rem );
+			line-height: 1.1;
+			margin-top: clamp( 28px, 4vw, 48px );
+		}
+
+		> .wp-block-paragraph {
+			font-size: clamp( 1rem, 1.5vw, 1.125rem );
+			line-height: 1.75;
+		}
+
+		> .wp-block-spacer {
+			height: clamp( 12px, 2vw, 24px ) !important;
+		}
+
+		> .wp-block-llms-pricing-table {
+			background: transparent;
+			border: 0;
+			box-shadow: none;
+			margin: clamp( 28px, 4vw, 40px ) 0 0 !important;
+			padding: 0;
+			position: static;
+			width: auto;
+
+			&::before {
+				content: none;
+				display: none;
+			}
+		}
+
+		> .wp-block-group {
+			background: rgba( $color-brand-dark-blue, 0.045 ) !important;
+			border: 1px solid rgba( $color-brand-dark-blue, 0.1 );
+			border-radius: 16px !important;
+			margin-top: clamp( 32px, 4vw, 48px ) !important;
+			padding: clamp( 24px, 4vw, 42px ) !important;
+
+			> * {
+				max-width: none !important;
+			}
+
+			.wp-block-columns {
+				align-items: stretch;
+				gap: clamp( 24px, 4vw, 48px );
+				margin-top: 28px;
+			}
+
+			.wp-block-column {
+				background: $color-white;
+				border: 1px solid rgba( $color-brand-dark-blue, 0.1 );
+				border-radius: 12px;
+				padding: clamp( 20px, 3vw, 30px );
+			}
+		}
+
+		> .wp-block-llms-course-syllabus {
+			margin-top: clamp( 36px, 5vw, 64px ) !important;
+		}
+	}
+
+	.llms-meta-info,
+	.llms-course-progress,
+	.llms-instructor-info {
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-radius: $radius-medium;
+		box-shadow: 0 12px 32px rgba( $color-brand-dark-blue, 0.07 );
+		box-sizing: border-box;
+	}
+
+	.llms-meta-info {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 28px;
+		margin: 32px 0 24px;
+		padding: clamp( 20px, 3vw, 28px );
+
+		.llms-meta-title {
+			color: $color-brand-dark-blue;
+			font-size: 1.25rem;
+			letter-spacing: -0.015em;
+			margin: 0 0 6px;
+			width: 100%;
+		}
+
+		.llms-meta {
+			color: $color-cinder;
+			font-size: 0.9375rem;
+
+			p {
+				margin: 0;
+			}
+
+			span {
+				color: $color-brand-dark-blue;
+			}
+		}
+	}
+
+	.entry-content > .wp-block-group .llms-meta-info {
+		background: transparent;
+		border: 0;
+		box-shadow: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.llms-course-progress {
+		align-items: center;
+		display: grid;
+		gap: 18px;
+		grid-template-columns: minmax( 0, 1fr ) auto;
+		margin: 24px auto;
+		max-width: var( --wp--style--global--content-size, 960px );
+		padding: clamp( 20px, 3vw, 28px );
+		text-align: left;
+		width: 100%;
+
+		.llms-progress {
+			margin: 0;
+		}
+
+		.llms-progress-bar {
+			background: rgba( $color-brand-dark-blue, 0.12 );
+			border-radius: 999px;
+			overflow: hidden;
+		}
+
+		.progress-bar-complete {
+			background: $color-brand-blue;
+			border-radius: inherit;
+		}
+
+		.llms-course-continue-button,
+		.llms-course-complete-text {
+			margin: 0;
+		}
+	}
+
+	.llms-instructor-info {
+		margin: 24px 0;
+		padding: clamp( 20px, 3vw, 28px );
+
+		.llms-meta-title {
+			color: $color-brand-dark-blue;
+			font-size: 1.25rem;
+		}
+
+		.llms-instructors .llms-author {
+			border: 0;
+			box-shadow: none;
+			margin-top: 38px;
+			padding-bottom: 0;
+		}
+	}
+}
+
+// Modern standard lesson presentation when focus mode is disabled.
+body.single-lesson:not(.llms-focus-mode) {
+	.llms-parent-course-link {
+		background: rgba( $color-brand-blue, 0.08 );
+		border-left: 3px solid $color-brand-blue;
+		border-radius: 0 8px 8px 0;
+		color: $color-cinder;
+		font-size: 0.9375rem;
+		margin: 0 0 24px;
+		padding: 12px 16px;
+
+		.llms-lesson-link {
+			color: $color-brand-blue-dark;
+			font-weight: 700;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 3px;
+		}
+	}
+
+	.llms-video-wrapper,
+	.llms-audio-wrapper {
+		background: $color-brand-dark-blue;
+		border-radius: $radius-medium;
+		box-shadow: 0 16px 36px rgba( $color-brand-dark-blue, 0.16 );
+		margin: 24px 0 32px;
+		overflow: hidden;
+	}
+
+	.llms-lesson-button-wrapper {
+		align-items: center;
+		background: $color-white;
+		border: 1px solid $color-border;
+		border-radius: $radius-medium;
+		box-shadow: 0 10px 28px rgba( $color-brand-dark-blue, 0.07 );
+		display: flex;
+		justify-content: center;
+		margin: 32px 0 20px;
+		padding: 20px;
+
+		.llms-form-field {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+@media all and ( max-width: 600px ) {
+	body.single-course {
+		.wp-block-post-title {
+			font-size: clamp( 2.25rem, 11vw, 3.25rem );
+			padding-bottom: 20px;
+		}
+
+		.entry-content {
+			border-radius: 14px;
+			padding: 24px !important;
+
+			> .wp-block-llms-pricing-table {
+				margin-top: 28px !important;
+			}
+
+			> .wp-block-group {
+				padding: 22px !important;
+
+				.wp-block-columns {
+					display: grid;
+					grid-template-columns: 1fr;
+				}
+			}
+		}
+	}
+
+	body.single-course .llms-course-progress {
+		grid-template-columns: 1fr;
+		text-align: center;
+
+		.llms-button-primary,
+		.llms-button-secondary {
+			box-sizing: border-box;
+			text-align: center;
+			width: 100%;
+		}
+	}
+
+	body.single-lesson:not(.llms-focus-mode) .llms-lesson-button-wrapper {
+		.llms-complete-lesson-form,
+		.llms-incomplete-lesson-form,
+		.llms-form-field,
+		.llms-button-primary,
+		.llms-button-secondary,
+		.llms-button-action {
+			box-sizing: border-box;
+			text-align: center;
+			width: 100%;
+		}
+	}
+}
