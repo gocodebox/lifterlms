@@ -83,13 +83,12 @@ class LLMS_Engagements_Thresholds {
 				continue;
 			}
 
-			// Fire once: a marker prevents refiring on every subsequent lesson completion.
-			$marker = llms_get_user_postmeta( $user_id, $engagement->trigger_id, LLMS_Engagements_Scanner::MARKER_KEY, true );
-			if ( '' !== $marker && false !== $marker ) {
+			// Fire once per course: a marker prevents refiring on every subsequent lesson completion.
+			if ( $this->has_marker( $user_id, $engagement->trigger_id, $course_id ) ) {
 				continue;
 			}
 
-			llms_update_user_postmeta( $user_id, $engagement->trigger_id, LLMS_Engagements_Scanner::MARKER_KEY, $progress, true );
+			$this->set_marker( $user_id, $engagement->trigger_id, $course_id, $progress );
 			llms()->engagements()->trigger( $engagement, $user_id, $course_id );
 		}
 	}
@@ -161,12 +160,11 @@ class LLMS_Engagements_Thresholds {
 				continue;
 			}
 
-			$marker = llms_get_user_postmeta( $user_id, $engagement->trigger_id, LLMS_Engagements_Scanner::MARKER_KEY, true );
-			if ( '' !== $marker && false !== $marker ) {
+			if ( $this->has_marker( $user_id, $engagement->trigger_id, $quiz_id ) ) {
 				continue;
 			}
 
-			llms_update_user_postmeta( $user_id, $engagement->trigger_id, LLMS_Engagements_Scanner::MARKER_KEY, $fail_count, true );
+			$this->set_marker( $user_id, $engagement->trigger_id, $quiz_id, $fail_count );
 			llms()->engagements()->trigger( $engagement, $user_id, $quiz_id );
 		}
 	}
@@ -185,7 +183,78 @@ class LLMS_Engagements_Thresholds {
 		$engagements = llms()->engagements()->get_triggerable_engagements( 'quiz_failed_multiple', $quiz_id );
 
 		foreach ( $engagements as $engagement ) {
-			llms_delete_user_postmeta( $user_id, $engagement->trigger_id, LLMS_Engagements_Scanner::MARKER_KEY );
+			$this->clear_marker( $user_id, $engagement->trigger_id, $quiz_id );
+		}
+	}
+
+	/**
+	 * Determine whether a fire-once marker exists for a related post on an engagement.
+	 *
+	 * Markers are stored per related post so an "Any course" / "Any quiz" engagement
+	 * fires independently for each course or quiz rather than only for the first one.
+	 * Uses the same storage shape as {@see LLMS_Engagements_Scanner::maybe_fire()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id       WP_User ID of the student.
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @param int $related_id    WP_Post ID of the related post (course or quiz).
+	 * @return boolean
+	 */
+	protected function has_marker( $user_id, $engagement_id, $related_id ) {
+
+		$markers = llms_get_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY, true );
+
+		return is_array( $markers ) && isset( $markers[ absint( $related_id ) ] );
+	}
+
+	/**
+	 * Record a fire-once marker for a related post on an engagement.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $user_id       WP_User ID of the student.
+	 * @param int   $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @param int   $related_id    WP_Post ID of the related post (course or quiz).
+	 * @param mixed $value         Marker value (progress percentage or failure count).
+	 * @return void
+	 */
+	protected function set_marker( $user_id, $engagement_id, $related_id, $value ) {
+
+		$markers = llms_get_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY, true );
+		$markers = is_array( $markers ) ? $markers : array();
+
+		$markers[ absint( $related_id ) ] = $value;
+
+		llms_update_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY, $markers, true );
+	}
+
+	/**
+	 * Remove the fire-once marker for a related post on an engagement.
+	 *
+	 * Only the given related post's marker is removed: an "Any quiz" engagement's
+	 * markers for other quizzes are unaffected.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id       WP_User ID of the student.
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @param int $related_id    WP_Post ID of the related post (course or quiz).
+	 * @return void
+	 */
+	protected function clear_marker( $user_id, $engagement_id, $related_id ) {
+
+		$markers = llms_get_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY, true );
+		if ( ! is_array( $markers ) || ! isset( $markers[ absint( $related_id ) ] ) ) {
+			return;
+		}
+
+		unset( $markers[ absint( $related_id ) ] );
+
+		if ( $markers ) {
+			llms_update_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY, $markers, true );
+		} else {
+			llms_delete_user_postmeta( $user_id, $engagement_id, LLMS_Engagements_Scanner::MARKER_KEY );
 		}
 	}
 

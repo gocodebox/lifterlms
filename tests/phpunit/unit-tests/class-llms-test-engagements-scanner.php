@@ -578,6 +578,102 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test an "Any course" course_progress engagement fires independently for each course.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_course_progress_trigger_any_course() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 2,
+			'quizzes'  => 0,
+		);
+		$course_a    = $this->factory->course->create( $course_args );
+		$course_b    = $this->factory->course->create( $course_args );
+
+		$engagement = $this->create_mock_engagement( 'course_progress', 'email', 0, 0 );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_percentage', 50 );
+
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_a );
+		llms_enroll_student( $student, $course_b );
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		// Crossing the threshold in course A fires.
+		llms_mark_complete( $student, llms_get_post( $course_a )->get_lessons( 'ids' )[0], 'lesson' );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// The marker for course A must not block course B.
+		llms_mark_complete( $student, llms_get_post( $course_b )->get_lessons( 'ids' )[0], 'lesson' );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// But each course still only fires once.
+		llms_mark_complete( $student, llms_get_post( $course_b )->get_lessons( 'ids' )[1], 'lesson' );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test an "Any quiz" quiz_failed_multiple engagement tracks each quiz independently.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_quiz_failed_multiple_trigger_any_quiz() {
+
+		global $wpdb;
+
+		$quiz_a  = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$quiz_b  = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$student = $this->factory->student->create();
+
+		$engagement = $this->create_mock_engagement( 'quiz_failed_multiple', 'email', 0, 0 );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_count', 1 );
+
+		$thresholds = llms()->engagements()->thresholds;
+
+		$add_fail = function ( $quiz_id ) use ( $wpdb, $student ) {
+			$wpdb->insert(
+				"{$wpdb->prefix}lifterlms_quiz_attempts",
+				array(
+					'student_id'  => $student,
+					'quiz_id'     => $quiz_id,
+					'status'      => 'fail',
+					'update_date' => llms_current_time( 'mysql' ),
+				)
+			);
+		};
+
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+
+		$add_fail( $quiz_a );
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_a );
+		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Quiz A's marker must not block quiz B.
+		$add_fail( $quiz_b );
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_b );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Passing quiz A clears only quiz A's marker: quiz B stays fired.
+		$thresholds->clear_quiz_failed_markers( $student, $quiz_a );
+		$add_fail( $quiz_b );
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_b );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// And quiz A can fire again after the clear.
+		$add_fail( $quiz_a );
+		$thresholds->maybe_trigger_quiz_failed_multiple( $student, $quiz_a );
+		$this->assertEquals( $actions + 3, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
 	 * Test the quiz_failed_multiple threshold count logic and marker reset on pass.
 	 *
 	 * @since [version]
