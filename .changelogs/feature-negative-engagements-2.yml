@@ -2,4 +2,4 @@ significance: minor
 type: added
 links:
   - "#3064"
-entry: "Added a {related_post_title} merge code for engagement emails which outputs the title of the post that triggered the engagement."
+entry: "Added a {related_post_title} merge code for engagement emails and certificates which outputs the title of the post that triggered the engagement."

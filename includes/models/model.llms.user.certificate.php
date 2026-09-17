@@ -466,22 +466,31 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$user = get_userdata( $user_id );
 
+		/**
+		 * Certificates awarded with no real related post (e.g. user registration) receive
+		 * the certificate template as their related post for legacy reasons, in which case
+		 * the merge code must output an empty string rather than the certificate's own title.
+		 */
+		$related_is_real = $related_id && absint( $related_id ) !== absint( $template_id ) && 'llms_certificate' !== get_post_type( $related_id );
+
 		$codes = array(
 			// Site.
-			'{site_title}'     => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-			'{site_url}'       => get_permalink( llms_get_page_id( 'myaccount' ) ),
+			'{site_title}'         => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+			'{site_url}'           => get_permalink( llms_get_page_id( 'myaccount' ) ),
 			// User.
-			'{user_login}'     => $user ? $user->user_login : '',
-			'{first_name}'     => $user ? $user->first_name : '',
-			'{last_name}'      => $user ? $user->last_name : '',
-			'{student_name}'   => $user ? $user->display_name : '',
-			'{email_address}'  => $user ? $user->user_email : '',
-			'{student_id}'     => $user ? $user_id : '',
+			'{user_login}'         => $user ? $user->user_login : '',
+			'{first_name}'         => $user ? $user->first_name : '',
+			'{last_name}'          => $user ? $user->last_name : '',
+			'{student_name}'       => $user ? $user->display_name : '',
+			'{email_address}'      => $user ? $user->user_email : '',
+			'{student_id}'         => $user ? $user_id : '',
 			// Certificate.
-			'{current_date}'   => wp_date( $date_format, llms_current_time( 'timestamp' ) ),
-			'{earned_date}'    => $this->get_date( 'date', $date_format ),
-			'{certificate_id}' => $this->get( 'id' ),
-			'{sequential_id}'  => $this->get_sequential_id(),
+			'{current_date}'       => wp_date( $date_format, llms_current_time( 'timestamp' ) ),
+			'{earned_date}'        => $this->get_date( 'date', $date_format ),
+			'{certificate_id}'     => $this->get( 'id' ),
+			'{sequential_id}'      => $this->get_sequential_id(),
+			// Trigger.
+			'{related_post_title}' => $related_is_real ? get_the_title( $related_id ) : '',
 		);
 
 		$codes = LLMS_Engagement_Handler::do_deprecated_filter(
