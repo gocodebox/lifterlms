@@ -609,6 +609,12 @@ class LLMS_Engagements_Scanner {
 	 * included so a student actively attempting (but failing) quizzes is not
 	 * mistaken for an inactive student.
 	 *
+	 * Only student-driven meta keys count as activity: bookkeeping rows written on the
+	 * related post when an engagement sends or awards (`_email_sent`,
+	 * `_certificate_earned`, `_achievement_earned`) must never count, otherwise the
+	 * send itself would re-arm the engagement and it would refire every period with
+	 * no real student activity.
+	 *
 	 * @since [version]
 	 *
 	 * @param int[] $user_ids  List of WP_User IDs.
@@ -623,14 +629,37 @@ class LLMS_Engagements_Scanner {
 		$user_ids = array_map( 'absint', $user_ids );
 		$tree     = array_map( 'absint', $tree );
 
+		/**
+		 * Filters the user postmeta keys counted as student activity by scan-based engagement triggers.
+		 *
+		 * Add-ons recording their own student progress in the user postmeta table can add
+		 * their keys here so that progress counts as activity for inactivity scans.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $activity_keys List of user postmeta keys.
+		 */
+		$activity_keys = apply_filters(
+			'llms_engagements_scan_activity_meta_keys',
+			array(
+				'_status',
+				'_start_date',
+				'_enrollment_trigger',
+				'_is_complete',
+				'_completion_trigger',
+				'_favorite',
+			)
+		);
+
 		$activity = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT user_id, MAX( updated_date ) AS last_activity
 				 FROM {$wpdb->prefix}lifterlms_user_postmeta
 				 WHERE user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . ' )
 				   AND post_id IN ( ' . implode( ',', array_fill( 0, count( $tree ), '%d' ) ) . ' )
+				   AND meta_key IN ( ' . implode( ',', array_fill( 0, count( $activity_keys ), '%s' ) ) . ' )
 				 GROUP BY user_id',
-				array_merge( $user_ids, $tree )
+				array_merge( $user_ids, $tree, $activity_keys )
 			),
 			OBJECT_K
 		); // db call ok; no-cache ok.
@@ -738,6 +767,36 @@ class LLMS_Engagements_Scanner {
 				   AND meta_key = '_is_complete'
 				   AND meta_value = 'yes'",
 				array_merge( $user_ids, $tree )
+			)
+		); // db call ok; no-cache ok.
+
+		return array_map( 'absint', $ids );
+	}
+
+	/**
+	 * Retrieve the set of users (from a given list) who have completed a course.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $user_ids  List of WP_User IDs.
+	 * @param int   $course_id WP_Post ID of the course.
+	 * @return int[] User IDs of users who completed the course.
+	 */
+	protected function get_completed_user_ids( $user_ids, $course_id ) {
+
+		global $wpdb;
+
+		$user_ids = array_map( 'absint', $user_ids );
+
+		$ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT user_id
+				 FROM {$wpdb->prefix}lifterlms_user_postmeta
+				 WHERE user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . " )
+				   AND post_id = %d
+				   AND meta_key = '_is_complete'
+				   AND meta_value = 'yes'",
+				array_merge( $user_ids, array( $course_id ) )
 			)
 		); // db call ok; no-cache ok.
 
@@ -936,8 +995,10 @@ class LLMS_Engagements_Scanner {
 
 			if ( $started ) {
 
-				$scan_ids = array_values( array_intersect( $user_ids, $started_ids ) );
-				$activity = $scan_ids ? $this->get_last_activity( $scan_ids, $course_id, $tree ) : array();
+				// Students who completed the course are done, not stalled: never nag them about inactivity.
+				$completed_ids = $this->get_completed_user_ids( $user_ids, $course_id );
+				$scan_ids      = array_values( array_diff( array_intersect( $user_ids, $started_ids ), $completed_ids ) );
+				$activity      = $scan_ids ? $this->get_last_activity( $scan_ids, $course_id, $tree ) : array();
 
 				foreach ( $scan_ids as $user_id ) {
 					$last = $activity[ $user_id ] ?? '';
@@ -1008,8 +1069,6 @@ class LLMS_Engagements_Scanner {
 	 */
 	public function query_course_completion_deadline( $engagement, $cursor, $per_page ) {
 
-		global $wpdb;
-
 		$done   = array(
 			'candidates' => array(),
 			'cursor'     => null,
@@ -1030,21 +1089,7 @@ class LLMS_Engagements_Scanner {
 		foreach ( $this->group_enrollments_by_course( $rows ) as $course_id => $user_ids ) {
 
 			$enrollments = $this->get_enrollment_dates( $user_ids, $course_id );
-
-			$completed = array_map(
-				'absint',
-				$wpdb->get_col(
-					$wpdb->prepare(
-						"SELECT DISTINCT user_id
-						 FROM {$wpdb->prefix}lifterlms_user_postmeta
-						 WHERE user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . " )
-						   AND post_id = %d
-						   AND meta_key = '_is_complete'
-						   AND meta_value = 'yes'",
-						array_merge( $user_ids, array( $course_id ) )
-					)
-				)
-			); // db call ok; no-cache ok.
+			$completed   = $this->get_completed_user_ids( $user_ids, $course_id );
 
 			foreach ( array_diff( $user_ids, $completed ) as $user_id ) {
 				$enrolled = $enrollments[ $user_id ] ?? '';

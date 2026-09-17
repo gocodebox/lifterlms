@@ -220,6 +220,99 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test course_inactivity never fires for students who already completed the course.
+	 *
+	 * Completed students remain enrolled with stale activity dates, but they are
+	 * done, not stalled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_inactivity_excludes_completed_students() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lessons   = $course->get_lessons( 'ids' );
+
+		$completed = $this->factory->student->create();
+		$stalled   = $this->factory->student->create();
+		llms_enroll_student( $completed, $course_id );
+		llms_enroll_student( $stalled, $course_id );
+
+		llms_mark_complete( $completed, $lessons[0], 'lesson' );
+		llms_mark_complete( $completed, $lessons[1], 'lesson' );
+		llms_mark_complete( $stalled, $lessons[0], 'lesson' );
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( array_merge( array( $course_id ), $lessons, $course->get_sections( 'ids' ) ) as $post_id ) {
+			$this->backdate_user_postmeta( $completed, $post_id, $backdate );
+			$this->backdate_user_postmeta( $stalled, $post_id, $backdate );
+		}
+
+		$engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$result     = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$user_ids   = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $stalled, $user_ids );
+		$this->assertNotContains( $completed, $user_ids );
+	}
+
+	/**
+	 * Test that engagement send/award bookkeeping rows do not count as student activity.
+	 *
+	 * A successful email send writes `_email_sent` user postmeta on the related course;
+	 * if that counted as activity the send itself would re-arm the engagement and it
+	 * would refire every period forever.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_engagement_send_does_not_count_as_activity() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+		llms_mark_complete( $student, $lesson_id, 'lesson' );
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+			$this->backdate_user_postmeta( $student, $post_id, $backdate );
+		}
+
+		// Simulate a successful engagement email send recorded against the course.
+		llms_update_user_postmeta( $student, $course_id, '_email_sent', 123, false );
+
+		$engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$result     = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+
+		$candidates = array();
+		foreach ( $result['candidates'] as $candidate ) {
+			$candidates[ $candidate['user_id'] ] = $candidate;
+		}
+
+		// Still a candidate, and the anchor is the real (old) activity date, not the send date.
+		$this->assertArrayHasKey( $student, $candidates );
+		$this->assertEquals( $backdate, $candidates[ $student ]['anchor'] );
+	}
+
+	/**
 	 * Test that recent quiz attempt activity prevents a student from being considered inactive.
 	 *
 	 * @since [version]
@@ -428,7 +521,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$course_id = $this->factory->course->create(
 			array(
 				'sections' => 1,
-				'lessons'  => 1,
+				'lessons'  => 2,
 				'quizzes'  => 0,
 			)
 		);
@@ -687,7 +780,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
 		$course_args = array(
 			'sections' => 1,
-			'lessons'  => 1,
+			'lessons'  => 2,
 			'quizzes'  => 0,
 		);
 		$course_a    = $this->factory->course->create( $course_args );
