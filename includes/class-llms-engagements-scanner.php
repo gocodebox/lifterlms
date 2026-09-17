@@ -384,6 +384,8 @@ class LLMS_Engagements_Scanner {
 	 * Retrieve one keyset-paginated page of user IDs currently enrolled in a course or membership.
 	 *
 	 * Uses the same latest-`_status`-row pattern as {@see LLMS_Student::get_enrollments()}.
+	 * Joins against the users table because deleting a WP user does not remove their
+	 * LifterLMS user postmeta rows, and deleted users must never become candidates.
 	 *
 	 * @since [version]
 	 *
@@ -400,6 +402,7 @@ class LLMS_Engagements_Scanner {
 			$wpdb->prepare(
 				"SELECT DISTINCT upm.user_id
 				 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+				 JOIN {$wpdb->users} AS users ON users.ID = upm.user_id
 				 WHERE upm.post_id = %d
 				   AND upm.meta_key = '_status'
 				   AND upm.user_id > %d
@@ -429,6 +432,8 @@ class LLMS_Engagements_Scanner {
 	 * as the cursor, which allows a single query to cover either one course or every
 	 * course on the site ("any course" engagements). Only posts of the `course` post
 	 * type are considered, so membership rows in the user postmeta table are ignored.
+	 * Joins against the users table because deleting a WP user does not remove their
+	 * LifterLMS user postmeta rows, and deleted users must never become candidates.
 	 *
 	 * @since [version]
 	 *
@@ -447,6 +452,7 @@ class LLMS_Engagements_Scanner {
 				"SELECT upm.meta_id, upm.user_id, upm.post_id
 				 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 				 JOIN {$wpdb->posts} AS posts ON posts.ID = upm.post_id AND posts.post_type = 'course'
+				 JOIN {$wpdb->users} AS users ON users.ID = upm.user_id
 				 WHERE upm.meta_key = '_status'
 				   AND upm.meta_value = 'enrolled'
 				   AND upm.meta_id > %d
@@ -968,15 +974,17 @@ class LLMS_Engagements_Scanner {
 		$trigger_post = $this->get_trigger_post_id( $engagement );
 
 		// When no specific quiz is configured `%d = 0` disables the quiz condition.
+		// The users join excludes attempts orphaned by user deletion.
 		$attempts = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, student_id, quiz_id
-				 FROM {$wpdb->prefix}lifterlms_quiz_attempts
-				 WHERE status = 'incomplete'
-				   AND id > %d
-				   AND update_date < %s
-				   AND ( %d = 0 OR quiz_id = %d )
-				 ORDER BY id ASC
+				"SELECT attempts.id, attempts.student_id, attempts.quiz_id
+				 FROM {$wpdb->prefix}lifterlms_quiz_attempts AS attempts
+				 JOIN {$wpdb->users} AS users ON users.ID = attempts.student_id
+				 WHERE attempts.status = 'incomplete'
+				   AND attempts.id > %d
+				   AND attempts.update_date < %s
+				   AND ( %d = 0 OR attempts.quiz_id = %d )
+				 ORDER BY attempts.id ASC
 				 LIMIT %d",
 				$cursor,
 				$cutoff,

@@ -394,6 +394,151 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test candidate queries exclude users which no longer exist.
+	 *
+	 * Deleting a WP user does not remove their LifterLMS user postmeta rows, so the
+	 * candidate queries must join against the users table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_queries_exclude_deleted_users() {
+
+		global $wpdb;
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		$kept    = $this->factory->student->create();
+		$deleted = $this->factory->student->create();
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( array( $kept, $deleted ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			llms_mark_complete( $student, $lesson_id, 'lesson' );
+			foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+				$this->backdate_user_postmeta( $student, $post_id, $backdate );
+			}
+		}
+
+		// Simulate WP user deletion, which leaves the LifterLMS user postmeta rows behind.
+		$wpdb->delete( $wpdb->users, array( 'ID' => $deleted ) );
+		clean_user_cache( $deleted );
+
+		$engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$result     = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$user_ids   = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $kept, $user_ids );
+		$this->assertNotContains( $deleted, $user_ids );
+	}
+
+	/**
+	 * Test scan-fired engagements run the handler's processing checks.
+	 *
+	 * Unlike live event triggers, scan candidates come from database rows, so the
+	 * user may no longer exist by (or at) scan time. No email may ever be sent to
+	 * a nonexistent user (which would produce an empty recipient).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_fire_deleted_user_sends_no_email() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$post       = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+		$engagement = (object) array(
+			'trigger_id'    => $post->ID,
+			'engagement_id' => get_post_meta( $post->ID, '_llms_engagement', true ),
+			'trigger_event' => 'course_inactivity',
+			'event_type'    => 'email',
+			'delay'         => 0,
+		);
+
+		reset_phpmailer_instance();
+
+		// A user which does not exist: the marker is recorded but the handler must refuse to send.
+		$this->scanner->maybe_fire(
+			$engagement,
+			array(
+				'user_id'         => 987654321,
+				'related_post_id' => $course_id,
+				'anchor'          => '2026-01-01 00:00:00',
+			)
+		);
+		$this->assertEmpty( tests_retrieve_phpmailer_instance()->mock_sent );
+
+		// Control: an existing enrolled student does receive the email.
+		$student = $this->factory->student->create();
+		llms_enroll_student( $student, $course_id );
+		$this->scanner->maybe_fire(
+			$engagement,
+			array(
+				'user_id'         => $student,
+				'related_post_id' => $course_id,
+				'anchor'          => '2026-01-01 00:00:00',
+			)
+		);
+		$this->assertNotEmpty( tests_retrieve_phpmailer_instance()->mock_sent );
+	}
+
+	/**
+	 * Test enrollment-check errors are removed only for triggers targeting unenrolled students.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_remove_enrollment_check_errors() {
+
+		$engagements = llms()->engagements();
+
+		$exempt     = $this->create_mock_engagement( 'course_enrollment_cancelled', 'email' );
+		$non_exempt = $this->create_mock_engagement( 'course_completed', 'email' );
+
+		$enrollment_error = new WP_Error( 'llms-engagement-check-post--enrollment', 'Not enrolled.' );
+		$other_error      = new WP_Error( 'llms-engagement-check-user--not-found', 'User not found.' );
+
+		// Exempt trigger: the enrollment error alone resolves to a pass.
+		$this->assertTrue( $engagements->remove_enrollment_check_errors( array( $enrollment_error ), 1, 2, 3, $exempt->ID ) );
+
+		// Exempt trigger: unrelated errors are kept.
+		$this->assertEquals(
+			array( $other_error ),
+			$engagements->remove_enrollment_check_errors( array( $enrollment_error, $other_error ), 1, 2, 3, $exempt->ID )
+		);
+
+		// Non-exempt trigger: untouched.
+		$this->assertEquals(
+			array( $enrollment_error ),
+			$engagements->remove_enrollment_check_errors( array( $enrollment_error ), 1, 2, 3, $non_exempt->ID )
+		);
+
+		// Passing results and missing engagement IDs are untouched.
+		$this->assertTrue( $engagements->remove_enrollment_check_errors( true, 1, 2, 3, $exempt->ID ) );
+		$this->assertEquals(
+			array( $enrollment_error ),
+			$engagements->remove_enrollment_check_errors( array( $enrollment_error ), 1, 2, 3, null )
+		);
+	}
+
+	/**
 	 * Test that re-armed fires bypass the sent-email dupcheck while other emails don't.
 	 *
 	 * @since [version]

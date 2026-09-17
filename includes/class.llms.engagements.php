@@ -123,6 +123,74 @@ class LLMS_Engagements {
 		}
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
+
+		foreach ( array( 'achievement', 'certificate', 'email' ) as $type ) {
+			add_filter( "llms_proccess_{$type}_engagement", array( $this, 'remove_enrollment_check_errors' ), 10, 5 );
+		}
+	}
+
+	/**
+	 * Remove enrollment-check errors for triggers where the student is expected to be unenrolled.
+	 *
+	 * Triggers like "enrollment cancelled" or "order refunded" fire precisely because the
+	 * student lost access, so the handler's enrollment check would always fail and block
+	 * the engagement, both for delayed engagements and for scan-based triggers which
+	 * run the full processing checks.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean|WP_Error[] $can_process   An array of WP_Errors or `true` if the engagement can be processed.
+	 * @param int                $user_id       WP_User ID of the student earning the engagement.
+	 * @param int                $template_id   WP_Post ID of the template post.
+	 * @param int|string         $related_id    WP_Post ID of the triggering related post or an empty string.
+	 * @param null|int           $engagement_id WP_Post ID of the engagement post used to configure the trigger.
+	 * @return boolean|WP_Error[]
+	 */
+	public function remove_enrollment_check_errors( $can_process, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
+
+		if ( ! is_array( $can_process ) || empty( $engagement_id ) ) {
+			return $can_process;
+		}
+
+		$trigger_type = get_post_meta( $engagement_id, '_llms_trigger_type', true );
+
+		/**
+		 * Filters the list of engagement trigger types which may process even when the student is not enrolled.
+		 *
+		 * Allows add-ons registering triggers aimed at unenrolled students (e.g. expired
+		 * continuing education credits) to bypass the handler's enrollment check.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $trigger_types List of trigger type slugs.
+		 */
+		$exempt = apply_filters(
+			'llms_engagement_triggers_without_enrollment_check',
+			array(
+				'course_enrollment_cancelled',
+				'course_enrollment_expired',
+				'membership_enrollment_cancelled',
+				'membership_enrollment_expired',
+				'order_failed',
+				'order_refunded',
+				'order_cancelled',
+			)
+		);
+
+		if ( ! in_array( $trigger_type, $exempt, true ) ) {
+			return $can_process;
+		}
+
+		$errors = array_values(
+			array_filter(
+				$can_process,
+				function ( $error ) {
+					return ! ( is_wp_error( $error ) && 'llms-engagement-check-post--enrollment' === $error->get_error_code() );
+				}
+			)
+		);
+
+		return $errors ? $errors : true;
 	}
 
 	/**
@@ -628,11 +696,15 @@ class LLMS_Engagements {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $data  Handler data from `parse_engagement()`.
-	 * @param int   $delay The engagement send delay (in days).
+	 * @param array   $data        Handler data from `parse_engagement()`.
+	 * @param int     $delay       The engagement send delay (in days).
+	 * @param boolean $skip_checks Whether to skip the handler's processing checks for immediate (zero-delay)
+	 *                             engagements. Safe only when the trigger is a live event for the current user;
+	 *                             scan-based triggers pass `false` because their candidates come from database
+	 *                             rows which may reference deleted users or since-modified posts.
 	 * @return void
 	 */
-	private function trigger_engagement( $data, $delay ) {
+	private function trigger_engagement( $data, $delay, $skip_checks = true ) {
 
 		// Can't proceed without an action and a handler.
 		if ( empty( $data['handler_action'] ) || empty( $data['handler_args'] ) ) {
@@ -659,12 +731,15 @@ class LLMS_Engagements {
 			 * publish/existence checks on all the related posts because the `get_engagement()` query takes care
 			 * of that already.
 			 */
-			add_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			if ( $skip_checks ) {
+				add_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			}
 
 			do_action( $data['handler_action'], $data['handler_args'] );
 
-			remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
-
+			if ( $skip_checks ) {
+				remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			}
 		}
 	}
 
@@ -708,7 +783,9 @@ class LLMS_Engagements {
 			)
 		);
 
-		$this->trigger_engagement( $handler, $engagement->delay );
+		// Never skip processing checks: scan candidates come from database rows, so the
+		// user may have been deleted and related posts may no longer be published.
+		$this->trigger_engagement( $handler, $engagement->delay, false );
 	}
 
 	/**
