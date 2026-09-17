@@ -638,6 +638,45 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test do_scan() skips engagements whose previous scan chain is still pending.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_scan_skips_active_chains() {
+
+		$course_id  = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$engagement = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+
+		// A previous scan is still mid-chain (pending page with a non-zero cursor).
+		as_enqueue_async_action( LLMS_Engagements_Scanner::BATCH_HOOK, array( $engagement->ID, 500 ), LLMS_Engagements_Scanner::AS_GROUP );
+
+		$this->scanner->do_scan();
+		$this->assertFalse(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $engagement->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			),
+			'A new chain must not start while the previous chain is unfinished.'
+		);
+
+		// Once the previous chain has drained, the next daily scan starts a new one.
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		$this->scanner->do_scan();
+		$this->assertTrue(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $engagement->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+	}
+
+	/**
 	 * Test "any course" scan engagements produce one candidate per idle enrollment with per-course re-arm markers.
 	 *
 	 * @since [version]

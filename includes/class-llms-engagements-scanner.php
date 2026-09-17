@@ -166,6 +166,11 @@ class LLMS_Engagements_Scanner {
 	 * Bails immediately (a single indexed query) when no published engagements
 	 * use a scannable trigger type.
 	 *
+	 * Engagements whose previous scan chain is still pending or running are skipped
+	 * (and the skip logged) so an unfinished scan is never doubled up: the existing
+	 * chain simply continues and the engagement is picked up again by the next daily
+	 * scan after it completes.
+	 *
 	 * @since [version]
 	 *
 	 * @return void
@@ -191,9 +196,65 @@ class LLMS_Engagements_Scanner {
 			)
 		); // db call ok; no-cache ok.
 
+		if ( ! $engagement_ids ) {
+			return;
+		}
+
+		$active = $this->get_engagements_with_active_batches();
+
 		foreach ( array_map( 'absint', $engagement_ids ) as $engagement_id ) {
+
+			if ( isset( $active[ $engagement_id ] ) ) {
+				llms_log(
+					sprintf(
+						// Translators: %d = the llms_engagement post ID.
+						__( 'Daily scan for engagement #%d skipped: the previous scan has not finished yet.', 'lifterlms' ),
+						$engagement_id
+					),
+					'engagement-emails'
+				);
+				continue;
+			}
+
 			as_enqueue_async_action( self::BATCH_HOOK, array( $engagement_id, 0 ), self::AS_GROUP );
 		}
+	}
+
+	/**
+	 * Retrieve the set of engagement IDs which still have pending or running scan batch actions.
+	 *
+	 * Guards against overlapping scans: on very large sites a scan chain may still be
+	 * working through its pages when the next daily scan fires, and enqueueing a second
+	 * page-0 chain would duplicate the whole scan's work. Overlap is harmless for
+	 * correctness (the re-arm markers prevent duplicate fires) so this is purely a
+	 * load guard.
+	 *
+	 * @since [version]
+	 *
+	 * @return array Associative array mapping engagement post IDs to `true`.
+	 */
+	protected function get_engagements_with_active_batches() {
+
+		// At most one pending action exists per engagement chain, so the page size
+		// only needs to exceed the number of scannable engagements mid-scan.
+		$actions = as_get_scheduled_actions(
+			array(
+				'hook'     => self::BATCH_HOOK,
+				'group'    => self::AS_GROUP,
+				'status'   => array( ActionScheduler_Store::STATUS_PENDING, ActionScheduler_Store::STATUS_RUNNING ),
+				'per_page' => 500,
+			)
+		);
+
+		$active = array();
+		foreach ( $actions as $action ) {
+			$args = $action->get_args();
+			if ( isset( $args[0] ) ) {
+				$active[ absint( $args[0] ) ] = true;
+			}
+		}
+
+		return $active;
 	}
 
 	/**
