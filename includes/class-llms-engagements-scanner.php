@@ -62,6 +62,17 @@ class LLMS_Engagements_Scanner {
 	const MARKER_KEY = '_llms_engagement_fired';
 
 	/**
+	 * Per-request memo of course trees keyed by course ID.
+	 *
+	 * Action Scheduler processes many batch actions in a single request and a course's
+	 * enrollments are not contiguous when paging by `meta_id`, so the same course tree
+	 * is requested repeatedly within one queue run.
+	 *
+	 * @var array
+	 */
+	protected $tree_cache = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since [version]
@@ -505,12 +516,17 @@ class LLMS_Engagements_Scanner {
 	 */
 	protected function get_course_tree( $course_id ) {
 
+		if ( isset( $this->tree_cache[ $course_id ] ) ) {
+			return $this->tree_cache[ $course_id ];
+		}
+
 		$course = llms_get_post( $course_id );
 		if ( ! $course instanceof LLMS_Course ) {
+			$this->tree_cache[ $course_id ] = array();
 			return array();
 		}
 
-		return array_map(
+		$this->tree_cache[ $course_id ] = array_map(
 			'absint',
 			array_merge(
 				array( $course_id ),
@@ -519,6 +535,8 @@ class LLMS_Engagements_Scanner {
 				$course->get_quizzes()
 			)
 		);
+
+		return $this->tree_cache[ $course_id ];
 	}
 
 	/**
@@ -682,8 +700,11 @@ class LLMS_Engagements_Scanner {
 	 * Candidate query: students who haven't logged in for N days.
 	 *
 	 * When the engagement is scoped to a course or membership, only currently-enrolled
-	 * students of that post are scanned. Users who have never logged in fall back to
-	 * their registration date.
+	 * students of that post are scanned. When unscoped ("any"), only users currently
+	 * enrolled in at least one course or membership are scanned: accounts with no
+	 * enrollments (staff, leads) are never candidates, matching the trigger's
+	 * "student" labeling. Users who have never logged in fall back to their
+	 * registration date.
 	 *
 	 * @since [version]
 	 *
@@ -711,11 +732,30 @@ class LLMS_Engagements_Scanner {
 		if ( $trigger_post ) {
 			$user_ids = $this->get_enrolled_user_ids( $trigger_post, $cursor, $per_page );
 		} else {
+			// Require a current enrollment (latest `_status` row) in any course or membership.
 			$user_ids = array_map(
 				'absint',
 				$wpdb->get_col(
 					$wpdb->prepare(
-						"SELECT ID FROM {$wpdb->users} WHERE ID > %d ORDER BY ID ASC LIMIT %d",
+						"SELECT u.ID
+						 FROM {$wpdb->users} AS u
+						 WHERE u.ID > %d
+						   AND EXISTS (
+						       SELECT 1
+						       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+						       WHERE upm.user_id = u.ID
+						         AND upm.meta_key = '_status'
+						         AND upm.meta_value = 'enrolled'
+						         AND upm.updated_date = (
+						             SELECT MAX( upm2.updated_date )
+						             FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+						             WHERE upm2.user_id = upm.user_id
+						               AND upm2.post_id = upm.post_id
+						               AND upm2.meta_key = '_status'
+						         )
+						   )
+						 ORDER BY u.ID ASC
+						 LIMIT %d",
 						$cursor,
 						$per_page
 					)

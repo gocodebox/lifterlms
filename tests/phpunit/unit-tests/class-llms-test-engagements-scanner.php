@@ -113,7 +113,8 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test the days_since_login candidate query, including the never-logged-in registration fallback.
+	 * Test the days_since_login candidate query, including the never-logged-in registration
+	 * fallback and the requirement that unscoped scans only cover enrolled students.
 	 *
 	 * @since [version]
 	 *
@@ -124,20 +125,37 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$engagement = $this->create_scan_engagement( 'days_since_login', 0, 14 );
 		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
 
-		$inactive = $this->factory->user->create();
-		$active   = $this->factory->user->create();
-		update_user_meta( $inactive, 'llms_last_login', gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) ) );
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$inactive = $this->factory->student->create();
+		$active   = $this->factory->student->create();
+		$never    = $this->factory->student->create();
+		foreach ( array( $inactive, $active, $never ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+		}
+
+		$old_login = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) );
+		update_user_meta( $inactive, 'llms_last_login', $old_login );
 		update_user_meta( $active, 'llms_last_login', llms_current_time( 'mysql' ) );
 
-		// Never logged in: falls back to the registration date (recent, so not a candidate).
-		$never = $this->factory->user->create();
+		// Not enrolled in anything: never a candidate, no matter how stale the login.
+		$unenrolled = $this->factory->user->create();
+		update_user_meta( $unenrolled, 'llms_last_login', $old_login );
 
 		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
 		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
 
 		$this->assertContains( $inactive, $user_ids );
 		$this->assertNotContains( $active, $user_ids );
+		// Never logged in: falls back to the registration date (recent, so not a candidate).
 		$this->assertNotContains( $never, $user_ids );
+		$this->assertNotContains( $unenrolled, $user_ids );
 	}
 
 	/**
