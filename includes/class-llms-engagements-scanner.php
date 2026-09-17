@@ -304,6 +304,10 @@ class LLMS_Engagements_Scanner {
 	 * when it allows a repeat fire the email should send again even though a
 	 * previous send was recorded for the same email/related post combination.
 	 *
+	 * Each bypass is logged to the `engagement-emails` log, including the re-arm
+	 * anchor recorded by `maybe_fire()`, so repeat sends can be traced back to the
+	 * activity which re-armed the engagement.
+	 *
 	 * @since [version]
 	 *
 	 * @param boolean    $is_duplicate  Whether the email is considered a duplicate.
@@ -320,11 +324,28 @@ class LLMS_Engagements_Scanner {
 		}
 
 		$trigger_type = get_post_meta( $engagement_id, '_llms_trigger_type', true );
-		if ( $trigger_type && array_key_exists( $trigger_type, $this->get_scannable_triggers() ) ) {
-			return false;
+		if ( ! $trigger_type || ! array_key_exists( $trigger_type, $this->get_scannable_triggers() ) ) {
+			return $is_duplicate;
 		}
 
-		return $is_duplicate;
+		$markers = llms_get_user_postmeta( $person_id, $engagement_id, self::MARKER_KEY, true );
+		$anchor  = is_array( $markers ) ? ( $markers[ absint( $related_id ) ] ?? '' ) : '';
+
+		llms_log(
+			sprintf(
+				// Translators: %1$d = email template post ID; %2$d = user ID; %3$s = related post ID or "N/A"; %4$s = trigger type slug; %5$d = engagement post ID; %6$s = re-arm anchor value or "unknown".
+				__( 'Email #%1$d to user #%2$d triggered by %3$s: dupcheck bypassed for re-armed "%4$s" engagement #%5$d (re-arm anchor: %6$s).', 'lifterlms' ),
+				$email_id,
+				$person_id,
+				$related_id ? '#' . $related_id : 'N/A',
+				$trigger_type,
+				$engagement_id,
+				'' === $anchor ? 'unknown' : $anchor
+			),
+			'engagement-emails'
+		);
+
+		return false;
 	}
 
 	/**
