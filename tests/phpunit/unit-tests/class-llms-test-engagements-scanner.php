@@ -1073,6 +1073,396 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the "Activity on or after" floor on the days_since_login candidate query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_days_since_login_since_floor() {
+
+		$engagement = $this->create_scan_engagement( 'days_since_login', 0, 14 );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$recent_idle  = $this->factory->student->create();
+		$ancient_idle = $this->factory->student->create();
+		llms_enroll_student( $recent_idle, $course_id );
+		llms_enroll_student( $ancient_idle, $course_id );
+
+		$now = llms_current_time( 'timestamp' );
+		update_user_meta( $recent_idle, 'llms_last_login', gmdate( 'Y-m-d H:i:s', $now - ( 20 * DAY_IN_SECONDS ) ) );
+		update_user_meta( $ancient_idle, 'llms_last_login', gmdate( 'Y-m-d H:i:s', $now - ( 100 * DAY_IN_SECONDS ) ) );
+
+		// Blank floor: the whole backlog matches, including students idle for months.
+		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+		$this->assertContains( $recent_idle, $user_ids );
+		$this->assertContains( $ancient_idle, $user_ids );
+
+		// Floor set between the two logins: only activity on or after the floor matches.
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_since', gmdate( 'Y-m-d', $now - ( 60 * DAY_IN_SECONDS ) ) );
+		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+		$this->assertContains( $recent_idle, $user_ids );
+		$this->assertNotContains( $ancient_idle, $user_ids );
+
+		// Floor before both logins, both still older than the period: both match.
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_since', gmdate( 'Y-m-d', $now - ( 200 * DAY_IN_SECONDS ) ) );
+		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+		$this->assertContains( $recent_idle, $user_ids );
+		$this->assertContains( $ancient_idle, $user_ids );
+	}
+
+	/**
+	 * Test the "Activity on or after" floor on the course_inactivity candidate query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_inactivity_since_floor() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quizzes'  => 0,
+			)
+		);
+		$course    = llms_get_post( $course_id );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+		$tree      = array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) );
+
+		$now          = llms_current_time( 'timestamp' );
+		$recent_idle  = $this->factory->student->create();
+		$ancient_idle = $this->factory->student->create();
+
+		foreach ( array( $recent_idle => 30, $ancient_idle => 100 ) as $student => $days ) {
+			llms_enroll_student( $student, $course_id );
+			llms_mark_complete( $student, $lesson_id, 'lesson' );
+			foreach ( $tree as $post_id ) {
+				$this->backdate_user_postmeta( $student, $post_id, gmdate( 'Y-m-d H:i:s', $now - ( $days * DAY_IN_SECONDS ) ) );
+			}
+		}
+
+		$engagement = $this->create_scan_engagement( 'course_inactivity', $course_id, 14 );
+
+		// Blank floor: both stalled students match.
+		$result   = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+		$this->assertContains( $recent_idle, $user_ids );
+		$this->assertContains( $ancient_idle, $user_ids );
+
+		// Floor between the two activity dates: the long-idle student is excluded.
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_since', gmdate( 'Y-m-d', $now - ( 60 * DAY_IN_SECONDS ) ) );
+		$result   = $this->scanner->query_course_inactivity( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+		$this->assertContains( $recent_idle, $user_ids );
+		$this->assertNotContains( $ancient_idle, $user_ids );
+	}
+
+	/**
+	 * Test the "Activity on or after" floor on the quiz_attempt_abandoned candidate query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_quiz_attempt_abandoned_since_floor() {
+
+		global $wpdb;
+
+		$quiz_id    = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$student    = $this->factory->student->create();
+		$engagement = $this->create_scan_engagement( 'quiz_attempt_abandoned', $quiz_id, 7 );
+
+		$now    = llms_current_time( 'timestamp' );
+		$insert = function ( $date ) use ( $wpdb, $student, $quiz_id ) {
+			$wpdb->insert(
+				"{$wpdb->prefix}lifterlms_quiz_attempts",
+				array(
+					'student_id'  => $student,
+					'quiz_id'     => $quiz_id,
+					'status'      => 'incomplete',
+					'update_date' => $date,
+				)
+			);
+			return $wpdb->insert_id;
+		};
+
+		$recent_attempt  = $insert( gmdate( 'Y-m-d H:i:s', $now - ( 10 * DAY_IN_SECONDS ) ) );
+		$ancient_attempt = $insert( gmdate( 'Y-m-d H:i:s', $now - ( 100 * DAY_IN_SECONDS ) ) );
+
+		// Blank floor: both abandoned attempts match.
+		$result  = $this->scanner->query_quiz_attempt_abandoned( get_post( $engagement->ID ), 0, 500 );
+		$anchors = wp_list_pluck( $result['candidates'], 'anchor' );
+		$this->assertContains( $recent_attempt, $anchors );
+		$this->assertContains( $ancient_attempt, $anchors );
+
+		// Floor between the two attempts: the long-abandoned attempt is excluded.
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_since', gmdate( 'Y-m-d', $now - ( 60 * DAY_IN_SECONDS ) ) );
+		$result  = $this->scanner->query_quiz_attempt_abandoned( get_post( $engagement->ID ), 0, 500 );
+		$anchors = wp_list_pluck( $result['candidates'], 'anchor' );
+		$this->assertContains( $recent_attempt, $anchors );
+		$this->assertNotContains( $ancient_attempt, $anchors );
+	}
+
+	/**
+	 * Test unscoped days_since_login candidates require an enrolled, non-completed course.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_days_since_login_requires_incomplete_course() {
+
+		$engagement = $this->create_scan_engagement( 'days_since_login', 0, 14 );
+		update_post_meta( $engagement->ID, '_llms_engagement_trigger_post', 'any' );
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		);
+
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$old_login     = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) );
+
+		// Membership-only: nothing to finish, never a candidate.
+		$membership_only = $this->factory->student->create();
+		llms_enroll_student( $membership_only, $membership_id );
+
+		// Only course is completed: nothing left to do, never a candidate.
+		$completed_only     = $this->factory->student->create();
+		$completed_course   = $this->factory->course->create( $course_args );
+		llms_enroll_student( $completed_only, $completed_course );
+		llms_mark_complete( $completed_only, llms_get_post( $completed_course )->get_lessons( 'ids' )[0], 'lesson' );
+
+		// One completed and one in-progress course: still a candidate.
+		$mixed        = $this->factory->student->create();
+		$mixed_done   = $this->factory->course->create( $course_args );
+		$mixed_active = $this->factory->course->create( $course_args );
+		llms_enroll_student( $mixed, $mixed_done );
+		llms_enroll_student( $mixed, $mixed_active );
+		llms_mark_complete( $mixed, llms_get_post( $mixed_done )->get_lessons( 'ids' )[0], 'lesson' );
+
+		foreach ( array( $membership_only, $completed_only, $mixed ) as $student ) {
+			update_user_meta( $student, 'llms_last_login', $old_login );
+		}
+
+		$result   = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertNotContains( $membership_only, $user_ids );
+		$this->assertNotContains( $completed_only, $user_ids );
+		$this->assertContains( $mixed, $user_ids );
+	}
+
+	/**
+	 * Test scoped days_since_login engagements also exclude students with nothing left to complete.
+	 *
+	 * Course scope excludes completers of that course; membership scope requires a
+	 * non-completed course enrollment elsewhere on the site.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_days_since_login_scoped_excludes_finished_students() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		);
+		$old_login   = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) );
+
+		// Scoped to a course: completers of that course are excluded.
+		$course_id = $this->factory->course->create( $course_args );
+		$completer = $this->factory->student->create();
+		$stalled   = $this->factory->student->create();
+		llms_enroll_student( $completer, $course_id );
+		llms_enroll_student( $stalled, $course_id );
+		llms_mark_complete( $completer, llms_get_post( $course_id )->get_lessons( 'ids' )[0], 'lesson' );
+		update_user_meta( $completer, 'llms_last_login', $old_login );
+		update_user_meta( $stalled, 'llms_last_login', $old_login );
+
+		$engagement = $this->create_scan_engagement( 'days_since_login', $course_id, 14 );
+		$result     = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids   = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $stalled, $user_ids );
+		$this->assertNotContains( $completer, $user_ids );
+
+		// Scoped to a membership: members must have a non-completed course somewhere.
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$member_only   = $this->factory->student->create();
+		$member_active = $this->factory->student->create();
+		llms_enroll_student( $member_only, $membership_id );
+		llms_enroll_student( $member_active, $membership_id );
+		llms_enroll_student( $member_active, $this->factory->course->create( $course_args ) );
+		update_user_meta( $member_only, 'llms_last_login', $old_login );
+		update_user_meta( $member_active, 'llms_last_login', $old_login );
+
+		$engagement = $this->create_scan_engagement( 'days_since_login', $membership_id, 14 );
+		$result     = $this->scanner->query_days_since_login( get_post( $engagement->ID ), 0, 500 );
+		$user_ids   = wp_list_pluck( $result['candidates'], 'user_id' );
+
+		$this->assertContains( $member_active, $user_ids );
+		$this->assertNotContains( $member_only, $user_ids );
+	}
+
+	/**
+	 * Test count_pending() counts un-fired candidates, respects re-arm markers, and caps early.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_count_pending() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		$students = $this->factory->student->create_many( 3 );
+		foreach ( $students as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		// Exact count under the limit.
+		$this->assertSame( 3, $this->scanner->count_pending( $post, 200 ) );
+
+		// Counting stops just past the limit: a return greater than the limit means "more than".
+		$this->assertSame( 3, $this->scanner->count_pending( $post, 2 ) );
+
+		// A student who already fired (marker holds) is not counted.
+		$engagement = (object) array(
+			'trigger_id'    => $post->ID,
+			'engagement_id' => get_post_meta( $post->ID, '_llms_engagement', true ),
+			'trigger_event' => 'course_never_started',
+			'event_type'    => 'email',
+			'delay'         => 0,
+		);
+		$this->assertTrue(
+			$this->scanner->maybe_fire(
+				$engagement,
+				array(
+					'user_id'         => $students[0],
+					'related_post_id' => $course_id,
+					'anchor'          => $backdate,
+				)
+			)
+		);
+		$this->assertSame( 2, $this->scanner->count_pending( $post, 200 ) );
+
+		// The page cap bounds the dry run: with one-row pages and a single page, only one row is read.
+		$batch_size = function () {
+			return 1;
+		};
+		add_filter( 'llms_engagements_scan_batch_size', $batch_size );
+		$this->assertLessThanOrEqual( 1, $this->scanner->count_pending( $post, 200, 1 ) );
+		remove_filter( 'llms_engagements_scan_batch_size', $batch_size );
+
+		// Non-scannable or invalid engagements count zero.
+		$event_engagement = $this->create_mock_engagement( 'course_completed', 'email' );
+		$this->assertSame( 0, $this->scanner->count_pending( $event_engagement->ID ) );
+		$this->assertSame( 0, $this->scanner->count_pending( 0 ) );
+	}
+
+	/**
+	 * Test the save-time send-volume warning transient and its admin notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_warn_send_volume() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$transient_key = sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() );
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 3 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		// Under the default threshold of 200: no warning.
+		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
+		$this->assertFalse( get_transient( $transient_key ) );
+
+		// Lower the threshold below the candidate count: the warning is stored and rendered.
+		$threshold = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		$data = get_transient( $transient_key );
+		$this->assertIsArray( $data );
+		$this->assertEquals( $post->ID, $data['post_id'] );
+		$this->assertEquals( 2, $data['threshold'] );
+
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$notice = ob_get_clean();
+
+		$this->assertStringContainsString( 'notice-warning', $notice );
+		$this->assertStringContainsString( 'more than 2 students', $notice );
+		$this->assertStringContainsString( 'Activity on or after', $notice );
+
+		// The notice is shown once: the transient is consumed.
+		$this->assertFalse( get_transient( $transient_key ) );
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$this->assertSame( '', ob_get_clean() );
+
+		// Unpublished engagements never warn.
+		$draft = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		wp_update_post(
+			array(
+				'ID'          => $draft->ID,
+				'post_status' => 'draft',
+			)
+		);
+		// Creating/updating the post above runs the save hook itself; clear any leftovers first.
+		delete_transient( $transient_key );
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+		$this->scanner->maybe_warn_send_volume( $draft->ID, get_post( $draft->ID ) );
+		$this->assertFalse( get_transient( $transient_key ) );
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+	}
+
+	/**
 	 * Test enrollment cancellation fires the course_enrollment_cancelled trigger.
 	 *
 	 * @since [version]

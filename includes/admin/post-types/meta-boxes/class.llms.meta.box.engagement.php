@@ -293,6 +293,40 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		);
 
 		$fields[] = array(
+			'class'            => 'llms-datepicker',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/**
+				 * Filters the list of triggers which display the "Activity on or after" date field.
+				 *
+				 * Add-ons registering scan-based triggers via `llms_scannable_engagement_triggers`
+				 * should also register their trigger slugs here so the date floor field displays.
+				 *
+				 * @since [version]
+				 *
+				 * @param string[] $triggers List of trigger type slugs.
+				 */
+				apply_filters(
+					'llms_engagement_since_controller_values',
+					array(
+						'days_since_login',
+						'course_inactivity',
+						'course_never_started',
+						'course_completion_deadline',
+						'quiz_attempt_abandoned',
+					)
+				)
+			),
+			'date_format'      => 'yy-mm-dd',
+			'default'          => gmdate( 'Y-m-d', strtotime( '-3 months', llms_current_time( 'timestamp' ) ) ),
+			'desc'             => __( 'Only students whose last relevant activity (login, course progress, enrollment, or quiz attempt) is on or after this date will be included. Leave blank to include every student who currently exceeds the number of days, including those inactive for months.', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_trigger_since',
+			'label'            => __( 'Activity on or after', 'lifterlms' ),
+			'type'             => 'date',
+		);
+
+		$fields[] = array(
 			'class'            => 'input-full',
 			'controller'       => '#' . $this->prefix . 'trigger_type',
 			'controller_value' => implode(

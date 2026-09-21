@@ -86,6 +86,10 @@ class LLMS_Engagements_Scanner {
 		add_action( self::BATCH_HOOK, array( $this, 'do_batch' ), 10, 2 );
 		add_filter( 'llms_engagement_email_dupcheck', array( $this, 'maybe_bypass_email_dupcheck' ), 10, 5 );
 		add_action( 'deleted_post', array( $this, 'delete_markers' ), 20, 2 );
+
+		// Priority 30: after the core engagement metabox (10) and add-on saves (20) so all meta is fresh.
+		add_action( 'save_post_llms_engagement', array( $this, 'maybe_warn_send_volume' ), 30, 2 );
+		add_action( 'admin_notices', array( $this, 'output_send_volume_notice' ) );
 	}
 
 	/**
@@ -323,6 +327,166 @@ class LLMS_Engagements_Scanner {
 	}
 
 	/**
+	 * Count the candidates a scan-based engagement would fire for on its next scan.
+	 *
+	 * Read-only dry run: pages through the engagement's candidate query exactly like
+	 * `do_batch()` and counts candidates whose anchor beats their stored re-arm marker,
+	 * without firing anything or writing markers.
+	 *
+	 * Counting stops as soon as the count exceeds `$limit` and never reads more than
+	 * `$max_pages` pages, so a save-time prediction cannot scan an entire large site.
+	 * A return value greater than `$limit` therefore means "more than $limit", not an
+	 * exact total; a count at or below `$limit` after exhausting `$max_pages` pages is
+	 * a lower bound.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post|int $engagement Engagement post object or post ID.
+	 * @param int         $limit      Stop counting once this many candidates is exceeded.
+	 * @param int         $max_pages  Maximum number of candidate pages to read.
+	 * @return int
+	 */
+	public function count_pending( $engagement, $limit = 200, $max_pages = 25 ) {
+
+		$engagement = get_post( $engagement );
+		if ( ! $engagement || 'llms_engagement' !== $engagement->post_type ) {
+			return 0;
+		}
+
+		$trigger_type = get_post_meta( $engagement->ID, '_llms_trigger_type', true );
+		$callbacks    = $this->get_scannable_triggers();
+		$callback     = $callbacks[ $trigger_type ] ?? null;
+		if ( ! is_callable( $callback ) ) {
+			return 0;
+		}
+
+		/** This filter is documented in includes/class-llms-engagements-scanner.php */
+		$per_page = apply_filters( 'llms_engagements_scan_batch_size', 200, $engagement->ID, $trigger_type );
+
+		$count  = 0;
+		$cursor = 0;
+
+		for ( $page = 0; $page < $max_pages; $page++ ) {
+
+			$result = call_user_func( $callback, $engagement, $cursor, $per_page );
+			if ( ! is_array( $result ) ) {
+				break;
+			}
+
+			foreach ( $result['candidates'] ?? array() as $candidate ) {
+				if ( $this->is_armed( $engagement->ID, $candidate ) ) {
+					++$count;
+					if ( $count > $limit ) {
+						return $count;
+					}
+				}
+			}
+
+			if ( ! isset( $result['cursor'] ) || null === $result['cursor'] ) {
+				break;
+			}
+			$cursor = absint( $result['cursor'] );
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Predict the next scan's send volume when a scan-based engagement is saved and warn when it's large.
+	 *
+	 * Runs a read-only candidate count (see {@see LLMS_Engagements_Scanner::count_pending()})
+	 * and stores a short-lived, user-keyed transient consumed by
+	 * {@see LLMS_Engagements_Scanner::output_send_volume_notice()} after the post-save
+	 * redirect. Nothing is stored when the prediction is at or below the threshold.
+	 *
+	 * @since [version]
+	 *
+	 * @param int     $post_id WP_Post ID of the `llms_engagement` post.
+	 * @param WP_Post $post    Post object.
+	 * @return void
+	 */
+	public function maybe_warn_send_volume( $post_id, $post ) {
+
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		if ( ! $post || 'publish' !== $post->post_status || ! get_current_user_id() ) {
+			return;
+		}
+
+		$trigger_type = get_post_meta( $post_id, '_llms_trigger_type', true );
+		if ( ! $trigger_type || ! array_key_exists( $trigger_type, $this->get_scannable_triggers() ) ) {
+			return;
+		}
+
+		/**
+		 * Filters the predicted send count above which a warning is shown when saving a scan-based engagement.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $threshold Send count threshold. Default 200.
+		 * @param int $post_id   WP_Post ID of the `llms_engagement` post.
+		 */
+		$threshold = absint( apply_filters( 'llms_engagement_send_warning_threshold', 200, $post_id ) );
+
+		/**
+		 * Filters the maximum number of candidate pages read when predicting a scan-based engagement's send volume on save.
+		 *
+		 * Bounds the cost of the save-time dry run on large sites.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $max_pages Maximum number of pages. Default 25.
+		 * @param int $post_id   WP_Post ID of the `llms_engagement` post.
+		 */
+		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $post_id ) );
+
+		if ( $this->count_pending( $post, $threshold, $max_pages ) <= $threshold ) {
+			return;
+		}
+
+		set_transient(
+			sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() ),
+			array(
+				'post_id'   => $post_id,
+				'threshold' => $threshold,
+			),
+			5 * MINUTE_IN_SECONDS
+		);
+	}
+
+	/**
+	 * Output the send-volume warning notice stored by `maybe_warn_send_volume()`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_send_volume_notice() {
+
+		$key  = sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() );
+		$data = get_transient( $key );
+		if ( ! $data || ! is_array( $data ) ) {
+			return;
+		}
+
+		delete_transient( $key );
+
+		printf(
+			'<div class="notice notice-warning"><p>%s</p></div>',
+			esc_html(
+				sprintf(
+					// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count.
+					__( 'The engagement "%1$s" will fire for more than %2$s students on the next daily scan. Set the "Activity on or after" date to limit how far back it reaches.', 'lifterlms' ),
+					get_the_title( $data['post_id'] ?? 0 ),
+					number_format_i18n( $data['threshold'] ?? 0 )
+				)
+			)
+		);
+	}
+
+	/**
 	 * Fire an engagement for a candidate unless its re-arm marker prevents it.
 	 *
 	 * A marker records the candidate's anchor (last-activity date or source row ID)
@@ -345,6 +509,40 @@ class LLMS_Engagements_Scanner {
 	 */
 	public function maybe_fire( $engagement, $candidate ) {
 
+		if ( ! $this->is_armed( $engagement->trigger_id, $candidate ) ) {
+			return false;
+		}
+
+		$user_id = absint( $candidate['user_id'] );
+		$related = absint( $candidate['related_post_id'] ?? 0 );
+
+		$markers = llms_get_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, true );
+		$markers = is_array( $markers ) ? $markers : array();
+
+		$markers[ $related ] = $candidate['anchor'];
+		llms_update_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, $markers, true );
+
+		llms()->engagements()->trigger( $engagement, $user_id, $candidate['related_post_id'] ?? '' );
+
+		return true;
+	}
+
+	/**
+	 * Determine whether a candidate's re-arm marker allows the engagement to fire.
+	 *
+	 * Read-only companion to {@see LLMS_Engagements_Scanner::maybe_fire()}: `true` when
+	 * no marker exists for the candidate's related post or when the candidate's anchor
+	 * is newer than the recorded one (the student became active again and later went
+	 * idle again).
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @param array $candidate     Candidate data, see {@see LLMS_Engagements_Scanner::maybe_fire()}.
+	 * @return boolean
+	 */
+	protected function is_armed( $engagement_id, $candidate ) {
+
 		$user_id = absint( $candidate['user_id'] ?? 0 );
 		$anchor  = $candidate['anchor'] ?? '';
 		$related = absint( $candidate['related_post_id'] ?? 0 );
@@ -353,20 +551,11 @@ class LLMS_Engagements_Scanner {
 			return false;
 		}
 
-		$markers = llms_get_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, true );
+		$markers = llms_get_user_postmeta( $user_id, $engagement_id, self::MARKER_KEY, true );
 		$markers = is_array( $markers ) ? $markers : array();
 		$marker  = $markers[ $related ] ?? '';
 
-		if ( ! empty( $marker ) && $anchor <= $marker ) {
-			return false;
-		}
-
-		$markers[ $related ] = $anchor;
-		llms_update_user_postmeta( $user_id, $engagement->trigger_id, self::MARKER_KEY, $markers, true );
-
-		llms()->engagements()->trigger( $engagement, $user_id, $candidate['related_post_id'] ?? '' );
-
-		return true;
+		return empty( $marker ) || $anchor > $marker;
 	}
 
 	/**
@@ -471,6 +660,31 @@ class LLMS_Engagements_Scanner {
 	 */
 	protected function get_cutoff( $days ) {
 		return gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( $days * DAY_IN_SECONDS ) );
+	}
+
+	/**
+	 * Retrieve the optional "activity on or after" floor configured for an engagement.
+	 *
+	 * The floor is a lower bound on the same clock as the period cutoff: candidates
+	 * whose last relevant activity predates it are excluded from the scan entirely,
+	 * so a newly-created engagement doesn't email students who went inactive long
+	 * before it existed. An empty value means no lower bound (scan the full backlog).
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $engagement Engagement post object.
+	 * @return string Start-of-day MySQL datetime string in the site's timezone, or an empty string when unset or invalid.
+	 */
+	protected function get_since( $engagement ) {
+
+		$since = get_post_meta( $engagement->ID, '_llms_engagement_trigger_since', true );
+		if ( empty( $since ) || ! is_string( $since ) ) {
+			return '';
+		}
+
+		$timestamp = strtotime( $since );
+
+		return $timestamp ? gmdate( 'Y-m-d 00:00:00', $timestamp ) : '';
 	}
 
 	/**
@@ -819,12 +1033,15 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Candidate query: students who haven't logged in for N days.
 	 *
-	 * When the engagement is scoped to a course or membership, only currently-enrolled
-	 * students of that post are scanned. When unscoped ("any"), only users currently
-	 * enrolled in at least one course or membership are scanned: accounts with no
-	 * enrollments (staff, leads) are never candidates, matching the trigger's
-	 * "student" labeling. Users who have never logged in fall back to their
-	 * registration date.
+	 * Candidates must have at least one currently-enrolled course they have not
+	 * completed: the trigger nags students to come back and finish, so someone with
+	 * nothing left to do (completed everything, or membership-only with no courses)
+	 * is never a candidate. When the engagement is scoped to a course, only enrolled
+	 * non-completers of that course are scanned; when scoped to a membership, its
+	 * enrolled members must additionally have a non-completed course enrollment
+	 * elsewhere on the site. Accounts with no enrollments (staff, leads) are never
+	 * candidates, matching the trigger's "student" labeling. Users who have never
+	 * logged in fall back to their registration date.
 	 *
 	 * @since [version]
 	 *
@@ -847,13 +1064,14 @@ class LLMS_Engagements_Scanner {
 		}
 
 		$cutoff       = $this->get_cutoff( $period );
+		$since        = $this->get_since( $engagement );
 		$trigger_post = $this->get_trigger_post_id( $engagement );
 
 		if ( $trigger_post ) {
-			$user_ids = $this->get_enrolled_user_ids( $trigger_post, $cursor, $per_page );
+			$page_ids = $this->get_enrolled_user_ids( $trigger_post, $cursor, $per_page );
 		} else {
-			// Require a current enrollment (latest `_status` row) in any course or membership.
-			$user_ids = array_map(
+			// Require a current enrollment (latest `_status` row) in a non-completed course.
+			$page_ids = array_map(
 				'absint',
 				$wpdb->get_col(
 					$wpdb->prepare(
@@ -863,6 +1081,7 @@ class LLMS_Engagements_Scanner {
 						   AND EXISTS (
 						       SELECT 1
 						       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+						       JOIN {$wpdb->posts} AS courses ON courses.ID = upm.post_id AND courses.post_type = 'course'
 						       WHERE upm.user_id = u.ID
 						         AND upm.meta_key = '_status'
 						         AND upm.meta_value = 'enrolled'
@@ -872,6 +1091,14 @@ class LLMS_Engagements_Scanner {
 						             WHERE upm2.user_id = upm.user_id
 						               AND upm2.post_id = upm.post_id
 						               AND upm2.meta_key = '_status'
+						         )
+						         AND NOT EXISTS (
+						             SELECT 1
+						             FROM {$wpdb->prefix}lifterlms_user_postmeta AS complete
+						             WHERE complete.user_id = upm.user_id
+						               AND complete.post_id = upm.post_id
+						               AND complete.meta_key = '_is_complete'
+						               AND complete.meta_value = 'yes'
 						         )
 						   )
 						 ORDER BY u.ID ASC
@@ -883,8 +1110,27 @@ class LLMS_Engagements_Scanner {
 			); // db call ok; no-cache ok.
 		}
 
-		if ( ! $user_ids ) {
+		if ( ! $page_ids ) {
 			return $done;
+		}
+
+		// The cursor must reflect the raw page: filtering candidates out below must not stall pagination.
+		$next_cursor = count( $page_ids ) === $per_page ? end( $page_ids ) : null;
+
+		if ( $trigger_post && 'course' === get_post_type( $trigger_post ) ) {
+			$user_ids = array_values( array_diff( $page_ids, $this->get_completed_user_ids( $page_ids, $trigger_post ) ) );
+		} elseif ( $trigger_post ) {
+			// Membership scope: members must also have a non-completed course enrollment site-wide.
+			$user_ids = $this->filter_users_with_incomplete_course( $page_ids );
+		} else {
+			$user_ids = $page_ids;
+		}
+
+		if ( ! $user_ids ) {
+			return array(
+				'candidates' => array(),
+				'cursor'     => $next_cursor,
+			);
 		}
 
 		$logins = $wpdb->get_results(
@@ -901,7 +1147,7 @@ class LLMS_Engagements_Scanner {
 		$candidates = array();
 		foreach ( $user_ids as $user_id ) {
 			$last_login = $logins[ $user_id ]->last_login ?? '';
-			if ( $last_login && $last_login < $cutoff ) {
+			if ( $last_login && $last_login < $cutoff && ( ! $since || $last_login >= $since ) ) {
 				$candidates[] = array(
 					'user_id'         => $user_id,
 					'related_post_id' => $trigger_post ? $trigger_post : '',
@@ -912,8 +1158,61 @@ class LLMS_Engagements_Scanner {
 
 		return array(
 			'candidates' => $candidates,
-			'cursor'     => count( $user_ids ) === $per_page ? end( $user_ids ) : null,
+			'cursor'     => $next_cursor,
 		);
+	}
+
+	/**
+	 * Filter a list of user IDs down to those with at least one currently-enrolled, non-completed course.
+	 *
+	 * Uses the same latest-`_status`-row pattern as {@see LLMS_Engagements_Scanner::get_enrolled_user_ids()}
+	 * and preserves the order of the input list.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $user_ids List of WP_User IDs.
+	 * @return int[]
+	 */
+	protected function filter_users_with_incomplete_course( $user_ids ) {
+
+		global $wpdb;
+
+		$user_ids = array_map( 'absint', $user_ids );
+		if ( ! $user_ids ) {
+			return array();
+		}
+
+		$matched = array_map(
+			'absint',
+			$wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT DISTINCT upm.user_id
+					 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+					 JOIN {$wpdb->posts} AS courses ON courses.ID = upm.post_id AND courses.post_type = 'course'
+					 WHERE upm.user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . " )
+					   AND upm.meta_key = '_status'
+					   AND upm.meta_value = 'enrolled'
+					   AND upm.updated_date = (
+					       SELECT MAX( upm2.updated_date )
+					       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+					       WHERE upm2.user_id = upm.user_id
+					         AND upm2.post_id = upm.post_id
+					         AND upm2.meta_key = '_status'
+					   )
+					   AND NOT EXISTS (
+					       SELECT 1
+					       FROM {$wpdb->prefix}lifterlms_user_postmeta AS complete
+					       WHERE complete.user_id = upm.user_id
+					         AND complete.post_id = upm.post_id
+					         AND complete.meta_key = '_is_complete'
+					         AND complete.meta_value = 'yes'
+					   )",
+					$user_ids
+				)
+			)
+		); // db call ok; no-cache ok.
+
+		return array_values( array_intersect( $user_ids, $matched ) );
 	}
 
 	/**
@@ -982,6 +1281,7 @@ class LLMS_Engagements_Scanner {
 		}
 
 		$cutoff     = $this->get_cutoff( $period );
+		$since      = $this->get_since( $engagement );
 		$candidates = array();
 
 		foreach ( $this->group_enrollments_by_course( $rows ) as $course_id => $user_ids ) {
@@ -1002,7 +1302,7 @@ class LLMS_Engagements_Scanner {
 
 				foreach ( $scan_ids as $user_id ) {
 					$last = $activity[ $user_id ] ?? '';
-					if ( $last && $last < $cutoff ) {
+					if ( $last && $last < $cutoff && ( ! $since || $last >= $since ) ) {
 						$candidates[] = array(
 							'user_id'         => $user_id,
 							'related_post_id' => $course_id,
@@ -1017,7 +1317,7 @@ class LLMS_Engagements_Scanner {
 
 				foreach ( $scan_ids as $user_id ) {
 					$enrolled = $enrollments[ $user_id ] ?? '';
-					if ( $enrolled && $enrolled < $cutoff ) {
+					if ( $enrolled && $enrolled < $cutoff && ( ! $since || $enrolled >= $since ) ) {
 						$candidates[] = array(
 							'user_id'         => $user_id,
 							'related_post_id' => $course_id,
@@ -1084,6 +1384,7 @@ class LLMS_Engagements_Scanner {
 		}
 
 		$cutoff     = $this->get_cutoff( $period );
+		$since      = $this->get_since( $engagement );
 		$candidates = array();
 
 		foreach ( $this->group_enrollments_by_course( $rows ) as $course_id => $user_ids ) {
@@ -1093,7 +1394,7 @@ class LLMS_Engagements_Scanner {
 
 			foreach ( array_diff( $user_ids, $completed ) as $user_id ) {
 				$enrolled = $enrollments[ $user_id ] ?? '';
-				if ( $enrolled && $enrolled < $cutoff ) {
+				if ( $enrolled && $enrolled < $cutoff && ( ! $since || $enrolled >= $since ) ) {
 					$candidates[] = array(
 						'user_id'         => $user_id,
 						'related_post_id' => $course_id,
@@ -1138,9 +1439,12 @@ class LLMS_Engagements_Scanner {
 		}
 
 		$cutoff       = $this->get_cutoff( $period );
+		$since        = $this->get_since( $engagement );
 		$trigger_post = $this->get_trigger_post_id( $engagement );
 
-		// When no specific quiz is configured `%d = 0` disables the quiz condition.
+		// When no specific quiz is configured `%d = 0` disables the quiz condition, and
+		// an unset since floor falls back to the minimum DATETIME so it matches everything
+		// (comparing a DATETIME column to an empty string errors in strict mode).
 		// The users join excludes attempts orphaned by user deletion.
 		$attempts = $wpdb->get_results(
 			$wpdb->prepare(
@@ -1150,11 +1454,13 @@ class LLMS_Engagements_Scanner {
 				 WHERE attempts.status = 'incomplete'
 				   AND attempts.id > %d
 				   AND attempts.update_date < %s
+				   AND attempts.update_date >= %s
 				   AND ( %d = 0 OR attempts.quiz_id = %d )
 				 ORDER BY attempts.id ASC
 				 LIMIT %d",
 				$cursor,
 				$cutoff,
+				$since ? $since : '1000-01-01 00:00:00',
 				$trigger_post,
 				$trigger_post,
 				$per_page
