@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3359"
+entry: Added the wp-element-button class to Lesson Progression buttons in the editor so they match the front end, and output extra add-on buttons in that preview.

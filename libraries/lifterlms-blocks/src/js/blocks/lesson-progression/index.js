@@ -5,7 +5,8 @@
  * @since 1.5.0 Add supported post type settings.
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
- * @version 2.5.0
+ * @since [version] Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
+ * @version [version]
  */
 
 // WP Deps.
@@ -76,17 +77,30 @@ export const settings = {
 			showMainBtn
 		);
 
+		/**
+		 * Extra buttons rendered in the lesson progression block editor preview.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Array} extraButtons Additional button elements.
+		 */
+		const extraButtons = applyFilters(
+			'llms.lessonProgressBlock.extraButtons',
+			[]
+		);
+
 		return (
 			<>
 			<div className="llms-lesson-button-wrapper">
 			<Fragment>
+				{ extraButtons }
 				{ !! quiz && (
-					<Button className="llms-prog-btn--quiz llms-button-action auto button">
+					<Button className="llms-prog-btn--quiz llms-button-action auto button wp-element-button">
 						{__('Take Quiz', 'lifterlms')}
 					</Button>
 				) }
 				{ showMainBtn && (
-					<Button className="llms-prog-btn--complete llms-field-button llms-button-primary auto button">
+					<Button className="llms-prog-btn--complete llms-field-button llms-button-primary auto button wp-element-button">
 						{__('Mark Complete', 'lifterlms')}
 					</Button>
 				) }
