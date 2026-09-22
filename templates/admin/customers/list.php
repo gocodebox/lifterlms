@@ -9,6 +9,7 @@
  *
  * @property string $current_segment Current segment slug.
  * @property array  $segments        Segment slug => label.
+ * @property array  $counts          Segment slug => count.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,6 +32,9 @@ if ( ! is_admin() ) {
 			<li>
 				<a href="<?php echo esc_url( llms_get_customers_admin_url( null, array( 'segment' => $slug ) ) ); ?>"<?php echo $class ? ' class="' . esc_attr( $class ) . '"' : ''; ?>>
 					<?php echo esc_html( $label ); ?>
+					<?php if ( isset( $counts[ $slug ] ) ) : ?>
+						<span class="count">(<?php echo esc_html( number_format_i18n( $counts[ $slug ] ) ); ?>)</span>
+					<?php endif; ?>
 				</a><?php echo ( $slug !== $last_key ) ? ' |' : ''; ?>
 			</li>
 		<?php endforeach; ?>

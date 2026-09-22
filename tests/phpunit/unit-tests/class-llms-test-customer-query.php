@@ -225,4 +225,36 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 		);
 		$this->assertGreaterThanOrEqual( 2, $page1->get_max_pages() );
 	}
+
+	/**
+	 * Test segment counts cover every built-in bucket in one result set.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_segment_counts() {
+
+		delete_transient( 'llms_customer_segment_counts' );
+		delete_transient( 'llms_customer_high_spender_threshold' );
+		$before = llms_get_customer_segment_counts();
+
+		$this->create_paid_customer( 40 );
+
+		$free_student = $this->get_mock_student();
+		$this->get_mock_order( $this->get_mock_plan( 0 ), false, $free_student );
+
+		delete_transient( 'llms_customer_segment_counts' );
+		delete_transient( 'llms_customer_high_spender_threshold' );
+		$after = llms_get_customer_segment_counts();
+
+		$this->assertSame( $before['all'] + 2, $after['all'] );
+		$this->assertSame( $before['free_only'] + 1, $after['free_only'] );
+		$this->assertArrayHasKey( 'high_spenders', $after );
+		$this->assertArrayHasKey( 'active_subs', $after );
+		$this->assertArrayHasKey( 'at_risk', $after );
+
+		$cached = get_transient( 'llms_customer_segment_counts' );
+		$this->assertSame( $after['all'], $cached['all'] );
+	}
 }

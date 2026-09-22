@@ -122,6 +122,7 @@ class LLMS_Admin_Customers {
 			array(
 				'current_segment' => $segment,
 				'segments'        => $segments,
+				'counts'          => llms_get_customer_segment_counts(),
 			)
 		);
 	}

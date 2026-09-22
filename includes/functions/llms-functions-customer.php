@@ -222,6 +222,7 @@ function llms_delete_customer_metrics_cache( $user_id = 0 ) {
 	}
 
 	delete_transient( 'llms_customer_high_spender_threshold' );
+	delete_transient( 'llms_customer_segment_counts' );
 }
 
 /**
@@ -295,6 +296,35 @@ function llms_get_customer_segments() {
 	 * @param array $segments Segment slug => label.
 	 */
 	return apply_filters( 'llms_customer_segments', $segments );
+}
+
+/**
+ * Count customers in each built-in segment.
+ *
+ * One aggregation, cached for 15 minutes and cleared when an order or transaction is saved.
+ * "At risk" also depends on the clock, so the TTL keeps that bucket from drifting for long
+ * stretches when no orders change.
+ *
+ * @since [version]
+ *
+ * @return array Segment slug => count.
+ */
+function llms_get_customer_segment_counts() {
+
+	$counts = get_transient( 'llms_customer_segment_counts' );
+	if ( ! is_array( $counts ) ) {
+		$counts = LLMS_Customer_Query::query_segment_counts();
+		set_transient( 'llms_customer_segment_counts', $counts, 15 * MINUTE_IN_SECONDS );
+	}
+
+	/**
+	 * Filters customer segment counts.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $counts Segment slug => count.
+	 */
+	return apply_filters( 'llms_customer_segment_counts', $counts );
 }
 
 /**

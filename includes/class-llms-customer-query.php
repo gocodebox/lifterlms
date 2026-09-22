@@ -96,6 +96,10 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	 */
 	protected function prepare_query() {
 
+		if ( $this->get( 'count_segments' ) ) {
+			return $this->sql_segment_counts();
+		}
+
 		$base = "SELECT {$this->sql_select_list()}
 			FROM {$this->sql_from()}
 			{$this->sql_where()}";
@@ -149,13 +153,76 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * FROM clause: aggregated customers subquery joined to users.
+	 * Count customers in every built-in segment with one aggregation.
+	 *
+	 * @since [version]
+	 *
+	 * @return array Segment slug => count.
+	 */
+	public static function query_segment_counts() {
+
+		$query = new self(
+			array(
+				'count_segments' => true,
+				'no_found_rows'  => true,
+				'per_page'       => 1,
+			)
+		);
+
+		$results = $query->get_results();
+		$row     = ( is_array( $results ) && isset( $results[0] ) ) ? $results[0] : null;
+
+		if ( ! is_object( $row ) ) {
+			return array(
+				'all'           => 0,
+				'high_spenders' => 0,
+				'active_subs'   => 0,
+				'free_only'     => 0,
+				'at_risk'       => 0,
+			);
+		}
+
+		return array(
+			'all'           => absint( $row->all_count ),
+			'high_spenders' => absint( $row->high_spenders ),
+			'active_subs'   => absint( $row->active_subs ),
+			'free_only'     => absint( $row->free_only ),
+			'at_risk'       => absint( $row->at_risk ),
+		);
+	}
+
+	/**
+	 * SELECT that counts every built-in segment from the customers subquery.
 	 *
 	 * @since [version]
 	 *
 	 * @return string
 	 */
-	protected function sql_from() {
+	protected function sql_segment_counts() {
+
+		global $wpdb;
+
+		$threshold = $wpdb->prepare( '%f', (float) llms_get_customer_high_spender_threshold() );
+		$cutoff    = $wpdb->prepare( '%s', gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( DAY_IN_SECONDS * 90 ) ) );
+		$subquery  = self::get_customers_subquery_sql();
+
+		return "SELECT
+			COUNT(*) AS all_count,
+			COALESCE( SUM( CASE WHEN customers.ltv >= {$threshold} AND customers.ltv > 0 THEN 1 ELSE 0 END ), 0 ) AS high_spenders,
+			COALESCE( SUM( CASE WHEN customers.active_recurring_count > 0 THEN 1 ELSE 0 END ), 0 ) AS active_subs,
+			COALESCE( SUM( CASE WHEN customers.ltv = 0 THEN 1 ELSE 0 END ), 0 ) AS free_only,
+			COALESCE( SUM( CASE WHEN customers.ltv > 0 AND customers.active_recurring_count = 0 AND customers.last_order < {$cutoff} THEN 1 ELSE 0 END ), 0 ) AS at_risk
+		FROM ( {$subquery} ) AS customers";
+	}
+
+	/**
+	 * SQL subquery that aggregates one row per customer.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected static function get_customers_subquery_sql() {
 
 		global $wpdb;
 
@@ -221,6 +288,22 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 				AND orders.post_status NOT IN ( 'trash', 'auto-draft' )
 			GROUP BY CAST( user_meta.meta_value AS UNSIGNED )
 		";
+
+		return $customers_subquery;
+	}
+
+	/**
+	 * FROM clause: aggregated customers subquery joined to users.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function sql_from() {
+
+		global $wpdb;
+
+		$customers_subquery = self::get_customers_subquery_sql();
 
 		$sql = "( {$customers_subquery} ) AS customers
 			INNER JOIN {$wpdb->users} AS u ON u.ID = customers.user_id
