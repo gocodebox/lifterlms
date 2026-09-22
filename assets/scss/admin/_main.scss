@@ -403,6 +403,12 @@ a.llms-view-as {
 .llms-customers-wrap {
 	// The view links and the search field share one row. The table header's
 	// clearfix would otherwise stretch to the search field and push the table down.
+	// The table wrap then covers that row, so the links have to sit above it.
+	.subsubsub {
+		position: relative;
+		z-index: 2;
+	}
+
 	.llms-customers-table {
 		clear: none;
 	}
