@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#3359"
-entry: Added the wp-element-button class to Lesson Progression buttons in the editor, output extra add-on buttons in that preview, and stopped admin button styles from loading in the block editor canvas.
+entry: Improved styling in the back end editor for Lesson Progression and Access Plan buttons.
