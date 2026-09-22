@@ -381,6 +381,32 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get the CSS classes for the table element.
+	 *
+	 * Adds `text-left` so columns are left-aligned like standard WP list tables.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected function get_table_classes() {
+		$classes   = parent::get_table_classes();
+		$classes[] = 'text-left';
+		return $classes;
+	}
+
+	/**
+	 * Output the table title HTML.
+	 *
+	 * Intentionally empty — the page template already provides the heading.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_table_title_html() {}
+
+	/**
 	 * Set table title.
 	 *
 	 * @since [version]

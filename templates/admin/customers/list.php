@@ -21,17 +21,20 @@ if ( ! is_admin() ) {
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Customers', 'lifterlms' ); ?></h1>
 	<hr class="wp-header-end">
 
-	<nav class="llms-customer-segments" aria-label="<?php esc_attr_e( 'Customer segments', 'lifterlms' ); ?>">
-		<ul>
-			<?php foreach ( $segments as $slug => $label ) : ?>
-				<li class="<?php echo ( $current_segment === $slug ) ? 'llms-active' : ''; ?>">
-					<a href="<?php echo esc_url( llms_get_customers_admin_url( null, array( 'segment' => $slug ) ) ); ?>">
-						<?php echo esc_html( $label ); ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</nav>
+	<ul class="subsubsub">
+		<?php
+		$segment_keys = array_keys( $segments );
+		$last_key     = end( $segment_keys );
+		foreach ( $segments as $slug => $label ) :
+			$class = ( $current_segment === $slug ) ? 'current' : '';
+			?>
+			<li>
+				<a href="<?php echo esc_url( llms_get_customers_admin_url( null, array( 'segment' => $slug ) ) ); ?>"<?php echo $class ? ' class="' . esc_attr( $class ) . '"' : ''; ?>>
+					<?php echo esc_html( $label ); ?>
+				</a><?php echo ( $slug !== $last_key ) ? ' |' : ''; ?>
+			</li>
+		<?php endforeach; ?>
+	</ul>
 
 	<section class="llms-customers-table llms-reporting-tab">
 		<?php

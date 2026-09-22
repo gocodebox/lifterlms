@@ -401,42 +401,8 @@ a.llms-view-as {
 }
 
 .llms-customers-wrap {
-	.llms-customer-segments {
-		margin: 16px 0 20px;
-
-		ul {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 8px;
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-
-		li {
-			margin: 0;
-
-			a {
-				background: #fff;
-				border: 1px solid #c3c4c7;
-				border-radius: 4px;
-				color: #1d2327;
-				display: inline-block;
-				padding: 6px 12px;
-				text-decoration: none;
-
-				&:hover {
-					border-color: #466dd8;
-					color: #466dd8;
-				}
-			}
-
-			&.llms-active a {
-				background: #466dd8;
-				border-color: #466dd8;
-				color: #fff;
-			}
-		}
+	.llms-customers-table {
+		clear: both;
 	}
 
 	.llms-customer-name {

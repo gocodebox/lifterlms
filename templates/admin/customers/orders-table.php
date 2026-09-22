@@ -21,7 +21,7 @@ $orders = ! empty( $orders_result['orders'] ) ? $orders_result['orders'] : array
 <?php if ( empty( $orders ) ) : ?>
 	<p><?php esc_html_e( 'No orders found for this customer.', 'lifterlms' ); ?></p>
 <?php else : ?>
-	<table class="llms-table zebra llms-customer-orders-table">
+	<table class="llms-table zebra text-left llms-customer-orders-table">
 		<thead>
 			<tr>
 				<th><?php esc_html_e( 'Order', 'lifterlms' ); ?></th>
