@@ -1187,12 +1187,21 @@ class LLMS_Admin_Builder {
 				$skip_props[] = 'parent_course';
 				$skip_props[] = 'parent_section';
 
+				// New lessons sync every attribute, including the model's empty default for this flag.
+				// Persisting that empty string scrubs to "no" and the builder then hides its editor.
+				if ( isset( $lesson_data['content_added_in_builder'] ) && '' === $lesson_data['content_added_in_builder'] ) {
+					unset( $lesson_data['content_added_in_builder'] );
+				}
+
+				// Raw content. get( 'content' ) runs llms_content(), which can make a blank lesson look occupied.
+				$existing_content = $lesson->get( 'content', true );
+
 				// Don't overwrite content if the content editor doesn't display.
-				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
+				if ( ! $created && '' !== $existing_content && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
 					$skip_props[] = 'content';
 				}
 
-				if ( '' === $lesson->get( 'content' ) && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
+				if ( '' === $existing_content && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
 					&& ! isset( $lesson_data['content_added_in_builder'] ) ) {
 					// We're adding content via the builder for the first time; add a flag saying so.
 					$lesson_data['content_added_in_builder'] = 'yes';
