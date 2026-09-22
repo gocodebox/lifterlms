@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3239"
-entry: Fixed course titles showing HTML character codes in block settings.

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Models/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * Manages individual lesson time tracking session records stored in the
  * lifterlms_lesson_time_sessions table.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_Lesson_Time_Session extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int|null $id Record ID.
 	 */

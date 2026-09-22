@@ -1,6 +1,192 @@
 LifterLMS Changelog
 ===================
 
+v10.2.1 - 2026-09-14
+--------------------
+
+##### New Features
+
++ Added informative notices about available add-ons in the admin.
++ Makes Course IDs easier to find. [#3321](https://github.com/gocodebox/lifterlms/issues/3321) Thanks [@robindevitt](https://github.com/robindevitt)!
+
+##### Updates and Enhancements
+
++ Added a Name Your Price add-on option to the new access plan dialog and removed the Sale template.
++ Redirected the setup wizard skip button to the LifterLMS dashboard and added a Launch Setup Wizard link on the plugins screen.
++ Updates for PHP 8.4 compatibility.
+
+##### Bug Fixes
+
++ Fixed interactive blocks not working in focus mode. [#3350](https://github.com/gocodebox/lifterlms/issues/3350)
++ Disabled the Mark Complete button in markup while a lesson's minimum time is still running, and left it disabled when other progression requirements remain. [#3352](https://github.com/gocodebox/lifterlms/issues/3352)
+
+##### Security Fixes
+
++ Hardened certificate export handling. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional checks in admin reporting. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional authorization checks on REST API endpoints. Thanks [@s3rt4c](https://github.com/s3rt4c) and [@MrDarkRoot](https://github.com/MrDarkRoot)!
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/course/complete-lesson-link.php)
++ [templates/single-lesson-focus.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/single-lesson-focus.php)
+
+
+v10.2.0 - 2026-08-24
+--------------------
+
+##### New Features
+
++ The sections and lessons list endpoints accept `parent_id` as an alias for the `parent` filter.
++ Added a read-only REST API endpoint for student grades with per-lesson course grade breakdowns, added a readonly grade field to student progress responses, and registered a student grades ability with the WordPress Abilities API.
++ Added time-limited signed download URLs for protected media files, exposed as a download_url field in assignment submission and quiz attempt REST API responses.
++ Added a certificate merge code for the student's display name.
++ REST API: added endpoints for quizzes, quiz questions, quiz attempts (including grading), orders and their transactions, certificate templates, and awarded certificates, with new webhook topics and WordPress Abilities API registration.
+
+##### Updates and Enhancements
+
++ The course students reporting table now sorts by student ID by default instead of by name, avoiding expensive name joins and filesorts on large sites. Columns remain click-sortable.
++ Improved cache miss detection and added expiration times to object cache entries for more reliable behavior on persistent object cache backends.
++ Student search is not limited to the student role.
++ List abilities return an empty list instead of a not-found error for empty collections.
++ Ability input schemas reject unknown parameters instead of silently ignoring them.
++ List abilities omit rendered markup when a raw counterpart is available, reducing payload size.
++ Nested abilities accept id as the parent resource identifier.
++ Section and lesson order is optional on create.
+
+##### Bug Fixes
+
++ Course and membership student exports now honor the boosted export page size, reducing the number of requests required to generate an export file by up to 10x.
++ Course reports and exports no longer bulk-create per-lesson time cache rows in user meta, and an automatic database update removes the zero-value rows previously created this way.
++ Awarded certificates and achievements now fall back to the template's post title when the deprecated title meta value is empty.
++ Fixed course builder deep links so the lesson or quiz settings panel opens on load. [#3328](https://github.com/gocodebox/lifterlms/issues/3328)
++ Fixed course builder tooltips being clipped by the editor sidebar and outline. [#3315](https://github.com/gocodebox/lifterlms/issues/3315)
++ Fixed stale object cache values for core forms, membership-associated posts, student grades, product active-subscription counts, and theme template override directories on sites using a persistent object cache (Redis, Memcached). [#3116](https://github.com/gocodebox/lifterlms/issues/3116)
++ Fixed automatic recurring payment retries never running when a failed payment placed an active order on hold.
++ Fixed media protection block editor labels incorrectly showing "Protect Image" for file, video, and audio blocks.
++ Preserve the authorization hook name passed to media upload.
++ Ability reads default to the edit context, returning complete resource data.
++ Declared and validated the `status` parameter on the REST enrollment update endpoint.
++ Cached student progress is reset when lesson progress is deleted via the REST API and when lessons or sections are trashed, restored, deleted, or moved to a new parent.
++ The lesson REST response emits `complete` for `quiz.progression`, matching the documented schema enum and the accepted input values.
++ Clarified the REST schema documentation for the `meta` field serialization and the enrollment `trigger` default.
++ Ability get and list operations now use the edit context when the caller omits it.
++ Hardened quiz attempt answer retrieval.
++ Lesson quiz updates keep the quiz's lesson association in sync.
++ Abilities return not-found errors from missing resources.
+
+##### Performance Improvements
+
++ Course and membership student exports now count the total result set once instead of re-running the count query on every page of the export.
++ Improved the performance of the Time in Course column on the course students reporting screen and export by computing course totals with a single query, adding a lesson index to the time sessions table, and skipping all per-student queries when a course has no tracked time.
+
+##### Security Fixes
+
++ Additional checks on access plan button output. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
++ Additional checks on settings save. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
+
+
+v10.1.1 - 2026-08-11
+--------------------
+
+##### Updates and Enhancements
+
++ Increased entropy used when generating order keys. Thanks [@enterlectury](https://github.com/enterlectury)!
+
+##### Bug Fixes
+
++ Fixed saving when attaching an existing lesson after editing its title or permalink in the Course Builder.
++ Fixed the "View add-on details" tooltip being cut off on the Add-ons screen. [#3301](https://github.com/gocodebox/lifterlms/issues/3301)
++ Fixed access plan details not saving when using the course or membership Save button in the block editor. [#3256](https://github.com/gocodebox/lifterlms/issues/3256), [#3300](https://github.com/gocodebox/lifterlms/issues/3300)
++ Fixed duplicate engagement emails sent to all recipients when multiple emails share the same triggering post.
++ Aligned admin Select2 fields with WordPress 7.0 form control sizing. [#3291](https://github.com/gocodebox/lifterlms/issues/3291)
++ Fixed lesson completion being rejected when the Mark Complete button was clicked the moment the minimum time requirement was reached, before the next time-tracking heartbeat had persisted the elapsed time. [#3295](https://github.com/gocodebox/lifterlms/issues/3295)
++ Prevented a fatal error when cloning a course or creating a course cohort if a cloned lesson or course could not be loaded during prerequisite handling.
+
+##### Developer Notes
+
++ Corrected the REST API student progress `status` property description to reflect the completion status rather than the enrollment status, and noted that the students ability lists LifterLMS students only.
+
+##### Security Fixes
+
++ Additional checks on checkout completion redirects. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional checks when creating users during course import. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional authorization checks on REST API key and webhook admin actions. Thanks [@enterlectury](https://github.com/enterlectury)!
+
+
+v10.1.0 - 2026-07-31
+--------------------
+
+##### New Features
+
++ Added WordPress Abilities API (WP 6.9+) integration, registering the LifterLMS REST API endpoints for courses, sections, lessons, memberships, access plans, students, enrollments, and student progress as discoverable abilities for AI clients and automation tools.
++ Added a Quizzes subtab to the single course reporting view.
++ Added `wp llms course enrollments <id>` command to list students enrolled in a specific course.
++ Added AI agent usage guide (`docs/ai-agents.md`) for CLI with patterns for Claude Code, Cursor, Codex, and similar tools.
++ Added `wp llms course content <id>` command to retrieve course structure (sections and lessons) in a single call.
++ Added course and membership selection to the Pricing Table block. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
++ Added a HelpScout help beacon to the LifterLMS admin screens.
++ Lesson time tracking and minimum time required on lesson enforcement.
++ Added an accessible expand control on quiz attempt results so students can discover answer details and clarifications.
+
+##### Updates and Enhancements
+
++ Adding quiz ID to the lesson listing in the Course Builder. [#3024](https://github.com/gocodebox/lifterlms/issues/3024)
++ Bundled lifterlms-blocks, lifterlms-cli, lifterlms-helper, lifterlms-rest, and banner-notifications directly into core; standalone copies are no longer released separately.
++ Limited the pricing table to a maximum of 3 access plan columns per row, using 2 columns when there are exactly 4 plans. [#3288](https://github.com/gocodebox/lifterlms/issues/3288)
++ Added the `wp-element-button` class to front-end buttons (pricing tables, checkout, registration, quizzes, dashboard, certificates) so they inherit theme button styling.
++ Increased the voucher admin "Uses" field width so redemption counts with more than two digits are readable.
+
+##### Bug Fixes
+
++ Fixed media library attachment detail screen incorrectly showing course-protected files as protected by an assignment submission.
++ Fixed media protection URL rewrite failing when a persistent object cache is enabled. Thanks [@faisalahammad](https://github.com/faisalahammad)!
++ Added ABSPATH direct file access protection guards. Thanks [@faisalahammad](https://github.com/faisalahammad)!
++ Switched the "Add New Plan" access plan dialog to full screen in the editor.
++ Fixed course titles showing HTML character codes in block settings. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
++ Made the course selection dropdown in course blocks searchable. [#3239](https://github.com/gocodebox/lifterlms/issues/3239)
++ Fixed reporting stat tiles becoming misaligned depending on the number and height of tiles shown.
++ Fixed course, section, lesson, and quiz titles containing quotes or HTML characters displaying incorrectly in the course builder.
++ Fixed the appearance of the custom fields notice on the forms screen under WordPress 7.0. [#3161](https://github.com/gocodebox/lifterlms/issues/3161)
++ Fixed the parent course lookup when setting up lesson data. Thanks [@soydiloreto](https://github.com/soydiloreto)! [#3230](https://github.com/gocodebox/lifterlms/issues/3230)
++ Fixed multi-line quiz question spacing and accessibility on the front end. [#3286](https://github.com/gocodebox/lifterlms/issues/3286)
++ Fixed LifterLMS buttons in the block editor preview inheriting WordPress admin button styles instead of theme button styles.
+
+##### Developer Notes
+
++ Corrected the docblocks for `get_course()` and `get_lesson()` so the documented `$the_course`/`$the_lesson` and `$args` parameters match the `LLMS_Course` and `LLMS_Lesson` constructors they forward to. [#2175](https://github.com/gocodebox/lifterlms/issues/2175)
+
+##### Security Fixes
+
++ Additional checks on content restriction in feeds.
++ Hardened database queries in the voucher and lesson handler classes.
++ Improved redirect handling in content restriction and lesson completion.
++ Improved redirect handling in the template loader and lesson progression controller.
+
+##### Updated Templates
+
++ [templates/admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/courses/overview.php)
++ [templates/admin/reporting/tabs/courses/quizzes.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/courses/quizzes.php)
++ [templates/admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/memberships/overview.php)
++ [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/quizzes/attempt.php)
++ [templates/admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/quizzes/overview.php)
++ [templates/admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/students/courses-course.php)
++ [templates/admin/reporting/tabs/students/information.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/admin/reporting/tabs/students/information.php)
++ [templates/certificates/actions.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/certificates/actions.php)
++ [templates/content-single-question.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/content-single-question.php)
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/course/complete-lesson-link.php)
++ [templates/lesson/minimum-time.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/lesson/minimum-time.php)
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/myaccount/dashboard-section.php)
++ [templates/myaccount/form-redeem-voucher.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/myaccount/form-redeem-voucher.php)
++ [templates/myaccount/my-grades.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/myaccount/my-grades.php)
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/myaccount/my-orders.php)
++ [templates/myaccount/view-order-transactions.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/myaccount/view-order-transactions.php)
++ [templates/product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/product/access-plan-button.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/product/free-enroll-form.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/quiz/results-attempt-questions-list.php)
++ [templates/quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/10.1.0/templates/quiz/start-button.php)
+
+
 v10.0.10 - 2026-07-06
 ---------------------
 

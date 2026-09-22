@@ -130,7 +130,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * Free lessons cannot enforce minimum time since they allow non-logged-in access.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return bool
 	 */

@@ -474,6 +474,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'{user_login}'     => $user ? $user->user_login : '',
 			'{first_name}'     => $user ? $user->first_name : '',
 			'{last_name}'      => $user ? $user->last_name : '',
+			'{student_name}'   => $user ? $user->display_name : '',
 			'{email_address}'  => $user ? $user->user_email : '',
 			'{student_id}'     => $user ? $user_id : '',
 			// Certificate.

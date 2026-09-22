@@ -4,8 +4,8 @@
  *
  * @since 3.14.0
  * @since 3.30.1 Added dynamic filter on the `$more` var to allow customization of the URL and text on the "More" button.
- * @since [version] Added `wp-element-button` class to the More button so it inherits theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the More button so it inherits theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -116,6 +116,39 @@ class LLMS_REST_Test_Students_Progress_Controller extends LLMS_REST_Unit_Test_Ca
 	}
 
 	/**
+	 * Test that deleting a lesson's progress resets the student's cached ancestor progress.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_lesson_progress_resets_cached_ancestor_progress() {
+
+		$course_id  = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		$course     = llms_get_post( $course_id );
+		$lessons    = $course->get_lessons( 'ids' );
+		$section_id = $course->get_sections( 'ids' )[0];
+
+		llms_enroll_student( $this->user_student, $course_id );
+		$student = llms_get_student( $this->user_student );
+
+		llms_mark_complete( $this->user_student, $lessons[0], 'lesson' );
+		llms_mark_complete( $this->user_student, $lessons[1], 'lesson' );
+
+		// Prime the caches.
+		$this->assertEquals( 100, $student->get_progress( $course_id, 'course' ) );
+		$this->assertEquals( 100, $student->get_progress( $section_id, 'section' ) );
+
+		wp_set_current_user( $this->user_allowed );
+		$response = $this->perform_mock_request( 'DELETE', $this->get_route( $this->user_student, $lessons[0] ) );
+		$this->assertResponseStatusEquals( 204, $response );
+
+		$this->assertEquals( 50, $student->get_progress( $course_id, 'course' ) );
+		$this->assertEquals( 50, $student->get_progress( $section_id, 'section' ) );
+
+	}
+
+	/**
 	 * Test delete progress of non existing post.
 	 *
 	 * @since 1.0.0-beta.25

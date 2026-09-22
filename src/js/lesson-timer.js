@@ -3,7 +3,7 @@
  *
  * Heartbeat-based time tracking for lesson minimum time requirements.
  *
- * @since [version]
+ * @since 10.1.0
  */
 import '../scss/lesson-timer.scss';
 
@@ -27,7 +27,10 @@ import '../scss/lesson-timer.scss';
 		displayTimer       = null,
 		localAccumulated   = accumulated,
 		lastTickTime       = Date.now(),
-		stopped            = false;
+		stopped            = false,
+		buttonsEnabled     = false,
+		metHeartbeatSent   = false,
+		heartbeatInFlight  = false;
 
 	/**
 	 * Apply a callback to all instances of mark-complete buttons, take-quiz buttons,
@@ -36,6 +39,27 @@ import '../scss/lesson-timer.scss';
 	function eachActionButton( callback ) {
 		document.querySelectorAll( '.llms-complete-lesson-form [type="submit"]' ).forEach( callback );
 		document.querySelectorAll( '#llms_start_quiz, [id="llms_start_quiz"]' ).forEach( callback );
+		document.querySelectorAll( '#llms-start-assignment, [id="llms-start-assignment"]' ).forEach( callback );
+	}
+
+	/**
+	 * Whether another add-on still has a progression lock on the element.
+	 *
+	 * Locks are `data-llms-lock-{id}` attributes (e.g. `data-llms-lock-video` from
+	 * Advanced Videos). The button must stay disabled until every lock is gone.
+	 */
+	function hasProgressionLock( el ) {
+		var i, name;
+		if ( ! el || ! el.attributes ) {
+			return false;
+		}
+		for ( i = 0; i < el.attributes.length; i++ ) {
+			name = el.attributes[ i ].name;
+			if ( 0 === name.indexOf( 'data-llms-lock-' ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -87,21 +111,48 @@ import '../scss/lesson-timer.scss';
 	}
 
 	/**
-	 * Enable action buttons when the minimum time requirement is met.
+	 * Enable the action buttons. Only called once the server has confirmed the
+	 * minimum time is met, so the completion request can't be rejected server-side.
+	 * Other add-on locks (data-llms-lock-*) are left in place so those requirements
+	 * can still keep the button disabled.
+	 */
+	function enableButtons() {
+		if ( buttonsEnabled ) {
+			return;
+		}
+		buttonsEnabled = true;
+		eachActionButton( function( btn ) {
+			btn.removeAttribute( 'data-llms-lock-time' );
+			btn.classList.remove( 'llms-lesson-time-disabled' );
+			if ( ! hasProgressionLock( btn ) ) {
+				btn.disabled = false;
+			}
+		} );
+		document.dispatchEvent( new CustomEvent( 'llms-lesson-time-met' ) );
+	}
+
+	/**
+	 * When the local counter reaches the minimum, force an immediate heartbeat so
+	 * the server-persisted total catches up before the button is enabled. The
+	 * button is enabled from the heartbeat response (see sendHeartbeat), not here,
+	 * otherwise a click landing before the first scheduled heartbeat is rejected.
 	 */
 	function checkMarkComplete() {
-		if ( ! hasMinimum ) {
+		if ( ! hasMinimum || buttonsEnabled ) {
 			return;
 		}
 
 		var met = requiredSeconds <= 0 || localAccumulated >= requiredSeconds;
 
-		if ( met ) {
-			eachActionButton( function( btn ) {
-				btn.disabled = false;
-				btn.classList.remove( 'llms-lesson-time-disabled' );
-			} );
-			document.dispatchEvent( new CustomEvent( 'llms-lesson-time-met' ) );
+		if ( met && ! metHeartbeatSent ) {
+			metHeartbeatSent = true;
+			// Reset the cadence so the scheduled heartbeat that may be due at this
+			// same instant (e.g. when the minimum is a multiple of the interval)
+			// doesn't also fire. The in-flight guard in sendHeartbeat covers the
+			// race where the scheduled beat already started before this ran.
+			clearInterval( heartbeatTimer );
+			sendHeartbeat();
+			heartbeatTimer = setInterval( sendHeartbeat, heartbeatInterval );
 		}
 	}
 
@@ -137,9 +188,11 @@ import '../scss/lesson-timer.scss';
 	 * Send a heartbeat to the server.
 	 */
 	function sendHeartbeat() {
-		if ( stopped ) {
+		if ( stopped || heartbeatInFlight ) {
 			return;
 		}
+
+		heartbeatInFlight = true;
 
 		var data = new FormData();
 		data.append( 'action', 'lesson_time_heartbeat' );
@@ -155,16 +208,22 @@ import '../scss/lesson-timer.scss';
 				return response.json();
 			} )
 			.then( function( result ) {
+				heartbeatInFlight = false;
+
 				if ( result.success && result.data ) {
 					accumulated = result.data.total;
 					localAccumulated = accumulated;
 					lastTickTime = Date.now();
 					updateDisplay();
 
-					if ( result.data.met ) {
-						checkMarkComplete();
+					if ( hasMinimum && result.data.met ) {
+						enableButtons();
+					} else if ( hasMinimum ) {
+						// Server hasn't credited enough yet; allow the next tick to retry the forced heartbeat.
+						metHeartbeatSent = false;
 					}
 				} else if ( hasMinimum ) {
+					metHeartbeatSent = false;
 					var code = ( result.data && result.data.code ) || result.code || '';
 					if ( 'session_superseded' === code ) {
 						showModal(
@@ -181,7 +240,12 @@ import '../scss/lesson-timer.scss';
 					}
 				}
 			} )
-			.catch( function() {} );
+			.catch( function() {
+				heartbeatInFlight = false;
+				if ( hasMinimum && ! buttonsEnabled ) {
+					metHeartbeatSent = false;
+				}
+			} );
 	}
 
 	/**
@@ -211,7 +275,11 @@ import '../scss/lesson-timer.scss';
 			eachActionButton( function( btn ) {
 				btn.disabled = true;
 				btn.classList.add( 'llms-lesson-time-disabled' );
+				btn.setAttribute( 'data-llms-lock-time', '1' );
 			} );
+		} else if ( hasMinimum ) {
+			// Already met at load: prior sessions are persisted server-side, so the button is safe to leave enabled.
+			buttonsEnabled = true;
 		}
 
 		heartbeatTimer = setInterval( sendHeartbeat, heartbeatInterval );

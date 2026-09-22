@@ -1,35 +1,53 @@
 /*
  * Opinionated LifterLMS button styling (colors, shape, typography).
  *
- * Buttons carrying the `wp-element-button` class opt out of these rules and
- * instead inherit the theme's button styling — `theme.json` element styles in
- * block themes, or the `classic-themes.css` defaults (and any theme overrides)
- * in classic themes — so the text and background colors always come from the
+ * When `$llms-buttons-theme-inherit` is true (front-end default), buttons
+ * carrying the `wp-element-button` class opt out of these rules and instead
+ * inherit the theme's button styling — `theme.json` element styles in block
+ * themes, or the `classic-themes.css` defaults (and any theme overrides) in
+ * classic themes — so the text and background colors always come from the
  * same source and remain a legible pair.
  *
- * This block must precede the structural rules below: the `:not()` guard puts
- * these selectors at the same specificity as the size modifiers (`.small`,
- * `.large`), so source order decides the winner.
+ * Admin sets `$llms-buttons-theme-inherit` to false so LifterLMS chrome always
+ * applies in settings, reporting, and other wp-admin screens.
+ *
+ * The opinionated block must precede the structural rules below: the `:not()`
+ * guard puts these selectors at the same specificity as the size modifiers
+ * (`.small`, `.large`), so source order decides the winner.
  */
-.llms-button-action:not(.wp-element-button),
-.llms-button-danger:not(.wp-element-button),
-.llms-button-primary:not(.wp-element-button),
-.llms-button-secondary:not(.wp-element-button) {
-	border: none;
-	border-radius: 8px;
-	color: $color-white;
-	font-size: 18px;
-	font-weight: 700;
-	line-height: 1;
-	padding: 12px 24px;
-	text-shadow: none;
-	transition: all .5s ease;
+$llms-buttons-theme-inherit: true !default;
 
-	&:hover, &:active {
-		color: $color-white;
+@mixin llms-button-theme-opt-out {
+	@if $llms-buttons-theme-inherit {
+		&:not(.wp-element-button) {
+			@content;
+		}
+	} @else {
+		@content;
 	}
-	&:focus {
+}
+
+.llms-button-action,
+.llms-button-danger,
+.llms-button-primary,
+.llms-button-secondary {
+	@include llms-button-theme-opt-out {
+		border: none;
+		border-radius: 8px;
 		color: $color-white;
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 1;
+		padding: 12px 24px;
+		text-shadow: none;
+		transition: all .5s ease;
+
+		&:hover, &:active {
+			color: $color-white;
+		}
+		&:focus {
+			color: $color-white;
+		}
 	}
 }
 
@@ -83,82 +101,96 @@
 }
 
 /* Fix for cases where link color overrides the button color */
-a.llms-button-action:not(.wp-element-button),
-a.llms-button-danger:not(.wp-element-button),
-a.llms-button-primary:not(.wp-element-button) {
-	color: $color-white;
-}
-
-.llms-button-primary:not(.wp-element-button) {
-	background: $color-brand-blue;
-	&:hover,
-	&.clicked {
-		background: $color-brand-blue-dark;
-	}
-	&:focus,
-	&:active {
-		background: $color-brand-blue-light;
+a.llms-button-action,
+a.llms-button-danger,
+a.llms-button-primary {
+	@include llms-button-theme-opt-out {
+		color: $color-white;
 	}
 }
 
-.llms-button-secondary:not(.wp-element-button) {
-	background: #e1e1e1;
-	color: $color-cinder;
-	&:hover {
-		color: #414141;
-		background: #cdcdcd;
+.llms-button-primary {
+	@include llms-button-theme-opt-out {
+		background: $color-brand-blue;
+		&:hover,
+		&.clicked {
+			background: $color-brand-blue-dark;
+		}
+		&:focus,
+		&:active {
+			background: $color-brand-blue-light;
+		}
 	}
-	&:focus,
-	&:active {
-		color: #414141;
-		background: #ebebeb;
+}
+
+.llms-button-secondary {
+	@include llms-button-theme-opt-out {
+		background: #e1e1e1;
+		color: $color-cinder;
+		&:hover {
+			color: #414141;
+			background: #cdcdcd;
+		}
+		&:focus,
+		&:active {
+			color: #414141;
+			background: #ebebeb;
+		}
 	}
 }
 /* Fix for cases where link color overrides the button color */
-a.llms-button-secondary:not(.wp-element-button) {
-	color: $color-cinder;
-}
-
-/*
- * Theme-styled secondary buttons keep LifterLMS's neutral colors so they stay
- * visually distinct from primary/action buttons, but the complete pair
- * (background and text color) is asserted together to guarantee contrast.
- * Shape and typography still come from the theme's button styling.
- */
-.llms-button-secondary.wp-element-button {
-	background: #e1e1e1;
-	color: $color-cinder;
-	&:hover {
-		color: #414141;
-		background: #cdcdcd;
-	}
-	&:focus,
-	&:active {
-		color: #414141;
-		background: #ebebeb;
+a.llms-button-secondary {
+	@include llms-button-theme-opt-out {
+		color: $color-cinder;
 	}
 }
 
-.llms-button-action:not(.wp-element-button) {
-	background: $color-orange;
-	&:hover,
-	&.clicked {
-		background: $color-brand-orange-dark;
-	}
-	&:focus,
-	&:active {
-		background: $color-brand-orange-light;
+@if $llms-buttons-theme-inherit {
+	/*
+	 * Theme-styled secondary buttons keep LifterLMS's neutral colors so they stay
+	 * visually distinct from primary/action buttons, but the complete pair
+	 * (background and text color) is asserted together to guarantee contrast.
+	 * Shape and typography still come from the theme's button styling.
+	 */
+	.llms-button-secondary.wp-element-button {
+		background: #e1e1e1;
+		color: $color-cinder;
+		&:hover {
+			color: #414141;
+			background: #cdcdcd;
+		}
+		&:focus,
+		&:active {
+			color: #414141;
+			background: #ebebeb;
+		}
 	}
 }
 
-.llms-button-danger:not(.wp-element-button) {
-	background: $color-danger;
-	&:hover {
-		background: #981c17;
+.llms-button-action {
+	@include llms-button-theme-opt-out {
+		background: $color-orange;
+		&:hover,
+		&.clicked {
+			background: $color-brand-orange-dark;
+		}
+		&:focus,
+		&:active {
+			background: $color-brand-orange-light;
+		}
 	}
-	&:focus,
-	&:active {
-		background: #cd261f;
+}
+
+.llms-button-danger {
+	@include llms-button-theme-opt-out {
+		background: $color-danger;
+		&:hover {
+			background: #981c17;
+		}
+		&:focus,
+		&:active {
+			background: #cd261f;
+		}
 	}
 }
 

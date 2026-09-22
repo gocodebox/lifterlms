@@ -375,50 +375,82 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 
-		// Force INPUT_GET redirect.
+		// Untrusted off-site INPUT_GET redirect is rejected.
 		$this->mockGetRequest(
 			array(
 				'redirect' => 'https://example-redirect-get.com',
 			)
 		);
 		$this->assertEquals(
-			'https://example-redirect-get.com?order-complete=' . $order->get( 'order_key' ),
+			'?order-complete=' . $order->get( 'order_key' ),
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 
-		// Force INPUT_POST redirect, the INPUT_GET will win.
+		// Untrusted off-site INPUT_POST redirect is rejected.
 		$this->mockPostRequest(
 			array(
 				'redirect' => 'https://example-redirect-post.com',
 			)
 		);
 		$this->assertEquals(
-			'https://example-redirect-get.com?order-complete=' . $order->get( 'order_key' ),
+			'?order-complete=' . $order->get( 'order_key' ),
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 
-		// Reset INPUT_GET, INPUT_POST will win.
+		// Reset INPUT_GET; POST still untrusted.
 		$this->mockGetRequest( array() );
 		$this->assertEquals(
-			'https://example-redirect-post.com?order-complete=' . $order->get( 'order_key' ),
+			'?order-complete=' . $order->get( 'order_key' ),
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 
-		// Free enroll and no user logged in, INPUT_POST will win.
-		$this->mockPostRequest(
+		// Same-origin redirect is allowed and receives the order key.
+		$local_redirect = home_url( '/thanks/' );
+		$this->mockGetRequest(
 			array(
-				'redirect'               => 'https://example-redirect-post.com',
-				'form'                   => 'free_enroll',
-				'free_checkout_redirect' => 'https://free-checkout-redirect.com',
+				'redirect' => $local_redirect,
 			)
 		);
 		$this->assertEquals(
-			'https://example-redirect-post.com?order-complete=' . $order->get( 'order_key' ),
+			add_query_arg( 'order-complete', $order->get( 'order_key' ), $local_redirect ),
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 
-		// Free enroll user logged in, INPUT_POST will win.
+		// Plan-configured off-site thank-you URL is allowed when it matches the plan.
+		$this->mockGetRequest( array() );
+		$this->mockPostRequest( array() );
+		$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+		$plan   = new LLMS_Access_Plan( 'new', $course->get( 'id' ) );
+		$plan->set( 'product_id', $course->get( 'id' ) );
+		$plan->set( 'checkout_redirect_type', 'url' );
+		$plan->set( 'checkout_redirect_url', 'https://thank-you.example.com/done' );
+		$order->set( 'plan_id', $plan->get( 'id' ) );
+		$order->set( 'product_id', $course->get( 'id' ) );
+
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://thank-you.example.com/done',
+			)
+		);
+		$this->assertEquals(
+			'https://thank-you.example.com/done?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Attacker URL still rejected; falls back to the plan's configured URL.
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://attacker.example/collect',
+			)
+		);
+		$this->assertEquals(
+			'https://thank-you.example.com/done?order-complete=' . $order->get( 'order_key' ),
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Free enroll with untrusted off-site free_checkout_redirect falls back to plan URL.
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
+		$this->mockGetRequest( array() );
 		$this->mockPostRequest(
 			array(
 				'redirect'               => 'https://example-redirect-post.com',
@@ -427,7 +459,21 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 			)
 		);
 		$this->assertEquals(
-			'https://free-checkout-redirect.com',
+			'https://thank-you.example.com/done',
+			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
+		);
+
+		// Free enroll with same-origin free_checkout_redirect is allowed.
+		$local_free = home_url( '/enrolled/' );
+		$this->mockPostRequest(
+			array(
+				'redirect'               => home_url( '/ignored/' ),
+				'form'                   => 'free_enroll',
+				'free_checkout_redirect' => $local_free,
+			)
+		);
+		$this->assertEquals(
+			$local_free,
 			LLMS_Unit_Test_Util::call_method( $this->main, 'get_complete_transaction_redirect_url', array( $order ) )
 		);
 

@@ -6,8 +6,8 @@
  *
  * @since 3.2.0
  * @since 6.0.0 Use `LLMS_Student::get_awards_count()`.
- * @since [version] Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
- * @version [version]
+ * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

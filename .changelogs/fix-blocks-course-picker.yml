@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3239"
-entry: Made the course selection dropdown in course blocks searchable.

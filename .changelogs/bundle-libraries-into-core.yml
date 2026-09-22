@@ -1,3 +1,0 @@
-significance: minor
-type: changed
-entry: Bundled lifterlms-blocks, lifterlms-cli, lifterlms-helper, lifterlms-rest, and banner-notifications directly into core; standalone copies are no longer released separately.

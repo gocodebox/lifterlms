@@ -233,6 +233,9 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 
 	public function test_get_author_id() {
 
+		// Creating users requires an importer able to create/assign roles.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		$email = 'mockauthor@test.tld';
 		$uid   = $this->factory->user->create( array( 'user_email' => $email ) );
 
@@ -300,6 +303,9 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	 */
 	public function test_get_author_id_error() {
 
+		// Current user must be able to create/assign the role so we reach the wp_insert_user() failure.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		// Error during creation.
 		$handler = function( $data ) {
 			$data['user_login'] = '';
@@ -320,6 +326,9 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function test_create_user_default_role() {
+
+		// Creating users requires an importer able to create/assign roles.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		$res  = LLMS_Unit_Test_Util::call_method( $this->stub, 'create_user', array( array( 'email' => 'default-role@test.tld' ) ) );
 		$user = get_user_by( 'ID', $res );

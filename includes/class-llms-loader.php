@@ -338,7 +338,7 @@ class LLMS_Loader {
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
-	 * @since [version] Include `LLMS_Admin_Help_Beacon` class.
+	 * @since 10.1.0 Include `LLMS_Admin_Help_Beacon` class.
 	 *
 	 * @return void
 	 */
@@ -371,6 +371,9 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.reviews.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-addon-promo.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-catalog-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-addon-notices.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-events-promo.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.user.custom.fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';

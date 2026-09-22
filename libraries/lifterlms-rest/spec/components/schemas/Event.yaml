@@ -1,0 +1,107 @@
+description: Base scheduled event post object.
+type: object
+properties:
+  id:
+    description: Unique event identifier. The WordPress Post `ID`.
+    type: integer
+    example: 321
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  slug:
+    description: Event URL slug.
+    type: string
+    example: live-q-and-a
+  permalink:
+    description: Event URL.
+    type: string
+    example: https://example.tld/llms_scheduled_event/live-q-and-a
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_scheduled_event
+  status:
+    description: The publication status of the event.
+    type: string
+    enum:
+      - publish
+      - draft
+    default: publish
+  location:
+    description: The event location. Free text or a URL (e.g. a meeting link).
+    type: string
+    example: https://zoom.us/j/123456789
+  start_date:
+    description: 'The event start date, in the event timezone. Format: `Y-m-d`. Required when creating an event.'
+    type: string
+    example: '2019-06-01'
+  start_time:
+    description: 'The event start time, in the event timezone. Format: `H:i:s`. Ignored for all-day events.'
+    type: string
+    example: '14:00:00'
+  end_date:
+    description: 'The event end date, in the event timezone. Format: `Y-m-d`. Defaults to `start_date`.'
+    type: string
+    example: '2019-06-01'
+  end_time:
+    description: 'The event end time, in the event timezone. Format: `H:i:s`. Ignored for all-day events.'
+    type: string
+    example: '15:00:00'
+  timezone:
+    description: 'IANA timezone string for the event (e.g. `America/New_York`). Defaults to the site timezone.'
+    type: string
+    example: America/New_York
+  is_all_day:
+    description: Whether the event is an all-day event.
+    type: boolean
+    default: false
+  start_datetime:
+    description: 'The event start, in the event timezone. Format: `Y-m-d H:i:s`.'
+    type: string
+    nullable: true
+    example: '2019-06-01 14:00:00'
+    readOnly: true
+  end_datetime:
+    description: 'The event end, in the event timezone. Format: `Y-m-d H:i:s`.'
+    type: string
+    nullable: true
+    example: '2019-06-01 15:00:00'
+    readOnly: true
+  start_datetime_utc:
+    description: 'The event start, in UTC. Format: `Y-m-d H:i:s`.'
+    type: string
+    nullable: true
+    example: '2019-06-01 18:00:00'
+    readOnly: true
+  end_datetime_utc:
+    description: 'The event end, in UTC. Format: `Y-m-d H:i:s`.'
+    type: string
+    nullable: true
+    example: '2019-06-01 19:00:00'
+    readOnly: true
+  products:
+    description: List of WordPress post IDs of the products (courses, memberships, or lessons) the event is associated with. Students enrolled in an associated product can see the event.
+    type: array
+    items:
+      type: integer
+    example:
+      - 1234
+      - 5678

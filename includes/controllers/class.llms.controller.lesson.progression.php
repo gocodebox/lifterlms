@@ -300,7 +300,7 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Prevent lesson completion if minimum time requirement has not been met.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param bool   $allow     Whether completion is allowed.
 	 * @param int    $user_id   WP User ID.
@@ -334,7 +334,7 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Clear the admin override meta when a lesson is marked incomplete.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int    $student_id  WP_User ID.
 	 * @param int    $object_id   WP_Post ID.

@@ -6,8 +6,8 @@
  *
  * @since 2.0.0
  * @since 4.12.0 Updated the label `for` attribute and added an `id` to the input element.
- * @since [version] Added `wp-element-button` class to the submit button so it inherits theme button styling.
- * @version [version]
+ * @since 10.1.0 Added `wp-element-button` class to the submit button so it inherits theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;

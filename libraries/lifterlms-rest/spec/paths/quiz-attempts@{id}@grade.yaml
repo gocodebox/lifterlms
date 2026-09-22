@@ -1,0 +1,62 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique quiz attempt identifier.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+post:
+  summary: Grade a quiz attempt
+  description: >-
+    Grade the manually-gradable questions of a quiz attempt and/or leave per-question remarks for the student.
+
+
+    Supplying `earned` points for all pending questions completes grading: the attempt grade is recalculated and completion actions (lesson completion, notifications, engagements) are triggered. Submitting remarks without points leaves the attempt in `pending` status for later review — useful for an AI-assisted first grading pass.
+  tags:
+    - Quiz Attempts
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - questions
+          properties:
+            questions:
+              description: List of question grading data.
+              type: array
+              items:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    description: The WordPress post ID of the question being graded.
+                    type: integer
+                    example: 456
+                  earned:
+                    description: The number of points earned for the answer. When omitted, points are left unchanged.
+                    type: integer
+                    minimum: 0
+                    example: 10
+                  remarks:
+                    description: Remarks (HTML allowed) displayed to the student for this answer.
+                    type: string
+                    example: Good work, but you missed the second part of the question.
+  responses:
+    200:
+      description: Successfully graded the quiz attempt.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizAttempt'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

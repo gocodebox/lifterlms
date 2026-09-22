@@ -3,8 +3,8 @@
  * Builder section model
  *
  * @since   3.16.0
- * @since   [version] Escaped section title output.
- * @version [version]
+ * @since   10.1.0 Escaped section title output.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

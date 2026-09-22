@@ -188,7 +188,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		// Ensure notification processors get dispatched since shutdown wont be called.
 		do_action( 'llms_dispatch_notification_processors' );
 
-		// Execute a redirect.
+		// Execute a redirect. Off-site destinations are allowed for admin-configured thank-you URLs.
 		llms_redirect_and_exit(
 			$redirect,
 			array(
@@ -447,17 +447,25 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 */
 	protected function get_complete_transaction_redirect_url( $order ) {
 
-		// Get the redirect parameter from INPUT_GET.
-		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '' );
+		$plan = $this->get_order_access_plan( $order );
 
-		// Get the redirect parameter from INPUT_POST if not INPUT_GET redirect pased.
+		// Product permalink, then account page.
+		$fallback = get_permalink( $order->get( 'product_id' ) );
+		$fallback = $fallback ? $fallback : get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		// Plan-configured redirect (may be off-site); never trust client input for this.
+		$plan_redirect = ( $plan ) ? $plan->get_configured_redirection_url() : '';
+
+		// Client-supplied redirect — same-origin or exact match to the plan's configured URL only.
+		$redirect = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '';
 		$redirect = $redirect ? $redirect : llms_filter_input( INPUT_POST, 'redirect', FILTER_VALIDATE_URL );
 
-		// Redirect to the product's permalink, if no redirect found yet.
-		$redirect = $redirect ? $redirect : get_permalink( $order->get( 'product_id' ) );
+		if ( $redirect && ! $this->is_allowed_transaction_redirect( $redirect, $plan ) ) {
+			$redirect = '';
+		}
 
-		// Fallback to the account page if we don't have a url for some reason.
-		$redirect = $redirect ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
+		$redirect = $redirect ? $redirect : $plan_redirect;
+		$redirect = $redirect ? $redirect : $fallback;
 
 		// Add order key to the url.
 		$redirect = add_query_arg(
@@ -472,7 +480,11 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect', FILTER_VALIDATE_URL );
 
 		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && $free_checkout_redirect ) {
-			$redirect = $free_checkout_redirect;
+			if ( $this->is_allowed_transaction_redirect( $free_checkout_redirect, $plan ) ) {
+				$redirect = $free_checkout_redirect;
+			} else {
+				$redirect = $plan_redirect ? $plan_redirect : $fallback;
+			}
 		}
 
 		/**
@@ -484,6 +496,50 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		 * @param LLMS_Order $order    The order object.
 		 */
 		return esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
+	}
+
+	/**
+	 * Retrieve the access plan for an order, if available.
+	 *
+	 * @since 10.1.1
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return LLMS_Access_Plan|false
+	 */
+	protected function get_order_access_plan( $order ) {
+
+		$plan_id = $order->get( 'plan_id' );
+		if ( ! $plan_id ) {
+			return false;
+		}
+
+		$plan = llms_get_post( $plan_id );
+		return ( $plan instanceof LLMS_Access_Plan ) ? $plan : false;
+	}
+
+	/**
+	 * Whether a client-supplied checkout completion redirect URL is allowed.
+	 *
+	 * Same-origin URLs are allowed. Off-site URLs are only allowed when they match
+	 * the access plan's configured custom checkout redirect URL.
+	 *
+	 * @since 10.1.1
+	 *
+	 * @param string                 $url  Candidate redirect URL.
+	 * @param LLMS_Access_Plan|false $plan Access plan for the order, if any.
+	 * @return bool
+	 */
+	protected function is_allowed_transaction_redirect( $url, $plan = false ) {
+
+		if ( ! $url ) {
+			return false;
+		}
+
+		if ( $plan instanceof LLMS_Access_Plan ) {
+			return $plan->is_allowed_checkout_redirect( $url );
+		}
+
+		return (bool) wp_validate_redirect( $url, false );
 	}
 
 	/**

@@ -1,0 +1,136 @@
+description: Base assignment post object.
+type: object
+properties:
+  id:
+    description: Unique assignment identifier. The WordPress Post `ID`.
+    type: integer
+    example: 876
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  slug:
+    description: Assignment URL slug.
+    type: string
+    example: essay-on-the-renaissance
+  permalink:
+    description: Assignment URL.
+    type: string
+    example: https://example.tld/llms_assignment/essay-on-the-renaissance
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_assignment
+  status:
+    description: The publication status of the assignment.
+    type: string
+    enum:
+      - publish
+      - draft
+    default: publish
+  assignment_type:
+    description: |
+      The type of the assignment.
+
+      - `tasklist`: Students complete a checklist of tasks.
+      - `essay`: Students submit a written essay.
+      - `upload`: Students upload a file.
+    type: string
+    enum:
+      - tasklist
+      - essay
+      - upload
+    default: tasklist
+    example: essay
+  lesson_id:
+    description: WordPress post ID of the assignment's parent lesson. `0` indicates an "orphaned" assignment not attached to any lesson.
+    type: integer
+    minimum: 0
+    example: 789
+  points:
+    description: The grading weight of the assignment within its course.
+    type: integer
+    minimum: 0
+    default: 1
+    example: 1
+  passing_percentage:
+    description: Minimum required grade for a student to pass the assignment.
+    type: number
+    minimum: 0
+    maximum: 100
+    default: 65
+    example: 65
+  enable_word_count_min:
+    description: Whether a minimum word count is enforced. Essay type only.
+    type: boolean
+    default: false
+  word_count_min:
+    description: Minimum required word count. Only used when `enable_word_count_min` is `true`. Essay type only.
+    type: integer
+    example: 250
+  enable_word_count_max:
+    description: Whether a maximum word count is enforced. Essay type only.
+    type: boolean
+    default: false
+  word_count_max:
+    description: Maximum allowed word count. Only used when `enable_word_count_max` is `true`. Essay type only.
+    type: integer
+    example: 1000
+  enable_allowed_mimes:
+    description: Whether uploads are restricted to a list of allowed file types. Upload type only.
+    type: boolean
+    default: false
+  allowed_mimes:
+    description: List of allowed file type extensions. Only used when `enable_allowed_mimes` is `true`. Upload type only.
+    type: array
+    items:
+      type: string
+    example:
+      - pdf
+      - docx
+  audio_embed:
+    description: URL to an oEmbed enabled audio URL.
+    type: string
+    format: uri
+  video_embed:
+    description: URL to an oEmbed enabled video URL.
+    type: string
+    format: uri
+  tasks:
+    description: |
+      List of tasks for tasklist assignments.
+
+      When updating, tasks with an `id` are updated, tasks without an `id` are created, and stored tasks missing from the submitted list are deleted.
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          description: The unique task ID.
+          type: string
+          example: '1'
+        marker:
+          description: The task marker (A, B, C...) used for ordering. Automatically sequenced from the submitted list order when omitted.
+          type: string
+          example: A
+        title:
+          description: The task title (the task itself).
+          type: string
+          example: Read chapter 1

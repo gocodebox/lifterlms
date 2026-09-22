@@ -135,7 +135,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example.com" />';
 		$this->assertStringContainsString( $contained, $atts['form_fields'] );
 
-		// INPUT_GET wins over plan's setting.
+		// Untrusted off-site INPUT_GET is ignored; plan setting remains.
 		$this->mockGetRequest(
 			array(
 				'redirect' => 'https://example-redirect-get.com',
@@ -149,7 +149,25 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 				array(),
 			)
 		);
-		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example-redirect-get.com" />';
+		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example.com" />';
+		$this->assertStringContainsString( $contained, $atts['form_fields'] );
+
+		// Same-origin INPUT_GET wins over plan setting.
+		$local_redirect = home_url( '/local-thanks/' );
+		$this->mockGetRequest(
+			array(
+				'redirect' => $local_redirect,
+			)
+		);
+		$atts = LLMS_Unit_Test_Util::call_method(
+			'LLMS_Shortcode_Checkout',
+			'setup_plan_and_form_atts',
+			array(
+				$plan->get('id'),
+				array(),
+			)
+		);
+		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="' . esc_attr( $local_redirect ) . '" />';
 		$this->assertStringContainsString( $contained, $atts['form_fields'] );
 	}
 

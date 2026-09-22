@@ -3,8 +3,8 @@
  * Builder lesson settings template
  *
  * @since   3.17.0
- * @since   [version] Escaped lesson title output.
- * @version [version]
+ * @since   10.1.0 Escaped lesson title output.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

@@ -40,21 +40,46 @@ class LLMS_REST_Admin_Form_Controller {
 	 */
 	public function handle_events() {
 
-		if ( isset( $_REQUEST['key-revoke-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['key-revoke-nonce'] ) ), 'revoke' ) ) {
-			$delete = LLMS_REST_API()->keys()->delete( llms_filter_input( INPUT_GET, 'revoke-key', FILTER_VALIDATE_INT ) );
+		if ( isset( $_REQUEST['key-revoke-nonce'] ) ) {
+			$revoke_key = llms_filter_input( INPUT_GET, 'revoke-key', FILTER_VALIDATE_INT );
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['key-revoke-nonce'] ) ), 'revoke-' . $revoke_key ) ) {
+				return false;
+			}
+			if ( ! current_user_can( 'manage_lifterlms_api_keys' ) ) {
+				return false;
+			}
+			$key = LLMS_REST_API()->keys()->get( $revoke_key );
+			if ( ! $key || ! current_user_can( 'edit_user', (int) $key->get( 'user_id' ) ) ) {
+				return false;
+			}
+			$delete = LLMS_REST_API()->keys()->delete( $revoke_key );
 			if ( $delete ) {
 				LLMS_Admin_Notices::flash_notice( esc_html__( 'The API Key has been successfully deleted.', 'lifterlms' ), 'success' );
 				return llms_redirect_and_exit( admin_url( 'admin.php?page=llms-settings&tab=rest-api&section=keys' ) );
 			}
 		} elseif ( isset( $_REQUEST['llms_rest_webhook_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['llms_rest_webhook_nonce'] ) ), 'create-update-webhook' ) ) {
+			if ( ! current_user_can( 'manage_lifterlms_webhooks' ) ) {
+				return false;
+			}
 			return $this->handle_webhook_upsert();
-		} elseif ( isset( $_REQUEST['delete-webhook-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['delete-webhook-nonce'] ) ), 'delete' ) ) {
-			$delete = LLMS_REST_API()->webhooks()->delete( llms_filter_input( INPUT_GET, 'delete-webhook', FILTER_VALIDATE_INT ) );
+		} elseif ( isset( $_REQUEST['delete-webhook-nonce'] ) ) {
+			$delete_webhook = llms_filter_input( INPUT_GET, 'delete-webhook', FILTER_VALIDATE_INT );
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['delete-webhook-nonce'] ) ), 'delete-' . $delete_webhook ) ) {
+				return false;
+			}
+			if ( ! current_user_can( 'manage_lifterlms_webhooks' ) ) {
+				return false;
+			}
+			$delete = LLMS_REST_API()->webhooks()->delete( $delete_webhook );
 			if ( $delete ) {
 				LLMS_Admin_Notices::flash_notice( esc_html__( 'The webhook has been successfully deleted.', 'lifterlms' ), 'success' );
 				return llms_redirect_and_exit( admin_url( 'admin.php?page=llms-settings&tab=rest-api&section=webhooks' ) );
 			}
-		} elseif ( isset( $_REQUEST['dl-key-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['dl-key-nonce'] ) ), 'dl-key' ) ) {
+		} elseif ( isset( $_REQUEST['dl-key-nonce'] ) ) {
+			$key_id = llms_filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT );
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['dl-key-nonce'] ) ), 'dl-key-' . $key_id ) ) {
+				return false;
+			}
 			return $this->handle_key_download();
 		}
 
@@ -164,6 +189,11 @@ class LLMS_REST_Admin_Form_Controller {
 		// return if key doesn't exist.
 		$key = LLMS_REST_API()->keys()->get( $key_id );
 		if ( ! $key ) {
+			return false;
+		}
+
+		// return if the current user is not allowed to manage the key owner.
+		if ( ! current_user_can( 'edit_user', (int) $key->get( 'user_id' ) ) ) {
 			return false;
 		}
 

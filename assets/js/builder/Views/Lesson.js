@@ -98,7 +98,7 @@ define( [
 		/**
 		 * Listen for quiz model ID changes so the displayed quiz ID updates after save.
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @return {void}
 		 */

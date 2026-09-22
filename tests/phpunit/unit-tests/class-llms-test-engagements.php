@@ -314,7 +314,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		$this->assertEquals( 'Engagement Email', $sent->subject );
 
 		// User meta recorded.
-		$this->assertEquals( $emails[0], llms_get_user_postmeta( $user->ID, $course, '_email_sent' ) );
+		$this->assertEqualSets( array( $emails[0] ), llms_get_user_postmeta( $user->ID, $course, '_email_sent', false ) );
 
 		// Reset the mailer.
 		reset_phpmailer_instance();
@@ -328,8 +328,24 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		$this->assertEquals( $user->user_email, $sent->to[0][0] );
 		$this->assertEquals( 'Engagement Email', $sent->subject );
 
-		// User meta recorded.
-		$this->assertEquals( $emails[1], llms_get_user_postmeta( $user->ID, $course, '_email_sent' ) );
+		// Both sent emails are recorded in user meta.
+		$this->assertEqualSets( $emails, llms_get_user_postmeta( $user->ID, $course, '_email_sent', false ) );
+
+		// Reset the mailer.
+		reset_phpmailer_instance();
+		$mailer = tests_retrieve_phpmailer_instance();
+
+		// Re-triggering the first email, e.g. when a manually graded quiz re-fires its completion trigger, shouldn't send it again.
+		$send = $this->main->handle_email( array( $user->ID, $emails[0], $course ) );
+		$this->assertIsWPError( $send );
+		$this->assertWPErrorCodeEquals( 'llms_engagement_email_not_sent_dupcheck', $send );
+		$this->assertFalse( $mailer->get_sent() );
+
+		// Re-triggering the second email shouldn't send it again either.
+		$send = $this->main->handle_email( array( $user->ID, $emails[1], $course ) );
+		$this->assertIsWPError( $send );
+		$this->assertWPErrorCodeEquals( 'llms_engagement_email_not_sent_dupcheck', $send );
+		$this->assertFalse( $mailer->get_sent() );
 
 	}
 

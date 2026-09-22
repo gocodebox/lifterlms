@@ -214,6 +214,7 @@ function llms_get_certificate_merge_codes() {
 			'{earned_date}'    => __( 'Earned Date', 'lifterlms' ),
 			'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
 			'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
+			'{student_name}'   => __( 'Student Display Name', 'lifterlms' ),
 			'{email_address}'  => __( 'Student Email', 'lifterlms' ),
 			'{student_id}'     => __( 'Student User ID', 'lifterlms' ),
 			'{user_login}'     => __( 'Student Username', 'lifterlms' ),

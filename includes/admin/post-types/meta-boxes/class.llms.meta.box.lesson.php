@@ -263,7 +263,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	/**
 	 * Compute minimum_time (total seconds) from H/M/S fields after save.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return void

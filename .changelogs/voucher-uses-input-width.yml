@@ -1,3 +1,0 @@
-significance: patch
-type: changed
-entry: "Increased the voucher admin \"Uses\" field width so redemption counts with more than two digits are readable."

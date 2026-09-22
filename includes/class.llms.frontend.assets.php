@@ -301,7 +301,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Maybe start lesson time tracking.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -389,7 +389,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Output the lesson timer display.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */

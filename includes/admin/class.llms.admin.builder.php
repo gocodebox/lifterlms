@@ -343,7 +343,12 @@ class LLMS_Admin_Builder {
 					return array();
 				}
 				$parent_course = self::get_object_parent_course_id( $id );
-				if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+				// Allow orphans the current user can edit (e.g. just-attached lessons before save).
+				if ( $parent_course ) {
+					if ( absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+						return array();
+					}
+				} elseif ( ! current_user_can( 'edit_post', $id ) ) {
 					return array();
 				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
@@ -1207,6 +1212,18 @@ class LLMS_Admin_Builder {
 				}
 				$res['parent_section'] = $lesson->get( 'parent_section' );
 				$res['parent_course']  = $lesson->get( 'parent_course' );
+
+				// Course Builder lesson lists query by `_llms_order`. Ensure attached/created
+				// lessons always have one so they appear after reload even if the client
+				// omitted `order` from a partial sync payload.
+				if ( empty( $lesson->get( 'order' ) ) ) {
+					$order = isset( $lesson_data['order'] ) ? absint( $lesson_data['order'] ) : 0;
+					if ( ! $order ) {
+						$order = count( $section->get_lessons( 'ids' ) ) + 1;
+					}
+					$lesson->set( 'order', $order );
+				}
+				$res['order'] = $lesson->get( 'order' );
 
 				// Update all custom fields.
 				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Abilities
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * abilities so abilities-aware AI clients can discover and execute LifterLMS
  * functionality natively.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_REST_Abilities {
 
@@ -27,7 +27,7 @@ class LLMS_REST_Abilities {
 	 *
 	 * A no-op on WordPress versions without the Abilities API.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Register the LifterLMS ability category.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_REST_Abilities {
 			'lifterlms',
 			array(
 				'label'       => __( 'LifterLMS', 'lifterlms' ),
-				'description' => __( 'Abilities for managing LifterLMS courses, memberships, students, enrollments, and student progress.', 'lifterlms' ),
+				'description' => __( 'Abilities for managing LifterLMS courses, memberships, quizzes, certificates, orders, students, enrollments, and student progress.', 'lifterlms' ),
 			)
 		);
 	}
@@ -62,7 +62,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Register all LifterLMS abilities.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Retrieve the configuration for every ability to be registered.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return array[] List of ability configuration arrays. See {@see LLMS_REST_Ability_Factory::register()}.
 	 */
@@ -99,7 +99,7 @@ class LLMS_REST_Abilities {
 		 * Add-ons providing their own `llms/v1` REST controllers can append configurations
 		 * here to have their endpoints registered as WordPress abilities.
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @param array[] $configs List of ability configuration arrays. See {@see LLMS_REST_Ability_Factory::register()}.
 		 */
@@ -109,7 +109,7 @@ class LLMS_REST_Abilities {
 	/**
 	 * Retrieve definitions for resources exposing standard CRUD abilities.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return array[]
 	 */
@@ -157,6 +157,28 @@ class LLMS_REST_Abilities {
 				'slugs'      => array( 'student', 'students' ),
 				'labels'     => array( __( 'Student', 'lifterlms' ), __( 'Students', 'lifterlms' ) ),
 				'nouns'      => array( __( 'student', 'lifterlms' ), __( 'students', 'lifterlms' ) ),
+				'list_note'  => __( 'Returns LifterLMS students only. Check the WordPress users endpoint to find out whether someone already has an account.', 'lifterlms' ),
+			),
+			array(
+				'controller' => 'LLMS_REST_Quizzes_Controller',
+				'route'      => '/llms/v1/quizzes',
+				'slugs'      => array( 'quiz', 'quizzes' ),
+				'labels'     => array( __( 'Quiz', 'lifterlms' ), __( 'Quizzes', 'lifterlms' ) ),
+				'nouns'      => array( __( 'quiz', 'lifterlms' ), __( 'quizzes', 'lifterlms' ) ),
+			),
+			array(
+				'controller' => 'LLMS_REST_Questions_Controller',
+				'route'      => '/llms/v1/questions',
+				'slugs'      => array( 'question', 'questions' ),
+				'labels'     => array( __( 'Question', 'lifterlms' ), __( 'Questions', 'lifterlms' ) ),
+				'nouns'      => array( __( 'quiz question', 'lifterlms' ), __( 'quiz questions', 'lifterlms' ) ),
+			),
+			array(
+				'controller' => 'LLMS_REST_Certificates_Controller',
+				'route'      => '/llms/v1/certificates',
+				'slugs'      => array( 'certificate', 'certificates' ),
+				'labels'     => array( __( 'Certificate Template', 'lifterlms' ), __( 'Certificate Templates', 'lifterlms' ) ),
+				'nouns'      => array( __( 'certificate template', 'lifterlms' ), __( 'certificate templates', 'lifterlms' ) ),
 			),
 		);
 	}
@@ -164,28 +186,30 @@ class LLMS_REST_Abilities {
 	/**
 	 * Build the five standard CRUD ability configurations for a resource.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $resource Resource definition. See {@see LLMS_REST_Abilities::get_crud_resources()}.
 	 * @return array[]
 	 */
 	private static function get_crud_configs( $resource ) {
 
-		list( $slug_singular, $slug_plural ) = $resource['slugs'];
+		list( $slug_singular, $slug_plural )   = $resource['slugs'];
 		list( $label_singular, $label_plural ) = $resource['labels'];
-		list( $noun_singular, $noun_plural ) = $resource['nouns'];
+		list( $noun_singular, $noun_plural )   = $resource['nouns'];
 
 		$base = array(
 			'controller' => $resource['controller'],
 		);
+
+		$list_note = empty( $resource['list_note'] ) ? '' : ' ' . $resource['list_note'];
 
 		return array(
 			$base + array(
 				'name'        => "list-{$slug_plural}",
 				// Translators: %s = plural resource label (e.g. "Courses").
 				'label'       => sprintf( __( 'List %s', 'lifterlms' ), $label_plural ),
-				// Translators: %s = plural resource noun (e.g. "courses").
-				'description' => sprintf( __( 'Retrieves a paginated list of %s from this LifterLMS site. Supports filtering, ordering, and pagination parameters.', 'lifterlms' ), $noun_plural ),
+				// Translators: %1$s = plural resource noun (e.g. "courses"); %2$s = optional resource-specific note.
+				'description' => sprintf( __( 'Retrieves a paginated list of %1$s from this LifterLMS site. Supports filtering, ordering, and pagination parameters.%2$s', 'lifterlms' ), $noun_plural, $list_note ),
 				'operation'   => 'list',
 				'method'      => 'GET',
 				'route'       => $resource['route'],
@@ -239,7 +263,7 @@ class LLMS_REST_Abilities {
 	 * Covers course content and course enrollments sub-resources, student enrollments,
 	 * and student progress.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return array[]
 	 */
@@ -335,6 +359,147 @@ class LLMS_REST_Abilities {
 					'id'      => $student_id_desc,
 					'post_id' => $post_id_desc,
 				),
+			),
+
+			// Student grades.
+			array(
+				'name'        => 'get-student-grades',
+				'label'       => __( 'Get Student Grades', 'lifterlms' ),
+				'description' => __( 'Retrieves a student\'s grades for each enrolled course, including the overall course grade and a per-lesson breakdown with lesson, quiz, and (when available via add-ons) assignment grades. Optionally filter by course.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Students_Grades_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/students/{id}/grades',
+				'path_params' => array(
+					'id' => $student_id_desc,
+				),
+			),
+
+			// Quizzes: sub-resources.
+			array(
+				'name'        => 'get-quiz-questions',
+				'label'       => __( 'Get Quiz Questions', 'lifterlms' ),
+				'description' => __( 'Retrieves the questions belonging to a quiz.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Questions_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/quizzes/{quiz_id}/questions',
+				'path_params' => array(
+					'quiz_id' => __( 'Unique quiz identifier. The WordPress post ID.', 'lifterlms' ),
+				),
+			),
+
+			// Quiz attempts.
+			array(
+				'name'        => 'list-quiz-attempts',
+				'label'       => __( 'List Quiz Attempts', 'lifterlms' ),
+				'description' => __( 'Retrieves a paginated list of student quiz attempts. Filter by status=pending to retrieve the queue of attempts awaiting manual grading.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Quiz_Attempts_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/quiz-attempts',
+			),
+			array(
+				'name'        => 'get-quiz-attempt',
+				'label'       => __( 'Get Quiz Attempt', 'lifterlms' ),
+				'description' => __( 'Retrieves the details of a single quiz attempt by its ID, including per-question answers, earned points, and remarks. Answers that are uploaded files include the file URL so the submitted file can be retrieved and reviewed.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Quiz_Attempts_Controller',
+				'operation'   => 'get',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/quiz-attempts/{id}',
+			),
+			array(
+				'name'        => 'grade-quiz-attempt',
+				'label'       => __( 'Grade Quiz Attempt', 'lifterlms' ),
+				'description' => __( 'Grades the manually-gradable questions of a quiz attempt and/or leaves per-question remarks for the student. Submitting remarks without points leaves the attempt in pending status for later sign-off.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Quiz_Attempts_Controller',
+				'operation'   => 'update',
+				'method'      => 'POST',
+				'args'        => ( new LLMS_REST_Quiz_Attempts_Controller() )->get_grade_item_args(),
+				'route'       => '/llms/v1/quiz-attempts/{id}/grade',
+				'path_params' => array(
+					'id' => __( 'Unique quiz attempt identifier.', 'lifterlms' ),
+				),
+			),
+			array(
+				'name'        => 'delete-quiz-attempt',
+				'label'       => __( 'Delete Quiz Attempt', 'lifterlms' ),
+				'description' => __( 'Deletes a quiz attempt by its ID.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Quiz_Attempts_Controller',
+				'operation'   => 'delete',
+				'method'      => 'DELETE',
+				'route'       => '/llms/v1/quiz-attempts/{id}',
+			),
+
+			// Orders (read-only).
+			array(
+				'name'        => 'list-orders',
+				'label'       => __( 'List Orders', 'lifterlms' ),
+				'description' => __( 'Retrieves a paginated list of orders from this LifterLMS site. Supports filtering by status, student, product, and access plan.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Orders_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/orders',
+			),
+			array(
+				'name'        => 'get-order',
+				'label'       => __( 'Get Order', 'lifterlms' ),
+				'description' => __( 'Retrieves the details of a single order by its ID.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Orders_Controller',
+				'operation'   => 'get',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/orders/{id}',
+			),
+			array(
+				'name'        => 'get-order-transactions',
+				'label'       => __( 'Get Order Transactions', 'lifterlms' ),
+				'description' => __( 'Retrieves the payment transactions recorded for an order.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Orders_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/orders/{id}/transactions',
+				'path_params' => array(
+					'id' => __( 'Unique order identifier. The WordPress post ID.', 'lifterlms' ),
+				),
+			),
+
+			// Awarded certificates.
+			array(
+				'name'        => 'list-awarded-certificates',
+				'label'       => __( 'List Awarded Certificates', 'lifterlms' ),
+				'description' => __( 'Retrieves a paginated list of certificates awarded to students. Supports filtering by student and certificate template.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Awarded_Certificates_Controller',
+				'operation'   => 'list',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/awarded-certificates',
+			),
+			array(
+				'name'        => 'get-awarded-certificate',
+				'label'       => __( 'Get Awarded Certificate', 'lifterlms' ),
+				'description' => __( 'Retrieves the details of a single awarded certificate by its ID.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Awarded_Certificates_Controller',
+				'operation'   => 'get',
+				'method'      => 'GET',
+				'route'       => '/llms/v1/awarded-certificates/{id}',
+			),
+			array(
+				'name'        => 'award-certificate',
+				'label'       => __( 'Award Certificate', 'lifterlms' ),
+				'description' => __( 'Awards a certificate to a student from a certificate template, generating the certificate content with merge codes resolved.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Awarded_Certificates_Controller',
+				'operation'   => 'create',
+				'method'      => 'POST',
+				'args'        => ( new LLMS_REST_Awarded_Certificates_Controller() )->get_award_args(),
+				'route'       => '/llms/v1/awarded-certificates',
+			),
+			array(
+				'name'        => 'revoke-awarded-certificate',
+				'label'       => __( 'Revoke Awarded Certificate', 'lifterlms' ),
+				'description' => __( 'Revokes (deletes) an awarded certificate by its ID.', 'lifterlms' ),
+				'controller'  => 'LLMS_REST_Awarded_Certificates_Controller',
+				'operation'   => 'delete',
+				'method'      => 'DELETE',
+				'route'       => '/llms/v1/awarded-certificates/{id}',
 			),
 
 			// Student progress.

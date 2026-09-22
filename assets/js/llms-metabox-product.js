@@ -6,8 +6,9 @@
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @since [version] Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
- * @version [version]
+ * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
+ * @since 10.1.1 Persist access plans when the block editor saves the course/membership post.
+ * @version 10.1.1
  */
 ( function( $ ) {
 
@@ -144,6 +145,8 @@
 				self.save_plans();
 			} );
 
+			self.bind_editor_save();
+
 			// bind change events to form element that controls another form element
 			self.$plans.on( 'change', '[data-controller-id]', function() {
 				self.controller_change( $( this ) );
@@ -278,12 +281,6 @@
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Hidden Access' ) ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
-						break;
-					case 'sale':
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Sale' ) ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
-						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
 						break;
 					case 'presell':
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Pre-sale' ) ).change();
@@ -616,49 +613,58 @@
 		 *
 		 * @return  array
 		 * @since   3.29.0
-		 * @version 3.29.0
+		 * @version 10.1.1
 		 */
 		this.get_plans_array = function() {
 
 			// ensure all content editors are saved properly.
 			tinyMCE.triggerSave();
 
-			var self  = this,
-				form  = self.$plans.closest( 'form' ).serializeArray(),
-				plans = [];
+			var self      = this,
+				$fields   = self.$plans.find( 'input, select, textarea' ),
+				form      = $fields.length ? $fields.serializeArray() : self.$plans.closest( 'form' ).serializeArray(),
+				plansMap  = {},
+				orderKeys = [];
 
 			for ( var i = 0; i < form.length; i++ ) {
 
-				// Skip non plan data from the form.
-				if ( -1 === form[ i ].name.indexOf( '_llms_plans' ) ) {
+				// Parse `_llms_plans[{order}][{name}]` and `_llms_plans[{order}][{name}][]`.
+				var match = form[ i ].name.match( /^_llms_plans\[(\d+)\]\[([^\]]+)\](\[\])?$/ );
+				if ( ! match ) {
 					continue;
 				}
 
-				var keys  = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
-					index = ( keys[0] * 1 ) - 1,
-					name  = keys[1].replace( ']', '' ),
-					type  = 3 === keys.length ? 'array' : 'single';
+				var orderKey = match[1],
+					name     = match[2],
+					type     = match[3] ? 'array' : 'single';
 
-				if ( ! plans[ index ] ) {
-					plans[ index ] = {};
+				if ( ! plansMap[ orderKey ] ) {
+					plansMap[ orderKey ] = {};
+					orderKeys.push( orderKey );
 				}
 
 				if ( 'array' === type ) {
 
-					if ( ! plans[ index ][ name ] ) {
-						plans[ index ][ name ] = [];
+					if ( ! plansMap[ orderKey ][ name ] ) {
+						plansMap[ orderKey ][ name ] = [];
 					}
-					plans[ index ][ name ].push( form[ i ].value );
+					plansMap[ orderKey ][ name ].push( form[ i ].value );
 
 				} else {
 
-					plans[ index ][ name ] = form[ i ].value;
+					plansMap[ orderKey ][ name ] = form[ i ].value;
 
 				}
 
 			}
 
-			return plans;
+			orderKeys.sort( function( a, b ) {
+				return ( a * 1 ) - ( b * 1 );
+			} );
+
+			return orderKeys.map( function( key ) {
+				return plansMap[ key ];
+			} );
 
 		};
 
@@ -733,6 +739,60 @@
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
+
+		};
+
+		/**
+		 * Persist access plans when the block editor saves the post.
+		 *
+		 * Access plan fields are stored via AJAX (not the post save request), so
+		 * listen for non-autosave editor saves and run the same path as "Save All Plans".
+		 *
+		 * @since 10.1.1
+		 *
+		 * @return {void}
+		 */
+		this.bind_editor_save = function() {
+
+			var self = this,
+				wasSaving = false;
+
+			// init()/bind() re-run after each AJAX save; only subscribe once.
+			if ( self.editor_save_bound ) {
+				return;
+			}
+
+			if ( ! window.wp || ! wp.data || 'function' !== typeof wp.data.subscribe ) {
+				return;
+			}
+
+			self.editor_save_bound = true;
+
+			wp.data.subscribe( function() {
+
+				var editor = wp.data.select( 'core/editor' ),
+					isSaving;
+
+				if ( ! editor || 'function' !== typeof editor.isSavingPost ) {
+					return;
+				}
+
+				// Ignore autosaves; only persist on explicit Save / Update / Publish.
+				isSaving = editor.isSavingPost() && ! editor.isAutosavingPost();
+
+				if (
+					isSaving &&
+					! wasSaving &&
+					self.$save &&
+					self.$save.length &&
+					! self.$save.is( ':disabled' )
+				) {
+					self.save_plans();
+				}
+
+				wasSaving = isSaving;
+
+			} );
 
 		};
 

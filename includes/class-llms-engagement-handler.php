@@ -109,7 +109,6 @@ class LLMS_Engagement_Handler {
 		 * }
 		 */
 		return apply_filters( "llms_proccess_{$type}_engagement", count( $errors ) ? $errors : true, $user_id, $template_id, $related_id, $engagement_id );
-
 	}
 
 	/**
@@ -134,7 +133,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return apply_filters_deprecated( $hook[0], array( $args ), '6.0.0', $hook[1] );
-
 	}
 
 	/**
@@ -187,7 +185,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return $args;
-
 	}
 
 	/**
@@ -210,8 +207,13 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function create( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$title    = get_post_meta( $template_id, "_llms_{$type}_title", true );
 		$template = get_post( $template_id );
+
+		// Templates built since 6.0 store the title on the post itself; the meta value is deprecated and often empty.
+		$title = get_post_meta( $template_id, "_llms_{$type}_title", true );
+		if ( ! $title && $template ) {
+			$title = $template->post_title;
+		}
 
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
@@ -240,7 +242,6 @@ class LLMS_Engagement_Handler {
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
 		return new $model_class( $generated->get( 'id' ) );
-
 	}
 
 	/**
@@ -290,7 +291,6 @@ class LLMS_Engagement_Handler {
 			$related_id,
 			$engagement_id
 		);
-
 	}
 
 	/**
@@ -326,7 +326,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -352,7 +351,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -425,7 +423,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return is_wp_error( $is_duplicate ) ? $is_duplicate : true;
-
 	}
 
 	/**
@@ -460,7 +457,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return 0;
-
 	}
 
 	/**
@@ -492,7 +488,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return self::create( $type, ...$args );
-
 	}
 
 	/**
@@ -572,7 +567,9 @@ class LLMS_Engagement_Handler {
 
 		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $email_id, $person_id, $related_id ? '#' . $related_id : 'N/A' );
 
-		if ( $related_id && absint( $email_id ) === absint( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) ) {
+		$sent_email_ids = $related_id ? array_map( 'absint', llms_get_user_postmeta( $person_id, $related_id, $meta_key, false ) ) : array();
+
+		if ( $related_id && in_array( absint( $email_id ), $sent_email_ids, true ) ) {
 
 			// User has already received this email, don't send it again.
 			llms_log( $msg . ' ' . __( 'not sent because of dupcheck.', 'lifterlms' ), 'engagement-emails' );
@@ -585,7 +582,8 @@ class LLMS_Engagement_Handler {
 		if ( $email && $email->send() ) {
 
 			if ( $related_id ) {
-				llms_update_user_postmeta( $person_id, $related_id, $meta_key, $email_id );
+				// Add a new record so previously sent emails for the same related post remain tracked for the dupcheck above.
+				llms_update_user_postmeta( $person_id, $related_id, $meta_key, $email_id, false );
 			}
 
 			llms_log( $msg . ' ' . __( 'sent successfully.', 'lifterlms' ), 'engagement-emails' );
@@ -595,7 +593,5 @@ class LLMS_Engagement_Handler {
 		// Error sending email.
 		llms_log( $msg . ' ' . __( 'not sent due to email sending issues.', 'lifterlms' ), 'engagement-emails' );
 		return array( new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args ) );
-
 	}
-
 }

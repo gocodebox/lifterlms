@@ -10,8 +10,8 @@
  * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @since 10.0.0 Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
- * @since [version] Revert edits as plain text unless the element allows formatting.
- * @version [version]
+ * @since 10.1.0 Revert edits as plain text unless the element allows formatting.
+ * @version 10.1.0
  */
 define( [], function() {
 
@@ -235,9 +235,15 @@ define( [], function() {
 		 */
 		init_selects: function() {
 
-			this.$el.find( '.llms-editable-select select' ).llmsSelect2( {
-				width: '100%',
-			} ).trigger( 'change' );
+			this.$el.find( '.llms-editable-select select' ).each( function() {
+				var $select = $( this );
+				$select.llmsSelect2( {
+					width: '100%',
+				} );
+				if ( ! $select.prop( 'disabled' ) ) {
+					$select.trigger( 'change' );
+				}
+			} );
 
 		},
 
@@ -318,8 +324,13 @@ define( [], function() {
 
 			event.stopPropagation();
 
-			var $el       = $( event.target ),
-				multi     = ( $el.attr( 'multiple' ) ),
+			var $el = $( event.target );
+
+			if ( $el.prop( 'disabled' ) ) {
+				return;
+			}
+
+			var multi     = ( $el.attr( 'multiple' ) ),
 				attr      = $el.attr( 'name' ),
 				$selected = $el.find( 'option:selected' ),
 				val;
@@ -477,7 +488,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  10.1.0
 		 */
 		revert_edits: function( event ) {
 
