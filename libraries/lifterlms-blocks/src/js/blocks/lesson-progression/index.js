@@ -10,7 +10,6 @@
  */
 
 // WP Deps.
-import { Button } from '@wordpress/components';
 import { select } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { Fragment } from '@wordpress/element';
@@ -95,14 +94,14 @@ export const settings = {
 			<Fragment>
 				{ extraButtons }
 				{ !! quiz && (
-					<Button className="llms-prog-btn--quiz llms-button-action auto button wp-element-button">
+					<button type="button" className="llms-prog-btn--quiz llms-button-action auto button wp-element-button">
 						{__('Take Quiz', 'lifterlms')}
-					</Button>
+					</button>
 				) }
 				{ showMainBtn && (
-					<Button className="llms-prog-btn--complete llms-field-button llms-button-primary auto button wp-element-button">
+					<button type="button" className="llms-prog-btn--complete llms-field-button llms-button-primary auto button wp-element-button">
 						{__('Mark Complete', 'lifterlms')}
-					</Button>
+					</button>
 				) }
 			</Fragment>
 			</div>
