@@ -748,6 +748,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_get_content_editor_type() {
 
+		// The test framework mocks FLBuilderModel; make sure it reports disabled.
+		global $llms_blocks_mock_fl_builder_enabled;
+		$llms_blocks_mock_fl_builder_enabled = null;
+
 		$lesson = new LLMS_Lesson( 'new', array( 'post_title' => 'Editor Type Lesson' ) );
 
 		// No content.
@@ -761,8 +765,13 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'content', "<!-- wp:paragraph -->\n<p>Blocks.</p>\n<!-- /wp:paragraph -->" );
 		$this->assertEquals( 'block', $lesson->get_content_editor_type() );
 
+		// Beaver Builder (via the mocked FLBuilderModel).
+		$lesson->set( 'content', '<p>Plain html content.</p>' );
+		$llms_blocks_mock_fl_builder_enabled = true;
+		$this->assertEquals( 'beaver_builder', $lesson->get_content_editor_type() );
+		$llms_blocks_mock_fl_builder_enabled = null;
+
 		// Third-party page builder via filter.
-		$lesson->set( 'content', '<p>Shortcode soup.</p>' );
 		$filter = function() {
 			return 'divi';
 		};
@@ -779,6 +788,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @return void
 	 */
 	public function test_to_array_content_added_in_builder_downgraded_for_blocks() {
+
+		// The test framework mocks FLBuilderModel; make sure it reports disabled.
+		global $llms_blocks_mock_fl_builder_enabled;
+		$llms_blocks_mock_fl_builder_enabled = null;
 
 		$lesson = new LLMS_Lesson( 'new', array( 'post_title' => 'Flagged Lesson' ) );
 		$lesson->set( 'content_added_in_builder', 'yes' );
