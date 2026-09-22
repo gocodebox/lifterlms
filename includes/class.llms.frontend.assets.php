@@ -25,6 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *              - `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method
  *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
  *              - `LLMS_Frontend_Assets::is_inline_script_enqueued()` method
+ * @since [version] Added `is_llms_context()` method for conditional asset loading and `llms_load_frontend_assets` filter.
  */
 class LLMS_Frontend_Assets {
 
@@ -44,6 +45,28 @@ class LLMS_Frontend_Assets {
 		'header' => array(),
 		'footer' => array(),
 	);
+
+	/**
+	 * Determine if the current frontend page is a LifterLMS context that needs assets.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	private static function is_llms_context() {
+
+		$load = is_lifterlms() || is_llms_account_page() || is_llms_checkout();
+
+		/**
+		 * Filters whether frontend assets should load on the current page.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $load Whether assets should load. Auto-detected from the current page type by default.
+		 */
+		return (bool) apply_filters( 'llms_load_frontend_assets', $load );
+
+	}
 
 	/**
 	 * Initializer
@@ -142,7 +165,10 @@ class LLMS_Frontend_Assets {
 
 		llms()->assets->register_style( 'llms-iziModal' );
 
-		llms()->assets->enqueue_style( 'webui-popover' );
+		if ( self::is_llms_context() ) {
+			llms()->assets->enqueue_style( 'webui-popover' );
+		}
+
 		llms()->assets->enqueue_style( 'lifterlms-styles' );
 
 		if ( in_array( $post_type, array( 'llms_my_certificate', 'llms_certificate' ), true ) ) {
@@ -177,12 +203,16 @@ class LLMS_Frontend_Assets {
 	 */
 	public static function enqueue_scripts() {
 
-		// I don't think we need these next 3 scripts.
-		wp_enqueue_script( 'jquery-ui-tooltip' );
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_script( 'jquery-ui-slider' );
+		// jquery-ui libs and the standalone llms-ajax script are only used on LifterLMS pages.
+		if ( self::is_llms_context() ) {
+			wp_enqueue_script( 'jquery-ui-tooltip' );
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_script( 'jquery-ui-slider' );
 
-		llms()->assets->enqueue_script( 'webui-popover' );
+			llms()->assets->enqueue_script( 'webui-popover' );
+
+			wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
+		}
 
 		llms()->assets->register_script( 'llms-jquery-matchheight' );
 		if ( is_llms_account_page() || is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
@@ -196,11 +226,9 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-notifications' );
 		}
 
-		// Doesn't seem like there's any reason to enqueue this script on the frontend.
-		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
-
-		// I think we only need this on account and checkout pages.
-		llms()->assets->enqueue_script( 'llms-form-checkout' );
+		if ( is_llms_account_page() || is_llms_checkout() ) {
+			llms()->assets->enqueue_script( 'llms-form-checkout' );
+		}
 
 		if ( is_singular( 'llms_quiz' ) ) {
 			llms()->assets->enqueue_script( 'llms-quiz' );

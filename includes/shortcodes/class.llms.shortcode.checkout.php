@@ -201,6 +201,10 @@ class LLMS_Shortcode_Checkout {
 
 		global $wp;
 
+		// Ensure checkout assets load even when the shortcode is used off the configured checkout page.
+		llms()->assets->enqueue_script( 'llms-form-checkout' );
+		llms()->assets->enqueue_style( 'lifterlms-styles' );
+
 		$atts = $atts ? $atts : array();
 
 		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 2;

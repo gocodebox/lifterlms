@@ -1,0 +1,3 @@
+significance: minor
+type: performance
+entry: "Only enqueues context-specific LifterLMS scripts and styles on LifterLMS-related pages, reducing asset loading on non-LifterLMS pages. Added the `llms_load_frontend_assets` filter to control frontend asset loading."
