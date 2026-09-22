@@ -1160,6 +1160,60 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Builder-added content later converted to blocks must not be editable or overwritten by the builder.
+	 *
+	 * The stored `content_added_in_builder` flag stays "yes" after a lesson is converted
+	 * to blocks in the block editor. The builder must detect the block content, skip the
+	 * client's content, and report the effective flag as "no" so the editor is replaced
+	 * with the outside-the-builder notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_skips_content_converted_to_blocks() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$lesson  = $course->get_lessons()[0];
+
+		// Content originally added in the builder, since converted to blocks in the block editor.
+		$block_content = "<!-- wp:paragraph -->\n<p>Converted to blocks.</p>\n<!-- /wp:paragraph -->";
+		$lesson->set( 'content', $block_content );
+		$lesson->set( 'content_added_in_builder', 'yes' );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => $lesson->get( 'id' ),
+						'content'                  => '<p>Stale builder tab content.</p>',
+						'content_added_in_builder' => 'yes',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( 'no', $res[0]['content_added_in_builder'] );
+
+		$lesson = llms_get_post( $lesson->get( 'id' ) );
+		$this->assertEquals( $block_content, $lesson->get( 'content', true ) );
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.

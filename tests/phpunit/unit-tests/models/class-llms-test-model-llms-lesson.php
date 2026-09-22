@@ -738,4 +738,62 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( false, $lessons[1]->get_previous_lesson() );
 
 	}
+
+	/**
+	 * Test get_content_editor_type()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_content_editor_type() {
+
+		$lesson = new LLMS_Lesson( 'new', array( 'post_title' => 'Editor Type Lesson' ) );
+
+		// No content.
+		$this->assertEquals( 'classic', $lesson->get_content_editor_type() );
+
+		// Plain html.
+		$lesson->set( 'content', '<p>Plain html content.</p>' );
+		$this->assertEquals( 'classic', $lesson->get_content_editor_type() );
+
+		// Block markup.
+		$lesson->set( 'content', "<!-- wp:paragraph -->\n<p>Blocks.</p>\n<!-- /wp:paragraph -->" );
+		$this->assertEquals( 'block', $lesson->get_content_editor_type() );
+
+		// Third-party page builder via filter.
+		$lesson->set( 'content', '<p>Shortcode soup.</p>' );
+		$filter = function() {
+			return 'divi';
+		};
+		add_filter( 'llms_lesson_content_editor_type', $filter );
+		$this->assertEquals( 'divi', $lesson->get_content_editor_type() );
+		remove_filter( 'llms_lesson_content_editor_type', $filter );
+	}
+
+	/**
+	 * Test toArray() downgrades `content_added_in_builder` when content is no longer classic-editable.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_to_array_content_added_in_builder_downgraded_for_blocks() {
+
+		$lesson = new LLMS_Lesson( 'new', array( 'post_title' => 'Flagged Lesson' ) );
+		$lesson->set( 'content_added_in_builder', 'yes' );
+
+		// Classic content keeps the flag.
+		$lesson->set( 'content', '<p>Added in the builder.</p>' );
+		$arr = $lesson->toArray();
+		$this->assertEquals( 'yes', $arr['content_added_in_builder'] );
+
+		// Converted to blocks: flag reads "no".
+		$lesson->set( 'content', "<!-- wp:paragraph -->\n<p>Blocks now.</p>\n<!-- /wp:paragraph -->" );
+		$arr = $lesson->toArray();
+		$this->assertEquals( 'no', $arr['content_added_in_builder'] );
+
+		// Stored meta is untouched.
+		$this->assertEquals( 'yes', $lesson->get( 'content_added_in_builder' ) );
+	}
 }
