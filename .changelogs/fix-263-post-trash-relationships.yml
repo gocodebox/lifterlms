@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#263"
+entry: Fixed stale prerequisite, restriction, and parent references left behind when courses, lessons, sections, or memberships are permanently deleted.
