@@ -460,4 +460,12 @@ a.llms-view-as {
 		margin-top: 12px;
 		width: 100%;
 	}
+
+	.llms-customer-orders-pagination {
+		align-items: center;
+		display: flex;
+		gap: 12px;
+		justify-content: flex-end;
+		margin-top: 16px;
+	}
 }

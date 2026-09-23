@@ -272,6 +272,22 @@ function llms_invalidate_customer_metrics_on_transaction_save( $post_id, $post )
 add_action( 'save_post_llms_transaction', 'llms_invalidate_customer_metrics_on_transaction_save', 20, 2 );
 
 /**
+ * Invalidate customer aggregate caches when a user is deleted.
+ *
+ * Segment counts and the high-spender threshold both exclude deleted users,
+ * so their cached values are stale as soon as an account is removed.
+ *
+ * @since [version]
+ *
+ * @param int $user_id Deleted user ID.
+ * @return void
+ */
+function llms_invalidate_customer_metrics_on_user_delete( $user_id ) {
+	llms_delete_customer_metrics_cache( $user_id );
+}
+add_action( 'deleted_user', 'llms_invalidate_customer_metrics_on_user_delete' );
+
+/**
  * Retrieve available customer segment definitions.
  *
  * @since [version]
@@ -375,6 +391,8 @@ function llms_get_customer_high_spender_threshold() {
 				AND txns.post_status IN ( 'llms-txn-succeeded', 'llms-txn-refunded' )
 			GROUP BY order_id.meta_value
 		) AS order_rev ON order_rev.order_id = orders.ID
+		INNER JOIN {$wpdb->users} AS u
+			ON u.ID = CAST( user_meta.meta_value AS UNSIGNED )
 		WHERE orders.post_type = 'llms_order'
 			AND orders.post_status NOT IN ( 'trash', 'auto-draft' )
 		GROUP BY user_meta.meta_value

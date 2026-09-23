@@ -148,14 +148,18 @@ class LLMS_Admin_Customers {
 			$stab = 'overview';
 		}
 
+		// Only the orders tab paginates; the overview must read page 1 so the billing sidebar reflects the latest order.
+		$paged = ( 'orders' === $stab ) ? max( 1, absint( llms_filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT ) ) ) : 1;
+
 		$orders_result = $student->get_orders(
 			array(
-				'count' => ( 'orders' === $stab ) ? 50 : 10,
-				'page'  => max( 1, absint( llms_filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT ) ) ),
+				'count' => ( 'orders' === $stab ) ? 25 : 10,
+				'page'  => $paged,
 			)
 		);
 
-		$latest_order = ! empty( $orders_result['orders'] ) ? $orders_result['orders'][0] : null;
+		// Orders are keyed by post ID and sorted newest first, so the first element is the latest order.
+		$latest_order = ! empty( $orders_result['orders'] ) ? reset( $orders_result['orders'] ) : null;
 
 		llms_get_template(
 			'admin/customers/customer.php',

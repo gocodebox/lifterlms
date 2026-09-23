@@ -206,13 +206,15 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		$cutoff    = $wpdb->prepare( '%s', gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( DAY_IN_SECONDS * 90 ) ) );
 		$subquery  = self::get_customers_subquery_sql();
 
+		// Join users so counts exclude deleted accounts, matching the list query.
 		return "SELECT
 			COUNT(*) AS all_count,
 			COALESCE( SUM( CASE WHEN customers.ltv >= {$threshold} AND customers.ltv > 0 THEN 1 ELSE 0 END ), 0 ) AS high_spenders,
 			COALESCE( SUM( CASE WHEN customers.active_recurring_count > 0 THEN 1 ELSE 0 END ), 0 ) AS active_subs,
 			COALESCE( SUM( CASE WHEN customers.ltv = 0 THEN 1 ELSE 0 END ), 0 ) AS free_only,
 			COALESCE( SUM( CASE WHEN customers.ltv > 0 AND customers.active_recurring_count = 0 AND customers.last_order < {$cutoff} THEN 1 ELSE 0 END ), 0 ) AS at_risk
-		FROM ( {$subquery} ) AS customers";
+		FROM ( {$subquery} ) AS customers
+		INNER JOIN {$wpdb->users} AS u ON u.ID = customers.user_id";
 	}
 
 	/**
