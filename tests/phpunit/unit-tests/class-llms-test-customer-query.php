@@ -104,6 +104,43 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test a two-character last name matches.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_search_short_name() {
+
+		$student = $this->get_mock_student();
+		$user_id = $student->get( 'id' );
+		wp_update_user(
+			array(
+				'ID'         => $user_id,
+				'last_name'  => 'Qx',
+				'first_name' => 'Searchshort',
+			)
+		);
+		$order = $this->get_mock_order( null, false, $student );
+		$order->record_transaction(
+			array(
+				'amount' => 10,
+				'status' => 'llms-txn-succeeded',
+			)
+		);
+
+		$query = new LLMS_Customer_Query(
+			array(
+				'search'   => 'Qx',
+				'per_page' => 20,
+			)
+		);
+
+		$ids = array_map( 'intval', wp_list_pluck( $query->get_customers(), 'user_id' ) );
+		$this->assertContains( $user_id, $ids );
+	}
+
+	/**
 	 * Test free_only segment.
 	 *
 	 * @since [version]
