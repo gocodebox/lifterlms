@@ -42,7 +42,7 @@ test.describe( 'SetupWizard', () => {
 		// Finish step: the importable course list comes from the mocked API.
 		await expect( page ).toHaveURL( /step=finish/ );
 		await expect(
-			page.getByRole( 'heading', { name: 'Import Sample Courses and Templates!' } )
+			page.getByRole( 'heading', { name: 'Start with a sample course or template...' } )
 		).toBeVisible();
 
 		// The import control is a CSS-styled toggle whose real checkbox sits
