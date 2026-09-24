@@ -8,8 +8,8 @@
  * @since 3.33.0 Only render on lesson post types.
  * @since 10.0.7 Use `llms_can_user_complete_lesson()` to gate rendering.
  * @since 10.1.0 Added `wp-element-button` class to the Take Quiz button so it inherits theme button styling.
- * @since [version] Disable Mark Complete / Take Quiz in markup when minimum time is not yet met.
- * @version [version]
+ * @since 10.2.1 Disable Mark Complete / Take Quiz in markup when minimum time is not yet met.
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -139,7 +139,7 @@ $time_gated = $student
 		 * Add-ons may add `data-llms-lock-{id}` attributes so the button stays
 		 * disabled until every progression requirement is met.
 		 *
-		 * @since [version]
+		 * @since 10.2.1
 		 *
 		 * @param array       $quiz_atts Attribute key/value pairs.
 		 * @param LLMS_Lesson $lesson    Lesson object.
@@ -149,7 +149,7 @@ $time_gated = $student
 		/**
 		 * Filters CSS classes for the Take Quiz button.
 		 *
-		 * @since [version]
+		 * @since 10.2.1
 		 *
 		 * @param string[]    $quiz_classes CSS class names.
 		 * @param LLMS_Lesson $lesson       Lesson object.

@@ -10,8 +10,8 @@
  * @since 3.37.18 Don't localize the price "step" html attribute.
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
  * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
- * @since [version] Link Earth Bundle in the manual-gateway payment notice.
- * @version [version]
+ * @since 10.2.1 Link Earth Bundle in the manual-gateway payment notice.
+ * @version 10.2.1
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.

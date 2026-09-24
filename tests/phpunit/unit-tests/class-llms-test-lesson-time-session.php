@@ -427,7 +427,7 @@ class LLMS_Test_Lesson_Time_Session extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_has_met_lesson_minimum_time().
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */

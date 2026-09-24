@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_plugins
  *
- * @since [version]
+ * @since 10.2.1
  */
 class LLMS_Test_Admin_Plugins extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup test class.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Admin_Plugins extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup test case.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Admin_Plugins extends LLMS_Unit_Test_Case {
 	/**
 	 * Test plugin_action_links() prepends the setup wizard link before Dashboard.
 	 *
-	 * @since [version]
+	 * @since 10.2.1
 	 *
 	 * @return void
 	 */

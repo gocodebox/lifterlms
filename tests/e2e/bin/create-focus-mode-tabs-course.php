@@ -6,7 +6,7 @@
  *
  * @package LifterLMS/Tests/E2E
  *
- * @since [version]
+ * @since 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;

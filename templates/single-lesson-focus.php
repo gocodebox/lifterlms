@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 10.0.0
- * @since [version] Render post content before `wp_head()` so block script modules populate the import map.
- * @version [version]
+ * @since 10.2.1 Render post content before `wp_head()` so block script modules populate the import map.
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;

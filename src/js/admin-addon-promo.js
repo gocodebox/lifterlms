@@ -3,7 +3,7 @@
  *
  * @package LifterLMS/Scripts/Admin
  *
- * @since [version]
+ * @since 10.2.1
  */
 
 ( function() {
