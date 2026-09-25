@@ -140,6 +140,64 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Recurring payments read as disabled on a clone even when the stored feature is still enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_feature_clone_disables_recurring_payments() {
+
+		$original_siteurl = get_option( 'siteurl' );
+		$original_lock    = get_option( 'llms_site_url' );
+
+		try {
+			LLMS_Site::update_feature( 'recurring_payments', true );
+			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+
+			update_option( 'siteurl', 'http://fakeurl.tld' );
+			$this->assertTrue( LLMS_Site::is_clone() );
+			$this->assertFalse( LLMS_Site::get_feature( 'recurring_payments' ) );
+
+			update_option( 'siteurl', $original_siteurl );
+			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+		} finally {
+			update_option( 'siteurl', $original_siteurl );
+			update_option( 'llms_site_url', $original_lock );
+		}
+
+	}
+
+	/**
+	 * A feature constant still wins when the site is a clone.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_get_feature_constant_overrides_clone() {
+
+		$original_siteurl = get_option( 'siteurl' );
+		$original_lock    = get_option( 'llms_site_url' );
+
+		try {
+			LLMS_Site::update_feature( 'recurring_payments', true );
+			update_option( 'siteurl', 'http://fakeurl.tld' );
+			$this->assertTrue( LLMS_Site::is_clone() );
+
+			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
+			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+		} finally {
+			update_option( 'siteurl', $original_siteurl );
+			update_option( 'llms_site_url', $original_lock );
+		}
+
+	}
+
 
 	/**
 	 * Test is_clone() function
