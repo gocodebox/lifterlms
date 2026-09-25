@@ -6,7 +6,8 @@
  *
  * @since 10.0.0
  * @since 10.2.1 Render post content before `wp_head()` so block script modules populate the import map.
- * @version 10.2.1
+ * @since [version] Added accessible mobile lesson navigation.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -65,12 +66,16 @@ if ( have_posts() ) {
 <div class="llms-focus-mode-wrapper">
 
 	<header class="llms-focus-mode-header">
+		<button class="llms-focus-mode-mobile-sidebar-toggle" type="button" aria-controls="llms-focus-mode-sidebar" aria-expanded="false">
+			<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+			<span><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></span>
+		</button>
 		<div class="llms-focus-mode-header-left">
 			<?php if ( 'lesson' === get_post_type() ) : ?>
 				<div class="llms-parent-course-link">
 					<a class="llms-lesson-link" href="<?php echo esc_url( get_permalink( $course_id ) ); ?>"><?php echo esc_html__( 'Back to Course', 'lifterlms' ); ?></a>
 				</div>
-			<?php elseif ( ( $current = llms_get_post( get_the_ID() ) ) && method_exists( $current, 'get' ) && $current->get( 'lesson_id' ) ) : ?>
+			<?php elseif ( $current_post && method_exists( $current_post, 'get' ) && $current_post->get( 'lesson_id' ) ) : ?>
 				<?php lifterlms_template_quiz_return_link(); ?>
 			<?php endif; ?>
 		</div>
@@ -103,7 +108,7 @@ if ( have_posts() ) {
 
 	<div class="llms-focus-mode-body">
 
-		<aside class="llms-focus-mode-sidebar">
+		<aside id="llms-focus-mode-sidebar" class="llms-focus-mode-sidebar" aria-label="<?php esc_attr_e( 'Course lessons', 'lifterlms' ); ?>" tabindex="-1">
 			<div class="llms-focus-mode-sidebar-header">
 				<h3><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h3>
 			</div>
@@ -114,11 +119,12 @@ if ( have_posts() ) {
 				}
 				?>
 			</div>
-			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
+			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-controls="llms-focus-mode-sidebar" aria-expanded="true" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
 				<svg class="llms-chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
 				<svg class="llms-chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
 			</button>
 		</aside>
+		<div class="llms-focus-mode-sidebar-backdrop" aria-hidden="true"></div>
 
 		<div class="llms-focus-mode-main">
 			<?php
