@@ -84,6 +84,7 @@ class LLMS_Loader {
 		'llms_table_notificationsettings'    => 'includes/admin/settings/tables/class.llms.table.notification.settings.php',
 		'llms_table_student_certificates'    => 'includes/admin/reporting/tables/llms.table.certificates.php',
 		'llms_table_studentmanagement'       => 'includes/admin/post-types/tables/class.llms.table.student.management.php',
+		'llms_table_customers'               => 'includes/admin/reporting/tables/class-llms-table-customers.php',
 
 		// Deprecated classes.
 		'llms_achievement_user'              => 'includes/achievements/class.llms.achievement.user.php',
@@ -353,6 +354,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-plugins.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-help-beacon.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-customers.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';

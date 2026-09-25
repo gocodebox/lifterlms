@@ -335,10 +335,12 @@
 		 */
 		this.search = function( $table, $input ) {
 
-			var val = $input.val()
-				len = val.length;
+			var val = $input.val(),
+				len = val.length,
+				// Customers must match 1–2 character names. Other tables keep the 3-character minimum.
+				min = $table.is( '#llms-gb-table-customers' ) ? 1 : 3;
 
-			if ( 0 === len || len >= 3 ) {
+			if ( 0 === len || len >= min ) {
 				this.reload( $table, {
 					page: 1,
 					search: $input.val(),

@@ -273,6 +273,13 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<?php endif; ?>
 		</div>
 
+		<?php if ( ! llms_parse_bool( $order->get( 'anonymized' ) ) && $order->get( 'user_id' ) && llms_get_student( $order->get( 'user_id' ) ) ) : ?>
+			<div class="llms-metabox-field">
+				<label><?php esc_html_e( 'Customer:', 'lifterlms' ); ?></label>
+				<a href="<?php echo esc_url( llms_get_customers_admin_url( $order->get( 'user_id' ) ) ); ?>"><?php esc_html_e( 'View customer', 'lifterlms' ); ?></a>
+			</div>
+		<?php endif; ?>
+
 		<div class="llms-metabox-field">
 			<label><?php esc_html_e( 'Buyer Email:', 'lifterlms' ); ?></label>
 			<a href="<?php echo esc_url( 'mailto:' . $order->get( 'billing_email' ) ); ?>"><?php echo esc_html( $order->get( 'billing_email' ) ); ?></a>
