@@ -178,7 +178,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Create a protected attachment post with a real file in the uploads directory.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return int Attachment post ID.
 	 */
@@ -205,7 +205,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Mock the current request with the query args parsed from a signed URL.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param string $url Signed URL as returned by LLMS_Media_Protector::get_signed_url().
 	 * @return array Parsed query args.
@@ -222,7 +222,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that get_signed_url() produces a URL with the expected parameters.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -245,7 +245,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that get_signed_url() returns an empty string for invalid media IDs.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that the llms_media_signed_url_ttl filter controls the expiration timestamp.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -290,7 +290,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that a signed URL validates via is_valid_signed_request().
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -307,7 +307,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that an expired token is rejected.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -333,7 +333,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that tampered tokens and parameters are rejected.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -380,7 +380,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 * decision and receives it, making it a safe observation point which avoids
 	 * actually serving the file.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -427,7 +427,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that handle_upload() stores the supplied authorization hook name.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

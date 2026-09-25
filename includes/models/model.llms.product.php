@@ -429,7 +429,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Invalidates the cache used by {@see LLMS_Product::has_active_subscriptions()}.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $product_id WP_Post ID of the product.
 	 * @return void
@@ -448,7 +448,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * Registered during plugin bootstrap by {@see LifterLMS::__construct()}.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -464,7 +464,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * `llms-on-hold` statuses. Any transition into or out of one of those statuses can
 	 * change the count, so the cache is invalidated on every order status change.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param string  $new_status New post status.
 	 * @param string  $old_status Old post status.
@@ -483,7 +483,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Invalidates the active-subscriptions cache when an `llms_order` post is deleted.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $post_id WP_Post ID being deleted.
 	 * @return void

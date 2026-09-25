@@ -5,7 +5,7 @@
  * (editor sidebar, quiz question list) and can stack under the sidebar.
  * This renders a single tooltip on document.body and keeps it in the viewport.
  *
- * @since [version]
+ * @since 10.2.0
  */
 define( [], function() {
 
@@ -14,7 +14,7 @@ define( [], function() {
 		/**
 		 * Tooltip element id.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @type {String}
 		 */
@@ -23,7 +23,7 @@ define( [], function() {
 		/**
 		 * Tooltip element class.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @type {String}
 		 */
@@ -32,7 +32,7 @@ define( [], function() {
 		/**
 		 * Tooltip wrapper tag.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @type {String}
 		 */
@@ -41,7 +41,7 @@ define( [], function() {
 		/**
 		 * Hover/focus delay before showing the tooltip (ms).
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @type {Number}
 		 */
@@ -50,7 +50,7 @@ define( [], function() {
 		/**
 		 * Initialize the tooltip and bind events.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {Void}
 		 */
@@ -73,7 +73,7 @@ define( [], function() {
 		/**
 		 * Bind show/hide/reposition events.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {Void}
 		 */
@@ -113,7 +113,7 @@ define( [], function() {
 		/**
 		 * Delay showing so rapid mouse movement doesn't flash tips.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param {Element} anchor Hovered or focused [data-tip] element.
 		 * @return {Void}
@@ -139,7 +139,7 @@ define( [], function() {
 		/**
 		 * Show and position the tooltip for the current anchor.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {Void}
 		 */
@@ -161,7 +161,7 @@ define( [], function() {
 		/**
 		 * Hide the tooltip.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {Void}
 		 */
@@ -176,7 +176,7 @@ define( [], function() {
 		/**
 		 * Read tooltip text from the anchor.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {String}
 		 */
@@ -195,7 +195,7 @@ define( [], function() {
 		/**
 		 * Position the tooltip in the viewport, flipping when it would overflow.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @return {Void}
 		 */

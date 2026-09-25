@@ -214,7 +214,7 @@ class LLMS_Lesson_Time_Tracking {
 	 * Used to short-circuit per-student time calculations on reporting screens
 	 * when a course has no tracked time at all.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $course_id Course post ID.
 	 * @return bool

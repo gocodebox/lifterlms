@@ -106,6 +106,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		$this->assertEquals( 'BuddyPress', $this->main->title );
 		$this->assertTrue( ! empty( $this->main->description ) );
+		$this->assertStringNotContainsString( 'Learn More', $this->main->description );
 
 	}
 

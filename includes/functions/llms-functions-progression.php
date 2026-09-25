@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -73,6 +73,34 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 }
 
 /**
+ * Determine whether a student has met a lesson's minimum time requirement.
+ *
+ * Returns true when the lesson has no minimum time, or when the student's
+ * accumulated time is at least the required number of seconds.
+ *
+ * @since 10.2.1
+ *
+ * @param int             $user_id WP User ID of the student.
+ * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
+ * @return bool
+ */
+function llms_has_met_lesson_minimum_time( $user_id, $lesson ) {
+
+	if ( ! $lesson instanceof LLMS_Lesson ) {
+		$lesson = llms_get_post( $lesson );
+	}
+
+	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
+		return true;
+	}
+
+	$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson->get( 'id' ) );
+	$required = absint( $lesson->get( 'minimum_time' ) );
+
+	return $total >= $required;
+}
+
+/**
  * Retrieve the student progress cache keys affected by a change to a given object.
  *
  * Student progress is cached in user meta under deterministic keys (e.g. `course_123_progress`,
@@ -80,7 +108,7 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
  * object's ancestor tree: the parent section (for lessons), the section itself (for sections),
  * the parent course, and the course's tracks.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @param int         $object_id   WP Post ID of a lesson, section, or course.
  * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
@@ -140,7 +168,7 @@ function llms_get_progress_cache_keys( $object_id, $object_type = null ) {
  * progress of every student at once, in contrast to `LLMS_Student::update_completion_status()`
  * which resets the cache for a single student when their own completion changes.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @param int         $object_id   WP Post ID of a lesson, section, or course.
  * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.

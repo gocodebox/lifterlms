@@ -398,7 +398,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 * The group is per-membership so {@see LLMS_Cache_Helper::invalidate_group()} can orphan
 	 * every cached associated post type for the membership in a single call.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $membership_id WP_Post ID of the membership.
 	 * @return string
@@ -410,7 +410,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Invalidates the associated-posts cache for one or more memberships.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int|int[] $membership_ids One or more membership post IDs.
 	 * @return void
@@ -430,7 +430,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 *
 	 * Registered during plugin bootstrap by {@see LifterLMS::__construct()}.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -452,7 +452,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Retrieves the meta keys that drive the associated-posts cache.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return string[]
 	 */
@@ -469,7 +469,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 * `updated_post_meta` only exposes the new value, so memberships removed from the list
 	 * would otherwise never have their cache invalidated.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param null|bool $check      Whether to allow the metadata update; returned untouched.
 	 * @param int       $object_id  WP_Post ID whose meta is being updated.
@@ -492,7 +492,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Invalidates the cache for memberships referenced by a changed meta value.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int    $meta_id    Meta row ID (unused).
 	 * @param int    $object_id  WP_Post ID whose meta changed.
@@ -514,7 +514,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Invalidates the cache when a post that may be associated to a membership is deleted, trashed, or untrashed.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $post_id WP_Post ID being deleted, trashed, or untrashed.
 	 * @return void

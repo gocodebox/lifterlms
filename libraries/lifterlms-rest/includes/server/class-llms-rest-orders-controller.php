@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Read-only controller: orders can only be created through checkout (or the admin panel),
  * so no create/update/delete routes are registered.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 
@@ -58,7 +58,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * Only read routes: orders are managed through checkout and the admin panel.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Check if a given request has access to read items.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -152,7 +152,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Checks if an order can be read.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Order $object The LLMS_Order object.
 	 * @return bool Whether the order can be read.
@@ -164,7 +164,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Whether the trash is supported.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return bool
 	 */
@@ -175,7 +175,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieves the query params for the objects collection.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -214,7 +214,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Format query arguments to retrieve a collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error
@@ -273,7 +273,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Order      $order   Order object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -323,7 +323,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Get the Order's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -517,7 +517,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve a list of transactions for the order.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -551,7 +551,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare a single transaction for the transactions list response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Transaction $transaction Transaction object.
 	 * @param LLMS_Order       $order       Parent order object.
@@ -577,7 +577,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_Order      $object  Object data.
 	 * @param WP_REST_Request $request Request object.
@@ -627,7 +627,7 @@ class LLMS_REST_Orders_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the list of order statuses with the `llms-` prefix stripped.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return string[]
 	 */

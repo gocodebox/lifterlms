@@ -47,7 +47,7 @@ class LLMS_Grades {
 	 * requested, so hooks added there would not re-register after the WordPress test suite's
 	 * `restore_hooks()` wipes them between tests.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Grades {
 	 * All of the actions registered by {@see LLMS_Grades::init_grade_cache_hooks()} pass the
 	 * student's user ID as their first parameter.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $student_id WP_User ID of the student.
 	 * @return void
@@ -76,7 +76,7 @@ class LLMS_Grades {
 	/**
 	 * Retrieves the cache group name used for a student's cached grades.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $student_id WP_User ID of the student.
 	 * @return string
@@ -92,7 +92,7 @@ class LLMS_Grades {
 	 * cached grades for the student without relying on `wp_cache_flush_group()`, which
 	 * is not supported by some persistent object cache backends.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $student_id WP_User ID of the student.
 	 * @return void

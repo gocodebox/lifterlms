@@ -123,7 +123,7 @@ class LLMS_Post_Relationships {
 	 * Structural changes alter every student's course/section progress, but the cached aggregates in
 	 * user meta are only reset when an individual student's own completion status changes.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void
@@ -144,7 +144,7 @@ class LLMS_Post_Relationships {
 	 * old ancestor tree is still readable from the database and both the old and new
 	 * ancestors' caches can be reset.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int    $meta_id    Meta row ID.
 	 * @param int    $object_id  WP Post ID.

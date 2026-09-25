@@ -112,7 +112,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Computed once per table render and reused for every row so that courses
 	 * without any tracked time skip all per-student time queries.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @var bool|null Null until computed, then true/false.
 	 */
@@ -123,7 +123,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 *
 	 * Result is computed once and cached on the instance.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return bool
 	 */

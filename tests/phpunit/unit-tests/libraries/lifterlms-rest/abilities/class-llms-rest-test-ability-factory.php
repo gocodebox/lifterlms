@@ -7,7 +7,7 @@
  * @group REST
  * @group rest_abilities
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 
@@ -28,7 +28,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that `id` is copied onto a unique non-id path parameter.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -51,7 +51,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that an explicit parent path param is not overwritten by `id`.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test input schema accepts either the named parent param or `id`.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that delete operation input schemas expose the `force` param.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that list operations strip rendered fields when a raw counterpart exists.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -184,7 +184,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that input schemas reject unknown properties.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -215,7 +215,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that a list operation returning a deliberate REST 404 yields an empty array.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -245,7 +245,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that read operations default the context to edit.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -304,7 +304,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that get-student returns edit fields when context is omitted.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -369,7 +369,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that a REST 404 from the permission check is treated as allowed.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -392,7 +392,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that authorization failures from the permission check remain denied.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

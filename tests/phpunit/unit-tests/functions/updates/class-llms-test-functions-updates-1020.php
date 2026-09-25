@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_1020
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_Test_Functions_Updates_1020 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_1020 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Updates_1020 extends LLMS_UnitTestCase {
 	/**
 	 * Test delete_zero_lesson_time_caches().
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Test_Functions_Updates_1020 extends LLMS_UnitTestCase {
 	/**
 	 * Test update_db_version().
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

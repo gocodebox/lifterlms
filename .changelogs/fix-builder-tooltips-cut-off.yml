@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3315"
-entry: Fixed course builder tooltips being clipped by the editor sidebar and outline.

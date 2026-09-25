@@ -4,8 +4,8 @@
  *
  * @package LifterLMS_REST/Classes/Controllers
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * used by engagements and the admin "Award Certificate" flow — so merge codes are rendered,
  * the sequential ID is incremented, and notifications/webhooks fire.
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controller {
 
@@ -66,7 +66,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Register routes.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	 *
 	 * Public so the award ability can derive its input schema from the same definition.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array
 	 */
@@ -158,7 +158,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Check if a given request has access to read items.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -175,7 +175,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Checks if an awarded certificate can be read.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $object The awarded certificate object.
 	 * @return bool Whether the awarded certificate can be read.
@@ -187,7 +187,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Check if a given request has access to award a certificate.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -204,7 +204,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Check if a given request has access to delete (revoke) an awarded certificate.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -224,7 +224,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	 * `llms_get_post()` can't map the `llms_my_certificate` post type to its model
 	 * (`LLMS_User_Certificate`), so the object is instantiated directly.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int|WP_Post $id Object ID or already retrieved WP_Post.
 	 * @return LLMS_User_Certificate|WP_Error
@@ -242,7 +242,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Award a certificate to a student.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -288,7 +288,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Extract the first WP_Error from an engagement handler result.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param mixed $result Result from `LLMS_Engagement_Handler::handle_certificate()`.
 	 * @return WP_Error|false
@@ -316,7 +316,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	 * When force-deleting, revocation goes through `LLMS_User_Certificate::delete()` so the
 	 * student's earned record (user postmeta) is removed and deletion hooks fire.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -347,7 +347,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Retrieves the query params for the objects collection.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -371,7 +371,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Format query arguments to retrieve a collection of objects.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error
@@ -397,7 +397,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Prepare a single object output for response.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $certificate Awarded certificate object.
 	 * @param WP_REST_Request       $request     Full details about the request.
@@ -421,7 +421,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Get the Awarded Certificate's schema, conforming to JSON Schema.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return array Item schema data.
 	 */
@@ -487,7 +487,7 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param LLMS_User_Certificate $object  Object data.
 	 * @param WP_REST_Request       $request Request object.

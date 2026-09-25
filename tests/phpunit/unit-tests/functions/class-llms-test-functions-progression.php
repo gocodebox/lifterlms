@@ -38,7 +38,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the llms_get_progress_cache_keys() function.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that trashing, untrashing, and deleting a lesson resets all students' cached progress.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that reparenting a lesson resets cached progress for both the old and new ancestor trees.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

@@ -114,7 +114,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The name of the URL parameter for a signed download URL's expiration timestamp.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @var string
 	 */
@@ -123,7 +123,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The name of the URL parameter for a signed download URL's HMAC token.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @var string
 	 */
@@ -135,7 +135,7 @@ class LLMS_Media_Protector {
 	 * Not used for validation. Appended last so the URL string ends with the file
 	 * extension, which helps clients that detect file types from the URL.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @var string
 	 */
@@ -454,7 +454,7 @@ class LLMS_Media_Protector {
 	 * already verified the current user may access the file (e.g. REST responses
 	 * behind a permission check).
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @param int $ttl      Optional. Number of seconds the URL remains valid. Default `HOUR_IN_SECONDS`.
@@ -471,7 +471,7 @@ class LLMS_Media_Protector {
 		/**
 		 * Filters the number of seconds a signed media download URL remains valid.
 		 *
-		 * @since [version]
+		 * @since 10.2.0
 		 *
 		 * @param int $ttl      Time-to-live, in seconds.
 		 * @param int $media_id The post ID of the media file.
@@ -498,7 +498,7 @@ class LLMS_Media_Protector {
 	/**
 	 * Computes the HMAC token for a signed media download URL.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @param int $expires  Unix timestamp when the token expires.
@@ -512,7 +512,7 @@ class LLMS_Media_Protector {
 	 * Determines whether the current request carries a valid, unexpired signed URL token
 	 * for the given media file.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @return bool

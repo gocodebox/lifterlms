@@ -400,7 +400,7 @@ class LLMS_REST_Ability_Factory {
 	 * that bloat agent context without adding information beyond the `raw` value.
 	 * `rendered` is preserved when no `raw` counterpart exists (e.g. `view` context requests).
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param mixed $data Response data.
 	 * @return mixed

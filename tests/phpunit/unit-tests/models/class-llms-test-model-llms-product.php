@@ -501,7 +501,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * Test `has_active_subscriptions()` using cache mechanism.
 	 *
 	 * @since 5.4.0
-	 * @since [version] The cache is now invalidated on order status transitions, so the
+	 * @since 10.2.0 The cache is now invalidated on order status transitions, so the
 	 *                  cached and fresh reads always agree after a status change.
 	 *
 	 * @return void

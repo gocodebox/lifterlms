@@ -7,7 +7,7 @@
  * @group REST
  * @group rest_grades
  *
- * @since [version]
+ * @since 10.2.0
  */
 class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case_Server {
 
@@ -21,7 +21,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Setup our test server, endpoints, and user info.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Get route.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @param int $student_id Student identifier.
 	 * @return string
@@ -51,7 +51,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test route registration.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test permissions.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test getting grades: course/lesson/quiz grade math.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test lessons without a quiz have a `null` quiz block.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test the `course` collection filter and pagination totals.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

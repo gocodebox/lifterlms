@@ -280,6 +280,8 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		$this->assertStringContains( '<div id="llms-setup-wizard">', $output );
 		$this->assertStringContains( '<h1 id="llms-logo">', $output );
 		$this->assertStringContains( '<ul class="llms-setup-progress">', $output );
+		$this->assertStringContains( 'admin.php?page=llms-dashboard', $output );
+		$this->assertStringContains( 'Skip setup', $output );
 
 	}
 

@@ -1172,7 +1172,7 @@ class LLMS_REST_Test_Students_Controllers extends LLMS_REST_Unit_Test_Case_Users
 	/**
 	 * Test search is not limited to the student role.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

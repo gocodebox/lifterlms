@@ -37,7 +37,7 @@ class LLMS_Cache_Helper {
 	 * The cached value contains absolute paths derived from the active theme; on hosts with a
 	 * persistent object cache the stale paths would otherwise survive a theme switch.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

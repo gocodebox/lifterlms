@@ -123,11 +123,25 @@ test.describe( 'Course Builder / Quiz Save', () => {
 		expect( stackErrors, `Unexpected stack overflow: ${ stackErrors.join( '; ' ) }` ).toHaveLength( 0 );
 
 		// Reload — quiz and question should still be attached.
+		// Opening the quiz sets #lesson:{id}:quiz, so the builder deep-links back
+		// into the editor. Clicking .edit-quiz again destroys that view while
+		// questions are lazy-loaded and the list never paints.
 		await page.reload();
 		await page.locator( '.wrap.lifterlms.llms-builder' ).waitFor( { state: 'visible' } );
-		await page.locator( `#llms-lesson-${ lesson.id } .edit-quiz` ).click();
+		await page.locator( `#llms-lesson-${ lesson.id }` ).waitFor( { state: 'visible' } );
+
+		const quizEditor = page.locator( '#llms-editor-quiz.active' );
+		const deepLinked = await quizEditor
+			.waitFor( { state: 'visible', timeout: 15000 } )
+			.then( () => true )
+			.catch( () => false );
+		if ( ! deepLinked ) {
+			await page.locator( `#llms-lesson-${ lesson.id } .edit-quiz` ).click();
+			await expect( quizEditor ).toBeVisible();
+		}
+
 		const savedQuestion = page.locator( '#llms-editor-quiz #llms-quiz-questions .llms-question' ).first();
-		await expect( savedQuestion ).toBeVisible( { timeout: 10000 } );
+		await expect( savedQuestion ).toBeVisible( { timeout: 15000 } );
 		// Title lives in the collapsed header; expand for choice text if needed.
 		await savedQuestion.locator( '.expand--question' ).click( { force: true } );
 		await expect( savedQuestion ).toContainText( '1+1=' );

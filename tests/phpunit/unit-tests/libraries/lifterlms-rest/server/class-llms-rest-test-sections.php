@@ -122,7 +122,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Test filtering sections by parent via the `parent_id` alias.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -247,7 +247,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Test creating sections without order assigns sequential sibling order.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -271,6 +271,36 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 		$this->assertEquals( 201, $second->get_status() );
 		$this->assertEquals( 1, $first->get_data()['order'] );
 		$this->assertEquals( 2, $second->get_data()['order'] );
+	}
+
+	/**
+	 * Test creating a section with an explicit order shifts the existing siblings.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_create_section_explicit_order_shifts_siblings() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course   = $this->factory->course->create_and_get( array( 'sections' => 2, 'lessons' => 0 ) );
+		$existing = $course->get_sections( 'ids' );
+
+		$section_args              = $this->sample_section_args;
+		$section_args['parent_id'] = $course->get( 'id' );
+		$section_args['order']     = 2;
+
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_body_params( $section_args );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 201, $response->get_status() );
+		$this->assertEquals( 2, $response->get_data()['order'] );
+
+		// The former section at position 2 is shifted; orders remain unique and sequential.
+		$this->assertEquals( 1, llms_get_post( $existing[0] )->get( 'order' ) );
+		$this->assertEquals( 3, llms_get_post( $existing[1] )->get( 'order' ) );
 	}
 
 	/**

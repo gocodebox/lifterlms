@@ -140,7 +140,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test access plan button output allows safe HTML in custom label text.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test access plan button output strips disallowed markup from custom label text.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -180,7 +180,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test access plan button output sanitizes the plan enroll text fallback.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
@@ -205,7 +205,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test the access plan button block sanitizes its text attribute.
 	 *
-	 * @since [version]
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

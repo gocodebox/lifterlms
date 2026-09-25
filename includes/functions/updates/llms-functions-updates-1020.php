@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 10.2.0
+ * @version 10.2.0
  */
 
 namespace LLMS\Updates\Version_10_2_0;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @access private
  *
@@ -38,7 +38,7 @@ function _get_db_version() {
  * Course-level (`llms_course_time_{$course_id}`) rows are intentionally kept, as
  * reports still use them and would recreate them on the next render.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @return bool Returns `true` if more records need to be deleted and `false` upon completion.
  */
@@ -66,7 +66,7 @@ function delete_zero_lesson_time_caches() {
 /**
  * Update db version to 10.2.0.
  *
- * @since [version]
+ * @since 10.2.0
  *
  * @return false
  */
