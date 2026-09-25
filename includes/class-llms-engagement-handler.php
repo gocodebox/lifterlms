@@ -569,7 +569,25 @@ class LLMS_Engagement_Handler {
 
 		$sent_email_ids = $related_id ? array_map( 'absint', llms_get_user_postmeta( $person_id, $related_id, $meta_key, false ) ) : array();
 
-		if ( $related_id && in_array( absint( $email_id ), $sent_email_ids, true ) ) {
+		$is_duplicate = $related_id && in_array( absint( $email_id ), $sent_email_ids, true );
+
+		/**
+		 * Filters whether or not an engagement email is considered a duplicate and should be skipped.
+		 *
+		 * Used by scan-based (inactivity) triggers to allow a re-armed engagement to resend
+		 * an email which was previously sent for the same related post.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean    $is_duplicate  Whether the email is considered a duplicate.
+		 * @param int        $person_id     WP_User ID of the recipient.
+		 * @param int        $email_id      WP_Post ID of the `llms_email` template.
+		 * @param int|string $related_id    WP_Post ID of the related post or an empty string.
+		 * @param int|null   $engagement_id WP_Post ID of the `llms_engagement` post, if known.
+		 */
+		$is_duplicate = apply_filters( 'llms_engagement_email_dupcheck', $is_duplicate, $person_id, $email_id, $related_id, $args[3] ?? null );
+
+		if ( $is_duplicate ) {
 
 			// User has already received this email, don't send it again.
 			llms_log( $msg . ' ' . __( 'not sent because of dupcheck.', 'lifterlms' ), 'engagement-emails' );

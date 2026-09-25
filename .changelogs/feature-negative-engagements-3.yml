@@ -1,0 +1,3 @@
+significance: minor
+type: changed
+entry: "Scan-based engagement triggers now support an optional \"Activity on or after\" date (prefilled with three months ago for new engagements) to limit how far back the scan reaches, the days-since-login trigger only targets students with an enrolled course they have not completed, and saving a scan-based engagement warns when the next daily scan would fire for a large number of students."

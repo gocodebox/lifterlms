@@ -68,6 +68,17 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'course_completed',
 					'course_enrollment',
 					'course_purchased',
+					'course_progress',
+					'course_grade_below',
+					'course_enrollment_cancelled',
+					'course_enrollment_expired',
+					'course_inactivity',
+					'course_never_started',
+					'course_completion_deadline',
+					'order_failed',
+					'order_refunded',
+					'order_cancelled',
+					'days_since_login',
 				),
 				'id'               => '_faux_engagement_trigger_post_course',
 				'label'            => __( 'Select a Course', 'lifterlms' ),
@@ -94,6 +105,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				'controller_value' => array(
 					'membership_enrollment',
 					'membership_purchased',
+					'membership_enrollment_cancelled',
+					'membership_enrollment_expired',
+					'order_failed',
+					'order_refunded',
+					'order_cancelled',
+					'days_since_login',
 				),
 				'id'               => '_faux_engagement_trigger_post_membership',
 				'label'            => __( 'Select a Membership', 'lifterlms' ),
@@ -105,6 +122,8 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'quiz_completed',
 					'quiz_passed',
 					'quiz_failed',
+					'quiz_failed_multiple',
+					'quiz_attempt_abandoned',
 				),
 				'id'               => '_faux_engagement_trigger_post_quiz',
 				'label'            => __( 'Select a Quiz', 'lifterlms' ),
@@ -219,6 +238,116 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		);
 
 		$fields[] = array(
+			'class'            => 'input-full',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/**
+				 * Filters the list of triggers which display the percentage threshold field.
+				 *
+				 * @since [version]
+				 *
+				 * @param string[] $triggers List of trigger type slugs.
+				 */
+				apply_filters( 'llms_engagement_percentage_controller_values', array( 'course_progress', 'course_grade_below' ) )
+			),
+			'desc'             => __( 'Enter the percentage threshold for this trigger (1-100).', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_trigger_percentage',
+			'label'            => __( 'Percentage', 'lifterlms' ),
+			'min'              => 1,
+			'max'              => 100,
+			'type'             => 'number',
+		);
+
+		$fields[] = array(
+			'class'            => 'input-full',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/**
+				 * Filters the list of triggers which display the inactivity period field.
+				 *
+				 * Add-ons registering scan-based triggers via `llms_scannable_engagement_triggers`
+				 * should also register their trigger slugs here so the period field displays.
+				 *
+				 * @since [version]
+				 *
+				 * @param string[] $triggers List of trigger type slugs.
+				 */
+				apply_filters(
+					'llms_engagement_period_controller_values',
+					array(
+						'days_since_login',
+						'course_inactivity',
+						'course_never_started',
+						'course_completion_deadline',
+						'quiz_attempt_abandoned',
+					)
+				)
+			),
+			'desc'             => __( 'Enter the number of days of inactivity required to trigger this engagement. This field is required and the trigger is checked once daily.', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_trigger_period',
+			'label'            => __( 'Number of Days', 'lifterlms' ),
+			'min'              => 1,
+			'type'             => 'number',
+		);
+
+		$fields[] = array(
+			'class'            => 'llms-datepicker',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/**
+				 * Filters the list of triggers which display the "Activity on or after" date field.
+				 *
+				 * Add-ons registering scan-based triggers via `llms_scannable_engagement_triggers`
+				 * should also register their trigger slugs here so the date floor field displays.
+				 *
+				 * @since [version]
+				 *
+				 * @param string[] $triggers List of trigger type slugs.
+				 */
+				apply_filters(
+					'llms_engagement_since_controller_values',
+					array(
+						'days_since_login',
+						'course_inactivity',
+						'course_never_started',
+						'course_completion_deadline',
+						'quiz_attempt_abandoned',
+					)
+				)
+			),
+			'date_format'      => 'yy-mm-dd',
+			'default'          => gmdate( 'Y-m-d', strtotime( '-3 months', llms_current_time( 'timestamp' ) ) ),
+			'desc'             => __( 'Only students whose last relevant activity (login, course progress, enrollment, or quiz attempt) is on or after this date will be included. Leave blank to include every student who currently exceeds the number of days, including those inactive for months.', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_trigger_since',
+			'label'            => __( 'Activity on or after', 'lifterlms' ),
+			'type'             => 'date',
+		);
+
+		$fields[] = array(
+			'class'            => 'input-full',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/**
+				 * Filters the list of triggers which display the failure count field.
+				 *
+				 * @since [version]
+				 *
+				 * @param string[] $triggers List of trigger type slugs.
+				 */
+				apply_filters( 'llms_engagement_count_controller_values', array( 'quiz_failed_multiple' ) )
+			),
+			'desc'             => __( 'Enter the number of failed attempts required to trigger this engagement.', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_trigger_count',
+			'label'            => __( 'Number of Failures', 'lifterlms' ),
+			'min'              => 1,
+			'type'             => 'number',
+		);
+
+		$fields[] = array(
 			'class'   => 'input-full',
 			'default' => 0,
 			'desc'    => __( 'Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately.', 'lifterlms' ),
@@ -318,6 +447,13 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			case 'course_completed':
 			case 'course_purchased':
 			case 'course_enrollment':
+			case 'course_progress':
+			case 'course_grade_below':
+			case 'course_enrollment_cancelled':
+			case 'course_enrollment_expired':
+			case 'course_inactivity':
+			case 'course_never_started':
+			case 'course_completion_deadline':
 				$var = 'course';
 				break;
 
@@ -327,12 +463,16 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 			case 'membership_purchased':
 			case 'membership_enrollment':
+			case 'membership_enrollment_cancelled':
+			case 'membership_enrollment_expired':
 				$var = 'membership';
 				break;
 
 			case 'quiz_completed':
 			case 'quiz_passed':
 			case 'quiz_failed':
+			case 'quiz_failed_multiple':
+			case 'quiz_attempt_abandoned':
 				$var = 'quiz';
 				break;
 
@@ -344,8 +484,27 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				$var = 'track';
 				break;
 
+			// These triggers can be scoped to either a course or a membership.
+			case 'order_failed':
+			case 'order_refunded':
+			case 'order_cancelled':
+			case 'days_since_login':
+				$var = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_course' ) ? 'course' : 'membership';
+				break;
+
 			default:
-				$var = false;
+				/**
+				 * Filters the faux trigger-post field suffix used to store the trigger post for third-party trigger types.
+				 *
+				 * Allows add-ons registering custom engagement triggers to reuse the existing
+				 * trigger-post pickers (e.g. return 'course' to store the course picker's value).
+				 *
+				 * @since [version]
+				 *
+				 * @param string|false $var  The field suffix or `false` when the trigger has no related post.
+				 * @param string       $type The engagement trigger type slug.
+				 */
+				$var = apply_filters( 'llms_engagement_trigger_post_field', false, $type );
 
 		}
 
@@ -357,7 +516,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			if ( empty( $val ) ) {
 				$val = 'any';
 			}
-
 		} else {
 
 			$val = '';
