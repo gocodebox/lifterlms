@@ -90,18 +90,13 @@ class LLMS_Admin_Post_Table_Orders {
 				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
 					echo esc_html( $order->get_customer_name() );
 				} else {
-					$user_id        = $order->get( 'user_id' );
-					$customer_url   = $user_id ? llms_get_customers_admin_url( $user_id ) : '';
-					$edit_user_link = $user_id ? get_edit_user_link( $user_id ) : '';
-					if ( ! $customer_url ) {
-						echo esc_html( $order->get_customer_name() ) . '<br>';
-					} else {
-						echo '<a href="' . esc_url( $customer_url ) . '">' . esc_html( $order->get_customer_name() ) . '</a>';
-						if ( $edit_user_link ) {
-							echo ' <a href="' . esc_url( $edit_user_link ) . '">(' . esc_html__( 'edit user', 'lifterlms' ) . ')</a>';
-						}
-						echo '<br>';
+					$edit_user_link = $order->get( 'user_id' ) ? get_edit_user_link( $order->get( 'user_id' ) ) : '';
+					echo ! $edit_user_link ? esc_html( $order->get_customer_name() ) : '<a href="' . esc_url( $edit_user_link ) . '">' . esc_html( $order->get_customer_name() ) . '</a>';
+					$customer_url = $order->get( 'user_id' ) ? llms_get_customers_admin_url( $order->get( 'user_id' ) ) : '';
+					if ( $customer_url ) {
+						echo ' <a href="' . esc_url( $customer_url ) . '">(' . esc_html__( 'customer', 'lifterlms' ) . ')</a>';
 					}
+					echo '<br>';
 					echo '<a href="' . esc_url( 'mailto:' . $order->get( 'billing_email' ) ) . '">' . esc_html( $order->get( 'billing_email' ) ) . '</a>';
 				}
 
