@@ -9,6 +9,11 @@
 // Admin UI always uses LifterLMS button chrome; theme inheritance via
 // `wp-element-button` is front-end only (settings, reporting, notices, etc.).
 $llms-buttons-theme-inherit: false;
+// Gutenberg copies any stylesheet whose selectors contain `.wp-block` into the
+// editor iframe. Omit those form-field column rules from admin.css so LifterLMS
+// admin chrome does not leak into the canvas. Frontend CSS still includes them
+// via `add_editor_style`.
+$llms-form-field-wp-block-layout: false;
 @import "_includes/buttons";
 @import "_includes/mixins";
 

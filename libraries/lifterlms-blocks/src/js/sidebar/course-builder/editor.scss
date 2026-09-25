@@ -45,24 +45,21 @@
 	display: none;
 }
 
-.post-type-course,
-.post-type-lesson,
-.post-type-llms_membership {
-
-	.llms-button-primary {
-		-webkit-appearance:none;
-		display: inline-flex;
-		justify-content: center;
-		font-size: 14px;
-		font-weight: 400;
-		border-radius: 2px;
-		height: 38px;
-	}
+// Scope to the Launch Course Builder controls. Gutenberg copies any stylesheet
+// whose selectors contain `.wp-block` into the editor iframe; this file is
+// bundled with block editor.scss that does, so a bare `.llms-button-primary`
+// rule restyles Access Plan / other canvas buttons.
+.llms-launch-course-builder .llms-button-primary,
+#llms-launch-course-builder-top-button {
+	-webkit-appearance: none;
+	border-radius: 2px;
+	display: inline-flex;
+	font-size: 14px;
+	font-weight: 400;
+	height: 38px;
+	justify-content: center;
 }
 
-.llms-launch-course-builder {
-
-	.llms-button-primary {
-		width: 100%;
-	}
+.llms-launch-course-builder .llms-button-primary {
+	width: 100%;
 }
