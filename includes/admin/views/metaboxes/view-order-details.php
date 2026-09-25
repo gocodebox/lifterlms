@@ -285,9 +285,20 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				<?php if ( isset( $order->billing_address_2 ) ) : ?>
 					<?php echo esc_html( $order->get( 'billing_address_2' ) ); ?><br>
 				<?php endif; ?>
-				<?php echo esc_html( $order->get( 'billing_city' ) ); ?>,
-				<?php echo esc_html( $order->get( 'billing_state' ) ); ?>,
-				<?php echo esc_html( $order->get( 'billing_zip' ) ); ?><br>
+				<?php
+				// Collect city, state, zip and filter out empty values.
+				$order_address_array = array_filter(
+					array(
+						$order->get( 'billing_city' ),
+						$order->get( 'billing_state' ),
+						$order->get( 'billing_zip' ),
+					)
+				);
+				// Output joined with commas only if there is at least one non-empty value.
+				if ( ! empty( $order_address_array ) ) {
+					echo esc_html( implode( ', ', $order_address_array ) ) . '<br>';
+				}
+				?>
 				<?php echo esc_html( llms_get_country_name( $order->get( 'billing_country' ) ) ); ?>
 			</div>
 		<?php endif; ?>
