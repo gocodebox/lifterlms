@@ -190,6 +190,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'all_instructors', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 
