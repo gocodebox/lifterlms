@@ -1,18 +1,21 @@
 /**
  * Single Section View
+ *
  * @since    3.13.0
- * @version  3.16.12
+ * @version  [version]
  */
 define( [
 		'Views/LessonList',
 		'Views/_Editable',
 		'Views/_Shiftable',
-		'Views/_Trashable'
+		'Views/_Trashable',
+		'Views/ExistingLessonPopover'
 	], function(
 		LessonListView,
 		Editable,
 		Shiftable,
-		Trashable
+		Trashable,
+		show_existing_lesson_popover
 	) {
 
 	return Backbone.View.extend( _.defaults( {
@@ -39,7 +42,7 @@ define( [
 		 * Events
 		 * @type     {Object}
 		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @version  [version]
 		 */
 		events: _.defaults( {
 
@@ -48,6 +51,7 @@ define( [
 			'click .shift-up--section': 'shift_up',
 			'click .shift-down--section': 'shift_down',
 			'click .new-lesson': 'add_new_lesson',
+			'click .existing-lesson': 'add_existing_lesson',
 			'click .llms-builder-header': 'toggle',
 			'mouseenter .llms-lessons': 'on_mouseenter',
 
@@ -131,6 +135,23 @@ define( [
 
 			Backbone.pubSub.trigger( 'section-select', this.model );
 			Backbone.pubSub.trigger( 'add-new-lesson' );
+
+		},
+
+		/**
+		 * Open the existing-lesson search popover for this section.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
+		 */
+		add_existing_lesson: function( event ) {
+
+			event.preventDefault();
+
+			Backbone.pubSub.trigger( 'section-select', this.model );
+			show_existing_lesson_popover( event.currentTarget, 'top' );
 
 		},
 
