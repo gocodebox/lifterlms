@@ -1,0 +1,46 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique awarded certificate identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve an awarded certificate
+  description: Retrieve the details of an existing awarded certificate.
+  tags:
+    - Awarded Certificates
+  responses:
+    200:
+      description: Successfully retrieved the awarded certificate.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AwardedCertificate'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Revoke an awarded certificate
+  description: Revoke (delete) an awarded certificate. This action cannot be undone.
+  tags:
+    - Awarded Certificates
+  parameters:
+    - name: force
+      description: Bypass the trash and force awarded certificate deletion.
+      in: query
+      schema:
+        type: boolean
+        default: false
+  responses:
+    204:
+      description: Successfully revoked the awarded certificate.
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

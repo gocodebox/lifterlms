@@ -26,7 +26,7 @@ properties:
     example: '2019-05-20 13:25:05'
     readOnly: true
   menu_order:
-    description: Custom post sort order.
+    description: Order of the post among its siblings. Used for ordering questions within a quiz, lessons within a section, and similar hierarchical relationships.
     type: integer
     default: 0
     minimum: 0

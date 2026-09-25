@@ -229,6 +229,37 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create() falls back to the template's post title when the deprecated title meta is empty.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_create_title_falls_back_to_post_title() {
+
+		$user_id     = $this->factory->user->create();
+		$template_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'llms_certificate',
+				'post_title'   => 'Certificate Of Completion',
+				'post_content' => '{site_title}',
+			)
+		);
+
+		$earned = LLMS_Unit_Test_Util::call_method( 'LLMS_Engagement_Handler', 'create', array( 'certificate', $user_id, $template_id ) );
+
+		$this->assertInstanceOf( 'LLMS_User_Certificate', $earned );
+		$this->assertEquals( 'Certificate Of Completion', $earned->get( 'title' ) );
+
+		// The deprecated meta value still wins when present.
+		update_post_meta( $template_id, '_llms_certificate_title', 'Meta Title' );
+
+		$earned = LLMS_Unit_Test_Util::call_method( 'LLMS_Engagement_Handler', 'create', array( 'certificate', $user_id, $template_id ) );
+
+		$this->assertEquals( 'Meta Title', $earned->get( 'title' ) );
+	}
+
+	/**
 	 * Test do_deprecated_creation_filters()
 	 *
 	 * @since 6.0.0

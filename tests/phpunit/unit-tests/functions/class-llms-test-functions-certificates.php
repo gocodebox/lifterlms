@@ -252,6 +252,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 		$ret = llms_get_certificate_merge_codes();
 		$this->assertIsArray( $ret );
+		$this->assertArrayHasKey( '{student_name}', $ret );
 		foreach ( $ret as $code => $desc ) {
 
 			$this->assertEquals( '{', $code[0] );

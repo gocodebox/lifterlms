@@ -1746,15 +1746,20 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$timestamp = current_time( 'timestamp' ) + $current_rule['delay'];
 
-		$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $timestamp ) );
+		/**
+		 * The status must be set before scheduling the retry: transitioning an active order to on-hold
+		 * fires `LLMS_Controller_Orders::error_order()`, which unschedules pending recurring payments
+		 * and would cancel a retry scheduled prior to the status change.
+		 */
 		$this->set_status( $current_rule['status'] );
+		$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $timestamp ) );
 		$this->set( 'last_retry_rule', $current_rule_index );
 
 		$this->add_note(
 			sprintf(
 				// Translators: %s = next attempt date.
 				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
-				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
+				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
 			)
 		);
 

@@ -531,6 +531,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_lesson_time_sessions` (
   `flagged_gaps` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_user_lesson` (`user_id`, `lesson_id`),
+  KEY `idx_lesson` (`lesson_id`),
   KEY `idx_token` (`session_token`),
   KEY `idx_user_open` (`user_id`, `session_end`)
 ) $collate;

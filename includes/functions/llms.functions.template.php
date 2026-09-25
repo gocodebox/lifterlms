@@ -237,7 +237,9 @@ function llms_get_template_override_directories() {
 			),
 			'is_dir'
 		);
-		wp_cache_set( 'theme-override-directories', $dirs, 'llms_template_functions' );
+		// Expire so newly created or removed theme `lifterlms` directories are picked up
+		// on persistent object caches; the cache is also deleted on `switch_theme`.
+		wp_cache_set( 'theme-override-directories', $dirs, 'llms_template_functions', DAY_IN_SECONDS );
 	}
 
 	/**

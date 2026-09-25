@@ -225,9 +225,121 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			}
 
 			$prepared_item['order'] = $request['order'];
+		} elseif ( empty( $request['id'] ) && ! is_wp_error( $prepared_item ) && ! empty( $prepared_item['parent_course'] ) ) {
+			$prepared_item['order'] = $this->get_next_order( $prepared_item['parent_course'] );
 		}
 
 		return $prepared_item;
+	}
+
+	/**
+	 * Retrieve the next order for a new section in a course.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $parent_id Course post ID.
+	 * @return int
+	 */
+	protected function get_next_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'section',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_course',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_meta( $query->posts[0], '_llms_order', true ) ) + 1;
+	}
+
+	/**
+	 * Resequence section orders after a create/update with an explicit order.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param LLMS_Section    $section       LLMS_Section instance.
+	 * @param WP_REST_Request $request       Full details about the request.
+	 * @param array           $schema        The item schema.
+	 * @param array           $prepared_item Prepared item array.
+	 * @param bool            $creating      Optional. Whether we're in creation or update phase. Default true (create).
+	 * @return bool|WP_Error True on success or false if nothing to update, WP_Error object if something went wrong during the update.
+	 */
+	protected function update_additional_object_fields( $section, $request, $schema, $prepared_item, $creating = true ) {
+
+		// An explicit order is a position request: resequence siblings so orders stay unique.
+		if ( ! empty( $schema['properties']['order'] ) && ! empty( $request['order'] ) ) {
+			$this->resequence_siblings( $section );
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Insert a section at its explicit order among its course siblings and resequence them.
+	 *
+	 * The explicit `order` is treated as a 1-based position: the position is clamped to the
+	 * number of sections in the course, siblings at that position and after are shifted,
+	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param LLMS_Section $section Section instance whose stored order is the requested position.
+	 * @return void
+	 */
+	protected function resequence_siblings( $section ) {
+
+		$parent_id = absint( $section->get( 'parent_course' ) );
+		if ( ! $parent_id ) {
+			return;
+		}
+
+		$siblings = get_posts(
+			array(
+				'post_type'              => 'section',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => -1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'ASC',
+				'fields'                 => 'ids',
+				'post__not_in'           => array( $section->get( 'id' ) ),
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_course',
+						'value' => $parent_id,
+					),
+				),
+			)
+		);
+
+		$position = min( max( 1, absint( $section->get( 'order' ) ) ), count( $siblings ) + 1 );
+		array_splice( $siblings, $position - 1, 0, array( absint( $section->get( 'id' ) ) ) );
+
+		foreach ( $siblings as $index => $sibling_id ) {
+			if ( absint( get_post_meta( $sibling_id, '_llms_order', true ) ) !== $index + 1 ) {
+				update_post_meta( $sibling_id, '_llms_order', $index + 1 );
+			}
+		}
 	}
 
 	/**
@@ -257,14 +369,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 
 		// Section order.
 		$schema['properties']['order'] = array(
-			'description' => __( 'Order of the section within the course.', 'lifterlms' ),
+			'description' => __( 'Order of the section within the course. Treated as a 1-based position on create/update: sibling sections at that position and after are shifted so orders remain unique. Omit to append the section after its siblings.', 'lifterlms' ),
 			'type'        => 'integer',
-			'default'     => 1,
 			'context'     => array( 'view', 'edit' ),
 			'arg_options' => array(
 				'sanitize_callback' => 'absint',
 			),
-			'required'    => true,
 		);
 
 		// remove unnecessary properties.
@@ -329,6 +439,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['parent_id'] = array(
+			'description'       => __( 'Alias for `parent`. Ignored when `parent` is provided.', 'lifterlms' ),
+			'type'              => 'integer',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		return $query_params;
 	}
 
@@ -381,6 +497,11 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 					'orderby'  => 'meta_value_num',
 				)
 			);
+		}
+
+		// `parent_id` is an alias for `parent`, matching the item schema's field name.
+		if ( empty( $request['parent'] ) && ! empty( $request['parent_id'] ) ) {
+			$request['parent'] = absint( $request['parent_id'] );
 		}
 
 		if ( isset( $this->parent_id ) ) {

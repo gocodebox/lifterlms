@@ -212,4 +212,12 @@ return array(
 			'update_db_version',
 		),
 	),
+	'10.2.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'delete_zero_lesson_time_caches',
+			'update_db_version',
+		),
+	),
 );

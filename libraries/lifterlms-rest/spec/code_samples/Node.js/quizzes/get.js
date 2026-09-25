@@ -5,7 +5,7 @@ const llms = new llmsAPI( {
   "consumerSecret": "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 } );
 
-llms.get( '/quizzes?context=edit&page=1&per_page=SOME_INTEGER_VALUE&order=SOME_STRING_VALUE&search=term&orderby=SOME_STRING_VALUE&include=1%2C2%2C3&exclude=10%2C11%2C12&parent=789&course=1234&status=SOME_STRING_VALUE', function( err, data, res ) {
+llms.get( '/quizzes?context=edit&page=1&per_page=SOME_INTEGER_VALUE&order=SOME_STRING_VALUE&search=term&orderby=SOME_STRING_VALUE&include=1%2C2%2C3&exclude=10%2C11%2C12&lesson=789&status=SOME_STRING_VALUE', function( err, data, res ) {
   if ( err ) {
     throw new Error( 'Error!' );
   }

@@ -1,0 +1,94 @@
+get:
+  summary: List awarded certificates
+  description: Retrieve a list of certificates awarded to students.
+  tags:
+    - Awarded Certificates
+  parameters:
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - title
+          - date_created
+          - date_updated
+        default: id
+    - name: student
+      description: Limit results to certificates awarded to a specific student. Accepts a WordPress user ID.
+      in: query
+      schema:
+        type: integer
+        example: 123
+    - name: template
+      description: Limit results to certificates awarded from a specific certificate template. Accepts a WordPress post ID.
+      in: query
+      schema:
+        type: integer
+        example: 345
+  responses:
+    200:
+      description: Successfully returned a list of awarded certificates.
+      headers:
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AwardedCertificate'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+
+post:
+  summary: Award a certificate
+  description: Award a certificate to a student from a certificate template. The certificate content is generated from the template with merge codes resolved.
+  tags:
+    - Awarded Certificates
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - student_id
+            - certificate_id
+          properties:
+            student_id:
+              description: The WordPress user ID of the student being awarded the certificate.
+              type: integer
+              example: 123
+            certificate_id:
+              description: The WordPress post ID of the certificate template to award.
+              type: integer
+              example: 345
+            related_id:
+              description: The WordPress post ID of a related post (course, lesson, etc.) that triggered the award.
+              type: integer
+              default: 0
+              example: 1234
+  responses:
+    201:
+      description: Successfully awarded the certificate.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AwardedCertificate'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

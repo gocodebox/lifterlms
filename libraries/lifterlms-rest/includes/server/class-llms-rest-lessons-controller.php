@@ -195,6 +195,9 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			}
 
 			$prepared_item['order'] = $request['order'];
+		} elseif ( empty( $request['id'] ) && ! is_wp_error( $prepared_item ) ) {
+			$parent_id              = isset( $prepared_item['parent_section'] ) ? $prepared_item['parent_section'] : 0;
+			$prepared_item['order'] = $this->get_next_order( $parent_id );
 		}
 
 		// Public (free lesson).
@@ -278,6 +281,93 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Retrieve the next order for a new lesson in a section.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $parent_id Section post ID.
+	 * @return int
+	 */
+	protected function get_next_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'lesson',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_section',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_meta( $query->posts[0], '_llms_order', true ) ) + 1;
+	}
+
+	/**
+	 * Insert a lesson at its explicit order among its section siblings and resequence them.
+	 *
+	 * The explicit `order` is treated as a 1-based position: the position is clamped to the
+	 * number of lessons in the section, siblings at that position and after are shifted,
+	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param LLMS_Lesson $lesson Lesson instance whose stored order is the requested position.
+	 * @return void
+	 */
+	protected function resequence_siblings( $lesson ) {
+
+		$parent_id = absint( $lesson->get( 'parent_section' ) );
+		if ( ! $parent_id ) {
+			return;
+		}
+
+		$siblings = get_posts(
+			array(
+				'post_type'              => 'lesson',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => -1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'ASC',
+				'fields'                 => 'ids',
+				'post__not_in'           => array( $lesson->get( 'id' ) ),
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_section',
+						'value' => $parent_id,
+					),
+				),
+			)
+		);
+
+		$position = min( max( 1, absint( $lesson->get( 'order' ) ) ), count( $siblings ) + 1 );
+		array_splice( $siblings, $position - 1, 0, array( absint( $lesson->get( 'id' ) ) ) );
+
+		foreach ( $siblings as $index => $sibling_id ) {
+			if ( absint( get_post_meta( $sibling_id, '_llms_order', true ) ) !== $index + 1 ) {
+				update_post_meta( $sibling_id, '_llms_order', $index + 1 );
+			}
+		}
+	}
+
+	/**
 	 * Updates a single llms lesson.
 	 *
 	 * @since 1.0.0-beta.7
@@ -322,8 +412,72 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			}
 		}
 
+		if ( ! empty( $schema['properties']['quiz']['properties']['id'] ) && ! empty( $request['quiz']['id'] ) ) {
+
+			$quiz_id   = absint( $request['quiz']['id'] );
+			$lesson_id = absint( $lesson->get( 'id' ) );
+			$quiz      = llms_get_post( $quiz_id );
+
+			if ( is_a( $quiz, 'LLMS_Quiz' ) ) {
+
+				$previous_quizzes = get_posts(
+					array(
+						'post_type'      => 'llms_quiz',
+						'post_status'    => 'any',
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+						'post__not_in'   => array( $quiz_id ),
+						'meta_key'       => '_llms_lesson_id',
+						'meta_value'     => $lesson_id,
+					)
+				);
+
+				foreach ( $previous_quizzes as $previous_quiz_id ) {
+					$previous_quiz = llms_get_post( $previous_quiz_id );
+					if ( is_a( $previous_quiz, 'LLMS_Quiz' ) ) {
+						$previous_quiz->set( 'lesson_id', 0 );
+					}
+				}
+
+				$attached_lessons = get_posts(
+					array(
+						'post_type'      => 'lesson',
+						'post_status'    => 'any',
+						'posts_per_page' => -1,
+						'fields'         => 'ids',
+						'meta_key'       => '_llms_quiz',
+						'meta_value'     => $quiz_id,
+					)
+				);
+
+				foreach ( $attached_lessons as $attached_lesson_id ) {
+					if ( absint( $attached_lesson_id ) === $lesson_id ) {
+						continue;
+					}
+					$old_lesson = llms_get_post( $attached_lesson_id );
+					if ( is_a( $old_lesson, 'LLMS_Lesson' ) ) {
+						$old_lesson->set( 'quiz', 0 );
+						$old_lesson->set( 'quiz_enabled', 'no' );
+					}
+				}
+
+				$quiz->set( 'lesson_id', $lesson_id );
+
+				if ( ! isset( $request['quiz']['enabled'] ) ) {
+					$lesson->set( 'quiz_enabled', 'yes' );
+				}
+
+				$to_set['quiz'] = $quiz_id;
+			}
+		}
+
 		if ( ! empty( $error->errors ) ) {
 			return $error;
+		}
+
+		// An explicit order is a position request: resequence siblings so orders stay unique.
+		if ( ! empty( $schema['properties']['order'] ) && ! empty( $request['order'] ) ) {
+			$this->resequence_siblings( $lesson );
 		}
 
 		return ! empty( $to_set );
@@ -359,14 +513,12 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 				'readonly'    => true,
 			),
 			'order'        => array(
-				'description' => __( 'Order of the lesson within its immediate parent.', 'lifterlms' ),
+				'description' => __( 'Order of the lesson within its immediate parent. Treated as a 1-based position on create/update: sibling lessons at that position and after are shifted so orders remain unique. Omit to append the lesson after its siblings.', 'lifterlms' ),
 				'type'        => 'integer',
-				'default'     => 1,
 				'context'     => array( 'view', 'edit' ),
 				'arg_options' => array(
 					'sanitize_callback' => 'absint',
 				),
-				'required'    => true,
 			),
 			'prerequisite' => array(
 				'description' => __( 'Lesson ID of the prerequisite lesson.', 'lifterlms' ),
@@ -530,6 +682,12 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['parent_id'] = array(
+			'description'       => __( 'Alias for `parent`. Ignored when `parent` is provided.', 'lifterlms' ),
+			'type'              => 'integer',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		return $query_params;
 	}
 
@@ -576,7 +734,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 		// Quiz.
 		$data['quiz']['enabled']     = llms_parse_bool( $lesson->get( 'quiz_enabled' ) );
 		$data['quiz']['id']          = absint( $lesson->get( 'quiz' ) );
-		$data['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'completed';
+		$data['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'complete';
 
 		// Drip method.
 		$data['drip_method'] = $lesson->get( 'drip_method' );
@@ -642,6 +800,11 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 					'orderby'  => 'meta_value_num',
 				)
 			);
+		}
+
+		// `parent_id` is an alias for `parent`, matching the item schema's field name.
+		if ( empty( $request['parent'] ) && ! empty( $request['parent_id'] ) ) {
+			$request['parent'] = absint( $request['parent_id'] );
 		}
 
 		if ( isset( $this->parent_id ) ) {

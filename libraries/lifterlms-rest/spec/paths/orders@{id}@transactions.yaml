@@ -1,0 +1,36 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique order identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: List an order's transactions
+  description: Retrieve the payment transactions recorded for an order.
+  tags:
+    - Orders
+  parameters:
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+  responses:
+    200:
+      description: Successfully returned the order's transactions.
+      headers:
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrderTransaction'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

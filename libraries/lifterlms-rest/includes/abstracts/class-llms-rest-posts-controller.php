@@ -1139,7 +1139,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 					'readonly'    => true,
 				),
 				'menu_order'       => array(
-					'description' => __( 'Creation date (in GMT). Format: Y-m-d H:i:s', 'lifterlms' ),
+					'description' => __( 'Order of the post among its siblings. Used for ordering questions within a quiz, lessons within a section, and similar hierarchical relationships.', 'lifterlms' ),
 					'type'        => 'integer',
 					'default'     => 0,
 					'context'     => array( 'view', 'edit' ),

@@ -412,6 +412,9 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 			}
 		}
 
+		$attached_quiz = llms_get_post( $quiz );
+		$this->assertEquals( $lesson->get( 'id' ), absint( $attached_quiz->get( 'lesson_id' ) ) );
+
 		// Check that if we create a course with no prerequisite the $lessons->has_prerequisite() returns false
 		unset( $sample_lesson['prerequisite'] );
 		$res = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
@@ -513,6 +516,115 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 		$this->assertResponseCodeEquals( 'rest_missing_callback_param', $res );
 		$this->assertResponseMessageEquals( 'Missing parameter(s): title, content', $res );
 
+	}
+
+	/**
+	 * Test creating lessons without order assigns sequential sibling order.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_auto_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quiz'     => 0,
+			)
+		);
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $course->get_sections( 'ids' )[0],
+			)
+		);
+
+		$first  = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+		$second = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $first );
+		$this->assertResponseStatusEquals( 201, $second );
+		$this->assertEquals( 1, $first->get_data()['order'] );
+		$this->assertEquals( 2, $second->get_data()['order'] );
+	}
+
+	/**
+	 * Test creating a lesson with an explicit order shifts the existing siblings.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_explicit_order_shifts_siblings() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 3,
+				'quiz'     => 0,
+			)
+		);
+
+		$section  = llms_get_post( $course->get_sections( 'ids' )[0] );
+		$existing = $section->get_lessons( 'ids' );
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $section->get( 'id' ),
+				'order'     => 2,
+			)
+		);
+
+		$response = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $response );
+		$this->assertEquals( 2, $response->get_data()['order'] );
+
+		// Former lessons at positions 2 and 3 are shifted; orders remain unique and sequential.
+		$this->assertEquals( 1, llms_get_post( $existing[0] )->get( 'order' ) );
+		$this->assertEquals( 3, llms_get_post( $existing[1] )->get( 'order' ) );
+		$this->assertEquals( 4, llms_get_post( $existing[2] )->get( 'order' ) );
+	}
+
+	/**
+	 * Test that an explicit order beyond the number of siblings is clamped to the end.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson_explicit_order_clamped() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 2,
+				'quiz'     => 0,
+			)
+		);
+
+		$sample_lesson = array_merge(
+			$this->sample_lesson,
+			array(
+				'parent_id' => $course->get_sections( 'ids' )[0],
+				'order'     => 50,
+			)
+		);
+
+		$response = $this->perform_mock_request( 'POST', $this->route, $sample_lesson );
+
+		$this->assertResponseStatusEquals( 201, $response );
+		$this->assertEquals( 3, $response->get_data()['order'] );
 	}
 
 	/**
@@ -641,6 +753,46 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	// public function test_delete_item_success() {}
 	// public function test_get_item_auth_errors() {}
 
+
+	/**
+	 * Test filtering lessons by parent section via the `parent_id` alias.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_get_lessons_filter_by_parent_id_alias() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course      = $this->factory->course->create_and_get( array( 'sections' => 2, 'lessons' => 2 ) );
+		$sections    = $course->get_sections( 'ids' );
+		$section_id  = $sections[0];
+
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent_id', $section_id );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $lesson ) {
+			$this->assertEquals( $section_id, $lesson['parent_id'] );
+		}
+
+		// `parent` wins when both are provided.
+		$request = new WP_REST_Request( 'GET', $this->route );
+		$request->set_param( 'parent', $sections[1] );
+		$request->set_param( 'parent_id', $section_id );
+		$response = $this->server->dispatch( $request );
+
+		$res_data = $response->get_data();
+		$this->assertEquals( 2, count( $res_data ) );
+		foreach ( $res_data as $lesson ) {
+			$this->assertEquals( $sections[1], $lesson['parent_id'] );
+		}
+	}
 
 	/**
 	 * Test links.
@@ -826,6 +978,59 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test that attaching a quiz via update-lesson keeps quiz.lesson_id in sync.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_update_item_syncs_quiz_lesson_id() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$source = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 1,
+			)
+		);
+		$quiz_id = absint( $source->get_lessons()[0]->get( 'quiz' ) );
+		$this->assertTrue( $quiz_id > 0 );
+
+		$target = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$lesson_id = $target->get_lessons( 'ids' )[0];
+
+		$res = $this->perform_mock_request(
+			'POST',
+			"{$this->route}/{$lesson_id}",
+			array(
+				'quiz' => array(
+					'id' => $quiz_id,
+				),
+			)
+		);
+
+		$this->assertResponseStatusEquals( 200, $res );
+
+		$quiz   = llms_get_post( $quiz_id );
+		$lesson = llms_get_post( $lesson_id );
+
+		$this->assertEquals( $lesson_id, absint( $quiz->get( 'lesson_id' ) ) );
+		$this->assertEquals( $quiz_id, absint( $lesson->get( 'quiz' ) ) );
+		$this->assertTrue( llms_parse_bool( $lesson->get( 'quiz_enabled' ) ) );
+
+		$source_lesson = $source->get_lessons()[0];
+		$this->assertEquals( 0, absint( $source_lesson->get( 'quiz' ) ) );
+	}
+
+	/**
 	 * Get resource creation args.
 	 *
 	 * @since 1.0.0-beta.27
@@ -887,7 +1092,7 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 		// Quiz.
 		$expected['quiz']['enabled']     = llms_parse_bool( $lesson->get( 'quiz_enabled' ) );
 		$expected['quiz']['id']          = absint( $lesson->get( 'quiz' ) );
-		$expected['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'completed';
+		$expected['quiz']['progression'] = llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ? 'pass' : 'complete';
 
 		// Drip method.
 		$expected['drip_method'] = $lesson->get( 'drip_method' );
