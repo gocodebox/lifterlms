@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,10 +78,15 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Setup body content for output.
 	 *
 	 * @since 3.8.0
+	 * @version [version]
 	 *
 	 * @return string
 	 */
 	protected function set_body() {
+		if ( 'email' === $this->notification->get( 'type' ) ) {
+			return '<p>' . sprintf( __( 'Congratulations! You earned %s.', 'lifterlms' ), '{{CERTIFICATE_TITLE}}' ) . '</p>'
+				. '<p><a href="{{CERTIFICATE_URL}}">' . __( 'View Full Certificate', 'lifterlms' ) . '</a></p>';
+		}
 		return '{{MINI_CERTIFICATE}}';
 	}
 
@@ -209,11 +214,12 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Setup notification subject for output.
 	 *
 	 * @since 3.8.0
+	 * @version [version]
 	 *
 	 * @return string
 	 */
 	protected function set_subject() {
-		return '';
+		return sprintf( __( 'You\'ve earned a certificate: %s', 'lifterlms' ), '{{CERTIFICATE_TITLE}}' );
 	}
 
 	/**
@@ -231,6 +237,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Defines field support for the view.
 	 *
 	 * @since 3.8.0
+	 * @version [version]
 	 *
 	 * @return array
 	 */
@@ -240,6 +247,12 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 				'body'  => true,
 				'title' => true,
 				'icon'  => true,
+			),
+			'email' => array(
+				'body'    => true,
+				'icon'    => false,
+				'subject' => true,
+				'title'   => true,
 			),
 		);
 	}

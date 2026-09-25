@@ -460,6 +460,7 @@ function llms_get_engagement_triggers() {
 			'course_enrollment'      => __( 'Student enrolls in a course', 'lifterlms' ),
 			'course_purchased'       => __( 'Student purchases a course', 'lifterlms' ),
 			'course_completed'       => __( 'Student completes a course', 'lifterlms' ),
+			'certificate_earned'    => __( 'Student earns a certificate', 'lifterlms' ),
 			// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo.
 			'lesson_completed'       => __( 'Student completes a lesson', 'lifterlms' ),
 			'quiz_completed'         => __( 'Student completes a quiz', 'lifterlms' ),

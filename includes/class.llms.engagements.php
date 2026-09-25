@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 6.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -223,6 +223,7 @@ class LLMS_Engagements {
 
 		$hooks = array(
 			'lifterlms_access_plan_purchased',
+			'llms_user_earned_certificate',
 			'lifterlms_course_completed',
 			'lifterlms_course_track_completed',
 			'lifterlms_lesson_completed',
@@ -445,6 +446,10 @@ class LLMS_Engagements {
 			case 'lifterlms_access_plan_purchased':
 			case 'lifterlms_product_purchased':
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
+				break;
+
+			case 'llms_user_earned_certificate':
+				$trigger_type = 'certificate_earned';
 				break;
 		}
 
