@@ -1187,13 +1187,25 @@ class LLMS_Admin_Builder {
 				$skip_props[] = 'parent_course';
 				$skip_props[] = 'parent_section';
 
+				// The server decides this flag: new lessons sync the model's empty default (which would
+				// scrub to "no" and hide the builder editor) and a stale client could send "yes".
+				unset( $lesson_data['content_added_in_builder'] );
+
+				// Raw content. get( 'content' ) runs llms_content(), which can make a blank lesson look occupied.
+				$existing_content = $lesson->get( 'content', true );
+
+				// The builder may only edit content it added itself and which hasn't since been
+				// converted to blocks or taken over by a page builder (e.g. edited in the block editor).
+				$builder_owns_content = llms_parse_bool( $lesson->get( 'content_added_in_builder' ) )
+					&& 'classic' === $lesson->get_content_editor_type();
+
 				// Don't overwrite content if the content editor doesn't display.
-				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
+				if ( ! $created && '' !== $existing_content && ! $builder_owns_content ) {
 					$skip_props[] = 'content';
 				}
 
-				if ( '' === $lesson->get( 'content' ) && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
-					&& ! isset( $lesson_data['content_added_in_builder'] ) ) {
+				if ( '' === $existing_content && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
+					&& ! has_blocks( $lesson_data['content'] ) ) {
 					// We're adding content via the builder for the first time; add a flag saying so.
 					$lesson_data['content_added_in_builder'] = 'yes';
 				}
@@ -1243,9 +1255,14 @@ class LLMS_Admin_Builder {
 				}
 
 				// Include permalink, slug, and editor type in the response so the builder can update the model.
-				$res['permalink']                = get_permalink( $lesson->get( 'id' ) );
-				$res['name']                     = $lesson->get( 'name' );
-				$res['content_added_in_builder'] = $lesson->get( 'content_added_in_builder' );
+				$res['permalink'] = get_permalink( $lesson->get( 'id' ) );
+				$res['name']      = $lesson->get( 'name' );
+
+				// Report the effective flag so a stale client switches to the notice when the
+				// content has since been converted to blocks or taken over by a page builder.
+				$res['content_added_in_builder'] = 'classic' === $lesson->get_content_editor_type()
+					? $lesson->get( 'content_added_in_builder' )
+					: 'no';
 
 				// Remove revision prevention.
 				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );

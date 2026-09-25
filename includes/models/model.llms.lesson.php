@@ -615,7 +615,58 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			}
 		}
 
+		// Content converted to blocks or taken over by a page builder is no longer editable in the course builder.
+		if ( ! empty( $arr['content_added_in_builder'] ) && 'classic' !== $this->get_content_editor_type() ) {
+			$arr['content_added_in_builder'] = 'no';
+		}
+
 		return $arr;
+	}
+
+	/**
+	 * Determine which content editor was used for this lesson.
+	 *
+	 * Checks for Elementor, Beaver Builder, and the WordPress block editor.
+	 * Third parties can hook into `llms_lesson_content_editor_type` to
+	 * indicate their own page builder.
+	 *
+	 * @since [version]
+	 *
+	 * @return string Editor type: 'classic', 'block', 'elementor', 'beaver_builder', or a custom value.
+	 */
+	public function get_content_editor_type() {
+
+		$post_id = $this->get( 'id' );
+
+		if ( ! $post_id || ! is_numeric( $post_id ) ) {
+			return 'classic';
+		}
+
+		if ( function_exists( 'llms_is_elementor_post' ) && llms_is_elementor_post( $post_id ) ) {
+			return 'elementor';
+		}
+
+		if ( function_exists( 'llms_is_beaver_builder_post' ) && llms_is_beaver_builder_post( $post_id ) ) {
+			return 'beaver_builder';
+		}
+
+		if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) {
+			return 'block';
+		}
+
+		/**
+		 * Filter the detected content editor type for a lesson.
+		 *
+		 * Allows third-party page builders (e.g. WPBakery, Divi) to indicate that
+		 * a lesson's content was created with their editor, preventing the course
+		 * builder's TinyMCE editor from overwriting it.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $type    Editor type. Default 'classic'.
+		 * @param int    $post_id WP Post ID of the lesson.
+		 */
+		return apply_filters( 'llms_lesson_content_editor_type', 'classic', $post_id );
 	}
 
 	/**

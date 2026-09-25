@@ -77,6 +77,9 @@ class LLMS_Blocks_Test_Page_Builders extends LLMS_Blocks_Unit_Test_Case {
 		$this->assertFalse( LLMS_Blocks_Page_Builders::check_for_beaver( true, $course_id ) );
 		$this->assertFalse( LLMS_Blocks_Page_Builders::check_for_beaver( false, $course_id ) );
 
+		// Don't leak the mocked "enabled" state into later tests.
+		$llms_blocks_mock_fl_builder_enabled = null;
+
 	}
 
 	/**
