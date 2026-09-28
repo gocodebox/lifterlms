@@ -66,7 +66,6 @@ class LLMS_Site {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -119,7 +118,6 @@ class LLMS_Site {
 		 * @param string $url The cleaned LLMS_Site URL.
 		 */
 		return apply_filters( 'llms_site_get_url', $url );
-
 	}
 
 	/**
@@ -128,6 +126,9 @@ class LLMS_Site {
 	 * Checks for a feature constant first and, if none is defined,
 	 * uses the stored site setting (with a fallback to the default value), and
 	 * a final fallback to `false` if the feature cannot be found.
+	 *
+	 * Recurring payments are treated as disabled when the site is a clone,
+	 * so Action Scheduler charges skip without waiting for an admin to visit wp-admin.
 	 *
 	 * @since 3.0.0
 	 * @since 4.12.0 Allow feature configuration via constants.
@@ -140,9 +141,12 @@ class LLMS_Site {
 		$status = self::get_feature_constant( $feature );
 		if ( is_null( $status ) ) {
 
-			$features = self::get_features();
-			$status   = isset( $features[ $feature ] ) ? $features[ $feature ] : false;
-
+			if ( 'recurring_payments' === $feature && self::is_clone() ) {
+				$status = false;
+			} else {
+				$features = self::get_features();
+				$status   = isset( $features[ $feature ] ) ? $features[ $feature ] : false;
+			}
 		}
 
 		/**
@@ -154,7 +158,6 @@ class LLMS_Site {
 		 * @param string  $feature The feature ID/key.
 		 */
 		return apply_filters( 'llms_site_get_feature', $status, $feature );
-
 	}
 
 	/**
@@ -176,7 +179,6 @@ class LLMS_Site {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -206,7 +208,6 @@ class LLMS_Site {
 		);
 
 		return get_option( 'llms_site_get_features', $defaults );
-
 	}
 
 	/**
@@ -223,7 +224,6 @@ class LLMS_Site {
 		$features             = self::get_features();
 		$features[ $feature ] = $val;
 		update_option( 'llms_site_get_features', $features );
-
 	}
 
 	/**
@@ -249,7 +249,6 @@ class LLMS_Site {
 		 * @param boolean $is_clone When `true` the site is considered a "clone", otherwise it is not.
 		 */
 		return apply_filters( 'llms_site_is_clone', $is_clone );
-
 	}
 
 	/**
@@ -273,7 +272,5 @@ class LLMS_Site {
 		 * @param boolean $is_clone_ignored If `true`, the clone is ignored, otherwise it is not.
 		 */
 		return apply_filters( 'llms_site_is_clone_ignored', llms_parse_bool( get_option( 'llms_site_url_ignore', 'no' ) ) );
-
 	}
-
 }
