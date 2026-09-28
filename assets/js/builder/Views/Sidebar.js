@@ -290,10 +290,30 @@ define( [
 		 */
 		on_lesson_select: function( lesson_model, tab ) {
 
-			if ( 'editor' !== this.state ) {
-				this.set_state( 'editor' );
-			} else {
+			tab = tab || 'lesson';
+
+			if ( 'editor' === this.state ) {
+
+				var editor = this.get_subview( 'editor' );
+
+				// Deep link and a second click on the same icon both fire this.
+				// Re-rendering destroys the quiz view while its questions are still lazy-loading.
+				if (
+					editor &&
+					editor.instance &&
+					editor.instance.model &&
+					String( editor.instance.model.get( 'id' ) ) === String( lesson_model.get( 'id' ) ) &&
+					editor.instance.state === tab
+				) {
+					return;
+				}
+
 				this.remove_subview( 'editor' );
+
+			} else {
+
+				this.set_state( 'editor' );
+
 			}
 
 			this.render( {
