@@ -62,6 +62,24 @@ class LLMS_Engagements_Scanner {
 	const MARKER_KEY = '_llms_engagement_fired';
 
 	/**
+	 * Post meta key flagging an engagement as paused pending large-send-volume confirmation.
+	 *
+	 * Set on save when the predicted next-scan send count exceeds the warning threshold
+	 * and the confirmation box is unchecked. Paused engagements are skipped entirely by
+	 * the daily scan.
+	 *
+	 * @var string
+	 */
+	const PAUSED_META = '_llms_engagement_scan_paused';
+
+	/**
+	 * Post meta key storing the large-send-volume confirmation checkbox value (`yes` when confirmed).
+	 *
+	 * @var string
+	 */
+	const CONFIRMED_META = '_llms_engagement_send_volume_confirmed';
+
+	/**
 	 * Per-request memo of course trees keyed by course ID.
 	 *
 	 * Action Scheduler processes many batch actions in a single request and a course's
@@ -90,6 +108,19 @@ class LLMS_Engagements_Scanner {
 		// Priority 30: after the core engagement metabox (10) and add-on saves (20) so all meta is fresh.
 		add_action( 'save_post_llms_engagement', array( $this, 'maybe_warn_send_volume' ), 30, 2 );
 		add_action( 'admin_notices', array( $this, 'output_send_volume_notice' ) );
+		add_filter( 'display_post_states', array( $this, 'add_paused_post_state' ), 10, 2 );
+	}
+
+	/**
+	 * Determine whether an engagement is paused pending large-send-volume confirmation.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @return boolean
+	 */
+	public function is_paused( $engagement_id ) {
+		return 'yes' === get_post_meta( $engagement_id, self::PAUSED_META, true );
 	}
 
 	/**
@@ -175,6 +206,10 @@ class LLMS_Engagements_Scanner {
 	 * chain simply continues and the engagement is picked up again by the next daily
 	 * scan after it completes.
 	 *
+	 * Engagements paused pending large-send-volume confirmation (see
+	 * {@see LLMS_Engagements_Scanner::maybe_warn_send_volume()}) are also skipped
+	 * and the skip logged.
+	 *
 	 * @since [version]
 	 *
 	 * @return void
@@ -207,6 +242,18 @@ class LLMS_Engagements_Scanner {
 		$active = $this->get_engagements_with_active_batches();
 
 		foreach ( array_map( 'absint', $engagement_ids ) as $engagement_id ) {
+
+			if ( $this->is_paused( $engagement_id ) ) {
+				llms_log(
+					sprintf(
+						// Translators: %d = the llms_engagement post ID.
+						__( 'Daily scan for engagement #%d skipped: sending is disabled pending large-send-volume confirmation.', 'lifterlms' ),
+						$engagement_id
+					),
+					'engagement-emails'
+				);
+				continue;
+			}
 
 			if ( isset( $active[ $engagement_id ] ) ) {
 				llms_log(
@@ -277,6 +324,11 @@ class LLMS_Engagements_Scanner {
 
 		$post = get_post( $engagement_id );
 		if ( ! $post || 'llms_engagement' !== $post->post_type || 'publish' !== $post->post_status ) {
+			return;
+		}
+
+		// Authoritative pause check: a batch may already be queued when the pause is applied.
+		if ( $this->is_paused( $engagement_id ) ) {
 			return;
 		}
 
@@ -392,12 +444,15 @@ class LLMS_Engagements_Scanner {
 	}
 
 	/**
-	 * Predict the next scan's send volume when a scan-based engagement is saved and warn when it's large.
+	 * Gate a scan-based engagement's send volume when it is saved.
 	 *
-	 * Runs a read-only candidate count (see {@see LLMS_Engagements_Scanner::count_pending()})
-	 * and stores a short-lived, user-keyed transient consumed by
+	 * Runs a read-only candidate count (see {@see LLMS_Engagements_Scanner::count_pending()}).
+	 * When the prediction exceeds the threshold and the "Confirm large send volume" box is
+	 * not checked, the engagement is paused (skipped entirely by the daily scan) and a
+	 * user-keyed transient is stored, consumed by
 	 * {@see LLMS_Engagements_Scanner::output_send_volume_notice()} after the post-save
-	 * redirect. Nothing is stored when the prediction is at or below the threshold.
+	 * redirect. Saving with the confirmation checked — or a prediction back at or below
+	 * the threshold — lifts the pause.
 	 *
 	 * @since [version]
 	 *
@@ -420,8 +475,13 @@ class LLMS_Engagements_Scanner {
 			return;
 		}
 
+		if ( 'yes' === get_post_meta( $post_id, self::CONFIRMED_META, true ) ) {
+			delete_post_meta( $post_id, self::PAUSED_META );
+			return;
+		}
+
 		/**
-		 * Filters the predicted send count above which a warning is shown when saving a scan-based engagement.
+		 * Filters the predicted send count above which an unconfirmed scan-based engagement is paused on save.
 		 *
 		 * @since [version]
 		 *
@@ -443,8 +503,11 @@ class LLMS_Engagements_Scanner {
 		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $post_id ) );
 
 		if ( $this->count_pending( $post, $threshold, $max_pages ) <= $threshold ) {
+			delete_post_meta( $post_id, self::PAUSED_META );
 			return;
 		}
+
+		update_post_meta( $post_id, self::PAUSED_META, 'yes' );
 
 		set_transient(
 			sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() ),
@@ -457,7 +520,7 @@ class LLMS_Engagements_Scanner {
 	}
 
 	/**
-	 * Output the send-volume warning notice stored by `maybe_warn_send_volume()`.
+	 * Output the send-volume pause notice stored by `maybe_warn_send_volume()`.
 	 *
 	 * @since [version]
 	 *
@@ -474,16 +537,37 @@ class LLMS_Engagements_Scanner {
 		delete_transient( $key );
 
 		printf(
-			'<div class="notice notice-warning"><p>%s</p></div>',
+			'<div class="notice notice-error"><p>%s</p></div>',
 			esc_html(
 				sprintf(
 					// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count.
-					__( 'The engagement "%1$s" will fire for more than %2$s students on the next daily scan. Set the "Activity on or after" date to limit how far back it reaches.', 'lifterlms' ),
+					__( 'The engagement "%1$s" is predicted to send to more than %2$s students on its next daily scan, so sending has been disabled. Check "Confirm large send volume" on the engagement and save to enable sending, or set the "Activity on or after" date to reduce the volume.', 'lifterlms' ),
 					get_the_title( $data['post_id'] ?? 0 ),
 					number_format_i18n( $data['threshold'] ?? 0 )
 				)
 			)
 		);
+	}
+
+	/**
+	 * Add a red "sending disabled" post state to paused engagements in the admin list table.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $states Post state labels.
+	 * @param WP_Post  $post   Post object for the current row.
+	 * @return string[]
+	 */
+	public function add_paused_post_state( $states, $post ) {
+
+		if ( $post && 'llms_engagement' === $post->post_type && $this->is_paused( $post->ID ) ) {
+			$states['llms_engagement_scan_paused'] = sprintf(
+				'<span style="color:#b32d2e;">%s</span>',
+				esc_html__( 'Sending disabled: confirm large send volume', 'lifterlms' )
+			);
+		}
+
+		return $states;
 	}
 
 	/**

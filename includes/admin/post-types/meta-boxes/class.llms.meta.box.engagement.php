@@ -327,6 +327,29 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		);
 
 		$fields[] = array(
+			'controller'       => '#' . $this->prefix . 'trigger_type',
+			'controller_value' => implode(
+				',',
+				/** This filter is documented above. */
+				apply_filters(
+					'llms_engagement_since_controller_values',
+					array(
+						'days_since_login',
+						'course_inactivity',
+						'course_never_started',
+						'course_completion_deadline',
+						'quiz_attempt_abandoned',
+					)
+				)
+			),
+			'desc'             => __( 'A scan-based engagement predicted to send to more than the send-volume threshold (200 students by default) on its next daily scan is disabled from sending until this box is checked. Consider setting the "Activity on or after" date to reduce the volume instead of confirming.', 'lifterlms' ),
+			'id'               => $this->prefix . 'engagement_send_volume_confirmed',
+			'label'            => __( 'Confirm large send volume', 'lifterlms' ),
+			'type'             => 'checkbox',
+			'value'            => 'yes',
+		);
+
+		$fields[] = array(
 			'class'            => 'input-full',
 			'controller'       => '#' . $this->prefix . 'trigger_type',
 			'controller_value' => implode(

@@ -1388,7 +1388,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test the save-time send-volume warning transient and its admin notice.
+	 * Test the save-time send-volume gate: pause flag, red notice, and confirmation lifting the pause.
 	 *
 	 * @since [version]
 	 *
@@ -1415,18 +1415,19 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
 		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
 
-		// Under the default threshold of 200: no warning.
+		// Under the default threshold of 200: no warning, no pause.
 		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
 		$this->assertFalse( get_transient( $transient_key ) );
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
 
-		// Lower the threshold below the candidate count: the warning is stored and rendered.
+		// Lower the threshold below the candidate count: the engagement is paused and the notice stored.
 		$threshold = function () {
 			return 2;
 		};
 		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
 		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
-		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
 
+		$this->assertTrue( $this->scanner->is_paused( $post->ID ) );
 		$data = get_transient( $transient_key );
 		$this->assertIsArray( $data );
 		$this->assertEquals( $post->ID, $data['post_id'] );
@@ -1436,9 +1437,10 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$this->scanner->output_send_volume_notice();
 		$notice = ob_get_clean();
 
-		$this->assertStringContainsString( 'notice-warning', $notice );
+		$this->assertStringContainsString( 'notice-error', $notice );
 		$this->assertStringContainsString( 'more than 2 students', $notice );
-		$this->assertStringContainsString( 'Activity on or after', $notice );
+		$this->assertStringContainsString( 'Confirm large send volume', $notice );
+		$this->assertStringContainsString( 'sending has been disabled', $notice );
 
 		// The notice is shown once: the transient is consumed.
 		$this->assertFalse( get_transient( $transient_key ) );
@@ -1446,7 +1448,20 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$this->scanner->output_send_volume_notice();
 		$this->assertSame( '', ob_get_clean() );
 
-		// Unpublished engagements never warn.
+		// Saving with the confirmation checked lifts the pause, even over the threshold.
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, 'yes' );
+		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertFalse( get_transient( $transient_key ) );
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		// A prediction back at or below the threshold also lifts the pause (default threshold, unconfirmed).
+		delete_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META );
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
+		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+
+		// Unpublished engagements never warn or pause.
 		$draft = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
 		wp_update_post(
 			array(
@@ -1456,10 +1471,86 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		);
 		// Creating/updating the post above runs the save hook itself; clear any leftovers first.
 		delete_transient( $transient_key );
+		delete_post_meta( $draft->ID, LLMS_Engagements_Scanner::PAUSED_META );
 		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
 		$this->scanner->maybe_warn_send_volume( $draft->ID, get_post( $draft->ID ) );
 		$this->assertFalse( get_transient( $transient_key ) );
+		$this->assertFalse( $this->scanner->is_paused( $draft->ID ) );
 		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+	}
+
+	/**
+	 * Test paused engagements are skipped by the daily scan and never send.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_paused_engagements_do_not_scan_or_send() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 2 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
+
+		// The daily scan never enqueues a batch for a paused engagement.
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		$this->scanner->do_scan();
+		$this->assertFalse(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $post->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+
+		// An already-queued batch bails without sending.
+		$actions = did_action( 'lifterlms_engagement_send_email' );
+		$this->scanner->do_batch( $post->ID, 0 );
+		$this->assertEquals( $actions, did_action( 'lifterlms_engagement_send_email' ) );
+
+		// Lifting the pause restores sending.
+		delete_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META );
+		$this->scanner->do_batch( $post->ID, 0 );
+		$this->assertEquals( $actions + 2, did_action( 'lifterlms_engagement_send_email' ) );
+	}
+
+	/**
+	 * Test the paused post state in the engagements list table.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_paused_post_state() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$post      = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		// Not paused: no state added.
+		$this->assertEmpty( $this->scanner->add_paused_post_state( array(), get_post( $post->ID ) ) );
+
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
+		$states = $this->scanner->add_paused_post_state( array(), get_post( $post->ID ) );
+		$this->assertArrayHasKey( 'llms_engagement_scan_paused', $states );
+		$this->assertStringContainsString( 'Sending disabled', $states['llms_engagement_scan_paused'] );
+
+		// Other post types are never touched, even with the meta present.
+		$page = $this->factory->post->create();
+		update_post_meta( $page, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
+		$this->assertEmpty( $this->scanner->add_paused_post_state( array(), get_post( $page ) ) );
 	}
 
 	/**
