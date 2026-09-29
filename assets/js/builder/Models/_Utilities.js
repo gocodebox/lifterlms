@@ -132,6 +132,66 @@ define( [], function() {
 		},
 
 		/**
+		 * Preview the permalink an unsaved lesson or quiz would get on save.
+		 *
+		 * Follows title edits until the slug is edited by hand.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		preview_permalink: function() {
+
+			if ( ! this.has_temp_id() || this.get( '_slug_edited' ) ) {
+				return;
+			}
+
+			if ( ! window.llms_builder || ! window.llms_builder.CourseModel ) {
+				return;
+			}
+
+			var self = this;
+
+			if ( this._permalink_timer ) {
+				clearTimeout( this._permalink_timer );
+			}
+
+			this._permalink_timer = setTimeout( function() {
+
+				var title = self.get( 'title' );
+				if ( ! title || self.get( '_slug_edited' ) ) {
+					return;
+				}
+
+				LLMS.Ajax.call( {
+					data: {
+						action: 'llms_builder',
+						action_type: 'get_permalink',
+						course_id: window.llms_builder.CourseModel.get( 'id' ),
+						id: self.get( 'id' ),
+						post_type: self.get( 'type' ),
+						title: title,
+					},
+					success: function( r ) {
+
+						if ( self.get( '_slug_edited' ) || ! r || ! r.permalink ) {
+							return;
+						}
+
+						self.set( {
+							permalink: r.permalink,
+							name: r.slug,
+						}, { silent: true } );
+						self.trigger( 'change:permalink', self );
+
+					},
+				} );
+
+			}, 300 );
+
+		},
+
+		/**
 		 * Initializes 3rd party custom schema (field) data for a model
 		 *
 		 * @return   void

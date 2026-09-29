@@ -292,6 +292,48 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
+	 * Build a sample permalink for a builder model that has not been saved yet.
+	 *
+	 * Uses the same unique-slug check as a real save, so an existing "new-lesson"
+	 * becomes "new-lesson-2" in the preview.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type Post type. Only lesson and quiz are allowed.
+	 * @param string $title     Title to derive a slug from when $slug is empty.
+	 * @param string $slug      Explicit slug, used when the permalink was edited by hand.
+	 * @return array
+	 */
+	private static function get_unsaved_sample_permalink( $post_type, $title, $slug ) {
+
+		$allowed = array( 'lesson', 'llms_quiz' );
+		if ( ! in_array( $post_type, $allowed, true ) ) {
+			return array();
+		}
+
+		$desired = $slug ? $slug : sanitize_title( $title );
+		if ( '' === $desired ) {
+			return array();
+		}
+
+		$unique = wp_unique_post_slug( $desired, 0, 'publish', $post_type, 0 );
+
+		global $wp_rewrite;
+
+		$struct = $wp_rewrite->get_extra_permastruct( $post_type );
+		if ( $struct && $wp_rewrite->using_permalinks() ) {
+			$permalink = home_url( user_trailingslashit( str_replace( '%' . $post_type . '%', $unique, $struct ) ) );
+		} else {
+			$permalink = add_query_arg( $post_type, $unique, home_url( '/' ) );
+		}
+
+		return array(
+			'slug'      => $unique,
+			'permalink' => $permalink,
+		);
+	}
+
+	/**
 	 * Retrieve the HTML of a JS template
 	 *
 	 * @since 3.16.0
@@ -338,7 +380,18 @@ class LLMS_Admin_Builder {
 				break;
 
 			case 'get_permalink':
-				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
+				$id    = isset( $request['id'] ) ? $request['id'] : '';
+				$title = isset( $request['title'] ) ? sanitize_text_field( wp_unslash( $request['title'] ) ) : '';
+				$slug  = isset( $request['slug'] ) ? sanitize_title( wp_unslash( $request['slug'] ) ) : '';
+
+				// Unsaved builder models only have a temp id. Preview the permalink the same way a save would.
+				if ( ! is_numeric( $id ) ) {
+					$post_type = isset( $request['post_type'] ) ? sanitize_key( $request['post_type'] ) : 'lesson';
+					wp_send_json( self::get_unsaved_sample_permalink( $post_type, $title, $slug ) );
+					break;
+				}
+
+				$id = absint( $id );
 				if ( ! $id ) {
 					return array();
 				}
@@ -351,8 +404,8 @@ class LLMS_Admin_Builder {
 				} elseif ( ! current_user_can( 'edit_post', $id ) ) {
 					return array();
 				}
-				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
-				$slug  = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
+				$title = $title ? sanitize_title( $title ) : null;
+				$slug  = $slug ? $slug : null;
 				$link  = get_sample_permalink( $id, $title, $slug );
 				wp_send_json(
 					array(

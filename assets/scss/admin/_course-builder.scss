@@ -742,6 +742,28 @@ body.admin_page_llms-course-builder {
 			flex: 1 1 100%;
 		}
 
+		.settings-field--permalink {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+
+			.llms-permalink-preview,
+			> a:not( .llms-action-icon ) {
+				min-width: 0;
+				overflow-wrap: anywhere;
+			}
+
+			.llms-input.permalink {
+				flex: 1 1 8rem;
+				width: auto;
+			}
+
+			.llms-action-icon {
+				flex-shrink: 0;
+			}
+		}
+
 		.llms-breaker {
 			margin: 2px 0;
 			width: 100%;

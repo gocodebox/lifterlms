@@ -122,6 +122,8 @@ define( [], function() {
 
 			} else if ( 'permalink' === type ) {
 
+				self.model.set( '_slug_edited', true, { silent: true } );
+
 				LLMS.Ajax.call( {
 					data: {
 						action: 'llms_builder',
@@ -611,29 +613,29 @@ define( [], function() {
 		 */
 		make_slug_editable: function( event ) {
 
-			var self      = this,
-				$btn      = $( event.currentTarget ),
-				$link     = $btn.prevAll( 'a' ),
-				$input    = $btn.prev( 'input.permalink' ),
-				full_url  = $link.attr( 'href' ),
-				slug      = $input.val(),
-				short_url = full_url.replace( slug, '' );
+			var $btn     = $( event.currentTarget ),
+				$display = $btn.prevAll( 'a, .llms-permalink-preview' ).first(),
+				$input   = $btn.prev( 'input.permalink' ),
+				full_url = $display.is( 'a' ) ? $display.attr( 'href' ) : $.trim( $display.text() ),
+				slug     = $input.val();
 
-			// hide the button
+			if ( ! full_url || ! slug ) {
+				return;
+			}
+
+			var short_url = full_url.replace( slug, '' );
+
 			$btn.hide();
 
-			// make the link not clickable
-			$link.css( {
+			$display.css( {
 				color: '#999',
 				'pointer-events': 'none',
 				'text-decoration': 'none',
 			} );
 
-			// remove the current slug & trailing slash from the URL
-			$link.text( short_url.substring( 0, short_url.length - 1 ) );
+			$display.text( short_url.substring( 0, short_url.length - 1 ) );
 
-			// focus in on the field
-			$input.show().focus();
+			$input.css( 'display', 'inline-block' ).focus();
 
 		},
 
