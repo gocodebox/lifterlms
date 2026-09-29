@@ -1276,8 +1276,10 @@ class LLMS_Admin_Builder {
 					}
 				}
 
-				// Ensure slug gets updated when changing title from default "New Lesson".
-				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
+				// Ensure slug gets updated when changing title from default "New Lesson",
+				// unless the slug was explicitly edited in the builder before saving.
+				$slug_edited = ! empty( $lesson_data['slug_edited'] ) && llms_parse_bool( $lesson_data['slug_edited'] );
+				if ( isset( $lesson_data['title'] ) && ! $slug_edited && ! $lesson->has_modified_slug() ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 

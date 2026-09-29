@@ -167,7 +167,7 @@ define( [], function() {
 		 */
 		preview_permalink: function( title ) {
 
-			if ( ! this.has_temp_id() || this.get( '_slug_edited' ) ) {
+			if ( ! this.has_temp_id() || 'yes' === this.get( 'slug_edited' ) ) {
 				return '';
 			}
 

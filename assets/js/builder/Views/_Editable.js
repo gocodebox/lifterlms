@@ -123,7 +123,10 @@ define( [], function() {
 
 			} else if ( 'permalink' === type ) {
 
-				self.model.set( '_slug_edited', true, { silent: true } );
+				// Not underscore-prefixed: underscore attrs are stripped from the sync
+				// payload and the server needs this to know not to re-derive the slug
+				// from the title when creating the post.
+				self.model.set( 'slug_edited', 'yes', { silent: true } );
 
 				// Unsaved models can't be checked server-side; preview the edited slug locally.
 				if ( self.model.has_temp_id && self.model.has_temp_id() ) {
@@ -189,7 +192,7 @@ define( [], function() {
 
 			var model = this.model;
 
-			if ( ! model || ! model.preview_permalink || ! model.has_temp_id() || model.get( '_slug_edited' ) ) {
+			if ( ! model || ! model.preview_permalink || ! model.has_temp_id() || 'yes' === model.get( 'slug_edited' ) ) {
 				return;
 			}
 
