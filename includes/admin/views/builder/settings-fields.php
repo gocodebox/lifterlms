@@ -71,7 +71,11 @@ defined( 'ABSPATH' ) || exit;
 
 					<# if ( 'permalink' === field.type ) { #>
 
-						<a target="_blank" href="{{{ data.model.get( 'permalink' ) }}}">{{{ data.model.get( 'permalink' ) }}}</a>
+						<# if ( data.model.has_temp_id() ) { #>
+							<span class="llms-permalink-preview">{{{ data.model.get( 'permalink' ) }}}</span>
+						<# } else { #>
+							<a target="_blank" href="{{{ data.model.get( 'permalink' ) }}}">{{{ data.model.get( 'permalink' ) }}}</a>
+						<# } #>
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
