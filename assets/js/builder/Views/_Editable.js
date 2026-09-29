@@ -125,6 +125,26 @@ define( [], function() {
 
 				self.model.set( '_slug_edited', true, { silent: true } );
 
+				// Unsaved models can't be checked server-side; preview the edited slug locally.
+				if ( self.model.has_temp_id && self.model.has_temp_id() ) {
+
+					var structs  = ( window.llms_builder && window.llms_builder.sample_permalinks ) || {},
+						template = structs[ self.model.get( 'type' ) ],
+						slug     = self.model.slugify( content );
+
+					if ( ! template || ! slug ) {
+						return false;
+					}
+
+					// Normalize the input so `save_edits()` stores the slugified value.
+					$el.val( slug );
+
+					// Not silent: `change:permalink` re-renders the settings panel, closing the editor UI.
+					self.model.set( 'permalink', template.replace( '%pagename%', slug ) );
+
+					return true;
+				}
+
 				LLMS.Ajax.call( {
 					data: {
 						action: 'llms_builder',
@@ -307,6 +327,11 @@ define( [], function() {
 				} else {
 					this.save_edits( event );
 				}
+
+			} else if ( 'permalink' === $el.attr( 'data-type' ) ) {
+
+				// Nothing changed so no re-render will run; restore the permalink display manually.
+				this.render();
 
 			}
 
