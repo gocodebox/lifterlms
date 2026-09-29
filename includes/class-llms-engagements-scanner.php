@@ -300,7 +300,7 @@ class LLMS_Engagements_Scanner {
 		$threshold = absint( apply_filters( 'llms_engagement_send_warning_threshold', 200, $engagement_id ) );
 
 		/** This filter is documented in includes/class-llms-engagements-scanner.php */
-		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $engagement_id ) );
+		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 0, $engagement_id ) );
 
 		if ( $this->count_pending( $engagement_id, $threshold, $max_pages ) <= $threshold ) {
 			return false;
@@ -487,20 +487,20 @@ class LLMS_Engagements_Scanner {
 	 * `do_batch()` and counts candidates whose anchor beats their stored re-arm marker,
 	 * without firing anything or writing markers.
 	 *
-	 * Counting stops as soon as the count exceeds `$limit` and never reads more than
-	 * `$max_pages` pages, so a save-time prediction cannot scan an entire large site.
-	 * A return value greater than `$limit` therefore means "more than $limit", not an
-	 * exact total; a count at or below `$limit` after exhausting `$max_pages` pages is
-	 * a lower bound.
+	 * Counting stops as soon as the count exceeds `$limit`. `$max_pages` of `0` reads
+	 * until the candidate list ends, so a save on a large site cannot treat the first
+	 * few thousand rows as the whole send. A positive `$max_pages` stops early and the
+	 * returned count is then only a lower bound. A return value greater than `$limit`
+	 * means "more than $limit", not an exact total.
 	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post|int $engagement Engagement post object or post ID.
 	 * @param int         $limit      Stop counting once this many candidates is exceeded.
-	 * @param int         $max_pages  Maximum number of candidate pages to read.
+	 * @param int         $max_pages  Maximum number of candidate pages to read. `0` reads until the list ends.
 	 * @return int
 	 */
-	public function count_pending( $engagement, $limit = 200, $max_pages = 25 ) {
+	public function count_pending( $engagement, $limit = 200, $max_pages = 0 ) {
 
 		$engagement = get_post( $engagement );
 		if ( ! $engagement || 'llms_engagement' !== $engagement->post_type ) {
@@ -517,10 +517,12 @@ class LLMS_Engagements_Scanner {
 		/** This filter is documented in includes/class-llms-engagements-scanner.php */
 		$per_page = apply_filters( 'llms_engagements_scan_batch_size', 200, $engagement->ID, $trigger_type );
 
-		$count  = 0;
-		$cursor = 0;
+		$count      = 0;
+		$cursor     = 0;
+		$page_limit = $max_pages > 0 ? $max_pages : 1000;
+		$open       = false;
 
-		for ( $page = 0; $page < $max_pages; $page++ ) {
+		for ( $page = 0; $page < $page_limit; $page++ ) {
 
 			$result = call_user_func( $callback, $engagement, $cursor, $per_page );
 			if ( ! is_array( $result ) ) {
@@ -537,9 +539,16 @@ class LLMS_Engagements_Scanner {
 			}
 
 			if ( ! isset( $result['cursor'] ) || null === $result['cursor'] ) {
-				break;
+				return $count;
 			}
 			$cursor = absint( $result['cursor'] );
+			$open   = true;
+		}
+
+		// An explicit page cap asked for a partial read. An unlimited read that hits the
+		// safety ceiling with rows left has not shown the send is under the limit.
+		if ( $max_pages <= 0 && $open && $count <= $limit ) {
+			return $limit + 1;
 		}
 
 		return $count;
@@ -594,14 +603,14 @@ class LLMS_Engagements_Scanner {
 		/**
 		 * Filters the maximum number of candidate pages read when predicting a scan-based engagement's send volume on save.
 		 *
-		 * Bounds the cost of the save-time dry run on large sites.
+		 * `0` reads until the predicted count passes the threshold or the candidate list ends.
 		 *
 		 * @since [version]
 		 *
-		 * @param int $max_pages Maximum number of pages. Default 25.
+		 * @param int $max_pages Maximum number of pages. Default 0 (no page cap).
 		 * @param int $post_id   WP_Post ID of the `llms_engagement` post.
 		 */
-		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $post_id ) );
+		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 0, $post_id ) );
 
 		$was_paused = $this->is_paused( $post_id );
 		$confirmed  = 'yes' === get_post_meta( $post_id, self::CONFIRMED_META, true );
@@ -1367,19 +1376,25 @@ class LLMS_Engagements_Scanner {
 
 		$cutoff       = $this->get_cutoff( $period );
 		$since        = $this->get_since( $engagement );
+		$since_floor  = $since ? $since : '1000-01-01 00:00:00';
 		$trigger_post = $this->get_trigger_post_id( $engagement );
 
 		if ( $trigger_post ) {
 			$page_ids = $this->get_enrolled_user_ids( $trigger_post, $cursor, $per_page );
 		} else {
-			// Require a current enrollment (latest `_status` row) in a non-completed course.
-			$page_ids = array_map(
+			// Require a current enrollment (latest `_status` row) in a non-completed course,
+			// and only page users already inside the login window so a large site is not
+			// walked user-by-user before the date filter applies.
+			$login_expr = "COALESCE( ( SELECT login.meta_value FROM {$wpdb->usermeta} AS login WHERE login.user_id = u.ID AND login.meta_key = 'llms_last_login' ORDER BY login.umeta_id DESC LIMIT 1 ), u.user_registered )";
+			$page_ids   = array_map(
 				'absint',
 				$wpdb->get_col(
 					$wpdb->prepare(
 						"SELECT u.ID
 						 FROM {$wpdb->users} AS u
 						 WHERE u.ID > %d
+						   AND {$login_expr} < %s
+						   AND {$login_expr} >= %s
 						   AND EXISTS (
 						       SELECT 1
 						       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
@@ -1406,6 +1421,8 @@ class LLMS_Engagements_Scanner {
 						 ORDER BY u.ID ASC
 						 LIMIT %d",
 						$cursor,
+						$cutoff,
+						$since_floor,
 						$per_page
 					)
 				)

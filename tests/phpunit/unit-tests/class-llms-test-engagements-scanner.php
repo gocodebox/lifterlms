@@ -1398,6 +1398,9 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		};
 		add_filter( 'llms_engagements_scan_batch_size', $batch_size );
 		$this->assertLessThanOrEqual( 1, $this->scanner->count_pending( $post, 200, 1 ) );
+
+		// No page cap keeps reading until every candidate is counted.
+		$this->assertSame( 2, $this->scanner->count_pending( $post, 200, 0 ) );
 		remove_filter( 'llms_engagements_scan_batch_size', $batch_size );
 
 		// Non-scannable or invalid engagements count zero.
