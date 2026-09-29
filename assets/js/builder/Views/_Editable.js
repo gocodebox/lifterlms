@@ -37,6 +37,7 @@ define( [], function() {
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
+			'input .llms-input[data-attribute="title"]': 'on_title_input',
 			'paste .llms-input[data-formatting]': 'on_paste',
 			'paste .llms-input[contenteditable]:not([data-formatting])': 'on_paste',
 		},
@@ -150,6 +151,37 @@ define( [], function() {
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Update the permalink preview live while the title of an unsaved model is edited.
+		 *
+		 * The preview text is written to the DOM directly (never via render) so the
+		 * title field keeps focus while typing.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
+		 */
+		on_title_input: function( event ) {
+
+			var model = this.model;
+
+			if ( ! model || ! model.preview_permalink || ! model.has_temp_id() || model.get( '_slug_edited' ) ) {
+				return;
+			}
+
+			var permalink = model.preview_permalink( this.get_content( $( event.target ) ) );
+
+			if ( permalink ) {
+				this.$el.find( '.llms-permalink-preview' ).text( permalink );
+				// Keep the (hidden) slug input in sync so the pencil edits the previewed slug, not the render-time one.
+				this.$el.find( 'input.permalink' )
+					.val( model.get( 'name' ) )
+					.attr( 'data-original-content', model.get( 'name' ) );
+			}
 
 		},
 

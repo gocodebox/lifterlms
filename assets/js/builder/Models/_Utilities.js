@@ -132,62 +132,61 @@ define( [], function() {
 		},
 
 		/**
-		 * Preview the permalink an unsaved lesson or quiz would get on save.
+		 * Slugify a title the way `sanitize_title()` would for basic (ASCII) input.
 		 *
-		 * Follows title edits until the slug is edited by hand.
+		 * A conflict suffix (-2, -3) isn't predicted; the real slug is confirmed on save.
 		 *
 		 * @since [version]
 		 *
-		 * @return {void}
+		 * @param {String} text Text to slugify.
+		 * @return {String}
 		 */
-		preview_permalink: function() {
+		slugify: function( text ) {
+
+			return ( text || '' ).toString().toLowerCase().trim()
+				.replace( /[\s_]+/g, '-' )
+				.replace( /[^a-z0-9\-]/g, '' )
+				.replace( /-+/g, '-' )
+				.replace( /^-+|-+$/g, '' );
+
+		},
+
+		/**
+		 * Preview the permalink an unsaved lesson or quiz would get on save.
+		 *
+		 * Computed client-side from the title and the localized permalink template.
+		 * Follows title edits until the slug is edited by hand. Sets silently so the
+		 * settings panel isn't re-rendered mid-edit (which would steal focus); the
+		 * on-screen preview is updated directly by the view.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} title Optional title override, used for live previews while typing
+		 *                       before the title is committed to the model on blur.
+		 * @return {String} The previewed permalink or an empty string.
+		 */
+		preview_permalink: function( title ) {
 
 			if ( ! this.has_temp_id() || this.get( '_slug_edited' ) ) {
-				return;
+				return '';
 			}
 
-			if ( ! window.llms_builder || ! window.llms_builder.CourseModel ) {
-				return;
+			var structs  = ( window.llms_builder && window.llms_builder.sample_permalinks ) || {},
+				template = structs[ this.get( 'type' ) ],
+				slug     = this.slugify( _.isString( title ) ? title : this.get( 'title' ) );
+
+			if ( ! template || ! slug ) {
+				return '';
 			}
 
-			var self = this;
+			var permalink = template.replace( '%pagename%', slug );
 
-			if ( this._permalink_timer ) {
-				clearTimeout( this._permalink_timer );
-			}
+			this.set( {
+				permalink: permalink,
+				name: slug,
+			}, { silent: true } );
 
-			this._permalink_timer = setTimeout( function() {
-
-				var title = self.get( 'title' );
-				if ( ! title || self.get( '_slug_edited' ) ) {
-					return;
-				}
-
-				LLMS.Ajax.call( {
-					data: {
-						action: 'llms_builder',
-						action_type: 'get_permalink',
-						course_id: window.llms_builder.CourseModel.get( 'id' ),
-						id: self.get( 'id' ),
-						post_type: self.get( 'type' ),
-						title: title,
-					},
-					success: function( r ) {
-
-						if ( self.get( '_slug_edited' ) || ! r || ! r.permalink ) {
-							return;
-						}
-
-						self.set( {
-							permalink: r.permalink,
-							name: r.slug,
-						}, { silent: true } );
-						self.trigger( 'change:permalink', self );
-
-					},
-				} );
-
-			}, 300 );
+			return permalink;
 
 		},
 
