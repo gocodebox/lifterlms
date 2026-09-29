@@ -448,11 +448,15 @@ class LLMS_Engagements_Scanner {
 	 *
 	 * Runs a read-only candidate count (see {@see LLMS_Engagements_Scanner::count_pending()}).
 	 * When the prediction exceeds the threshold and the "Confirm large send volume" box is
-	 * not checked, the engagement is paused (skipped entirely by the daily scan) and a
-	 * user-keyed transient is stored, consumed by
-	 * {@see LLMS_Engagements_Scanner::output_send_volume_notice()} after the post-save
-	 * redirect. Saving with the confirmation checked — or a prediction back at or below
-	 * the threshold — lifts the pause.
+	 * not checked, the engagement is paused (skipped entirely by the daily scan) and a red
+	 * notice is queued. Saving with the confirmation checked — or a prediction back at or
+	 * below the threshold — lifts the pause, and lifting a pause always queues a green
+	 * notice so the state change is never silent. A confirmation saved while the prediction
+	 * is at or below the threshold is stale and is removed, so the gate re-engages if the
+	 * send volume ever grows past the threshold again.
+	 *
+	 * Notices are stored in a user-keyed transient consumed by
+	 * {@see LLMS_Engagements_Scanner::output_send_volume_notice()} after the post-save redirect.
 	 *
 	 * @since [version]
 	 *
@@ -472,11 +476,6 @@ class LLMS_Engagements_Scanner {
 
 		$trigger_type = get_post_meta( $post_id, '_llms_trigger_type', true );
 		if ( ! $trigger_type || ! array_key_exists( $trigger_type, $this->get_scannable_triggers() ) ) {
-			return;
-		}
-
-		if ( 'yes' === get_post_meta( $post_id, self::CONFIRMED_META, true ) ) {
-			delete_post_meta( $post_id, self::PAUSED_META );
 			return;
 		}
 
@@ -502,17 +501,47 @@ class LLMS_Engagements_Scanner {
 		 */
 		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $post_id ) );
 
-		if ( $this->count_pending( $post, $threshold, $max_pages ) <= $threshold ) {
-			delete_post_meta( $post_id, self::PAUSED_META );
+		$was_paused = $this->is_paused( $post_id );
+		$confirmed  = 'yes' === get_post_meta( $post_id, self::CONFIRMED_META, true );
+		$count      = $this->count_pending( $post, $threshold, $max_pages );
+
+		if ( $count > $threshold && ! $confirmed ) {
+
+			update_post_meta( $post_id, self::PAUSED_META, 'yes' );
+			$this->set_send_volume_notice( $post_id, 'paused', $threshold );
 			return;
 		}
 
-		update_post_meta( $post_id, self::PAUSED_META, 'yes' );
+		// Confirmed over-threshold sends stay enabled; under the threshold a confirmation
+		// is stale and is cleared so the gate re-engages if the volume ever grows again.
+		delete_post_meta( $post_id, self::PAUSED_META );
+		if ( ! $confirmed || $count <= $threshold ) {
+			delete_post_meta( $post_id, self::CONFIRMED_META );
+		}
+
+		// Never lift a pause silently: state changes must be visible to the saving user.
+		if ( $was_paused ) {
+			$this->set_send_volume_notice( $post_id, 'enabled', $threshold );
+		}
+	}
+
+	/**
+	 * Store the send-volume notice for the current user, rendered after the post-save redirect.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id   WP_Post ID of the `llms_engagement` post.
+	 * @param string $status    Either `paused` or `enabled`.
+	 * @param int    $threshold The send count threshold in effect.
+	 * @return void
+	 */
+	protected function set_send_volume_notice( $post_id, $status, $threshold ) {
 
 		set_transient(
 			sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() ),
 			array(
 				'post_id'   => $post_id,
+				'status'    => $status,
 				'threshold' => $threshold,
 			),
 			5 * MINUTE_IN_SECONDS
@@ -536,17 +565,27 @@ class LLMS_Engagements_Scanner {
 
 		delete_transient( $key );
 
-		printf(
-			'<div class="notice notice-error"><p>%s</p></div>',
-			esc_html(
-				sprintf(
-					// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count.
-					__( 'The engagement "%1$s" is predicted to send to more than %2$s students on its next daily scan, so sending has been disabled. Check "Confirm large send volume" on the engagement and save to enable sending, or set the "Activity on or after" date to reduce the volume.', 'lifterlms' ),
-					get_the_title( $data['post_id'] ?? 0 ),
-					number_format_i18n( $data['threshold'] ?? 0 )
-				)
-			)
-		);
+		$title     = get_the_title( $data['post_id'] ?? 0 );
+		$threshold = number_format_i18n( $data['threshold'] ?? 0 );
+
+		if ( 'enabled' === ( $data['status'] ?? '' ) ) {
+			$class   = 'notice-success';
+			$message = sprintf(
+				// Translators: %s = the engagement post title.
+				__( 'Sending for the engagement "%s" has been re-enabled.', 'lifterlms' ),
+				$title
+			);
+		} else {
+			$class   = 'notice-error';
+			$message = sprintf(
+				// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count.
+				__( 'The engagement "%1$s" is predicted to send to more than %2$s students on its next daily scan, so sending has been disabled. Check "Confirm large send volume" on the engagement and save to enable sending, or set the "Activity on or after" date to reduce the volume.', 'lifterlms' ),
+				$title,
+				$threshold
+			);
+		}
+
+		printf( '<div class="notice %1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
 	}
 
 	/**

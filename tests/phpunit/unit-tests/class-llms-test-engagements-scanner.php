@@ -80,6 +80,21 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Reset a metabox's run-once save guard so a subsequent `wp_update_post()`
+	 * simulates a fresh admin save request.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Admin_Metabox $metabox Metabox instance.
+	 * @return void
+	 */
+	private function reset_metabox_saved_guard( $metabox ) {
+
+		$saved = new ReflectionProperty( LLMS_Admin_Metabox::class, '_saved' );
+		$saved->setValue( $metabox, null );
+	}
+
+	/**
 	 * Test that core scannable triggers are registered and the registration filter works.
 	 *
 	 * @since [version]
@@ -1448,18 +1463,39 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$this->scanner->output_send_volume_notice();
 		$this->assertSame( '', ob_get_clean() );
 
-		// Saving with the confirmation checked lifts the pause, even over the threshold.
+		// Saving with the confirmation checked lifts the pause, even over the threshold, and keeps the confirmation.
 		update_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, 'yes' );
 		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
 		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
-		$this->assertFalse( get_transient( $transient_key ) );
+		$this->assertEquals( 'yes', get_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, true ) );
+
+		// Lifting a pause is never silent: a green re-enabled notice is queued.
+		$data = get_transient( $transient_key );
+		$this->assertIsArray( $data );
+		$this->assertEquals( 'enabled', $data['status'] );
+
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$notice = ob_get_clean();
+		$this->assertStringContainsString( 'notice-success', $notice );
+		$this->assertStringContainsString( 'has been re-enabled', $notice );
 		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
 
-		// A prediction back at or below the threshold also lifts the pause (default threshold, unconfirmed).
-		delete_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META );
+		// Back at or below the threshold (default threshold): a stale confirmation is removed and the engagement stays enabled.
+		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertEmpty( get_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, true ) );
+		// Not previously paused, so no notice this time.
+		$this->assertFalse( get_transient( $transient_key ) );
+
+		// A prediction back at or below the threshold also lifts the pause (unconfirmed) with a re-enabled notice.
 		update_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
 		$this->scanner->maybe_warn_send_volume( $post->ID, get_post( $post->ID ) );
 		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$data = get_transient( $transient_key );
+		$this->assertIsArray( $data );
+		$this->assertEquals( 'enabled', $data['status'] );
+		delete_transient( $transient_key );
 
 		// Unpublished engagements never warn or pause.
 		$draft = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
@@ -1477,6 +1513,102 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 		$this->assertFalse( get_transient( $transient_key ) );
 		$this->assertFalse( $this->scanner->is_paused( $draft->ID ) );
 		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+	}
+
+	/**
+	 * Test the send-volume gate through the full save pipeline (metabox save + scanner gate) across resaves.
+	 *
+	 * Regression test: resaving an over-threshold engagement must not silently lift the pause,
+	 * and a confirmation must be cleared automatically once the predicted volume drops back
+	 * under the threshold.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_send_volume_gate_full_save_pipeline() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$transient_key = sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() );
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 3 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+
+		// Register the admin metabox save (priority 10) alongside the scanner gate (priority 30),
+		// as in a real admin save request. Hooks are restored automatically after the test.
+		$metabox = new LLMS_Meta_Box_Engagement();
+
+		$threshold = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		$postdata = array(
+			'lifterlms_meta_nonce'              => wp_create_nonce( 'lifterlms_save_data' ),
+			'_llms_trigger_type'                => 'course_never_started',
+			'_faux_engagement_trigger_post_course' => (string) $course_id,
+			'_llms_engagement_trigger_period'   => '14',
+			'_llms_engagement_trigger_since'    => '2020-01-01',
+			'_llms_engagement_type'             => 'email',
+			'_llms_engagement'                  => get_post_meta( $post->ID, '_llms_engagement', true ),
+		);
+
+		// Save 1: over the threshold, unconfirmed -> paused with a red notice.
+		$this->mockPostRequest( $postdata );
+		wp_update_post( array( 'ID' => $post->ID ) );
+
+		$this->assertTrue( $this->scanner->is_paused( $post->ID ) );
+		$data = get_transient( $transient_key );
+		$this->assertEquals( 'paused', $data['status'] );
+		delete_transient( $transient_key );
+
+		// Save 2 (identical resave): the pause and its notice must persist, not silently disappear.
+		$this->reset_metabox_saved_guard( $metabox );
+		$this->mockPostRequest( $postdata );
+		wp_update_post( array( 'ID' => $post->ID ) );
+
+		$this->assertTrue( $this->scanner->is_paused( $post->ID ) );
+		$data = get_transient( $transient_key );
+		$this->assertEquals( 'paused', $data['status'] );
+		delete_transient( $transient_key );
+
+		// Save 3: confirmation checked -> unpaused (green notice), confirmation kept while over threshold.
+		$this->reset_metabox_saved_guard( $metabox );
+		$postdata['_llms_engagement_send_volume_confirmed'] = 'yes';
+		$this->mockPostRequest( $postdata );
+		wp_update_post( array( 'ID' => $post->ID ) );
+
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertEquals( 'yes', get_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, true ) );
+		$data = get_transient( $transient_key );
+		$this->assertEquals( 'enabled', $data['status'] );
+		delete_transient( $transient_key );
+
+		// Save 4: a recent since date drops the prediction under the threshold -> the stale confirmation is cleared.
+		$this->reset_metabox_saved_guard( $metabox );
+		$postdata['_llms_engagement_trigger_since'] = gmdate( 'Y-m-d', llms_current_time( 'timestamp' ) - DAY_IN_SECONDS );
+		$this->mockPostRequest( $postdata );
+		wp_update_post( array( 'ID' => $post->ID ) );
+
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertEmpty( get_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, true ) );
+		$this->assertFalse( get_transient( $transient_key ) );
+
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+		$this->mockPostRequest( array() );
 	}
 
 	/**
