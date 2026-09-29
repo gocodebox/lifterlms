@@ -91,6 +91,10 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	private function reset_metabox_saved_guard( $metabox ) {
 
 		$saved = new ReflectionProperty( LLMS_Admin_Metabox::class, '_saved' );
+		// PHP 8.1+ can write private properties without this. Calling it on 8.5 is a deprecation.
+		if ( PHP_VERSION_ID < 80100 ) {
+			$saved->setAccessible( true );
+		}
 		$saved->setValue( $metabox, null );
 	}
 
@@ -1454,14 +1458,16 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
 		$this->assertStringContainsString( 'notice-error', $notice );
 		$this->assertStringContainsString( 'more than 2 students', $notice );
-		$this->assertStringContainsString( 'Confirm large send volume', $notice );
+		$this->assertStringContainsString( 'Allow sending above the volume limit', $notice );
 		$this->assertStringContainsString( 'sending has been disabled', $notice );
 
-		// The notice is shown once: the transient is consumed.
+		// The save notice is shown once. The standing pause notice remains while the engagement is paused.
 		$this->assertFalse( get_transient( $transient_key ) );
 		ob_start();
 		$this->scanner->output_send_volume_notice();
-		$this->assertSame( '', ob_get_clean() );
+		$standing = ob_get_clean();
+		$this->assertStringNotContainsString( 'more than 2 students', $standing );
+		$this->assertStringContainsString( 'Sending is disabled for these engagements', $standing );
 
 		// Saving with the confirmation checked lifts the pause, even over the threshold, and keeps the confirmation.
 		update_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, 'yes' );
@@ -1609,6 +1615,294 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
 		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
 		$this->mockPostRequest( array() );
+	}
+
+	/**
+	 * Set an engagement's author without running the save-time send-volume gate.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the `llms_engagement` post.
+	 * @param int $user_id WP_User ID.
+	 * @return void
+	 */
+	private function set_engagement_author( $post_id, $user_id ) {
+
+		global $wpdb;
+		$wpdb->update(
+			$wpdb->posts,
+			array( 'post_author' => $user_id ),
+			array( 'ID' => $post_id )
+		);
+		clean_post_cache( $post_id );
+	}
+
+	/**
+	 * Email addresses recorded on the latest mocked `wp_mail()` call.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $field Mock mailer property, `to` or `cc`.
+	 * @return string[]
+	 */
+	private function sent_mail_addresses( $field ) {
+
+		$mail      = tests_retrieve_phpmailer_instance()->get_sent();
+		$addresses = array();
+		foreach ( (array) ( $mail->$field ?? array() ) as $row ) {
+			$addresses[] = strtolower( is_array( $row ) ? (string) ( $row[0] ?? '' ) : (string) $row );
+		}
+
+		return $addresses;
+	}
+
+	/**
+	 * Test the daily scan pauses an unconfirmed over-threshold engagement before queueing a batch.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_scan_pauses_unconfirmed_over_threshold() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 3 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		$this->set_engagement_author(
+			$post->ID,
+			$this->factory->user->create(
+				array(
+					'role'       => 'administrator',
+					'user_email' => 'author@example.com',
+				)
+			)
+		);
+
+		update_option( 'admin_email', 'site-admin@example.com' );
+
+		$threshold = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		reset_phpmailer_instance();
+		$this->scanner->do_scan();
+
+		$this->assertTrue( $this->scanner->is_paused( $post->ID ) );
+		$this->assertFalse(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $post->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+
+		$mailer = tests_retrieve_phpmailer_instance();
+		$this->assertCount( 1, $mailer->mock_sent );
+		$this->assertContains( 'site-admin@example.com', $this->sent_mail_addresses( 'to' ) );
+		$this->assertContains( 'author@example.com', $this->sent_mail_addresses( 'cc' ) );
+		$this->assertStringContainsString( 'Allow sending above the volume limit', $mailer->get_sent()->body );
+
+		// Still paused: the next daily scan does not email again.
+		reset_phpmailer_instance();
+		$this->scanner->do_scan();
+		$this->assertEmpty( tests_retrieve_phpmailer_instance()->mock_sent );
+
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+	}
+
+	/**
+	 * Test a confirmed over-threshold engagement still scans, and an under-threshold one is not paused.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_scan_confirmed_and_under_threshold_still_enqueue() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 3 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META, 'yes' );
+
+		$threshold = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		reset_phpmailer_instance();
+		$this->scanner->do_scan();
+
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertTrue(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $post->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+		$this->assertEmpty( tests_retrieve_phpmailer_instance()->mock_sent );
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		// Default threshold of 200 is above the three candidates: enqueue, no pause, no email.
+		as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+		delete_post_meta( $post->ID, LLMS_Engagements_Scanner::CONFIRMED_META );
+		reset_phpmailer_instance();
+		$this->scanner->do_scan();
+
+		$this->assertFalse( $this->scanner->is_paused( $post->ID ) );
+		$this->assertTrue(
+			as_has_scheduled_action(
+				LLMS_Engagements_Scanner::BATCH_HOOK,
+				array( $post->ID, 0 ),
+				LLMS_Engagements_Scanner::AS_GROUP
+			)
+		);
+		$this->assertEmpty( tests_retrieve_phpmailer_instance()->mock_sent );
+	}
+
+	/**
+	 * Test the pause email omits the author CC when they are ineligible.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_scan_pause_email_omits_ineligible_author() {
+
+		$course_id = $this->factory->course->create(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+
+		$backdate = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+		foreach ( $this->factory->student->create_many( 3 ) as $student ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		update_option( 'admin_email', 'site-admin@example.com' );
+
+		$threshold = function () {
+			return 2;
+		};
+		add_filter( 'llms_engagement_send_warning_threshold', $threshold );
+
+		$rescan = function () use ( $post ) {
+			delete_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META );
+			as_unschedule_all_actions( LLMS_Engagements_Scanner::BATCH_HOOK );
+			reset_phpmailer_instance();
+			$this->scanner->do_scan();
+			$this->assertContains( 'site-admin@example.com', $this->sent_mail_addresses( 'to' ) );
+		};
+
+		// Author is the site admin: no CC.
+		$admin_author = $this->factory->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'site-admin@example.com',
+			)
+		);
+		$this->set_engagement_author( $post->ID, $admin_author );
+		$rescan();
+		$this->assertEmpty( $this->sent_mail_addresses( 'cc' ) );
+
+		// Author lacks manage_lifterlms.
+		$this->set_engagement_author( $post->ID, $this->factory->student->create() );
+		$rescan();
+		$this->assertEmpty( $this->sent_mail_addresses( 'cc' ) );
+
+		// Author no longer exists.
+		$this->set_engagement_author( $post->ID, 0 );
+		$rescan();
+		$this->assertEmpty( $this->sent_mail_addresses( 'cc' ) );
+
+		// Author has no email address.
+		$blank = $this->factory->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'blank-author@example.com',
+			)
+		);
+		global $wpdb;
+		$wpdb->update( $wpdb->users, array( 'user_email' => '' ), array( 'ID' => $blank ) );
+		clean_user_cache( $blank );
+		$this->set_engagement_author( $post->ID, $blank );
+		$rescan();
+		$this->assertEmpty( $this->sent_mail_addresses( 'cc' ) );
+
+		remove_filter( 'llms_engagement_send_warning_threshold', $threshold );
+	}
+
+	/**
+	 * Test the standing pause notice lists paused engagements for engagement managers only.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_paused_engagements_notice() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$post      = $this->create_scan_engagement( 'course_never_started', $course_id, 14 );
+		wp_update_post(
+			array(
+				'ID'         => $post->ID,
+				'post_title' => 'Idle students notice',
+			)
+		);
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$this->assertSame( '', ob_get_clean() );
+
+		update_post_meta( $post->ID, LLMS_Engagements_Scanner::PAUSED_META, 'yes' );
+
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$notice = ob_get_clean();
+
+		$this->assertStringContainsString( 'notice-error', $notice );
+		$this->assertStringContainsString( 'Idle students notice', $notice );
+		$this->assertStringContainsString( get_edit_post_link( $post->ID ), $notice );
+		$this->assertStringContainsString( 'Allow sending above the volume limit', $notice );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
+		ob_start();
+		$this->scanner->output_send_volume_notice();
+		$this->assertSame( '', ob_get_clean() );
 	}
 
 	/**

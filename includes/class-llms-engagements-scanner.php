@@ -207,8 +207,11 @@ class LLMS_Engagements_Scanner {
 	 * scan after it completes.
 	 *
 	 * Engagements paused pending large-send-volume confirmation (see
-	 * {@see LLMS_Engagements_Scanner::maybe_warn_send_volume()}) are also skipped
-	 * and the skip logged.
+	 * {@see LLMS_Engagements_Scanner::maybe_warn_send_volume()}) are skipped and the
+	 * skip logged. An engagement that is not yet paused, and whose "allow sending
+	 * above the volume limit" option is off, is counted before any batch is queued.
+	 * When that count is over the threshold the engagement is paused, the site admin
+	 * is emailed, and no batch is queued.
 	 *
 	 * @since [version]
 	 *
@@ -267,8 +270,107 @@ class LLMS_Engagements_Scanner {
 				continue;
 			}
 
+			if ( $this->maybe_pause_for_send_volume( $engagement_id ) ) {
+				continue;
+			}
+
 			as_enqueue_async_action( self::BATCH_HOOK, array( $engagement_id, 0 ), self::AS_GROUP );
 		}
+	}
+
+	/**
+	 * Pause an unconfirmed engagement whose next scan would exceed the send-volume threshold.
+	 *
+	 * Confirmed engagements are left to send. A pause emails the site admin once; later
+	 * daily scans hit the already-paused skip in {@see LLMS_Engagements_Scanner::do_scan()}
+	 * and do not email again.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @return boolean `true` when the engagement was paused and must not be scanned.
+	 */
+	protected function maybe_pause_for_send_volume( $engagement_id ) {
+
+		if ( 'yes' === get_post_meta( $engagement_id, self::CONFIRMED_META, true ) ) {
+			return false;
+		}
+
+		/** This filter is documented in includes/class-llms-engagements-scanner.php */
+		$threshold = absint( apply_filters( 'llms_engagement_send_warning_threshold', 200, $engagement_id ) );
+
+		/** This filter is documented in includes/class-llms-engagements-scanner.php */
+		$max_pages = absint( apply_filters( 'llms_engagement_send_warning_max_pages', 25, $engagement_id ) );
+
+		if ( $this->count_pending( $engagement_id, $threshold, $max_pages ) <= $threshold ) {
+			return false;
+		}
+
+		update_post_meta( $engagement_id, self::PAUSED_META, 'yes' );
+
+		llms_log(
+			sprintf(
+				// Translators: %d = the llms_engagement post ID.
+				__( 'Daily scan for engagement #%d paused: the next scan would exceed the send-volume threshold and large-send confirmation is not on.', 'lifterlms' ),
+				$engagement_id
+			),
+			'engagement-emails'
+		);
+
+		$this->email_send_volume_paused( $engagement_id, $threshold );
+
+		return true;
+	}
+
+	/**
+	 * Email the site admin that a daily scan paused an engagement.
+	 *
+	 * The engagement author is copied when that user still exists, has an email
+	 * address, can `manage_lifterlms`, and is not already the site admin recipient.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
+	 * @param int $threshold     Send count threshold that was exceeded.
+	 * @return void
+	 */
+	protected function email_send_volume_paused( $engagement_id, $threshold ) {
+
+		$admin_email = get_option( 'admin_email' );
+		if ( ! is_email( $admin_email ) ) {
+			return;
+		}
+
+		$title    = get_the_title( $engagement_id );
+		$edit_url = admin_url( sprintf( 'post.php?post=%d&action=edit', $engagement_id ) );
+		$headers  = array();
+
+		$author = get_userdata( (int) get_post_field( 'post_author', $engagement_id ) );
+		$copy   = $author
+			&& is_email( $author->user_email )
+			&& user_can( $author, 'manage_lifterlms' )
+			&& strtolower( $author->user_email ) !== strtolower( $admin_email );
+
+		if ( $copy ) {
+			$headers[] = 'Cc: ' . $author->user_email;
+		}
+
+		wp_mail(
+			$admin_email,
+			sprintf(
+				// Translators: %s = the engagement post title.
+				__( 'Sending paused for the engagement "%s"', 'lifterlms' ),
+				$title
+			),
+			sprintf(
+				// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count; %3$s = the engagement edit URL.
+				__( 'Sending for the engagement "%1$s" has been paused because its next daily scan would email more than %2$s students. Review it and turn on "Allow sending above the volume limit", or set the "Activity on or after" date to reduce the volume: %3$s', 'lifterlms' ),
+				$title,
+				number_format_i18n( $threshold ),
+				$edit_url
+			),
+			$headers
+		);
 	}
 
 	/**
@@ -447,7 +549,7 @@ class LLMS_Engagements_Scanner {
 	 * Gate a scan-based engagement's send volume when it is saved.
 	 *
 	 * Runs a read-only candidate count (see {@see LLMS_Engagements_Scanner::count_pending()}).
-	 * When the prediction exceeds the threshold and the "Confirm large send volume" box is
+	 * When the prediction exceeds the threshold and "Allow sending above the volume limit" is
 	 * not checked, the engagement is paused (skipped entirely by the daily scan) and a red
 	 * notice is queued. Saving with the confirmation checked — or a prediction back at or
 	 * below the threshold — lifts the pause, and lifting a pause always queues a green
@@ -549,13 +651,30 @@ class LLMS_Engagements_Scanner {
 	}
 
 	/**
-	 * Output the send-volume pause notice stored by `maybe_warn_send_volume()`.
+	 * Output send-volume notices.
+	 *
+	 * The post-save transient is shown once to the user who saved. Paused engagements
+	 * are also listed on every wp-admin screen until sending is turned back on, so a
+	 * pause applied by the daily scan is visible the next time an administrator logs in.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
 	public function output_send_volume_notice() {
+
+		$this->output_send_volume_save_notice();
+		$this->output_paused_engagements_notice();
+	}
+
+	/**
+	 * Output the one-time post-save send-volume notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function output_send_volume_save_notice() {
 
 		$key  = sprintf( 'llms_engagement_send_warning_%d', get_current_user_id() );
 		$data = get_transient( $key );
@@ -579,13 +698,73 @@ class LLMS_Engagements_Scanner {
 			$class   = 'notice-error';
 			$message = sprintf(
 				// Translators: %1$s = the engagement post title; %2$s = the warning threshold send count.
-				__( 'The engagement "%1$s" is predicted to send to more than %2$s students on its next daily scan, so sending has been disabled. Check "Confirm large send volume" on the engagement and save to enable sending, or set the "Activity on or after" date to reduce the volume.', 'lifterlms' ),
+				__( 'The engagement "%1$s" is predicted to send to more than %2$s students on its next daily scan, so sending has been disabled. Turn on "Allow sending above the volume limit" and save to enable sending, or set the "Activity on or after" date to reduce the volume.', 'lifterlms' ),
 				$title,
 				$threshold
 			);
 		}
 
 		printf( '<div class="notice %1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
+	}
+
+	/**
+	 * Output the standing notice listing engagements paused for send volume.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function output_paused_engagements_notice() {
+
+		/** This filter is documented in includes/class.llms.post-types.php */
+		if ( ! current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_lifterlms' ) ) ) {
+			return;
+		}
+
+		global $wpdb;
+
+		$engagement_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT posts.ID
+				 FROM {$wpdb->posts} AS posts
+				 JOIN {$wpdb->postmeta} AS meta ON meta.post_id = posts.ID AND meta.meta_key = %s
+				 WHERE posts.post_type = 'llms_engagement'
+				   AND posts.post_status = 'publish'
+				   AND meta.meta_value = %s
+				 ORDER BY posts.ID ASC",
+				self::PAUSED_META,
+				'yes'
+			)
+		); // db call ok; no-cache ok.
+
+		if ( ! $engagement_ids ) {
+			return;
+		}
+
+		$links = array();
+		foreach ( $engagement_ids as $engagement_id ) {
+			$links[] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( get_edit_post_link( $engagement_id ) ),
+				esc_html( get_the_title( $engagement_id ) )
+			);
+		}
+
+		printf(
+			'<div class="notice notice-error"><p>%s</p></div>',
+			wp_kses(
+				sprintf(
+					// Translators: %s = comma-separated list of engagement edit links.
+					__( 'Sending is disabled for these engagements because a daily scan would email more than the send-volume threshold. Open each one and turn on "Allow sending above the volume limit", or set the "Activity on or after" date to reduce the volume: %s', 'lifterlms' ),
+					implode( ', ', $links )
+				),
+				array(
+					'a' => array(
+						'href' => array(),
+					),
+				)
+			)
+		);
 	}
 
 	/**
@@ -602,7 +781,7 @@ class LLMS_Engagements_Scanner {
 		if ( $post && 'llms_engagement' === $post->post_type && $this->is_paused( $post->ID ) ) {
 			$states['llms_engagement_scan_paused'] = sprintf(
 				'<span style="color:#b32d2e;">%s</span>',
-				esc_html__( 'Sending disabled: confirm large send volume', 'lifterlms' )
+				esc_html__( 'Sending disabled: allow sending above the volume limit', 'lifterlms' )
 			);
 		}
 

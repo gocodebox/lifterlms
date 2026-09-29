@@ -326,6 +326,11 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			'type'             => 'date',
 		);
 
+		/** This filter is documented in includes/class-llms-engagements-scanner.php */
+		$send_volume_threshold = number_format_i18n(
+			absint( apply_filters( 'llms_engagement_send_warning_threshold', 200, isset( $this->post->ID ) ? $this->post->ID : 0 ) )
+		);
+
 		$fields[] = array(
 			'controller'       => '#' . $this->prefix . 'trigger_type',
 			'controller_value' => implode(
@@ -342,9 +347,13 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					)
 				)
 			),
-			'desc'             => __( 'A scan-based engagement predicted to send to more than the send-volume threshold (200 students by default) on its next daily scan is disabled from sending until this box is checked. Consider setting the "Activity on or after" date to reduce the volume instead of confirming.', 'lifterlms' ),
+			'desc'             => sprintf(
+				// Translators: %s = send-volume threshold.
+				__( 'Turn this on to keep sending when a daily scan would email more than %s students. Otherwise sending is paused until this box is checked and the engagement is saved. Setting the "Activity on or after" date can reduce the volume instead.', 'lifterlms' ),
+				$send_volume_threshold
+			),
 			'id'               => $this->prefix . 'engagement_send_volume_confirmed',
-			'label'            => __( 'Confirm large send volume', 'lifterlms' ),
+			'label'            => __( 'Allow sending above the volume limit', 'lifterlms' ),
 			'type'             => 'checkbox',
 			'value'            => 'yes',
 		);
