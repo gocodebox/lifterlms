@@ -184,10 +184,178 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * When deleting courses, dependencies attached to it should be cleaned up:
+	 *
+	 *        A) Prerequisites on other courses / lessons that point at this course should be removed.
+	 *        B) Auto-enrollment lists on memberships should drop the course ID.
+	 *        C) Child sections and their orphaned lessons should be forced-deleted or unlinked.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function delete_course() {
+
+		$courses   = $this->generate_mock_courses( 1, 1, 4, 3, 1 );
+		$course_id = absint( $courses[0] );
+
+		// Create a course that references the mock course as prerequisite.
+		$other_course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$other_course    = llms_get_post( $other_course_id );
+		$other_course->set( 'has_prerequisite', 'yes' );
+		$other_course->set( 'prerequisite', $course_id );
+
+		// Create a membership that auto-enrolls students into the mock course.
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = llms_get_post( $membership_id );
+		$membership->add_auto_enroll_courses( array( $course_id ) );
+
+		$new_sections = array();
+		for ( $i = 0; $i < 2; $i++ ) {
+			$new_sections[] = $this->factory->post->create(
+				array(
+					'post_type'   => 'section',
+					'post_parent' => $course_id,
+				)
+			);
+		}
+		foreach ( $new_sections as $section_id ) {
+			update_post_meta( $section_id, '_llms_parent_course', $course_id );
+		}
+
+		wp_delete_post( $course_id );
+
+		$this->assertEmpty( get_post( $course_id ), 'Course should be force-deleted.' );
+
+		// Other course's prereq should have been cleared.
+		$this->assertFalse( $other_course->has_prerequisite() );
+		$this->assertEquals( 0, $other_course->get( 'prerequisite' ) );
+
+		// Membership auto-enroll should have dropped the course ID.
+		$this->assertNotContains( $course_id, $membership->get_auto_enroll_courses() );
+
+		// Child sections should have been force-deleted.
+		foreach ( $new_sections as $section_id ) {
+			$this->assertNull( get_post( $section_id ), "Section {$section_id} should have been force-deleted." );
+		}
+	}
+
+	/**
+	 * When deleting sections, parent_section meta on lessons in the section should be unset.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function delete_section() {
+
+		// Build a simple course + section + lesson tree.
+		$courses = $this->generate_mock_courses( 1, 1, 1, 1, 1 );
+		$course_id = absint( $courses[0] );
+
+		$sections = get_posts(
+			array(
+				'post_type'      => 'section',
+				'meta_key'       => '_llms_parent_course',
+				'meta_value'     => $course_id,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+
+		$this->assertNotEmpty( $sections, 'Test fixture did not create a section.' );
+		$section_id = absint( $sections[0] );
+		$section    = new LLMS_Section( $section_id );
+
+		$lesson_id = $section->get_lessons()[0]->get( 'id' );
+		$lesson    = llms_get_post( $lesson_id );
+
+		$this->assertEquals( $section_id, (int) get_post_meta( $lesson_id, '_llms_parent_section', true ), 'Pre-condition: lesson has a parent section.' );
+
+		wp_delete_post( $section_id );
+
+		$this->assertEquals(
+			0,
+			(int) get_post_meta( $lesson_id, '_llms_parent_section', true ),
+			"Section delete should have unset the _llms_parent_section meta on the lesson."
+		);
+	}
+
+	/**
+	 * When deleting a membership, restricted posts and availability restriction arrays should drop the membership ID.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function delete_membership_cleanups() {
+
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = new LLMS_Membership( $membership_id );
+
+		// A page that references the membership in its restricted levels.
+		$page_id = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		update_post_meta( $page_id, '_llms_is_restricted', 'yes' );
+		update_post_meta( $page_id, '_llms_restricted_levels', array( $membership_id ) );
+
+		// An access plan restricted to members of this membership.
+		$access_plan_id = llms_insert_access_plan(
+			array(
+				'title'                    => 'Members only',
+				'product_id'               => $this->factory->post->create( array( 'post_type' => 'course' ) ),
+				'availability'             => 'members',
+				'availability_restrictions' => array( $membership_id ),
+			)
+		)->get( 'id' );
+
+		wp_delete_post( $membership_id );
+
+		// Restricted levels should no longer contain the membership ID.
+		$this->assertEmpty( get_post_meta( $page_id, '_llms_restricted_levels', true ) );
+
+		// Access plan restrictions should no longer reference this membership.
+		$plan_restriction = get_post_meta( $access_plan_id, '_llms_availability_restrictions', true );
+		$this->assertEmpty( $plan_restriction );
+	}
+
+	/**
+	 * When deleting the sitewide-required membership, the option that points at it should be cleared.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_clear_sitewide_membership_restriction() {
+
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		update_option( 'lifterlms_membership_required', $membership_id );
+
+		LLMS_Post_Relationships::maybe_clear_sitewide_membership_restriction( $membership_id );
+
+		$this->assertEmpty( get_option( 'lifterlms_membership_required' ) );
+
+		// Non-memberships should not clear the option.
+		update_option( 'lifterlms_membership_required', $membership_id );
+
+		LLMS_Post_Relationships::maybe_clear_sitewide_membership_restriction( $this->factory->post->create( array( 'post_type' => 'post' ) ) );
+
+		$this->assertNotEmpty( get_option( 'lifterlms_membership_required' ) );
+
+		// Unrelated membership should not clear the option.
+		update_option( 'lifterlms_membership_required', 999 );
+
+		LLMS_Post_Relationships::maybe_clear_sitewide_membership_restriction( $membership_id );
+
+		$this->assertEquals( 999, (int) get_option( 'lifterlms_membership_required' ) );
+	}
+
+	/**
 	 * Test all relationships based on post types
 	 *
 	 * @since 3.16.12
 	 * @since 4.15.0 Added tests on course on membership deletion.
+	 * @since [version] Added tests for course prerequisites, section children, section lessons, and membership array metas.
 	 *
 	 * @return void
 	 */
@@ -197,6 +365,9 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 			'delete_quiz',
 			'delete_lesson',
 			'delete_product',
+			'delete_course',
+			'delete_section',
+			'delete_membership_cleanups',
 		);
 		foreach ( $funcs as $func ) {
 			$this->{$func}();
