@@ -7,7 +7,7 @@
  * @type {Object}
  *
  * @since 1.0.0
- * @version 7.8.0
+ * @version [version]
  */( function( $ ) {
 
 	var quiz = {
@@ -119,9 +119,10 @@
 				LLMS.Donut( $( this ) );
 			} );
 
-			// Redirect to attempt on attempt selection change.
-			$( '#llms-quiz-attempt-select' ).on( 'change', function() {
-				var val = $( this ).val();
+			// Open a previous attempt when the results form is submitted.
+			$( '.llms-quiz-attempt-select-form' ).on( 'submit', function( e ) {
+				e.preventDefault();
+				var val = $( this ).find( 'select' ).val();
 				if ( val ) {
 					window.location.href = val;
 				}

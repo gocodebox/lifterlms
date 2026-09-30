@@ -31,7 +31,6 @@ if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 				'attempt'  => $args['attempt'],
 			)
 		);
-
 	}
 }
 
@@ -216,4 +215,39 @@ if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
 	function lifterlms_template_start_button() {
 		llms_get_template( 'quiz/start-button.php' );
 	}
+}
+
+/**
+ * Heading level for a quiz question.
+ *
+ * Question text can contain paragraphs, so the question is exposed with
+ * `role="heading"` rather than a heading element. A falsy level omits the
+ * heading role (used when the question text itself contains form controls).
+ *
+ * @since [version]
+ *
+ * @param LLMS_Question          $question Question object.
+ * @param LLMS_Quiz_Attempt|null $attempt  Attempt object.
+ * @return int Heading level 1-6, or 0 when the question should not be a heading.
+ */
+function llms_get_quiz_question_heading_level( $question, $attempt = null ) {
+
+	/**
+	 * Filter the heading level used for a quiz question.
+	 *
+	 * Return 0 (or any non 1-6 value) to omit the heading role.
+	 *
+	 * @since [version]
+	 *
+	 * @param int                    $level    Heading level. Default 2.
+	 * @param LLMS_Question          $question Question object.
+	 * @param LLMS_Quiz_Attempt|null $attempt  Attempt object.
+	 */
+	$level = absint( apply_filters( 'llms_quiz_question_heading_level', 2, $question, $attempt ) );
+
+	if ( $level < 1 || $level > 6 ) {
+		return 0;
+	}
+
+	return $level;
 }
