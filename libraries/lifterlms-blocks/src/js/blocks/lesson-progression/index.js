@@ -5,14 +5,13 @@
  * @since 1.5.0 Add supported post type settings.
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
- * @version 2.5.0
+ * @since [version] Use native buttons with `wp-element-button` and an `extraButtons` filter so add-ons can render inside the wrapper.
+ * @version [version]
  */
 
 // WP Deps.
-import { Button } from '@wordpress/components';
 import { select } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 // Internal dependencies.
@@ -56,7 +55,7 @@ export const settings = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return {Fragment} Edit component fragment.
+	 * @return {JSX.Element} Edit component.
 	 */
 	edit() {
 		const currentPost = select( 'core/editor' ).getCurrentPost(),
@@ -76,23 +75,35 @@ export const settings = {
 			showMainBtn
 		);
 
+		/**
+		 * Additional buttons rendered inside the lesson progression wrapper in the editor.
+		 *
+		 * Return an array of React elements. Used by add-ons (e.g. Assignments) so their
+		 * buttons sit in the same row as Take Quiz / Mark Complete.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Array} buttons Extra button elements.
+		 */
+		const extraButtons = applyFilters(
+			'llms.lessonProgressBlock.extraButtons',
+			[]
+		);
+
 		return (
-			<>
 			<div className="llms-lesson-button-wrapper">
-			<Fragment>
+				{ extraButtons }
 				{ !! quiz && (
-					<Button className="llms-prog-btn--quiz llms-button-action auto button">
-						{__('Take Quiz', 'lifterlms')}
-					</Button>
+					<button type="button" className="llms-prog-btn--quiz llms-button-action auto button wp-element-button">
+						{ __( 'Take Quiz', 'lifterlms' ) }
+					</button>
 				) }
 				{ showMainBtn && (
-					<Button className="llms-prog-btn--complete llms-field-button llms-button-primary auto button">
-						{__('Mark Complete', 'lifterlms')}
-					</Button>
+					<button type="button" className="llms-prog-btn--complete llms-field-button llms-button-primary auto button wp-element-button">
+						{ __( 'Mark Complete', 'lifterlms' ) }
+					</button>
 				) }
-			</Fragment>
 			</div>
-			</>
 		);
 	},
 
