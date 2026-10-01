@@ -169,6 +169,22 @@ class LLMS_REST_Awarded_Certificates_Controller extends LLMS_REST_Posts_Controll
 			return llms_rest_authorization_required_error();
 		}
 
+		/*
+		 * Pagination totals (X-WP-Total) are computed from the unfiltered query, before the
+		 * per-item `check_read_permission()` filter runs, so the collection check must be
+		 * scoped to the requested student (or require `view_others_students` when unscoped)
+		 * to avoid disclosing counts for students the requester cannot view.
+		 */
+		$student_id = absint( $request['student'] );
+
+		if ( $student_id && ! current_user_can( 'view_students', $student_id ) ) {
+			return llms_rest_authorization_required_error();
+		}
+
+		if ( ! $student_id && ! current_user_can( 'view_others_students' ) ) {
+			return llms_rest_authorization_required_error();
+		}
+
 		return true;
 	}
 
