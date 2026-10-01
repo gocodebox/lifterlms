@@ -544,4 +544,12 @@ $admin-bar-height-mobile: 46px;
 	}
 }
 
+// Focus mode loads this file instead of lifterlms.css. 
+.llms-quiz-attempt-select-form {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
 
