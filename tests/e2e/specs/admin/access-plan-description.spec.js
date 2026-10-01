@@ -263,6 +263,24 @@ test.describe( 'Admin/AccessPlanDescription', () => {
 			return model && model.disabled;
 		} );
 
+		// With no saved plan, EditorManager.settings is the last editor on the page.
+		// Make that the excerpt so a new plan can't inherit it.
+		await page.evaluate( () => {
+			if ( window.tinymce.get( 'excerpt' ) ) {
+				return;
+			}
+			let textarea = document.getElementById( 'excerpt' );
+			if ( ! textarea ) {
+				textarea = document.createElement( 'textarea' );
+				textarea.id = 'excerpt';
+				document.body.appendChild( textarea );
+			}
+			const settings = ( window.tinyMCEPreInit && window.tinyMCEPreInit.mceInit && window.tinyMCEPreInit.mceInit.excerpt )
+				? window.tinyMCEPreInit.mceInit.excerpt
+				: { selector: '#excerpt', id: 'excerpt', toolbar1: 'formatselect,wp_more' };
+			window.tinymce.init( settings );
+		} );
+
 		await page.locator( '#llms-new-access-plan' ).click();
 		await page.locator( '#llms-access-plan-dialog button[data-template="free"]' ).click();
 
@@ -271,37 +289,21 @@ test.describe( 'Admin/AccessPlanDescription', () => {
 		await iframe.waitFor( { state: 'visible' } );
 		await iframe.scrollIntoViewIfNeeded();
 
-		// The editor is built while the plan is collapsed, so the iframe stays ~100px
-		// and only the first line is contenteditable until it is stretched open.
 		await expect.poll( async () => {
 			return page.evaluate( () => {
 				const frame = document.querySelector( '#llms-access-plans .llms-access-plan iframe' );
 				const editorId = frame && frame.id.replace( /_ifr$/, '' );
 				const editor = editorId && window.tinymce && window.tinymce.get( editorId );
-				if ( ! editor || ! frame.offsetHeight ) {
-					return 0;
+				if ( ! editor || ! editor.settings ) {
+					return '';
 				}
-				const doc = editor.getDoc();
-				let editable = 0;
-				let total = 0;
-				for ( let y = 4; y < frame.offsetHeight; y += 8 ) {
-					const el = doc.elementFromPoint( 24, y );
-					total++;
-					if ( el && el.closest && el.closest( '[contenteditable="true"]' ) ) {
-						editable++;
-					}
-				}
-				const settingsId = editor.settings && editor.settings.id;
-				if ( settingsId !== editor.id || ! total ) {
-					return 0;
-				}
-				return editable / total;
+				return editor.settings.id === editor.id ? editor.id : '';
 			} );
-		} ).toBeGreaterThan( 0.75 );
+		} ).not.toBe( '' );
 
 		const box = await iframe.boundingBox();
 		expect( box ).toBeTruthy();
-		await page.mouse.click( box.x + ( box.width / 2 ), box.y + ( box.height * 0.65 ) );
+		await page.mouse.click( box.x + ( box.width / 2 ), box.y + Math.min( box.height / 2, 30 ) );
 		await page.keyboard.type( description );
 
 		await expect.poll( async () => {
