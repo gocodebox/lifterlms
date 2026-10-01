@@ -4,7 +4,8 @@
  *
  * @since   3.16.0
  * @since   10.1.0 Escaped section title output.
- * @version 10.1.0
+ * @since   [version] Added an "Add Existing Lesson" button to the section footer.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -65,6 +66,9 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-builder-footer">
 			<button class="llms-button-secondary small new-lesson">
 				<span class="fa fa-file"></span> <?php esc_html_e( 'Add New Lesson', 'lifterlms' ); ?>
+			</button>
+			<button class="llms-button-secondary small existing-lesson">
+				<span class="fa fa-file-text"></span> <?php esc_html_e( 'Add Existing Lesson', 'lifterlms' ); ?>
 			</button>
 		</div>
 	<# } #>
