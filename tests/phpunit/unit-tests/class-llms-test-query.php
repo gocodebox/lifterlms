@@ -196,8 +196,20 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			$wp_query->init();
 
 			// Logged out user.
+			if ( 'llms_my_certificate' === $post_type ) {
+				$wp_query->is_feed     = true;
+				$wp_query->posts       = array( $post );
+				$wp_query->post_count  = 1;
+				$wp_query->found_posts = 4;
+			}
 			$this->main->maybe_404_certificate();
 			$this->assertEquals( $expect, $wp_query->is_404(), $post_type );
+			if ( $expect ) {
+				$this->assertFalse( $wp_query->is_feed );
+				$this->assertEmpty( $wp_query->posts );
+				$this->assertSame( 0, $wp_query->post_count );
+				$this->assertSame( 0, $wp_query->found_posts );
+			}
 
 			// Logged in admin can always see.
 			$wp_query->init();
@@ -210,6 +222,60 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		}
 
 		$post = $temp;
+
+	}
+
+	/**
+	 * Test exclude_protected_posts_from_feeds().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_exclude_protected_posts_from_feeds() {
+
+		wp_set_current_user( 0 );
+
+		$author = $this->factory->user->create();
+		$cert   = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'llms_my_certificate',
+				'post_author'  => $author,
+				'post_content' => 'SECRET_CERT_BODY',
+			)
+		);
+		$public = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'post',
+				'post_content' => 'public',
+			)
+		);
+
+		$query          = new WP_Query();
+		$query->is_feed = true;
+
+		$filtered = $this->main->exclude_protected_posts_from_feeds( array( $cert, $public ), $query );
+		$ids      = wp_list_pluck( $filtered, 'ID' );
+
+		$this->assertNotContains( $cert->ID, $ids );
+		$this->assertContains( $public->ID, $ids );
+
+		$query->is_feed = false;
+		$unfiltered     = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
+		$this->assertCount( 1, $unfiltered );
+
+		$query->is_feed  = true;
+		$certificate     = new LLMS_User_Certificate( $cert->ID );
+		$certificate->set( 'allow_sharing', 'yes' );
+		$shared = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
+		$this->assertSame( array( $cert->ID ), wp_list_pluck( $shared, 'ID' ) );
+
+		$certificate->set( 'allow_sharing', 'no' );
+		wp_set_current_user( $author );
+		$owned = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
+		$this->assertSame( array( $cert->ID ), wp_list_pluck( $owned, 'ID' ) );
+
+		wp_set_current_user( 0 );
 
 	}
 

@@ -816,12 +816,15 @@ class LLMS_Template_Loader {
 	}
 
 	/**
-	 * Replace membership-restricted post content/excerpt in a feed with the restriction notice.
+	 * Replace restricted post content/excerpt in a feed with the visitor-facing content.
 	 *
 	 * Runs on the `the_content_feed` and `the_excerpt_rss` filters. Unlike the front end and the
 	 * REST API, `get_the_content()` in a feed reads from the global `$pages` array set up by
 	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
 	 * value must be replaced at the feed-content filter itself.
+	 *
+	 * LifterLMS post types are included. Feeds never load LifterLMS templates or the REST API,
+	 * so the REST skip list does not apply here.
 	 *
 	 * @since 10.1.0
 	 *
@@ -832,26 +835,141 @@ class LLMS_Template_Loader {
 
 		$post_id = get_the_ID();
 
-		if ( ! $post_id || in_array( get_post_type( $post_id ), $this->get_content_restriction_skip_post_types(), true ) ) {
+		if ( ! $post_id ) {
 			return $content;
 		}
 
-		// `llms_page_restricted()` only evaluates membership restrictions in a singular context.
-		global $wp_query;
-		$restore = isset( $wp_query ) ? $wp_query->is_singular : null;
-		if ( isset( $wp_query ) ) {
-			$wp_query->is_singular = true;
-		}
-
+		$restore         = $this->force_feed_restriction_query();
 		$page_restricted = llms_page_restricted( $post_id );
 
-		if ( null !== $restore ) {
-			$wp_query->is_singular = $restore;
+		if ( $this->is_feed_engagement_blocked( $post_id ) ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'restricted';
+			$page_restricted['restriction_id'] = $post_id;
 		}
 
-		return empty( $page_restricted['is_restricted'] )
-			? $content
-			: $this->get_content_restriction_message( $page_restricted );
+		if ( empty( $page_restricted['is_restricted'] ) ) {
+			$this->restore_feed_restriction_query( $restore );
+			return $content;
+		}
+
+		$replacement = $this->get_restricted_feed_content( $content, $post_id, $page_restricted );
+		$this->restore_feed_restriction_query( $restore );
+
+		return $replacement;
+	}
+
+	/**
+	 * Make restriction checks see a singular, non-search request.
+	 *
+	 * List feeds are not singular, so lesson, course, quiz, and membership checks never run.
+	 * A search feed also returns early from `llms_page_restricted()` before those checks.
+	 * Flags are restored by `restore_feed_restriction_query()`.
+	 *
+	 * @since [version]
+	 *
+	 * @return array Previous query flags, keyed by flag name.
+	 */
+	private function force_feed_restriction_query() {
+
+		global $wp_query;
+
+		$restore = array();
+
+		if ( ! isset( $wp_query ) ) {
+			return $restore;
+		}
+
+		foreach ( array( 'is_singular', 'is_search' ) as $flag ) {
+			$restore[ $flag ] = (bool) $wp_query->$flag;
+		}
+
+		$wp_query->is_singular = true;
+		$wp_query->is_search   = false;
+
+		return $restore;
+	}
+
+	/**
+	 * Restore query flags changed for a feed restriction check.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $restore Flags from `force_feed_restriction_query()`.
+	 * @return void
+	 */
+	private function restore_feed_restriction_query( $restore ) {
+
+		global $wp_query;
+
+		if ( ! isset( $wp_query ) ) {
+			return;
+		}
+
+		foreach ( $restore as $flag => $value ) {
+			$wp_query->$flag = $value;
+		}
+	}
+
+	/**
+	 * Whether an engagement post must not be rendered in a feed.
+	 *
+	 * `llms_page_restricted()` does not cover awarded certificates or certificate templates.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool
+	 */
+	private function is_feed_engagement_blocked( $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		if ( 'llms_my_certificate' === $post_type ) {
+			$certificate = new LLMS_User_Certificate( $post_id );
+			return ! $certificate->can_user_view();
+		}
+
+		if ( 'llms_certificate' === $post_type ) {
+			return ! current_user_can( 'edit_post', $post_id );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Content to output for a restricted feed item.
+	 *
+	 * Lessons and quizzes are replaced with the restriction notice. Courses and memberships
+	 * that render on their own URL keep that public sales output; redirect sales pages do not.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content         Feed content or excerpt passed into the filter.
+	 * @param int    $post_id         Post ID.
+	 * @param array  $page_restricted Restriction data from `llms_page_restricted()`.
+	 * @return string
+	 */
+	private function get_restricted_feed_content( $content, $post_id, $page_restricted ) {
+
+		$post_type = get_post_type( $post_id );
+
+		if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+			$product = llms_get_post( $post_id );
+
+			if ( $product && is_callable( array( $product, 'has_sales_page_redirect' ) ) && ! $product->has_sales_page_redirect() ) {
+				if ( 'the_content_feed' !== current_filter() ) {
+					return $content;
+				}
+
+				$post = get_post( $post_id );
+				if ( $post instanceof WP_Post ) {
+					return llms_get_post_content( $post->post_content );
+				}
+			}
+		}
+
+		return $this->get_content_restriction_message( $page_restricted );
 	}
 }
 

@@ -54,6 +54,7 @@ class LLMS_Query {
 		$this->init_query_vars();
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
+		add_filter( 'the_posts', array( $this, 'exclude_protected_posts_from_feeds' ), 10, 2 );
 		add_filter( 'get_previous_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 		add_filter( 'get_next_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 	}
@@ -273,8 +274,68 @@ class LLMS_Query {
 				status_header( 404 );
 				nocache_headers();
 
+				// set_404() keeps is_feed and the posts do_feed() would print.
+				if ( $wp_query->is_feed() ) {
+					$wp_query->is_feed       = false;
+					$wp_query->posts         = array();
+					$wp_query->post_count    = 0;
+					$wp_query->found_posts   = 0;
+					$wp_query->max_num_pages = 0;
+				}
 			}
 		}
+	}
+
+	/**
+	 * Drop engagement posts a visitor cannot view from feed queries.
+	 *
+	 * Awarded certificates stay publicly queryable so a shared certificate has a permalink.
+	 * A list feed would otherwise include every awarded certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post[] $posts Array of post objects.
+	 * @param WP_Query  $query Query object.
+	 * @return WP_Post[]
+	 */
+	public function exclude_protected_posts_from_feeds( $posts, $query ) {
+
+		if ( is_admin() || ! $query instanceof WP_Query || ! $query->is_feed() || ! $posts ) {
+			return $posts;
+		}
+
+		$filtered = array();
+
+		foreach ( $posts as $post ) {
+			if ( $post instanceof WP_Post && $this->is_feed_post_protected( $post ) ) {
+				continue;
+			}
+			$filtered[] = $post;
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Whether a feed item is an engagement the current user cannot view.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return bool
+	 */
+	private function is_feed_post_protected( $post ) {
+
+		if ( 'llms_my_certificate' === $post->post_type ) {
+			$certificate = new LLMS_User_Certificate( $post );
+			return ! $certificate->can_user_view();
+		}
+
+		if ( 'llms_certificate' === $post->post_type ) {
+			return ! current_user_can( 'edit_post', $post->ID );
+		}
+
+		return false;
 	}
 
 	/**

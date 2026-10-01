@@ -238,19 +238,183 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_restrict_feed_content(): for a skipped post type.
+	 * Test maybe_restrict_feed_content(): paid lesson bodies are removed, including on search feeds.
 	 *
-	 * @since 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_maybe_restrict_feed_content_skipped_post_type() {
+	public function test_maybe_restrict_feed_content_restricted_lesson() {
+
+		global $post, $wp_query;
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$post      = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'lesson',
+				'post_content' => 'UNIQUE_LESSON_BODY',
+			)
+		);
+		update_post_meta( $post->ID, '_llms_parent_course', $course_id );
+
+		$wp_query->is_singular = false;
+		$wp_query->is_search   = true;
+
+		$this->add_feed_restriction_filters();
+
+		$content = apply_filters( 'the_content_feed', 'UNIQUE_LESSON_BODY', 'rss2' );
+		$excerpt = apply_filters( 'the_excerpt_rss', 'UNIQUE_LESSON_BODY' );
+
+		$this->assertStringNotContainsString( 'UNIQUE_LESSON_BODY', $content );
+		$this->assertStringNotContainsString( 'UNIQUE_LESSON_BODY', $excerpt );
+		$this->assertSame( 'This content is restricted', $content );
+		$this->assertTrue( $wp_query->is_search );
+		$this->assertFalse( $wp_query->is_singular );
+
+		$this->remove_feed_restriction_filters();
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): free and enrolled lessons stay in the feed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_accessible_lesson() {
+
+		global $post, $wp_query;
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$post      = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'lesson',
+				'post_content' => 'UNIQUE_LESSON_BODY',
+			)
+		);
+		update_post_meta( $post->ID, '_llms_parent_course', $course_id );
+		update_post_meta( $post->ID, '_llms_free_lesson', 'yes' );
+
+		$wp_query->is_singular = false;
+		$wp_query->is_search   = false;
+
+		$this->add_feed_restriction_filters();
+
+		$this->assertSame( 'UNIQUE_LESSON_BODY', apply_filters( 'the_content_feed', 'UNIQUE_LESSON_BODY', 'rss2' ) );
+
+		update_post_meta( $post->ID, '_llms_free_lesson', 'no' );
+		$student = $this->get_mock_student( true );
+		$student->enroll( $course_id );
+
+		$this->assertSame( 'UNIQUE_LESSON_BODY', apply_filters( 'the_content_feed', 'UNIQUE_LESSON_BODY', 'rss2' ) );
+
+		wp_set_current_user( 0 );
+		$this->remove_feed_restriction_filters();
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): course feeds keep public sales content and drop hidden editor content.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_course_sales_content() {
+
+		global $post, $wp_query;
+
+		$post = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'course',
+				'post_content' => 'UNIQUE_COURSE_BODY',
+				'post_excerpt' => 'PUBLIC_EXCERPT',
+			)
+		);
+
+		$wp_query->is_singular = false;
+		$wp_query->is_search   = false;
+		setup_postdata( $post );
+
+		$this->add_feed_restriction_filters();
+
+		$content = apply_filters( 'the_content_feed', 'UNIQUE_COURSE_BODY', 'rss2' );
+		$this->assertStringNotContainsString( 'UNIQUE_COURSE_BODY', $content );
+		$this->assertStringContainsString( 'PUBLIC_EXCERPT', $content );
+
+		update_post_meta( $post->ID, '_llms_sales_page_content_type', 'url' );
+		update_post_meta( $post->ID, '_llms_sales_page_content_url', 'https://example.com/sales' );
+
+		$redirected = apply_filters( 'the_content_feed', 'UNIQUE_COURSE_BODY', 'rss2' );
+		$this->assertStringNotContainsString( 'UNIQUE_COURSE_BODY', $redirected );
+		$this->assertSame( 'This content is restricted', $redirected );
+
+		wp_reset_postdata();
+		$this->remove_feed_restriction_filters();
+
+	}
+
+	/**
+	 * Test maybe_restrict_feed_content(): awarded certificates the visitor cannot view.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_feed_content_certificate() {
 
 		global $post;
 
-		$post = $this->get_post_for_restrictions( 'course' );
+		$author = $this->factory->user->create();
+		$post   = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'llms_my_certificate',
+				'post_author'  => $author,
+				'post_content' => 'SECRET_CERT_BODY',
+			)
+		);
 
-		$this->assertEquals( 'content', $this->main->maybe_restrict_feed_content( 'content' ) );
+		wp_set_current_user( 0 );
+		$this->add_feed_restriction_filters();
+
+		$hidden = apply_filters( 'the_content_feed', 'SECRET_CERT_BODY', 'rss2' );
+		$this->assertStringNotContainsString( 'SECRET_CERT_BODY', $hidden );
+
+		$certificate = new LLMS_User_Certificate( $post->ID );
+		$certificate->set( 'allow_sharing', 'yes' );
+
+		$this->assertSame( 'SECRET_CERT_BODY', apply_filters( 'the_content_feed', 'SECRET_CERT_BODY', 'rss2' ) );
+
+		$this->remove_feed_restriction_filters();
+
+	}
+
+	/**
+	 * Attach feed restriction callbacks.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function add_feed_restriction_filters() {
+
+		add_filter( 'the_content_feed', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
+		add_filter( 'the_excerpt_rss', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
+
+	}
+
+	/**
+	 * Remove feed restriction callbacks.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function remove_feed_restriction_filters() {
+
+		remove_filter( 'the_content_feed', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
+		remove_filter( 'the_excerpt_rss', array( $this->main, 'maybe_restrict_feed_content' ), 9999 );
 
 	}
 
