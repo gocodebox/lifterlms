@@ -391,6 +391,9 @@
 				if ( $plan.hasClass( 'opened' ) ) {
 					// wait for animation to complete to prevent focusable errors in the console.
 					setTimeout( function() {
+						// The description editor is created while the plan is collapsed, so
+						// stretch it once the body is visible.
+						self.init_plan_editor( $plan );
 						$plan.find( 'input.llms-invalid' ).each( function() {
 							$( this )[0].reportValidity();
 						} );
@@ -698,16 +701,26 @@
 				return;
 			}
 
-			var $clone          = $( '#llms-new-access-plan-model' ).clone()
-				$existing_plans = $( '#llms-access-plans .llms-access-plan' ),
-				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
+			var $clone        = $( '#llms-new-access-plan-model' ).clone(),
+				modelEditorId = '_llms_plans_content_llms-new-access-plan-model',
+				newEditorId   = '_llms_plans_content_' + this.temp_id;
+
+			this.temp_id++;
 
 			// remove ID from the item
 			$clone.removeAttr( 'id' );
 
-			// give a temporary id to the editor element
-			$editor.removeAttr( 'id' ).attr( 'id', '_llms_plans_content_' + this.temp_id );
-			this.temp_id++; // increment the temp_id ID so we don't use it again
+			// The clone copies the model's editor markup, including ids TinyMCE and the
+			// Visual/Code tabs use. Point those at this plan before the editor is created.
+			$clone.find( '[id*="' + modelEditorId + '"], [for*="' + modelEditorId + '"], [data-wp-editor-id="' + modelEditorId + '"]' ).each( function() {
+				var $el = $( this );
+				$.each( [ 'id', 'for', 'data-wp-editor-id' ], function( index, attr ) {
+					var val = $el.attr( attr );
+					if ( val && -1 !== val.indexOf( modelEditorId ) ) {
+						$el.attr( attr, val.split( modelEditorId ).join( newEditorId ) );
+					}
+				} );
+			} );
 
 			// activate all elements
 			$clone.find( 'select, input, textarea' ).each( function() {
@@ -949,6 +962,154 @@
 		};
 
 		/**
+		 * Replace a plan's order token in a field attribute.
+		 *
+		 * Only the `_llms_plans[{order}]` prefix is rewritten. A plain numeric replace
+		 * also rewrites editor ids that happen to contain the same digits.
+		 *
+		 * @since [version]
+		 *
+		 * @param {string} value Attribute value.
+		 * @param {number} orig  Previous order.
+		 * @param {number} curr  Current order.
+		 * @return {string}
+		 */
+		this.replace_plan_order = function( value, orig, curr ) {
+
+			if ( ! value ) {
+				return value;
+			}
+
+			return String( value ).split( '_llms_plans[' + orig + ']' ).join( '_llms_plans[' + curr + ']' );
+
+		};
+
+		/**
+		 * Settings for a plan description editor.
+		 *
+		 * Cloned from the access plan model. Falling back to `EditorManager.settings`
+		 * uses whichever editor was initialized last (often the excerpt), so the plan
+		 * description is not editable.
+		 *
+		 * @since [version]
+		 *
+		 * @param {string} editorId Textarea id.
+		 * @return {Object}
+		 */
+		this.get_plan_editor_settings = function( editorId ) {
+
+			var modelId   = '_llms_plans_content_llms-new-access-plan-model',
+				base      = {},
+				priorSetup,
+				settings,
+				self      = this;
+
+			if ( window.tinyMCEPreInit && tinyMCEPreInit.mceInit && tinyMCEPreInit.mceInit[ modelId ] ) {
+				base = tinyMCEPreInit.mceInit[ modelId ];
+			}
+
+			priorSetup = base.setup;
+			settings   = $.extend( true, {}, base );
+			delete settings.elements;
+			delete settings.mode;
+			settings.selector = '#' + editorId;
+			settings.id       = editorId;
+
+			if ( settings.body_class ) {
+				settings.body_class = String( settings.body_class ).replace( modelId, editorId );
+			}
+
+			settings.setup = function( editor ) {
+				if ( 'function' === typeof priorSetup ) {
+					priorSetup( editor );
+				}
+				editor.on( 'init', function() {
+					self.sync_plan_editor_height( editor );
+				} );
+			};
+
+			if ( window.tinyMCEPreInit ) {
+				tinyMCEPreInit.mceInit            = tinyMCEPreInit.mceInit || {};
+				tinyMCEPreInit.mceInit[ editorId ] = settings;
+			}
+
+			return settings;
+
+		};
+
+		/**
+		 * Make the description body fill its iframe.
+		 *
+		 * TinyMCE leaves the editable body at one line when the editor is created
+		 * inside a collapsed plan, so clicks in the rest of the box do nothing.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} editor TinyMCE editor.
+		 * @return {void}
+		 */
+		this.sync_plan_editor_height = function( editor ) {
+
+			var doc, body, iframe;
+
+			if ( ! editor || ! editor.initialized || ( editor.isHidden && editor.isHidden() ) ) {
+				return;
+			}
+
+			iframe = editor.iframeElement;
+			if ( ! iframe || ! iframe.offsetHeight ) {
+				return;
+			}
+
+			doc  = editor.getDoc();
+			body = editor.getBody();
+			if ( ! doc || ! body ) {
+				return;
+			}
+
+			// wp-content.css gives the body a 9px vertical margin.
+			doc.documentElement.style.height = '100%';
+			body.style.boxSizing             = 'border-box';
+			body.style.minHeight             = 'calc(100% - 18px)';
+
+		};
+
+		/**
+		 * Create or resize a plan's description editor.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $plan Plan element.
+		 * @return {void}
+		 */
+		this.init_plan_editor = function( $plan ) {
+
+			var $textarea = $plan.find( 'textarea[id^="_llms_plans_content_"]' ),
+				editorId, editor;
+
+			if ( ! $textarea.length || 'undefined' === typeof tinyMCE ) {
+				return;
+			}
+
+			editorId = $textarea.attr( 'id' );
+			editor   = tinyMCE.EditorManager.get( editorId );
+
+			if ( editor && editor.settings && editor.settings.id === editorId ) {
+				this.sync_plan_editor_height( editor );
+				return;
+			}
+
+			if ( editor ) {
+				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editorId );
+			}
+
+			// init() with a single selector, not mceAddEditor. mceAddEditor reuses
+			// EditorManager.settings and conflicts with the Classic block.
+			tinyMCE.EditorManager.init( this.get_plan_editor_settings( editorId ) );
+
+		};
+
+		/**
 		 * Reorder the array indexes and the menu order hidden inputs.
 		 * Called by jQuery UI Sortable on sort completion.
 		 * Also called after adding a new plan to the DOM so the newest item is always
@@ -961,49 +1122,29 @@
 		 */
 		this.update_plan_orders = function() {
 
+			var self = this;
+
 			$( '#llms-access-plans .llms-access-plan' ).each( function() {
 
-				var $p        = $( this ),
-					$order    = $p.find( '.plan-order' ),
-					$editor   = $p.find( 'textarea[id^="_llms_plans_content_"]' ),
-					editor_id = $editor.attr( 'id' ),
-					orig      = $order.val() * 1,
-					curr      = $p.index(),
-					editor    = tinyMCE.EditorManager.get(editor_id),
-					esettings = editor ? editor.settings : tinyMCE.EditorManager.settings;
+				var $p     = $( this ),
+					$order = $p.find( '.plan-order' ),
+					orig   = $order.val() * 1,
+					curr   = $p.index();
 
-				// make sure the editor settings have the right selector.
-				esettings.selector = '#' + editor_id;
-
-				// de-init tinyMCE from the editor.
-				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
-
-				// update the order of each label and field in the plan.
 				$p.find( 'label, select, input, textarea' ).each( function() {
 
-					var labelFor = $( this ).attr( 'for' );
-					if ( labelFor ) {
-						$( this ).attr( 'for', labelFor.replace( orig, curr ) );
-					}
-
-					var inputID = $( this ).attr( 'id' );
-					if ( inputID ) {
-						$( this ).attr( 'id', inputID.replace( orig, curr ) );
-					}
-
-					var inputName = $( this ).attr( 'name' );
-					if ( inputName ) {
-						$( this ).attr( 'name', inputName.replace( orig, curr ) );
-					}
+					var $el = $( this );
+					$.each( [ 'for', 'id', 'name' ], function( index, attr ) {
+						var val = $el.attr( attr );
+						if ( val ) {
+							$el.attr( attr, self.replace_plan_order( val, orig, curr ) );
+						}
+					} );
 
 				} );
 
-				// re-init tinyMCE on the editor.
-				// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
-				// but it turned out to create conflicts with the Classic Editor block.
-				tinyMCE.EditorManager.init( esettings );
-
 				$order.val( curr );
+				self.init_plan_editor( $p );
 
 			} );
 
