@@ -1,0 +1,5 @@
+significance: patch
+type: security
+attributions:
+  - "@Yo1o-sir"
+entry: "Additional checks on feeds."
