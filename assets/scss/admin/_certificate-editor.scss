@@ -35,8 +35,25 @@
 #achievement_sync {
 	margin-top: 16px;
 
+	// Classic metabox header adds its own top rule on top of the settings
+	// panel border. Drop it so the gap above reads as one break.
+	.postbox-header {
+		border-top: 0;
+	}
+
+	// #poststuff h2 is 14px / 24px inset and beats the sidebar's 13px, 16px panel titles.
+	.edit-post-meta-boxes-area & .postbox-header .hndle {
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.4;
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+
 	.inside {
 		overflow-x: hidden;
+		padding-left: 16px;
+		padding-right: 16px;
 	}
 
 	.llms-sync-action-wrap {

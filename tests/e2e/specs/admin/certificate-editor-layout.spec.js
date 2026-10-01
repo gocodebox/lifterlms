@@ -138,6 +138,32 @@ test.describe( 'Admin/CertificateEditorLayout', () => {
 		expect( syncSpacing ).not.toBeNull();
 		expect( syncSpacing ).toBeGreaterThanOrEqual( 12 );
 
+		const syncType = await page.evaluate( () => {
+			const settings = document.querySelector( '.llms-certificate-doc-settings .components-panel__body-toggle' );
+			const settingsPanel = document.querySelector( '.llms-certificate-doc-settings' );
+			const heading = document.querySelector( '#certificate_sync h2.hndle' );
+			const header = document.querySelector( '#certificate_sync .postbox-header' );
+			const inside = document.querySelector( '#certificate_sync > .inside' );
+			if ( ! settings || ! settingsPanel || ! heading || ! header || ! inside ) {
+				return null;
+			}
+			return {
+				settingsSize: getComputedStyle( settings ).fontSize,
+				headingSize: getComputedStyle( heading ).fontSize,
+				headerBorderTop: getComputedStyle( header ).borderTopWidth,
+				settingsPadLeft: getComputedStyle( settings ).paddingLeft,
+				headingPadLeft: getComputedStyle( heading ).paddingLeft,
+				panelPadLeft: getComputedStyle( settingsPanel ).paddingLeft,
+				insidePadLeft: getComputedStyle( inside ).paddingLeft,
+			};
+		} );
+
+		expect( syncType ).not.toBeNull();
+		expect( syncType.headingSize ).toBe( syncType.settingsSize );
+		expect( syncType.headerBorderTop ).toBe( '0px' );
+		expect( syncType.headingPadLeft ).toBe( syncType.settingsPadLeft );
+		expect( syncType.insidePadLeft ).toBe( syncType.panelPadLeft );
+
 		const syncButton = syncBox.locator( 'a.sync-action' );
 		await expect( syncButton ).toBeVisible();
 
