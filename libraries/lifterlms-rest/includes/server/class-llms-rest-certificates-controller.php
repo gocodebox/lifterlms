@@ -46,7 +46,7 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 
-		if ( ! current_user_can( get_post_type_object( $this->post_type )->cap->edit_posts ) ) {
+		if ( ! current_user_can( $this->get_management_capability() ) ) {
 			return llms_rest_authorization_required_error();
 		}
 
@@ -62,7 +62,55 @@ class LLMS_REST_Certificates_Controller extends LLMS_REST_Posts_Controller {
 	 * @return bool Whether the template can be read.
 	 */
 	protected function check_read_permission( $object ) {
-		return current_user_can( 'edit_post', $object->get( 'id' ) );
+		return current_user_can( $this->get_management_capability() );
+	}
+
+	/**
+	 * Retrieve the capability required to manage certificate templates.
+	 *
+	 * Matches the admin UI gate (`lifterlms_admin_certificates_access`).
+	 *
+	 * @since 10.2.1
+	 *
+	 * @return string
+	 */
+	protected function get_management_capability() {
+		return apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' );
+	}
+
+	/**
+	 * Checks if a certificate template can be created.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @return bool Whether the template can be created.
+	 */
+	protected function check_create_permission() {
+		return current_user_can( $this->get_management_capability() );
+	}
+
+	/**
+	 * Checks if a certificate template can be edited.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @param LLMS_Post_Model $object Optional. The object. Default null.
+	 * @return bool Whether the template can be edited.
+	 */
+	protected function check_update_permission( $object = null ) {
+		return current_user_can( $this->get_management_capability() );
+	}
+
+	/**
+	 * Checks if a certificate template can be deleted.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @param LLMS_Post_Model $object The object.
+	 * @return bool Whether the template can be deleted.
+	 */
+	protected function check_delete_permission( $object ) {
+		return current_user_can( $this->get_management_capability() );
 	}
 
 	/**

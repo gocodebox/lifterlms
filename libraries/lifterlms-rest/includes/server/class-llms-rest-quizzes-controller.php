@@ -32,6 +32,38 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	protected $rest_base = 'quizzes';
 
 	/**
+	 * Check if a given request has access to read items.
+	 *
+	 * Quizzes are not public REST content: listing them requires
+	 * quiz editing capabilities.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function get_items_permissions_check( $request ) {
+
+		if ( ! current_user_can( get_post_type_object( $this->post_type )->cap->edit_posts ) ) {
+			return llms_rest_authorization_required_error();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if a quiz can be read.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @param LLMS_Quiz $quiz The quiz object.
+	 * @return bool Whether the quiz can be read.
+	 */
+	protected function check_read_permission( $quiz ) {
+		return current_user_can( 'edit_post', $quiz->get( 'id' ) );
+	}
+
+	/**
 	 * Retrieves the query params for the objects collection.
 	 *
 	 * @since 10.2.0

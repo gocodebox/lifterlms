@@ -226,6 +226,8 @@ class LLMS_REST_Unit_Test_Case_Server extends LLMS_REST_Unit_Test_Case_Base {
 			);
 		}
 
+		wp_set_current_user( $this->user_allowed );
+
 		// No search term defined.
 		$response = $this->perform_mock_request(
 			'GET',

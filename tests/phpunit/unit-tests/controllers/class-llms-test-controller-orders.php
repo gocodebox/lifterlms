@@ -635,6 +635,36 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Recurring charges skip on a clone even when the stored feature is still enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_charge_skipped_on_clone_before_admin_visit() {
+
+		add_filter( 'llms_site_is_clone', '__return_true' );
+
+		try {
+			LLMS_Site::update_feature( 'recurring_payments', true );
+
+			$plan  = $this->get_mock_plan( '200.00', 1 );
+			$order = $this->get_mock_order( $plan );
+
+			$skip_actions = did_action( 'llms_order_recurring_charge_skipped' );
+			$note_actions = did_action( 'llms_new_order_note_added' );
+
+			do_action( 'llms_charge_recurring_payment', $order->get( 'id' ) );
+
+			$this->assertSame( $note_actions + 1, did_action( 'llms_new_order_note_added' ) );
+			$this->assertSame( $skip_actions + 1, did_action( 'llms_order_recurring_charge_skipped' ) );
+		} finally {
+			remove_filter( 'llms_site_is_clone', '__return_true' );
+		}
+
+	}
+
+	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
 	 * @since 3.32.0
