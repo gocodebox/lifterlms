@@ -49,7 +49,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 			// watch course sections and enable/disable lesson buttons conditionally
 			this.listenTo( this.SidebarView.CourseView.model.get( 'sections' ), 'add', this.maybe_disable_buttons );
-			this.listenTo( this.SidebarView.CourseView.model.get( 'sections' ), 'remove', this.maybe_disable_buttons );
+			this.listenTo( this.SidebarView.CourseView.model.get( 'sections' ), 'remove', this.on_section_remove );
 
 		},
 
@@ -134,24 +134,132 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		},
 
 		/**
-		 * Disables lesson add buttons if no sections are available to add a lesson to
+		 * Add a demo section and three lessons when a course outline is empty.
+		 *
+		 * Later empty outlines get a single section and no lessons. The elements
+		 * view is rebuilt when the sidebar re-renders, so the demo seed runs once.
 		 *
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		maybe_add_initial_section: function() {
+
+			var course = this.SidebarView.CourseView.model;
+
+			if ( course._outline_seeded ) {
+				this.maybe_add_blank_section();
+				this.maybe_disable_buttons();
+				return;
+			}
+
+			course._outline_seeded = true;
+
+			if ( ! course.get( 'sections' ).length ) {
+				if ( false !== window.llms_builder.seed_starter ) {
+					Backbone.pubSub.trigger( 'add-new-section' );
+					Backbone.pubSub.trigger( 'add-new-lesson' );
+					Backbone.pubSub.trigger( 'add-new-lesson' );
+					Backbone.pubSub.trigger( 'add-new-lesson' );
+				} else {
+					this.maybe_add_blank_section();
+				}
+			}
+
+			this.maybe_disable_buttons();
+
+		},
+
+		/**
+		 * Keep one section on screen when the outline would otherwise be empty.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		maybe_add_blank_section: function() {
+
+			var course = this.SidebarView.CourseView.model;
+
+			if ( course.get( 'sections' ).length || course._adding_blank_section ) {
+				return;
+			}
+
+			course._adding_blank_section = true;
+			Backbone.pubSub.trigger( 'add-new-section' );
+			course._adding_blank_section = false;
+
+			// A blank replacement must not bring the three demo lessons back on reload.
+			this.dismiss_starter_outline();
+
+		},
+
+		/**
+		 * Disable lesson buttons when the course has no section to add a lesson to.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		maybe_disable_buttons: function() {
 
 			var $els = $( '#llms-new-lesson, #llms-existing-lesson' );
 
 			if ( ! this.SidebarView.CourseView.model.get( 'sections' ).length ) {
-				Backbone.pubSub.trigger( 'add-new-section' );
-				Backbone.pubSub.trigger( 'add-new-lesson' );
-				Backbone.pubSub.trigger( 'add-new-lesson' );
-				Backbone.pubSub.trigger( 'add-new-lesson' );
+				$els.attr( 'disabled', 'disabled' );
 			} else {
 				$els.removeAttr( 'disabled' );
 			}
+
+		},
+
+		/**
+		 * After a section is removed, keep a section on screen without demo lessons.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		on_section_remove: function() {
+
+			this.maybe_disable_buttons();
+			this.maybe_add_blank_section();
+
+		},
+
+		/**
+		 * Persist that the demo lessons should not be inserted again.
+		 *
+		 * The demo outline is unsaved until the course is saved, so deleting it does
+		 * not produce a trash payload. Without this flag the next builder load sees
+		 * an empty course and inserts the three lessons again.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		dismiss_starter_outline: function() {
+
+			var course = this.SidebarView.CourseView.model;
+
+			if ( course._starter_dismissed || ! course.get( 'id' ) ) {
+				return;
+			}
+
+			course._starter_dismissed = true;
+			window.llms_builder.seed_starter = false;
+
+			if ( ! window.LLMS || ! LLMS.Ajax ) {
+				return;
+			}
+
+			LLMS.Ajax.call( {
+				data: {
+					action: 'llms_builder',
+					action_type: 'dismiss_starter',
+					course_id: course.get( 'id' ),
+				},
+			} );
 
 		},
 
