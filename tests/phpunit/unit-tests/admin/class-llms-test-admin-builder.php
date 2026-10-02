@@ -1115,6 +1115,58 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Custom data on a new lesson is stored as-is and serialized strings are never unserialized.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_custom_data_is_not_unserialized() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'     => 'temp_1',
+						'title'  => 'New Lesson',
+						'custom' => array(
+							'_mock_array'        => array( array( 'data' => true ) ),
+							'_mock_string'       => array( 'value' ),
+							'_mock_object'       => array( 'O:8:"stdClass":0:{}' ),
+							'_mock_serialized'   => array( serialize( array( 'data' => true ) ) ),
+							'_mock_not_an_array' => 'value',
+						),
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$lesson_id = $res[0]['id'];
+		$this->assertEquals( array( 'data' => true ), get_post_meta( $lesson_id, '_mock_array', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_string', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_not_an_array', true ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_object' ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_serialized' ) );
+	}
+
+	/**
 	 * Content created outside the builder must not be overwritten by a builder save.
 	 *
 	 * @since [version]

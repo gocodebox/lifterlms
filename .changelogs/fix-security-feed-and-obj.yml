@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Improved validation of course builder and import data."
