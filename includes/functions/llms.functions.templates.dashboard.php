@@ -1031,13 +1031,17 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_select_mobile_navi
 	 */
 	function lifterlms_template_student_dashboard_select_mobile_navigation( $current ) {
 		?>
-		<select onChange="window.location.replace(this.options[this.selectedIndex].value)">
-			<?php foreach ( LLMS_Student_Dashboard::get_tabs_for_nav() as $var => $data ) : ?>
-				<option value="<?php echo esc_attr( esc_url( $data['url'] ) ); ?>" <?php selected( $var, $current ); ?>>
-					<?php echo esc_html( $data['title'] ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
+		<form class="llms-sd-mobile-nav" action="" method="get">
+			<label class="sr-only" for="llms-sd-mobile-nav"><?php esc_html_e( 'Dashboard navigation', 'lifterlms' ); ?></label>
+			<select id="llms-sd-mobile-nav">
+				<?php foreach ( LLMS_Student_Dashboard::get_tabs_for_nav() as $var => $data ) : ?>
+					<option value="<?php echo esc_attr( esc_url( $data['url'] ) ); ?>" <?php selected( $var, $current ); ?>>
+						<?php echo esc_html( $data['title'] ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<button class="llms-button-secondary small wp-element-button" type="submit"><?php esc_html_e( 'Go', 'lifterlms' ); ?></button>
+		</form>
 		<?php
 	}
 endif;
@@ -1139,13 +1143,24 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 			if ( $lesson->has_quiz() && $restrictions['is_restricted'] ) {
 				echo '<i class="fa fa-lock" aria-hidden="true"></i>';
 			} elseif ( $lesson->has_quiz() ) {
-				$attempt = $student->quizzes()->get_last_attempt( $lesson->get( 'quiz' ) );
-				$url     = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
-				$text    = $attempt ? __( 'Review', 'lifterlms' ) : __( 'Start', 'lifterlms' );
+				$attempt     = $student->quizzes()->get_last_attempt( $lesson->get( 'quiz' ) );
+				$url         = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
+				$text        = $attempt ? __( 'Review', 'lifterlms' ) : __( 'Start', 'lifterlms' );
+				$quiz_title  = get_the_title( $lesson->get( 'quiz' ) );
+				$course_id   = $lesson->get( 'parent_course' );
+				$course_name = $course_id ? get_the_title( $course_id ) : '';
 				if ( $attempt ) {
 					echo '<span class="llms-status llms-' . esc_attr( $attempt->get( 'status' ) ) . '">' . esc_html( $attempt->l10n( 'status' ) ) . '</span>';
 				}
-				echo '<a href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a>';
+				echo '<a href="' . esc_url( $url ) . '">' . esc_html( $text );
+				echo '<span class="sr-only"> ' . esc_html(
+					sprintf(
+						/* translators: 1: quiz title, 2: course title */
+						__( 'quiz: %1$s - %2$s', 'lifterlms' ),
+						$quiz_title,
+						$course_name
+					)
+				) . '</span></a>';
 			} else {
 				echo '&ndash;';
 			}

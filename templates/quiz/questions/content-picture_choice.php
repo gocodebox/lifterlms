@@ -7,7 +7,8 @@
  * @since 3.16.0
  * @since 5.9.0 Use `llms-flex-cols` in favor of `llms-cols` for arranging choices in columns.
  * @since 7.8.0 Account for question answers.
- * @version 7.8.0
+ * @since [version] Label the choice group from the question heading.
+ * @version [version]
  *
  * @var LLMS_Quiz_Attempt $attempt  Current quiz attempt object.
  * @var LLMS_Question     $question Question object.
@@ -21,12 +22,7 @@ $cols            = llms_get_picture_choice_question_cols( count( $choices ) );
 $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : array();
 ?>
 
-<fieldset class="llms-question-choices type--picture">
-	<legend class="sr-only">
-		<?php
-		echo esc_html( wp_strip_all_tags( $question->get_question( 'html', $attempt ) ) );
-		?>
-	</legend>
+<fieldset class="llms-question-choices type--picture" aria-labelledby="llms-question-text-<?php echo esc_attr( $question->get( 'id' ) ); ?>">
 	<?php foreach ( $choices as $choice ) : ?>
 		<?php
 		$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;

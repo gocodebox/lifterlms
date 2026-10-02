@@ -4,7 +4,8 @@
  *
  * @since 1.0.0
  * @since 5.0.0 Utilize fields from LLMS_Forms.
- * @version 5.0.0
+ * @since [version] Use a heading level that follows the dashboard title.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +23,13 @@ $form_fields = llms_get_form_html( 'account' );
 <div class="llms-person-form-wrapper">
 
 	<?php if ( $form_title ) : ?>
-		<h4 class="llms-form-heading"><?php echo wp_kses_post( $form_title ); ?></h4>
+		<?php
+		printf(
+			'<%1$s class="llms-form-heading">%2$s</%1$s>',
+			tag_escape( llms_get_content_heading_tag( 'edit-account' ) ),
+			wp_kses_post( $form_title )
+		);
+		?>
 	<?php endif; ?>
 
 	<form method="post" class="llms-person-form edit-account">
