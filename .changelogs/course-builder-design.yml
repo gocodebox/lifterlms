@@ -1,3 +1,5 @@
 significance: minor
 type: changed
+links:
+  - "#3323"
 entry: Refreshed the course builder settings panels and outline columns.
