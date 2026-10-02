@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3359"
+entry: Improved styling in the back end editor for Lesson Progression and Access Plan buttons.
