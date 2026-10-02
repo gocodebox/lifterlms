@@ -50,10 +50,15 @@ ul.llms-certificates-loop,
 		background: #eaeaea;
 	}
 
+	.llms-achievement-image {
+		text-align: center;
+	}
+
 	.llms-achievement-img {
-		display: block;
-		margin: 0 auto;
+		display: inline-block;
+		height: auto;
 		max-width: 80%;
+		vertical-align: top;
 	}
 
 	.llms-achievement-title {
@@ -87,8 +92,10 @@ ul.llms-certificates-loop,
 		border: 0;
 		color: inherit;
 		cursor: pointer;
+		display: inline;
 		font: inherit;
 		padding: 0;
+		width: auto;
 
 		&::after {
 			content: '';
