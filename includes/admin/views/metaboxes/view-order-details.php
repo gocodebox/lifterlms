@@ -289,9 +289,13 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<div class="llms-metabox-field">
 				<label><?php esc_html_e( 'Buyer Address:', 'lifterlms' ); ?></label>
 				<?php echo esc_html( $order->get( 'billing_address_1' ) ); ?><br>
-				<?php if ( isset( $order->billing_address_2 ) ) : ?>
-					<?php echo esc_html( $order->get( 'billing_address_2' ) ); ?><br>
-				<?php endif; ?>
+				<?php
+				// __isset() is true when the meta key exists, including an empty saved value.
+				$billing_address_2 = trim( (string) $order->get( 'billing_address_2' ) );
+				if ( '' !== $billing_address_2 ) {
+					echo esc_html( $billing_address_2 ) . '<br>';
+				}
+				?>
 				<?php
 				// Collect city, state, zip and filter out empty values.
 				$order_address_array = array_filter(

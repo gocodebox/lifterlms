@@ -1266,6 +1266,52 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Deleting every section records that the demo outline should not be inserted again.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_starter_outline() {
+
+		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0 ) );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+
+		$this->assertTrue( $res['dismissed'] );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $student );
+		$denied = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+		$this->assertSame( array(), $denied );
+
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.

@@ -360,6 +360,9 @@ class LLMS_Admin_Builder {
 
 				break;
 
+			case 'dismiss_starter':
+				return self::dismiss_starter_outline( $request['course_id'] );
+
 			case 'get_permalink':
 				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
 				if ( ! $id ) {
@@ -427,6 +430,41 @@ class LLMS_Admin_Builder {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Remember that the author removed every section so the demo outline is not inserted again.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $course_id Course ID.
+	 * @return array
+	 */
+	private static function dismiss_starter_outline( $course_id ) {
+
+		$course_id = absint( $course_id );
+		if ( ! $course_id || 'course' !== get_post_type( $course_id ) ) {
+			return array();
+		}
+
+		update_post_meta( $course_id, '_llms_builder_starter_dismissed', 'yes' );
+
+		return array(
+			'dismissed' => true,
+		);
+	}
+
+	/**
+	 * Whether the builder should skip the demo section and lessons.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $course_id Course ID.
+	 * @return bool
+	 */
+	private static function is_starter_outline_dismissed( $course_id ) {
+
+		return 'yes' === get_post_meta( absint( $course_id ), '_llms_builder_starter_dismissed', true );
 	}
 
 	/**
@@ -709,6 +747,7 @@ class LLMS_Admin_Builder {
 						'autosave'               => self::get_autosave_status(),
 						'admin_url'              => admin_url(),
 						'course'                 => $course->toArray(),
+						'seed_starter'           => ! self::is_starter_outline_dismissed( $course_id ),
 						'debug'                  => array(
 							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 						),

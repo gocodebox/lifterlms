@@ -56,6 +56,11 @@ const StyledTextControl = styled( TextControl )`
 			transition: right 0.05s ease-in-out;
 		}
 	}
+
+	/* Clears the suffix when it shifts left for the number spinner. */
+	& input {
+		padding-right: 40px;
+	}
 `;
 
 /**
@@ -74,10 +79,7 @@ function MarginControl( { margin, index, editMargins } ) {
 		marginId = [ 'top', 'right', 'bottom', 'left' ][ index ];
 
 	return (
-		<div
-			className="llms-certificate-margin-control"
-			style={ { flex: 1, minWidth: 0 } }
-		>
+		<div className={ `llms-certificate-margin-control llms-certificate-margin-control--${ marginId }` }>
 			<StyledTextControl
 				id={ `llms-certificate-control--margin--${ marginId }` }
 				value={ currMargin }
@@ -117,11 +119,13 @@ export default function MarginsControl( { margins } ) {
 			label={ __( 'Inner Margins', 'lifterlms' ) }
 			id="llms-certificate-margins-control"
 		>
-			<div style={ { display: 'flex', gap: '4px' } }>
-				{ margins.map( ( margin, index ) => (
+			<div className="llms-certificate-margins-control__fields">
+				{ [ 0, 3, 1, 2 ].map( ( index ) => (
 					<MarginControl
 						key={ index }
-						{ ...{ margin, index, editMargins } }
+						margin={ margins[ index ] }
+						index={ index }
+						editMargins={ editMargins }
 					/>
 				) ) }
 			</div>

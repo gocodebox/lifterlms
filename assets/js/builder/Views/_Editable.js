@@ -284,6 +284,34 @@ define( [], function() {
 		},
 
 		/**
+		 * Release Select2's scroll lock before this view's markup is replaced.
+		 *
+		 * An open dropdown pins scrollTop on scrollable ancestors and only
+		 * releases that pin when it closes. Replacing the field first leaves
+		 * the pin behind. select2('destroy') does not release it either.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		release_select2_scroll_lock: function() {
+
+			this.$el.find( 'select' ).each( function() {
+
+				var $select = $( this );
+
+				if ( $select.data( 'select2' ) ) {
+					$select.llmsSelect2( 'close' );
+				}
+
+			} );
+
+			// close() only unbinds ancestors it can still walk to.
+			this.$el.off( '.select2' );
+
+		},
+
+		/**
 		 * Initialize editable select elements
 		 *
 		 * @return   void
