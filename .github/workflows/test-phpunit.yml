@@ -75,14 +75,6 @@ jobs:
           secrets: ${{ toJSON( secrets ) }}
           cache-suffix: ${{ inputs.cache-suffix }}
 
-      # setup-phpunit hardcodes `tools: wp`, whose nightly phar download is failing. Pin over the top until that action is updated.
-      - name: Install pinned WP-CLI
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.PHP }}
-          coverage: none
-          tools: wp-cli:2.12.0
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
