@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3375"
+entry: Fixed a blank line in the order billing address when Address 2 is empty.
