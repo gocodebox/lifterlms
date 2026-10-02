@@ -1,0 +1,8 @@
+significance: patch
+type: changed
+comment: Add the user to the status change note.
+links:
+  - "#3039"
+attributions:
+  - "@robindevitt"
+entry: Add the user to the status change note.
