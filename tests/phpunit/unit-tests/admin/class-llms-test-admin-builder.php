@@ -1065,6 +1065,201 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * A new lesson saved with content from the builder must keep the builder editor.
+	 *
+	 * New lessons sync every attribute, including the default empty
+	 * `content_added_in_builder` value. That empty value must not be stored as "no",
+	 * which hides the editor behind the outside-the-builder notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_content_is_added_in_builder() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$content = '<p>Adding some content here.</p>';
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => 'temp_1',
+						'title'                    => 'New Lesson',
+						'content'                  => $content,
+						'content_added_in_builder' => '',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( 'yes', $res[0]['content_added_in_builder'] );
+
+		$lesson = llms_get_post( $res[0]['id'] );
+		$this->assertEquals( $content, $lesson->get( 'content', true ) );
+		$this->assertEquals( 'yes', $lesson->get( 'content_added_in_builder' ) );
+	}
+
+	/**
+	 * Content created outside the builder must not be overwritten by a builder save.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_does_not_overwrite_content_added_outside_builder() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$lesson  = $course->get_lessons()[0];
+		$lesson->set( 'content', '<p>Written in the block editor.</p>' );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => $lesson->get( 'id' ),
+						'content'                  => '<p>Builder content that must not replace the original.</p>',
+						'content_added_in_builder' => '',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$lesson = llms_get_post( $lesson->get( 'id' ) );
+		$this->assertEquals( '<p>Written in the block editor.</p>', $lesson->get( 'content', true ) );
+		$this->assertEquals( 'no', $lesson->get( 'content_added_in_builder' ) );
+	}
+
+	/**
+	 * Builder-added content later converted to blocks must not be editable or overwritten by the builder.
+	 *
+	 * The stored `content_added_in_builder` flag stays "yes" after a lesson is converted
+	 * to blocks in the block editor. The builder must detect the block content, skip the
+	 * client's content, and report the effective flag as "no" so the editor is replaced
+	 * with the outside-the-builder notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_skips_content_converted_to_blocks() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$lesson  = $course->get_lessons()[0];
+
+		// Content originally added in the builder, since converted to blocks in the block editor.
+		$block_content = "<!-- wp:paragraph -->\n<p>Converted to blocks.</p>\n<!-- /wp:paragraph -->";
+		$lesson->set( 'content', $block_content );
+		$lesson->set( 'content_added_in_builder', 'yes' );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => $lesson->get( 'id' ),
+						'content'                  => '<p>Stale builder tab content.</p>',
+						'content_added_in_builder' => 'yes',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( 'no', $res[0]['content_added_in_builder'] );
+
+		$lesson = llms_get_post( $lesson->get( 'id' ) );
+		$this->assertEquals( $block_content, $lesson->get( 'content', true ) );
+	}
+
+	/**
+	 * Deleting every section records that the demo outline should not be inserted again.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_starter_outline() {
+
+		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0 ) );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+
+		$this->assertTrue( $res['dismissed'] );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $student );
+		$denied = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+		$this->assertSame( array(), $denied );
+
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.

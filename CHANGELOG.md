@@ -7,7 +7,7 @@ v10.2.1 - 2026-09-14
 ##### New Features
 
 + Added informative notices about available add-ons in the admin.
-+ Makes Course IDs easier to find. [#3321](https://github.com/gocodebox/lifterlms/issues/3321)
++ Makes Course IDs easier to find. [#3321](https://github.com/gocodebox/lifterlms/issues/3321) Thanks [@robindevitt](https://github.com/robindevitt)!
 
 ##### Updates and Enhancements
 
@@ -22,9 +22,9 @@ v10.2.1 - 2026-09-14
 
 ##### Security Fixes
 
-+ Hardened certificate export handling.
-+ Additional checks in admin reporting.
-+ Additional authorization checks on REST API endpoints.
++ Hardened certificate export handling. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional checks in admin reporting. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional authorization checks on REST API endpoints. Thanks [@s3rt4c](https://github.com/s3rt4c) and [@MrDarkRoot](https://github.com/MrDarkRoot)!
 
 ##### Updated Templates
 

@@ -37,6 +37,7 @@ define( [], function() {
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
+			'input .llms-input[data-attribute="title"]': 'on_title_input',
 			'paste .llms-input[data-formatting]': 'on_paste',
 			'paste .llms-input[contenteditable]:not([data-formatting])': 'on_paste',
 		},
@@ -122,6 +123,31 @@ define( [], function() {
 
 			} else if ( 'permalink' === type ) {
 
+				// Not underscore-prefixed: underscore attrs are stripped from the sync
+				// payload and the server needs this to know not to re-derive the slug
+				// from the title when creating the post.
+				self.model.set( 'slug_edited', 'yes', { silent: true } );
+
+				// Unsaved models can't be checked server-side; preview the edited slug locally.
+				if ( self.model.has_temp_id && self.model.has_temp_id() ) {
+
+					var structs  = ( window.llms_builder && window.llms_builder.sample_permalinks ) || {},
+						template = structs[ self.model.get( 'type' ) ],
+						slug     = self.model.slugify( content );
+
+					if ( ! template || ! slug ) {
+						return false;
+					}
+
+					// Normalize the input so `save_edits()` stores the slugified value.
+					$el.val( slug );
+
+					// Not silent: `change:permalink` re-renders the settings panel, closing the editor UI.
+					self.model.set( 'permalink', template.replace( '%pagename%', slug ) );
+
+					return true;
+				}
+
 				LLMS.Ajax.call( {
 					data: {
 						action: 'llms_builder',
@@ -148,6 +174,37 @@ define( [], function() {
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Update the permalink preview live while the title of an unsaved model is edited.
+		 *
+		 * The preview text is written to the DOM directly (never via render) so the
+		 * title field keeps focus while typing.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
+		 */
+		on_title_input: function( event ) {
+
+			var model = this.model;
+
+			if ( ! model || ! model.preview_permalink || ! model.has_temp_id() || 'yes' === model.get( 'slug_edited' ) ) {
+				return;
+			}
+
+			var permalink = model.preview_permalink( this.get_content( $( event.target ) ) );
+
+			if ( permalink ) {
+				this.$el.find( '.llms-permalink-preview' ).text( permalink );
+				// Keep the (hidden) slug input in sync so the pencil edits the previewed slug, not the render-time one.
+				this.$el.find( 'input.permalink' )
+					.val( model.get( 'name' ) )
+					.attr( 'data-original-content', model.get( 'name' ) );
+			}
 
 		},
 
@@ -227,6 +284,34 @@ define( [], function() {
 		},
 
 		/**
+		 * Release Select2's scroll lock before this view's markup is replaced.
+		 *
+		 * An open dropdown pins scrollTop on scrollable ancestors and only
+		 * releases that pin when it closes. Replacing the field first leaves
+		 * the pin behind. select2('destroy') does not release it either.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		release_select2_scroll_lock: function() {
+
+			this.$el.find( 'select' ).each( function() {
+
+				var $select = $( this );
+
+				if ( $select.data( 'select2' ) ) {
+					$select.llmsSelect2( 'close' );
+				}
+
+			} );
+
+			// close() only unbinds ancestors it can still walk to.
+			this.$el.off( '.select2' );
+
+		},
+
+		/**
 		 * Initialize editable select elements
 		 *
 		 * @return   void
@@ -273,6 +358,11 @@ define( [], function() {
 				} else {
 					this.save_edits( event );
 				}
+
+			} else if ( 'permalink' === $el.attr( 'data-type' ) ) {
+
+				// Nothing changed so no re-render will run; restore the permalink display manually.
+				this.render();
 
 			}
 
@@ -611,29 +701,29 @@ define( [], function() {
 		 */
 		make_slug_editable: function( event ) {
 
-			var self      = this,
-				$btn      = $( event.currentTarget ),
-				$link     = $btn.prevAll( 'a' ),
-				$input    = $btn.prev( 'input.permalink' ),
-				full_url  = $link.attr( 'href' ),
-				slug      = $input.val(),
-				short_url = full_url.replace( slug, '' );
+			var $btn     = $( event.currentTarget ),
+				$display = $btn.prevAll( 'a, .llms-permalink-preview' ).first(),
+				$input   = $btn.prev( 'input.permalink' ),
+				full_url = $display.is( 'a' ) ? $display.attr( 'href' ) : $.trim( $display.text() ),
+				slug     = $input.val();
 
-			// hide the button
+			if ( ! full_url || ! slug ) {
+				return;
+			}
+
+			var short_url = full_url.replace( slug, '' );
+
 			$btn.hide();
 
-			// make the link not clickable
-			$link.css( {
+			$display.css( {
 				color: '#999',
 				'pointer-events': 'none',
 				'text-decoration': 'none',
 			} );
 
-			// remove the current slug & trailing slash from the URL
-			$link.text( short_url.substring( 0, short_url.length - 1 ) );
+			$display.text( short_url.substring( 0, short_url.length - 1 ) );
 
-			// focus in on the field
-			$input.show().focus();
+			$input.css( 'display', 'inline-block' ).focus();
 
 		},
 

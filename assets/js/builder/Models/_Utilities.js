@@ -132,6 +132,65 @@ define( [], function() {
 		},
 
 		/**
+		 * Slugify a title the way `sanitize_title()` would for basic (ASCII) input.
+		 *
+		 * A conflict suffix (-2, -3) isn't predicted; the real slug is confirmed on save.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} text Text to slugify.
+		 * @return {String}
+		 */
+		slugify: function( text ) {
+
+			return ( text || '' ).toString().toLowerCase().trim()
+				.replace( /[\s_]+/g, '-' )
+				.replace( /[^a-z0-9\-]/g, '' )
+				.replace( /-+/g, '-' )
+				.replace( /^-+|-+$/g, '' );
+
+		},
+
+		/**
+		 * Preview the permalink an unsaved lesson or quiz would get on save.
+		 *
+		 * Computed client-side from the title and the localized permalink template.
+		 * Follows title edits until the slug is edited by hand. Sets silently so the
+		 * settings panel isn't re-rendered mid-edit (which would steal focus); the
+		 * on-screen preview is updated directly by the view.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} title Optional title override, used for live previews while typing
+		 *                       before the title is committed to the model on blur.
+		 * @return {String} The previewed permalink or an empty string.
+		 */
+		preview_permalink: function( title ) {
+
+			if ( ! this.has_temp_id() || 'yes' === this.get( 'slug_edited' ) ) {
+				return '';
+			}
+
+			var structs  = ( window.llms_builder && window.llms_builder.sample_permalinks ) || {},
+				template = structs[ this.get( 'type' ) ],
+				slug     = this.slugify( _.isString( title ) ? title : this.get( 'title' ) );
+
+			if ( ! template || ! slug ) {
+				return '';
+			}
+
+			var permalink = template.replace( '%pagename%', slug );
+
+			this.set( {
+				permalink: permalink,
+				name: slug,
+			}, { silent: true } );
+
+			return permalink;
+
+		},
+
+		/**
 		 * Initializes 3rd party custom schema (field) data for a model
 		 *
 		 * @return   void
