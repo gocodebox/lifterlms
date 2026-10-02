@@ -119,6 +119,58 @@ test.describe( 'Admin/CertificateEditorLayout', () => {
 			expect( side.gap, `${ side.side } label overlaps input` ).toBeGreaterThanOrEqual( 0 );
 		}
 
+		const marginLayout = await page.evaluate( () => {
+			const rect = ( side ) => document.querySelector( `#llms-certificate-control--margin--${ side }` ).getBoundingClientRect();
+			const container = document.querySelector( '.llms-certificate-margins-control__fields' ).getBoundingClientRect();
+			const top = rect( 'top' );
+			const right = rect( 'right' );
+			const bottom = rect( 'bottom' );
+			const left = rect( 'left' );
+			const mid = ( box ) => ( box.left + box.right ) / 2;
+
+			return {
+				topAboveSides: top.bottom <= left.top + 1 && top.bottom <= right.top + 1,
+				sidesSameRow: Math.abs( left.top - right.top ) <= 2,
+				bottomBelowSides: bottom.top >= left.bottom - 1 && bottom.top >= right.bottom - 1,
+				leftBeforeRight: left.right <= right.left,
+				leftFlush: Math.abs( left.left - container.left ) <= 2,
+				rightFlush: Math.abs( right.right - container.right ) <= 2,
+				topCentered: Math.abs( mid( top ) - mid( container ) ) <= 4,
+				bottomCentered: Math.abs( mid( bottom ) - mid( container ) ) <= 4,
+			};
+		} );
+
+		expect( marginLayout.topAboveSides ).toBe( true );
+		expect( marginLayout.sidesSameRow ).toBe( true );
+		expect( marginLayout.bottomBelowSides ).toBe( true );
+		expect( marginLayout.leftBeforeRight ).toBe( true );
+		expect( marginLayout.leftFlush ).toBe( true );
+		expect( marginLayout.rightFlush ).toBe( true );
+		expect( marginLayout.topCentered ).toBe( true );
+		expect( marginLayout.bottomCentered ).toBe( true );
+
+		const topInputForValue = page.locator( '#llms-certificate-control--margin--top' );
+		await topInputForValue.fill( '47' );
+		await topInputForValue.focus();
+
+		const percentClearsValue = await page.evaluate( () => {
+			const input = document.querySelector( '#llms-certificate-control--margin--top' );
+			const field = input.closest( '.components-base-control__field' );
+			const inputStyle = getComputedStyle( input );
+			const suffixStyle = getComputedStyle( field, '::after' );
+			const inputBox = input.getBoundingClientRect();
+			const fieldBox = field.getBoundingClientRect();
+			const canvas = document.createElement( 'canvas' );
+			const ctx = canvas.getContext( '2d' );
+			ctx.font = `${ inputStyle.fontWeight } ${ inputStyle.fontSize } ${ inputStyle.fontFamily }`;
+			const textRight = inputBox.left + parseFloat( inputStyle.paddingLeft ) + ctx.measureText( input.value ).width;
+			ctx.font = `${ suffixStyle.fontWeight } ${ suffixStyle.fontSize } ${ suffixStyle.fontFamily }`;
+			const suffixLeft = fieldBox.right - parseFloat( suffixStyle.right ) - ctx.measureText( '%' ).width;
+			return suffixLeft - textRight;
+		} );
+
+		expect( percentClearsValue ).toBeGreaterThanOrEqual( 2 );
+
 		const sequentialHelp = page.locator( '.llms-certificate-sequential-id-control .components-base-control__help' );
 		await expect( sequentialHelp ).toBeVisible();
 
