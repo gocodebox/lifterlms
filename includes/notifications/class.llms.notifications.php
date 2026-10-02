@@ -286,6 +286,7 @@ class LLMS_Notifications {
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
 	 * @since 5.2.0 Added 'upcoming_payment_reminder'.
+	 * @since [version] Added 'order_failed'.
 	 *
 	 * @return void
 	 */
@@ -299,6 +300,7 @@ class LLMS_Notifications {
 			'enrollment',
 			'lesson_complete',
 			'manual_payment_due',
+			'order_failed',
 			'payment_retry',
 			'purchase_receipt',
 			'quiz_failed',
