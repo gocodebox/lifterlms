@@ -117,6 +117,7 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'all_instructors', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 

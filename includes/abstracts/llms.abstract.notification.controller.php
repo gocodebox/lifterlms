@@ -209,6 +209,103 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
+	 * Add subscriptions for all instructors assigned to the post
+	 *
+	 * Subscribes every user ID stored in the course or membership's
+	 * `_llms_instructors` meta (primary author + secondary instructors +
+	 * assistants), regardless of the `visibility` field. The related course
+	 * or membership is resolved from `$this->post_id` by walking through any
+	 * related objects (lesson, section, quiz, order, transaction) so this
+	 * method works for every controller, not only those triggered directly
+	 * by a course or membership.
+	 *
+	 * Honors a per-post override stored in
+	 * `_llms_notification_all_instructors` on the related course or
+	 * membership: `no` blocks delivery even when the global admin toggle
+	 * is on; `yes` forces delivery when the global toggle is off. `global`
+	 * (or empty) follows the global setting.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Notification type id.
+	 * @return void
+	 */
+	private function add_all_instructors_subscriptions( $type ) {
+
+		$post = $this->get_instructors_post();
+
+		if ( ! $post ) {
+			return;
+		}
+
+		$override = $post->get( 'notification_all_instructors' );
+		if ( 'no' === $override ) {
+			return;
+		}
+
+		foreach ( $post->get_instructors( false ) as $instructor ) {
+			if ( ! empty( $instructor['id'] ) ) {
+				$this->subscribe( $instructor['id'], $type );
+			}
+		}
+	}
+
+	/**
+	 * Resolve the course or membership post whose instructors should receive
+	 * the notification.
+	 *
+	 * Tries, in order: the controller's `$this->course` property (if set),
+	 * then `$this->post_id` resolved through a chain of related objects
+	 * (lesson, quiz, section, order, transaction) until a post with the
+	 * `get_instructors()` method is found.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Post_Model|false Course or membership post, or false if not resolvable.
+	 */
+	private function get_instructors_post() {
+
+		if ( ! empty( $this->course ) && is_object( $this->course ) && method_exists( $this->course, 'get_instructors' ) ) {
+			return $this->course;
+		}
+
+		$post = llms_get_post( $this->post_id );
+		if ( ! $post ) {
+			return false;
+		}
+
+		$visited = array();
+
+		while ( $post && ! in_array( $post->get( 'id' ), $visited, true ) ) {
+			$visited[] = $post->get( 'id' );
+
+			if ( method_exists( $post, 'get_instructors' ) ) {
+				return $post;
+			}
+
+			$next = null;
+
+			if ( method_exists( $post, 'get_course' ) ) {
+				$next = $post->get_course();
+			} elseif ( method_exists( $post, 'get_parent_course' ) ) {
+				$parent_id = $post->get_parent_course();
+				$next      = $parent_id ? llms_get_post( $parent_id ) : null;
+			} elseif ( method_exists( $post, 'get_order' ) ) {
+				$order = $post->get_order();
+				if ( $order && method_exists( $order, 'get_product' ) ) {
+					$next = $order->get_product();
+				}
+			} elseif ( method_exists( $post, 'get_product' ) ) {
+				$next = $post->get_product();
+			}
+
+			$post = $next;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Adds subscribers before sending a notifications
 	 *
 	 * @since 3.8.0
@@ -220,6 +317,14 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	private function add_subscriptions( $filter_types = null ) {
 
+		// Per-post override: force "all_instructors" on for the related course
+		// or membership even if the global admin setting is off.
+		$force_all = false;
+		$instructors_post = $this->get_instructors_post();
+		if ( $instructors_post ) {
+			$force_all = ( 'yes' === $instructors_post->get( 'notification_all_instructors' ) );
+		}
+
 		foreach ( array_keys( $this->get_supported_types() ) as $type ) {
 			if ( ! is_null( $filter_types ) && ! in_array( $type, $filter_types, true ) ) {
 				continue;
@@ -227,10 +332,14 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 			foreach ( $this->get_subscribers_settings( $type ) as $subscriber_key => $enabled ) {
 
-				if ( 'no' === $enabled ) {
+				if ( 'no' === $enabled && ! ( 'all_instructors' === $subscriber_key && $force_all ) ) {
 					continue;
 				} elseif ( 'custom' === $subscriber_key ) {
 					$this->add_custom_subscriptions( $type );
+					continue;
+				} elseif ( 'all_instructors' === $subscriber_key ) {
+					$this->add_all_instructors_subscriptions( $type );
+					continue;
 				}
 
 				$subscriber = $this->get_subscriber( $subscriber_key );
@@ -338,6 +447,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			),
 			'course_author' => array(
 				'title' => __( 'Course Author', 'lifterlms' ),
+			),
+			'all_instructors' => array(
+				'title' => __( 'All Instructors', 'lifterlms' ),
 			),
 			'custom'        => array(
 				'description' => __( 'Enter additional email addresses which will receive this notification. Separate multiple addresses with commas.', 'lifterlms' ),
