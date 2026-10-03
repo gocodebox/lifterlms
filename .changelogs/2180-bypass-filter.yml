@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added the `llms_can_user_bypass_restrictions` filter to allow custom and third-party roles to bypass enrollment, drip, and prerequisite restrictions."

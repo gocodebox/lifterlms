@@ -75,6 +75,72 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the llms_can_user_bypass_restrictions filter.
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_user_bypass_restrictions_filter() {
+
+		$student_id = $this->factory->user->create( array( 'role' => 'student' ) );
+		$admin_id   = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$course_id  = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1 ) );
+
+		// Student in allowed list but lacks edit_post on the course.
+		update_option( 'llms_grant_site_access', array( 'student' ) );
+
+		// Default: edit_post gate blocks student.
+		$this->assertFalse( llms_can_user_bypass_restrictions( $student_id, $course_id ) );
+
+		// Filter forces bypass.
+		$callback = function () {
+			return true;
+		};
+		add_filter( 'llms_can_user_bypass_restrictions', $callback );
+		$this->assertTrue( llms_can_user_bypass_restrictions( $student_id, $course_id ) );
+		remove_filter( 'llms_can_user_bypass_restrictions', $callback );
+
+		// Default restored.
+		$this->assertFalse( llms_can_user_bypass_restrictions( $student_id, $course_id ) );
+
+		// Filter can deny access that default would allow.
+		update_option( 'llms_grant_site_access', array( 'administrator' ) );
+		$this->assertTrue( llms_can_user_bypass_restrictions( $admin_id, $course_id ) );
+
+		$deny = function () {
+			return false;
+		};
+		add_filter( 'llms_can_user_bypass_restrictions', $deny );
+		$this->assertFalse( llms_can_user_bypass_restrictions( $admin_id, $course_id ) );
+		remove_filter( 'llms_can_user_bypass_restrictions', $deny );
+
+	}
+
+	/**
+	 * Test the llms_can_user_bypass_restrictions filter receives the post_id.
+	 *
+	 * @return void
+	 */
+	public function test_llms_can_user_bypass_restrictions_filter_args() {
+
+		$student_id = $this->factory->user->create( array( 'role' => 'student' ) );
+		$course_id  = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+
+		$received_post_id = null;
+		$callback = function ( $can_bypass, $user, $post_id ) use ( &$received_post_id ) {
+			$received_post_id = $post_id;
+			return $can_bypass;
+		};
+		add_filter( 'llms_can_user_bypass_restrictions', $callback, 10, 3 );
+
+		llms_can_user_bypass_restrictions( $student_id, $course_id );
+
+		remove_filter( 'llms_can_user_bypass_restrictions', $callback, 10 );
+
+		$this->assertSame( $course_id, $received_post_id );
+
+	}
+
+	/**
 	 * Test llms_get_minimum_password_strength_name().
 	 *
 	 * @since Unknown.
