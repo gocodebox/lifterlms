@@ -269,4 +269,85 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test the last_seen column is rendered in the site's timezone, not UTC.
+	 *
+	 * Events stored in wp_lifterlms_events.date are UTC MySQL datetimes (gmdate
+	 * storage). The reporting column previously fed those strings into
+	 * date_i18n(), which produced a UTC display regardless of the site's
+	 * timezone setting.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1738
+	 *
+	 * @return void
+	 */
+	public function test_get_data_last_seen_respects_site_timezone() {
+
+		// Fixed UTC timestamp so the expected local time is deterministic.
+		$utc_ts           = strtotime( '2024-06-15 12:00:00 UTC' );
+		$utc_date_string  = gmdate( 'Y-m-d H:i:s', $utc_ts );
+
+		// Truncate event table so query results are predictable.
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
+
+		$user_id = $this->factory->user->create();
+
+		$event = new LLMS_Event();
+		$event->setUp(
+			array(
+				'actor_id'     => $user_id,
+				'object_type'  => 'post',
+				'object_id'    => 1,
+				'event_type'   => 'page',
+				'event_action' => 'load',
+				'date'         => $utc_date_string,
+			)
+		);
+		$event->save();
+
+		// Use the DB-resident event's `date` column directly so we exercise
+		// the same string format the production code path receives.
+		$stored = (string) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT date FROM {$wpdb->prefix}lifterlms_events WHERE actor_id = %d ORDER BY id DESC LIMIT 1",
+				$user_id
+			)
+		);
+		$this->assertSame( $utc_date_string, $stored );
+
+		$student = new LLMS_Student( $user_id );
+
+		$cases = array(
+			'12'  => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) + ( 12 * HOUR_IN_SECONDS ) ),
+			'-12' => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) - ( 12 * HOUR_IN_SECONDS ) ),
+			'0'   => wp_date( get_option( 'date_format' ), strtotime( $utc_date_string . ' UTC' ) ),
+		);
+
+		foreach ( $cases as $offset => $expected ) {
+
+			update_option( 'gmt_offset', $offset );
+			// Force refresh of the site timezone derived from gmt_offset.
+			wp_timezone_override_offset();
+
+			$table = new LLMS_Table_Students();
+			$rendered = $table->get_data( 'last_seen', $student );
+
+			$this->assertSame(
+				$expected,
+				$rendered,
+				"last_seen at gmt_offset {$offset} should match expected local date"
+			);
+
+		}
+
+		update_option( 'gmt_offset', 0 );
+
+		// Clean up so subsequent tests aren't affected.
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
+
+	}
+
 }
