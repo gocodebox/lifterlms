@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed manual entry of datepicker dates being mis-parsed on sites using a non-US date format."
