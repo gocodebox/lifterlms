@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed PHP warnings emitted when reading post properties on an LLMS_Post_Model instance whose underlying WP_Post is missing, and when rendering course tag/category/track templates outside the loop."

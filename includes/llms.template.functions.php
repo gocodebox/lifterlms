@@ -231,6 +231,10 @@ if ( ! function_exists( 'lifterlms_template_single_length' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_course_categories' ) ) {
 	function lifterlms_template_single_course_categories() {
+		global $post;
+		if ( ! $post instanceof WP_Post ) {
+			return;
+		}
 		llms_get_template( 'course/categories.php' );
 	}
 }
@@ -244,6 +248,10 @@ if ( ! function_exists( 'lifterlms_template_single_course_categories' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
 	function lifterlms_template_single_course_tags() {
+		global $post;
+		if ( ! $post instanceof WP_Post ) {
+			return;
+		}
 		llms_get_template( 'course/tags.php' );
 	}
 }
@@ -257,6 +265,10 @@ if ( ! function_exists( 'lifterlms_template_single_course_tags' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_single_course_tracks' ) ) {
 	function lifterlms_template_single_course_tracks() {
+		global $post;
+		if ( ! $post instanceof WP_Post ) {
+			return;
+		}
 		llms_get_template( 'course/tracks.php' );
 	}
 }
