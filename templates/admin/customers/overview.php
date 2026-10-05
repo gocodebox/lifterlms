@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Admin
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  *
  * @property LLMS_Student    $student       Student / customer.
  * @property array           $metrics       Commerce metrics.

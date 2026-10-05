@@ -7,7 +7,7 @@
  * @group REST
  * @group rest_awarded_certificates
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test_Case_Server {
 
@@ -49,7 +49,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	/**
 	 * Setup test server, endpoint, users, and an awarded certificate.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	/**
 	 * Test list permissions for users without `view_students`.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	/**
 	 * Test admins can list awarded certificates, scoped or unscoped.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	/**
 	 * Test instructors can list awarded certificates of their own students.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	 * `X-WP-Total` header reflects the real count would still disclose how many
 	 * certificates the student holds.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class LLMS_REST_Test_Awarded_Certificates_Controller extends LLMS_REST_Unit_Test
 	 * Unscoped and template-filtered collections span all students, so they require
 	 * the `view_others_students` capability which instructors don't have.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

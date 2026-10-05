@@ -863,7 +863,7 @@ class LLMS_Template_Loader {
 	 * `llms_page_restricted()` is still consulted so third-party restrictions apply, but a
 	 * logged-in user with access cannot clear a membership restriction here.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param int $post_id Post ID.
 	 * @return array Restriction data in the `llms_page_restricted()` format.
@@ -901,7 +901,7 @@ class LLMS_Template_Loader {
 	 * output for every viewer without the enrollment-dependent templates. A product with a
 	 * sales page redirect has no public body and gets the restriction notice.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $content Feed content or excerpt passed into the filter.
 	 * @param int    $post_id Post ID.
@@ -948,7 +948,7 @@ class LLMS_Template_Loader {
 	 * progress, instructors). The `the_content` filter is not applied either, since page
 	 * builders and other plugins hook it to inject output for the current user.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param WP_Post $post Post object.
 	 * @return string
@@ -967,7 +967,7 @@ class LLMS_Template_Loader {
 	 * A search feed also returns early from `llms_page_restricted()` before those checks.
 	 * Flags are restored by `restore_feed_restriction_query()`.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array Previous query flags, keyed by flag name.
 	 */
@@ -994,7 +994,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Restore query flags changed for a feed restriction check.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $restore Flags from `force_feed_restriction_query()`.
 	 * @return void

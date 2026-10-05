@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3340"
-entry: Fixed certificate editor sidebar control layout.

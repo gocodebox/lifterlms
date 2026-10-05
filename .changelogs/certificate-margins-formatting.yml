@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3373"
-entry: Fix overlapping percentage sign when entering certificate margins.

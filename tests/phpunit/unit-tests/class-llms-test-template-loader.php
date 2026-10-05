@@ -243,7 +243,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Feeds may be cached without a per-user key, so a free lesson, an enrolled student, and an
 	 * administrator all get the same empty output.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -303,7 +303,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_feed_content(): course feeds output the public sales description for every viewer.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -375,7 +375,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_feed_content(): certificates are never output in feeds, regardless of the user.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -425,7 +425,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Attach feed restriction callbacks.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -439,7 +439,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Remove feed restriction callbacks.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -501,7 +501,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * expose the body.
 	 *
 	 * @since 10.1.0
-	 * @since [version] Members and administrators get the restriction notice too.
+	 * @since 10.3.0 Members and administrators get the restriction notice too.
 	 *
 	 * @return void
 	 */
@@ -537,7 +537,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_feed_content(): sitewide membership restriction applies to every viewer.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

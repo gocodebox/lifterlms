@@ -4,7 +4,7 @@
  * A new course still opens with a demo section and three lessons. Deleting that
  * section leaves a single section and no lessons, including after a reload.
  *
- * @since [version]
+ * @since 10.3.0
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

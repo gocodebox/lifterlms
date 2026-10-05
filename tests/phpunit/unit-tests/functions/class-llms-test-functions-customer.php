@@ -8,14 +8,14 @@
  * @group functions
  * @group functions_customer
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_Test_Functions_Customer extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_is_customer() and metrics for a paid customer.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Functions_Customer extends LLMS_UnitTestCase {
 	/**
 	 * Test free-only customers have zero LTV.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Test_Functions_Customer extends LLMS_UnitTestCase {
 	/**
 	 * Test active recurring count.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Functions_Customer extends LLMS_UnitTestCase {
 	/**
 	 * Test admin URL helper.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Test_Functions_Customer extends LLMS_UnitTestCase {
 	/**
 	 * Test segment list filterability.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

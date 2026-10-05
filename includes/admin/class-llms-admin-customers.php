@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Customers screen under Orders.
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_Admin_Customers {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Admin_Customers {
 	/**
 	 * Output LTV / orders teaser widgets on the Students reporting overview.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param LLMS_Student $student Student instance.
 	 * @return void
@@ -82,7 +82,7 @@ class LLMS_Admin_Customers {
 	/**
 	 * Output the Customers admin page.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Admin_Customers {
 	/**
 	 * Output the customers list view.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Admin_Customers {
 	/**
 	 * Output a single customer overview.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param int $customer_id WP user ID.
 	 * @return void

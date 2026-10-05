@@ -5,8 +5,8 @@
  * @since 1.5.0 Add supported post type settings.
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
- * @since [version] Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
- * @version [version]
+ * @since 10.3.0 Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
+ * @version 10.3.0
  */
 
 // WP Deps.
@@ -79,7 +79,7 @@ export const settings = {
 		/**
 		 * Extra buttons rendered in the lesson progression block editor preview.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param {Array} extraButtons Additional button elements.
 		 */

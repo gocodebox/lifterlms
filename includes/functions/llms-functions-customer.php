@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve the admin URL for the Customers list or a single customer.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int|null $user_id Optional. WP user ID for a single customer view. Default `null` (list).
  * @param array    $args    Optional. Additional query args.
@@ -39,7 +39,7 @@ function llms_get_customers_admin_url( $user_id = null, $args = array() ) {
 /**
  * Determine whether a user is a customer (has at least one order).
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int $user_id WP user ID.
  * @return boolean
@@ -72,7 +72,7 @@ function llms_is_customer( $user_id ) {
  * transaction amounts minus refund amounts. Multi-currency stores are not converted;
  * amounts are summed as stored (same caveat as Sales reporting).
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int $user_id WP user ID.
  * @return array {
@@ -194,7 +194,7 @@ function llms_get_customer_metrics( $user_id ) {
 	/**
 	 * Filters customer commerce metrics.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $metrics Metrics array.
 	 * @param int   $user_id WP user ID.
@@ -209,7 +209,7 @@ function llms_get_customer_metrics( $user_id ) {
 /**
  * Clear cached customer metrics.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int $user_id WP user ID. When `0`, clears the high-spender threshold cache only.
  * @return void
@@ -228,7 +228,7 @@ function llms_delete_customer_metrics_cache( $user_id = 0 ) {
 /**
  * Invalidate customer metrics when an order is saved.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
@@ -248,7 +248,7 @@ add_action( 'save_post_llms_order', 'llms_invalidate_customer_metrics_on_order_s
 /**
  * Invalidate customer metrics when a transaction is saved.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
@@ -277,7 +277,7 @@ add_action( 'save_post_llms_transaction', 'llms_invalidate_customer_metrics_on_t
  * Segment counts and the high-spender threshold both exclude deleted users,
  * so their cached values are stale as soon as an account is removed.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @param int $user_id Deleted user ID.
  * @return void
@@ -290,7 +290,7 @@ add_action( 'deleted_user', 'llms_invalidate_customer_metrics_on_user_delete' );
 /**
  * Retrieve available customer segment definitions.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @return array Associative array of segment slug => label.
  */
@@ -307,7 +307,7 @@ function llms_get_customer_segments() {
 	/**
 	 * Filters the customer segment definitions.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $segments Segment slug => label.
 	 */
@@ -321,7 +321,7 @@ function llms_get_customer_segments() {
  * "At risk" also depends on the clock, so the TTL keeps that bucket from drifting for long
  * stretches when no orders change.
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @return array Segment slug => count.
  */
@@ -336,7 +336,7 @@ function llms_get_customer_segment_counts() {
 	/**
 	 * Filters customer segment counts.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $counts Segment slug => count.
 	 */
@@ -346,7 +346,7 @@ function llms_get_customer_segment_counts() {
 /**
  * Retrieve the LTV threshold for the high spenders segment (80th percentile among LTV > 0).
  *
- * @since [version]
+ * @since 10.3.0
  *
  * @return float
  */

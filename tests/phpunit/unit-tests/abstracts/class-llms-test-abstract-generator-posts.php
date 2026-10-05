@@ -69,7 +69,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test add_custom_values() skips serialized values containing objects.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

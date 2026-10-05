@@ -4,8 +4,8 @@
  *
  * @since   3.16.0
  * @since   10.1.0 Escaped section title output.
- * @since   [version] Added an "Add Existing Lesson" button to the section footer.
- * @version [version]
+ * @since   10.3.0 Added an "Add Existing Lesson" button to the section footer.
+ * @version 10.3.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

@@ -228,7 +228,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test exclude_protected_posts_from_feeds().
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

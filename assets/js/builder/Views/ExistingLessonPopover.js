@@ -1,8 +1,8 @@
 /**
  * Existing Lesson search popover.
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, LessonSearch ) {
 
@@ -14,7 +14,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, LessonSearch
 	 * (not cloned) into the popover — Select2 is initialized on that node via
 	 * setTimeout after it is in the DOM.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param {String|Element} el        Popover trigger selector or element.
 	 * @param {String}         placement webuiPopover placement.

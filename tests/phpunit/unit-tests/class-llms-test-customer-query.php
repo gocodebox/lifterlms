@@ -7,14 +7,14 @@
  * @group customers
  * @group customer_query
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Create a customer with a paid order.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param float $amount    Transaction amount.
 	 * @param int   $frequency Plan billing frequency (`0` = one-time).
@@ -38,7 +38,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test the query returns customers and sorts by LTV.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test search by email.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test a two-character last name matches.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test free_only segment.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test active_subs segment.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test high_spenders segment uses LTV threshold.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -231,7 +231,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test pagination.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -266,7 +266,7 @@ class LLMS_Test_Customer_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test segment counts cover every built-in bucket in one result set.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

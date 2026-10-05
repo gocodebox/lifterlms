@@ -166,7 +166,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * objects are rejected because `__PHP_Incomplete_Class` re-serializes to the original
 	 * class and would be instantiated the next time the meta is read.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $val Serialized value.
 	 * @return mixed|null Unserialized value or `null` when the value can't be safely unserialized.
@@ -185,7 +185,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	/**
 	 * Determine if a value is, or recursively contains, an object.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param mixed $val Value to check.
 	 * @return bool

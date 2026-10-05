@@ -82,7 +82,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.2.0 Unknown.
 	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
 	 * @since 7.1.0 Added `llms-dashboard` to the order array in first position.
-	 * @since [version] Order Orders submenu: Orders, Customers, Coupons, Vouchers.
+	 * @since 10.3.0 Order Orders submenu: Orders, Customers, Coupons, Vouchers.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool
@@ -155,7 +155,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Register the Customers submenu under Orders.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -174,7 +174,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the Customers admin screen.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

@@ -637,7 +637,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Recurring charges skip on a clone even when the stored feature is still enabled.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Admin
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  *
  * @property array $orders_result Orders result array from LLMS_Student::get_orders().
  */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Table_Customers class
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_Table_Customers extends LLMS_Admin_Table {
 
@@ -76,7 +76,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $key      The column id / key.
 	 * @param object $customer Customer row object from LLMS_Customer_Query.
@@ -136,7 +136,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Retrieve export cell data.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $key      The column id / key.
 	 * @param object $customer Customer row object.
@@ -182,7 +182,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -190,7 +190,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 		/**
 		 * Filters the customers table search placeholder.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string $placeholder Placeholder text.
 		 */
@@ -200,7 +200,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -231,7 +231,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Setup the array of sort arguments.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array
 	 */
@@ -273,7 +273,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results().
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param array $args Array of arguments.
 	 * @return void
@@ -312,7 +312,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array
 	 */
@@ -326,7 +326,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array
 	 */
@@ -385,7 +385,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	 *
 	 * Adds `text-left` so columns are left-aligned like standard WP list tables.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string[]
 	 */
@@ -400,7 +400,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	 *
 	 * Intentionally empty — the page template already provides the heading.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -409,7 +409,7 @@ class LLMS_Table_Customers extends LLMS_Admin_Table {
 	/**
 	 * Set table title.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */

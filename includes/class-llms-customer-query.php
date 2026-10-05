@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Query customers (users with at least one order) with commerce aggregates.
  *
- * @since [version]
+ * @since 10.3.0
  */
 class LLMS_Customer_Query extends LLMS_Database_Query {
 
@@ -44,7 +44,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array
 	 */
@@ -63,7 +63,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the customer query default args.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param array               $args            Default arguments.
 		 * @param LLMS_Customer_Query $customer_query Query instance.
@@ -74,7 +74,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Parse submitted arguments.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -120,7 +120,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * SELECT list for the outer aggregated customer rows.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -144,7 +144,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters customer query SELECT columns.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string              $columns         SELECT columns.
 		 * @param LLMS_Customer_Query $customer_query Query instance.
@@ -155,7 +155,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Count customers in every built-in segment with one aggregation.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return array Segment slug => count.
 	 */
@@ -194,7 +194,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * SELECT that counts every built-in segment from the customers subquery.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -220,7 +220,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * SQL subquery that aggregates one row per customer.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -297,7 +297,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * FROM clause: aggregated customers subquery joined to users.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -315,7 +315,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the customer query FROM clause.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string              $sql             FROM clause.
 		 * @param LLMS_Customer_Query $customer_query Query instance.
@@ -326,7 +326,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * WHERE clause (search + segments).
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -360,7 +360,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the customer query WHERE clause.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string              $sql             WHERE clause.
 		 * @param LLMS_Customer_Query $customer_query Query instance.
@@ -371,7 +371,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Segment filter SQL appended to WHERE.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -410,7 +410,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the customer query segment SQL.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string              $sql             Segment SQL fragment.
 		 * @param string              $segment         Segment slug.
@@ -422,7 +422,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Override ORDER BY to map friendly keys onto subquery aliases / user fields.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string
 	 */
@@ -472,7 +472,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the customer query ORDER BY clause.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string              $sql             ORDER BY clause.
 		 * @param LLMS_Customer_Query $customer_query Query instance.
@@ -483,7 +483,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve customer result objects.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return object[]
 	 */
@@ -494,7 +494,7 @@ class LLMS_Customer_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the list of customers returned by the query.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param object[]            $customers       Customer result objects.
 		 * @param LLMS_Customer_Query $customer_query Query instance.

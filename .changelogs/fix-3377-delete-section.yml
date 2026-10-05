@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3377"
-entry: Fixed deleting the last course section immediately adding three new lessons.

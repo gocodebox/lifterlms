@@ -297,7 +297,7 @@ class LLMS_Admin_Builder {
 	 * Returns the post type's front-end URL with a `%pagename%` placeholder where the
 	 * slug belongs, e.g. `https://example.com/lesson/%pagename%/`.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $post_type Post type to build the template for.
 	 * @return string
@@ -435,7 +435,7 @@ class LLMS_Admin_Builder {
 	/**
 	 * Remember that the author removed every section so the demo outline is not inserted again.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param int $course_id Course ID.
 	 * @return array
@@ -457,7 +457,7 @@ class LLMS_Admin_Builder {
 	/**
 	 * Whether the builder should skip the demo section and lessons.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param int $course_id Course ID.
 	 * @return bool

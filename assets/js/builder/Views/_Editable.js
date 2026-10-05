@@ -183,7 +183,7 @@ define( [], function() {
 		 * The preview text is written to the DOM directly (never via render) so the
 		 * title field keeps focus while typing.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}
@@ -290,7 +290,7 @@ define( [], function() {
 		 * releases that pin when it closes. Replacing the field first leaves
 		 * the pin behind. select2('destroy') does not release it either.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @return {Void}
 		 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Admin
  *
- * @since [version]
- * @version [version]
+ * @since 10.3.0
+ * @version 10.3.0
  *
  * @property string $current_segment Current segment slug.
  * @property array  $segments        Segment slug => label.

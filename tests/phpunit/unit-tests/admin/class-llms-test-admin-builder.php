@@ -1071,7 +1071,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * `content_added_in_builder` value. That empty value must not be stored as "no",
 	 * which hides the editor behind the outside-the-builder notice.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1117,7 +1117,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Custom data on a new lesson is stored as-is and serialized strings are never unserialized.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1169,7 +1169,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Content created outside the builder must not be overwritten by a builder save.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1219,7 +1219,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * client's content, and report the effective flag as "no" so the editor is replaced
 	 * with the outside-the-builder notice.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1268,7 +1268,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Deleting every section records that the demo outline should not be inserted again.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */

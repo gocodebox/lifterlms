@@ -2,7 +2,7 @@
  * Sidebar Elements View
  *
  * @since    3.16.0
- * @version  [version]
+ * @version  10.3.0
  */
 define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/ExistingLessonPopover' ], function( Section, SectionView, Lesson, LessonView, show_existing_lesson_popover ) {
 
@@ -124,7 +124,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
-		 * @version  [version]
+		 * @version  10.3.0
 		 */
 		add_existing_lesson: function( event ) {
 
@@ -141,7 +141,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 *
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  10.3.0
 		 */
 		maybe_add_initial_section: function() {
 
@@ -173,7 +173,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * Keep one section on screen when the outline would otherwise be empty.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @return {void}
 		 */
@@ -197,7 +197,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * Disable lesson buttons when the course has no section to add a lesson to.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @return {void}
 		 */
@@ -216,7 +216,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * After a section is removed, keep a section on screen without demo lessons.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @return {void}
 		 */
@@ -234,7 +234,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 * not produce a trash payload. Without this flag the next builder load sees
 		 * an empty course and inserts the three lessons again.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @return {void}
 		 */

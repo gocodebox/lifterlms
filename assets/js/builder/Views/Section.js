@@ -2,7 +2,7 @@
  * Single Section View
  *
  * @since    3.13.0
- * @version  [version]
+ * @version  10.3.0
  */
 define( [
 		'Views/LessonList',
@@ -42,7 +42,7 @@ define( [
 		 * Events
 		 * @type     {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  10.3.0
 		 */
 		events: _.defaults( {
 
@@ -141,7 +141,7 @@ define( [
 		/**
 		 * Open the existing-lesson search popover for this section.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}

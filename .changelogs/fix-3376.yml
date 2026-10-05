@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3376"
-entry: Fixed lesson settings in the course builder jumping back down after the drip method is changed.

@@ -294,7 +294,7 @@ class LLMS_Query {
 	 * so a check against the current user cannot be trusted here. The content is only
 	 * viewable on its own URL.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param WP_Post[] $posts Array of post objects.
 	 * @param WP_Query  $query Query object.
@@ -323,7 +323,7 @@ class LLMS_Query {
 	 *
 	 * Courses and memberships are not listed: their sales page description is public.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string[]
 	 */
@@ -331,7 +331,7 @@ class LLMS_Query {
 		/**
 		 * Filters the post types that are never output in feeds.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string[] $post_types Post type names.
 		 */

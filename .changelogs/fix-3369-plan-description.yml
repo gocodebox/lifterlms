@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3369"
-entry: Fixed editing the access plan description on a new plan before it is saved.
