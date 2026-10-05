@@ -287,10 +287,12 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Drop engagement posts a visitor cannot view from feed queries.
+	 * Drop restricted LifterLMS post types from feed queries.
 	 *
-	 * Awarded certificates stay publicly queryable so a shared certificate has a permalink.
-	 * A list feed would otherwise include every awarded certificate.
+	 * These types are publicly queryable so their permalinks work, which also makes them
+	 * appear in list feeds. Feeds are commonly page or object cached with no per-user key,
+	 * so a check against the current user cannot be trusted here. The content is only
+	 * viewable on its own URL.
 	 *
 	 * @since [version]
 	 *
@@ -307,7 +309,7 @@ class LLMS_Query {
 		$filtered = array();
 
 		foreach ( $posts as $post ) {
-			if ( $post instanceof WP_Post && $this->is_feed_post_protected( $post ) ) {
+			if ( $post instanceof WP_Post && in_array( $post->post_type, self::get_feed_excluded_post_types(), true ) ) {
 				continue;
 			}
 			$filtered[] = $post;
@@ -317,25 +319,31 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Whether a feed item is an engagement the current user cannot view.
+	 * Retrieve post types that are never output in feeds.
+	 *
+	 * Courses and memberships are not listed: their sales page description is public.
 	 *
 	 * @since [version]
 	 *
-	 * @param WP_Post $post Post object.
-	 * @return bool
+	 * @return string[]
 	 */
-	private function is_feed_post_protected( $post ) {
-
-		if ( 'llms_my_certificate' === $post->post_type ) {
-			$certificate = new LLMS_User_Certificate( $post );
-			return ! $certificate->can_user_view();
-		}
-
-		if ( 'llms_certificate' === $post->post_type ) {
-			return ! current_user_can( 'edit_post', $post->ID );
-		}
-
-		return false;
+	public static function get_feed_excluded_post_types() {
+		/**
+		 * Filters the post types that are never output in feeds.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		return apply_filters(
+			'llms_feed_excluded_post_types',
+			array(
+				'lesson',
+				'llms_quiz',
+				'llms_certificate',
+				'llms_my_certificate',
+			)
+		);
 	}
 
 	/**

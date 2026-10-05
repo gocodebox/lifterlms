@@ -823,8 +823,8 @@ class LLMS_Template_Loader {
 	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
 	 * value must be replaced at the feed-content filter itself.
 	 *
-	 * LifterLMS post types are included. Feeds never load LifterLMS templates or the REST API,
-	 * so the REST skip list does not apply here.
+	 * Feeds are commonly page or object cached with no per-user key, so the output never
+	 * depends on who is logged in: it is what an anonymous visitor may see.
 	 *
 	 * @since 10.1.0
 	 *
@@ -839,24 +839,125 @@ class LLMS_Template_Loader {
 			return $content;
 		}
 
+		$post_type = get_post_type( $post_id );
+
+		// Normally removed from the query by LLMS_Query, this covers posts injected by other code.
+		if ( in_array( $post_type, LLMS_Query::get_feed_excluded_post_types(), true ) ) {
+			return '';
+		}
+
+		if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+			return $this->get_product_feed_content( $content, $post_id );
+		}
+
+		$page_restricted = $this->get_feed_restriction( $post_id );
+
+		return empty( $page_restricted['is_restricted'] )
+			? $content
+			: $this->get_content_restriction_message( $page_restricted );
+	}
+
+	/**
+	 * Determine restrictions for a feed item as an anonymous visitor would see them.
+	 *
+	 * `llms_page_restricted()` is still consulted so third-party restrictions apply, but a
+	 * logged-in user with access cannot clear a membership restriction here.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array Restriction data in the `llms_page_restricted()` format.
+	 */
+	private function get_feed_restriction( $post_id ) {
+
 		$restore         = $this->force_feed_restriction_query();
 		$page_restricted = llms_page_restricted( $post_id );
-
-		if ( $this->is_feed_engagement_blocked( $post_id ) ) {
-			$page_restricted['is_restricted']  = true;
-			$page_restricted['reason']         = 'restricted';
-			$page_restricted['restriction_id'] = $post_id;
-		}
-
-		if ( empty( $page_restricted['is_restricted'] ) ) {
-			$this->restore_feed_restriction_query( $restore );
-			return $content;
-		}
-
-		$replacement = $this->get_restricted_feed_content( $content, $post_id, $page_restricted );
 		$this->restore_feed_restriction_query( $restore );
 
-		return $replacement;
+		if ( ! empty( $page_restricted['is_restricted'] ) ) {
+			return $page_restricted;
+		}
+
+		$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id );
+		$membership_id          = llms_is_post_restricted_by_membership( $post_id );
+
+		if ( $sitewide_membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'sitewide_membership';
+			$page_restricted['restriction_id'] = $sitewide_membership_id;
+		} elseif ( $membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'membership';
+			$page_restricted['restriction_id'] = $membership_id;
+		}
+
+		return $page_restricted;
+	}
+
+	/**
+	 * Feed content for a course or membership.
+	 *
+	 * The sales page description is public when the product renders on its own URL, so it is
+	 * output for every viewer without the enrollment-dependent templates. A product with a
+	 * sales page redirect has no public body and gets the restriction notice.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content Feed content or excerpt passed into the filter.
+	 * @param int    $post_id Post ID.
+	 * @return string
+	 */
+	private function get_product_feed_content( $content, $post_id ) {
+
+		$post    = get_post( $post_id );
+		$product = llms_get_post( $post );
+
+		if ( ! $post instanceof WP_Post || ! $product || ! is_callable( array( $product, 'has_sales_page_redirect' ) ) || $product->has_sales_page_redirect() ) {
+			return $this->get_content_restriction_message(
+				array(
+					'content_id'     => $post_id,
+					'is_restricted'  => true,
+					'reason'         => 'course' === get_post_type( $post ) ? 'enrollment_course' : 'enrollment_membership',
+					'restriction_id' => $post_id,
+				)
+			);
+		}
+
+		if ( 'the_content_feed' !== current_filter() ) {
+			// A stored excerpt is static; a generated one would be built from enrollment-dependent templates.
+			if ( '' !== trim( $post->post_excerpt ) ) {
+				return $content;
+			}
+
+			/** This filter is documented in wp-includes/formatting.php */
+			$length = (int) apply_filters( 'excerpt_length', 55 );
+			/** This filter is documented in wp-includes/formatting.php */
+			$more = apply_filters( 'excerpt_more', ' [&hellip;]' );
+
+			return wp_trim_words( wp_strip_all_tags( $this->render_feed_post_content( $post ) ), $length, $more );
+		}
+
+		return llms_get_post_sales_page_content( $post, $this->render_feed_post_content( $post ) );
+	}
+
+	/**
+	 * Render a post's stored content for a feed so that it is identical for every viewer.
+	 *
+	 * Dynamic blocks and shortcodes are removed the same way WordPress does when building an
+	 * excerpt: on a product they typically render enrollment-dependent output (pricing table,
+	 * progress, instructors). The `the_content` filter is not applied either, since page
+	 * builders and other plugins hook it to inject output for the current user.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return string
+	 */
+	private function render_feed_post_content( $post ) {
+
+		$content = excerpt_remove_blocks( strip_shortcodes( $post->post_content ) );
+
+		return wpautop( wptexturize( do_blocks( $content ) ) );
 	}
 
 	/**
@@ -909,67 +1010,6 @@ class LLMS_Template_Loader {
 		foreach ( $restore as $flag => $value ) {
 			$wp_query->$flag = $value;
 		}
-	}
-
-	/**
-	 * Whether an engagement post must not be rendered in a feed.
-	 *
-	 * `llms_page_restricted()` does not cover awarded certificates or certificate templates.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $post_id Post ID.
-	 * @return bool
-	 */
-	private function is_feed_engagement_blocked( $post_id ) {
-
-		$post_type = get_post_type( $post_id );
-
-		if ( 'llms_my_certificate' === $post_type ) {
-			$certificate = new LLMS_User_Certificate( $post_id );
-			return ! $certificate->can_user_view();
-		}
-
-		if ( 'llms_certificate' === $post_type ) {
-			return ! current_user_can( 'edit_post', $post_id );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Content to output for a restricted feed item.
-	 *
-	 * Lessons and quizzes are replaced with the restriction notice. Courses and memberships
-	 * that render on their own URL keep that public sales output; redirect sales pages do not.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $content         Feed content or excerpt passed into the filter.
-	 * @param int    $post_id         Post ID.
-	 * @param array  $page_restricted Restriction data from `llms_page_restricted()`.
-	 * @return string
-	 */
-	private function get_restricted_feed_content( $content, $post_id, $page_restricted ) {
-
-		$post_type = get_post_type( $post_id );
-
-		if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
-			$product = llms_get_post( $post_id );
-
-			if ( $product && is_callable( array( $product, 'has_sales_page_redirect' ) ) && ! $product->has_sales_page_redirect() ) {
-				if ( 'the_content_feed' !== current_filter() ) {
-					return $content;
-				}
-
-				$post = get_post( $post_id );
-				if ( $post instanceof WP_Post ) {
-					return llms_get_post_content( $post->post_content );
-				}
-			}
-		}
-
-		return $this->get_content_restriction_message( $page_restricted );
 	}
 }
 

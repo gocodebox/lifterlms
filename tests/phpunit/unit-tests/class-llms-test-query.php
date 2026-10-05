@@ -236,15 +236,25 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		wp_set_current_user( 0 );
 
-		$author = $this->factory->user->create();
-		$cert   = $this->factory->post->create_and_get(
+		$author   = $this->factory->user->create();
+		$admin    = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$cert     = $this->factory->post->create_and_get(
 			array(
 				'post_type'    => 'llms_my_certificate',
 				'post_author'  => $author,
 				'post_content' => 'SECRET_CERT_BODY',
 			)
 		);
-		$public = $this->factory->post->create_and_get(
+		$template = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'llms_certificate',
+				'post_content' => 'TEMPLATE_BODY',
+			)
+		);
+		$lesson   = $this->factory->post->create_and_get( array( 'post_type' => 'lesson' ) );
+		$quiz     = $this->factory->post->create_and_get( array( 'post_type' => 'llms_quiz' ) );
+		$course   = $this->factory->post->create_and_get( array( 'post_type' => 'course' ) );
+		$public   = $this->factory->post->create_and_get(
 			array(
 				'post_type'    => 'post',
 				'post_content' => 'public',
@@ -254,26 +264,33 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		$query          = new WP_Query();
 		$query->is_feed = true;
 
-		$filtered = $this->main->exclude_protected_posts_from_feeds( array( $cert, $public ), $query );
-		$ids      = wp_list_pluck( $filtered, 'ID' );
+		$filtered = $this->main->exclude_protected_posts_from_feeds( array( $cert, $template, $lesson, $quiz, $course, $public ), $query );
+		$this->assertSame( array( $course->ID, $public->ID ), wp_list_pluck( $filtered, 'ID' ) );
 
-		$this->assertNotContains( $cert->ID, $ids );
-		$this->assertContains( $public->ID, $ids );
-
+		// Not a feed: untouched.
 		$query->is_feed = false;
-		$unfiltered     = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
-		$this->assertCount( 1, $unfiltered );
+		$unfiltered     = $this->main->exclude_protected_posts_from_feeds( array( $cert, $template, $lesson, $quiz ), $query );
+		$this->assertCount( 4, $unfiltered );
 
-		$query->is_feed  = true;
-		$certificate     = new LLMS_User_Certificate( $cert->ID );
+		// Sharing, ownership, and admin capabilities do not matter: feeds may be cached without a user key.
+		$query->is_feed = true;
+		$certificate    = new LLMS_User_Certificate( $cert->ID );
 		$certificate->set( 'allow_sharing', 'yes' );
-		$shared = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
-		$this->assertSame( array( $cert->ID ), wp_list_pluck( $shared, 'ID' ) );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query ) );
 
-		$certificate->set( 'allow_sharing', 'no' );
 		wp_set_current_user( $author );
-		$owned = $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query );
-		$this->assertSame( array( $cert->ID ), wp_list_pluck( $owned, 'ID' ) );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query ) );
+
+		wp_set_current_user( $admin );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert, $template ), $query ) );
+
+		// Filterable.
+		$allow = function ( $types ) {
+			return array_diff( $types, array( 'llms_certificate' ) );
+		};
+		add_filter( 'llms_feed_excluded_post_types', $allow );
+		$this->assertSame( array( $template->ID ), wp_list_pluck( $this->main->exclude_protected_posts_from_feeds( array( $cert, $template ), $query ), 'ID' ) );
+		remove_filter( 'llms_feed_excluded_post_types', $allow );
 
 		wp_set_current_user( 0 );
 
