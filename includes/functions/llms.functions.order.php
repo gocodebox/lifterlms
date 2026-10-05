@@ -206,11 +206,7 @@ function llms_get_possible_order_statuses( $order ) {
 }
 
 /**
- * Locates an order by email address and access plan ID.
- *
- * Used during AJAX checkout order creation when users are not created until the gateway confirms success.
- *
- * Ensures that only a single pending order for a given plan and email address will exist at any given time.
+ * Locates a pending order by billing email address and access plan ID.
  *
  * @since 7.0.0
  *

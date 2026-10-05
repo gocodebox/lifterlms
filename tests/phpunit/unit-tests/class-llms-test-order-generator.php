@@ -196,13 +196,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$this->assertWPErrorMessageEquals( 'Mock Message', $res );
 		$this->assertWPErrorDataEquals(
 			array(
-				'coupon'  => 'coupon_value',
-				'data'    => $data,
-				'gateway' => 'gateway_value',
-				'plan'    => 'plan_value',
-				'student' => 'student_value',
-				'extra'   => 1,
-				'order'   => 'order_value',
+				'extra' => 1,
 			),
 			$res
 		);
@@ -354,7 +348,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test get_order_id() lookup by user/email & plan.
+	 * Test get_order_id() lookup by user and plan.
 	 *
 	 * @since 7.0.0
 	 *
@@ -368,16 +362,25 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set_bulk( compact( 'user_id', 'plan_id' ) );
 
-		// Lookup by email of an existing user & plan.
-		$gen = new LLMS_Order_Generator( array( 
+		// Logged-out email and plan do not resolve another user's pending order.
+		wp_set_current_user( 0 );
+		$gen = new LLMS_Order_Generator( array(
 			'llms_plan_id'  => $plan_id,
 			'email_address' => 'email@test.tld',
 		) );
-		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// A different logged-in user cannot resolve the order by posting the owner's email.
+		wp_set_current_user( $this->factory->user->create() );
+		$gen = new LLMS_Order_Generator( array(
+			'llms_plan_id'  => $plan_id,
+			'email_address' => 'email@test.tld',
+		) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 		// Lookup using current user and plan.
 		wp_set_current_user( $user_id );
-		$gen = new LLMS_Order_Generator( array( 
+		$gen = new LLMS_Order_Generator( array(
 			'llms_plan_id'  => $plan_id,
 		) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
@@ -387,10 +390,12 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
 		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
+		wp_set_current_user( 0 );
+
 	}
 
 	/**
-	 * Test get_order_id() lookup by email (for a non-existent user) & plan.
+	 * Test get_order_id() does not look up a pending order by billing email and plan when logged out.
 	 *
 	 * @since 7.0.0
 	 *
@@ -404,12 +409,12 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set_bulk( compact( 'billing_email', 'plan_id' ) );
 
-		// Lookup by email of an existing user & plan.
-		$gen = new LLMS_Order_Generator( array( 
+		wp_set_current_user( 0 );
+		$gen = new LLMS_Order_Generator( array(
 			'llms_plan_id'  => $plan_id,
 			'email_address' => $billing_email,
 		) );
-		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 
 		// Not a pending order: create a new one.

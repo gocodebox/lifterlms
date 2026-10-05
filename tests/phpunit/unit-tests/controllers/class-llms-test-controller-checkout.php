@@ -289,6 +289,59 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * A logged-out confirm request with an email and plan ID does not return the pending order.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @return void
+	 */
+	public function test_confirm_pending_order_ajax_logged_out_email_does_not_return_order() {
+
+		wp_set_current_user( 0 );
+
+		$user_id = $this->factory->user->create( array( 'user_email' => 'buyer@example.com' ) );
+		$plan_id = $this->factory->post->create( array( 'post_type' => 'llms_access_plan' ) );
+		$order   = new LLMS_Order( 'new' );
+		$order->set_bulk(
+			array(
+				'user_id'           => $user_id,
+				'plan_id'           => $plan_id,
+				'billing_email'      => 'buyer@example.com',
+				'billing_address_1'  => '77 Rosewood Terrace',
+				'billing_first_name' => 'Fatima',
+			)
+		);
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+
+		$this->mockPostRequest(
+			array(
+				$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_CONFIRM_PENDING_ORDER ),
+				'action'                 => $this->main::ACTION_CONFIRM_PENDING_ORDER,
+				'email_address'          => 'buyer@example.com',
+				'llms_plan_id'           => $plan_id,
+			)
+		);
+
+		try {
+			ob_start();
+			$this->main->confirm_pending_order_ajax();
+		} catch ( WPDieException $e ) {}
+
+		$raw = ob_get_clean();
+		$res = json_decode( $raw, true );
+
+		$this->assertArrayHasKey( 'llms-order-gen-order-not-found', $res['errors'] );
+		$this->assertStringNotContainsString( $order->get( 'order_key' ), $raw );
+		$this->assertStringNotContainsString( '77 Rosewood Terrace', $raw );
+		$this->assertStringNotContainsString( 'billing_address_1', $raw );
+		$this->assertStringNotContainsString( 'billing_first_name', $raw );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+
+	}
+
+	/**
 	 * Test create_pending_order() when the form is not submitted.
 	 *
 	 * @since 7.0.0
