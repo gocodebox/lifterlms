@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/courses",
+  "title": "Courses",
+  "category": "llms-blocks",
+  "description": "Displays a loop of LifterLMS Course \"Tiles\" as displayed on the default \"Courses\" page.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "category": {
+      "type": "string"
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": true
+    },
+    "id": {
+      "type": "string"
+    },
+    "mine": {
+      "type": "string"
+    },
+    "order": {
+      "type": "string",
+      "default": "ASC"
+    },
+    "orderby": {
+      "type": "string",
+      "default": "title"
+    },
+    "posts_per_page": {
+      "type": "integer",
+      "default": -1
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js"
+}

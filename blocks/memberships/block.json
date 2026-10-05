@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/memberships",
+  "title": "Memberships",
+  "category": "llms-blocks",
+  "description": "Display a loop of LifterLMS Membership \"Tiles\" as displayed on the default \"Memberships\" page.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "category": {
+      "type": "string"
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": true
+    },
+    "id": {
+      "type": "string"
+    },
+    "order": {
+      "type": "string",
+      "default": "ASC"
+    },
+    "orderby": {
+      "type": "string",
+      "default": "title"
+    },
+    "posts_per_page": {
+      "type": "integer",
+      "default": -1
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js"
+}
