@@ -1308,9 +1308,14 @@ class LLMS_Admin_Builder {
 
 				// During clone's we want to ensure custom field data comes with the lesson.
 				if ( $created && isset( $lesson_data['custom'] ) ) {
-					foreach ( $lesson_data['custom'] as $custom_key => $custom_vals ) {
-						foreach ( $custom_vals as $val ) {
-							add_post_meta( $lesson->get( 'id' ), $custom_key, maybe_unserialize( $val ) );
+					foreach ( (array) $lesson_data['custom'] as $custom_key => $custom_vals ) {
+						foreach ( (array) $custom_vals as $val ) {
+							// Values come from `toArray()`, which has already unserialized them, so a serialized
+							// string here is never legitimate and is not stored to avoid later unserialization.
+							if ( is_serialized( $val ) ) {
+								continue;
+							}
+							add_post_meta( $lesson->get( 'id' ), $custom_key, $val );
 						}
 					}
 				}

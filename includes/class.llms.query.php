@@ -54,6 +54,7 @@ class LLMS_Query {
 		$this->init_query_vars();
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
+		add_filter( 'the_posts', array( $this, 'exclude_protected_posts_from_feeds' ), 10, 2 );
 		add_filter( 'get_previous_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 		add_filter( 'get_next_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 	}
@@ -273,8 +274,76 @@ class LLMS_Query {
 				status_header( 404 );
 				nocache_headers();
 
+				// set_404() keeps is_feed and the posts do_feed() would print.
+				if ( $wp_query->is_feed() ) {
+					$wp_query->is_feed       = false;
+					$wp_query->posts         = array();
+					$wp_query->post_count    = 0;
+					$wp_query->found_posts   = 0;
+					$wp_query->max_num_pages = 0;
+				}
 			}
 		}
+	}
+
+	/**
+	 * Drop restricted LifterLMS post types from feed queries.
+	 *
+	 * These types are publicly queryable so their permalinks work, which also makes them
+	 * appear in list feeds. Feeds are commonly page or object cached with no per-user key,
+	 * so a check against the current user cannot be trusted here. The content is only
+	 * viewable on its own URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post[] $posts Array of post objects.
+	 * @param WP_Query  $query Query object.
+	 * @return WP_Post[]
+	 */
+	public function exclude_protected_posts_from_feeds( $posts, $query ) {
+
+		if ( is_admin() || ! $query instanceof WP_Query || ! $query->is_feed() || ! $posts ) {
+			return $posts;
+		}
+
+		$filtered = array();
+
+		foreach ( $posts as $post ) {
+			if ( $post instanceof WP_Post && in_array( $post->post_type, self::get_feed_excluded_post_types(), true ) ) {
+				continue;
+			}
+			$filtered[] = $post;
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Retrieve post types that are never output in feeds.
+	 *
+	 * Courses and memberships are not listed: their sales page description is public.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	public static function get_feed_excluded_post_types() {
+		/**
+		 * Filters the post types that are never output in feeds.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		return apply_filters(
+			'llms_feed_excluded_post_types',
+			array(
+				'lesson',
+				'llms_quiz',
+				'llms_certificate',
+				'llms_my_certificate',
+			)
+		);
 	}
 
 	/**

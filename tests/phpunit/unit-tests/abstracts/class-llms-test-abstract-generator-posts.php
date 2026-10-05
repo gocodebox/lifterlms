@@ -67,6 +67,34 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test add_custom_values() skips serialized values containing objects.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_custom_values_skips_serialized_objects() {
+
+		$post_id = $this->factory->post->create();
+
+		$raw = array(
+			'custom' => array(
+				'_mock_object'        => array( 'O:8:"stdClass":0:{}' ),
+				'_mock_nested_object' => array( serialize( array( 'data' => new stdClass() ) ) ),
+				'_mock_false'         => array( serialize( false ) ),
+				'_mock_serialized'    => array( serialize( array( 'data' => true ) ) ),
+			),
+		);
+
+		$this->stub->add_custom_values( $post_id, $raw );
+
+		$this->assertFalse( metadata_exists( 'post', $post_id, '_mock_object' ) );
+		$this->assertFalse( metadata_exists( 'post', $post_id, '_mock_nested_object' ) );
+		$this->assertTrue( metadata_exists( 'post', $post_id, '_mock_false' ) );
+		$this->assertEquals( array( 'data' => true ), get_post_meta( $post_id, '_mock_serialized', true ) );
+	}
+
+	/**
 	 * Test create_post() success
 	 *
 	 * @since 4.7.0
