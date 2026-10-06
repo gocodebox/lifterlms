@@ -922,6 +922,8 @@ class LLMS_AJAX_Handler {
 	 * Whether the current user may query a post type.
 	 *
 	 * Public post types are allowed for anyone who reached this handler.
+	 * Certificate templates and awarded certificates are public so they have
+	 * permalinks; searching them still requires their edit capability.
 	 * Non-public types registered without their own capability map inherit
 	 * the generic `edit_posts` capability, which this handler has already
 	 * required, so those types also require `manage_lifterlms`. Types with
@@ -939,7 +941,9 @@ class LLMS_AJAX_Handler {
 			return false;
 		}
 
-		if ( $object->public ) {
+		// Certificates stay public for permalinks. Their edit capability still gates search.
+		$requires_cap = ! $object->public || in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true );
+		if ( ! $requires_cap ) {
 			return true;
 		}
 

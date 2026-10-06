@@ -410,6 +410,8 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'llms_transaction',
 			'llms_access_plan',
 			'llms_achievement',
+			'llms_certificate',
+			'llms_my_certificate',
 			'section',
 		);
 
