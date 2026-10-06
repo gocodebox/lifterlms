@@ -355,6 +355,9 @@ class LLMS_Order_Generator {
 		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
 			$order_id = $this->sanitize_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
+			if ( $order_id && ! $this->is_order_resumable( $order_id ) ) {
+				$order_id = null;
+			}
 		}
 
 		// Logged-in buyers can resume their own pending order. Logged-out requests must present the order key.
@@ -438,6 +441,24 @@ class LLMS_Order_Generator {
 		$data['user_id'] = $this->student ? $this->student->get( 'id' ) : '';
 
 		return $data;
+	}
+
+	/**
+	 * Determines whether the order located by its key can be resumed by the current request.
+	 *
+	 * An order that has not been assigned to a user yet can be resumed with its key alone.
+	 * An order that already belongs to a user can only be resumed by that same logged-in user.
+	 *
+	 * @since [version]
+	 *
+	 * @param integer $order_id The located order ID.
+	 * @return boolean
+	 */
+	private function is_order_resumable( $order_id ) {
+
+		$owner_id = absint( ( new LLMS_Order( $order_id ) )->get( 'user_id' ) );
+
+		return ! $owner_id || get_current_user_id() === $owner_id;
 	}
 
 	/**

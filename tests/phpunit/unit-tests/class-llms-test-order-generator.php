@@ -348,6 +348,43 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * An order key is only resumed by the user it already belongs to.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_order_id_order_key_owner() {
+
+		$owner_id = $this->factory->user->create();
+		$order    = new LLMS_Order( 'new' );
+		$order->set( 'user_id', $owner_id );
+
+		// Logged-out caller cannot resume an order that already has an owner.
+		wp_set_current_user( 0 );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// A different logged-in user cannot resume it either.
+		wp_set_current_user( $this->factory->user->create() );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// The owner can.
+		wp_set_current_user( $owner_id );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// A non-pending order is not resumed, including by its owner.
+		$order->set_status( 'cancelled' );
+		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( 'new', LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test get_order_id() lookup by user and plan.
 	 *
 	 * @since 7.0.0

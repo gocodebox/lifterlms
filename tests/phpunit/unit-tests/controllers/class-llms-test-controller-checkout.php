@@ -533,6 +533,188 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * A pending order that already belongs to someone else is not reused.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_does_not_resume_another_users_order() {
+
+		LLMS_Forms::instance()->install( true );
+
+		$owner_id = $this->factory->user->create(
+			array(
+				'user_email' => 'pending-owner@example.tld',
+			)
+		);
+		$plan     = $this->get_mock_plan();
+		$order    = new LLMS_Order( 'new' );
+		$order->set_bulk(
+			array(
+				'user_id'       => $owner_id,
+				'billing_email' => 'pending-owner@example.tld',
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+		$post_data                   = $this->get_create_pending_order_post_data( $plan, 'pending-buyer@example.tld', 'pendingbuyer' );
+		$post_data['llms_order_key'] = $order->get( 'order_key' );
+		$this->mockPostRequest( $post_data );
+
+		$submitted = $this->submit_create_pending_order();
+
+		$this->assertInstanceOf( LLMS_Order::class, $submitted );
+		$this->assertNotEquals( $order->get( 'id' ), $submitted->get( 'id' ) );
+
+		$original = llms_get_post( $order->get( 'id' ) );
+		$this->assertEquals( $owner_id, absint( $original->get( 'user_id' ) ) );
+		$this->assertEquals( 'pending-owner@example.tld', $original->get( 'billing_email' ) );
+
+	}
+
+	/**
+	 * The checkout user can still update their own pending order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_resumes_owners_pending_order() {
+
+		LLMS_Forms::instance()->install( true );
+
+		$owner_id = $this->factory->user->create(
+			array(
+				'user_email' => 'resume-owner@example.tld',
+				'user_login' => 'resumeowner',
+			)
+		);
+		wp_set_current_user( $owner_id );
+
+		$plan  = $this->get_mock_plan();
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'user_id', $owner_id );
+
+		$post_data                   = $this->get_create_pending_order_post_data( $plan, 'resume-owner@example.tld', 'resumeowner' );
+		$post_data['llms_order_key'] = $order->get( 'order_key' );
+		$this->mockPostRequest( $post_data );
+
+		$submitted = $this->submit_create_pending_order();
+
+		$this->assertInstanceOf( LLMS_Order::class, $submitted );
+		$this->assertEquals( $order->get( 'id' ), $submitted->get( 'id' ) );
+		$this->assertEquals( $plan->get( 'id' ), absint( $submitted->get( 'plan_id' ) ) );
+		$this->assertEquals( $owner_id, absint( $submitted->get( 'user_id' ) ) );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * An order that is no longer pending is not reused, including by its owner.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_does_not_resume_non_pending_order() {
+
+		LLMS_Forms::instance()->install( true );
+
+		$owner_id = $this->factory->user->create(
+			array(
+				'user_email' => 'complete-owner@example.tld',
+				'user_login' => 'completeowner',
+			)
+		);
+		wp_set_current_user( $owner_id );
+
+		$plan  = $this->get_mock_plan();
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'user_id', $owner_id );
+		$order->set_status( 'cancelled' );
+		$this->assertEquals( 'llms-cancelled', get_post_status( $order->get( 'id' ) ) );
+
+		$post_data                   = $this->get_create_pending_order_post_data( $plan, 'complete-owner@example.tld', 'completeowner' );
+		$post_data['llms_order_key'] = $order->get( 'order_key' );
+		$this->mockPostRequest( $post_data );
+
+		$submitted = $this->submit_create_pending_order();
+
+		$this->assertInstanceOf( LLMS_Order::class, $submitted );
+		$this->assertNotEquals( $order->get( 'id' ), $submitted->get( 'id' ) );
+		$this->assertEquals( 'llms-cancelled', get_post_status( $order->get( 'id' ) ) );
+		$this->assertEquals( $owner_id, absint( llms_get_post( $order->get( 'id' ) )->get( 'user_id' ) ) );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * Posted data for a classic checkout submission.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan $plan  Access plan being purchased.
+	 * @param string           $email Email address for the checkout user.
+	 * @param string           $login User login for the checkout user.
+	 * @return array
+	 */
+	private function get_create_pending_order_post_data( $plan, $email, $login ) {
+
+		return array(
+			'_llms_checkout_nonce'   => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+			'action'                 => $this->main::ACTION_CREATE_PENDING_ORDER,
+			'llms_plan_id'           => $plan->get( 'id' ),
+			'llms_payment_gateway'   => 'manual',
+			'user_login'             => $login,
+			'email_address'          => $email,
+			'email_address_confirm'  => $email,
+			'password'               => '12345678',
+			'password_confirm'       => '12345678',
+			'first_name'             => 'Test',
+			'last_name'              => 'Person',
+			'llms_billing_address_1' => '123',
+			'llms_billing_address_2' => '123',
+			'llms_billing_city'      => 'City',
+			'llms_billing_state'     => 'CA',
+			'llms_billing_zip'       => '91231',
+			'llms_billing_country'   => 'US',
+			'llms_phone'             => '1234567890',
+		);
+
+	}
+
+	/**
+	 * Submit create_pending_order() and return the order handed to the gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Order|null
+	 */
+	private function submit_create_pending_order() {
+
+		$submitted = null;
+		$handler   = function ( $order ) use ( &$submitted ) {
+			$submitted = $order;
+		};
+		add_action( 'llms_manual_payment_due', $handler );
+
+		try {
+			$this->main->create_pending_order();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			unset( $exception );
+		}
+
+		remove_action( 'llms_manual_payment_due', $handler );
+
+		return $submitted;
+
+	}
+
+	/**
 	 * Test create_pending_order_ajax() when the form was not submitted.
 	 *
 	 * @since 7.0.0
