@@ -55,7 +55,7 @@ return array(
 		'meter_description' => sprintf(
 			// Translators: %s = Minimum password strength.
 			__(
-				'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
+				'Your password must be at least 8 characters long with a strength of at least %s. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
 				'lifterlms'
 			),
 			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'weak' ) )
