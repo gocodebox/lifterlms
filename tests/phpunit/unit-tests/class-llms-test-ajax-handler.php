@@ -393,6 +393,166 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Non-public post types that inherit the generic post capability stay hidden
+	 * from roles that do not manage LifterLMS. Public types, and non-public types
+	 * with their own capability map, stay available to roles that can edit them.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_non_public_post_types() {
+
+		$restricted = array(
+			'llms_coupon',
+			'llms_order',
+			'llms_voucher',
+			'llms_transaction',
+			'llms_access_plan',
+			'llms_achievement',
+			'section',
+		);
+
+		$ids = array();
+		foreach ( $restricted as $post_type ) {
+			$ids[ $post_type ] = $this->factory->post->create(
+				array(
+					'post_title'  => 'Lookup ' . $post_type,
+					'post_type'   => $post_type,
+					'post_status' => 'publish',
+				)
+			);
+		}
+
+		$course_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup course',
+				'post_type'   => 'course',
+				'post_status' => 'publish',
+			)
+		);
+
+		$draft_course_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup draft course',
+				'post_type'   => 'course',
+				'post_status' => 'draft',
+			)
+		);
+
+		$question_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup question',
+				'post_type'   => 'llms_question',
+				'post_status' => 'publish',
+			)
+		);
+
+		wp_set_current_user( $this->factory->student->create() );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'course',
+			)
+		);
+		$this->assertNull( $res );
+
+		foreach ( array( 'contributor', 'editor', 'instructor', 'instructors_assistant' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+
+			foreach ( $restricted as $post_type ) {
+				$res = $this->do_ajax(
+					'select2_query_posts',
+					array(
+						'post_type'     => $post_type,
+						'post_statuses' => 'publish',
+						'term'          => 'Lookup ' . $post_type,
+					)
+				);
+				$this->assertSame( array(), $res['items'], $role . ' should not receive ' . $post_type );
+				$this->assertTrue( $res['success'] );
+			}
+
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type' => 'course',
+					'term'      => 'Lookup course',
+				)
+			);
+			$this->assertSame( $course_id, (int) $res['items'][0]['id'], $role . ' should still query courses' );
+
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type'     => 'course',
+					'post_statuses' => 'draft',
+					'term'          => 'Lookup draft course',
+				)
+			);
+			$this->assertSame( array(), $res['items'], $role . ' should not receive draft courses' );
+		}
+
+		foreach ( array( 'instructor', 'instructors_assistant', 'lms_manager' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type' => 'llms_question',
+					'term'      => 'Lookup question',
+				)
+			);
+			$this->assertSame( $question_id, (int) $res['items'][0]['id'], $role . ' should query questions' );
+		}
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'contributor' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'llms_question',
+				'term'      => 'Lookup question',
+			)
+		);
+		$this->assertSame( array(), $res['items'] );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		foreach ( $restricted as $post_type ) {
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type'     => $post_type,
+					'post_statuses' => 'publish',
+					'term'          => 'Lookup ' . $post_type,
+				)
+			);
+			$this->assertSame( $ids[ $post_type ], (int) $res['items'][0]['id'], 'lms_manager should query ' . $post_type );
+		}
+
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type'     => 'course',
+				'post_statuses' => 'draft',
+				'term'          => 'Lookup draft course',
+			)
+		);
+		$this->assertSame( $draft_course_id, (int) $res['items'][0]['id'] );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'course,llms_coupon',
+				'term'      => 'Lookup',
+			)
+		);
+		$found = array_map( 'intval', wp_list_pluck( $res['items'], 'id' ) );
+		$this->assertContains( $course_id, $found );
+		$this->assertNotContains( $ids['llms_coupon'], $found );
+
+	}
+
+	/**
 	 * Test the errors returned by the LLMS_AJAX_Handler::update_student_enrollment() method.
 	 *
 	 * @since 3.33.0
