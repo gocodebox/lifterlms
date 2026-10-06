@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Additional checks when migrating posts to the block editor."
