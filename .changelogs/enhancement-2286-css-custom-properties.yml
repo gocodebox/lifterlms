@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#2286"
+entry: Added CSS custom properties (for example `--llms-color-primary` and `--llms-border-radius-small`) to the frontend stylesheet so themes and custom CSS can change LifterLMS colors and corner radius without overriding individual selectors.

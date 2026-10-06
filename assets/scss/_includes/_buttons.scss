@@ -111,14 +111,14 @@ a.llms-button-primary {
 
 .llms-button-primary {
 	@include llms-button-theme-opt-out {
-		background: $color-brand-blue;
+		background: llms-var( color-primary );
 		&:hover,
 		&.clicked {
-			background: $color-brand-blue-dark;
+			background: llms-var( color-primary-hover );
 		}
 		&:focus,
 		&:active {
-			background: $color-brand-blue-light;
+			background: llms-var( color-primary-focus );
 		}
 	}
 }
@@ -169,21 +169,21 @@ a.llms-button-secondary {
 
 .llms-button-action {
 	@include llms-button-theme-opt-out {
-		background: $color-orange;
+		background: llms-var( color-action );
 		&:hover,
 		&.clicked {
-			background: $color-brand-orange-dark;
+			background: llms-var( color-action-hover );
 		}
 		&:focus,
 		&:active {
-			background: $color-brand-orange-light;
+			background: llms-var( color-action-focus );
 		}
 	}
 }
 
 .llms-button-danger {
 	@include llms-button-theme-opt-out {
-		background: $color-danger;
+		background: llms-var( color-danger );
 		&:hover {
 			background: #981c17;
 		}

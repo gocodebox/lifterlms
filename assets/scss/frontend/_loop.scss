@@ -38,8 +38,8 @@
 	margin: 10px;
 	padding: 0;
 	background: $color-white;
-	border: 1px solid $color-border;
-	border-radius: $radius-small;
+	border: 1px solid llms-var( color-border );
+	border-radius: llms-var( border-radius-small );
 }
 
 
@@ -71,7 +71,7 @@
 			color: $color-black;
 			margin: 15px 0;
 			&:hover {
-				color: $color-brand-blue;
+				color: llms-var( color-primary );
 			}
 		}
 

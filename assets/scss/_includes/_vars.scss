@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use 'sass:map';
 // ----- LifterLMS Brand Colors ----- \\
 $color-brand-dark-blue: #243c56;
 
@@ -71,3 +72,36 @@ $break-large: 1024px;
 
 $radius-small: 6px;
 $radius-medium: 12px;
+
+
+// ----- CSS custom properties ----- \\
+// Output on :root by lifterlms.scss so themes and custom CSS can restyle
+// LifterLMS without a rebuild. This is a function so entry files that override
+// the Sass colors above (admin) get their own values as fallbacks.
+@function llms-css-vars() {
+	@return (
+		'color-primary': $color-brand-blue,
+		'color-primary-hover': $color-brand-blue-dark,
+		'color-primary-focus': $color-brand-blue-light,
+		'color-action': $color-orange,
+		'color-action-hover': $color-brand-orange-dark,
+		'color-action-focus': $color-brand-orange-light,
+		'color-accent': $color-brand-pink,
+		'color-success': $color-success,
+		'color-warning': $color-orange,
+		'color-danger': $color-danger,
+		'color-border': $color-border,
+		'border-radius-small': $radius-small,
+		'border-radius-medium': $radius-medium,
+	);
+}
+
+// Use in place of the matching Sass variable. The Sass value is kept as the
+// fallback so output looks the same where the property is not defined.
+@function llms-var( $name ) {
+	$vars: llms-css-vars();
+	@if not map.has-key( $vars, $name ) {
+		@error 'Unknown LifterLMS CSS variable "#{$name}".';
+	}
+	@return var( --llms-#{$name}, #{map.get( $vars, $name )} );
+}

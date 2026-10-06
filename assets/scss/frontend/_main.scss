@@ -397,7 +397,7 @@ svg .llms-animated-circle {
     margin-right: 5px;
     color: #ccc;
     &.done {
-      color: $color-brand-blue;
+      color: llms-var( color-primary );
     }
   }.section-title {
      font-weight: bold;

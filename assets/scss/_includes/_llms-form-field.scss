@@ -54,7 +54,7 @@ $llms-form-field-wp-block-layout: true !default;
 			background-color: $color-white;
 			background-clip: padding-box;
 			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border-radius: llms-var( border-radius-small );
 			box-sizing: border-box;
 			font-size: 16px;
 			line-height: 1;
@@ -65,7 +65,7 @@ $llms-form-field-wp-block-layout: true !default;
 
 		input:focus,
 		input:focus-visible {
-			border-color: $color-brand-blue-light;
+			border-color: llms-var( color-primary-focus );
 			outline: thin solid;
 		}
 
@@ -76,7 +76,7 @@ $llms-form-field-wp-block-layout: true !default;
 			appearance: none;
 			background-color: $color-white;
 			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border-radius: llms-var( border-radius-small );
 			box-sizing: border-box;
 			color: $color-black;
 			padding: 8px 12px;
@@ -99,7 +99,7 @@ $llms-form-field-wp-block-layout: true !default;
 		}
 
 		select:focus {
-			border: 1px solid $color-brand-blue-light;
+			border: 1px solid llms-var( color-primary-focus );
 			outline: thin solid;
 		}
 
@@ -114,7 +114,7 @@ $llms-form-field-wp-block-layout: true !default;
 		&.invalid {
 			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
 				background: color.change( $color-red, $alpha: 0.3 );
-				border-color: $color-red;
+				border-color: llms-var( color-danger );
 			}
 		}
 
@@ -183,7 +183,7 @@ $llms-form-field-wp-block-layout: true !default;
 			input[type="radio"]:checked + label:before {
 				transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1);
 				background-position: 0 0;
-				background-image: radial-gradient(ellipse at center,  $color-brand-blue 0%,$color-brand-blue 40%, #fafafa 45%);
+				background-image: radial-gradient(ellipse at center,  llms-var( color-primary ) 0%,llms-var( color-primary ) 40%, #fafafa 45%);
 			}
 
 		}
@@ -208,7 +208,7 @@ $llms-form-field-wp-block-layout: true !default;
 		}
 
 		.llms-required {
-			color: $color-red;
+			color: llms-var( color-danger );
 			margin-left: 4px;
 		}
 

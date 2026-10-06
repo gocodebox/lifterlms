@@ -76,7 +76,7 @@
 @mixin order_status_badges() {
 
 	.llms-status {
-		border-radius: $radius-small;
+		border-radius: llms-var( border-radius-small );
 		display: inline-block;
 		font-size: 13px;
 		font-weight: 700;
@@ -93,7 +93,7 @@
 		&.llms-completed,
 		&.llms-pass, // quiz
 		&.llms-txn-succeeded {
-			color: $color-green;
+			color: llms-var( color-success );
 			background-color: color.change( $color-green, $alpha: 0.15 );
 		}
 
@@ -102,7 +102,7 @@
 		&.llms-expired,
 		&.llms-cancelled,
 		&.llms-txn-failed {
-			color: $color-red;
+			color: llms-var( color-danger );
 			background-color: color.change( $color-red, $alpha: 0.15 );
 		}
 
@@ -113,7 +113,7 @@
 		&.llms-refunded,
 		&.llms-txn-pending,
 		&.llms-txn-refunded {
-			color: $color-orange;
+			color: llms-var( color-warning );
 			background-color: color.change( $color-orange, $alpha: 0.15 );
 		}
 
