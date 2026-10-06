@@ -244,4 +244,79 @@ test.describe( 'Admin/AccessPlanDescription', () => {
 			description
 		);
 	} );
+
+	test( 'can edit the description of a new plan before saving', async ( {
+		admin,
+		page,
+	} ) => {
+		const description = `Unsaved plan description ${ Date.now() }`;
+
+		await admin.createNewPost( {
+			postType: 'course',
+			title: `New access plan ${ Date.now() }`,
+		} );
+		await openAccessPlansMetabox( page );
+
+		// Product metabox JS waits for TinyMCE before binding "Add New Plan".
+		await page.waitForFunction( () => {
+			const model = document.getElementById( '_llms_plans_content_llms-new-access-plan-model' );
+			return model && model.disabled;
+		} );
+
+		// With no saved plan, EditorManager.settings is the last editor on the page.
+		// Make that the excerpt so a new plan can't inherit it.
+		await page.evaluate( () => {
+			if ( window.tinymce.get( 'excerpt' ) ) {
+				return;
+			}
+			let textarea = document.getElementById( 'excerpt' );
+			if ( ! textarea ) {
+				textarea = document.createElement( 'textarea' );
+				textarea.id = 'excerpt';
+				document.body.appendChild( textarea );
+			}
+			const settings = ( window.tinyMCEPreInit && window.tinyMCEPreInit.mceInit && window.tinyMCEPreInit.mceInit.excerpt )
+				? window.tinyMCEPreInit.mceInit.excerpt
+				: { selector: '#excerpt', id: 'excerpt', toolbar1: 'formatselect,wp_more' };
+			window.tinymce.init( settings );
+		} );
+
+		await page.locator( '#llms-new-access-plan' ).click();
+		await page.locator( '#llms-access-plan-dialog button[data-template="free"]' ).click();
+
+		const plan = page.locator( '#llms-access-plans .llms-access-plan' ).first();
+		const iframe = plan.locator( 'iframe' );
+		await iframe.waitFor( { state: 'visible' } );
+		await iframe.scrollIntoViewIfNeeded();
+
+		await expect.poll( async () => {
+			return page.evaluate( () => {
+				const frame = document.querySelector( '#llms-access-plans .llms-access-plan iframe' );
+				const editorId = frame && frame.id.replace( /_ifr$/, '' );
+				const editor = editorId && window.tinymce && window.tinymce.get( editorId );
+				if ( ! editor || ! editor.settings ) {
+					return '';
+				}
+				return editor.settings.id === editor.id ? editor.id : '';
+			} );
+		} ).not.toBe( '' );
+
+		const box = await iframe.boundingBox();
+		expect( box ).toBeTruthy();
+		await page.mouse.click( box.x + ( box.width / 2 ), box.y + Math.min( box.height / 2, 30 ) );
+		await page.keyboard.type( description );
+
+		await expect.poll( async () => {
+			return page.evaluate( () => {
+				const textarea = document.querySelector(
+					'#llms-access-plans .llms-access-plan textarea[id^="_llms_plans_content_"]'
+				);
+				if ( ! textarea || ! window.tinymce ) {
+					return '';
+				}
+				const editor = window.tinymce.get( textarea.id );
+				return editor ? editor.getContent( { format: 'text' } ).trim() : textarea.value.trim();
+			} );
+		} ).toContain( description );
+	} );
 } );

@@ -273,6 +273,13 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<?php endif; ?>
 		</div>
 
+		<?php if ( ! llms_parse_bool( $order->get( 'anonymized' ) ) && $order->get( 'user_id' ) && llms_get_student( $order->get( 'user_id' ) ) ) : ?>
+			<div class="llms-metabox-field">
+				<label><?php esc_html_e( 'Customer:', 'lifterlms' ); ?></label>
+				<a href="<?php echo esc_url( llms_get_customers_admin_url( $order->get( 'user_id' ) ) ); ?>"><?php esc_html_e( 'View customer', 'lifterlms' ); ?></a>
+			</div>
+		<?php endif; ?>
+
 		<div class="llms-metabox-field">
 			<label><?php esc_html_e( 'Buyer Email:', 'lifterlms' ); ?></label>
 			<a href="<?php echo esc_url( 'mailto:' . $order->get( 'billing_email' ) ); ?>"><?php echo esc_html( $order->get( 'billing_email' ) ); ?></a>
@@ -282,12 +289,27 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<div class="llms-metabox-field">
 				<label><?php esc_html_e( 'Buyer Address:', 'lifterlms' ); ?></label>
 				<?php echo esc_html( $order->get( 'billing_address_1' ) ); ?><br>
-				<?php if ( isset( $order->billing_address_2 ) ) : ?>
-					<?php echo esc_html( $order->get( 'billing_address_2' ) ); ?><br>
-				<?php endif; ?>
-				<?php echo esc_html( $order->get( 'billing_city' ) ); ?>,
-				<?php echo esc_html( $order->get( 'billing_state' ) ); ?>,
-				<?php echo esc_html( $order->get( 'billing_zip' ) ); ?><br>
+				<?php
+				// __isset() is true when the meta key exists, including an empty saved value.
+				$billing_address_2 = trim( (string) $order->get( 'billing_address_2' ) );
+				if ( '' !== $billing_address_2 ) {
+					echo esc_html( $billing_address_2 ) . '<br>';
+				}
+				?>
+				<?php
+				// Collect city, state, zip and filter out empty values.
+				$order_address_array = array_filter(
+					array(
+						$order->get( 'billing_city' ),
+						$order->get( 'billing_state' ),
+						$order->get( 'billing_zip' ),
+					)
+				);
+				// Output joined with commas only if there is at least one non-empty value.
+				if ( ! empty( $order_address_array ) ) {
+					echo esc_html( implode( ', ', $order_address_array ) ) . '<br>';
+				}
+				?>
 				<?php echo esc_html( llms_get_country_name( $order->get( 'billing_country' ) ) ); ?>
 			</div>
 		<?php endif; ?>

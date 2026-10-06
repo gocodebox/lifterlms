@@ -182,6 +182,12 @@ define( [
 
 				this.model.load_questions( _.bind( function( err ) {
 
+					// Editor was replaced before this response arrived. Rendering now
+					// targets the new #llms-quiz-questions and leaves it empty.
+					if ( ! this.$el.closest( 'body' ).length ) {
+						return;
+					}
+
 					if ( err ) {
 						alert( LLMS.l10n.translate( 'An error occurred while trying to load the questions. Please refresh the page and try again.' ) );
 						return this;
