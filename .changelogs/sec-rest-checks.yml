@@ -1,3 +1,3 @@
 significance: patch
 type: security
-entry: Additional checks on REST API enrollment requests.
+entry: Additional checks on REST API authentication and enrollment requests.
