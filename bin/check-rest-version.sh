@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Fail the build when libraries/lifterlms-rest changed against dev without a version bump.
+# Fail the build when libraries/lifterlms-rest changed against trunk without a version bump.
+# Compare to trunk, not dev: an unreleased bump can already be on dev (for example 1.1.1)
+# while trunk is still the last release. A version that differs from trunk is enough.
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -40,19 +42,28 @@ if [ "$current_class" != "$current_pkg" ]; then
 fi
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo "check:rest-version: not a git checkout, skipping diff against dev." >&2
+	echo "check:rest-version: not a git checkout, skipping diff against trunk." >&2
 	exit 0
 fi
 
-if ! git rev-parse --verify --quiet dev >/dev/null; then
-	git fetch origin dev:refs/heads/dev --depth=1
+base_ref="origin/trunk"
+if ! git fetch --depth=1 origin trunk; then
+	if git rev-parse --verify --quiet refs/remotes/origin/trunk >/dev/null; then
+		echo "check:rest-version: could not fetch origin/trunk; using the local ref." >&2
+	elif git rev-parse --verify --quiet refs/heads/trunk >/dev/null; then
+		base_ref="trunk"
+		echo "check:rest-version: could not fetch origin/trunk; using local trunk." >&2
+	else
+		echo "check:rest-version: could not resolve trunk." >&2
+		exit 1
+	fi
 fi
 
-base_src="$(git show "dev:${class_file}")"
+base_src="$(git show "${base_ref}:${class_file}")"
 base_class="$(php -r '
 	$src = stream_get_contents( STDIN );
 	if ( ! preg_match( "/public \\\$version = '\''([^'\'']+)'\'';/", $src, $m ) ) {
-		fwrite( STDERR, "Could not read LifterLMS_REST_API::\$version from dev.\n" );
+		fwrite( STDERR, "Could not read LifterLMS_REST_API::\$version from trunk.\n" );
 		exit( 1 );
 	}
 	echo $m[1];
@@ -68,7 +79,7 @@ while IFS= read -r file; do
 			continue
 			;;
 		libraries/lifterlms-rest/class-lifterlms-rest-api.php)
-			if git diff -U0 dev -- "$file" | grep -E '^[+-]' | grep -Ev '^(---|\+\+\+)' | grep -Ev '^[+-][[:space:]]*public \$version = ' | grep -q .; then
+			if git diff -U0 "$base_ref" -- "$file" | grep -E '^[+-]' | grep -Ev '^(---|\+\+\+)' | grep -Ev '^[+-][[:space:]]*public \$version = ' | grep -q .; then
 				substantive=1
 			fi
 			;;
@@ -76,10 +87,10 @@ while IFS= read -r file; do
 			substantive=1
 			;;
 	esac
-done < <(git diff --name-only dev -- libraries/lifterlms-rest; git ls-files --others --exclude-standard -- libraries/lifterlms-rest)
+done < <(git diff --name-only "$base_ref" -- libraries/lifterlms-rest; git ls-files --others --exclude-standard -- libraries/lifterlms-rest)
 
 if [ "$substantive" -eq 1 ] && [ "$current_class" = "$base_class" ]; then
-	echo "libraries/lifterlms-rest changed against dev but the version is still ${current_class}. Bump LifterLMS_REST_API::\$version and libraries/lifterlms-rest/package.json." >&2
+	echo "libraries/lifterlms-rest changed against trunk but the version is still ${current_class}. Bump LifterLMS_REST_API::\$version and libraries/lifterlms-rest/package.json." >&2
 	exit 1
 fi
 
