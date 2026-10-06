@@ -872,6 +872,30 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test validate_plan() rejects an access plan that is not published.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_plan_unpublished() {
+
+		foreach ( array( 'draft', 'pending', 'private' ) as $status ) {
+			$plan = $this->get_mock_plan( 0, 0 );
+			$plan->set( 'status', $status );
+
+			$gen = new LLMS_Order_Generator( array(
+				'llms_plan_id' => $plan->get( 'id' ),
+			) );
+
+			$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' );
+			$this->assertIsWPError( $res );
+			$this->assertWPErrorCodeEquals( 'plan-not-available', $res );
+		}
+
+	}
+
+	/**
 	 * Test validate_plan() rejects a member-only plan when the user isn't a member.
 	 *
 	 * @since 10.0.8
