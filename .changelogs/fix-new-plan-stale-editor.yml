@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the description editor of a newly added access plan sometimes being hidden behind an unusable copy of the template editor.

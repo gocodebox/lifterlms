@@ -713,6 +713,12 @@
 				return;
 			}
 
+			// The model's editor can get initialized after it was removed on load. Remove it again
+			// so the clone doesn't copy its hidden textarea and a dead TinyMCE iframe.
+			if ( 'undefined' !== typeof tinyMCE ) {
+				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, '_llms_plans_content_llms-new-access-plan-model' );
+			}
+
 			var $clone          = $( '#llms-new-access-plan-model' ).clone(),
 				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
 

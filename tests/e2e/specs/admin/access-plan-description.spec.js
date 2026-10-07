@@ -284,22 +284,27 @@ test.describe( 'Admin/AccessPlanDescription', () => {
 		await page.locator( '#llms-new-access-plan' ).click();
 		await page.locator( '#llms-access-plan-dialog button[data-template="free"]' ).click();
 
-		const plan = page.locator( '#llms-access-plans .llms-access-plan' ).first();
-		const iframe = plan.locator( 'iframe' );
-		await iframe.waitFor( { state: 'visible' } );
-		await iframe.scrollIntoViewIfNeeded();
-
+		// The clone can carry a stale copy of the model editor's iframe, so key off the plan's
+		// own textarea and target only the TinyMCE iframe built for it.
+		let editorId = '';
 		await expect.poll( async () => {
-			return page.evaluate( () => {
-				const frame = document.querySelector( '#llms-access-plans .llms-access-plan iframe' );
-				const editorId = frame && frame.id.replace( /_ifr$/, '' );
-				const editor = editorId && window.tinymce && window.tinymce.get( editorId );
+			editorId = await page.evaluate( () => {
+				const textarea = document.querySelector(
+					'#llms-access-plans .llms-access-plan textarea[id^="_llms_plans_content_"]'
+				);
+				const editor = textarea && window.tinymce && window.tinymce.get( textarea.id );
 				if ( ! editor || ! editor.settings ) {
 					return '';
 				}
 				return editor.settings.id === editor.id ? editor.id : '';
 			} );
+			return editorId;
 		} ).not.toBe( '' );
+
+		const plan = page.locator( '#llms-access-plans .llms-access-plan' ).first();
+		const iframe = plan.locator( `iframe#${ editorId }_ifr` );
+		await iframe.waitFor( { state: 'visible' } );
+		await iframe.scrollIntoViewIfNeeded();
 
 		const box = await iframe.boundingBox();
 		expect( box ).toBeTruthy();
