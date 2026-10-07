@@ -790,6 +790,42 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
 		$this->assertFalse( $this->obj->is_on_sale() );
 
+		llms_tests_reset_current_time();
+
+		// Datetime values (Y-m-d H:i:s), as stored by the REST API.
+		$now_ts = current_time( 'timestamp' );
+
+		// Start in future.
+		$this->obj->set( 'sale_start', date( 'Y-m-d H:i:s', strtotime( '+1 day', $now_ts ) ) );
+		$this->obj->set( 'sale_end', '' );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		// End in past.
+		$this->obj->set( 'sale_start', '' );
+		$this->obj->set( 'sale_end', date( 'Y-m-d H:i:s', strtotime( '-1 day', $now_ts ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		// Start in past & end in future.
+		$this->obj->set( 'sale_start', date( 'Y-m-d H:i:s', strtotime( '-1 day', $now_ts ) ) );
+		$this->obj->set( 'sale_end', date( 'Y-m-d H:i:s', strtotime( '+1 day', $now_ts ) ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		// The time part is ignored: the sale starts at 00:00 of the start day and runs through the end day.
+		$this->obj->set( 'sale_start', $future . ' 10:00:00' );
+		$this->obj->set( 'sale_end', $future . ' 10:00:00' );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:00' ) - 1 );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:01' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 23:59:59' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
 	}
 
 	/**
