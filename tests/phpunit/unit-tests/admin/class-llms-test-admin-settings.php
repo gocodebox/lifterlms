@@ -549,7 +549,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test save_fields() only replaces an obfuscated value when the submission has no asterisks.
+	 * Test save_fields() keeps an obfuscated value only when the submission is the stored mask.
 	 *
 	 * @since [version]
 	 *
@@ -584,13 +584,22 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 		$this->assertSame( $secret, get_option( $secret_id ) );
 		$this->assertSame( 'visible', get_option( $other_id ) );
 
+		$with_asterisk = 'partial*edit';
 		$this->mockPostRequest(
 			array(
-				$secret_id => 'partial*edit',
+				$secret_id => $with_asterisk,
 			)
 		);
 		LLMS_Admin_Settings::save_fields( $fields );
-		$this->assertSame( $secret, get_option( $secret_id ) );
+		$this->assertSame( $with_asterisk, get_option( $secret_id ) );
+
+		$this->mockPostRequest(
+			array(
+				$secret_id => llms_anonymize_string( $with_asterisk ),
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( $with_asterisk, get_option( $secret_id ) );
 
 		$replacement = 'brand-new-secret-key';
 		$this->mockPostRequest(

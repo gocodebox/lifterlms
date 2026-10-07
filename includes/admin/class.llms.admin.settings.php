@@ -248,8 +248,9 @@ class LLMS_Admin_Settings {
 	 *                                     automatically removed from the database and the value will be masked when displayed on
 	 *                                     on screen. See {@see llms_get_secure_option()} for more information.
 	 *     @type bool   $obfuscate         If true, a stored text value is shown partially hidden via {@see llms_anonymize_string()}
-	 *                                     so the full value is not in the page HTML. A submission that still contains asterisks is
-	 *                                     ignored. A value without asterisks replaces the stored value. An empty submission clears it.
+	 *                                     so the full value is not in the page HTML. A submission equal to that mask is ignored.
+	 *                                     Any other value, including one that contains asterisks, replaces the stored value.
+	 *                                     An empty submission clears it.
 	 *     @type string $sanitize          Automatically apply the specified sanitization to the value before storing and outputting
 	 *                                     the stored value. Supported filters:
 	 *                                       + "slug": Uses `sanitize_title()` on the value when storing and `urldecode()` when displaying.
@@ -1024,9 +1025,12 @@ class LLMS_Admin_Settings {
 						$option_value = sanitize_title( $option_value );
 					}
 
-					// Posted value is the masked display string, so keep the stored secret.
-					if ( ! empty( $field['obfuscate'] ) && is_string( $option_value ) && false !== strpos( $option_value, '*' ) ) {
-						continue 2;
+					// Keep the stored secret when the submission is its mask. A real key may itself contain "*".
+					if ( ! empty( $field['obfuscate'] ) && is_string( $option_value ) ) {
+						$stored = self::get_option( $field['id'], $field['default'] ?? '' );
+						if ( is_string( $stored ) && '' !== $stored && $option_value === llms_anonymize_string( $stored ) ) {
+							continue 2;
+						}
 					}
 
 					break;
