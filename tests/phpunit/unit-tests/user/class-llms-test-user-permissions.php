@@ -430,5 +430,52 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		}
 	}
 
+	/**
+	 * Test that the REST author query includes LifterLMS roles.
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1953
+	 *
+	 * @return void
+	 */
+	public function test_filter_rest_user_query_who_authors() {
+
+		$users = $this->create_mock_users();
+		wp_set_current_user( $users['admin'] );
+
+		$args = $this->obj->filter_rest_user_query( array( 'who' => 'authors' ), new WP_REST_Request( 'GET', '/wp/v2/users' ) );
+
+		$this->assertArrayNotHasKey( 'who', $args );
+		$this->assertEquals( 'edit_posts', $args['capability'] );
+
+		$args['fields'] = 'ID';
+		$found          = array_map( 'absint', ( new WP_User_Query( $args ) )->get_results() );
+
+		foreach ( array( 'admin', 'admin2', 'editor', 'lms_manager', 'instructor', 'assistant' ) as $role ) {
+			$this->assertContains( $users[ $role ], $found, $role );
+		}
+
+		foreach ( array( 'student', 'subscriber' ) as $role ) {
+			$this->assertNotContains( $users[ $role ], $found, $role );
+		}
+	}
+
+	/**
+	 * Test that REST user queries without `who=authors` are not changed for non-instructors.
+	 *
+	 * @return void
+	 */
+	public function test_filter_rest_user_query_not_authors() {
+
+		$users = $this->create_mock_users();
+		wp_set_current_user( $users['admin'] );
+
+		$args = array(
+			'number'         => 10,
+			'capability__in' => array( 'list_users' ),
+		);
+
+		$this->assertEquals( $args, $this->obj->filter_rest_user_query( $args, new WP_REST_Request( 'GET', '/wp/v2/users' ) ) );
+	}
+
 
 }
