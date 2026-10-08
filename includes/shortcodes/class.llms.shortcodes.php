@@ -316,6 +316,7 @@ class LLMS_Shortcodes {
 
 		// Enqueue match height so the loop isn't all messed up visually.
 		self::enqueue_script( 'llms-jquery-matchheight' );
+		llms()->assets->enqueue_style( 'lifterlms-styles' );
 
 		if ( isset( $atts['category'] ) ) {
 			$tax = array(
@@ -608,6 +609,10 @@ class LLMS_Shortcodes {
 
 			// enqueue match height for height alignments.
 			self::enqueue_script( 'llms-jquery-matchheight' );
+			llms()->assets->enqueue_style( 'lifterlms-styles' );
+			// Pricing table locked-plan popovers need webui-popover.
+			llms()->assets->enqueue_script( 'webui-popover' );
+			llms()->assets->enqueue_style( 'webui-popover' );
 
 			ob_start();
 			lifterlms_template_pricing_table( $atts['product'] );
