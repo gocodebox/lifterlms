@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Additional fix for the plan description editor when adding a new access plan in some cases.

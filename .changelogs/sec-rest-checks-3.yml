@@ -1,0 +1,6 @@
+significance: patch
+type: security
+entry: Additional checks on REST API collection requests.
+attributions:
+  - "@pokeroot"
+  - "Huzaifa Jawaid"

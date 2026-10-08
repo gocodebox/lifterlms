@@ -135,6 +135,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/hovpoghosyan"><img src="https://avatars.githubusercontent.com/u/9405480?v=4" title="hovpoghosyan" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>
+<a href="https://github.com/robindevitt"><img src="https://avatars.githubusercontent.com/u/16571365?v=4" title="robindevitt" width="80" height="80"></a>
 <a href="https://github.com/nicolas-jaussaud"><img src="https://avatars.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
 <a href="https://github.com/lifterlms-maurice"><img src="https://avatars.githubusercontent.com/u/272279717?v=4" title="lifterlms-maurice" width="80" height="80"></a>
 <a href="https://github.com/mrosati84"><img src="https://avatars.githubusercontent.com/u/855068?v=4" title="mrosati84" width="80" height="80"></a>
@@ -149,7 +150,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/edent"><img src="https://avatars.githubusercontent.com/u/837136?v=4" title="edent" width="80" height="80"></a>
 <a href="https://github.com/sekanderb"><img src="https://avatars.githubusercontent.com/u/3262638?v=4" title="sekanderb" width="80" height="80"></a>
 <a href="https://github.com/sapayth"><img src="https://avatars.githubusercontent.com/u/15567340?v=4" title="sapayth" width="80" height="80"></a>
-<a href="https://github.com/robindevitt"><img src="https://avatars.githubusercontent.com/u/16571365?v=4" title="robindevitt" width="80" height="80"></a>
 <a href="https://github.com/reedhewitt"><img src="https://avatars.githubusercontent.com/u/957141?v=4" title="reedhewitt" width="80" height="80"></a>
 <a href="https://github.com/Nikschavan"><img src="https://avatars.githubusercontent.com/u/2931091?v=4" title="Nikschavan" width="80" height="80"></a>
 <a href="https://github.com/nhandl3"><img src="https://avatars.githubusercontent.com/u/1247539?v=4" title="nhandl3" width="80" height="80"></a>

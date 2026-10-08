@@ -142,6 +142,10 @@ class LLMS_REST_Authentication {
 
 		if ( $this->api_key ) {
 
+			if ( ! $this->is_dispatched_route_allowed( $request ) ) {
+				return llms_rest_authorization_required_error( '', false );
+			}
+
 			$allowed = $this->api_key->has_permission( $request->get_method() );
 			if ( ! $allowed ) {
 				return llms_rest_authorization_required_error( '', false );
@@ -153,6 +157,42 @@ class LLMS_REST_Authentication {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Determine if the route being served may be accessed with LifterLMS API key credentials.
+	 *
+	 * Compares the route WordPress is serving at the top level -- `rest_api_loaded()` passes
+	 * `$wp->query_vars['rest_route']` to `WP_REST_Server::serve_request()` -- against the
+	 * LifterLMS route namespaces. The dispatched request's own route is only used as a
+	 * fallback when the query var is unavailable: `rest_pre_dispatch` also fires for internal
+	 * sub-requests made via `rest_do_request()` while serving a LifterLMS route, and those
+	 * must not be rejected because of their non-LifterLMS route.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request Request used to generate the response.
+	 * @return bool
+	 */
+	protected function is_dispatched_route_allowed( $request ) {
+
+		global $wp;
+
+		if ( $wp instanceof WP && ! empty( $wp->query_vars['rest_route'] ) && is_string( $wp->query_vars['rest_route'] ) ) {
+			$route = untrailingslashit( $wp->query_vars['rest_route'] );
+		} else {
+			$route = $request->get_route();
+		}
+
+		$route = ltrim( (string) $route, '/' );
+
+		$core = ( '' !== $route && 0 === strpos( $route, 'llms/' ) );
+
+		// Allow 3rd parties to use core auth.
+		$external = ( '' !== $route && 0 === strpos( $route, 'llms-' ) );
+
+		// Reuses the existing filter so a callback that widens the namespace for authentication also widens it here.
+		return apply_filters( 'llms_is_rest_request', $core || $external, $route );
 	}
 
 	/**
@@ -242,9 +282,12 @@ class LLMS_REST_Authentication {
 	/**
 	 * Extract the REST route from a request URI.
 	 *
-	 * Supports pretty permalinks (`/wp-json/{route}`) and plain permalinks (`?rest_route=/{route}`).
-	 * The query string is intentionally ignored when matching the path so that an `llms` marker
-	 * placed in a query argument cannot make a non-LifterLMS route look like a LifterLMS route.
+	 * Resolves the route the same way WordPress does: a `rest_route` request argument takes
+	 * precedence over the request path because `WP::parse_request()` gives query vars precedence
+	 * over the rewrite (path) match when deciding which route to serve. Supports pretty
+	 * permalinks (`/wp-json/{route}`) and plain permalinks (`?rest_route=/{route}`). All other
+	 * query arguments are ignored so an `llms` marker placed in an unrelated query argument
+	 * cannot make a non-LifterLMS route look like a LifterLMS route.
 	 *
 	 * @since 1.0.8
 	 *
@@ -252,6 +295,11 @@ class LLMS_REST_Authentication {
 	 * @return string The route relative to the REST prefix (no leading slash), or an empty string.
 	 */
 	private function get_rest_route( $request ) {
+
+		$rest_route = $this->get_rest_route_request_arg( $request );
+		if ( null !== $rest_route ) {
+			return ltrim( $rest_route, '/' );
+		}
 
 		$prefix = rest_get_url_prefix();
 		$path   = (string) wp_parse_url( $request, PHP_URL_PATH );
@@ -262,15 +310,43 @@ class LLMS_REST_Authentication {
 			return ltrim( substr( $path, $pos + strlen( $needle ) ), '/' );
 		}
 
+		return '';
+	}
+
+	/**
+	 * Retrieve the `rest_route` request argument as WordPress will read it.
+	 *
+	 * `WP::parse_request()` reads public query vars from `$_POST` first, then `$_GET`, and the
+	 * resulting `rest_route` value overrides any rewrite (path) match when WordPress decides
+	 * which REST route to serve. When the argument is present but is not a non-empty string
+	 * an empty string is returned: WordPress will not serve the path route in that case either,
+	 * so the request must not be treated as a LifterLMS route.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $request The sanitized request URI.
+	 * @return string|null The `rest_route` value (empty string when present but not a usable
+	 *                     string), or `null` when not present in the request.
+	 */
+	private function get_rest_route_request_arg( $request ) {
+
+		$rest_route = llms_filter_input( INPUT_POST, 'rest_route' );
+		if ( null === $rest_route ) {
+			$rest_route = llms_filter_input( INPUT_GET, 'rest_route' );
+		}
+		if ( null !== $rest_route ) {
+			return is_string( $rest_route ) ? sanitize_text_field( $rest_route ) : '';
+		}
+
 		$query = (string) wp_parse_url( $request, PHP_URL_QUERY );
 		if ( $query ) {
 			parse_str( $query, $vars );
-			if ( ! empty( $vars['rest_route'] ) ) {
-				return ltrim( (string) $vars['rest_route'], '/' );
+			if ( isset( $vars['rest_route'] ) ) {
+				return is_string( $vars['rest_route'] ) ? $vars['rest_route'] : '';
 			}
 		}
 
-		return '';
+		return null;
 	}
 
 	/**

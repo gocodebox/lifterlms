@@ -155,7 +155,12 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		foreach ( $this->get_tbody_data() as $row ) {
 			$row_data = array();
 			foreach ( array_keys( $this->get_columns( 'export' ) ) as $row_key ) {
-				$row_data[ $row_key ] = html_entity_decode( $this->get_export_data( $row_key, $row ) );
+				$cell = $this->get_export_data( $row_key, $row );
+				if ( null === $cell || is_scalar( $cell ) ) {
+					// Decode before the prefix check so an entity-encoded formula character is still caught.
+					$cell = $this->prefix_spreadsheet_formula( html_entity_decode( (string) $cell ) );
+				}
+				$row_data[ $row_key ] = $cell;
 			}
 			$export[] = $row_data;
 		}
@@ -175,6 +180,67 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	public function get_export_data( $key, $data ) {
 		return trim( wp_strip_all_tags( $this->get_data( $key, $data ) ) );
+	}
+
+	/**
+	 * Prefix a cell that a spreadsheet would treat as a formula.
+	 *
+	 * A leading apostrophe forces the cell to text. A leading + or - that is a
+	 * plain number is left alone so it stays numeric in the sheet. Spaces that
+	 * are not ASCII, including a decoded non-breaking space, are skipped before
+	 * that check. Fullwidth = + - @ count as the ASCII triggers, because some
+	 * spreadsheet apps normalize them before parsing.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $value Cell value.
+	 * @return string
+	 */
+	protected function prefix_spreadsheet_formula( $value ) {
+
+		$check = $value;
+		if ( class_exists( 'Normalizer' ) ) {
+			$normalized = Normalizer::normalize( $check, Normalizer::FORM_KC );
+			if ( is_string( $normalized ) ) {
+				$check = $normalized;
+			}
+		}
+
+		if ( mb_check_encoding( $check, 'UTF-8' ) ) {
+			$stripped = preg_replace( '/^[\s\x{0000}\x{0085}\x{00A0}\x{1680}\x{2000}-\x{200A}\x{2028}\x{2029}\x{202F}\x{205F}\x{3000}]+/u', '', $check );
+			if ( is_string( $stripped ) ) {
+				$check = $stripped;
+			}
+		} else {
+			$check = ltrim( $check, " \t\n\r\0\x0B" );
+		}
+
+		if ( '' === $check ) {
+			return $value;
+		}
+
+		$first    = mb_substr( $check, 0, 1, 'UTF-8' );
+		$triggers = array(
+			'='        => '=',
+			'+'        => '+',
+			'-'        => '-',
+			'@'        => '@',
+			"\u{FF1D}" => '=',
+			"\u{FF0B}" => '+',
+			"\u{FF0D}" => '-',
+			"\u{FF20}" => '@',
+		);
+		if ( ! isset( $triggers[ $first ] ) ) {
+			return $value;
+		}
+
+		$sign = $triggers[ $first ];
+		$rest = mb_substr( $check, 1, mb_strlen( $check, 'UTF-8' ), 'UTF-8' );
+		if ( ( '+' === $sign || '-' === $sign ) && is_numeric( $sign . $rest ) ) {
+			return $value;
+		}
+
+		return "'" . $value;
 	}
 
 	/**

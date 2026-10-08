@@ -966,6 +966,50 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to read items.
+	 *
+	 * Lessons are not public REST content: listing them requires
+	 * lesson editing capabilities.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function get_items_permissions_check( $request ) {
+
+		if ( ! current_user_can( get_post_type_object( $this->post_type )->cap->edit_posts ) ) {
+			return llms_rest_authorization_required_error();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Retrieve the IDs of the lessons the current user can read.
+	 *
+	 * Matches the `edit_lesson` check: the user's own lessons plus the lessons
+	 * of the courses they instruct.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]|null
+	 */
+	protected function get_readable_post_ids() {
+
+		if ( $this->can_edit_others_posts() ) {
+			return null;
+		}
+
+		return array_unique(
+			array_merge(
+				$this->query_own_post_ids( $this->post_type ),
+				$this->query_post_ids_by_meta( 'lesson', '_llms_parent_course', $this->get_instructor_course_ids() )
+			)
+		);
+	}
+
+	/**
 	 * Checks if a Lesson can be read
 	 *
 	 * @since 1.0.0-beta.1

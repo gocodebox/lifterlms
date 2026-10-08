@@ -244,7 +244,7 @@ class LLMS_Controller_Checkout {
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
-			if ( $locate ) {
+			if ( $locate && $this->can_resume_order( $locate, $setup['person'] ) ) {
 				$order_id = $locate;
 			}
 		}
@@ -311,6 +311,29 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $handle );
+	}
+
+	/**
+	 * Determines whether a located order can be reused by the person completing checkout.
+	 *
+	 * Only a pending order that has not been assigned to a user yet, or one that already
+	 * belongs to the given person, can be updated during checkout.
+	 *
+	 * @since [version]
+	 *
+	 * @param integer      $order_id WP_Post ID of the located order.
+	 * @param LLMS_Student $person   The person completing checkout.
+	 * @return boolean
+	 */
+	private function can_resume_order( $order_id, $person ) {
+
+		if ( 'llms-pending' !== get_post_status( $order_id ) ) {
+			return false;
+		}
+
+		$owner_id = absint( ( new LLMS_Order( $order_id ) )->get( 'user_id' ) );
+
+		return ! $owner_id || absint( $person->get( 'id' ) ) === $owner_id;
 	}
 
 	/**
