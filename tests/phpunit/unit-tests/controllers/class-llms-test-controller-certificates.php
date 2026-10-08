@@ -330,7 +330,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Preview-access roles cannot change sharing on another user's certificate.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

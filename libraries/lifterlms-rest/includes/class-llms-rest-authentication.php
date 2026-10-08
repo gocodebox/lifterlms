@@ -169,7 +169,7 @@ class LLMS_REST_Authentication {
 	 * sub-requests made via `rest_do_request()` while serving a LifterLMS route, and those
 	 * must not be rejected because of their non-LifterLMS route.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param WP_REST_Request $request Request used to generate the response.
 	 * @return bool
@@ -322,7 +322,7 @@ class LLMS_REST_Authentication {
 	 * an empty string is returned: WordPress will not serve the path route in that case either,
 	 * so the request must not be treated as a LifterLMS route.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $request The sanitized request URI.
 	 * @return string|null The `rest_route` value (empty string when present but not a usable

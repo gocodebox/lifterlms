@@ -299,7 +299,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Awarded certificates the current user cannot view are omitted from oEmbed.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -370,7 +370,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Canonical redirects do not send an awarded certificate the current user cannot view to its permalink.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @medium
 	 *

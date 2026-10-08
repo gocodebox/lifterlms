@@ -784,7 +784,7 @@ class LLMS_REST_Test_Enrollments extends LLMS_REST_Unit_Test_Case_Server {
 	 *
 	 * An authorized caller still receives a not-found response for a missing enrollment.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

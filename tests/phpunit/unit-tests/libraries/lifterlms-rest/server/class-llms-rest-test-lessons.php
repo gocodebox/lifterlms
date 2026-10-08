@@ -156,7 +156,7 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Logged-out collection requests are rejected before a query runs.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * An instructor's collection total does not include another instructor's lesson.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -282,7 +282,7 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * An instructor's collection covers the lessons of courses they instruct and paginates on that set.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

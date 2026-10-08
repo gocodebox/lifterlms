@@ -929,7 +929,7 @@ class LLMS_AJAX_Handler {
 	 * required, so those types also require `manage_lifterlms`. Types with
 	 * their own capability map use that `edit_posts` capability.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $post_type Post type name.
 	 * @return bool

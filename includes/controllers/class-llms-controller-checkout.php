@@ -319,7 +319,7 @@ class LLMS_Controller_Checkout {
 	 * Only a pending order that has not been assigned to a user yet, or one that already
 	 * belongs to the given person, can be updated during checkout.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param integer      $order_id WP_Post ID of the located order.
 	 * @param LLMS_Student $person   The person completing checkout.

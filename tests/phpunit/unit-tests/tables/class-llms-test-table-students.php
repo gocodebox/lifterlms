@@ -53,7 +53,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * Learner-controlled names that look like formulas are prefixed in the students export.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

@@ -35,7 +35,7 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 	/**
 	 * Read post_modified straight from the posts table.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param int $post_id Post ID.
 	 * @return string|null
@@ -268,7 +268,7 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 	/**
 	 * migrate_post() writes only when the current user can edit that post.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -361,7 +361,7 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 	 * The success path calls exit() after wp_safe_redirect(). The redirect filter
 	 * throws before that exit so the process stays alive.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param LLMS_Blocks_Migrate $migrate Migrator.
 	 * @return bool

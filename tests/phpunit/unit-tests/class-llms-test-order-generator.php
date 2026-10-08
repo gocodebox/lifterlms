@@ -350,7 +350,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * An order key is only resumed by the user it already belongs to.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -911,7 +911,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_plan() rejects an access plan that is not published.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

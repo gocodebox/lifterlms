@@ -441,7 +441,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * read check runs. A controller whose read check is stricter than the query
 	 * returns the readable IDs here so the query itself only matches them.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return int[]|null Readable post IDs, or `null` when the query needs no restriction.
 	 */
@@ -452,7 +452,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Restrict collection query arguments to the posts the current user can read.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param array $query_args WP_Query arguments.
 	 * @return array
@@ -481,7 +481,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * `current_user_can()` is not used here: LifterLMS grants `edit_others_*`
 	 * to instructors whenever the check carries no post ID.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return bool
 	 */
@@ -502,7 +502,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * This is the relation `LLMS_Instructor::is_instructor()` uses when
 	 * resolving `edit_others_*` capabilities on course content.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return int[]
 	 */
@@ -527,7 +527,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve IDs of posts authored by the current user.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $post_type Post type name.
 	 * @return int[]
@@ -544,7 +544,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve IDs of posts whose meta value is one of the supplied values.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $post_type Post type name.
 	 * @param string $meta_key  Meta key holding the parent ID.
@@ -574,7 +574,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Retrieve post IDs matching the supplied query arguments, regardless of status.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param array $args WP_Query arguments.
 	 * @return int[]

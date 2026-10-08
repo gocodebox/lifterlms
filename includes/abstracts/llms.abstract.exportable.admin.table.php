@@ -191,7 +191,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * that check. Fullwidth = + - @ count as the ASCII triggers, because some
 	 * spreadsheet apps normalize them before parsing.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $value Cell value.
 	 * @return string

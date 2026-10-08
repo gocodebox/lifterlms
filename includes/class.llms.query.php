@@ -295,7 +295,7 @@ class LLMS_Query {
 	 * `maybe_404_certificate()` runs on `wp`. oEmbed is a REST request and never gets there.
 	 * `is_post_embeddable` exists since WordPress 6.8; older versions rely on `maybe_hide_certificate_oembed()`.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param bool    $is_embeddable Whether the post is embeddable.
 	 * @param WP_Post $post          Post object.
@@ -315,7 +315,7 @@ class LLMS_Query {
 	 *
 	 * Runs after WordPress adds the embed HTML. A false value becomes a 404 from the oEmbed endpoint.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param array|false $data Response data.
 	 * @param WP_Post     $post Post object.
@@ -336,7 +336,7 @@ class LLMS_Query {
 	 * `redirect_canonical()` runs on `template_redirect`, after `maybe_404_certificate()` has already
 	 * set a 404, and still redirects a public post to its permalink.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string|false $redirect_url  Redirect URL.
 	 * @param string       $requested_url Requested URL.
@@ -368,7 +368,7 @@ class LLMS_Query {
 	/**
 	 * Whether the post is an awarded certificate the current user cannot view.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param int|WP_Post|null $post Post ID or object.
 	 * @return bool

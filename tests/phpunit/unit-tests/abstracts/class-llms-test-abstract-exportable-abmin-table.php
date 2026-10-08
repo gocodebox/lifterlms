@@ -110,7 +110,7 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 	/**
 	 * Formula-looking export cells are prefixed. Plain numbers are not.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ class LLMS_Test_Abstract_Exportable_Admin_Table extends LLMS_UnitTestCase {
 /**
  * Minimal exportable table that returns cell values unchanged.
  *
- * @since [version]
+ * @since 10.3.1
  */
 class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 
@@ -232,7 +232,7 @@ class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 	/**
 	 * Load the fixture rows.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param array $args Query args.
 	 * @return void
@@ -245,7 +245,7 @@ class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 	/**
 	 * No query args.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return array
 	 */
@@ -256,7 +256,7 @@ class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 	/**
 	 * Two export columns.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return array
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 	/**
 	 * Return the fixture value. Skips the parent sanitizer on purpose.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $key  Column key.
 	 * @param array  $data Row.
@@ -289,7 +289,7 @@ class LLMS_Test_Table_Formula_Export extends LLMS_Admin_Table {
 	/**
 	 * Unused display-cell stub.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $key  Column key.
 	 * @param mixed  $data Row.

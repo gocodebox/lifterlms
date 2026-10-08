@@ -253,7 +253,7 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 	 * `WP::parse_request()` reads public query vars from `$_POST` before `$_GET`, so a POSTed
 	 * `rest_route` determines the served route even when the path looks like a LifterLMS route.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -279,7 +279,7 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Test check_permissions() rejects key-authenticated requests served outside the LifterLMS namespaces.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

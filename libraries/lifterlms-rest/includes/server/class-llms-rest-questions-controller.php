@@ -120,7 +120,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * Matches the `edit_question` check: the user's own questions plus the
 	 * questions of quizzes attached to lessons of the courses they instruct.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return int[]|null
 	 */

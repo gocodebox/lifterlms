@@ -462,7 +462,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test that captcha secret fields are masked and other captcha fields are not.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -495,7 +495,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test output_field() hides an obfuscated value.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -551,7 +551,7 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 	/**
 	 * Test save_fields() keeps an obfuscated value only when the submission is the stored mask.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */

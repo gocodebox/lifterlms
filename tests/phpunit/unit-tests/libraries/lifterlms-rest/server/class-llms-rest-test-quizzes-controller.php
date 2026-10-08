@@ -255,7 +255,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * An instructor's quiz collection total does not include another instructor's quiz.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -267,7 +267,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * An instructor's question collection total does not include another instructor's question.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -279,7 +279,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Search totals for a post type stay at zero for another instructor's post.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param string $post_type Post type slug.
 	 * @param string $route     Collection route.

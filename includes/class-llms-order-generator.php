@@ -449,7 +449,7 @@ class LLMS_Order_Generator {
 	 * An order that has not been assigned to a user yet can be resumed with its key alone.
 	 * An order that already belongs to a user can only be resumed by that same logged-in user.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param integer $order_id The located order ID.
 	 * @return boolean

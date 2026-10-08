@@ -535,7 +535,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * A pending order that already belongs to someone else is not reused.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -577,7 +577,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * The checkout user can still update their own pending order.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -615,7 +615,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * An order that is no longer pending is not reused, including by its owner.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
@@ -655,7 +655,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Posted data for a classic checkout submission.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param LLMS_Access_Plan $plan  Access plan being purchased.
 	 * @param string           $email Email address for the checkout user.
@@ -690,7 +690,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Submit create_pending_order() and return the order handed to the gateway.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return LLMS_Order|null
 	 */

@@ -971,7 +971,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	 * Lessons are not public REST content: listing them requires
 	 * lesson editing capabilities.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -991,7 +991,7 @@ class LLMS_REST_Lessons_Controller extends LLMS_REST_Posts_Controller {
 	 * Matches the `edit_lesson` check: the user's own lessons plus the lessons
 	 * of the courses they instruct.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return int[]|null
 	 */

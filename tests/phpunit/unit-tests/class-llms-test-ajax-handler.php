@@ -397,7 +397,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * from roles that do not manage LifterLMS. Public types, and non-public types
 	 * with their own capability map, stay available to roles that can edit them.
 	 *
-	 * @since [version]
+	 * @since 10.3.1
 	 *
 	 * @return void
 	 */
