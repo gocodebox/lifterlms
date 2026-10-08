@@ -297,7 +297,7 @@ class LLMS_Admin_Builder {
 	 * Returns the post type's front-end URL with a `%pagename%` placeholder where the
 	 * slug belongs, e.g. `https://example.com/lesson/%pagename%/`.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @param string $post_type Post type to build the template for.
 	 * @return string
@@ -359,6 +359,9 @@ class LLMS_Admin_Builder {
 				}
 
 				break;
+
+			case 'dismiss_starter':
+				return self::dismiss_starter_outline( $request['course_id'] );
 
 			case 'get_permalink':
 				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
@@ -427,6 +430,41 @@ class LLMS_Admin_Builder {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Remember that the author removed every section so the demo outline is not inserted again.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $course_id Course ID.
+	 * @return array
+	 */
+	private static function dismiss_starter_outline( $course_id ) {
+
+		$course_id = absint( $course_id );
+		if ( ! $course_id || 'course' !== get_post_type( $course_id ) ) {
+			return array();
+		}
+
+		update_post_meta( $course_id, '_llms_builder_starter_dismissed', 'yes' );
+
+		return array(
+			'dismissed' => true,
+		);
+	}
+
+	/**
+	 * Whether the builder should skip the demo section and lessons.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $course_id Course ID.
+	 * @return bool
+	 */
+	private static function is_starter_outline_dismissed( $course_id ) {
+
+		return 'yes' === get_post_meta( absint( $course_id ), '_llms_builder_starter_dismissed', true );
 	}
 
 	/**
@@ -709,6 +747,7 @@ class LLMS_Admin_Builder {
 						'autosave'               => self::get_autosave_status(),
 						'admin_url'              => admin_url(),
 						'course'                 => $course->toArray(),
+						'seed_starter'           => ! self::is_starter_outline_dismissed( $course_id ),
 						'debug'                  => array(
 							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 						),
@@ -1269,9 +1308,14 @@ class LLMS_Admin_Builder {
 
 				// During clone's we want to ensure custom field data comes with the lesson.
 				if ( $created && isset( $lesson_data['custom'] ) ) {
-					foreach ( $lesson_data['custom'] as $custom_key => $custom_vals ) {
-						foreach ( $custom_vals as $val ) {
-							add_post_meta( $lesson->get( 'id' ), $custom_key, maybe_unserialize( $val ) );
+					foreach ( (array) $lesson_data['custom'] as $custom_key => $custom_vals ) {
+						foreach ( (array) $custom_vals as $val ) {
+							// Values come from `toArray()`, which has already unserialized them, so a serialized
+							// string here is never legitimate and is not stored to avoid later unserialization.
+							if ( is_serialized( $val ) ) {
+								continue;
+							}
+							add_post_meta( $lesson->get( 'id' ), $custom_key, $val );
 						}
 					}
 				}

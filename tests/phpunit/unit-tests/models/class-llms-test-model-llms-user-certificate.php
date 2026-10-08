@@ -940,6 +940,53 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Preview-access roles cannot manage another user's certificate.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_can_user_manage_preview_roles_scoped_to_certificate() {
+
+		$original = get_option( 'llms_grant_site_access' );
+		update_option(
+			'llms_grant_site_access',
+			array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' )
+		);
+
+		$owner      = $this->factory->student->create();
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$assistant  = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+		$manager    = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+		$earned     = $this->earn_certificate( $owner, $this->create_certificate_template(), $this->factory->post->create() );
+		$cert       = new LLMS_User_Certificate( $earned[1] );
+
+		$this->assertFalse( $cert->can_user_manage( $instructor ) );
+		$this->assertFalse( $cert->can_user_view( $instructor ) );
+		$this->assertFalse( $cert->can_user_manage( $assistant ) );
+		$this->assertFalse( $cert->can_user_view( $assistant ) );
+
+		$this->assertTrue( $cert->can_user_manage( $manager ) );
+		$this->assertTrue( $cert->can_user_manage( $owner ) );
+
+		// An instructor who earned the certificate can still manage their own.
+		$own = $this->earn_certificate( $instructor, $this->create_certificate_template(), $this->factory->post->create() );
+		$this->assertTrue( ( new LLMS_User_Certificate( $own[1] ) )->can_user_manage( $instructor ) );
+
+		// Sharing still makes the certificate viewable.
+		$cert->set( 'allow_sharing', 'yes' );
+		$this->assertTrue( $cert->can_user_view( $instructor ) );
+		$this->assertFalse( $cert->can_user_manage( $instructor ) );
+
+		if ( false === $original ) {
+			delete_option( 'llms_grant_site_access' );
+		} else {
+			update_option( 'llms_grant_site_access', $original );
+		}
+
+	}
+
+	/**
 	 * Test can_user_view()
 	 *
 	 * @since 4.5.0

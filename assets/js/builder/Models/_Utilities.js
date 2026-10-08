@@ -136,7 +136,7 @@ define( [], function() {
 		 *
 		 * A conflict suffix (-2, -3) isn't predicted; the real slug is confirmed on save.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param {String} text Text to slugify.
 		 * @return {String}
@@ -159,7 +159,7 @@ define( [], function() {
 		 * settings panel isn't re-rendered mid-edit (which would steal focus); the
 		 * on-screen preview is updated directly by the view.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param {String} title Optional title override, used for live previews while typing
 		 *                       before the title is committed to the model on blur.

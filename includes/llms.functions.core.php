@@ -28,6 +28,7 @@ require_once 'functions/llms.functions.currency.php';
 require_once 'functions/llms.functions.log.php';
 require_once 'functions/llms.functions.notice.php';
 require_once 'functions/llms.functions.order.php';
+require_once 'functions/llms-functions-customer.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.privacy.php';

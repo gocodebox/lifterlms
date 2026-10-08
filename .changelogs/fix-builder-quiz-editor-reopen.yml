@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Fixed the course builder dropping quiz questions when the quiz editor is opened again while they are still loading.

@@ -143,7 +143,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Recurring payments read as disabled on a clone even when the stored feature is still enabled.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -172,7 +172,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * A feature constant still wins when the site is a clone.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
