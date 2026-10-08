@@ -64,6 +64,32 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Retrieve the IDs of the quizzes the current user can read.
+	 *
+	 * Matches the `edit_quiz` check: the user's own quizzes plus the quizzes
+	 * attached to lessons of the courses they instruct.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]|null
+	 */
+	protected function get_readable_post_ids() {
+
+		if ( $this->can_edit_others_posts() ) {
+			return null;
+		}
+
+		$lesson_ids = $this->query_post_ids_by_meta( 'lesson', '_llms_parent_course', $this->get_instructor_course_ids() );
+
+		return array_unique(
+			array_merge(
+				$this->query_own_post_ids( $this->post_type ),
+				$this->query_post_ids_by_meta( $this->post_type, '_llms_lesson_id', $lesson_ids )
+			)
+		);
+	}
+
+	/**
 	 * Retrieves the query params for the objects collection.
 	 *
 	 * @since 10.2.0
