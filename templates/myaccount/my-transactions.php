@@ -53,7 +53,7 @@ defined( 'ABSPATH' ) || exit;
 					$row_label  = sprintf( __( 'Order #%d', 'lifterlms' ), $row_id );
 					$status     = $row->get( 'status' );
 					$status_lbl = $row->get_status_name();
-					$amount     = $row->get_price( 'total' );
+					$amount     = $row->get_initial_price();
 					$date       = $row->get_date( 'date', 'F j, Y' );
 				}
 

@@ -31,7 +31,6 @@ class LLMS_Student_Dashboard {
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 		add_filter( 'llms_get_student_dashboard_tabs_for_nav', array( $this, 'maybe_hide_subscriptions_nav' ) );
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class LLMS_Student_Dashboard {
 	public function add_endpoints( $endpoints ) {
 
 		return array_merge( $endpoints, $this->get_endpoints() );
-
 	}
 
 	/**
@@ -124,7 +122,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $endpoints;
-
 	}
 
 	/**
@@ -156,7 +153,6 @@ class LLMS_Student_Dashboard {
 				'status'  => 'enrolled',
 			)
 		);
-
 	}
 
 	/**
@@ -188,7 +184,6 @@ class LLMS_Student_Dashboard {
 		} else {
 			return $current_tab;
 		}
-
 	}
 
 	/**
@@ -303,7 +298,6 @@ class LLMS_Student_Dashboard {
 			'llms_get_student_dashboard_tabs',
 			$tabs
 		);
-
 	}
 
 	/**
@@ -336,7 +330,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return apply_filters( 'llms_get_student_dashboard_tabs_for_nav', $tabs );
-
 	}
 
 	/**
@@ -356,7 +349,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -395,7 +387,6 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $title;
-
 	}
 
 	public function modify_rewrite_rules_order( $rules ) {
@@ -528,9 +519,11 @@ class LLMS_Student_Dashboard {
 			return $empty;
 		}
 
-		// Transactions belonging to those orders.
-		$transaction_posts = get_posts(
+		$txn_statuses = llms_get_transaction_statuses();
+
+		$txn_ids = get_posts(
 			array(
+				'fields'         => 'ids',
 				'meta_query'     => array(
 					array(
 						'compare' => 'IN',
@@ -538,43 +531,53 @@ class LLMS_Student_Dashboard {
 						'value'   => $order_ids,
 					),
 				),
-				'order'          => 'DESC',
-				'orderby'        => 'date',
-				'post_status'    => 'any',
+				'no_found_rows'  => true,
+				'post_status'    => $txn_statuses,
 				'post_type'      => 'llms_transaction',
 				'posts_per_page' => -1,
 			)
 		);
 
-		$rows             = array();
+		// One query for every transaction's `_llms_order_id` instead of one per transaction.
+		update_meta_cache( 'post', $txn_ids );
+
 		$orders_with_txns = array();
-
-		foreach ( $transaction_posts as $post ) {
-			$order_id = (int) get_post_meta( $post->ID, '_llms_order_id', true );
-
-			$rows[]                        = new LLMS_Transaction( $post );
-			$orders_with_txns[ $order_id ] = true;
+		foreach ( $txn_ids as $txn_id ) {
+			$orders_with_txns[ (int) get_post_meta( $txn_id, '_llms_order_id', true ) ] = true;
 		}
 
-		// Include orders that have no transactions (e.g. free, trial, or pending payment orders).
+		$txnless_order_ids = array();
 		foreach ( $order_ids as $order_id ) {
 			if ( ! isset( $orders_with_txns[ (int) $order_id ] ) ) {
-				$rows[] = new LLMS_Order( $order_id );
+				$txnless_order_ids[] = (int) $order_id;
 			}
 		}
 
-		// Sort all rows by their post date, newest first.
-		usort(
-			$rows,
-			function ( $a, $b ) {
-				return strcmp( $b->get( 'date' ), $a->get( 'date' ) );
-			}
+		$row_ids = array_merge( array_map( 'absint', $txn_ids ), $txnless_order_ids );
+		$total   = count( $row_ids );
+		$pages   = (int) ceil( $total / $per_page );
+		$page    = max( 1, min( $page, max( 1, $pages ) ) );
+
+		// Let SQL sort and page the combined set so only the current page is loaded.
+		$query = new WP_Query(
+			array(
+				'no_found_rows'  => true,
+				'orderby'        => array(
+					'date' => 'DESC',
+					'ID'   => 'DESC',
+				),
+				'paged'          => $page,
+				'post__in'       => $row_ids,
+				'post_status'    => array_merge( $txn_statuses, array_keys( llms_get_order_statuses() ) ),
+				'post_type'      => array( 'llms_transaction', 'llms_order' ),
+				'posts_per_page' => $per_page,
+			)
 		);
 
-		$total = count( $rows );
-		$pages = (int) ceil( $total / $per_page );
-		$page  = max( 1, min( $page, max( 1, $pages ) ) );
-		$rows  = array_slice( $rows, ( $page - 1 ) * $per_page, $per_page );
+		$rows = array();
+		foreach ( $query->posts as $post ) {
+			$rows[] = 'llms_transaction' === $post->post_type ? new LLMS_Transaction( $post ) : new LLMS_Order( $post );
+		}
 
 		return array(
 			'count' => count( $rows ),
@@ -622,9 +625,7 @@ class LLMS_Student_Dashboard {
 				'user' => get_user_by( 'id', get_current_user_id() ),
 			)
 		);
-
 	}
-
 }
 
 return new LLMS_Student_Dashboard();

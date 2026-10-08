@@ -1122,9 +1122,16 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_oid ON ( {$wpdb->posts}.ID = llms_oid.post_id AND llms_oid.meta_key = '_llms_order_id' )";
 
 		if ( 'amount' === $this->sort_mode ) {
-			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_amt ON ( {$wpdb->posts}.ID = llms_amt.post_id AND llms_amt.meta_key = '_llms_amount' )";
-			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_tot ON ( COALESCE( llms_oid.meta_value, {$wpdb->posts}.ID ) = llms_tot.post_id AND llms_tot.meta_key = '_llms_total' )";
-			$clauses['orderby'] = "CAST( COALESCE( llms_amt.meta_value, llms_tot.meta_value, 0 ) AS DECIMAL(20,2) ) {$order}";
+			$order_ref        = "COALESCE( llms_oid.meta_value, {$wpdb->posts}.ID )";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_amt ON ( {$wpdb->posts}.ID = llms_amt.post_id AND llms_amt.meta_key = '_llms_amount' )";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_tot ON ( {$order_ref} = llms_tot.post_id AND llms_tot.meta_key = '_llms_total' )";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_ttot ON ( {$order_ref} = llms_ttot.post_id AND llms_ttot.meta_key = '_llms_trial_total' )";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_toff ON ( {$order_ref} = llms_toff.post_id AND llms_toff.meta_key = '_llms_trial_offer' )";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS llms_otype ON ( {$order_ref} = llms_otype.post_id AND llms_otype.meta_key = '_llms_order_type' )";
+
+			// Order rows display LLMS_Order::get_initial_price(), so sort on the same value.
+			$initial_price      = "CASE WHEN llms_otype.meta_value = 'recurring' AND llms_toff.meta_value = 'yes' THEN llms_ttot.meta_value ELSE llms_tot.meta_value END";
+			$clauses['orderby'] = "CAST( COALESCE( llms_amt.meta_value, {$initial_price}, 0 ) AS DECIMAL(20,2) ) {$order}";
 		} else {
 			$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS llms_pt ON ( COALESCE( llms_oid.meta_value, {$wpdb->posts}.ID ) = llms_pt.post_id AND llms_pt.meta_key = '_llms_product_title' )";
 			$clauses['orderby'] = "llms_pt.meta_value {$order}";
@@ -1177,13 +1184,26 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		$months    = wp_cache_get( $cache_key, self::CACHE_GROUP );
 
 		if ( false === $months ) {
-			$months = $wpdb->get_results(
-				"SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-				 FROM {$wpdb->posts}
-				 WHERE post_type IN ( 'llms_transaction', 'llms_order' )
-				   AND post_status NOT IN ( 'auto-draft', 'trash' )
-				 ORDER BY post_date DESC"
-			);
+
+			// Orders that have transactions are hidden from the table, so their dates must not add months.
+			if ( $this->is_has_transaction_backfilled() ) {
+				$months = $wpdb->get_results(
+					"SELECT DISTINCT YEAR( p.post_date ) AS year, MONTH( p.post_date ) AS month
+					 FROM {$wpdb->posts} AS p
+					 LEFT JOIN {$wpdb->postmeta} AS flag ON ( p.ID = flag.post_id AND flag.meta_key = '_llms_has_transaction' )
+					 WHERE p.post_status NOT IN ( 'auto-draft', 'trash' )
+					   AND ( p.post_type = 'llms_transaction' OR ( p.post_type = 'llms_order' AND flag.meta_id IS NULL ) )
+					 ORDER BY year DESC, month DESC"
+				);
+			} else {
+				$months = $wpdb->get_results(
+					"SELECT DISTINCT YEAR( p.post_date ) AS year, MONTH( p.post_date ) AS month
+					 FROM {$wpdb->posts} AS p
+					 WHERE p.post_status NOT IN ( 'auto-draft', 'trash' )
+					   AND ( p.post_type = 'llms_transaction' OR ( p.post_type = 'llms_order' AND p.ID NOT IN ( SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_llms_order_id' ) ) )
+					 ORDER BY year DESC, month DESC"
+				);
+			}
 			wp_cache_set( $cache_key, $months, self::CACHE_GROUP, HOUR_IN_SECONDS );
 		}
 

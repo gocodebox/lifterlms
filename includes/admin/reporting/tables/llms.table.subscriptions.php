@@ -77,6 +77,13 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	protected $per_page = 25;
 
 	/**
+	 * Order meta key the current query is sorted by, if any.
+	 *
+	 * @var string
+	 */
+	private $sort_meta_key = '';
+
+	/**
 	 * Value of the field being filtered by.
 	 *
 	 * @var string
@@ -357,17 +364,16 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		);
 
 		// Map the sortable column to valid WP_Query ordering arguments.
+		$this->sort_meta_key = '';
 		switch ( $this->get_orderby() ) {
 			case 'order':
 				$query_args['orderby'] = 'ID';
 				break;
 			case 'product':
-				$query_args['orderby']  = 'meta_value';
-				$query_args['meta_key'] = '_llms_product_title';
+				$this->sort_meta_key = '_llms_product_title';
 				break;
 			case 'next_payment':
-				$query_args['orderby']  = 'meta_value';
-				$query_args['meta_key'] = '_llms_date_next_payment';
+				$this->sort_meta_key = '_llms_date_next_payment';
 				break;
 			case 'date':
 			default:
@@ -400,7 +406,15 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			}
 		}
 
+		if ( $this->sort_meta_key ) {
+			add_filter( 'posts_clauses', array( $this, 'meta_orderby_clauses' ), 10, 2 );
+		}
+
 		$query = new WP_Query( $query_args );
+
+		if ( $this->sort_meta_key ) {
+			remove_filter( 'posts_clauses', array( $this, 'meta_orderby_clauses' ), 10 );
+		}
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
@@ -414,6 +428,34 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		}
 
 		$this->tbody_data = $orders;
+	}
+
+	/**
+	 * Sort by an order meta value without excluding orders that lack it.
+	 *
+	 * A top-level `meta_key` would INNER JOIN postmeta and drop cancelled, expired,
+	 * or ended subscriptions that have no next payment date. A LEFT JOIN keeps them
+	 * and sorts them after the rows that have a value, in either direction.
+	 *
+	 * @since [version]
+	 *
+	 * @param array    $clauses Array of SQL clauses.
+	 * @param WP_Query $query   The WP_Query instance.
+	 * @return array
+	 */
+	public function meta_orderby_clauses( $clauses, $query ) {
+
+		global $wpdb;
+
+		$order = ( 'ASC' === strtoupper( $this->get_order() ) ) ? 'ASC' : 'DESC';
+
+		$clauses['join']   .= $wpdb->prepare(
+			" LEFT JOIN {$wpdb->postmeta} AS llms_sort ON ( {$wpdb->posts}.ID = llms_sort.post_id AND llms_sort.meta_key = %s )",
+			$this->sort_meta_key
+		);
+		$clauses['orderby'] = "( llms_sort.meta_value IS NULL OR llms_sort.meta_value = '' ) ASC, llms_sort.meta_value {$order}, {$wpdb->posts}.ID {$order}";
+
+		return $clauses;
 	}
 
 	/**
