@@ -1071,7 +1071,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * `content_added_in_builder` value. That empty value must not be stored as "no",
 	 * which hides the editor behind the outside-the-builder notice.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1115,9 +1115,61 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Custom data on a new lesson is stored as-is and serialized strings are never unserialized.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_custom_data_is_not_unserialized() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'     => 'temp_1',
+						'title'  => 'New Lesson',
+						'custom' => array(
+							'_mock_array'        => array( array( 'data' => true ) ),
+							'_mock_string'       => array( 'value' ),
+							'_mock_object'       => array( 'O:8:"stdClass":0:{}' ),
+							'_mock_serialized'   => array( serialize( array( 'data' => true ) ) ),
+							'_mock_not_an_array' => 'value',
+						),
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$lesson_id = $res[0]['id'];
+		$this->assertEquals( array( 'data' => true ), get_post_meta( $lesson_id, '_mock_array', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_string', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_not_an_array', true ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_object' ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_serialized' ) );
+	}
+
+	/**
 	 * Content created outside the builder must not be overwritten by a builder save.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1167,7 +1219,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * client's content, and report the effective flag as "no" so the editor is replaced
 	 * with the outside-the-builder notice.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return void
 	 */
@@ -1211,6 +1263,52 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
 		$lesson = llms_get_post( $lesson->get( 'id' ) );
 		$this->assertEquals( $block_content, $lesson->get( 'content', true ) );
+	}
+
+	/**
+	 * Deleting every section records that the demo outline should not be inserted again.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_starter_outline() {
+
+		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0 ) );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+
+		$this->assertTrue( $res['dismissed'] );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $student );
+		$denied = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+		$this->assertSame( array(), $denied );
+
 	}
 
 	/**

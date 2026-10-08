@@ -391,6 +391,21 @@
 				if ( $plan.hasClass( 'opened' ) ) {
 					// wait for animation to complete to prevent focusable errors in the console.
 					setTimeout( function() {
+						var $editor  = $plan.find( 'textarea[id^="_llms_plans_content_"]' ),
+							editorId = $editor.attr( 'id' ),
+							modelId  = '_llms_plans_content_llms-new-access-plan-model',
+							base, esettings;
+
+						// New plans skip TinyMCE until they're expanded. EditorManager.settings
+						// is whichever editor loaded last (often the excerpt) when no plan exists yet.
+						if ( editorId && 'undefined' !== typeof tinyMCE && ! tinyMCE.EditorManager.get( editorId ) ) {
+							base = ( window.tinyMCEPreInit && tinyMCEPreInit.mceInit && tinyMCEPreInit.mceInit[ modelId ] ) || tinyMCE.EditorManager.settings;
+							esettings = $.extend( true, {}, base );
+							esettings.selector = '#' + editorId;
+							delete esettings.id;
+							tinyMCE.EditorManager.init( esettings );
+						}
+
 						$plan.find( 'input.llms-invalid' ).each( function() {
 							$( this )[0].reportValidity();
 						} );
@@ -698,9 +713,21 @@
 				return;
 			}
 
-			var $clone          = $( '#llms-new-access-plan-model' ).clone()
-				$existing_plans = $( '#llms-access-plans .llms-access-plan' ),
-				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
+			var modelEditorId = '_llms_plans_content_llms-new-access-plan-model';
+
+			// bind() removes this editor as soon as tinyMCE exists, which is often before
+			// this instance has initialized. Remove it again at clone time, then drop any
+			// iframe that was still copied — otherwise the open handler inits a second editor.
+			if ( 'undefined' !== typeof tinyMCE ) {
+				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, modelEditorId );
+			}
+
+			var $clone  = $( '#llms-new-access-plan-model' ).clone(),
+				$editor = $clone.find( '#' + modelEditorId );
+
+			$clone.find( '.mce-tinymce' ).remove();
+			$clone.find( 'iframe' ).remove();
+			$editor.removeAttr( 'aria-hidden' ).css( 'display', '' );
 
 			// remove ID from the item
 			$clone.removeAttr( 'id' );
@@ -969,14 +996,21 @@
 					editor_id = $editor.attr( 'id' ),
 					orig      = $order.val() * 1,
 					curr      = $p.index(),
-					editor    = tinyMCE.EditorManager.get(editor_id),
+					editor    = ( 'undefined' !== typeof tinyMCE && editor_id ) ? tinyMCE.EditorManager.get( editor_id ) : null,
+					// Don't build TinyMCE inside a collapsed new plan. The open handler does it
+					// once the box has a height, and with the plan editor's own settings.
+					defer     = ! $p.hasClass( 'opened' ) && ! editor,
+					esettings;
+
+				if ( ! defer ) {
 					esettings = editor ? editor.settings : tinyMCE.EditorManager.settings;
 
-				// make sure the editor settings have the right selector.
-				esettings.selector = '#' + editor_id;
+					// make sure the editor settings have the right selector.
+					esettings.selector = '#' + editor_id;
 
-				// de-init tinyMCE from the editor.
-				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
+					// de-init tinyMCE from the editor.
+					tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
+				}
 
 				// update the order of each label and field in the plan.
 				$p.find( 'label, select, input, textarea' ).each( function() {
@@ -998,10 +1032,12 @@
 
 				} );
 
-				// re-init tinyMCE on the editor.
-				// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
-				// but it turned out to create conflicts with the Classic Editor block.
-				tinyMCE.EditorManager.init( esettings );
+				if ( ! defer ) {
+					// re-init tinyMCE on the editor.
+					// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
+					// but it turned out to create conflicts with the Classic Editor block.
+					tinyMCE.EditorManager.init( esettings );
+				}
 
 				$order.val( curr );
 

@@ -1,6 +1,66 @@
 LifterLMS Changelog
 ===================
 
+v10.3.1 - 2026-10-08
+--------------------
+
+##### Updates and Enhancements
+
++ Captcha secret keys are partially hidden in Security settings after they are saved. [#3387](https://github.com/gocodebox/lifterlms/issues/3387)
+
+##### Bug Fixes
+
++ Additional fix for the plan description editor when adding a new access plan in some cases.
++ Clear the post cache after migrating a post to the block editor.
+
+##### Security Fixes
+
++ Additional checks on REST API collection requests. Thanks [@pokeroot](https://github.com/pokeroot) and Huzaifa Jawaid!
++ Additional security enhancements.
+
+
+v10.3.0 - 2026-10-05
+--------------------
+
+##### New Features
+
++ Course builder shows a permalink preview for unsaved lessons and quizzes, based on the title, until the slug is edited.
++ Added an "Add Existing Lesson" button next to "Add New Lesson" in each Course Builder section.
++ Added a Customers screen under Orders with lifetime value, order history, and customer segments.
+
+##### Updates and Enhancements
+
++ Refreshed the course builder settings panels and outline columns.
+
+##### Bug Fixes
+
++ Fix overlapping percentage sign when entering certificate margins. [#3373](https://github.com/gocodebox/lifterlms/issues/3373)
++ Fixed certificate editor sidebar control layout. [#3340](https://github.com/gocodebox/lifterlms/issues/3340)
++ Improved styling in the back end editor for Lesson Progression and Access Plan buttons. [#3359](https://github.com/gocodebox/lifterlms/issues/3359)
++ Fixed the course builder hiding the lesson editor after saving content added in the builder. [#3360](https://github.com/gocodebox/lifterlms/issues/3360)
++ Fixed editing the access plan description on a new plan before it is saved. [#3369](https://github.com/gocodebox/lifterlms/issues/3369)
++ Fixed a blank line in the order billing address when Address 2 is empty. [#3375](https://github.com/gocodebox/lifterlms/issues/3375)
++ Fixed lesson settings in the course builder jumping back down after the drip method is changed. [#3376](https://github.com/gocodebox/lifterlms/issues/3376)
++ Fixed deleting the last course section immediately adding three new lessons. [#3377](https://github.com/gocodebox/lifterlms/issues/3377)
++ Fixed the course builder dropping quiz questions when the quiz editor is opened again while they are still loading.
++ Improved prevention of recurring charges when the site URL no longer matches the stored lock.
++ Show address fields that are populated. Thanks [@robindevitt](https://github.com/robindevitt)! [#3020](https://github.com/gocodebox/lifterlms/issues/3020)
+
+##### Security Fixes
+
++ Additional checks on feeds. Thanks [@Yo1o-sir](https://github.com/Yo1o-sir)!
++ Additional checks on REST API endpoints.
++ Improved validation of course builder and import data.
+
+##### Updated Templates
+
++ [templates/admin/customers/customer.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/customer.php)
++ [templates/admin/customers/list.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/list.php)
++ [templates/admin/customers/orders-table.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/orders-table.php)
++ [templates/admin/customers/orders.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/orders.php)
++ [templates/admin/customers/overview.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/overview.php)
+
+
 v10.2.1 - 2026-09-14
 --------------------
 

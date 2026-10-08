@@ -630,7 +630,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Third parties can hook into `llms_lesson_content_editor_type` to
 	 * indicate their own page builder.
 	 *
-	 * @since [version]
+	 * @since 10.3.0
 	 *
 	 * @return string Editor type: 'classic', 'block', 'elementor', 'beaver_builder', or a custom value.
 	 */
@@ -661,7 +661,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		 * a lesson's content was created with their editor, preventing the course
 		 * builder's TinyMCE editor from overwriting it.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
 		 * @param string $type    Editor type. Default 'classic'.
 		 * @param int    $post_id WP Post ID of the lesson.

@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3360"
-entry: Fixed the course builder hiding the lesson editor after saving content added in the builder.
