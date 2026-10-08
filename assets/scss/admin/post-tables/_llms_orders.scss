@@ -17,16 +17,35 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px 12px;
-		margin: 12px 0 16px;
+		margin: 0 0 12px;
+
+		// The shared header clearfix stretches the row and shoves the table down.
+		&:before,
+		&:after {
+			content: none;
+			display: none;
+		}
+
+		h2 {
+			margin: 0;
+		}
 	}
 
-	.llms-table-search {
-		margin-left: auto;
+	.llms-table-search,
+	.llms-table-filters {
+		float: none;
+		padding-left: 0;
 	}
 
 	.llms-table-filters {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
+		margin-left: auto;
+		order: 1;
+	}
+
+	.llms-table-search {
+		order: 2;
 	}
 }
