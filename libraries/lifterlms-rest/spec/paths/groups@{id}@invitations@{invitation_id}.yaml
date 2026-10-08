@@ -1,0 +1,51 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique group Identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+  - name: invitation_id
+    in: path
+    description: Unique invitation Identifier
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a group invitation
+  description: Retrieve the details of an existing group invitation.
+  tags:
+    - Group Invitations
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the group invitation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GroupInvitation'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a group invitation
+  description: Delete an existing group invitation.
+  tags:
+    - Group Invitations
+  responses:
+    204:
+      description: Successfully deleted the group.
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

@@ -76,9 +76,9 @@ jobs:
           cache-suffix: ${{ inputs.cache-suffix }}
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '24.15.0'
 
       - name: Install NPM Dependencies
         run: npm ci && npm run build

@@ -1,0 +1,56 @@
+parameters:
+  - name: id
+    description: Unique group Identifer. The WordPress User `ID`.
+    example: 123
+    in: path
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Get group seats
+  description: Retrieves information about the group's seats.
+  tags:
+    - Group Seats
+  responses:
+    200:
+      description: Successfully retrieved the groups's seats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GroupSeat'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+put:
+  summary: Update group seats
+  description: Update the seat information for a group.
+  tags:
+    - Group Seats
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/GroupSeat'
+  responses:
+    200:
+      description: Successfully updated the group's seats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GroupSeat'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

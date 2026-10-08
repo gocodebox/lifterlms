@@ -45,6 +45,85 @@ class LLMS_Forms {
 
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
 		add_filter( 'llms_get_form_post', array( $this, 'maybe_load_preview' ) );
+
+		add_action( 'save_post_' . $this->get_post_type(), array( $this, 'flush_core_forms_cache' ) );
+		add_action( 'deleted_post', array( $this, 'maybe_flush_core_forms_cache_on_delete' ), 10, 2 );
+		add_action( 'trashed_post', array( $this, 'maybe_flush_core_forms_cache_on_status_change' ) );
+		add_action( 'untrashed_post', array( $this, 'maybe_flush_core_forms_cache_on_status_change' ) );
+
+		// The cached set is derived from `_llms_form_is_core` and `_llms_form_location` postmeta,
+		// so programmatic meta updates must also bust the cache.
+		foreach ( array( 'added_post_meta', 'updated_post_meta', 'deleted_post_meta' ) as $action ) {
+			add_action( $action, array( $this, 'maybe_flush_core_forms_cache_on_meta_change' ), 10, 3 );
+		}
+	}
+
+	/**
+	 * Invalidates the cache used by {@see LLMS_Forms::get_core_forms()}.
+	 *
+	 * The cached set is derived from `_llms_form_location` and `_llms_form_is_core` postmeta
+	 * on form posts. Whenever a form is saved, trashed, untrashed, or deleted the cached set
+	 * may diverge from the live data; flush it so the next read re-queries.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function flush_core_forms_cache() {
+		wp_cache_delete( 'llms_core_forms' );
+		wp_cache_delete( 'llms_core_form_ids' );
+	}
+
+	/**
+	 * Flushes the core forms cache when a form post is deleted.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int     $post_id WP_Post ID.
+	 * @param WP_Post $post    Post object.
+	 * @return void
+	 */
+	public function maybe_flush_core_forms_cache_on_delete( $post_id, $post ) {
+		if ( $post instanceof WP_Post && $this->get_post_type() === $post->post_type ) {
+			$this->flush_core_forms_cache();
+		}
+	}
+
+	/**
+	 * Flushes the core forms cache when one of the meta keys the cache is derived from changes.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int    $meta_id   Meta row ID (unused).
+	 * @param int    $object_id WP_Post ID whose meta changed.
+	 * @param string $meta_key  Meta key that changed.
+	 * @return void
+	 */
+	public function maybe_flush_core_forms_cache_on_meta_change( $meta_id, $object_id, $meta_key ) {
+
+		if ( ! in_array( $meta_key, array( '_llms_form_is_core', '_llms_form_location' ), true ) ) {
+			return;
+		}
+
+		if ( $this->get_post_type() !== get_post_type( $object_id ) ) {
+			return;
+		}
+
+		$this->flush_core_forms_cache();
+	}
+
+	/**
+	 * Flushes the core forms cache when a form post is trashed or untrashed.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $post_id WP_Post ID.
+	 * @return void
+	 */
+	public function maybe_flush_core_forms_cache_on_status_change( $post_id ) {
+		if ( $this->get_post_type() === get_post_type( $post_id ) ) {
+			$this->flush_core_forms_cache();
+		}
 	}
 
 	/**
@@ -680,7 +759,7 @@ GROUP BY locations.meta_value";
 		$form_ids = array_map( 'absint', $form_ids );
 		$forms    = 'post' === $return ? array_map( 'get_post', $form_ids ) : $form_ids;
 
-		wp_cache_set( $forms_cache_key, $forms );
+		wp_cache_set( $forms_cache_key, $forms, '', HOUR_IN_SECONDS );
 
 		return $forms;
 	}

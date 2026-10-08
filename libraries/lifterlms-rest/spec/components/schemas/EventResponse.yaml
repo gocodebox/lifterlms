@@ -1,0 +1,51 @@
+allOf:
+  - $ref: '#/components/schemas/Event'
+  - type: object
+    properties:
+      title:
+        description: Event title.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered title.
+            example: Live Q&A
+          raw:
+            type: string
+            description: Raw title. Useful when displaying title in the WP Editor. Only returned in `edit` context.
+            example: Live Q&A
+      excerpt:
+        description: Event description (stored as the post excerpt).
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered excerpt.
+            example: Join us for a live Q&A session with the instructor.
+          raw:
+            type: string
+            description: Raw excerpt. Only returned in `edit` context.
+            example: Join us for a live Q&A session with the instructor.
+      _links:
+        description: A map of links to other related API resources.
+        type: object
+        readOnly: true
+        properties:
+          self:
+            description: REST URI to the event.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/events/321
+          collection:
+            description: REST URI to the events collection.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/events

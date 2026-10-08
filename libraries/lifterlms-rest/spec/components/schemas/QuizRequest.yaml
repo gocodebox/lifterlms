@@ -1,0 +1,12 @@
+allOf:
+  - $ref: '#/components/schemas/Quiz'
+  - type: object
+    properties:
+      title:
+        type: string
+        description: Raw title.
+        example: Final Exam
+      content:
+        type: string
+        description: Raw content.
+        example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>

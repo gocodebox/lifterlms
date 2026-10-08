@@ -1,0 +1,72 @@
+allOf:
+  - $ref: '#/components/schemas/Quiz'
+  - type: object
+    properties:
+      title:
+        description: Quiz title.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered title.
+            example: Final Exam
+          raw:
+            type: string
+            description: Raw title. Useful when displaying title in the WP Editor. Only returned in `edit` context.
+            example: Final Exam
+      content:
+        description: Post content.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered content.
+            example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+          raw:
+            type: string
+            description: Raw content. Useful when displaying title in the WP Block Editor. Only returned in `edit` context.
+            example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+      _links:
+        description: A map of links to other related API resources.
+        type: object
+        readOnly: true
+        properties:
+          self:
+            description: REST URI to the lesson.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/quizzes/234
+          collection:
+            description: REST URI to the lesson collection.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/quizzes
+          course:
+            description: REST URI to the lesson's parent course.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/courses/1234
+          parent:
+            description: REST URI to the quiz's parent.
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: course
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/lessons/789

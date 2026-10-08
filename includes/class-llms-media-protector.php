@@ -112,6 +112,36 @@ class LLMS_Media_Protector {
 	public const URL_PARAMETER_ID = 'llms_media_id';
 
 	/**
+	 * The name of the URL parameter for a signed download URL's expiration timestamp.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_EXPIRES = 'llms_media_expires';
+
+	/**
+	 * The name of the URL parameter for a signed download URL's HMAC token.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_TOKEN = 'llms_media_token';
+
+	/**
+	 * The name of the cosmetic URL parameter carrying the file name on signed download URLs.
+	 *
+	 * Not used for validation. Appended last so the URL string ends with the file
+	 * extension, which helps clients that detect file types from the URL.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_FILE = 'llms_media_file';
+
+	/**
 	 * The name of the URL parameter for when the LifterLMS rewrite rule changes a URL that directly accesses the
 	 * 'llms-uploads' directory into '/index.php?llms_protected_url=llms-uploads/PATH_TO_FILE'.
 	 *
@@ -399,7 +429,7 @@ class LLMS_Media_Protector {
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ), 10, 1 );
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
-		$this->add_authorization_meta_to_media_post( $media_id );
+		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
 
 		return $media_id;
 	}
@@ -413,6 +443,105 @@ class LLMS_Media_Protector {
 	 */
 	public function is_media_protected( $media_id ) {
 		return (bool) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
+	/**
+	 * Returns a time-limited, signed URL which allows the media file to be downloaded
+	 * without a WordPress session.
+	 *
+	 * The token authorizes access to this one file until the expiration timestamp,
+	 * similar to an S3 presigned URL. Only generate signed URLs in contexts that have
+	 * already verified the current user may access the file (e.g. REST responses
+	 * behind a permission check).
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $ttl      Optional. Number of seconds the URL remains valid. Default `HOUR_IN_SECONDS`.
+	 * @return string The signed URL, or an empty string if the media file doesn't exist.
+	 */
+	public function get_signed_url( $media_id, $ttl = HOUR_IN_SECONDS ) {
+
+		$media_id = absint( $media_id );
+
+		if ( ! $media_id || 'attachment' !== get_post_type( $media_id ) ) {
+			return '';
+		}
+
+		/**
+		 * Filters the number of seconds a signed media download URL remains valid.
+		 *
+		 * @since 10.2.0
+		 *
+		 * @param int $ttl      Time-to-live, in seconds.
+		 * @param int $media_id The post ID of the media file.
+		 */
+		$ttl = apply_filters( 'llms_media_signed_url_ttl', $ttl, $media_id );
+
+		$expires = time() + max( 1, absint( $ttl ) );
+
+		$args = array(
+			self::URL_PARAMETER_ID      => $media_id,
+			self::URL_PARAMETER_EXPIRES => $expires,
+			self::URL_PARAMETER_TOKEN   => $this->get_signed_url_token( $media_id, $expires ),
+		);
+
+		// Cosmetic, unvalidated: keep the file name last so the URL ends with the extension.
+		$filename = basename( (string) get_post_meta( $media_id, '_wp_attached_file', true ) );
+		if ( $filename ) {
+			$args[ self::URL_PARAMETER_FILE ] = rawurlencode( $filename );
+		}
+
+		return add_query_arg( $args, trailingslashit( home_url() ) );
+	}
+
+	/**
+	 * Computes the HMAC token for a signed media download URL.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $expires  Unix timestamp when the token expires.
+	 * @return string
+	 */
+	protected function get_signed_url_token( $media_id, $expires ) {
+		return hash_hmac( 'sha256', absint( $media_id ) . ':' . absint( $expires ), wp_salt( 'auth' ) );
+	}
+
+	/**
+	 * Determines whether the current request carries a valid, unexpired signed URL token
+	 * for the given media file.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @return bool
+	 */
+	public function is_valid_signed_request( $media_id ) {
+
+		$token   = (string) llms_filter_input( INPUT_GET, self::URL_PARAMETER_TOKEN );
+		$expires = absint( llms_filter_input( INPUT_GET, self::URL_PARAMETER_EXPIRES, FILTER_SANITIZE_NUMBER_INT ) );
+
+		if ( ! $token || ! $expires || time() > $expires ) {
+			return false;
+		}
+
+		return hash_equals( $this->get_signed_url_token( $media_id, $expires ), $token );
+	}
+
+	/**
+	 * Get the authorization filter hook name for a protected media file.
+	 *
+	 * Returns the name of the filter hook that controls access to the file,
+	 * or an empty string if the file is not protected.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @return string Filter hook name, or empty string if not protected.
+	 */
+	public function get_authorization_filter_name( $media_id ) {
+		return (string) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 	}
 
 	/**
@@ -432,7 +561,7 @@ class LLMS_Media_Protector {
 			return null;
 		}
 
-		$cache_key     = 'llms-media-authorization-' . $media_id . '-' . $user_id;
+		$cache_key     = $this->get_authorization_cache_key( $media_id, $user_id );
 		$authorization = wp_cache_get( $cache_key, 'llms_media_authorization', false, $found );
 		if ( $found ) {
 			return ( ( $authorization === 'null' ) ? null : $authorization );
@@ -441,7 +570,10 @@ class LLMS_Media_Protector {
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
 		if ( ! $authorization_filter ) {
 			// We need to use string of 'null' since on some hosting like wordpress.com the value of null comes back as bool false.
-			wp_cache_add( $cache_key, 'null', 'llms_media_authorization' );
+			// Use the same cache expiration as authorized results so unprotected->protected transitions
+			// clear consistently even when the protection meta is added without an explicit invalidation.
+			$cache_expiration = apply_filters( 'llms_media_protection_cache_expiration_time', MINUTE_IN_SECONDS * 1, $media_id, $user_id );
+			wp_cache_set( $cache_key, 'null', 'llms_media_authorization', $cache_expiration );
 
 			return null;
 		}
@@ -515,9 +647,50 @@ class LLMS_Media_Protector {
 		 */
 		$cache_expiration = apply_filters( 'llms_media_protection_cache_expiration_time', MINUTE_IN_SECONDS * 1, $media_id, $user_id );
 
-		wp_cache_add( $cache_key, $is_authorized, 'llms_media_authorization', $cache_expiration );
+		wp_cache_set( $cache_key, $is_authorized, 'llms_media_authorization', $cache_expiration );
 
 		return $is_authorized;
+	}
+
+	/**
+	 * Build the cache key used for the authorization result of a media/user pair.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $user_id  The ID of the user wanting to view the media file.
+	 * @return string
+	 */
+	protected function get_authorization_cache_key( $media_id, $user_id ) {
+		return 'llms-media-authorization-' . $media_id . '-' . $user_id;
+	}
+
+	/**
+	 * Clear the cached authorization result for a media file.
+	 *
+	 * When the protection state of a media item changes the cached authorization result must be
+	 * removed so the next request does not reuse a stale value from a persistent object cache.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param int      $media_id The post ID of the media file.
+	 * @param int|null $user_id  Optional. The ID of the user whose cached result should be removed.
+	 *                           Defaults to the current user. When null is passed, only the current
+	 *                           user's cache is cleared; other users' entries expire naturally via
+	 *                           the `llms_media_protection_cache_expiration_time` filter.
+	 * @return void
+	 */
+	public function invalidate_authorization_cache( $media_id, $user_id = null ) {
+		if ( ! is_numeric( $media_id ) || ! intval( $media_id ) ) {
+			return;
+		}
+
+		$user_id = is_null( $user_id ) ? get_current_user_id() : intval( $user_id );
+		if ( ! $user_id ) {
+			return;
+		}
+
+		wp_cache_delete( $this->get_authorization_cache_key( $media_id, $user_id ), 'llms_media_authorization' );
 	}
 
 	/**
@@ -907,12 +1080,17 @@ class LLMS_Media_Protector {
 			llms_exit();
 		}
 
-		// Is the user authorized to view the file?
-		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
-		if ( false === $is_authorized ) {
-			status_header( 404 );
-			nocache_headers();
-			die( 'File not found.' );
+		// Is the user authorized to view the file? A valid signed URL token authorizes the
+		// request on its own (time-limited delegation minted behind a permission check).
+		if ( $this->is_valid_signed_request( $media_id ) ) {
+			$is_authorized = true;
+		} else {
+			$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
+			if ( false === $is_authorized ) {
+				status_header( 404 );
+				nocache_headers();
+				die( 'File not found.' );
+			}
 		}
 
 		// An HTTP client, but not a proxy, is allowed to cache the file, but must check with the server before reuse.
@@ -1029,6 +1207,13 @@ class LLMS_Media_Protector {
 	/**
 	 * Add authorization meta to the post.
 	 *
+	 * Clears any cached authorization result for the current user so a subsequent read
+	 * recomputes the authorization against the new protection state. This protects against
+	 * stale values being retained by persistent object caches such as Object Cache Pro.
+	 *
+	 * @since 7.7.0
+	 * @since 10.1.0 Invalidates the cached authorization result for the current user.
+	 *
 	 * @param $post_id
 	 * @param string $hook_name The name of the filter that will be applied by {@see LLMS_Media_Protector::is_authorized_to_view()}.
 	 *
@@ -1040,5 +1225,6 @@ class LLMS_Media_Protector {
 		}
 
 		update_post_meta( $post_id, self::AUTHORIZATION_FILTER_KEY, $hook_name );
+		$this->invalidate_authorization_cache( $post_id );
 	}
 }

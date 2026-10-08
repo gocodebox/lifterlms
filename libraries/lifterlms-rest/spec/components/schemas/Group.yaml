@@ -1,0 +1,40 @@
+allOf:
+  - type: object
+    properties:
+      id:
+        description: Unique group identifier. The WordPress Post `ID`.
+        readOnly: true
+  - $ref: '#/components/schemas/Post'
+  - type: object
+    properties:
+      id:
+        readOnly: true
+        example: 1987
+      slug:
+        description: Group URL slug.
+        type: string
+        example: team-codebox
+      permalink:
+        description: Post URL.
+        type: string
+        example: https://example.com/group/team-codebox
+        readOnly: true
+      post_type:
+        default: llms_group
+        type: string
+        readOnly: true
+      post:
+        description: WordPress post ID of the course or membership accessible by the group.
+        type: integer
+        minimum: 1
+        example: 1234
+      visibility:
+        description: |
+          Visibility of the group profile.
+
+          The available options and the default value are dependent of the site's global settings. For example, if the site's group visibility option is "closed" than no groups on the site can be set to anything other than "closed". The default value will always equal the site's global setting.
+        type: string
+        enum:
+          - open
+          - private
+          - closed

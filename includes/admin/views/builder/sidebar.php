@@ -6,6 +6,7 @@
  * @since 7.2.0 Added video explainer wrapper element.
  * @version 7.2.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <script type="text/html" id="tmpl-llms-sidebar-template">

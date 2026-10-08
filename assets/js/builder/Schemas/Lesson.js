@@ -2,11 +2,55 @@
  * Lesson Schemas
  *
  * @since    3.17.0
- * @version  3.25.4
+ * @version  10.2.1
  */
 define( [], function() {
 
-	return window.llms.hooks.applyFilters( 'llms_define_lesson_schema', {
+	/**
+	 * Whether the Advanced Videos promo fields should render.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @return {boolean}
+	 */
+	function is_av_promo_visible() {
+		return ! window.llms_builder.av && !! this.get( 'video_embed' );
+	}
+
+	/**
+	 * Dummy cascading options matching Advanced Videos selects.
+	 *
+	 * @since 10.2.1
+	 *
+	 * @return {Array}
+	 */
+	function get_av_promo_options() {
+		var disabled = LLMS.l10n.translate( 'Disabled' );
+		return [
+			{
+				key: 'global',
+				val: LLMS.l10n.replace( 'Global setting (%s)', {
+					'%s': disabled,
+				} ),
+			},
+			{
+				key: 'course',
+				val: LLMS.l10n.replace( 'Course setting (%s)', {
+					'%s': disabled,
+				} ),
+			},
+			{
+				key: 'yes',
+				val: LLMS.l10n.translate( 'Enabled' ),
+			},
+			{
+				key: 'no',
+				val: LLMS.l10n.translate( 'Disabled' ),
+			},
+		];
+	}
+
+	var schema = {
 
 		default: {
 			title: LLMS.l10n.translate( 'General Settings' ),
@@ -50,7 +94,7 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
 			},
-				], [
+			], [
 					{
 						attribute: 'free_lesson',
 						id: 'free-lesson',
@@ -92,7 +136,52 @@ define( [], function() {
 							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
 			},
-				], [
+			], [
+				{
+					attribute: 'has_minimum_time',
+					id: 'has-minimum-time',
+					label: LLMS.l10n.translate( 'Minimum Time on Lesson' ),
+					tip: LLMS.l10n.translate( 'Require students to spend a minimum amount of time on this lesson before they can mark it complete' ),
+					type: 'switch',
+					condition: function() {
+						return 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+			], [
+				{
+					attribute: 'minimum_time_hours',
+					id: 'minimum-time-hours',
+					label: LLMS.l10n.translate( 'Hours' ),
+					min: 0,
+					max: 999,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+				{
+					attribute: 'minimum_time_minutes',
+					id: 'minimum-time-minutes',
+					label: LLMS.l10n.translate( 'Minutes' ),
+					min: 0,
+					max: 59,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+				{
+					attribute: 'minimum_time_seconds',
+					id: 'minimum-time-seconds',
+					label: LLMS.l10n.translate( 'Seconds' ),
+					min: 0,
+					max: 59,
+					type: 'number',
+					condition: function() {
+						return 'yes' === this.get( 'has_minimum_time' ) && 'yes' !== this.get( 'free_lesson' );
+					},
+			},
+			], [
 					{
 						attribute: 'prerequisite',
 						condition: function() {
@@ -229,6 +318,43 @@ define( [], function() {
 		],
 	},
 
-} );
+	};
+
+	schema.default.fields.splice(
+		4,
+		0,
+			[
+				{
+					attribute: 'llms_av_promo_require',
+					id: 'llms-av-promo-require',
+					label: LLMS.l10n.translate( 'Require Video Completion' ),
+					tip: LLMS.l10n.translate( 'When enabled, students must watch the entire video before they can progress to the next lesson or attempt a quiz associated with the lesson.' ),
+					type: 'select',
+					disabled: true,
+					options: get_av_promo_options,
+					condition: is_av_promo_visible,
+				},
+				{
+					attribute: 'llms_av_promo_advance',
+					id: 'llms-av-promo-advance',
+					label: LLMS.l10n.translate( 'Auto-Advance Videos' ),
+					tip: LLMS.l10n.translate( 'After a student completes the lesson video, a countdown timer is displayed and when the timer expires, the student is automatically redirected to the next lesson, quiz, or assignment.' ),
+					type: 'select',
+					disabled: true,
+					options: get_av_promo_options,
+					condition: is_av_promo_visible,
+				},
+			],
+			[
+				{
+					id: 'llms-av-promo',
+					type: 'heading',
+					detail: LLMS.l10n.translate( 'Require lesson video completion, auto-advance lessons on video completion, customize video player controls, and more with the LifterLMS Advanced Videos add-on.' ) + ' <a href="https://lifterlms.com/product/advanced-videos/?utm_source=LifterLMS%20Plugin&utm_medium=Course%20Builder%20Upsell&utm_campaign=Plugin%20to%20Sale" target="_blank">' + LLMS.l10n.translate( 'Learn More' ) + '</a>',
+					condition: is_av_promo_visible,
+				},
+			]
+		);
+
+	return window.llms.hooks.applyFilters( 'llms_define_lesson_schema', schema );
 
 } );

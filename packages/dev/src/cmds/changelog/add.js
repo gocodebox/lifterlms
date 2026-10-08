@@ -104,7 +104,7 @@ module.exports = {
 		[ '-t, --type <type>', `The type of change. Accepts: ${ Object.keys( opts.type ).join( ', ' ) }.`, 'changed' ],
 		[ '-c, --comment <comment>', 'An internal-use comment to include with the changelog entry which is not published with the final changelog.' ],
 		[ '-l, --links <issues...>', 'Link the changelog to one or more GitHub issues. Can be provided multiple times to link to multiple issues.' ],
-		[ '-a, --attributions <users...>', 'Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which originate from outside the LifterLMS organization. Provide a GitHub username or a markdown-formatted anchor. Can be provided multiple times to attribute to multiple users.' ],
+		[ '-a, --attributions <users...>', 'Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which originate from outside the LifterLMS organization. Provide a GitHub username, a plain name, or a markdown-formatted anchor. Can be provided multiple times to attribute to multiple users.' ],
 		[ '-e, --entry <entry>', 'The changelog entry.' ],
 		[ '-T, --title <title>', 'Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the title if the title already exists.', defaultTitle ],
 		[ '-i, --interactive', 'Create the changelog interactively.', false ],

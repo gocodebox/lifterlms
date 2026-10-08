@@ -235,13 +235,13 @@ class LLMS_Shortcodes {
 		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
 			$plan = new LLMS_Access_Plan( $atts['id'] );
 
-			$classes  = 'llms-button-' . $atts['type'];
+			$classes  = 'llms-button-' . $atts['type'] . ' wp-element-button';
 			$classes .= ! empty( $atts['size'] ) ? ' ' . $atts['size'] : '';
 			$classes .= ! empty( $atts['classes'] ) ? ' ' . $atts['classes'] : '';
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . wp_kses_post( $text ) . '</a>';
 		}
 
 		/**

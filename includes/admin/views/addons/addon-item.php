@@ -84,7 +84,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<?php do_action( 'llms_add_ons_single_item_actions', $addon, $current_tab ); ?>
 
-			<?php if ( 'featured' !== $current_tab ) : ?>
+			<?php if ( 'featured' !== $current_tab && current_user_can( 'install_plugins' ) ) : ?>
 
 				<?php if ( $addon->is_installable() && $addon->is_installed() ) : ?>
 					<?php if ( $addon->is_active() ) : ?>

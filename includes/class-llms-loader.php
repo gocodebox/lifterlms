@@ -84,6 +84,7 @@ class LLMS_Loader {
 		'llms_table_notificationsettings'    => 'includes/admin/settings/tables/class.llms.table.notification.settings.php',
 		'llms_table_student_certificates'    => 'includes/admin/reporting/tables/llms.table.certificates.php',
 		'llms_table_studentmanagement'       => 'includes/admin/post-types/tables/class.llms.table.student.management.php',
+		'llms_table_customers'               => 'includes/admin/reporting/tables/class-llms-table-customers.php',
 
 		// Deprecated classes.
 		'llms_achievement_user'              => 'includes/achievements/class.llms.achievement.user.php',
@@ -296,6 +297,10 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.login.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.registration.php';
 
+		// Models.
+		require_once LLMS_PLUGIN_DIR . 'includes/models/class-llms-lesson-time-session.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-lesson-time-tracking.php';
+
 		// Hooks.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.template.hooks.php';
 
@@ -333,6 +338,7 @@ class LLMS_Loader {
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 * @since 7.2.0 Include `LLMS_Admin_Dashboard_Wigdet` class.
+	 * @since 10.1.0 Include `LLMS_Admin_Help_Beacon` class.
 	 *
 	 * @return void
 	 */
@@ -343,9 +349,12 @@ class LLMS_Loader {
 
 		// Admin classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-header.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-bundled-plugins.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-plugins.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-help-beacon.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-customers.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
@@ -362,6 +371,9 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.reviews.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-addon-promo.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-catalog-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-addon-notices.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-events-promo.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.user.custom.fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';

@@ -1,0 +1,15 @@
+allOf:
+  - $ref: '#/components/schemas/PostContentRequest'
+  - $ref: '#/components/schemas/Group'
+  - type: object
+    properties:
+      logo:
+        description: WordPress post ID of the attachment post for the group's logo image.
+        type: integer
+        example: 1987
+        minimum: 0
+      banner:
+        description: WordPress post ID of the attachment post for the group's banner image.
+        type: integer
+        example: 1897
+        minimum: 0

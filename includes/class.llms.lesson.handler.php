@@ -177,15 +177,17 @@ class LLMS_Lesson_Handler {
 	public static function duplicate_meta( $post_id, $new_post_id ) {
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
 		// Duplicate all post meta.
-		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
+		$post_meta_infos = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$post_id
+			)
+		);
 
 		if ( count( $post_meta_infos ) != 0 ) {
 
-			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+			$inserted = 0;
 
 			foreach ( $post_meta_infos as $meta_info ) {
 
@@ -203,20 +205,24 @@ class LLMS_Lesson_Handler {
 					$meta_info->meta_value = '';
 				}
 
-				$meta_key        = $meta_info->meta_key;
-				$meta_value      = addslashes( $meta_info->meta_value );
-				$sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
+				$result = $wpdb->insert(
+					$wpdb->postmeta,
+					array(
+						'post_id'    => $new_post_id,
+						'meta_key'   => $meta_info->meta_key,
+						'meta_value' => $meta_info->meta_value,
+					)
+				);
 
+				if ( false === $result ) {
+					return false;
+				}
+
+				$inserted += (int) $result;
 			}
 
-			$sql_query       .= implode( ' UNION ALL ', $sql_query_sel );
-			$insert_post_meta = $wpdb->query( $sql_query );
-
-			return $insert_post_meta;
+			return $inserted;
 		}
-
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 }

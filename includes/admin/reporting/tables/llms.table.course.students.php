@@ -81,9 +81,12 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Field results are sorted by
 	 *
+	 * Defaults to `id`: sorting by name requires expensive usermeta joins and a
+	 * filesort in the student query, which is punishing on large sites.
+	 *
 	 * @var  string
 	 */
-	protected $orderby = 'name';
+	protected $orderby = 'id';
 
 	/**
 	 * Post ID for the current table
@@ -91,6 +94,85 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @var  int
 	 */
 	public $course_id = null;
+
+	/**
+	 * Whether the course has partial time tracking (not all lessons have minimum time).
+	 *
+	 * Computed once per table render and reused for every row.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @var bool|null Null until computed, then true/false.
+	 */
+	protected $is_partial_tracking = null;
+
+	/**
+	 * Whether any time tracking sessions exist for this course.
+	 *
+	 * Computed once per table render and reused for every row so that courses
+	 * without any tracked time skip all per-student time queries.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var bool|null Null until computed, then true/false.
+	 */
+	protected $has_time_data = null;
+
+	/**
+	 * Determine if any time tracking sessions exist for this course.
+	 *
+	 * Result is computed once and cached on the instance.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return bool
+	 */
+	protected function has_time_data() {
+
+		if ( null === $this->has_time_data ) {
+			$this->has_time_data = LLMS_Lesson_Time_Tracking::instance()->course_has_time_data( $this->course_id );
+		}
+
+		return $this->has_time_data;
+	}
+
+	/**
+	 * Check whether this course has partial time tracking.
+	 *
+	 * Returns true when global tracking is off and at least one lesson lacks a minimum time.
+	 * Result is computed once and cached on the instance.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return bool
+	 */
+	protected function is_partial_tracking() {
+
+		if ( null !== $this->is_partial_tracking ) {
+			return $this->is_partial_tracking;
+		}
+
+		$this->is_partial_tracking = false;
+
+		if ( 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' ) ) {
+			return $this->is_partial_tracking;
+		}
+
+		$course = llms_get_post( $this->course_id );
+		if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+			return $this->is_partial_tracking;
+		}
+
+		foreach ( $course->get_lessons( 'ids' ) as $lid ) {
+			$l = llms_get_post( $lid );
+			if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+				$this->is_partial_tracking = true;
+				break;
+			}
+		}
+
+		return $this->is_partial_tracking;
+	}
 
 	/**
 	 * Retrieve data for the columns
@@ -174,13 +256,22 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->course_id ) );
 				break;
 
+			case 'time_in_course':
+				// No tracked time anywhere in the course: skip the per-student lookups entirely.
+				$total = $this->has_time_data() ? LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id ) : 0;
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
+
+				if ( $this->is_partial_tracking() ) {
+					$value .= ' <span class="description">(' . esc_html__( 'Partial', 'lifterlms' ) . ')</span>';
+				}
+				break;
+
 			default:
 				$value = $key;
 
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -217,13 +308,22 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				$value = $student->get_progress( $this->course_id ) . '%';
 				break;
 
+			case 'time_in_course':
+				// No tracked time anywhere in the course: skip the per-student lookups entirely.
+				$total = $this->has_time_data() ? LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $this->course_id ) : 0;
+				$value = LLMS_Lesson_Time_Tracking::instance()->format_time( $total );
+
+				if ( $this->is_partial_tracking() ) {
+					$value .= ' (' . __( 'Partial', 'lifterlms' ) . ')';
+				}
+				break;
+
 			default:
 				$value = $this->get_data( $key, $student );
 
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
-
 	}
 
 
@@ -284,6 +384,10 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		if ( ! $args ) {
 			$args = $this->get_args();
 		}
+
+		// Export requests boost `per_page` and pass a pre-computed page count; capture both before clean_args() strips them.
+		$per_page         = isset( $args['per_page'] ) ? absint( $args['per_page'] ) : 25;
+		$export_max_pages = isset( $args['export_max_pages'] ) ? absint( $args['export_max_pages'] ) : 0;
 
 		$args = $this->clean_args( $args );
 
@@ -352,9 +456,14 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		$query_args = array(
 			'page'     => $this->get_current_page(),
 			'post_id'  => $args['course_id'],
-			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', 25 ),
+			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', $per_page ),
 			'sort'     => $sort,
 		);
+
+		// The total was already computed on the export's first page; don't re-run the COUNT query on every subsequent page.
+		if ( $export_max_pages ) {
+			$query_args['no_found_rows'] = true;
+		}
 
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
 
@@ -371,11 +480,15 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 		$query = new LLMS_Student_Query( $query_args );
 
-		$this->max_pages    = $query->get_max_pages();
-		$this->is_last_page = $query->is_last_page();
+		if ( $export_max_pages ) {
+			$this->max_pages    = $export_max_pages;
+			$this->is_last_page = $this->get_current_page() >= $export_max_pages;
+		} else {
+			$this->max_pages    = $query->get_max_pages();
+			$this->is_last_page = $query->is_last_page();
+		}
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 
@@ -395,7 +508,6 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		return array(
 			'course_id' => $this->course_id,
 		);
-
 	}
 
 	/**
@@ -407,64 +519,67 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 */
 	public function set_columns() {
 		$cols = array(
-			'id'          => array(
+			'id'             => array(
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'ID', 'lifterlms' ),
 			),
-			'name'        => array(
+			'name'           => array(
 				'sortable' => true,
 				'title'    => __( 'Name', 'lifterlms' ),
 			),
-			'name_last'   => array(
+			'name_last'      => array(
 				'exportable'  => true,
 				'export_only' => true,
 				'title'       => __( 'Last Name', 'lifterlms' ),
 			),
-			'name_first'  => array(
+			'name_first'     => array(
 				'exportable'  => true,
 				'export_only' => true,
 				'title'       => __( 'First Name', 'lifterlms' ),
 			),
-			'email'       => array(
+			'email'          => array(
 				'exportable'  => true,
 				'export_only' => true,
 				'title'       => __( 'Email', 'lifterlms' ),
 			),
-			'status'      => array(
+			'status'         => array(
 				'exportable' => true,
 				'filterable' => llms_get_enrollment_statuses(),
 				'sortable'   => true,
 				'title'      => __( 'Status', 'lifterlms' ),
 			),
-			'enrolled'    => array(
+			'enrolled'       => array(
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Enrollment Updated', 'lifterlms' ),
 			),
-			'completed'   => array(
+			'completed'      => array(
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Completed', 'lifterlms' ),
 			),
-			'progress'    => array(
+			'progress'       => array(
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Progress', 'lifterlms' ),
 			),
-			'grade'       => array(
+			'grade'          => array(
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Grade', 'lifterlms' ),
 			),
-			'last_lesson' => array(
+			'last_lesson'    => array(
 				'sortable' => false,
 				'title'    => __( 'Last Lesson', 'lifterlms' ),
+			),
+			'time_in_course' => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Time in Course', 'lifterlms' ),
 			),
 		);
 
 		return $cols;
-
 	}
-
 }

@@ -1,0 +1,7 @@
+name: trigger
+in: query
+description: The trigger of the enrollment to act on.
+required: false
+schema:
+  type: string
+  default: any

@@ -172,7 +172,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student );
-
 	}
 
 	/**
@@ -211,7 +210,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		}// End switch().
 
 		return $this->filter_get_data( $value, $key, $student, 'export' );
-
 	}
 
 
@@ -272,6 +270,10 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 			$args = $this->get_args();
 		}
 
+		// Export requests boost `per_page` and pass a pre-computed page count; capture both before clean_args() strips them.
+		$per_page         = isset( $args['per_page'] ) ? absint( $args['per_page'] ) : 25;
+		$export_max_pages = isset( $args['export_max_pages'] ) ? absint( $args['export_max_pages'] ) : 0;
+
 		$args = $this->clean_args( $args );
 
 		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'edit_post', absint( $args['membership_id'] ) ) ) {
@@ -330,9 +332,14 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		$query_args = array(
 			'page'     => $this->get_current_page(),
 			'post_id'  => $args['membership_id'],
-			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', 25 ),
+			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', $per_page ),
 			'sort'     => $sort,
 		);
+
+		// The total was already computed on the export's first page; don't re-run the COUNT query on every subsequent page.
+		if ( $export_max_pages ) {
+			$query_args['no_found_rows'] = true;
+		}
 
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
 
@@ -349,11 +356,15 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 		$query = new LLMS_Student_Query( $query_args );
 
-		$this->max_pages    = $query->get_max_pages();
-		$this->is_last_page = $query->is_last_page();
+		if ( $export_max_pages ) {
+			$this->max_pages    = $export_max_pages;
+			$this->is_last_page = $this->get_current_page() >= $export_max_pages;
+		} else {
+			$this->max_pages    = $query->get_max_pages();
+			$this->is_last_page = $query->is_last_page();
+		}
 
 		$this->tbody_data = $query->get_students();
-
 	}
 
 
@@ -373,7 +384,6 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		return array(
 			'membership_id' => $this->membership_id,
 		);
-
 	}
 
 	/**
@@ -423,7 +433,5 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 		);
 
 		return $cols;
-
 	}
-
 }

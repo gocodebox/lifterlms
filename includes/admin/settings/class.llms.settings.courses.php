@@ -194,6 +194,39 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 					'id'   => 'course_archive_options',
 				),
 
+				array(
+					'class' => 'top',
+					'id'    => 'lesson_time_tracking_options',
+					'type'  => 'sectionstart',
+				),
+
+				array(
+					'id'    => 'lesson_time_tracking_options_title',
+					'title' => __( 'Lesson Time Tracking', 'lifterlms' ),
+					'type'  => 'title',
+				),
+
+				array(
+					'desc'    => __( 'Track time on all lessons, even those without a minimum time requirement. Useful for reporting purposes.', 'lifterlms' ),
+					'default' => 'no',
+					'id'      => 'lifterlms_track_time_all_lessons',
+					'title'   => __( 'Track Time on All Lessons', 'lifterlms' ),
+					'type'    => 'checkbox',
+				),
+
+				array(
+					'desc'    => __( 'Format for the lesson timer display. Use {CURRENT_TIME} and {MINIMUM_TIME} as placeholders.', 'lifterlms' ),
+					'default' => '{CURRENT_TIME} (Minimum required time: {MINIMUM_TIME})',
+					'id'      => 'lifterlms_lesson_timer_display_format',
+					'title'   => __( 'Timer Display Format', 'lifterlms' ),
+					'type'    => 'text',
+				),
+
+				array(
+					'type' => 'sectionend',
+					'id'   => 'lesson_time_tracking_options',
+				),
+
 			)
 		);
 

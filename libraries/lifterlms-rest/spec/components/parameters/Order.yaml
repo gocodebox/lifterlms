@@ -1,0 +1,10 @@
+name: order
+in: query
+description: Specifcy the sort order for a collection of results.
+required: false
+schema:
+  type: string
+  enum:
+    - asc
+    - desc
+  default: asc

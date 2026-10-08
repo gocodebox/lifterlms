@@ -149,7 +149,62 @@ abstract class LLMS_Abstract_Generator_Posts {
 			$val = wp_slash( $val );
 		}
 
-		add_post_meta( $post_id, $key, maybe_unserialize( $val ) );
+		if ( is_serialized( $val ) ) {
+			$val = $this->unserialize_custom_value( $val );
+			if ( null === $val ) {
+				return;
+			}
+		}
+
+		add_post_meta( $post_id, $key, $val );
+	}
+
+	/**
+	 * Unserialize a serialized custom value without instantiating objects.
+	 *
+	 * Exports created prior to 3.30.0 contain serialized meta strings. Values containing
+	 * objects are rejected because `__PHP_Incomplete_Class` re-serializes to the original
+	 * class and would be instantiated the next time the meta is read.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param string $val Serialized value.
+	 * @return mixed|null Unserialized value or `null` when the value can't be safely unserialized.
+	 */
+	private function unserialize_custom_value( $val ) {
+
+		$val          = trim( $val );
+		$unserialized = unserialize( $val, array( 'allowed_classes' => false ) );
+		if ( false === $unserialized && 'b:0;' !== $val ) {
+			return null;
+		}
+
+		return $this->value_contains_object( $unserialized ) ? null : $unserialized;
+	}
+
+	/**
+	 * Determine if a value is, or recursively contains, an object.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param mixed $val Value to check.
+	 * @return bool
+	 */
+	private function value_contains_object( $val ) {
+
+		if ( is_object( $val ) ) {
+			return true;
+		}
+
+		if ( is_array( $val ) ) {
+			foreach ( $val as $item ) {
+				if ( $this->value_contains_object( $item ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -284,10 +339,16 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param string $role WP_User role. Default role is 'administrator'.
+		 * @param string $role WP_User role. Default role is the value of the `default_role` option (typically 'subscriber').
 		 * @param array  $raw  Original raw author data.
 		 */
-		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_user_default_role', 'administrator', $raw ) : $raw['role'];
+		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_user_default_role', get_option( 'default_role', 'subscriber' ), $raw ) : $raw['role'];
+
+		// Ensure the importing user is allowed to assign the requested role.
+		$authorized = $this->authorize_new_user_role( $raw['role'] );
+		if ( is_wp_error( $authorized ) ) {
+			return $authorized;
+		}
 
 		$data = array(
 			'role'       => $raw['role'],
@@ -331,6 +392,44 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return $author_id;
+	}
+
+	/**
+	 * Ensure the current user is allowed to assign a role to a user created during import
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param string $role WP_User role to be assigned to the new user.
+	 * @return WP_Error|true Returns `true` when the role may be assigned or a `WP_Error` when it may not.
+	 */
+	protected function authorize_new_user_role( $role ) {
+
+		// Load admin functions to get access to `get_editable_roles()`.
+		require_once ABSPATH . 'wp-admin/includes/admin.php';
+
+		/*
+		 * Creating a user and assigning it a role are governed by WordPress core user-management
+		 * capabilities. `manage_lifterlms` grants access to the importer but must not, on its own,
+		 * be enough to mint a user of an arbitrary role: a custom role with `manage_lifterlms` and
+		 * neither `create_users` nor `promote_users` has no business creating users during import.
+		 */
+		if ( ! current_user_can( 'create_users' ) || ! current_user_can( 'promote_users' ) ) {
+			return new WP_Error(
+				'llms-generator-unauthorized-role',
+				__( 'You are not allowed to create a user with the requested role.', 'lifterlms' )
+			);
+		}
+
+		$editable_roles = get_editable_roles();
+
+		if ( empty( $editable_roles[ $role ] ) ) {
+			return new WP_Error(
+				'llms-generator-unauthorized-role',
+				__( 'You are not allowed to create a user with the requested role.', 'lifterlms' )
+			);
+		}
+
+		return true;
 	}
 
 	/**

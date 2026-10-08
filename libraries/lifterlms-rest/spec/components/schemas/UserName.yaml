@@ -1,0 +1,14 @@
+type: object
+properties:
+  first:
+    description: The person's first name.
+    type: string
+    example: Jamie
+  last:
+    description: The person's last name.
+    type: string
+    example: Cook
+  display:
+    description: The person's public display name.
+    type: string
+    example: Jamie Cook

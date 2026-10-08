@@ -252,6 +252,31 @@ div[id^="lifterlms-"] .inside {
 		display: inline-block;
 	}
 
+	// WP 7.0's `div.notice a` rule underlines links and recolors them, overriding the button styles.
+	a.llms-button-action,
+	a.llms-button-danger,
+	a.llms-button-primary {
+		color: $color-white;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-white;
+		}
+	}
+
+	a.llms-button-secondary {
+		color: $color-cinder;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-cinder;
+		}
+	}
+
 	p {
 		font-size: 14px;
 		line-height: 22px;
@@ -372,5 +397,75 @@ a.llms-view-as {
 		border-color: var(--wp-admin-theme-color);
 		box-shadow: 0 0 0 .5px var(--wp-admin-theme-color);
 		outline: 2px solid #0000;
+	}
+}
+
+.llms-customers-wrap {
+	// The view links and the search field share one row. The table header's
+	// clearfix would otherwise stretch to the search field and push the table down.
+	// The table wrap then covers that row, so the links have to sit above it.
+	.subsubsub {
+		position: relative;
+		z-index: 2;
+	}
+
+	.llms-customers-table {
+		clear: none;
+	}
+
+	.llms-table-header {
+		&:before,
+		&:after {
+			content: none;
+			display: none;
+		}
+	}
+
+	.llms-table-search {
+		float: right;
+		margin: 6px 0 8px;
+	}
+
+	.llms-table {
+		clear: both;
+	}
+
+	.llms-customer-name {
+		align-items: center;
+		display: inline-flex;
+		gap: 8px;
+		text-decoration: none;
+
+		img {
+			border-radius: 50%;
+		}
+	}
+
+	.llms-customer-header-links {
+		margin: 8px 0 0;
+	}
+
+	.llms-customer-billing,
+	.llms-customer-enrollments {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			margin: 0 0 12px;
+		}
+	}
+
+	.llms-customer-orders-table {
+		margin-top: 12px;
+		width: 100%;
+	}
+
+	.llms-customer-orders-pagination {
+		align-items: center;
+		display: flex;
+		gap: 12px;
+		justify-content: flex-end;
+		margin-top: 16px;
 	}
 }

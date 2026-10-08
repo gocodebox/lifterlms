@@ -39,6 +39,9 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		parent::set_up();
 		$this->main = new LLMS_Generator_Courses();
 
+		// Course generation runs as an importer able to create/assign author roles.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 	}
 
 	/**
@@ -395,7 +398,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		// Test meta props are set.
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $lesson, 'properties' ) ) as $prop ) {
 			// This data is not based off raw.
-			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz', 'content_added_in_builder' ), true ) ) {
+			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz', 'content_added_in_builder', 'has_minimum_time', 'minimum_time' ), true ) ) {
 				continue;
 			}
 			$this->assertEquals( $raw[ $prop ], $lesson->get( $prop ), $prop );

@@ -1,0 +1,133 @@
+type: object
+properties:
+  student_id:
+    description: The ID of the student.
+    type: integer
+    minimum: 1
+    example: 123
+    readOnly: true
+  post_id:
+    description: The ID of the course.
+    type: integer
+    minimum: 1
+    example: 456
+    readOnly: true
+  grade:
+    description: Student's overall course grade as a percentage. `null` when no gradable elements have been graded yet.
+    type: number
+    format: float
+    nullable: true
+    minimum: 0
+    maximum: 100
+    example: 85.5
+    readOnly: true
+  lessons:
+    description: Per-lesson grade breakdown for the course.
+    type: array
+    readOnly: true
+    items:
+      type: object
+      properties:
+        id:
+          description: The ID of the lesson.
+          type: integer
+          minimum: 1
+          example: 789
+        title:
+          description: The lesson title.
+          type: string
+          example: Lesson 1
+        grade:
+          description: Student's lesson grade as a percentage. `null` when the lesson has no graded elements.
+          type: number
+          format: float
+          nullable: true
+          example: 90
+        quiz:
+          description: Grade information for the lesson's quiz. `null` when the lesson has no quiz enabled.
+          type: object
+          nullable: true
+          properties:
+            id:
+              description: The ID of the quiz.
+              type: integer
+              example: 234
+            grade:
+              description: Grade of the student's best quiz attempt as a percentage. `null` when the quiz has not been attempted or graded.
+              type: number
+              format: float
+              nullable: true
+              example: 90
+            attempt_id:
+              description: Unique identifier of the student's best quiz attempt.
+              type: integer
+              nullable: true
+              example: 42
+            status:
+              description: Status of the student's best quiz attempt.
+              type: string
+              nullable: true
+              example: pass
+        assignment:
+          description: |
+            Grade information for the lesson's assignment. `null` when the lesson has no assignment enabled.
+
+            _Available when the LifterLMS Assignments add-on is active. Assignments themselves are implemented by the LifterLMS Assignments add-on._
+          type: object
+          nullable: true
+          properties:
+            id:
+              description: The ID of the assignment.
+              type: integer
+              example: 876
+            grade:
+              description: Grade of the student's assignment submission as a percentage. `null` when the assignment has not been submitted or graded.
+              type: number
+              format: float
+              nullable: true
+              example: 88
+            submission_id:
+              description: Unique identifier of the student's assignment submission.
+              type: integer
+              nullable: true
+              example: 55
+            status:
+              description: Status of the student's assignment submission.
+              type: string
+              nullable: true
+              example: pass
+  _links:
+    description: A map of links to other related API resources.
+    readOnly: true
+    type: object
+    properties:
+      student:
+        description: REST URI to the student resource.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/students/123
+      post:
+        description: REST URI to the course resource.
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              example: course
+            href:
+              type: string
+              example: /wp-json/llms/v1/courses/456
+      quiz-attempts:
+        description: REST URI to the student's quiz attempts collection.
+        type: array
+        items:
+          type: object
+          properties:
+            href:
+              type: string
+              example: /wp-json/llms/v1/quiz-attempts?student=123

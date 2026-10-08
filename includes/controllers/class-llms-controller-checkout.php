@@ -65,7 +65,6 @@ class LLMS_Controller_Checkout {
 			add_action( 'init', array( $this, "{$action}_ajax" ), 5 );
 			add_action( 'init', array( $this, $action ) );
 		}
-
 	}
 
 	/**
@@ -122,7 +121,6 @@ class LLMS_Controller_Checkout {
 
 		// Pass the order to the gateway.
 		$gateway->confirm_pending_order( $order );
-
 	}
 
 	/**
@@ -152,7 +150,6 @@ class LLMS_Controller_Checkout {
 		// Confirm the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$this->send_json( $generator->confirm() );
-
 	}
 
 	/**
@@ -247,7 +244,7 @@ class LLMS_Controller_Checkout {
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
-			if ( $locate ) {
+			if ( $locate && $this->can_resume_order( $locate, $setup['person'] ) ) {
 				$order_id = $locate;
 			}
 		}
@@ -267,7 +264,6 @@ class LLMS_Controller_Checkout {
 
 		// Pass to the gateway to start processing.
 		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
-
 	}
 
 	/**
@@ -315,7 +311,29 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $handle );
+	}
 
+	/**
+	 * Determines whether a located order can be reused by the person completing checkout.
+	 *
+	 * Only a pending order that has not been assigned to a user yet, or one that already
+	 * belongs to the given person, can be updated during checkout.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param integer      $order_id WP_Post ID of the located order.
+	 * @param LLMS_Student $person   The person completing checkout.
+	 * @return boolean
+	 */
+	private function can_resume_order( $order_id, $person ) {
+
+		if ( 'llms-pending' !== get_post_status( $order_id ) ) {
+			return false;
+		}
+
+		$owner_id = absint( ( new LLMS_Order( $order_id ) )->get( 'user_id' ) );
+
+		return ! $owner_id || absint( $person->get( 'id' ) ) === $owner_id;
 	}
 
 	/**
@@ -339,7 +357,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -367,7 +384,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		return $user_data;
-
 	}
 
 	/**
@@ -412,7 +428,6 @@ class LLMS_Controller_Checkout {
 
 		// Redirect to the checkout screen.
 		llms_redirect_and_exit( $plan->get_checkout_url() );
-
 	}
 
 	/**
@@ -449,7 +464,6 @@ class LLMS_Controller_Checkout {
 
 		// Don't process the non-ajax method.
 		remove_action( 'init', array( $this, $method ) );
-
 	}
 
 	/**
@@ -480,7 +494,6 @@ class LLMS_Controller_Checkout {
 		if ( ! llms_notice_count( 'error' ) ) {
 			$this->switch_payment_source_success( $data );
 		}
-
 	}
 
 	/**
@@ -543,7 +556,6 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $gateway_res );
-
 	}
 
 	/**
@@ -617,7 +629,6 @@ class LLMS_Controller_Checkout {
 		);
 
 		return compact( 'old_gateway', 'new_gateway', 'order' );
-
 	}
 
 	/**
@@ -666,7 +677,6 @@ class LLMS_Controller_Checkout {
 
 		// Cleanup temp data.
 		delete_post_meta( $order->get( 'id' ), '_llms_temp_gateway_ids' );
-
 	}
 
 	/**
@@ -694,9 +704,7 @@ class LLMS_Controller_Checkout {
 		}
 
 		return true;
-
 	}
-
 }
 
 return LLMS_Controller_Checkout::instance();

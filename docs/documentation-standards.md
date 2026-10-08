@@ -135,6 +135,15 @@ When adding documentation on an existing element which does not yet have a chang
 
 The `@version` tag in file headers is only used for **template files** (files that may be overridden by themes). For all other files, omit `@version` — the git history tracks file-level changes.
 
+When you **modify** a template file, bump its `@version` to `[version]` and add a matching `@since [version]` changelog line describing the change. The `@version` always reflects the version of the most recent change to the template so theme authors can tell, at a glance, whether their override is out of date. This is the one place where adding a `@since` line to an existing element is expected — unlike functions, methods, and classes, where the git history (not docblock `@since` entries) tracks modifications.
+
+```
+ * @since 1.0.0
+ * @since 3.33.0 Only render on lesson post types.
+ * @since [version] Description of the change.
+ * @version [version]
+```
+
 #### Tag alignment and order
 
 All changelog tags, `@since`, `@version`, and `@deprecated` should be grouped together with a space before the first `@since` tag and after the last tag in the group.

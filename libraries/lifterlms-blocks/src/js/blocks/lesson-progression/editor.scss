@@ -1,0 +1,17 @@
+.wp-block[data-type="llms/lesson-progression"] {
+	text-align: center;
+
+	.llms-lesson-button-wrapper {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		justify-content: center;
+	}
+
+	button {
+		box-sizing: border-box;
+		line-height: 1;
+		margin: 0;
+	}
+}

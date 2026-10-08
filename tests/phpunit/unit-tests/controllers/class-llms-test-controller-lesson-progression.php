@@ -161,6 +161,35 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that a student cannot complete a lesson in a course they are not enrolled in.
+	 *
+	 * @since 10.0.7
+	 *
+	 * @return void
+	 */
+	public function test_handle_complete_form_requires_enrollment() {
+
+		$main = new LLMS_Controller_Lesson_Progression();
+
+		$course    = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		// Student is NOT enrolled in the course.
+		$student = $this->get_mock_student();
+		wp_set_current_user( $student->get_id() );
+
+		$this->mockPostRequest( array(
+			'_wpnonce'      => wp_create_nonce( 'mark_complete' ),
+			'mark-complete' => $lesson_id,
+			'mark_complete' => '',
+		) );
+		$main->handle_complete_form();
+		$this->assertEquals( 0, did_action( 'llms_trigger_lesson_completion' ) );
+		$this->assertFalse( $student->is_complete( $lesson_id, 'lesson' ) );
+
+	}
+
+	/**
 	 * Test the submission of the mark lesson incomplete form
 	 *
 	 * @since 3.17.1

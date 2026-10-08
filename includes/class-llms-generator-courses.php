@@ -556,6 +556,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 */
 	protected function handle_prerequisites() {
 
+		$skipped = false;
+
 		foreach ( array( 'course', 'lesson' ) as $obj_type ) {
 
 			$ids = ! empty( $this->tempids[ $obj_type ] ) ? $this->tempids[ $obj_type ] : array();
@@ -568,6 +570,21 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
 				// Instantiate the new instance of the object.
 				$obj = llms_get_post( $new_id );
+
+				// A single unloadable clone shouldn't abort the whole clone; skip it and record which object failed.
+				if ( ! $obj instanceof LLMS_Post_Model ) {
+					llms_log(
+						sprintf(
+							'Generator skipped prerequisite handling: could not load cloned %1$s (new #%2$d, source #%3$d).',
+							$obj_type,
+							$new_id,
+							$old_id
+						),
+						'generator'
+					);
+					$skipped = true;
+					continue;
+				}
 
 				// If this is a course and there isn't a source or the source doesn't match the current site.
 				// We should remove the track prerequisites.
@@ -611,6 +628,13 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 					}
 				}
 			}
+		}
+
+		if ( $skipped ) {
+			LLMS_Admin_Notices::flash_notice(
+				esc_html__( 'Some items could not be fully processed during cloning and were skipped. Check the "generator" log under LifterLMS > Status > Logs for details.', 'lifterlms' ),
+				'warning'
+			);
 		}
 	}
 

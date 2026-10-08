@@ -9,6 +9,33 @@
  * @since 3.37.8 Added class variable to access the tests assets directory.
  */
 
+/*
+ * PHP 8.4+ emits deprecation notices (e.g. for implicitly nullable parameters) when loading
+ * third-party code such as Action Scheduler, the lifterlms-tests framework, and plugins
+ * installed into the tests WordPress install. Tests run in isolated processes error out when
+ * that output reaches stderr, because PHPUnit treats any child process stderr output as a
+ * test error. Silence deprecations originating from third-party code only; deprecations
+ * triggered by LifterLMS's own code are still reported.
+ *
+ * The handler is removed again at the bottom of this file, once bootstrapping is complete:
+ * PHPUnit will not register its own error handler when a custom one is already present,
+ * which would silently disable its convertWarningsToExceptions/convertNoticesToExceptions
+ * behavior that some tests (e.g. the importer's generation error tests) rely on.
+ */
+if ( PHP_VERSION_ID >= 80400 ) {
+	set_error_handler(
+		function ( $errno, $errstr, $errfile = '' ) {
+			foreach ( array( '/vendor/', 'tmp/tests/' ) as $third_party_path ) {
+				if ( false !== strpos( $errfile, $third_party_path ) ) {
+					return true;
+				}
+			}
+			return false;
+		},
+		E_DEPRECATED
+	);
+}
+
 require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
 
 class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
@@ -62,6 +89,12 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 		// install LLMS
 		LLMS_Install::install();
 
+		// Prevent webhook pings during bundled REST API library tests.
+		add_filter( 'llms_rest_webhook_pre_ping', '__return_true' );
+
+		// Admin functions used by bundled library tests (helper).
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
+
 		// Reload capabilities after install, see https://core.trac.wordpress.org/ticket/28374
 		if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
 			$GLOBALS['wp_roles']->reinit();
@@ -114,4 +147,10 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 
 global $lifterlms_tests;
 $lifterlms_tests = new LLMS_Unit_Tests_Bootstrap();
+
+// See the E_DEPRECATED handler registered at the top of this file.
+if ( PHP_VERSION_ID >= 80400 ) {
+	restore_error_handler();
+}
+
 return $lifterlms_tests;

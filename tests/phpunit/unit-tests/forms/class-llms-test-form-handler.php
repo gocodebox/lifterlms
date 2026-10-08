@@ -571,4 +571,129 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		remove_filter( 'pre_option_lifterlms_registration_generate_username', '__return_empty_string' );
 	}
 
+	/**
+	 * Append a text field block to a form.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @param string $location Form location ID.
+	 * @param array  $attrs    Block attributes.
+	 * @return void
+	 */
+	private function append_field_to_form( $location, $attrs ) {
+
+		$forms     = LLMS_Forms::instance();
+		$forms->create( $location, true );
+		$form_post = $forms->get_form_post( $location );
+
+		$form_post->post_content .= sprintf( '<!-- wp:llms/form-field-text %s /-->', wp_json_encode( $attrs ) );
+		wp_update_post( $form_post );
+
+	}
+
+	/**
+	 * A field that stores to a protected user property prevents the submission.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_blocks_protected_field() {
+
+		$this->append_field_to_form(
+			'registration',
+			array(
+				'id'             => 'llms-evil-role',
+				'name'           => 'llms_evil_role',
+				'field'          => 'text',
+				'data_store'     => 'users',
+				'data_store_key' => 'role',
+			)
+		);
+
+		$args = $this->get_data_for_form_submit( array( 'llms_evil_role' => 'administrator' ) );
+		$ret  = $this->handler->submit( $args, 'registration' );
+
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-protected-field', $ret );
+
+		// No user was created.
+		$this->assertFalse( get_user_by( 'email', $args['email_address'] ) );
+
+	}
+
+	/**
+	 * A legitimate custom usermeta field is still saved (the guard does not block normal fields).
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_allows_custom_field() {
+
+		$this->append_field_to_form(
+			'registration',
+			array(
+				'id'             => 'llms-custom-meta',
+				'name'           => 'llms_custom_meta',
+				'field'          => 'text',
+				'data_store'     => 'usermeta',
+				'data_store_key' => 'llms_custom_meta',
+			)
+		);
+
+		$args = $this->get_data_for_form_submit( array( 'llms_custom_meta' => 'hello world' ) );
+		$ret  = $this->handler->submit( $args, 'registration' );
+
+		$this->assertTrue( is_int( $ret ) );
+		$this->assertEquals( 'hello world', get_user_meta( $ret, 'llms_custom_meta', true ) );
+
+	}
+
+	/**
+	 * Directly test the protected field guard against various field shapes.
+	 *
+	 * @since 10.0.8
+	 *
+	 * @return void
+	 */
+	public function test_validate_protected_fields() {
+
+		global $wpdb;
+
+		$validate = function( $fields ) {
+			return LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_protected_fields', array( $fields ) );
+		};
+
+		// Allowed: normal core and custom fields.
+		$this->assertTrue(
+			$validate(
+				array(
+					array( 'data_store' => 'users', 'data_store_key' => 'user_email', 'name' => 'email_address' ),
+					array( 'data_store' => 'usermeta', 'data_store_key' => 'llms_phone', 'name' => 'llms_phone' ),
+					array( 'data_store' => false, 'name' => 'password_confirm' ),
+				)
+			)
+		);
+
+		// Blocked: users.role.
+		$this->assertWPErrorCodeEquals(
+			'llms-form-protected-field',
+			$validate( array( array( 'data_store' => 'users', 'data_store_key' => 'role', 'name' => 'x' ) ) )
+		);
+
+		// Blocked: prefixed capabilities usermeta.
+		$this->assertWPErrorCodeEquals(
+			'llms-form-protected-field',
+			$validate( array( array( 'data_store' => 'usermeta', 'data_store_key' => $wpdb->prefix . 'capabilities', 'name' => 'x' ) ) )
+		);
+
+		// Blocked: key falls back to the field name when no data_store_key is set.
+		$this->assertWPErrorCodeEquals(
+			'llms-form-protected-field',
+			$validate( array( array( 'data_store' => 'users', 'data_store_key' => '', 'name' => 'role' ) ) )
+		);
+
+	}
+
 }
