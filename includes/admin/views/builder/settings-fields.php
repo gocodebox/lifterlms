@@ -51,9 +51,9 @@ defined( 'ABSPATH' ) || exit;
 						<div class="llms-editable-select{{{ field.classes }}}" >
 							<label class="llms-switch">
 								<span class="llms-label">
-									{{{ field.label }}}
+									<span class="llms-label-text">{{{ field.label }}}</span>
 									<# if ( field.tip ) { #>
-										<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+										<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
 									<# } #>
 								</span>
 								<input data-on="{{{ field.switch_on }}}" data-off="{{{ field.switch_off }}}" data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
@@ -62,16 +62,20 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					<# } else if ( field.label ) { #>
 						<span class="llms-label">
-							{{{ field.label }}}
+							<span class="llms-label-text">{{{ field.label }}}</span>
 							<# if ( field.tip ) { #>
-								<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+								<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
 							<# } #>
 						</span>
 					<# } #>
 
 					<# if ( 'permalink' === field.type ) { #>
 
-						<a target="_blank" href="{{{ data.model.get( 'permalink' ) }}}">{{{ data.model.get( 'permalink' ) }}}</a>
+						<# if ( data.model.has_temp_id() ) { #>
+							<span class="llms-permalink-preview">{{{ data.model.get( 'permalink' ) }}}</span>
+						<# } else { #>
+							<a target="_blank" href="{{{ data.model.get( 'permalink' ) }}}">{{{ data.model.get( 'permalink' ) }}}</a>
+						<# } #>
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.model.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.model.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 

@@ -247,6 +247,10 @@ class LLMS_Admin_Settings {
 	 *     @type string $secure_option     The name of settings secure option equivalent. If specified, the fields value will be
 	 *                                     automatically removed from the database and the value will be masked when displayed on
 	 *                                     on screen. See {@see llms_get_secure_option()} for more information.
+	 *     @type bool   $obfuscate         If true, a stored text value is shown partially hidden via {@see llms_anonymize_string()}
+	 *                                     so the full value is not in the page HTML. A submission equal to that mask is ignored.
+	 *                                     Any other value, including one that contains asterisks, replaces the stored value.
+	 *                                     An empty submission clears it.
 	 *     @type string $sanitize          Automatically apply the specified sanitization to the value before storing and outputting
 	 *                                     the stored value. Supported filters:
 	 *                                       + "slug": Uses `sanitize_title()` on the value when storing and `urldecode()` when displaying.
@@ -423,6 +427,11 @@ class LLMS_Admin_Settings {
 				// Ensure slugs with non-latin characters are not displayed as urlencoded strings.
 				if ( ! empty( $field['sanitize'] ) && 'slug' === $field['sanitize'] ) {
 					$option_value = urldecode( $option_value );
+				}
+
+				// Show a partial mask so the stored secret is not present in the page HTML.
+				if ( ! empty( $field['obfuscate'] ) && false === $secure_val && is_string( $option_value ) && '' !== $option_value ) {
+					$option_value = llms_anonymize_string( $option_value );
 				}
 
 				?>
@@ -1014,6 +1023,14 @@ class LLMS_Admin_Settings {
 
 					if ( isset( $field['sanitize'] ) && 'slug' === $field['sanitize'] ) {
 						$option_value = sanitize_title( $option_value );
+					}
+
+					// Keep the stored secret when the submission is its mask. A real key may itself contain "*".
+					if ( ! empty( $field['obfuscate'] ) && is_string( $option_value ) ) {
+						$stored = self::get_option( $field['id'], $field['default'] ?? '' );
+						if ( is_string( $stored ) && '' !== $stored && $option_value === llms_anonymize_string( $stored ) ) {
+							continue 2;
+						}
 					}
 
 					break;
