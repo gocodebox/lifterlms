@@ -5,7 +5,8 @@
  * @since 1.5.0 Add supported post type settings.
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
- * @since [version] Use native buttons with `wp-element-button` and an `extraButtons` filter so add-ons can render inside the wrapper.
+ * @since 10.3.0 Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
+ * @since [version] Render preview buttons inside `.llms-lesson-button-wrapper` so they share one row.
  * @version [version]
  */
 
@@ -81,9 +82,9 @@ export const settings = {
 		 * Return an array of React elements. Used by add-ons (e.g. Assignments) so their
 		 * buttons sit in the same row as Take Quiz / Mark Complete.
 		 *
-		 * @since [version]
+		 * @since 10.3.0
 		 *
-		 * @param {Array} buttons Extra button elements.
+		 * @param {Array} extraButtons Extra button elements.
 		 */
 		const extraButtons = applyFilters(
 			'llms.lessonProgressBlock.extraButtons',

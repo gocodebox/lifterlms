@@ -816,12 +816,15 @@ class LLMS_Template_Loader {
 	}
 
 	/**
-	 * Replace membership-restricted post content/excerpt in a feed with the restriction notice.
+	 * Replace restricted post content/excerpt in a feed with the visitor-facing content.
 	 *
 	 * Runs on the `the_content_feed` and `the_excerpt_rss` filters. Unlike the front end and the
 	 * REST API, `get_the_content()` in a feed reads from the global `$pages` array set up by
 	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
 	 * value must be replaced at the feed-content filter itself.
+	 *
+	 * Feeds are commonly page or object cached with no per-user key, so the output never
+	 * depends on who is logged in: it is what an anonymous visitor may see.
 	 *
 	 * @since 10.1.0
 	 *
@@ -832,26 +835,181 @@ class LLMS_Template_Loader {
 
 		$post_id = get_the_ID();
 
-		if ( ! $post_id || in_array( get_post_type( $post_id ), $this->get_content_restriction_skip_post_types(), true ) ) {
+		if ( ! $post_id ) {
 			return $content;
 		}
 
-		// `llms_page_restricted()` only evaluates membership restrictions in a singular context.
-		global $wp_query;
-		$restore = isset( $wp_query ) ? $wp_query->is_singular : null;
-		if ( isset( $wp_query ) ) {
-			$wp_query->is_singular = true;
+		$post_type = get_post_type( $post_id );
+
+		// Normally removed from the query by LLMS_Query, this covers posts injected by other code.
+		if ( in_array( $post_type, LLMS_Query::get_feed_excluded_post_types(), true ) ) {
+			return '';
 		}
 
-		$page_restricted = llms_page_restricted( $post_id );
-
-		if ( null !== $restore ) {
-			$wp_query->is_singular = $restore;
+		if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+			return $this->get_product_feed_content( $content, $post_id );
 		}
+
+		$page_restricted = $this->get_feed_restriction( $post_id );
 
 		return empty( $page_restricted['is_restricted'] )
 			? $content
 			: $this->get_content_restriction_message( $page_restricted );
+	}
+
+	/**
+	 * Determine restrictions for a feed item as an anonymous visitor would see them.
+	 *
+	 * `llms_page_restricted()` is still consulted so third-party restrictions apply, but a
+	 * logged-in user with access cannot clear a membership restriction here.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array Restriction data in the `llms_page_restricted()` format.
+	 */
+	private function get_feed_restriction( $post_id ) {
+
+		$restore         = $this->force_feed_restriction_query();
+		$page_restricted = llms_page_restricted( $post_id );
+		$this->restore_feed_restriction_query( $restore );
+
+		if ( ! empty( $page_restricted['is_restricted'] ) ) {
+			return $page_restricted;
+		}
+
+		$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id );
+		$membership_id          = llms_is_post_restricted_by_membership( $post_id );
+
+		if ( $sitewide_membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'sitewide_membership';
+			$page_restricted['restriction_id'] = $sitewide_membership_id;
+		} elseif ( $membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'membership';
+			$page_restricted['restriction_id'] = $membership_id;
+		}
+
+		return $page_restricted;
+	}
+
+	/**
+	 * Feed content for a course or membership.
+	 *
+	 * The sales page description is public when the product renders on its own URL, so it is
+	 * output for every viewer without the enrollment-dependent templates. A product with a
+	 * sales page redirect has no public body and gets the restriction notice.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param string $content Feed content or excerpt passed into the filter.
+	 * @param int    $post_id Post ID.
+	 * @return string
+	 */
+	private function get_product_feed_content( $content, $post_id ) {
+
+		$post    = get_post( $post_id );
+		$product = llms_get_post( $post );
+
+		if ( ! $post instanceof WP_Post || ! $product || ! is_callable( array( $product, 'has_sales_page_redirect' ) ) || $product->has_sales_page_redirect() ) {
+			return $this->get_content_restriction_message(
+				array(
+					'content_id'     => $post_id,
+					'is_restricted'  => true,
+					'reason'         => 'course' === get_post_type( $post ) ? 'enrollment_course' : 'enrollment_membership',
+					'restriction_id' => $post_id,
+				)
+			);
+		}
+
+		if ( 'the_content_feed' !== current_filter() ) {
+			// A stored excerpt is static; a generated one would be built from enrollment-dependent templates.
+			if ( '' !== trim( $post->post_excerpt ) ) {
+				return $content;
+			}
+
+			/** This filter is documented in wp-includes/formatting.php */
+			$length = (int) apply_filters( 'excerpt_length', 55 );
+			/** This filter is documented in wp-includes/formatting.php */
+			$more = apply_filters( 'excerpt_more', ' [&hellip;]' );
+
+			return wp_trim_words( wp_strip_all_tags( $this->render_feed_post_content( $post ) ), $length, $more );
+		}
+
+		return llms_get_post_sales_page_content( $post, $this->render_feed_post_content( $post ) );
+	}
+
+	/**
+	 * Render a post's stored content for a feed so that it is identical for every viewer.
+	 *
+	 * Dynamic blocks and shortcodes are removed the same way WordPress does when building an
+	 * excerpt: on a product they typically render enrollment-dependent output (pricing table,
+	 * progress, instructors). The `the_content` filter is not applied either, since page
+	 * builders and other plugins hook it to inject output for the current user.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return string
+	 */
+	private function render_feed_post_content( $post ) {
+
+		$content = excerpt_remove_blocks( strip_shortcodes( $post->post_content ) );
+
+		return wpautop( wptexturize( do_blocks( $content ) ) );
+	}
+
+	/**
+	 * Make restriction checks see a singular, non-search request.
+	 *
+	 * List feeds are not singular, so lesson, course, quiz, and membership checks never run.
+	 * A search feed also returns early from `llms_page_restricted()` before those checks.
+	 * Flags are restored by `restore_feed_restriction_query()`.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return array Previous query flags, keyed by flag name.
+	 */
+	private function force_feed_restriction_query() {
+
+		global $wp_query;
+
+		$restore = array();
+
+		if ( ! isset( $wp_query ) ) {
+			return $restore;
+		}
+
+		foreach ( array( 'is_singular', 'is_search' ) as $flag ) {
+			$restore[ $flag ] = (bool) $wp_query->$flag;
+		}
+
+		$wp_query->is_singular = true;
+		$wp_query->is_search   = false;
+
+		return $restore;
+	}
+
+	/**
+	 * Restore query flags changed for a feed restriction check.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param array $restore Flags from `force_feed_restriction_query()`.
+	 * @return void
+	 */
+	private function restore_feed_restriction_query( $restore ) {
+
+		global $wp_query;
+
+		if ( ! isset( $wp_query ) ) {
+			return;
+		}
+
+		foreach ( $restore as $flag => $value ) {
+			$wp_query->$flag = $value;
+		}
 	}
 }
 
