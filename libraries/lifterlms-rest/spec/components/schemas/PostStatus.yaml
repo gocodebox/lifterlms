@@ -1,9 +1,0 @@
-description: The publication status of the course.
-type: string
-enum:
-  - publish
-  - pending
-  - draft
-  - future
-  - private
-default: publish
