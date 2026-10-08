@@ -19,6 +19,15 @@ properties:
     type: string
     example: stephen@example.net
     default: ""
+  is_open:
+    description: |
+      Whether this record is the group's reusable open invitation link.
+
+      Open link records are not pending invitations sent to a specific email address; use the
+      `open=exclude` collection parameter to list only pending email invitations.
+    type: boolean
+    readOnly: true
+    example: false
   role:
     description: Group member role.
     type: string

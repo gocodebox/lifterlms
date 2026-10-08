@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * maintained within the LifterLMS core plugin. Standalone copies no longer receive updates and should
  * be deactivated and deleted.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_Admin_Bundled_Plugins {
 
@@ -31,7 +31,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Retrieves a list of bundled plugin basenames and their names.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return array Array mapping plugin basenames to plugin names.
 	 */
@@ -59,7 +59,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Retrieves installed standalone copies of bundled plugins.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return array Array mapping plugin basenames to plugin names for installed standalone copies.
 	 */
@@ -77,7 +77,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Adds an admin notice and plugin row messages when standalone copies are installed.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Adds the dismissable admin notice.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $plugins Array mapping plugin basenames to plugin names.
 	 * @return void
@@ -111,7 +111,7 @@ class LLMS_Admin_Bundled_Plugins {
 
 		$html = sprintf(
 			// Translators: %s = comma-separated list of plugin names.
-			__( 'The following plugins are now bundled with LifterLMS and no longer receive standalone updates: %s. Please deactivate and delete them from the Plugins screen. The versions bundled with LifterLMS are used automatically.', 'lifterlms' ),
+			__( 'The following plugins are now bundled with LifterLMS and no longer receive standalone updates: %s. Please deactivate and delete them from the Plugins screen.', 'lifterlms' ),
 			'<strong>' . implode( '</strong>, <strong>', array_values( $plugins ) ) . '</strong>'
 		);
 
@@ -129,7 +129,7 @@ class LLMS_Admin_Bundled_Plugins {
 	/**
 	 * Outputs a notice within a standalone plugin's row on the plugins screen.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $plugin_file Plugin basename.
 	 * @param array  $plugin_data Plugin data.
@@ -152,7 +152,7 @@ class LLMS_Admin_Bundled_Plugins {
 					<?php
 					printf(
 						// Translators: %s = the plugin's name.
-						esc_html__( '%s is now bundled with LifterLMS and this standalone copy no longer receives updates. Please deactivate and delete it; the version bundled with LifterLMS is used automatically.', 'lifterlms' ),
+						esc_html__( '%s is now bundled with LifterLMS and this standalone copy no longer receives updates. Please deactivate and delete it.', 'lifterlms' ),
 						'<strong>' . esc_html( $plugin_data['Name'] ?? $plugin_file ) . '</strong>'
 					);
 					?>

@@ -39,6 +39,9 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		parent::set_up();
 		$this->main = new LLMS_Generator_Courses();
 
+		// Course generation runs as an importer able to create/assign author roles.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 	}
 
 	/**

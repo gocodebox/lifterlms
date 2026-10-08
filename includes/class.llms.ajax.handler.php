@@ -919,6 +919,42 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Whether the current user may query a post type.
+	 *
+	 * Public post types are allowed for anyone who reached this handler.
+	 * Certificate templates and awarded certificates are public so they have
+	 * permalinks; searching them still requires their edit capability.
+	 * Non-public types registered without their own capability map inherit
+	 * the generic `edit_posts` capability, which this handler has already
+	 * required, so those types also require `manage_lifterlms`. Types with
+	 * their own capability map use that `edit_posts` capability.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string $post_type Post type name.
+	 * @return bool
+	 */
+	private static function user_can_query_post_type( $post_type ) {
+
+		$object = get_post_type_object( $post_type );
+		if ( ! $object ) {
+			return false;
+		}
+
+		// Certificates stay public for permalinks. Their edit capability still gates search.
+		$requires_cap = ! $object->public || in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true );
+		if ( ! $requires_cap ) {
+			return true;
+		}
+
+		if ( 'edit_posts' === $object->cap->edit_posts ) {
+			return current_user_can( 'manage_lifterlms' );
+		}
+
+		return current_user_can( $object->cap->edit_posts );
+	}
+
+	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
 	 *
 	 * @since 3.0.0
@@ -951,8 +987,7 @@ class LLMS_AJAX_Handler {
 		$post_types_array = array_filter(
 			$post_types_array,
 			function ( $type ) {
-				$object = get_post_type_object( $type );
-				return $object && ( $object->public || current_user_can( $object->cap->edit_posts ) );
+				return self::user_can_query_post_type( $type );
 			}
 		);
 
@@ -1376,7 +1411,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle a lesson time tracking heartbeat.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $request POST data from the AJAX request.
 	 * @return array|WP_Error
@@ -1464,7 +1499,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle lesson time session end (fired via sendBeacon on page unload).
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param array $request POST data.
 	 * @return array|WP_Error

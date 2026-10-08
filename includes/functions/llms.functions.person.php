@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,7 +47,6 @@ function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
 	}
 
 	return true;
-
 }
 
 /**
@@ -118,7 +117,6 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 	 * @param int  $obj_id WP_Post or WP_User ID.
 	 */
 	return apply_filters( "llms_current_user_can_{$cap}", $grant, $obj_id );
-
 }
 
 /**
@@ -227,7 +225,31 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 	 * @param $string $name Translated name of the password strength value.
 	 */
 	return apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $name );
+}
 
+/**
+ * Retrieve the description shown under the password strength meter.
+ *
+ * The default minimum is "weak", and naming that in the helper text reads as if
+ * a weak password is what the site wants. Medium and strong minimums are named
+ * because they are a bar above that default.
+ *
+ * @since [version]
+ *
+ * @param string $strength Minimum password strength. Accepts "strong", "medium", or "weak".
+ * @return string
+ */
+function llms_get_password_meter_description( $strength = 'weak' ) {
+
+	if ( 'weak' === $strength ) {
+		return __( 'A password with at least 8 characters is required. To make it stronger, use both upper and lower case letters, numbers, and symbols.', 'lifterlms' );
+	}
+
+	return sprintf(
+		// Translators: %s = Minimum password strength.
+		__( 'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.', 'lifterlms' ),
+		llms_get_minimum_password_strength_name( $strength )
+	);
 }
 
 /**
@@ -270,7 +292,6 @@ function llms_get_usernames_blocklist() {
 	 * @param string[] $list List of banned usernames.
 	 */
 	return apply_filters( 'llms_usernames_blocklist', $list );
-
 }
 
 /**
@@ -423,7 +444,6 @@ function llms_parse_password_reset_cookie() {
 
 	// Success.
 	return compact( 'key', 'login' );
-
 }
 
 /**
@@ -474,7 +494,6 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 	}
 
 	return $user_id;
-
 }
 
 /**
@@ -492,7 +511,6 @@ function llms_set_password_reset_cookie( $val = '' ) {
 	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
-
 }
 
 /**

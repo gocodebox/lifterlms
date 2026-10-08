@@ -174,14 +174,24 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
 		) );
 
-		// Install.
-		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
-		$this->assertEquals( array( 'success', ), array_keys( $res ) );
+		// The SendWP plugin emits deprecation notices when loaded on PHP 8.4+; any notice displayed
+		// while `activate_plugin()` runs makes the activation fail with an `unexpected_output` error.
+		$error_reporting = error_reporting( error_reporting() & ~E_DEPRECATED );
 
-		// Already installed, activate.
-		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install_verify' );
-		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
-		$this->assertEquals( 2007, $res['partner_id'] );
+		try {
+
+			// Install.
+			$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
+			$this->assertEquals( array( 'success', ), array_keys( $res ) );
+
+			// Already installed, activate.
+			$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install_verify' );
+			$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
+			$this->assertEquals( 2007, $res['partner_id'] );
+
+		} finally {
+			error_reporting( $error_reporting );
+		}
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 7.8.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -367,7 +367,54 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question     $question Question object.
 		 * @param LLMS_Quiz_Attempt $attempt  Attempt object.
 		 */
-		return apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
+		$title = apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
+
+		if ( 'html' === $format ) {
+			$title = $this->format_question_html( $title );
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Convert br-separated question title lines into paragraph tags for front-end display.
+	 *
+	 * The course builder stores multi-line question titles with `<br>` tags after stripping
+	 * Quill's wrapping `<p>` elements. Converting those breaks back to paragraphs restores
+	 * normal block spacing that cannot be achieved by styling `<br>` alone.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param string $html Question title HTML.
+	 * @return string
+	 */
+	protected function format_question_html( $html ) {
+
+		if ( ! is_string( $html ) || '' === $html ) {
+			return $html;
+		}
+
+		// Already has block-level structure; leave alone.
+		if ( preg_match( '/<(p|div|ul|ol|h[1-6])\b/i', $html ) ) {
+			return $html;
+		}
+
+		if ( ! preg_match( '/<br\s*\/?>/i', $html ) ) {
+			return $html;
+		}
+
+		$parts  = preg_split( '/<br\s*\/?>/i', $html );
+		$output = '';
+
+		foreach ( $parts as $part ) {
+			if ( '' === trim( $part ) ) {
+				$output .= '<p><br></p>';
+			} else {
+				$output .= '<p>' . $part . '</p>';
+			}
+		}
+
+		return $output;
 	}
 
 	/**

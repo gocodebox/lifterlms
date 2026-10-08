@@ -56,7 +56,7 @@ class LLMS_REST_Test_Webhook_Delivery extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Mocks HTTP requests to the delivery endpoint with a successful response.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param false|array|WP_Error $ret  Whether to preempt the response.
 	 * @param array                $args HTTP request args.
@@ -165,7 +165,7 @@ class LLMS_REST_Test_Webhook_Delivery extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Restores untrashed posts to the `publish` status.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return string
 	 */

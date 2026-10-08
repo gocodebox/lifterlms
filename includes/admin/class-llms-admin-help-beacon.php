@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 10.1.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Settings, Reporting, etc.) and on the screens that live under the Courses,
  * Memberships, Engagements, and Orders admin menus. This includes the post types
  * nested under those menus (e.g. Achievements, Certificates, and Emails under
- * Engagements; Coupons and Vouchers under Orders) and their taxonomy screens.
+ * Engagements; Customers, Coupons, and Vouchers under Orders) and their taxonomy screens.
  *
  * For the Courses and Memberships menus the beacon is intentionally not loaded on
  * the block editor (add or edit), where it would clutter the editing UI. For the
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * To respect the user's privacy the beacon script (which may set cookies) is not
  * loaded until the user clicks the launcher and confirms a consent prompt.
  *
- * @since [version]
+ * @since 10.1.0
  */
 class LLMS_Admin_Help_Beacon {
 
@@ -41,7 +41,7 @@ class LLMS_Admin_Help_Beacon {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Admin_Help_Beacon {
 	/**
 	 * Enqueue the beacon launcher and styles on eligible screens.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class LLMS_Admin_Help_Beacon {
 	/**
 	 * Determine whether the beacon should be shown on the current screen.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return boolean
 	 */
@@ -90,12 +90,13 @@ class LLMS_Admin_Help_Beacon {
 			'lifterlms_page_llms-status',
 			'lifterlms_page_llms-resources',
 			'lifterlms_page_llms-add-ons',
+			'llms_order_page_llms-customers',
 		);
 
 		/**
 		 * Filters the list of admin screen IDs where the LifterLMS help beacon is displayed.
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @param string[] $screens Array of `WP_Screen` IDs.
 		 */
@@ -117,8 +118,8 @@ class LLMS_Admin_Help_Beacon {
 		 * These are grouped by the admin menu they live under. The Courses and Memberships
 		 * menus omit the `post` base so the beacon does not clutter the block editor. The
 		 * Engagements menu (engagements, achievements, certificates, emails) and the Orders
-		 * menu (orders, coupons, vouchers) include the `post` base so the beacon appears on
-		 * all of their pages, including the editors.
+		 * menu (orders, customers, coupons, vouchers) include the `post` base so the beacon
+		 * appears on all of their pages, including the editors.
 		 */
 		$post_types = array(
 			// Courses menu.
@@ -145,7 +146,7 @@ class LLMS_Admin_Help_Beacon {
 		 * base values: `edit` (list table), `edit-tags` (taxonomy screens), and `post`
 		 * (the add/edit editor).
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @param array $post_types Map of post type name to an array of allowed screen bases.
 		 */
@@ -158,7 +159,7 @@ class LLMS_Admin_Help_Beacon {
 	/**
 	 * Build the inline styles for the beacon launcher button.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return string
 	 */
@@ -175,7 +176,7 @@ class LLMS_Admin_Help_Beacon {
 	 * and confirms the consent prompt, so no third-party script or cookie is loaded
 	 * until the user opts in.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @param string $beacon_id The HelpScout beacon ID to initialize.
 	 * @return string

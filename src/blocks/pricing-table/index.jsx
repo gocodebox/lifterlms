@@ -11,7 +11,7 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 
 // Internal dependencies.
 import blockJson from './block.json';
@@ -22,6 +22,25 @@ const Edit = ( props ) => {
 	const { attributes } = props;
 	const blockProps = useBlockProps();
 
+	// The product metabox fires this jQuery event after access plans are saved or
+	// deleted; bump a key to force the preview to re-render since the plan changes
+	// aren't reflected in the block's attributes.
+	const [ refreshKey, setRefreshKey ] = useState( 0 );
+
+	useEffect( () => {
+		const { jQuery } = window;
+
+		if ( ! jQuery ) {
+			return;
+		}
+
+		const onUpdate = () => setRefreshKey( ( prevKey ) => prevKey + 1 );
+
+		jQuery( document ).on( 'llms-access-plans-updated', onUpdate );
+
+		return () => jQuery( document ).off( 'llms-access-plans-updated', onUpdate );
+	}, [] );
+
 	const memoizedServerSideRender = useMemo( () => {
 		let emptyPlaceholder = __( 'Product not found. This block will not be displayed.', 'lifterlms' );
 
@@ -30,6 +49,7 @@ const Edit = ( props ) => {
 		}
 
 		return <ServerSideRender
+			key={ refreshKey }
 			block={ blockJson.name }
 			attributes={ attributes }
 			LoadingResponsePlaceholder={ () =>
@@ -42,7 +62,7 @@ const Edit = ( props ) => {
 				<p className={ 'llms-block-empty' }>{ emptyPlaceholder }</p>
 			}
 		/>;
-	}, [ attributes ] );
+	}, [ attributes, refreshKey ] );
 
 	return <>
 		<InspectorControls>

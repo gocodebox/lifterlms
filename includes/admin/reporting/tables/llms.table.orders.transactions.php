@@ -989,7 +989,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		static $backfilled = null;
 
 		if ( null === $backfilled ) {
-			$backfilled = version_compare( get_option( 'lifterlms_db_version' ), '10.1.0', '>=' );
+			$backfilled = version_compare( get_option( 'lifterlms_db_version' ), '11.0.0', '>=' );
 		}
 
 		return $backfilled;

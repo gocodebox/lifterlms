@@ -1,0 +1,92 @@
+description: Base certificate template post object.
+type: object
+properties:
+  id:
+    description: Unique certificate template identifer. The WordPress Post `ID`.
+    type: integer
+    example: 345
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  slug:
+    description: Certificate template URL slug.
+    type: string
+    example: certificate-of-completion
+  permalink:
+    description: Certificate template URL.
+    type: string
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_certificate
+  status:
+    description: The publication status of the certificate template.
+    type: string
+    enum:
+      - publish
+      - draft
+    default: draft
+  certificate_title:
+    description: The title displayed on certificates awarded from this template.
+    type: string
+    example: Certificate of Completion
+  sequential_id:
+    description: The next sequential ID used when awarding a certificate from this template. Must be greater than or equal to the current next sequential ID.
+    type: integer
+    example: 1
+  size:
+    description: The certificate size.
+    type: string
+    example: LETTER
+  width:
+    description: The certificate width. Only used when `size` is `CUSTOM`.
+    type: number
+    example: 400
+  height:
+    description: The certificate height. Only used when `size` is `CUSTOM`.
+    type: number
+    example: 400
+  unit:
+    description: The certificate sizing unit applied to the `width` and `height` properties.
+    type: string
+    enum:
+      - in
+      - mm
+    example: in
+  orientation:
+    description: The certificate orientation.
+    type: string
+    enum:
+      - portrait
+      - landscape
+    example: landscape
+  margins:
+    description: 'The certificate margins: top, right, bottom, and left.'
+    type: array
+    minItems: 4
+    maxItems: 4
+    items:
+      type: number
+    example: [5, 5, 5, 5]
+  background:
+    description: The certificate background color, as a CSS color string.
+    type: string
+    example: '#ffffff'

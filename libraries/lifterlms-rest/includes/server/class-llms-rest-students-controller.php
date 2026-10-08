@@ -239,7 +239,7 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 			return $query_args;
 		}
 
-		if ( empty( $request['roles'] ) ) {
+		if ( empty( $request['roles'] ) && empty( $request['search'] ) ) {
 			$query_args = array_merge(
 				$query_args,
 				array(

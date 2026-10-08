@@ -1,0 +1,89 @@
+get:
+  summary: List questions
+  description: Retrieve a list of quiz questions.
+  tags:
+    - Quiz Questions
+  parameters:
+    - $ref: '#/components/parameters/Context'
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - $ref: '#/components/parameters/Search'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - title
+          - date_created
+          - date_updated
+          - relevance
+        default: id
+    - $ref: '#/components/parameters/Include'
+    - $ref: '#/components/parameters/Exclude'
+    - name: parent
+      description: Filter questions by the parent quiz ID.
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 234
+  responses:
+    200:
+      description: Successfully returned a list of questions.
+      headers:
+        Link:
+          description: Pagination links for the collection.
+          schema:
+            type: string
+            example: >-
+              </wp-json/llms/v1/questions?page=1>; rel="first",
+              </wp-json/llms/v1/questions?page=2>; rel="prev",
+              </wp-json/llms/v1/questions?page=4>; rel="next",
+              </wp-json/llms/v1/questions?page=5>; rel="last"
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuizQuestionResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+
+post:
+  summary: Create a question
+  description: Create a new quiz question object.
+  tags:
+    - Quiz Questions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '#/components/schemas/QuizQuestionRequest'
+            - required:
+              - title
+  responses:
+    201:
+      description: Successfully created the question.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizQuestionResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

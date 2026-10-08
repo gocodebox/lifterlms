@@ -26,7 +26,7 @@ final class LifterLMS_REST_API {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.8';
+	public $version = '1.1.1';
 
 	/**
 	 * Constructor.
@@ -96,6 +96,13 @@ final class LifterLMS_REST_API {
 			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/admin/class-llms-rest-admin-form-controller.php';
 		}
 
+		// Abilities API integration (WP 6.9+).
+		if ( function_exists( 'wp_register_ability' ) ) {
+			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/abilities/class-llms-rest-ability-factory.php';
+			include_once LLMS_REST_API_PLUGIN_DIR . 'includes/abilities/class-llms-rest-abilities.php';
+			LLMS_REST_Abilities::init();
+		}
+
 		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
 		add_action( 'rest_api_init', array( $this, 'rest_api_controllers_init' ), 10 );
 
@@ -144,9 +151,16 @@ final class LifterLMS_REST_API {
 			'server/class-llms-rest-lessons-controller',
 			'server/class-llms-rest-memberships-controller',
 			'server/class-llms-rest-enrollments-controller',
+			'server/class-llms-rest-orders-controller',
+			'server/class-llms-rest-quizzes-controller',
+			'server/class-llms-rest-questions-controller',
+			'server/class-llms-rest-quiz-attempts-controller',
+			'server/class-llms-rest-certificates-controller',
+			'server/class-llms-rest-awarded-certificates-controller',
 			'server/class-llms-rest-instructors-controller',
 			'server/class-llms-rest-students-controller',
 			'server/class-llms-rest-students-progress-controller',
+			'server/class-llms-rest-students-grades-controller',
 			'server/class-llms-rest-webhooks-controller',
 
 		);
@@ -173,9 +187,16 @@ final class LifterLMS_REST_API {
 			'LLMS_REST_Sections_Controller',
 			'LLMS_REST_Lessons_Controller',
 			'LLMS_REST_Memberships_Controller',
+			'LLMS_REST_Orders_Controller',
+			'LLMS_REST_Quizzes_Controller',
+			'LLMS_REST_Questions_Controller',
+			'LLMS_REST_Quiz_Attempts_Controller',
+			'LLMS_REST_Certificates_Controller',
+			'LLMS_REST_Awarded_Certificates_Controller',
 			'LLMS_REST_Instructors_Controller',
 			'LLMS_REST_Students_Controller',
 			'LLMS_REST_Students_Progress_Controller',
+			'LLMS_REST_Students_Grades_Controller',
 			'LLMS_REST_Enrollments_Controller',
 			'LLMS_REST_Webhooks_Controller',
 			'LLMS_REST_Access_Plans_Controller',

@@ -88,7 +88,9 @@
 }
 
 .llms-dialog-container {
-	z-index: 2;
+	// The dialog is moved to the document body (see llms-metabox-product.js), so it must
+	// stack above the admin bar (z-index 99999) and the block editor interface.
+	z-index: 100000;
 	display: flex;
 
 	.llms-dialog-overlay {
@@ -110,12 +112,9 @@
 		background-color: white;
 		overflow: auto;
 		box-sizing: border-box;
-		// In WP < 7.0 the metabox rendered full-screen so `position: fixed` on the
-		// container resolved against the viewport and `90vh` was always the limit. In WP 7.0+
-		// the block editor wraps the meta-boxes area in an element that establishes the
-		// containing block for fixed positioning, so the container only fills that (often
-		// short) region. `min()` keeps the viewport cap while also clamping to the container
-		// height so the content scrolls instead of overflowing the meta-boxes area.
+		// The dialog is reparented to the document body (see llms-metabox-product.js), so
+		// `min()` resolves against the viewport; the 100% clamp only matters as a fallback
+		// if the dialog is ever rendered inside a container that traps fixed positioning.
 		max-height: min(90vh, 100%);
 
 		.llms-dialog-close {

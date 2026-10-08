@@ -101,4 +101,8 @@ if [ -z "$FREE_COURSE_ID" ]; then
   fi
 fi
 
+# 8. Create a focus-mode course whose lesson contains a core/tabs block (WP 7.1+).
+#    Path is relative to the WordPress root inside the tests-cli container.
+$CLI wp eval-file wp-content/plugins/lifterlms/tests/e2e/bin/create-focus-mode-tabs-course.php
+
 echo "E2E environment bootstrapped successfully."

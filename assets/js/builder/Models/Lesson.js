@@ -108,6 +108,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 			// Recompose H/M/S back to total seconds when any component changes.
 			this.on( 'change:minimum_time_hours change:minimum_time_minutes change:minimum_time_seconds', this.compute_minimum_time, this );
+			this.on( 'change:title', this.preview_permalink, this );
+			this.preview_permalink();
 
 			// If the lesson ID isn't set on a quiz, set it.
 			var quiz = this.get( 'quiz' );
@@ -122,7 +124,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Decompose minimum_time (total seconds) into hours, minutes, seconds fields.
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @return {void}
 		 */
@@ -142,7 +144,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Recompose hours, minutes, seconds into minimum_time (total seconds).
 		 *
-		 * @since [version]
+		 * @since 10.1.0
 		 *
 		 * @return {void}
 		 */

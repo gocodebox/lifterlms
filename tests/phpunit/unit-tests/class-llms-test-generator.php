@@ -25,6 +25,9 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_generate() {
 
+		// Importing a new author requires a user able to create/assign roles.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		$course = $this->get_mock_course_array( 1, 3, 5, 1, 5 );
 
 		$course['author'] = array(

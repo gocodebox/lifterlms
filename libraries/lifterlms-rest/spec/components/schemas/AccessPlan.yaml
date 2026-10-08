@@ -196,4 +196,43 @@ allOf:
           - hidden
           - featured
         default: visible
+      group_enrolment:
+        description: >-
+          Whether the access plan is used for group enrollment ("Use for Group Enrolment").<br>
+          When enabled, purchasing the plan creates a group with the configured number of seats instead of enrolling only the buyer.<br>
+          Requires the LifterLMS Groups add-on; unavailable when the LifterLMS WooCommerce integration is in use.
+        type: boolean
+        default: false
+      group_enrolment_seats_type:
+        description: >-
+          Determines how the number of group seats is selected.<br>
+          `fixed`: the plan always includes `group_seat_count` seats.<br>
+          `variable`: the buyer chooses a seat count between `group_seat_count_min` and `group_seat_count_max` at checkout.<br>
+          Only applies when `group_enrolment` is `true`. Requires the LifterLMS Groups add-on.
+        type: string
+        enum:
+          - fixed
+          - variable
+        default: fixed
+      group_seat_count:
+        description: >-
+          Number of group seats included in the plan when `group_enrolment_seats_type` is `fixed`.<br>
+          Requires the LifterLMS Groups add-on.
+        type: integer
+        minimum: 1
+        example: 10
+      group_seat_count_min:
+        description: >-
+          Minimum number of group seats selectable at checkout when `group_enrolment_seats_type` is `variable`.<br>
+          Requires the LifterLMS Groups add-on.
+        type: integer
+        minimum: 1
+        example: 5
+      group_seat_count_max:
+        description: >-
+          Maximum number of group seats selectable at checkout when `group_enrolment_seats_type` is `variable`.<br>
+          Requires the LifterLMS Groups add-on.
+        type: integer
+        minimum: 1
+        example: 50
   - $ref: '#/components/schemas/Post'

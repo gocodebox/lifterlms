@@ -43,10 +43,6 @@
 				<strong><?php echo esc_html( __( 'Hidden Access', 'lifterlms' ) ); ?></strong>
 				<span><?php echo esc_html( __( 'Grant free access without making this plan publicly available.', 'lifterlms' ) ); ?></span>
 			</button>
-			<button class="template" data-template="sale">
-				<strong><?php echo esc_html( __( 'Sale', 'lifterlms' ) ); ?></strong>
-				<span><?php echo esc_html( __( 'Discount a one-time payment for lifetime access.', 'lifterlms' ) ); ?></span>
-			</button>
 			<button class="template" data-template="presell">
 				<strong><?php echo esc_html( __( 'Pre-sale', 'lifterlms' ) ); ?></strong>
 				<span><?php echo esc_html( __( 'Offer lifetime access for a one-time payment with a future start date.', 'lifterlms' ) ); ?></span>
@@ -71,6 +67,13 @@
 					<span class="add-on"><?php echo esc_html( __( 'Add-on', 'lifterlms' ) ); ?></span>
 					<strong><?php echo esc_html( __( 'Group Access', 'lifterlms' ) ); ?></strong>
 					<span><?php echo esc_html( __( 'Allow a buyer to purchase lifetime access for a group of people.', 'lifterlms' ) ); ?></span>
+				</a>
+			<?php endif; ?>
+			<?php if ( apply_filters( 'llms_access_plan_dialog_show_nyp_addon_option', ! class_exists( 'LLMS_NYP_Plugin' ) ) ) : ?>
+				<a target="_blank" href="https://lifterlms.com/product/lifterlms-name-your-price/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale">
+					<span class="add-on"><?php echo esc_html( __( 'Add-on', 'lifterlms' ) ); ?></span>
+					<strong><?php echo esc_html( __( 'Name Your Price', 'lifterlms' ) ); ?></strong>
+					<span><?php echo esc_html( __( 'Let the buyer choose what they pay, with optional minimum, suggested, and maximum prices.', 'lifterlms' ) ); ?></span>
 				</a>
 			<?php endif; ?>
 			<button class="template" data-template="advanced">

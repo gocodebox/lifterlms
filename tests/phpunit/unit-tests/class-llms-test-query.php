@@ -198,8 +198,20 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			$wp_query->init();
 
 			// Logged out user.
+			if ( 'llms_my_certificate' === $post_type ) {
+				$wp_query->is_feed     = true;
+				$wp_query->posts       = array( $post );
+				$wp_query->post_count  = 1;
+				$wp_query->found_posts = 4;
+			}
 			$this->main->maybe_404_certificate();
 			$this->assertEquals( $expect, $wp_query->is_404(), $post_type );
+			if ( $expect ) {
+				$this->assertFalse( $wp_query->is_feed );
+				$this->assertEmpty( $wp_query->posts );
+				$this->assertSame( 0, $wp_query->post_count );
+				$this->assertSame( 0, $wp_query->found_posts );
+			}
 
 			// Logged in admin can always see.
 			$wp_query->init();
@@ -212,6 +224,218 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		}
 
 		$post = $temp;
+
+	}
+
+	/**
+	 * Test exclude_protected_posts_from_feeds().
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_exclude_protected_posts_from_feeds() {
+
+		wp_set_current_user( 0 );
+
+		$author   = $this->factory->user->create();
+		$admin    = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$cert     = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'llms_my_certificate',
+				'post_author'  => $author,
+				'post_content' => 'SECRET_CERT_BODY',
+			)
+		);
+		$template = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'llms_certificate',
+				'post_content' => 'TEMPLATE_BODY',
+			)
+		);
+		$lesson   = $this->factory->post->create_and_get( array( 'post_type' => 'lesson' ) );
+		$quiz     = $this->factory->post->create_and_get( array( 'post_type' => 'llms_quiz' ) );
+		$course   = $this->factory->post->create_and_get( array( 'post_type' => 'course' ) );
+		$public   = $this->factory->post->create_and_get(
+			array(
+				'post_type'    => 'post',
+				'post_content' => 'public',
+			)
+		);
+
+		$query          = new WP_Query();
+		$query->is_feed = true;
+
+		$filtered = $this->main->exclude_protected_posts_from_feeds( array( $cert, $template, $lesson, $quiz, $course, $public ), $query );
+		$this->assertSame( array( $course->ID, $public->ID ), wp_list_pluck( $filtered, 'ID' ) );
+
+		// Not a feed: untouched.
+		$query->is_feed = false;
+		$unfiltered     = $this->main->exclude_protected_posts_from_feeds( array( $cert, $template, $lesson, $quiz ), $query );
+		$this->assertCount( 4, $unfiltered );
+
+		// Sharing, ownership, and admin capabilities do not matter: feeds may be cached without a user key.
+		$query->is_feed = true;
+		$certificate    = new LLMS_User_Certificate( $cert->ID );
+		$certificate->set( 'allow_sharing', 'yes' );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query ) );
+
+		wp_set_current_user( $author );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert ), $query ) );
+
+		wp_set_current_user( $admin );
+		$this->assertSame( array(), $this->main->exclude_protected_posts_from_feeds( array( $cert, $template ), $query ) );
+
+		// Filterable.
+		$allow = function ( $types ) {
+			return array_diff( $types, array( 'llms_certificate' ) );
+		};
+		add_filter( 'llms_feed_excluded_post_types', $allow );
+		$this->assertSame( array( $template->ID ), wp_list_pluck( $this->main->exclude_protected_posts_from_feeds( array( $cert, $template ), $query ), 'ID' ) );
+		remove_filter( 'llms_feed_excluded_post_types', $allow );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * Awarded certificates the current user cannot view are omitted from oEmbed.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_unviewable_certificate_oembed_response() {
+
+		wp_set_current_user( 0 );
+
+		$author = $this->factory->user->create_and_get(
+			array(
+				'display_name' => 'Cert Owner',
+			)
+		);
+		$admin  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$cert   = $this->factory->post->create_and_get(
+			array(
+				'post_type'   => 'llms_my_certificate',
+				'post_author' => $author->ID,
+				'post_title'  => 'Cert Template Alpha',
+				'post_name'   => 'cert-template-alpha-0mt',
+			)
+		);
+		$public = $this->factory->post->create_and_get(
+			array(
+				'post_type'  => 'post',
+				'post_title' => 'Public Post',
+			)
+		);
+
+		$hidden = get_oembed_response_data( $cert->ID, 600 );
+		$this->assertFalse( $hidden );
+
+		$payload = array(
+			'author_name' => $author->display_name,
+			'title'       => $cert->post_title,
+			'html'        => get_permalink( $cert->ID ),
+		);
+		$this->assertFalse( $this->main->maybe_hide_certificate_oembed( $payload, $cert ) );
+		$this->assertFalse( $this->main->maybe_disable_certificate_embed( true, $cert ) );
+
+		$public_data = get_oembed_response_data( $public->ID, 600 );
+		$this->assertIsArray( $public_data );
+		$this->assertSame( 'Public Post', $public_data['title'] );
+		$this->assertSame( $public_data, $this->main->maybe_hide_certificate_oembed( $public_data, $public ) );
+
+		wp_set_current_user( $author->ID );
+		$owner_data = get_oembed_response_data( $cert->ID, 600 );
+		$this->assertIsArray( $owner_data );
+		$this->assertSame( 'Cert Owner', $owner_data['author_name'] );
+		$this->assertStringContainsString( $cert->post_name, $owner_data['html'] );
+
+		wp_set_current_user( $admin );
+		$this->assertIsArray( get_oembed_response_data( $cert->ID, 600 ) );
+
+		wp_set_current_user( 0 );
+		$certificate = new LLMS_User_Certificate( $cert->ID );
+		$certificate->set( 'allow_sharing', 'yes' );
+		$shared = get_oembed_response_data( $cert->ID, 600 );
+		$this->assertIsArray( $shared );
+		$this->assertSame( 'Cert Owner', $shared['author_name'] );
+		$this->assertSame( 'Cert Template Alpha', $shared['title'] );
+		$this->assertStringContainsString( $cert->post_name, $shared['html'] );
+
+		$certificate->set( 'allow_sharing', 'no' );
+		$this->assertFalse( get_oembed_response_data( $cert->ID, 600 ) );
+
+	}
+
+	/**
+	 * Canonical redirects do not send an awarded certificate the current user cannot view to its permalink.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @medium
+	 *
+	 * @return void
+	 */
+	public function test_unviewable_certificate_canonical_redirect() {
+
+		wp_set_current_user( 0 );
+		$this->set_permalink_structure( '/%postname%/' );
+
+		$author = $this->factory->user->create_and_get();
+		$cert   = $this->factory->post->create_and_get(
+			array(
+				'post_type'   => 'llms_my_certificate',
+				'post_author' => $author->ID,
+				'post_name'   => 'cert-template-alpha-0mt',
+			)
+		);
+		$public = $this->factory->post->create_and_get(
+			array(
+				'post_type' => 'post',
+				'post_name' => 'public-story',
+			)
+		);
+
+		$requested = home_url( '/?p=' . $cert->ID . '&post_type=llms_my_certificate' );
+		$this->go_to( $requested );
+		$this->assertTrue( is_404() );
+		$this->assertNull( redirect_canonical( $requested, false ) );
+
+		$by_id = home_url( '/?p=' . $cert->ID );
+		$this->go_to( $by_id );
+		$this->assertNull( redirect_canonical( $by_id, false ) );
+
+		$this->assertFalse( $this->main->maybe_prevent_certificate_canonical_redirect( get_permalink( $cert->ID ), home_url( '/' ) ) );
+
+		set_query_var( 'p', 0 );
+		set_query_var( 'page_id', $cert->ID );
+		$this->assertFalse( $this->main->maybe_prevent_certificate_canonical_redirect( home_url( '/elsewhere/' ), home_url( '/' ) ) );
+		set_query_var( 'page_id', 0 );
+
+		$public_request = home_url( '/?p=' . $public->ID );
+		$this->go_to( $public_request );
+		$public_redirect = redirect_canonical( $public_request, false );
+		$this->assertIsString( $public_redirect );
+		$this->assertStringContainsString( 'public-story', $public_redirect );
+
+		$certificate = new LLMS_User_Certificate( $cert->ID );
+		$certificate->set( 'allow_sharing', 'yes' );
+		$this->go_to( $requested );
+		$shared_redirect = redirect_canonical( $requested, false );
+		$this->assertIsString( $shared_redirect );
+		$this->assertStringContainsString( $cert->post_name, $shared_redirect );
+
+		wp_set_current_user( $author->ID );
+		$certificate->set( 'allow_sharing', 'no' );
+		$this->go_to( $requested );
+		$owner_redirect = redirect_canonical( $requested, false );
+		$this->assertIsString( $owner_redirect );
+		$this->assertStringContainsString( $cert->post_name, $owner_redirect );
+
+		wp_set_current_user( 0 );
+		$this->set_permalink_structure( '' );
 
 	}
 

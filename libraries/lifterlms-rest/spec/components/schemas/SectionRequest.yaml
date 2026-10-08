@@ -2,7 +2,6 @@ allOf:
   - type: object
     required:
       - title
-      - order
       - parent_id
     properties:
       title:

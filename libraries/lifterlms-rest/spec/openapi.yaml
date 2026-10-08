@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.8
+  version: 1.1.0
   title: LifterLMS REST API
   description: >-
     # Introduction
@@ -153,23 +153,16 @@ tags:
 
       There are four unique question types available via the LifterLMS Core:
 
-      + Multiple Choice
-      + Picture Choice
-      + True / False
-      + Content
+      + Multiple Choice (`choice`)
+      + Picture Choice (`picture_choice`)
+      + True / False (`true_false`)
+      + Content (`content`)
 
-      An additional eight question types are available with the LifterLMS Advanced Quizzes Add-on:
+      Additional question types (such as Fill in the Blank, Short Answer, Long Answer, File Upload, Code, and Scale) are registered by the LifterLMS Advanced Quizzes Add-on and are available through this API when that add-on is installed and activated on your site.
 
-      + Fill in the Blank
-      + Reorder Items
-      + Reorder Pictures
-      + Short Answer
-      + Long Answer
-      + File Upload
-      + Code
-      + Scale
+      ## Question Properties
 
-      While these additional question types are documented here, they are only available when the LifterLMS Advanced Quizzes Add-on is installed and activated on your site.
+      <SchemaDefinition schemaRef="#/components/schemas/QuizQuestionResponse" showReadOnly={true} showWriteOnly={true} />
 
   - name: Quizzes
     description: |
@@ -178,6 +171,46 @@ tags:
       ## Quiz Properties
 
       <SchemaDefinition schemaRef="#/components/schemas/QuizResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Quiz Attempts
+    description: |
+      Quiz attempts record a student's answers to a quiz and the resulting grade.
+
+      The quiz attempts API allows you to view, grade, and delete quiz attempts. Filter the list by `status=pending` to build a grading queue of attempts awaiting manual review. Answers which are uploaded files include the file URL, enabling programmatic (e.g. AI-assisted) review of submitted files.
+
+      ## Quiz Attempt Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/QuizAttempt" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Orders
+    description: |
+      Orders record the purchase of courses and memberships through access plans.
+
+      The orders API allows you to view orders and their payment transactions. Orders are read-only via the REST API: they are created through checkout and managed via the WordPress admin panel.
+
+      ## Order Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Order" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Certificates
+    description: |
+      Certificate templates define the design and content used when awarding certificates to students.
+
+      The certificates API allows you to create, view, update, and delete certificate templates.
+
+      ## Certificate Template Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/CertificateResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Awarded Certificates
+    description: |
+      Awarded certificates are certificates which have been awarded to students, either automatically via engagements or manually.
+
+      The awarded certificates API allows you to view, award, and revoke certificates.
+
+      ## Awarded Certificate Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AwardedCertificate" showReadOnly={true} showWriteOnly={true} />
 
   - name: Sections
     description: |
@@ -229,6 +262,16 @@ tags:
 
       <SchemaDefinition schemaRef="#/components/schemas/Progress" showReadOnly={true} showWriteOnly={true} />
 
+  - name: Student Grades
+    description: |
+      The Student Grades API allows you to retrieve a student's grades for each course they are enrolled in, including the overall course grade and a per-lesson breakdown with lesson and quiz grades.
+
+      When the LifterLMS Assignments add-on is active, each lesson additionally includes an `assignment` grade block, and assignment grades are automatically factored into lesson and course grades.
+
+      ## Student Grades Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/StudentGrades" showReadOnly={true} showWriteOnly={true} />
+
   - name: Webhooks
     description: |
       Webhooks can be created to notify you about LMS-related events that happen on your site.
@@ -263,6 +306,25 @@ tags:
         + `membership.updated`
         + `membership.deleted`
         + `membership.restored`
+      + Access Plans
+        + `access_plan.created`
+        + `access_plan.updated`
+        + `access_plan.deleted`
+      + Orders
+        + `order.created`
+        + `order.updated`
+        + `order.deleted`
+        + `order.restored`
+      + Transactions
+        + `transaction.created`
+        + `transaction.updated`
+        + `transaction.deleted`
+      + Quiz Attempts
+        + `quiz-attempt.completed`
+        + `quiz-attempt.graded`
+      + Awarded Certificates
+        + `awarded-certificate.created`
+        + `awarded-certificate.updated`
       + Students
         + `student.created`
         + `student.updated`
@@ -399,6 +461,47 @@ tags:
 
       <SchemaDefinition schemaRef="#/components/schemas/GroupSeat" showReadOnly={true} showWriteOnly={true} />
 
+  - name: Assignments
+    description: |
+
+      Assignments are gradable course content attached to lessons. The assignments API allows you to create, view, update, and delete assignments.
+
+      The lesson association can also be managed through the lesson's `assignment` object when the add-on is active.
+
+      ## Requirements
+
+      The assignments API is only available through the [LifterLMS Assignments advanced add-on](https://lifterlms.com/product/lifterlms-assignments/). This plugin must be installed and activated in order to utilize the Assignments API.
+
+      ## Assignment Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AssignmentResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Assignment Submissions
+    description: |
+
+      The assignment submissions API allows you to list and retrieve student submissions and grade them (including leaving remarks without a grade for an AI-assisted first pass).
+
+      ## Requirements
+
+      The assignment submissions API is only available through the [LifterLMS Assignments advanced add-on](https://lifterlms.com/product/lifterlms-assignments/). This plugin must be installed and activated in order to utilize the Assignment Submissions API.
+
+      ## Assignment Submission Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AssignmentSubmission" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Events
+    description: |
+
+      Scheduled events can be associated with courses, memberships, or lessons so enrolled students can see them. The events API allows you to create, view, update, and delete scheduled events.
+
+      ## Requirements
+
+      The events API is only available through the [LifterLMS Events advanced add-on](https://lifterlms.com/product/events/). This plugin must be installed and activated in order to utilize the Events API.
+
+      ## Event Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/EventResponse" showReadOnly={true} showWriteOnly={true} />
+
 x-tagGroups:
 
   - name: API Keys
@@ -414,6 +517,12 @@ x-tagGroups:
   - name: E-Commerce
     tags:
       - Access Plans
+      - Orders
+
+  - name: Engagements
+    tags:
+      - Certificates
+      - Awarded Certificates
 
   - name: Instructors
     tags:
@@ -423,18 +532,18 @@ x-tagGroups:
     tags:
       - Memberships
 
-  # @todo: Implement.
-  # - name: Quizzes
-  #   tags:
-  #     - Quizzes
-  #     - Quiz Questions
-  #     - Quiz Attempts
+  - name: Quizzes
+    tags:
+      - Quizzes
+      - Quiz Questions
+      - Quiz Attempts
 
   - name: Students
     tags:
       - Students
       - Student Enrollments
       - Student Progress
+      - Student Grades
 
   - name: Webhooks
     tags:
@@ -447,4 +556,7 @@ x-tagGroups:
       - Group Invitations
       - Group Members
       - Group Seats
+      - Assignments
+      - Assignment Submissions
+      - Events
 

@@ -65,7 +65,7 @@ class Banner_Notifications_Unit_Test_Case_Base extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the test case.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */

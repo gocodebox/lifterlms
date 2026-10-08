@@ -53,7 +53,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		);
 
 		return $desc;
-
 	}
 
 	/**
@@ -92,11 +91,10 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		$orders = wp_cache_get( $this->id, 'llms_tool_data' );
 		if ( ! $orders ) {
 			$orders = wp_list_pluck( $this->query_orders(), 'ID' );
-			wp_cache_set( $this->id, $orders, 'llms_tool_data' );
+			wp_cache_set( $this->id, $orders, 'llms_tool_data', HOUR_IN_SECONDS );
 		}
 
 		return $orders;
-
 	}
 
 	/**
@@ -132,7 +130,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		wp_cache_delete( sprintf( '%s-total-results', $this->id ), 'llms_tool_data' );
 
 		return $orders;
-
 	}
 
 	/**
@@ -163,7 +160,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			    AND m.meta_value IS NULL";
 
 		$total = $wpdb->get_var( "SELECT COUNT(*) {$from_joins_where}" ); // no-cache ok.
-		wp_cache_set( sprintf( '%s-total-results', $this->id ), $total, 'llms_tool_data' );
+		wp_cache_set( sprintf( '%s-total-results', $this->id ), $total, 'llms_tool_data', HOUR_IN_SECONDS );
 
 		$orders = $wpdb->get_results(
 			"SELECT p.ID
@@ -174,7 +171,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		); // no-cache ok -- Caching implemented in `get_orders()`.
 
 		return $orders;
-
 	}
 
 	/**
@@ -189,7 +185,6 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	protected function should_load() {
 		return count( $this->get_orders() ) > 0;
 	}
-
 }
 
 return new LLMS_Admin_Tool_Recurring_Payment_Rescheduler();

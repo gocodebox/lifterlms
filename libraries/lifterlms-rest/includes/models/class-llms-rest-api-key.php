@@ -90,7 +90,7 @@ class LLMS_REST_API_Key extends LLMS_Abstract_Database_Store {
 		return add_query_arg(
 			array(
 				'revoke-key'       => $this->get( 'id' ),
-				'key-revoke-nonce' => wp_create_nonce( 'revoke' ),
+				'key-revoke-nonce' => wp_create_nonce( 'revoke-' . $this->get( 'id' ) ),
 			),
 			LLMS_REST_API()->keys()->get_admin_url()
 		);

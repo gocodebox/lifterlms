@@ -150,13 +150,13 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 
 		// Print button.
 		$this->assertOutputContains(
-			'<button class="llms-button-secondary" type="submit" name="llms_generate_cert">',
+			'<button class="llms-button-secondary wp-element-button" type="submit" name="llms_generate_cert">',
 			'llms_certificate_actions', array( $cert )
 		);
 
 		// Sharing button.
 		$this->assertOutputContains(
-			'<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing"',
+			'<button class="llms-button-secondary wp-element-button" type="submit" name="llms_enable_cert_sharing"',
 			'llms_certificate_actions', array( $cert )
 		);
 
@@ -192,13 +192,13 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 
 		// Print button.
 		$this->assertOutputContains(
-			'<button class="llms-button-secondary" type="submit" name="llms_generate_cert">',
+			'<button class="llms-button-secondary wp-element-button" type="submit" name="llms_generate_cert">',
 			'llms_certificate_actions', array( $cert )
 		);
 
 		// Sharing button.
 		$this->assertOutputNotContains(
-			'<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing"',
+			'<button class="llms-button-secondary wp-element-button" type="submit" name="llms_enable_cert_sharing"',
 			'llms_certificate_actions', array( $cert )
 		);
 

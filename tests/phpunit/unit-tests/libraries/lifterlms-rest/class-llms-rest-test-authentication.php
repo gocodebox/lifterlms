@@ -23,13 +23,18 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * Resets superglobal state modified by these tests so it doesn't leak into other tests in the suite.
 	 *
-	 * @since [version]
+	 * @since 10.1.0
 	 *
 	 * @return void
 	 */
 	public function tear_down() {
 
 		unset( $_SERVER['HTTPS'], $_SERVER['REQUEST_URI'], $_SERVER['HTTP_X_LLMS_CONSUMER_KEY'], $_SERVER['HTTP_X_LLMS_CONSUMER_SECRET'] );
+		unset( $_POST['rest_route'], $_GET['rest_route'] );
+
+		if ( isset( $GLOBALS['wp'] ) ) {
+			unset( $GLOBALS['wp']->query_vars['rest_route'] );
+		}
 
 		parent::tear_down();
 
@@ -224,6 +229,12 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 			// Subdirectory install and plain-permalink routes still match.
 			'https://example.com/blog/wp-json/llms/v1/mock' => true,
 			'https://example.com/?rest_route=/llms/v1/courses' => true,
+
+			// A `rest_route` argument determines what WordPress serves, so it must determine authentication too.
+			'https://example.com/wp-json/llms/x?rest_route=/wp/v2/users' => false,
+			'https://example.com/wp-json/llms/v1/courses?rest_route=/wp/v2/users&context=edit' => false,
+			'https://example.com/index.php/wp-json/llms/x?rest_route=/wp/v2/users' => false,
+			'https://example.com/wp-json/wp/v2/users?rest_route=/llms/v1/courses' => true,
 		);
 
 		foreach ( $tests as $uri => $expect ) {
@@ -233,6 +244,85 @@ class LLMS_REST_Test_Authentication extends LLMS_REST_Unit_Test_Case_Base {
 
 		}
 
+
+	}
+
+	/**
+	 * Test is_rest_request() with a `rest_route` POST argument.
+	 *
+	 * `WP::parse_request()` reads public query vars from `$_POST` before `$_GET`, so a POSTed
+	 * `rest_route` determines the served route even when the path looks like a LifterLMS route.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_is_rest_request_post_rest_route() {
+
+		$_SERVER['REQUEST_URI'] = 'https://example.com/wp-json/llms/v1/courses';
+		$_POST['rest_route']    = '/wp/v2/users';
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->auth, 'is_rest_request' ) );
+
+		$_SERVER['REQUEST_URI'] = 'https://example.com/wp-json/wp/v2/users';
+		$_POST['rest_route']    = '/llms/v1/courses';
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->auth, 'is_rest_request' ) );
+
+		// Present but unusable: fail closed rather than falling through to the path.
+		$_SERVER['REQUEST_URI'] = 'https://example.com/wp-json/llms/v1/courses';
+		$_POST['rest_route']    = array( '/llms/v1/courses' );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->auth, 'is_rest_request' ) );
+
+		unset( $_POST['rest_route'] );
+
+	}
+
+	/**
+	 * Test check_permissions() rejects key-authenticated requests served outside the LifterLMS namespaces.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_check_permissions_route_scope() {
+
+		// Re-fetch so the object matches a key loaded during authentication (no one-time key field).
+		$key = LLMS_REST_API()->keys()->get( $this->get_mock_api_key( 'read', null, false )->get( 'id' ) );
+		LLMS_Unit_Test_Util::set_private_property( $this->auth, 'api_key', $key );
+
+		$server      = rest_get_server();
+		$last_access = $key->get( 'last_access' );
+
+		// Top-level request to a core route with key credentials: rejected, last access untouched.
+		$GLOBALS['wp']->query_vars['rest_route'] = '/wp/v2/users';
+
+		$result = $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/wp/v2/users' ) );
+		$this->assertIsWPError( $result );
+		$this->assertEquals( $last_access, $key->get( 'last_access' ) );
+
+		// Top-level LifterLMS route: passes the route check, method scope unchanged.
+		$GLOBALS['wp']->query_vars['rest_route'] = '/llms/v1/courses';
+
+		$this->assertNull( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/llms/v1/courses' ) ) );
+		$this->assertIsWPError( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'POST', '/llms/v1/courses' ) ) );
+
+		// Internal sub-request to a core route while serving a LifterLMS route: not rejected.
+		$GLOBALS['wp']->query_vars['rest_route'] = '/llms/v1/api-keys';
+
+		$this->assertNull( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/wp/v2/users/1' ) ) );
+
+		// No top-level route available: fall back to the dispatched request's route.
+		unset( $GLOBALS['wp']->query_vars['rest_route'] );
+
+		$this->assertIsWPError( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/wp/v2/users' ) ) );
+		$this->assertNull( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/llms/v1/courses' ) ) );
+
+		// Third parties may widen the namespace via the existing filter.
+		$this->assertIsWPError( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/my-plugin/v1/thing' ) ) );
+		add_filter( 'llms_is_rest_request', '__return_true' );
+		$this->assertNull( $this->auth->check_permissions( null, $server, new WP_REST_Request( 'GET', '/my-plugin/v1/thing' ) ) );
+		remove_filter( 'llms_is_rest_request', '__return_true' );
+
+		LLMS_Unit_Test_Util::set_private_property( $this->auth, 'api_key', null );
 
 	}
 
