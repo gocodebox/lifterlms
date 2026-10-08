@@ -33,6 +33,19 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 	}
 
 	/**
+	 * Read post_modified straight from the posts table.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string|null
+	 */
+	private function get_post_modified( $post_id ) {
+		global $wpdb;
+		return $wpdb->get_var( $wpdb->prepare( "SELECT post_modified FROM {$wpdb->posts} WHERE ID = %d", $post_id ) );
+	}
+
+	/**
 	 * Test the add_template_to_post() and remove_template_from_post() methods.
 	 *
 	 * @since 1.4.0
@@ -250,6 +263,127 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 		update_post_meta( $id, '_llms_blocks_migrated', 'yes' );
 		$this->assertFalse( $class->should_migrate_post( $id ) );
 
+	}
+
+	/**
+	 * migrate_post() writes only when the current user can edit that post.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_migrate_post_requires_edit_cap() {
+
+		global $pagenow;
+
+		$previous_pagenow = $pagenow;
+		$pagenow          = 'post.php';
+
+		$this->update_classic_settings(
+			array(
+				'editor'      => 'block',
+				'allow-users' => false,
+			)
+		);
+
+		$migrate    = new LLMS_Blocks_Migrate();
+		$author     = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$other      = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$subscriber = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		$types = array(
+			'course'          => 'Original instructor content only.',
+			'lesson'          => 'Original lesson body.',
+			'llms_membership' => 'Original llms_membership body.',
+		);
+
+		foreach ( $types as $type => $content ) {
+			$post_id = $this->factory->post->create(
+				array(
+					'post_type'    => $type,
+					'post_status'  => 'publish',
+					'post_author'  => $author,
+					'post_content' => $content,
+				)
+			);
+
+			$modified_before  = $this->get_post_modified( $post_id );
+			$revisions_before = count( wp_get_post_revisions( $post_id ) );
+
+			foreach ( array( 0, $subscriber, $other ) as $user_id ) {
+				wp_set_current_user( $user_id );
+				$_GET['post'] = $post_id;
+
+				$this->assertFalse( current_user_can( 'edit_post', $post_id ) );
+				$this->assertFalse( $this->migrate_and_catch_redirect( $migrate ) );
+				$this->assertSame( $content, $this->get_post_content( $post_id ) );
+				$this->assertSame( '', get_post_meta( $post_id, '_llms_blocks_migrated', true ) );
+			}
+
+			wp_set_current_user( $author );
+			$_GET['post'] = $post_id;
+
+			$this->assertTrue( current_user_can( 'edit_post', $post_id ) );
+			$this->assertTrue( $this->migrate_and_catch_redirect( $migrate ) );
+
+			$updated = $this->get_post_content( $post_id );
+			$this->assertStringStartsWith( $content, $updated );
+			$this->assertStringContainsString( '<!-- wp:llms/', $updated );
+			$this->assertSame( $updated, get_post( $post_id )->post_content );
+			$this->assertSame( 'yes', get_post_meta( $post_id, '_llms_blocks_migrated', true ) );
+			$this->assertSame( $modified_before, $this->get_post_modified( $post_id ) );
+			$this->assertCount( $revisions_before, wp_get_post_revisions( $post_id ) );
+		}
+
+		$untouched = $this->factory->post->create(
+			array(
+				'post_type'    => 'course',
+				'post_status'  => 'publish',
+				'post_author'  => $author,
+				'post_content' => 'Leave this alone.',
+			)
+		);
+		$pagenow      = 'index.php';
+		$_GET['post'] = $untouched;
+		wp_set_current_user( $author );
+
+		$this->assertFalse( $this->migrate_and_catch_redirect( $migrate ) );
+		$this->assertSame( 'Leave this alone.', $this->get_post_content( $untouched ) );
+		$this->assertSame( '', get_post_meta( $untouched, '_llms_blocks_migrated', true ) );
+
+		unset( $_GET['post'] );
+		$pagenow = $previous_pagenow;
+	}
+
+	/**
+	 * Run migrate_post() and report whether it tried to redirect.
+	 *
+	 * The success path calls exit() after wp_safe_redirect(). The redirect filter
+	 * throws before that exit so the process stays alive.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param LLMS_Blocks_Migrate $migrate Migrator.
+	 * @return bool
+	 */
+	private function migrate_and_catch_redirect( $migrate ) {
+
+		$callback = function () {
+			throw new LLMS_Unit_Test_Exception_Exit( 'redirect' );
+		};
+
+		add_filter( 'wp_redirect', $callback, 0 );
+
+		$redirected = false;
+		try {
+			$migrate->migrate_post();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			$redirected = ( 'redirect' === $exception->getMessage() );
+		}
+
+		remove_filter( 'wp_redirect', $callback, 0 );
+
+		return $redirected;
 	}
 
 }
