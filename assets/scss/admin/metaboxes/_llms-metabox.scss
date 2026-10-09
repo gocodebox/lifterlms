@@ -147,14 +147,6 @@
 
 		}
 
-		.select2-container--default .select2-search--inline .select2-search__field {
-			min-height: auto;
-		}
-
-		.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-			margin-bottom: 0;
-		}
-
 	}
 
 	/* Fixes to tighten the space between tinymce editor and label */
@@ -167,6 +159,20 @@
 		margin-top: -30px;
 	}
 
+}
+
+// Keep multiple select2 boxes at single-select height when empty, in both the
+// new (.llms-metabox-field) and legacy (.llms-mb-list) metabox markup.
+.llms-metabox-section .llms-metabox-field,
+.llms-mb-container .llms-mb-list {
+
+	.select2-container--default .select2-search--inline .select2-search__field {
+		min-height: auto;
+	}
+
+	.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+		margin-bottom: 0;
+	}
 }
 
 .llms-collapsible {
