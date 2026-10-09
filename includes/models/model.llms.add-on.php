@@ -358,6 +358,24 @@ class LLMS_Add_On {
 	}
 
 	/**
+	 * URL for the WordPress screen where this add-on is updated.
+	 *
+	 * The Plugins screen is not searched by add-on title. Catalog titles do not always match the plugin name.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_update_screen_url() {
+
+		if ( 'theme' === $this->get_type() ) {
+			return admin_url( 'themes.php' );
+		}
+
+		return admin_url( 'plugins.php' );
+	}
+
+	/**
 	 * Determine if an installable addon is active
 	 *
 	 * @since 3.22.0
