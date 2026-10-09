@@ -3,6 +3,15 @@
 //
 
 @import "_includes/vars";
+
+// :where() keeps specificity at zero so theme and custom CSS overrides win
+// no matter which stylesheet loads first.
+:where(:root) {
+	@each $name, $value in llms-css-vars() {
+		--llms-#{$name}: #{$value};
+	}
+}
+
 @import "_includes/extends";
 @import "_includes/grid";
 @import "_includes/mixins";

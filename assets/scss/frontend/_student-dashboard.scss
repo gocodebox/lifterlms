@@ -83,7 +83,7 @@
 	}
 
 	.orders-table {
-		border: 1px solid $color-border;
+		border: 1px solid llms-var( color-border );
 		border-spacing: 0;
 		width: 100%;
 		margin: 10px 0;
@@ -125,7 +125,7 @@
 		}
 
 		th, td {
-			border-color: $color-border;
+			border-color: llms-var( color-border );
 			border-style: solid;
 			border-width: 0;
 			display: block;
@@ -216,8 +216,8 @@
 	 */
 	&.dashboard {
 		.llms-sd-section {
-			border: 1px solid $color-border;
-			border-radius: $radius-small;
+			border: 1px solid llms-var( color-border );
+			border-radius: llms-var( border-radius-small );
 			padding: 20px;
 			margin-bottom: 40px;
 		}
@@ -376,9 +376,9 @@
 
 	.llms-sd-widget {
 		background: $color-white;
-		border: 1px solid $color-border;
-		border-bottom-right-radius: $radius-small;
-		border-bottom-left-radius: $radius-small;
+		border: 1px solid llms-var( color-border );
+		border-bottom-right-radius: llms-var( border-radius-small );
+		border-bottom-left-radius: llms-var( border-radius-small );
 		flex: 1;
 		margin: 10px 10px 20px;
 		padding: 0 0 20px;
@@ -390,7 +390,7 @@
 		}
 
 		.llms-sd-widget-title {
-			background: $color-brand-blue;
+			background: llms-var( color-primary );
 			color: #fff;
 			font-size: 18px;
 			line-height: 1;
@@ -452,7 +452,7 @@
 			background-color: $color-white;
 			background-clip: padding-box;
 			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border-radius: llms-var( border-radius-small );
 			box-sizing: border-box;
 			font-size: 16px;
 			line-height: 1;
@@ -476,8 +476,8 @@
 
 .llms-sd-notification-center {
 	background: $color-white;
-	border: 1px solid $color-border;
-	border-radius: $radius-small;
+	border: 1px solid llms-var( color-border );
+	border-radius: llms-var( border-radius-small );
 	padding: 20px;
 
 	.llms-notification-list-item {

@@ -7,16 +7,16 @@
 		margin: 40px 0 10px;
 
 		+ .llms-lesson-preview {
-			border-top: 1px solid $color-border;
+			border-top: 1px solid llms-var( color-border );
 		}
 	}
 
 }
 
 .llms-lesson-preview {
-	border-right: 1px solid $color-border;
-	border-bottom: 1px solid $color-border;
-	border-left: 1px solid $color-border;
+	border-right: 1px solid llms-var( color-border );
+	border-bottom: 1px solid llms-var( color-border );
+	border-left: 1px solid llms-var( color-border );
 	display: block;
 	margin: 0;
 	max-width: 100%;
@@ -131,7 +131,7 @@
 	&.is-free,
 	&.is-complete {
 		.llms-lesson-complete {
-			color: $color-brand-blue;
+			color: llms-var( color-primary );
 		}
 	}
 
@@ -142,8 +142,8 @@
 	}
 
 	.llms-icon-free {
-		background: $color-brand-blue;
-		border-radius: $radius-small;
+		background: llms-var( color-primary );
+		border-radius: llms-var( border-radius-small );
 		color: $color-white;
 		display: inline-block;
 		font-size: 14px;
@@ -196,7 +196,7 @@
 	}
 
 	.llms-lesson-preview {
-		border: 1px solid $color-border;
+		border: 1px solid llms-var( color-border );
 	}
 
 	.llms-lesson-link {

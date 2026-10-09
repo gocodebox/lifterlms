@@ -22,7 +22,7 @@
 		section {
 			background-color: $color-white;
 			border: 1px solid $color-lightgrey;
-			border-radius: $radius-medium;
+			border-radius: llms-var( border-radius-medium );
 			padding: 20px;
 
 			.llms-form-heading {
@@ -94,7 +94,7 @@
 			}
 
 			.llms-coupon-wrapper {
-				border-top: 1px solid $color-border;
+				border-top: 1px solid llms-var( color-border );
 				margin-top: 20px;
 				padding-top: 20px;
 
@@ -139,7 +139,7 @@
 			list-style-type: none;
 
 			li:last-child:after {
-				border-bottom: 1px solid $color-border;
+				border-bottom: 1px solid llms-var( color-border );
 				content: '';
 				display: block;
 				margin: 20px 0;

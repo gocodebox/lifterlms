@@ -18,7 +18,7 @@
 }
 
 .llms-progress .progress-bar-complete {
-	background-color: $color-brand-pink;
+	background-color: llms-var( color-accent );
 	height: 100%;
 }
 

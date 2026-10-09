@@ -7,7 +7,7 @@
 
 	.llms-quiz-attempt-question {
 		background: #efefef;
-		border-radius: $radius-small;
+		border-radius: llms-var( border-radius-small );
 		margin: 0 0 15px;
 		position: relative;
 		list-style-type: none;
@@ -61,20 +61,20 @@
 		&.status--waiting.incorrect {
 			background: color.change( $color-orange, $alpha: 0.2 );
 			.llms-status-icon {
-				background-color: $color-orange;
+				background-color: llms-var( color-warning );
 			}
 		}
 
 		&.status--graded.correct {
 			background: color.change( $color-green, $alpha: 0.15 );
 			.llms-status-icon {
-				background-color: $color-green;
+				background-color: llms-var( color-success );
 			}
 		}
 		&.status--graded.incorrect {
 			background: color.change( $color-red, $alpha: 0.15 );
 			.llms-status-icon {
-				background-color: $color-red;
+				background-color: llms-var( color-danger );
 			}
 		}
 		pre {

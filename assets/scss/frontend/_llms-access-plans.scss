@@ -31,9 +31,9 @@
 	&.featured {
 
 		.llms-access-plan-featured {
-			background: $color-brand-blue;
-			border-top-left-radius: $radius-small;
-			border-top-right-radius: $radius-small;
+			background: llms-var( color-primary );
+			border-top-left-radius: llms-var( border-radius-small );
+			border-top-right-radius: llms-var( border-radius-small );
 		}
 
 		.llms-access-plan-content {
@@ -47,12 +47,12 @@
 
 		.llms-access-plan-footer,
 		.llms-access-plan-content {
-			border-left: 3px solid $color-brand-blue;
-			border-right: 3px solid $color-brand-blue;
+			border-left: 3px solid llms-var( color-primary );
+			border-right: 3px solid llms-var( color-primary );
 		}
 
 		.llms-access-plan-footer {
-			border-bottom-color: $color-brand-blue;
+			border-bottom-color: llms-var( color-primary );
 		}
 
 	}
@@ -67,8 +67,8 @@
 	}
 
 	.stamp {
-		background: $color-brand-blue;
-		border-radius: $radius-small;
+		background: llms-var( color-primary );
+		border-radius: llms-var( border-radius-small );
 		color: $color-white;
 		display: inline-block;
 		font-size: 14px;
@@ -89,8 +89,8 @@
 }
 
 .llms-access-plan-content {
-	border-top-right-radius: $radius-small;
-	border-top-left-radius: $radius-small;
+	border-top-right-radius: llms-var( border-radius-small );
+	border-top-left-radius: llms-var( border-radius-small );
 	margin: 0 2px 0;
 	overflow: hidden;
 
@@ -105,7 +105,7 @@
 }
 
 .llms-access-plan-title {
-	background: $color-brand-blue;
+	background: llms-var( color-primary );
 	color: $color-white;
 	margin: 0;
 	padding: 10px 15px;
@@ -181,17 +181,17 @@
 	}
 
 	a {
-		color: $color-orange;
+		color: llms-var( color-action );
 		&:hover {
-			color: $color-brand-orange-dark;
+			color: llms-var( color-action-hover );
 		}
 	}
 }
 
 .llms-access-plan-footer {
 	border-bottom: 3px solid #f1f1f1;
-	border-bottom-left-radius: $radius-small;
-	border-bottom-right-radius: $radius-small;
+	border-bottom-left-radius: llms-var( border-radius-small );
+	border-bottom-right-radius: llms-var( border-radius-small );
 	padding: 15px;
 	margin: 0 2px 2px 2px;
 
