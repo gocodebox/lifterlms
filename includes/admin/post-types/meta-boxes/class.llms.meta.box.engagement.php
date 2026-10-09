@@ -81,14 +81,14 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'days_since_login',
 				),
 				'id'               => '_faux_engagement_trigger_post_course',
-				'label'            => __( 'Select Course(s)', 'lifterlms' ),
+				'label'            => __( 'Select a Course', 'lifterlms' ),
 				'placeholder'      => __( 'Any Course', 'lifterlms' ),
 			),
 
 			'lesson'           => array(
 				'controller_value' => array( 'lesson_completed' ),
 				'id'               => '_faux_engagement_trigger_post_lesson',
-				'label'            => __( 'Select Lesson(s)', 'lifterlms' ),
+				'label'            => __( 'Select a Lesson', 'lifterlms' ),
 				'placeholder'      => __( 'Any Lesson', 'lifterlms' ),
 			),
 
@@ -97,7 +97,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'access_plan_purchased',
 				),
 				'id'               => '_faux_engagement_trigger_post_access_plan',
-				'label'            => __( 'Select Access Plan(s)', 'lifterlms' ),
+				'label'            => __( 'Select an Access Plan', 'lifterlms' ),
 				'placeholder'      => __( 'Any Access Plan', 'lifterlms' ),
 			),
 
@@ -113,7 +113,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'days_since_login',
 				),
 				'id'               => '_faux_engagement_trigger_post_membership',
-				'label'            => __( 'Select Membership(s)', 'lifterlms' ),
+				'label'            => __( 'Select a Membership', 'lifterlms' ),
 				'placeholder'      => __( 'Any Membership', 'lifterlms' ),
 			),
 
@@ -126,36 +126,29 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'quiz_attempt_abandoned',
 				),
 				'id'               => '_faux_engagement_trigger_post_quiz',
-				'label'            => __( 'Select Quizzes', 'lifterlms' ),
+				'label'            => __( 'Select a Quiz', 'lifterlms' ),
 				'placeholder'      => __( 'Any Quiz', 'lifterlms' ),
 			),
 
 			'section'          => array(
 				'controller_value' => array( 'section_completed' ),
 				'id'               => '_faux_engagement_trigger_post_section',
-				'label'            => __( 'Select Section(s)', 'lifterlms' ),
+				'label'            => __( 'Select a Section', 'lifterlms' ),
 				'placeholder'      => __( 'Any Section', 'lifterlms' ),
 			),
 
 		);
 
-		$trigger_post_vals = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', false );
-		$is_any            = empty( $trigger_post_vals ) || ( 1 === count( $trigger_post_vals ) && 'any' === reset( $trigger_post_vals ) );
-		$saved_ids         = $is_any ? array() : array_values( array_filter( array_map( 'absint', (array) $trigger_post_vals ) ) );
-		$saved_type        = $saved_ids ? get_post_type( $saved_ids[0] ) : '';
-		$trigger_type      = get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true );
-
 		foreach ( $trigger_post_fields as $post_type => $data ) {
 
 			$data['controller_value'] = apply_filters( 'llms_engagement_controller_values_' . $post_type, $data['controller_value'] );
 
-			// days_since_login and the order triggers show both the course and membership pickers.
-			// Only the picker matching the saved post type gets the current selection.
-			if ( $saved_ids && $saved_type === $post_type && in_array( $trigger_type, $data['controller_value'], true ) ) {
-				$ids = $saved_ids;
-				$val = llms_make_select2_post_array( $ids );
+			$trigger_post_val = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true );
+			if ( 'any' === $trigger_post_val || empty( $trigger_post_val ) ) {
+				$val = array();
+			} elseif ( in_array( get_post_meta( $this->post->ID, $this->prefix . 'trigger_type', true ), $data['controller_value'] ) ) {
+				$val = llms_make_select2_post_array( array( $trigger_post_val ) );
 			} else {
-				$ids = array();
 				$val = array();
 			}
 
@@ -171,11 +164,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 					'placeholder' => $placeholder,
 					'post-type'   => $post_type,
 				),
-				'desc'             => __( 'Leave blank to apply to all. Select multiple to limit.', 'lifterlms' ),
+				'desc'             => __( 'Leave blank to apply to all.', 'lifterlms' ),
 				'id'               => $data['id'],
 				'label'            => $data['label'],
-				'multi'            => true,
-				'selected'         => $ids,
 				'type'             => 'select',
 				'value'            => $val,
 			);
@@ -196,21 +187,22 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			);
 		}
 
-		$track_types    = apply_filters( 'llms_engagement_controller_values_track', array( 'course_track_completed' ) );
-		$track_selected = ( $saved_ids && in_array( $trigger_type, $track_types, true ) ) ? $saved_ids : array();
+		$track_selected = get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true );
+		if ( 'any' === $track_selected ) {
+			$track_selected = '';
+		}
 
 		$fields[] = array(
-			'allow_null'       => false,
+			'allow_null'       => true,
 			'class'            => 'llms-select2',
 			'controller'       => '#' . $this->prefix . 'trigger_type',
-			'controller_value' => implode( ',', $track_types ),
+			'controller_value' => implode( ',', apply_filters( 'llms_engagement_controller_values_track', array( 'course_track_completed' ) ) ),
 			'data_attributes'  => array(
 				'allow_clear' => true,
 				'placeholder' => __( 'Any Course Track', 'lifterlms' ),
 			),
 			'id'               => '_faux_engagement_trigger_post_track',
-			'label'            => __( 'Select Course Track(s)', 'lifterlms' ),
-			'multi'            => true,
+			'label'            => __( 'Select a Course Track', 'lifterlms' ),
 			'type'             => 'select',
 			'selected'         => $track_selected,
 			'value'            => $track_options,
@@ -477,13 +469,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}
 
 		// Locate and store the trigger post id.
-		$type       = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type' );
-		$posted_ids = array();
-		foreach ( array( 'course', 'lesson', 'access_plan', 'membership', 'quiz', 'section', 'track' ) as $suffix ) {
-			$key = '_faux_engagement_trigger_post_' . $suffix;
-			// filter_input() cannot read these: a multi-select is posted as an array.
-			$posted_ids[ $suffix ] = isset( $_POST[ $key ] ) ? array_values( array_filter( wp_parse_id_list( wp_unslash( $_POST[ $key ] ) ) ) ) : array();
-		}
+		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type' );
 		switch ( $type ) {
 
 			case 'access_plan_purchased':
@@ -530,12 +516,12 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				$var = 'track';
 				break;
 
-			// These triggers can be scoped to either a course or a membership. A course selection wins.
+			// These triggers can be scoped to either a course or a membership.
 			case 'order_failed':
 			case 'order_refunded':
 			case 'order_cancelled':
 			case 'days_since_login':
-				$var = $posted_ids['course'] ? 'course' : 'membership';
+				$var = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_course' ) ? 'course' : 'membership';
 				break;
 
 			default:
@@ -551,23 +537,23 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				 * @param string       $type The engagement trigger type slug.
 				 */
 				$var = apply_filters( 'llms_engagement_trigger_post_field', false, $type );
-				if ( $var && ! isset( $posted_ids[ $var ] ) ) {
-					$key                = '_faux_engagement_trigger_post_' . $var;
-					$posted_ids[ $var ] = isset( $_POST[ $key ] ) ? array_values( array_filter( wp_parse_id_list( wp_unslash( $_POST[ $key ] ) ) ) ) : array();
-				}
+
 		}
 
-		$ids = ( $var && isset( $posted_ids[ $var ] ) ) ? $posted_ids[ $var ] : array();
+		if ( $var ) {
 
-		// One row per ID so the trigger lookup stays an equality match. No selection means every post of this type.
-		delete_post_meta( $post_id, $this->prefix . 'engagement_trigger_post' );
+			$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
 
-		if ( $ids ) {
-			foreach ( $ids as $id ) {
-				add_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $id );
+			// An empty trigger post means "any" — store explicitly so the intent is clear.
+			if ( empty( $val ) ) {
+				$val = 'any';
 			}
 		} else {
-			add_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $var ? 'any' : '' );
+
+			$val = '';
+
 		}
+
+		update_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $val );
 	}
 }
