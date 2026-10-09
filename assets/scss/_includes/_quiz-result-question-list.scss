@@ -125,16 +125,16 @@
 				padding: 0;
 			}
 
+			.llms-quiz-attempt-answer {
+				margin: 0;
+				padding: 0;
+			}
+
 			ul.llms-quiz-attempt-answers {
 				margin: 0;
 				padding: 0;
 				li.llms-quiz-attempt-answer {
-					padding: 0;
 					margin: 0 0 0 30px;
-					&:only-child {
-						list-style-type: none;
-						margin-left: 0;
-					}
 				}
 			}
 
@@ -158,17 +158,18 @@
 
 		&.type--picture_choice,
 		&.type--picture_reorder {
+			.llms-quiz-attempt-answer,
+			ul.llms-quiz-attempt-answers li.llms-quiz-attempt-answer {
+				display: inline-block;
+				list-style-type: none;
+				margin: 0;
+				padding: 5px;
+			}
+
 			ul.llms-quiz-attempt-answers {
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
-
-				li.llms-quiz-attempt-answer {
-					display: inline-block;
-					list-style-type: none;
-					margin: 0;
-					padding: 5px;
-				}
 			}
 		}
 

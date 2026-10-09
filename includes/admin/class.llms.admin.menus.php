@@ -129,7 +129,8 @@ class LLMS_Admin_Menus {
 
 			$order_menu  = 'edit.php?post_type=llms_order';
 			$order       = array(
-				'edit.php?post_type=llms_order',
+				'llms-orders-transactions',
+				'llms-subscriptions',
 				'llms-customers',
 				'edit.php?post_type=llms_coupon',
 				'edit.php?post_type=llms_voucher',
