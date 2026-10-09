@@ -346,6 +346,124 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_locate_template() still resolves a core template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_locate_template_core_template() {
+		$template = llms_locate_template( 'checkout/form-checkout.php' );
+
+		$this->assertNotEmpty( $template );
+		$this->assertFileExists( $template );
+		$this->assertStringEndsWith( 'templates/checkout/form-checkout.php', wp_normalize_path( $template ) );
+	}
+
+	/**
+	 * Test llms_locate_template() rejects names that leave the template directory.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_locate_template_rejects_path_escape() {
+		$root = $this->make_template_fixture();
+
+		$this->assertSame( '', llms_locate_template( '../secret.php', '', trailingslashit( $root['base'] ) ) );
+		$this->assertSame( '', llms_locate_template( '/etc/passwd' ) );
+		$this->assertSame( '', llms_locate_template( "php://filter/resource={$root['secret']}", '', trailingslashit( $root['base'] ) ) );
+		$this->assertNotEmpty( llms_locate_template( 'ok.php', '', trailingslashit( $root['base'] ) ) );
+
+		$this->remove_template_fixture( $root['root'] );
+	}
+
+	/**
+	 * Test llms_get_template() does not let args replace the template path.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_template_args_cannot_replace_path() {
+		$root = $this->make_template_fixture();
+
+		ob_start();
+		llms_get_template(
+			'ok.php',
+			array(
+				'marker'        => 'SAFE',
+				'template_name' => 'secret.php',
+				'default_path'  => trailingslashit( $root['root'] ),
+				'template_path' => trailingslashit( $root['root'] ),
+				'located'       => $root['secret'],
+			),
+			'',
+			trailingslashit( $root['base'] )
+		);
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'SAFE', $output );
+		$this->assertStringNotContainsString( 'SECRET', $output );
+
+		$this->remove_template_fixture( $root['root'] );
+	}
+
+	/**
+	 * Create a temporary template directory and a file outside it.
+	 *
+	 * @since [version]
+	 *
+	 * @return array{root:string,base:string,secret:string}
+	 */
+	private function make_template_fixture() {
+		$root = get_temp_dir() . 'llms-tpl-' . wp_generate_password( 8, false );
+		$base = $root . '/templates';
+		wp_mkdir_p( $base );
+		file_put_contents( $base . '/ok.php', '<?php echo $marker;' );
+		file_put_contents( $root . '/secret.php', '<?php echo "SECRET";' );
+
+		return array(
+			'root'   => $root,
+			'base'   => $base,
+			'secret' => $root . '/secret.php',
+		);
+	}
+
+	/**
+	 * Delete a temporary template fixture.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $dir Directory to delete.
+	 * @return void
+	 */
+	private function remove_template_fixture( $dir ) {
+		if ( ! is_dir( $dir ) ) {
+			return;
+		}
+
+		$items = scandir( $dir );
+		if ( ! is_array( $items ) ) {
+			return;
+		}
+
+		foreach ( $items as $item ) {
+			if ( '.' === $item || '..' === $item ) {
+				continue;
+			}
+			$path = $dir . '/' . $item;
+			if ( is_dir( $path ) ) {
+				$this->remove_template_fixture( $path );
+			} else {
+				unlink( $path );
+			}
+		}
+
+		rmdir( $dir );
+	}
+
+	/**
 	 * Creates a theme and override lifterlms template directory.
 	 *
 	 * @since 4.8.0

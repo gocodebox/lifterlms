@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version 7.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,8 +27,8 @@ function llms_get_template_part( $slug, $name = '' ) {
 	}
 
 	// Get default slug-name.php.
-	if ( ! $template && $name && file_exists( llms()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-		$template = llms()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	if ( ! $template && $name ) {
+		$template = llms_get_plugin_template_file( "{$slug}-{$name}.php" );
 	}
 
 	if ( ! $template ) {
@@ -70,8 +70,8 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 	}
 
 	// Get default slug-name.php.
-	if ( ! $template && $name && file_exists( llms()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-		$template = llms()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	if ( ! $template && $name ) {
+		$template = llms_get_plugin_template_file( "{$slug}-{$name}.php" );
 	}
 
 	if ( ! $template ) {
@@ -98,10 +98,7 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
  * @return void
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-	if ( $args && is_array( $args ) ) {
-		extract( $args );
-	}
-
+	// Resolve the file first. $args are variables for the template and must not replace the path.
 	$located = llms_locate_template( $template_name, $template_path, $default_path );
 
 	/**
@@ -116,7 +113,13 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	 */
 	do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
-	if ( file_exists( $located ) ) {
+	if ( $located && is_file( $located ) ) {
+		if ( $args && is_array( $args ) ) {
+			$template_args = $args;
+			unset( $template_args['template_name'], $template_args['template_path'], $template_args['default_path'], $template_args['located'], $template_args['args'] );
+			// EXTR_SKIP so these variables cannot replace the path parameters or $located.
+			extract( $template_args, EXTR_SKIP );
+		}
 		include $located;
 	}
 
@@ -163,18 +166,28 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 		$default_path = llms()->plugin_path() . '/templates/';
 	}
 
-	// Check theme and template directories for the template.
-	$override_path = llms_get_template_override( $template_name );
+	$template           = '';
+	$template_name_safe = llms_sanitize_template_name( $template_name );
 
-	// Get default template.
-	$path = ( $override_path ) ? $override_path : $default_path;
+	if ( $template_name_safe ) {
+		// Check theme and template directories for the template.
+		$override_path = llms_get_template_override( $template_name_safe );
 
-	$template = $path . $template_name;
+		// Get default template.
+		$path      = ( $override_path ) ? $override_path : $default_path;
+		$candidate = trailingslashit( $path ) . $template_name_safe;
+		$bases     = array_merge(
+			array(
+				$path,
+				$default_path,
+				llms()->plugin_path() . '/templates/',
+			),
+			llms_get_template_override_directories()
+		);
 
-	if ( ! file_exists( $template ) ) {
-
-		$template = '';
-
+		if ( llms_is_template_path_allowed( $candidate, $bases ) ) {
+			$template = $candidate;
+		}
 	}
 
 	/**
@@ -189,6 +202,91 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 	 * @param string $template_path Dir path to template.
 	 */
 	return apply_filters( 'lifterlms_locate_template', $template, $template_name, $template_path );
+}
+
+/**
+ * Get a plugin template file when it stays inside the plugin templates directory.
+ *
+ * @since [version]
+ *
+ * @param string $template_name Template name relative to the plugin templates directory.
+ * @return string Absolute path, or an empty string.
+ */
+function llms_get_plugin_template_file( $template_name ) {
+	$template_name = llms_sanitize_template_name( $template_name );
+	if ( ! $template_name ) {
+		return '';
+	}
+
+	$base      = llms()->plugin_path() . '/templates/';
+	$candidate = trailingslashit( $base ) . $template_name;
+
+	return llms_is_template_path_allowed( $candidate, array( $base ) ) ? $candidate : '';
+}
+
+/**
+ * Sanitize a template name so it cannot leave its base directory.
+ *
+ * Rejects absolute paths, stream wrappers, null bytes, and `..` segments.
+ *
+ * @since [version]
+ *
+ * @param mixed $template_name Template name.
+ * @return string Sanitized relative name, or an empty string.
+ */
+function llms_sanitize_template_name( $template_name ) {
+	if ( ! is_string( $template_name ) || '' === $template_name ) {
+		return '';
+	}
+
+	if ( false !== strpos( $template_name, "\0" ) || false !== strpos( $template_name, '://' ) ) {
+		return '';
+	}
+
+	$template_name = wp_normalize_path( $template_name );
+	$template_name = ltrim( $template_name, '/' );
+
+	if ( '' === $template_name || preg_match( '#(^|/)\.\.(/|$)#', $template_name ) ) {
+		return '';
+	}
+
+	return $template_name;
+}
+
+/**
+ * Determine whether a template file resolves inside one of the allowed directories.
+ *
+ * @since [version]
+ *
+ * @param string   $template    Candidate template path.
+ * @param string[] $directories Allowed base directories.
+ * @return bool
+ */
+function llms_is_template_path_allowed( $template, $directories ) {
+	$real_template = realpath( $template );
+	if ( false === $real_template || ! is_file( $real_template ) ) {
+		return false;
+	}
+
+	$real_template = wp_normalize_path( $real_template );
+
+	foreach ( (array) $directories as $directory ) {
+		if ( ! is_string( $directory ) || '' === $directory ) {
+			continue;
+		}
+
+		$real_directory = realpath( $directory );
+		if ( false === $real_directory || ! is_dir( $real_directory ) ) {
+			continue;
+		}
+
+		$real_directory = trailingslashit( wp_normalize_path( $real_directory ) );
+		if ( 0 === strpos( $real_template, $real_directory ) ) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /**
