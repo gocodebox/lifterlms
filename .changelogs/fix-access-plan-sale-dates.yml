@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed access plan sale start and end dates set via the REST API being ignored when checking if the plan is on sale."
