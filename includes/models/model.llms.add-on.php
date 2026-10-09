@@ -358,6 +358,31 @@ class LLMS_Add_On {
 	}
 
 	/**
+	 * URL for the WordPress screen where this add-on is updated.
+	 *
+	 * Plugins open the Plugins screen filtered to this add-on. Themes open the Themes screen.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_update_screen_url() {
+
+		if ( 'theme' === $this->get_type() ) {
+			return admin_url( 'themes.php' );
+		}
+
+		$url   = admin_url( 'plugins.php' );
+		$title = $this->get( 'title' );
+
+		if ( $title ) {
+			$url = add_query_arg( 's', rawurlencode( $title ), $url );
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Determine if an installable addon is active
 	 *
 	 * @since 3.22.0

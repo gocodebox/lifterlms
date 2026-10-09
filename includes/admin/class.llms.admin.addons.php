@@ -345,11 +345,6 @@ class LLMS_Admin_AddOns {
 							<i class="fa fa-times-circle" aria-hidden="true"></i>
 						</a>
 
-						<div class="llms-bulk-desc update">
-							<i class="fa fa-cloud-download" aria-hidden="true"></i>
-							<?php esc_html_e( 'Update', 'lifterlms' ); ?> <span></span>
-						</div>
-
 						<div class="llms-bulk-desc install">
 							<i class="fa fa-cloud-download" aria-hidden="true"></i>
 							<?php esc_html_e( 'Install', 'lifterlms' ); ?> <span></span>
