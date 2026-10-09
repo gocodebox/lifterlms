@@ -4,7 +4,8 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version 6.10.2
+ * @since [version] Open from a title button and keep that button out of the modal.
+ * @version [version]
  */
 
 LLMS.Achievements = {
@@ -93,14 +94,23 @@ LLMS.Achievements = {
 			width: 340,
 			onOpening: function( modal ) {
 
-				modal.setTitle( $el.find( '.llms-achievement-title' ).html() );
+				var $clone = $el.clone();
+				$clone.find( '.llms-achievement-trigger' ).each( function() {
+					$( this ).replaceWith( document.createTextNode( $( this ).text() ) );
+				} );
+
+				modal.setTitle( $el.find( '.llms-achievement-title' ).text() );
 				modal.setSubtitle( $el.find( '.llms-achievement-date' ).html() );
-				modal.setContent( '<div class="llms-achievement">' + $el.html() + '</div>' );
+				modal.setContent( '<div class="llms-achievement">' + $clone.html() + '</div>' );
 
 			},
 
 			onClosing: function() {
 				window.history.pushState( '', document.title, window.location.pathname + window.location.search );
+				var trigger = $el.find( '.llms-achievement-trigger' ).get( 0 );
+				if ( trigger ) {
+					trigger.focus();
+				}
 			},
 
 		} );
@@ -127,7 +137,14 @@ LLMS.Achievements = {
 			return;
 		}
 
-		const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` )
+		const card = document.querySelector( `.llms-achievement[data-id="${ hash[1] }"]` );
+		if ( card ) {
+			card.click();
+			return;
+		}
+
+		// Older template overrides wrap the card in an anchor.
+		const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` );
 		if ( ! a ) {
 			return;
 		}

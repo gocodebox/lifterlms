@@ -29,6 +29,7 @@ class LLMS_Student_Dashboard {
 
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
+		add_filter( 'document_title_parts', array( $this, 'modify_document_title' ) );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 		add_filter( 'llms_get_student_dashboard_tabs_for_nav', array( $this, 'maybe_hide_subscriptions_nav' ) );
 	}
@@ -387,6 +388,113 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Prepend the current dashboard view to the browser document title.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $parts Document title parts.
+	 * @return array
+	 */
+	public function modify_document_title( $parts ) {
+
+		if ( ! function_exists( 'is_llms_account_page' ) || ! is_llms_account_page() ) {
+			return $parts;
+		}
+
+		$prefix = $this->get_document_title_prefix();
+
+		if ( $prefix && isset( $parts['title'] ) ) {
+			$separator      = apply_filters( 'document_title_separator', '-' );
+			$parts['title'] = $prefix . ' ' . $separator . ' ' . $parts['title'];
+		}
+
+		/**
+		 * Filter the student dashboard document title parts.
+		 *
+		 * @since [version]
+		 *
+		 * @param array  $parts  Document title parts.
+		 * @param string $prefix Text prepended to the page title. Empty on the default dashboard tab.
+		 */
+		return apply_filters( 'llms_student_dashboard_document_title', $parts, $prefix );
+	}
+
+	/**
+	 * Text prepended to the dashboard document title for the current view.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_document_title_prefix() {
+
+		if ( ! is_user_logged_in() ) {
+			global $wp;
+
+			if ( isset( $wp->query_vars['lost-password'] ) ) {
+				if ( llms_filter_input( INPUT_GET, 'reset-pass', FILTER_SANITIZE_NUMBER_INT ) ) {
+					return __( 'Reset Password', 'lifterlms' );
+				}
+
+				return __( 'Lost Password', 'lifterlms' );
+			}
+
+			return __( 'Log In', 'lifterlms' );
+		}
+
+		$tab     = self::get_current_tab( 'slug' );
+		$default = apply_filters( 'llms_student_dashboard_default_tab', 'dashboard' );
+
+		if ( $tab === $default ) {
+			return '';
+		}
+
+		$data   = self::get_current_tab();
+		$prefix = isset( $data['title'] ) ? $data['title'] : '';
+
+		if ( 'my-grades' === $tab ) {
+			$course_title = $this->get_my_grades_course_title();
+			if ( $course_title ) {
+				$separator = apply_filters( 'document_title_separator', '-' );
+				$prefix   .= ' ' . $separator . ' ' . $course_title;
+			}
+		}
+
+		return $prefix;
+	}
+
+	/**
+	 * Course title when viewing a single course on My Grades.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_my_grades_course_title() {
+
+		global $wp_query, $wp_rewrite;
+
+		$slug = $wp_query->query['my-grades'] ?? '';
+
+		if ( ! $slug || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
+			return '';
+		}
+
+		$course = get_posts(
+			array(
+				'name'           => $slug,
+				'post_type'      => 'course',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+			)
+		);
+
+		$course = array_shift( $course );
+
+		return $course ? get_the_title( $course ) : '';
 	}
 
 	public function modify_rewrite_rules_order( $rules ) {
