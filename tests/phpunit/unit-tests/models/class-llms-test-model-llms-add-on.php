@@ -396,13 +396,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 				'type'  => 'plugin',
 			)
 		);
-		$this->assertSame(
-			admin_url( 'plugins.php?s=LifterLMS%20Groups' ),
-			$plugin->get_update_screen_url()
-		);
-
-		$untitled = new LLMS_Add_On( array( 'type' => 'plugin' ) );
-		$this->assertSame( admin_url( 'plugins.php' ), $untitled->get_update_screen_url() );
+		$this->assertSame( admin_url( 'plugins.php' ), $plugin->get_update_screen_url() );
 
 		$theme = new LLMS_Add_On(
 			array(

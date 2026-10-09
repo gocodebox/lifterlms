@@ -39,7 +39,8 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 		$html = $this->render_addon_item( $this->get_plugin_addon( '99.0.0' ) );
 
 		$this->assertStringContainsString( 'llms-addon-update-available', $html );
-		$this->assertStringContainsString( 'plugins.php?s=Akismet', $html );
+		$this->assertStringContainsString( 'plugins.php', $html );
+		$this->assertStringNotContainsString( 'plugins.php?s=', $html );
 		$this->assertStringContainsString( 'Update Available:', $html );
 		$this->assertStringNotContainsString( 'name="llms_update[]"', $html );
 		$this->assertStringNotContainsString( 'data-action="update"', $html );

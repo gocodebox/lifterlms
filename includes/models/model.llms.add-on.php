@@ -360,7 +360,7 @@ class LLMS_Add_On {
 	/**
 	 * URL for the WordPress screen where this add-on is updated.
 	 *
-	 * Plugins open the Plugins screen filtered to this add-on. Themes open the Themes screen.
+	 * The Plugins screen is not searched by add-on title. Catalog titles do not always match the plugin name.
 	 *
 	 * @since [version]
 	 *
@@ -372,14 +372,7 @@ class LLMS_Add_On {
 			return admin_url( 'themes.php' );
 		}
 
-		$url   = admin_url( 'plugins.php' );
-		$title = $this->get( 'title' );
-
-		if ( $title ) {
-			$url = add_query_arg( 's', rawurlencode( $title ), $url );
-		}
-
-		return $url;
+		return admin_url( 'plugins.php' );
 	}
 
 	/**
