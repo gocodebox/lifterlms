@@ -326,4 +326,47 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
 	}
 
+	/**
+	 * Checkout shortcode attributes cannot choose the included template.
+	 *
+	 * @since 10.3.2
+	 *
+	 * @return void
+	 */
+	public function test_output_ignores_template_attributes() {
+		global $wp;
+		unset( $wp->query_vars['confirm-payment'] );
+
+		$plan   = $this->get_mock_plan();
+		$secret = get_temp_dir() . 'llms-checkout-secret-' . wp_generate_password( 8, false ) . '.php';
+		file_put_contents( $secret, '<?php echo "LLMS_SECRET_MARKER";' );
+
+		$this->mockGetRequest(
+			array(
+				'plan' => $plan->get( 'id' ),
+			)
+		);
+
+		$output = $this->get_output(
+			array(
+				'LLMS_Shortcode_Checkout',
+				'output',
+			),
+			array(
+				array(
+					'cols'          => 1,
+					'template_name' => ltrim( wp_normalize_path( $secret ), '/' ),
+					'default_path'  => '/',
+					'template_path' => '/',
+				),
+			)
+		);
+
+		unlink( $secret );
+
+		$this->assertStringContainsString( 'llms-checkout-cols-1', $output );
+		$this->assertStringNotContainsString( 'LLMS_SECRET_MARKER', $output );
+		$this->assertDoesNotMatchRegularExpression( '/root:.*:0:0:/', $output );
+	}
+
 }
