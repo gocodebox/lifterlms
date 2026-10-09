@@ -7,8 +7,40 @@
  * @type {Object}
  *
  * @since 1.0.0
- * @version 7.8.0
+ * @version [version]
  */( function( $ ) {
+
+	/**
+	 * Same-origin http(s) URL from a quiz attempt select option.
+	 *
+	 * @since [version]
+	 *
+	 * @param {string} url Candidate URL.
+	 * @return {string} Safe URL, or an empty string.
+	 */
+	function llmsSafeSameOriginUrl( url ) {
+		var parsed;
+
+		if ( 'string' !== typeof url || '' === url ) {
+			return '';
+		}
+
+		try {
+			parsed = new URL( url, window.location.href );
+		} catch ( error ) {
+			return '';
+		}
+
+		if ( 'http:' !== parsed.protocol && 'https:' !== parsed.protocol ) {
+			return '';
+		}
+
+		if ( parsed.origin !== window.location.origin ) {
+			return '';
+		}
+
+		return parsed.href;
+	}
 
 	var quiz = {
 
@@ -119,12 +151,14 @@
 				LLMS.Donut( $( this ) );
 			} );
 
-			// Redirect to attempt on attempt selection change.
-			$( '#llms-quiz-attempt-select' ).on( 'change', function() {
-				var val = $( this ).val();
-				if ( val ) {
-					window.location.href = val;
+			// Open a previous attempt when the results form is submitted.
+			$( '.llms-quiz-attempt-select-form' ).on( 'submit', function( e ) {
+				var val = llmsSafeSameOriginUrl( $( this ).find( 'select' ).val() );
+				e.preventDefault();
+				if ( ! val ) {
+					return;
 				}
+				window.location.assign( val );
 			} );
 
 			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.

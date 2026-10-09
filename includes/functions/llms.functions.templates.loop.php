@@ -285,6 +285,9 @@ function lifterlms_loop_featured_video() {
  */
 if ( ! function_exists( 'lifterlms_loop_link_end' ) ) {
 	function lifterlms_loop_link_end() {
+		if ( llms_loop_link_is_title_only() ) {
+			return;
+		}
 		echo '</a><!-- .llms-loop-link -->';
 	}
 }
@@ -298,8 +301,143 @@ if ( ! function_exists( 'lifterlms_loop_link_end' ) ) {
  */
 if ( ! function_exists( 'lifterlms_loop_link_start' ) ) {
 	function lifterlms_loop_link_start() {
+		if ( llms_loop_link_is_title_only() ) {
+			return;
+		}
 		echo '<a class="llms-loop-link" href="' . esc_url( get_the_permalink() ) . '">';
 	}
+}
+
+/**
+ * Whether the current loop tile links only its title.
+ *
+ * Templates opt in by calling `llms_loop_link_title_only( true )`. Themes that
+ * still use the wrapping-link markup never set the flag, so those tiles keep
+ * the previous link.
+ *
+ * @since [version]
+ *
+ * @param bool|null $enable Pass true or false to set the flag. Omit to read it.
+ * @return bool
+ */
+function llms_loop_link_title_only( $enable = null ) {
+	static $title_only = false;
+
+	if ( null !== $enable ) {
+		$title_only = (bool) $enable;
+	}
+
+	return $title_only;
+}
+
+/**
+ * Whether the current loop tile should skip the wrapping link.
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_loop_link_is_title_only() {
+	return llms_loop_link_title_only();
+}
+
+/**
+ * Whether the current request is the student dashboard page.
+ *
+ * Course and membership loops replace the main query, so `is_llms_account_page()`
+ * is false while those tiles render. The original request query vars still identify
+ * the dashboard page.
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_is_dashboard_request() {
+
+	if ( function_exists( 'is_llms_account_page' ) && is_llms_account_page() ) {
+		return true;
+	}
+
+	$page_id = function_exists( 'llms_get_page_id' ) ? (int) llms_get_page_id( 'myaccount' ) : 0;
+	if ( ! $page_id ) {
+		return false;
+	}
+
+	global $wp;
+	if ( ! ( $wp instanceof WP ) ) {
+		return false;
+	}
+
+	if ( isset( $wp->query_vars['page_id'] ) && (int) $wp->query_vars['page_id'] === $page_id ) {
+		return true;
+	}
+
+	if ( empty( $wp->query_vars['pagename'] ) ) {
+		return false;
+	}
+
+	$pagename = $wp->query_vars['pagename'];
+	$page     = get_page_by_path( $pagename );
+	if ( ! $page && false !== strpos( $pagename, '/' ) ) {
+		$page = get_page_by_path( strstr( $pagename, '/', true ) );
+	}
+
+	return $page && (int) $page->ID === $page_id;
+}
+
+/**
+ * Heading tag for loop, certificate, achievement, and dashboard content.
+ *
+ * Dashboard index sits under a section heading, so its items are one level
+ * lower than items on a dashboard tab. Archives and shortcodes use h2.
+ *
+ * @since [version]
+ *
+ * @param string $context Where the heading is rendered.
+ * @return string One of h1-h6.
+ */
+function llms_get_content_heading_tag( $context = '' ) {
+
+	$tag = 'h2';
+
+	if ( llms_is_dashboard_request() && is_user_logged_in() && class_exists( 'LLMS_Student_Dashboard' ) ) {
+		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+		$default = apply_filters( 'llms_student_dashboard_default_tab', 'dashboard' );
+		$tag     = ( $current === $default ) ? 'h4' : 'h3';
+	}
+
+	/**
+	 * Filter the heading tag used for LifterLMS loop and dashboard content.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $tag     Heading tag.
+	 * @param string $context Where the heading is rendered.
+	 */
+	$tag = apply_filters( 'llms_content_heading_tag', $tag, $context );
+
+	if ( ! in_array( strtolower( (string) $tag ), array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ) {
+		return 'h2';
+	}
+
+	return strtolower( $tag );
+}
+
+/**
+ * Output the loop item title, linked on its own.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function lifterlms_template_loop_title() {
+	$tag = tag_escape( llms_get_content_heading_tag( 'loop' ) );
+	printf(
+		'<%1$s class="llms-loop-title"><a class="llms-loop-link" href="%2$s">%3$s</a></%1$s>',
+		$tag,
+		esc_url( get_the_permalink() ),
+		esc_html( get_the_title() )
+	);
 }
 
 /**
