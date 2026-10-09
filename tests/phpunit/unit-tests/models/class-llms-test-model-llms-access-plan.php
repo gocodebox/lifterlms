@@ -826,6 +826,30 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
 		$this->assertFalse( $this->obj->is_on_sale() );
 
+		// Date values (m/d/Y), as stored by the admin screen.
+		$this->obj->set( 'sale_start', date( 'm/d/Y', strtotime( $future ) ) );
+		$this->obj->set( 'sale_end', date( 'm/d/Y', strtotime( $future ) ) );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:00' ) - 1 );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 23:59:59' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_reset_current_time();
+
+		// A date that cannot be parsed is ignored.
+		$this->obj->set( 'sale_start', '' );
+		$this->obj->set( 'sale_end', 'not a date' );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		$this->obj->set( 'sale_start', 'not a date' );
+		$this->obj->set( 'sale_end', '' );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
 	}
 
 	/**
