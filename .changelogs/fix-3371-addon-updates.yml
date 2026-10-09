@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#3371"
+entry: "Add-on updates are no longer installed from Add-ons & more. Available updates now link to the WordPress Plugins or Themes screen."
