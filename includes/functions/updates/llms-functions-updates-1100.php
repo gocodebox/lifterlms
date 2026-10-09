@@ -94,15 +94,16 @@ function replace_weak_password_meter_descriptions() {
 }
 
 /**
- * Backfill the `_llms_has_transaction` flag on orders that already have transactions.
+ * Backfill the `_llms_has_transaction` flag on orders that have a visible transaction.
  *
- * The Orders & Transactions report uses this flag to cheaply exclude orders that are
- * represented by their transaction rows (via an indexed `NOT EXISTS` lookup) instead of
- * a potentially huge `post__not_in` list. This migration flags existing orders.
+ * Walks `_llms_order_id` rows once, using `llms_has_transaction_backfill_cursor` so each
+ * batch continues after the last meta ID instead of rescanning rows already flagged.
+ * Trashed and auto-draft transactions do not count: the report hides them, and an order
+ * whose only transaction is trashed must stay unflagged so it can appear as its own row.
  *
- * Processes a single page of orders per call and returns `true` while there may be more
- * to process so the background updater calls it again, otherwise `false` when complete.
- * The `NOT EXISTS` guard makes each batch idempotent and safe to re-run.
+ * Returns `true` while a full page was processed so the background updater calls it again,
+ * otherwise `false`. Re-running is safe. `update_db_version()` runs only after this
+ * returns `false`, which is what turns on the report's indexed query.
  *
  * @since [version]
  *
@@ -113,36 +114,45 @@ function backfill_has_transaction_flag() {
 	global $wpdb;
 
 	$per_page = \llms_update_util_get_items_per_page();
+	$cursor   = (int) \get_option( 'llms_has_transaction_backfill_cursor', 0 );
 
-	// Distinct order IDs that have at least one transaction but no `_llms_has_transaction` flag yet.
-	$order_ids = $wpdb->get_col(
+	$rows = $wpdb->get_results(
 		$wpdb->prepare(
 			"
-			SELECT DISTINCT txn.meta_value
+			SELECT txn.meta_id, txn.meta_value
 			FROM {$wpdb->postmeta} AS txn
+			INNER JOIN {$wpdb->posts} AS p ON p.ID = txn.post_id
 			WHERE txn.meta_key = '_llms_order_id'
+			  AND txn.meta_id > %d
 			  AND txn.meta_value <> ''
-			  AND NOT EXISTS (
-				SELECT 1 FROM {$wpdb->postmeta} AS flag
-				WHERE flag.post_id = txn.meta_value
-				  AND flag.meta_key = '_llms_has_transaction'
-			  )
+			  AND p.post_type = 'llms_transaction'
+			  AND p.post_status NOT IN ( 'trash', 'auto-draft' )
+			ORDER BY txn.meta_id ASC
 			LIMIT %d
 			",
+			$cursor,
 			$per_page
 		)
-	);// db call ok; no-cache ok.
+	); // db call ok; no-cache ok.
 
-	if ( empty( $order_ids ) ) {
+	if ( empty( $rows ) ) {
+		\delete_option( 'llms_has_transaction_backfill_cursor' );
 		return false;
 	}
 
-	foreach ( $order_ids as $order_id ) {
-		\update_post_meta( (int) $order_id, '_llms_has_transaction', 'yes' );
+	foreach ( $rows as $row ) {
+		\update_post_meta( (int) $row->meta_value, '_llms_has_transaction', 'yes' );
+		$cursor = (int) $row->meta_id;
 	}
 
-	// If a full page was processed, assume there might be more.
-	return count( $order_ids ) === $per_page;
+	\update_option( 'llms_has_transaction_backfill_cursor', $cursor, false );
+
+	if ( count( $rows ) < $per_page ) {
+		\delete_option( 'llms_has_transaction_backfill_cursor' );
+		return false;
+	}
+
+	return true;
 }
 
 /**

@@ -44,6 +44,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+		delete_option( 'llms_has_transaction_backfill_cursor' );
 	}
 
 	/**
@@ -226,6 +227,28 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	 */
 	public function test_backfill_has_transaction_flag_noop() {
 		$this->assertFalse( \LLMS\Updates\Version_11_0_0\backfill_has_transaction_flag() );
+	}
+
+	/**
+	 * A trashed transaction does not flag its order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_backfill_ignores_trashed_transactions() {
+
+		$order_id = $this->factory->post->create( array( 'post_type' => 'llms_order' ) );
+		$txn_id   = $this->factory->post->create(
+			array(
+				'post_type'   => 'llms_transaction',
+				'post_status' => 'trash',
+			)
+		);
+		update_post_meta( $txn_id, '_llms_order_id', $order_id );
+
+		$this->assertFalse( \LLMS\Updates\Version_11_0_0\backfill_has_transaction_flag() );
+		$this->assertEmpty( get_post_meta( $order_id, '_llms_has_transaction', true ) );
 	}
 
 	/**

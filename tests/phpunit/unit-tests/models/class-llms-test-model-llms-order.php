@@ -1765,6 +1765,32 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Trashing the last visible transaction clears the flag, and restoring it sets the flag again.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_transaction_flag_follows_trash() {
+
+		$order    = $this->get_order();
+		$order_id = $order->get( 'id' );
+		$txn      = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'single',
+			)
+		);
+
+		wp_trash_post( $txn->get( 'id' ) );
+		$this->assertEmpty( get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		wp_untrash_post( $txn->get( 'id' ) );
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
+	}
+
+	/**
 	 * Test the set_date() method
 	 *
 	 * @since 3.19.0

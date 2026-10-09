@@ -55,8 +55,10 @@ class LLMS_Controller_Orders {
 		add_action( 'save_post_llms_transaction', array( $this, 'clear_orders_transactions_report_cache' ) );
 		add_action( 'before_delete_post', array( $this, 'maybe_clear_orders_transactions_report_cache' ) );
 
-		// Clear the order's `_llms_has_transaction` flag when its last transaction is deleted.
+		// Keep `_llms_has_transaction` in step with visible (non-trashed) transactions.
 		add_action( 'before_delete_post', array( $this, 'maybe_clear_order_has_transaction_flag' ) );
+		add_action( 'wp_trash_post', array( $this, 'maybe_clear_order_has_transaction_flag' ) );
+		add_action( 'untrash_post', array( $this, 'maybe_set_order_has_transaction_flag' ) );
 
 		// Transaction status changes cascade up to the order to change the order status.
 		add_action( 'lifterlms_transaction_status_failed', array( $this, 'transaction_failed' ), 10, 1 );
@@ -274,14 +276,14 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Clear an order's `_llms_has_transaction` flag when its last transaction is deleted.
+	 * Clear an order's `_llms_has_transaction` flag when its last visible transaction goes away.
 	 *
-	 * Keeps the Orders & Transactions report accurate: an order whose only transaction(s)
-	 * are deleted should reappear as a transaction-less order row.
+	 * The report lists non-trashed transactions plus orders that have none. Trashing
+	 * the last transaction has to drop the flag too, or that order disappears from both sets.
 	 *
 	 * @since [version]
 	 *
-	 * @param int $post_id WP_Post ID of the post being deleted.
+	 * @param int $post_id WP_Post ID of the transaction being deleted or trashed.
 	 * @return void
 	 */
 	public function maybe_clear_order_has_transaction_flag( $post_id ) {
@@ -295,8 +297,8 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
-		// `before_delete_post` fires before the post is removed, so exclude the
-		// transaction being deleted when checking for remaining transactions.
+		// Both hooks fire before the transaction leaves the visible set, so exclude it.
+		// `any` matches the report: trash and auto-draft are not visible rows.
 		$remaining = new WP_Query(
 			array(
 				'post_type'      => 'llms_transaction',
@@ -316,6 +318,26 @@ class LLMS_Controller_Orders {
 
 		if ( empty( $remaining->posts ) ) {
 			delete_post_meta( $order_id, '_llms_has_transaction' );
+		}
+	}
+
+	/**
+	 * Flag an order when one of its transactions is restored from the trash.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the transaction being untrashed.
+	 * @return void
+	 */
+	public function maybe_set_order_has_transaction_flag( $post_id ) {
+
+		if ( 'llms_transaction' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		$order_id = absint( get_post_meta( $post_id, '_llms_order_id', true ) );
+		if ( $order_id && 'yes' !== get_post_meta( $order_id, '_llms_has_transaction', true ) ) {
+			update_post_meta( $order_id, '_llms_has_transaction', 'yes' );
 		}
 	}
 

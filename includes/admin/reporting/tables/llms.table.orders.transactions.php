@@ -257,7 +257,8 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Order $order Order object.
+	 * @param LLMS_Order $order   Order object.
+	 * @param int        $txn_id Optional. Transaction post ID the link originated from. Default 0.
 	 * @return string
 	 */
 	protected function get_order_link( $order, $txn_id = 0 ) {
@@ -666,6 +667,17 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Orders data follows the Orders screen capability, not the reporting capability.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function user_can_access() {
+		return llms_current_user_can_manage_orders();
+	}
+
+	/**
 	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since [version]
@@ -675,7 +687,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	public function get_results( $args = array() ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+		if ( ! $this->user_can_access() ) {
 			return;
 		}
 
@@ -975,10 +987,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Whether the `_llms_has_transaction` backfill migration has completed.
 	 *
-	 * Gates the indexed `NOT EXISTS` query path. Until the backfill finishes, legacy
-	 * orders may lack the flag and would double-list, so the explicit `post__not_in`
-	 * fallback is used instead. New installs report the current db version and use the
-	 * flag path immediately.
+	 * Gates the indexed `NOT EXISTS` query path. Until the 11.0.0 backfill finishes,
+	 * legacy orders may lack the flag and would double-list, so the explicit
+	 * `post__not_in` fallback is used instead. `update_db_version()` records 11.0.0
+	 * only after the backfill returns false. New installs report the current db
+	 * version and use the flag path immediately.
 	 *
 	 * @since [version]
 	 *
@@ -989,7 +1002,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		static $backfilled = null;
 
 		if ( null === $backfilled ) {
-			$backfilled = version_compare( get_option( 'lifterlms_db_version' ), '11.0.0', '>=' );
+			$backfilled = version_compare( (string) get_option( 'lifterlms_db_version' ), '11.0.0', '>=' );
 		}
 
 		return $backfilled;

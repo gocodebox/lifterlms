@@ -137,16 +137,16 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				break;
 
 			case 'plan':
-				$frequency = $data->get( 'billing_frequency' );
-				$period    = $data->get( 'billing_period' );
+				$frequency = (int) $data->get( 'billing_frequency' );
+				$period    = llms_get_time_period_l10n( $data->get( 'billing_period' ), max( 1, $frequency ) );
 				$length    = $data->get( 'billing_length' );
 				$price     = $data->get_price( 'total' );
 
 				$value = $price . ' / ';
 				if ( $frequency > 1 ) {
-					$value .= $frequency . ' ';
+					$value .= esc_html( $frequency ) . ' ';
 				}
-				$value .= $period;
+				$value .= esc_html( $period );
 				if ( $length > 0 ) {
 					/* translators: %d: billing length (number of payments) */
 					$value .= ' ' . sprintf( __( '(%d payments)', 'lifterlms' ), $length );
@@ -261,7 +261,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				return $data->get( 'product_title' );
 
 			case 'plan':
-				return wp_strip_all_tags( $this->get_data( 'plan', $data ) );
+				return html_entity_decode( wp_strip_all_tags( $this->get_data( 'plan', $data ) ), ENT_QUOTES, get_bloginfo( 'charset' ) );
 
 			case 'status':
 				return llms_get_order_status_name( $data->get( 'status' ) );
@@ -334,6 +334,17 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Subscription data follows the Orders screen capability, not the reporting capability.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function user_can_access() {
+		return llms_current_user_can_manage_orders();
+	}
+
+	/**
 	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since [version]
@@ -343,7 +354,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	 */
 	public function get_results( $args = array() ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+		if ( ! $this->user_can_access() ) {
 			return;
 		}
 

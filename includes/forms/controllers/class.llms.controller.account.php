@@ -74,7 +74,10 @@ class LLMS_Controller_Account {
 		}
 
 		// Only the student who owns the order (or a user who can view reports) may download the receipt.
-		if ( get_current_user_id() !== (int) $order->get( 'user_id' ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
+		// A logged-out visitor and an anonymized order are both user ID 0, which must not count as ownership.
+		$owner_id = (int) $order->get( 'user_id' );
+		$user_id  = get_current_user_id();
+		if ( ( ! $user_id || $user_id !== $owner_id ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
 			wp_die( esc_html__( 'You do not have permission to view this receipt.', 'lifterlms' ) );
 		}
 

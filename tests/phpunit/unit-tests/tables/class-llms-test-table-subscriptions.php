@@ -91,4 +91,27 @@ class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 		$this->assertContains( $missing->get( 'id' ), $ids );
 	}
 
+	/**
+	 * The plan cell uses a translated period, and the export cell has no HTML entities.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_plan_period_is_localized_and_export_decodes_entities() {
+
+		$order = $this->get_mock_order( $this->get_mock_plan( 25.99, 1 ) );
+		$order->set( 'billing_period', 'month' );
+		$order->set( 'billing_frequency', 2 );
+
+		$table = new LLMS_Table_Subscriptions();
+		$html  = LLMS_Unit_Test_Util::call_method( $table, 'get_data', array( 'plan', $order ) );
+
+		$this->assertStringContainsString( '2 months', strtolower( wp_strip_all_tags( $html ) ) );
+
+		$export = $table->get_export_data( 'plan', $order );
+		$this->assertStringNotContainsString( '&#', $export );
+		$this->assertStringNotContainsString( '<', $export );
+	}
+
 }

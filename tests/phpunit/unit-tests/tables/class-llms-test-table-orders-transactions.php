@@ -25,6 +25,24 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Instructors can view reports but cannot open the Orders screen, so this table is closed to them.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_instructor_cannot_load_results() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+
+		$table = new LLMS_Table_Orders_Transactions();
+		$this->assertFalse( $table->user_can_access() );
+
+		$table->get_results();
+		$this->assertSame( array(), $table->get_tbody_data() );
+	}
+
+	/**
 	 * Amount sorting for transaction-less orders uses the initial (trial) price that is displayed.
 	 *
 	 * @since [version]

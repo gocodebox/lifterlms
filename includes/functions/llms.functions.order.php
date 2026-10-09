@@ -527,3 +527,16 @@ function llms_setup_pending_order( $data = array() ) {
 	 */
 	return apply_filters( 'llms_after_setup_pending_order', compact( 'person', 'plan', 'gateway', 'coupon' ), $data );
 }
+
+/**
+ * Whether the current user may manage orders in the admin.
+ *
+ * Uses the same capability as the Orders screen (`llms_order` `show_ui`).
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_current_user_can_manage_orders() {
+	return current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ) );
+}

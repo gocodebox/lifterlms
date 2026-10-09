@@ -151,10 +151,8 @@ class LLMS_Admin_Page_Orders {
 
 		$parent_slug = 'edit.php?post_type=llms_order';
 
-		// The LLMS_Admin_Table AJAX handlers (pagination/search/export) require
-		// `view_lifterlms_reports`, so gate the pages with the same capability to
-		// keep the initial render and subsequent AJAX requests consistent.
-		$capability = 'view_lifterlms_reports';
+		// Same capability as the Orders screen, including the lifterlms_admin_order_access filter.
+		$capability = apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' );
 
 		$this->page_hooks[] = add_submenu_page(
 			$parent_slug,
@@ -292,7 +290,7 @@ class LLMS_Admin_Page_Orders {
 			wp_die( esc_html__( 'Invalid request.', 'lifterlms' ) );
 		}
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+		if ( ! llms_current_user_can_manage_orders() ) {
 			wp_die( esc_html__( 'You do not have permission to view this receipt.', 'lifterlms' ) );
 		}
 
