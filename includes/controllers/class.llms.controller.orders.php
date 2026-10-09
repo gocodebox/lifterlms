@@ -656,15 +656,17 @@ class LLMS_Controller_Orders {
 		$obj       = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
 
 		// Record order status changes as notes.
-		$user = wp_get_current_user();
-		if ( $user->exists() && current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) {
-			/* translators: %1$s: old order status. %2$s: new order status. %3$s: username. %4$d: user ID. */
-			$note = __( 'Order status changed from %1$s to %2$s by %3$s (#%4$d)', 'lifterlms' );
-			$obj->add_note( sprintf( $note, $old_status, $new_status, $user->user_login, $user->ID ), true );
-		} else {
-			/* translators: %1$s: old order status. %2$s: new order status. */
-			$note = __( 'Order status changed from %1$s to %2$s', 'lifterlms' );
-			$obj->add_note( sprintf( $note, $old_status, $new_status ) );
+		if ( 'order' === $post_type ) {
+			$user = wp_get_current_user();
+			if ( $user->exists() && current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) {
+				/* translators: %1$s: old order status. %2$s: new order status. %3$s: username. %4$d: user ID. */
+				$note = __( 'Order status changed from %1$s to %2$s by %3$s (#%4$d)', 'lifterlms' );
+				$obj->add_note( sprintf( $note, $old_status, $new_status, $user->user_login, $user->ID ), true );
+			} else {
+				/* translators: %1$s: old order status. %2$s: new order status. */
+				$note = __( 'Order status changed from %1$s to %2$s', 'lifterlms' );
+				$obj->add_note( sprintf( $note, $old_status, $new_status ) );
+			}
 		}
 
 		/**
