@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 7.0.1
+ * @version 10.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -201,9 +201,14 @@ class LLMS_Shortcode_Checkout {
 
 		global $wp;
 
-		$atts = $atts ? $atts : array();
-
-		$atts['cols'] = isset( $atts['cols'] ) ? $atts['cols'] : 2;
+		// Only `cols` is a public shortcode attribute. Other template variables are set below.
+		$atts = shortcode_atts(
+			array(
+				'cols' => 2,
+			),
+			$atts ? $atts : array(),
+			'lifterlms_checkout'
+		);
 
 		self::$uid = get_current_user_id();
 
