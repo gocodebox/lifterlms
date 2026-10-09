@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version [version]
+ * @version 10.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -207,7 +207,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 /**
  * Get a plugin template file when it stays inside the plugin templates directory.
  *
- * @since [version]
+ * @since 10.3.2
  *
  * @param string $template_name Template name relative to the plugin templates directory.
  * @return string Absolute path, or an empty string.
@@ -229,7 +229,7 @@ function llms_get_plugin_template_file( $template_name ) {
  *
  * Rejects absolute paths, stream wrappers, null bytes, and `..` segments.
  *
- * @since [version]
+ * @since 10.3.2
  *
  * @param mixed $template_name Template name.
  * @return string Sanitized relative name, or an empty string.
@@ -256,7 +256,7 @@ function llms_sanitize_template_name( $template_name ) {
 /**
  * Determine whether a template file resolves inside one of the allowed directories.
  *
- * @since [version]
+ * @since 10.3.2
  *
  * @param string   $template    Candidate template path.
  * @param string[] $directories Allowed base directories.

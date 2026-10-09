@@ -329,7 +329,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Checkout shortcode attributes cannot choose the included template.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @return void
 	 */

@@ -348,7 +348,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_locate_template() still resolves a core template.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_locate_template() rejects names that leave the template directory.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @return void
 	 */
@@ -381,7 +381,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template() does not let args replace the template path.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @return void
 	 */
@@ -412,7 +412,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Create a temporary template directory and a file outside it.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @return array{root:string,base:string,secret:string}
 	 */
@@ -433,7 +433,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Delete a temporary template fixture.
 	 *
-	 * @since [version]
+	 * @since 10.3.2
 	 *
 	 * @param string $dir Directory to delete.
 	 * @return void
