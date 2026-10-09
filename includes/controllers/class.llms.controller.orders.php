@@ -747,6 +747,10 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
+		// Remove prefixes from all the things.
+		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
+		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
+
 		// We're only concerned with order post statuses here.
 		if ( 'llms_order' !== $post->post_type && 'llms_transaction' !== $post->post_type ) {
 			return;
@@ -757,13 +761,17 @@ class LLMS_Controller_Orders {
 
 		// Record order status changes as notes.
 		if ( 'order' === $post_type ) {
-			/* translators: %1$s: Old Status, %2$s: New status. */
-			$obj->add_note( sprintf( __( 'Order status changed from %1$s to %2$s', 'lifterlms' ), llms_get_order_status_name( $old_status ), llms_get_order_status_name( $new_status ) ) );
+			$user = wp_get_current_user();
+			if ( $user->exists() && current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) {
+				/* translators: %1$s: old order status. %2$s: new order status. %3$s: username. %4$d: user ID. */
+				$note = __( 'Order status changed from %1$s to %2$s by %3$s (#%4$d)', 'lifterlms' );
+				$obj->add_note( sprintf( $note, $old_status, $new_status, $user->user_login, $user->ID ), true );
+			} else {
+				/* translators: %1$s: old order status. %2$s: new order status. */
+				$note = __( 'Order status changed from %1$s to %2$s', 'lifterlms' );
+				$obj->add_note( sprintf( $note, $old_status, $new_status ) );
+			}
 		}
-
-		// Remove prefixes from all the things.
-		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
-		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
 		/**
 		 * Fired when a LifterLMS order or transaction changes status.
