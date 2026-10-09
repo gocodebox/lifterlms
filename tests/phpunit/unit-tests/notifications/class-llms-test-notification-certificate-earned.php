@@ -98,6 +98,8 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 	/**
 	 * Test that the email notification type is supported.
 	 *
+	 * @since [version]
+	 *
 	 * @return void
 	 */
 	public function test_email_supported() {
@@ -112,6 +114,8 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 
 	/**
 	 * Test email subscriber options.
+	 *
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -132,6 +136,8 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 
 	/**
 	 * Test email view subject and body.
+	 *
+	 * @since [version]
 	 *
 	 * @return void
 	 */

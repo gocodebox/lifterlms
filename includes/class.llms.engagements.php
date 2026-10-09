@@ -440,6 +440,8 @@ class LLMS_Engagements {
 	 * @since 6.0.0
 	 * @since 6.6.0 Fixed an issue where the `lifterlms_external_engagement_query_arguments` filter
 	 *              would not trigger if a 3rd party registered a trigger hook.
+	 * @since [version] Read the related post from the 3rd argument for the `llms_user_earned_certificate`
+	 *                  hook, which passes the generated certificate as its 2nd argument.
 	 *
 	 * @param string $action Action hook name.
 	 * @param array  $args   Array of arguments passed to the callback function.
@@ -520,8 +522,14 @@ class LLMS_Engagements {
 			return $parsed;
 		}
 
-		// The user registration action doesn't have a related post id.
-		$related_post_id = isset( $args[1] ) && is_numeric( $args[1] ) ? absint( $args[1] ) : '';
+		// The certificate earned hook passes the generated certificate as the 2nd argument and the post
+		// which triggered the award as the 3rd, so the related post must be read from the 3rd argument.
+		if ( 'llms_user_earned_certificate' === $action ) {
+			$related_post_id = isset( $args[2] ) && is_numeric( $args[2] ) ? absint( $args[2] ) : '';
+		} else {
+			// The user registration action doesn't have a related post id.
+			$related_post_id = isset( $args[1] ) && is_numeric( $args[1] ) ? absint( $args[1] ) : '';
+		}
 
 		$parsed['user_id']         = absint( $args[0] );
 		$parsed['trigger_type']    = $this->parse_hook_find_trigger_type( $action, $related_post_id );

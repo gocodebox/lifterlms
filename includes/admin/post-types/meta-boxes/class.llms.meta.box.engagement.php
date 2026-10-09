@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -470,6 +470,8 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		// Locate and store the trigger post id.
 		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type' );
+		$var  = false;
+		$val  = '';
 		switch ( $type ) {
 
 			case 'access_plan_purchased':
@@ -524,6 +526,11 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				$var = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_course' ) ? 'course' : 'membership';
 				break;
 
+			// A certificate is generated for each student when it is earned, so this trigger cannot be scoped to a fixed post.
+			case 'certificate_earned':
+				$val = 'any';
+				break;
+
 			default:
 				/**
 				 * Filters the faux trigger-post field suffix used to store the trigger post for third-party trigger types.
@@ -548,10 +555,6 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			if ( empty( $val ) ) {
 				$val = 'any';
 			}
-		} else {
-
-			$val = '';
-
 		}
 
 		update_post_meta( $post_id, $this->prefix . 'engagement_trigger_post', $val );

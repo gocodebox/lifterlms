@@ -407,6 +407,51 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_trigger_engagement() for the certificate earned trigger.
+	 *
+	 * A certificate earned engagement stores `any` as its trigger post because a per-user
+	 * `llms_my_certificate` post is generated at award time and therefore can never be
+	 * pre-selected when the engagement is created.
+	 *
+	 * The hook passes the generated certificate as its 2nd argument and the post which triggered
+	 * the award as its 3rd, so the related post must be the 3rd argument.
+	 *
+	 * The email type is the configuration this trigger exists for. Awarding a certificate from
+	 * this trigger would re-fire `llms_user_earned_certificate` and recurse, so that type is
+	 * intentionally not tested here.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_trigger_engagement_certificate_earned() {
+
+		foreach ( array( 0, 1 ) as $delay ) {
+
+			$engagement         = $this->create_mock_engagement( 'certificate_earned', 'email', $delay, 'any' );
+			$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+
+			$user = $this->factory->user->create();
+
+			// Stand-in for the per-user certificate generated when the engagement is awarded.
+			$earned_certificate_id = $this->factory->post->create();
+
+			// The post which triggered the certificate award, passed as the hook's 3rd argument.
+			$related_post_id = $this->factory->course->create();
+
+			$this->assertEngagementTriggered(
+				'llms_user_earned_certificate', // Trigger hook.
+				array( $user, $earned_certificate_id, $related_post_id ), // Args passed to trigger hook.
+				'lifterlms_engagement_send_email',
+				array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ), // Expected args passed to the expected action's callback.
+				$delay
+			);
+
+		}
+
+	}
+
+	/**
 	 * Test maybe_trigger_engagement() for the completion hooks (course, section, lesson)
 	 *
 	 * @since 6.0.0
@@ -644,6 +689,20 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		$action       = $mock_engagements->engagement_action; // Input to parse_hook().
 		$trigger_type = $mock_engagements->engagement_action; // Output from parse_hook().
 		$actual_hook  = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_hook', $parse_args );
+		$this->assertEqualSetsWithIndex( $expected_hook, $actual_hook );
+
+		// The certificate earned hook passes the generated certificate as the 2nd argument
+		// and the related post as the 3rd, so the related post must come from the 3rd argument.
+		$action          = 'llms_user_earned_certificate';
+		$trigger_type    = 'certificate_earned';
+		$certificate_id  = $this->factory->post->create();
+		$parse_args[1]   = array( $user_id, $certificate_id, $related_post_id );
+		$expected_hook   = array(
+			'user_id'         => $user_id,
+			'trigger_type'    => &$trigger_type,
+			'related_post_id' => $related_post_id,
+		);
+		$actual_hook     = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_hook', $parse_args );
 		$this->assertEqualSetsWithIndex( $expected_hook, $actual_hook );
 	}
 
