@@ -31,6 +31,63 @@ class LLMS_Student_Dashboard {
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
 		add_filter( 'document_title_parts', array( $this, 'modify_document_title' ) );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
+		add_filter( 'llms_get_student_dashboard_tabs_for_nav', array( $this, 'maybe_hide_subscriptions_nav' ) );
+	}
+
+	/**
+	 * Hide the "My Subscriptions" navigation item when the current student has no subscriptions.
+	 *
+	 * The endpoint itself remains registered (and accessible by direct URL); it is only
+	 * removed from the dashboard navigation when the student has zero recurring orders.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $tabs Navigation tabs from {@see LLMS_Student_Dashboard::get_tabs_for_nav()}.
+	 * @return array
+	 */
+	public function maybe_hide_subscriptions_nav( $tabs ) {
+
+		if ( ! isset( $tabs['subscriptions'] ) ) {
+			return $tabs;
+		}
+
+		if ( ! self::current_student_has_subscriptions() ) {
+			unset( $tabs['subscriptions'] );
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Determine whether the currently logged in student has at least one subscription.
+	 *
+	 * Result is cached for the duration of the request to avoid repeated queries.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private static function current_student_has_subscriptions() {
+
+		static $cache = array();
+
+		$user_id = get_current_user_id();
+
+		if ( isset( $cache[ $user_id ] ) ) {
+			return $cache[ $user_id ];
+		}
+
+		$has_subscriptions = false;
+
+		if ( $user_id ) {
+			$student           = new LLMS_Student( $user_id );
+			$subscriptions     = $student->get_subscriptions( array( 'count' => 1 ) );
+			$has_subscriptions = ! empty( $subscriptions['count'] );
+		}
+
+		$cache[ $user_id ] = $has_subscriptions;
+
+		return $has_subscriptions;
 	}
 
 	/**
@@ -208,6 +265,12 @@ class LLMS_Student_Dashboard {
 				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
 				'nav_item' => true,
 				'title'    => __( 'Order History', 'lifterlms' ),
+			),
+			'subscriptions'     => array(
+				'content'  => array( __CLASS__, 'output_subscriptions_content' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_subscriptions_endpoint', 'subscriptions' ),
+				'nav_item' => true,
+				'title'    => __( 'My Subscriptions', 'lifterlms' ),
 			),
 			'signout'           => array(
 				'endpoint' => false,
@@ -473,22 +536,186 @@ class LLMS_Student_Dashboard {
 
 			$order = llms_get_post( $wp->query_vars['orders'] );
 			llms_template_view_order( $order );
+			return;
 
-		} else {
+		}
 
-			$student = new LLMS_Student();
+		$student = new LLMS_Student();
+
+		/**
+		 * Filters whether the Order History endpoint lists individual transactions (and
+		 * transaction-less orders) or the legacy list of orders.
+		 *
+		 * When `true` (default) the transaction + order list (`my-transactions.php`) is
+		 * rendered. Return `false` to restore the legacy order list (`my-orders.php`).
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $use_transaction_view Whether to use the transaction list view.
+		 */
+		if ( apply_filters( 'llms_student_dashboard_orders_use_transaction_view', true ) ) {
+
 			llms_get_template(
-				'myaccount/my-orders.php',
+				'myaccount/my-transactions.php',
 				array(
-					'orders' => $student->get_orders(
-						array(
-							'page' => isset( $_GET['opage'] ) ? intval( $_GET['opage'] ) : 1,
-						)
+					'transactions' => self::get_transactions_list(
+						isset( $_GET['txlpage'] ) ? intval( $_GET['txlpage'] ) : 1
 					),
 				)
 			);
 
+			return;
 		}
+
+		llms_get_template(
+			'myaccount/my-orders.php',
+			array(
+				'orders' => $student->get_orders(
+					array(
+						'page' => isset( $_GET['opage'] ) ? intval( $_GET['opage'] ) : 1,
+					)
+				),
+			)
+		);
+	}
+
+	/**
+	 * Assemble a paginated list of the current student's transactions and transaction-less orders.
+	 *
+	 * Each row is either an {@see LLMS_Transaction} (for orders that have transactions) or an
+	 * {@see LLMS_Order} (for orders without any transactions, e.g. free enrollments or pending
+	 * payment orders). Rows are sorted by date, newest first.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $page     Page number. Default `1`.
+	 * @param int $per_page Number of rows per page. Default `25`.
+	 * @return array {
+	 *     @type int   $count Number of rows on the current page.
+	 *     @type int   $page  Current page number.
+	 *     @type int   $pages Total number of pages.
+	 *     @type array $rows  Array of {@see LLMS_Transaction} and/or {@see LLMS_Order} objects.
+	 * }
+	 */
+	private static function get_transactions_list( $page = 1, $per_page = 25 ) {
+
+		$empty = array(
+			'count' => 0,
+			'page'  => max( 1, $page ),
+			'pages' => 0,
+			'rows'  => array(),
+		);
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return $empty;
+		}
+
+		// All of the student's order IDs.
+		$order_ids = get_posts(
+			array(
+				'fields'         => 'ids',
+				'meta_key'       => '_llms_user_id',
+				'meta_value'     => $user_id,
+				'post_status'    => array_keys( llms_get_order_statuses() ),
+				'post_type'      => 'llms_order',
+				'posts_per_page' => -1,
+			)
+		);
+
+		if ( ! $order_ids ) {
+			return $empty;
+		}
+
+		$txn_statuses = llms_get_transaction_statuses();
+
+		$txn_ids = get_posts(
+			array(
+				'fields'         => 'ids',
+				'meta_query'     => array(
+					array(
+						'compare' => 'IN',
+						'key'     => '_llms_order_id',
+						'value'   => $order_ids,
+					),
+				),
+				'no_found_rows'  => true,
+				'post_status'    => $txn_statuses,
+				'post_type'      => 'llms_transaction',
+				'posts_per_page' => -1,
+			)
+		);
+
+		// One query for every transaction's `_llms_order_id` instead of one per transaction.
+		update_meta_cache( 'post', $txn_ids );
+
+		$orders_with_txns = array();
+		foreach ( $txn_ids as $txn_id ) {
+			$orders_with_txns[ (int) get_post_meta( $txn_id, '_llms_order_id', true ) ] = true;
+		}
+
+		$txnless_order_ids = array();
+		foreach ( $order_ids as $order_id ) {
+			if ( ! isset( $orders_with_txns[ (int) $order_id ] ) ) {
+				$txnless_order_ids[] = (int) $order_id;
+			}
+		}
+
+		$row_ids = array_merge( array_map( 'absint', $txn_ids ), $txnless_order_ids );
+		$total   = count( $row_ids );
+		$pages   = (int) ceil( $total / $per_page );
+		$page    = max( 1, min( $page, max( 1, $pages ) ) );
+
+		// Let SQL sort and page the combined set so only the current page is loaded.
+		$query = new WP_Query(
+			array(
+				'no_found_rows'  => true,
+				'orderby'        => array(
+					'date' => 'DESC',
+					'ID'   => 'DESC',
+				),
+				'paged'          => $page,
+				'post__in'       => $row_ids,
+				'post_status'    => array_merge( $txn_statuses, array_keys( llms_get_order_statuses() ) ),
+				'post_type'      => array( 'llms_transaction', 'llms_order' ),
+				'posts_per_page' => $per_page,
+			)
+		);
+
+		$rows = array();
+		foreach ( $query->posts as $post ) {
+			$rows[] = 'llms_transaction' === $post->post_type ? new LLMS_Transaction( $post ) : new LLMS_Order( $post );
+		}
+
+		return array(
+			'count' => count( $rows ),
+			'page'  => $page,
+			'pages' => $pages,
+			'rows'  => $rows,
+		);
+	}
+
+	/**
+	 * Endpoint to output the student's subscriptions (recurring orders).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function output_subscriptions_content() {
+
+		$student = new LLMS_Student();
+
+		llms_get_template(
+			'myaccount/my-subscriptions.php',
+			array(
+				'subscriptions' => $student->get_subscriptions(
+					array(
+						'page' => isset( $_GET['subspage'] ) ? intval( $_GET['subspage'] ) : 1,
+					)
+				),
+			)
+		);
 	}
 
 	/**

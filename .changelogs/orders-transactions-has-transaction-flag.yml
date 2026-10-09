@@ -1,0 +1,5 @@
+significance: patch
+type: performance
+entry: Replaced the unbounded order exclusion list in the Orders & Transactions
+  report with an indexed `_llms_has_transaction` order flag, backfilled via a
+  batched background migration, for better performance on large stores.
