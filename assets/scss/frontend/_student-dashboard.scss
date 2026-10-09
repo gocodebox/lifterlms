@@ -1,6 +1,7 @@
 .llms-student-dashboard {
 
-	.llms-sd-nav select {
+	.llms-sd-nav > select,
+	.llms-sd-nav .llms-sd-mobile-nav {
 
 		display: none;
 
@@ -8,6 +9,21 @@
 			display: block;
 			margin-bottom: 30px;
 			width: 100%;
+		}
+	}
+
+	.llms-sd-nav .llms-sd-mobile-nav {
+
+		@media all and ( max-width: 600px ) {
+			align-items: center;
+			display: flex;
+			gap: 8px;
+
+			select {
+				flex: 1;
+				margin: 0;
+				width: auto;
+			}
 		}
 	}
 
@@ -314,12 +330,6 @@
 // grades table for a single course
 .llms-table.llms-single-course-grades {
 
-	tbody {
-		tr:first-child td, tr:first-child th {
-			background-color: #eaeaea;
-		}
-	}
-
 	th {
 		font-weight: 400;
 		text-align: left;
@@ -338,11 +348,14 @@
 		}
 	}
 
-	th.llms-section_title {
+	caption.llms-section_title {
+		caption-side: top;
 		font-size: 110%;
 		font-weight: 700;
+		text-align: left;
 	}
 
+	th.llms-lesson_title,
 	td.llms-lesson_title {
 		max-width: 40%;
 	}
@@ -353,6 +366,7 @@
 			vertical-align: middle;
 		}
 	}
+	th.llms-lesson_title,
 	td.llms-lesson_title {
 		a[href="#"] {
 			pointer-events: none;

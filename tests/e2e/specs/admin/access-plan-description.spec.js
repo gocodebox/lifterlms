@@ -285,13 +285,16 @@ test.describe( 'Admin/AccessPlanDescription', () => {
 		await page.locator( '#llms-access-plan-dialog button[data-template="free"]' ).click();
 
 		const plan = page.locator( '#llms-access-plans .llms-access-plan' ).first();
-		const iframe = plan.locator( 'iframe' );
+		// The hidden model can be cloned with its iframe still attached. Ignore that one.
+		const iframe = plan.locator( 'iframe[id^="_llms_plans_content_"]:not([id*="llms-new-access-plan-model"])' );
 		await iframe.waitFor( { state: 'visible' } );
 		await iframe.scrollIntoViewIfNeeded();
 
 		await expect.poll( async () => {
 			return page.evaluate( () => {
-				const frame = document.querySelector( '#llms-access-plans .llms-access-plan iframe' );
+				const frame = document.querySelector(
+					'#llms-access-plans .llms-access-plan iframe[id^="_llms_plans_content_"]:not([id*="llms-new-access-plan-model"])'
+				);
 				const editorId = frame && frame.id.replace( /_ifr$/, '' );
 				const editor = editorId && window.tinymce && window.tinymce.get( editorId );
 				if ( ! editor || ! editor.settings ) {

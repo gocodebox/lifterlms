@@ -780,6 +780,42 @@ class LLMS_REST_Test_Enrollments extends LLMS_REST_Unit_Test_Case_Server {
 	}
 
 	/**
+	 * Unauthenticated enrollment requests return the same status whether or not the enrollment exists.
+	 *
+	 * An authorized caller still receives a not-found response for a missing enrollment.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_unauthenticated_enrollment_status_does_not_depend_on_existence() {
+
+		wp_set_current_user( 0 );
+
+		$user_id         = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$enrolled_course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$other_course    = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		llms_enroll_student( $user_id, $enrolled_course );
+
+		foreach ( array( 'GET', 'POST', 'PATCH', 'DELETE' ) as $method ) {
+			$enrolled = $this->perform_mock_request( $method, $this->parse_route( $user_id ) . '/' . $enrolled_course );
+			$missing  = $this->perform_mock_request( $method, $this->parse_route( $user_id ) . '/' . $other_course );
+
+			$this->assertResponseStatusEquals( 401, $enrolled, $method );
+			$this->assertResponseStatusEquals( 401, $missing, $method );
+		}
+
+		wp_set_current_user( $this->user_allowed );
+
+		$missing = $this->perform_mock_request( 'GET', $this->parse_route( $user_id ) . '/' . $other_course );
+		$this->assertResponseStatusEquals( 404, $missing );
+
+		$existing = $this->perform_mock_request( 'POST', $this->parse_route( $user_id ) . '/' . $enrolled_course );
+		$this->assertResponseStatusEquals( 400, $existing );
+
+	}
+
+	/**
 	 * Get route.
 	 *
 	 * @since 1.0.0-beta.27

@@ -98,6 +98,37 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_password_meter_description().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_password_meter_description() {
+
+		$weak = llms_get_password_meter_description( 'weak' );
+
+		$this->assertSame( 'A password with at least 8 characters is required. To make it stronger, use both upper and lower case letters, numbers, and symbols.', $weak );
+		$this->assertStringNotContainsString( 'weak', $weak );
+
+		$this->assertSame(
+			'A strong password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
+			llms_get_password_meter_description( 'strong' )
+		);
+		$this->assertSame(
+			'A medium password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
+			llms_get_password_meter_description( 'medium' )
+		);
+
+		update_option( 'lifterlms_registration_password_min_strength', 'weak' );
+		$this->assertSame( $weak, llms_get_user_information_field( 'password' )['meter_description'] );
+
+		update_option( 'lifterlms_registration_password_min_strength', 'strong' );
+		$this->assertSame( llms_get_password_meter_description( 'strong' ), llms_get_user_information_field( 'password' )['meter_description'] );
+
+	}
+
+	/**
 	 * Test llms_get_student
 	 *
 	 * @since 3.9.0

@@ -6,7 +6,8 @@
  *
  * @since 10.0.0
  * @since 10.2.1 Render post content before `wp_head()` so block script modules populate the import map.
- * @version 10.2.1
+ * @since [version] Label the lesson sidebar and expose its expanded state.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -103,9 +104,9 @@ if ( have_posts() ) {
 
 	<div class="llms-focus-mode-body">
 
-		<aside class="llms-focus-mode-sidebar">
+		<aside id="llms-focus-mode-sidebar" class="llms-focus-mode-sidebar" aria-label="<?php esc_attr_e( 'Course lessons', 'lifterlms' ); ?>">
 			<div class="llms-focus-mode-sidebar-header">
-				<h3><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h3>
+				<h2><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h2>
 			</div>
 			<div class="llms-focus-mode-sidebar-content">
 				<?php
@@ -114,7 +115,7 @@ if ( have_posts() ) {
 				}
 				?>
 			</div>
-			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
+			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-controls="llms-focus-mode-sidebar" aria-expanded="true" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
 				<svg class="llms-chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
 				<svg class="llms-chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
 			</button>

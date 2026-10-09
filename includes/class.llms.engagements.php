@@ -41,6 +41,22 @@ class LLMS_Engagements {
 	private $debug = false;
 
 	/**
+	 * Scanner instance handling scan-based (inactivity) engagement triggers.
+	 *
+	 * @since [version]
+	 * @var LLMS_Engagements_Scanner
+	 */
+	public $scanner;
+
+	/**
+	 * Thresholds instance handling threshold-based engagement triggers.
+	 *
+	 * @since [version]
+	 * @var LLMS_Engagements_Thresholds
+	 */
+	public $thresholds;
+
+	/**
 	 * Constructor
 	 *
 	 * Adds actions to events that trigger engagements.
@@ -59,6 +75,9 @@ class LLMS_Engagements {
 		}
 
 		$this->add_actions();
+
+		$this->scanner    = new LLMS_Engagements_Scanner();
+		$this->thresholds = new LLMS_Engagements_Thresholds();
 	}
 
 	/**
@@ -74,7 +93,7 @@ class LLMS_Engagements {
 	private function add_actions() {
 
 		foreach ( $this->get_trigger_hooks() as $action ) {
-			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 3 );
+			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 4 );
 		}
 
 		// Handlers are in charge of processing (awarding/sending) the email/cert/achievement.
@@ -104,6 +123,74 @@ class LLMS_Engagements {
 		}
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
+
+		foreach ( array( 'achievement', 'certificate', 'email' ) as $type ) {
+			add_filter( "llms_proccess_{$type}_engagement", array( $this, 'remove_enrollment_check_errors' ), 10, 5 );
+		}
+	}
+
+	/**
+	 * Remove enrollment-check errors for triggers where the student is expected to be unenrolled.
+	 *
+	 * Triggers like "enrollment cancelled" or "order refunded" fire precisely because the
+	 * student lost access, so the handler's enrollment check would always fail and block
+	 * the engagement, both for delayed engagements and for scan-based triggers which
+	 * run the full processing checks.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean|WP_Error[] $can_process   An array of WP_Errors or `true` if the engagement can be processed.
+	 * @param int                $user_id       WP_User ID of the student earning the engagement.
+	 * @param int                $template_id   WP_Post ID of the template post.
+	 * @param int|string         $related_id    WP_Post ID of the triggering related post or an empty string.
+	 * @param null|int           $engagement_id WP_Post ID of the engagement post used to configure the trigger.
+	 * @return boolean|WP_Error[]
+	 */
+	public function remove_enrollment_check_errors( $can_process, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
+
+		if ( ! is_array( $can_process ) || empty( $engagement_id ) ) {
+			return $can_process;
+		}
+
+		$trigger_type = get_post_meta( $engagement_id, '_llms_trigger_type', true );
+
+		/**
+		 * Filters the list of engagement trigger types which may process even when the student is not enrolled.
+		 *
+		 * Allows add-ons registering triggers aimed at unenrolled students (e.g. expired
+		 * continuing education credits) to bypass the handler's enrollment check.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $trigger_types List of trigger type slugs.
+		 */
+		$exempt = apply_filters(
+			'llms_engagement_triggers_without_enrollment_check',
+			array(
+				'course_enrollment_cancelled',
+				'course_enrollment_expired',
+				'membership_enrollment_cancelled',
+				'membership_enrollment_expired',
+				'order_failed',
+				'order_refunded',
+				'order_cancelled',
+			)
+		);
+
+		if ( ! in_array( $trigger_type, $exempt, true ) ) {
+			return $can_process;
+		}
+
+		$errors = array_values(
+			array_filter(
+				$can_process,
+				function ( $error ) {
+					return ! ( is_wp_error( $error ) && 'llms-engagement-check-post--enrollment' === $error->get_error_code() );
+				}
+			)
+		);
+
+		return $errors ? $errors : true;
 	}
 
 	/**
@@ -226,6 +313,9 @@ class LLMS_Engagements {
 			'lifterlms_course_completed',
 			'lifterlms_course_track_completed',
 			'lifterlms_lesson_completed',
+			'lifterlms_order_status_cancelled',
+			'lifterlms_order_status_failed',
+			'lifterlms_order_status_refunded',
 			'lifterlms_product_purchased',
 			'lifterlms_quiz_completed',
 			'lifterlms_quiz_failed',
@@ -235,6 +325,8 @@ class LLMS_Engagements {
 			'llms_rest_student_registered',
 			'llms_user_added_to_membership_level',
 			'llms_user_enrolled_in_course',
+			'llms_user_removed_from_course',
+			'llms_user_removed_from_membership',
 		);
 
 		// If there are any actions registered to this deprecated hook, add it to the list.
@@ -394,6 +486,36 @@ class LLMS_Engagements {
 
 		// Verify that the action is a supported hook.
 		if ( ! in_array( $action, $this->get_trigger_hooks(), true ) ) {
+			return $parsed;
+		}
+
+		// Order status transition hooks pass the order object rather than a user ID.
+		if ( 0 === strpos( $action, 'lifterlms_order_status_' ) ) {
+
+			$order = $args[0] ?? null;
+			if ( $order instanceof LLMS_Order ) {
+				$parsed['user_id']         = absint( $order->get( 'user_id' ) );
+				$parsed['trigger_type']    = str_replace( 'lifterlms_order_status_', 'order_', $action );
+				$parsed['related_post_id'] = absint( $order->get( 'product_id' ) );
+			}
+
+			return $parsed;
+		}
+
+		// Unenrollment hooks pass the new enrollment status as the 4th argument.
+		if ( in_array( $action, array( 'llms_user_removed_from_course', 'llms_user_removed_from_membership' ), true ) ) {
+
+			$new_status = $args[3] ?? 'cancelled';
+			if ( in_array( $new_status, array( 'cancelled', 'expired' ), true ) ) {
+				$parsed['user_id']         = absint( $args[0] );
+				$parsed['related_post_id'] = absint( $args[1] );
+				$parsed['trigger_type']    = sprintf(
+					'%1$s_enrollment_%2$s',
+					str_replace( 'llms_user_removed_from_', '', $action ),
+					$new_status
+				);
+			}
+
 			return $parsed;
 		}
 
@@ -574,11 +696,15 @@ class LLMS_Engagements {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $data  Handler data from `parse_engagement()`.
-	 * @param int   $delay The engagement send delay (in days).
+	 * @param array   $data        Handler data from `parse_engagement()`.
+	 * @param int     $delay       The engagement send delay (in days).
+	 * @param boolean $skip_checks Whether to skip the handler's processing checks for immediate (zero-delay)
+	 *                             engagements. Safe only when the trigger is a live event for the current user;
+	 *                             scan-based triggers pass `false` because their candidates come from database
+	 *                             rows which may reference deleted users or since-modified posts.
 	 * @return void
 	 */
-	private function trigger_engagement( $data, $delay ) {
+	private function trigger_engagement( $data, $delay, $skip_checks = true ) {
 
 		// Can't proceed without an action and a handler.
 		if ( empty( $data['handler_action'] ) || empty( $data['handler_args'] ) ) {
@@ -605,13 +731,61 @@ class LLMS_Engagements {
 			 * publish/existence checks on all the related posts because the `get_engagement()` query takes care
 			 * of that already.
 			 */
-			add_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			if ( $skip_checks ) {
+				add_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			}
 
 			do_action( $data['handler_action'], $data['handler_args'] );
 
-			remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
-
+			if ( $skip_checks ) {
+				remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+			}
 		}
+	}
+
+	/**
+	 * Retrieve triggerable engagements for a given trigger type and related post.
+	 *
+	 * Public entry point used by the engagement scanner and threshold trigger
+	 * listeners which locate candidates outside of the `maybe_trigger_engagement()` flow.
+	 *
+	 * @since [version]
+	 *
+	 * @param string     $trigger_type    Name of the trigger to look for.
+	 * @param int|string $related_post_id The WP_Post ID of the related post or an empty string.
+	 * @return object[] See {@see LLMS_Engagements::get_engagements()} for the return object shape.
+	 */
+	public function get_triggerable_engagements( $trigger_type, $related_post_id = '' ) {
+		return $this->get_engagements( $trigger_type, $related_post_id );
+	}
+
+	/**
+	 * Trigger a single engagement for a given user.
+	 *
+	 * Public entry point used by the engagement scanner and threshold trigger listeners
+	 * to fire (or schedule, when the engagement has a delay) an engagement located
+	 * outside of the `maybe_trigger_engagement()` flow.
+	 *
+	 * @since [version]
+	 *
+	 * @param object     $engagement      An engagement object, see {@see LLMS_Engagements::get_engagements()} for the object shape.
+	 * @param int        $user_id         WP_User ID of the user to award or send the engagement to.
+	 * @param int|string $related_post_id The WP_Post ID of the related post or an empty string.
+	 * @return void
+	 */
+	public function trigger( $engagement, $user_id, $related_post_id = '' ) {
+
+		$handler = $this->parse_engagement(
+			$engagement,
+			array(
+				'user_id'         => $user_id,
+				'related_post_id' => $related_post_id,
+			)
+		);
+
+		// Never skip processing checks: scan candidates come from database rows, so the
+		// user may have been deleted and related posts may no longer be published.
+		$this->trigger_engagement( $handler, $engagement->delay, false );
 	}
 
 	/**

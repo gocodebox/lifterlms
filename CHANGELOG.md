@@ -1,6 +1,32 @@
 LifterLMS Changelog
 ===================
 
+v10.3.2 - 2026-10-09
+--------------------
+
+##### Security Fixes
+
++ Additional checks when loading templates.
+
+
+v10.3.1 - 2026-10-08
+--------------------
+
+##### Updates and Enhancements
+
++ Captcha secret keys are partially hidden in Security settings after they are saved. [#3387](https://github.com/gocodebox/lifterlms/issues/3387)
+
+##### Bug Fixes
+
++ Additional fix for the plan description editor when adding a new access plan in some cases.
++ Clear the post cache after migrating a post to the block editor.
+
+##### Security Fixes
+
++ Additional checks on REST API collection requests. Thanks [@pokeroot](https://github.com/pokeroot) and Huzaifa Jawaid!
++ Additional security enhancements.
+
+
 v10.3.0 - 2026-10-05
 --------------------
 

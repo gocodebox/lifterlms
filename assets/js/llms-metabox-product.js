@@ -713,8 +713,21 @@
 				return;
 			}
 
-			var $clone          = $( '#llms-new-access-plan-model' ).clone(),
-				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
+			var modelEditorId = '_llms_plans_content_llms-new-access-plan-model';
+
+			// bind() removes this editor as soon as tinyMCE exists, which is often before
+			// this instance has initialized. Remove it again at clone time, then drop any
+			// iframe that was still copied — otherwise the open handler inits a second editor.
+			if ( 'undefined' !== typeof tinyMCE ) {
+				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, modelEditorId );
+			}
+
+			var $clone  = $( '#llms-new-access-plan-model' ).clone(),
+				$editor = $clone.find( '#' + modelEditorId );
+
+			$clone.find( '.mce-tinymce' ).remove();
+			$clone.find( 'iframe' ).remove();
+			$editor.removeAttr( 'aria-hidden' ).css( 'display', '' );
 
 			// remove ID from the item
 			$clone.removeAttr( 'id' );
