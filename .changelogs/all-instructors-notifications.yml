@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added an 'All Instructors' option to notifications so course and membership alerts can be sent to every assigned instructor, not just the primary author. A per-post override on the course and membership editors lets instructors force the setting on or off for a single course/membership."

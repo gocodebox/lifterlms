@@ -118,10 +118,12 @@ class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'all_instructors', 'no' );
 				break;
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'all_instructors', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 
