@@ -183,12 +183,14 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				if ( $query->has_results() ) {
 					$events = $query->get_events();
 					$last   = array_shift( $events );
-					$value  = $last->get( 'date' );
+					// Events are stored as UTC; parse as UTC so the rendered date honors the site timezone.
+					$value = is_numeric( $last->get( 'date' ) ) ? $last->get( 'date' ) : strtotime( $last->get( 'date' ) . ' UTC' );
 				} else {
+					// User meta is already stored in the site's timezone.
 					$value = $student->get( 'last_login' );
 				}
 
-				$value = $value ? date_i18n( get_option( 'date_format' ), is_numeric( $value ) ? $value : strtotime( $value ) ) : '&ndash;';
+				$value = $value ? wp_date( get_option( 'date_format' ), is_numeric( $value ) ? (int) $value : strtotime( $value ) ) : '&ndash;';
 
 				break;
 
