@@ -1,16 +1,54 @@
 <?php
+/**
+ * Course Continue Button Elementor widget.
+ *
+ * @package LifterLMS/Classes/Elementor
+ *
+ * @since 7.7.0
+ */
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Elementor_Widget_Course_Continue_Button class.
+ *
+ * @since 7.7.0
+ * @since [version] Added enrollment visibility controls.
+ */
 class LLMS_Elementor_Widget_Course_Continue_Button extends LLMS_Elementor_Widget_Base {
 
+	/**
+	 * Get widget name.
+	 *
+	 * @since 7.7.0
+	 *
+	 * @return string
+	 */
 	public function get_name() {
 		return 'llms_course_continue_button_widget';
 	}
 
+	/**
+	 * Get widget title.
+	 *
+	 * @since 7.7.0
+	 *
+	 * @return string
+	 */
 	public function get_title() {
 		return __( 'Course Continue Button', 'lifterlms' );
 	}
 
+	/**
+	 * Register widget controls.
+	 *
+	 * @since 7.7.0
+	 * @since [version] Added enrollment visibility section.
+	 *
+	 * @return void
+	 */
 	protected function _register_controls() {
+
 		$this->start_controls_section(
 			'content_section',
 			array(
@@ -31,11 +69,18 @@ class LLMS_Elementor_Widget_Course_Continue_Button extends LLMS_Elementor_Widget
 		$this->add_footer_promo_control();
 
 		$this->end_controls_section();
+
+		$this->add_visibility_controls();
 	}
 
-	protected function render() {
-		$settings = $this->get_settings_for_display();
-
+	/**
+	 * Render widget output on the frontend.
+	 *
+	 * @since 7.7.0
+	 *
+	 * @return void
+	 */
+	protected function render_widget() {
 		echo do_shortcode( '[lifterlms_course_continue_button]' );
 	}
 }
