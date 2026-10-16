@@ -1,0 +1,14 @@
+significance: patch
+type: fixed
+comment: >
+  Two guards in llms.functions.access.php prevent a fatal error when a quiz belongs
+  to a lesson that has since been deleted. llms_is_post_restricted_by_prerequisite()
+  now returns false (unrestricted) instead of calling get_course() on a null lesson
+  object. llms_is_post_restricted_by_time_period() receives the same guard and also
+  fixes a copy-paste error where the original guard checked the lesson_id variable
+  (already truthy) instead of the lesson object returned by llms_get_post().
+links: []
+attributions:
+  - '@thisismyurl'
+entry: >
+  Fix fatal error when accessing a quiz whose parent lesson has been deleted.
