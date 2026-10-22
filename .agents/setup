@@ -18,22 +18,47 @@ done_step() {
 }
 
 # --- System packages ---------------------------------------------------------
-# PHP + extensions for Composer/PHPUnit/PHPCS, MariaDB for the PHPUnit WordPress test suite,
-# Subversion for fetching the WordPress test library, Docker Compose for wp-env (E2E), and zip
-# for `npm run dev release archive`.
+# PHP + extensions for Composer/PHPUnit/PHPCS, MariaDB for the PHPUnit WordPress test suite
+# (CI's setup-phpunit action and wp-env both use MariaDB), Subversion for fetching the
+# WordPress test library, Docker Compose for wp-env (E2E), and zip for `npm run dev release archive`.
 step "System packages"
+php_version=8.4
 apt_packages=(
-	php-cli php-mysql php-xml php-mbstring php-curl php-zip php-intl php-gd php-bcmath
-	zip unzip subversion composer mariadb-server docker-compose-plugin
+	"php$php_version-cli" "php$php_version-mysql" "php$php_version-xml" "php$php_version-mbstring"
+	"php$php_version-curl" "php$php_version-zip" "php$php_version-intl" "php$php_version-gd"
+	"php$php_version-bcmath"
+	zip unzip subversion mariadb-server docker-compose-plugin
 )
 missing=()
 for pkg in "${apt_packages[@]}"; do
 	dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q 'install ok installed' || missing+=("$pkg")
 done
 if ((${#missing[@]})); then
+	# Debian 12 ships PHP 8.2; PHP 8.4 comes from the deb.sury.org repository.
+	sury_list=/etc/apt/sources.list.d/php-sury.list
+	if [ ! -f "$sury_list" ]; then
+		sudo curl -fsSL -o /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+		echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ bookworm main" \
+			| sudo tee "$sury_list" >/dev/null
+	fi
 	sudo apt-get update -qq
 	sudo apt-get install -y -qq --no-install-recommends "${missing[@]}"
 fi
+sudo update-alternatives --set php "/usr/bin/php$php_version" >/dev/null
+php --version | head -1
+done_step
+
+# --- Composer (from getcomposer.org; Debian's package would pull in PHP 8.2) ---
+step "Composer"
+if ! command -v composer >/dev/null 2>&1; then
+	tmp_dir="$(mktemp -d)"
+	curl -fsSL -o "$tmp_dir/composer.phar" https://getcomposer.org/download/latest-stable/composer.phar
+	echo "$(curl -fsSL https://getcomposer.org/download/latest-stable/composer.phar.sha256)  $tmp_dir/composer.phar" \
+		| sha256sum -c - >/dev/null
+	sudo install -m 0755 "$tmp_dir/composer.phar" /usr/local/bin/composer
+	rm -rf "$tmp_dir"
+fi
+composer --version
 done_step
 
 # --- WP-CLI (required by `npm run build` for POT generation; CI pins 2.12.0) --
@@ -152,7 +177,7 @@ cat >> "$guidance_file" <<EOF
 $guidance_start
 # LifterLMS orb notes
 
-- Toolchain is preinstalled by \`.agents/setup\`: PHP 8.2, Composer, WP-CLI, Node (per \`.nvmrc\`), MariaDB, Docker + Compose, Playwright Chromium.
+- Toolchain is preinstalled by \`.agents/setup\`: PHP 8.4, Composer, WP-CLI, Node (per \`.nvmrc\`), MariaDB, Docker + Compose, Playwright Chromium.
 - PHPUnit: MariaDB runs locally (root / password @ 127.0.0.1) and the WordPress test suite is installed in \`tmp/tests\`. Run \`composer run tests-run\` (add \`-- --filter <name>\` to narrow).
 - PHPCS: \`composer run check-cs\` / \`composer run check-cs-errors\`.
 - Assets were built during setup. Rebuild with \`npm run build\` after changing \`src/\`.
