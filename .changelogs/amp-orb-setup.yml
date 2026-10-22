@@ -1,3 +1,3 @@
 significance: patch
 type: dev
-entry: Added Amp orb setup scripts (`.agents/setup`, `.agents/resume`, `.agents/addon`) so orbs start with PHP, Composer, Node, MariaDB, the PHPUnit test suite, and wp-env ready, and can build add-ons on demand.
+entry: Updated `AGENTS.md` with the add-on and theme repositories agents can clone and how to build them.

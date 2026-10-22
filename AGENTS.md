@@ -87,8 +87,7 @@ Add-ons and themes must be built like core (`composer install`, `npm ci`, `npm r
 
 - **Core copy:** `lifterlms-security`, a private copy of this repository that is synced manually.
 - **Add-ons:** `lifterlms-advanced-coupons`, `lifterlms-advanced-quizzes`, `lifterlms-advanced-videos`, `lifterlms-assignments`, `lifterlms-car`, `lifterlms-continuing-education`, `lifterlms-convertkit`, `lifterlms-course-cohorts`, `lifterlms-custom-fields`, `lifterlms-events`, `lifterlms-gateway-authorize-net`, `lifterlms-gateway-paypal`, `lifterlms-gifts`, `lifterlms-groups`, `lifterlms-integration-formidable-forms`, `lifterlms-integration-gravity-forms`, `lifterlms-integration-ninja-forms`, `lifterlms-integration-twilio`, `lifterlms-integration-woocommerce`, `lifterlms-integration-wpforms`, `lifterlms-labs`, `lifterlms-mailchimp`, `lifterlms-name-your-price`, `lifterlms-note-taking`, `lifterlms-pdfs`, `lifterlms-private-areas`, `lifterlms-private-site`, `lifterlms-social-learning`, `lifterlms-stripe`.
-- **Theme:** `sky-pilot`.
-- **Tooling and lifterlms.com (clone only when a task involves them):** `llms-releaser`, `lifterlms.com-rest-api`, `lifterlms-com-experiments`, `lifterlms-com-reporting`, `lifterlms-com-support-desk`, `lifterlms-com-wc-additions`, `lifterlms-website-testing`.
+- **Themes:** `sky-pilot`, `lifterlms-launchpad`.
 
 ## AI Integration Interfaces
 
