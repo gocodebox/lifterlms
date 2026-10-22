@@ -19,11 +19,12 @@ done_step() {
 
 # --- System packages ---------------------------------------------------------
 # PHP + extensions for Composer/PHPUnit/PHPCS, MariaDB for the PHPUnit WordPress test suite,
-# Subversion for fetching the WordPress test library, and Docker Compose for wp-env (E2E).
+# Subversion for fetching the WordPress test library, Docker Compose for wp-env (E2E), and zip
+# for `npm run dev release archive`.
 step "System packages"
 apt_packages=(
 	php-cli php-mysql php-xml php-mbstring php-curl php-zip php-intl php-gd php-bcmath
-	unzip subversion composer mariadb-server docker-compose-plugin
+	zip unzip subversion composer mariadb-server docker-compose-plugin
 )
 missing=()
 for pkg in "${apt_packages[@]}"; do
@@ -141,21 +142,24 @@ done_step
 # --- Orb-specific agent guidance -----------------------------------------------
 step "Agent guidance"
 guidance_file="$HOME/.config/amp/AGENTS.md"
-guidance_marker="<!-- lifterlms-orb-setup -->"
+guidance_start="<!-- lifterlms-orb-setup -->"
+guidance_end="<!-- /lifterlms-orb-setup -->"
 mkdir -p "$(dirname "$guidance_file")"
-if ! grep -Fq "$guidance_marker" "$guidance_file" 2>/dev/null; then
-	cat >> "$guidance_file" <<'EOF'
-
-<!-- lifterlms-orb-setup -->
+touch "$guidance_file"
+# Replace the previous block so guidance changes reach refreshed snapshots.
+sed -i "\|^$guidance_start\$|,\|^$guidance_end\$|d" "$guidance_file"
+cat >> "$guidance_file" <<EOF
+$guidance_start
 # LifterLMS orb notes
 
-- Toolchain is preinstalled by `.agents/setup`: PHP 8.2, Composer, WP-CLI, Node (per `.nvmrc`), MariaDB, Docker + Compose, Playwright Chromium.
-- PHPUnit: MariaDB runs locally (root / password @ 127.0.0.1) and the WordPress test suite is installed in `tmp/tests`. Run `composer run tests-run` (add `-- --filter <name>` to narrow).
-- PHPCS: `composer run check-cs` / `composer run check-cs-errors`.
-- Assets were built during setup. Rebuild with `npm run build` after changing `src/`.
-- E2E: `npx wp-env start && bash tests/e2e/bin/setup-env.sh && npx wp-scripts test-playwright`. wp-env images are pre-pulled; Docker starts on first use.
+- Toolchain is preinstalled by \`.agents/setup\`: PHP 8.2, Composer, WP-CLI, Node (per \`.nvmrc\`), MariaDB, Docker + Compose, Playwright Chromium.
+- PHPUnit: MariaDB runs locally (root / password @ 127.0.0.1) and the WordPress test suite is installed in \`tmp/tests\`. Run \`composer run tests-run\` (add \`-- --filter <name>\` to narrow).
+- PHPCS: \`composer run check-cs\` / \`composer run check-cs-errors\`.
+- Assets were built during setup. Rebuild with \`npm run build\` after changing \`src/\`.
+- E2E: \`npx wp-env start && bash tests/e2e/bin/setup-env.sh && npx wp-scripts test-playwright\`. wp-env images are pre-pulled; Docker starts on first use.
+- Add-ons and themes (listed in the repository's AGENTS.md): run \`.agents/addon <repo>\` from the LifterLMS repository to clone one into \`$(dirname "$repo_root")/repos/\`, install dependencies, build it like core, and mount it into wp-env. Then run \`npx wp-env start\` and \`npx wp-env run cli wp plugin activate lifterlms <repo>\` (use \`tests-cli\` for the E2E site). \`lifterlms-security\` is built but not mounted next to core.
+$guidance_end
 EOF
-fi
 done_step
 
 # Stop daemons cleanly so the snapshot holds consistent data; .agents/resume restarts them.

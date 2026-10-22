@@ -109,3 +109,6 @@ phpunit.xml
 
 # Amp orb portal registrations.
 .amp/portals/*
+
+# Local wp-env overrides (e.g. add-on mounts written by .agents/addon).
+.wp-env.override.json
