@@ -176,6 +176,32 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that a logged-out visitor isn't authorized for protected media with no author.
+	 *
+	 * Media imported without an author (e.g. `wp media import` without `--user`) has a post_author of 0,
+	 * which matches the user ID of a logged-out visitor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_logged_out_authorless_media() {
+
+		wp_set_current_user( 0 );
+
+		$attachment_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => 0,
+			)
+		);
+		update_post_meta( $attachment_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+
+		$this->assertSame( 0, intval( get_post_field( 'post_author', $attachment_id ) ) );
+		$this->assertFalse( ( new LLMS_Media_Protector() )->is_authorized_to_view( 0, $attachment_id ) );
+	}
+
+	/**
 	 * Create a protected attachment post with a real file in the uploads directory.
 	 *
 	 * @since 10.2.0

@@ -584,7 +584,8 @@ class LLMS_Media_Protector {
 			$is_authorized = true;
 		} else {
 			$user          = wp_get_current_user();
-			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || intval( get_post_field( 'post_author', $media_id ) ) === $user_id;
+			// Only a real user can be the uploader: logged-out visitors (user ID 0) would otherwise match media with no author.
+			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || ( $user_id > 0 && intval( get_post_field( 'post_author', $media_id ) ) === $user_id );
 		}
 
 		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
