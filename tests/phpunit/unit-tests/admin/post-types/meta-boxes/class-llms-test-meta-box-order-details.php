@@ -157,9 +157,10 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 		$notes = $order->get_notes();
 		add_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
 
+		$user = wp_get_current_user();
 		$this->assertEqualSets(
 			array(
-				'Order status changed from new to Pending Payment',
+				sprintf( 'Order status changed from new to Pending Payment by %1$s (#%2$d)', $user->user_login, $user->ID ),
 				'The billing length of the order has been modified from 5 days to 3 days.',
 				'Mock note',
 			),
