@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: Added `.agents/setup` and `.agents/resume` scripts so Amp orbs start with PHP, Composer, Node, MariaDB, the PHPUnit test suite, and wp-env ready.

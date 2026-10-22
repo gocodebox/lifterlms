@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+# Prepares a fresh Amp orb for LifterLMS development.
+# Runs once per orb snapshot and again on stale snapshots, so every step must be idempotent.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+export DEBIAN_FRONTEND=noninteractive
+export PATH="$HOME/.local/bin:$PATH"
+
+step() {
+	echo "==> $1"
+	step_started=$SECONDS
+}
+done_step() {
+	echo "    done in $((SECONDS - step_started))s"
+}
+
+# --- System packages ---------------------------------------------------------
+# PHP + extensions for Composer/PHPUnit/PHPCS, MariaDB for the PHPUnit WordPress test suite,
+# Subversion for fetching the WordPress test library, and Docker Compose for wp-env (E2E).
+step "System packages"
+apt_packages=(
+	php-cli php-mysql php-xml php-mbstring php-curl php-zip php-intl php-gd php-bcmath
+	unzip subversion composer mariadb-server docker-compose-plugin
+)
+missing=()
+for pkg in "${apt_packages[@]}"; do
+	dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q 'install ok installed' || missing+=("$pkg")
+done
+if ((${#missing[@]})); then
+	sudo apt-get update -qq
+	sudo apt-get install -y -qq --no-install-recommends "${missing[@]}"
+fi
+done_step
+
+# --- WP-CLI (required by `npm run build` for POT generation; CI pins 2.12.0) --
+step "WP-CLI"
+wp_cli_version=2.12.0
+if ! wp --version 2>/dev/null | grep -qx "WP-CLI $wp_cli_version"; then
+	sudo curl -fsSL -o /usr/local/bin/wp \
+		"https://github.com/wp-cli/wp-cli/releases/download/v${wp_cli_version}/wp-cli-${wp_cli_version}.phar"
+	sudo chmod +x /usr/local/bin/wp
+fi
+done_step
+
+# --- Node.js (major version pinned by .nvmrc) --------------------------------
+# The base image ships a newer Node in /usr/local/bin; ~/.local/bin precedes it on PATH
+# for Amp and login shells, so symlinks there select the pinned major version.
+step "Node.js"
+node_major="$(tr -d '[:space:]v' < .nvmrc)"
+node_dir="/opt/node${node_major}"
+if ! "$node_dir/bin/node" --version 2>/dev/null | grep -q "^v${node_major}\."; then
+	node_tarball="$(curl -fsSL "https://nodejs.org/dist/latest-v${node_major}.x/SHASUMS256.txt" \
+		| grep -o "node-v${node_major}\.[0-9.]*-linux-x64\.tar\.xz" | head -1)"
+	tmp_dir="$(mktemp -d)"
+	curl -fsSL -o "$tmp_dir/$node_tarball" "https://nodejs.org/dist/latest-v${node_major}.x/$node_tarball"
+	(cd "$tmp_dir" && curl -fsSL "https://nodejs.org/dist/latest-v${node_major}.x/SHASUMS256.txt" \
+		| grep " $node_tarball\$" | sha256sum -c -)
+	sudo rm -rf "$node_dir"
+	sudo mkdir -p "$node_dir"
+	sudo tar -xJf "$tmp_dir/$node_tarball" -C "$node_dir" --strip-components=1
+	rm -rf "$tmp_dir"
+fi
+mkdir -p "$HOME/.local/bin"
+for bin in node npm npx corepack; do
+	ln -sfn "$node_dir/bin/$bin" "$HOME/.local/bin/$bin"
+done
+node --version
+done_step
+
+# --- Docker (wp-env for Playwright E2E) --------------------------------------
+# Socket activation starts dockerd on first use; the agent user is not in the docker group
+# inside Amp's workload scopes, so open the socket to it.
+step "Docker socket"
+docker_dropin=/etc/systemd/system/docker.socket.d/amp-orb.conf
+if [ ! -f "$docker_dropin" ]; then
+	sudo mkdir -p "$(dirname "$docker_dropin")"
+	printf '[Socket]\nSocketMode=0666\n' | sudo tee "$docker_dropin" >/dev/null
+	sudo systemctl daemon-reload
+	sudo systemctl stop docker.service docker.socket 2>/dev/null || true
+fi
+sudo systemctl enable --now docker.socket >/dev/null 2>&1
+done_step
+
+# --- MariaDB (PHPUnit WordPress test suite) ----------------------------------
+step "MariaDB"
+mariadb_conf=/etc/mysql/mariadb.conf.d/99-amp-orb.cnf
+if [ ! -f "$mariadb_conf" ]; then
+	# Ephemeral sandbox: favor speed over durability.
+	printf '[mysqld]\ninnodb_flush_log_at_trx_commit = 0\ninnodb_doublewrite = 0\nsync_binlog = 0\n' \
+		| sudo tee "$mariadb_conf" >/dev/null
+	sudo systemctl restart mariadb
+fi
+sudo systemctl enable --now mariadb >/dev/null 2>&1
+# Matches the defaults of `composer run tests-install` (root / password @ 127.0.0.1).
+sudo mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('password') OR unix_socket;"
+done_step
+
+# --- PHP dependencies ----------------------------------------------------------
+# composer.lock is intentionally not committed (and is deleted by post-install scripts).
+step "Composer install"
+composer install --no-interaction --prefer-dist --no-progress
+done_step
+
+step "WordPress PHPUnit test suite (tmp/tests)"
+composer run tests-install >/dev/null
+done_step
+
+# --- Node dependencies ---------------------------------------------------------
+# `npm ci` always wipes node_modules (~60s), so skip it when the lockfile and Node version
+# are unchanged since the last successful install.
+step "npm ci"
+npm_stamp="node_modules/.amp-setup-stamp"
+npm_fingerprint="$(node --version) $(sha256sum package-lock.json | cut -d' ' -f1)"
+if [ "$(cat "$npm_stamp" 2>/dev/null)" != "$npm_fingerprint" ]; then
+	npm ci --no-audit --no-fund
+	echo "$npm_fingerprint" > "$npm_stamp"
+fi
+done_step
+
+# --- Build assets (gitignored; required by PHPUnit and E2E) -------------------
+step "npm run build"
+npm run build >/dev/null
+done_step
+
+# --- Playwright browser (playwright.config.js only uses Chromium) -------------
+step "Playwright Chromium"
+npx playwright install chromium
+done_step
+
+# --- Pre-pull wp-env images so the first E2E run does not download them -------
+step "wp-env images"
+if ! docker image ls --format '{{.Repository}}' | grep -q wordpress; then
+	npx wp-env start
+	npx wp-env stop
+fi
+done_step
+
+# --- Orb-specific agent guidance -----------------------------------------------
+step "Agent guidance"
+guidance_file="$HOME/.config/amp/AGENTS.md"
+guidance_marker="<!-- lifterlms-orb-setup -->"
+mkdir -p "$(dirname "$guidance_file")"
+if ! grep -Fq "$guidance_marker" "$guidance_file" 2>/dev/null; then
+	cat >> "$guidance_file" <<'EOF'
+
+<!-- lifterlms-orb-setup -->
+# LifterLMS orb notes
+
+- Toolchain is preinstalled by `.agents/setup`: PHP 8.2, Composer, WP-CLI, Node (per `.nvmrc`), MariaDB, Docker + Compose, Playwright Chromium.
+- PHPUnit: MariaDB runs locally (root / password @ 127.0.0.1) and the WordPress test suite is installed in `tmp/tests`. Run `composer run tests-run` (add `-- --filter <name>` to narrow).
+- PHPCS: `composer run check-cs` / `composer run check-cs-errors`.
+- Assets were built during setup. Rebuild with `npm run build` after changing `src/`.
+- E2E: `npx wp-env start && bash tests/e2e/bin/setup-env.sh && npx wp-scripts test-playwright`. wp-env images are pre-pulled; Docker starts on first use.
+EOF
+fi
+done_step
+
+# Stop daemons cleanly so the snapshot holds consistent data; .agents/resume restarts them.
+step "Stop services"
+sudo systemctl stop mariadb docker.service docker.socket
+done_step
+
+echo "==> Setup complete in ${SECONDS}s"
