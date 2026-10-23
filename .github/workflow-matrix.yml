@@ -1,9 +1,0 @@
-###
-# Custom workflow build matrix configurations.
-#
-# @see https://github.com/gocodebox/.github/blob/trunk/.github/actions/setup-matrix/README.md
-###
-Test PHPUnit:
-  # Run the test suite on PHP 8.5 in addition to the default matrix versions.
-  PHP:
-    - '8.5'
