@@ -544,8 +544,8 @@ if ( ! isset( $plan ) ) {
 			<div class="llms-metabox-field d-1of4" data-controller="llms-on-sale" data-value-is="yes">
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_start]">
 					<?php esc_html_e( 'Sale Start Date', 'lifterlms' ); ?>
-					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?></span>
-					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'The sale starts at the beginning of this date (12:00 AM in the site\'s timezone).', 'lifterlms' ); ?></span>
+					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'The sale starts at the beginning of this date (12:00 AM in the site\'s timezone).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
@@ -555,8 +555,8 @@ if ( ! isset( $plan ) ) {
 			<div class="llms-metabox-field d-1of4" data-controller="llms-on-sale" data-value-is="yes">
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_end]">
 					<?php esc_html_e( 'Sale End Date', 'lifterlms' ); ?>
-					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period ends.', 'lifterlms' ); ?></span>
-					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Specify when the sale period ends.', 'lifterlms' ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'The sale runs through the end of this date (11:59 PM in the site\'s timezone).', 'lifterlms' ); ?></span>
+					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'The sale runs through the end of this date (11:59 PM in the site\'s timezone).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>

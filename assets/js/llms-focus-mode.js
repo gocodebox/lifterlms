@@ -4,7 +4,8 @@
  * @package LifterLMS
  *
  * @since 10.0.0
- * @version 10.0.0
+ * @since [version] Keep aria-expanded in sync with the collapsed sidebar.
+ * @version [version]
  */
 ( function() {
 	'use strict';
@@ -19,13 +20,20 @@
 
 		var body = document.body;
 
+		function setExpanded() {
+			var collapsed = body.classList.contains( 'llms-sidebar-collapsed' );
+			toggle.setAttribute( 'aria-expanded', collapsed ? 'false' : 'true' );
+		}
+
 		if ( localStorage.getItem( STORAGE_KEY ) === '1' ) {
 			body.classList.add( 'llms-sidebar-collapsed' );
 		}
+		setExpanded();
 
 		toggle.addEventListener( 'click', function() {
 			var collapsed = body.classList.toggle( 'llms-sidebar-collapsed' );
 			localStorage.setItem( STORAGE_KEY, collapsed ? '1' : '0' );
+			setExpanded();
 		} );
 	}
 

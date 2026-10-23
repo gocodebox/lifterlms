@@ -208,18 +208,19 @@ function llms_get_certificate_merge_codes() {
 	return apply_filters(
 		'llms_certificate_available_merge_codes',
 		array(
-			'{site_title}'     => __( 'Site Title', 'lifterlms' ),
-			'{site_url}'       => __( 'Site URL', 'lifterlms' ),
-			'{current_date}'   => __( 'Current Date', 'lifterlms' ),
-			'{earned_date}'    => __( 'Earned Date', 'lifterlms' ),
-			'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
-			'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
-			'{student_name}'   => __( 'Student Display Name', 'lifterlms' ),
-			'{email_address}'  => __( 'Student Email', 'lifterlms' ),
-			'{student_id}'     => __( 'Student User ID', 'lifterlms' ),
-			'{user_login}'     => __( 'Student Username', 'lifterlms' ),
-			'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
-			'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
+			'{site_title}'         => __( 'Site Title', 'lifterlms' ),
+			'{site_url}'           => __( 'Site URL', 'lifterlms' ),
+			'{current_date}'       => __( 'Current Date', 'lifterlms' ),
+			'{earned_date}'        => __( 'Earned Date', 'lifterlms' ),
+			'{first_name}'         => __( 'Student First Name', 'lifterlms' ),
+			'{last_name}'          => __( 'Student Last Name', 'lifterlms' ),
+			'{student_name}'       => __( 'Student Display Name', 'lifterlms' ),
+			'{email_address}'      => __( 'Student Email', 'lifterlms' ),
+			'{student_id}'         => __( 'Student User ID', 'lifterlms' ),
+			'{user_login}'         => __( 'Student Username', 'lifterlms' ),
+			'{certificate_id}'     => __( 'Certificate ID', 'lifterlms' ),
+			'{sequential_id}'      => __( 'Sequential Certificate ID', 'lifterlms' ),
+			'{related_post_title}' => __( 'Related Post Title', 'lifterlms' ),
 		)
 	);
 }

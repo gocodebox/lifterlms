@@ -490,6 +490,37 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test that a date set on the course passes at the start of that day.
+	 *
+	 * Enrollment and course end dates close at 12:00 AM of the selected date,
+	 * so a date of today counts as passed and a date of tomorrow does not.
+	 *
+	 * @return void
+	 */
+	public function test_has_date_passed_start_of_day() {
+
+		$this->create();
+
+		$now      = current_time( 'timestamp' );
+		$today    = date( 'm/d/Y', $now );
+		$tomorrow = date( 'm/d/Y', strtotime( '+1 day', $now ) );
+
+		// No date set.
+		$this->assertFalse( $this->obj->has_date_passed( 'enrollment_end_date' ) );
+
+		foreach ( array( 'enrollment_end_date', 'end_date' ) as $key ) {
+
+			$this->obj->set( $key, $today );
+			$this->assertTrue( $this->obj->has_date_passed( $key ), $key );
+
+			$this->obj->set( $key, $tomorrow );
+			$this->assertFalse( $this->obj->has_date_passed( $key ), $key );
+
+		}
+
+	}
+
+	/**
 	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0

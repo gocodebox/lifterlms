@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 7.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -217,6 +217,15 @@ return array(
 		'namespace' => true,
 		'updates'   => array(
 			'delete_zero_lesson_time_caches',
+			'update_db_version',
+		),
+	),
+	'11.0.0' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'replace_weak_password_meter_descriptions',
+			'backfill_has_transaction_flag',
 			'update_db_version',
 		),
 	),

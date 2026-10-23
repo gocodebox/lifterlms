@@ -768,6 +768,9 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 				case '{sequential_id}':
 					$expected = '000001';
 					break;
+				case '{related_post_title}':
+					$expected = get_the_title( $related );
+					break;
 
 				case '[llms-user display_name]':
 					$expected = "{$user_info['first_name']} {$user_info['last_name']}";
@@ -822,6 +825,44 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $expected, $cert->get( 'content', true ) );
 		$this->assertEquals( 'Title', $cert->get( 'title', true ) );
 		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get( 'id' ) ) );
+	}
+
+	/**
+	 * Test the {related_post_title} merge code outputs an empty string for certificates
+	 * with no real related post.
+	 *
+	 * Certificates awarded with no related post (e.g. user registration) receive the
+	 * certificate template as their related post for legacy reasons, and must not
+	 * render the certificate's own title.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_merge_data_related_post_title() {
+
+		$content = 'Congrats on {related_post_title}!';
+
+		// A real related post merges its title.
+		$uid      = $this->factory->student->create();
+		$related  = $this->factory->post->create( array( 'post_title' => 'Quantum Basketweaving 101' ) );
+		$template = $this->create_certificate_template( 'Cert Template Title', $content );
+		$cert     = LLMS_Unit_Test_Util::call_method(
+			'LLMS_Engagement_Handler',
+			'create',
+			array( 'certificate', $uid, $template, $related )
+		);
+		$this->assertStringContainsString( 'Congrats on Quantum Basketweaving 101!', $cert->get( 'content', true ) );
+
+		// Related post is the template itself (registration certificates): empty output.
+		$uid2  = $this->factory->student->create();
+		$cert2 = LLMS_Unit_Test_Util::call_method(
+			'LLMS_Engagement_Handler',
+			'create',
+			array( 'certificate', $uid2, $template, $template )
+		);
+		$this->assertStringContainsString( 'Congrats on !', $cert2->get( 'content', true ) );
+		$this->assertStringNotContainsString( 'Cert Template Title', $cert2->get( 'content', true ) );
 	}
 
 	/**
