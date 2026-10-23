@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v10.3.2 - 2026-10-09
+--------------------
+
+##### Security Fixes
+
++ Additional checks when loading templates.
+
+
 v10.3.1 - 2026-10-08
 --------------------
 

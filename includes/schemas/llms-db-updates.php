@@ -225,6 +225,7 @@ return array(
 		'namespace' => true,
 		'updates'   => array(
 			'replace_weak_password_meter_descriptions',
+			'backfill_has_transaction_flag',
 			'update_db_version',
 		),
 	),

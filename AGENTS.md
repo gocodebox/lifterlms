@@ -75,6 +75,20 @@ LifterLMS extends through paid add-ons published from **private** repositories u
 
 **Heads up:** add-on repos are private. Agents working on behalf of a LifterLMS team member with `gocodebox` org access can clone, read, and contribute to them. Agents working in the public open-source codebase will not be able to view them. If a hook, filter, or behavior originates in an add-on, the public-facing references are the product page and documentation at https://lifterlms.com/docs/.
 
+#### Cloning add-on repositories
+
+Clone only the repositories a task needs, as siblings of this checkout (`../repos/<repo>` in Amp orbs):
+
+```
+git clone https://github.com/gocodebox/<repo>.git ../repos/<repo>
+```
+
+Add-ons and themes must be built like core (`composer install`, `npm ci`, `npm run build`) before they can be activated. In an Amp orb, `.agents/addon <repo> [<repo>...]` clones missing repositories, installs dependencies, builds them, and mounts plugins and themes into wp-env through `.wp-env.override.json`; then run `npx wp-env start` and `npx wp-env run cli wp plugin activate lifterlms <repo>`.
+
+- **Core copy:** `lifterlms-security`, a private copy of this repository that is synced manually.
+- **Add-ons:** `lifterlms-advanced-coupons`, `lifterlms-advanced-quizzes`, `lifterlms-advanced-videos`, `lifterlms-assignments`, `lifterlms-car`, `lifterlms-continuing-education`, `lifterlms-convertkit`, `lifterlms-course-cohorts`, `lifterlms-custom-fields`, `lifterlms-events`, `lifterlms-gateway-authorize-net`, `lifterlms-gateway-paypal`, `lifterlms-gifts`, `lifterlms-groups`, `lifterlms-integration-formidable-forms`, `lifterlms-integration-gravity-forms`, `lifterlms-integration-ninja-forms`, `lifterlms-integration-twilio`, `lifterlms-integration-woocommerce`, `lifterlms-integration-wpforms`, `lifterlms-labs`, `lifterlms-mailchimp`, `lifterlms-name-your-price`, `lifterlms-note-taking`, `lifterlms-pdfs`, `lifterlms-private-areas`, `lifterlms-private-site`, `lifterlms-social-learning`, `lifterlms-stripe`.
+- **Themes:** `sky-pilot`, `lifterlms-launchpad`.
+
 ## AI Integration Interfaces
 
 Three ways for an agent to drive a live LifterLMS site:

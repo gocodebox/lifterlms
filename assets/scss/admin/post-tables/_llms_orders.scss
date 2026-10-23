@@ -1,7 +1,51 @@
-.wp-list-table {
+.wp-list-table,
+.llms-orders-transactions-wrap,
+.llms-subscriptions-wrap {
 	@include order_status_badges();
 }
 
 #lifterlms-order-transactions .llms-table tfoot th {
 	text-align: right;
+}
+
+// New Orders / Subscriptions reporting pages (LLMS_Admin_Page_Orders).
+.llms-orders-transactions-wrap,
+.llms-subscriptions-wrap {
+
+	.llms-table-header {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 12px;
+		margin: 0 0 12px;
+
+		// The shared header clearfix stretches the row and shoves the table down.
+		&:before,
+		&:after {
+			content: none;
+			display: none;
+		}
+
+		h2 {
+			margin: 0;
+		}
+	}
+
+	.llms-table-search,
+	.llms-table-filters {
+		float: none;
+		padding-left: 0;
+	}
+
+	.llms-table-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-left: auto;
+		order: 1;
+	}
+
+	.llms-table-search {
+		order: 2;
+	}
 }
