@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#1953"
+entry: "Instructors, assistants and LMS managers now show in the block editor author list."
