@@ -10,7 +10,7 @@
 }
 
 .llms-progress .llms-progress-bar {
-	background-color: $color-border;
+	background-color: llms-var( color-track );
 	position: relative;
 	height: .4em;
 	top: .3em;
@@ -18,7 +18,7 @@
 }
 
 .llms-progress .progress-bar-complete {
-	background-color: $color-brand-pink;
+	background-color: llms-var( color-accent );
 	height: 100%;
 }
 
