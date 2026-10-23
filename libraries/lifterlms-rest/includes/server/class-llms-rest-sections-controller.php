@@ -614,6 +614,38 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Retrieve the IDs of the sections the current user can read.
+	 *
+	 * Pagination totals come from the collection query, before the per-item
+	 * read check runs. Sections of password protected courses are refused by
+	 * {@see LLMS_REST_Sections_Controller::check_read_permission()} but are
+	 * still matched by the query, so they are removed here to keep the
+	 * pagination totals identical to the returned items.
+	 *
+	 * @since [version]
+	 *
+	 * @param array           $query_args Collection query arguments.
+	 * @param WP_REST_Request $request    Request object.
+	 * @return int[]|null Readable section IDs, or `null` when the query needs no restriction.
+	 */
+	protected function constrain_readable_post_ids( $query_args, $request = null ) {
+
+		// In edit context the per-item read check skips the parent course
+		// password check entirely, so the collection is not restricted.
+		if ( $request && 'edit' === $request['context'] && $this->check_update_permission() ) {
+			return null;
+		}
+
+		$statuses = empty( $query_args['post_status'] ) ? array( 'publish' ) : (array) $query_args['post_status'];
+		$args     = array( 'post_type' => $this->post_type );
+		if ( ! in_array( 'any', array_map( 'strval', $statuses ), true ) ) {
+			$args['post_status'] = $statuses;
+		}
+
+		return $this->filter_post_ids_by_read_permission( $this->query_post_ids( $args ) );
+	}
+
+	/**
 	 * Retrieves the content controller.
 	 *
 	 * @since 1.0.0-beta.1

@@ -203,6 +203,8 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 	 */
 	protected function get_objects_query( $prepared, $request ) {
 
+		$prepared = $this->limit_query_to_readable_users( $prepared );
+
 		$remove = false;
 		if ( ! empty( $prepared['enrolled_in'] ) || ! empty( $prepared['enrolled_not_in'] ) ) {
 
@@ -222,6 +224,106 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Restrict collection query arguments to the users the current user can read.
+	 *
+	 * Pagination totals are computed from the collection query before the
+	 * per-item read check runs. A caller who may read some students but not
+	 * all of them would otherwise be refused every item while `X-WP-Total`
+	 * still reports (and, combined with the `search` parameter, enumerates)
+	 * the unreadable rows.
+	 *
+	 * This mirrors {@see LLMS_REST_Students_Controller::check_read_item_permissions()}:
+	 * the scoped query matches the current user and the students they can
+	 * read, so the pagination totals fall out of the constrained query.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $prepared Collection query arguments.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_users( $prepared ) {
+
+		// Callers who cannot read any student, or who can read all of them,
+		// are already scoped consistently by the collection and per-item
+		// permission checks.
+		if ( ! current_user_can( 'view_students' ) || current_user_can( 'view_others_students' ) ) {
+			return $prepared;
+		}
+
+		// Subclasses replace this read rule and scope their own collection.
+		// The groups add-on's group members controller is one of them.
+		if ( self::class !== static::class ) {
+			return $prepared;
+		}
+
+		$readable = $this->get_readable_user_ids();
+
+		if ( ! empty( $prepared['include'] ) ) {
+			$readable = array_intersect( $readable, array_map( 'absint', (array) $prepared['include'] ) );
+		}
+
+		// An empty `include` list is ignored by `WP_User_Query`, which would
+		// count every user, so force an impossible match instead.
+		$prepared['include'] = $readable ? array_values( array_unique( $readable ) ) : array( 0 );
+
+		return $prepared;
+	}
+
+	/**
+	 * Retrieve the IDs of the users the current user can read.
+	 *
+	 * Mirrors the scoped `view_students` capability check: the current user
+	 * themself, plus every student enrolled in one of the courses or
+	 * memberships they instruct, as resolved by
+	 * {@see LLMS_Instructor::has_student()}.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]
+	 */
+	protected function get_readable_user_ids() {
+
+		$ids = array( get_current_user_id() );
+
+		$instructor = llms_get_instructor( get_current_user_id() );
+		if ( $instructor ) {
+
+			$post_ids = array_map( 'absint', $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) );
+
+			if ( $post_ids ) {
+
+				global $wpdb;
+
+				$placeholders = implode( ', ', array_fill( 0, count( $post_ids ), '%d' ) );
+				$found        = $wpdb->get_col(
+					$wpdb->prepare(
+						// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- prepared via $wpdb->prepare().
+						"SELECT DISTINCT upm.user_id
+						 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+						 WHERE upm.meta_key = '_status'
+						   AND upm.post_id IN ( {$placeholders} )
+						   AND upm.meta_value = 'enrolled'
+						   AND upm.meta_id = (
+							   SELECT upm2.meta_id
+							   FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+							   WHERE upm2.user_id = upm.user_id
+							     AND upm2.post_id = upm.post_id
+							     AND upm2.meta_key = '_status'
+							   ORDER BY upm2.updated_date DESC, upm2.meta_id DESC
+							   LIMIT 1
+						   )",
+						$post_ids
+					)
+				);
+
+				$ids = array_merge( $ids, array_map( 'absint', $found ) );
+			}
+		}
+
+		return array_values( array_unique( $ids ) );
 	}
 
 	/**

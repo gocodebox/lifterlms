@@ -566,4 +566,66 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 
 	}
 
+	/**
+	 * Sections of password protected courses are not counted for callers who cannot read them.
+	 *
+	 * The per-item read check refuses a section whose parent course requires a
+	 * password, but the section itself carries no password, so the collection
+	 * query would still match (and count) it, turning the pagination totals
+	 * into a search oracle.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_items_totals_exclude_password_protected_parents() {
+
+		$open_course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 0 ) );
+		$open        = $open_course->get_sections( 'ids' )[0];
+
+		$protected = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 0 ) );
+		wp_update_post(
+			array(
+				'ID'            => $protected->get( 'id' ),
+				'post_password' => 'labpass',
+			)
+		);
+		$hidden = $protected->get_sections( 'ids' )[0];
+
+		$secret = 'SECRETSEC77';
+		wp_update_post(
+			array(
+				'ID'         => $hidden,
+				'post_title' => $secret,
+			)
+		);
+
+		// An anonymous caller cannot count, or search for, the protected section.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'include' => array( $hidden ),
+			'search'  => $secret,
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 0, $res->get_headers()['X-WP-Total'] );
+		$this->assertEmpty( $res->get_data() );
+
+		// A readable section is still listed, with a matching total.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'include' => array( $open ) ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $open ), wp_list_pluck( $res->get_data(), 'id' ) );
+
+		// Edit context is unchanged: an administrator reads the protected section.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'context' => 'edit',
+			'include' => array( $hidden ),
+			'search'  => $secret,
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $hidden ), wp_list_pluck( $res->get_data(), 'id' ) );
+
+	}
+
 }

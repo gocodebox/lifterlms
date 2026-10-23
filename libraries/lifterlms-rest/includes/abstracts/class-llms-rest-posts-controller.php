@@ -431,15 +431,16 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		$query_args = $this->prepare_items_query( $prepared, $request );
 
-		return $this->limit_query_to_readable_posts( $query_args );
+		return $this->limit_query_to_readable_posts( $query_args, $request );
 	}
 
 	/**
 	 * Retrieve the IDs of the posts of this type the current user can read.
 	 *
 	 * Pagination totals come from the collection query, before the per-item
-	 * read check runs. A controller whose read check is stricter than the query
-	 * returns the readable IDs here so the query itself only matches them.
+	 * read check runs. A controller whose read check is stricter than the
+	 * query returns the readable IDs here so the query itself only matches
+	 * them.
 	 *
 	 * @since 10.3.1
 	 *
@@ -450,16 +451,85 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	}
 
 	/**
+	 * Post IDs to keep when an override did not supply its own readable set.
+	 *
+	 * Mirrors {@see LLMS_REST_Posts_Controller::check_read_permission()}: only
+	 * queries that may match non-public posts can disagree with that check,
+	 * since published rows are admitted to every caller. A `null` return leaves
+	 * the query unrestricted.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $query_args Collection query arguments.
+	 * @return int[]|null Readable post IDs, or `null` when the query needs no restriction.
+	 */
+	protected function constrain_readable_post_ids( $query_args ) {
+
+		$statuses = empty( $query_args['post_status'] ) ? array( 'publish' ) : array_map( 'strval', (array) $query_args['post_status'] );
+
+		// Every row the query can match is admitted by the read check.
+		if ( ! array_diff( $statuses, get_post_stati( array( 'public' => true ) ) ) ) {
+			return null;
+		}
+
+		// Users who can edit others' posts of this type can read every row
+		// the read check admits.
+		if ( $this->can_edit_others_posts() ) {
+			return null;
+		}
+
+		// Everything the query could otherwise match, and then keep only
+		// what the read check admits.
+		$args = array( 'post_type' => $this->post_type );
+		if ( ! in_array( 'any', $statuses, true ) ) {
+			$args['post_status'] = $statuses;
+		}
+
+		return $this->filter_post_ids_by_read_permission( $this->query_post_ids( $args ) );
+	}
+
+	/**
+	 * Filter a list of post IDs down to those the current user can read.
+	 *
+	 * This keeps the collection query in sync with
+	 * {@see LLMS_REST_Posts_Controller::check_read_permission()}, which the
+	 * per-item read check runs on every returned row.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $ids Post IDs.
+	 * @return int[]
+	 */
+	protected function filter_post_ids_by_read_permission( $ids ) {
+
+		$readable = array();
+
+		foreach ( $ids as $id ) {
+			$object = $this->get_object( $id );
+			if ( ! is_wp_error( $object ) && $this->check_read_permission( $object ) ) {
+				$readable[] = absint( $id );
+			}
+		}
+
+		return $readable;
+	}
+
+	/**
 	 * Restrict collection query arguments to the posts the current user can read.
 	 *
 	 * @since 10.3.1
+	 * @since [version] Passes the request to `constrain_readable_post_ids()`.
 	 *
-	 * @param array $query_args WP_Query arguments.
+	 * @param array           $query_args WP_Query arguments.
+	 * @param WP_REST_Request $request    Request object.
 	 * @return array
 	 */
-	protected function limit_query_to_readable_posts( $query_args ) {
+	protected function limit_query_to_readable_posts( $query_args, $request = null ) {
 
 		$readable = $this->get_readable_post_ids();
+		if ( null === $readable ) {
+			$readable = $this->constrain_readable_post_ids( $query_args, $request );
+		}
 		if ( null === $readable ) {
 			return $query_args;
 		}

@@ -1403,4 +1403,82 @@ class LLMS_REST_Test_Students_Controllers extends LLMS_REST_Unit_Test_Case_Users
 		return $this->factory->student->create();
 	}
 
+	/**
+	 * Collection totals are constrained to the students the current user can read.
+	 *
+	 * A caller who may read some students but not all of them cannot use the
+	 * `X-WP-Total` header, with the `search` parameter, as an oracle against
+	 * the records they are not allowed to read.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_items_totals_match_readable_students() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$other      = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$manager    = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+		$assistant  = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+
+		$own    = $this->factory->student->create( array( 'user_email' => 'own.secret@students.tld' ) );
+		$hidden = $this->factory->student->create( array( 'user_email' => 'hidden.secret@students.tld' ) );
+		$alumni = $this->factory->student->create();
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+		$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$other_course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+		$other_course->set_instructors( array( array( 'id' => $other ) ) );
+
+		llms_get_student( $own )->enroll( $course->get( 'id' ) );
+		llms_get_student( $hidden )->enroll( $other_course->get( 'id' ) );
+
+		// An enrolled-then-unenrolled student is not readable by the instructor.
+		llms_get_student( $alumni )->enroll( $course->get( 'id' ) );
+		llms_get_student( $alumni )->unenroll( $course->get( 'id' ) );
+
+		// An instructor's assistant can read no student records: no totals are reported either.
+		wp_set_current_user( $assistant );
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'per_page' => 100 ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 0, $res->get_headers()['X-WP-Total'] );
+		$this->assertEmpty( $res->get_data() );
+
+		// The email oracle: a search matching the email of every student still reports nothing.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'context'        => 'edit',
+			'search_columns' => array( 'email' ),
+			'search'         => 'secret',
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 0, $res->get_headers()['X-WP-Total'] );
+		$this->assertEmpty( $res->get_data() );
+
+		// An instructor's total counts only the students they can read.
+		wp_set_current_user( $instructor );
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'per_page' => 100 ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $own ), wp_list_pluck( $res->get_data(), 'id' ) );
+
+		// The same holds when a search matches unreadable students.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'context'        => 'edit',
+			'search_columns' => array( 'email' ),
+			'search'         => 'secret',
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $own ), wp_list_pluck( $res->get_data(), 'id' ) );
+
+		// An LMS manager reads every student, with totals unchanged.
+		wp_set_current_user( $manager );
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'per_page' => 100 ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 3, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( 3, count( $res->get_data() ) );
+
+	}
+
 }
