@@ -65,6 +65,50 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * The Orders submenu leads with Orders & Transactions, not Customers.
+	 *
+	 * WordPress points the top-level Orders menu at the first submenu item.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_orders_submenu_leads_with_transactions() {
+
+		global $submenu;
+
+		$parent = 'edit.php?post_type=llms_order';
+
+		$submenu[ $parent ] = array(
+			array( 'Customers', 'manage_lifterlms', 'llms-customers' ),
+			array( 'Coupons', 'manage_lifterlms', 'edit.php?post_type=llms_coupon' ),
+			array( 'Orders & Transactions', 'view_lifterlms_reports', 'llms-orders-transactions' ),
+			array( 'Subscriptions', 'view_lifterlms_reports', 'llms-subscriptions' ),
+			array( 'Vouchers', 'manage_lifterlms', 'edit.php?post_type=llms_voucher' ),
+		);
+
+		$this->main->submenu_order( false );
+
+		$slugs = array_map(
+			function ( $item ) {
+				return $item[2];
+			},
+			$submenu[ $parent ]
+		);
+
+		$this->assertSame(
+			array(
+				'llms-orders-transactions',
+				'llms-subscriptions',
+				'llms-customers',
+				'edit.php?post_type=llms_coupon',
+				'edit.php?post_type=llms_voucher',
+			),
+			$slugs
+		);
+	}
+
+	/**
 	 * Tests {@see LLMS_Admin_Menus::instructor:menu_hack}.
 	 *
 	 * @since 7.0.1

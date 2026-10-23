@@ -4,42 +4,46 @@
  *
  * @since 3.24.0
  * @since 6.0.0 Wrap each section in a <tbody> element.
- * @version 6.0.0
+ * @since [version] Render each section as its own table with a caption.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<table class="llms-table llms-single-course-grades">
 <?php foreach ( $course->get_sections() as $section ) : ?>
-	<tbody>
-		<tr class="llms-section">
-			<th class="llms-section_title" colspan="2">
-				<?php echo esc_html( sprintf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $section->get( 'title' ) ) ); ?>
-			</th>
+<table class="llms-table llms-single-course-grades">
+	<caption class="llms-section_title">
+		<?php echo esc_html( sprintf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $section->get( 'title' ) ) ); ?>
+	</caption>
+	<thead>
+		<tr>
+			<th class="llms-lesson_title" scope="col"><?php esc_html_e( 'Lesson', 'lifterlms' ); ?></th>
 			<?php foreach ( $section_headings as $id => $content ) : ?>
-				<th class="llms-<?php echo esc_attr( $id ); ?>">
+				<th class="llms-<?php echo esc_attr( $id ); ?>" scope="col">
 					<?php echo wp_kses_post( $content ); ?>
 				</th>
 			<?php endforeach; ?>
 		</tr>
-
+	</thead>
+	<tbody>
 		<?php
 		foreach ( $section->get_lessons() as $lesson ) :
 			$restricted = llms_page_restricted( $lesson->get( 'id' ) );
-			$title      = $lesson->get( 'title' );
-			$url        = $restricted['is_restricted'] ? '#' : get_permalink( $lesson->get( 'id' ) );
-			$title      = sprintf( '<a href="%1$s">%2$s</a>', $url, $title );
+			$title = $lesson->get( 'title' );
+			$url   = $restricted['is_restricted'] ? '#' : get_permalink( $lesson->get( 'id' ) );
+			$href  = ( '#' === $url ) ? '#' : esc_url( $url );
+			$title = sprintf( '<a href="%1$s">%2$s</a>', $href, esc_html( $title ) );
 			?>
 			<tr>
-				<td class="llms-lesson_title" colspan="2">
+				<th class="llms-lesson_title" scope="row">
 					<?php echo wp_kses_post( sprintf( __( 'Lesson %1$d: %2$s', 'lifterlms' ), $lesson->get( 'order' ), $title ) ); ?>
 					<?php if ( $restricted['is_restricted'] ) : ?>
 						<a data-tooltip-msg="<?php echo esc_attr( wp_strip_all_tags( llms_get_restriction_message( $restricted ) ) ); ?>" href="#llms-lesson-locked">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</a>
 					<?php endif; ?>
-				</td>
+				</th>
 
 				<?php foreach ( $section_headings as $id => $data ) : ?>
 					<td class="llms-<?php echo esc_attr( $id ); ?>">
@@ -53,5 +57,5 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
-<?php endforeach; ?>
 </table>
+<?php endforeach; ?>

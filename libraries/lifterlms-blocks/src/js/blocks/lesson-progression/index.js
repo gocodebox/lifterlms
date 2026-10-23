@@ -6,13 +6,13 @@
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
  * @since 10.3.0 Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
- * @version 10.3.0
+ * @since [version] Render preview buttons inside `.llms-lesson-button-wrapper` so they share one row.
+ * @version [version]
  */
 
 // WP Deps.
 import { select } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 // Internal dependencies.
@@ -56,7 +56,7 @@ export const settings = {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return {Fragment} Edit component fragment.
+	 * @return {JSX.Element} Edit component.
 	 */
 	edit() {
 		const currentPost = select( 'core/editor' ).getCurrentPost(),
@@ -77,11 +77,14 @@ export const settings = {
 		);
 
 		/**
-		 * Extra buttons rendered in the lesson progression block editor preview.
+		 * Additional buttons rendered inside the lesson progression wrapper in the editor.
+		 *
+		 * Return an array of React elements. Used by add-ons (e.g. Assignments) so their
+		 * buttons sit in the same row as Take Quiz / Mark Complete.
 		 *
 		 * @since 10.3.0
 		 *
-		 * @param {Array} extraButtons Additional button elements.
+		 * @param {Array} extraButtons Extra button elements.
 		 */
 		const extraButtons = applyFilters(
 			'llms.lessonProgressBlock.extraButtons',
@@ -89,23 +92,19 @@ export const settings = {
 		);
 
 		return (
-			<>
 			<div className="llms-lesson-button-wrapper">
-			<Fragment>
 				{ extraButtons }
 				{ !! quiz && (
 					<button type="button" className="llms-prog-btn--quiz llms-button-action auto button wp-element-button">
-						{__('Take Quiz', 'lifterlms')}
+						{ __( 'Take Quiz', 'lifterlms' ) }
 					</button>
 				) }
 				{ showMainBtn && (
 					<button type="button" className="llms-prog-btn--complete llms-field-button llms-button-primary auto button wp-element-button">
-						{__('Mark Complete', 'lifterlms')}
+						{ __( 'Mark Complete', 'lifterlms' ) }
 					</button>
 				) }
-			</Fragment>
 			</div>
-			</>
 		);
 	},
 

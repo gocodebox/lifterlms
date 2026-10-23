@@ -6,7 +6,8 @@
  * @since 3.16.0 Unknown.
  * @since 7.8.0 Pass the `$attempt` object when retrieving the question content via `$question->get_question();`
  * @since 10.1.0 Use a div wrapper so multi-line question text can render as paragraphs.
- * @version 10.1.0
+ * @since [version] Expose the question text as a heading without skipping levels.
+ * @version [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance
@@ -21,7 +22,17 @@ defined( 'ABSPATH' ) || exit;
  */
 do_action( 'lifterlms_single_question_before_summary', $args ); ?>
 
-	<div class="llms-question-text">
+	<?php
+	$question_heading_level = llms_get_quiz_question_heading_level( $question, isset( $attempt ) ? $attempt : null );
+	?>
+	<div
+		class="llms-question-text"
+		id="llms-question-text-<?php echo esc_attr( $question->get( 'id' ) ); ?>"
+		<?php if ( $question_heading_level ) : ?>
+			role="heading"
+			aria-level="<?php echo esc_attr( $question_heading_level ); ?>"
+		<?php endif; ?>
+	>
 	<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the question templates.
 			echo $question->get_question( 'html', $attempt );

@@ -380,4 +380,31 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'LLMS Mock Add-on was successfully uninstalled.', $res );
 
 	}
+
+	/**
+	 * Test get_update_screen_url() for plugins and themes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_update_screen_url() {
+
+		$plugin = new LLMS_Add_On(
+			array(
+				'title' => 'LifterLMS Groups',
+				'type'  => 'plugin',
+			)
+		);
+		$this->assertSame( admin_url( 'plugins.php' ), $plugin->get_update_screen_url() );
+
+		$theme = new LLMS_Add_On(
+			array(
+				'title' => 'LaunchPad',
+				'type'  => 'theme',
+			)
+		);
+		$this->assertSame( admin_url( 'themes.php' ), $theme->get_update_screen_url() );
+
+	}
 }

@@ -1,0 +1,5 @@
+significance: minor
+type: changed
+entry: Orders now lists transactions (and free orders) with a separate
+  Subscriptions listing, allowing export of transactions and subscriptions to
+  csv.

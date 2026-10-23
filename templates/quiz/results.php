@@ -9,7 +9,8 @@
  * @since 4.17.0 Return early if accessed without a logged in user.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
  * @since 7.8.0 Don't try to round nulls.
- * @version 7.8.0
+ * @since [version] View a previous attempt from a submit button instead of changing the select.
+ * @version [version]
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
@@ -68,16 +69,19 @@ if ( ! $attempt && ! $attempts ) {
 	<?php if ( $attempts ) : ?>
 		<section class="llms-quiz-results-history">
 			<h2 class="llms-quiz-results-title"><?php esc_html_e( 'View Previous Attempts', 'lifterlms' ); ?></h2>
-			<label for="llms-quiz-attempt-select" class="sr-only"><?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?></label>
-			<select id="llms-quiz-attempt-select">
-				<option value="">-- <?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
-				<?php foreach ( $attempts as $attempt ) : ?>
-					<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
-						<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
-						<?php echo esc_html( sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%', $attempt->l10n( 'status' ) ) ); ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
+			<form class="llms-quiz-attempt-select-form" action="" method="get">
+				<label for="llms-quiz-attempt-select" class="sr-only"><?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?></label>
+				<select id="llms-quiz-attempt-select">
+					<option value="">-- <?php esc_html_e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
+					<?php foreach ( $attempts as $attempt ) : ?>
+						<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
+							<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
+							<?php echo esc_html( sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%', $attempt->l10n( 'status' ) ) ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+				<button class="llms-button-secondary small wp-element-button" type="submit"><?php esc_html_e( 'View attempt', 'lifterlms' ); ?></button>
+			</form>
 		</section>
 	<?php endif; ?>
 

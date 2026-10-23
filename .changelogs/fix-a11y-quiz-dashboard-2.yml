@@ -1,0 +1,3 @@
+significance: minor
+type: changed
+entry: "Course and membership loop tiles and certificate cards now link only the title, and achievement cards open from a title button. The whole card stays clickable. Featured image alt text uses the image's alt text, or is left empty. Themes that override the loop template keep the previous wrapping link until that template is updated."

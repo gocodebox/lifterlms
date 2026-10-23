@@ -6,7 +6,8 @@
  *
  * @since 3.16.0
  * @since 7.8.0 Account for question answers.
- * @version 7.8.0
+ * @since [version] Label the choice group from the question heading.
+ * @version [version]
  *
  * @param $attempt  LLMS_Quiz_Attempt LLMS_Quiz_Attempt instance.
  * @param $question LLMS_Question     LLMS_Question instance.
@@ -18,12 +19,7 @@ $input_type      = ( 'yes' === $question->get( 'multi_choices' ) ) ? 'checkbox' 
 $question_answer = isset( $attempt ) && $attempt ? $attempt->get_question_answer( $question->get( 'id' ) ) : array();
 ?>
 
-	<fieldset class="llms-question-choices">
-		<legend class="sr-only">
-			<?php
-				echo esc_html( wp_strip_all_tags( $question->get_question( 'html', $attempt ) ) );
-			?>
-		</legend>
+	<fieldset class="llms-question-choices" aria-labelledby="llms-question-text-<?php echo esc_attr( $question->get( 'id' ) ); ?>">
 		<?php foreach ( $question->get_choices() as $choice ) : ?>
 			<?php
 			$answer = is_array( $question_answer ) ? in_array( $choice->get( 'id' ), $question_answer, true ) ? $choice->get( 'id' ) : null : null;

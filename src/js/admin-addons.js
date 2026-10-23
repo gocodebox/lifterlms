@@ -18,7 +18,6 @@ import '../scss/admin-addons.scss';
 	 * @type {Object}
 	 */
 	const actions = {
-		update: 0,
 		install: 0,
 		activate: 0,
 		deactivate: 0,
@@ -64,7 +63,7 @@ import '../scss/admin-addons.scss';
 	 */
 	function updateUserInterface() {
 		const $el = $( '#llms-addons-bulk-actions' );
-		if ( actions.update || actions.install || actions.activate || actions.deactivate ) {
+		if ( actions.install || actions.activate || actions.deactivate ) {
 			$el.addClass( 'active' );
 		} else {
 			$el.removeClass( 'active' );
