@@ -94,7 +94,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\d]+)/grade',
 			array(
-				'args'   => array(
+				'args' => array(
 					'id' => array(
 						'description' => __( 'Unique identifier for the quiz attempt.', 'lifterlms' ),
 						'type'        => 'integer',
@@ -386,6 +386,39 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			$args['status'] = $prepared['status'];
 		}
 
+		return $this->limit_args_to_readable_quizzes( $args );
+	}
+
+	/**
+	 * Restrict an attempt query to quizzes the current user can read.
+	 *
+	 * Pagination totals come from the query, before the per-item read check
+	 * drops attempts on quizzes the user cannot edit. Users who cannot edit
+	 * others' quizzes only match attempts on the quizzes they can read, so the
+	 * total matches the response body.
+	 *
+	 * An empty `quiz_id` list is ignored by {@see LLMS_Query_Quiz_Attempt},
+	 * which would count every attempt. A non-matching id forces an empty set.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args Query arguments.
+	 * @return array
+	 */
+	protected function limit_args_to_readable_quizzes( $args ) {
+
+		$readable = ( new LLMS_REST_Quizzes_Controller() )->get_readable_quiz_ids();
+		if ( null === $readable ) {
+			return $args;
+		}
+
+		$readable = array_map( 'absint', $readable );
+		if ( ! empty( $args['quiz_id'] ) ) {
+			$readable = array_values( array_intersect( $readable, array_map( 'absint', (array) $args['quiz_id'] ) ) );
+		}
+
+		$args['quiz_id'] = $readable ? array_values( array_unique( $readable ) ) : array( PHP_INT_MAX );
+
 		return $args;
 	}
 
@@ -430,8 +463,8 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 
 		return array(
 			'current_page'  => isset( $prepared['page'] ) ? (int) $prepared['page'] : 1,
-			'total_results' => (int) $query->found_results,
-			'total_pages'   => (int) $query->max_pages,
+			'total_results' => (int) $query->get_found_results(),
+			'total_pages'   => (int) $query->get_max_pages(),
 		);
 	}
 

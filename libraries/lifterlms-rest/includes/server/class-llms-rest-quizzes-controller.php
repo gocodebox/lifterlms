@@ -90,6 +90,20 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Quiz IDs included when collection totals are counted for the current user.
+	 *
+	 * Null when the user can edit others' quizzes and the collection is not restricted.
+	 * Quiz attempts use this so their totals stay on the same set as this collection.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]|null
+	 */
+	public function get_readable_quiz_ids() {
+		return $this->get_readable_post_ids();
+	}
+
+	/**
 	 * Retrieves the query params for the objects collection.
 	 *
 	 * @since 10.2.0
