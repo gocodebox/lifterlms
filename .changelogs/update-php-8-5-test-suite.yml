@@ -1,0 +1,3 @@
+significance: dev
+type: changed
+entry: Updated the dev dependency `lifterlms/lifterlms-tests` to `^4.5` and added PHP 8.5 to the PHPUnit test matrix.

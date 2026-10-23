@@ -1,11 +1,9 @@
 ###
+# Custom workflow build matrix configurations.
 #
-# Custom workflow matrix configurations
-#
-# @link https://github.com/gocodebox/.github/tree/trunk/.github/actions/setup-matrix
-#
+# @see https://github.com/gocodebox/.github/blob/trunk/.github/actions/setup-matrix/README.md
 ###
 Test PHPUnit:
-  __delete:
-    # Remove the LLMS Nightly job (intended for add-ons).
-    - include[1]
+  # Run the test suite on PHP 8.5 in addition to the default matrix versions.
+  PHP:
+    - '8.5'
