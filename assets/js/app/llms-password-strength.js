@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.0.0
- * @version 10.3.3
+ * @version [version]
  */
 
 $.extend( LLMS.PasswordStrength, {
@@ -73,7 +73,6 @@ $.extend( LLMS.PasswordStrength, {
 	 * Bind DOM Events
 	 *
 	 * @since 3.0.0
-	 * @since 10.3.3 Recheck the password strength when the values of other form fields change.
 	 *
 	 * @return void
 	 */
@@ -105,7 +104,6 @@ $.extend( LLMS.PasswordStrength, {
 	 *
 	 * @since 3.0.0
 	 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
-	 * @since 10.3.3 Explain when the password is rejected because it reuses a value from another form field.
 	 *
 	 * @return void
 	 */
@@ -160,7 +158,6 @@ $.extend( LLMS.PasswordStrength, {
 	 * Form submission action called during registration on checkout screen
 	 *
 	 * @since    3.0.0
-	 * @since    10.3.3 Return a more helpful error message when the password is rejected because it reuses a value from another form field.
 	 *
 	 * @param    obj       self      instance of this class
 	 * @param    Function  callback  callback function, passes error message or success back to checkout handler
@@ -216,7 +213,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve the values of the other form fields used when checking the
 	 * password for reuse of information from the form.
 	 *
-	 * @since 10.3.3
+	 * @since [version]
 	 *
 	 * @return {String[]} Lowercased values of all text, email, tel, and number inputs in the form.
 	 */
@@ -239,7 +236,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve the translated message displayed when the password is rejected
 	 * because it reuses information found in another form field.
 	 *
-	 * @since 10.3.3
+	 * @since [version]
 	 *
 	 * @return {String}
 	 */
@@ -258,7 +255,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * abbreviation, do not produce a false explanation. Those values can
 	 * still score as very weak and keep the existing label.
 	 *
-	 * @since 10.3.3
+	 * @since [version]
 	 *
 	 * @return {Boolean|Object} The zxcvbn match which caused the reuse or `false` when the password's weakness is not caused by field reuse.
 	 */
