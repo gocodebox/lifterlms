@@ -33,8 +33,8 @@ $llms-buttons-theme-inherit: true !default;
 .llms-button-secondary {
 	@include llms-button-theme-opt-out {
 		border: none;
-		border-radius: 8px;
-		color: $color-white;
+		border-radius: llms-var( radius-control );
+		color: llms-var( color-on-solid );
 		font-size: 18px;
 		font-weight: 700;
 		line-height: 1;
@@ -43,10 +43,10 @@ $llms-buttons-theme-inherit: true !default;
 		transition: all .5s ease;
 
 		&:hover, &:active {
-			color: $color-white;
+			color: llms-var( color-on-solid );
 		}
 		&:focus {
-			color: $color-white;
+			color: llms-var( color-on-solid );
 		}
 	}
 }
@@ -106,47 +106,60 @@ $llms-buttons-theme-inherit: true !default;
 }
 
 /* Fix for cases where link color overrides the button color */
-a.llms-button-action,
-a.llms-button-danger,
 a.llms-button-primary {
 	@include llms-button-theme-opt-out {
-		color: $color-white;
+		color: llms-var( color-on-primary );
+	}
+}
+
+a.llms-button-action {
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-action );
+	}
+}
+
+a.llms-button-danger {
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-danger );
 	}
 }
 
 .llms-button-primary {
 	@include llms-button-theme-opt-out {
-		background: $color-brand-blue;
+		background: llms-var( color-primary );
+		color: llms-var( color-on-primary );
 		&:hover,
 		&.clicked {
-			background: $color-brand-blue-dark;
+			background: llms-var( color-primary-hover );
+			color: llms-var( color-on-primary );
 		}
 		&:focus,
 		&:active {
-			background: $color-brand-blue-light;
+			background: llms-var( color-primary-focus );
+			color: llms-var( color-on-primary );
 		}
 	}
 }
 
 .llms-button-secondary {
 	@include llms-button-theme-opt-out {
-		background: #e1e1e1;
-		color: $color-cinder;
+		background: llms-var( color-neutral );
+		color: llms-var( color-on-neutral );
 		&:hover {
-			color: #414141;
-			background: #cdcdcd;
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-hover );
 		}
 		&:focus,
 		&:active {
-			color: #414141;
-			background: #ebebeb;
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-focus );
 		}
 	}
 }
 /* Fix for cases where link color overrides the button color */
 a.llms-button-secondary {
 	@include llms-button-theme-opt-out {
-		color: $color-cinder;
+		color: llms-var( color-on-neutral );
 	}
 }
 
@@ -158,52 +171,58 @@ a.llms-button-secondary {
 	 * Shape and typography still come from the theme's button styling.
 	 */
 	.llms-button-secondary.wp-element-button {
-		background: #e1e1e1;
-		color: $color-cinder;
+		background: llms-var( color-neutral );
+		color: llms-var( color-on-neutral );
 		&:hover {
-			color: #414141;
-			background: #cdcdcd;
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-hover );
 		}
 		&:focus,
 		&:active {
-			color: #414141;
-			background: #ebebeb;
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-focus );
 		}
 	}
 }
 
 .llms-button-action {
 	@include llms-button-theme-opt-out {
-		background: $color-orange;
+		background: llms-var( color-action );
+		color: llms-var( color-on-action );
 		&:hover,
 		&.clicked {
-			background: $color-brand-orange-dark;
+			background: llms-var( color-action-hover );
+			color: llms-var( color-on-action );
 		}
 		&:focus,
 		&:active {
-			background: $color-brand-orange-light;
+			background: llms-var( color-action-focus );
+			color: llms-var( color-on-action );
 		}
 	}
 }
 
 .llms-button-danger {
 	@include llms-button-theme-opt-out {
-		background: $color-danger;
+		background: llms-var( color-danger );
+		color: llms-var( color-on-danger );
 		&:hover {
-			background: #981c17;
+			background: llms-var( color-danger-hover );
+			color: llms-var( color-on-danger );
 		}
 		&:focus,
 		&:active {
-			background: #cd261f;
+			background: llms-var( color-danger-focus );
+			color: llms-var( color-on-danger );
 		}
 	}
 }
 
 .llms-button-outline {
 	background: transparent;
-	border: 3px solid #1D2327;
-	border-radius: 8px;
-	color: #1D2327;
+	border: 3px solid llms-var( color-ink );
+	border-radius: llms-var( radius-control );
+	color: llms-var( color-ink );
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 700;
@@ -220,10 +239,10 @@ a.llms-button-secondary {
 		opacity: 0.5;
 	}
 	&:hover, &:active {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 	&:focus {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 
 	&.auto {
@@ -246,7 +265,7 @@ a.llms-button-secondary {
 	background: transparent;
 	border: none;
 	border-radius: 3px;
-	color: #1D2327;
+	color: llms-var( color-ink );
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 700;
@@ -259,10 +278,10 @@ a.llms-button-secondary {
 	position: relative;
 
 	&:hover, &:active {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 	&:focus {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 
 }
