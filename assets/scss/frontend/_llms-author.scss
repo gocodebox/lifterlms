@@ -32,7 +32,7 @@
 
 		.llms-author {
 			background: $color-white;
-			border: 1px solid llms-var( color-border );
+			border: llms-element-border();
 			border-top: 4px solid llms-var( color-primary );
 			border-bottom-right-radius: llms-var( radius-sm );
 			border-bottom-left-radius: llms-var( radius-sm );

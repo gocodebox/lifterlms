@@ -167,6 +167,12 @@ $llms-color-ink: #1d2327;
 	@if $name == 'radius-control' {
 		@return string.unquote( 'var(--llms-radius, 8px)' );
 	}
+	@if $name == 'element-border-width' {
+		@return 1px;
+	}
+	@if $name == 'element-border-style' {
+		@return string.unquote( 'solid' );
+	}
 
 	@if string.slice( $name, 1, 6 ) != 'color-' {
 		@return null;
@@ -179,6 +185,12 @@ $llms-color-ink: #1d2327;
 			@return string.unquote( 'var(--llms-color-border)' );
 		}
 		@return string.unquote( 'var(--llms-color-border, #{llms-base-color( border )})' );
+	}
+
+	// Syllabus hover is #eaeaea, not a mix of the surface color. Its own
+	// token lets a theme change the hover without changing --llms-color-surface.
+	@if $rest == 'surface-hover' {
+		@return $el-background-hover;
 	}
 
 	@if $rest == 'on-primary' or $rest == 'on-action' or $rest == 'on-danger' or $rest == 'on-accent' {
@@ -250,11 +262,19 @@ $llms-color-ink: #1d2327;
 		'color-input-border',
 		'color-track',
 		'color-surface',
+		'color-surface-hover',
 		'color-ink',
 		'radius-sm',
 		'radius-md',
 		'radius-control',
+		'element-border-width',
+		'element-border-style',
 	);
+}
+
+// 1px solid card borders. Featured plans and certificates keep their own width.
+@function llms-element-border() {
+	@return string.unquote( '#{llms-var( element-border-width )} #{llms-var( element-border-style )} #{llms-var( color-border )}' );
 }
 
 @function llms-var( $name ) {

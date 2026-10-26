@@ -3,8 +3,8 @@
 .llms-notice {
 	background: llms-var( color-primary-subtle );
 	border-color: llms-var( color-primary );
-	border-style: solid;
-	border-width: 1px;
+	border-style: llms-var( element-border-style );
+	border-width: llms-var( element-border-width );
 	border-radius: llms-var( radius-sm );
 	padding: 15px;
 	margin-bottom: 40px;
