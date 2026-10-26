@@ -38,7 +38,7 @@
 	margin: 10px;
 	padding: 0;
 	background: $color-white;
-	border: 1px solid llms-var( color-border );
+	border: llms-element-border();
 	border-radius: llms-var( radius-sm );
 }
 
