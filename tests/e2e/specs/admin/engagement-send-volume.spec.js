@@ -96,7 +96,8 @@ async function enrollBackdatedStudent( requestUtils, courseId, suffix, index, da
 async function select2Post( page, selector, text ) {
 	const container = page.locator( selector ).locator( 'xpath=..' ).locator( '.select2-container' );
 	await container.click();
-	await page.locator( '.select2-search__field' ).fill( text );
+	// Multi-selects keep an inline search field for every picker on the page, so target the open one.
+	await page.locator( '.select2-container--open .select2-search__field' ).fill( text );
 	const option = page.locator( '.select2-results__option', { hasText: text } ).first();
 	await option.waitFor();
 	await option.click();
