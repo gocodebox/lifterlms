@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: "Release preparation bumps the REST API library version when the library changed since the last release, and replaces its `[version]` placeholders with that version."
