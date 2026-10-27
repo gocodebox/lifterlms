@@ -241,7 +241,7 @@ class LLMS_Shortcodes {
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . wp_kses_post( $text ) . '</a>';
 		}
 
 		/**

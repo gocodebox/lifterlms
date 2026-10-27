@@ -16,7 +16,8 @@
 	}
 }
 
-.llms-lesson-time-disabled {
+.llms-lesson-time-disabled,
+.llms-complete-lesson-form [type="submit"]:disabled {
 	opacity: 0.5;
 	cursor: not-allowed !important;
 	pointer-events: none;

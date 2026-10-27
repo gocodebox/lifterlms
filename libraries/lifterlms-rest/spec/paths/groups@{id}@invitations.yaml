@@ -34,6 +34,23 @@ get:
       schema:
         type: string
         example: jeffrey@fakewebsite.tld
+    - name: open
+      description: |
+        Determines how the group's reusable open invitation link record is treated. An "open" invitation
+        has no email address and is not a pending invitation sent to a specific person.
+
+        - `include` (default): open link records are mixed into the results.
+        - `exclude`: only pending email invitations are returned (matches the Pending Invitations screen).
+        - `only`: only open link records are returned.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - include
+          - exclude
+          - only
+        default: include
     - name: role
       description: Limit results to a list of roles. Accepts a single role or a comma-separated list of roles.
       in: query

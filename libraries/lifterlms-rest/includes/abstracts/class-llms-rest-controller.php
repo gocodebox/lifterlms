@@ -649,6 +649,14 @@ abstract class LLMS_REST_Controller extends LLMS_REST_Controller_Stubs {
 				$schema['properties']['meta']['properties'],
 				$schema
 			);
+
+			$schema['properties']['meta']['description'] = trim(
+				sprintf(
+					'%1$s %2$s',
+					isset( $schema['properties']['meta']['description'] ) ? $schema['properties']['meta']['description'] : '',
+					__( 'Serialized as an empty JSON list (`[]`) rather than an object when no meta values are present.', 'lifterlms' )
+				)
+			);
 		}
 
 		return $schema;

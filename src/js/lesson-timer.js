@@ -39,6 +39,27 @@ import '../scss/lesson-timer.scss';
 	function eachActionButton( callback ) {
 		document.querySelectorAll( '.llms-complete-lesson-form [type="submit"]' ).forEach( callback );
 		document.querySelectorAll( '#llms_start_quiz, [id="llms_start_quiz"]' ).forEach( callback );
+		document.querySelectorAll( '#llms-start-assignment, [id="llms-start-assignment"]' ).forEach( callback );
+	}
+
+	/**
+	 * Whether another add-on still has a progression lock on the element.
+	 *
+	 * Locks are `data-llms-lock-{id}` attributes (e.g. `data-llms-lock-video` from
+	 * Advanced Videos). The button must stay disabled until every lock is gone.
+	 */
+	function hasProgressionLock( el ) {
+		var i, name;
+		if ( ! el || ! el.attributes ) {
+			return false;
+		}
+		for ( i = 0; i < el.attributes.length; i++ ) {
+			name = el.attributes[ i ].name;
+			if ( 0 === name.indexOf( 'data-llms-lock-' ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -92,6 +113,8 @@ import '../scss/lesson-timer.scss';
 	/**
 	 * Enable the action buttons. Only called once the server has confirmed the
 	 * minimum time is met, so the completion request can't be rejected server-side.
+	 * Other add-on locks (data-llms-lock-*) are left in place so those requirements
+	 * can still keep the button disabled.
 	 */
 	function enableButtons() {
 		if ( buttonsEnabled ) {
@@ -99,8 +122,11 @@ import '../scss/lesson-timer.scss';
 		}
 		buttonsEnabled = true;
 		eachActionButton( function( btn ) {
-			btn.disabled = false;
+			btn.removeAttribute( 'data-llms-lock-time' );
 			btn.classList.remove( 'llms-lesson-time-disabled' );
+			if ( ! hasProgressionLock( btn ) ) {
+				btn.disabled = false;
+			}
 		} );
 		document.dispatchEvent( new CustomEvent( 'llms-lesson-time-met' ) );
 	}
@@ -249,6 +275,7 @@ import '../scss/lesson-timer.scss';
 			eachActionButton( function( btn ) {
 				btn.disabled = true;
 				btn.classList.add( 'llms-lesson-time-disabled' );
+				btn.setAttribute( 'data-llms-lock-time', '1' );
 			} );
 		} else if ( hasMinimum ) {
 			// Already met at load: prior sessions are persisted server-side, so the button is safe to leave enabled.

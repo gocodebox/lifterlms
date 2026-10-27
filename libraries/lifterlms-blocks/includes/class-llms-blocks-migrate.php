@@ -271,7 +271,12 @@ class LLMS_Blocks_Migrate {
 		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		$post    = $post_id ? get_post( $post_id ) : false;
 
-		if ( ! $post || ! $this->should_migrate_post( $post->ID ) ) {
+		// current_screen runs from admin.php, before post.php checks edit_post.
+		if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
+			return;
+		}
+
+		if ( ! $this->should_migrate_post( $post->ID ) ) {
 			return;
 		}
 
@@ -448,6 +453,12 @@ class LLMS_Blocks_Migrate {
 	/**
 	 * Update the post content for a given post.
 	 *
+	 * Writes the column directly. `wp_update_post()` unslashes array input, saves a
+	 * revision, bumps `post_modified`, and fires `save_post` while `current_screen`
+	 * is still running. The same writer is used by the bulk unmigrate tool.
+	 * The post cache is cleared so a persistent object cache does not keep serving
+	 * the previous content to the editor.
+	 *
 	 * @since 1.4.0
 	 *
 	 * @param int    $id WP_Post ID.
@@ -467,9 +478,15 @@ class LLMS_Blocks_Migrate {
 			),
 			array( '%s' ),
 			array( '%d' )
-		); // db no-cache okay.
+		);
 
-		return false === $update ? false : true;
+		if ( false === $update ) {
+			return false;
+		}
+
+		clean_post_cache( $id );
+
+		return true;
 	}
 }
 

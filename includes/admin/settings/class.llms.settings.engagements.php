@@ -81,7 +81,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				$this->get_settings_group_certs()
 			)
 		);
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -225,7 +223,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			$settings
 		);
-
 	}
 
 	/**
@@ -272,7 +269,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -305,7 +301,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			$services
 		);
-
 	}
 
 	/**
@@ -336,7 +331,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		}
 
 		return $sizes;
-
 	}
 
 	/**
@@ -359,7 +353,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			);
 		}
 		return $opts;
-
 	}
 
 	/**
@@ -376,8 +369,29 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			__( 'A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image.', 'lifterlms' ),
 			$post_type
 		);
-		return '<p class="description">' . $desc . '</p>';
 
+		$powerpack_url = LLMS_Admin_Addon_Promo::get_utm_url(
+			'https://lifterlms.com/product/lifterlms-pro/',
+			'Engagements Settings'
+		);
+
+		if ( 'achievement' === $post_type ) {
+			$desc .= ' ' . sprintf(
+				/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+				__( 'Get hundreds of predesigned achievement badges from the %1$sLifterLMS Powerpack add-on%2$s (included in Universe Bundle and higher plans).', 'lifterlms' ),
+				'<a href="' . esc_url( $powerpack_url ) . '" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			);
+		} elseif ( 'certificate' === $post_type ) {
+			$desc .= ' ' . sprintf(
+				/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+				__( 'Get hundreds of predesigned certificate backgrounds from the %1$sLifterLMS Powerpack add-on%2$s (included in Universe Bundle and higher plans).', 'lifterlms' ),
+				'<a href="' . esc_url( $powerpack_url ) . '" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			);
+		}
+
+		return '<p class="description">' . $desc . '</p>';
 	}
 
 	/**
@@ -414,7 +428,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		}
 
 		return llms_parse_bool( get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ) );
-
 	}
 
 	/**
@@ -453,7 +466,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		})();</script>
 		<?php
 	}
-
 }
 
 return new LLMS_Settings_Engagements();

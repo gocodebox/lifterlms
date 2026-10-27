@@ -223,7 +223,12 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			return;
 		}
 
-		$course = new LLMS_Course( absint( $args['course_id'] ) );
+		$course_id = absint( $args['course_id'] );
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'edit_post', $course_id ) ) {
+			return;
+		}
+
+		$course = new LLMS_Course( $course_id );
 
 		if ( is_numeric( $args['student'] ) ) {
 			$args['student'] = new LLMS_Student( $args['student'] );
@@ -298,16 +303,16 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 */
 	public function set_columns() {
 		return array(
-			'id'        => array(
+			'id'             => array(
 				'title' => __( 'ID', 'lifterlms' ),
 			),
-			'name'      => array(
+			'name'           => array(
 				'title' => __( 'Name', 'lifterlms' ),
 			),
-			'quiz'      => array(
+			'quiz'           => array(
 				'title' => __( 'Quiz', 'lifterlms' ),
 			),
-			'grade'     => array(
+			'grade'          => array(
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
 			'completed'      => array(

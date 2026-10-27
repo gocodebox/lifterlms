@@ -234,6 +234,18 @@
 		margin: 20px auto;
 		padding: 0;
 
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			box-shadow: none;
+			margin: 0;
+			border-top: 1px solid #e0e0e0;
+			border-bottom: 1px solid #e0e0e0;
+
+			.llms-nav-items {
+				padding-left: 16px;
+				padding-right: 16px;
+			}
+		}
+
 		.llms-reporting-stab {
 			padding: 30px;
 

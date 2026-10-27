@@ -144,6 +144,8 @@ class LLMS_Admin_Post_Table_Courses {
 		// Add a new column for Lessons.
 		$new_columns            = array();
 		$new_columns['lessons'] = __( 'Lessons', 'lifterlms' );
+		$new_columns['course_id'] = __( 'Course ID', 'lifterlms' );
+
 
 		// Insert column into third position in existing columns array.
 		$columns = array_merge( array_slice( $columns, 0, 3 ), $new_columns, array_slice( $columns, 3 ) );
@@ -163,8 +165,13 @@ class LLMS_Admin_Post_Table_Courses {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		if ( 'lessons' !== $column ) {
+		if ( ! in_array( $column, array( 'lessons', 'course_id' ), true ) ) {
 			return $column;
+		}
+
+		if ( 'course_id' === $column ) {
+			echo $post_id;
+			return;
 		}
 
 		// Get a count of lessons in the course.

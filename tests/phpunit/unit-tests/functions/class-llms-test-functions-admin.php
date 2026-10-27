@@ -38,10 +38,12 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_get_add_ons_error() {
 
+		delete_transient( 'llms_products_api_result' );
+
 		$err = new WP_Error( 'mocked-err', 'Mocked Message', array( 'data' => 'mocked' ) );
 		$this->mock_http_request( 'https://lifterlms.com/wp-json/llms/v3/products', $err );
 
-		$res = llms_get_add_ons();
+		$res = llms_get_add_ons( false );
 
 		// Expect mocked error message.
 		$this->assertIsWPError( $res );

@@ -1,0 +1,39 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique quiz attempt identifier.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a quiz attempt
+  description: Retrieve the details of an existing quiz attempt, including its questions, answers, and grading status. Answers that are uploaded files include the file URL so the submitted file can be retrieved and reviewed.
+  tags:
+    - Quiz Attempts
+  responses:
+    200:
+      description: Successfully retrieved the quiz attempt.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizAttempt'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a quiz attempt
+  description: Delete an existing quiz attempt. This action cannot be undone.
+  tags:
+    - Quiz Attempts
+  responses:
+    204:
+      description: Successfully deleted the quiz attempt.
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

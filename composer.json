@@ -57,6 +57,7 @@
       "dist",
       "docs",
       "gulpfile.js",
+      "/bin",
       "node_modules",
       "packages",
       "src",

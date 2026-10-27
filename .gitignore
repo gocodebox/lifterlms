@@ -45,6 +45,7 @@ assets/js/llms-admin-media-protection-block-protect.js
 assets/js/llms-components.asset.php
 assets/js/llms-components.js
 assets/js/llms-admin-addons.js
+assets/js/llms-admin-addon-promo.js
 assets/js/llms-admin-award-certificate.js
 assets/js/llms-icons.js
 assets/js/llms-quill-wordcount.js

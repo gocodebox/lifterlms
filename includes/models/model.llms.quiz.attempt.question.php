@@ -131,7 +131,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		if ( $answers ) {
 
-			if ( $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) {
+			if ( $question && $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) {
 
 				foreach ( $answers as $aid ) {
 
@@ -186,7 +186,12 @@ class LLMS_Quiz_Attempt_Question {
 
 		$ret      = array();
 		$question = $this->get_question();
-		$type     = $question->get_auto_grade_type();
+
+		if ( ! $question ) {
+			return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
+		}
+
+		$type = $question->get_auto_grade_type();
 
 		if ( 'choices' === $type ) {
 

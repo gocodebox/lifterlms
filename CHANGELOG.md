@@ -1,12 +1,165 @@
 LifterLMS Changelog
 ===================
 
+v10.3.2 - 2026-10-09
+--------------------
+
+##### Security Fixes
+
++ Additional checks when loading templates.
+
+
+v10.3.1 - 2026-10-08
+--------------------
+
+##### Updates and Enhancements
+
++ Captcha secret keys are partially hidden in Security settings after they are saved. [#3387](https://github.com/gocodebox/lifterlms/issues/3387)
+
+##### Bug Fixes
+
++ Additional fix for the plan description editor when adding a new access plan in some cases.
++ Clear the post cache after migrating a post to the block editor.
+
+##### Security Fixes
+
++ Additional checks on REST API collection requests. Thanks [@pokeroot](https://github.com/pokeroot) and Huzaifa Jawaid!
++ Additional security enhancements.
+
+
+v10.3.0 - 2026-10-05
+--------------------
+
+##### New Features
+
++ Course builder shows a permalink preview for unsaved lessons and quizzes, based on the title, until the slug is edited.
++ Added an "Add Existing Lesson" button next to "Add New Lesson" in each Course Builder section.
++ Added a Customers screen under Orders with lifetime value, order history, and customer segments.
+
+##### Updates and Enhancements
+
++ Refreshed the course builder settings panels and outline columns.
+
+##### Bug Fixes
+
++ Fix overlapping percentage sign when entering certificate margins. [#3373](https://github.com/gocodebox/lifterlms/issues/3373)
++ Fixed certificate editor sidebar control layout. [#3340](https://github.com/gocodebox/lifterlms/issues/3340)
++ Improved styling in the back end editor for Lesson Progression and Access Plan buttons. [#3359](https://github.com/gocodebox/lifterlms/issues/3359)
++ Fixed the course builder hiding the lesson editor after saving content added in the builder. [#3360](https://github.com/gocodebox/lifterlms/issues/3360)
++ Fixed editing the access plan description on a new plan before it is saved. [#3369](https://github.com/gocodebox/lifterlms/issues/3369)
++ Fixed a blank line in the order billing address when Address 2 is empty. [#3375](https://github.com/gocodebox/lifterlms/issues/3375)
++ Fixed lesson settings in the course builder jumping back down after the drip method is changed. [#3376](https://github.com/gocodebox/lifterlms/issues/3376)
++ Fixed deleting the last course section immediately adding three new lessons. [#3377](https://github.com/gocodebox/lifterlms/issues/3377)
++ Fixed the course builder dropping quiz questions when the quiz editor is opened again while they are still loading.
++ Improved prevention of recurring charges when the site URL no longer matches the stored lock.
++ Show address fields that are populated. Thanks [@robindevitt](https://github.com/robindevitt)! [#3020](https://github.com/gocodebox/lifterlms/issues/3020)
+
+##### Security Fixes
+
++ Additional checks on feeds. Thanks [@Yo1o-sir](https://github.com/Yo1o-sir)!
++ Additional checks on REST API endpoints.
++ Improved validation of course builder and import data.
+
+##### Updated Templates
+
++ [templates/admin/customers/customer.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/customer.php)
++ [templates/admin/customers/list.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/list.php)
++ [templates/admin/customers/orders-table.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/orders-table.php)
++ [templates/admin/customers/orders.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/orders.php)
++ [templates/admin/customers/overview.php](https://github.com/gocodebox/lifterlms/blob/10.3.0/templates/admin/customers/overview.php)
+
+
+v10.2.1 - 2026-09-14
+--------------------
+
+##### New Features
+
++ Added informative notices about available add-ons in the admin.
++ Makes Course IDs easier to find. [#3321](https://github.com/gocodebox/lifterlms/issues/3321) Thanks [@robindevitt](https://github.com/robindevitt)!
+
+##### Updates and Enhancements
+
++ Added a Name Your Price add-on option to the new access plan dialog and removed the Sale template.
++ Redirected the setup wizard skip button to the LifterLMS dashboard and added a Launch Setup Wizard link on the plugins screen.
++ Updates for PHP 8.4 compatibility.
+
+##### Bug Fixes
+
++ Fixed interactive blocks not working in focus mode. [#3350](https://github.com/gocodebox/lifterlms/issues/3350)
++ Disabled the Mark Complete button in markup while a lesson's minimum time is still running, and left it disabled when other progression requirements remain. [#3352](https://github.com/gocodebox/lifterlms/issues/3352)
+
+##### Security Fixes
+
++ Hardened certificate export handling. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional checks in admin reporting. Thanks [@s3rt4c](https://github.com/s3rt4c)!
++ Additional authorization checks on REST API endpoints. Thanks [@s3rt4c](https://github.com/s3rt4c) and [@MrDarkRoot](https://github.com/MrDarkRoot)!
+
+##### Updated Templates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/course/complete-lesson-link.php)
++ [templates/single-lesson-focus.php](https://github.com/gocodebox/lifterlms/blob/10.2.1/templates/single-lesson-focus.php)
+
+
+v10.2.0 - 2026-08-24
+--------------------
+
+##### New Features
+
++ The sections and lessons list endpoints accept `parent_id` as an alias for the `parent` filter.
++ Added a read-only REST API endpoint for student grades with per-lesson course grade breakdowns, added a readonly grade field to student progress responses, and registered a student grades ability with the WordPress Abilities API.
++ Added time-limited signed download URLs for protected media files, exposed as a download_url field in assignment submission and quiz attempt REST API responses.
++ Added a certificate merge code for the student's display name.
++ REST API: added endpoints for quizzes, quiz questions, quiz attempts (including grading), orders and their transactions, certificate templates, and awarded certificates, with new webhook topics and WordPress Abilities API registration.
+
+##### Updates and Enhancements
+
++ The course students reporting table now sorts by student ID by default instead of by name, avoiding expensive name joins and filesorts on large sites. Columns remain click-sortable.
++ Improved cache miss detection and added expiration times to object cache entries for more reliable behavior on persistent object cache backends.
++ Student search is not limited to the student role.
++ List abilities return an empty list instead of a not-found error for empty collections.
++ Ability input schemas reject unknown parameters instead of silently ignoring them.
++ List abilities omit rendered markup when a raw counterpart is available, reducing payload size.
++ Nested abilities accept id as the parent resource identifier.
++ Section and lesson order is optional on create.
+
+##### Bug Fixes
+
++ Course and membership student exports now honor the boosted export page size, reducing the number of requests required to generate an export file by up to 10x.
++ Course reports and exports no longer bulk-create per-lesson time cache rows in user meta, and an automatic database update removes the zero-value rows previously created this way.
++ Awarded certificates and achievements now fall back to the template's post title when the deprecated title meta value is empty.
++ Fixed course builder deep links so the lesson or quiz settings panel opens on load. [#3328](https://github.com/gocodebox/lifterlms/issues/3328)
++ Fixed course builder tooltips being clipped by the editor sidebar and outline. [#3315](https://github.com/gocodebox/lifterlms/issues/3315)
++ Fixed stale object cache values for core forms, membership-associated posts, student grades, product active-subscription counts, and theme template override directories on sites using a persistent object cache (Redis, Memcached). [#3116](https://github.com/gocodebox/lifterlms/issues/3116)
++ Fixed automatic recurring payment retries never running when a failed payment placed an active order on hold.
++ Fixed media protection block editor labels incorrectly showing "Protect Image" for file, video, and audio blocks.
++ Preserve the authorization hook name passed to media upload.
++ Ability reads default to the edit context, returning complete resource data.
++ Declared and validated the `status` parameter on the REST enrollment update endpoint.
++ Cached student progress is reset when lesson progress is deleted via the REST API and when lessons or sections are trashed, restored, deleted, or moved to a new parent.
++ The lesson REST response emits `complete` for `quiz.progression`, matching the documented schema enum and the accepted input values.
++ Clarified the REST schema documentation for the `meta` field serialization and the enrollment `trigger` default.
++ Ability get and list operations now use the edit context when the caller omits it.
++ Hardened quiz attempt answer retrieval.
++ Lesson quiz updates keep the quiz's lesson association in sync.
++ Abilities return not-found errors from missing resources.
+
+##### Performance Improvements
+
++ Course and membership student exports now count the total result set once instead of re-running the count query on every page of the export.
++ Improved the performance of the Time in Course column on the course students reporting screen and export by computing course totals with a single query, adding a lesson index to the time sessions table, and skipping all per-student queries when a course has no tracked time.
+
+##### Security Fixes
+
++ Additional checks on access plan button output. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
++ Additional checks on settings save. Thanks [@thaer-assfour](https://github.com/thaer-assfour)!
+
+
 v10.1.1 - 2026-08-11
 --------------------
 
 ##### Updates and Enhancements
 
-+ Increased entropy used when generating order keys.
++ Increased entropy used when generating order keys. Thanks [@enterlectury](https://github.com/enterlectury)!
 
 ##### Bug Fixes
 
@@ -24,9 +177,9 @@ v10.1.1 - 2026-08-11
 
 ##### Security Fixes
 
-+ Additional checks on checkout completion redirects.
-+ Additional checks when creating users during course import.
-+ Additional authorization checks on REST API key and webhook admin actions.
++ Additional checks on checkout completion redirects. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional checks when creating users during course import. Thanks [@enterlectury](https://github.com/enterlectury)!
++ Additional authorization checks on REST API key and webhook admin actions. Thanks [@enterlectury](https://github.com/enterlectury)!
 
 
 v10.1.0 - 2026-07-31

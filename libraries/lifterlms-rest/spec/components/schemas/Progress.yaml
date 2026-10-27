@@ -34,6 +34,15 @@ properties:
     default: 0
     example: 89.83
     readOnly: true
+  grade:
+    description: Student's grade for the course or lesson as a percentage. `null` when no gradable elements have been graded yet.
+    type: number
+    format: float
+    nullable: true
+    minimum: 0
+    maximum: 100
+    example: 85.5
+    readOnly: true
   status:
     description: Student progress status.
     type: string

@@ -277,6 +277,7 @@ class LLMS_Admin_Assets {
 				'course',
 				'lifterlms_page_llms-reporting',
 				'llms_membership',
+				'llms_order_page_llms-customers',
 			)
 		);
 		if ( in_array( $screen->id, $tables, true ) ) {
@@ -411,7 +412,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register the media protection scripts when the media is enqueued.
 	 *
-	 * @since 9.0.6
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */
