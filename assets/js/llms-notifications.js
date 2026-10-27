@@ -2,7 +2,7 @@
  * LifterLMS Basic Notifications Displayer
  *
  * @since    3.8.0
- * @version  3.22.0
+ * @version  [version]
  */( function( $ ) {
 
 	var llms_notifications = function() {
@@ -122,10 +122,14 @@
 		 * Get the vertical offset (on screen) relative to an element
 		 * used for notification positioning
 		 *
+		 * The relative element's top margin is subtracted from its offset so
+		 * themes that add margins to notifications don't inflate the space
+		 * between stacked notifications.
+		 *
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.get_offset = function( $relative_el ) {
 
@@ -139,7 +143,7 @@
 				return 24;
 			}
 
-			var top    = $relative_el.offset().top,
+			var top    = $relative_el.offset().top - ( parseFloat( $relative_el.css( 'margin-top' ) ) || 0 ),
 				height = $relative_el.outerHeight();
 
 			return top + height + spacer;

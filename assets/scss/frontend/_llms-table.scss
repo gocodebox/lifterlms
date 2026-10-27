@@ -1,5 +1,5 @@
 .llms-table {
-	border: 1px solid $color-border;
+	border: llms-element-border();
 	border-spacing: 0;
 	width: 100%;
 
@@ -40,7 +40,7 @@
 	}
 
 	th, td {
-		border-bottom: 1px solid $color-border;
+		border-bottom: llms-element-border();
 		padding: 15px 20px;
 
 		// launchpad compat...

@@ -317,7 +317,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		if ( $has_sql_calc ) {
 			_deprecated_argument(
 				"llms_{$this->id}_query_prepare_query",
-				'[version]',
+				'10.0.0',
 				'SQL_CALC_FOUND_ROWS should no longer be added via filters. Results are now counted with a separate COUNT query.'
 			);
 
@@ -340,7 +340,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 					'Subclasses of LLMS_Database_Query should set $this->count_query in prepare_query() when no_found_rows is not true. %s does not set count_query, so get_found_results() and get_max_pages() will return 0.',
 					get_class( $this )
 				),
-				'[version]'
+				'10.0.0'
 			);
 		}
 	}

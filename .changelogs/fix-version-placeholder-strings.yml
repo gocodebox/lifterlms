@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: "Replaced `[version]` placeholders left in deprecation and `_doing_it_wrong()` notices with the versions they refer to, and release tooling now replaces any `'[version]'` string, including in multi-line calls."
