@@ -41,7 +41,6 @@ class LLMS_Quiz_Attempt_Question {
 				'correct' => null,
 			)
 		);
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -101,21 +99,11 @@ class LLMS_Quiz_Attempt_Question {
 		$answers  = $this->get_answer_array();
 		$ret      = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
 
-		if ( ! $ret ) {
-
-			if ( $answers ) {
-
-				$ret = '<ul class="llms-quiz-attempt-answers">';
-				foreach ( $answers as $answer ) {
-					$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
-				}
-				$ret .= '</ul>';
-
-			}
+		if ( ! $ret && $answers ) {
+			$ret = $this->format_answers_html( $answers );
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
-
 	}
 
 	/**
@@ -134,7 +122,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		if ( $answers ) {
 
-			if ( $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) {
+			if ( $question && $question->supports( 'choices' ) && $question->supports( 'grading', 'auto' ) ) {
 
 				foreach ( $answers as $aid ) {
 
@@ -150,7 +138,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer_array', $ret, $answers, $question, $this );
-
 	}
 
 	/**
@@ -167,17 +154,10 @@ class LLMS_Quiz_Attempt_Question {
 		$answers = $this->get_correct_answer_array();
 
 		if ( $answers ) {
-
-			$ret = '<ul class="llms-quiz-attempt-answers">';
-			foreach ( $answers as $answer ) {
-				$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
-			}
-			$ret .= '</ul>';
-
+			$ret = $this->format_answers_html( $answers );
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer', $ret, $answers, $this->get_question(), $this );
-
 	}
 
 	/**
@@ -191,7 +171,12 @@ class LLMS_Quiz_Attempt_Question {
 
 		$ret      = array();
 		$question = $this->get_question();
-		$type     = $question->get_auto_grade_type();
+
+		if ( ! $question ) {
+			return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
+		}
+
+		$type = $question->get_auto_grade_type();
 
 		if ( 'choices' === $type ) {
 
@@ -206,7 +191,37 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
+	}
 
+	/**
+	 * Format selected or correct answers for the results page.
+	 *
+	 * A single answer is not wrapped in a list. Multiple answers stay a list.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $answers Answer strings.
+	 * @return string
+	 */
+	protected function format_answers_html( $answers ) {
+
+		$answers = array_values( $answers );
+
+		if ( ! $answers ) {
+			return '';
+		}
+
+		if ( 1 === count( $answers ) ) {
+			return sprintf( '<div class="llms-quiz-attempt-answer">%s</div>', wp_kses_post( $answers[0] ) );
+		}
+
+		$ret = '<ul class="llms-quiz-attempt-answers">';
+		foreach ( $answers as $answer ) {
+			$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+		}
+		$ret .= '</ul>';
+
+		return $ret;
 	}
 
 	/**
@@ -250,11 +265,10 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		if ( $icon ) {
-			return sprintf( '<span class="llms-status-icon-tip tip--top-left" data-tip="%1$s"><i class="llms-status-icon fa fa-%2$s"></i><span>', $tip, $icon );
+			return sprintf( '<span class="llms-status-icon-tip tip--top-left" data-tip="%1$s"><i class="llms-status-icon fa fa-%2$s" aria-hidden="true"></i></span>', $tip, $icon );
 		}
 
 		return '';
-
 	}
 
 	/**
@@ -305,7 +319,6 @@ class LLMS_Quiz_Attempt_Question {
 	public function has_remarks() {
 
 		return ( $this->get( 'remarks' ) );
-
 	}
 
 	/**
@@ -322,7 +335,6 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -337,5 +349,4 @@ class LLMS_Quiz_Attempt_Question {
 	public function set( $key, $val ) {
 		$this->data[ $key ] = $val;
 	}
-
 }

@@ -3,7 +3,8 @@
  * Student Dashboard: Notifications Tab
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @since [version] Use a heading level that follows the dashboard title.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -51,7 +52,13 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php foreach ( $settings as $type => $triggers ) : ?>
 
-			<h4><?php echo esc_html( apply_filters( 'llms_notification_' . $type . '_title', $type ) ); ?></h4>
+			<?php
+			printf(
+				'<%1$s>%2$s</%1$s>',
+				tag_escape( llms_get_content_heading_tag( 'notifications' ) ),
+				esc_html( apply_filters( 'llms_notification_' . $type . '_title', $type ) )
+			);
+			?>
 			<p><?php echo esc_html( apply_filters( 'llms_notification_' . $type . '_desc', '' ) ); ?></p>
 			<?php foreach ( $triggers as $id => $data ) : ?>
 				<?php

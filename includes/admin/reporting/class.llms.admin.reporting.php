@@ -526,8 +526,10 @@ class LLMS_Admin_Reporting {
 			if ( 'percentage' === $args['data_type'] ) {
 				$args['data'] = round( $args['data'], $floating_precision );
 			} elseif ( 'monetary' === $args['data_type'] ) {
-				$args['data']         = llms_price( $args['data'] );
-				$args['data_compare'] = llms_price_raw( $args['data_compare'] );
+				$args['data'] = llms_price( $args['data'] );
+				if ( is_numeric( $args['data_compare'] ) ) {
+					$args['data_compare'] = llms_price_raw( $args['data_compare'] );
+				}
 			}
 		}
 

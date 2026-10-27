@@ -292,13 +292,14 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 
 			case 'llms_email':
 				$codes = array(
-					'{site_title}'    => __( 'Website Title', 'lifterlms' ),
-					'{site_url}'      => __( 'Website URL', 'lifterlms' ),
-					'{email_address}' => __( 'Student Email Address', 'lifterlms' ),
-					'{user_login}'    => __( 'Student Username', 'lifterlms' ),
-					'{first_name}'    => __( 'Student First Name', 'lifterlms' ),
-					'{last_name}'     => __( 'Student Last Name', 'lifterlms' ),
-					'{current_date}'  => __( 'Current Date', 'lifterlms' ),
+					'{site_title}'         => __( 'Website Title', 'lifterlms' ),
+					'{site_url}'           => __( 'Website URL', 'lifterlms' ),
+					'{email_address}'      => __( 'Student Email Address', 'lifterlms' ),
+					'{user_login}'         => __( 'Student Username', 'lifterlms' ),
+					'{first_name}'         => __( 'Student First Name', 'lifterlms' ),
+					'{last_name}'          => __( 'Student Last Name', 'lifterlms' ),
+					'{current_date}'       => __( 'Current Date', 'lifterlms' ),
+					'{related_post_title}' => __( 'Related Post Title', 'lifterlms' ),
 				);
 				break;
 

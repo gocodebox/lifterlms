@@ -38,8 +38,8 @@
 	margin: 10px;
 	padding: 0;
 	background: $color-white;
-	border: 1px solid $color-border;
-	border-radius: $radius-small;
+	border: llms-element-border();
+	border-radius: llms-var( radius-sm );
 }
 
 
@@ -48,9 +48,22 @@
 		padding-bottom: 15px;
 		margin: 0;
 		height: auto;
+		position: relative;
 
 		iframe {
 			max-width: 100%;
+		}
+
+		a:not(.llms-loop-link),
+		.llms-video-wrapper {
+			position: relative;
+			z-index: 1;
+		}
+
+		.llms-loop-title .llms-loop-link::after {
+			content: '';
+			inset: 0;
+			position: absolute;
 		}
 
 		.llms-loop-link {
@@ -71,7 +84,7 @@
 			color: $color-black;
 			margin: 15px 0;
 			&:hover {
-				color: $color-brand-blue;
+				color: llms-var( color-primary );
 			}
 		}
 

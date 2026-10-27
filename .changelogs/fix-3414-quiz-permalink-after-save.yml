@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3414"
+entry: Fixed the permalink of a newly created quiz not being clickable in the Course Builder after saving.

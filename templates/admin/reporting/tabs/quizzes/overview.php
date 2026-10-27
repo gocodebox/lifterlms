@@ -8,7 +8,8 @@
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 4.10.1 Remove unneded require of the file LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php', the autoloader will do the job.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING` and validate the period exists before attempting to use it.
- * @version 5.9.0
+ * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +40,7 @@ $now         = current_time( 'timestamp' );
 			<h3><?php esc_html_e( 'Quiz Overview', 'lifterlms' ); ?></h3>
 
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 
 		do_action( 'llms_reporting_single_quiz_overview_before_widgets', $quiz );
@@ -89,6 +91,7 @@ $now         = current_time( 'timestamp' );
 
 		do_action( 'llms_reporting_single_quiz_overview_after_widgets', $quiz );
 		?>
+		</div>
 
 	</section>
 

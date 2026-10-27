@@ -7,8 +7,40 @@
  * @type {Object}
  *
  * @since 1.0.0
- * @version 7.8.0
+ * @version [version]
  */( function( $ ) {
+
+	/**
+	 * Same-origin http(s) URL from a quiz attempt select option.
+	 *
+	 * @since [version]
+	 *
+	 * @param {string} url Candidate URL.
+	 * @return {string} Safe URL, or an empty string.
+	 */
+	function llmsSafeSameOriginUrl( url ) {
+		var parsed;
+
+		if ( 'string' !== typeof url || '' === url ) {
+			return '';
+		}
+
+		try {
+			parsed = new URL( url, window.location.href );
+		} catch ( error ) {
+			return '';
+		}
+
+		if ( 'http:' !== parsed.protocol && 'https:' !== parsed.protocol ) {
+			return '';
+		}
+
+		if ( parsed.origin !== window.location.origin ) {
+			return '';
+		}
+
+		return parsed.href;
+	}
 
 	var quiz = {
 
@@ -119,12 +151,14 @@
 				LLMS.Donut( $( this ) );
 			} );
 
-			// Redirect to attempt on attempt selection change.
-			$( '#llms-quiz-attempt-select' ).on( 'change', function() {
-				var val = $( this ).val();
-				if ( val ) {
-					window.location.href = val;
+			// Open a previous attempt when the results form is submitted.
+			$( '.llms-quiz-attempt-select-form' ).on( 'submit', function( e ) {
+				var val = llmsSafeSameOriginUrl( $( this ).find( 'select' ).val() );
+				e.preventDefault();
+				if ( ! val ) {
+					return;
 				}
+				window.location.assign( val );
 			} );
 
 			// Warn when quiz is running and user tries to leave the page when quiz is not resumable.
@@ -599,7 +633,7 @@
 
 						// Adding Exit Button in Layout if quiz is resumable.
 						if ( self.resumable ) {
-							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Save & Exit Quiz' ) + '</button>' );
+							$( '#llms-quiz-nav' ).append( '<button class="button llms-button-secondary wp-element-button" id="llms-exit-quiz" name="llms_exit_quiz">' + LLMS.l10n.translate( 'Save & Exit Quiz' ) + '</button>' );
 						}
 
 						self.load_question( r.data.html );
@@ -787,9 +821,9 @@
 				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />' )
 				$footer = $( '<footer class="llms-quiz-nav" id="llms-quiz-nav" />' );
 
-			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
-			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
-			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
+			$footer.append( '<button class="button large llms-button-action wp-element-button" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
+			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete wp-element-button" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
+			$footer.append( '<button class="button llms-button-secondary wp-element-button" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
 
 			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
 			$footer.append( '<div class="llms-quiz-counter" id="llms-quiz-counter"><span class="llms-current"></span><span class="llms-sep">/</span><span class="llms-total"></span></div>' )

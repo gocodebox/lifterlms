@@ -190,10 +190,11 @@ class LLMS_Meta_Box_Voucher_Export {
 			$names[] = $name;
 		}
 
-		fputcsv( $handle, $names, $delimiter, $enclosure );
+		// The `$escape` arg is passed explicitly because relying on its default is deprecated as of PHP 8.4.
+		fputcsv( $handle, $names, $delimiter, $enclosure, '\\' );
 
 		foreach ( $data as $line ) {
-			fputcsv( $handle, $line, $delimiter, $enclosure );
+			fputcsv( $handle, $line, $delimiter, $enclosure, '\\' );
 		}
 		rewind( $handle );
 		while ( ! feof( $handle ) ) {

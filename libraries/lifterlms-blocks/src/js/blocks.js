@@ -15,6 +15,7 @@ import LifterLMSIcon from './icons/lifterlms-icon';
 import './block-visibility/';
 import './dom-ready/';
 import './post-visibility/';
+import './post-id/';
 import './formats/shortcodes/';
 import './sidebar/';
 import './data/';

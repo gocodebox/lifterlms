@@ -6,7 +6,8 @@
  *
  * @since 3.10.0
  * @since 6.0.0 Logic to return empty when no transactions present has been moved to the template function.
- * @version 6.0.0
+ * @since 10.1.0 Added `wp-element-button` class to the pagination buttons so they inherit theme button styling.
+ * @version 10.1.0
  *
  * @var array $transactions Result array from {@see LLMS_Order::get_transactions()}.
  */
@@ -21,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
 			<th><?php esc_html_e( 'Date', 'lifterlms' ); ?></th>
 			<th><?php esc_html_e( 'Amount', 'lifterlms' ); ?></th>
 			<th><?php esc_html_e( 'Method', 'lifterlms' ); ?></th>
+			<th><?php esc_html_e( 'Receipt', 'lifterlms' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,6 +43,9 @@ defined( 'ABSPATH' ) || exit;
 				<?php endif; ?>
 			</td>
 			<td><?php echo wp_kses_post( $txn->get( 'gateway_source_description' ) ); ?></td>
+			<td>
+				<a class="llms-button-secondary small" href="<?php echo esc_url( llms_get_transaction_receipt_url( $txn->get( 'id' ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Download', 'lifterlms' ); ?></a>
+			</td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
@@ -49,10 +54,10 @@ defined( 'ABSPATH' ) || exit;
 			<tr>
 				<td colspan="5">
 					<?php if ( $transactions['page'] > 1 ) : ?>
-						<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] - 1 ) ); ?>#llms-txns"><?php esc_html_e( 'Back', 'lifterlms' ); ?></a>
+						<a class="llms-button-secondary small wp-element-button" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] - 1 ) ); ?>#llms-txns"><?php esc_html_e( 'Back', 'lifterlms' ); ?></a>
 					<?php endif; ?>
 					<?php if ( $transactions['page'] < $transactions['pages'] ) : ?>
-						<a class="llms-button-secondary small" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] + 1 ) ); ?>#llms-txns"><?php esc_html_e( 'Next', 'lifterlms' ); ?></a>
+						<a class="llms-button-secondary small wp-element-button" href="<?php echo esc_url( add_query_arg( 'txnpage', $transactions['page'] + 1 ) ); ?>#llms-txns"><?php esc_html_e( 'Next', 'lifterlms' ); ?></a>
 					<?php endif; ?>
 				</td>
 			</tr>

@@ -112,6 +112,10 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 				'orders',
 				'custom-order-history',
 			),
+			'lifterlms_myaccount_subscriptions_endpoint' => array(
+				'subscriptions',
+				'custom-subscriptions',
+			),
 			'lifterlms_registration_require_agree_to_terms' => array(
 				'yes',
 			),

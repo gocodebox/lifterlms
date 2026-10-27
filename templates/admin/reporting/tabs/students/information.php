@@ -6,7 +6,8 @@
  *
  * @since 3.2.0
  * @since 6.0.0 Use `LLMS_Student::get_awards_count()`.
- * @version 6.0.0
+ * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,6 +26,7 @@ if ( ! is_admin() ) {
 		<header>
 			<h3><?php esc_html_e( 'Student Information', 'lifterlms' ); ?></h3>
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 
 		do_action( 'llms_reporting_single_student_overview_before_widgets', $student );
@@ -111,6 +113,7 @@ if ( ! is_admin() ) {
 
 		do_action( 'llms_reporting_single_student_overview_after_widgets', $student );
 		?>
+		</div>
 
 	</section>
 

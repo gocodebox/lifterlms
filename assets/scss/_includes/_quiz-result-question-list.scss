@@ -7,46 +7,92 @@
 
 	.llms-quiz-attempt-question {
 		background: #efefef;
-		border-radius: $radius-small;
+		border-radius: llms-var( radius-sm );
 		margin: 0 0 15px;
 		position: relative;
 		list-style-type: none;
 		.toggle-answer {
+			align-items: center;
+			background: none;
+			border: none;
+			box-sizing: border-box;
 			color: inherit;
+			cursor: pointer;
 			display: flex;
+			font: inherit;
 			gap: 10px;
 			justify-content: space-between;
-			padding: 15px 35px 15px 15px;
+			padding: 15px;
+			text-align: left;
 			text-decoration: none;
+			width: 100%;
+
+			&:focus-visible {
+				outline: 2px solid currentColor;
+				outline-offset: -2px;
+			}
+
+			// Keep the status badge in normal flow so it doesn't overlap the chevron.
+			.llms-status-icon-tip {
+				position: static;
+				flex: 0 0 auto;
+			}
+		}
+
+		.llms-toggle-answer-icon {
+			border-bottom: 2px solid currentColor;
+			border-right: 2px solid currentColor;
+			display: inline-block;
+			flex: 0 0 auto;
+			height: 0.55em;
+			margin-left: 8px;
+			opacity: 0.7;
+			transform: rotate(45deg);
+			transition: transform 0.2s ease, opacity 0.2s ease;
+			width: 0.55em;
+		}
+
+		.toggle-answer[aria-expanded="true"] .llms-toggle-answer-icon {
+			opacity: 1;
+			transform: rotate(-135deg);
 		}
 
 		&.status--waiting.correct,
 		&.status--waiting.incorrect {
-			background: color.change( $color-orange, $alpha: 0.2 );
+			background: llms-var( color-warning-muted );
 			.llms-status-icon {
-				background-color: $color-orange;
+				background-color: llms-var( color-warning );
 			}
 		}
 
 		&.status--graded.correct {
-			background: color.change( $color-green, $alpha: 0.15 );
+			background: llms-var( color-success-subtle );
 			.llms-status-icon {
-				background-color: $color-green;
+				background-color: llms-var( color-success );
 			}
 		}
 		&.status--graded.incorrect {
-			background: color.change( $color-red, $alpha: 0.15 );
+			background: llms-var( color-danger-subtle );
 			.llms-status-icon {
-				background-color: $color-red;
+				background-color: llms-var( color-danger );
 			}
 		}
 		pre {
 			overflow: auto;
 		}
 		.llms-question-title {
+			flex: 1 1 auto;
 			font-size: 22px;
 			margin: 0;
 			line-height: 1.4;
+
+			p {
+				margin: 0 0 0.5em;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 		}
 
 		.llms-points {
@@ -79,16 +125,16 @@
 				padding: 0;
 			}
 
+			.llms-quiz-attempt-answer {
+				margin: 0;
+				padding: 0;
+			}
+
 			ul.llms-quiz-attempt-answers {
 				margin: 0;
 				padding: 0;
 				li.llms-quiz-attempt-answer {
-					padding: 0;
 					margin: 0 0 0 30px;
-					&:only-child {
-						list-style-type: none;
-						margin-left: 0;
-					}
 				}
 			}
 
@@ -112,17 +158,18 @@
 
 		&.type--picture_choice,
 		&.type--picture_reorder {
+			.llms-quiz-attempt-answer,
+			ul.llms-quiz-attempt-answers li.llms-quiz-attempt-answer {
+				display: inline-block;
+				list-style-type: none;
+				margin: 0;
+				padding: 5px;
+			}
+
 			ul.llms-quiz-attempt-answers {
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
-
-				li.llms-quiz-attempt-answer {
-					display: inline-block;
-					list-style-type: none;
-					margin: 0;
-					padding: 5px;
-				}
 			}
 		}
 

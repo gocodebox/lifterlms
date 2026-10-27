@@ -63,7 +63,7 @@ class LLMS_Admin_Setup_Wizard extends LLMS_Abstract_Admin_Wizard {
 				'skip'  => esc_html__( 'No thanks', 'lifterlms' ),
 			),
 			'finish'   => array(
-				'title' => esc_html__( 'Finish!', 'lifterlms' ),
+				'title' => esc_html__( 'Finish', 'lifterlms' ),
 				'save'  => esc_html__( 'Import Courses', 'lifterlms' ),
 				'skip'  => esc_html__( 'Skip this step', 'lifterlms' ),
 			),

@@ -15,7 +15,8 @@ require( [
 	'Controllers/Sync',
 	'Models/loader',
 	'Views/Course',
-	'Views/Sidebar'
+	'Views/Sidebar',
+	'Views/Tooltip'
 	], function(
 	Hooks,
 	CV,
@@ -26,7 +27,8 @@ require( [
 	Sync,
 	Models,
 	CourseView,
-	SidebarView
+	SidebarView,
+	TooltipView
 	) {
 
 		window.llms_builder.debug     = new Debug( window.llms_builder.debug );
@@ -78,12 +80,22 @@ require( [
 			/**
 			 * Recursively clone an object via _.clone().
 			 *
+			 * Relationship children (Backbone.Model / Backbone.Collection) are kept by
+			 * reference. They form parent↔child cycles (e.g. lesson.quiz → questions →
+			 * collection.parent → quiz) and are change-tracked on their own models.
+			 *
 			 * @since 3.17.7
 			 *
 			 * @param {Object} obj Object to clone.
 			 * @return {Object}
 			 */
 			deepClone: function( obj ) {
+
+				// Nested relationship models/collections are tracked separately; cloning
+				// them recurses forever via collection.parent / model.collection cycles.
+				if ( obj instanceof Backbone.Model || obj instanceof Backbone.Collection ) {
+					return obj;
+				}
 
 				var clone = _.clone( obj );
 
@@ -314,6 +326,8 @@ require( [
 			CourseView: Course
 		} );
 
+		new TooltipView();
+
 		$( document ).trigger( 'llms-builder-init', {
 			course: Course,
 			sidebar: Sidebar,
@@ -335,20 +349,24 @@ require( [
 			if ( -1 === hash.indexOf( '#lesson:' ) ) {
 				return;
 			}
-			var parts = hash.replace( '#lesson:', '' ).split( ':' ),
-			$lesson   = $( '#llms-lesson-' + parts[0] );
 
-			if ( $lesson.length ) {
+			var parts = hash.replace( '#lesson:', '' ).split( ':' );
 
-				LLMS.wait_for( function() {
-					return ( undefined !== _.getEditor() && undefined !== window.tinymce );
-                    }, function() {
-					$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
-					var subtab = parts[1] ? parts[1] : 'lesson';
-					$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
-				} );
+			LLMS.wait_for( function() {
+				return (
+					undefined !== _.getEditor() &&
+					undefined !== window.tinymce &&
+					$( '#llms-lesson-' + parts[0] ).length
+				);
+			}, function() {
+				var $lesson = $( '#llms-lesson-' + parts[0] ),
+					subtab  = parts[1] ? parts[1] : 'lesson';
 
-			}
+				// Expand/edit controls are <button>s (not <a>s). Re-query the lesson
+				// after expand because setting `_expanded` re-renders the section.
+				$lesson.closest( '.llms-builder-item.llms-section' ).find( '.llms-action-icon.expand' ).trigger( 'click' );
+				$( '#llms-lesson-' + parts[0] ).find( '.llms-action-icon.edit-' + subtab ).first().trigger( 'click' );
+			}, 'builder-deep-link' );
 
 		}
 

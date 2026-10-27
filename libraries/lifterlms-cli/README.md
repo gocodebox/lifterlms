@@ -1,39 +1,13 @@
 LifterLMS CLI
 =============
 
-[![Test PHPUnit][img-gh-testing]][link-gh-testing]
-[![GitHub Coding Standards Workflow Status][img-gh-cs]][link-gh-cs]
-[![Code Climate maintainability][img-cc-maintainability]][link-cc]
-[![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
-
----
-
 WP-CLI commands for [LifterLMS](https://github.com/gocodebox/lifterlms). Manage courses, memberships, enrollments, students, and more from the command line.
 
-This is a feature plugin which will be included in the LifterLMS core plugin automatically.
+This directory is part of the LifterLMS core repository and ships with LifterLMS. It is not a standalone plugin and it is not installed with `wp package install`. The old [gocodebox/lifterlms-cli](https://github.com/gocodebox/lifterlms-cli) repository is archived.
 
----
+Commands load only when WP-CLI is running. Define `LLMS_CLI_DISABLE` as true before LifterLMS loads to skip loading them.
 
-## Installation
-
-Install as a WP-CLI package:
-
-```bash
-wp package install gocodebox/lifterlms-cli
-```
-
-Or clone into your `wp-content/plugins` directory:
-
-```bash
-cd wp-content/plugins
-git clone https://github.com/gocodebox/lifterlms-cli.git
-```
-
-**Requirements:**
-- PHP 7.4+
-- WordPress 5.0+
-- [LifterLMS](https://lifterlms.com) 5.0+
-- [WP-CLI](https://wp-cli.org/) 2.x
+**Requirements:** PHP 7.4+, WordPress 5.9+, and [WP-CLI](https://wp-cli.org/) 2.x, same as LifterLMS core.
 
 ## Quick Start
 
@@ -164,16 +138,4 @@ Full command reference is available at [developer.lifterlms.com/cli/commands](ht
 
 ## Contributing
 
-Please follow the contribution guidelines put forth by the [LifterLMS core](https://github.com/gocodebox/lifterlms/blob/trunk/.github/CONTRIBUTING.md).
-
-
-
-[img-cc-coverage]:https://img.shields.io/codeclimate/coverage/gocodebox/lifterlms-cli?style=for-the-badge&logo=code-climate
-[img-cc-maintainability]:https://img.shields.io/codeclimate/maintainability/gocodebox/lifterlms-cli?logo=code-climate&style=for-the-badge
-[img-gh-testing]:https://img.shields.io/github/workflow/status/gocodebox/lifterlms-cli/Test%20PHPUnit?label=tests&logo=github&style=for-the-badge
-[img-gh-cs]:https://img.shields.io/github/workflow/status/gocodebox/lifterlms-cli/Coding%20Standards?label=phpcs&logo=github&style=for-the-badge
-
-[link-cc]: https://codeclimate.com/github/gocodebox/lifterlms-cli "Maintainability reports on Code Climate"
-[link-cc-coverage]: https://codeclimate.com/github/gocodebox/lifterlms-cli/coverage "Code coverage reports on Code Climate"
-[link-gh-testing]: https://github.com/gocodebox/lifterlms-cli/actions/workflows/test-phpunit.yml "Testing workflow on GitHub Actions"
-[link-gh-cs]: https://github.com/gocodebox/lifterlms-cli/actions/workflows/check-cs.yml "Coding Standards workflow on GitHub Actions"
+Follow the [LifterLMS core contribution guidelines](../../.github/CONTRIBUTING.md). Changelog entries go in the core `.changelogs/` directory.

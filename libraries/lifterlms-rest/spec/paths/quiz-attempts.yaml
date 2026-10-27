@@ -1,0 +1,76 @@
+get:
+  summary: List quiz attempts
+  description: Retrieve a list of student quiz attempts. Filter by `status=pending` to retrieve the queue of attempts awaiting manual grading.
+  tags:
+    - Quiz Attempts
+  parameters:
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - start_date
+          - update_date
+          - end_date
+          - attempt
+          - grade
+        default: id
+    - name: student
+      description: Limit results to attempts by a specific student or a list of students. Accepts a single WordPress user ID or a comma separated list of IDs.
+      in: query
+      schema:
+        type: string
+        example: '123'
+    - name: quiz
+      description: Limit results to attempts of a specific quiz or a list of quizzes. Accepts a single WordPress post ID or a comma separated list of IDs.
+      in: query
+      schema:
+        type: string
+        example: '234'
+    - name: lesson
+      description: Limit results to attempts of the quiz attached to a specific lesson.
+      in: query
+      schema:
+        type: integer
+        example: 789
+    - name: status
+      description: Limit results to attempts matching a specific status.
+      in: query
+      schema:
+        type: string
+        enum:
+          - incomplete
+          - pending
+          - fail
+          - pass
+    - name: _fields
+      description: Limit the fields returned in the response, e.g. `_fields=id,student_id,status` to omit the potentially large `questions` array from list responses.
+      in: query
+      schema:
+        type: string
+        example: id,student_id,quiz_id,status,grade
+  responses:
+    200:
+      description: Successfully returned a list of quiz attempts.
+      headers:
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuizAttempt'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

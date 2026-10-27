@@ -172,10 +172,11 @@ class LLMS_Frontend_Assets {
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
 	 * @since 7.5.0 Enqueue `llms-favorites` script on lesson and course page.
+	 * @since [version] Enqueue `llms-dashboard-nav` on the student dashboard.
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts() {
+	 public static function enqueue_scripts() {
 
 		// I don't think we need these next 3 scripts.
 		wp_enqueue_script( 'jquery-ui-tooltip' );
@@ -194,6 +195,11 @@ class LLMS_Frontend_Assets {
 		llms()->assets->register_script( 'llms-notifications' );
 		if ( get_current_user_id() ) {
 			llms()->assets->enqueue_script( 'llms-notifications' );
+		}
+
+		llms()->assets->register_script( 'llms-dashboard-nav' );
+		if ( is_llms_account_page() ) {
+			llms()->assets->enqueue_script( 'llms-dashboard-nav' );
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.

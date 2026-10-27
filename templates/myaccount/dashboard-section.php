@@ -4,7 +4,8 @@
  *
  * @since 3.14.0
  * @since 3.30.1 Added dynamic filter on the `$more` var to allow customization of the URL and text on the "More" button.
- * @version  3.30.1
+ * @since 10.1.0 Added `wp-element-button` class to the More button so it inherits theme button styling.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +27,7 @@ $more = apply_filters( 'llms_' . $action . '_more', $more );
 
 	<?php if ( $more ) : ?>
 		<footer class="llms-sd-section-footer">
-			<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>"><?php echo esc_html( $more['text'] ); ?></a>
+			<a class="llms-button-secondary wp-element-button" href="<?php echo esc_url( $more['url'] ); ?>"><?php echo esc_html( $more['text'] ); ?></a>
 		</footer>
 	<?php endif; ?>
 

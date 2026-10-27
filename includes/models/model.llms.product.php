@@ -160,7 +160,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param bool         $visbile_only Whether or not to exclude the hidden access plans.
 		 */
 		return apply_filters( 'llms_get_product_access_plans', $plans, $this, $free_only, $visible_only );
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class LLMS_Product extends LLMS_Post_Model {
 			return $options[ $visibility ];
 		}
 		return $visibility;
-
 	}
 
 
@@ -215,18 +213,13 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		$count = count( $this->get_access_plans( $free_only ) );
 
-		switch ( $count ) {
-
-			case 0:
-				$cols = 1;
-				break;
-
-			case 6:
-				$cols = 3;
-				break;
-
-			default:
-				$cols = $count;
+		if ( ! $count ) {
+			$cols = 1;
+		} elseif ( 4 === $count ) {
+			// Prefer two rows of two over a row of three plus a lonely fourth plan.
+			$cols = 2;
+		} else {
+			$cols = min( $count, 3 );
 		}
 
 		/**
@@ -284,7 +277,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product      The LLMS_Product object.
 		 */
 		return apply_filters( 'llms_product_get_restrictions', $restrictions, $this );
-
 	}
 
 
@@ -308,7 +300,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product              The LLMS_Product instance.
 		 */
 		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ), $this );
-
 	}
 
 	/**
@@ -335,7 +326,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product          The LLMS_Product object.
 		 */
 		return apply_filters( 'llms_product_has_restrictions', $has_restrictions, $restrictions, $this );
-
 	}
 
 	/**
@@ -370,7 +360,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 * @param LLMS_Product $product     The LLMS_Product instance.
 		 */
 		return apply_filters( 'llms_product_is_purchasable', $purchasable, $this );
-
 	}
 
 	/**
@@ -428,13 +417,83 @@ class LLMS_Product extends LLMS_Post_Model {
 			wp_cache_set(
 				$this->get( 'id' ),
 				$subscriptions_count,
-				'llms_product_subscriptions_count'
+				'llms_product_subscriptions_count',
+				HOUR_IN_SECONDS
 			);
 
 		}
 
 		return (bool) $subscriptions_count;
-
 	}
 
+	/**
+	 * Invalidates the cache used by {@see LLMS_Product::has_active_subscriptions()}.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $product_id WP_Post ID of the product.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache( $product_id ) {
+
+		$product_id = absint( $product_id );
+		if ( $product_id ) {
+			wp_cache_delete( $product_id, 'llms_product_subscriptions_count' );
+		}
+	}
+
+	/**
+	 * Registers hooks that invalidate the active-subscriptions cache when an order's
+	 * status changes or an order is deleted.
+	 *
+	 * Registered during plugin bootstrap by {@see LifterLMS::__construct()}.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public static function init_active_subscriptions_cache_hooks() {
+		add_action( 'transition_post_status', array( __CLASS__, 'flush_active_subscriptions_cache_on_status_change' ), 10, 3 );
+		add_action( 'before_delete_post', array( __CLASS__, 'flush_active_subscriptions_cache_on_post_delete' ) );
+	}
+
+	/**
+	 * Invalidates the active-subscriptions cache when an `llms_order` post changes status.
+	 *
+	 * The cached count covers orders in the `llms-active`, `llms-pending-cancel`, and
+	 * `llms-on-hold` statuses. Any transition into or out of one of those statuses can
+	 * change the count, so the cache is invalidated on every order status change.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache_on_status_change( $new_status, $old_status, $post ) {
+
+		if ( ! $post instanceof WP_Post || 'llms_order' !== $post->post_type || $new_status === $old_status ) {
+			return;
+		}
+
+		self::flush_active_subscriptions_cache( (int) get_post_meta( $post->ID, '_llms_product_id', true ) );
+	}
+
+	/**
+	 * Invalidates the active-subscriptions cache when an `llms_order` post is deleted.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $post_id WP_Post ID being deleted.
+	 * @return void
+	 */
+	public static function flush_active_subscriptions_cache_on_post_delete( $post_id ) {
+
+		if ( 'llms_order' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		self::flush_active_subscriptions_cache( (int) get_post_meta( $post_id, '_llms_product_id', true ) );
+	}
 }

@@ -91,7 +91,7 @@ class LLMS_Admin_Tool_Course_Data_Lock_Eraser extends LLMS_Abstract_Admin_Tool {
 			global $wpdb;
 			$count = absint( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = '_llms_temp_calc_data_lock';" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 
-			wp_cache_set( $this->id, $count, 'llms_tool_data' );
+			wp_cache_set( $this->id, $count, 'llms_tool_data', HOUR_IN_SECONDS );
 
 		}
 

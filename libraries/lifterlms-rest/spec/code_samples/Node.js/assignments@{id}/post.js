@@ -1,0 +1,45 @@
+const llmsAPI = require( "llms-api-node" );
+const llms = new llmsAPI( {
+  "url": "https://example.tld",
+  "consumerKey": "ck_XXXXXXXXXXXXXXXXXXXXXX",
+  "consumerSecret": "cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+} );
+
+const postData = {
+  "date_created": "2019-05-20 17:22:05",
+  "date_created_gmt": "2019-05-20 13:22:05",
+  "slug": "essay-on-the-renaissance",
+  "post_type": "llms_assignment",
+  "status": "publish",
+  "assignment_type": "essay",
+  "lesson_id": 789,
+  "points": 1,
+  "passing_percentage": 65,
+  "enable_word_count_min": false,
+  "word_count_min": 250,
+  "enable_word_count_max": false,
+  "word_count_max": 1000,
+  "enable_allowed_mimes": false,
+  "allowed_mimes": [
+    "pdf",
+    "docx"
+  ],
+  "audio_embed": "http://example.com",
+  "video_embed": "http://example.com",
+  "tasks": [
+    {
+      "id": "1",
+      "marker": "A",
+      "title": "Read chapter 1"
+    }
+  ],
+  "title": "Essay on the Renaissance",
+  "content": "<p>Write a 500 word essay on the Renaissance.</p>"
+};
+
+llms.post( '/assignments/%7Bid%7D', postData, function( err, data, res ) {
+  if ( err ) {
+    throw new Error( 'Error!' );
+  }
+  console.log( data );
+} );

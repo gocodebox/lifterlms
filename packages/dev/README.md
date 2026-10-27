@@ -68,9 +68,10 @@ Options:
                                  individuals. Attributions are provided to
                                  thank contributions which originate from
                                  outside the LifterLMS organization. Provide a
-                                 GitHub username or a markdown-formatted
-                                 anchor. Can be provided multiple times to
-                                 attribute to multiple users.
+                                 GitHub username, a plain name, or a
+                                 markdown-formatted anchor. Can be provided
+                                 multiple times to attribute to multiple
+                                 users.
   -e, --entry <entry>            The changelog entry.
   -T, --title <title>            Changelog entry file name. Uses the current
                                  git branch name as the default. Automatically
@@ -359,6 +360,11 @@ Options:
   -b, --build <cmd>         Specify an npm script to use for the build command.
                             (default: "build")
   -B, --no-build            Disabled build script.
+  -l, --libraries <dir...>  Bundled library directories with their own version.
+                            A library that changed since trunk gets a patch
+                            version increment and its [version] placeholders
+                            are replaced with the library's version. (default:
+                            [])
   -h, --help                display help for command
 
 ```

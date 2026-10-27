@@ -147,11 +147,20 @@
 
 		this.change_filter = function( $table, $select ) {
 
-			this.reload( $table, {
+			var args = {
 				filter: $select.val(),
 				filterby: $select.attr( 'name' ),
 				page: 1,
+			};
+
+			// Also pass every filter's current value keyed by its name so tables that
+			// support multiple simultaneous filters (e.g. orders/transactions) can combine
+			// them. Tables using the single filter/filterby mechanism ignore the extras.
+			$table.parent().find( '.llms-table-filters select.llms-table-filter' ).each( function() {
+				args[ $( this ).attr( 'name' ) ] = $( this ).val();
 			} );
+
+			this.reload( $table, args );
 
 		};
 
@@ -335,10 +344,12 @@
 		 */
 		this.search = function( $table, $input ) {
 
-			var val = $input.val()
-				len = val.length;
+			var val = $input.val(),
+				len = val.length,
+				// Customers must match 1–2 character names. Other tables keep the 3-character minimum.
+				min = $table.is( '#llms-gb-table-customers' ) ? 1 : 3;
 
-			if ( 0 === len || len >= 3 ) {
+			if ( 0 === len || len >= min ) {
 				this.reload( $table, {
 					page: 1,
 					search: $input.val(),

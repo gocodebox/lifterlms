@@ -409,9 +409,10 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 			$grade = $possible_grades[ rand( 0, count( $possible_grades ) - 1 ) ];
 			$this->take_quiz( $quiz_id, $student->get( 'id' ), $grade );
-			$this->assertEquals( 'N/A', $student->get_grade( $lesson->get( 'id' ) ) ); // with cache
+			// Cache is busted by `lifterlms_quiz_completed`, so the cached read sees the new grade.
+			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ) ) ); // with cache
 			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ), false ) ); // no cache
-			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ) ) ); // with  cache
+			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ) ) ); // with cache
 			$lesson_grades[] = $grade;
 
 		}

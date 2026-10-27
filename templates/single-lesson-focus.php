@@ -5,7 +5,9 @@
  * @package LifterLMS/Templates
  *
  * @since 10.0.0
- * @version 10.0.0
+ * @since 10.2.1 Render post content before `wp_head()` so block script modules populate the import map.
+ * @since [version] Label the lesson sidebar and expose its expanded state.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,6 +35,20 @@ $next_id = ( $lesson && is_callable( array( $lesson, 'get_next_lesson' ) ) ) ? $
 
 $prev_restricted = $prev_id ? llms_page_restricted( $prev_id, get_current_user_id() ) : array( 'is_restricted' => false );
 $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_id() ) : array( 'is_restricted' => false );
+
+/*
+ * Render block content before <head> so script modules (e.g. core/tabs) populate
+ * the import map. Matches wp-includes/template-canvas.php. On block themes the
+ * map prints in wp_head(); processing after that leaves @wordpress/interactivity
+ * unresolved and interactive blocks dead.
+ */
+$llms_focus_mode_content = '';
+if ( have_posts() ) {
+	the_post();
+	ob_start();
+	do_action( 'llms_focus_mode_the_content' );
+	$llms_focus_mode_content = ob_get_clean();
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -88,9 +104,9 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 
 	<div class="llms-focus-mode-body">
 
-		<aside class="llms-focus-mode-sidebar">
+		<aside id="llms-focus-mode-sidebar" class="llms-focus-mode-sidebar" aria-label="<?php esc_attr_e( 'Course lessons', 'lifterlms' ); ?>">
 			<div class="llms-focus-mode-sidebar-header">
-				<h3><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h3>
+				<h2><?php esc_html_e( 'Lessons', 'lifterlms' ); ?></h2>
 			</div>
 			<div class="llms-focus-mode-sidebar-content">
 				<?php
@@ -99,7 +115,7 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 				}
 				?>
 			</div>
-			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
+			<button class="llms-focus-mode-sidebar-toggle" type="button" aria-controls="llms-focus-mode-sidebar" aria-expanded="true" aria-label="<?php esc_attr_e( 'Toggle sidebar', 'lifterlms' ); ?>">
 				<svg class="llms-chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
 				<svg class="llms-chevron-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
 			</button>
@@ -112,27 +128,13 @@ $next_restricted = $next_id ? llms_page_restricted( $next_id, get_current_user_i
 			?>
 			<main class="<?php echo esc_attr( implode( ' ', array_filter( $content_classes ) ) ); ?>">
 				<?php
-				while ( have_posts() ) :
-					the_post();
-					$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
-					$lesson_content_classes = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
-					?>
-					<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
-					<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
-						<?php
-						/**
-						 * Renders the post content in focus mode.
-						 *
-						 * @since 10.0.0
-						 *
-						 * @see llms_focus_mode_render_content() Default handler.
-						 */
-						do_action( 'llms_focus_mode_the_content' );
-						?>
-					</div>
-					<?php
-				endwhile;
+				$lesson_content_classes = array( 'llms-lesson-content', 'entry-content', 'is-layout-constrained' );
+				$lesson_content_classes = apply_filters( 'llms_focus_mode_lesson_content_classes', $lesson_content_classes );
 				?>
+				<h1 class="llms-focus-mode-title"><?php the_title(); ?></h1>
+				<div class="<?php echo esc_attr( implode( ' ', array_filter( $lesson_content_classes ) ) ); ?>">
+					<?php echo $llms_focus_mode_content; ?>
+				</div>
 			</main>
 
 			<?php if ( 'lesson' === $post_type && $lesson ) : ?>

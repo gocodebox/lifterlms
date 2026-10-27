@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+entry: Clarified the help text for course enrollment, course time period, and access plan sale dates to show the exact time each date starts or ends.
+links:
+  - "#3341"

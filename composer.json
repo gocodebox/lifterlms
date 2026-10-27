@@ -29,10 +29,10 @@
     "php": ">=7.4",
     "composer/installers": "~1.9.0",
     "deliciousbrains/wp-background-processing": "1.0.2",
-    "woocommerce/action-scheduler": "3.5.4"
+    "woocommerce/action-scheduler": "3.9.3"
   },
   "require-dev": {
-    "lifterlms/lifterlms-tests": "^4.4",
+    "lifterlms/lifterlms-tests": "^4.5",
     "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {
@@ -57,6 +57,7 @@
       "dist",
       "docs",
       "gulpfile.js",
+      "/bin",
       "node_modules",
       "packages",
       "src",

@@ -1642,6 +1642,41 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test that the first retry stays scheduled when a failed payment moves an active order to on-hold.
+	 *
+	 * The `lifterlms_order_status_on-hold` transition triggers `LLMS_Controller_Orders::error_order()`,
+	 * which unschedules pending recurring payments. The retry must survive that transition.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_schedule_retry_on_active_order() {
+
+		$this->mock_gateway_support( 'recurring_retry' );
+
+		$order = $this->get_order();
+		$order->set_status( 'active' );
+
+		$txn = $order->record_transaction( array(
+			'amount'       => 25.99,
+			'status'       => 'llms-txn-pending',
+			'payment_type' => 'recurring',
+		) );
+		$txn->set( 'status', 'llms-txn-failed' );
+
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		$this->assertEquals( 'llms-on-hold', $order->get( 'status' ) );
+		$this->assertEquals( 1, did_action( 'llms_automatic_payment_retry_scheduled' ) );
+
+		$action_time = as_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) );
+		$this->assertNotFalse( $action_time, 'The scheduled retry was unscheduled by the on-hold status transition.' );
+		$this->assertEqualsWithDelta( $order->get_next_payment_due_date( 'U' ), $action_time, $this->date_delta );
+
+	}
+
+	/**
 	 * Test record_transaction() method
 	 *
 	 * @since Unknown
@@ -1662,6 +1697,97 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( 1, did_action( 'lifterlms_transaction_status_succeeded' ) );
 		$this->assertEquals( 1, did_action( 'lifterlms_order_status_active' ) );
 
+		// Recording a transaction flags the order as having one.
+		$this->assertEquals( 'yes', $order->get( 'has_transaction' ) );
+
+	}
+
+	/**
+	 * Test that record_transaction() sets the `_llms_has_transaction` order flag.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_record_transaction_sets_has_transaction_flag() {
+
+		$order = $this->get_order();
+		$this->assertEmpty( get_post_meta( $order->get( 'id' ), '_llms_has_transaction', true ) );
+
+		$order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'single',
+			)
+		);
+
+		$this->assertEquals( 'yes', get_post_meta( $order->get( 'id' ), '_llms_has_transaction', true ) );
+	}
+
+	/**
+	 * Test that the `_llms_has_transaction` flag is cleared only when an order's
+	 * last transaction is deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_transaction_flag_cleared_on_last_transaction_delete() {
+
+		$order   = $this->get_order();
+		$order_id = $order->get( 'id' );
+
+		$txn_one = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'recurring',
+			)
+		);
+		$txn_two = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'recurring',
+			)
+		);
+
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		// Deleting one of two transactions retains the flag.
+		wp_delete_post( $txn_one->get( 'id' ), true );
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		// Deleting the last transaction clears the flag.
+		wp_delete_post( $txn_two->get( 'id' ), true );
+		$this->assertEmpty( get_post_meta( $order_id, '_llms_has_transaction', true ) );
+	}
+
+	/**
+	 * Trashing the last visible transaction clears the flag, and restoring it sets the flag again.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_transaction_flag_follows_trash() {
+
+		$order    = $this->get_order();
+		$order_id = $order->get( 'id' );
+		$txn      = $order->record_transaction(
+			array(
+				'amount'       => 10.00,
+				'status'       => 'llms-txn-succeeded',
+				'payment_type' => 'single',
+			)
+		);
+
+		wp_trash_post( $txn->get( 'id' ) );
+		$this->assertEmpty( get_post_meta( $order_id, '_llms_has_transaction', true ) );
+
+		wp_untrash_post( $txn->get( 'id' ) );
+		$this->assertEquals( 'yes', get_post_meta( $order_id, '_llms_has_transaction', true ) );
 	}
 
 	/**

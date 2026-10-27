@@ -144,6 +144,35 @@ function llms_get_order_status_name( $status ) {
 }
 
 /**
+ * Retrieve the front-end (student dashboard) URL for downloading a single transaction receipt.
+ *
+ * The resulting URL is served by {@see LLMS_Controller_Account::maybe_serve_transaction_receipt()}
+ * which generates a PDF (when the LifterLMS PDFs add-on is active) or an HTML receipt otherwise.
+ *
+ * @since [version]
+ *
+ * @param int $txn_id Transaction post ID.
+ * @return string
+ */
+function llms_get_transaction_receipt_url( $txn_id ) {
+
+	$url = wp_nonce_url(
+		add_query_arg( 'llms_receipt_txn', $txn_id, llms_get_page_url( 'myaccount' ) ),
+		'llms_txn_receipt_' . $txn_id
+	);
+
+	/**
+	 * Filters the front-end transaction receipt download URL.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url    The receipt URL.
+	 * @param int    $txn_id Transaction post ID.
+	 */
+	return apply_filters( 'llms_transaction_receipt_url', $url, $txn_id );
+}
+
+/**
  * Retrieve an array of registered and available LifterLMS Order Post Statuses.
  *
  * @since 3.0.0
@@ -206,11 +235,7 @@ function llms_get_possible_order_statuses( $order ) {
 }
 
 /**
- * Locates an order by email address and access plan ID.
- *
- * Used during AJAX checkout order creation when users are not created until the gateway confirms success.
- *
- * Ensures that only a single pending order for a given plan and email address will exist at any given time.
+ * Locates a pending order by billing email address and access plan ID.
  *
  * @since 7.0.0
  *
@@ -279,9 +304,9 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 /**
  * Determines whether an access plan can be purchased by a user during checkout.
  *
- * Mirrors the front-end purchasability gating so that restricted access plans and products cannot be purchased
- * by submitting a crafted access plan ID directly to the checkout handlers. Enforces member-only plan availability
- * and course restrictions (enrollment window and student capacity).
+ * Mirrors the front-end purchasability gating so that unpublished or restricted access plans and products cannot
+ * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan,
+ * member-only plan availability, and no course restrictions (enrollment window and student capacity).
  *
  * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
@@ -298,7 +323,8 @@ function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
 
 	if ( ! $plan || ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
 		$can_purchase = new WP_Error( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
-	} elseif ( ! $plan->is_available_to_user( $user_id ) ) {
+	} elseif ( 'publish' !== get_post_status( $plan->get( 'id' ) ) || ! $plan->is_available_to_user( $user_id ) ) {
+		// Same error as an unavailable plan so an unpublished plan is not distinguishable from one the user cannot use.
 		$can_purchase = new WP_Error( 'plan-not-available', __( 'This access plan is not available.', 'lifterlms' ) );
 	} else {
 		$product = $plan->get_product();
@@ -500,4 +526,17 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @param array $data Array of input data from a checkout form.
 	 */
 	return apply_filters( 'llms_after_setup_pending_order', compact( 'person', 'plan', 'gateway', 'coupon' ), $data );
+}
+
+/**
+ * Whether the current user may manage orders in the admin.
+ *
+ * Uses the same capability as the Orders screen (`llms_order` `show_ui`).
+ *
+ * @since [version]
+ *
+ * @return bool
+ */
+function llms_current_user_can_manage_orders() {
+	return current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ) );
 }

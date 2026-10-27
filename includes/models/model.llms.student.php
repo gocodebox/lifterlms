@@ -527,7 +527,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
 		$res       = $this->cache_get( $cache_key );
 
-		if ( false === $res ) {
+		// Persistent object caches (Redis, Memcached) can deserialize a cached null as an empty string; treat it as a miss.
+		if ( false === $res || '' === $res ) {
 
 			$key = ( 'enrolled' === $date ) ? '_start_date' : '_status';
 
@@ -589,10 +590,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		/**
 		 * After checking the cache, $status will be:
 		 *     + `false` if there was nothing in the cache or the function was instructed to not use the cache: Query the database to get the status.
+		 *     + `''` if a persistent object cache deserialized a cached `null` as an empty string: Query the database to get the status.
 		 *     + a string if there was a status: No need to query the database.
 		 *     + `null` if there's no status: No need to query the database.
 		 */
-		if ( false === $status ) {
+		if ( false === $status || '' === $status ) {
 
 			global $wpdb;
 
@@ -1015,6 +1017,77 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		return array(
 			'count'  => count( $q->posts ),
 			'page'   => $page,
+			'pages'  => $q->max_num_pages,
+			'orders' => $orders,
+		);
+	}
+
+	/**
+	 * Retrieve the student's recurring orders (subscriptions).
+	 *
+	 * Mirrors {@see LLMS_Student::get_orders()} but restricts results to recurring
+	 * orders via the `_llms_order_type` meta and to recurring-specific statuses.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $params {
+	 *     Optional. Query arguments.
+	 *
+	 *     @type int      $count    Number of orders per page. Default `25`.
+	 *     @type int      $page     Current page number. Default `1`.
+	 *     @type string[] $statuses Array of order post statuses to include. Defaults to all recurring statuses.
+	 * }
+	 * @return array {
+	 *     @type int          $count  Number of orders on the current page.
+	 *     @type int          $page   Current page number.
+	 *     @type int          $pages  Total number of pages.
+	 *     @type LLMS_Order[] $orders Array of order objects keyed by post ID.
+	 * }
+	 */
+	public function get_subscriptions( $params = array() ) {
+
+		$params = wp_parse_args(
+			$params,
+			array(
+				'count'    => 25,
+				'page'     => 1,
+				'statuses' => array_keys( llms_get_order_statuses( 'recurring' ) ),
+			)
+		);
+
+		$q = new WP_Query(
+			array(
+				'order'          => 'DESC',
+				'orderby'        => 'date',
+				'meta_query'     => array(
+					'relation' => 'AND',
+					array(
+						'key'   => '_llms_user_id',
+						'value' => $this->get_id(),
+					),
+					array(
+						'key'   => '_llms_order_type',
+						'value' => 'recurring',
+					),
+				),
+				'paged'          => $params['page'],
+				'posts_per_page' => $params['count'],
+				'post_status'    => $params['statuses'],
+				'post_type'      => 'llms_order',
+			)
+		);
+
+		$orders = array();
+
+		if ( $q->have_posts() ) {
+			foreach ( $q->posts as $post ) {
+				$orders[ $post->ID ] = new LLMS_Order( $post );
+			}
+		}
+
+		return array(
+			'count'  => count( $q->posts ),
+			'page'   => $params['page'],
 			'pages'  => $q->max_num_pages,
 			'orders' => $orders,
 		);

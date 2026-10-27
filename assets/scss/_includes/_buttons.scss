@@ -1,32 +1,76 @@
+/*
+ * Opinionated LifterLMS button styling (colors, shape, typography).
+ *
+ * When `$llms-buttons-theme-inherit` is true (front-end default), buttons
+ * carrying the `wp-element-button` class opt out of these rules and instead
+ * inherit the theme's button styling — `theme.json` element styles in block
+ * themes, or the `classic-themes.css` defaults (and any theme overrides) in
+ * classic themes — so the text and background colors always come from the
+ * same source and remain a legible pair.
+ *
+ * Admin sets `$llms-buttons-theme-inherit` to false so LifterLMS chrome always
+ * applies in settings, reporting, and other wp-admin screens.
+ *
+ * The opinionated block must precede the structural rules below: the `:not()`
+ * guard puts these selectors at the same specificity as the size modifiers
+ * (`.small`, `.large`), so source order decides the winner.
+ */
+$llms-buttons-theme-inherit: true !default;
+
+@mixin llms-button-theme-opt-out {
+	@if $llms-buttons-theme-inherit {
+		&:not(.wp-element-button) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}
+
 .llms-button-action,
 .llms-button-danger,
 .llms-button-primary,
 .llms-button-secondary {
-	border:none;
-	border-radius: 8px;
-	color: $color-white;
+	@include llms-button-theme-opt-out {
+		border: none;
+		border-radius: llms-var( radius-control );
+		color: llms-var( color-on-solid );
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 1;
+		padding: 12px 24px;
+		text-shadow: none;
+		transition: all .5s ease;
+
+		&:hover, &:active {
+			color: llms-var( color-on-solid );
+		}
+		&:focus {
+			color: llms-var( color-on-solid );
+		}
+	}
+}
+
+.llms-button-action,
+.llms-button-danger,
+.llms-button-primary,
+.llms-button-secondary {
+	align-items: center;
+	box-sizing: border-box;
 	cursor: pointer;
-	display: inline-block;
-	font-size: 18px;
-	font-weight: 700;
-	text-decoration: none;
-	text-shadow: none;
+	display: inline-flex;
+	gap: 6px;
+	justify-content: center;
 	line-height: 1;
 	margin: 0;
 	max-width: 100%;
-	padding: 12px 24px;
 	position: relative;
-	transition: all .5s ease;
+	text-decoration: none;
+	vertical-align: middle;
 	white-space: nowrap;
 
 	&:disabled {
 		opacity: 0.5;
-	}
-	&:hover, &:active {
-		color: $color-white;
-	}
-	&:focus {
-		color: $color-white;
 	}
 
 	&.auto {
@@ -34,7 +78,7 @@
 	}
 
 	&.full {
-		display: block;
+		display: flex;
 		text-align: center;
 		width: 100%;
 	}
@@ -63,70 +107,123 @@
 }
 
 /* Fix for cases where link color overrides the button color */
-a.llms-button-action,
-a.llms-button-danger,
 a.llms-button-primary {
-	color: $color-white;
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-primary );
+	}
+}
+
+a.llms-button-action {
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-action );
+	}
+}
+
+a.llms-button-danger {
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-danger );
+	}
 }
 
 .llms-button-primary {
-	background: $color-brand-blue;
-	&:hover,
-	&.clicked {
-		background: $color-brand-blue-dark;
-	}
-	&:focus,
-	&:active {
-		background: $color-brand-blue-light;
+	@include llms-button-theme-opt-out {
+		background: llms-var( color-primary );
+		color: llms-var( color-on-primary );
+		&:hover,
+		&.clicked {
+			background: llms-var( color-primary-hover );
+			color: llms-var( color-on-primary );
+		}
+		&:focus,
+		&:active {
+			background: llms-var( color-primary-focus );
+			color: llms-var( color-on-primary );
+		}
 	}
 }
 
 .llms-button-secondary {
-	background: #e1e1e1;
-	color: $color-cinder;
-	&:hover {
-		color: #414141;
-		background: #cdcdcd;
-	}
-	&:focus,
-	&:active {
-		color: #414141;
-		background: #ebebeb;
+	@include llms-button-theme-opt-out {
+		background: llms-var( color-neutral );
+		color: llms-var( color-on-neutral );
+		&:hover {
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-hover );
+		}
+		&:focus,
+		&:active {
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-focus );
+		}
 	}
 }
 /* Fix for cases where link color overrides the button color */
 a.llms-button-secondary {
-	color: $color-cinder;
+	@include llms-button-theme-opt-out {
+		color: llms-var( color-on-neutral );
+	}
+}
+
+@if $llms-buttons-theme-inherit {
+	/*
+	 * Theme-styled secondary buttons keep LifterLMS's neutral colors so they stay
+	 * visually distinct from primary/action buttons, but the complete pair
+	 * (background and text color) is asserted together to guarantee contrast.
+	 * Shape and typography still come from the theme's button styling.
+	 */
+	.llms-button-secondary.wp-element-button {
+		background: llms-var( color-neutral );
+		color: llms-var( color-on-neutral );
+		&:hover {
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-hover );
+		}
+		&:focus,
+		&:active {
+			color: llms-var( color-on-neutral-hover );
+			background: llms-var( color-neutral-focus );
+		}
+	}
 }
 
 .llms-button-action {
-	background: $color-orange;
-	&:hover,
-	&.clicked {
-		background: $color-brand-orange-dark;
-	}
-	&:focus,
-	&:active {
-		background: $color-brand-orange-light;
+	@include llms-button-theme-opt-out {
+		background: llms-var( color-action );
+		color: llms-var( color-on-action );
+		&:hover,
+		&.clicked {
+			background: llms-var( color-action-hover );
+			color: llms-var( color-on-action );
+		}
+		&:focus,
+		&:active {
+			background: llms-var( color-action-focus );
+			color: llms-var( color-on-action );
+		}
 	}
 }
 
 .llms-button-danger {
-	background: $color-danger;
-	&:hover {
-		background: #981c17;
-	}
-	&:focus,
-	&:active {
-		background: #cd261f;
+	@include llms-button-theme-opt-out {
+		background: llms-var( color-danger );
+		color: llms-var( color-on-danger );
+		&:hover {
+			background: llms-var( color-danger-hover );
+			color: llms-var( color-on-danger );
+		}
+		&:focus,
+		&:active {
+			background: llms-var( color-danger-focus );
+			color: llms-var( color-on-danger );
+		}
 	}
 }
 
 .llms-button-outline {
 	background: transparent;
-	border: 3px solid #1D2327;
-	border-radius: 8px;
-	color: #1D2327;
+	border: 3px solid llms-var( color-ink );
+	border-radius: llms-var( radius-control );
+	color: llms-var( color-ink );
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 700;
@@ -143,10 +240,10 @@ a.llms-button-secondary {
 		opacity: 0.5;
 	}
 	&:hover, &:active {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 	&:focus {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 
 	&.auto {
@@ -154,7 +251,7 @@ a.llms-button-secondary {
 	}
 
 	&.full {
-		display: block;
+		display: flex;
 		text-align: center;
 		width: 100%;
 	}
@@ -169,7 +266,7 @@ a.llms-button-secondary {
 	background: transparent;
 	border: none;
 	border-radius: 3px;
-	color: #1D2327;
+	color: llms-var( color-ink );
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 700;
@@ -182,10 +279,10 @@ a.llms-button-secondary {
 	position: relative;
 
 	&:hover, &:active {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 	&:focus {
-		color: #1D2327;
+		color: llms-var( color-ink );
 	}
 
 }

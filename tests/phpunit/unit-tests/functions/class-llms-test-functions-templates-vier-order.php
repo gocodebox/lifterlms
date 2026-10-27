@@ -219,7 +219,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 		$res = $this->get_output( 'llms_template_view_order_transactions', array( $order ) );
 
 		$this->assertStringContainsString( '<tfoot>', $res );
-		$this->assertStringContainsString( '<a class="llms-button-secondary small" href="?txnpage=2#llms-txns">Next</a>', $res );
+		$this->assertStringContainsString( '<a class="llms-button-secondary small wp-element-button" href="?txnpage=2#llms-txns">Next</a>', $res );
 
 		// Two transactions in the table.
 		$dom = llms_get_dom_document( $res );
@@ -230,7 +230,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 		$res = $this->get_output( 'llms_template_view_order_transactions', array( $order ) );
 
 		$this->assertStringContainsString( '<tfoot>', $res );
-		$this->assertStringContainsString( '<a class="llms-button-secondary small" href="?txnpage=1#llms-txns">Back</a>', $res );
+		$this->assertStringContainsString( '<a class="llms-button-secondary small wp-element-button" href="?txnpage=1#llms-txns">Back</a>', $res );
 
 		// One transaction in the table.
 		$dom = llms_get_dom_document( $res );

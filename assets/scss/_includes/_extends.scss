@@ -14,7 +14,7 @@
 
 
 %llms-element {
-	background: $el-background;
+	background: llms-var( color-surface );
 	box-shadow: $el-box-shadow;
 	display: block;
 	color: #212121;
@@ -25,6 +25,6 @@
 	transition: background .4s ease;
 
 	&:hover {
-		background: $el-background-hover;
+		background: llms-var( color-surface-hover );
 	}
 }

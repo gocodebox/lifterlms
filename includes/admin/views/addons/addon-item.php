@@ -46,20 +46,22 @@ defined( 'ABSPATH' ) || exit;
 							printf( esc_html__( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? esc_html( $addon->get_installed_version() ) : esc_html( $addon->get_latest_version() ) );
 						?>
 						</li>
-						<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
-							<li><strong>
-							<?php
-								// Translators: %s = Available Version Number.
-								printf( esc_html__( 'Update Available: %s', 'lifterlms' ), esc_html( $addon->get_latest_version() ) );
-							?>
-							</strong></li>
-						<?php endif; ?>
 					<?php endif; ?>
 				</ul>
 
 			</section>
 
 		</a>
+
+		<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
+			<a class="llms-addon-update-available" href="<?php echo esc_url( $addon->get_update_screen_url() ); ?>">
+				<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+				<?php
+					// Translators: %s = Available Version Number.
+					printf( esc_html__( 'Update Available: %s', 'lifterlms' ), esc_html( $addon->get_latest_version() ) );
+				?>
+			</a>
+		<?php endif; ?>
 
 		<footer class="llms-actions">
 
