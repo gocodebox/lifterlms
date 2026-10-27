@@ -302,7 +302,7 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 			array(
 				$schema,
 			),
-			'[version]',
+			'1.0.0-beta.27',
 			"llms_rest_{$this->get_object_type( $schema )}_item_schema"
 		);
 
