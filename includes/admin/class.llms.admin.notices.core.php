@@ -44,6 +44,7 @@ class LLMS_Admin_Notices_Core {
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
 	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
 	 * @since 7.7.0 Add notice for media protection on certain hosting servers.
+	 * @since [version] Add notice for efficient protected media serving on WP Engine.
 	 *
 	 * @return void
 	 */
@@ -60,6 +61,7 @@ class LLMS_Admin_Notices_Core {
 
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
 		add_action( $action, array( __CLASS__, 'media_protection' ), $priority );
+		add_action( $action, array( __CLASS__, 'wpengine_media_protection' ), $priority );
 		add_action( $action, array( __CLASS__, 'beaver_builder' ), $priority );
 	}
 
@@ -157,6 +159,71 @@ class LLMS_Admin_Notices_Core {
 				$html,
 				array(
 					'type'             => 'warning',
+					'dismiss_for_days' => 10000,
+					'remindable'       => true,
+				)
+			);
+		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
+			LLMS_Admin_Notices::delete_notice( $id );
+		}
+	}
+
+	/**
+	 * Output a notice about efficiently serving protected media files on WP Engine.
+	 *
+	 * WP Engine doesn't support serving protected files via X-Accel-Redirect by default, so LifterLMS
+	 * falls back to reading them through PHP. WP Engine support can add an NGINX rule that allows
+	 * efficient serving. The notice is shown once at least one media file is protected and is removed
+	 * once the `llms_media_serve_method` filter has been configured to use NGINX.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function wpengine_media_protection() {
+		$id = 'wpengine-media-protection';
+
+		/**
+		 * Filters whether the site is hosted on WP Engine for the purpose of the protected media notice.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $is_wpengine Whether the site is hosted on WP Engine.
+		 */
+		$show = apply_filters( 'llms_admin_notice_is_wpengine', function_exists( 'is_wpe' ) && is_wpe() );
+
+		if ( $show ) {
+			$protected_media = get_posts(
+				array(
+					'post_type'              => 'attachment',
+					'post_status'            => 'any',
+					'meta_key'               => LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Only runs on WP Engine and limited to one result.
+					'fields'                 => 'ids',
+					'posts_per_page'         => 1,
+					'no_found_rows'          => true,
+					'update_post_meta_cache' => false,
+					'update_post_term_cache' => false,
+				)
+			);
+
+			/** This filter is documented in includes/class-llms-media-protector.php */
+			$show = $protected_media && LLMS_Media_Protector::SERVE_SEND_FILE !== apply_filters( 'llms_media_serve_method', LLMS_Media_Protector::SERVE_READ_FILE, $protected_media[0], true );
+		}
+
+		if ( $show ) {
+			$html = sprintf(
+				/* translators: 1. opening link tag; 2. closing link tag */
+				__( 'Your site is hosted on WP Engine, so protected media files are served through PHP, which uses more server resources. Follow %1$sthese instructions%2$s to have WP Engine support enable more efficient file serving.', 'lifterlms' ),
+				'<a href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Admin%20Notice&utm_campaign=WP%20Engine%20Media#server-requirements" target="_blank">',
+				'</a>'
+			);
+			$html .= '<br><br>' . __( 'If you have already reviewed these instructions you may dismiss this notice.', 'lifterlms' );
+
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				$html,
+				array(
+					'type'             => 'info',
 					'dismiss_for_days' => 10000,
 					'remindable'       => true,
 				)
