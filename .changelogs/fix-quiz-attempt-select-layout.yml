@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the layout of the quiz results attempt select form when a quiz is viewed outside of the quiz permalink page.

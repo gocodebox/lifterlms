@@ -1,5 +1,13 @@
 @use 'sass:color';
 
+// The attempt history select form may render on quiz results viewed from any context (quiz permalink, lesson, etc).
+.llms-quiz-attempt-select-form {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
 .single-llms_quiz {
 	#llms-quiz-wrapper {
 		@import "../_includes/quiz-result-question-list";
@@ -58,14 +66,7 @@
 			}
 		}
 
-		.llms-quiz-attempt-select-form {
-			align-items: center;
-			display: flex;
-			flex-wrap: wrap;
-			gap: 10px;
 		}
-
-	}
 
 	ul.llms-quiz-meta-info {
 		list-style-type: none;
