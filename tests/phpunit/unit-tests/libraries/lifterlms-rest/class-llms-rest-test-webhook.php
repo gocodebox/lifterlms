@@ -144,6 +144,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * @since Unknown
 	 * @since 1.0.0-beta.17 Remove checks on `pending_delivery` unused property.
+	 * @since [version] Assert no retry is scheduled for the delivery.
 	 *
 	 * @return void
 	 */
@@ -161,11 +162,19 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		$webhook->set( 'failure_count', 3 );
 
 		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		add_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
 
 		$webhook->deliver( array( $course ) );
 
 		$this->assertEquals( 0, $webhook->get( 'failure_count' ) );
-		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', null, 'llms-webhooks' ) );
+
+		$retry_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 2,
+			'delivery_id' => $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-ID'],
+		);
+		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $retry_args, 'llms-webhooks' ) );
 
 	}
 
@@ -294,6 +303,19 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
 		$this->assertEquals( 6, $stored->get( 'failure_count' ) );
 		$this->assertEquals( 'disabled', $stored->get( 'status' ) );
+		$this->assertTrue( $stored->is_disabled_by_delivery_failures() );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( $stored->get_disabled_notice_id() ) );
+
+		// Reactivating starts the failure count over and clears the notice.
+		LLMS_REST_API()->webhooks()->update( array(
+			'id'     => $stored->get( 'id' ),
+			'status' => 'active',
+		) );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 0, $stored->get( 'failure_count' ) );
+		$this->assertEquals( 'active', $stored->get( 'status' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( $stored->get_disabled_notice_id() ) );
 
 	}
 
@@ -323,7 +345,14 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 
 		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
 		$this->assertEquals( 0, $stored->get( 'failure_count' ) );
-		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', null, 'llms-webhooks' ) );
+
+		$retry_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 3,
+			'delivery_id' => 'delivery-ok',
+		);
+		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $retry_args, 'llms-webhooks' ) );
 
 	}
 
@@ -1024,6 +1053,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 * Test scheduling a webhook via multiple hooks, ensuring only one is scheduled for delivery.
 	 *
 	 * @since 1.0.0
+	 * @since [version] Count only the webhook's own scheduled actions.
 	 *
 	 * @return void
 	 */
@@ -1042,7 +1072,16 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		wp_trash_post($membership_id);
 		wp_delete_post($membership_id);
 
-		$this->assertCount(1, as_get_scheduled_actions( array( 'hook' => 'lifterlms_rest_deliver_webhook_async' ) ) );
+		// Count only this webhook's actions; earlier tests can leave other deliveries pending.
+		$actions = as_get_scheduled_actions( array(
+			'hook'     => 'lifterlms_rest_deliver_webhook_async',
+			'group'    => 'llms-webhooks',
+			'per_page' => -1,
+		) );
+		$actions = array_filter( $actions, function( $action ) use ( $webhook ) {
+			return absint( $webhook->get( 'id' ) ) === absint( $action->get_args()['webhook_id'] );
+		} );
+		$this->assertCount( 1, $actions );
 	}
 
 	/**
