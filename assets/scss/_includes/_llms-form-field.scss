@@ -306,6 +306,22 @@ $llms-form-field-wp-block-layout: true !default;
 			}
 		}
 
+		// Explains a very weak password which reuses a value from another
+		// field in the form. Kept after the strength classes so its rules
+		// win over the `:before` bar of the red states above.
+		&.reused-info {
+			font-size: 13px;
+			line-height: 1.4;
+			margin-top: 5px;
+			padding: 8px 10px;
+			text-align: left;
+
+			// Drop the thin strength bar so the text is not sitting on the wash.
+			&:before {
+				display: none;
+			}
+		}
+
 		+ .llms-description {
 			display: block;
 		}
