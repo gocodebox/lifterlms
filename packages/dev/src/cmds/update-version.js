@@ -91,26 +91,6 @@ function updateConfig( ver ) {
 	return false;
 }
 
-const deprecatedFunctions = [
-	// WP deprecation warnings.
-	'_deprecated_argument',
-	'_deprecated_constructor',
-	'_deprecated_hook',
-	'_deprecated_file',
-	'_deprecated_function',
-
-	// Doing it wrong warning.
-	'_doing_it_wrong',
-
-	// Deprecated hook callers.
-	'apply_filters_deprecated',
-	'do_action_deprecated',
-	
-	// LLMS deprecation warnings.
-	'llms_deprecated_function',
-].join( '|' );
-
-
 const defaultReplacements = [
 	// 1. Replace [version] placeholder in all @since, @version, and @deprecated tags.
 	[ 
@@ -120,10 +100,10 @@ const defaultReplacements = [
 		false,
 	],
 
-	// 2. Replace [version] placeholder in all deprecate function methods tags.
+	// 2. Replace [version] placeholder strings, eg: '[version]' or "[version]", such as the version argument of deprecation functions.
 	[ 
 		'./*.php,./**/*.php',
-		`(?<=(?:${ deprecatedFunctions }\\().+)(?<=\')(\\[version\\])(?=\')`,
+		'(?<=([\'"]))(\\[version\\])(?=\\1)',
 		'g',
 		false,
 	],

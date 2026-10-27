@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Deprecation and incorrect usage notices show the version they were introduced in instead of `[version]`."

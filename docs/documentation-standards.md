@@ -174,7 +174,7 @@ Multiple logs with version numbers of differing lengths should not be aligned to
 
 When contributing code use the placeholder `[version]` in favor of trying to guess what version the element will be released with.
 
-Our release workflow automatically replaces `@since`, `@version`, and `@deprecated` followed by `[version]` with the actual version of the release being packaged.
+Our release workflow automatically replaces `@since`, `@version`, and `@deprecated` followed by `[version]`, and PHP strings containing only `[version]` (`'[version]'` or `"[version]"`, such as the version argument of `_deprecated_function()` or `_doing_it_wrong()`), with the actual version of the release being packaged.
 
 The REST API library (`libraries/lifterlms-rest`) has its own version. Use `[version]` there too and do not bump the library's version in a pull request: when the library changed since the last release, release preparation increments its patch version and replaces its placeholders with the library's version.
 

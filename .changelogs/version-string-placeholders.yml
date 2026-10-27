@@ -1,0 +1,3 @@
+significance: patch
+type: dev
+entry: "Release preparation replaces `'[version]'` and `\"[version]\"` strings in PHP files, including deprecation calls that span several lines."
