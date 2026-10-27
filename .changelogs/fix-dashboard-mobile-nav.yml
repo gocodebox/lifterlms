@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the student dashboard mobile navigation not navigating to the selected endpoint when the Go button is clicked.

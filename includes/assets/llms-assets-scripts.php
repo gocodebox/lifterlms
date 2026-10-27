@@ -55,6 +55,11 @@ return array(
 	'llms-favorites'                            => array(
 		'dependencies' => array( 'jquery', 'llms' ),
 	),
+	'llms-dashboard-nav'                        => array(
+		'dependencies' => array( 'jquery' ),
+		'path'         => 'assets/js/app',
+		'suffix'       => '',
+	),
 
 	// Admin.
 	'llms-addons'                               => array(
